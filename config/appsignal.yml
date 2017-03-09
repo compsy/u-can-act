@@ -1,0 +1,15 @@
+default: &defaults
+  push_api_key: "a0c0b397-a5cb-46e6-b380-780e905cfe2f"
+  name: "Vsv"
+
+development:
+  <<: *defaults
+  active: true
+
+production:
+  <<: *defaults
+  active: true
+
+staging:
+  <<: *defaults
+  active: true

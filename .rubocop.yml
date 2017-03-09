@@ -1,0 +1,58 @@
+inherit_from: rubocop-todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'spec/questionnaires/*.rb'
+    - 'Guardfile'
+    - 'bin/*'
+
+# Use UTF-8 as the source file encoding.
+Encoding:
+  Enabled: false
+
+# Limit lines to 80 characters.
+LineLength:
+  Max: 120
+
+# Avoid methods longer than 10 lines of code
+MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 20
+
+# Limit modules to have a length of 200
+Metrics/ModuleLength:
+  Max: 255
+  Exclude:
+    - 'spec/**/*'
+
+# Describe specs fail this test
+# Namespaces in rake tasks do too
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'  
+    - '**/*.rake'
+
+# Limit classes to have a length of 200
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/AbcSize:
+  Exclude:
+    - 'spec/**/*'
+
+################################################################## DISABLED COPS
+# These cops are disabled because we think they are a Bad Idea. If you add one
+# here, make sure to add a comment describing what the cop does, and why this
+# is a bad idea.
+
+# Forces the argument names of the block given to #reduce to be `a, e`. Only
+# applies on single-line blocks, but why would we want to force people to use
+# less descriptive names?
+Documentation:
+  Enabled: false

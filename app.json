@@ -1,0 +1,19 @@
+{
+  "name": "vsv",
+  "description": "",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:setup"
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+    "papertrail",
+    "heroku-postgresql",
+    "scheduler"
+  ],
+  "buildpacks": [
+
+  ]
+}

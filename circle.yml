@@ -1,0 +1,13 @@
+machine:
+  timezone:
+    Europe/Amsterdam
+  ruby:
+    version: 2.3.3
+dependencies:
+  pre:
+    - ./bin/gemnasium_install
+test:
+  override:
+    - RAILS_ENV=test RACK_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+    - bundle exec rubocop
+    - ./bin/gemnasium

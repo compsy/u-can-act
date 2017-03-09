@@ -1,24 +1,46 @@
-# README
+# VSV
+Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[![Circle CI][circleci-image]][circleci-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![Dependency Status][gemnasium-image]][gemnasium-url]
 
-Things you may want to cover:
 
-* Ruby version
+## Installation
+Create checkout and install dependencies
+```bash
+  git clone git@github.com:compsy/vsv.git
+  cd vsv
+  bundle
+```
 
-* System dependencies
+Initialize the database
+``` ruby
+  bundle exec rake db:setup
+```
 
-* Configuration
+## Dependencies
+The VSV application has the following dependencies:
+- PostgreSQL
 
-* Database creation
+## Configuration
+The .env.local file is used for storing all ENV variables. Below is a list of all required ENV variables.
 
-* Database initialization
+### General settings
+```
+  SECRET_KEY_BASE: <base used for the tokens>
+  HOST_URL: <the url where the application is hosted (e.g. http://myapp.dev)>
+  HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.dev)>
+  INFO_EMAIL: <email address to use as sender for user account emails>
+  PROJECT_NAME: <name of the project (e.g. Vsv)>
+```
 
-* How to run the test suite
+## Troubleshooting
+[circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
+[circleci-url]: https://circleci.com/gh/compsy/vsv
 
-* Services (job queues, cache servers, search engines, etc.)
+[coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?t=MBvZL7&branch=master&service=github
+[coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
 
-* Deployment instructions
-
-* ...
+[gemnasium-image]: https://gemnasium.com/badges/cf0e4e7a3f11b8f173805a9270972554.svg
+[gemnasium-url]: https://gemnasium.com/github.com/compsy/vsv

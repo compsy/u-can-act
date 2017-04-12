@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Mentor do
   it_should_behave_like 'a person object'
 
-  it 'should have working facctory defaults' do
+  it 'should have working factory defaults' do
     mentor = FactoryGirl.build(:mentor)
     pcountb = Person.count
     mcountb = Mentor.count

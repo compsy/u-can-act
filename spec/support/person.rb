@@ -48,5 +48,22 @@ shared_examples_for 'a person object' do
       expect(person.errors.messages).to have_key :mobile_phone
       expect(person.errors.messages[:mobile_phone]).to include('mag alleen een Nederlands nummer zijn')
     end
+
+    it 'should have a uniqueness constraint on phone numbers' do
+      student = FactoryGirl.create(:person, :student, mobile_phone: '0611111111')
+      expect(student.valid?).to be_truthy
+      mentor = FactoryGirl.build(:person, :mentor, mobile_phone: '0611111111')
+      expect(mentor.valid?).to be_falsey
+      expect(mentor.errors.messages).to have_key :mobile_phone
+      expect(mentor.errors.messages[:mobile_phone]).to include('is al in gebruik')
+    end
+  end
+
+  describe 'timestamps' do
+    it 'should have timestamps for created objects' do
+      person = FactoryGirl.create(:person)
+      expect(person.created_at).to be_within(1.minute).of(Time.zone.now)
+      expect(person.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
   end
 end

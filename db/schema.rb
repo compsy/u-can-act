@@ -10,15 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412085157) do
+ActiveRecord::Schema.define(version: 20170412112838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "people", force: :cascade do |t|
-    t.string "type",         null: false
-    t.string "mobile_phone", null: false
+    t.string   "type",         null: false
+    t.string   "mobile_phone", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
+  end
+
+  create_table "protocols", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.integer  "duration",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_protocols_on_name", unique: true, using: :btree
   end
 
 end

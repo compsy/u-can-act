@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Student do
   it_should_behave_like 'a person object'
 
-  it 'should have working facctory defaults' do
+  it 'should have working factory defaults' do
     student = FactoryGirl.build(:student)
     pcountb = Person.count
     scountb = Student.count

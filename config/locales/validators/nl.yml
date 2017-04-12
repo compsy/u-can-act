@@ -1,0 +1,3 @@
+nl:
+  validators:
+    only_dutch_number: mag alleen een Nederlands nummer zijn

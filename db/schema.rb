@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413095956) do
+ActiveRecord::Schema.define(version: 20170413110307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "measurements", force: :cascade do |t|
+    t.integer  "questionnaire_id"
+    t.integer  "protocol_id"
+    t.integer  "period"
+    t.integer  "open_from_offset",             null: false
+    t.integer  "open_duration"
+    t.integer  "reward_points",    default: 0, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
+    t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
+  end
 
   create_table "people", force: :cascade do |t|
     t.string   "type",         null: false
@@ -39,4 +52,6 @@ ActiveRecord::Schema.define(version: 20170413095956) do
     t.index ["name"], name: "index_questionnaires_on_name", unique: true, using: :btree
   end
 
+  add_foreign_key "measurements", "protocols"
+  add_foreign_key "measurements", "questionnaires"
 end

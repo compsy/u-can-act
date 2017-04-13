@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 FactoryGirl.define do
+  sequence(:questionnaire_name) { |n| "vragenlijst-dagboekstudie-studenten-#{n}" }
   factory :questionnaire do
-    name 'Vragenlijst Dagboekstudie Studenten'
+    name { generate(:questionnaire_name) }
     content [{
       id: :v1,
       type: :radio,

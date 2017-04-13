@@ -60,4 +60,20 @@ describe Questionnaire do
       expect(questionnaire.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'measurements' do
+    it 'should destroy the measurements when destroying the questionnaire' do
+      questionnaire = FactoryGirl.create(:questionnaire)
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:measurement)
+      FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      meascountbefore = Measurement.count
+      protocolcountbefore = Protocol.count
+      questionnairecountbefore = Questionnaire.count
+      questionnaire.destroy
+      expect(Questionnaire.count).to eq(questionnairecountbefore - 1)
+      expect(Measurement.count).to eq(meascountbefore - 1)
+      expect(Protocol.count).to eq protocolcountbefore
+    end
+  end
 end

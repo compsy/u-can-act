@@ -56,4 +56,13 @@ describe Protocol do
       expect(protocol.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'measurements' do
+    it 'should destroy the measurements when destroying the protocol' do
+      protocol = FactoryGirl.create(:protocol, :with_measurements)
+      meascountbefore = Measurement.count
+      protocol.destroy
+      expect(Measurement.count).to eq(meascountbefore - 1)
+    end
+  end
 end

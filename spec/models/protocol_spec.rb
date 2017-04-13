@@ -65,4 +65,13 @@ describe Protocol do
       expect(Measurement.count).to eq(meascountbefore - 1)
     end
   end
+
+  describe 'protocol_subscriptions' do
+    it 'should destroy the protocol_subscriptions when destroying the protocol' do
+      protocol = FactoryGirl.create(:protocol, :with_protocol_subscriptions)
+      protsubcountbefore = ProtocolSubscription.count
+      protocol.destroy
+      expect(ProtocolSubscription.count).to eq(protsubcountbefore - 1)
+    end
+  end
 end

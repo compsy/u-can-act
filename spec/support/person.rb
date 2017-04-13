@@ -66,4 +66,13 @@ shared_examples_for 'a person object' do
       expect(person.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'protocol_subscriptions' do
+    it 'should destroy the protocol_subscriptions when destroying the person' do
+      person = FactoryGirl.create(:person, :with_protocol_subscriptions)
+      protsubcountbefore = ProtocolSubscription.count
+      person.destroy
+      expect(ProtocolSubscription.count).to eq(protsubcountbefore - 1)
+    end
+  end
 end

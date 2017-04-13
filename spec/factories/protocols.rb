@@ -12,4 +12,10 @@ FactoryGirl.define do
       FactoryGirl.create(:measurement, protocol: protocol)
     end
   end
+
+  trait :with_protocol_subscriptions do
+    after(:create) do |protocol|
+      FactoryGirl.create(:protocol_subscription, protocol: protocol)
+    end
+  end
 end

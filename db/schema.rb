@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413110307) do
+ActiveRecord::Schema.define(version: 20170413134432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,17 @@ ActiveRecord::Schema.define(version: 20170413110307) do
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 
+  create_table "protocol_subscriptions", force: :cascade do |t|
+    t.integer  "person_id"
+    t.integer  "protocol_id"
+    t.string   "state",       null: false
+    t.datetime "start_date",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
+    t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
+  end
+
   create_table "protocols", force: :cascade do |t|
     t.string   "name",       null: false
     t.integer  "duration",   null: false
@@ -54,4 +65,6 @@ ActiveRecord::Schema.define(version: 20170413110307) do
 
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
+  add_foreign_key "protocol_subscriptions", "people"
+  add_foreign_key "protocol_subscriptions", "protocols"
 end

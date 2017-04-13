@@ -35,7 +35,28 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   PROJECT_NAME: <name of the project (e.g. Vsv)>
 ```
 
-## Troubleshooting
+## Questionnaires
+The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. Currently, three types of questions are accepted, with the following attributes:
+
+```ruby
+questionnaire.content = [{
+               id: :v1,
+               type: :radio,
+               title: 'Hoe voelt u zich vandaag?',
+               options: %w[slecht goed]
+             }, {
+               id: :v2,
+               type: :checkbox,
+               title: 'Wat heeft u vandaag gegeten?',
+               options: ['brood', 'kaas en ham', 'pizza']
+             }, {
+               id: :v3,
+               type: :range,
+               title: 'Hoe gaat het met u?',
+               labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+             }]
+```
+
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv
 

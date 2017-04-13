@@ -11,5 +11,5 @@ class Measurement < ApplicationRecord
   validates :open_duration, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
   validates :open_from_offset, numericality: { greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { greater_than_or_equal_to: 0 }
-  #has_many :responses
+  # has_many :responses
 end

@@ -45,19 +45,13 @@ describe Questionnaire do
       expect(questionnaire.errors.messages[:content]).to include('moet opgegeven zijn')
     end
     it 'should accept a serialized array of hashes' do
-      questionnaire = FactoryGirl.build(:questionnaire, content: [
-                                          { id: :v1, type: :range, title: 'Bent u gelukkig?', labels: %w[Nee Ja] }
-                                        ])
+      given_content = [
+        { id: :v1, type: :range, title: 'Bent u gelukkig?', labels: %w[Nee Ja] }
+      ]
+      questionnaire = FactoryGirl.build(:questionnaire, content: given_content)
       expect(questionnaire.valid?).to be_truthy
       expect(questionnaire.content[0][:id]).to eq :v1
-    end
-  end
-
-  describe 'timestamps' do
-    it 'should have timestamps for created objects' do
-      questionnaire = FactoryGirl.create(:questionnaire)
-      expect(questionnaire.created_at).to be_within(1.minute).of(Time.zone.now)
-      expect(questionnaire.updated_at).to be_within(1.minute).of(Time.zone.now)
+      expect(questionnaire.content).to eq given_content
     end
   end
 
@@ -74,6 +68,14 @@ describe Questionnaire do
       expect(Questionnaire.count).to eq(questionnairecountbefore - 1)
       expect(Measurement.count).to eq(meascountbefore - 1)
       expect(Protocol.count).to eq protocolcountbefore
+    end
+  end
+
+  describe 'timestamps' do
+    it 'should have timestamps for created objects' do
+      questionnaire = FactoryGirl.create(:questionnaire)
+      expect(questionnaire.created_at).to be_within(1.minute).of(Time.zone.now)
+      expect(questionnaire.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
 end

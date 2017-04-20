@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413134432) do
+ActiveRecord::Schema.define(version: 20170420133331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "measurements", force: :cascade do |t|
-    t.integer  "questionnaire_id"
-    t.integer  "protocol_id"
+    t.integer  "questionnaire_id",             null: false
+    t.integer  "protocol_id",                  null: false
     t.integer  "period"
     t.integer  "open_from_offset",             null: false
     t.integer  "open_duration"
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20170413134432) do
   end
 
   create_table "protocol_subscriptions", force: :cascade do |t|
-    t.integer  "person_id"
-    t.integer  "protocol_id"
+    t.integer  "person_id",   null: false
+    t.integer  "protocol_id", null: false
     t.string   "state",       null: false
     t.datetime "start_date",  null: false
     t.datetime "created_at",  null: false
@@ -63,8 +63,24 @@ ActiveRecord::Schema.define(version: 20170413134432) do
     t.index ["name"], name: "index_questionnaires_on_name", unique: true, using: :btree
   end
 
+  create_table "responses", force: :cascade do |t|
+    t.integer  "protocol_subscription_id", null: false
+    t.integer  "measurement_id",           null: false
+    t.text     "content"
+    t.datetime "open_from",                null: false
+    t.datetime "opened_at"
+    t.datetime "completed_at"
+    t.string   "invited_state",            null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
+    t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
+  end
+
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
   add_foreign_key "protocol_subscriptions", "people"
   add_foreign_key "protocol_subscriptions", "protocols"
+  add_foreign_key "responses", "measurements"
+  add_foreign_key "responses", "protocol_subscriptions"
 end

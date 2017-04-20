@@ -102,6 +102,15 @@ describe Measurement do
     end
   end
 
+  describe 'responses' do
+    xit 'responses should be accessible through the measurement' do
+      protocol = FactoryGirl.create(:protocol)
+      measurement = FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(measurement.responses.count).to eq(3)
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       measurement = FactoryGirl.create(:measurement)

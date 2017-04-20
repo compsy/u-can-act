@@ -82,6 +82,15 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'responses' do
+    xit 'should create responses when you create a protocol subscription' do
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(3)
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)

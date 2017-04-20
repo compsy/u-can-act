@@ -17,7 +17,7 @@ dagboekvragenlijst.content = [{
              }, {
                id: :v3,
                type: :range,
-               title: 'Hoe gaat het met u?',
+               title: 'Ik heb zin om naar school te gaan.',
                labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
              }]
 dagboekvragenlijst.save!

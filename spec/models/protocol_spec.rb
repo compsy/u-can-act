@@ -49,17 +49,10 @@ describe Protocol do
     end
   end
 
-  describe 'timestamps' do
-    it 'should have timestamps for created objects' do
-      protocol = FactoryGirl.create(:protocol)
-      expect(protocol.created_at).to be_within(1.minute).of(Time.zone.now)
-      expect(protocol.updated_at).to be_within(1.minute).of(Time.zone.now)
-    end
-  end
-
   describe 'measurements' do
     it 'should destroy the measurements when destroying the protocol' do
       protocol = FactoryGirl.create(:protocol, :with_measurements)
+      expect(protocol.measurements.first).to be_a(Measurement)
       meascountbefore = Measurement.count
       protocol.destroy
       expect(Measurement.count).to eq(meascountbefore - 1)
@@ -69,9 +62,18 @@ describe Protocol do
   describe 'protocol_subscriptions' do
     it 'should destroy the protocol_subscriptions when destroying the protocol' do
       protocol = FactoryGirl.create(:protocol, :with_protocol_subscriptions)
+      expect(protocol.protocol_subscriptions.first).to be_a(ProtocolSubscription)
       protsubcountbefore = ProtocolSubscription.count
       protocol.destroy
       expect(ProtocolSubscription.count).to eq(protsubcountbefore - 1)
+    end
+  end
+
+  describe 'timestamps' do
+    it 'should have timestamps for created objects' do
+      protocol = FactoryGirl.create(:protocol)
+      expect(protocol.created_at).to be_within(1.minute).of(Time.zone.now)
+      expect(protocol.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
 end

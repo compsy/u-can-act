@@ -103,11 +103,13 @@ describe Measurement do
   end
 
   describe 'responses' do
-    xit 'responses should be accessible through the measurement' do
-      protocol = FactoryGirl.create(:protocol)
-      measurement = FactoryGirl.create(:measurement, :periodical, protocol: protocol)
-      FactoryGirl.create(:protocol_subscription, protocol: protocol)
-      expect(measurement.responses.count).to eq(3)
+    it 'should delete the responses when destroying the measurement' do
+      measurement = FactoryGirl.create(:measurement)
+      FactoryGirl.create(:response, measurement: measurement)
+      expect(measurement.responses.first).to be_a(Response)
+      responsecountbefore = Response.count
+      measurement.destroy
+      expect(Response.count).to eq(responsecountbefore - 1)
     end
   end
 

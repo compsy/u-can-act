@@ -89,6 +89,14 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(3)
     end
+    it 'should delete the responses when destroying the protocol subscription' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      FactoryGirl.create(:response, protocol_subscription: protocol_subscription)
+      expect(protocol_subscription.responses.first).to be_a(Response)
+      responsecountbefore = Response.count
+      protocol_subscription.destroy
+      expect(Response.count).to eq(responsecountbefore - 1)
+    end
   end
 
   describe 'timestamps' do

@@ -105,6 +105,17 @@ describe Response do
     end
   end
 
+  describe 'invitation_token' do
+    it 'should destroy the invitation_token when destroying the response' do
+      response = FactoryGirl.create(:response)
+      FactoryGirl.create(:invitation_token, response: response)
+      expect(response.invitation_token).to be_a(InvitationToken)
+      invtokencountbefore = InvitationToken.count
+      response.destroy
+      expect(InvitationToken.count).to eq(invtokencountbefore - 1)
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       response = FactoryGirl.create(:response)

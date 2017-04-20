@@ -59,20 +59,21 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'protocol_subscriptions' do
+    it 'should destroy the protocol_subscriptions when destroying the person' do
+      person = FactoryGirl.create(:person, :with_protocol_subscriptions)
+      expect(person.protocol_subscriptions.first).to be_a(ProtocolSubscription)
+      protsubcountbefore = ProtocolSubscription.count
+      person.destroy
+      expect(ProtocolSubscription.count).to eq(protsubcountbefore - 1)
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       person = FactoryGirl.create(:person)
       expect(person.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(person.updated_at).to be_within(1.minute).of(Time.zone.now)
-    end
-  end
-
-  describe 'protocol_subscriptions' do
-    it 'should destroy the protocol_subscriptions when destroying the person' do
-      person = FactoryGirl.create(:person, :with_protocol_subscriptions)
-      protsubcountbefore = ProtocolSubscription.count
-      person.destroy
-      expect(ProtocolSubscription.count).to eq(protsubcountbefore - 1)
     end
   end
 end

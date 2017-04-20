@@ -11,5 +11,5 @@ class Response < ApplicationRecord
   serialize :content, Hash
   validates :open_from, presence: true
   validates :invited_state, inclusion: { in: [NOT_SENT_STATE, SENDING_STATE, SENT_STATE] }
-  # has_one :invitation_token, dependent: destroy
+  has_one :invitation_token, dependent: :destroy # has one or none
 end

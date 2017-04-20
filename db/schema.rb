@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420133331) do
+ActiveRecord::Schema.define(version: 20170420142715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "invitation_tokens", force: :cascade do |t|
+    t.integer  "response_id", null: false
+    t.string   "token",       null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["response_id"], name: "index_invitation_tokens_on_response_id", unique: true, using: :btree
+    t.index ["token"], name: "index_invitation_tokens_on_token", unique: true, using: :btree
+  end
 
   create_table "measurements", force: :cascade do |t|
     t.integer  "questionnaire_id",             null: false
@@ -77,6 +86,7 @@ ActiveRecord::Schema.define(version: 20170420133331) do
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
   end
 
+  add_foreign_key "invitation_tokens", "responses"
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
   add_foreign_key "protocol_subscriptions", "people"

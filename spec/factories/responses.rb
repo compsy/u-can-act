@@ -7,7 +7,7 @@ FactoryGirl.define do
     open_from Time.new(2017, 4, 10, 9, 0, 0).in_time_zone
     invited_state Response::NOT_SENT_STATE
     trait :completed do
-      content(v1: 'slecht', v2: %w[brood pizza], v3: 23.0)
+      content { create(:response_content).id }
       opened_at Time.new(2017, 4, 10, 9, 2, 36).in_time_zone
       completed_at Time.new(2017, 4, 10, 9, 7, 6).in_time_zone
       invited_state Response::SENT_STATE

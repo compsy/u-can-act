@@ -44,23 +44,25 @@ describe Response do
       response = FactoryGirl.build(:response, content: nil)
       expect(response.valid?).to be_truthy
     end
-    it 'should accept an empty hash' do
-      response = FactoryGirl.build(:response, content: {})
+    it 'should accept an empty string' do
+      response = FactoryGirl.build(:response, content: '')
       expect(response.valid?).to be_truthy
     end
-    it 'should accept a serialized array of hashes' do
-      given_content = { v4: 'goed', v5: ['brood', 'kaas en ham'], v6: 36.2 }
-      response = FactoryGirl.create(:response, content: given_content)
-      expect(response.content[:v4]).to eq 'goed'
-      expect(response.content[:v5]).to eq ['brood', 'kaas en ham']
-      expect(response.content[:v6]).to eq 36.2
-      expect(response.content).to eq given_content
+    it 'should accept a string' do
+      content_hash = { 'v4' => 'goed', 'v5' => ['brood', 'kaas en ham'], 'v6' => 36.2 }
+      given_content = FactoryGirl.create(:response_content, content: content_hash)
+      response = FactoryGirl.create(:response, content: given_content.id)
+      responsecontent = ResponseContent.find(response.content)
+      expect(responsecontent.content[:v4]).to eq 'goed'
+      expect(responsecontent.content[:v5]).to eq ['brood', 'kaas en ham']
+      expect(responsecontent.content[:v6]).to eq 36.2
+      expect(responsecontent.content).to eq content_hash
       response_id = response.id
-      response = Response.find(response_id)
-      expect(response.content[:v4]).to eq 'goed'
-      expect(response.content[:v5]).to eq ['brood', 'kaas en ham']
-      expect(response.content[:v6]).to eq 36.2
-      expect(response.content).to eq given_content
+      responsecontent = ResponseContent.find(Response.find(response_id).content)
+      expect(responsecontent.content[:v4]).to eq 'goed'
+      expect(responsecontent.content[:v5]).to eq ['brood', 'kaas en ham']
+      expect(responsecontent.content[:v6]).to eq 36.2
+      expect(responsecontent.content).to eq content_hash
     end
   end
 

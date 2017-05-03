@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20170420142715) do
   create_table "responses", force: :cascade do |t|
     t.integer  "protocol_subscription_id", null: false
     t.integer  "measurement_id",           null: false
-    t.text     "content"
+    t.string   "content"
     t.datetime "open_from",                null: false
     t.datetime "opened_at"
     t.datetime "completed_at"

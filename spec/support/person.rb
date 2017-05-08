@@ -59,6 +59,24 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'first_name' do
+    let(:person) { FactoryGirl.create(:person) }
+
+    it 'should not accept an empty first_name' do
+      person.first_name = ''
+      expect(person.valid?).to be_falsey
+      expect(person.errors.messages).to have_key :first_name
+      expect(person.errors.messages[:first_name]).to include('moet opgegeven zijn')
+    end
+
+    it 'should not accept nil as a first_name' do
+      person.first_name = nil
+      expect(person.valid?).to be_falsey
+      expect(person.errors.messages).to have_key :first_name
+      expect(person.errors.messages[:first_name]).to include('moet opgegeven zijn')
+    end
+  end
+
   describe 'protocol_subscriptions' do
     it 'should destroy the protocol_subscriptions when destroying the person' do
       person = FactoryGirl.create(:person, :with_protocol_subscriptions)

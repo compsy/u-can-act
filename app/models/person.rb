@@ -7,5 +7,6 @@ class Person < ApplicationRecord
             format: /\A\d{10}\z/,
             mobile_phone: true,
             uniqueness: true
+  validates :first_name, presence: true
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
 end

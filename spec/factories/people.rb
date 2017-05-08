@@ -4,6 +4,8 @@ FactoryGirl.define do
   sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
   factory :person do
     mobile_phone
+    first_name 'Jane'
+    last_name 'Doe'
     type 'Person'
 
     trait :student do

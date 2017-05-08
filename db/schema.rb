@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20170420142715) do
   create_table "people", force: :cascade do |t|
     t.string   "type",         null: false
     t.string   "mobile_phone", null: false
+    t.string   "first_name",   null: false
+    t.string   "last_name"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
@@ -75,7 +77,7 @@ ActiveRecord::Schema.define(version: 20170420142715) do
   create_table "responses", force: :cascade do |t|
     t.integer  "protocol_subscription_id", null: false
     t.integer  "measurement_id",           null: false
-    t.text     "content"
+    t.string   "content"
     t.datetime "open_from",                null: false
     t.datetime "opened_at"
     t.datetime "completed_at"

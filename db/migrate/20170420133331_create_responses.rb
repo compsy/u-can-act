@@ -7,7 +7,7 @@ class CreateResponses < ActiveRecord::Migration[5.0]
       t.datetime :open_from, null: false
       t.datetime :opened_at
       t.datetime :completed_at
-      t.string :invited_state, null: false
+      t.string :invited_state, null: false, default: 'not_sent'
 
       t.timestamps
     end

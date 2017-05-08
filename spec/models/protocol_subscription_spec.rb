@@ -83,7 +83,7 @@ describe ProtocolSubscription do
   end
 
   describe 'responses' do
-    xit 'should create responses when you create a protocol subscription' do
+    it 'should create responses when you create a protocol subscription' do
       protocol = FactoryGirl.create(:protocol)
       FactoryGirl.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
@@ -96,6 +96,41 @@ describe ProtocolSubscription do
       responsecountbefore = Response.count
       protocol_subscription.destroy
       expect(Response.count).to eq(responsecountbefore - 1)
+    end
+    it 'should create responses with a nonvarying open_from' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
+                                                                         start_date: Time.new(2017, 4, 10, 0, 0, 0))
+      expect(protocol_subscription.responses.count).to eq(4)
+      expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 4, 11, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 4, 18, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 25, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 5, 2, 13, 0, 0).in_time_zone)
+    end
+    it 'should not change the open_from time when changing from winter time to summer time' do
+      # changes at 2AM Sunday, March 26 2017
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
+                                                                         start_date: Time.new(2017, 3, 20, 0, 0, 0))
+      expect(protocol_subscription.responses.count).to eq(4)
+      expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 3, 21, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 3, 28, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 4, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 4, 11, 13, 0, 0).in_time_zone)
+    end
+    it 'should not change the open_from time when changing from summer time to winter time', focus: true do
+      # changes at 3AM Sunday, October 29 2017
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
+                                                                         start_date: Time.new(2017, 10, 23, 0, 0, 0))
+      expect(protocol_subscription.responses.count).to eq(4)
+      expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 10, 24, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 10, 31, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 11, 7, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 11, 14, 13, 0, 0).in_time_zone)
     end
   end
 

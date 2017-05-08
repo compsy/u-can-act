@@ -75,15 +75,15 @@ ActiveRecord::Schema.define(version: 20170420142715) do
   end
 
   create_table "responses", force: :cascade do |t|
-    t.integer  "protocol_subscription_id", null: false
-    t.integer  "measurement_id",           null: false
+    t.integer  "protocol_subscription_id",                      null: false
+    t.integer  "measurement_id",                                null: false
     t.string   "content"
-    t.datetime "open_from",                null: false
+    t.datetime "open_from",                                     null: false
     t.datetime "opened_at"
     t.datetime "completed_at"
-    t.string   "invited_state",            null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "invited_state",            default: "not_sent", null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
   end

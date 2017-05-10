@@ -11,6 +11,7 @@ describe InvitationToken do
   describe 'token' do
     it 'should not allow two invitation_tokens with the same token' do
       invitation_tokenone = FactoryGirl.create(:invitation_token, token: 'myinvitation_token')
+      expect(invitation_tokenone.token).to eq 'myinvitation_token'
       expect(invitation_tokenone.valid?).to be_truthy
       invitation_tokenonetwo = FactoryGirl.build(:invitation_token, token: 'myinvitation_token')
       expect(invitation_tokenonetwo.valid?).to be_falsey

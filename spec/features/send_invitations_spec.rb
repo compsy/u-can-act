@@ -4,13 +4,16 @@ require 'rails_helper'
 
 describe 'sending invitations' do
   let!(:some_response) do
-    FactoryGirl.create(:response, open_from: 1.hour.ago)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    FactoryGirl.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
   end
   let!(:another_response) do
-    FactoryGirl.create(:response, open_from: 90.minutes.ago)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
+    FactoryGirl.create(:response, open_from: 90.minutes.ago, protocol_subscription: protocol_subscription)
   end
   let!(:third_response) do
-    FactoryGirl.create(:response, open_from: 45.minutes.ago)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    FactoryGirl.create(:response, open_from: 45.minutes.ago, protocol_subscription: protocol_subscription)
   end
 
   let(:responses) { [some_response, another_response, third_response] }

@@ -24,6 +24,14 @@ class ProtocolSubscription < ApplicationRecord
     Time.zone.now > TimeTools.increase_by_duration(start_date, protocol.duration)
   end
 
+  def reward_points
+    responses.completed.map { |response| response.measurement.reward_points }.reduce(0, :+)
+  end
+
+  def max_reward_points
+    responses.invite_sent.map { |response| response.measurement.reward_points }.reduce(0, :+)
+  end
+
   private
 
   def schedule_responses

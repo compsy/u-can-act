@@ -54,6 +54,31 @@ describe Response do
         expect(described_class.check_for_send.count).to eq 3
       end
     end
+    describe 'completed' do
+      it 'should return responses with a completed_at' do
+        response = FactoryGirl.create(:response, :completed)
+        expect(Response.completed.count).to eq 1
+        expect(Response.completed.to_a).to eq [response]
+      end
+      it 'should not return responses without a completed at' do
+        FactoryGirl.create(:response)
+        expect(Response.completed.count).to eq 0
+        expect(Response.completed.to_a).to eq []
+      end
+    end
+    describe 'invite_sent' do
+      it 'should return responses with a sent invite' do
+        response = FactoryGirl.create(:response, :completed)
+        responsetwo = FactoryGirl.create(:response, invited_state: described_class::SENT_STATE)
+        expect(Response.invite_sent.count).to eq 2
+        expect(Response.invite_sent.to_a).to eq [response, responsetwo]
+      end
+      it 'should not return responses for which no invite was sent' do
+        FactoryGirl.create(:response)
+        expect(Response.invite_sent.count).to eq 0
+        expect(Response.invite_sent.to_a).to eq []
+      end
+    end
   end
 
   describe 'expired?' do

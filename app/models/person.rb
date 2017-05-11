@@ -9,4 +9,12 @@ class Person < ApplicationRecord
             uniqueness: true
   validates :first_name, presence: true
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
+
+  def reward_points
+    protocol_subscriptions.map(&:reward_points).reduce(0, :+)
+  end
+
+  def max_reward_points
+    protocol_subscriptions.map(&:max_reward_points).reduce(0, :+)
+  end
 end

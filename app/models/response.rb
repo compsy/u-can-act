@@ -23,15 +23,10 @@ class Response < ApplicationRecord
   })
 
   def expired?
-    response_expired? || protocol_subscription_ended?
+    response_expired? || protocol_subscription.ended?
   end
 
   private
-
-  def protocol_subscription_ended?
-    Time.zone.now > TimeTools.increase_by_duration(protocol_subscription.start_date,
-                                                   protocol_subscription.protocol.duration)
-  end
 
   def response_expired?
     measurement.open_duration.present? &&

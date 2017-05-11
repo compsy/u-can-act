@@ -18,6 +18,10 @@ class ProtocolSubscription < ApplicationRecord
     state == ACTIVE_STATE
   end
 
+  def ended?
+    Time.zone.now > TimeTools.increase_by_duration(start_date, protocol.duration)
+  end
+
   private
 
   def schedule_responses

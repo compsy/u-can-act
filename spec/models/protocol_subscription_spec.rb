@@ -80,6 +80,22 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'ended?' do
+    it 'should be ended after the duration of the protocol' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 5.weeks.ago.at_beginning_of_day)
+      expect(protocol_subscription.ended?).to be_truthy
+    end
+    it 'should not be ended when the protocol_subscription is still running' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      expect(protocol_subscription.ended?).to be_falsey
+    end
+    it 'should not be ended when the protocol_subscription has not yet started' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 2.weeks.from_now.at_beginning_of_day)
+      expect(protocol_subscription.ended?).to be_falsey
+    end
+  end
+
   describe 'start_date' do
     it 'should not be nil' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription, start_date: nil)

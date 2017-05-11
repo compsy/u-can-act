@@ -21,7 +21,9 @@ class SendInvitation < ActiveInteraction::Base
   def create_invitation_token!
     # If a token exists for this response, reuse that token (so the old SMS invite link still works
     # when sending a reminder). But still recreate the invitation_token object, so we know that the
-    # created_at is always when the object was last used.
+    # created_at is always when the object was last used. Also, if we don't first destroy the
+    # invitation_token, then it will set a different token than what we're giving (since tokens have
+    # to be unique).
     token = response.invitation_token&.token
     response.invitation_token&.destroy
     response.create_invitation_token!(token: token)

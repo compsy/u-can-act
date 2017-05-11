@@ -16,4 +16,12 @@ namespace :scheduler do
     CompleteProtocolSubscriptions.run
     puts 'Setting protocol subscriptions to completed - done'
   end
+
+  desc 'Destroy stale invitation tokens'
+  task cleanup_invitation_tokens: :environment do
+    # Run daily (e.g., at 4am).
+    puts 'Destroying stale invitation tokens - started'
+    CleanupInvitationTokens.run
+    puts 'Destroying stale invitation tokens - done'
+  end
 end

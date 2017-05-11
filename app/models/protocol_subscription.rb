@@ -3,8 +3,8 @@
 class ProtocolSubscription < ApplicationRecord
   include ActiveModel::Validations
   ACTIVE_STATE = 'active'
-  CANCELED_STATE = 'canceled_state'
-  COMPLETED_STATE = 'completed_state'
+  CANCELED_STATE = 'canceled'
+  COMPLETED_STATE = 'completed'
   belongs_to :person
   validates :person_id, presence: true
   belongs_to :protocol
@@ -13,6 +13,8 @@ class ProtocolSubscription < ApplicationRecord
   validates :start_date, presence: true, start_of_day: true
   has_many :responses, dependent: :destroy
   after_create :schedule_responses
+
+  scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def active?
     state == ACTIVE_STATE

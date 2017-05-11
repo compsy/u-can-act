@@ -8,6 +8,18 @@ describe ProtocolSubscription do
     expect(protocol_subscription.valid?).to be_truthy
   end
 
+  context 'scopes' do
+    describe 'active' do
+      it 'should return protocol_subscriptions that were not completed' do
+        actives = FactoryGirl.create_list(:protocol_subscription, 10, state: ProtocolSubscription::ACTIVE_STATE)
+        FactoryGirl.create_list(:protocol_subscription, 15, state: ProtocolSubscription::CANCELED_STATE)
+        FactoryGirl.create_list(:protocol_subscription, 20, state: ProtocolSubscription::COMPLETED_STATE)
+        expect(ProtocolSubscription.active.count).to eq 10
+        expect(ProtocolSubscription.active).to eq actives
+      end
+    end
+  end
+
   describe 'person_id' do
     it 'should have one' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription, person_id: nil)

@@ -56,6 +56,39 @@ describe Response do
     end
   end
 
+  describe 'expired?' do
+    it 'should return true if the response is no longer open' do
+      response = FactoryGirl.create(:response, open_from: 3.hours.ago)
+      expect(response.expired?).to be_truthy
+    end
+    it 'should return true if the response has no open_duration but the protocol_subscription has ended' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
+      measurement = FactoryGirl.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
+      # open_from does is not used here
+      response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+                                               open_from: 1.day.ago)
+      expect(response.expired?).to be_truthy
+    end
+    it 'should return false if the response has no open_duration but the protocol_subscription has not ended yet' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
+      measurement = FactoryGirl.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
+      # open_from does is not used here
+      response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+                                               open_from: 1.day.ago)
+      expect(response.expired?).to be_falsey
+    end
+    it 'should return false if the response is still open' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      response = FactoryGirl.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
+      expect(response.expired?).to be_falsey
+    end
+    it 'should return false if the response is not open yet' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      response = FactoryGirl.create(:response, open_from: 1.hour.from_now, protocol_subscription: protocol_subscription)
+      expect(response.expired?).to be_falsey
+    end
+  end
+
   describe 'protocol_subscription_id' do
     it 'should have one' do
       response = FactoryGirl.build(:response, protocol_subscription_id: nil)

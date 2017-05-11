@@ -51,6 +51,14 @@ gem 'dotenv-rails'
 
 gem 'coveralls', require: false
 
+# Delayed job for delayed calculation
+gem 'delayed_job_active_record'
+
+# Messagebird SMS
+gem 'messagebird-rest', require: 'messagebird'
+
+gem 'active_interaction'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
@@ -88,6 +96,9 @@ end
 group :production, :staging do
   # JavaScript runtime
   gem 'therubyracer'
+
+  # Required by Delayed Job
+  gem 'daemons'
 end
 
 group :development do

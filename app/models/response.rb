@@ -18,7 +18,23 @@ class Response < ApplicationRecord
       'open_from <= :time_now AND open_from > :recent_past AND invited_state = :not_sent',
       time_now: Time.zone.now,
       recent_past: RECENT_PAST.ago.in_time_zone,
-      not_sent: 'not_sent'
+      not_sent: NOT_SENT_STATE
     )
   })
+
+  def expired?
+    response_expired? || protocol_subscription_ended?
+  end
+
+  private
+
+  def protocol_subscription_ended?
+    Time.zone.now > TimeTools.increase_by_duration(protocol_subscription.start_date,
+                                                   protocol_subscription.protocol.duration)
+  end
+
+  def response_expired?
+    measurement.open_duration.present? &&
+      Time.zone.now > TimeTools.increase_by_duration(open_from, measurement.open_duration)
+  end
 end

@@ -66,6 +66,20 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'active?' do
+    it 'should be active when the state is active' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
+      expect(protocol_subscription.active?).to be_truthy
+    end
+    it 'should be active when the state is not active' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, state: described_class::CANCELED_STATE)
+      expect(protocol_subscription.active?).to be_falsey
+      protocol_subscription.state = described_class::COMPLETED_STATE
+      protocol_subscription.save!
+      expect(protocol_subscription.active?).to be_falsey
+    end
+  end
+
   describe 'start_date' do
     it 'should not be nil' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription, start_date: nil)

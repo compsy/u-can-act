@@ -1,0 +1,62 @@
+nl:
+  errors: &errors
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: moet worden geaccepteerd
+      blank: moet opgegeven zijn
+      confirmation: komt niet met de bevestiging overeen
+      empty: moet opgegeven zijn
+      equal_to: moet gelijk zijn aan %{count}
+      even: moet even zijn
+      exclusion: is niet beschikbaar
+      greater_than: moet groter zijn dan %{count}
+      greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}
+      inclusion: is niet in de lijst opgenomen
+      invalid: is ongeldig
+      less_than: moet minder zijn dan %{count}
+      less_than_or_equal_to: moet minder dan of gelijk zijn aan %{count}
+      not_a_number: is geen getal
+      not_an_integer: moet een geheel getal zijn
+      odd: moet oneven zijn
+      record_invalid: ! 'Validatie mislukt: %{errors}'
+      taken: is al in gebruik
+      too_long: is te lang (maximaal %{count} tekens)
+      too_short: is te kort (minimaal %{count} tekens)
+      wrong_length: heeft onjuiste lengte (moet %{count} tekens lang zijn)
+      invalid_key: mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter.
+      valid_ip_addresses: moeten geldige IP-adressen zijn
+      not_a_date: "is niet een datum"
+      after: "is te vroeg"
+      after_or_equal_to: "is te vroeg"
+      before: "is te laat"
+      before_or_equal_to: "is te laat"
+    template:
+      body: ! 'Controleer de volgende velden:'
+      header:
+        one: ! '%{model} niet opgeslagen: 1 fout gevonden'
+        other: ! '%{model} niet opgeslagen: %{count} fouten gevonden'
+  activemodel:
+    errors:
+      <<: *errors
+  activerecord:
+    errors:
+      <<: *errors
+  active_interaction:
+    errors:
+      messages:
+        invalid: is ongeldig
+        invalid_type: is geen geldige %{type}
+        missing: is vereist
+    types:
+      array: array
+      boolean: boolean
+      date: date
+      date_time: date time
+      file: file
+      float: float
+      hash: hash
+      integer: integer
+      model: model
+      object: object
+      string: string
+      time: time

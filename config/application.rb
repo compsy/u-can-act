@@ -35,9 +35,9 @@ module Vsv
       # Define the factories of factory girl (model mock)
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
 
-      # Don't generate specs for helpers and views
-      g.view_specs false
-      g.helper_specs false
+      # Generate specs for helpers and views
+      g.view_specs true
+      g.helper_specs true
 
       # Don't generate stylesheets and javascript
       g.stylesheets = false

@@ -12,5 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require materialize
 //= require_tree .
+
+$(function(){
+  $('select').material_select();
+  Materialize.updateTextFields();
+});

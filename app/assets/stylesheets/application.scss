@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+//@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
+@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import "materialize/components/color";
+
+$primary-color: color("blue", "lighten-2") !default;
+
+@import "materialize";

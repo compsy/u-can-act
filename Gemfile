@@ -121,3 +121,4 @@ gem 'tzinfo-data'
 gem 'rails-i18n'
 
 gem 'appsignal'
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?

@@ -14,31 +14,31 @@ describe Response do
   end
 
   context 'scopes' do
-    describe 'check_for_send' do
+    describe 'recently_opened_and_not_sent' do
       it 'should find a response that was opened an hour ago' do
         FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
                                       invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.check_for_send.count).to eq 1
+        expect(described_class.recently_opened_and_not_sent.count).to eq 1
       end
       it 'should not find a response that was opened three hours ago' do
         FactoryGirl.create(:response, open_from: 3.hours.ago.in_time_zone,
                                       invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.check_for_send.count).to eq 0
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
       end
       it 'should not find a response that is not open yet' do
         FactoryGirl.create(:response, open_from: 1.hour.from_now.in_time_zone,
                                       invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.check_for_send.count).to eq 0
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
       end
       it 'should not find a response that is sending' do
         FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
                                       invited_state: described_class::SENDING_STATE)
-        expect(described_class.check_for_send.count).to eq 0
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
       end
       it 'should not find a response that is sent' do
         FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
                                       invited_state: described_class::SENT_STATE)
-        expect(described_class.check_for_send.count).to eq 0
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
       end
       it 'should be able to retrieve multiple responses' do
         FactoryGirl.create(:response, open_from: 90.minutes.ago.in_time_zone,
@@ -51,7 +51,7 @@ describe Response do
                                       invited_state: described_class::NOT_SENT_STATE)
         FactoryGirl.create(:response, open_from: 121.minutes.ago.in_time_zone,
                                       invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.check_for_send.count).to eq 3
+        expect(described_class.recently_opened_and_not_sent.count).to eq 3
       end
     end
   end

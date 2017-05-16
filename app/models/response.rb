@@ -13,7 +13,7 @@ class Response < ApplicationRecord
   validates :invited_state, inclusion: { in: [NOT_SENT_STATE, SENDING_STATE, SENT_STATE] }
   has_one :invitation_token, dependent: :destroy # has one or none
 
-  scope :check_for_send, (lambda {
+  scope :recently_opened_and_not_sent, (lambda {
     where(
       'open_from <= :time_now AND open_from > :recent_past AND invited_state = :not_sent',
       time_now: Time.zone.now,

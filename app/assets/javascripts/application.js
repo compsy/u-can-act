@@ -14,8 +14,3 @@
 //= require jquery_ujs
 //= require materialize
 //= require_tree .
-
-$(function(){
-  $('select').material_select();
-  Materialize.updateTextFields();
-});

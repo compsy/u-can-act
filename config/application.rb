@@ -24,6 +24,7 @@ module Vsv
     config.autoload_paths += %W(#{config.root}/app/tools)
     config.autoload_paths += %W(#{config.root}/app/use_cases)
     config.autoload_paths += %W(#{config.root}/app/adapters)
+    config.autoload_paths += %W(#{config.root}/app/generators)
 
     config.active_job.queue_adapter = :delayed_job
 

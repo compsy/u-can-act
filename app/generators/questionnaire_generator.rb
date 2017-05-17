@@ -210,7 +210,7 @@ class QuestionnaireGenerator
       labels_body << content_tag(:div, label, class: "col #{align_class} s#{col_class}")
     end
     labels_body = safe_join(labels_body)
-    labels_body = content_tag(:div, labels_body, class: 'row')
+    labels_body = content_tag(:div, labels_body)
     labels_body
   end
 

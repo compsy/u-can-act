@@ -39,6 +39,26 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
 ```
 
+## Background jobs
+The workings of the app rely on three background jobs:
+
+Every 15 minutes, the following rake task should run:
+```
+rake scheduler:send_invitations
+```
+
+Daily (e.g., at 3am), the following rake task should run:
+```
+rake scheduler:complete_protocol_subscriptions
+```
+
+Daily (e.g., at 4am), the following rake task should run:
+```
+rake scheduler:cleanup_invitation_tokens
+```
+
+In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
+
 ## Questionnaires
 The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. Currently, three types of questions are accepted, with the following attributes:
 

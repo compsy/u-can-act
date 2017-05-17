@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe SendInvitations do
   describe 'run' do
-    it 'should call the check_for_send scope' do
-      expect(Response).to receive(:check_for_send).and_return []
+    it 'should call the recently_opened_and_not_sent scope' do
+      expect(Response).to receive(:recently_opened_and_not_sent).and_return []
       described_class.run
     end
 

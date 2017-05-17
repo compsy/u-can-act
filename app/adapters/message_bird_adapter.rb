@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+class MessageBirdAdapter
+  attr_reader :client, :test_mode
+
+  def initialize(test_mode)
+    @client = ::MessageBird::Client.new(ENV['MESSAGEBIRD_ACCESS_KEY'])
+    @test_mode = test_mode
+  end
+
+  def send_text(from, to, body, reference: nil)
+    if test_mode
+      self.class.deliveries << { client: client, from: from, to: to, body: body, reference: reference }
+    else
+      client.message_create(from, to, body, reference: reference)
+    end
+  end
+
+  def self.deliveries
+    @deliveries ||= []
+  end
+end

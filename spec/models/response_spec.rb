@@ -13,6 +13,82 @@ describe Response do
     expect(response.valid?).to be_truthy
   end
 
+  context 'scopes' do
+    describe 'recently_opened_and_not_sent' do
+      it 'should find a response that was opened an hour ago' do
+        FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        expect(described_class.recently_opened_and_not_sent.count).to eq 1
+      end
+      it 'should not find a response that was opened three hours ago' do
+        FactoryGirl.create(:response, open_from: 3.hours.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+      end
+      it 'should not find a response that is not open yet' do
+        FactoryGirl.create(:response, open_from: 1.hour.from_now.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+      end
+      it 'should not find a response that is sending' do
+        FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
+                                      invited_state: described_class::SENDING_STATE)
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+      end
+      it 'should not find a response that is sent' do
+        FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+      end
+      it 'should be able to retrieve multiple responses' do
+        FactoryGirl.create(:response, open_from: 90.minutes.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        FactoryGirl.create(:response, open_from: 60.minutes.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        FactoryGirl.create(:response, open_from: 45.minutes.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        FactoryGirl.create(:response, open_from: 1.minute.from_now.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        FactoryGirl.create(:response, open_from: 121.minutes.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        expect(described_class.recently_opened_and_not_sent.count).to eq 3
+      end
+    end
+  end
+
+  describe 'expired?' do
+    it 'should return true if the response is no longer open' do
+      response = FactoryGirl.create(:response, open_from: 3.hours.ago)
+      expect(response.expired?).to be_truthy
+    end
+    it 'should return true if the response has no open_duration but the protocol_subscription has ended' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
+      measurement = FactoryGirl.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
+      # open_from does is not used here
+      response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+                                               open_from: 1.day.ago)
+      expect(response.expired?).to be_truthy
+    end
+    it 'should return false if the response has no open_duration but the protocol_subscription has not ended yet' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
+      measurement = FactoryGirl.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
+      # open_from does is not used here
+      response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+                                               open_from: 1.day.ago)
+      expect(response.expired?).to be_falsey
+    end
+    it 'should return false if the response is still open' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      response = FactoryGirl.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
+      expect(response.expired?).to be_falsey
+    end
+    it 'should return false if the response is not open yet' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      response = FactoryGirl.create(:response, open_from: 1.hour.from_now, protocol_subscription: protocol_subscription)
+      expect(response.expired?).to be_falsey
+    end
+  end
+
   describe 'protocol_subscription_id' do
     it 'should have one' do
       response = FactoryGirl.build(:response, protocol_subscription_id: nil)

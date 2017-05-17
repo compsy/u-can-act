@@ -8,6 +8,18 @@ describe ProtocolSubscription do
     expect(protocol_subscription.valid?).to be_truthy
   end
 
+  context 'scopes' do
+    describe 'active' do
+      it 'should return protocol_subscriptions that were not completed' do
+        actives = FactoryGirl.create_list(:protocol_subscription, 10, state: ProtocolSubscription::ACTIVE_STATE)
+        FactoryGirl.create_list(:protocol_subscription, 15, state: ProtocolSubscription::CANCELED_STATE)
+        FactoryGirl.create_list(:protocol_subscription, 20, state: ProtocolSubscription::COMPLETED_STATE)
+        expect(ProtocolSubscription.active.count).to eq 10
+        expect(ProtocolSubscription.active).to eq actives
+      end
+    end
+  end
+
   describe 'person_id' do
     it 'should have one' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription, person_id: nil)
@@ -63,6 +75,36 @@ describe ProtocolSubscription do
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :state
       expect(protocol_subscription.errors.messages[:state]).to include('is niet in de lijst opgenomen')
+    end
+  end
+
+  describe 'active?' do
+    it 'should be active when the state is active' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
+      expect(protocol_subscription.active?).to be_truthy
+    end
+    it 'should be active when the state is not active' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, state: described_class::CANCELED_STATE)
+      expect(protocol_subscription.active?).to be_falsey
+      protocol_subscription.state = described_class::COMPLETED_STATE
+      protocol_subscription.save!
+      expect(protocol_subscription.active?).to be_falsey
+    end
+  end
+
+  describe 'ended?' do
+    it 'should be ended after the duration of the protocol' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 5.weeks.ago.at_beginning_of_day)
+      expect(protocol_subscription.ended?).to be_truthy
+    end
+    it 'should not be ended when the protocol_subscription is still running' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      expect(protocol_subscription.ended?).to be_falsey
+    end
+    it 'should not be ended when the protocol_subscription has not yet started' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 2.weeks.from_now.at_beginning_of_day)
+      expect(protocol_subscription.ended?).to be_falsey
     end
   end
 

@@ -145,7 +145,6 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.10.2)
-    modernizr-rails (2.7.1)
     mongo (2.4.1)
       bson (>= 4.2.1, < 5.0.0)
     mongoid (6.1.0)
@@ -322,7 +321,6 @@ DEPENDENCIES
   listen
   materialize-sass
   messagebird-rest
-  modernizr-rails
   mongoid
   pg
   poltergeist

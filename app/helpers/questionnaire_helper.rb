@@ -14,4 +14,3 @@ module QuestionnaireHelper
     body.html_safe
   end
 end
-

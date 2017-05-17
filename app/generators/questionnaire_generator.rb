@@ -3,133 +3,218 @@
 class QuestionnaireGenerator
   extend ActionView::Helpers
 
-  def self.generate_questionnaire(response)
-    questionnaire = response.measurement.questionnaire
-    body = ''.html_safe
-    header_body = content_tag(:h4, questionnaire.name, class: 'header')
-    header_body = content_tag(:div, header_body, class: 'row')
-    body += header_body
-    questionnaire.content.each do |question|
-      question_body = case question[:type]
-                        when :radio
-                          generate_radio(question)
-                        when :checkbox
-                          generate_checkbox(question)
-                        when :range
-                          generate_range(question)
-                        else
-                          raise 'Unknown question type'
-                      end
-      body += content_tag(:div, question_body, class: 'row section no-pad-top')
-    end
-    submit_body = tag(:input,
-                      type: 'submit',
-                      name: 'commit',
-                      value: 'Opslaan',
-                      class: 'btn waves-effect waves-light')
-    submit_body = content_tag(:div, submit_body, class: 'row section')
-    body += submit_body
+  OTHERWISE_TEXT = 'Anders, namelijk:'
+  OTHERWISE_PLACEHOLDER = 'Vul iets in'
+  SUBMIT_BUTTON_TEXT = 'Opslaan'
+
+  def self.generate_questionnaire(questionnaire)
+    body = safe_join([
+                       questionnaire_header(questionnaire),
+                       questionnaire_questions(questionnaire),
+                       submit_button
+                     ])
     # TODO: Add action, method, etc. to form
     body = content_tag(:form, body, class: 'col s12')
     body
   end
 
+  def self.questionnaire_header(questionnaire)
+    header_body = content_tag(:h4, questionnaire.name, class: 'header')
+    header_body = content_tag(:div, header_body, class: 'row')
+    header_body
+  end
+
+  def self.questionnaire_questions(questionnaire)
+    body = []
+    questionnaire.content.each do |question|
+      question_body = case question[:type]
+                      when :radio
+                        generate_radio(question)
+                      when :checkbox
+                        generate_checkbox(question)
+                      when :range
+                        generate_range(question)
+                      else
+                        raise 'Unknown question type'
+                      end
+      body << content_tag(:div, question_body, class: 'row section no-pad-top')
+    end
+    safe_join(body)
+  end
+
+  def self.submit_button
+    submit_body = tag(:input,
+                      type: 'submit',
+                      name: 'commit',
+                      value: SUBMIT_BUTTON_TEXT,
+                      class: 'btn waves-effect waves-light')
+    submit_body = content_tag(:div, submit_body, class: 'row section')
+    submit_body
+  end
+
   def self.generate_radio(question)
     # TODO: Add radio button validation error message
-    body = content_tag(:p, question[:title], class: 'flow-text')
+    safe_join([
+                content_tag(:p, question[:title], class: 'flow-text'),
+                radio_options(question),
+                radio_otherwise(question)
+              ])
+  end
+
+  def self.radio_options(question)
+    body = []
     question[:options].each do |option|
-      option_body = tag(:input,
-                        name: idify(question[:id]),
-                        type: 'radio',
-                        id: idify(question[:id], option),
-                        value: option,
-                        required: true,
-                        class: 'validate')
-      option_body+= content_tag(:label, option, for: idify(question[:id], option), class: 'flow-text')
+      option_body = safe_join([
+                                tag(:input,
+                                    name: idify(question[:id]),
+                                    type: 'radio',
+                                    id: idify(question[:id], option),
+                                    value: option,
+                                    required: true,
+                                    class: 'validate'),
+                                content_tag(:label,
+                                            option,
+                                            for: idify(question[:id], option),
+                                            class: 'flow-text')
+                              ])
       option_body = content_tag(:p, option_body)
-      body += option_body
+      body << option_body
     end
-    option_text = 'Anders, namelijk:'
-    option_field = tag(:input,
-                       id: idify(question[:id], option_text, 'text'),
-                       type: 'text',
-                       disabled: true,
-                       required: true,
-                       class: 'validate otherwise')
-    option_field+= content_tag(:label, 'Vul iets in', for: idify(question[:id], option_text, 'text'))
-    option_field = content_tag(:div, option_field, class: 'input-field inline')
-    option_body = tag(:input,
-                      name: idify(question[:id]),
-                      type: 'radio',
-                      id: idify(question[:id], option_text),
-                      value: option_text,
-                      required: true,
-                      class: 'otherwise-option')
-    option_body+= content_tag(:label, option_text, for: idify(question[:id], option_text), class: 'flow-text')
-    option_body+= option_field
+    safe_join(body)
+  end
+
+  def self.radio_otherwise(question)
+    option_body = safe_join([
+                              radio_otherwise_option(question),
+                              otherwise_textfield(question)
+                            ])
     option_body = content_tag(:div, option_body, class: 'otherwise-textfield')
-    body += option_body
-    body
+    option_body
+  end
+
+  def self.radio_otherwise_option(question)
+    safe_join([
+                tag(:input,
+                    name: idify(question[:id]),
+                    type: 'radio',
+                    id: idify(question[:id], OTHERWISE_TEXT),
+                    value: OTHERWISE_TEXT,
+                    required: true,
+                    class: 'otherwise-option'),
+                content_tag(:label,
+                            OTHERWISE_TEXT,
+                            for: idify(question[:id], OTHERWISE_TEXT),
+                            class: 'flow-text')
+              ])
+  end
+
+  def self.otherwise_textfield(question)
+    # Used for both radios and checkboxes
+    option_field = safe_join([
+                               tag(:input,
+                                   id: idify(question[:id], OTHERWISE_TEXT, 'text'),
+                                   type: 'text',
+                                   disabled: true,
+                                   required: true,
+                                   class: 'validate otherwise'),
+                               content_tag(:label,
+                                           OTHERWISE_PLACEHOLDER,
+                                           for: idify(question[:id], OTHERWISE_TEXT, 'text'))
+                             ])
+    option_field = content_tag(:div, option_field, class: 'input-field inline')
+    option_field
   end
 
   def self.generate_checkbox(question)
-    body = content_tag(:p, question[:title], class: 'flow-text')
+    safe_join([
+                content_tag(:p, question[:title], class: 'flow-text'),
+                checkbox_options(question),
+                checkbox_otherwise(question)
+              ])
+  end
+
+  def self.checkbox_options(question)
+    body = []
     question[:options].each do |option|
-      option_body = tag(:input,
-                        type: 'checkbox',
-                        id: idify(question[:id], option),
-                        value: option)
-      option_body+= content_tag(:label, option, for: idify(question[:id], option), class: 'flow-text')
+      option_body = safe_join([
+                                tag(:input,
+                                    type: 'checkbox',
+                                    id: idify(question[:id], option),
+                                    value: option),
+                                content_tag(:label,
+                                            option,
+                                            for: idify(question[:id], option),
+                                            class: 'flow-text')
+                              ])
       option_body = content_tag(:p, option_body)
-      body += option_body
+      body << option_body
     end
-    option_text = 'Anders, namelijk:'
-    option_field = tag(:input,
-                       id: idify(question[:id], option_text, 'text'),
-                       type: 'text',
-                       disabled: true,
-                       required: true,
-                       class: 'validate otherwise')
-    option_field+= content_tag(:label, 'Vul iets in', for: idify(question[:id], option_text, 'text'))
-    option_field = content_tag(:div, option_field, class: 'input-field inline')
-    option_body = tag(:input,
-                      type: 'checkbox',
-                      id: idify(question[:id], option_text),
-                      value: option_text,
-                      class: 'otherwise-option')
-    option_body+= content_tag(:label, option_text, for: idify(question[:id], option_text), class: 'flow-text')
-    option_body+= option_field
+    safe_join(body)
+  end
+
+  def self.checkbox_otherwise(question)
+    option_body = safe_join([
+                              checkbox_otherwise_option(question),
+                              otherwise_textfield(question)
+                            ])
     option_body = content_tag(:div, option_body, class: 'otherwise-textfield')
-    body += option_body
-    body
+    option_body
+  end
+
+  def self.checkbox_otherwise_option(question)
+    safe_join([
+                tag(:input,
+                    type: 'checkbox',
+                    id: idify(question[:id], OTHERWISE_TEXT),
+                    value: OTHERWISE_TEXT,
+                    class: 'otherwise-option'),
+                content_tag(:label,
+                            OTHERWISE_TEXT,
+                            for: idify(question[:id], OTHERWISE_TEXT),
+                            class: 'flow-text')
+              ])
   end
 
   def self.generate_range(question)
-    body = content_tag(:p, question[:title], class: 'flow-text')
-    range_body = tag(:input, type: 'range', id: idify(question[:id]), min: '0', max: '100', required: true)
-    labels_body = ''.html_safe
-    # Works with 2, 3, or 4 labels
-    col_class = 12/[question[:labels].size, 1].max
+    safe_join([
+                content_tag(:p, question[:title], class: 'flow-text'),
+                range_slider(question),
+                range_labels(question)
+              ])
+  end
+
+  def self.range_slider(question)
+    range_body = tag(:input,
+                     type: 'range',
+                     id: idify(question[:id]),
+                     min: '0',
+                     max: '100',
+                     required: true)
+    range_body = content_tag(:p, range_body, class: 'range-field')
+    range_body
+  end
+
+  def self.range_labels(question)
+    # Works best with 2, 3, or 4 labels
+    labels_body = []
+    col_class = 12 / [question[:labels].size, 1].max
     question[:labels].each_with_index do |label, idx|
       align_class = case idx
-                      when 0
-                        'left-align'
-                      when (question[:labels].size - 1)
-                        'right-align'
-                      else
-                        'center-align'
+                    when 0
+                      'left-align'
+                    when (question[:labels].size - 1)
+                      'right-align'
+                    else
+                      'center-align'
                     end
-      labels_body += content_tag(:div, label, class: "col #{align_class} s#{col_class}")
+      labels_body << content_tag(:div, label, class: "col #{align_class} s#{col_class}")
     end
+    labels_body = safe_join(labels_body)
     labels_body = content_tag(:div, labels_body, class: 'row')
-    range_body+= labels_body
-    range_body = content_tag(:p, range_body, class: 'range-field')
-    body += range_body
-    body
+    labels_body
   end
 
   def self.idify(*strs)
-    strs.map {|x| x.to_s.parameterize.underscore}.join('_')
+    strs.map { |x| x.to_s.parameterize.underscore }.join('_')
   end
-
 end

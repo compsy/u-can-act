@@ -5,6 +5,7 @@ puts 'Generating questionnaires - Started'
 dagboekvragenlijst = Questionnaire.find_by_name('Dagboekvragenlijst Studenten')
 dagboekvragenlijst ||= Questionnaire.new(name: 'Dagboekvragenlijst Studenten')
 dagboek_content = [{
+                     section_start: 'School',
                      id: :v1,
                      type: :range,
                      title: 'Heb je afgelopen week vooral leuke of nare dingen meegemaakt op school?',
@@ -59,8 +60,10 @@ dagboek_content = [{
                      id: :v11,
                      type: :range,
                      title: 'Heb je er vertrouwen in dat je dit schooljaar gaat halen?',
-                     labels: ['Geen vertrouwen', 'Veel vertrouwen']
+                     labels: ['Geen vertrouwen', 'Veel vertrouwen'],
+                     section_end: true
                    }, {
+                     section_start: 'Buiten School',
                      id: :v12,
                      type: :range,
                      title: 'Heb je afgelopen week vooral leuke of nare dingen meegemaakt buiten school?',
@@ -99,8 +102,10 @@ dagboek_content = [{
                      id: :v19,
                      type: :range,
                      title: 'Hoe prettig voelde je jezelf deze week buiten school?',
-                     labels: ['niet prettig', 'heel prettig']
+                     labels: ['niet prettig', 'heel prettig'],
+                     section_end: true
                    }, {
+                     section_start: 'Begeleiding',
                      id: :v20,
                      type: :range,
                      title: 'Voelde je deze week een sterke band  met je begeleider? Je kan gewoon eerlijk zijn - je begeleider kan niet zien wat je antwoordt.',
@@ -115,7 +120,8 @@ dagboek_content = [{
                      id: :v22,
                      type: :range,
                      title: 'Heeft je begeleider je goed geholpen deze week?',
-                     labels: ['Niet goed geholpen', 'Heel goed geholpen']
+                     labels: ['Niet goed geholpen', 'Heel goed geholpen'],
+                     section_end: true
                    }]
 dagboekvragenlijst.content = dagboek_content
 dagboekvragenlijst.save!

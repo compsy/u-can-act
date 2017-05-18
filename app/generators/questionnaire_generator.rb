@@ -20,6 +20,7 @@ class QuestionnaireGenerator
 
   def self.questionnaire_header(questionnaire)
     header_body = content_tag(:h4, questionnaire.name, class: 'header')
+    header_body = content_tag(:div, header_body, class: 'col s12')
     header_body = content_tag(:div, header_body, class: 'row')
     header_body
   end
@@ -37,9 +38,20 @@ class QuestionnaireGenerator
                       else
                         raise 'Unknown question type'
                       end
+      question_body = content_tag(:div, question_body, class: 'col s12')
+      body << section_start(question[:section_start]) unless question[:section_start].blank?
       body << content_tag(:div, question_body, class: 'row section')
+      body << section_end(question[:section_end]) unless question[:section_end].blank?
     end
     safe_join(body)
+  end
+
+  def self.section_start(section_title)
+    "<div class=\"extra-spacing row\"><div class=\"col s12\"><h5>#{section_title}</h5></div></div>".html_safe
+  end
+
+  def self.section_end(_unused_arg)
+    "<div class=\"row\"><div class=\"col s12\"><div class=\"divider\"></div></div></div>".html_safe
   end
 
   def self.submit_button
@@ -47,6 +59,7 @@ class QuestionnaireGenerator
                               SUBMIT_BUTTON_TEXT,
                               type: 'submit',
                               class: 'btn waves-effect waves-light')
+    submit_body = content_tag(:div, submit_body, class: 'col s12')
     submit_body = content_tag(:div, submit_body, class: 'row section')
     submit_body
   end
@@ -209,7 +222,7 @@ class QuestionnaireGenerator
       labels_body << content_tag(:div, label, class: "col #{align_class} s#{col_class}")
     end
     labels_body = safe_join(labels_body)
-    labels_body = content_tag(:div, labels_body)
+    labels_body = content_tag(:div, labels_body, class: 'row')
     labels_body
   end
 

@@ -37,17 +37,16 @@ class QuestionnaireGenerator
                       else
                         raise 'Unknown question type'
                       end
-      body << content_tag(:div, question_body, class: 'row section no-pad-top')
+      body << content_tag(:div, question_body, class: 'row section')
     end
     safe_join(body)
   end
 
   def self.submit_button
-    submit_body = tag(:input,
-                      type: 'submit',
-                      name: 'commit',
-                      value: SUBMIT_BUTTON_TEXT,
-                      class: 'btn waves-effect waves-light')
+    submit_body = content_tag(:button,
+                              SUBMIT_BUTTON_TEXT,
+                              type: 'submit',
+                              class: 'btn waves-effect waves-light')
     submit_body = content_tag(:div, submit_body, class: 'row section')
     submit_body
   end
@@ -55,7 +54,7 @@ class QuestionnaireGenerator
   def self.generate_radio(question)
     # TODO: Add radio button validation error message
     safe_join([
-                content_tag(:p, question[:title], class: 'flow-text'),
+                content_tag(:p, question[:title].html_safe, class: 'flow-text'),
                 radio_options(question),
                 radio_otherwise(question)
               ])
@@ -127,7 +126,7 @@ class QuestionnaireGenerator
 
   def self.generate_checkbox(question)
     safe_join([
-                content_tag(:p, question[:title], class: 'flow-text'),
+                content_tag(:p, question[:title].html_safe, class: 'flow-text'),
                 checkbox_options(question),
                 checkbox_otherwise(question)
               ])
@@ -177,7 +176,7 @@ class QuestionnaireGenerator
 
   def self.generate_range(question)
     safe_join([
-                content_tag(:p, question[:title], class: 'flow-text'),
+                content_tag(:p, question[:title].html_safe, class: 'flow-text'),
                 range_slider(question),
                 range_labels(question)
               ])

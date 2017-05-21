@@ -39,11 +39,15 @@ class QuestionnaireGenerator
                         raise 'Unknown question type'
                       end
       question_body = content_tag(:div, question_body, class: 'col s12')
-      body << section_start(question[:section_start]) unless question[:section_start].blank?
-      body << content_tag(:div, question_body, class: 'row section')
-      body << section_end(question[:section_end]) unless question[:section_end].blank?
+      body = questionnaire_questions_add_question_section(body, question_body, question)
     end
     safe_join(body)
+  end
+
+  def self.questionnaire_questions_add_question_section(body, question_body, question)
+    body << section_start(question[:section_start]) unless question[:section_start].blank?
+    body << content_tag(:div, question_body, class: 'row section')
+    body << section_end(question[:section_end]) unless question[:section_end].blank?
   end
 
   def self.section_start(section_title)
@@ -196,18 +200,23 @@ class QuestionnaireGenerator
   end
 
   def self.range_slider(question)
-    range_min = 0
-    range_max = 100
-    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
-    range_max = [range_min+1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
+    minmax = range_slider_minmax(question)
     range_body = tag(:input,
                      type: 'range',
                      id: idify(question[:id]),
-                     min: range_min.to_s,
-                     max: range_max.to_s,
+                     min: minmax[:min].to_s,
+                     max: minmax[:max].to_s,
                      required: true)
     range_body = content_tag(:p, range_body, class: 'range-field')
     range_body
+  end
+
+  def self.range_slider_minmax(question)
+    range_min = 0
+    range_max = 100
+    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
+    range_max = [range_min + 1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
+    { min: range_min, max: range_max }
   end
 
   def self.range_labels(question)

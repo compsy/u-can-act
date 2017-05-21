@@ -51,7 +51,7 @@ class QuestionnaireGenerator
   end
 
   def self.section_end(_unused_arg)
-    "<div class=\"row\"><div class=\"col s12\"><div class=\"divider\"></div></div></div>".html_safe
+    '<div class="row"><div class="col s12"><div class="divider"></div></div></div>'.html_safe
   end
 
   def self.submit_button
@@ -196,11 +196,15 @@ class QuestionnaireGenerator
   end
 
   def self.range_slider(question)
+    range_min = 0
+    range_max = 100
+    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
+    range_max = [range_min+1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
     range_body = tag(:input,
                      type: 'range',
                      id: idify(question[:id]),
-                     min: '0',
-                     max: '100',
+                     min: range_min.to_s,
+                     max: range_max.to_s,
                      required: true)
     range_body = content_tag(:p, range_body, class: 'range-field')
     range_body

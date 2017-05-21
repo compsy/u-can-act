@@ -48,6 +48,7 @@ class QuestionnaireGenerator
     body << section_start(question[:section_start]) unless question[:section_start].blank?
     body << content_tag(:div, question_body, class: 'row section')
     body << section_end(question[:section_end]) unless question[:section_end].blank?
+    body
   end
 
   def self.section_start(section_title)

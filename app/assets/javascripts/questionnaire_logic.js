@@ -1,8 +1,10 @@
 function toggle_otherwise_field() {
-  if ($(this).closest('.otherwise-textfield').find('.otherwise-option').is(':checked')) {
-    $(this).closest('.otherwise-textfield').find("input[type=text].otherwise").prop('disabled', false).focus();
+  if ($(this).closest('.row').find('.otherwise-option').is(':checked')) {
+    if ($(this).closest('.row').find("input[type=text].otherwise").prop('disabled')) {
+      $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', false).focus();
+    }
   } else {
-    $(this).closest('.otherwise-textfield').find("input[type=text].otherwise").prop('disabled', true);
+    $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', true);
   }
 }
 

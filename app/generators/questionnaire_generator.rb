@@ -126,7 +126,7 @@ class QuestionnaireGenerator
   def self.radio_otherwise_option(question)
     safe_join([
                 tag(:input,
-                    name: idify(question[:id]),
+                    name: answer_name(idify(question[:id])),
                     type: 'radio',
                     id: idify(question[:id], OTHERWISE_TEXT),
                     value: OTHERWISE_TEXT,

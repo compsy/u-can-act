@@ -15,7 +15,6 @@ class QuestionnaireGenerator
                        questionnaire_questions(questionnaire),
                        submit_button
                      ])
-    # TODO: Add action, method, etc. to form
     body = content_tag(:form, body, action: '/', class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
     body
   end
@@ -95,17 +94,18 @@ class QuestionnaireGenerator
   def self.radio_options(question)
     body = []
     question[:options].each do |option|
+      name = idify(question[:id], option)
       option_body = safe_join([
                                 tag(:input,
                                     name: answer_name(idify(question[:id])),
                                     type: 'radio',
-                                    id: idify(question[:id], option),
+                                    id: name,
                                     value: option,
                                     required: true,
                                     class: 'validate'),
                                 content_tag(:label,
                                             option,
-                                            for: idify(question[:id], option),
+                                            for: name,
                                             class: 'flow-text')
                               ])
       option_body = content_tag(:p, option_body)
@@ -168,15 +168,16 @@ class QuestionnaireGenerator
   def self.checkbox_options(question)
     body = []
     question[:options].each do |option|
+      name = idify(question[:id], option)
       option_body = safe_join([
                                 tag(:input,
                                     type: 'checkbox',
-                                    id: idify(question[:id], option),
-                                    name: answer_name(idify(question[:id], option)),
+                                    id: name,
+                                    name: answer_name(name),
                                     value: true),
                                 content_tag(:label,
                                             option,
-                                            for: idify(question[:id], option),
+                                            for: name,
                                             class: 'flow-text')
                               ])
       option_body = content_tag(:p, option_body)

@@ -63,7 +63,8 @@ class QuestionnaireController < ApplicationController
 
   def check_invitation_token(invitation_token)
     render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless invitation_token
-    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if invitation_token.response.completed_at
+    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if
+      invitation_token.response.completed_at
     render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if invitation_token.response.expired?
   end
 

@@ -7,14 +7,16 @@ class QuestionnaireGenerator
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
   SUBMIT_BUTTON_TEXT = 'Opslaan'
 
-  def self.generate_questionnaire(questionnaire)
+  def self.generate_questionnaire(response, authenticity_token)
+    questionnaire = response.measurement.questionnaire
     body = safe_join([
                        questionnaire_header(questionnaire),
+                       questionnaire_hidden_fields(response, authenticity_token),
                        questionnaire_questions(questionnaire),
                        submit_button
                      ])
     # TODO: Add action, method, etc. to form
-    body = content_tag(:form, body, class: 'col s12')
+    body = content_tag(:form, body, action: '/', class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
     body
   end
 
@@ -23,6 +25,14 @@ class QuestionnaireGenerator
     header_body = content_tag(:div, header_body, class: 'col s12')
     header_body = content_tag(:div, header_body, class: 'row')
     header_body
+  end
+
+  def self.questionnaire_hidden_fields(response, authenticity_token)
+    hidden_body = []
+    hidden_body << tag(:input, name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
+    hidden_body << tag(:input, name: 'authenticity_token', type: 'hidden', value: authenticity_token)
+    hidden_body << tag(:input, name: 'response_id', type: 'hidden', value: response.id)
+    safe_join(hidden_body)
   end
 
   def self.questionnaire_questions(questionnaire)
@@ -69,6 +79,10 @@ class QuestionnaireGenerator
     submit_body
   end
 
+  def self.answer_name(name)
+    "content[#{name}]"
+  end
+
   def self.generate_radio(question)
     # TODO: Add radio button validation error message
     safe_join([
@@ -83,7 +97,7 @@ class QuestionnaireGenerator
     question[:options].each do |option|
       option_body = safe_join([
                                 tag(:input,
-                                    name: idify(question[:id]),
+                                    name: answer_name(idify(question[:id])),
                                     type: 'radio',
                                     id: idify(question[:id], option),
                                     value: option,
@@ -130,6 +144,7 @@ class QuestionnaireGenerator
     option_field = safe_join([
                                tag(:input,
                                    id: idify(question[:id], OTHERWISE_TEXT, 'text'),
+                                   name: answer_name(idify(question[:id], OTHERWISE_TEXT, 'text')),
                                    type: 'text',
                                    disabled: true,
                                    required: true,
@@ -157,7 +172,8 @@ class QuestionnaireGenerator
                                 tag(:input,
                                     type: 'checkbox',
                                     id: idify(question[:id], option),
-                                    value: option),
+                                    name: answer_name(idify(question[:id], option)),
+                                    value: true),
                                 content_tag(:label,
                                             option,
                                             for: idify(question[:id], option),
@@ -183,7 +199,8 @@ class QuestionnaireGenerator
                 tag(:input,
                     type: 'checkbox',
                     id: idify(question[:id], OTHERWISE_TEXT),
-                    value: OTHERWISE_TEXT,
+                    name: answer_name(idify(question[:id], OTHERWISE_TEXT)),
+                    value: true,
                     class: 'otherwise-option'),
                 content_tag(:label,
                             OTHERWISE_TEXT,
@@ -205,6 +222,7 @@ class QuestionnaireGenerator
     range_body = tag(:input,
                      type: 'range',
                      id: idify(question[:id]),
+                     name: answer_name(idify(question[:id])),
                      min: minmax[:min].to_s,
                      max: minmax[:max].to_s,
                      required: true)

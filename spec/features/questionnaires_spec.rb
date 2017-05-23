@@ -41,10 +41,10 @@ describe 'GET and POST /', type: :feature, js: true do
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil
-    expect(responseobj.values).to eq({ 'v1' => 'slecht',
-                                       'v2_brood' => 'true',
-                                       'v2_kaas_en_ham' => 'true',
-                                       'v3' => '57'})
+    expect(responseobj.values).to eq('v1' => 'slecht',
+                                     'v2_brood' => 'true',
+                                     'v2_kaas_en_ham' => 'true',
+                                     'v3' => '57')
   end
   it 'should store the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
@@ -66,11 +66,11 @@ describe 'GET and POST /', type: :feature, js: true do
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil
-    expect(responseobj.values).to eq({ 'v1' => 'Anders, namelijk:',
-                                       'v1_anders_namelijk_text' => 'of niet soms',
-                                       'v2_anders_namelijk' => 'true',
-                                       'v2_anders_namelijk_text' => 'dit is een waarde',
-                                       'v3' => '50'})
+    expect(responseobj.values).to eq('v1' => 'Anders, namelijk:',
+                                     'v1_anders_namelijk_text' => 'of niet soms',
+                                     'v2_anders_namelijk' => 'true',
+                                     'v2_anders_namelijk_text' => 'dit is een waarde',
+                                     'v3' => '50')
   end
   it 'should require radio buttons to be filled out' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)

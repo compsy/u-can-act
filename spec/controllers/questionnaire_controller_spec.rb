@@ -73,7 +73,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).to_not be_nil
-      expect(responseobj.values).to eq({ 'v1' => 'true' })
+      expect(responseobj.values).to eq('v1' => 'true')
     end
   end
 end

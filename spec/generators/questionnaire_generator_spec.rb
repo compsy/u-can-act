@@ -16,5 +16,17 @@ describe QuestionnaireGenerator do
       expect(result).to include('authenticity_token')
       expect(result).to include('<form')
     end
+    it 'should raise an error when given a question of unknown type' do
+      questionnaire_content = [{
+        section_start: 'Algemeen',
+        id: :v1,
+        type: :asdf,
+        title: 'Hoe voelt u zich vandaag?',
+        options: %w[slecht goed]
+      }]
+      questionnaire = FactoryGirl.create(:questionnaire, content: questionnaire_content)
+      expect { described_class.send(:questionnaire_questions, questionnaire) }.to raise_error(RuntimeError,
+                                                                                              'Unknown question type')
+    end
   end
 end

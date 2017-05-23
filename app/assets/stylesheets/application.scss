@@ -10,8 +10,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- * require_tree .
  *= require_self
+ *= require_tree .
  */
 //@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
@@ -25,4 +25,3 @@ $range-height: 35px;
 $range-width: 35px;
 
 @import "materialize";
-@import "questionnaire";

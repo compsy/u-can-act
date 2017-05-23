@@ -23,7 +23,7 @@ class Response < ApplicationRecord
   })
 
   def remote_content
-    ResponseContent.find(content)
+    ResponseContent.find(content) if content.present?
   end
 
   def values

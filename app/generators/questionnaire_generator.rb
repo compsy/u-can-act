@@ -19,6 +19,8 @@ class QuestionnaireGenerator
     body
   end
 
+  private
+
   def self.questionnaire_header(questionnaire)
     header_body = content_tag(:h4, questionnaire.name, class: 'header')
     header_body = content_tag(:div, header_body, class: 'col s12')

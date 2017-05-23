@@ -16,6 +16,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.opened_at).to be_within(1.minute).of(Time.zone.now)
     expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to have_content('Algemeen')
     # v1
     expect(page).to have_content('Hoe voelt u zich vandaag?')
     expect(page).to have_content('slecht')

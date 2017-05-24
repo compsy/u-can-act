@@ -14,6 +14,10 @@ class Person < ApplicationRecord
     protocol_subscriptions.map(&:reward_points).reduce(0, :+)
   end
 
+  def possible_reward_points
+    protocol_subscriptions.map(&:possible_reward_points).reduce(0, :+)
+  end
+
   def max_reward_points
     protocol_subscriptions.map(&:max_reward_points).reduce(0, :+)
   end

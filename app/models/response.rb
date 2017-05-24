@@ -24,6 +24,14 @@ class Response < ApplicationRecord
   scope :completed, (-> { where.not(completed_at: nil) })
   scope :invite_sent, (-> { where(invited_state: SENT_STATE) })
 
+  def remote_content
+    ResponseContent.find(content) if content.present?
+  end
+
+  def values
+    remote_content&.content
+  end
+
   def expired?
     response_expired? || protocol_subscription.ended?
   end

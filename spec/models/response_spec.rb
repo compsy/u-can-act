@@ -81,6 +81,30 @@ describe Response do
     end
   end
 
+  describe 'remote_content' do
+    it 'should work when there is content' do
+      response = FactoryGirl.create(:response, :completed)
+      expect(response.remote_content).to_not be_nil
+      expect(response.remote_content).to eq ResponseContent.find(response.content)
+    end
+    it 'should return nil when there is no content' do
+      response = FactoryGirl.create(:response)
+      expect(response.remote_content).to be_nil
+    end
+  end
+
+  describe 'values' do
+    it 'should work when there is content' do
+      response = FactoryGirl.create(:response, :completed)
+      expect(response.values).to_not be_nil
+      expect(response.values).to eq ResponseContent.find(response.content).content
+    end
+    it 'should return nil when there is no content' do
+      response = FactoryGirl.create(:response)
+      expect(response.values).to be_nil
+    end
+  end
+
   describe 'expired?' do
     it 'should return true if the response is no longer open' do
       response = FactoryGirl.create(:response, open_from: 3.hours.ago)

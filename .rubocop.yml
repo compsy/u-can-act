@@ -25,7 +25,7 @@ MethodLength:
   CountComments: false  # count full line comments?
   Max: 20
 
-# Limit modules to have a length of 200
+# Limit modules to have a length of 255
 Metrics/ModuleLength:
   Max: 255
   Exclude:
@@ -35,12 +35,12 @@ Metrics/ModuleLength:
 # Namespaces in rake tasks do too
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*'  
+    - 'spec/**/*'
     - '**/*.rake'
 
-# Limit classes to have a length of 200
+# Limit classes to have a length of 255
 Metrics/ClassLength:
-  Max: 200
+  Max: 255
 
 Metrics/AbcSize:
   Exclude:

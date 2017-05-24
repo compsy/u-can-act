@@ -5,7 +5,10 @@ require 'rails_helper'
 describe 'GET and POST /', type: :feature, js: true do
   it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil
     expect(responseobj.content).to be_nil
@@ -49,7 +52,10 @@ describe 'GET and POST /', type: :feature, js: true do
   end
   it 'should store the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     expect(page).to have_http_status(200)
@@ -75,7 +81,10 @@ describe 'GET and POST /', type: :feature, js: true do
   end
   it 'should require radio buttons to be filled out' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     expect(page).to have_http_status(200)

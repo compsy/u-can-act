@@ -113,7 +113,7 @@ end
 # JS / CSS Frameworks
 # gem 'highcharts-rails'
 gem 'materialize-sass'
-# gem 'modernizr-rails'
+gem 'modernizr-rails'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'

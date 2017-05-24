@@ -5,6 +5,7 @@ FactoryGirl.define do
   factory :questionnaire do
     name { generate(:questionnaire_name) }
     content [{
+      section_start: 'Algemeen',
       id: :v1,
       type: :radio,
       title: 'Hoe voelt u zich vandaag?',
@@ -18,7 +19,8 @@ FactoryGirl.define do
       id: :v3,
       type: :range,
       title: 'Hoe gaat het met u?',
-      labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+      labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
+      section_end: true
     }]
   end
 end

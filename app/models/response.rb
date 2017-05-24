@@ -22,6 +22,14 @@ class Response < ApplicationRecord
     )
   })
 
+  def remote_content
+    ResponseContent.find(content) if content.present?
+  end
+
+  def values
+    remote_content&.content
+  end
+
   def expired?
     response_expired? || protocol_subscription.ended?
   end

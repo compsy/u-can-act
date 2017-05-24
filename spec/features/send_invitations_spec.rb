@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'sending invitations' do
+describe 'sending invitations', type: :feature do
   let!(:some_response) do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
     FactoryGirl.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)

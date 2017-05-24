@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe RewardHelper, focus: true do
+describe RewardHelper do
   describe 'as_percentage' do
     it 'should return the percentage of two numbers' do
       result = helper.as_percentage(2, 5)

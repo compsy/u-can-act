@@ -15,7 +15,7 @@ class QuestionnaireController < ApplicationController
     @response.content = response_content.id
     @response.completed_at = Time.zone.now
     @response.save!
-    render(status: 200, plain: 'Success')
+    redirect_to klaar_path
   end
 
   private

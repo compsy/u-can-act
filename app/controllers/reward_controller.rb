@@ -22,5 +22,6 @@ class RewardController < ApplicationController
 
   def set_protocol_subscription
     @protocol_subscription = Response.find_by_id(cookies.signed[:response_id]).protocol_subscription
+    @reward_delta = Response.find_by_id(cookies.signed[:response_id]).measurement.reward_points
   end
 end

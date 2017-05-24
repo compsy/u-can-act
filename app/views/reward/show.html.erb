@@ -1,11 +1,46 @@
+<%
+  reward_points = @protocol_subscription.reward_points
+  possible_reward_points = @protocol_subscription.possible_reward_points
+  max_reward_points = @protocol_subscription.max_reward_points
+  progress_perc = as_percentage(possible_reward_points, max_reward_points)
+  filled_in_perc = as_percentage(reward_points, possible_reward_points)
+%>
 <div class="col s12">
-  <p class="flow-text">
-    current reward points: <%= @protocol_subscription.reward_points %>
-  </p>
-  <p class="flow-text">
-    possible reward points: <%= @protocol_subscription.possible_reward_points %>
-  </p>
-  <p class="flow-text">
-    max reward points: <%= @protocol_subscription.max_reward_points %>
-  </p>
+  <div class="row">
+    <div class="col s12">
+      <h4>Bedankt voor het invullen van de vragenlijst!</h4>
+    </div>
+  </div>
+  <div class="section">
+    <p class="flow-text">
+      Je hebt hiermee <%= @reward_delta %> punten verdiend. Je hebt nu in totaal <strong><%= reward_points %></strong> punten.
+    </p>
+  </div>
+  <div class="section">
+    <p class="flow-text">
+      Ingevulde metingen
+    </p>
+    <div class="progress">
+      <div class="determinate" style="width: <%= filled_in_perc %>%"></div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        Je hebt <%= filled_in_perc %>% van de vragenlijsten tot nu toe ingevuld.
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <p class="flow-text">
+      Voortgang van het onderzoek
+    </p>
+    <div class="progress">
+      <div class="determinate" style="width: <%= progress_perc %>%"></div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        Het onderzoek is voor <%= progress_perc %>% voltooid. Er zijn nog <%= max_reward_points - reward_points %>
+        punten te verdienen.
+      </div>
+    </div>
+  </div>
 </div>

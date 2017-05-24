@@ -64,11 +64,17 @@ class QuestionnaireGenerator
     end
 
     def section_start(section_title)
-      "<div class=\"extra-spacing row\"><div class=\"col s12\"><h5>#{section_title}</h5></div></div>".html_safe
+      body = content_tag(:h5, section_title)
+      body = content_tag(:div, body, class: 'col s12')
+      body = content_tag(:div, body, class: 'extra-spacing row')
+      body
     end
 
     def section_end(_unused_arg)
-      '<div class="row"><div class="col s12"><div class="divider"></div></div></div>'.html_safe
+      body = content_tag(:div, nil, class: 'divider')
+      body = content_tag(:div, body, class: 'col s12')
+      body = content_tag(:div, body, class: 'row')
+      body
     end
 
     def submit_button

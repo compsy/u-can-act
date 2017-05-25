@@ -261,6 +261,8 @@ GEM
     slop (3.6.0)
     spring (2.0.2)
       activesupport (>= 4.2)
+    spring-commands-rspec (1.0.4)
+      spring (>= 0.9.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
@@ -338,6 +340,7 @@ DEPENDENCIES
   sass-rails
   simplecov
   spring
+  spring-commands-rspec
   spring-watcher-listen
   therubyracer
   timecop
@@ -350,4 +353,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.6
+   1.15.0

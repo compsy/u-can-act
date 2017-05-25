@@ -11,6 +11,7 @@ class ProtocolSubscription < ApplicationRecord
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true, start_of_day: true
+  validates :informed_consent_given, inclusion: { in: [true, false] } # stays false if protocol has no informed consent
   has_many :responses, dependent: :destroy
   after_create :schedule_responses
 

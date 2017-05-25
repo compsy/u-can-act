@@ -176,6 +176,21 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'informed_consent_given' do
+    it 'should be false by default' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription.informed_consent_given).to be_falsey
+      expect(protocol_subscription.informed_consent_given?).to be_falsey
+    end
+    it 'should be able to be true' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, informed_consent_given: true)
+      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription.informed_consent_given).to be_truthy
+      expect(protocol_subscription.informed_consent_given?).to be_truthy
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)

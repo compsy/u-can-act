@@ -15,26 +15,27 @@ end
 if Rails.env.development? || Rails.env.staging?
   protocol = Protocol.find_by_name('Mentorpilot - 1 keer per week')
   person = Mentor.first
-  student = Student.first
+  students = Student.all[0..-2]
 
-  prot_sub = ProtocolSubscription.create!(
-    protocol: protocol,
-    person: person,
-    filling_out_for: student,
-    state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: Time.zone.now.change(hour:0, minute:0, second:0)
-  )
+  students.each do |student|
+    prot_sub = ProtocolSubscription.create!(
+      protocol: protocol,
+      person: person,
+      filling_out_for: student,
+      state: ProtocolSubscription::ACTIVE_STATE,
+      start_date: Time.zone.now.change(hour:0, minute:0, second:0)
+    )
 
-  dagboekvragenlijst = Questionnaire.find_by_name('Dagboekvragenlijst Mentoren')
-  measurement = dagboekvragenlijst.measurements.first
-  responseobj = Response.create!(
-    protocol_subscription: prot_sub,
-    measurement: measurement,
-    open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
-  
+    dagboekvragenlijst = Questionnaire.find_by_name('Dagboekvragenlijst Mentoren')
+    measurement = dagboekvragenlijst.measurements.first
+    responseobj = Response.create!(
+      protocol_subscription: prot_sub,
+      measurement: measurement,
+      open_from: 1.minute.ago,
+      invited_state: Response::SENT_STATE)
+    responseobj.initialize_invitation_token!
+    puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  end
 end
 
 puts 'Seeds loaded!'

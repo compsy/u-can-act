@@ -2,11 +2,15 @@
 
 class QuestionnaireController < ApplicationController
   before_action :set_response, only: [:show]
+  before_action :set_cookie, only: [:show]
   before_action :verify_response_id, only: [:create]
   before_action :set_create_response, only: [:create]
 
   def show
     #render json: @response.measurement.questionnaire.to_json
+    @content = QuestionnaireGenerator.generate_questionnaire(@response,
+                                                  form_authenticity_token(form_options: { action: '/',
+                                                                                          method: 'post' }))
   end
 
   def create
@@ -20,7 +24,7 @@ class QuestionnaireController < ApplicationController
   private
 
   def verify_response_id
-    return if cookies.signed[:response_id] && cookies.signed[:response_id] == questionnaire_create_params[:response_id]
+    return if CookieJar.verify_param(cookies.signed, {response_id: questionnaire_create_params[:response_id]})
     render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.')
   end
 
@@ -52,6 +56,11 @@ class QuestionnaireController < ApplicationController
     check_invitation_token(invitation_token)
     return if performed?
     @response = invitation_token.response
+  end
+
+  def set_cookie
+    cookie = { response_id: @response.id.to_s, }
+    CookieJar.set_or_update_cookie(cookies.signed, cookie)
   end
 
   def set_create_response

@@ -24,7 +24,7 @@ class Response < ApplicationRecord
 
   # Moet hier nog een check komen voor expired? 
   scope :open, (lambda {
-    where( 'open_from <= :time_now', time_now: Time.zone.now)
+    where( 'open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
 
   def remote_content

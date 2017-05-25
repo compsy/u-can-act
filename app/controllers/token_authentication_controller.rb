@@ -1,7 +1,6 @@
 class TokenAuthenticationController < ApplicationController
   before_action :set_response, only: [:show]
   before_action :set_cookie, only: [:show]
-  COOKIE_LOCATION = :response_id
 
   def show
     @response.opened_at = Time.zone.now
@@ -29,11 +28,11 @@ class TokenAuthenticationController < ApplicationController
 
   def set_cookie
     cookie = {
-      'person_id' =>  @response.protocol_subscription.person.id.to_s,
-      'response_id' =>  @response.id.to_s,
-      'type' =>  @response.protocol_subscription.person.type.to_s
-    }.to_json
-    cookies.signed[COOKIE_LOCATION] = cookie
+      person_id: @response.protocol_subscription.person.id.to_s,
+      response_id: @response.id.to_s,
+      type: @response.protocol_subscription.person.type.to_s
+    }
+    CookieJar.set_or_update_cookie(cookies.signed, cookie)
   end
 
   def check_invitation_token(invitation_token)

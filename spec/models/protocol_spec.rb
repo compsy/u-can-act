@@ -69,6 +69,60 @@ describe Protocol do
     end
   end
 
+  describe 'informed_consent_questionnaire' do
+    it 'should be able to set an informed consent questionnaire' do
+      questionnaire = FactoryGirl.create(:questionnaire)
+      protocol = FactoryGirl.create(:protocol, informed_consent_questionnaire: questionnaire)
+      questionnaire.reload
+      expect(questionnaire.valid?).to be_truthy
+      expect(protocol.valid?).to be_truthy
+      expect(protocol.informed_consent_questionnaire).to eq questionnaire
+      expect(protocol.informed_consent_questionnaire_id).to eq questionnaire.id
+      expect(questionnaire.informed_consent_protocols.count).to eq 1
+      expect(questionnaire.informed_consent_protocols.first).to eq protocol
+      expect(questionnaire.informed_consent_protocols.first.id).to eq protocol.id
+    end
+    it 'should not have an informed consent questionnaire by default and still be valid' do
+      protocol = FactoryGirl.create(:protocol)
+      expect(protocol.valid?).to be_truthy
+      expect(protocol.informed_consent_questionnaire).to be_nil
+      expect(protocol.informed_consent_questionnaire_id).to be_nil
+    end
+    it 'should nullify the attribute when deleting the informed consent questionnaire' do
+      questionnaire = FactoryGirl.create(:questionnaire)
+      protocol_id = FactoryGirl.create(:protocol, informed_consent_questionnaire: questionnaire).id
+      protocol = Protocol.find_by_id(protocol_id)
+      expect(protocol).not_to be_nil
+      expect(protocol.informed_consent_questionnaire).to eq questionnaire
+      expect(protocol.informed_consent_questionnaire_id).to eq questionnaire.id
+      questionnairecountbef = Questionnaire.count
+      protocolcountbef = Protocol.count
+      questionnaire.destroy!
+      expect(Questionnaire.count).to eq(questionnairecountbef-1)
+      expect(Protocol.count).to eq protocolcountbef
+      protocol = Protocol.find_by_id(protocol_id)
+      expect(protocol).not_to be_nil
+      expect(protocol.informed_consent_questionnaire).to be_nil
+      expect(protocol.informed_consent_questionnaire_id).to be_nil
+    end
+    it 'should no longer return the protocol once it has been destroyed' do
+      questionnaire = FactoryGirl.create(:questionnaire)
+      questionnaire_id = questionnaire.id
+      protocol = FactoryGirl.create(:protocol, informed_consent_questionnaire: questionnaire)
+      questionnaire = Questionnaire.find_by_id(questionnaire_id)
+      expect(questionnaire).not_to be_nil
+      expect(questionnaire.informed_consent_protocols.count).to eq 1
+      questionnairecountbef = Questionnaire.count
+      protocolcountbef = Protocol.count
+      protocol.destroy!
+      expect(Questionnaire.count).to eq questionnairecountbef
+      expect(Protocol.count).to eq(protocolcountbef-1)
+      questionnaire = Questionnaire.find_by_id(questionnaire_id)
+      expect(questionnaire).not_to be_nil
+      expect(questionnaire.informed_consent_protocols.count).to eq 0
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       protocol = FactoryGirl.create(:protocol)

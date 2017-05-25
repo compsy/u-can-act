@@ -71,6 +71,17 @@ describe Questionnaire do
     end
   end
 
+  describe 'informed_consent_protocols' do
+    it 'should be able to create an informed_consent_protocol' do
+      questionnaire = FactoryGirl.create(:questionnaire)
+      expect(questionnaire.informed_consent_protocols.count).to eq 0
+      protocol = FactoryGirl.create(:protocol, informed_consent_questionnaire: questionnaire)
+      questionnaire.reload
+      expect(questionnaire.informed_consent_protocols.count).to eq 1
+      expect(questionnaire.informed_consent_protocols.first).to eq protocol
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       questionnaire = FactoryGirl.create(:questionnaire)

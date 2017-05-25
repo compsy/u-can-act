@@ -6,13 +6,17 @@ class ProtocolSubscription < ApplicationRecord
   CANCELED_STATE = 'canceled'
   COMPLETED_STATE = 'completed'
   belongs_to :person
+  belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id'
   validates :person_id, presence: true
+  validates :filling_out_for_id, presence: true
   belongs_to :protocol
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true, start_of_day: true
   has_many :responses, dependent: :destroy
   after_create :schedule_responses
+  after_initialize :initialize_filling_out_for
+
 
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
@@ -25,6 +29,10 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   private
+
+  def initialize_filling_out_for
+    self.filling_out_for ||= person
+  end
 
   def schedule_responses
     prot_sub_end = TimeTools.increase_by_duration(start_date, protocol.duration)

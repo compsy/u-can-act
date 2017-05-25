@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class QuestionnaireController < ApplicationController
+  before_action :set_response, only: [:show]
   before_action :verify_response_id, only: [:create]
   before_action :set_create_response, only: [:create]
 
   def show
+    #render json: @response.measurement.questionnaire.to_json
   end
 
   def create
@@ -28,6 +30,10 @@ class QuestionnaireController < ApplicationController
     params.permit(:response_id, content: permit_recursive_params(params[:content].to_unsafe_h))
   end
 
+  def questionnaire_params
+    params.permit(:q)
+  end
+
   def permit_recursive_params(params)
     # TODO: remove this function in rails 5.1 (which is already out, but not supported by delayed_job_active_record)
     params.map do |key, value|
@@ -41,6 +47,13 @@ class QuestionnaireController < ApplicationController
     end
   end
 
+  def set_response
+    invitation_token = InvitationToken.find_by_token(questionnaire_params[:q])
+    check_invitation_token(invitation_token)
+    return if performed?
+    @response = invitation_token.response
+  end
+
   def set_create_response
     @response = Response.find_by_id(questionnaire_create_params[:response_id])
     check_response(@response)
@@ -50,5 +63,12 @@ class QuestionnaireController < ApplicationController
     render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless response
     render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if response.completed_at
     render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if response.expired?
+  end
+
+  def check_invitation_token(invitation_token)
+    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless invitation_token
+    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if
+      invitation_token.response.completed_at
+    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if invitation_token.response.expired?
   end
 end

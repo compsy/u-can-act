@@ -1,2 +1,13 @@
-<h1>MentorOverview#show</h1>
-<p>Find me in app/views/mentor_overview/show.html.erb</p>
+<h1>Mentor overzicht</h1>
+<div class="collection">
+  <% @student_protocol_subscriptions.each do |protocol_subscription| %>
+    <% student = protocol_subscription.filling_out_for %>
+    <span><%="#{student.first_name} #{student.last_name}"%></span>
+    <% protocol_subscription.responses.open.each do |response| %>
+      <%= link_to('Vragenlijst',
+                  questionnaire_path(q: response.invitation_token.token),
+                  class: 'collection-item') %>
+      <% end %>
+    <% end %>
+</div>
+

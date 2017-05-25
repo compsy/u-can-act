@@ -98,7 +98,7 @@ describe Protocol do
       questionnairecountbef = Questionnaire.count
       protocolcountbef = Protocol.count
       questionnaire.destroy!
-      expect(Questionnaire.count).to eq(questionnairecountbef-1)
+      expect(Questionnaire.count).to eq(questionnairecountbef - 1)
       expect(Protocol.count).to eq protocolcountbef
       protocol = Protocol.find_by_id(protocol_id)
       expect(protocol).not_to be_nil
@@ -116,7 +116,7 @@ describe Protocol do
       protocolcountbef = Protocol.count
       protocol.destroy!
       expect(Questionnaire.count).to eq questionnairecountbef
-      expect(Protocol.count).to eq(protocolcountbef-1)
+      expect(Protocol.count).to eq(protocolcountbef - 1)
       questionnaire = Questionnaire.find_by_id(questionnaire_id)
       expect(questionnaire).not_to be_nil
       expect(questionnaire.informed_consent_protocols.count).to eq 0

@@ -6,3 +6,4 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   Mentor.create(first_name: 'Men', last_name: 'Tor', mobile_phone: '0622222222')
   puts 'Generating people - Finished'
 end
+

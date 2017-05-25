@@ -126,6 +126,26 @@ dagboek_content = [{
 dagboekvragenlijst.content = dagboek_content
 dagboekvragenlijst.save!
 
+
+mentor_dagboekvragenlijst = Questionnaire.find_by_name('Dagboekvragenlijst Mentoren')
+mentor_dagboekvragenlijst ||= Questionnaire.new(name: 'Dagboekvragenlijst Mentoren')
+mentor_dagboek_content = [{
+                     section_start: 'Mentor',
+                     id: :v1,
+                     type: :range,
+                     title: 'Are you a mentor?',
+                     labels: ['yes', 'no']
+                   }, {
+                     id: :v2,
+                     type: :range,
+                     title: 'Heeft je begeleider je goed geholpen deze week?',
+                     labels: ['Niet goed geholpen', 'Heel goed geholpen'],
+                     section_end: true
+                   }]
+mentor_dagboekvragenlijst.content = mentor_dagboek_content
+mentor_dagboekvragenlijst.save!
+
+
 voormeting = Questionnaire.find_by_name('Voormeting Studenten')
 voormeting ||= Questionnaire.new(name: 'Voormeting Studenten')
 voormeting.content = [{

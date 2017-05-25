@@ -273,4 +273,4 @@ class QuestionnaireGenerator
       strs.map { |x| x.to_s.parameterize.underscore }.join('_')
     end
   end
-  end
+end

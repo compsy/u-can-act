@@ -40,7 +40,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                    start_date: 1.week.ago.at_beginning_of_day,
                                                    person: person)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                    open_from: 1.hour.ago)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
         get :show, params: { q: invitation_token.token }
         expect(response).to have_http_status(302)
@@ -54,7 +55,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                    start_date: 1.week.ago.at_beginning_of_day,
                                                    person: person)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                    open_from: 1.hour.ago)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
         get :show, params: { q: invitation_token.token }
         expect(response).to have_http_status(302)
@@ -70,7 +72,10 @@ RSpec.describe TokenAuthenticationController, type: :controller do
                            start_date: 1.week.ago.at_beginning_of_day,
                            person: person)
       end
-      let(:responseobj) { FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago) }
+      let(:responseobj) do
+        FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                      open_from: 1.hour.ago)
+      end
       let(:invitation_token) { FactoryGirl.create(:invitation_token, response: responseobj) }
 
       it 'should set the response id cookie' do
@@ -79,7 +84,9 @@ RSpec.describe TokenAuthenticationController, type: :controller do
           response_id: responseobj.id.to_s,
           type: person.type.to_s
         }
-        expect(CookieJar).to receive(:set_or_update_cookie).with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)
+        expect(CookieJar)
+          .to receive(:set_or_update_cookie)
+          .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)
         get :show, params: { q: invitation_token.token }
       end
     end

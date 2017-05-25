@@ -42,7 +42,7 @@ RSpec.describe MentorOverviewController, type: :controller do
                                                    start_date: 1.week.ago.at_beginning_of_day,
                                                    person: mentor,
                                                    filling_out_for: mentor)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
         get :show, params: { q: invitation_token.token }
       end
       it 'should, given the correct token, set the @mentor' do

@@ -33,7 +33,6 @@ RSpec.describe QuestionnaireController, type: :controller do
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
       get :show, params: { q: invitation_token.token }
       expect(response).to have_http_status(200)
-      # TODO: maybe add a check for some questionnaire contents
     end
   end
   describe 'POST /' do
@@ -69,7 +68,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       expect_any_instance_of(described_class).to receive(:verify_response_id)
       FactoryGirl.create(:invitation_token, response: responseobj)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(302)
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).to_not be_nil

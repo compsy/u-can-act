@@ -4,7 +4,7 @@ class SendInvitation < ActiveInteraction::Base
   object :response
 
   def execute
-    response.create_invitation_token!
+    response.initialize_invitation_token!
     SendSms.run!(send_sms_attributes)
   end
 

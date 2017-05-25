@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'GET and POST /', type: :feature, js: true, focus: true do
+describe 'GET and POST /', type: :feature, js: true do
   it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
@@ -35,7 +35,6 @@ describe 'GET and POST /', type: :feature, js: true, focus: true do
     expect(page).to have_content('niet mee eens')
     expect(page).to have_content('beetje mee eens')
     expect(page).to have_content('helemaal mee eens')
-    puts range_select('v3', '57')
     page.click_on 'Opslaan'
     expect(page).to have_http_status(200)
     expect(page).to have_content('Success')

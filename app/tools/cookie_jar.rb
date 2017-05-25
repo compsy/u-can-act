@@ -5,20 +5,23 @@ class CookieJar
   class << self
     def verify_param(jar, response_hash)
       cookie = jar[COOKIE_LOCATION]
-      if cookie.present?
-        cookie = JSON.parse(cookie)
-        response_hash.each do |key, value|
-          valid_cookie = cookie[key.to_s] == value
-          Rails.logger.debug "Valid cookie = #{cookie[key]} #{key} #{value}" 
-          return false unless valid_cookie
-        end
+      return false if response_hash.nil? || cookie.nil?
+      cookie = JSON.parse(cookie)
+      response_hash.each do |key, value|
+        valid_cookie = cookie[key.to_s] == value
+        Rails.logger.debug "Valid cookie = #{cookie[key]} #{key} #{value}"
+        return false unless valid_cookie
       end
       true
     end
 
-    def set_or_update_cookie(jar, cookie_hash) 
+    def cookies_set?(jar)
+      jar[COOKIE_LOCATION].present?
+    end
+
+    def set_or_update_cookie(jar, cookie_hash)
       current_cookie = jar[COOKIE_LOCATION]
-      if !current_cookie.blank?
+      unless current_cookie.blank?
         current_cookie = JSON.parse(current_cookie)
         cookie_hash = current_cookie.merge(cookie_hash)
       end

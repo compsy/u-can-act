@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 class TokenAuthenticationController < ApplicationController
   before_action :set_response, only: [:show]
   before_action :set_cookie, only: [:show]
 
   def show
-    @response.opened_at = Time.zone.now
-    @response.save!
     redirect_to_questionnaire(@response.protocol_subscription.person.type, @response.invitation_token.token)
   end
 
@@ -16,6 +16,8 @@ class TokenAuthenticationController < ApplicationController
       redirect_to mentor_overview_path(q: token)
     when 'Student'
       redirect_to questionnaire_path(q: token)
+    else
+      render(status: 404, plain: 'De code die opgegeven is hoort niet bij een student of mentor')
     end
   end
 

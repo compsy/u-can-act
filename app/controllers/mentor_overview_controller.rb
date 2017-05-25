@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MentorOverviewController < ApplicationController
   before_action :set_mentor
   def show
@@ -16,6 +18,7 @@ class MentorOverviewController < ApplicationController
     check_invitation_token(invitation_token)
     return if performed?
     @mentor = invitation_token.response.protocol_subscription.person
+    @mentor = @mentor.becomes(Mentor)
   end
 
   def check_invitation_token(invitation_token)

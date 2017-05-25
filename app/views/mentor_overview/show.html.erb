@@ -1,4 +1,5 @@
-<h1>Mentor overzicht</h1>
+<h1>Mentor overzicht </h1>
+<p>Voor <i><%=@mentor.first_name%> <%=@mentor.last_name%></i></p>
 <ul class="collection">
   <% @student_protocol_subscriptions.each do |protocol_subscription| %>
     <% student = protocol_subscription.filling_out_for %>

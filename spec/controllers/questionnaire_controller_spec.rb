@@ -52,5 +52,23 @@ RSpec.describe QuestionnaireController, type: :controller do
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to eq('v1' => 'true')
     end
+
+    it 'should save the response in the database, with the correct timestamp' do
+      person_type = :student
+      person = FactoryGirl.create(person_type)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 person: person)
+      responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+
+      date = Time.zone.now
+      Timecop.freeze(date)
+      expect(responseobj.opened_at).to be_nil
+      get :show, params: { q: invitation_token.token }
+      responseobj.reload
+      expect(responseobj.opened_at).to eq(date)
+      Timecop.return
+    end
   end
 end

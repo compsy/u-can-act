@@ -17,7 +17,6 @@ class ProtocolSubscription < ApplicationRecord
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
 
-
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def active?

@@ -50,9 +50,9 @@ shared_examples_for 'a person object' do
     end
 
     it 'should have a uniqueness constraint on phone numbers' do
-      student = FactoryGirl.create(:person, :student, mobile_phone: '0611111111')
+      student = FactoryGirl.create(:student, mobile_phone: '0611111111')
       expect(student.valid?).to be_truthy
-      mentor = FactoryGirl.build(:person, :mentor, mobile_phone: '0611111111')
+      mentor = FactoryGirl.build(:mentor, mobile_phone: '0611111111')
       expect(mentor.valid?).to be_falsey
       expect(mentor.errors.messages).to have_key :mobile_phone
       expect(mentor.errors.messages[:mobile_phone]).to include('is al in gebruik')

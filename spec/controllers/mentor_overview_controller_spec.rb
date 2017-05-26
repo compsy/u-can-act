@@ -17,7 +17,7 @@ RSpec.describe MentorOverviewController, type: :controller do
       end
     end
 
-    describe 'with a correct call', focus: true do
+    describe 'with a correct call' do
       before :each do
         [mentor, student].each do |person_to_fill_out_for|
           protocol_subscription = FactoryGirl.create(:protocol_subscription,

@@ -87,13 +87,13 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
 
       it 'should render 200 if the person is a student' do
-        expect(CookieJar).to receive(:is_mentor?).and_return(false)
+        expect(CookieJar).to receive(:mentor?).and_return(false)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(200)
       end
 
       it 'should redirect to the mentor overview page if the person is a mentor' do
-        expect(CookieJar).to receive(:is_mentor?).and_return(true)
+        expect(CookieJar).to receive(:mentor?).and_return(true)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
         expect(response.location).to eq mentor_overview_index_url

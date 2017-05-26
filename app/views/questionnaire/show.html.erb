@@ -1,3 +1,7 @@
-<%= QuestionnaireGenerator.generate_questionnaire(@response,
+<%= QuestionnaireGenerator.generate_questionnaire(@response.id,
+                                                  @response.measurement.questionnaire.content,
+                                                  @response.measurement.questionnaire.name,
+                                                  'Opslaan',
+                                                  '/',
                                                   form_authenticity_token(form_options: { action: '/',
                                                                                           method: 'post' })) %>

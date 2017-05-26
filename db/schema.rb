@@ -63,13 +63,13 @@ ActiveRecord::Schema.define(version: 20170525210938) do
   end
 
   create_table "protocol_subscriptions", force: :cascade do |t|
-    t.integer  "person_id",                              null: false
-    t.integer  "protocol_id",                            null: false
-    t.string   "state",                                  null: false
-    t.datetime "start_date",                             null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.boolean  "informed_consent_given", default: false, null: false
+    t.integer  "person_id",                 null: false
+    t.integer  "protocol_id",               null: false
+    t.string   "state",                     null: false
+    t.datetime "start_date",                null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.datetime "informed_consent_given_at"
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
   end

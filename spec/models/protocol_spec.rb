@@ -82,6 +82,20 @@ describe Protocol do
       expect(questionnaire.informed_consent_protocols.first).to eq protocol
       expect(questionnaire.informed_consent_protocols.first.id).to eq protocol.id
     end
+    it 'should be able to have multiple protocols with the same informed consent questionnaire' do
+      questionnaire = FactoryGirl.create(:questionnaire)
+      protocols = FactoryGirl.create_list(:protocol, 3, informed_consent_questionnaire: questionnaire)
+      questionnaire.reload
+      expect(questionnaire.valid?).to be_truthy
+      protocols.each do |protocol|
+        expect(protocol.valid?).to be_truthy
+        expect(protocol.informed_consent_questionnaire).to eq questionnaire
+        expect(protocol.informed_consent_questionnaire_id).to eq questionnaire.id
+      end
+      expect(questionnaire.informed_consent_protocols.count).to eq 3
+      expect(questionnaire.informed_consent_protocols.first).to eq protocols.first
+      expect(questionnaire.informed_consent_protocols.first.id).to eq protocols.first.id
+    end
     it 'should not have an informed consent questionnaire by default and still be valid' do
       protocol = FactoryGirl.create(:protocol)
       expect(protocol.valid?).to be_truthy

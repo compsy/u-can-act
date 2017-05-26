@@ -52,9 +52,10 @@ class QuestionnaireController < ApplicationController
 
   def set_create_response
     @response = Response.find_by_id(questionnaire_create_params[:response_id])
+    check_response(@response)
+    return if performed?
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
-    check_response(@response)
   end
 
   def questionnaire_params

@@ -12,6 +12,9 @@ FactoryGirl.define do
       completed_at Time.new(2017, 4, 10, 9, 7, 6).in_time_zone
       invited_state Response::SENT_STATE
     end
+    trait :invite_sent do
+      invited_state Response::SENT_STATE
+    end
     trait :with_invitation_token do
       invited_state Response::SENT_STATE
       invitation_token

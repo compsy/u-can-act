@@ -87,6 +87,42 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'reward_points' do
+    it 'should accumulate the reward points for all completed protocol subscriptions' do
+      person = FactoryGirl.create(:person, :with_protocol_subscriptions)
+      FactoryGirl.create(:protocol_subscription, person: person)
+      FactoryGirl.create_list(:response, 10, :completed, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryGirl.create_list(:response, 5, :completed, protocol_subscription: person.protocol_subscriptions.second)
+      # also add some noncompleted responses. These should not be counted.
+      FactoryGirl.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
+      FactoryGirl.create_list(:response, 11, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
+      expect(person.reward_points).to eq 150
+    end
+  end
+
+  describe 'possible_reward_points' do
+    it 'should accumulate the reward points for all completed responses' do
+      person = FactoryGirl.create(:person, :with_protocol_subscriptions)
+      FactoryGirl.create(:protocol_subscription, person: person)
+      FactoryGirl.create_list(:response, 10, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryGirl.create_list(:response, 5, :invite_sent, protocol_subscription: person.protocol_subscriptions.second)
+      # also add some noninvited responses. These should not be counted.
+      FactoryGirl.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
+      expect(person.possible_reward_points).to eq 150
+    end
+  end
+
+  describe 'max_reward_points' do
+    it 'should accumulate the reward points for all responses period' do
+      person = FactoryGirl.create(:person, :with_protocol_subscriptions)
+      FactoryGirl.create(:protocol_subscription, person: person)
+      FactoryGirl.create_list(:response, 10, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryGirl.create_list(:response, 5, protocol_subscription: person.protocol_subscriptions.second)
+      FactoryGirl.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
+      expect(person.max_reward_points).to eq 220
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       person = FactoryGirl.create(:person)

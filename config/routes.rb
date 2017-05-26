@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  post '/' => 'questionnaire#create'
   post '/informed_consent' => 'questionnaire#create_informed_consent'
+  get '/klaar' => 'reward#show'
+  post '/' => 'questionnaire#create'
   root to: 'questionnaire#show'
 end

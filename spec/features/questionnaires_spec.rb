@@ -38,7 +38,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('niet mee eens')
     expect(page).to have_content('beetje mee eens')
     expect(page).to have_content('helemaal mee eens')
-    puts range_select('v3', '57')
+    range_select('v3', '57')
     page.click_on 'Opslaan'
     expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -107,7 +107,10 @@ describe 'GET and POST /', type: :feature, js: true do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                start_date: 1.week.ago.at_beginning_of_day,
                                                protocol: protocol)
-    responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil
     expect(responseobj.content).to be_nil
@@ -133,10 +136,10 @@ describe 'GET and POST /', type: :feature, js: true do
     page.check('brood', allow_label_click: true)
     page.check('kaas en ham', allow_label_click: true)
     # v3
-    puts range_select('v3', '57')
+    range_select('v3', '57')
     page.click_on 'Opslaan'
     expect(page).to have_http_status(200)
-    expect(page).to have_content('Success')
+    expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil

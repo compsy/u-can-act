@@ -6,7 +6,12 @@ describe QuestionnaireGenerator do
   describe 'generate_questionnaire' do # This is the only public method
     it 'should generate a questionnaire' do
       responseobj = FactoryGirl.create(:response)
-      result = described_class.generate_questionnaire(responseobj, 'authenticity-token')
+      result = described_class.generate_questionnaire(responseobj.id,
+                                                      responseobj.measurement.questionnaire.content,
+                                                      responseobj.measurement.questionnaire.name,
+                                                      'Opslaan',
+                                                      '/',
+                                                      'authenticity-token')
       # We already check the semantics of the questionnaire in the feature test, so just
       # check for the hidden fields here and make sure that we get a form.
       expect(result).to include('authenticity-token')
@@ -24,9 +29,10 @@ describe QuestionnaireGenerator do
         title: 'Hoe voelt u zich vandaag?',
         options: %w[slecht goed]
       }]
-      questionnaire = FactoryGirl.create(:questionnaire, content: questionnaire_content)
-      expect { described_class.send(:questionnaire_questions, questionnaire) }.to raise_error(RuntimeError,
-                                                                                              'Unknown question type')
+      expect do
+        described_class.send(:questionnaire_questions,
+                             questionnaire_content)
+      end.to raise_error(RuntimeError, 'Unknown question type')
     end
   end
 end

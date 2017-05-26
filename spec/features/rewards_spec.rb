@@ -29,7 +29,7 @@ describe 'GET /klaar', type: :feature, js: true do
     page.check('brood', allow_label_click: true)
     page.check('kaas en ham', allow_label_click: true)
     # v3
-    puts range_select('v3', '57')
+    range_select('v3', '57')
     page.click_on 'Opslaan'
     expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')

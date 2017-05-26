@@ -5,41 +5,39 @@ class QuestionnaireGenerator
 
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
-  SUBMIT_BUTTON_TEXT = 'Opslaan'
 
   class << self
-    def generate_questionnaire(response, authenticity_token)
-      questionnaire = response.measurement.questionnaire
+    def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
       body = safe_join([
-                         questionnaire_header(questionnaire),
-                         questionnaire_hidden_fields(response, authenticity_token),
-                         questionnaire_questions(questionnaire),
-                         submit_button
+                         questionnaire_header(title),
+                         questionnaire_hidden_fields(response_id, authenticity_token),
+                         questionnaire_questions(content),
+                         submit_button(submit_text)
                        ])
-      body = content_tag(:form, body, action: '/', class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
+      body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
       body
     end
 
     private
 
-    def questionnaire_header(questionnaire)
-      header_body = content_tag(:h4, questionnaire.name, class: 'header')
+    def questionnaire_header(title)
+      header_body = content_tag(:h4, title, class: 'header')
       header_body = content_tag(:div, header_body, class: 'col s12')
       header_body = content_tag(:div, header_body, class: 'row')
       header_body
     end
 
-    def questionnaire_hidden_fields(response, authenticity_token)
+    def questionnaire_hidden_fields(response_id, authenticity_token)
       hidden_body = []
       hidden_body << tag(:input, name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
       hidden_body << tag(:input, name: 'authenticity_token', type: 'hidden', value: authenticity_token)
-      hidden_body << tag(:input, name: 'response_id', type: 'hidden', value: response.id)
+      hidden_body << tag(:input, name: 'response_id', type: 'hidden', value: response_id)
       safe_join(hidden_body)
     end
 
-    def questionnaire_questions(questionnaire)
+    def questionnaire_questions(content)
       body = []
-      questionnaire.content.each do |question|
+      content.each do |question|
         question_body = case question[:type]
                         when :radio
                           generate_radio(question)
@@ -47,6 +45,8 @@ class QuestionnaireGenerator
                           generate_checkbox(question)
                         when :range
                           generate_range(question)
+                        when :raw
+                          generate_raw(question)
                         else
                           raise 'Unknown question type'
                         end
@@ -77,9 +77,9 @@ class QuestionnaireGenerator
       body
     end
 
-    def submit_button
+    def submit_button(submit_text)
       submit_body = content_tag(:button,
-                                SUBMIT_BUTTON_TEXT,
+                                submit_text,
                                 type: 'submit',
                                 class: 'btn waves-effect waves-light')
       submit_body = content_tag(:div, submit_body, class: 'col s12')
@@ -266,6 +266,10 @@ class QuestionnaireGenerator
       labels_body = safe_join(labels_body)
       labels_body = content_tag(:div, labels_body, class: 'row')
       labels_body
+    end
+
+    def generate_raw(question)
+      question[:content].html_safe
     end
 
     def idify(*strs)

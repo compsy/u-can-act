@@ -11,7 +11,7 @@ class ProtocolSubscription < ApplicationRecord
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true, start_of_day: true
-  has_many :responses, dependent: :destroy
+  has_many :responses, -> { order open_from: :asc }, dependent: :destroy
   after_create :schedule_responses
 
   scope :active, (-> { where(state: ACTIVE_STATE) })

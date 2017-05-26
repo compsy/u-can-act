@@ -4,6 +4,8 @@ puts 'Generating protocols - Started'
 protocol = Protocol.find_by_name('Studentenpilot - 1 keer per week')
 protocol ||= Protocol.new(name: 'Studentenpilot - 1 keer per week')
 protocol.duration = 3.weeks
+protocol.informed_consent_questionnaire =
+  Questionnaire.find_by_name('Informed consent pilot onderzoek naar ontwikkeling en begeleiding (wekelijks)')
 protocol.save!
 
 # Add voormeting

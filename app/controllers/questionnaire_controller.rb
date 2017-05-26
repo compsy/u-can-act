@@ -11,11 +11,11 @@ class QuestionnaireController < ApplicationController
     @response.save!
   end
 
-  def informed_consent; end
-
   def create_informed_consent
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
+    @response.opened_at = Time.zone.now
+    @response.save!
     render :show
   end
 

@@ -82,6 +82,9 @@ group :test do
   # Used for gem mocking
   gem 'factory_girl_rails'
 
+  # Test which template was rendered
+  gem 'rails-controller-testing'
+
   # Cleans the database after specs
   gem 'database_cleaner'
 

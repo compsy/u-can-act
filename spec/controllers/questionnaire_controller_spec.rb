@@ -38,7 +38,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     it 'should show an informed questionnaire if there is one required' do
       protocol = FactoryGirl.create(:protocol, :with_informed_consent_questionnaire)
       expect(protocol.informed_consent_questionnaire).not_to be_nil
-      expect(protocol.informed_consent_questionnaire.name).to eq 'Informed Consent'
+      expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
                                                  protocol: protocol)

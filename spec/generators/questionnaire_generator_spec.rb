@@ -8,7 +8,7 @@ describe QuestionnaireGenerator do
       responseobj = FactoryGirl.create(:response)
       result = described_class.generate_questionnaire(responseobj.id,
                                                       responseobj.measurement.questionnaire.content,
-                                                      responseobj.measurement.questionnaire.name,
+                                                      responseobj.measurement.questionnaire.title,
                                                       'Opslaan',
                                                       '/',
                                                       'authenticity-token')

@@ -19,6 +19,7 @@ class QuestionnaireController < ApplicationController
     @response.content = response_content.id
     @response.completed_at = Time.zone.now
     @response.save!
+    redirect_to(mentor_overview_index_path) && return if CookieJar.mentor?(cookies.signed)
     render(status: 200, plain: 'Success')
   end
 

@@ -26,6 +26,31 @@ describe CookieJar do
     end
   end
 
+  describe 'cookies_set?' do
+    it 'should return false if no cookies are set' do
+      expect(described_class.cookies_set?(jar)).to be_falsey
+    end
+
+    it 'should return true if cookies are set' do
+      cookie_hash = { response_id: '123', token: 'othertoken' }
+      described_class.set_or_update_cookie(jar, cookie_hash)
+      expect(described_class.cookies_set?(jar)).to be_truthy
+    end
+  end
+
+  describe 'mentor?' do
+    it 'should return true if the current person is a mentor' do
+      cookie_hash = { type: 'mentor' }
+      described_class.set_or_update_cookie(jar, cookie_hash)
+      expect(described_class.mentor?(jar)).to be_truthy
+    end
+    it 'should return false if the current person is not a mentor' do
+      cookie_hash = { type: 'student' }
+      described_class.set_or_update_cookie(jar, cookie_hash)
+      expect(described_class.mentor?(jar)).to be_falsey
+    end
+  end
+
   describe 'verify_param' do
     it 'should set a cookie when it is not yet set' do
       cookie_hash = { response_id: '123', token: 'othertoken' }

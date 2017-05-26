@@ -27,6 +27,10 @@ class ProtocolSubscription < ApplicationRecord
     Time.zone.now > TimeTools.increase_by_duration(start_date, protocol.duration)
   end
 
+  def for_myself?
+    person == filling_out_for
+  end
+
   private
 
   def initialize_filling_out_for

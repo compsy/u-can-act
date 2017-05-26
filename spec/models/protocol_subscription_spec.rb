@@ -33,6 +33,24 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'filling_out_for_id' do
+    it 'should have one' do
+      protocol_subscription = FactoryGirl.build(:protocol_subscription)
+      protocol_subscription.filling_out_for_id = nil
+      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription.errors.messages).to have_key :filling_out_for_id
+      expect(protocol_subscription.errors.messages[:filling_out_for_id]).to include('moet opgegeven zijn')
+    end
+    it 'should work to retrieve a Person' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.filling_out_for).to be_a(Person)
+    end
+    it 'should set the provided person by default as a filling_out_for_person' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.filling_out_for).to eq protocol_subscription.person
+    end
+  end
+
   describe 'protocol_id' do
     it 'should have one' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription, protocol_id: nil)
@@ -121,6 +139,31 @@ describe ProtocolSubscription do
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :start_date
       expect(protocol_subscription.errors.messages[:start_date]).to include('mag alleen middernacht zijn')
+    end
+  end
+
+  describe 'for_myself?' do
+    it 'should return false if it is for someone else' do
+      mentor = FactoryGirl.build(:mentor)
+      student = FactoryGirl.build(:student)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: student)
+      expect(protocol_subscription.for_myself?).to be_falsey
+    end
+
+    it 'should return true if it is for myself' do
+      mentor = FactoryGirl.build(:mentor)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: mentor)
+      expect(protocol_subscription.for_myself?).to be_truthy
+    end
+    it 'should fill out for myself by default' do
+      mentor = FactoryGirl.build(:mentor)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor)
+      expect(protocol_subscription.for_myself?).to be_truthy
     end
   end
 

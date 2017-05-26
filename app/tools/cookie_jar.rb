@@ -16,7 +16,19 @@ class CookieJar
     end
 
     def cookies_set?(jar)
-      jar[COOKIE_LOCATION].present?
+      !jar[COOKIE_LOCATION].blank?
+    end
+
+    def read_entry(jar, entry)
+      cookie = jar[COOKIE_LOCATION]
+      return false if entry.nil? || cookie.nil?
+      cookie = JSON.parse(cookie)
+      cookie[entry.to_s]
+    end
+
+    def mentor?(jar)
+      hash = { type: 'mentor' }
+      verify_param(jar, hash)
     end
 
     def set_or_update_cookie(jar, cookie_hash)

@@ -45,7 +45,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
         get :show, params: { q: invitation_token.token }
         expect(response).to have_http_status(302)
-        expect(response.location).to_not eq(mentor_overview_url(q: invitation_token.token))
+        expect(response.location).to_not eq(mentor_overview_index_url)
         expect(response.location).to eq(questionnaire_url(q: invitation_token.token))
       end
 
@@ -60,7 +60,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
         get :show, params: { q: invitation_token.token }
         expect(response).to have_http_status(302)
-        expect(response.location).to eq(mentor_overview_url(q: invitation_token.token))
+        expect(response.location).to eq(mentor_overview_index_url)
       end
     end
 

@@ -3,8 +3,8 @@
 class QuestionnaireController < ApplicationController
   before_action :set_response, only: [:show]
   before_action :check_informed_consent, only: [:show]
-  before_action :verify_response_id, only: [:create, :create_informed_consent]
-  before_action :set_create_response, only: [:create, :create_informed_consent]
+  before_action :verify_response_id, only: %i[create create_informed_consent]
+  before_action :set_create_response, only: %i[create create_informed_consent]
 
   def show
     @response.opened_at = Time.zone.now
@@ -41,7 +41,7 @@ class QuestionnaireController < ApplicationController
 
   def check_informed_consent
     return if @protocol.informed_consent_questionnaire.blank? ||
-      @protocol_subscription.informed_consent_given_at.present?
+              @protocol_subscription.informed_consent_given_at.present?
     render :informed_consent
   end
 

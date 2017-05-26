@@ -97,7 +97,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(protocol.informed_consent_questionnaire.name).to eq 'Informed Consent'
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                start_date: 1.week.ago.at_beginning_of_day,
-                                             protocol: protocol)
+                                               protocol: protocol)
     responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil

@@ -910,21 +910,33 @@ nm_name1 = 'nameting studenten 1x per week'
 nameting1 = Questionnaire.find_by_name(nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
 # TODO: add content for nametingen below
-nameting1.content = []
+nameting1.content = [{
+                       section_start: 'Enquête',
+                       type: :raw,
+                       content: '<p class="flow-text">Dit is de nameting.</p>'
+                     }]
 nameting1.title = 'Enquête'
 nameting1.save!
 
 nm_name2 = 'nameting studenten 2x per week'
 nameting2 = Questionnaire.find_by_name(nm_name2)
 nameting2 ||= Questionnaire.new(name: nm_name2)
-nameting2.content = []
+nameting2.content = [{
+                       section_start: 'Enquête',
+                       type: :raw,
+                       content: '<p class="flow-text">Dit is de nameting.</p>'
+                     }]
 nameting2.title = 'Enquête'
 nameting2.save!
 
 nm_name3 = 'nameting studenten 5x per week'
 nameting3 = Questionnaire.find_by_name(nm_name3)
 nameting3 ||= Questionnaire.new(name: nm_name3)
-nameting3.content = []
+nameting3.content = [{
+                       section_start: 'Enquête',
+                       type: :raw,
+                       content: '<p class="flow-text">Dit is de nameting.</p>'
+                     }]
 nameting3.title = 'Enquête'
 nameting3.save!
 

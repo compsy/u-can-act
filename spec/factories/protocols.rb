@@ -6,10 +6,14 @@ FactoryGirl.define do
     name { generate(:protocol_name) }
     duration 3.weeks
     trait :with_informed_consent_questionnaire do
-      association :informed_consent_questionnaire, factory: :questionnaire, name: 'Informed Consent', content: [{
-        type: :raw,
-        content: '<p class="flow-text">Geef toestemming bla bla</p>'
-      }]
+      association :informed_consent_questionnaire,
+                  factory: :questionnaire,
+                  name: 'Informed Consent',
+                  title: 'Informed Consent',
+                  content: [{
+                    type: :raw,
+                    content: '<p class="flow-text">Geef toestemming bla bla</p>'
+                  }]
     end
   end
 

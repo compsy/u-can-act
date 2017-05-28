@@ -21,6 +21,7 @@ class QuestionnaireGenerator
     private
 
     def questionnaire_header(title)
+      return ''.html_safe if title.blank?
       header_body = content_tag(:h4, title, class: 'header')
       header_body = content_tag(:div, header_body, class: 'col s12')
       header_body = content_tag(:div, header_body, class: 'row')

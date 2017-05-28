@@ -31,6 +31,36 @@ describe Questionnaire do
     end
   end
 
+  describe 'title' do
+    it 'should allow two questionnaires with the same title' do
+      questionnaireone = FactoryGirl.create(:questionnaire, title: 'myquestionnaire')
+      expect(questionnaireone.valid?).to be_truthy
+      questionnaireonetwo = FactoryGirl.build(:questionnaire, title: 'myquestionnaire')
+      expect(questionnaireonetwo.valid?).to be_truthy
+    end
+    it 'should accept a nil title' do
+      questionnaire = FactoryGirl.build(:questionnaire, title: nil)
+      expect(questionnaire.valid?).to be_truthy
+      questionnaire.save!
+      questionnaire = Questionnaire.find_by_id(questionnaire.id)
+      expect(questionnaire.title).to be_nil
+    end
+    it 'should accept a blank title' do
+      questionnaire = FactoryGirl.build(:questionnaire, title: '')
+      expect(questionnaire.valid?).to be_truthy
+      questionnaire.save!
+      questionnaire = Questionnaire.find_by_id(questionnaire.id)
+      expect(questionnaire.title).to eq ''
+    end
+    it 'should be able to retrieve a normal title' do
+      questionnaire = FactoryGirl.build(:questionnaire, title: 'my own title')
+      expect(questionnaire.valid?).to be_truthy
+      questionnaire.save!
+      questionnaire = Questionnaire.find_by_id(questionnaire.id)
+      expect(questionnaire.title).to eq 'my own title'
+    end
+  end
+
   describe 'content' do
     it 'should not be nil' do
       questionnaire = FactoryGirl.build(:questionnaire, content: nil)

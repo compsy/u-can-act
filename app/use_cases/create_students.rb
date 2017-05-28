@@ -48,7 +48,7 @@ class CreateStudents < ActiveInteraction::Base
 
   def parse_start_date(start_date)
     parsed_start_date = Time.zone.parse(start_date)
-    raise "Start date lies in the past: #{start_date}" unless parsed_start_date > Time.zone.now
+    # raise "Start date lies in the past: #{start_date}" unless parsed_start_date > Time.zone.now
     raise "Start date is not beginning of day: #{start_date}" unless
       parsed_start_date.beginning_of_day == parsed_start_date
     parsed_start_date

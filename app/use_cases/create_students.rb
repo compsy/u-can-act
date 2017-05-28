@@ -17,10 +17,6 @@ class CreateStudents < ActiveInteraction::Base
 
   private
 
-  def assert_file_existence(file_name)
-    raise "File #{file_name} does not exist" unless File.file?(file_name)
-  end
-
   def parse_students(students)
     parsed_students = []
     students.each do |student|

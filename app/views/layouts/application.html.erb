@@ -6,9 +6,21 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
 
   <body>
-    <%= yield %>
+    <noscript>
+      <div class="notices">
+        <div class="card-panel alert red lighten-2">
+          <strong>Let op:</strong> Je browser heeft momenteel JavaScript uitstaan. Daardoor werkt deze app niet goed.
+        </div>
+      </div>
+    </noscript>
+    <div class="container">
+      <div class="row">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

@@ -33,9 +33,54 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.dev)>
   INFO_EMAIL: <email address to use as sender for user account emails>
   PROJECT_NAME: <name of the project (e.g. Vsv)>
+
+  MESSAGEBIRD_ACCESS_KEY: <access key for messagebird>
+  MESSAGEBIRD_SEND_FROM: <sender name shown for SMS>
+
 ```
 
-## Troubleshooting
+## Background jobs
+The workings of the app rely on three background jobs:
+
+Every 15 minutes, the following rake task should run:
+```
+rake scheduler:send_invitations
+```
+
+Daily (e.g., at 3am), the following rake task should run:
+```
+rake scheduler:complete_protocol_subscriptions
+```
+
+Daily (e.g., at 4am), the following rake task should run:
+```
+rake scheduler:cleanup_invitation_tokens
+```
+
+In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
+
+## Questionnaires
+The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. Currently, three types of questions are accepted, with the following attributes:
+
+```ruby
+questionnaire.content = [{
+               id: :v1,
+               type: :radio,
+               title: 'Hoe voelt u zich vandaag?',
+               options: %w[slecht goed]
+             }, {
+               id: :v2,
+               type: :checkbox,
+               title: 'Wat heeft u vandaag gegeten?',
+               options: ['brood', 'kaas en ham', 'pizza']
+             }, {
+               id: :v3,
+               type: :range,
+               title: 'Hoe gaat het met u?',
+               labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+             }]
+```
+
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv
 

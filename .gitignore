@@ -5,16 +5,18 @@ capybara-*.html
 /tmp/cache
 /tmp/capybara
 /tmp/data
+/tmp/restart.txt
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /coverage/
 /spec/tmp
 **.orig
 rerun.txt
+routes.txt
+people.csv
 pickle-email-*.html
 
 # dotenv
-# TODO Comment out this rule if environment variables can be committed
 .env
 
 ## Environment normalization:

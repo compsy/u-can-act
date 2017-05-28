@@ -1,0 +1,25 @@
+.otherwise-textfield {
+  margin-top: -20px;
+}
+.extra-spacing.row {
+  padding-top: 3rem;
+  margin-bottom: -2rem;
+}
+input[type=range] {
+  margin-top: 26px;
+}
+input[type=range]::-webkit-slider-thumb {
+  margin-top: -16px;
+}
+input[disabled].otherwise {
+  cursor: pointer;
+}
+ol ol {
+  list-style-type: lower-alpha;
+  ol {
+    list-style-type: decimal;
+  }
+}
+.section-explanation {
+  font-weight: bold;
+}

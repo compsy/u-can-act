@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  post '/informed_consent' => 'questionnaire#create_informed_consent'
+  get '/klaar' => 'reward#show'
+  post '/' => 'questionnaire#create'
+  root to: 'questionnaire#show'
 end

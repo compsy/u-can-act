@@ -33,6 +33,10 @@ gem 'jquery-rails'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
+
+# Driver for the mongo database
+gem 'mongoid'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -46,6 +50,15 @@ gem 'pry-rails'
 gem 'dotenv-rails'
 
 gem 'coveralls', require: false
+
+# Delayed job for delayed calculation
+gem 'delayed_job_active_record'
+gem 'workless'
+
+# Messagebird SMS
+gem 'messagebird-rest', require: 'messagebird'
+
+gem 'active_interaction'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -70,6 +83,9 @@ group :test do
   # Used for gem mocking
   gem 'factory_girl_rails'
 
+  # Test which template was rendered
+  gem 'rails-controller-testing'
+
   # Cleans the database after specs
   gem 'database_cleaner'
 
@@ -84,6 +100,9 @@ end
 group :production, :staging do
   # JavaScript runtime
   gem 'therubyracer'
+
+  # Required by Delayed Job
+  gem 'daemons'
 end
 
 group :development do
@@ -103,4 +122,7 @@ gem 'modernizr-rails'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
+gem 'rails-i18n'
+
 gem 'appsignal'
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?

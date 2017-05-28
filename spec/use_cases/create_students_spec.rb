@@ -10,20 +10,21 @@ describe CreateStudents do
        last_name: 'e',
        mobile_phone: '0612345679',
        protocol_name: 'protname',
-       start_date: dateinfuture }, { first_name: 'b',
-                                     last_name: 'f',
-                                     mobile_phone: '06-12345670',
-                                     protocol_name: 'protname',
-                                     start_date: dateinfuture }, { first_name: 'c',
-                                                                   last_name: 'g',
-                                                                   mobile_phone: '0612345671',
-                                                                   protocol_name: 'protname',
-                                                                   start_date: dateinfuture }]
+       start_date: dateinfuture },
+     { first_name: 'b',
+       last_name: 'f',
+       mobile_phone: '06-12345670',
+       protocol_name: 'protname',
+       start_date: dateinfuture },
+     { first_name: 'c',
+       last_name: 'g',
+       mobile_phone: '0612345671',
+       protocol_name: 'protname',
+       start_date: dateinfuture }]
   end
 
   describe 'execute' do
     it 'should accept an array as string' do
-      expect_any_instance_of(described_class).to receive(:execute).and_return true
       expect do
         described_class.run!(students: [])
       end.to_not raise_error

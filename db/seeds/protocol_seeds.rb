@@ -31,7 +31,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 15
+db_measurement.reward_points = 10
 db_measurement.save!
 
 # Add nameting/enquete
@@ -70,7 +70,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 5
+db_measurement.reward_points = 10
 db_measurement.save!
 
 db_name = 'dagboek studenten 2x per week donderdag'
@@ -83,7 +83,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 15
+db_measurement.reward_points = 10
 db_measurement.save!
 
 # Add nameting/enquete
@@ -122,7 +122,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 5
+db_measurement.reward_points = 10
 db_measurement.save!
 
 db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
@@ -161,7 +161,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 15
+db_measurement.reward_points = 10
 db_measurement.save!
 
 db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'

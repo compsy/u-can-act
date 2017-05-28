@@ -38,7 +38,6 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.possible_reward_points).to eq 20
     expect(protocol_subscription.max_reward_points).to eq 30
     expect(page).to have_content('Je hebt hiermee 10 punten verdiend. Je hebt nu in totaal 20 punten')
-    expect(page).to have_content('Je hebt 100% van de vragenlijsten tot nu toe ingevuld.')
     expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er zijn nog 10 punten te verdienen.')
   end
 end

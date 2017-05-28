@@ -55,7 +55,7 @@ ic_content = <<~'END'
         <li>Ik krijg elke week een herinnering via sms op de dag dat ik de vragenlijst moet invullen.
           In de herinnering staat een link naar de vragenlijst.
         </li>
-        <li>Bij het afronden van het onderzoek krijg ik een beloning van 3 euro.
+        <li>Bij het afronden van het onderzoek krijg ik een beloning van 4 euro.
           Afronden houdt in dat ik alle wekelijkse vragenlijsten (in totaal 3) en de afsluitende enquête invul binnen 24
           uur na ontvangst van de sms.
         </li>
@@ -113,7 +113,7 @@ ic_content2 = <<~'END'
         <li>Ik krijg twee keer per week een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de
           herinnering staat een link naar de vragenlijst.
         </li>
-        <li>Bij het afronden van het onderzoek krijg ik een beloning van 6 euro. Afronden houdt in dat ik alle wekelijkse
+        <li>Bij het afronden van het onderzoek krijg ik een beloning van 7 euro. Afronden houdt in dat ik alle wekelijkse
           vragenlijsten (in totaal 6) en de afsluitende enquête invul binnen 24 uur na ontvangst van de sms.
         </li>
         <li>Ik geef toestemming voor het bewaren van persoonlijke gegevens: mijn naam en telefoonnummer. Deze vragen de
@@ -169,7 +169,7 @@ ic_content3 = <<~'END'
         <li>Ik krijg elke doordeweekse dag een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de
           herinnering staat een link naar de vragenlijst.
         </li>
-        <li>Bij het afronden van het onderzoek krijg ik een beloning van 15 euro. Afronden houdt in dat ik alle wekelijkse
+        <li>Bij het afronden van het onderzoek krijg ik een beloning van 16 euro. Afronden houdt in dat ik alle wekelijkse
           vragenlijsten (in totaal 15) en de afsluitende enquête invul binnen 24 uur na ontvangst van de sms.
         </li>
         <li>Ik geef toestemming voor het bewaren van persoonlijke gegevens: mijn naam en telefoonnummer. Deze vragen de

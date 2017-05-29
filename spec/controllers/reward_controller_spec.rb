@@ -23,7 +23,7 @@ RSpec.describe RewardController, type: :controller do
       expect(CookieJar).to receive(:read_entry)
         .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), TokenAuthenticationController::RESPONSE_ID_COOKIE)
         .and_return(responseobj.id.to_s)
-      
+
       get :show
       expect(response).to have_http_status(400)
       expect(response.body).to include('Je kan deze pagina pas bekijken als je de vragenlijst hebt ingevuld.')

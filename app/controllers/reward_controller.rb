@@ -12,7 +12,7 @@ class RewardController < ApplicationController
   def verify_response_id
     response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
     @response = Response.find_by_id(response_id)
-    return if @response.present? 
+    return if @response.present?
 
     render(status: 401, plain: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
   end

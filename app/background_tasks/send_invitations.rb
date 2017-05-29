@@ -17,6 +17,6 @@ class SendInvitations
     end
 
     # We collect the responses for the mentor before, and send them only a single text.
-    mentor_responses.each { |response| SendInvitationJob.perform_later response }
+    mentor_responses.each { |_key, response| SendInvitationJob.perform_later response }
   end
 end

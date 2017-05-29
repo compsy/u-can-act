@@ -40,7 +40,7 @@ describe CookieJar do
 
   describe 'mentor?' do
     it 'should return true if the current person is a mentor' do
-      cookie_hash = { type: 'mentor' }
+      cookie_hash = { type: 'Mentor' }
       described_class.set_or_update_cookie(jar, cookie_hash)
       expect(described_class.mentor?(jar)).to be_truthy
     end

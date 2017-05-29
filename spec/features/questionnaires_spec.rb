@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'GET and POST /', type: :feature, js: true do
+describe 'GET and POST /', type: :feature, js: true, focus: true do
   it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,

@@ -92,7 +92,6 @@ class QuestionnaireController < ApplicationController
     end
   end
 
-
   def set_cookie
     cookie = { response_id: @response.id.to_s }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)

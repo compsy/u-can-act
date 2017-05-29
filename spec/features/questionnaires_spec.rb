@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'GET and POST /', type: :feature, js: true, focus: true do
+describe 'GET and POST /', type: :feature, js: true do
   it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,
@@ -116,7 +116,7 @@ describe 'GET and POST /', type: :feature, js: true, focus: true do
     expect(responseobj.content).to be_nil
     expect(responseobj.values).to be_nil
     expect(responseobj.opened_at).to be_nil
-    visit "/?q=#{invitation_token.token}"
+    visit "/questionnaire/#{invitation_token.token}"
     expect(page).to have_http_status(200)
     expect(page).not_to have_content('vragenlijst-dagboekstudie-studenten')
     expect(page).to have_content('Informed Consent')

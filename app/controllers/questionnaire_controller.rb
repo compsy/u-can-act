@@ -4,35 +4,25 @@ class QuestionnaireController < ApplicationController
   before_action :set_response, only: [:show]
   before_action :set_cookie, only: [:show]
   before_action :check_informed_consent, only: [:show]
+  before_action :set_questionnaire_content, only: [:show]
   before_action :verify_response_id, only: %i[create create_informed_consent]
   before_action :set_create_response, only: %i[create create_informed_consent]
 
   def show
-    @response.opened_at = Time.zone.now
-    @response.save!
-
-    @content = QuestionnaireGenerator.generate_questionnaire(@response.id,
-                                                  @response.measurement.questionnaire.content,
-                                                  @response.measurement.questionnaire.title,
-                                                  'Opslaan',
-                                                  '/',
-                                                  form_authenticity_token(form_options: { action: '/',
-                                                                                          method: 'post' }))
+    @response.update_attributes!(opened_at: Time.zone.now)
   end
 
   def create_informed_consent
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
-    @response.opened_at = Time.zone.now
-    @response.save!
+    @response.update_attributes!(opened_at: Time.zone.now)
+    set_questionnaire_content
     render :show
   end
 
   def create
-    response_content = ResponseContent.create!(content: questionnaire_create_params[:content].to_unsafe_h)
-    @response.content = response_content.id
-    @response.completed_at = Time.zone.now
-    @response.save!
+    response_content = ResponseContent.create!(content: questionnaire_content)
+    @response.update_attributes!(content: response_content.id, completed_at: Time.zone.now)
     redirect_to(mentor_overview_index_path) && return if CookieJar.mentor?(cookies.signed)
     redirect_to klaar_path
   end
@@ -68,6 +58,16 @@ class QuestionnaireController < ApplicationController
     @protocol = @protocol_subscription.protocol
   end
 
+  def set_questionnaire_content
+    @content = QuestionnaireGenerator.generate_questionnaire(@response.id,
+                                                             @response.measurement.questionnaire.content,
+                                                             @response.measurement.questionnaire.title,
+                                                             'Opslaan',
+                                                             '/',
+                                                             form_authenticity_token(form_options: { action: '/',
+                                                                                                     method: 'post' }))
+  end
+
   def questionnaire_params
     params.permit(:q)
   end
@@ -90,6 +90,10 @@ class QuestionnaireController < ApplicationController
       key
       # end
     end
+  end
+
+  def questionnaire_content
+    questionnaire_create_params[:content].to_unsafe_h
   end
 
   def set_cookie

@@ -20,6 +20,10 @@ Encoding:
 LineLength:
   Max: 120
 
+# Default is 5
+Metrics/ParameterLists:
+  Max: 6
+
 # Avoid methods longer than 10 lines of code
 MethodLength:
   CountComments: false  # count full line comments?

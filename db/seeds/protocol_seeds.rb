@@ -1,40 +1,202 @@
 # frozen_string_literal: true
 
 puts 'Generating protocols - Started'
-protocol = Protocol.find_by_name('Studentenpilot - 1 keer per week')
-protocol ||= Protocol.new(name: 'Studentenpilot - 1 keer per week')
-protocol.duration = 3.weeks
+
+default_protocol_duration = 3.weeks
+default_open_duration = 1.day
+default_posttest_open_duration = nil
+default_posttest_reward_points = 10
+
+
+
+###################################
+## pilot - studenten 1x per week ##
+###################################
+
+pr_name = 'pilot - studenten 1x per week'
+protocol = Protocol.find_by_name(pr_name)
+protocol ||= Protocol.new(name: pr_name)
+protocol.duration = default_protocol_duration
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten 1x per week')
 protocol.save!
 
+# Add dagboekmetingen
+db_name = 'dagboek studenten 1x per week donderdag'
+of_offset = 3.days + 12.hours # Thursday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+
+# Add nameting/enquete
+nm_name = 'nameting studenten 1x per week'
+nameting_id = Questionnaire.find_by_name(nm_name)&.id
+raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
+nm_measurement = protocol.measurements.find_by_questionnaire_id(nameting_id)
+nm_measurement ||= protocol.measurements.build(questionnaire_id: nameting_id)
+nm_measurement.open_from_offset = 2.weeks + 4.days + 13.hours # Friday 1pm last week
+nm_measurement.period = nil
+nm_measurement.open_duration = default_posttest_open_duration
+nm_measurement.reward_points = default_posttest_reward_points
+nm_measurement.save!
+
+
+
+###################################
+## pilot - studenten 2x per week ##
+###################################
+
+pr_name = 'pilot - studenten 2x per week'
+protocol = Protocol.find_by_name(pr_name)
+protocol ||= Protocol.new(name: pr_name)
+protocol.duration = default_protocol_duration
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten 2x per week')
+protocol.save!
+
+# Add dagboekmetingen
+db_name = 'dagboek studenten 2x per week maandag'
+of_offset = 12.hours # Monday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+db_name = 'dagboek studenten 2x per week donderdag'
+of_offset = 3.days + 12.hours # Thursday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+# Add nameting/enquete
+nm_name = 'nameting studenten 2x per week'
+nameting_id = Questionnaire.find_by_name(nm_name)&.id
+raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
+nm_measurement = protocol.measurements.find_by_questionnaire_id(nameting_id)
+nm_measurement ||= protocol.measurements.build(questionnaire_id: nameting_id)
+nm_measurement.open_from_offset = 2.weeks + 3.days + 13.hours # Thursday 1pm last week
+nm_measurement.period = nil
+nm_measurement.open_duration = default_posttest_open_duration
+nm_measurement.reward_points = default_posttest_reward_points
+nm_measurement.save!
+
+
+
+###################################
+## pilot - studenten 5x per week ##
+###################################
+
+pr_name = 'pilot - studenten 5x per week'
+protocol = Protocol.find_by_name(pr_name)
+protocol ||= Protocol.new(name: pr_name)
+protocol.duration = default_protocol_duration
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten 5x per week')
+protocol.save!
+
+# Add dagboekmetingen
+db_name = 'dagboek studenten 5x per week maandag'
+of_offset = 12.hours # Monday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
+of_offset = 1.day + 12.hours # Tuesday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
+of_offset = 2.days + 12.hours # Wednesday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+db_name = 'dagboek studenten 5x per week donderdag'
+of_offset = 3.days + 12.hours # Thursday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
+of_offset = 4.days + 12.hours # Friday noon
+dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
+db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                             open_from_offset: of_offset).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+db_measurement.open_from_offset = of_offset
+db_measurement.period = 1.week
+db_measurement.open_duration = default_open_duration
+db_measurement.reward_points = 10
+db_measurement.save!
+
+# Add nameting/enquete
+nm_name = 'nameting studenten 5x per week'
+nameting_id = Questionnaire.find_by_name(nm_name)&.id
+raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
+nm_measurement = protocol.measurements.find_by_questionnaire_id(nameting_id)
+nm_measurement ||= protocol.measurements.build(questionnaire_id: nameting_id)
+nm_measurement.open_from_offset = 2.weeks + 4.days + 13.hours # Friday 1pm last week
+nm_measurement.period = nil
+nm_measurement.open_duration = default_posttest_open_duration
+nm_measurement.reward_points = default_posttest_reward_points
+nm_measurement.save!
+
+######################
+# Mentor vragenlijst #
+######################
 mentor_protocol = Protocol.find_by_name('Mentorpilot - 1 keer per week')
 mentor_protocol ||= Protocol.new(name: 'Mentorpilot - 1 keer per week')
 mentor_protocol.duration = 3.weeks
 mentor_protocol.save!
-
-# Add voormeting
-voormeting_id = Questionnaire.find_by_name('Voormeting Studenten')&.id
-raise 'Cannot find voormeting studenten' unless voormeting_id
-
-vm_measurement = protocol.measurements.find_by_questionnaire_id(voormeting_id)
-vm_measurement ||= protocol.measurements.build(questionnaire_id: voormeting_id)
-vm_measurement.period = nil
-vm_measurement.open_from_offset = 13.hours # Monday 1pm in the first week
-vm_measurement.open_duration = nil
-vm_measurement.reward_points = 10
-vm_measurement.save!
-
-# Add dagboekmetingen
-dagboekvragenlijst_id = Questionnaire.find_by_name('Dagboekvragenlijst Studenten')&.id
-raise 'Cannot find dagboekvragenlijst studenten' unless dagboekvragenlijst_id
-
-db_measurement = protocol.measurements.find_by_questionnaire_id(dagboekvragenlijst_id)
-db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
-db_measurement.period = 1.week
-db_measurement.open_from_offset = 2.days + 13.hours # Wednesday 1pm
-db_measurement.open_duration = 2.hours
-db_measurement.reward_points = 10
-db_measurement.save!
-
 
 dagboekvragenlijst_id = Questionnaire.find_by_name('Dagboekvragenlijst Mentoren')&.id
 raise 'Cannot find dagboekvragenlijst mentoren' unless dagboekvragenlijst_id
@@ -46,5 +208,6 @@ db_measurement.open_from_offset = 2.days + 13.hours # Wednesday 1pm
 db_measurement.open_duration = 24.hours
 db_measurement.reward_points = 1000
 db_measurement.save!
+
 
 puts 'Generating protocols - Finished'

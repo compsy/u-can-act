@@ -48,7 +48,7 @@ staging:
       # connection setup.
       # Use environment variables or a config file to keep your
       # credentials safe.
-      uri: <%= ENV['MONGOLAB_URI'] || '' %>
+      uri: <%= ENV['MONGODB_URI'] || '' %>
 
       options:
         read:
@@ -60,7 +60,7 @@ staging:
 production:
   clients:
     default:
-      uri: <%= ENV['MONGOLAB_URI'] || '' %>
+      uri: <%= ENV['MONGODB_URI'] || '' %>
 
       options:
         read:

@@ -5,4 +5,5 @@ class Protocol < ApplicationRecord
   validates :duration, numericality: { greater_than_or_equal_to: 0 }
   has_many :measurements, dependent: :destroy
   has_many :protocol_subscriptions, dependent: :destroy
+  belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire' # can be nil
 end

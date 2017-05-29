@@ -185,8 +185,9 @@ describe ProtocolSubscription do
     it 'should create responses with a nonvarying open_from' do
       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
       FactoryGirl.create(:measurement, :periodical, protocol: protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
-                                                                         start_date: Time.new(2017, 4, 10, 0, 0, 0))
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
       expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 4, 11, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 4, 18, 13, 0, 0).in_time_zone)
@@ -197,8 +198,9 @@ describe ProtocolSubscription do
       # changes at 2AM Sunday, March 26 2017
       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
       FactoryGirl.create(:measurement, :periodical, protocol: protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
-                                                                         start_date: Time.new(2017, 3, 20, 0, 0, 0))
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 3, 20, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
       expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 3, 21, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 3, 28, 13, 0, 0).in_time_zone)
@@ -209,13 +211,57 @@ describe ProtocolSubscription do
       # changes at 3AM Sunday, October 29 2017
       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
       FactoryGirl.create(:measurement, :periodical, protocol: protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
-                                                                         start_date: Time.new(2017, 10, 23, 0, 0, 0))
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 10, 23, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
       expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 10, 24, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 10, 31, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 11, 7, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 11, 14, 13, 0, 0).in_time_zone)
+    end
+  end
+
+  describe 'reward_points' do
+    it 'should accumulate the reward points for all completed protocol subscriptions' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      FactoryGirl.create_list(:response, 10, :completed, protocol_subscription: protocol_subscription)
+      # also add some noncompleted responses. These should not be counted.
+      FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
+      FactoryGirl.create_list(:response, 11, :invite_sent, protocol_subscription: protocol_subscription)
+      expect(protocol_subscription.reward_points).to eq 100
+    end
+  end
+
+  describe 'possible_reward_points' do
+    it 'should accumulate the reward points for all completed responses' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      FactoryGirl.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
+      # also add some noninvited responses. These should not be counted.
+      FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
+      expect(protocol_subscription.possible_reward_points).to eq 100
+    end
+  end
+
+  describe 'max_reward_points' do
+    it 'should accumulate the reward points for all responses period' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      FactoryGirl.create_list(:response, 10, protocol_subscription: protocol_subscription)
+      FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
+      expect(protocol_subscription.max_reward_points).to eq 170
+    end
+  end
+
+  describe 'informed_consent_given_at' do
+    it 'should be nil by default' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription.informed_consent_given_at).to be_nil
+    end
+    it 'should be able to be true' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, informed_consent_given_at: Time.zone.now)
+      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription.informed_consent_given_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
 

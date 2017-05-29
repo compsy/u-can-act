@@ -13,7 +13,7 @@ class ProtocolSubscription < ApplicationRecord
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true, start_of_day: true
-  has_many :responses, dependent: :destroy
+  has_many :responses, -> { order open_from: :asc }, dependent: :destroy
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
 
@@ -29,6 +29,18 @@ class ProtocolSubscription < ApplicationRecord
 
   def for_myself?
     person == filling_out_for
+  end
+
+  def reward_points
+    responses.completed.map { |response| response.measurement.reward_points }.reduce(0, :+)
+  end
+
+  def possible_reward_points
+    responses.invite_sent.map { |response| response.measurement.reward_points }.reduce(0, :+)
+  end
+
+  def max_reward_points
+    responses.map { |response| response.measurement.reward_points }.reduce(0, :+)
   end
 
   private

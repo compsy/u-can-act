@@ -5,7 +5,10 @@ require 'rails_helper'
 describe 'GET and POST /', type: :feature, js: true do
   it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil
     expect(responseobj.content).to be_nil
@@ -35,9 +38,10 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('niet mee eens')
     expect(page).to have_content('beetje mee eens')
     expect(page).to have_content('helemaal mee eens')
+    range_select('v3', '57')
     page.click_on 'Opslaan'
     expect(page).to have_http_status(200)
-    expect(page).to have_content('Success')
+    expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil
@@ -48,7 +52,10 @@ describe 'GET and POST /', type: :feature, js: true do
   end
   it 'should store the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/questionnaire/#{invitation_token.token}"
     expect(page).to have_http_status(200)
@@ -62,7 +69,7 @@ describe 'GET and POST /', type: :feature, js: true do
     # v3
     page.click_on 'Opslaan'
     expect(page).to have_http_status(200)
-    expect(page).to have_content('Success')
+    expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil
@@ -74,7 +81,10 @@ describe 'GET and POST /', type: :feature, js: true do
   end
   it 'should require radio buttons to be filled out' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/questionnaire/#{invitation_token.token}"
     expect(page).to have_http_status(200)
@@ -89,5 +99,53 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_http_status(200)
     # The page didn't change because we didn't select a radio:
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+  end
+  it 'should show an informed consent questionnaire' do
+    protocol = FactoryGirl.create(:protocol, :with_informed_consent_questionnaire)
+    expect(protocol.informed_consent_questionnaire).not_to be_nil
+    expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               protocol: protocol)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    expect(responseobj.completed_at).to be_nil
+    expect(responseobj.content).to be_nil
+    expect(responseobj.values).to be_nil
+    expect(responseobj.opened_at).to be_nil
+    visit "/?q=#{invitation_token.token}"
+    expect(page).to have_http_status(200)
+    expect(page).not_to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to have_content('Informed Consent')
+    expect(page).to have_content('Geef toestemming bla bla')
+    expect(protocol_subscription.informed_consent_given_at).to be_nil
+    expect(responseobj.opened_at).to be_nil
+    page.click_on 'Volgende'
+    expect(page).to have_http_status(200)
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    responseobj.reload
+    expect(responseobj.opened_at).to be_within(1.minute).of(Time.zone.now)
+    protocol_subscription.reload
+    expect(protocol_subscription.informed_consent_given_at).to be_within(1.minute).of(Time.zone.now)
+    # v1
+    page.choose('slecht', allow_label_click: true)
+    # v2
+    page.check('brood', allow_label_click: true)
+    page.check('kaas en ham', allow_label_click: true)
+    # v3
+    range_select('v3', '57')
+    page.click_on 'Opslaan'
+    expect(page).to have_http_status(200)
+    expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+    responseobj.reload
+    expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+    expect(responseobj.content).to_not be_nil
+    expect(responseobj.values).to eq('v1' => 'slecht',
+                                     'v2_brood' => 'true',
+                                     'v2_kaas_en_ham' => 'true',
+                                     'v3' => '57')
   end
 end

@@ -1,0 +1,7 @@
+<%= QuestionnaireGenerator.generate_questionnaire(@response.id,
+                                                  @protocol.informed_consent_questionnaire.content,
+                                                  @protocol.informed_consent_questionnaire.title,
+                                                  'Volgende',
+                                                  '/informed_consent',
+                                                  form_authenticity_token(form_options: { action: '/informed_consent',
+                                                                                          method: 'post' })) %>

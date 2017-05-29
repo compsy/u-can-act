@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525085343) do
+ActiveRecord::Schema.define(version: 20170526111404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,22 +63,25 @@ ActiveRecord::Schema.define(version: 20170525085343) do
   end
 
   create_table "protocol_subscriptions", force: :cascade do |t|
-    t.integer  "person_id",          null: false
-    t.integer  "protocol_id",        null: false
-    t.string   "state",              null: false
-    t.datetime "start_date",         null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.integer  "filling_out_for_id", null: false
+    t.integer  "person_id",                 null: false
+    t.integer  "protocol_id",               null: false
+    t.string   "state",                     null: false
+    t.datetime "start_date",                null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "filling_out_for_id",        null: false
+    t.datetime "informed_consent_given_at"
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
   end
 
   create_table "protocols", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.integer  "duration",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                              null: false
+    t.integer  "duration",                          null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "informed_consent_questionnaire_id"
+    t.index ["informed_consent_questionnaire_id"], name: "index_protocols_on_informed_consent_questionnaire_id", using: :btree
     t.index ["name"], name: "index_protocols_on_name", unique: true, using: :btree
   end
 
@@ -87,6 +90,7 @@ ActiveRecord::Schema.define(version: 20170525085343) do
     t.text     "content",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "title"
     t.index ["name"], name: "index_questionnaires_on_name", unique: true, using: :btree
   end
 
@@ -109,6 +113,7 @@ ActiveRecord::Schema.define(version: 20170525085343) do
   add_foreign_key "measurements", "questionnaires"
   add_foreign_key "protocol_subscriptions", "people"
   add_foreign_key "protocol_subscriptions", "protocols"
+  add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
   add_foreign_key "responses", "measurements"
   add_foreign_key "responses", "protocol_subscriptions"
 end

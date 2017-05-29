@@ -21,6 +21,8 @@ class Response < ApplicationRecord
       not_sent: NOT_SENT_STATE
     )
   })
+  scope :completed, (-> { where.not(completed_at: nil) })
+  scope :invite_sent, (-> { where(invited_state: SENT_STATE) })
 
   # Moet hier nog een check komen voor expired?
   scope :open, (lambda {

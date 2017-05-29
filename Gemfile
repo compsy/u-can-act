@@ -53,6 +53,7 @@ gem 'coveralls', require: false
 
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
+gem 'workless'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'
@@ -81,6 +82,9 @@ group :test do
 
   # Used for gem mocking
   gem 'factory_girl_rails'
+
+  # Test which template was rendered
+  gem 'rails-controller-testing'
 
   # Cleans the database after specs
   gem 'database_cleaner'

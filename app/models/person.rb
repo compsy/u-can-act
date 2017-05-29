@@ -12,4 +12,16 @@ class Person < ApplicationRecord
   has_many :supervised_protocol_subscriptions,
            -> { order created_at: :desc },
            class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
+
+  def reward_points
+    protocol_subscriptions.map(&:reward_points).reduce(0, :+)
+  end
+
+  def possible_reward_points
+    protocol_subscriptions.map(&:possible_reward_points).reduce(0, :+)
+  end
+
+  def max_reward_points
+    protocol_subscriptions.map(&:max_reward_points).reduce(0, :+)
+  end
 end

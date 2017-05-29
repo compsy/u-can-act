@@ -80,7 +80,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       expect(responseobj.opened_at).to be_nil
       get :show, params: { q: invitation_token.token }
       responseobj.reload
-      expect(responseobj.opened_at).to eq(date)
+      expect(responseobj.opened_at).to be_within(5.seconds).of(date)
       Timecop.return
     end
 

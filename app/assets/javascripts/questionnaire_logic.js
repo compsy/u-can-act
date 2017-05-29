@@ -11,9 +11,14 @@ function toggle_otherwise_field() {
 $(function () {
   $('input[type=radio],input[type=checkbox]').change(toggle_otherwise_field);
   $('.otherwise-option').each(toggle_otherwise_field);
-  $('label + div.input-field.inline').click(function() {
+  $('label + div.input-field.inline').click(function () {
     if ($(this).find('input[type=text][disabled]').length) {
       $(this).prev().click();
+    }
+  });
+  $('textarea,input[type=text]').keypress(function (event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
     }
   });
 });

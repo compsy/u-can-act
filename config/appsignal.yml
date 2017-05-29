@@ -4,12 +4,14 @@ default: &defaults
 
 development:
   <<: *defaults
-  active: true
+  active: false
 
 production:
   <<: *defaults
   active: true
+  log_path: '/tmp'
 
 staging:
   <<: *defaults
   active: true
+  log_path: '/tmp'

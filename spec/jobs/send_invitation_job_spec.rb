@@ -13,17 +13,26 @@ describe SendInvitationJob, type: :job do
     end
   end
   describe '#perform' do
-    let(:response) { FactoryGirl.create(:response) }
+    let(:response) { FactoryGirl.create(:response, invited_state: Response::SENDING_STATE) }
     it 'should send the invitation' do
       expect(SendInvitation).to receive(:run!).with(response: response)
       subject.perform(response)
     end
     it 'should update the invited_state' do
       expect(SendInvitation).to receive(:run!).with(response: response)
-      expect(response.invited_state).to eq Response::NOT_SENT_STATE
+      expect(response.invited_state).to eq Response::SENDING_STATE
       subject.perform(response)
       response.reload
       expect(response.invited_state).to eq Response::SENT_STATE
+    end
+    it 'should update the invited_state for reminders' do
+      response.invited_state = Response::SENDING_REMINDER_STATE
+      response.save!
+      expect(SendInvitation).to receive(:run!).with(response: response)
+      expect(response.invited_state).to eq Response::SENDING_REMINDER_STATE
+      subject.perform(response)
+      response.reload
+      expect(response.invited_state).to eq Response::REMINDER_SENT_STATE
     end
   end
 end

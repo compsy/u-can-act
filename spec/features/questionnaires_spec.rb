@@ -5,7 +5,9 @@ require 'rails_helper'
 describe 'GET and POST /', type: :feature, js: true do
   let(:student) { FactoryGirl.create(:student) }
   it 'should show and store a questionnaire successfully' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, person: student, start_date: 1.week.ago.at_beginning_of_day)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               person: student,
+                                               start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
@@ -57,7 +59,9 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should store the results from the otherwise option for checkboxes and radios' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, person: student, start_date: 1.week.ago.at_beginning_of_day)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               person: student,
+                                               start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
@@ -89,9 +93,9 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should require radio buttons to be filled out' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, person: student,
-                                                                       start_date: 1.week.ago.at_beginning_of_day,
-                                                                       person: student)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               person: student)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,

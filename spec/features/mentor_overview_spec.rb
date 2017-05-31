@@ -5,8 +5,10 @@ require 'rails_helper'
 describe 'GET and POST /', type: :feature, js: true do
   let(:mentor) { FactoryGirl.create(:mentor) }
   let(:students) { FactoryGirl.create_list(:student, 4, :with_random_name) }
-  let(:other_students) { FactoryGirl.create_list(:student, 4, first_name: 'other-students-', 
-                                                 last_name: 'should-not-be-listed') }
+  let(:other_students) do
+    FactoryGirl.create_list(:student, 4, first_name: 'other-students-',
+                                         last_name: 'should-not-be-listed')
+  end
   let(:response_objects) do
     students.map do |student|
       prot_sub = FactoryGirl.create(:protocol_subscription,
@@ -19,9 +21,14 @@ describe 'GET and POST /', type: :feature, js: true do
                          invited_state: Response::SENT_STATE)
     end
   end
-  it 'should redirect to the mentor overview page given any of the provided invitation tokens' do
-    invitation_tokens = response_objects.map { |responseobj| FactoryGirl.create(:invitation_token, response: responseobj) }
 
+  let(:invitation_tokens) do
+    response_objects.map do |responseobj|
+      FactoryGirl.create(:invitation_token,
+                         response: responseobj)
+    end
+  end
+  it 'should redirect to the mentor overview page given any of the provided invitation tokens' do
     response_objects.each do |responseobj|
       expect(responseobj.completed_at).to be_nil
       expect(responseobj.content).to be_nil
@@ -39,8 +46,6 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should list the students of the current mentor on the page with the corresponding questionnaire links' do
-    invitation_tokens = response_objects.map { |responseobj| FactoryGirl.create(:invitation_token, response: responseobj) }
-
     visit "/?q=#{invitation_tokens.first.token}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
 
@@ -48,9 +53,9 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content(student.first_name)
       expect(page).to have_content(student.last_name)
       token = mentor.protocol_subscriptions.where(filling_out_for_id: student.id)
-        .first.responses.first.invitation_token.token
+                    .first.responses.first.invitation_token.token
 
-      expect(page).to have_link(href: questionnaire_path(q: token) )
+      expect(page).to have_link(href: questionnaire_path(q: token))
     end
 
     other_students.each do |student|
@@ -59,13 +64,12 @@ describe 'GET and POST /', type: :feature, js: true do
     end
   end
 
-  fit 'should be possible to fillout a questionnaire for each of the mentors students' do
-    invitation_tokens = response_objects.map { |responseobj| FactoryGirl.create(:invitation_token, response: responseobj) }
+  it 'should be possible to fillout a questionnaire for each of the mentors students' do
     visit "/?q=#{invitation_tokens.first.token}"
     students.each_with_index do |student, index|
       expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length - index)
       token = mentor.protocol_subscriptions.where(filling_out_for_id: student.id)
-        .first.responses.first.invitation_token.token
+                    .first.responses.first.invitation_token.token
 
       page.find(:css, "a[href='#{questionnaire_path(q: token)}']").click
       expect(page).to have_current_path(questionnaire_path(q: token))

@@ -114,24 +114,33 @@ class QuestionnaireGenerator
     def radio_options(question)
       body = []
       question[:options].each do |option|
-        name = idify(question[:id], option)
-        option_body = safe_join([
-                                  tag(:input,
-                                      name: answer_name(idify(question[:id])),
-                                      type: 'radio',
-                                      id: name,
-                                      value: option,
-                                      required: true,
-                                      class: 'validate'),
-                                  content_tag(:label,
-                                              option,
-                                              for: name,
-                                              class: 'flow-text')
-                                ])
-        option_body = content_tag(:p, option_body)
-        body << option_body
+        body << radio_option_body(question[:id], option)
       end
       safe_join(body)
+    end
+
+    def radio_option_body(question_id, option)
+      option = { title: option } unless option.is_a?(Hash)
+      elem_id = idify(question_id, option[:title])
+      tag_options = {
+        name: answer_name(idify(question_id)),
+        type: 'radio',
+        id: elem_id,
+        value: option[:title],
+        required: true,
+        class: 'validate'
+      }
+      tag_options = add_shows_questions(tag_options, option[:shows_questions])
+      wrapped_tag = tag(:input, tag_options)
+      option_body_wrap(question_id, option[:title], wrapped_tag)
+    end
+
+    def add_shows_questions(tag_options, shows_questions)
+      if shows_questions.present?
+        shows_questions_str = shows_questions.map { |qid| idify(qid) }.inspect
+        tag_options[:data] = { shows_questions: shows_questions_str }
+      end
+      tag_options
     end
 
     def radio_otherwise(question)
@@ -202,15 +211,12 @@ class QuestionnaireGenerator
         name: answer_name(elem_id),
         value: true
       }
-      if option[:shows_questions].present?
-        shows_questions_str = option[:shows_questions].map { |qid| idify(qid) }.inspect
-        tag_options[:data] = { shows_questions: shows_questions_str }
-      end
+      tag_options = add_shows_questions(tag_options, option[:shows_questions])
       wrapped_tag = tag(:input, tag_options)
-      checkbox_wrap_option_body(question_id, option[:title], wrapped_tag)
+      option_body_wrap(question_id, option[:title], wrapped_tag)
     end
 
-    def checkbox_wrap_option_body(question_id, title, wrapped_tag)
+    def option_body_wrap(question_id, title, wrapped_tag)
       option_body = safe_join([
                                 wrapped_tag,
                                 content_tag(:label,

@@ -7,6 +7,7 @@ var timestamp_c = null;
 
 function toggle_otherwise_field() {
   if ($(this).closest('.row').hasClass('hidden')) return;
+  if ($(this).closest('.row').find("input[type=text].otherwise").length === 0) return;
   if ($(this).closest('.row').find('.otherwise-option').is(':checked')) {
     if ($(this).closest('.row').find("input[type=text].otherwise").prop('disabled')) {
       $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', false).focus();
@@ -17,15 +18,16 @@ function toggle_otherwise_field() {
 }
 
 function toggle_shown_questions() {
-  if ($(this).is(':checked')) {
-    $(this).data('shows-questions').forEach(function (entry) {
+  if ($(this).closest('.row').find('input[data-shows-questions]').length === 0) return;
+  if ($(this).closest('.row').find('input[data-shows-questions]').is(':checked')) {
+    $(this).closest('.row').find('input[data-shows-questions]').data('shows-questions').forEach(function (entry) {
       var klass = '.' + entry + '_toggle';
       $(klass).removeClass('hidden')
           .find('input').prop('disabled', false);
       $('.otherwise-option').each(toggle_otherwise_field);
     });
   } else {
-    $(this).data('shows-questions').forEach(function (entry) {
+    $(this).closest('.row').find('input[data-shows-questions]').data('shows-questions').forEach(function (entry) {
       var klass = '.' + entry + '_toggle';
       $(klass).addClass('hidden')
           .find('input').prop('disabled', true);
@@ -57,10 +59,8 @@ function time_element() {
 
 $(function () {
   timestamp_c = new Date().getTime();
-  $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]')
-      .change(toggle_shown_questions)
-      .each(toggle_shown_questions);
-  $('input[type=radio],input[type=checkbox]').change(toggle_otherwise_field);
+  $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field);
+  $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
   $('.otherwise-option').each(toggle_otherwise_field);
   $('label + div.input-field.inline').click(function () {
     if ($(this).find('input[type=text][disabled]').length) {

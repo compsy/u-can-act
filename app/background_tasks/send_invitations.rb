@@ -18,6 +18,7 @@ class SendInvitations
         end
       end
       queue_mentor_responses(mentor_responses)
+      send_for_myself_reminders
     end
 
     def queue_mentor_responses(mentor_responses)
@@ -27,11 +28,14 @@ class SendInvitations
         SendInvitationJob.perform_later response
       end
     end
-    Response.still_open_and_not_completed.each do |response|
-      next unless response.protocol_subscription.active?
-      next if response.expired?
-      response.update_attributes!(invited_state: Response::SENDING_REMINDER_STATE)
-      SendInvitationJob.perform_later response
+
+    def send_for_myself_reminders
+      Response.still_open_and_not_completed.each do |response|
+        next unless response.protocol_subscription.active? && response.protocol_subscription.for_myself?
+        next if response.expired?
+        response.update_attributes!(invited_state: Response::SENDING_REMINDER_STATE)
+        SendInvitationJob.perform_later response
+      end
     end
   end
 end

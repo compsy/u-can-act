@@ -51,7 +51,14 @@ function time_element() {
       if (document.domain.indexOf('vsvproject.herokuapp.com') !== -1) {
         ga('send', 'timing', 'Time to answer question', id_b, duration);
       } else {
-        // console.log('send', 'timing', 'Time to answer question', id_b, duration);
+        console.log('send', 'timing', 'Time to answer question', id_b, duration);
+      }
+      var timingfield = id_b + '_timing';
+      if ($('#'+timingfield).length > 0) {
+        $('#'+timingfield).val(duration);
+      } else {
+        $('form').append('<input type="hidden" id="' + timingfield +
+                         '" name="content[' + timingfield + ']" value="' + duration + '" />');
       }
     }
   } else {

@@ -53,7 +53,8 @@ describe SendInvitations do
         expect(SendInvitationJob).to receive(:perform_later).once.and_return true
         described_class.run
         responses.map!(&:reload)
-        expect(responses.map(&:invited_state).uniq).to eq([Response::SENDING_STATE])
+        expect(responses.map(&:invited_state).uniq).to eq([Response::SENT_STATE, Response::SENDING_STATE])
+        expect(responses.map(&:invited_state).select { |x| x == Response::SENDING_STATE }.count).to eq 1
       end
     end
   end

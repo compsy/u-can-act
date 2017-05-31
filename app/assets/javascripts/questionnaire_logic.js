@@ -6,12 +6,32 @@ var id_c = null;
 var timestamp_c = null;
 
 function toggle_otherwise_field() {
+  if ($(this).closest('.row').hasClass('hidden')) return;
+  if ($(this).closest('.row').find("input[type=text].otherwise").length === 0) return;
   if ($(this).closest('.row').find('.otherwise-option').is(':checked')) {
     if ($(this).closest('.row').find("input[type=text].otherwise").prop('disabled')) {
       $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', false).focus();
     }
   } else {
     $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', true);
+  }
+}
+
+function toggle_shown_questions() {
+  if ($(this).closest('.row').find('input[data-shows-questions]').length === 0) return;
+  if ($(this).closest('.row').find('input[data-shows-questions]').is(':checked')) {
+    $(this).closest('.row').find('input[data-shows-questions]').data('shows-questions').forEach(function (entry) {
+      var klass = '.' + entry + '_toggle';
+      $(klass).removeClass('hidden')
+          .find('input').prop('disabled', false);
+      $('.otherwise-option').each(toggle_otherwise_field);
+    });
+  } else {
+    $(this).closest('.row').find('input[data-shows-questions]').data('shows-questions').forEach(function (entry) {
+      var klass = '.' + entry + '_toggle';
+      $(klass).addClass('hidden')
+          .find('input').prop('disabled', true);
+    });
   }
 }
 
@@ -24,12 +44,12 @@ function time_element() {
     timestamp_b = timestamp_c;
     id_c = curid;
     timestamp_c = new Date().getTime();
-    if (timestamp_a !== null && id_b !== null) {
+    if (timestamp_a !== null && id_b !== null && id_b !== undefined) {
       var duration = timestamp_b - timestamp_a;
       if (document.domain.indexOf('vsvproject.herokuapp.com') !== -1) {
         ga('send', 'timing', 'Time to answer question', id_b, duration);
       } else {
-        console.log('send', 'timing', 'Time to answer question', id_b, duration);
+        // console.log('send', 'timing', 'Time to answer question', id_b, duration);
       }
     }
   } else {
@@ -39,7 +59,8 @@ function time_element() {
 
 $(function () {
   timestamp_c = new Date().getTime();
-  $('input[type=radio],input[type=checkbox]').change(toggle_otherwise_field);
+  $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field);
+  $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
   $('.otherwise-option').each(toggle_otherwise_field);
   $('label + div.input-field.inline').click(function () {
     if ($(this).find('input[type=text][disabled]').length) {
@@ -49,6 +70,7 @@ $(function () {
   $('textarea,input[type=text]').keypress(function (event) {
     if (event.keyCode === 13) {
       event.preventDefault();
+      $(this).blur();
     }
   });
   $('input').change(time_element);

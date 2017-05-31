@@ -14,7 +14,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.content).to be_nil
     expect(responseobj.values).to be_nil
     expect(responseobj.opened_at).to be_nil
-    visit "/?q=#{invitation_token.token}"
+    visit "/questionnaire/#{invitation_token.token}"
     responseobj.reload
     expect(responseobj.opened_at).to be_within(1.minute).of(Time.zone.now)
     expect(page).to have_http_status(200)
@@ -45,10 +45,10 @@ describe 'GET and POST /', type: :feature, js: true do
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil
-    expect(responseobj.values).to eq('v1' => 'slecht',
-                                     'v2_brood' => 'true',
-                                     'v2_kaas_en_ham' => 'true',
-                                     'v3' => '57')
+    expect(responseobj.values).to include('v1' => 'slecht',
+                                          'v2_brood' => 'true',
+                                          'v2_kaas_en_ham' => 'true',
+                                          'v3' => '57')
   end
   it 'should store the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
@@ -57,7 +57,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "/questionnaire/#{invitation_token.token}"
     expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -73,20 +73,22 @@ describe 'GET and POST /', type: :feature, js: true do
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil
-    expect(responseobj.values).to eq('v1' => 'Anders, namelijk:',
-                                     'v1_anders_namelijk_text' => 'of niet soms',
-                                     'v2_anders_namelijk' => 'true',
-                                     'v2_anders_namelijk_text' => 'dit is een waarde',
-                                     'v3' => '50')
+    expect(responseobj.values).to include('v1' => 'Anders, namelijk:',
+                                          'v1_anders_namelijk_text' => 'of niet soms',
+                                          'v2_anders_namelijk' => 'true',
+                                          'v2_anders_namelijk_text' => 'dit is een waarde',
+                                          'v3' => '50')
   end
   it 'should require radio buttons to be filled out' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               person: FactoryGirl.create(:student))
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "/questionnaire/#{invitation_token.token}"
     expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -106,7 +108,8 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                start_date: 1.week.ago.at_beginning_of_day,
-                                               protocol: protocol)
+                                               protocol: protocol,
+                                               person: FactoryGirl.create(:student))
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
@@ -116,7 +119,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.content).to be_nil
     expect(responseobj.values).to be_nil
     expect(responseobj.opened_at).to be_nil
-    visit "/?q=#{invitation_token.token}"
+    visit "/questionnaire/#{invitation_token.token}"
     expect(page).to have_http_status(200)
     expect(page).not_to have_content('vragenlijst-dagboekstudie-studenten')
     expect(page).to have_content('Informed Consent')
@@ -143,13 +146,15 @@ describe 'GET and POST /', type: :feature, js: true do
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     expect(responseobj.content).to_not be_nil
-    expect(responseobj.values).to eq('v1' => 'slecht',
-                                     'v2_brood' => 'true',
-                                     'v2_kaas_en_ham' => 'true',
-                                     'v3' => '57')
+    expect(responseobj.values).to include('v1' => 'slecht',
+                                          'v2_brood' => 'true',
+                                          'v2_kaas_en_ham' => 'true',
+                                          'v3' => '57')
   end
   it 'should not accept strings longer than the max' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               person: FactoryGirl.create(:student))
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
@@ -166,7 +171,440 @@ describe 'GET and POST /', type: :feature, js: true do
     # v3
     page.click_on 'Opslaan'
     expect(page).to have_http_status(400)
-    # The page didn't change because we didn't select a radio:
+    # The page didn't change because an answe is too long
     expect(page).to have_content('Het antwoord is te lang en kan daardoor niet worden opgeslagen')
+  end
+  context 'shows and hides checkbox questions' do
+    let(:content) do
+      [{
+        id: :v1,
+        type: :radio,
+        title: 'Hoe voelt u zich vandaag?',
+        options: %w[slecht goed]
+      }, {
+        id: :v2,
+        type: :checkbox,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: ['brood', 'kaas en ham', { title: 'pizza', shows_questions: %i[v3 v4 v5], tooltip: 'some text' }]
+      }, {
+        section_start: 'My hidden question',
+        id: :v3,
+        hidden: true,
+        type: :range,
+        title: 'Zie je mij of niet?',
+        labels: ['helemaal niet', 'helemaal wel']
+      }, {
+        id: :v4,
+        hidden: true,
+        type: :checkbox,
+        title: 'Ben ik ook onzichtbaar?',
+        options: ['antwoord a', 'antwoord b']
+      }, {
+        id: :v5,
+        hidden: true,
+        type: :radio,
+        title: 'Zie je mij?',
+        options: %w[Hihaho hahaha],
+        section_end: true
+      }]
+    end
+
+    it 'shows and hides questions' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: FactoryGirl.create(:student))
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_content('Hoe voelt u zich vandaag?')
+      expect(page).to have_content('slecht')
+      expect(page).to have_content('goed')
+      expect(page).to have_content('Wat heeft u vandaag gegeten?')
+      expect(page).to have_content('brood')
+      expect(page).to have_content('kaas en ham')
+      expect(page).to have_content('pizza')
+
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v1
+      page.choose('slecht', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v2
+      page.check('brood', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v2
+      page.check('pizza', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
+      expect(page).to have_css('label', text: 'antwoord a', visible: true)
+      expect(page).to have_css('label', text: 'antwoord b', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: true)
+      expect(page).to have_css('label', text: 'Hihaho', visible: true)
+      expect(page).to have_css('label', text: 'hahaha', visible: true)
+      page.uncheck('pizza', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      page.check('pizza', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
+      expect(page).to have_css('label', text: 'antwoord a', visible: true)
+      expect(page).to have_css('label', text: 'antwoord b', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: true)
+      expect(page).to have_css('label', text: 'Hihaho', visible: true)
+      expect(page).to have_css('label', text: 'hahaha', visible: true)
+      # v3
+      range_select('v3', '64')
+      # v4
+      page.check('antwoord a', allow_label_click: true)
+      # v5
+      page.choose('hahaha', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'slecht',
+                                            'v2_brood' => 'true',
+                                            'v2_pizza' => 'true',
+                                            'v3' => '64',
+                                            'v4_antwoord_a' => 'true',
+                                            'v5' => 'hahaha')
+    end
+    it 'should not prevent from sending invisible answers' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: FactoryGirl.create(:student))
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      # The page didn't change because we didn't select a radio for v1:
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('slecht', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'slecht')
+    end
+    it 'should require invisible radios once they become visible' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: FactoryGirl.create(:student))
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('slecht', allow_label_click: true)
+      page.check('pizza', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      # The page didn't change because we didn't select a radio for v5:
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_http_status(200)
+      # v5
+      page.choose('Hihaho', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'slecht',
+                                            'v2_pizza' => 'true',
+                                            'v3' => '50',
+                                            'v5' => 'Hihaho')
+    end
+  end
+  context 'shows and hides radio questions' do
+    let(:content) do
+      [{
+        id: :v1,
+        type: :checkbox,
+        title: 'Hoe voelt u zich vandaag?',
+        options: %w[slecht goed]
+      }, {
+        id: :v2,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: ['brood', 'kaas en ham', { title: 'pizza', shows_questions: %i[v3 v4 v5], tooltip: 'some text' }]
+      }, {
+        section_start: 'My hidden question',
+        id: :v3,
+        hidden: true,
+        type: :range,
+        title: 'Zie je mij of niet?',
+        labels: ['helemaal niet', 'helemaal wel']
+      }, {
+        id: :v4,
+        hidden: true,
+        type: :checkbox,
+        title: 'Ben ik ook onzichtbaar?',
+        options: ['antwoord a', 'antwoord b']
+      }, {
+        id: :v5,
+        hidden: true,
+        type: :radio,
+        title: 'Zie je mij?',
+        options: %w[Hihaho hahaha],
+        section_end: true
+      }]
+    end
+
+    it 'shows and hides questions' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: FactoryGirl.create(:student))
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_content('Hoe voelt u zich vandaag?')
+      expect(page).to have_content('slecht')
+      expect(page).to have_content('goed')
+      expect(page).to have_content('Wat heeft u vandaag gegeten?')
+      expect(page).to have_content('brood')
+      expect(page).to have_content('kaas en ham')
+      expect(page).to have_content('pizza')
+
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v1
+      page.check('slecht', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v2
+      page.choose('brood', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v2
+      page.choose('pizza', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
+      expect(page).to have_css('label', text: 'antwoord a', visible: true)
+      expect(page).to have_css('label', text: 'antwoord b', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: true)
+      expect(page).to have_css('label', text: 'Hihaho', visible: true)
+      expect(page).to have_css('label', text: 'hahaha', visible: true)
+      page.choose('kaas en ham', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      page.choose('pizza', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
+      expect(page).to have_css('label', text: 'antwoord a', visible: true)
+      expect(page).to have_css('label', text: 'antwoord b', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: true)
+      expect(page).to have_css('label', text: 'Hihaho', visible: true)
+      expect(page).to have_css('label', text: 'hahaha', visible: true)
+      # v3
+      range_select('v3', '64')
+      # v4
+      page.check('antwoord a', allow_label_click: true)
+      # v5
+      page.choose('hahaha', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1_slecht' => 'true',
+                                            'v2' => 'pizza',
+                                            'v3' => '64',
+                                            'v4_antwoord_a' => 'true',
+                                            'v5' => 'hahaha')
+    end
+    it 'should not prevent from sending invisible answers' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: FactoryGirl.create(:student))
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      # The page didn't change because we didn't select a radio for v2:
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v2
+      page.choose('brood', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v2' => 'brood')
+    end
+    it 'should require invisible radios once they become visible' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: FactoryGirl.create(:student))
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.check('goed', allow_label_click: true)
+      page.choose('pizza', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      # The page didn't change because we didn't select a radio for v5:
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_http_status(200)
+      # v5
+      page.choose('Hihaho', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1_goed' => 'true',
+                                            'v2' => 'pizza',
+                                            'v3' => '50',
+                                            'v5' => 'Hihaho')
+    end
   end
 end

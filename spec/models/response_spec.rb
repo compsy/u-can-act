@@ -221,6 +221,37 @@ describe Response do
     end
   end
 
+  describe 'initialize_response!' do
+    let(:response) { FactoryGirl.create(:response) }
+    it 'should create an invitation token' do
+      expect(response.invitation_token).to be_nil
+      response.initialize_invitation_token!
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+    end
+    it 'should reuse the same token if one already exists' do
+      FactoryGirl.create(:invitation_token, response: response)
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+      current_token = response.invitation_token.token
+      response.initialize_invitation_token!
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+      expect(response.invitation_token.token).to eq current_token
+    end
+    it 'should update the created_at when reusing a token' do
+      FactoryGirl.create(:invitation_token, response: response, created_at: 3.days.ago)
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.created_at).to be_within(5.minutes).of(3.days.ago)
+      current_token = response.invitation_token.token
+      response.initialize_invitation_token!
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+      expect(response.invitation_token.token).to eq current_token
+      expect(response.invitation_token.created_at).to be_within(5.minutes).of(Time.zone.now)
+    end
+  end
+
   describe 'content' do
     it 'should accept nil' do
       response = FactoryGirl.build(:response, content: nil)

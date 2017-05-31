@@ -38,6 +38,24 @@ describe SendInvitations do
         response.reload
         expect(response.invited_state).to eq(Response::NOT_SENT_STATE)
       end
+
+      it 'should call the SendSms use case only once for multiple mentor responses' do
+        mentor = FactoryGirl.create(:mentor)
+        student = FactoryGirl.create(:student)
+
+        responses = Array.new(10) do |_i|
+          protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                     start_date: 1.week.ago.at_beginning_of_day,
+                                                     person: mentor, filling_out_for: student)
+          response = FactoryGirl.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
+          response
+        end
+        expect(SendInvitationJob).to receive(:perform_later).once.and_return true
+        described_class.run
+        responses.map!(&:reload)
+        expect(responses.map(&:invited_state).uniq).to eq([Response::SENT_STATE, Response::SENDING_STATE])
+        expect(responses.map(&:invited_state).select { |x| x == Response::SENDING_STATE }.count).to eq 1
+      end
     end
 
     describe 'reminders' do

@@ -4,36 +4,36 @@ class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 255
 
   before_action :set_response, only: [:show]
+  before_action :set_cookie, only: [:show]
   before_action :check_informed_consent, only: [:show]
+  before_action :set_questionnaire_content, only: [:show]
   before_action :verify_response_id, only: %i[create create_informed_consent]
   before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_content_hash, only: [:create]
 
   def show
-    @response.opened_at = Time.zone.now
-    @response.save!
+    @response.update_attributes!(opened_at: Time.zone.now)
   end
 
   def create_informed_consent
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
-    @response.opened_at = Time.zone.now
-    @response.save!
+    @response.update_attributes!(opened_at: Time.zone.now)
+    set_questionnaire_content
     render :show
   end
 
   def create
-    response_content = ResponseContent.create!(content: questionnaire_create_params[:content].to_unsafe_h)
-    @response.content = response_content.id
-    @response.completed_at = Time.zone.now
-    @response.save!
+    response_content = ResponseContent.create!(content: questionnaire_content)
+    @response.update_attributes!(content: response_content.id, completed_at: Time.zone.now)
+    redirect_to(mentor_overview_index_path) && return if CookieJar.mentor?(cookies.signed)
     redirect_to klaar_path
   end
 
   private
 
   def check_content_hash
-    questionnaire_create_params[:content].to_unsafe_h.each do |k, v|
+    questionnaire_content.each do |k, v|
       if k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
         render(status: 400, plain: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen')
         break
@@ -48,7 +48,6 @@ class QuestionnaireController < ApplicationController
     @response = invitation_token.response
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
-    cookies.signed[:response_id] = @response.id.to_s
   end
 
   def check_informed_consent
@@ -58,7 +57,8 @@ class QuestionnaireController < ApplicationController
   end
 
   def verify_response_id
-    return if cookies.signed[:response_id] && cookies.signed[:response_id] == questionnaire_create_params[:response_id]
+    return if CookieJar.cookies_set?(cookies.signed) &&
+              CookieJar.verify_param(cookies.signed, response_id: questionnaire_create_params[:response_id])
     render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.')
   end
 
@@ -68,6 +68,16 @@ class QuestionnaireController < ApplicationController
     return if performed?
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
+  end
+
+  def set_questionnaire_content
+    @content = QuestionnaireGenerator.generate_questionnaire(@response.id,
+                                                             @response.measurement.questionnaire.content,
+                                                             @response.measurement.questionnaire.title,
+                                                             'Opslaan',
+                                                             '/',
+                                                             form_authenticity_token(form_options: { action: '/',
+                                                                                                     method: 'post' }))
   end
 
   def questionnaire_params
@@ -94,16 +104,26 @@ class QuestionnaireController < ApplicationController
     end
   end
 
-  def check_invitation_token(invitation_token)
-    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless invitation_token
-    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if
-      invitation_token.response.completed_at
-    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if invitation_token.response.expired?
+  def questionnaire_content
+    return {} if questionnaire_create_params[:content].nil?
+    questionnaire_create_params[:content].to_unsafe_h
+  end
+
+  def set_cookie
+    cookie = { response_id: @response.id.to_s }
+    CookieJar.set_or_update_cookie(cookies.signed, cookie)
   end
 
   def check_response(response)
     render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless response
     render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if response.completed_at
     render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if response.expired?
+  end
+
+  def check_invitation_token(invitation_token)
+    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless invitation_token
+    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if
+      invitation_token.response.completed_at
+    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if invitation_token.response.expired?
   end
 end

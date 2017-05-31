@@ -148,4 +148,25 @@ describe 'GET and POST /', type: :feature, js: true do
                                      'v2_kaas_en_ham' => 'true',
                                      'v3' => '57')
   end
+  it 'should not accept strings longer than the max' do
+    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/?q=#{invitation_token.token}"
+    expect(page).to have_http_status(200)
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    # v1
+    page.choose('slecht', allow_label_click: true)
+    # v2
+    page.check('v2_anders_namelijk', allow_label_click: true)
+    page.fill_in('v2_anders_namelijk_text', with: 'd' * (QuestionnaireController::MAX_ANSWER_LENGTH + 1))
+    # v3
+    page.click_on 'Opslaan'
+    expect(page).to have_http_status(400)
+    # The page didn't change because we didn't select a radio:
+    expect(page).to have_content('Het antwoord is te lang en kan daardoor niet worden opgeslagen')
+  end
 end

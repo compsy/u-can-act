@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 class QuestionnaireController < ApplicationController
+  MAX_ANSWER_LENGTH = 255
+
   before_action :set_response, only: [:show]
   before_action :set_cookie, only: [:show]
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
   before_action :verify_response_id, only: %i[create create_informed_consent]
   before_action :set_create_response, only: %i[create create_informed_consent]
+  before_action :check_content_hash, only: [:create]
 
   def show
     @response.update_attributes!(opened_at: Time.zone.now)
@@ -28,6 +31,15 @@ class QuestionnaireController < ApplicationController
   end
 
   private
+
+  def check_content_hash
+    questionnaire_create_params[:content].to_unsafe_h.each do |k, v|
+      if k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
+        render(status: 400, plain: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen')
+        break
+      end
+    end
+  end
 
   def set_response
     invitation_token = InvitationToken.find_by_token(questionnaire_params[:q])

@@ -8,7 +8,7 @@ class CreateMentors < ActiveInteraction::Base
   # Creates mentors from the given array created with EchoPeople
   #
   # Params:
-  # - people: the array containing the people details including the people they will supervise
+  # - mentors: the array containing the mentor details including the students they will supervise
   def execute
     plain_text_parser = PlainTextParser.new
     parsed_mentors = parse_mentors(mentors, plain_text_parser)

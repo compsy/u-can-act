@@ -8,7 +8,7 @@ class CreateStudents < ActiveInteraction::Base
   # Creates students from the given array created with EchoPeople
   #
   # Params:
-  # - people: the array containing the people details
+  # - students: the array containing the student details
   def execute
     plain_text_parser = PlainTextParser.new
     parsed_students = parse_students(students, plain_text_parser)

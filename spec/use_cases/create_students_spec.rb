@@ -25,7 +25,7 @@ describe CreateStudents do
   end
 
   describe 'execute' do
-    it 'should accept an array as string' do
+    it 'should accept an array as arguments' do
       expect do
         described_class.run!(students: [])
       end.to_not raise_error

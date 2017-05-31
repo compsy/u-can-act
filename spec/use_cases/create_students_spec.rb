@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 describe CreateStudents do
+  let!(:plain_text_parser) { PlainTextParser.new }
   let!(:protocol) { FactoryGirl.create(:protocol, name: 'protname') }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:students) do
@@ -33,13 +34,13 @@ describe CreateStudents do
 
   describe 'parse_students' do
     it 'should return an array with all students' do
-      result = subject.send(:parse_students, students)
+      result = subject.send(:parse_students, students, plain_text_parser)
       expect(result).to be_a(Array)
       expect(result.length).to eq 3
     end
 
     it 'should set the correct keys' do
-      result = subject.send(:parse_students, students)
+      result = subject.send(:parse_students, students, plain_text_parser)
       expect(result.map(&:keys).uniq.flatten).to match_array(%i[first_name
                                                                 last_name
                                                                 mobile_phone
@@ -48,7 +49,7 @@ describe CreateStudents do
     end
 
     it 'should set the correct data' do
-      result = subject.send(:parse_students, students)
+      result = subject.send(:parse_students, students, plain_text_parser)
       timedateinfuture = Time.zone.parse(dateinfuture)
       expect(result.first).to eq(first_name: 'a',
                                  last_name: 'e',

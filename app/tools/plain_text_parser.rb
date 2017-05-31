@@ -28,6 +28,6 @@ class PlainTextParser
     person = Person.find_by_mobile_phone(mobile_phone)
     raise "Person #{mobile_phone} does not exist" unless person.present?
     raise "Person #{mobile_phone} is not a student" unless person.type == 'Student'
-    person
+    person.id
   end
 end

@@ -32,8 +32,10 @@ class EchoPeople < ActiveInteraction::Base
                   mobile_phone: row[2],
                   protocol_name: row[3],
                   start_date: row[4] }
-
-      people.last[:filling_out_for] = row[5] if(row.length > 5)
+      if(row.length > 5)
+        people.last[:filling_out_for] = row[5] 
+        people.last[:filling_out_for_protocol] = row[6] 
+      end
       puts "people << #{people.last.inspect};nil"
     end
   end

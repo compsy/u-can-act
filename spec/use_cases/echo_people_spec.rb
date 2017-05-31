@@ -59,34 +59,34 @@ describe EchoPeople do
       end
     end
 
-    describe 'with mentors' do
+    describe 'with mentors', focus: true do
       before do
         allow(CSV).to receive(:foreach)
           .and_yield(%w[firstname lastname mobile_phone protocol_name start_date])
-          .and_yield(['a', 'e', '0612345679', 'protname', dateinfuture, '06-12345670'])
-          .and_yield(['a', 'e', '0612345679', 'protname', dateinfuture, '0676543219'])
-          .and_yield(['b', 'f', '06-12345670', 'protname', dateinfuture, '0676543219' ])
-          .and_yield(['b', 'f', '06-12345670', 'protname', dateinfuture, '0676543266' ])
-          .and_yield(['b', 'f', '06-12345670', 'protname', dateinfuture, '0676543227' ])
+          .and_yield(['a', 'e', '0612345679', 'protname', dateinfuture,  '06-12345670', 'pilot'])
+          .and_yield(['a', 'e', '0612345679', 'protname', dateinfuture,  '0676543219', 'pilot'])
+          .and_yield(['b', 'f', '06-12345670', 'protname', dateinfuture, '0676543219', 'pilot'])
+          .and_yield(['b', 'f', '06-12345670', 'protname', dateinfuture, '0676543266', 'pilot'])
+          .and_yield(['b', 'f', '06-12345670', 'protname', dateinfuture, '0676543227', 'pilot'])
       end
 
       it 'should return an array with all mentors (except the header)' do
         expected_output = "people = [];nil\n"
         expected_output += 'people << {:first_name=>"a", :last_name=>"e", :mobile_phone=>"0612345679", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", "\
-                          ":filling_out_for=>\"06-12345670\"};nil\n"
+                          ":filling_out_for=>\"06-12345670\", :filling_out_for_protocol=>\"pilot\"};nil\n"
         expected_output += 'people << {:first_name=>"a", :last_name=>"e", :mobile_phone=>"0612345679", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", "\
-                          ":filling_out_for=>\"0676543219\"};nil\n"
+                          ":filling_out_for=>\"0676543219\", :filling_out_for_protocol=>\"pilot\"};nil\n"
         expected_output += 'people << {:first_name=>"b", :last_name=>"f", :mobile_phone=>"06-12345670", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", "\
-                          ":filling_out_for=>\"0676543219\"};nil\n"
+                          ":filling_out_for=>\"0676543219\", :filling_out_for_protocol=>\"pilot\"};nil\n"
         expected_output += 'people << {:first_name=>"b", :last_name=>"f", :mobile_phone=>"06-12345670", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", "\
-                          ":filling_out_for=>\"0676543266\"};nil\n"
+                          ":filling_out_for=>\"0676543266\", :filling_out_for_protocol=>\"pilot\"};nil\n"
         expected_output += 'people << {:first_name=>"b", :last_name=>"f", :mobile_phone=>"06-12345670", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", "\
-                          ":filling_out_for=>\"0676543227\"};nil\n"
+                          ":filling_out_for=>\"0676543227\", :filling_out_for_protocol=>\"pilot\"};nil\n"
 
         expect { subject.send(:echo_people, 'test.csv') }.to output(expected_output).to_stdout
       end

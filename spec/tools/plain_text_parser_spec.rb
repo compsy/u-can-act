@@ -99,9 +99,7 @@ describe PlainTextParser, focus: true do
 
       it 'should return the person if everything is correct' do
         result = subject.parse_filling_out_for(student_mobile_phone)
-        expect(result).to be_a Person
-        expect(result).to be_a Student
-        expect(result.mobile_phone).to eq student_mobile_phone
+        expect(result).to eq student.id
       end
     end
   end

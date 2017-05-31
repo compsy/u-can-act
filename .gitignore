@@ -6,6 +6,7 @@ capybara-*.html
 /tmp/capybara
 /tmp/data
 /tmp/restart.txt
+/tmp/rspec_guard_result
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /coverage/
@@ -14,6 +15,7 @@ capybara-*.html
 rerun.txt
 routes.txt
 people.csv
+mentors.csv
 pickle-email-*.html
 
 # dotenv

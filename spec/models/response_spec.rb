@@ -54,6 +54,63 @@ describe Response do
         expect(described_class.recently_opened_and_not_sent.count).to eq 3
       end
     end
+    describe 'still_open_and_not_completed' do
+      it 'should find a response that was opened 9 hours ago' do
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 1
+      end
+      it 'should not find a response that was opened eleven hours ago' do
+        FactoryGirl.create(:response, open_from: 11.hours.ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 0
+      end
+      it 'should not find a response that is not open yet' do
+        FactoryGirl.create(:response, open_from: 7.hours.ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 0
+      end
+      it 'should not find a response that is sending' do
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
+                                      invited_state: described_class::SENDING_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 0
+      end
+      it 'should not find a response that is not sent' do
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 0
+      end
+      it 'should not find a response that is sending the reminder' do
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
+                                      invited_state: described_class::SENDING_REMINDER_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 0
+      end
+      it 'should not find a response that is completed' do
+        FactoryGirl.create(:response,
+                           :completed,
+                           open_from: 9.hours.ago.in_time_zone,
+                           invited_state: described_class::SENT_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 0
+      end
+      it 'should not find a response that has sent a reminder' do
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
+                                      invited_state: described_class::REMINDER_SENT_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 0
+      end
+      it 'should be able to retrieve multiple responses' do
+        FactoryGirl.create(:response, open_from: (described_class::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        FactoryGirl.create(:response, open_from: (described_class::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        FactoryGirl.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        FactoryGirl.create(:response, open_from: (described_class::REMINDER_DELAY - 1.minute).ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        FactoryGirl.create(:response, open_from: (described_class::REMINDER_DELAY + 121.minutes).ago.in_time_zone,
+                                      invited_state: described_class::SENT_STATE)
+        expect(described_class.still_open_and_not_completed.count).to eq 3
+      end
+    end
     describe 'completed' do
       it 'should return responses with a completed_at' do
         response = FactoryGirl.create(:response, :completed)
@@ -161,6 +218,37 @@ describe Response do
     it 'should work to retrieve a Measurement' do
       response = FactoryGirl.create(:response)
       expect(response.measurement).to be_a(Measurement)
+    end
+  end
+
+  describe 'initialize_response!' do
+    let(:response) { FactoryGirl.create(:response) }
+    it 'should create an invitation token' do
+      expect(response.invitation_token).to be_nil
+      response.initialize_invitation_token!
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+    end
+    it 'should reuse the same token if one already exists' do
+      FactoryGirl.create(:invitation_token, response: response)
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+      current_token = response.invitation_token.token
+      response.initialize_invitation_token!
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+      expect(response.invitation_token.token).to eq current_token
+    end
+    it 'should update the created_at when reusing a token' do
+      FactoryGirl.create(:invitation_token, response: response, created_at: 3.days.ago)
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.created_at).to be_within(5.minutes).of(3.days.ago)
+      current_token = response.invitation_token.token
+      response.initialize_invitation_token!
+      expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token).to_not be_nil
+      expect(response.invitation_token.token).to eq current_token
+      expect(response.invitation_token.created_at).to be_within(5.minutes).of(Time.zone.now)
     end
   end
 

@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :protocol_subscription do
+    initialize_with { new(attributes) }
     person
     protocol
     state ProtocolSubscription::ACTIVE_STATE

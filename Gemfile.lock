@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/sergeykish/workless.git
+  revision: 6b1dfe8e469e127be27d4b4862b16ad29c7a1001
+  ref: 6b1dfe8e469e127be27d4b4862b16ad29c7a1001
+  specs:
+    workless (1.2.3)
+      delayed_job (>= 2.0.7)
+      heroku-api
+      rails
+      rush
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -272,6 +283,8 @@ GEM
     slop (3.6.0)
     spring (2.0.2)
       activesupport (>= 4.2)
+    spring-commands-rspec (1.0.4)
+      spring (>= 0.9.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
@@ -310,11 +323,6 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    workless (1.2.3)
-      delayed_job (>= 2.0.7)
-      heroku-api
-      rails
-      rush
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -355,6 +363,7 @@ DEPENDENCIES
   sass-rails
   simplecov
   spring
+  spring-commands-rspec
   spring-watcher-listen
   therubyracer
   timecop
@@ -362,10 +371,10 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   web-console
-  workless
+  workless!
 
 RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.6
+   1.15.0

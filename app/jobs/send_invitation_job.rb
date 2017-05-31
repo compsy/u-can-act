@@ -5,6 +5,10 @@ class SendInvitationJob < ApplicationJob
 
   def perform(response)
     SendInvitation.run!(response: response)
-    response.update_attributes!(invited_state: Response::SENT_STATE)
+    if response.invited_state == Response::SENDING_STATE
+      response.update_attributes!(invited_state: Response::SENT_STATE)
+    else
+      response.update_attributes!(invited_state: Response::REMINDER_SENT_STATE)
+    end
   end
 end

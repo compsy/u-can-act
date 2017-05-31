@@ -8,16 +8,23 @@ FactoryGirl.define do
     last_name 'Doe'
     type 'Person'
 
-    trait :student do
-      type 'Student'
+    trait :with_random_name do
+      sequence(:first_name, 'a') { |n| 'Janine' + n }
+      sequence(:last_name, 'a') { |n| 'Douval' + n }
     end
-    trait :mentor do
-      type 'Mentor'
-    end
+
     trait :with_protocol_subscriptions do
       after(:create) do |person|
         FactoryGirl.create(:protocol_subscription, person: person)
       end
     end
+  end
+
+  factory :mentor, class: 'Mentor', parent: :person do
+    type 'Mentor'
+  end
+
+  factory :student, class: 'Student', parent: :person do
+    type 'Student'
   end
 end

@@ -20,7 +20,7 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.possible_reward_points).to eq 20
     expect(protocol_subscription.max_reward_points).to eq 30
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "/questionnaire/#{invitation_token.token}"
     expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1

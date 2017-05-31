@@ -2,28 +2,6 @@
 
 puts 'Generating questionnaires - Started'
 
-=begin
-voormeting = Questionnaire.find_by_name('Voormeting Studenten')
-voormeting ||= Questionnaire.new(name: 'Voormeting Studenten')
-voormeting.content = [{
-                        id: :v1,
-                        type: :radio,
-                        title: 'Hoe voelt u zich vandaag?',
-                        options: %w[slecht goed]
-                      }, {
-                        id: :v2,
-                        type: :checkbox,
-                        title: 'Wat heeft u vandaag gegeten?',
-                        options: ['brood', 'kaas en ham', 'pizza']
-                      }, {
-                        id: :v3,
-                        type: :range,
-                        title: 'Ik heb zin om naar school te gaan.',
-                        labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
-                      }]
-voormeting.save!
-=end
-
 
 ################################
 ## Informed Consent Studenten ##
@@ -214,36 +192,45 @@ dagboek_content = [{
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over school en stage. Je antwoorden zijn anoniem en alleen de onderzoekers kunnen ze zien.</p>'
                    }, {
                      id: :v1,
-                     type: :checkbox,
+                     type: :radio,
                      title: 'Ben je de afgelopen week naar school en/of stage geweest?',
-                     options: ['Ja', 'Nee (de volgende vijf vragen mag je over slaan, je mag starten bij de vraag: Hoeveel tijd heb je afgelopen week besteed...)']
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6 v7] },
+                       'Nee'
+                     ]
                    }, {
                      id: :v2,
+                     hidden: true,
                      type: :range,
                      title: 'Wat heb je de afgelopen week <strong>meegemaakt op school en/of stage?</strong>',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
                      id: :v3,
+                     hidden: true,
                      type: :range,
                      title: 'Had je het gevoel dat je zelf <strong>invloed had op deze gebeurtenissen</strong> op school en/of stage?',
                      labels: ['zelf geen invloed', 'zelf veel invloed']
                    }, {
                      id: :v4,
+                     hidden: true,
                      type: :range,
                      title: 'Ben je afgelopen week vooral <strong>naar school en/of stage gegaan</strong> omdat je het moest of omdat je het zelf wilde?',
                      labels: ['omdat ik moest', 'omdat ik wilde']
                    }, {
                      id: :v5,
+                     hidden: true,
                      type: :range,
                      title: '<strong>Hoe goed heb je het gedaan</strong> afgelopen week op school en/of stage?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v6,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je afgelopen week goed <strong>opschieten met vrienden op school en/of stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v7,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je afgelopen week goed <strong>opschieten met leraren op school en/of begeleiders op stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
@@ -320,21 +307,27 @@ dagboek_content = [{
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over de begeleiding die je krijgt van het S-team. Je antwoorden zijn helemaal anoniem en alleen de onderzoekers kunnen ze zien.</p>'
                    }, {
                      id: :v20,
-                     type: :checkbox,
+                     type: :radio,
                      title: 'Heb je de afgelopen week je begeleider gesproken?',
-                     options: ['Ja', 'Nee (de volgende drie vragen mag je overslaan)']
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v21 v22 v23] },
+                       'Nee'
+                      ]
                    }, {
                      id: :v21,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je afgelopen week goed <strong>opschieten met je begeleider</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v22,
+                     hidden: true,
                      type: :range,
                      title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan je begeleider afgelopen week?',
                      labels: ['gesloten', 'open']
                    }, {
                      id: :v23,
+                     hidden: true,
                      type: :range,
                      title: 'Heeft je begeleider je goed geholpen afgelopen week?',
                      labels: ['niet goed geholpen', 'heel goed geholpen'],
@@ -434,36 +427,45 @@ dagboek_content = [{
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over school en stage. Je antwoorden zijn anoniem en alleen de onderzoekers kunnen ze zien.</p>'
                    }, {
                      id: :v1,
-                     type: :checkbox,
+                     type: :radio,
                      title: 'Ben je sinds maandag naar school en/of stage geweest?',
-                     options: ['Ja', 'Nee (de volgende vijf vragen mag je over slaan, je mag starten bij de vraag: Hoeveel tijd heb je sinds maandag besteed...)']
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6 v7] },
+                       'Nee'
+                     ]
                    }, {
                      id: :v2,
+                     hidden: true,
                      type: :range,
                      title: 'Wat heb je sinds maandag <strong>meegemaakt op school en/of stage?</strong>',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
                      id: :v3,
+                     hidden: true,
                      type: :range,
                      title: 'Had je het gevoel dat je zelf <strong>invloed had op deze gebeurtenissen</strong> op school en/of stage?',
                      labels: ['zelf geen invloed', 'zelf veel invloed']
                    }, {
                      id: :v4,
+                     hidden: true,
                      type: :range,
                      title: 'Ben je sinds maandag vooral <strong>naar school en/of stage gegaan</strong> omdat je het moest of omdat je het zelf wilde?',
                      labels: ['omdat ik moest', 'omdat ik wilde']
                    }, {
                      id: :v5,
+                     hidden: true,
                      type: :range,
                      title: '<strong>Hoe goed heb je het</strong> sinds maandag <strong>gedaan</strong> op school en/of stage?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v6,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je sinds maandag goed <strong>opschieten met vrienden op school en/of stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v7,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je sinds maandag goed <strong>opschieten met leraren op school en/of begeleiders op stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
@@ -540,21 +542,27 @@ dagboek_content = [{
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over de begeleiding die je krijgt van het S-team. Je antwoorden zijn helemaal anoniem en alleen de onderzoekers kunnen ze zien.</p>'
                    }, {
                      id: :v20,
-                     type: :checkbox,
+                     type: :radio,
                      title: 'Heb je de afgelopen week je begeleider gesproken?',
-                     options: ['Ja', 'Nee (de volgende drie vragen mag je overslaan)']
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v21 v22 v23] },
+                       'Nee'
+                     ]
                    }, {
                      id: :v21,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je afgelopen week goed <strong>opschieten met je begeleider</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v22,
+                     hidden: true,
                      type: :range,
                      title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan je begeleider afgelopen week?',
                      labels: ['gesloten', 'open']
                    }, {
                      id: :v23,
+                     hidden: true,
                      type: :range,
                      title: 'Heeft je begeleider je goed geholpen afgelopen week?',
                      labels: ['niet goed geholpen', 'heel goed geholpen'],
@@ -655,36 +663,45 @@ dagboek_content = [{
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over school en stage. Je antwoorden zijn anoniem en alleen de onderzoekers kunnen ze zien.</p>'
                    }, {
                      id: :v1,
-                     type: :checkbox,
+                     type: :radio,
                      title: 'Ben je sinds gisteren naar school en/of stage geweest?',
-                     options: ['Ja', 'Nee (de volgende vijf vragen mag je over slaan, je mag starten bij de vraag: Hoeveel tijd heb je sinds gisteren besteed...)']
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6 v7] },
+                       'Nee'
+                     ]
                    }, {
                      id: :v2,
+                     hidden: true,
                      type: :range,
                      title: 'Wat heb je sinds gisteren <strong>meegemaakt op school en/of stage?</strong>',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
                      id: :v3,
+                     hidden: true,
                      type: :range,
                      title: 'Had je het gevoel dat je zelf <strong>invloed had op deze gebeurtenissen</strong> op school en/of stage?',
                      labels: ['zelf geen invloed', 'zelf veel invloed']
                    }, {
                      id: :v4,
+                     hidden: true,
                      type: :range,
                      title: 'Ben je sinds gisteren vooral <strong>naar school en/of stage gegaan</strong> omdat je het moest of omdat je het zelf wilde?',
                      labels: ['omdat ik moest', 'omdat ik wilde']
                    }, {
                      id: :v5,
+                     hidden: true,
                      type: :range,
                      title: '<strong>Hoe goed heb je het</strong> sinds gisteren <strong>gedaan</strong> op school en/of stage?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v6,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je sinds gisteren goed <strong>opschieten met vrienden op school en/of stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v7,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je sinds gisteren goed <strong>opschieten met leraren op school en/of begeleiders op stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
@@ -771,36 +788,45 @@ dagboek_content = [{
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over school en stage. Je antwoorden zijn anoniem en alleen de onderzoekers kunnen ze zien.</p>'
                    }, {
                      id: :v1,
-                     type: :checkbox,
+                     type: :radio,
                      title: 'Ben je sinds gisteren naar school en/of stage geweest?',
-                     options: ['Ja', 'Nee (de volgende vijf vragen mag je over slaan, je mag starten bij de vraag: Hoeveel tijd heb je sinds gisteren besteed...)']
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6 v7] },
+                       'Nee'
+                     ]
                    }, {
                      id: :v2,
+                     hidden: true,
                      type: :range,
                      title: 'Wat heb je sinds gisteren <strong>meegemaakt op school en/of stage?</strong>',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
                      id: :v3,
+                     hidden: true,
                      type: :range,
                      title: 'Had je het gevoel dat je zelf <strong>invloed had op deze gebeurtenissen</strong> op school en/of stage?',
                      labels: ['zelf geen invloed', 'zelf veel invloed']
                    }, {
                      id: :v4,
+                     hidden: true,
                      type: :range,
                      title: 'Ben je sinds gisteren vooral <strong>naar school en/of stage gegaan</strong> omdat je het moest of omdat je het zelf wilde?',
                      labels: ['omdat ik moest', 'omdat ik wilde']
                    }, {
                      id: :v5,
+                     hidden: true,
                      type: :range,
                      title: '<strong>Hoe goed heb je het</strong> sinds gisteren <strong>gedaan</strong> op school en/of stage?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v6,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je sinds gisteren goed <strong>opschieten met vrienden op school en/of stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v7,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je sinds gisteren goed <strong>opschieten met leraren op school en/of begeleiders op stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
@@ -877,21 +903,27 @@ dagboek_content = [{
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over de begeleiding die je krijgt van het S-team. Je antwoorden zijn helemaal anoniem en alleen de onderzoekers kunnen ze zien.</p>'
                    }, {
                      id: :v20,
-                     type: :checkbox,
+                     type: :radio,
                      title: 'Heb je de afgelopen week je begeleider gesproken?',
-                     options: ['Ja', 'Nee (de volgende drie vragen mag je overslaan)']
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v21 v22 v23] },
+                       'Nee'
+                     ]
                    }, {
                      id: :v21,
+                     hidden: true,
                      type: :range,
                      title: 'Kon je afgelopen week goed <strong>opschieten met je begeleider</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v22,
+                     hidden: true,
                      type: :range,
                      title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan je begeleider afgelopen week?',
                      labels: ['gesloten', 'open']
                    }, {
                      id: :v23,
+                     hidden: true,
                      type: :range,
                      title: 'Heeft je begeleider je goed geholpen afgelopen week?',
                      labels: ['niet goed geholpen', 'heel goed geholpen'],
@@ -940,5 +972,205 @@ nameting3.content = [{
 nameting3.title = 'Enquête'
 nameting3.save!
 
+
+##############
+## Mentoren ##
+##############
+db_title = 'Webapp Begeleiders'
+
+
+ic_name4 = 'informed consent mentoren 1x per week'
+informed_consent4 = Questionnaire.find_by_name(ic_name4)
+informed_consent4 ||= Questionnaire.new(name: ic_name4)
+ic_content4 = <<~'END'
+  <p class="flow-text">Door op de knop 'volgende' te klikken ga je akkoord met onderstaande afspraken:</p>
+  <p class="flow-text">Ik stem toe mee te doen aan het onderzoek naar ontwikkeling en begeleiding van studenten op het
+    MBO.
+    Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen en Umanise en is goedgekeurd
+    door de Ethische Commissie Psychologie van de RuG.
+  </p>
+  <p class="flow-text">Ik ben me ervan bewust dat deelname aan dit onderzoek geheel vrijwillig is.
+    Ik kan mijn medewerking op elk tijdstip stopzetten en de informatie verkregen uit dit onderzoek terugkrijgen of laten
+    verwijderen uit de database.
+  </p>
+  <p class="flow-text">De volgende punten zijn mij duidelijk:</p>
+  <ol class="flow-text">
+    <li>Het doel van dit onderzoek is om meer inzicht te krijgen in ontwikkeling van jongeren en hoe begeleiding hierop
+      inspeelt om zo het welzijn van jongeren te ondersteunen en voortijdig schoolverlaten te voorkomen.
+    </li>
+    <li>Deelname aan dit onderzoek betekent het volgende:
+      <ol>
+        <li>Ik zal elke week voor iedere jongere die ik begeleid en tevens mee doet aan dit onderzoek 1 vragenlijst invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 2 minuten. 
+        </li>
+        <li>Ik krijg elke week een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de herinnering staat een link naar de vragenlijst.
+        </li>
+        <li>Bij het afronden van het onderzoek krijg ik een beloning van 16 euro. Afronden houdt in dat ik alle wekelijkse
+          vragenlijsten (in totaal 15) en de afsluitende enquête invul binnen 24 uur na ontvangst van de sms.
+        </li>
+        <li>Ik geef toestemming voor het bewaren van persoonlijke gegevens: mijn naam en telefoonnummer. Deze vragen de onderzoekers aan mij of mijn teamcaptain. Deze gegevens worden los van de onderzoeksgegevens opgeslagen (in een aparte database). De onderzoekers hebben dit nodig voor:
+          <ol>
+            <li>het versturen van herinneringen</li>
+            <li>zodat de onderzoekers weten welke begeleider bij welke jongere hoort</li>
+          </ol>
+        </li>
+        <li>Alle onderzoeksgegevens worden met grote voorzichtigheid behandeld. Al mijn antwoorden op de vragen worden anoniem opgeslagen. De onderzoekers rapporteren de onderzoeksresultaten zonder naam of andere identificerende informatie. Mijn leerlingen, projectleiders, andere teamcaptains, leraren etc. komen daardoor nooit te weten welke antwoorden ik heb gegeven.
+        </li>
+      </ol>
+    </li>
+    <li>Voor vragen over het onderzoek kan er contact opgenomen worden met Nick Snell:
+      <a href="mailto:n.r.snell@rug.nl">n.r.snell@rug.nl</a>.
+    </li>
+  </ol>
+END
+informed_consent4.content = [{
+                               type: :raw,
+                               content: ic_content4
+                             }]
+informed_consent4.title = 'Informed consent pilot onderzoek naar ontwikkeling en begeleiding'
+informed_consent4.save!
+
+
+db_name7 = 'dagboek mentoren 1x per week donderdag'
+dagboek7 = Questionnaire.find_by_name(db_name7)
+dagboek7 ||= Questionnaire.new(name: db_name7)
+dagboek_content = [{
+                     section_start: 'De hoofddoelen',
+                     id: :v1,
+                     type: :checkbox,
+                     title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+                     options: [
+                       { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
+                       { title: 'Inzicht krijgen in de belevingswereld', shows_questions: %i[v4 v5] },
+                       { title: 'Inzicht krijgen in de omgeving', shows_questions: %i[v6 v7] },
+                       { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
+                       { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
+                       { title: 'De omgeving vreanderen/afstemmen met de omgeving', shows_questions: %i[v12] }
+                     ],
+                     section_end: true
+                   }, {
+                     section_start: 'De relatie verbeteren en/of onderhouden',
+                     hidden: true,
+                     id: :v2,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de relatie met deze student te verbeteren en/of te onderhouden?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v3,
+                     type: :range,
+                     title: 'In welke mate heb je aan de relatie gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Inzicht in de belevingswereld',
+                     hidden: true,
+                     id: :v4,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de belevingswereld van deze student te verbeteren en/of te onderhouden?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v5,
+                     type: :range,
+                     title: 'In welke mate heb je aan de belevingswereld gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Inizcht in de omgeving',
+                     hidden: true,
+                     id: :v6,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de omgeving van deze student te verbeteren?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v7,
+                     type: :range,
+                     title: 'In welke mate heb je aan de omgeving gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Zelfinzicht geven',
+                     hidden: true,
+                     id: :v8,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om het zelfinzicht van deze student te verbeteren?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v9,
+                     type: :range,
+                     title: 'In welke mate heb je aan het zelfinzicht gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Vaardigheden ontwikkelen',
+                     hidden: true,
+                     id: :v10,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de vaardigheden van deze student te ontwikkelen?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v11,
+                     type: :range,
+                     title: 'In welke mate heb je aan vaardigheden ontwikkelen gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'De omgeving veranderen / afstemmen met de omgeving',
+                     hidden: true,
+                     id: :v12,
+                     type: :checkbox,
+                     title: 'Met welke omgeving heb je deze week contact gehad en met welk doel?',
+                     options: ['School, met als doel afstemmen',
+                               'School, met als doel veranderen',
+                               'School, met een ander doel',
+                               'Hulpverlening, met als doel afstemmen',
+                               'Hulpverlening, met als doel veranderen',
+                               'Hulpverlening, met een ander doel',
+                               'Thuis, met als doel afstemmen',
+                               'Thuis, met als doel veranderen',
+                               'Thuis, met een ander doel'],
+                   }]
+dagboek7.content = dagboek_content
+dagboek7.title = db_title
+dagboek7.save!
+
+nm_name4 = 'nameting mentoren 1x per week'
+nameting4 = Questionnaire.find_by_name(nm_name4)
+nameting4 ||= Questionnaire.new(name: nm_name4)
+nameting4.content = [{
+                       section_start: 'Enquête',
+                       type: :raw,
+                       content: '<p class="flow-text">Dit is de nameting.</p>'
+                     }]
+nameting4.title = 'Enquête'
+nameting4.save!
 
 puts 'Generating questionnaires - Finished'

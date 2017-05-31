@@ -15,8 +15,17 @@ describe 'sending invitations', type: :feature do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
     FactoryGirl.create(:response, open_from: 45.minutes.ago, protocol_subscription: protocol_subscription)
   end
+  let!(:fourth_response) do
+    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    measurement = FactoryGirl.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
+    FactoryGirl.create(:response,
+                       open_from: 9.hours.ago,
+                       protocol_subscription: protocol_subscription,
+                       measurement: measurement,
+                       invited_state: Response::SENT_STATE)
+  end
 
-  let(:responses) { [some_response, another_response, third_response] }
+  let(:responses) { [some_response, another_response, third_response, fourth_response] }
 
   before(:each) do
     # Clear the messagebird list, as we will have an sms for the newly created profile.

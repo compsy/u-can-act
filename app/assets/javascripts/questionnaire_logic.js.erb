@@ -4,6 +4,7 @@ var id_b = null;
 var timestamp_b = null;
 var id_c = null;
 var timestamp_c = null;
+var rails_env = '<%= Rails.env.to_s %>';
 
 function toggle_otherwise_field() {
   if ($(this).closest('.row').hasClass('hidden')) return;
@@ -51,7 +52,8 @@ function time_element() {
       if (document.domain.indexOf('vsvproject.herokuapp.com') !== -1) {
         ga('send', 'timing', 'Time to answer question', id_b, duration);
       } else {
-        console.debug('send', 'timing', 'Time to answer question', id_b, duration);
+        if (rails_env !== 'test')
+          console.debug('send', 'timing', 'Time to answer question', id_b, duration);
       }
       var timingfield = id_b + '_timing';
       if ($('#'+timingfield).length > 0) {

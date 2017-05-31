@@ -12,7 +12,7 @@ Dir[File.join(File.dirname(__FILE__),'seeds','*.rb')].each do |file|
   require file
 end
 
-if Rails.env.development? || Rails.env.staging?
+if Rails.env.development?
   protocol = Protocol.find_by_name('pilot - mentoren 1x per week')
   person = Mentor.first
   students = Student.all[0..-2]

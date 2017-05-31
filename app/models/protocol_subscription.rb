@@ -7,8 +7,8 @@ class ProtocolSubscription < ApplicationRecord
   COMPLETED_STATE = 'completed'
   belongs_to :person
   belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id'
-  validates :person_id, presence: true
-  validates :filling_out_for_id, presence: true
+  validates :person_id, presence: true # The person who receives the SMS (Mentor)
+  validates :filling_out_for_id, presence: true # Student ID
   belongs_to :protocol
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }

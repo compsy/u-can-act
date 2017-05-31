@@ -21,7 +21,7 @@ class TokenAuthenticationController < ApplicationController
     when 'Student'
       redirect_to questionnaire_path(q: token)
     else
-      render(status: 404, plain: 'De code die opgegeven is hoort niet bij een student of mentor')
+      render(status: 404, plain: 'De code die opgegeven is hoort niet bij een student of mentor.')
     end
   end
 

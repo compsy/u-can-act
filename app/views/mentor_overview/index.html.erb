@@ -13,6 +13,7 @@
         <span class="title"><%="#{student.first_name} #{student.last_name}"%></span>
         <p>
         <% subscriptions.each do |response| %>
+          <% next if response.expired? %>
           <%= link_to('Vragenlijst', questionnaire_path(q: response.invitation_token.token)) %>
         <% end %>
         </p>

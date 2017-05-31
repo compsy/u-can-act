@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PlainTextParser, focus: true do
+describe PlainTextParser do
   let(:mobile_phone) { '0612312344' }
   describe 'parse_mobile_phone' do
     it 'should replace hyphens with nothing in a phone number' do

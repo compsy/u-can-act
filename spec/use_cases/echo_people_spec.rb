@@ -59,7 +59,7 @@ describe EchoPeople do
       end
     end
 
-    describe 'with mentors', focus: true do
+    describe 'with mentors' do
       before do
         allow(CSV).to receive(:foreach)
           .and_yield(%w[firstname lastname mobile_phone protocol_name start_date])

@@ -18,12 +18,22 @@ class SendInvitations
         end
       end
       queue_mentor_responses(mentor_responses)
+      send_for_myself_reminders
     end
 
     def queue_mentor_responses(mentor_responses)
       # We collect the responses for the mentor before, and send them only a single text.
       mentor_responses.each do |_key, response|
         response.update_attributes!(invited_state: Response::SENDING_STATE)
+        SendInvitationJob.perform_later response
+      end
+    end
+
+    def send_for_myself_reminders
+      Response.still_open_and_not_completed.each do |response|
+        next unless response.protocol_subscription.active? && response.protocol_subscription.for_myself?
+        next if response.expired?
+        response.update_attributes!(invited_state: Response::SENDING_REMINDER_STATE)
         SendInvitationJob.perform_later response
       end
     end

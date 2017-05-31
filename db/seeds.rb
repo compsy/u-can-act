@@ -12,4 +12,27 @@ Dir[File.join(File.dirname(__FILE__),'seeds','*.rb')].each do |file|
   require file
 end
 
+# WARNING: seeds below are not idempotent: use dbsetup
+if Rails.env.development?
+  protocol = Protocol.find_by_name('pilot - mentoren 1x per week')
+  person = Mentor.first
+  students = Student.all[0..-2]
+
+  students.each do |student|
+    prot_sub = ProtocolSubscription.create!(
+      protocol: protocol,
+      person: person,
+      filling_out_for: student,
+      state: ProtocolSubscription::ACTIVE_STATE,
+      start_date: Time.zone.now.beginning_of_day
+    )
+    responseobj = prot_sub.responses.first
+    responseobj.update_attributes!(
+      open_from: 1.minute.ago,
+      invited_state: Response::SENT_STATE)
+    responseobj.initialize_invitation_token!
+    puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  end
+end
+
 puts 'Seeds loaded!'

@@ -214,6 +214,12 @@ db_measurement.open_duration = default_open_duration
 db_measurement.reward_points = 10
 db_measurement.save!
 
+pr_name = 'pilot - mentoren nameting'
+mentor_protocol = Protocol.find_by_name(pr_name)
+mentor_protocol ||= Protocol.new(name: pr_name)
+mentor_protocol.duration = default_protocol_duration
+mentor_protocol.save!
+
 # Add nameting/enquete
 nm_name = 'nameting mentoren 1x per week'
 nameting_id = Questionnaire.find_by_name(nm_name)&.id

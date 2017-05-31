@@ -32,20 +32,11 @@ class CreateMentors < ActiveInteraction::Base
     end
   end
 
-
   def create_mentors(mentors)
     number_of_mentors = 0
     mentors.each do |mentor|
       mentor_obj = Person.find_by_mobile_phone(mentor[:mobile_phone])
-      if (mentor_obj.nil?) 
-        mentor_obj = Mentor.create!(first_name: mentor[:first_name],
-                                    last_name: mentor[:last_name],
-                                    mobile_phone: mentor[:mobile_phone])
-        ProtocolSubscription.create!(person: mentor_obj,
-                                     protocol_id: mentor[:protocol_id],
-                                     state: ProtocolSubscription::ACTIVE_STATE,
-                                     start_date: mentor[:start_date])
-      end
+      mentor_obj = initialize_mentor(mentor) if mentor_obj.nil?
 
       ProtocolSubscription.create!(person: mentor_obj,
                                    filling_out_for_id: mentor[:filling_out_for_id],
@@ -55,5 +46,16 @@ class CreateMentors < ActiveInteraction::Base
       number_of_mentors += 1
     end
     number_of_mentors
+  end
+
+  def initialize_mentor(mentor_hash)
+    mentor_obj = Mentor.create!(first_name: mentor_hash[:first_name],
+                                last_name: mentor_hash[:last_name],
+                                mobile_phone: mentor_hash[:mobile_phone])
+    ProtocolSubscription.create!(person: mentor_obj,
+                                 protocol_id: mentor_hash[:protocol_id],
+                                 state: ProtocolSubscription::ACTIVE_STATE,
+                                 start_date: mentor_hash[:start_date])
+    mentor_obj
   end
 end

@@ -159,7 +159,7 @@ describe CreateMentors do
     it 'should create mentors for all hashes in the array supplied' do
       expect(Mentor.count).to eq 0
       subject.send(:create_mentors, parsed_mentors)
-      expect(Mentor.count).to eq parsed_mentors.map{|x| x[:mobile_phone]}.uniq.count
+      expect(Mentor.count).to eq parsed_mentors.map { |x| x[:mobile_phone] }.uniq.count
     end
 
     it 'should create the correct mentors' do
@@ -177,7 +177,7 @@ describe CreateMentors do
       (0..1).each do |idx|
         hash = parsed_mentors[idx]
         act = Mentor.find_by_mobile_phone(hash[:mobile_phone])
-      expect(act.protocol_subscriptions.count).to eq 2
+        expect(act.protocol_subscriptions.count).to eq 2
         expect(act.protocol_subscriptions.first.protocol.id).to eq protocol_for_students.id
         expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)
         expect(act.protocol_subscriptions.first.filling_out_for_id).to eq students[idx].id

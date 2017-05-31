@@ -36,6 +36,7 @@ class CookieJar
       current_cookie = jar[COOKIE_LOCATION]
       unless current_cookie.blank?
         current_cookie = JSON.parse(current_cookie)
+        current_cookie = {} unless current_cookie.is_a?(Hash)
         cookie_hash = current_cookie.merge(cookie_hash)
       end
       jar[COOKIE_LOCATION] = cookie_hash.to_json

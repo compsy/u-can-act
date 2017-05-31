@@ -23,11 +23,11 @@ if Rails.env.development? || Rails.env.staging?
       person: person,
       filling_out_for: student,
       state: ProtocolSubscription::ACTIVE_STATE,
-      start_date: Time.zone.now.change(hour:0, minute:0, second:0)
+      start_date: Time.zone.now.beginning_of_day
     )
     responseobj = prot_sub.responses.first
     responseobj.update_attributes!(
-      open_from: 4.weeks.from_now, # Doesn't expire for a month (or actually 3 weeks since that's the prot duration)
+      open_from: 1.minute.ago,
       invited_state: Response::SENT_STATE)
     responseobj.initialize_invitation_token!
     puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"

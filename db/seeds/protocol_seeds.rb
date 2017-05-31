@@ -202,7 +202,7 @@ mentor_protocol.informed_consent_questionnaire = Questionnaire.find_by_name('inf
 mentor_protocol.save!
 
 db_name = 'dagboek mentoren 1x per week donderdag'
-of_offset = '3.days + 12.hours' # Thursday noon
+of_offset = 3.days + 12.hours # Thursday noon
 dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
 raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 db_measurement = mentor_protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,

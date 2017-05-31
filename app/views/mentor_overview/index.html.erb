@@ -3,18 +3,18 @@
 <ul class="collection">
   <% @student_protocol_subscriptions.each do |protocol_subscription| %>
     <% student = protocol_subscription.filling_out_for %>
-    <% subscriptions = protocol_subscription.responses.open %>
-    <li class="collection-item avatar">
-      <%if subscriptions.blank?%>
-        <i class="large material-icons circle">done</i>
+    <% open_responses = protocol_subscription.responses.open.reject{|resp| resp.expired? } %>
+    <li class="collection-item avatar valign-wrapper">
+      <%if open_responses.blank?%>
+        <i class="large material-icons circle green lighten-2">done</i>
         <span class="title"><%="#{student.first_name} #{student.last_name}"%></span>
       <% else %>
-        <i class="large material-icons circle">perm_identity</i>
+        <i class="large material-icons circle orange lighten-2">perm_identity</i>
         <span class="title"><%="#{student.first_name} #{student.last_name}"%></span>
         <p>
-        <% subscriptions.each do |response| %>
+        <% open_responses.each do |response| %>
           <% next if response.expired? %>
-          <%= link_to('Vragenlijst', questionnaire_path(q: response.invitation_token.token)) %>
+          <%= link_to('Vragenlijst invullen', questionnaire_path(q: response.invitation_token.token)) %>
         <% end %>
         </p>
       <%end%>

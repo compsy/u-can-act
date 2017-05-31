@@ -39,5 +39,59 @@ describe SendInvitations do
         expect(response.invited_state).to eq(Response::NOT_SENT_STATE)
       end
     end
+
+    describe 'reminders' do
+      it 'should queue recent responses' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        measurement = FactoryGirl.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
+        response = FactoryGirl.create(:response, open_from: 9.hours.ago,
+                                                 protocol_subscription: protocol_subscription,
+                                                 invited_state: Response::SENT_STATE,
+                                                 measurement: measurement)
+        expect(SendInvitationJob).to receive(:perform_later).with(response).and_return true
+        described_class.run
+        response.reload
+        expect(response.invited_state).to eq(Response::SENDING_REMINDER_STATE)
+      end
+
+      it 'should not queue a response that is expired' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        response = FactoryGirl.create(:response, open_from: 9.hours.ago,
+                                                 protocol_subscription: protocol_subscription,
+                                                 invited_state: Response::SENT_STATE)
+        expect(SendInvitationJob).not_to receive(:perform_later)
+        described_class.run
+        response.reload
+        expect(response.invited_state).to eq(Response::SENT_STATE)
+      end
+
+      it 'should not queue a response outside the 2 hour reminder window' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        measurement = FactoryGirl.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
+        response = FactoryGirl.create(:response, open_from: 11.hours.ago,
+                                                 protocol_subscription: protocol_subscription,
+                                                 invited_state: Response::SENT_STATE,
+                                                 measurement: measurement)
+        expect(SendInvitationJob).not_to receive(:perform_later)
+        described_class.run
+        response.reload
+        expect(response.invited_state).to eq(Response::SENT_STATE)
+      end
+
+      it 'should not queue a response from an inactive protocol subscription' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   start_date: 1.week.ago.at_beginning_of_day,
+                                                   state: ProtocolSubscription::CANCELED_STATE)
+        measurement = FactoryGirl.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
+        response = FactoryGirl.create(:response, open_from: 9.hours.ago,
+                                                 protocol_subscription: protocol_subscription,
+                                                 invited_state: Response::SENT_STATE,
+                                                 measurement: measurement)
+        expect(SendInvitationJob).not_to receive(:perform_later)
+        described_class.run
+        response.reload
+        expect(response.invited_state).to eq(Response::SENT_STATE)
+      end
+    end
   end
 end

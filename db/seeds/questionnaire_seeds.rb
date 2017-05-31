@@ -940,25 +940,211 @@ nameting3.content = [{
 nameting3.title = 'Enquête'
 nameting3.save!
 
-#######################
-## Nameting Mentoren ##
-#######################
-mentor_dagboekvragenlijst = Questionnaire.find_by_name('Dagboekvragenlijst Mentoren')
-mentor_dagboekvragenlijst ||= Questionnaire.new(name: 'Dagboekvragenlijst Mentoren')
-mentor_dagboek_content = [{
-                     section_start: 'Mentor',
+
+##############
+## Mentoren ##
+##############
+db_title = 'Webapp Begeleiders'
+
+
+ic_name4 = 'informed consent mentoren 1x per week'
+informed_consent4 = Questionnaire.find_by_name(ic_name4)
+informed_consent4 ||= Questionnaire.new(name: ic_name4)
+ic_content4 = <<~'END'
+  <p class="flow-text">Door op de knop 'volgende' te klikken ga je akkoord met onderstaande afspraken:</p>
+  <p class="flow-text">Ik stem toe mee te doen aan het onderzoek naar ontwikkeling en begeleiding van studenten op het
+    MBO.
+    Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen en Umanise en is goedgekeurd
+    door de Ethische Commissie Psychologie van de RuG.
+  </p>
+  <p class="flow-text">Ik ben me ervan bewust dat deelname aan dit onderzoek geheel vrijwillig is.
+    Ik kan mijn medewerking op elk tijdstip stopzetten en de informatie verkregen uit dit onderzoek terugkrijgen of laten
+    verwijderen uit de database.
+  </p>
+  <p class="flow-text">De volgende punten zijn mij duidelijk:</p>
+  <ol class="flow-text">
+    <li>Het doel van dit onderzoek is om meer inzicht te krijgen in ontwikkeling van jongeren en hoe begeleiding hierop
+      inspeelt om zo het welzijn van jongeren te ondersteunen en voortijdig schoolverlaten te voorkomen.
+    </li>
+    <li>Deelname aan dit onderzoek betekent het volgende:
+      <ol>
+        <li>Ik zal elke week 5 vragenlijsten invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 3
+          minuten.
+        </li>
+        <li>Ik krijg elke doordeweekse dag een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de
+          herinnering staat een link naar de vragenlijst.
+        </li>
+        <li>Bij het afronden van het onderzoek krijg ik een beloning van 16 euro. Afronden houdt in dat ik alle wekelijkse
+          vragenlijsten (in totaal 15) en de afsluitende enquête invul binnen 24 uur na ontvangst van de sms.
+        </li>
+        <li>Ik geef toestemming voor het bewaren van persoonlijke gegevens: mijn naam en telefoonnummer. Deze vragen de
+          onderzoekers aan mijn begeleider. Deze gegevens worden los van de onderzoeksgegevens opgeslagen (in een aparte
+          database). De onderzoekers hebben dit nodig voor:
+          <ol>
+            <li>het versturen van herinneringen</li>
+            <li>zodat de onderzoekers weten welke begeleider bij welke jongere hoort</li>
+          </ol>
+        </li>
+        <li>Alle onderzoeksgegevens worden met grote voorzichtigheid behandeld. Al mijn antwoorden op de vragen worden
+          anoniem opgeslagen. De onderzoekers rapporteren de onderzoeksresultaten zonder naam of andere identificerende
+          informatie. Begeleiders, ouders of leraren komen daardoor nooit te weten welke antwoorden ik heb gegeven.
+        </li>
+      </ol>
+    </li>
+    <li>Voor vragen over het onderzoek kan er contact opgenomen worden met Nick Snell:
+      <a href="mailto:n.r.snell@rug.nl">n.r.snell@rug.nl</a>.
+    </li>
+  </ol>
+END
+informed_consent4.content = [{
+                               type: :raw,
+                               content: ic_content4
+                             }]
+informed_consent4.title = 'Informed consent pilot onderzoek naar ontwikkeling en begeleiding'
+informed_consent4.save!
+
+
+db_name7 = 'dagboek mentoren 1x per week donderdag'
+dagboek7 = Questionnaire.find_by_name(db_name7)
+dagboek7 ||= Questionnaire.new(name: db_name7)
+dagboek_content = [{
+                     section_start: 'De hoofddoelen',
                      id: :v1,
-                     type: :range,
-                     title: 'Are you a mentor?',
-                     labels: ['yes', 'no']
-                   }, {
-                     id: :v2,
-                     type: :range,
-                     title: 'Heeft je begeleider je goed geholpen deze week?',
-                     labels: ['Niet goed geholpen', 'Heel goed geholpen'],
+                     type: :checkbox,
+                     title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+                     options: [
+                       { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
+                       { title: 'Inzicht krijgen in de belevingswereld', shows_questions: %i[v4 v5] },
+                       { title: 'Inzicht krijgen in de omgeving', shows_questions: %i[v6 v7] },
+                       { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
+                       { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
+                       { title: 'De omgeving vreanderen/afstemmen met de omgeving', shows_questions: %i[v12] }
+                     ],
                      section_end: true
+                   }, {
+                     section_start: 'De relatie verbeteren en/of onderhouden',
+                     hidden: true,
+                     id: :v2,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de relatie met deze student te verbeteren en/of te onderhouden?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v3,
+                     type: :range,
+                     title: 'In welke mate heb je aan de relatie gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Inzicht in de belevingswereld',
+                     hidden: true,
+                     id: :v4,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de belevingswereld van deze student te verbeteren en/of te onderhouden?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v5,
+                     type: :range,
+                     title: 'In welke mate heb je aan de belevingswereld gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Inizcht in de omgeving',
+                     hidden: true,
+                     id: :v6,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de omgeving van deze student te verbeteren?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v7,
+                     type: :range,
+                     title: 'In welke mate heb je aan de omgeving gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Zelfinzicht geven',
+                     hidden: true,
+                     id: :v8,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om het zelfinzicht van deze student te verbeteren?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v9,
+                     type: :range,
+                     title: 'In welke mate heb je aan het zelfinzicht gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Vaardigheden ontwikkelen',
+                     hidden: true,
+                     id: :v10,
+                     type: :checkbox,
+                     title: 'Welke acties heb je deze week uitgevoerd om de vaardigheden van deze student te ontwikkelen?',
+                     options: ['Laagdrempelig contact gelegd',
+                               'Praktische oefeningen uitgevoerd',
+                               'Gespreks- interventies/technieken gebruikt',
+                               'Het netwerk betrokken',
+                               'Motiverende handelingen uitgevoerd',
+                               'Observaties gedaan'],
+                   }, {
+                     hidden: true,
+                     id: :v11,
+                     type: :range,
+                     title: 'In welke mate heb je aan vaardigheden ontwikkelen gewerkt?',
+                     labels: ['weinig', 'veel'],
+                     section_end: true
+                   }, {
+                     section_start: 'De omgeving veranderen / afstemmen met de omgeving',
+                     hidden: true,
+                     id: :v12,
+                     type: :checkbox,
+                     title: 'Met welke omgeving heb je deze week contact gehad en met welk doel?',
+                     options: ['School, met als doel afstemmen',
+                               'School, met als doel veranderen',
+                               'School, met een ander doel',
+                               'Hulpverlening, met als doel afstemmen',
+                               'Hulpverlening, met als doel veranderen',
+                               'Hulpverlening, met een ander doel',
+                               'Thuis, met als doel afstemmen',
+                               'Thuis, met als doel veranderen',
+                               'Thuis, met een ander doel'],
                    }]
-mentor_dagboekvragenlijst.content = mentor_dagboek_content
-mentor_dagboekvragenlijst.save!
+dagboek7.content = dagboek_content
+dagboek7.title = db_title
+dagboek7.save!
+
+nm_name4 = 'nameting mentoren 1x per week'
+nameting4 = Questionnaire.find_by_name(nm_name4)
+nameting4 ||= Questionnaire.new(name: nm_name4)
+nameting4.content = [{
+                       section_start: 'Enquête',
+                       type: :raw,
+                       content: '<p class="flow-text">Dit is de nameting.</p>'
+                     }]
+nameting4.title = 'Enquête'
+nameting4.save!
 
 puts 'Generating questionnaires - Finished'

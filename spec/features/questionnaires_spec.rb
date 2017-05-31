@@ -149,7 +149,9 @@ describe 'GET and POST /', type: :feature, js: true do
                                      'v3' => '57')
   end
   it 'should not accept strings longer than the max' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               person: FactoryGirl.create(:student))
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,

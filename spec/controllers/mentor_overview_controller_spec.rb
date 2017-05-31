@@ -13,7 +13,7 @@ RSpec.describe MentorOverviewController, type: :controller do
           .and_return(nil)
         get :index
         expect(response).to have_http_status(404)
-        expect(response.body).to include('Het persoon kon niet gevonden worden')
+        expect(response.body).to include('De persoon kon niet gevonden worden.')
       end
     end
 

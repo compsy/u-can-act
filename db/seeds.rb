@@ -12,6 +12,7 @@ Dir[File.join(File.dirname(__FILE__),'seeds','*.rb')].each do |file|
   require file
 end
 
+# WARNING: seeds below are not idempotent: use dbsetup
 if Rails.env.development?
   protocol = Protocol.find_by_name('pilot - mentoren 1x per week')
   person = Mentor.first

@@ -8,6 +8,11 @@ FactoryGirl.define do
     last_name 'Doe'
     type 'Person'
 
+    trait :with_random_name do
+      sequence(:first_name, 'a') { |n| "Janine" + n }
+      sequence(:last_name, 'a') { |n| "Douval" + n }
+    end
+
     trait :with_protocol_subscriptions do
       after(:create) do |person|
         FactoryGirl.create(:protocol_subscription, person: person)

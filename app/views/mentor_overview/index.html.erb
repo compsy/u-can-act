@@ -4,7 +4,7 @@
   <% @student_protocol_subscriptions.each do |protocol_subscription| %>
     <% student = protocol_subscription.filling_out_for %>
     <% open_responses = protocol_subscription.responses.open.reject{|resp| resp.expired? } %>
-    <li class="collection-item avatar" style="min-height:inherit">
+    <li class="collection-item avatar" style="min-height:65px">
       <%if open_responses.blank?%>
         <i class="large material-icons circle green lighten-2">done</i>
         <span class="title"><%="#{student.first_name} #{student.last_name}"%></span>

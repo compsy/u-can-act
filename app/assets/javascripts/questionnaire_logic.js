@@ -19,20 +19,22 @@ function toggle_otherwise_field() {
 
 function toggle_shown_questions() {
   if ($(this).closest('.row').find('input[data-shows-questions]').length === 0) return;
-  if ($(this).closest('.row').find('input[data-shows-questions]').is(':checked')) {
-    $(this).closest('.row').find('input[data-shows-questions]').data('shows-questions').forEach(function (entry) {
-      var klass = '.' + entry + '_toggle';
-      $(klass).removeClass('hidden')
+  $(this).closest('.row').find('input[data-shows-questions]').each(function (index) {
+    if ($(this).is(':checked')) {
+      $(this).data('shows-questions').forEach(function (entry) {
+        var klass = '.' + entry + '_toggle';
+        $(klass).removeClass('hidden')
           .find('input').prop('disabled', false);
-      $('.otherwise-option').each(toggle_otherwise_field);
-    });
-  } else {
-    $(this).closest('.row').find('input[data-shows-questions]').data('shows-questions').forEach(function (entry) {
-      var klass = '.' + entry + '_toggle';
-      $(klass).addClass('hidden')
+        $('.otherwise-option').each(toggle_otherwise_field);
+      });
+    } else {
+      $(this).data('shows-questions').forEach(function (entry) {
+        var klass = '.' + entry + '_toggle';
+        $(klass).addClass('hidden')
           .find('input').prop('disabled', true);
-    });
-  }
+      });
+    }
+  });
 }
 
 function time_element() {

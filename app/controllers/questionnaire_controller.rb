@@ -33,7 +33,7 @@ class QuestionnaireController < ApplicationController
   private
 
   def check_content_hash
-    questionnaire_create_params[:content].to_unsafe_h.each do |k, v|
+    questionnaire_content.each do |k, v|
       if k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
         render(status: 400, plain: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen')
         break
@@ -105,6 +105,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def questionnaire_content
+    return {} if questionnaire_create_params[:content].nil?
     questionnaire_create_params[:content].to_unsafe_h
   end
 

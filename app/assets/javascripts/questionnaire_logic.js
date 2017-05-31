@@ -51,7 +51,7 @@ function time_element() {
       if (document.domain.indexOf('vsvproject.herokuapp.com') !== -1) {
         ga('send', 'timing', 'Time to answer question', id_b, duration);
       } else {
-        console.log('send', 'timing', 'Time to answer question', id_b, duration);
+        console.debug('send', 'timing', 'Time to answer question', id_b, duration);
       }
       var timingfield = id_b + '_timing';
       if ($('#'+timingfield).length > 0) {

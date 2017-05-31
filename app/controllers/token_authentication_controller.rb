@@ -9,20 +9,19 @@ class TokenAuthenticationController < ApplicationController
   TYPE_COOKIE = :type
 
   def show
-    redirect_to_questionnaire(@response.protocol_subscription.person.type, @response.invitation_token.token)
+    redirect_to_questionnaire(@response.protocol_subscription.for_myself?, @response.invitation_token.token)
   end
 
   private
 
-  def redirect_to_questionnaire(person_type, token)
-    case person_type
-    when 'Mentor'
+  def redirect_to_questionnaire(for_myself, token)
+    if for_myself
       redirect_to mentor_overview_index_path
-    when 'Student'
-      redirect_to questionnaire_path(q: token)
     else
-      render(status: 404, plain: 'De code die opgegeven is hoort niet bij een student of mentor.')
+      redirect_to questionnaire_path(q: token)
     end
+    # render(status: 404, plain: 'De code die opgegeven is hoort niet bij een student of mentor.')
+    # end
   end
 
   def set_response

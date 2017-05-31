@@ -6,8 +6,7 @@ describe 'GET and POST /', type: :feature, js: true do
   let(:mentor) { FactoryGirl.create(:mentor) }
   let(:students) { FactoryGirl.create_list(:student, 4, :with_random_name) }
   let(:other_students) do
-    FactoryGirl.create_list(:student, 4, first_name: 'other-students-',
-                                         last_name: 'should-not-be-listed')
+    FactoryGirl.create_list(:student, 4, :with_random_name)
   end
   let(:response_objects) do
     students.map do |student|

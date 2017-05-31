@@ -19,6 +19,7 @@
 @import "materialize/components/color";
 
 $primary-color: color("blue", "lighten-2") !default;
+$input-border-color: color("grey", "darken-1");
 
 // Make range sliders easier to use on mobile
 $range-height: 35px;

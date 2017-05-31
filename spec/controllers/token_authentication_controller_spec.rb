@@ -5,19 +5,19 @@ require 'rails_helper'
 RSpec.describe TokenAuthenticationController, type: :controller do
   describe 'GET #show' do
     describe 'Error checking' do
-      it 'returns http not found' do
+      it 'should return http not found when not given any params' do
         get :show
         expect(response).to have_http_status(404)
         expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
       end
 
-      it 'requires a q parameter that exists' do
+      it 'should require a q parameter that exists' do
         get :show, params: { q: 'something' }
         expect(response).to have_http_status(404)
         expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
       end
 
-      it 'requires a response that is not filled out yet' do
+      it 'should require a response that is not filled out yet' do
         responseobj = FactoryGirl.create(:response, :completed)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
         get :show, params: { q: invitation_token.token }
@@ -25,11 +25,25 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response.body).to include('Je hebt deze vragenlijst al ingevuld.')
       end
 
-      it 'requires a q parameter that is not expired' do
+      it 'should require a q parameter that is not expired' do
         invitation_token = FactoryGirl.create(:invitation_token)
         get :show, params: { q: invitation_token.token }
         expect(response).to have_http_status(404)
         expect(response.body).to include('Deze vragenlijst kan niet meer ingevuld worden.')
+      end
+
+      it 'should give an error when not given a mentor or student' do
+        person_type = :person
+        person = FactoryGirl.create(person_type)
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   start_date: 1.week.ago.at_beginning_of_day,
+                                                   person: person)
+        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                    open_from: 1.hour.ago)
+        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+        get :show, params: { q: invitation_token.token }
+        expect(response).to have_http_status(404)
+        expect(response.body).to include('De code die opgegeven is hoort niet bij een student of mentor.')
       end
     end
 

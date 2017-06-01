@@ -45,9 +45,8 @@ class TokenAuthenticationController < ApplicationController
     check_invitation_token_available(invitation_token)
     # If the protocol subscription is for someone else, it could be the case that there are multiple questionnaires
     # waiting
-    check_invitation_token_still_accessible(invitation_token) if invitation_token
-                                                                 .response
-                                                                 .protocol_subscription.for_myself?
+    return if performed? || !invitation_token.response.protocol_subscription.for_myself?
+    check_invitation_token_still_accessible(invitation_token)
   end
 
   def check_invitation_token_available(invitation_token)

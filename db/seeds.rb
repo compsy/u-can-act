@@ -36,6 +36,13 @@ if Rails.env.development?
     puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
   end
 
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week
+  )
+
   puts 'student url:'
   Student.first.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('pilot - studenten 1x per week'),

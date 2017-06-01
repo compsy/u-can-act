@@ -2,8 +2,9 @@
 <p>Voor <i><%=@mentor.first_name%> <%=@mentor.last_name%></i></p>
 <ul class="collection">
   <% @student_protocol_subscriptions.each do |protocol_subscription| %>
+    <% next if protocol_subscription.for_myself? %>
     <% student = protocol_subscription.filling_out_for %>
-    <% open_responses = protocol_subscription.responses.open.reject{|resp| resp.expired? } %>
+    <% open_responses = protocol_subscription.responses.open.reject{|resp| resp.expired?} %>
     <li class="collection-item avatar" style="min-height:65px">
       <%if open_responses.blank?%>
         <i class="large material-icons circle green lighten-2">done</i>

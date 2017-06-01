@@ -25,6 +25,21 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response.body).to include('Je hebt deze vragenlijst al ingevuld.')
       end
 
+      it 'should not require a response not to be filled out if the user is heading for the mentor page' do
+        mentor = FactoryGirl.create(:mentor)
+        student = FactoryGirl.create(:student)
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   start_date: 1.week.ago.at_beginning_of_day,
+                                                   person: mentor,
+                                                   filling_out_for: student)
+        responseobj = FactoryGirl.create(:response, :completed, protocol_subscription: protocol_subscription)
+        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+        expect(controller).to receive(:redirect_to_questionnaire).with(mentor.type,
+                                                                       invitation_token.token).and_call_original
+        get :show, params: { q: invitation_token.token }
+        expect(response).to have_http_status(302)
+      end
+
       it 'should require a q parameter that is not expired' do
         invitation_token = FactoryGirl.create(:invitation_token)
         get :show, params: { q: invitation_token.token }

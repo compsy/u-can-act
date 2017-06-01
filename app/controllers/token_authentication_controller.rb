@@ -42,7 +42,19 @@ class TokenAuthenticationController < ApplicationController
   end
 
   def check_invitation_token(invitation_token)
-    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless invitation_token
+    check_invitation_token_available(invitation_token)
+    # If the protocol subscription is for someone else, it could be the case that there are multiple questionnaires
+    # waiting
+    check_invitation_token_still_accessible(invitation_token) if invitation_token
+                                                                 .response
+                                                                 .protocol_subscription.for_myself?
+  end
+
+  def check_invitation_token_available(invitation_token)
+    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') unless invitation_token
+  end
+
+  def check_invitation_token_still_accessible(invitation_token)
     render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if
       invitation_token.response.completed_at
     render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if invitation_token.response.expired?

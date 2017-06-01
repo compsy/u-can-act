@@ -2,7 +2,6 @@
 <p>Voor <i><%=@mentor.first_name%> <%=@mentor.last_name%></i></p>
 <ul class="collection">
   <% @student_protocol_subscriptions.each do |protocol_subscription| %>
-    <% next if protocol_subscription.for_myself? %>
     <% student = protocol_subscription.filling_out_for %>
     <% open_responses = protocol_subscription.responses.open.reject{|resp| resp.expired?} %>
     <li class="collection-item avatar" style="min-height:65px">
@@ -16,7 +15,7 @@
         <% open_responses.each do |response| %>
           <% next if response.expired? %>
           <%= link_to('Vragenlijst invullen voor deze student',
-                      questionnaire_path(q: response.invitation_token.token)) %>
+                      questionnaire_path(q: response.initialize_invitation_token!.token)) %>
         <% end %>
         </p>
       <%end%>

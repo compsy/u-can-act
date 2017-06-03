@@ -84,7 +84,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to_not have_link('Vragenlijst invullen voor deze student')
   end
 
-  fit 'should be able to follow the initial link if one questionnaire has been filled out ' do
+  it 'should be able to follow the initial link if one questionnaire has been filled out ' do
     token = invitation_tokens.first.token
     visit "/?q=#{token}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)

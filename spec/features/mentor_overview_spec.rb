@@ -89,7 +89,6 @@ describe 'GET and POST /', type: :feature, js: true do
     visit "/?q=#{token}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
 
-
     page.find(:css, "a[href='#{questionnaire_path(q: token)}']").click
     expect(page).to have_current_path(questionnaire_path(q: token))
 

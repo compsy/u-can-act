@@ -27,6 +27,7 @@ describe 'GET and POST /', type: :feature, js: true do
                          response: responseobj)
     end
   end
+
   it 'should redirect to the mentor overview page given any of the provided invitation tokens' do
     response_objects.each do |responseobj|
       expect(responseobj.completed_at).to be_nil
@@ -81,5 +82,25 @@ describe 'GET and POST /', type: :feature, js: true do
       page.click_on 'Opslaan'
     end
     expect(page).to_not have_link('Vragenlijst invullen voor deze student')
+  end
+
+  fit 'should be able to follow the initial link if one questionnaire has been filled out ' do
+    token = invitation_tokens.first.token
+    visit "/?q=#{token}"
+    expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
+
+
+    page.find(:css, "a[href='#{questionnaire_path(q: token)}']").click
+    expect(page).to have_current_path(questionnaire_path(q: token))
+
+    page.click_on 'Opslaan'
+    page.choose('slecht', allow_label_click: true)
+    page.check('brood', allow_label_click: true)
+    page.check('kaas en ham', allow_label_click: true)
+    range_select('v3', '57')
+    page.click_on 'Opslaan'
+
+    visit "/?q=#{token}"
+    expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length - 1)
   end
 end

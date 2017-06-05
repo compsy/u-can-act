@@ -23,7 +23,7 @@ class SendInvitation < ActiveInteraction::Base
   end
 
   def random_message
-    'Verdien een euro! Vul nu de vragenlijst in.'
+    'Bedankt voor je hulp! Er staat een vragenlijst voor je klaar. Vul deze nu in!'
   end
 
   def invitation_url

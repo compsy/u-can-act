@@ -5,6 +5,7 @@ class QuestionnaireGenerator
 
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
+  TEXTAREA_PLACEHOLDER = 'Vul iets in'
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
@@ -46,6 +47,8 @@ class QuestionnaireGenerator
                           generate_checkbox(question)
                         when :range
                           generate_range(question)
+                        when :textarea
+                          generate_textarea(question)
                         when :raw
                           generate_raw(question)
                         else
@@ -299,6 +302,31 @@ class QuestionnaireGenerator
       labels_body = safe_join(labels_body)
       labels_body = content_tag(:div, labels_body, class: 'row')
       labels_body
+    end
+
+    def generate_textarea(question)
+      safe_join([
+                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+                  textarea_field(question)
+                ])
+    end
+
+    def textarea_field(question)
+      body = []
+      body << content_tag(:textarea,
+                          nil,
+                          id: idify(question[:id]),
+                          name: answer_name(question[:id]),
+                          class: 'materialize-textarea',
+                          required: true)
+      body << content_tag(:label,
+                          TEXTAREA_PLACEHOLDER,
+                          for: idify(question[:id]),
+                          class: 'flow-text')
+      body = safe_join(body)
+      body = content_tag(:div, body, class: 'input-field col s12')
+      body = content_tag(:div, body, class: 'row')
+      body
     end
 
     def generate_raw(question)

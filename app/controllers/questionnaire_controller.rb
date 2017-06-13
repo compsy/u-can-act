@@ -57,9 +57,10 @@ class QuestionnaireController < ApplicationController
   end
 
   def verify_response_id
-    return if CookieJar.cookies_set?(cookies.signed) &&
-              CookieJar.verify_param(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE =>
-                questionnaire_create_params[:response_id])
+    response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
+    cookie_person_id = Response.find_by_id(response_id)&.protocol_subscription&.person_id
+    params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
+    return if cookie_person_id && cookie_person_id == params_person_id
     render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.')
   end
 
@@ -67,6 +68,7 @@ class QuestionnaireController < ApplicationController
     @response = Response.find_by_id(questionnaire_create_params[:response_id])
     check_response(@response)
     return if performed?
+    set_cookie # Now that we know the response can be filled out, update the cookies so the redirect works as expected.
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
   end

@@ -27,7 +27,7 @@ class CookieJar
     end
 
     def mentor?(jar)
-      hash = { type: 'Mentor' }
+      hash = { TokenAuthenticationController::TYPE_COOKIE => 'Mentor' }
       verify_param(jar, hash)
     end
 

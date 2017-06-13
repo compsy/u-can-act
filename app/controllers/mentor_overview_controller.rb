@@ -4,7 +4,7 @@ class MentorOverviewController < ApplicationController
   before_action :set_mentor
 
   def index
-    # @my_protocol_subscriptions is currently not use for mentors
+    # @my_protocol_subscriptions is currently not used for mentors
     @my_protocol_subscriptions = @mentor.my_protocols
     @student_protocol_subscriptions = @mentor.student_protocols
   end

@@ -34,7 +34,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
                                                    filling_out_for: student)
         responseobj = FactoryGirl.create(:response, :completed, protocol_subscription: protocol_subscription)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        expect(controller).to receive(:redirect_to_questionnaire).with(mentor.type,
+        expect(controller).to receive(:redirect_to_questionnaire).with(protocol_subscription.for_myself?,
                                                                        invitation_token.token).and_call_original
         get :show, params: { q: invitation_token.token }
         expect(response).to have_http_status(302)
@@ -45,20 +45,6 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         get :show, params: { q: invitation_token.token }
         expect(response).to have_http_status(404)
         expect(response.body).to include('Deze vragenlijst kan niet meer ingevuld worden.')
-      end
-
-      it 'should give an error when not given a mentor or student' do
-        person_type = :person
-        person = FactoryGirl.create(person_type)
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   start_date: 1.week.ago.at_beginning_of_day,
-                                                   person: person)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
-                                                    open_from: 1.hour.ago)
-        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        get :show, params: { q: invitation_token.token }
-        expect(response).to have_http_status(404)
-        expect(response.body).to include('De code die opgegeven is hoort niet bij een student of mentor.')
       end
     end
 
@@ -78,12 +64,28 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response.location).to eq(questionnaire_url(q: invitation_token.token))
       end
 
-      it 'should redirect to the mentor controller if the person is a mentor' do
+      it 'should redirect to the questionnaire controller for a mentor filling out a questionnaire for themselves' do
         person_type = :mentor
         person = FactoryGirl.create(person_type)
         protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                    start_date: 1.week.ago.at_beginning_of_day,
                                                    person: person)
+        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                    open_from: 1.hour.ago)
+        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+        get :show, params: { q: invitation_token.token }
+        expect(response).to have_http_status(302)
+        expect(response.location).to_not eq(mentor_overview_index_url)
+        expect(response.location).to eq(questionnaire_url(q: invitation_token.token))
+      end
+
+      it 'should redirect to the mentor controller for a mentor filling out a questionnaire for someone else' do
+        person_type = :mentor
+        person = FactoryGirl.create(person_type)
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   start_date: 1.week.ago.at_beginning_of_day,
+                                                   person: person,
+                                                   filling_out_for: FactoryGirl.create(:student))
         responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
                                                     open_from: 1.hour.ago)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)

@@ -616,7 +616,6 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_http_status(200)
       # The page didn't change because we didn't select a radio for v5:
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-      expect(page).to have_http_status(200)
       # v5
       page.choose('Hihaho', allow_label_click: true)
       page.click_on 'Opslaan'
@@ -629,6 +628,109 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v2' => 'pizza',
                                             'v5' => 'Hihaho')
       expect(responseobj.values.keys).not_to include('v3')
+    end
+  end
+
+  context 'textarea' do
+    let(:content) do
+      [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        title: 'Dit is je tekstruimte'
+      }]
+    end
+
+    it 'should store the results from a textarea' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('pizza', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      # The page didn't change because we didn't enter text in v3:
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'pizza',
+                                            'v3' => 'of niet soms')
+    end
+    it 'should require invisible textareas once they become visible' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_css('label', text: 'Vul iets in', visible: false)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: false)
+      # v1
+      page.choose('brood', allow_label_click: true)
+      expect(page).to have_css('label', text: 'Vul iets in', visible: true)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: true)
+      # v3
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      # The page didn't change because we didn't enter text in v2:
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      page.fill_in('v2', with: 'anders nog iets')
+      page.click_on 'Opslaan'
+      expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'brood',
+                                            'v2' => 'anders nog iets',
+                                            'v3' => 'of niet soms')
     end
   end
 end

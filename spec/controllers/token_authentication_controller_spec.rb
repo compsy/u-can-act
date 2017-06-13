@@ -110,11 +110,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       let(:invitation_token) { FactoryGirl.create(:invitation_token, response: responseobj) }
 
       it 'should set the response id cookie' do
-        expected = {
-          person_id: person.id.to_s,
-          response_id: responseobj.id.to_s,
-          type: person.type.to_s
-        }
+        expected = { response_id: responseobj.id.to_s }
         expect(CookieJar)
           .to receive(:set_or_update_cookie)
           .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)

@@ -26,11 +26,6 @@ class CookieJar
       cookie[entry.to_s]
     end
 
-    def mentor?(jar)
-      hash = { TokenAuthenticationController::TYPE_COOKIE => 'Mentor' }
-      verify_param(jar, hash)
-    end
-
     def set_or_update_cookie(jar, cookie_hash)
       Rails.logger.debug cookie_hash
       current_cookie = jar[COOKIE_LOCATION]

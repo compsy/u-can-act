@@ -27,8 +27,7 @@ describe SendInvitation do
     it 'should call the SendSms use case' do
       FactoryGirl.create(:invitation_token, response: response)
       mytok = response.invitation_token.token
-      smstext = 'Welkom bij het onderzoek naar ontwikkeling en begeleiding. '\
-                "Er staat een vragenlijst voor je klaar. Vul deze nu in! #{ENV['HOST_URL']}/?q=#{mytok}"
+      smstext = "Je bent fantastisch op weg! Ga zo door. #{ENV['HOST_URL']}/?q=#{mytok}"
       expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                              text: smstext,
                                              reference: "vsv-#{response.id}")

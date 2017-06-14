@@ -25,14 +25,14 @@ function toggle_shown_questions() {
       $(this).data('shows-questions').forEach(function (entry) {
         var klass = '.' + entry + '_toggle';
         $(klass).removeClass('hidden')
-          .find('input').prop('disabled', false);
+          .find('input,textarea').prop('disabled', false);
         $('.otherwise-option').each(toggle_otherwise_field);
       });
     } else {
       $(this).data('shows-questions').forEach(function (entry) {
         var klass = '.' + entry + '_toggle';
         $(klass).addClass('hidden')
-          .find('input').prop('disabled', true);
+          .find('input,textarea').prop('disabled', true);
       });
     }
   });
@@ -84,6 +84,7 @@ $(function () {
       $(this).blur();
     }
   });
-  $('input').change(time_element);
+  $('input,textarea').change(time_element);
+  $('textarea').focusin(time_element);
   $('button[type=submit]').click(time_element);
 });

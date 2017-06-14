@@ -10,25 +10,27 @@
       <h4>Bedankt voor het invullen van de vragenlijst!</h4>
     </div>
   </div>
-  <div class="section">
-    <p class="flow-text">
-      Je hebt hiermee <%= @reward_delta %> punten verdiend. Je hebt nu in totaal <strong><%= reward_points %></strong>
-      punten.
-    </p>
-  </div>
-  <div class="section">
-    <p class="flow-text">
-      Voortgang van het onderzoek
-    </p>
-    <div class="progress">
-      <div class="determinate" style="width: <%= progress_perc %>%"></div>
+  <% unless mentor? %>
+    <div class="section">
+      <p class="flow-text">
+        Je hebt hiermee <%= @reward_delta %> punten verdiend. Je hebt nu in totaal <strong><%= reward_points %></strong>
+        punten.
+      </p>
     </div>
-    <div class="row">
-      <div class="col s12">
-        Het onderzoek is voor <%= progress_perc %>% voltooid. Er zijn
-        nog <%= max_reward_points - possible_reward_points %>
-        punten te verdienen.
+    <div class="section">
+      <p class="flow-text">
+        Voortgang van het onderzoek
+      </p>
+      <div class="progress">
+        <div class="determinate" style="width: <%= progress_perc %>%"></div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          Het onderzoek is voor <%= progress_perc %>% voltooid. Er zijn
+          nog <%= max_reward_points - possible_reward_points %>
+          punten te verdienen.
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>

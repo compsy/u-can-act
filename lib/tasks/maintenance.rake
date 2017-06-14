@@ -11,7 +11,7 @@ namespace :maintenance do
   end
 
   desc 'Extend protocols and reschedule the nametingen'
-  task reschedule_posttests: [:environment] do
+  task reschedule_posttests: :environment do
     puts 'Rescheduling posttests - started'
     protocols_adjusted = 0
     Protocol.all.each do |protocol|

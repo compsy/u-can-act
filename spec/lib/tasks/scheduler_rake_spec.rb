@@ -19,7 +19,7 @@ describe 'rake scheduler:send_invitations', type: :task do
   end
 end
 
-describe 'rake scheduler:complete_protocol_subscriptions', type: :task, focus: true do
+describe 'rake scheduler:complete_protocol_subscriptions', type: :task do
   it 'should preload the Rails environment' do
     expect(task.prerequisites).to include 'environment'
   end
@@ -38,7 +38,7 @@ describe 'rake scheduler:complete_protocol_subscriptions', type: :task, focus: t
   end
 end
 
-describe 'rake scheduler:cleanup_invitation_tokens', type: :task, focus: true do
+describe 'rake scheduler:cleanup_invitation_tokens', type: :task do
   it 'should preload the Rails environment' do
     expect(task.prerequisites).to include 'environment'
   end

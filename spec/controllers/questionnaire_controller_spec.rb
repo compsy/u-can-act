@@ -100,14 +100,28 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
 
       it 'should render the klaar page if the person is a student' do
-        expect(CookieJar).to receive(:mentor?).and_return(false)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
         expect(response.location).to eq klaar_url
       end
 
-      it 'should redirect to the mentor overview page if the person is a mentor' do
-        expect(CookieJar).to receive(:mentor?).and_return(true)
+      it 'should redirect to the klaar page if the person is a mentor filling out for themselves' do
+        person = FactoryGirl.create(:mentor)
+        protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
+                                                                           start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                    open_from: 1.hour.ago)
+        post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(302)
+        expect(response.location).to eq klaar_url
+      end
+      it 'should redirect to the mentor overview page if the person is a mentor filling out for someone else' do
+        person = FactoryGirl.create(:mentor)
+        protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
+                                                                           filling_out_for: FactoryGirl.create(:person),
+                                                                           start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                    open_from: 1.hour.ago)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
         expect(response.location).to eq mentor_overview_index_url

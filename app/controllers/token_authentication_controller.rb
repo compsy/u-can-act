@@ -4,25 +4,21 @@ class TokenAuthenticationController < ApplicationController
   before_action :set_response, only: [:show]
   before_action :set_cookie, only: [:show]
 
-  PERSON_ID_COOKIE = :person_id
   RESPONSE_ID_COOKIE = :response_id
-  TYPE_COOKIE = :type
 
   def show
-    redirect_to_questionnaire(@response.protocol_subscription.person.type, @response.invitation_token.token)
+    redirect_to_questionnaire(@response.protocol_subscription.for_myself?, @response.invitation_token.token)
   end
 
   private
 
-  def redirect_to_questionnaire(person_type, token)
-    case person_type
-    when 'Mentor'
-      redirect_to mentor_overview_index_path
-    when 'Student'
-      redirect_to questionnaire_path(q: token)
-    else
-      render(status: 404, plain: 'De code die opgegeven is hoort niet bij een student of mentor.')
-    end
+  def redirect_to_questionnaire(for_myself, token)
+    redirect_url = if for_myself
+                     questionnaire_path(q: token)
+                   else
+                     mentor_overview_index_path
+                   end
+    redirect_to redirect_url
   end
 
   def set_response
@@ -33,11 +29,7 @@ class TokenAuthenticationController < ApplicationController
   end
 
   def set_cookie
-    cookie = {
-      PERSON_ID_COOKIE => @response.protocol_subscription.person.id.to_s,
-      RESPONSE_ID_COOKIE => @response.id.to_s,
-      TYPE_COOKIE => @response.protocol_subscription.person.type.to_s
-    }
+    cookie = { RESPONSE_ID_COOKIE => @response.id.to_s }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
   end
 

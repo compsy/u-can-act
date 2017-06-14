@@ -13,12 +13,12 @@ class TokenAuthenticationController < ApplicationController
   private
 
   def redirect_to_questionnaire(for_myself, token)
-    case for_myself
-    when true
-      redirect_to questionnaire_path(q: token)
-    else
-      redirect_to mentor_overview_index_path
-    end
+    redirect_url = if for_myself
+                     questionnaire_path(q: token)
+                   else
+                     mentor_overview_index_path
+                   end
+    redirect_to redirect_url
   end
 
   def set_response

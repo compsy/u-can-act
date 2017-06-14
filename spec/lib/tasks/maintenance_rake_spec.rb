@@ -12,8 +12,8 @@ describe 'rake maintenance:reschedule_posttests', type: :task do
   end
 
   it 'should reschedule existing protocols that have 3 weeks duration' do
-    FactoryGirl.create_list(:protocol, 7, duration: 3.weeks)
     FactoryGirl.create_list(:protocol, 11, duration: 2.weeks)
+    FactoryGirl.create_list(:protocol, 7, duration: 3.weeks)
     FactoryGirl.create_list(:protocol, 19, duration: 4.weeks)
     protocolcountbef = Protocol.count
     expect { task.execute }.to output(/Adjusted 7 protocols/).to_stdout

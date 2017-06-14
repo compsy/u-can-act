@@ -15,7 +15,7 @@ namespace :maintenance do
     puts 'Rescheduling posttests - started'
     protocols_adjusted = 0
     Protocol.all.each do |protocol|
-      next unless protocol.duration == 3.weeks
+      next unless protocol.duration == 3.weeks # Extend protocol lengths from 3 to 4 weeks
       protocol.duration = 4.weeks
       protocol.save!
       protocols_adjusted += 1

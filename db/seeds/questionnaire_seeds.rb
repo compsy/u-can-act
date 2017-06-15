@@ -1010,127 +1010,139 @@ nameting1.content = [{
                      }, {
                        id: :v12,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v5.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v4b.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v13,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v6.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v5.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v14,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v7.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v6.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v15,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v8.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v7.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v16,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v9.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v8.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v17,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v10.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v9.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v18,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v11.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v10.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v19,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v12.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v11.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v20,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v13.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v12.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v21,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v14.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v13.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v22,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v15.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v14.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v23,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v15.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v24,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v17.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v25,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v18.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16b.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v26,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v19.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v17.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v27,
+                       type: :range,
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v18.png" class="questionnaire-image" />',
+                       labels: ['heel moeilijk', 'heel makkelijk'],
+                       section_end: true
+                     }, {
+                       id: :v28,
+                       type: :range,
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v19.png" class="questionnaire-image" />',
+                       labels: ['heel moeilijk', 'heel makkelijk'],
+                       section_end: true
+                     }, {
+                       id: :v29,
                        type: :radio,
                        title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
                        section_start: 'Timing',
-                       id: :v28,
+                       id: :v30,
                        type: :radio,
                        title: 'Je kreeg elke keer om 12 uur een sms als er weer een vragenlijst voor je open stond. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
-                       id: :v29,
+                       id: :v31,
                        type: :radio,
                        title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
-                       id: :v30,
+                       id: :v32,
                        type: :radio,
-                       title: 'Zou je daarnaast eerder of later op de dag nog een extra herinnering willen ontvangen?',
+                       title: 'Zou je nog een extra herinnering willen ontvangen op een bepaalde tijd?',
                        options: ['Nee'],
                        otherwise_label: 'Ja, namelijk om:'
                      }, {
-                       id: :v31,
+                       id: :v33,
                        type: :radio,
                        title: 'Je kreeg nu elke donderdag een vragenlijst. Zou je deze liever op een andere dag krijgen?',
                        options: ['Nee', 'Ja, op maandag', 'Ja, op dinsdag', 'Ja, op woensdag', 'Ja, op vrijdag'],
                        section_end: true
                      }, {
                        section_start: 'Notificatieteksten',
-                       id: :v32,
+                       id: :v34,
                        type: :radio,
                        title: 'Welke notificatietekst vond jij het prettigst om te krijgen?',
                        options: ['Welkom bij het onderzoek naar ontwikkeling en begeleiding. Er staat een vragenlijst voor je klaar. Vul deze nu in! LINK',
@@ -1139,7 +1151,7 @@ nameting1.content = [{
                        section_end: true
                      }, {
                        section_start: 'Missen van vragenlijsten',
-                       id: :v33,
+                       id: :v35,
                        type: :checkbox,
                        title: 'Wat waren de redenen dat je wel eens een vragenlijst hebt gemist? (meerdere antwoorden mogelijk)',
                        options: ['Ik heb nooit een vragenlijst gemist',
@@ -1154,20 +1166,20 @@ nameting1.content = [{
                                  'De vragenlijst was al verlopen'
                        ]
                      }, {
-                       id: :v34,
+                       id: :v36,
                        type: :radio,
                        title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
                        section_start: 'Beloning',
-                       id: :v35,
+                       id: :v37,
                        type: :radio,
                        title: 'Vind je dat je genoeg beloning krijgt voor wat je moet doen?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, voor het werk dat ik heb gedaan zou ik dit een eerlijke beloning vinden: €'
                      }, {
-                       id: :v36,
+                       id: :v38,
                        type: :radio,
                        title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
                        options: ['Ja'],
@@ -1175,7 +1187,7 @@ nameting1.content = [{
                        section_end: true
                      }, {
                        section_start: 'Tot slot',
-                       id: :v37,
+                       id: :v39,
                        type: :textarea,
                        title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
                        section_end: true
@@ -1257,127 +1269,139 @@ nameting2.content = [{
                      }, {
                        id: :v12,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v5.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v4b.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v13,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v6.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v5.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v14,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v7.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v6.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v15,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v8.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v7.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v16,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v9.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v8.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v17,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v10.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v9.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v18,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v11.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v10.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v19,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v12.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v11.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v20,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v13.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v12.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v21,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v14.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v13.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v22,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v15.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v14.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v23,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v15.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v24,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v17.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v25,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v18.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16b.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v26,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v19.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v17.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v27,
+                       type: :range,
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v18.png" class="questionnaire-image" />',
+                       labels: ['heel moeilijk', 'heel makkelijk'],
+                       section_end: true
+                     }, {
+                       id: :v28,
+                       type: :range,
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v19.png" class="questionnaire-image" />',
+                       labels: ['heel moeilijk', 'heel makkelijk'],
+                       section_end: true
+                     }, {
+                       id: :v29,
                        type: :radio,
                        title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
                        section_start: 'Timing',
-                       id: :v28,
+                       id: :v30,
                        type: :radio,
                        title: 'Je kreeg elke keer om 12 uur een sms als er weer een vragenlijst voor je open stond. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
-                       id: :v29,
+                       id: :v31,
                        type: :radio,
                        title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
-                       id: :v30,
+                       id: :v32,
                        type: :radio,
-                       title: 'Zou je daarnaast eerder of later op de dag nog een extra herinnering willen ontvangen?',
+                       title: 'Zou je nog een extra herinnering willen ontvangen op een bepaalde tijd?',
                        options: ['Nee'],
                        otherwise_label: 'Ja, namelijk om:'
                      }, {
-                       id: :v31,
+                       id: :v33,
                        type: :checkbox,
                        title: 'Je kreeg nu elke maandag en donderdag een vragenlijst. Zou je deze liever op andere dagen krijgen? Zo ja, graag twee dagen aanvinken.',
                        options: ['Nee', 'Ja, op maandag', 'Ja, op dinsdag', 'Ja, op woensdag', 'Ja, op donderdag', 'Ja, op vrijdag'],
                        section_end: true
                      }, {
                        section_start: 'Notificatieteksten',
-                       id: :v32,
+                       id: :v34,
                        type: :radio,
                        title: 'Welke notificatietekst vond jij het prettigst om te krijgen?',
                        options: ['Welkom bij het onderzoek naar ontwikkeling en begeleiding. Er staat een vragenlijst voor je klaar. Vul deze nu in! LINK',
@@ -1386,7 +1410,7 @@ nameting2.content = [{
                        section_end: true
                      }, {
                        section_start: 'Missen van vragenlijsten',
-                       id: :v33,
+                       id: :v35,
                        type: :checkbox,
                        title: 'Wat waren de redenen dat je wel eens een vragenlijst hebt gemist? (meerdere antwoorden mogelijk)',
                        options: ['Ik heb nooit een vragenlijst gemist',
@@ -1401,20 +1425,20 @@ nameting2.content = [{
                                  'De vragenlijst was al verlopen'
                        ]
                      }, {
-                       id: :v34,
+                       id: :v36,
                        type: :radio,
                        title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
                        section_start: 'Beloning',
-                       id: :v35,
+                       id: :v37,
                        type: :radio,
                        title: 'Vind je dat je genoeg beloning krijgt voor wat je moet doen?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, voor het werk dat ik heb gedaan zou ik dit een eerlijke beloning vinden: €'
                      }, {
-                       id: :v36,
+                       id: :v38,
                        type: :radio,
                        title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
                        options: ['Ja'],
@@ -1422,7 +1446,7 @@ nameting2.content = [{
                        section_end: true
                      }, {
                        section_start: 'Tot slot',
-                       id: :v37,
+                       id: :v39,
                        type: :textarea,
                        title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
                        section_end: true
@@ -1504,121 +1528,133 @@ nameting3.content = [{
                      }, {
                        id: :v12,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v5.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v4b.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v13,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v6.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v5.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v14,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v7.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v6.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v15,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v8.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v7.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v16,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v9.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v8.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v17,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v10.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v9.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v18,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v11.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v10.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v19,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v12.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v11.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v20,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v13.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v12.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v21,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v14.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v13.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v22,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v15.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v14.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v23,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v15.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v24,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v17.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v25,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v18.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v16b.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v26,
                        type: :range,
-                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v19.png" class="questionnaire-image" />',
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v17.png" class="questionnaire-image" />',
                        labels: ['heel moeilijk', 'heel makkelijk'],
                        section_end: true
                      }, {
                        id: :v27,
+                       type: :range,
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v18.png" class="questionnaire-image" />',
+                       labels: ['heel moeilijk', 'heel makkelijk'],
+                       section_end: true
+                     }, {
+                       id: :v28,
+                       type: :range,
+                       title: 'Vond je de onderstaande vraag moeilijk of makkelijk te begrijpen? <br><img src="/images/studenten/questions/v19.png" class="questionnaire-image" />',
+                       labels: ['heel moeilijk', 'heel makkelijk'],
+                       section_end: true
+                     }, {
+                       id: :v29,
                        type: :radio,
                        title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
                        section_start: 'Timing',
-                       id: :v28,
+                       id: :v30,
                        type: :radio,
                        title: 'Je kreeg elke keer om 12 uur een sms als er weer een vragenlijst voor je open stond. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
-                       id: :v29,
+                       id: :v31,
                        type: :radio,
                        title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
-                       id: :v30,
+                       id: :v32,
                        type: :radio,
-                       title: 'Zou je daarnaast eerder of later op de dag nog een extra herinnering willen ontvangen?',
+                       title: 'Zou je nog een extra herinnering willen ontvangen op een bepaalde tijd?',
                        options: ['Nee'],
                        otherwise_label: 'Ja, namelijk om:'
                      }, {
                        section_start: 'Notificatieteksten',
-                       id: :v32,
+                       id: :v34,
                        type: :radio,
                        title: 'Welke notificatietekst vond jij het prettigst om te krijgen?',
                        options: ['Welkom bij het onderzoek naar ontwikkeling en begeleiding. Er staat een vragenlijst voor je klaar. Vul deze nu in! LINK',
@@ -1627,7 +1663,7 @@ nameting3.content = [{
                        section_end: true
                      }, {
                        section_start: 'Missen van vragenlijsten',
-                       id: :v33,
+                       id: :v35,
                        type: :checkbox,
                        title: 'Wat waren de redenen dat je wel eens een vragenlijst hebt gemist? (meerdere antwoorden mogelijk)',
                        options: ['Ik heb nooit een vragenlijst gemist',
@@ -1642,20 +1678,20 @@ nameting3.content = [{
                                  'De vragenlijst was al verlopen'
                        ]
                      }, {
-                       id: :v34,
+                       id: :v36,
                        type: :radio,
                        title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
                        section_start: 'Beloning',
-                       id: :v35,
+                       id: :v37,
                        type: :radio,
                        title: 'Vind je dat je genoeg beloning krijgt voor wat je moet doen?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, voor het werk dat ik heb gedaan zou ik dit een eerlijke beloning vinden: €'
                      }, {
-                       id: :v36,
+                       id: :v38,
                        type: :radio,
                        title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
                        options: ['Ja'],
@@ -1663,7 +1699,7 @@ nameting3.content = [{
                        section_end: true
                      }, {
                        section_start: 'Tot slot',
-                       id: :v37,
+                       id: :v39,
                        type: :textarea,
                        title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
                        section_end: true
@@ -1890,21 +1926,16 @@ nameting4.content = [{
                        section_start: 'User Interface',
                        id: :v4,
                        type: :textarea,
-                       title: 'Zie het voorbeeld hieronder: <br><img src="/images/begeleiders/landingspagina.png" class="questionnaire-image" /><br><br>Wat zou jij willen verbeteren aan deze pagina?'
-                     }, {
-                       id: :v5,
-                       type: :range,
-                       title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
-                       labels: ['helemaal niet duidelijk', 'heel duidelijk'],
+                       title: 'Zie het voorbeeld hieronder: <br><img src="/images/begeleiders/landingspagina.png" class="questionnaire-image" /><br><br>Wat zou jij willen verbeteren aan deze pagina?',
                        section_end: true
                      }, {
                        section_start: 'Begrijpelijkheid',
-                       id: :v6,
+                       id: :v5,
                        type: :range,
                        title: 'Vond je de volgende vraag moeilijk of makkelijk te begrijpen? <br><span class="questionnaire-quote">"Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v7,
+                       id: :v6,
                        type: :range,
                        title: 'Vond je de volgende vraag moeilijk of makkelijk te begrijpen? <br><span class="questionnaire-quote">"Welke acties heb je deze week uitgevoerd om ...(het doel)… te bereiken?"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
@@ -1912,32 +1943,32 @@ nameting4.content = [{
                        type: :raw,
                        content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/doelen.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>'
                      }, {
-                       id: :v8,
+                       id: :v7,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Relatie verbeteren en/of onderhouden"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v9,
+                       id: :v8,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Inzicht krijgen in de belevingswereld"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v10,
+                       id: :v9,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Inzicht krijgen in de omgeving"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v11,
+                       id: :v10,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Zelfinzicht geven"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v12,
+                       id: :v11,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Vaardigheden ontwikkelen"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v13,
+                       id: :v12,
                        type: :range,
                        title: '<span class="questionnaire-quote">"De omgeving veranderen/afstemmen met de omgeving"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
@@ -1945,32 +1976,32 @@ nameting4.content = [{
                        type: :raw,
                        content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/acties.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>'
                      }, {
-                       id: :v14,
+                       id: :v13,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Laagdrempelig contact gelegd"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v15,
+                       id: :v14,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Praktische oefeningen uitgevoerd"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v16,
+                       id: :v15,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Gespreks- inteventies/technieken gebruikt"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v17,
+                       id: :v16,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Het netwerk betrokken"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v18,
+                       id: :v17,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Motiverende handelingen uitgevoerd"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v19,
+                       id: :v18,
                        type: :range,
                        title: '<span class="questionnaire-quote">"Observaties gedaan"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
@@ -1978,15 +2009,20 @@ nameting4.content = [{
                        type: :raw,
                        content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/omgeving.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>'
                      }, {
-                       id: :v20,
+                       id: :v19,
                        type: :range,
                        title: '<span class="questionnaire-quote">"(omgeving), met als doel afstemmen"</span>',
                        labels: ['heel moeilijk', 'heel makkelijk']
                      }, {
-                       id: :v21,
+                       id: :v20,
                        type: :range,
                        title: '<span class="questionnaire-quote">"(omgeving), met als doel veranderen"</span>',
-                       labels: ['heel moeilijk', 'heel makkelijk'],
+                       labels: ['heel moeilijk', 'heel makkelijk']
+                     }, {
+                       id: :v21,
+                       type: :range,
+                       title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
+                       labels: ['helemaal niet duidelijk', 'heel duidelijk'],
                        section_end: true
                      }, {
                        section_start: 'Timing',
@@ -2004,7 +2040,7 @@ nameting4.content = [{
                      }, {
                        id: :v24,
                        type: :radio,
-                       title: 'Zou je daarnaast eerder of later op de dag nog een extra herinnering willen ontvangen?',
+                       title: 'Zou je nog een extra herinnering willen ontvangen op een bepaalde tijd?',
                        options: ['Nee'],
                        otherwise_label: 'Ja, namelijk om:'
                      }, {

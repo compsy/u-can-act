@@ -38,19 +38,6 @@ describe CookieJar do
     end
   end
 
-  describe 'mentor?' do
-    it 'should return true if the current person is a mentor' do
-      cookie_hash = { type: 'Mentor' }
-      described_class.set_or_update_cookie(jar, cookie_hash)
-      expect(described_class.mentor?(jar)).to be_truthy
-    end
-    it 'should return false if the current person is not a mentor' do
-      cookie_hash = { type: 'student' }
-      described_class.set_or_update_cookie(jar, cookie_hash)
-      expect(described_class.mentor?(jar)).to be_falsey
-    end
-  end
-
   describe 'verify_param' do
     it 'should set a cookie when it is not yet set' do
       cookie_hash = { response_id: '123', token: 'othertoken' }

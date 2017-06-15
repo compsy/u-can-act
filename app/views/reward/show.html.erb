@@ -13,19 +13,21 @@
     </div>
   </div>
   <% if mentor? %>
-      <div class="section">
-        <p class="flow-text">
-          Heel erg bedankt dat je meedeed aan ons onderzoek! Door jou deelname kunnen wij onze webapp zo verbeteren dat
-          deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers.
-        </p>
-        <p class="flow-text">
-          Hartelijke groeten van het RUG onderzoeksteam:<br>
-          Nick Snell, Teun Blijlevens en Mandy van der Gaag
-        </p>
-        <p class="flow-text">
-          Je kan deze pagina veilig sluiten.
-        </p>
-      </div>
+      <% if done %>
+          <div class="section">
+            <p class="flow-text">
+              Heel erg bedankt dat je meedeed aan ons onderzoek! Door jou deelname kunnen wij onze webapp zo verbeteren
+              dat deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers.
+            </p>
+            <p class="flow-text">
+              Hartelijke groeten van het RUG onderzoeksteam:<br>
+              Nick Snell, Teun Blijlevens en Mandy van der Gaag
+            </p>
+            <p class="flow-text">
+              Je kan deze pagina veilig sluiten.
+            </p>
+          </div>
+      <% end %>
   <% else %>
       <% if done %>
           <div class="section">

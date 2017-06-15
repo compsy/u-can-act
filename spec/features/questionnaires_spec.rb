@@ -8,10 +8,32 @@ describe 'GET and POST /', type: :feature, js: true do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                person: student,
                                                start_date: 1.week.ago.at_beginning_of_day)
+    questionnaire = FactoryGirl.create(:questionnaire, content: [{
+                                                                   section_start: 'Algemeen',
+                                                                   id: :v1,
+                                                                   type: :radio,
+                                                                   title: 'Hoe voelt u zich vandaag?',
+                                                                   options: %w[slecht goed],
+                                                                   otherwise_label: 'Anders nog wat:'
+                                                                 }, {
+                                                                   id: :v2,
+                                                                   type: :checkbox,
+                                                                   title: 'Wat heeft u vandaag gegeten?',
+                                                                   options: ['brood', 'kaas en ham', 'pizza'],
+                                                                   otherwise_label: 'Hier ook iets:'
+                                                                 }, {
+                                                                   id: :v3,
+                                                                   type: :range,
+                                                                   title: 'Hoe gaat het met u?',
+                                                                   labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
+                                                                   section_end: true
+                                                                 }])
+    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
+                                     invited_state: Response::SENT_STATE,
+                                     measurement: measurement)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil
     expect(responseobj.content).to be_nil
@@ -31,13 +53,14 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Hoe voelt u zich vandaag?')
     expect(page).to have_content('slecht')
     expect(page).to have_content('goed')
-    expect(page).to have_content('Anders, namelijk:')
+    expect(page).to have_content('Anders nog wat:')
     page.choose('slecht', allow_label_click: true)
     # v2
     expect(page).to have_content('Wat heeft u vandaag gegeten?')
     expect(page).to have_content('brood')
     expect(page).to have_content('kaas en ham')
     expect(page).to have_content('pizza')
+    expect(page).to have_content('Hier ook iets:')
     page.check('brood', allow_label_click: true)
     page.check('kaas en ham', allow_label_click: true)
     # v3
@@ -192,40 +215,40 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'shows and hides checkbox questions' do
     let(:content) do
       [{
-        id: :v1,
-        type: :radio,
-        title: 'Hoe voelt u zich vandaag?',
-        options: %w[slecht goed]
-      }, {
-        id: :v2,
-        type: :checkbox,
-        title: 'Wat heeft u vandaag gegeten?',
-        options: [
-          { title: 'brood', shows_questions: %i[v3] },
-          'kaas en ham',
-          { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
-        ]
-      }, {
-        section_start: 'My hidden question',
-        id: :v3,
-        hidden: true,
-        type: :range,
-        title: 'Zie je mij of niet?',
-        labels: ['helemaal niet', 'helemaal wel']
-      }, {
-        id: :v4,
-        hidden: true,
-        type: :checkbox,
-        title: 'Ben ik ook onzichtbaar?',
-        options: ['antwoord a', 'antwoord b']
-      }, {
-        id: :v5,
-        hidden: true,
-        type: :radio,
-        title: 'Zie je mij?',
-        options: %w[Hihaho hahaha],
-        section_end: true
-      }]
+         id: :v1,
+         type: :radio,
+         title: 'Hoe voelt u zich vandaag?',
+         options: %w[slecht goed]
+       }, {
+         id: :v2,
+         type: :checkbox,
+         title: 'Wat heeft u vandaag gegeten?',
+         options: [
+           { title: 'brood', shows_questions: %i[v3] },
+           'kaas en ham',
+           { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
+         ]
+       }, {
+         section_start: 'My hidden question',
+         id: :v3,
+         hidden: true,
+         type: :range,
+         title: 'Zie je mij of niet?',
+         labels: ['helemaal niet', 'helemaal wel']
+       }, {
+         id: :v4,
+         hidden: true,
+         type: :checkbox,
+         title: 'Ben ik ook onzichtbaar?',
+         options: ['antwoord a', 'antwoord b']
+       }, {
+         id: :v5,
+         hidden: true,
+         type: :radio,
+         title: 'Zie je mij?',
+         options: %w[Hihaho hahaha],
+         section_end: true
+       }]
     end
 
     it 'shows and hides questions' do
@@ -413,40 +436,40 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'shows and hides radio questions' do
     let(:content) do
       [{
-        id: :v1,
-        type: :checkbox,
-        title: 'Hoe voelt u zich vandaag?',
-        options: %w[slecht goed]
-      }, {
-        id: :v2,
-        type: :radio,
-        title: 'Wat heeft u vandaag gegeten?',
-        options: [
-          { title: 'brood', shows_questions: %i[v3] },
-          'kaas en ham',
-          { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
-        ]
-      }, {
-        section_start: 'My hidden question',
-        id: :v3,
-        hidden: true,
-        type: :range,
-        title: 'Zie je mij of niet?',
-        labels: ['helemaal niet', 'helemaal wel']
-      }, {
-        id: :v4,
-        hidden: true,
-        type: :checkbox,
-        title: 'Ben ik ook onzichtbaar?',
-        options: ['antwoord a', 'antwoord b']
-      }, {
-        id: :v5,
-        hidden: true,
-        type: :radio,
-        title: 'Zie je mij?',
-        options: %w[Hihaho hahaha],
-        section_end: true
-      }]
+         id: :v1,
+         type: :checkbox,
+         title: 'Hoe voelt u zich vandaag?',
+         options: %w[slecht goed]
+       }, {
+         id: :v2,
+         type: :radio,
+         title: 'Wat heeft u vandaag gegeten?',
+         options: [
+           { title: 'brood', shows_questions: %i[v3] },
+           'kaas en ham',
+           { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
+         ]
+       }, {
+         section_start: 'My hidden question',
+         id: :v3,
+         hidden: true,
+         type: :range,
+         title: 'Zie je mij of niet?',
+         labels: ['helemaal niet', 'helemaal wel']
+       }, {
+         id: :v4,
+         hidden: true,
+         type: :checkbox,
+         title: 'Ben ik ook onzichtbaar?',
+         options: ['antwoord a', 'antwoord b']
+       }, {
+         id: :v5,
+         hidden: true,
+         type: :radio,
+         title: 'Zie je mij?',
+         options: %w[Hihaho hahaha],
+         section_end: true
+       }]
     end
 
     it 'shows and hides questions' do
@@ -634,25 +657,25 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'textarea' do
     let(:content) do
       [{
-        id: :v1,
-        type: :radio,
-        title: 'Wat heeft u vandaag gegeten?',
-        options: [
-          { title: 'brood', shows_questions: %i[v2] },
-          'pizza'
-        ]
-      }, {
-        section_start: 'My hidden question',
-        id: :v2,
-        hidden: true,
-        type: :textarea,
-        title: 'Zie je mij of niet?',
-        section_end: true
-      }, {
-        id: :v3,
-        type: :textarea,
-        title: 'Dit is je tekstruimte'
-      }]
+         id: :v1,
+         type: :radio,
+         title: 'Wat heeft u vandaag gegeten?',
+         options: [
+           { title: 'brood', shows_questions: %i[v2] },
+           'pizza'
+         ]
+       }, {
+         section_start: 'My hidden question',
+         id: :v2,
+         hidden: true,
+         type: :textarea,
+         title: 'Zie je mij of niet?',
+         section_end: true
+       }, {
+         id: :v3,
+         type: :textarea,
+         title: 'Dit is je tekstruimte'
+       }]
     end
 
     it 'should store the results from a textarea' do

@@ -23,7 +23,11 @@ class SendInvitation < ActiveInteraction::Base
   end
 
   def random_message
-    'Bedankt voor je inzet. Wij waarderen dit enorm! Je krijgt je beloning als je deze laatste vragenlijst invult:'
+    if response.measurement.questionnaire.name =~ /nameting/ && response.protocol_subscription.person.type == 'Student'
+      'Bedankt voor je inzet. Wij waarderen dit enorm! Je krijgt je beloning als je deze laatste vragenlijst invult:'
+    else
+      'Je bent fantastisch op weg! Ga zo door.'
+    end
   end
 
   def invitation_url

@@ -676,10 +676,6 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
       page.choose('pizza', allow_label_click: true)
-      page.click_on 'Opslaan'
-      expect(page).to have_http_status(200)
-      # The page didn't change because we didn't enter text in v3:
-      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.fill_in('v3', with: 'of niet soms')
       page.click_on 'Opslaan'
       expect(page).to have_http_status(200)
@@ -690,7 +686,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'pizza',
                                             'v3' => 'of niet soms')
     end
-    it 'should require invisible textareas once they become visible' do
+    it 'should require not require textareas to be filled out' do
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
@@ -719,17 +715,11 @@ describe 'GET and POST /', type: :feature, js: true do
       page.fill_in('v3', with: 'of niet soms')
       page.click_on 'Opslaan'
       expect(page).to have_http_status(200)
-      # The page didn't change because we didn't enter text in v2:
-      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-      page.fill_in('v2', with: 'anders nog iets')
-      page.click_on 'Opslaan'
-      expect(page).to have_http_status(200)
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to include('v1' => 'brood',
-                                            'v2' => 'anders nog iets',
                                             'v3' => 'of niet soms')
     end
   end

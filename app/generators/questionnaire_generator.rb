@@ -319,8 +319,7 @@ class QuestionnaireGenerator
                           nil,
                           id: idify(question[:id]),
                           name: answer_name(question[:id]),
-                          class: 'materialize-textarea',
-                          required: true)
+                          class: 'materialize-textarea')
       body << content_tag(:label,
                           TEXTAREA_PLACEHOLDER,
                           for: idify(question[:id]),

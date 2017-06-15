@@ -33,9 +33,24 @@ if Rails.env.development?
       open_from: 1.minute.ago,
       invited_state: Response::SENT_STATE)
     responseobj.initialize_invitation_token!
+    puts 'mentor questionnaire:'
     puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
   end
-
+  protocol = Protocol.find_by_name('pilot - mentoren nameting')
+  person = Mentor.first
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week
+  )
+  responseobj = prot_sub.responses.first
+  responseobj.update_attributes!(
+    open_from: 1.minute.ago,
+    invited_state: Response::SENT_STATE)
+  responseobj.initialize_invitation_token!
+  puts 'mentor posttest:'
+  puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
   puts 'student url:'
   Student.first.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('pilot - studenten 1x per week'),

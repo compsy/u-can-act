@@ -107,6 +107,7 @@ class QuestionnaireGenerator
 
     def generate_radio(question)
       # TODO: Add radio button validation error message
+      question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
       safe_join([
                   content_tag(:p, question[:title].html_safe, class: 'flow-text'),
                   radio_options(question),
@@ -160,13 +161,13 @@ class QuestionnaireGenerator
                   tag(:input,
                       name: answer_name(idify(question[:id])),
                       type: 'radio',
-                      id: idify(question[:id], OTHERWISE_TEXT),
-                      value: OTHERWISE_TEXT,
+                      id: idify(question[:id], question[:otherwise_label]),
+                      value: question[:otherwise_label],
                       required: true,
                       class: 'otherwise-option'),
                   content_tag(:label,
-                              OTHERWISE_TEXT,
-                              for: idify(question[:id], OTHERWISE_TEXT),
+                              question[:otherwise_label],
+                              for: idify(question[:id], question[:otherwise_label]),
                               class: 'flow-text')
                 ])
     end
@@ -175,21 +176,22 @@ class QuestionnaireGenerator
       # Used for both radios and checkboxes
       option_field = safe_join([
                                  tag(:input,
-                                     id: idify(question[:id], OTHERWISE_TEXT, 'text'),
-                                     name: answer_name(idify(question[:id], OTHERWISE_TEXT, 'text')),
+                                     id: idify(question[:id], question[:otherwise_label], 'text'),
+                                     name: answer_name(idify(question[:id], question[:otherwise_label], 'text')),
                                      type: 'text',
                                      disabled: true,
                                      required: true,
                                      class: 'validate otherwise'),
                                  content_tag(:label,
                                              OTHERWISE_PLACEHOLDER,
-                                             for: idify(question[:id], OTHERWISE_TEXT, 'text'))
+                                             for: idify(question[:id], question[:otherwise_label], 'text'))
                                ])
       option_field = content_tag(:div, option_field, class: 'input-field inline')
       option_field
     end
 
     def generate_checkbox(question)
+      question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
       safe_join([
                   content_tag(:p, question[:title].html_safe, class: 'flow-text'),
                   checkbox_options(question),
@@ -244,13 +246,13 @@ class QuestionnaireGenerator
       safe_join([
                   tag(:input,
                       type: 'checkbox',
-                      id: idify(question[:id], OTHERWISE_TEXT),
-                      name: answer_name(idify(question[:id], OTHERWISE_TEXT)),
+                      id: idify(question[:id], question[:otherwise_label]),
+                      name: answer_name(idify(question[:id], question[:otherwise_label])),
                       value: true,
                       class: 'otherwise-option'),
                   content_tag(:label,
-                              OTHERWISE_TEXT,
-                              for: idify(question[:id], OTHERWISE_TEXT),
+                              question[:otherwise_label],
+                              for: idify(question[:id], question[:otherwise_label]),
                               class: 'flow-text')
                 ])
     end

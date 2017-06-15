@@ -15,11 +15,10 @@ end
 # WARNING: seeds below are not idempotent: use dbsetup after changing something
 # WARNING: please use create! instead of create everywhere in seeds
 if Rails.env.development?
+  puts ""
   protocol = Protocol.find_by_name('pilot - mentoren 1x per week')
   person = Mentor.first
   students = Student.all[0..-2]
-
-  puts 'mentor urls:'
   students.each do |student|
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,
@@ -33,8 +32,7 @@ if Rails.env.development?
       open_from: 1.minute.ago,
       invited_state: Response::SENT_STATE)
     responseobj.initialize_invitation_token!
-    puts 'mentor questionnaire:'
-    puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+    puts "mentor questionnaire: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
   end
   protocol = Protocol.find_by_name('pilot - mentoren nameting')
   person = Mentor.first
@@ -49,9 +47,7 @@ if Rails.env.development?
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
   responseobj.initialize_invitation_token!
-  puts 'mentor posttest:'
-  puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
-  puts 'student url:'
+  puts "mentor posttest: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
   Student.first.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('pilot - studenten 1x per week'),
     state: ProtocolSubscription::ACTIVE_STATE,
@@ -62,7 +58,14 @@ if Rails.env.development?
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
   responseobj.initialize_invitation_token!
-  puts "#{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  puts "student 1x per week questionnaire: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  responseobj = Student.first.protocol_subscriptions.first.responses.last
+  responseobj.update_attributes!(
+    open_from: 1.minute.ago,
+    invited_state: Response::SENT_STATE)
+  responseobj.initialize_invitation_token!
+  puts "student 1x per week posttest: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  puts ""
 end
 
 puts 'Seeds loaded!'

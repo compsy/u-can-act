@@ -1,8 +1,10 @@
 <%
   reward_points = @protocol_subscription.reward_points
+  earned = reward_points/10
   possible_reward_points = @protocol_subscription.possible_reward_points
   max_reward_points = @protocol_subscription.max_reward_points
   progress_perc = as_percentage(possible_reward_points, max_reward_points)
+  done = possible_reward_points == max_reward_points
 %>
 <div class="col s12">
   <div class="row">
@@ -17,7 +19,7 @@
           deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers.
         </p>
         <p class="flow-text">
-          Hartelijke groeten van het RUG onderzoeksteam:
+          Hartelijke groeten van het RUG onderzoeksteam:<br>
           Nick Snell, Teun Blijlevens en Mandy van der Gaag
         </p>
         <p class="flow-text">
@@ -25,27 +27,48 @@
         </p>
       </div>
   <% else %>
-      <div class="section">
-        <p class="flow-text">
-          Je hebt hiermee <%= @reward_delta %> punten verdiend. Je hebt nu in totaal
-          <strong><%= reward_points %></strong>
-          punten.
-        </p>
-      </div>
-      <div class="section">
-        <p class="flow-text">
-          Voortgang van het onderzoek
-        </p>
-        <div class="progress">
-          <div class="determinate" style="width: <%= progress_perc %>%"></div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            Het onderzoek is voor <%= progress_perc %>% voltooid. Er zijn
-            nog <%= max_reward_points - possible_reward_points %>
-            punten te verdienen.
+      <% if done %>
+          <div class="section">
+            <p class="flow-text">
+              Heel erg bedankt dat je meedeed aan ons onderzoek! Door jou deelname kunnen wij onze webapp zo verbeteren
+              dat deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers. Zodra de gegevens bij ons
+              binnen zijn ontvangt jouw S-team begeleider jouw beloning en kan jij je beloning daar dus ophalen.
+            </p>
+            <p class="flow-text">
+              <%= reward_points %> punten behaald.<br>
+              €<%= earned %>,- verdiend.
+            </p>
+            <p class="flow-text">
+              Hartelijke groeten van het RUG onderzoeksteam:<br>
+              Nick Snell, Teun Blijlevens en Mandy van der Gaag
+            </p>
+            <p class="flow-text">
+              Je kan deze pagina veilig sluiten.
+            </p>
           </div>
-        </div>
-      </div>
+      <% else %>
+          <div class="section">
+            <p class="flow-text">
+              Je hebt hiermee <%= @reward_delta %> punten verdiend. Je hebt nu in totaal
+              <strong><%= reward_points %></strong>
+              punten.
+            </p>
+          </div>
+          <div class="section">
+            <p class="flow-text">
+              Voortgang van het onderzoek
+            </p>
+            <div class="progress">
+              <div class="determinate" style="width: <%= progress_perc %>%"></div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                Het onderzoek is voor <%= progress_perc %>% voltooid. Er zijn
+                nog <%= max_reward_points - possible_reward_points %>
+                punten te verdienen.
+              </div>
+            </div>
+          </div>
+      <% end %>
   <% end %>
 </div>

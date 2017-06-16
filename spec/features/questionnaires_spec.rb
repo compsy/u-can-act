@@ -8,10 +8,32 @@ describe 'GET and POST /', type: :feature, js: true do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                person: student,
                                                start_date: 1.week.ago.at_beginning_of_day)
+    questionnaire = FactoryGirl.create(:questionnaire, content: [{
+                                         section_start: 'Algemeen',
+                                         id: :v1,
+                                         type: :radio,
+                                         title: 'Hoe voelt u zich vandaag?',
+                                         options: %w[slecht goed],
+                                         otherwise_label: 'Anders nog wat:'
+                                       }, {
+                                         id: :v2,
+                                         type: :checkbox,
+                                         title: 'Wat heeft u vandaag gegeten?',
+                                         options: ['brood', 'kaas en ham', 'pizza'],
+                                         otherwise_label: 'Hier ook iets:'
+                                       }, {
+                                         id: :v3,
+                                         type: :range,
+                                         title: 'Hoe gaat het met u?',
+                                         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
+                                         section_end: true
+                                       }])
+    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
+                                     invited_state: Response::SENT_STATE,
+                                     measurement: measurement)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil
     expect(responseobj.content).to be_nil
@@ -31,13 +53,14 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Hoe voelt u zich vandaag?')
     expect(page).to have_content('slecht')
     expect(page).to have_content('goed')
-    expect(page).to have_content('Anders, namelijk:')
+    expect(page).to have_content('Anders nog wat:')
     page.choose('slecht', allow_label_click: true)
     # v2
     expect(page).to have_content('Wat heeft u vandaag gegeten?')
     expect(page).to have_content('brood')
     expect(page).to have_content('kaas en ham')
     expect(page).to have_content('pizza')
+    expect(page).to have_content('Hier ook iets:')
     page.check('brood', allow_label_click: true)
     page.check('kaas en ham', allow_label_click: true)
     # v3
@@ -676,10 +699,6 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
       page.choose('pizza', allow_label_click: true)
-      page.click_on 'Opslaan'
-      expect(page).to have_http_status(200)
-      # The page didn't change because we didn't enter text in v3:
-      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.fill_in('v3', with: 'of niet soms')
       page.click_on 'Opslaan'
       expect(page).to have_http_status(200)
@@ -690,7 +709,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'pizza',
                                             'v3' => 'of niet soms')
     end
-    it 'should require invisible textareas once they become visible' do
+    it 'should require not require textareas to be filled out' do
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
@@ -719,17 +738,11 @@ describe 'GET and POST /', type: :feature, js: true do
       page.fill_in('v3', with: 'of niet soms')
       page.click_on 'Opslaan'
       expect(page).to have_http_status(200)
-      # The page didn't change because we didn't enter text in v2:
-      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-      page.fill_in('v2', with: 'anders nog iets')
-      page.click_on 'Opslaan'
-      expect(page).to have_http_status(200)
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to include('v1' => 'brood',
-                                            'v2' => 'anders nog iets',
                                             'v3' => 'of niet soms')
     end
   end

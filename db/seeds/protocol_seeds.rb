@@ -2,7 +2,7 @@
 
 puts 'Generating protocols - Started'
 
-default_protocol_duration = 3.weeks
+default_protocol_duration = 4.weeks
 default_open_duration = 1.day
 default_posttest_open_duration = nil
 default_posttest_reward_points = 10

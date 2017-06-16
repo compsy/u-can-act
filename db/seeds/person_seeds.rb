@@ -11,10 +11,13 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     { first_name: 'Jane', last_name: 'Doe' }
   ]
   students.each do |student|
-    phone = "06#{rand(10 ** 8)}" 
-    Student.create(first_name: student[:first_name],
-                   last_name: student[:last_name],
-                   mobile_phone: phone)
+    phone = "06#{rand(10 ** 8)}"
+    while Person.find_by_mobile_phone(phone).present?
+      phone = "06#{rand(10 ** 8)}"
+    end
+    Student.create!(first_name: student[:first_name],
+                    last_name: student[:last_name],
+                    mobile_phone: phone)
   end
 
   mentors =[
@@ -23,12 +26,14 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   ]
 
   mentors.each do |mentor|
-    phone = "06#{rand(10 ** 8)}" 
-    Mentor.create(first_name: mentor[:first_name],
-                  last_name: mentor[:last_name],
-                  mobile_phone: phone)
+    phone = "06#{rand(10 ** 8)}"
+    while Person.find_by_mobile_phone(phone).present?
+      phone = "06#{rand(10 ** 8)}"
+    end
+    Mentor.create!(first_name: mentor[:first_name],
+                   last_name: mentor[:last_name],
+                   mobile_phone: phone)
   end
 
   puts 'Generating people - Finished'
 end
-

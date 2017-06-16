@@ -136,6 +136,25 @@ describe Response do
         expect(Response.invite_sent.to_a).to eq []
       end
     end
+    describe 'invited' do
+      it 'should return responses with a invites that dont have the not_send_state' do
+        responses = []
+        responses << FactoryGirl.create(:response, :completed)
+        responses << FactoryGirl.create(:response, invited_state: described_class::SENT_STATE)
+        responses << FactoryGirl.create(:response, invited_state: described_class::SENDING_STATE)
+        responses << FactoryGirl.create(:response, invited_state: described_class::REMINDER_SENT_STATE)
+        responses << FactoryGirl.create(:response, invited_state: described_class::SENDING_REMINDER_STATE)
+
+        expect(Response.invited.count).to eq responses.length
+        expect(Response.invited.to_a).to eq responses
+      end
+      it 'should not return responses for which no invite was sent' do
+        responses = FactoryGirl.create_list(:response, 10, invited_state: described_class::NOT_SENT_STATE)
+        expect(Response.all.length).to eq(responses.length)
+        expect(Response.invited.count).to eq 0
+        expect(Response.invited.to_a).to eq []
+      end
+    end
   end
 
   describe 'remote_content' do

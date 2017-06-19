@@ -30,7 +30,7 @@ describe AdminController, type: :controller do
       end
     end
 
-    it 'response should be ok if authorized', focus: true do
+    it 'response should be ok if authorized' do
       basic_auth 'admin', 'admin'
       routes_list.each do |route|
         get route

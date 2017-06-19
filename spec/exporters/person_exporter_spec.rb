@@ -20,7 +20,7 @@ describe PersonExporter do
         export << line
       end
       expect(export.size).to eq 2
-      # bubblebabble format for first field (profile_id)
+      # bubblebabble format for first field (person_id)
       expect(export.last.split(';').first).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
       expect(export.last.split(';').size).to eq export.first.split(';').size
     end

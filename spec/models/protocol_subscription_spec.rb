@@ -241,6 +241,16 @@ describe ProtocolSubscription do
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
       expect(protocol_subscription.possible_reward_points).to eq 100
     end
+
+    it 'should also accumulate the reward points for all not completed responses' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      FactoryGirl.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
+      FactoryGirl.create_list(:response, 10, :reminder_sent, protocol_subscription: protocol_subscription)
+      #
+      # also add some noninvited responses. These should not be counted.
+      FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
+      expect(protocol_subscription.possible_reward_points).to eq 200
+    end
   end
 
   describe 'max_reward_points' do

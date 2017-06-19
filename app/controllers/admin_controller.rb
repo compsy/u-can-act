@@ -3,12 +3,11 @@
 class AdminController < ApplicationController
   include AdminHelper
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
+  before_action :set_questionnaire, only: [:data_export]
 
-  def index
-  end
+  def index; end
 
   def data_export
-    head 404 and return unless params[:id] && QuestionnaireInformation.find_by_quby_key(params[:id])
     Rails.logger.warn "[Attention] Questionnaire data was exported by: #{current_user.email}"
     file_headers!(params[:id])
     streaming_headers!
@@ -33,5 +32,11 @@ class AdminController < ApplicationController
     streaming_headers!
     response.status = 200
     self.response_body = exporting_class.send(:export_lines)
+  end
+
+  def set_questionnaire
+    @questionnaire = Questionnaire.find_by_name(params[:id])
+    return if @questionnaire.present?
+    render(404, plain: 'Questionnaire with that name not found.')
   end
 end

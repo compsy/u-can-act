@@ -34,8 +34,8 @@ class PersonExporter
     def person_hash(person)
       vals = {}
       vals['person_id'] = calculate_hash(person.id)
-      vals['created_at'] = person.created_at&.strftime('%d-%m-%Y %H:%M:%S')
-      vals['updated_at'] = person.updated_at&.strftime('%d-%m-%Y %H:%M:%S')
+      vals['created_at'] = format_datetime(person.created_at)
+      vals['updated_at'] = format_datetime(person.updated_at)
       vals
     end
   end

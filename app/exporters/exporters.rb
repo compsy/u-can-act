@@ -8,8 +8,9 @@ module Exporters
     '0618654931', # Nick
     '0630737625', # Teun
     '0611055958', # Ando
-    '0650748891'  # Mandy
+    '0650748891' # Mandy
   ].freeze
+
   def silence_logger
     if ActiveRecord::Base.logger
       old_logger_level = ActiveRecord::Base.logger.level
@@ -41,5 +42,9 @@ module Exporters
   def calculate_hash(clear_text)
     hash = Digest::MD5.bubblebabble(clear_text.to_s + ENV['PERSON_SALT'])
     hash.split('-')[0..4].join('-')
+  end
+
+  def format_datetime(datetime)
+    datetime&.strftime('%d-%m-%Y %H:%M:%S')
   end
 end

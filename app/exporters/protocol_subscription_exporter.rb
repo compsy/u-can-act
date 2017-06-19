@@ -33,14 +33,20 @@ class ProtocolSubscriptionExporter
     private
 
     def header_properties(protocol_subscription)
-      vals = {}
-      vals['protocol_subscription_id'] = protocol_subscription.id
-      vals['person_id'] = calculate_hash(protocol_subscription.person.id)
-      vals['created_at'] = protocol_subscription.created_at&.strftime('%d-%m-%Y %H:%M:%S')
-      vals['updated_at'] = protocol_subscription.updated_at&.strftime('%d-%m-%Y %H:%M:%S')
-      vals['start_date'] = protocol_subscription.start_date&.strftime('%d-%m-%Y %H:%M:%S')
+      vals = {
+        'protocol_subscription_id' => protocol_subscription.id,
+        'person_id' => calculate_hash(protocol_subscription.person.id),
+        'created_at' => format_datetime(protocol_subscription.created_at),
+        'updated_at' => format_datetime(protocol_subscription.updated_at),
+        'start_date' => format_datetime(protocol_subscription.start_date)
+      }
+      vals = add_more_fields(vals)
+      vals
+    end
+
+    def add_more_fields(vals)
       vals['protocol'] = protocol_subscription.protocol.name
-      vals['informed_consent_given_at'] = protocol_subscription.informed_consent_given_at&.strftime('%d-%m-%Y %H:%M:%S')
+      vals['informed_consent_given_at'] = format_datetime(protocol_subscription.informed_consent_given_at)
       vals['filling_out_for_person_id'] = calculate_hash(protocol_subscription.filling_out_for_id)
       vals
     end

@@ -1,0 +1,11 @@
+<h1>Admin Interface</h1>
+<ul class="collection">
+  <li class="collection-item avatar" style="min-height:65px">
+    <i class="large material-icons circle blue lighten-2">description</i>
+    <span class="title">Persoonsexport</span>
+    <p>
+      <%= link_to(content_tag(:i,'system_update_alt',class:'material-icons left') + 'Download',
+                  admin_person_export_path(format: 'csv'), class: 'waves-effect waves-light btn') %>
+    </p>
+  </li>
+</ul>

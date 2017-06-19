@@ -123,25 +123,11 @@ describe Response do
         expect(Response.completed.to_a).to eq []
       end
     end
-    describe 'invite_sent' do
-      it 'should return responses with a sent invite' do
-        response = FactoryGirl.create(:response, :completed)
-        responsetwo = FactoryGirl.create(:response, invited_state: described_class::SENT_STATE)
-        expect(Response.invite_sent.count).to eq 2
-        expect(Response.invite_sent.to_a).to eq [response, responsetwo]
-      end
-      it 'should not return responses for which no invite was sent' do
-        FactoryGirl.create(:response)
-        expect(Response.invite_sent.count).to eq 0
-        expect(Response.invite_sent.to_a).to eq []
-      end
-    end
     describe 'invited' do
       it 'should return responses with a invites that dont have the not_send_state' do
         responses = []
         responses << FactoryGirl.create(:response, :completed)
         responses << FactoryGirl.create(:response, invited_state: described_class::SENT_STATE)
-        responses << FactoryGirl.create(:response, invited_state: described_class::SENDING_STATE)
         responses << FactoryGirl.create(:response, invited_state: described_class::REMINDER_SENT_STATE)
         responses << FactoryGirl.create(:response, invited_state: described_class::SENDING_REMINDER_STATE)
 
@@ -150,6 +136,7 @@ describe Response do
       end
       it 'should not return responses for which no invite was sent' do
         responses = FactoryGirl.create_list(:response, 10, invited_state: described_class::NOT_SENT_STATE)
+        responses << FactoryGirl.create(:response, invited_state: described_class::SENDING_STATE)
         expect(Response.all.length).to eq(responses.length)
         expect(Response.invited.count).to eq 0
         expect(Response.invited.to_a).to eq []

@@ -12,10 +12,7 @@ class PersonExporter
       silence_logger do
         Person.find_each do |person|
           next if TEST_PHONE_NUMBERS.include?(person.mobile_phone)
-          vals = {}
-          vals['person_id'] = calculate_hash(person.id)
-          vals['created_at'] = person.created_at&.strftime('%d-%m-%Y %H:%M:%S')
-          vals['updated_at'] = person.updated_at&.strftime('%d-%m-%Y %H:%M:%S')
+          vals = person_hash(person)
           fields.each do |field|
             vals[field] = person.send(field.to_sym)
           end
@@ -30,6 +27,16 @@ class PersonExporter
           enum << line + "\n"
         end
       end
+    end
+
+    private
+
+    def person_hash(person)
+      vals = {}
+      vals['person_id'] = calculate_hash(person.id)
+      vals['created_at'] = person.created_at&.strftime('%d-%m-%Y %H:%M:%S')
+      vals['updated_at'] = person.updated_at&.strftime('%d-%m-%Y %H:%M:%S')
+      vals
     end
   end
 end

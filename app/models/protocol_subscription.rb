@@ -36,7 +36,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def possible_reward_points
-    responses.invite_sent.map { |response| response.measurement.reward_points }.reduce(0, :+)
+    responses.invited.map { |response| response.measurement.reward_points }.reduce(0, :+)
   end
 
   def max_reward_points

@@ -15,6 +15,9 @@ FactoryGirl.define do
     trait :invite_sent do
       invited_state Response::SENT_STATE
     end
+    trait :reminder_sent do
+      invited_state Response::REMINDER_SENT_STATE
+    end
     trait :with_invitation_token do
       invited_state Response::SENT_STATE
       invitation_token

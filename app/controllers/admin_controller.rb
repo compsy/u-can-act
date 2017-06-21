@@ -3,7 +3,7 @@
 class AdminController < ApplicationController
   include AdminHelper
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
-  before_action :set_questionnaire, only: [:data_export, :questionnaire_export]
+  before_action :set_questionnaire, only: %i[data_export questionnaire_export]
 
   def index; end
 

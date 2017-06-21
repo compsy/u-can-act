@@ -8,7 +8,7 @@ module Exporters
     '0618654931', # Nick
     '0630737625', # Teun
     '0611055958', # Ando
-    '0650748891' # Mandy
+    '0650748891'  # Mandy
   ].freeze
 
   def silence_logger
@@ -40,7 +40,7 @@ module Exporters
   end
 
   def replace_quotes(text)
-    text.to_s.tr('"', '\'')
+    text.to_s.tr('\'','\\\'').tr('"', '\'')
   end
 
   def calculate_hash(clear_text)

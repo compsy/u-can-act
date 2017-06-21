@@ -10,10 +10,10 @@ class ResponseExporter
       raise 'Questionnaire not found' unless questionnaire
       Enumerator.new do |enum|
         enum << '"' # output a character to the stream right away
-        csv_headers = export_headers(questionnaire_name)
-        formatted_headers = format_headers(csv_headers)[1..-1]
+        csv_headers = export_headers(questionnaire)
+        formatted_headers = format_headers(csv_headers)[1..-1] # strip first char
         enum << formatted_headers + "\n"
-        export(questionnaire_name, csv_headers) do |line|
+        export(questionnaire, csv_headers) do |line|
           enum << line + "\n"
         end
       end
@@ -21,35 +21,47 @@ class ResponseExporter
 
     private
 
-    def export(quby_key, headers, &_block)
-      Exporters.silence_logger do
-        questionnaire_information_id = QuestionnaireInformation.find_by_quby_key(quby_key).id
-        QuestionnaireRequest.where(questionnaire_information_id: questionnaire_information_id)
-                            .select('id, quby_id, created_at, completed_at, profile_id').find_each do |request|
-          valbyvals = QubyService.value_by_values(quby_key, request.quby_id)
-          valbyvals['profile_id'] = Hashers::Md5Hasher.calculate_hash(request.profile_id)
-          valbyvals['created_at'] = request.created_at.andand.strftime('%d-%m-%Y %H:%M:%S')
-          valbyvals['completed_at'] = request.completed_at.andand.strftime('%d-%m-%Y %H:%M:%S')
-          yield Exporters.format_hash(headers, valbyvals)
+    def export(questionnaire, headers, &_block)
+      silence_logger do
+        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id }).
+          order(open_from: :asc).each do |response|
+          vals = response_hash(response)
+          response_values = response.values
+          vals.merge!(response_values) if response_values.present?
+          yield format_hash(headers, vals)
         end
       end
     end
 
     def export_headers(questionnaire)
       headers = {}
-      Exporters.silence_logger do
-        Response.includes(:measurement).where(measurements: {questionnaire_id: questionnaire.id}).where.not(content: nil).find_each do |response|
-        response.values.each do |values|
-          values.each do |key, value|
-            headers[key] = '' unless value.is_a?(Hash)
+      silence_logger do
+        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id }).
+          where.not(content: nil).find_each do |response|
+          response.values.each do |key, _value|
+            headers[key] = ''
           end
         end
       end
-      headers['profile_id'] = ''
-      headers['created_at'] = ''
-      headers['completed_at'] = ''
       headers = headers.keys.sort { |x, y| format_key(x) <=> format_key(y) }
+      headers = %w[response_id person_id protocol_subscription_id measurement_id open_from] +
+                %w[invited_state opened_at completed_at created_at updated_at] + headers
       headers
+    end
+
+    def response_hash(response)
+      {
+        'response_id' => response.id,
+        'person_id' => calculate_hash(response.protocol_subscription.person.id),
+        'protocol_subscription_id' => response.protocol_subscription.id,
+        'measurement_id' => response.measurement.id,
+        'open_from' => format_datetime(response.open_from),
+        'opened_at' => format_datetime(response.opened_at),
+        'completed_at' => format_datetime(response.completed_at),
+        'invited_state' => response.invited_state,
+        'created_at' => format_datetime(response.created_at),
+        'updated_at' => format_datetime(response.updated_at)
+      }
     end
 
     def format_key(key)

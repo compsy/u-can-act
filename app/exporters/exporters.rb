@@ -40,7 +40,7 @@ module Exporters
   end
 
   def replace_quotes(text)
-    text.to_s.tr('\'','\\\'').tr('"', '\'')
+    text.to_s.tr('\'', '\\\'').tr('"', '\'')
   end
 
   def calculate_hash(clear_text)

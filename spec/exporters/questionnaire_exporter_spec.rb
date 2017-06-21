@@ -12,8 +12,8 @@ describe QuestionnaireExporter do
   end
 
   context 'with questionnaire content' do
-    it 'works with people' do
-      export = described_class.export_lines(questionnaire.name).to_a
+    it 'works with questionnaire content' do
+      export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 4
       expect(export.last.split(';').first).to eq '"v3"'
       expect(export.last.split(';').second).to eq '"3"'

@@ -23,8 +23,8 @@ class ResponseExporter
 
     def export(questionnaire, headers, &_block)
       silence_logger do
-        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id }).
-          order(open_from: :asc).each do |response|
+        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
+                .order(open_from: :asc).each do |response|
           vals = response_hash(response)
           response_values = response.values
           vals.merge!(response_values) if response_values.present?
@@ -36,8 +36,8 @@ class ResponseExporter
     def export_headers(questionnaire)
       headers = {}
       silence_logger do
-        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id }).
-          where.not(content: nil).find_each do |response|
+        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
+                .where.not(content: nil).find_each do |response|
           response.values.each do |key, _value|
             headers[key] = ''
           end

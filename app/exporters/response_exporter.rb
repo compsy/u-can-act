@@ -43,6 +43,10 @@ class ResponseExporter
           end
         end
       end
+      sort_and_add_default_header_fields(headers)
+    end
+
+    def sort_and_add_default_header_fields(headers)
       headers = headers.keys.sort { |x, y| format_key(x) <=> format_key(y) }
       headers = %w[response_id person_id protocol_subscription_id measurement_id open_from] +
                 %w[invited_state opened_at completed_at created_at updated_at] + headers
@@ -50,18 +54,22 @@ class ResponseExporter
     end
 
     def response_hash(response)
-      {
+      hsh = {
         'response_id' => response.id,
         'person_id' => calculate_hash(response.protocol_subscription.person.id),
         'protocol_subscription_id' => response.protocol_subscription.id,
         'measurement_id' => response.measurement.id,
-        'open_from' => format_datetime(response.open_from),
-        'opened_at' => format_datetime(response.opened_at),
-        'completed_at' => format_datetime(response.completed_at),
-        'invited_state' => response.invited_state,
-        'created_at' => format_datetime(response.created_at),
-        'updated_at' => format_datetime(response.updated_at)
+        'invited_state' => response.invited_state
       }
+      hsh.merge!(response_hash_time_fields(response, %w[open_from opened_at completed_at created_at updated_at]))
+    end
+
+    def response_hash_time_fields(response, fields)
+      hsh = {}
+      fields.each do |field|
+        hsh[field] = format_datetime(response.send(field.to_sym))
+      end
+      hsh
     end
 
     def format_key(key)
@@ -82,13 +90,18 @@ class ResponseExporter
     def comparable_format(key)
       first, last = find_first_and_last_numbers(key)
       return key if first == -1
-      t = ''
-      t += key[0..(first - 1)] if first.positive?
+      t = prefix_number(key, first)
       len = 4 - (1 + last - first)
       len.times do
         t += '0'
       end
       t += key[first..(key.size - 1)]
+      t
+    end
+
+    def prefix_number(key, first)
+      t = ''
+      t += key[0..(first - 1)] if first.positive?
       t
     end
 
@@ -103,6 +116,8 @@ class ResponseExporter
           end
         elsif c >= '0' && c <= '9'
           last = i
+        else
+          break
         end
       end
       [first, last]

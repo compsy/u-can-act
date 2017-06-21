@@ -25,10 +25,10 @@
           <i class="large material-icons circle blue lighten-2">description</i>
           <span class="title">Questionnaire: <%= questionnaire.name %></span>
           <p>
-            <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'definition',
+            <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Definition',
                         admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'),
                         class: 'waves-effect waves-light btn download-button') %>
-            <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'responses',
+            <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Responses',
                         admin_response_export_path(id: questionnaire.name, format: 'csv'),
                         class: 'waves-effect waves-light btn download-button') %>
           </p>

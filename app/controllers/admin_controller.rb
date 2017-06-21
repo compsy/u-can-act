@@ -3,16 +3,13 @@
 class AdminController < ApplicationController
   include AdminHelper
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
-  before_action :set_questionnaire, only: %i[data_export questionnaire_export]
+  before_action :set_questionnaire, only: %i[response_export questionnaire_export]
 
   def index; end
 
-  def data_export
-    Rails.logger.warn "[Attention] Questionnaire data was exported by: #{current_user.email}"
-    file_headers!(params[:id])
-    streaming_headers!
-    response.status = 200
-    self.response_body = Exporters::DataExporter.export_lines(params[:id])
+  def response_export
+    questionnaire_filename = idify('responses', @questionnaire.name)
+    export_class(questionnaire_filename, 'Questionnaire responses', ResponseExporter, @questionnaire.name)
   end
 
   def person_export
@@ -36,7 +33,7 @@ class AdminController < ApplicationController
     file_headers!(filename)
     streaming_headers!
     response.status = 200
-    self.response_body = exporting_class.send(:export_lines, args)
+    self.response_body = exporting_class.send(:export_lines, *args)
   end
 
   def set_questionnaire

@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   get 'admin/person_export', to: 'admin#person_export'
   get 'admin/protocol_subscription_export', to: 'admin#protocol_subscription_export'
   get 'admin/questionnaire_export/:id', to: 'admin#questionnaire_export', as: 'admin_questionnaire_export'
+  get 'admin/response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
 end

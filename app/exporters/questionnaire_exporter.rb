@@ -38,7 +38,7 @@ class QuestionnaireExporter
       @counter += 1
       {
         'question_id' => question[:id],
-        'question_position' => @@counter
+        'question_position' => @counter
       }
     end
   end

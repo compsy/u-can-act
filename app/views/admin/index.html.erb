@@ -25,7 +25,7 @@
           <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download definition',
                       admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'), class: 'waves-effect waves-light btn') %>
           <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download responses',
-                      admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'), class: 'waves-effect waves-light btn') %>
+                      admin_response_export_path(id: questionnaire.name, format: 'csv'), class: 'waves-effect waves-light btn') %>
         </p>
       </li>
   <% end %>

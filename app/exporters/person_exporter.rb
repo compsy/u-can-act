@@ -5,6 +5,16 @@ require 'csv'
 class PersonExporter
   extend Exporters
   class << self
+    def export_lines
+      Enumerator.new do |enum|
+        export do |line|
+          enum << line + "\n"
+        end
+      end
+    end
+
+    private
+
     def export(&_block)
       fields = %w[type first_name last_name mobile_phone]
       headers = %w[person_id created_at updated_at] + fields
@@ -20,16 +30,6 @@ class PersonExporter
         end
       end
     end
-
-    def export_lines
-      Enumerator.new do |enum|
-        export do |line|
-          enum << line + "\n"
-        end
-      end
-    end
-
-    private
 
     def person_hash(person)
       vals = {}

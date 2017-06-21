@@ -5,21 +5,20 @@ require 'rails_helper'
 describe PersonExporter do
   context 'without people' do
     it 'works without people' do
-      expect { |b| PersonExporter.export(&b) }.to yield_control.exactly(1).times
+      export = described_class.export_lines.to_a
+      expect(export.size).to eq 1
     end
   end
 
   context 'with people' do
     before do
       FactoryGirl.create :student
+      FactoryGirl.create :person
+      FactoryGirl.create :mentor
     end
     it 'works with people' do
-      expect { |b| PersonExporter.export(&b) }.to yield_control.exactly(2).times
-      export = []
-      PersonExporter.export do |line|
-        export << line
-      end
-      expect(export.size).to eq 2
+      export = described_class.export_lines.to_a
+      expect(export.size).to eq 4
       # bubblebabble format for first field (person_id)
       expect(export.last.split(';').first).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
       expect(export.last.split(';').size).to eq export.first.split(';').size

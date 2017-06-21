@@ -1,19 +1,32 @@
 <h1>Admin Interface</h1>
+<h3>Export data</h3>
 <ul class="collection">
   <li class="collection-item avatar" style="min-height:65px">
     <i class="large material-icons circle blue lighten-2">description</i>
-    <span class="title">Person Export</span>
+    <span class="title">People</span>
     <p>
-      <%= link_to(content_tag(:i,'system_update_alt',class:'material-icons left') + 'Download',
+      <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
                   admin_person_export_path(format: 'csv'), class: 'waves-effect waves-light btn') %>
     </p>
   </li>
   <li class="collection-item avatar" style="min-height:65px">
     <i class="large material-icons circle blue lighten-2">description</i>
-    <span class="title">ProtocolSubscription Export</span>
+    <span class="title">ProtocolSubscriptions</span>
     <p>
-      <%= link_to(content_tag(:i,'system_update_alt',class:'material-icons left') + 'Download',
+      <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
                   admin_protocol_subscription_export_path(format: 'csv'), class: 'waves-effect waves-light btn') %>
     </p>
   </li>
+  <% Questionnaire.all.each do |questionnaire| %>
+      <li class="collection-item avatar" style="min-height:65px">
+        <i class="large material-icons circle blue lighten-2">description</i>
+        <span class="title">Questionnaire: <%= questionnaire.name %></span>
+        <p>
+          <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download definition',
+                      admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'), class: 'waves-effect waves-light btn') %>
+          <%= link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download responses',
+                      admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'), class: 'waves-effect waves-light btn') %>
+        </p>
+      </li>
+  <% end %>
 </ul>

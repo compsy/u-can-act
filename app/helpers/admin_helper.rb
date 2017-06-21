@@ -17,4 +17,8 @@ module AdminHelper
   def date_string
     Time.zone.now.to_date.to_s
   end
+
+  def idify(*strs)
+    strs.map { |x| x.to_s.parameterize.underscore }.join('_')
+  end
 end

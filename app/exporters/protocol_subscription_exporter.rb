@@ -5,6 +5,16 @@ require 'csv'
 class ProtocolSubscriptionExporter
   extend Exporters
   class << self
+    def export_lines
+      Enumerator.new do |enum|
+        export do |line|
+          enum << line + "\n"
+        end
+      end
+    end
+
+    private
+
     def export(&_block)
       fields = %w[state]
       headers = %w[protocol_subscription_id person_id created_at updated_at start_date protocol
@@ -22,16 +32,6 @@ class ProtocolSubscriptionExporter
       end
     end
 
-    def export_lines
-      Enumerator.new do |enum|
-        export do |line|
-          enum << line + "\n"
-        end
-      end
-    end
-
-    private
-
     def header_properties(protocol_subscription)
       vals = {
         'protocol_subscription_id' => protocol_subscription.id,
@@ -40,11 +40,11 @@ class ProtocolSubscriptionExporter
         'updated_at' => format_datetime(protocol_subscription.updated_at),
         'start_date' => format_datetime(protocol_subscription.start_date)
       }
-      vals = add_more_fields(vals)
+      vals = add_more_fields(vals, protocol_subscription)
       vals
     end
 
-    def add_more_fields(vals)
+    def add_more_fields(vals, protocol_subscription)
       vals['protocol'] = protocol_subscription.protocol.name
       vals['informed_consent_given_at'] = format_datetime(protocol_subscription.informed_consent_given_at)
       vals['filling_out_for_person_id'] = calculate_hash(protocol_subscription.filling_out_for_id)

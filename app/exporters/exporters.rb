@@ -25,7 +25,7 @@ module Exporters
     r = ''
     headers.each_with_index do |header, idx|
       r += ';' if idx.nonzero?
-      r += "\"#{hsh[header]}\"" unless hsh[header].nil?
+      r += "\"#{replace_quotes(hsh[header])}\"" unless hsh[header].nil?
     end
     r
   end
@@ -34,9 +34,13 @@ module Exporters
     r = ''
     headers.each do |header|
       r += ';' if r != ''
-      r += "\"#{header}\""
+      r += "\"#{replace_quotes(header)}\""
     end
     r
+  end
+
+  def replace_quotes(text)
+    text.to_s.gsub(/"/, '\'')
   end
 
   def calculate_hash(clear_text)

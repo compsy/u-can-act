@@ -28,7 +28,7 @@ describe 'sending invitations', type: :feature do
   let(:responses) { [some_response, another_response, third_response, fourth_response] }
 
   before(:each) do
-    # Clear the messagebird list, as we will have an sms for the newly created profile.
+    # Clear the messagebird list.
     MessageBirdAdapter.deliveries.clear
   end
 

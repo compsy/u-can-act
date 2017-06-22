@@ -37,6 +37,10 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   MESSAGEBIRD_ACCESS_KEY: <access key for messagebird>
   MESSAGEBIRD_SEND_FROM: <sender name shown for SMS>
 
+  PERSON_SALT: <salt used to hash person ids in the exporter>
+
+  ADMIN_USERNAME: <user name for the admin panel>
+  ADMIN_PASSWORD: <password for the admin panel>
 ```
 
 ## Background jobs

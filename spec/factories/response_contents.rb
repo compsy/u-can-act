@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :response_content do
-    content('v1' => 'slecht', 'v2' => %w[brood pizza], 'v3' => 23.0)
+    content('v1' => 'slecht', 'v2_brood' => 'true', 'v3' => '23.0')
   end
 end

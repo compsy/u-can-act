@@ -19,9 +19,9 @@ describe ProtocolSubscriptionExporter do
       export = described_class.export_lines.to_a.join.split("\n")
       expect(export.size).to eq 3
       # bubblebabble format for first field (person_id)
-      expect(export.last.split(';').second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
-      expect(export.last.split(';')[-2]).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
-      expect(export.last.split(';').size).to eq export.first.split(';').size
+      expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
+      expect(export.last.split(';', -1)[-2]).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
+      expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
   end
 end

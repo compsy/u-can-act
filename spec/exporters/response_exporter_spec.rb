@@ -15,18 +15,18 @@ describe ResponseExporter do
     it 'works with responses' do
       export = described_class.export_lines(response.measurement.questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 2
-      expect(export.last.split(';').first).to eq "\"#{response.id}\""
+      expect(export.last.split(';', -1).first).to eq "\"#{response.id}\""
       # bubblebabble format for second field (person_id)
-      expect(export.last.split(';').second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
-      expect(export.last.split(';').size).to eq export.first.split(';').size
+      expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
+      expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
     it 'works without responses' do
       questionnaire = FactoryGirl.create(:questionnaire)
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 1
-      expect(export.last.split(';').first).to eq '"response_id"'
-      expect(export.last.split(';').second).to eq '"person_id"'
-      expect(export.last.split(';').last).to eq '"updated_at"'
+      expect(export.last.split(';', -1).first).to eq '"response_id"'
+      expect(export.last.split(';', -1).second).to eq '"person_id"'
+      expect(export.last.split(';', -1).last).to eq '"updated_at"'
     end
   end
 end

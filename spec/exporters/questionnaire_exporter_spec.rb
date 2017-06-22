@@ -15,9 +15,9 @@ describe QuestionnaireExporter do
     it 'works with questionnaire content' do
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 4
-      expect(export.last.split(';').first).to eq '"v3"'
-      expect(export.last.split(';').second).to eq '"3"'
-      expect(export.last.split(';').size).to eq export.first.split(';').size
+      expect(export.last.split(';', -1).first).to eq '"v3"'
+      expect(export.last.split(';', -1).second).to eq '"3"'
+      expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
   end
 end

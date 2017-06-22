@@ -20,6 +20,7 @@ describe ResponseExporter do
     it 'works with responses' do
       export = described_class.export_lines(response.measurement.questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 2
+      expect(export.first).to match('"v1";"v3";"v23_2a13_brood"') # Test the sorting of keys
       expect(export.last.split(';', -1).first).to eq "\"#{response.id}\""
       # bubblebabble format for second field (person_id)
       expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)

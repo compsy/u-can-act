@@ -15,3 +15,6 @@
 //= require modernizr
 //= require materialize
 //= require_tree .
+$(function(){
+  $('.download-button').click(function() { $(this).attr('disabled', true)})
+});

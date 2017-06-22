@@ -21,7 +21,25 @@ describe ResponseExporter do
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
     it 'works without responses' do
-      questionnaire = FactoryGirl.create(:questionnaire)
+      questionnaire_content = [{
+        section_start: 'Algemeen',
+        id: :v1,
+        type: :radio,
+        title: 'Hoe voelt u zich vandaag?',
+        options: %w[slecht goed]
+      }, {
+        id: :v23_2a13,
+        type: :checkbox,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: ['brood', 'kaas en ham', 'pizza']
+      }, {
+        id: :v3,
+        type: :range,
+        title: 'Hoe gaat het met u?',
+        labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
+        section_end: true
+      }]
+      questionnaire = FactoryGirl.create(:questionnaire, content: questionnaire_content)
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 1
       expect(export.last.split(';', -1).first).to eq '"response_id"'

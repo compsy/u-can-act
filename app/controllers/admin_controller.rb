@@ -39,6 +39,6 @@ class AdminController < ApplicationController
   def set_questionnaire
     @questionnaire = Questionnaire.find_by_name(params[:id])
     return if @questionnaire.present?
-    render(404, plain: 'Questionnaire with that name not found.')
+    render(status: 404, plain: 'Questionnaire with that name not found.')
   end
 end

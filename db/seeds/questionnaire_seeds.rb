@@ -1892,6 +1892,29 @@ dagboek_content = [{
                                'Thuis, met als doel afstemmen',
                                'Thuis, met als doel veranderen',
                                'Thuis, met een ander doel'],
+                     section_end: true
+                   }, {
+                     section_start: 'Algemene vragen',
+                     id: :v13,
+                     type: :range,
+                     title: 'Hoeveel tijd heb je deze week besteed aan de acties voor deze student?',
+                     labels: ['heel weinig', 'heel veel']
+                   }, {
+                     id: :v14,
+                     type: :range,
+                     title: 'Waren je acties voor deze student deze week vooral gepland of vooral intuïtief?',
+                     labels: ['helemaal intuïtief', 'helemaal gepland']
+                   }, {
+                     id: :v15,
+                     type: :range,
+                     title: 'Hoe effectief waren je acties voor deze student deze week, denk je?',
+                     labels: ['niet effectief', 'compleet effectief']
+                   }, {
+                     id: :v16,
+                     type: :range,
+                     title: 'In hoeverre was deze student deze week in staat zijn/haar eigen gedrag te sturen?',
+                     labels: ['helemaal niet', 'helemaal'],
+                     section_end: true
                    }]
 dagboek7.content = dagboek_content
 dagboek7.title = db_title

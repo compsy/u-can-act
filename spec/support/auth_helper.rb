@@ -3,18 +3,16 @@
 module AuthHelper
   def basic_auth(user, password)
     if defined?(request)
-      controller_login(user, password)
+      AuthHelper.controller_basic_auth(user, password, request)
     elsif defined?(page)
-      capybara_login(user, password)
+      AuthHelper.capybara_basic_auth(user, password, page)
     else
       raise "I don't know how to log in!"
     end
   end
 
   class << self
-    private
-
-    def capybara_login(user, password)
+    def capybara_basic_auth(user, password, page)
       if page.driver.respond_to?(:basic_auth)
         page.driver.basic_auth(user, password)
       elsif page.driver.respond_to?(:basic_authorize)
@@ -26,7 +24,7 @@ module AuthHelper
       end
     end
 
-    def controller_login(user, password)
+    def controller_basic_auth(user, password, request)
       request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user, password)
     end
   end

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
+  def generate_phone
+    "06#{rand(10 ** 8).to_s.rjust(8,'0')}"
+  end
   puts 'Generating people - Started'
 
   students =[
@@ -11,9 +14,9 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     { first_name: 'Jane', last_name: 'Doe' }
   ]
   students.each do |student|
-    phone = "06#{rand(10 ** 8)}"
+    phone = generate_phone
     while Person.find_by_mobile_phone(phone).present?
-      phone = "06#{rand(10 ** 8)}"
+      phone = generate_phone
     end
     Student.create!(first_name: student[:first_name],
                     last_name: student[:last_name],
@@ -26,9 +29,9 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   ]
 
   mentors.each do |mentor|
-    phone = "06#{rand(10 ** 8)}"
+    phone = generate_phone
     while Person.find_by_mobile_phone(phone).present?
-      phone = "06#{rand(10 ** 8)}"
+      phone = generate_phone
     end
     Mentor.create!(first_name: mentor[:first_name],
                    last_name: mentor[:last_name],

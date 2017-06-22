@@ -3,7 +3,12 @@
 require 'rails_helper'
 
 describe ResponseExporter do
-  let!(:response) { FactoryGirl.create(:response, :completed) }
+  let!(:response) do
+    response_content = FactoryGirl.create(:response_content,
+                                          content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23.0' })
+    FactoryGirl.create(:response, :completed, content: response_content.id.to_s)
+  end
+
   context 'invalid questionnaire' do
     it 'should raise an error' do
       expect { described_class.export_lines('not-a-questionnaire') }.to raise_error(RuntimeError,

@@ -73,6 +73,9 @@ class ResponseExporter
     end
 
     def format_key(key)
+      # Tokenizes a string with the delimiter '_', and returns the
+      # tokens in an array for easy <=> comparison. The tokens in the
+      # array are processed individually by the comparable_format method.
       r = []
       t = ''
       key.split('').each do |c|
@@ -88,19 +91,25 @@ class ResponseExporter
     end
 
     def comparable_format(key)
+      # The comparable format function takes a string (in which no underscores
+      # occur, see the explanation for the format_key method), and performs zero
+      # padding on the first number in the string up to 9999.
       first, last = find_first_and_last_numbers(key)
+      # first, last are the start and end positions of the first and last digits of the first number
+      # in the string key. (A number is a substring consisting of consecutive digits only.)
       return key if first == -1
-      t = prefix_number(key, first)
+      t = prefix_number(key, first) # find stuff before the number
       len = 4 - (1 + last - first)
       len.times do
-        t += '0'
+        t += '0' # add the zero padding
       end
-      t += key[first..(key.size - 1)]
+      t += key[first..(key.size - 1)] # add the number and the rest of the string
       t
     end
 
     def prefix_number(key, first)
       t = ''
+      # if there is no digit in the string, or the string starts with a number, return an empty prefix.
       t += key[0..(first - 1)] if first.positive?
       t
     end
@@ -111,12 +120,18 @@ class ResponseExporter
       key.split('').each_with_index do |c, i|
         if first == -1
           if c >= '0' && c <= '9'
+            # if we haven't seen a digit before, and found a digit, it's both the first and last digit we found
             first = i
             last = i
           end
         elsif c >= '0' && c <= '9'
+          # if we already found a digit before, this is the new last digit.
           last = i
         else
+          # if we find something that isn't a digit, but we did find a digit earlier
+          # (note that first is not -1), then it means we found a number that has now ended.
+          # We are only interested in zeropadding the first number in an underscore-delimited
+          # substring, hence, we break here.
           break
         end
       end

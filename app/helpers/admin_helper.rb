@@ -4,7 +4,7 @@ module AdminHelper
   def file_headers!(name)
     file_name = "#{name}.csv"
     headers['Content-Type'] = 'text/csv'
-    headers['Content-disposition'] = "attachment; filename=\"#{file_name}\""
+    headers['Content-Disposition'] = "attachment; filename=\"#{file_name}\""
   end
 
   def streaming_headers!

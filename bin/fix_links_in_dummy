@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
-chmod -R 755 mentor student
+cd public/dummy
 
+chmod -R 755 mentor student
 cd mentor
 index=`cat index.html | sed -e 's/\.\/index_files/\/dummy\/mentor\/index_files/g'`
 index=`echo $index | sed -e 's/http:\/\/vsv.dev\/questionnaire\/[0-9a-z]*/\/dummy\/mentor\/questionnaire.html/g'`
@@ -16,7 +17,7 @@ cd student
 index=`cat index.html | sed -e 's/\.\/index_files/\/dummy\/student\/index_files/g'`
 index=`echo $index | sed -e 's/form action="http:\/\/vsv.dev\/"/form action="\/dummy\/student\/klaar.html" method="GET"/g'`
 
-klaar=`cat klaar.html | sed -e 's/verdienen\./verdienen\.\<br\>\<a href="\/dummy\/student"\>Keer terug\<\/a\>/g'`
+klaar=`cat klaar.html | sed -e 's/verdienen\.[^<]/verdienen\.\<br\>\<a href="\/dummy\/student"\>Keer terug\<\/a\>/g'`
 klaar=`echo $klaar | sed -e 's/form action="http:\/\/vsv.dev\/"/form action="\/dummy\/student\/klaar.html" method="GET"/g'`
 
 echo $index > index.html

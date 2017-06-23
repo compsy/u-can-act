@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 cd public/
 
-chmod -R 644 dummy
 chmod 755 dummy
 cd dummy
 

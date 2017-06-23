@@ -15,6 +15,8 @@ describe PersonExporter do
       FactoryGirl.create :student
       FactoryGirl.create :person
       FactoryGirl.create :mentor
+      # Create a person that should be filtered out
+      FactoryGirl.create(:student, mobile_phone: '0611055958')
     end
     it 'works with people' do
       export = described_class.export_lines.to_a.join.split("\n")

@@ -18,6 +18,10 @@ describe ResponseExporter do
 
   context 'with valid questionnaire' do
     it 'works with responses' do
+      # create a response that should be filtered out
+      person = FactoryGirl.create(:student, mobile_phone: '0611055958')
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person)
+      FactoryGirl.create(:response, protocol_subscription: protocol_subscription)
       export = described_class.export_lines(response.measurement.questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 2
       expect(export.first).to match('"v1";"v3";"v23_2a13_brood"') # Test the sorting of keys

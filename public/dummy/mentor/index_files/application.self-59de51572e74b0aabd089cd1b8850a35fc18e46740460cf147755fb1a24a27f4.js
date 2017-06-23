@@ -15,3 +15,6 @@
 
 
 
+$(function(){
+  $('.download-button').click(function() { $(this).attr('disabled', true)})
+});

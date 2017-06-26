@@ -23,14 +23,19 @@ class ResponseExporter
 
     def export(questionnaire, headers, &_block)
       silence_logger do
-        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
-                .order(open_from: :asc).each do |response|
+        response_query(questionnaire).each do |response|
+          next if TEST_PHONE_NUMBERS.include?(response.protocol_subscription.person.mobile_phone)
           vals = response_hash(response)
           response_values = response.values
           vals.merge!(response_values) if response_values.present?
           yield format_hash(headers, vals)
         end
       end
+    end
+
+    def response_query(questionnaire)
+      Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
+              .order(open_from: :asc)
     end
 
     def export_headers(questionnaire)

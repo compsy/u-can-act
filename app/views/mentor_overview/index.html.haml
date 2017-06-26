@@ -20,4 +20,4 @@
             - next if response.expired?
             - response.initialize_invitation_token! if response.invitation_token.nil?
             = link_to('Vragenlijst invullen voor deze student',       |
-              questionnaire_path(q: response.invitation_token.token)) |
+              questionnaire_path(q: response.invitation_token.token))

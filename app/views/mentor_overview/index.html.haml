@@ -1,0 +1,23 @@
+%h1 Webapp Begeleiders
+%p
+  Voor
+  %i
+    = @mentor.first_name
+    = @mentor.last_name
+%ul.collection
+  - @student_protocol_subscriptions.each do |protocol_subscription|
+    - student = protocol_subscription.filling_out_for
+    - open_responses = protocol_subscription.responses.open.reject{|resp| resp.expired?}
+    %li.collection-item.avatar{:style => "min-height:65px"}
+      - if open_responses.blank?
+        %i.large.material-icons.circle.green.lighten-2 done
+        %span.title= "#{student.first_name} #{student.last_name}"
+      - else
+        %i.large.material-icons.circle.orange.lighten-2 perm_identity
+        %span.title= "#{student.first_name} #{student.last_name}"
+        %p
+          - open_responses.each do |response|
+            - next if response.expired?
+            - response.initialize_invitation_token! if response.invitation_token.nil?
+            = link_to('Vragenlijst invullen voor deze student',       |
+              questionnaire_path(q: response.invitation_token.token)) |

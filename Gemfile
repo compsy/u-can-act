@@ -20,6 +20,8 @@ gem 'pg'
 gem 'puma'
 # Use SCSS for stylesheets
 gem 'sass-rails'
+# Use HAML for templates
+gem 'haml-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views

@@ -25,6 +25,7 @@ class ResponseExporter
       silence_logger do
         Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
                 .order(open_from: :asc).each do |response|
+          next if TEST_PHONE_NUMBERS.include?(response.protocol_subscription.person.mobile_phone)
           vals = response_hash(response)
           response_values = response.values
           vals.merge!(response_values) if response_values.present?

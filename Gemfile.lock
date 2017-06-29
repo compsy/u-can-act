@@ -1,14 +1,3 @@
-GIT
-  remote: https://github.com/sergeykish/workless.git
-  revision: 6b1dfe8e469e127be27d4b4862b16ad29c7a1001
-  ref: 6b1dfe8e469e127be27d4b4862b16ad29c7a1001
-  specs:
-    workless (1.2.3)
-      delayed_job (>= 2.0.7)
-      heroku-api
-      rails
-      rush
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,7 +51,7 @@ GEM
     bson (4.2.1)
     builder (3.2.3)
     byebug (9.0.6)
-    capybara (2.14.3)
+    capybara (2.14.4)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -102,7 +91,7 @@ GEM
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
     erubis (2.7.0)
-    excon (0.56.0)
+    excon (0.57.0)
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -127,20 +116,22 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (4.0.7)
+    haml (5.0.1)
+      temple (>= 0.8.0)
       tilt
-    haml-rails (0.9.0)
+    haml-rails (1.0.0)
       actionpack (>= 4.0.1)
       activesupport (>= 4.0.1)
-      haml (>= 4.0.6, < 5.0)
+      haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
-    heroku-api (0.4.2)
-      excon (~> 0.45)
-      multi_json (~> 1.8)
-    html2haml (2.1.0)
+    heroics (0.0.23)
+      erubis (~> 2.0)
+      excon
+      multi_json (>= 1.9.2)
+    html2haml (2.2.0)
       erubis (~> 2.7.0)
-      haml (~> 4.0)
+      haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
     i18n (0.8.4)
@@ -174,6 +165,7 @@ GEM
     mini_portile2 (2.2.0)
     minitest (5.10.2)
     modernizr-rails (2.7.1)
+    moneta (0.8.1)
     mongo (2.4.2)
       bson (>= 4.2.1, < 5.0.0)
     mongoid (6.1.1)
@@ -191,6 +183,9 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     pg (0.21.0)
+    platform-api (2.1.0)
+      heroics (~> 0.0.23)
+      moneta (~> 0.8.1)
     poltergeist (1.15.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -240,9 +235,9 @@ GEM
     rainbow (2.2.2)
       rake
     rake (12.0.0)
-    rb-fsevent (0.9.8)
-    rb-inotify (0.9.8)
-      ffi (>= 0.5.0)
+    rb-fsevent (0.10.1)
+    rb-inotify (0.9.10)
+      ffi (>= 0.5.0, < 2)
     ref (2.0.0)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
@@ -277,7 +272,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
     ruby_dep (1.5.0)
-    ruby_parser (3.8.4)
+    ruby_parser (3.9.0)
       sexp_processor (~> 4.1)
     rush (0.6.8)
       session
@@ -289,7 +284,7 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
     session (3.2.0)
-    sexp_processor (4.8.0)
+    sexp_processor (4.9.0)
     shellany (0.0.1)
     simplecov (0.14.1)
       docile (~> 1.1.0)
@@ -311,6 +306,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
     therubyracer (0.12.3)
@@ -320,7 +316,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.7)
     timecop (0.9.0)
-    tins (1.14.0)
+    tins (1.15.0)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.3)
@@ -330,7 +326,7 @@ GEM
       tzinfo (>= 1.0.0)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
-    unicode-display_width (1.2.1)
+    unicode-display_width (1.3.0)
     web-console (3.5.1)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -339,6 +335,11 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    workless_revived (2.1.0.1)
+      delayed_job (>= 2.0.7)
+      platform-api
+      rails
+      rush
     xpath (2.1.0)
       nokogiri (~> 1.3)
 
@@ -388,7 +389,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   web-console
-  workless!
+  workless_revived
 
 RUBY VERSION
    ruby 2.3.3p222

@@ -1,14 +1,3 @@
-GIT
-  remote: https://github.com/sergeykish/workless.git
-  revision: 6b1dfe8e469e127be27d4b4862b16ad29c7a1001
-  ref: 6b1dfe8e469e127be27d4b4862b16ad29c7a1001
-  specs:
-    workless (1.2.3)
-      delayed_job (>= 2.0.7)
-      heroku-api
-      rails
-      rush
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -102,7 +91,7 @@ GEM
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
     erubis (2.7.0)
-    excon (0.56.0)
+    excon (0.57.0)
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -135,9 +124,10 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
-    heroku-api (0.4.2)
-      excon (~> 0.45)
-      multi_json (~> 1.8)
+    heroics (0.0.23)
+      erubis (~> 2.0)
+      excon
+      multi_json (>= 1.9.2)
     html2haml (2.1.0)
       erubis (~> 2.7.0)
       haml (~> 4.0)
@@ -174,6 +164,7 @@ GEM
     mini_portile2 (2.2.0)
     minitest (5.10.2)
     modernizr-rails (2.7.1)
+    moneta (0.8.1)
     mongo (2.4.2)
       bson (>= 4.2.1, < 5.0.0)
     mongoid (6.1.1)
@@ -191,6 +182,9 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     pg (0.21.0)
+    platform-api (2.1.0)
+      heroics (~> 0.0.23)
+      moneta (~> 0.8.1)
     poltergeist (1.15.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -339,6 +333,11 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    workless_revived (2.1.0.1)
+      delayed_job (>= 2.0.7)
+      platform-api
+      rails
+      rush
     xpath (2.1.0)
       nokogiri (~> 1.3)
 
@@ -388,7 +387,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   web-console
-  workless!
+  workless_revived
 
 RUBY VERSION
    ruby 2.3.3p222

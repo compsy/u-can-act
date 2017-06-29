@@ -56,9 +56,7 @@ gem 'coveralls', require: false
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
 
-# Fix Rails 5.1 DEPRECATION WARNING: Passing string to define callback is deprecated
-#               and will be removed in Rails 5.1 without replacement.
-gem 'workless', git: 'https://github.com/sergeykish/workless.git', ref: '6b1dfe8e469e127be27d4b4862b16ad29c7a1001'
+gem 'workless_revived'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'

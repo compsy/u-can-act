@@ -91,7 +91,7 @@ GEM
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
     erubis (2.7.0)
-    excon (0.57.0)
+    excon (0.57.1)
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -335,7 +335,7 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    workless_revived (2.1.0.1)
+    workless_revived (2.1.0.2)
       delayed_job (>= 2.0.7)
       platform-api
       rails

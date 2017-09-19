@@ -44,7 +44,7 @@ class ResponseExporter
         Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
                 .where.not(content: nil).find_each do |response|
           next if TEST_PHONE_NUMBERS.include?(response.protocol_subscription.person.mobile_phone)
-          response.values.each do |key, _value|
+          response.each_value do |key|
             headers[key] = ''
           end
         end

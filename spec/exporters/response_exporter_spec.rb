@@ -16,7 +16,7 @@ describe ResponseExporter do
     end
   end
 
-  fcontext 'with valid questionnaire' do
+  context 'with valid questionnaire' do
     it 'works with responses' do
       # create a response that should be filtered out
       person = FactoryGirl.create(:student, mobile_phone: '0611055958')

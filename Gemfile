@@ -8,7 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 # Specify ruby version for heroku
-ruby '2.3.3'
+ruby '2.4.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'

@@ -46,7 +46,7 @@ describe 'rake maintenance:reschedule_posttests', type: :task do
     expect { task.execute }.to output(/Rescheduled 4 responses/).to_stdout
     expect(Response.count).to eq responsecountbef
     Response.all.each do |response|
-      if response.measurement.questionnaire.name =~ /nameting/
+      if response.measurement.questionnaire.name.match?(/nameting/)
         expect(response.open_from).to be_within(1.minute).of(adjusted_open_from)
       else
         expect(response.open_from).to be_within(1.minute).of(unadjusted_open_from)

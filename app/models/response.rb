@@ -49,6 +49,14 @@ class Response < ApplicationRecord
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
 
+  def open?
+    open_from >= Time.zone.now
+  end
+
+  def completed?
+    completed_at.present?
+  end
+
   def remote_content
     ResponseContent.find(content) if content.present?
   end

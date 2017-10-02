@@ -5,6 +5,7 @@ class ProtocolSubscription < ApplicationRecord
   ACTIVE_STATE = 'active'
   CANCELED_STATE = 'canceled'
   COMPLETED_STATE = 'completed'
+  STREAK_POINTS_NEEDED = 5
   belongs_to :person
   belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id'
   validates :person_id, presence: true # The person who receives the SMS (Mentor)

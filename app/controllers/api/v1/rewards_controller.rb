@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+#TODO: HOW TO DEAL WITH AUTHENTICATION HERE? SAME AS IN THE OTHER CONTROLLERS?
 module Api
   module V1
     class RewardsController < ApiController
@@ -9,7 +10,6 @@ module Api
         # How much you can still earn
         # FE: Create bar filled with green (no red), parts still achievable $
         # Winstreak when 5 questionnaires are filled out at a time
-        # render text: 'hoi'
         render json: @protocol_subscription, serializer: Api::RewardSerializer
       end
 

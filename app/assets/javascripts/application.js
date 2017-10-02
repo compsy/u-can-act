@@ -14,6 +14,9 @@
 //= require jquery_ujs
 //= require modernizr
 //= require materialize
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree .
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})

@@ -39,18 +39,4 @@
         %p.flow-text
           Je kan deze pagina veilig sluiten.
     - else
-      .section
-        %p.flow-text
-          Je hebt hiermee #{@reward_delta} punten verdiend. Je hebt nu in totaal
-          %strong= reward_points
-          punten.
-      .section
-        %p.flow-text
-          Voortgang van het onderzoek
-        .progress
-          .determinate{:style => "width: #{progress_perc}%"}
-        .row
-          .col.s12
-            Het onderzoek is voor #{progress_perc}% voltooid. Er zijn
-            nog #{max_reward_points - possible_reward_points}
-            punten te verdienen.
+      = react_component('RewardPage', reward_delta: @reward_delta, protocolSubscriptionId: @protocol_subscription.id, progress_perc: progress_perc)

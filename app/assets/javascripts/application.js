@@ -14,8 +14,10 @@
 //= require jquery_ujs
 //= require modernizr
 //= require materialize
+//= require d3
 //= require react
 //= require react_ujs
+//= require radial-progess-chart
 //= require components
 //= require_tree .
 $(function(){

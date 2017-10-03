@@ -35,8 +35,9 @@ class RewardPage extends React.Component {
     return (
       <div>
         <RewardMessage reward_delta={this.props.reward_delta} reward_points={this.state.result.reward_points} />
-        <ProgressBar progress_perc={this.props.progress_perc} awardable={awardable_points} />
+        <ProgressBar progress_perc={this.props.progress_perc} awardable={awardable_points} measurementCompletion={this.state.result.measurement_completion} />
       </div>
     )
   }
 }
+

@@ -37,6 +37,7 @@ gem 'react-rails'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks'
+#
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 
@@ -60,6 +61,10 @@ gem 'coveralls', require: false
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
 
+# D3 visualization
+gem 'd3-rails'
+
+# Gem for cheaper worker nodes on Heroku
 gem 'workless_revived'
 
 # Messagebird SMS

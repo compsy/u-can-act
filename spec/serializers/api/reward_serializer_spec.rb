@@ -35,7 +35,7 @@ module Api
     end
 
     describe 'renders the correct json' do
-      it 'should contain the correct id, reward_points, max_rewardpoints and possible rewardpoints' do
+      it 'should contain the correct variables' do
         # Mock the actual calculation
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
           .with(protocol_subscription.protocol_completion)
@@ -45,12 +45,16 @@ module Api
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
           .with(((1..protocol_subscription.responses.invited.length)))
           .and_return(123)
+
+        expect_any_instance_of(Protocol).to receive(:calculate_reward)
+          .with([6])
+          .and_return(888)
         json = described_class.new(protocol_subscription).as_json.with_indifferent_access
 
-        expect(json[:reward_points]).to eq protocol_subscription.reward_points
-        expect(json[:possible_reward_points]).to eq protocol_subscription.possible_reward_points
+        expect(json[:person_type]).to eq protocol_subscription.person.type
         expect(json[:protocol_completion]).to eq protocol_subscription.protocol_completion
         expect(json[:earned_euros]).to eq 321
+        expect(json[:euro_delta]).to eq 888
         expect(json[:max_still_awardable_euros]).to eq 123
       end
 

@@ -3,8 +3,6 @@
 module Api
   class RewardSerializer < ActiveModel::Serializer
     attributes :person_type,
-               :reward_points,
-               :possible_reward_points,
                :protocol_completion,
                :earned_euros,
                :max_still_awardable_euros,

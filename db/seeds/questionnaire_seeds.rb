@@ -1181,7 +1181,7 @@ nameting1.content = [{
                      }, {
                        id: :v38,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden voor €70?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true
@@ -1440,7 +1440,7 @@ nameting2.content = [{
                      }, {
                        id: :v38,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden voor €70?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true
@@ -1693,7 +1693,7 @@ nameting3.content = [{
                      }, {
                        id: :v38,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden voor €70?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true
@@ -2093,7 +2093,7 @@ nameting4.content = [{
                        section_start: 'Volhouden',
                        id: :v27,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true

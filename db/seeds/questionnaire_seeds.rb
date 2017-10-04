@@ -1168,7 +1168,7 @@ nameting1.content = [{
                      }, {
                        id: :v36,
                        type: :radio,
-                       title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
+                       title: 'Zou je het erg vinden als jouw begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1427,7 +1427,7 @@ nameting2.content = [{
                      }, {
                        id: :v36,
                        type: :radio,
-                       title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
+                       title: 'Zou je het erg vinden als jouw begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1680,7 +1680,7 @@ nameting3.content = [{
                      }, {
                        id: :v36,
                        type: :radio,
-                       title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
+                       title: 'Zou je het erg vinden als jouw begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {

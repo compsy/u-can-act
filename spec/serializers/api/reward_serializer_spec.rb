@@ -3,11 +3,12 @@
 require 'rails_helper'
 
 module Api
-  fdescribe RewardSerializer do
+  describe RewardSerializer do
     before :each do
       Timecop.freeze(2017, 2, 1)
     end
 
+    let!(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
     let!(:protocol_subscription) { FactoryGirl.create(:protocol_subscription) }
     let!(:responses) do
       FactoryGirl.create(:response, :completed,
@@ -35,24 +36,34 @@ module Api
 
     describe 'renders the correct json' do
       it 'should contain the correct id, reward_points, max_rewardpoints and possible rewardpoints' do
-        expect(json[:id]).to eq protocol_subscription.id
+        # Mock the actual calculation
+        expect_any_instance_of(Protocol).to receive(:calculate_reward)
+          .with(protocol_subscription.protocol_completion)
+          .and_return(321)
+
+        # Mock the actual calculation
+        expect_any_instance_of(Protocol).to receive(:calculate_reward)
+          .with(((1..protocol_subscription.responses.invited.length)))
+          .and_return(123)
+        json = described_class.new(protocol_subscription).as_json.with_indifferent_access
+
         expect(json[:reward_points]).to eq protocol_subscription.reward_points
-        expect(json[:max_reward_points]).to eq protocol_subscription.max_reward_points
         expect(json[:possible_reward_points]).to eq protocol_subscription.possible_reward_points
+        expect(json[:protocol_completion]).to eq protocol_subscription.protocol_completion
+        expect(json[:earned_euros]).to eq 321
+        expect(json[:max_still_awardable_euros]).to eq 123
       end
 
       it 'should contain the list of finished questionnaires' do
-        expect(json[:measurement_completion]).to be_an Array
-        expect(json[:measurement_completion].max).to be <= ProtocolSubscription::STREAK_POINTS_NEEDED
-        expect(json[:measurement_completion].first).to eq 1
-        expect(json[:measurement_completion].second).to eq 0
+        expect(json[:protocol_completion]).to be_an Array
+        expect(json[:protocol_completion].first).to eq 1
+        expect(json[:protocol_completion].second).to eq 0
         (2..7).each do |entry|
-          expected_value = [entry - 1, ProtocolSubscription::STREAK_POINTS_NEEDED].min
-          expect(json[:measurement_completion][entry]).to eq expected_value
+          expect(json[:protocol_completion][entry]).to eq entry - 1
         end
         (8..13).each do |entry|
           expected_value = -1
-          expect(json[:measurement_completion][entry]).to eq expected_value
+          expect(json[:protocol_completion][entry]).to eq expected_value
         end
       end
     end

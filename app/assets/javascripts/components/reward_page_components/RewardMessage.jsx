@@ -6,8 +6,8 @@ class RewardMessage extends React.Component {
   render() {
     return (
       <div className='section'>
-        <p className="flow-text"> Je hebt hiermee {this.props.reward_delta} punten verdiend.
-      Je hebt nu in totaal <strong>{this.props.reward_points}</strong> punten</p>
+        <p className="flow-text"> Je hebt hiermee {this.props.euroDelta} euro verdiend.
+      Je hebt nu in totaal <strong>{this.props.earnedEuros}</strong> euro</p>
       </div>
     )
   }

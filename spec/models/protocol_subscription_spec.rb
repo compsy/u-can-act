@@ -282,4 +282,56 @@ describe ProtocolSubscription do
       expect(protocol_subscription.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'protocol_completion' do
+    before do
+      Timecop.freeze(2017, 4, 1)
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'should calculate the correct streak' do
+      protocol = FactoryGirl.create(:protocol, duration: 5.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 2, 1, 0, 0, 0).in_time_zone)
+      protocol_subscription.responses.each_with_index do |response, index|
+        next if index == 0 # Pretend the first response is missing
+        response.completed_at = response.open_from + 1.minute
+      end
+
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expected = (1..protocol_subscription.responses.length - 1).to_a
+      expected.unshift(0)
+      expect(result).to eq expected
+    end
+
+    it 'should return -1s if there are no measurements' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expect(result).to eq [-1] * protocol_subscription.responses.length
+    end
+
+    it 'should return 0 if a measurement was missed' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 3, 27, 0, 0, 0).in_time_zone)
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expected = [-1] * (protocol_subscription.responses.length - 1)
+      expected.unshift(0)
+      expect(result).to eq expected
+    end
+  end
 end

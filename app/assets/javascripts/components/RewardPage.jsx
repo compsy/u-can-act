@@ -10,13 +10,17 @@ class RewardPage extends React.Component {
     this.loadRewardData(this.props.protocolSubscriptionId);
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.loadRewardData(nextProps.protocolSubscriptionId);
+  }
+
+  isDone() {
+    return !this.state.result.protocol_completion.includes(-1)
   }
 
   loadRewardData(protocolSubscriptionId) {
     var self = this
-    
+
     // Only update if the subscription id has changed
     let url = '/api/v1/rewards/' + protocolSubscriptionId;
     $.getJSON(url, (response) => {
@@ -26,18 +30,41 @@ class RewardPage extends React.Component {
     });
   }
 
-  render() {
-    if (!this.state.result) {
-        return <div>Bezig...</div>
+  getCorrectResultPage() {
+    if (this.state.result.person_type === 'Mentor') {
+      return (<MentorRewardPage />)
     }
 
-    let awardable_points = this.state.result.max_reward_points - this.state.result.possible_reward_points
+    let earnedEuros = this.state.result.earned_euros / 100;
+    if (this.isDone()) {
+      return (<StudentFinalRewardPage earnedEuros={earnedEuros} />)
+    }
+
+    let euroDelta = this.state.result.euro_delta / 100;
+    let maxStillAwardableEuros = this.state.result.max_still_awardable_euros / 100;
     return (
-      <div>
-        <RewardMessage reward_delta={this.props.reward_delta} reward_points={this.state.result.reward_points} />
-        <ProgressBar progress_perc={this.props.progress_perc} awardable={awardable_points} measurementCompletion={this.state.result.measurement_completion} />
+      <StudentInProgressRewardPage euroDelta={euroDelta} 
+        earnedEuros={earnedEuros}
+        awardable={maxStillAwardableEuros}
+        protocolCompletion={this.state.result.protocol_completion} />
+    )
+  }
+
+  render() {
+    if (!this.state.result) {
+      return <div>Bezig...</div>
+    }
+
+    result = this.getCorrectResultPage.bind(this)()
+    return ( 
+      <div className="col s12">
+        <div className="row">
+          <div className="col s12">
+            <h4>Bedankt voor het invullen van de vragenlijst!</h4>
+            {result}
+          </div>
+        </div>
       </div>
     )
   }
 }
-

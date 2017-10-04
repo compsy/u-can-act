@@ -144,4 +144,40 @@ describe Protocol do
       expect(protocol.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  fdescribe 'calculate_reward' do
+    let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
+    let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
+    let(:protocol_single_reward) do
+      reward = FactoryGirl.create(:reward, threshold: 1, reward_points: 100)
+      FactoryGirl.create(:protocol, rewards: [reward])
+    end
+    it 'should calculate the correct reward when there are no measurements' do
+      measurement_completion = [-1] * 10
+      expected_value = 0
+      result = protocol.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+
+    it 'should calculate the correct reward when there are no rewards' do
+      measurement_completion = [1, 2, 3, 0, 0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 1, -1, -1]
+      expected_value = 0
+      result = protocol_no_rewards.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+
+    it 'should calculate the correct reward when there is a single reward' do
+      measurement_completion = [1, 2, 3, 0, 0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 1, -1, -1]
+      expected_value = (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1) * 100
+      result = protocol_single_reward.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+
+    it 'should calculate the correct reward when there are multilple rewards' do
+      measurement_completion = [1, 2, 3, 0, 0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 1, -1, -1]
+      expected_value = (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 3 + 3 + 5 + 5 + 5 + 5 + 1) * 100
+      result = protocol.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+  end
 end

@@ -2,15 +2,32 @@
 
 module Api
   class RewardSerializer < ActiveModel::Serializer
-    attributes :id, :reward_points, :max_reward_points, :possible_reward_points, :measurement_completion
+    attributes :person_type,
+               :reward_points,
+               :possible_reward_points,
+               :protocol_completion,
+               :earned_euros,
+               :max_still_awardable_euros,
+               :euro_delta
 
-    def measurement_completion
-      on_streak = 0
-      object.responses.map do |x|
-        next -1 if x.open?
-        on_streak = x.completed? ? (on_streak + 1) : 0
-        on_streak = [on_streak, ProtocolSubscription::STREAK_POINTS_NEEDED].min
-      end
+    def person_type
+      object.person.type
+    end
+
+    def earned_euros
+      completion = object.protocol_completion
+      object.protocol.calculate_reward(completion)
+    end
+
+    def max_still_awardable_euros
+      object.protocol.calculate_reward((1..object.responses.invited.length))
+    end
+
+    def euro_delta
+      protocol_completion = object.protocol_completion
+      completion_index = protocol_completion.find_index(-1) - 1
+      return 0 if completion_index.negative?
+      object.protocol.calculate_reward([protocol_completion[completion_index]])
     end
   end
 end

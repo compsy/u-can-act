@@ -28,4 +28,12 @@ FactoryGirl.define do
       FactoryGirl.create(:protocol_subscription, protocol: protocol)
     end
   end
+
+  trait :with_rewards do
+    after(:create) do |protocol|
+      FactoryGirl.create(:reward, threshold: 1, reward_points: 100,  protocols: [protocol])
+      FactoryGirl.create(:reward, threshold: 5, reward_points: 300,  protocols: [protocol])
+      FactoryGirl.create(:reward, threshold: 7, reward_points: 500,  protocols: [protocol])
+    end
+  end
 end

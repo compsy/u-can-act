@@ -25,9 +25,9 @@ module Api
 
     def euro_delta
       protocol_completion = object.protocol_completion
-      completion_index = protocol_completion.find_index(-1) - 1
-      return 0 if completion_index.negative?
-      object.protocol.calculate_reward([protocol_completion[completion_index]])
+      completion_index = protocol_completion.find_index(-1)
+      return 0 if completion_index.nil? || (completion_index - 1).negative?
+      object.protocol.calculate_reward([protocol_completion[completion_index - 1]])
     end
   end
 end

@@ -16,12 +16,12 @@ class Protocol < ApplicationRecord
 
     index = 0
     prev = -1
-    measurement_completion.reduce(0) do |current, val|
+    measurement_completion.reduce(0) do |current, value|
       # Slightly more efficient, we don't have to loop through all elements,
       # because we know the value is less than the previous one, so at most the
       # same reward
-      index = rewards_array.length - 1 if val > prev
-      prev = val
+      index = rewards_array.length - 1 if value > prev
+      prev = value
 
       current + find_correct_reward(index, value, rewards_array)
     end

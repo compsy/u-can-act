@@ -145,7 +145,7 @@ describe Protocol do
     end
   end
 
-  fdescribe 'calculate_reward' do
+  describe 'calculate_reward' do
     let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
     let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
     let(:protocol_single_reward) do

@@ -5,6 +5,12 @@ module Api
     class ApiController < ApplicationController
       before_action :verify_current_user
 
+      def check_access_allowed(protocol_subscription)
+        allowed = protocol_subscription.person == @current_user ||
+                  protocol_subscription.filling_out_for == @current_user
+        allowed
+      end
+
       private
 
       def verify_current_user
@@ -15,12 +21,6 @@ module Api
           return
         end
         @current_user = @response.protocol_subscription.person
-      end
-
-      def check_access_allowed(protocol_subscription)
-        allowed = protocol_subscription.person == @current_user
-        allowed ||= protocol_subscription.filling_out_for == @current_user
-        render(status: 403, json: 'You are not allowed to access this response!') unless allowed
       end
     end
   end

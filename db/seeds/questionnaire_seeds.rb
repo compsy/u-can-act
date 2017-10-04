@@ -1112,7 +1112,7 @@ nameting1.content = [{
                      }, {
                        id: :v29,
                        type: :radio,
-                       title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
+                       title: 'Was het je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1371,7 +1371,7 @@ nameting2.content = [{
                      }, {
                        id: :v29,
                        type: :radio,
-                       title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
+                       title: 'Was het je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1630,7 +1630,7 @@ nameting3.content = [{
                      }, {
                        id: :v29,
                        type: :radio,
-                       title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
+                       title: 'Was het je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {

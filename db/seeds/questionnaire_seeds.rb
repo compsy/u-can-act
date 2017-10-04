@@ -28,7 +28,7 @@ ic_content = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week 1 vragenlijst invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 3 minuten.
+        <li>Ik zal elke week één vragenlijst invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer drie minuten.
         </li>
         <li>Ik krijg elke week een herinnering via sms op de dag dat ik de vragenlijst moet invullen.
           In de herinnering staat een link naar de vragenlijst.
@@ -85,7 +85,7 @@ ic_content2 = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week 2 vragenlijsten invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 3
+        <li>Ik zal elke week twee vragenlijsten invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer drie
           minuten.
         </li>
         <li>Ik krijg twee keer per week een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de
@@ -141,7 +141,7 @@ ic_content3 = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week 5 vragenlijsten invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 3
+        <li>Ik zal elke week vijf vragenlijsten invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer drie
           minuten.
         </li>
         <li>Ik krijg elke doordeweekse dag een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de
@@ -1735,7 +1735,7 @@ ic_content4 = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week voor iedere jongere die ik begeleid en tevens mee doet aan dit onderzoek 1 vragenlijst invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 2 minuten.
+        <li>Ik zal elke week voor iedere jongere die ik begeleid en tevens mee doet aan dit onderzoek één vragenlijst invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer twee minuten.
         </li>
         <li>Ik krijg elke week een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de herinnering staat een link naar de vragenlijst.
         </li>

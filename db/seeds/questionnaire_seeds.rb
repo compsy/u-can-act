@@ -1125,7 +1125,7 @@ nameting1.content = [{
                      }, {
                        id: :v31,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
@@ -1384,7 +1384,7 @@ nameting2.content = [{
                      }, {
                        id: :v31,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
@@ -1643,7 +1643,7 @@ nameting3.content = [{
                      }, {
                        id: :v31,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
@@ -2057,7 +2057,7 @@ nameting4.content = [{
                      }, {
                        id: :v23,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {

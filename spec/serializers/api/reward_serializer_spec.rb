@@ -43,7 +43,7 @@ module Api
 
         # Mock the actual calculation
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
-          .with(((1..protocol_subscription.responses.invited.length)))
+          .with(((7...(7+protocol_subscription.responses.future.length)).to_a))
           .and_return(123)
 
         expect_any_instance_of(Protocol).to receive(:calculate_reward)

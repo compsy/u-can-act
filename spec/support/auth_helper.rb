@@ -1,25 +1,30 @@
 # frozen_string_literal: true
 
 module AuthHelper
-  def basic_auth(user, password)
+  def basic_auth(user, password, url = '/')
     if defined?(page)
-      AuthHelper.capybara_basic_auth(user, password, page)
+      AuthHelper.capybara_basic_auth(user, password, page, url)
     else
       AuthHelper.controller_basic_auth(user, password, request)
     end
   end
 
   class << self
-    def capybara_basic_auth(user, password, page)
-      # if page.driver.respond_to?(:basic_auth)
-      #  page.driver.basic_auth(user, password)
-      # elsif page.driver.respond_to?(:basic_authorize)
-      page.driver.basic_authorize(user, password)
-      # elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
-      #  page.driver.browser.basic_authorize(user, password)
-      # else
-      #  raise "I don't know how to log in with Capybara!"
-      # end
+    def capybara_basic_auth(user, password, page, url)
+      # Commented out to improve test coverage. The other lines are never used.
+      if page.driver.respond_to?(:basic_auth)
+        page.driver.basic_auth(user, password)
+      elsif page.driver.respond_to?(:basic_authorize)
+        page.driver.basic_authorize(user, password)
+      elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
+        page.driver.browser.basic_authorize(user, password)
+      else
+        page.visit("http://#{user}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/#{url}")
+      end
+    end
+
+    def visit_with_basic_auth(user, password, page, url)
+      
     end
 
     def controller_basic_auth(user, password, request)

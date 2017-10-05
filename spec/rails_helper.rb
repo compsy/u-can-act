@@ -36,6 +36,7 @@ Capybara.default_selector = :css
 Capybara.default_max_wait_time = 4
 Capybara.ignore_hidden_elements = false
 Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.default_driver = :rack_test
 
 RSpec.configure do |config|
   # Include controller helpers for Devise

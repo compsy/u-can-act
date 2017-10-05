@@ -28,7 +28,7 @@ ic_content = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week 1 vragenlijst invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 3 minuten.
+        <li>Ik zal elke week één vragenlijst invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer drie minuten.
         </li>
         <li>Ik krijg elke week een herinnering via sms op de dag dat ik de vragenlijst moet invullen.
           In de herinnering staat een link naar de vragenlijst.
@@ -85,7 +85,7 @@ ic_content2 = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week 2 vragenlijsten invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 3
+        <li>Ik zal elke week twee vragenlijsten invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer drie
           minuten.
         </li>
         <li>Ik krijg twee keer per week een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de
@@ -141,7 +141,7 @@ ic_content3 = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week 5 vragenlijsten invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 3
+        <li>Ik zal elke week vijf vragenlijsten invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer drie
           minuten.
         </li>
         <li>Ik krijg elke doordeweekse dag een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de
@@ -1112,7 +1112,7 @@ nameting1.content = [{
                      }, {
                        id: :v29,
                        type: :radio,
-                       title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
+                       title: 'Was het je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1125,7 +1125,7 @@ nameting1.content = [{
                      }, {
                        id: :v31,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
@@ -1168,7 +1168,7 @@ nameting1.content = [{
                      }, {
                        id: :v36,
                        type: :radio,
-                       title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
+                       title: 'Zou je het erg vinden als jouw begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1181,7 +1181,7 @@ nameting1.content = [{
                      }, {
                        id: :v38,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden voor €70?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true
@@ -1371,7 +1371,7 @@ nameting2.content = [{
                      }, {
                        id: :v29,
                        type: :radio,
-                       title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
+                       title: 'Was het je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1384,7 +1384,7 @@ nameting2.content = [{
                      }, {
                        id: :v31,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
@@ -1427,7 +1427,7 @@ nameting2.content = [{
                      }, {
                        id: :v36,
                        type: :radio,
-                       title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
+                       title: 'Zou je het erg vinden als jouw begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1440,7 +1440,7 @@ nameting2.content = [{
                      }, {
                        id: :v38,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden voor €70?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true
@@ -1630,7 +1630,7 @@ nameting3.content = [{
                      }, {
                        id: :v29,
                        type: :radio,
-                       title: 'Was je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
+                       title: 'Was het je duidelijk dat jouw begeleider nooit je antwoorden zal zien?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1643,7 +1643,7 @@ nameting3.content = [{
                      }, {
                        id: :v31,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
@@ -1680,7 +1680,7 @@ nameting3.content = [{
                      }, {
                        id: :v36,
                        type: :radio,
-                       title: 'Zou je het erg vinden als jou begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
+                       title: 'Zou je het erg vinden als jouw begeleider op de hoogte wordt gesteld als jij twee of meer metingen mist?',
                        options: ['Ja', 'Nee'],
                        section_end: true
                      }, {
@@ -1693,7 +1693,7 @@ nameting3.content = [{
                      }, {
                        id: :v38,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden voor €70?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden voor €70?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true
@@ -1735,7 +1735,7 @@ ic_content4 = <<~'END'
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week voor iedere jongere die ik begeleid en tevens mee doet aan dit onderzoek 1 vragenlijst invullen, voor 3 weken in totaal. Deze vragenlijst duurt ongeveer 2 minuten.
+        <li>Ik zal elke week voor iedere jongere die ik begeleid en tevens mee doet aan dit onderzoek één vragenlijst invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer twee minuten.
         </li>
         <li>Ik krijg elke week een herinnering via sms op de dag dat ik de vragenlijst moet invullen. In de herinnering staat een link naar de vragenlijst.
         </li>
@@ -2057,7 +2057,7 @@ nameting4.content = [{
                      }, {
                        id: :v23,
                        type: :radio,
-                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnering sms. Is dat een goede tijd voor jou?',
+                       title: 'Als je de vragenlijst om 20:00 nog niet had ingevuld kreeg je een herinnerings sms. Is dat een goede tijd voor jou?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, liever een andere tijd, namelijk:'
                      }, {
@@ -2093,7 +2093,7 @@ nameting4.content = [{
                        section_start: 'Volhouden',
                        id: :v27,
                        type: :radio,
-                       title: 'Je hebt nu 3 weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor 7 maanden zou volhouden?',
+                       title: 'Je hebt nu drie weken meegedaan aan dit onderzoek. Denk je dat je ditzelfde onderzoek ook voor zeven maanden zou volhouden?',
                        options: ['Ja'],
                        otherwise_label: 'Nee, omdat:',
                        section_end: true

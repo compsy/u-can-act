@@ -19,8 +19,8 @@ module AuthHelper
       elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
         page.driver.browser.basic_authorize(user, password)
       else
-        page.visit("http://#{user}:#{password}@
-                   #{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/#{url}")
+        page.visit("http://#{user}:#{password}@" \
+                   "#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/#{url}")
       end
     end
 

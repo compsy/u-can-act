@@ -3,7 +3,7 @@ class StudentFinalRewardPage extends React.Component {
     return (
       <div className='section'>
         <p className='flow-text'>
-          Heel erg bedankt dat je meedeed aan ons onderzoek! Door jou deelname kunnen wij onze webapp zo verbeteren
+          Heel erg bedankt dat je meedeed aan ons onderzoek! Door jouw deelname kunnen wij onze webapp zo verbeteren
           dat deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers. Zodra de gegevens bij ons
           binnen zijn ontvangt jouw S-team begeleider jouw beloning en kan jij je beloning daar dus ophalen.
         </p>

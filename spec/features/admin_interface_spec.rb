@@ -17,7 +17,7 @@ describe 'GET /admin', type: :feature, js: true do
     expect(page).to have_content('HTTP Basic: Access denied.')
   end
 
-  fit 'should be able to download questionnaires correctly' do
+  it 'should be able to download questionnaires correctly' do
     basic_auth 'admin', 'admin', '/admin'
     visit '/admin'
 

@@ -25,7 +25,8 @@ class CreateStudents < ActiveInteraction::Base
                            last_name: student[:last_name],
                            mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
                            protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
-                           start_date: plain_text_parser.parse_start_date(student[:start_date]) }
+                           start_date: plain_text_parser.parse_start_date(student[:start_date]),
+                           organization_id: plain_text_parser.parse_organization_name(student[:organization_name]) }
     end
     parsed_students
   end
@@ -36,7 +37,8 @@ class CreateStudents < ActiveInteraction::Base
       next if Person.find_by_mobile_phone(student[:mobile_phone])
       studentobj = Student.create!(first_name: student[:first_name],
                                    last_name: student[:last_name],
-                                   mobile_phone: student[:mobile_phone])
+                                   mobile_phone: student[:mobile_phone],
+                                   organization_id: student[:organization_id])
       ProtocolSubscription.create!(person: studentobj,
                                    protocol_id: student[:protocol_id],
                                    state: ProtocolSubscription::ACTIVE_STATE,

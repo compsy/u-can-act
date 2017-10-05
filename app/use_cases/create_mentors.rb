@@ -27,7 +27,8 @@ class CreateMentors < ActiveInteraction::Base
         protocol_id: plain_text_parser.parse_protocol_name(mentor[:protocol_name]),
         start_date: plain_text_parser.parse_start_date(mentor[:start_date]),
         filling_out_for_id: plain_text_parser.parse_filling_out_for(mentor[:filling_out_for]),
-        filling_out_for_protocol_id: plain_text_parser.parse_protocol_name(mentor[:filling_out_for_protocol])
+        filling_out_for_protocol_id: plain_text_parser.parse_protocol_name(mentor[:filling_out_for_protocol]),
+        organization_id: plain_text_parser.parse_organization_name(mentor[:organization_name])
       }
     end
   end
@@ -51,7 +52,8 @@ class CreateMentors < ActiveInteraction::Base
   def initialize_mentor(mentor_hash)
     mentor_obj = Mentor.create!(first_name: mentor_hash[:first_name],
                                 last_name: mentor_hash[:last_name],
-                                mobile_phone: mentor_hash[:mobile_phone])
+                                mobile_phone: mentor_hash[:mobile_phone],
+                                organization_id: mentor_hash[:organization_id])
     ProtocolSubscription.create!(person: mentor_obj,
                                  protocol_id: mentor_hash[:protocol_id],
                                  state: ProtocolSubscription::ACTIVE_STATE,

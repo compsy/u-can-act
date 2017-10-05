@@ -12,7 +12,7 @@ class VariableEvaluator
         'hij_zij_begeleider' => personal_pronoun(mentor_gender),
         'deze_student' => student_name, # incl. "deze" want naam ipv titel
         'zijn_haar_student' => possessive_determiner(student_gender),
-        'hij_zij_student' => personal_pronoun(student_gender),
+        'hij_zij_student' => personal_pronoun(student_gender)
       }
       substitutions.each do |variable, expansion|
         text = text.gsub("{{#{variable}}}", expansion)

@@ -85,6 +85,37 @@ questionnaire.content = [{
              }]
 ```
 
+## Variables that can be used in texts:
+
+```ruby
+        VARIABLE                    DEFAULT VALUE           EXAMPLE
+        =======================================================================
+        begeleider                  begeleider              s-team captain
+        Begeleider                  Begeleider              S-team captain
+        zijn_haar_begeleider        zijn/haar               haar
+        Zijn_haar_begeleider        Zijn/haar               Haar
+        hij_zij_begeleider          hij/zij                 zij
+        Hij_zij_begeleider          Hij/zij                 Zij
+        deze_student                deze student            Rik
+        Deze_student                Deze student            Rik
+        zijn_haar_student           zijn/haar               zijn
+        Zijn_haar_student           Zijn/haar               Zijn
+        hij_zij_student             hij/zij                 hij
+        Hij_zij_student             Hij/zij                 Hij
+```
+So you can write a sentence as follows:
+```
+Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} en
+{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad.
+{{Hij_zij_student}} al wel.
+```
+and expect output like so:
+```
+Heeft je S-team captain al haar vragenlijsten ingevuld voor Rik en zijn vrienden?
+Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
+```
+
+
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv
 

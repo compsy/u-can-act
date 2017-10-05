@@ -19,13 +19,12 @@ module AuthHelper
       elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
         page.driver.browser.basic_authorize(user, password)
       else
-        page.visit("http://#{user}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/#{url}")
+        page.visit("http://#{user}:#{password}@
+                   #{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/#{url}")
       end
     end
 
-    def visit_with_basic_auth(user, password, page, url)
-      
-    end
+    def visit_with_basic_auth(user, password, page, url); end
 
     def controller_basic_auth(user, password, request)
       request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user, password)

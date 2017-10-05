@@ -49,7 +49,7 @@ describe PlainTextParser do
     end
   end
 
-  describe 'parse_organization_name', focus: true do
+  describe 'parse_organization_name' do
     it 'should raise if the organization does not exist' do
       organization_name = 'something random'
       expect { subject.parse_organization_name(organization_name) }.to raise_error(

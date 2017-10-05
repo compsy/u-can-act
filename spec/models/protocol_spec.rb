@@ -181,7 +181,7 @@ describe Protocol do
     end
 
     it 'should caluclate the correct reward for a subset of items' do
-      measurement_completion = [4,5,6,7,8]
+      measurement_completion = [4, 5, 6, 7, 8]
       expected = (1 + 3 + 3 + 5 + 5) * 100
       result = protocol.calculate_reward(measurement_completion)
       expect(result).to eq expected

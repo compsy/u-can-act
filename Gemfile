@@ -109,8 +109,8 @@ group :test do
 
   # selenium for js testing
   gem 'capybara-selenium'
-  gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem 'selenium-webdriver'
 end
 
 group :production, :staging do

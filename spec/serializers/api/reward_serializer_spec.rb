@@ -59,8 +59,8 @@ module Api
       end
 
       it 'should contain the correct max_still_awardable_euros' do
-        json = described_class.new(protocol_subscription).as_json.with_indifferent_access 
-        expected = 6*500
+        json = described_class.new(protocol_subscription).as_json.with_indifferent_access
+        expected = 6 * 500
         expect(json[:max_still_awardable_euros]).to eq expected
       end
 

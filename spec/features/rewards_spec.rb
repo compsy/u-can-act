@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-fdescribe 'GET /klaar', type: :feature, js: true do
+describe 'GET /klaar', type: :feature, js: true do
   it 'should be redirected after a questionnaire to the rewards page' do
     protocol_with_rewards = FactoryGirl.create(:protocol, :with_rewards)
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day,
-                                               protocol: protocol_with_rewards)
+                                                                       protocol: protocol_with_rewards)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
@@ -40,7 +40,6 @@ fdescribe 'GET /klaar', type: :feature, js: true do
     expect(page).to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
     expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
     expect(page).not_to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
-    expect(page).not_to have_content('punten behaald')
     expect(page).not_to have_content('- verdiend.')
     expect(page).not_to have_content('S-team')
     expect(page).not_to have_content('beloning')
@@ -49,7 +48,7 @@ fdescribe 'GET /klaar', type: :feature, js: true do
   it 'should show the earned page when done with the research' do
     protocol = FactoryGirl.create(:protocol, :with_rewards)
     protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
-                                               start_date: 1.week.ago.at_beginning_of_day)
+                                                                       start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
@@ -163,8 +162,7 @@ fdescribe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.possible_reward_points).to eq 30
       expect(protocol_subscription.max_reward_points).to eq 30
       expect(page).to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
-      expect(page).not_to have_content('punten behaald')
-      expect(page).not_to have_content('- verdiend.')
+      expect(page).not_to have_content('verdienen.')
       expect(page).not_to have_content('S-team')
       expect(page).not_to have_content('beloning')
     end
@@ -173,7 +171,7 @@ fdescribe 'GET /klaar', type: :feature, js: true do
   it 'should be redirected after a questionnaire to the rewards page from tokenauth controller' do
     protocol_with_rewards = FactoryGirl.create(:protocol, :with_rewards)
     protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol_with_rewards,
-                                               start_date: 1.week.ago.at_beginning_of_day)
+                                                                       start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
@@ -243,10 +241,10 @@ fdescribe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.reward_points).to eq 20
     expect(protocol_subscription.possible_reward_points).to eq 20
     expect(protocol_subscription.max_reward_points).to eq 30
-    expect(page).not_to have_content('Je hebt hiermee 10 punten verdiend. Je hebt nu in totaal 20 punten')
+    expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
     expect(page).not_to have_content('Je hebt nu in totaal')
-    expect(page).not_to have_content('punten')
-    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er zijn nog 10 punten te verdienen.')
+    expect(page).not_to have_content('euro')
+    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
   end
 
   it 'should not show rewards for Mentors from tokenauth controller' do
@@ -284,9 +282,9 @@ fdescribe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.reward_points).to eq 20
     expect(protocol_subscription.possible_reward_points).to eq 20
     expect(protocol_subscription.max_reward_points).to eq 30
-    expect(page).not_to have_content('Je hebt hiermee 10 punten verdiend. Je hebt nu in totaal 20 punten')
+    expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
     expect(page).not_to have_content('Je hebt nu in totaal')
-    expect(page).not_to have_content('punten')
-    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er zijn nog 10 punten te verdienen.')
+    expect(page).not_to have_content('euro')
+    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
   end
 end

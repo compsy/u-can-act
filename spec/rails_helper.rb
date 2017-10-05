@@ -10,7 +10,7 @@ require 'database_cleaner'
 require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
-#require 'capybara-screenshot/rspec'
+# require 'capybara-screenshot/rspec'
 
 # Start coverage report on CircleCI
 if ENV['CI']

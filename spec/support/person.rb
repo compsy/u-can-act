@@ -59,7 +59,7 @@ shared_examples_for 'a person object' do
     end
   end
 
-  describe 'organization_id', focus: true do
+  describe 'organization_id' do
     it 'should have one' do
       person = FactoryGirl.build(:person, organization_id: nil)
       expect(person.valid?).to be_falsey
@@ -72,7 +72,7 @@ shared_examples_for 'a person object' do
     end
   end
 
-  describe 'gender', focus: true do
+  describe 'gender' do
     it 'should be one of the predefined genders' do
       person = FactoryGirl.build(:person)
       person.gender = Person::MALE

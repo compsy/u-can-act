@@ -107,8 +107,10 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
 
-  # poltergeist for js testing
-  gem 'poltergeist'
+  # selenium for js testing
+  gem 'capybara-selenium'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
 end
 
 group :production, :staging do

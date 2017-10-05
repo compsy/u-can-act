@@ -9,8 +9,8 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'dotenv'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
-require 'capybara-screenshot/rspec'
+require 'selenium/webdriver'
+#require 'capybara-screenshot/rspec'
 
 # Start coverage report on CircleCI
 if ENV['CI']
@@ -31,10 +31,11 @@ ActiveRecord::Migration.maintain_test_schema!
 # order to ease the transition to Capybara we set the default here. If you'd
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
+
 Capybara.default_selector = :css
 Capybara.default_max_wait_time = 4
 Capybara.ignore_hidden_elements = false
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :selenium_chrome_headless
 
 RSpec.configure do |config|
   # Include controller helpers for Devise

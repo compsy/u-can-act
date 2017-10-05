@@ -3,7 +3,7 @@ class MentorRewardPage extends React.Component {
     return (
     <div className='section'>
       <p className='flow-text'>
-        Heel erg bedankt dat je meedeed aan ons onderzoek! Door jou deelname kunnen wij onze webapp zo verbeteren
+        Heel erg bedankt dat je meedeed aan ons onderzoek! Door jouw deelname kunnen wij onze webapp zo verbeteren
         dat deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers.
       </p>
       <p className='flow-text'>

@@ -18,14 +18,23 @@ module Api
     end
 
     def max_still_awardable_euros
-      object.protocol.calculate_reward((1..object.responses.invited.length))
+      from = latest_strike_value + 1
+      to = from + object.responses.future.length
+      range = (from...to).to_a
+      object.protocol.calculate_reward(range)
     end
 
     def euro_delta
+      object.protocol.calculate_reward([latest_strike_value])
+    end
+
+    private
+
+    def latest_strike_value
       protocol_completion = object.protocol_completion
       completion_index = protocol_completion.find_index(-1)
       return 0 if completion_index.nil? || (completion_index - 1).negative?
-      object.protocol.calculate_reward([protocol_completion[completion_index - 1]])
+      protocol_completion[completion_index - 1]
     end
   end
 end

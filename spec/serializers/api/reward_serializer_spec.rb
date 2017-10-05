@@ -9,7 +9,7 @@ module Api
     end
 
     let!(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
-    let!(:protocol_subscription) { FactoryGirl.create(:protocol_subscription) }
+    let!(:protocol_subscription) { FactoryGirl.create(:protocol_subscription, protocol: protocol) }
     let!(:responses) do
       FactoryGirl.create(:response, :completed,
                          protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone)
@@ -56,6 +56,12 @@ module Api
         expect(json[:earned_euros]).to eq 321
         expect(json[:euro_delta]).to eq 888
         expect(json[:max_still_awardable_euros]).to eq 123
+      end
+
+      it 'should contain the correct max_still_awardable_euros' do
+        json = described_class.new(protocol_subscription).as_json.with_indifferent_access 
+        expected = 6*500
+        expect(json[:max_still_awardable_euros]).to eq expected
       end
 
       it 'should contain the list of finished questionnaires' do

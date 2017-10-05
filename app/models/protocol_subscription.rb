@@ -46,7 +46,7 @@ class ProtocolSubscription < ApplicationRecord
   def protocol_completion
     on_streak = 0
     responses.map do |x|
-      next -1 if x.open?
+      next -1 if x.future?
       on_streak = x.completed? ? (on_streak + 1) : 0
     end
   end

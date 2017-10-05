@@ -49,7 +49,11 @@ class Response < ApplicationRecord
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
 
-  def open?
+  scope :future, (lambda {
+    where('open_from >= :time_now', time_now: Time.zone.now)
+  })
+
+  def future?
     open_from >= Time.zone.now
   end
 

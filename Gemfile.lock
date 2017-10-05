@@ -49,6 +49,8 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     appsignal (2.3.6)
       rack
+    archive-zip (0.7.0)
+      io-like (~> 0.3.0)
     arel (7.1.4)
     ast (2.3.0)
     babel-source (5.8.35)
@@ -69,9 +71,16 @@ GEM
     capybara-screenshot (1.0.17)
       capybara (>= 1.0, < 3)
       launchy
+    capybara-selenium (0.0.6)
+      capybara
+      selenium-webdriver
     case_transform (0.2)
       activesupport
-    cliver (0.3.2)
+    childprocess (0.8.0)
+      ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (1.1.0)
+      archive-zip (~> 0.7.0)
+      nokogiri (~> 1.6)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -150,6 +159,7 @@ GEM
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
     i18n (0.8.6)
+    io-like (0.3.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -204,10 +214,6 @@ GEM
     platform-api (2.1.0)
       heroics (~> 0.0.23)
       moneta (~> 0.8.1)
-    poltergeist (1.16.0)
-      capybara (~> 2.1)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
     pry (0.11.1)
       coderay (~> 1.1.0)
@@ -296,6 +302,7 @@ GEM
     ruby_dep (1.5.0)
     ruby_parser (3.10.1)
       sexp_processor (~> 4.9)
+    rubyzip (1.2.1)
     rush (0.6.8)
       session
     sass (3.5.1)
@@ -309,6 +316,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    selenium-webdriver (3.6.0)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.0)
     session (3.2.0)
     sexp_processor (4.10.0)
     shellany (0.0.1)
@@ -378,6 +388,8 @@ DEPENDENCIES
   byebug
   capybara
   capybara-screenshot
+  capybara-selenium
+  chromedriver-helper
   coffee-rails
   coveralls
   d3-rails (~> 3.5.16)
@@ -396,7 +408,6 @@ DEPENDENCIES
   modernizr-rails
   mongoid
   pg
-  poltergeist
   pry-rails
   puma
   rails (~> 5.0.2)
@@ -407,6 +418,7 @@ DEPENDENCIES
   rspec_junit_formatter
   rubocop
   sass-rails
+  selenium-webdriver
   simplecov
   spring
   spring-commands-rspec

@@ -13,9 +13,11 @@ class ProtocolSubscription < ApplicationRecord
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true, start_of_day: true
+  validates :end_date, presence: true
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
+  after_initialize :initialize_end_date
 
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
@@ -47,6 +49,10 @@ class ProtocolSubscription < ApplicationRecord
 
   def initialize_filling_out_for
     self.filling_out_for ||= person
+  end
+
+  def initialize_end_date
+    self.end_date ||= TimeTools.increase_by_duration(start_date, protocol.duration) if start_date.present?
   end
 
   def schedule_responses

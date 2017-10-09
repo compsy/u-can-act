@@ -6,10 +6,7 @@ machine:
 dependencies:
   pre:
     - ./bin/gemnasium_install
-    # New chromedriver from https://discuss.circleci.com/t/update-chromedriver/9358 and https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5
-    - wget https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
-    - unzip chromedriver_linux64.zip
-    - sudo cp chromedriver /usr/local/bin/chromedriver
+    - ./bin/chromedriver_install
 test:
   override:
     - RAILS_ENV=test RACK_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml

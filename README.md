@@ -115,6 +115,8 @@ Heeft je S-team captain al haar vragenlijsten ingevuld voor Rik en zijn vrienden
 Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
 ```
 
+Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{begeleider}}` or `jouw {{begeleider}}`.
+
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

@@ -31,9 +31,9 @@ class VariableEvaluator
 
     def possessive_determiner(gender)
       case gender
-      when 'female'
+      when Person::FEMALE
         'haar'
-      when 'male'
+      when Person::MALE
         'zijn'
       else
         'zijn/haar'
@@ -42,9 +42,9 @@ class VariableEvaluator
 
     def personal_pronoun(gender)
       case gender
-      when 'female'
+      when Person::FEMALE
         'zij'
-      when 'male'
+      when Person::MALE
         'hij'
       else
         'hij/zij'

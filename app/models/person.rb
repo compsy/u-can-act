@@ -9,6 +9,10 @@ class Person < ApplicationRecord
             format: /\A\d{10}\z/,
             mobile_phone: true,
             uniqueness: true
+  validates :email,
+            format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
+            allow_blank: true,
+            uniqueness: true
   validates :first_name, presence: true
   belongs_to :organization
   validates :organization_id, presence: true

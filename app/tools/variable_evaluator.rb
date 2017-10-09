@@ -2,6 +2,27 @@
 
 class VariableEvaluator
   class << self
+    def evaluate_obj(obj, mentor_title = 'begeleider', mentor_gender = nil,
+                     student_name = 'deze student', student_gender = nil)
+      if obj.is_a?(String)
+        return evaluate(obj, mentor_title, mentor_gender,
+                        student_name, student_gender)
+      elsif obj.is_a?(Hash)
+        obj.each do |k, v|
+          obj[k] = evaluate_obj(v, mentor_title, mentor_gender,
+                                student_name, student_gender)
+        end
+      elsif obj.is_a?(Array)
+        obj.each_with_index do |v, i|
+          obj[i] = evaluate_obj(v, mentor_title, mentor_gender,
+                                student_name, student_gender)
+        end
+      end
+      obj
+    end
+
+    private
+
     def evaluate(text, mentor_title = 'begeleider', mentor_gender = nil,
                  student_name = 'deze student', student_gender = nil)
       # personal pronoun
@@ -26,8 +47,6 @@ class VariableEvaluator
       end
       text
     end
-
-    private
 
     def possessive_determiner(gender)
       case gender

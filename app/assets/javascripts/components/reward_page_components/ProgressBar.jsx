@@ -8,8 +8,8 @@ class ProgressBar extends React.Component {
       return 'Busy...';
     }
 
-    // Find the last non -1 index
-    var percentageStreakIdx = this.props.protocolCompletion.findIndex(elem => (elem == -1));
+    // Find the last non future index
+    var percentageStreakIdx = this.props.protocolCompletion.findIndex(elem => (elem.future));
     percentageStreakIdx = percentageStreakIdx === 0 ? 0 : percentageStreakIdx -1;
 
 
@@ -19,7 +19,7 @@ class ProgressBar extends React.Component {
 
     //TODO: This should be made dynamic.
     let maxStreak = 5;
-    let percentageStreak = Math.min(this.props.protocolCompletion[percentageStreakIdx], maxStreak);
+    let percentageStreak = Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, maxStreak);
 
     percentageStreak =  (percentageStreak / maxStreak) * totalAvailable;
     this.renderGraph(valueEuro, percentageStreak, awardableEuro, totalAvailable)

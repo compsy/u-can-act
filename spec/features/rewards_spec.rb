@@ -8,19 +8,22 @@ describe 'GET /klaar', type: :feature, js: true do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day,
                                                                        protocol: protocol_with_rewards)
     responseobj = FactoryGirl.create(:response,
+                                     :periodical,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     FactoryGirl.create(:response,
+                       :periodical,
                        protocol_subscription: protocol_subscription,
                        open_from: 1.day.from_now,
                        invited_state: Response::NOT_SENT_STATE)
     FactoryGirl.create(:response, :completed,
+                       :periodical,
                        protocol_subscription: protocol_subscription,
                        open_from: 2.days.ago)
-    expect(protocol_subscription.reward_points).to eq 10
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 1
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/questionnaire/#{invitation_token.token}"
     # expect(page).to have_http_status(200)
@@ -36,9 +39,9 @@ describe 'GET /klaar', type: :feature, js: true do
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     protocol_subscription.reload
-    expect(protocol_subscription.reward_points).to eq 20
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 2
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     expect(page).to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
     expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
     expect(page).not_to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
@@ -52,18 +55,21 @@ describe 'GET /klaar', type: :feature, js: true do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
                                                                        start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,
+                                     :periodical,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     FactoryGirl.create(:response, :completed,
+                       :periodical,
                        protocol_subscription: protocol_subscription,
                        open_from: 1.day.ago)
     FactoryGirl.create(:response, :completed,
+                       :periodical,
                        protocol_subscription: protocol_subscription,
                        open_from: 2.days.ago)
-    expect(protocol_subscription.reward_points).to eq 20
-    expect(protocol_subscription.possible_reward_points).to eq 30
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 2
+    expect(protocol_subscription.possible_reward_points).to eq 3
+    expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/questionnaire/#{invitation_token.token}"
     # expect(page).to have_http_status(200)
@@ -79,9 +85,9 @@ describe 'GET /klaar', type: :feature, js: true do
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     protocol_subscription.reload
-    expect(protocol_subscription.reward_points).to eq 30
-    expect(protocol_subscription.possible_reward_points).to eq 30
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 3
+    expect(protocol_subscription.possible_reward_points).to eq 3
+    expect(protocol_subscription.max_reward_points).to eq 3
     expect(page).to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
     expect(page).to have_content('€3 verdiend.')
     expect(page).to have_content('S-team')
@@ -104,9 +110,9 @@ describe 'GET /klaar', type: :feature, js: true do
       FactoryGirl.create(:response, :completed,
                          protocol_subscription: protocol_subscription,
                          open_from: 2.days.ago)
-      expect(protocol_subscription.reward_points).to eq 10
-      expect(protocol_subscription.possible_reward_points).to eq 20
-      expect(protocol_subscription.max_reward_points).to eq 30
+      expect(protocol_subscription.reward_points).to eq 1
+      expect(protocol_subscription.possible_reward_points).to eq 2
+      expect(protocol_subscription.max_reward_points).to eq 3
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
       visit "/questionnaire/#{invitation_token.token}"
       # expect(page).to have_http_status(200)
@@ -122,9 +128,9 @@ describe 'GET /klaar', type: :feature, js: true do
       # expect(page).to have_http_status(200)
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       protocol_subscription.reload
-      expect(protocol_subscription.reward_points).to eq 20
-      expect(protocol_subscription.possible_reward_points).to eq 20
-      expect(protocol_subscription.max_reward_points).to eq 30
+      expect(protocol_subscription.reward_points).to eq 2
+      expect(protocol_subscription.possible_reward_points).to eq 2
+      expect(protocol_subscription.max_reward_points).to eq 3
       expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
       expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog 1 euro te verdienen.')
       expect(page).not_to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
@@ -148,9 +154,9 @@ describe 'GET /klaar', type: :feature, js: true do
       FactoryGirl.create(:response, :completed,
                          protocol_subscription: protocol_subscription,
                          open_from: 2.days.ago)
-      expect(protocol_subscription.reward_points).to eq 20
-      expect(protocol_subscription.possible_reward_points).to eq 30
-      expect(protocol_subscription.max_reward_points).to eq 30
+      expect(protocol_subscription.reward_points).to eq 2
+      expect(protocol_subscription.possible_reward_points).to eq 3
+      expect(protocol_subscription.max_reward_points).to eq 3
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
       visit "/questionnaire/#{invitation_token.token}"
       # expect(page).to have_http_status(200)
@@ -166,9 +172,9 @@ describe 'GET /klaar', type: :feature, js: true do
       # expect(page).to have_http_status(200)
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       protocol_subscription.reload
-      expect(protocol_subscription.reward_points).to eq 30
-      expect(protocol_subscription.possible_reward_points).to eq 30
-      expect(protocol_subscription.max_reward_points).to eq 30
+      expect(protocol_subscription.reward_points).to eq 3
+      expect(protocol_subscription.possible_reward_points).to eq 3
+      expect(protocol_subscription.max_reward_points).to eq 3
       expect(page).to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
       expect(page).not_to have_content('verdienen.')
       expect(page).not_to have_content('S-team')
@@ -181,19 +187,22 @@ describe 'GET /klaar', type: :feature, js: true do
     protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol_with_rewards,
                                                                        start_date: 1.week.ago.at_beginning_of_day)
     responseobj = FactoryGirl.create(:response,
+                                     :periodical,
                                      protocol_subscription: protocol_subscription,
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     FactoryGirl.create(:response,
+                       :periodical,
                        protocol_subscription: protocol_subscription,
                        open_from: 1.day.from_now,
                        invited_state: Response::NOT_SENT_STATE)
     FactoryGirl.create(:response, :completed,
+                       :periodical,
                        protocol_subscription: protocol_subscription,
                        open_from: 2.days.ago)
-    expect(protocol_subscription.reward_points).to eq 10
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 1
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     # expect(page).to have_http_status(200)
@@ -209,9 +218,9 @@ describe 'GET /klaar', type: :feature, js: true do
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     protocol_subscription.reload
-    expect(protocol_subscription.reward_points).to eq 20
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 2
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     expect(page).to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
     expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
   end
@@ -232,9 +241,9 @@ describe 'GET /klaar', type: :feature, js: true do
     FactoryGirl.create(:response, :completed,
                        protocol_subscription: protocol_subscription,
                        open_from: 2.days.ago)
-    expect(protocol_subscription.reward_points).to eq 10
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 1
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/questionnaire/#{invitation_token.token}"
     # expect(page).to have_http_status(200)
@@ -250,9 +259,9 @@ describe 'GET /klaar', type: :feature, js: true do
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     protocol_subscription.reload
-    expect(protocol_subscription.reward_points).to eq 20
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 2
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
     expect(page).not_to have_content('Je hebt nu in totaal')
     expect(page).not_to have_content('euro')
@@ -275,9 +284,9 @@ describe 'GET /klaar', type: :feature, js: true do
     FactoryGirl.create(:response, :completed,
                        protocol_subscription: protocol_subscription,
                        open_from: 2.days.ago)
-    expect(protocol_subscription.reward_points).to eq 10
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 1
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     # expect(page).to have_http_status(200)
@@ -293,9 +302,9 @@ describe 'GET /klaar', type: :feature, js: true do
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     protocol_subscription.reload
-    expect(protocol_subscription.reward_points).to eq 20
-    expect(protocol_subscription.possible_reward_points).to eq 20
-    expect(protocol_subscription.max_reward_points).to eq 30
+    expect(protocol_subscription.reward_points).to eq 2
+    expect(protocol_subscription.possible_reward_points).to eq 2
+    expect(protocol_subscription.max_reward_points).to eq 3
     expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
     expect(page).not_to have_content('Je hebt nu in totaal')
     expect(page).not_to have_content('euro')

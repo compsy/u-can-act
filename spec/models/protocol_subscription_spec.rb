@@ -229,7 +229,7 @@ describe ProtocolSubscription do
       # also add some noncompleted responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
       FactoryGirl.create_list(:response, 11, :invite_sent, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.reward_points).to eq 100
+      expect(protocol_subscription.reward_points).to eq 10
     end
   end
 
@@ -239,7 +239,7 @@ describe ProtocolSubscription do
       FactoryGirl.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
       # also add some noninvited responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 100
+      expect(protocol_subscription.possible_reward_points).to eq 10
     end
 
     it 'should also accumulate the reward points for all not completed responses' do
@@ -249,7 +249,7 @@ describe ProtocolSubscription do
       #
       # also add some noninvited responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 200
+      expect(protocol_subscription.possible_reward_points).to eq 20
     end
   end
 
@@ -258,7 +258,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)
       FactoryGirl.create_list(:response, 10, protocol_subscription: protocol_subscription)
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.max_reward_points).to eq 170
+      expect(protocol_subscription.max_reward_points).to eq 17
     end
   end
 
@@ -305,8 +305,10 @@ describe ProtocolSubscription do
 
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
-      expected = (1..protocol_subscription.responses.length - 1).to_a
-      expected.unshift(0)
+      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+        { completed: true, periodical: true, reward_points: 1, future: false, streak: resp }
+      end
+      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
       expect(result).to eq expected
     end
 
@@ -318,7 +320,12 @@ describe ProtocolSubscription do
                                                  start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
-      expect(result).to eq [-1] * protocol_subscription.responses.length
+
+      expected = (1..protocol_subscription.responses.length).map do |resp|
+        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+      end
+
+      expect(result).to eq expected
     end
 
     it 'should return 0 if a measurement was missed' do
@@ -329,8 +336,11 @@ describe ProtocolSubscription do
                                                  start_date: Time.new(2017, 3, 27, 0, 0, 0).in_time_zone)
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
-      expected = [-1] * (protocol_subscription.responses.length - 1)
-      expected.unshift(0)
+      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+      end
+      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+
       expect(result).to eq expected
     end
   end

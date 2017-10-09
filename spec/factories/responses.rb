@@ -25,5 +25,10 @@ FactoryGirl.define do
       invited_state Response::SENT_STATE
       invitation_token
     end
+    trait :periodical do
+      after(:create) do |response|
+        FactoryGirl.create(:measurement, responses: [response], period: 1)
+      end
+    end
   end
 end

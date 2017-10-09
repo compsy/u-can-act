@@ -152,39 +152,81 @@ describe Protocol do
       reward = FactoryGirl.create(:reward, threshold: 1, reward_points: 100)
       FactoryGirl.create(:protocol, rewards: [reward])
     end
+
+    let(:measurement_completion) do
+      [{ streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 2, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 3, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 2, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 3, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 4, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 5, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 6, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 7, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 8, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 9, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 10, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 2, periodical: true, reward_points: 1, future: true, completed: false },
+       { streak: 3, periodical: true, reward_points: 1, future: true, completed: false }]
+    end
+
     it 'should calculate the correct reward when there are no measurements' do
-      measurement_completion = [-1] * 10
+      measurement_completion = [{ future: true }] * 10
       expected_value = 0
       result = protocol.calculate_reward(measurement_completion)
       expect(result).to eq expected_value
     end
 
     it 'should calculate the correct reward when there are no rewards' do
-      measurement_completion = [1, 2, 3, 0, 0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 1, -1, -1]
       expected_value = 0
       result = protocol_no_rewards.calculate_reward(measurement_completion)
       expect(result).to eq expected_value
     end
 
     it 'should calculate the correct reward when there is a single reward' do
-      measurement_completion = [1, 2, 3, 0, 0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 1, -1, -1]
-      expected_value = (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1) * 100
+      expected_value = measurement_completion.map { |entry| entry[:reward_points] if entry[:completed] }.compact.sum
+      expected_value *= 100
+
       result = protocol_single_reward.calculate_reward(measurement_completion)
       expect(result).to eq expected_value
     end
 
     it 'should calculate the correct reward when there are multilple rewards' do
-      measurement_completion = [1, 2, 3, 0, 0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 1, -1, -1]
       expected_value = (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 3 + 3 + 5 + 5 + 5 + 5 + 1) * 100
       result = protocol.calculate_reward(measurement_completion)
       expect(result).to eq expected_value
     end
 
     it 'should caluclate the correct reward for a subset of items' do
-      measurement_completion = [4, 5, 6, 7, 8]
-      expected = (1 + 3 + 3 + 5 + 5) * 100
-      result = protocol.calculate_reward(measurement_completion)
+      current_measurement_completion = measurement_completion[4..8]
+      expected = current_measurement_completion.reduce(0) do |tot, val|
+        tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
+      end
+      result = protocol.calculate_reward(current_measurement_completion, false)
       expect(result).to eq expected
+    end
+
+    it 'should calculate the max possible future score, then the flag chcek_future is set' do
+      current_measurement_completion = measurement_completion[-1..-2]
+      expected = current_measurement_completion.reduce(0) do |tot, val|
+        tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
+      end
+      result = protocol.calculate_reward(current_measurement_completion, true)
+      expect(result).to eq expected
+    end
+
+    it 'should not calculate the max possible future score, then the flag chcek_future is not set' do
+      current_measurement_completion = measurement_completion[-1..-2]
+      result = protocol.calculate_reward(current_measurement_completion, false)
+      expect(result).to eq 0
     end
   end
 end

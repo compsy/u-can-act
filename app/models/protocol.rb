@@ -8,28 +8,35 @@ class Protocol < ApplicationRecord
   belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire' # can be nil
   has_and_belongs_to_many :rewards, order: 'threshold asc'
 
-  def calculate_reward(measurement_completion)
-    return 0 if rewards.blank?
+  def calculate_reward(measurement_completion, check_future = false)
+    return 0 if rewards.blank? || measurement_completion.blank?
 
     # Precond: Rewards need to be sorted
     rewards_array = create_rewards_array
 
-    index = 0
-    prev = -1
-    measurement_completion.reduce(0) do |current, value|
-      # Slightly more efficient, we don't have to loop through all elements,
-      # because we know the value is less than the previous one, so at most the
-      # same reward
-      index = rewards_array.length - 1 if value > prev
-      prev = value
+    measurement_completion.reduce(0) do |total, current|
+      next total unless take_current_measurement_into_account?(current[:completed], current[:future], check_future)
 
-      current + find_correct_reward(index, value, rewards_array)
+      reward_multiplier = determine_reward_multiplier(current[:periodical], current[:streak], rewards_array)
+      total + (reward_multiplier * current[:reward_points])
     end
   end
 
   private
 
-  def find_correct_reward(index, value, rewards_array)
+  def take_current_measurement_into_account?(is_completed, is_future, take_future_into_account)
+    return true if take_future_into_account
+    is_completed && !is_future
+  end
+
+  def determine_reward_multiplier(is_periodical, current_streak, rewards_array)
+    # If the current entry is not a periodical entry, we want to pay its general amount (i.e., no multiplier)
+    return 1 unless is_periodical
+    find_correct_reward(current_streak, rewards_array)
+  end
+
+  def find_correct_reward(value, rewards_array)
+    index = rewards_array.length - 1
     index -= 1 while value < rewards_array[index].first && index >= 0
     determine_single_reward(value, rewards_array[index].second)
   end

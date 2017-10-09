@@ -42,39 +42,44 @@ module Api
           .and_return(321)
 
         # Mock the actual calculation
+        slice = (8...(8 + protocol_subscription.responses.future.length))
+        sliced_completion = protocol_subscription.protocol_completion.slice(slice)
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
-          .with((7...(7 + protocol_subscription.responses.future.length)).to_a)
+          .with(sliced_completion, true)
           .and_return(123)
 
+        sliced_completion = [protocol_subscription.protocol_completion[6]]
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
-          .with([6])
+          .with(sliced_completion)
           .and_return(888)
         json = described_class.new(protocol_subscription).as_json.with_indifferent_access
 
         expect(json[:person_type]).to eq protocol_subscription.person.type
-        expect(json[:protocol_completion]).to eq protocol_subscription.protocol_completion
         expect(json[:earned_euros]).to eq 321
         expect(json[:euro_delta]).to eq 888
         expect(json[:max_still_awardable_euros]).to eq 123
+
+        completions_strings = protocol_subscription.protocol_completion.map(&:stringify_keys)
+        expect(json[:protocol_completion]).to eq completions_strings
       end
 
       it 'should contain the correct max_still_awardable_euros' do
         json = described_class.new(protocol_subscription).as_json.with_indifferent_access
-        expected = 6 * 500
+        expected = protocol_subscription.protocol_completion[-6..-1]
+        expected = protocol.calculate_reward(expected, true)
         expect(json[:max_still_awardable_euros]).to eq expected
       end
 
-      it 'should contain the list of finished questionnaires' do
-        expect(json[:protocol_completion]).to be_an Array
-        expect(json[:protocol_completion].first).to eq 1
-        expect(json[:protocol_completion].second).to eq 0
-        (2..7).each do |entry|
-          expect(json[:protocol_completion][entry]).to eq entry - 1
-        end
-        (8..13).each do |entry|
-          expected_value = -1
-          expect(json[:protocol_completion][entry]).to eq expected_value
-        end
+      it 'should contain the correct euro_delta' do
+        expected = protocol_subscription.protocol_completion[-7]
+        expected = protocol.calculate_reward([expected])
+        expect(json[:euro_delta]).to eq expected
+      end
+
+      it 'should contain the correct earned_euros' do
+        expected = protocol_subscription.protocol_completion
+        expected = protocol.calculate_reward(expected)
+        expect(json[:earned_euros]).to eq expected
       end
     end
   end

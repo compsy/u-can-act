@@ -2,7 +2,7 @@ class RewardPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: 'hoi!'
+      result: undefined
     };
   }
 
@@ -15,7 +15,9 @@ class RewardPage extends React.Component {
   }
 
   isDone() {
-    return this.state.result.protocol_completion.slice(-1)[0] != -1;
+    return !this.state.result.protocol_completion.some((entry) => {
+      return entry.future
+    })
   }
 
   loadRewardData(protocolSubscriptionId) {
@@ -54,7 +56,7 @@ class RewardPage extends React.Component {
   }
 
   render() {
-    if (this.state.result === 'hoi!') {
+    if (!this.state.result) {
       return <div>Bezig...</div>
     }
 

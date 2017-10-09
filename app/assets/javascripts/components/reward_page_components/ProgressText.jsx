@@ -2,11 +2,12 @@ class ProgressText extends React.Component {
 
   calculateProgess(protocolCompletion) {
     let completion = protocolCompletion.reduce((sum, value) => {
-      if(value >= 0){
+      if(!value.future){
         sum += 1;
       }
       return sum;
-    })
+    },0)
+    console.log(completion)
     return Math.round((completion / protocolCompletion.length) * 100);
   }
 

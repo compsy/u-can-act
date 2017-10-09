@@ -96,13 +96,6 @@ ActiveRecord::Schema.define(version: 20171009111239) do
     t.index ["name"], name: "index_protocols_on_name", unique: true, using: :btree
   end
 
-  create_table "protocols_rewards", id: false, force: :cascade do |t|
-    t.integer "protocol_id"
-    t.integer "reward_id"
-    t.index ["protocol_id"], name: "index_protocols_rewards_on_protocol_id", using: :btree
-    t.index ["reward_id"], name: "index_protocols_rewards_on_reward_id", using: :btree
-  end
-
   create_table "questionnaires", force: :cascade do |t|
     t.string   "name",       null: false
     t.text     "content",    null: false
@@ -124,13 +117,6 @@ ActiveRecord::Schema.define(version: 20171009111239) do
     t.datetime "updated_at",                                    null: false
     t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
-  end
-
-  create_table "rewards", force: :cascade do |t|
-    t.integer  "threshold",     null: false
-    t.integer  "reward_points", null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
   end
 
   add_foreign_key "invitation_tokens", "responses"

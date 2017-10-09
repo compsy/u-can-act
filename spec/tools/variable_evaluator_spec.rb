@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe VariableEvaluator, focus: true do
+describe VariableEvaluator do
   let(:mentor_title) { 'stamhoofd' }
   let(:mentor_gender) { 'female' }
   let(:student_name) { 'William Sealy Gosset' }

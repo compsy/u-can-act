@@ -25,8 +25,7 @@ class VariableEvaluator
 
     def evaluate(text, mentor_title = 'begeleider', mentor_gender = nil,
                  student_name = 'deze student', student_gender = nil)
-      # personal pronoun
-      # male female
+      mentor_title = 'begeleider' if mentor_title.blank?
       substitutions = {
         'begeleider' => mentor_title,
         'zijn_haar_begeleider' => possessive_determiner(mentor_gender),

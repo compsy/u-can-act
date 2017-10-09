@@ -26,7 +26,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def ended?
-    Time.zone.now > TimeTools.increase_by_duration(start_date, protocol.duration)
+    Time.zone.now > end_date
   end
 
   def for_myself?
@@ -56,17 +56,16 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def schedule_responses
-    prot_sub_end = TimeTools.increase_by_duration(start_date, protocol.duration)
     ActiveRecord::Base.transaction do
       protocol.measurements.each do |measurement|
-        schedule_responses_for_measurement(measurement, prot_sub_end)
+        schedule_responses_for_measurement(measurement)
       end
     end
   end
 
-  def schedule_responses_for_measurement(measurement, prot_sub_end)
+  def schedule_responses_for_measurement(measurement)
     open_from = TimeTools.increase_by_duration(start_date, measurement.open_from_offset)
-    while open_from < prot_sub_end
+    while open_from < end_date
       Response.create!(protocol_subscription_id: id,
                        measurement_id: measurement.id,
                        open_from: open_from)

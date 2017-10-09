@@ -7,7 +7,6 @@ class ProgressText extends React.Component {
       }
       return sum;
     },0)
-    console.log(completion)
     return Math.round((completion / protocolCompletion.length) * 100);
   }
 

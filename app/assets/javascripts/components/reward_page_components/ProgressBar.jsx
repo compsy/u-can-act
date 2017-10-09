@@ -1,29 +1,4 @@
 class ProgressBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    if (!this.props.protocolCompletion) {
-      return 'Busy...';
-    }
-
-    // Find the last non future index
-    var percentageStreakIdx = this.props.protocolCompletion.findIndex(elem => (elem.future));
-    percentageStreakIdx = percentageStreakIdx === 0 ? 0 : percentageStreakIdx -1;
-
-
-    let valueEuro = this.props.earned_euros;
-    let awardableEuro = this.props.awardable;
-    let totalAvailable = valueEuro + awardableEuro;
-
-    //TODO: This should be made dynamic.
-    let maxStreak = 5;
-    let percentageStreak = Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, maxStreak);
-
-    percentageStreak =  (percentageStreak / maxStreak) * totalAvailable;
-    this.renderGraph(valueEuro, percentageStreak, awardableEuro, totalAvailable)
-  }
 
   renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
     new RadialProgressChart('.progressRadial', {
@@ -45,6 +20,7 @@ class ProgressBar extends React.Component {
   }
 
   render() {
+    this.renderGraph(this.props.valueEuro, this.props.percentageStreak, this.props.awardableEuro, this.props.totalAvailable)
     return (
       <div className='row'>
         <div className='col m6 push-m3'>

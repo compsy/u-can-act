@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531100739) do
+ActiveRecord::Schema.define(version: 20171009154752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,13 +52,23 @@ ActiveRecord::Schema.define(version: 20170531100739) do
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end
 
-  create_table "people", force: :cascade do |t|
-    t.string   "type",         null: false
-    t.string   "mobile_phone", null: false
-    t.string   "first_name",   null: false
-    t.string   "last_name"
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name",         null: false
+    t.string   "mentor_title"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["name"], name: "index_organizations_on_name", unique: true, using: :btree
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string   "type",            null: false
+    t.string   "mobile_phone",    null: false
+    t.string   "first_name",      null: false
+    t.string   "last_name"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id", null: false
+    t.string   "gender"
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 
@@ -71,6 +81,7 @@ ActiveRecord::Schema.define(version: 20170531100739) do
     t.datetime "updated_at",                null: false
     t.datetime "informed_consent_given_at"
     t.integer  "filling_out_for_id",        null: false
+    t.datetime "end_date",                  null: false
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
   end

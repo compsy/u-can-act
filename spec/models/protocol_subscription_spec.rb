@@ -51,6 +51,32 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'end_date' do
+    it 'should have one' do
+      protocol_subscription = FactoryGirl.build(:protocol_subscription)
+      protocol_subscription.end_date = nil
+      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription.errors.messages).to have_key :end_date
+      expect(protocol_subscription.errors.messages[:end_date]).to include('moet opgegeven zijn')
+    end
+    it 'should work to retrieve a Time object' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.end_date).to be_a(Time)
+    end
+    it 'should calculate the default end_date if none is provided' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.end_date).to(
+        eq(TimeTools.increase_by_duration(protocol_subscription.start_date,
+                                          protocol_subscription.protocol.duration))
+      )
+    end
+    it 'should not overwrite a given end_date' do
+      end_date = TimeTools.increase_by_duration(Time.new(2017, 4, 10, 0, 0, 0).in_time_zone, 3.days)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, end_date: end_date)
+      expect(protocol_subscription.end_date).to eq end_date
+    end
+  end
+
   describe 'protocol_id' do
     it 'should have one' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription, protocol_id: nil)

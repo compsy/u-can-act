@@ -3,6 +3,8 @@
 FactoryGirl.define do
   sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
   factory :person do
+    organization
+    gender Person::MALE
     mobile_phone
     first_name 'Jane'
     last_name 'Doe'

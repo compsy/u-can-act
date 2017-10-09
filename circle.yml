@@ -7,8 +7,7 @@ dependencies:
   pre:
     - ./bin/gemnasium_install
     # New chromedriver from https://discuss.circleci.com/t/update-chromedriver/9358 and https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5
-    - CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
-    - wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
+    - wget https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
     - unzip chromedriver_linux64.zip
     - sudo cp chromedriver /usr/local/bin/chromedriver
 test:

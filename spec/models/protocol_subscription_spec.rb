@@ -225,6 +225,25 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(3)
     end
+    it 'should create responses up to the specified max_iterations limit' do
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, max_iterations: 2)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(2)
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, max_iterations: 1)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(1)
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, max_iterations: 3)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(3)
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, max_iterations: 4)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      # because the protocol duration is still 3 weeks:
+      expect(protocol_subscription.responses.count).to eq(3)
+    end
     it 'should delete the responses when destroying the protocol subscription' do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)
       FactoryGirl.create(:response, protocol_subscription: protocol_subscription)

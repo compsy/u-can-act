@@ -57,10 +57,12 @@ describe Measurement do
   end
 
   describe 'period' do
-    it 'should be a zero or positive integer' do
+    it 'should be a positive integer' do
       measurement = FactoryGirl.build(:measurement)
-      measurement.period = 0
+      measurement.period = 2
       expect(measurement.valid?).to be_truthy
+      measurement.period = 0
+      expect(measurement.valid?).to be_falsey
       measurement.period = 1.5
       expect(measurement.valid?).to be_falsey
       measurement.period = -1

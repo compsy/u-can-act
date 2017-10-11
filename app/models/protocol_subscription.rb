@@ -70,12 +70,14 @@ class ProtocolSubscription < ApplicationRecord
 
   def schedule_responses_for_measurement(measurement)
     open_from = measurement_open_from(measurement)
-    while open_from < end_date
+    iterations = measurement.max_iterations_as_integer
+    while open_from < end_date && iterations.positive?
       Response.create!(protocol_subscription_id: id,
                        measurement_id: measurement.id,
                        open_from: open_from)
       break unless measurement.period
       open_from = TimeTools.increase_by_duration(open_from, measurement.period)
+      iterations -= 1
     end
   end
 

@@ -49,6 +49,20 @@ describe PlainTextParser do
     end
   end
 
+  describe 'parse_organization_name' do
+    it 'should raise if the organization does not exist' do
+      organization_name = 'something random'
+      expect { subject.parse_organization_name(organization_name) }.to raise_error(
+        RuntimeError, "No organization exists by that name: #{organization_name}"
+      )
+    end
+
+    it 'should return the organization id if everything is correct' do
+      organization = FactoryGirl.create(:organization)
+      expect(subject.parse_organization_name(organization.name)).to eq(organization.id)
+    end
+  end
+
   describe 'parse_start_date' do
     it 'should raise if the start date is not beginning of day' do
       start_date = '29-5-2017 0:01'

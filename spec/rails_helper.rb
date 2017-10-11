@@ -37,6 +37,7 @@ Capybara.ignore_hidden_elements = false
 Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
+  config.color_mode = :off if ENV['CI']
   # Include controller helpers for Devise
   # config.include Devise::Test::ControllerHelpers, type: :controller
   # Devise helpers for capybara

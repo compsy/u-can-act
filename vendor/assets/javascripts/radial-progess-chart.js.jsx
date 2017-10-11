@@ -123,7 +123,7 @@ function RadialProgressChart(query, options) {
       .attr('x', 0)
       .attr('dy', function (d, i) {
         if (i > 0) {
-          return '1.1em';
+          return i + '.1em';
         }
       })
       .each(function (d) {

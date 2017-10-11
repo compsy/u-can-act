@@ -1,11 +1,12 @@
-.rbc-label-start {
-  fill: #FFD700;
-  font-size: 25px;
-}
 
 .progressRadial {
+  .rbc-label-start {
+    fill: #FFD700;
+    font-size: 25px;
+  }
   .rbc-center-text-line1 {
-    font-size: 80px;
+    font-size: 70px;
+    padding: 10px;
   }
 }
 
@@ -80,7 +81,6 @@ $box-shadow2: ();
 }
 
 .fireworks_component {
-
   .pyro > .before, .pyro > .after {
     position: absolute;
     width: 5px;

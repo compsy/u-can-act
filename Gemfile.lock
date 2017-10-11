@@ -1,7 +1,6 @@
 GIT
-  remote: https://github.com/compsy/animate-rails.git
-  revision: 4e76fa2d3994fa1f3f61452ebf4ccc17b342f5fb
-  ref: fb-update-animate
+  remote: https://github.com/camelmasa/animate-rails.git
+  revision: ff6dd54ac8534e3df4a56fabc6a3e307957be886
   specs:
     animate-rails (1.0.11)
       rails

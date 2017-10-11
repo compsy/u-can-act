@@ -22,7 +22,7 @@ class StudentInProgressRewardPage extends React.Component {
 
     //TODO: This should be made dynamic.
     let maxStreak = 5;
-    let currentStreak =  Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, maxStreak);
+    let currentStreak = Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, maxStreak);
     let inMaxStreak = (currentStreak === maxStreak);
 
     percentageStreak =  (currentStreak / maxStreak) * totalAvailable;

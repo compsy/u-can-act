@@ -9,7 +9,7 @@ class ProgressBar extends React.Component {
   }
 
   componentDidMount() {
-    let timer = setInterval(this.performTimerEvent.bind(this), 500);
+    let timer = setInterval(this.performTimerEvent.bind(this), 1500);
     let radial = this.renderGraph(
       this.props.valueEuro,
       this.props.percentageStreak,
@@ -23,13 +23,6 @@ class ProgressBar extends React.Component {
       showStreakText: false,
     });
   }
-
-
-  // Idea::
-  // Initially set current euros to earned euros - euro_delta + euro_delta / current_multiplier
-  // Then, after a second, update the value to earned_euros (so it is the total.
-  // We could write the (euro_delta - euro_delta / current_multiplier)
-  // somewhere as 'youve earned X using the streak you're currently in!'
 
   calculateInitialValue() {
     var initialValue = this.props.valueEuro
@@ -45,17 +38,16 @@ class ProgressBar extends React.Component {
   }
 
   performTimerEvent() {
-    this.renderGraph(this.props.valueEuro)
+    this.renderGraph(this.props.valueEuro, this.props.percentageStreak)
     this.setState({showStreakText: true})
     clearInterval(this.state.timer);
   }
 
-  renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
+  renderGraph(valueEuro, percentagestreak, awardable, totalAvailable) {
     var radial;
     if (this.state.radial) {
       radial = this.state.radial;
-      // First is 0 so we only update the euros, not the streak
-      radial.update([0, valueEuro]);
+      radial.update([percentagestreak, valueEuro]);
     } else {
       radial = new RadialProgressChart('.progressRadial', {
         diameter: 200,
@@ -68,8 +60,8 @@ class ProgressBar extends React.Component {
         center: {
           content: [ 'Je hebt nu',
             function(value) {
-            return '€'+value
-          }, ' daar kan nog €'+(awardable) + ' bij!'],
+              return printAsMoney(value)
+          }, ' daar kan nog '+ printAsMoney(awardable) + ' bij!'],
           y: -50
         }
       });
@@ -78,12 +70,12 @@ class ProgressBar extends React.Component {
   }
 
   createStreakText() {
-    if (this.state.showStreakText && this.props.currentMultiplier > 0) {
+    if (this.state.showStreakText && this.props.currentMultiplier > 1) {
       let value = this.props.euroDelta - this.props.euroDelta / this.props.currentMultiplier
-      let text = "Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je €";
-      text += value;
+      let text = "Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ";
+      text += printAsMoney(value);
       text += " extra verdiend!";
-     return(<div className="animated fadeInLeft"> {text} </div>) 
+     return(<div className="animated pulse"> {text} </div>) 
     }
   }
 

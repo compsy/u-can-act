@@ -29,19 +29,19 @@ RSpec.describe Reward, type: :model do
       it 'should be unique within a protocol' do
         protocol = FactoryGirl.create(:protocol)
         different_protocol = FactoryGirl.build(:protocol)
-        reward = FactoryGirl.create(:reward, protocol: protocol,  reward_points: 100, threshold: 1)
+        reward = FactoryGirl.create(:reward, protocol: protocol, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
-        reward = FactoryGirl.build(:reward, protocol: protocol,  reward_points: 100, threshold: 1)
+        reward = FactoryGirl.build(:reward, protocol: protocol, reward_points: 100, threshold: 1)
         expect(reward).to_not be_valid
-        reward = FactoryGirl.build(:reward, protocol: different_protocol,  reward_points: 100, threshold: 1)
+        reward = FactoryGirl.build(:reward, protocol: different_protocol, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
       end
 
       it 'should be able to create multiple rewards for one protocol' do
         protocol = FactoryGirl.create(:protocol)
-        reward = FactoryGirl.create(:reward, protocol: protocol,  reward_points: 100, threshold: 1)
+        reward = FactoryGirl.create(:reward, protocol: protocol, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
-        reward = FactoryGirl.create(:reward, protocol: protocol,  reward_points: 100, threshold: 2)
+        reward = FactoryGirl.create(:reward, protocol: protocol, reward_points: 100, threshold: 2)
         expect(reward).to be_valid
         expect(protocol.rewards.length).to eq 2
       end

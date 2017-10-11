@@ -151,7 +151,7 @@ describe Protocol do
       reward3 = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
       reward1 = FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
       reward2 = FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
-      expect(protocol.rewards).to eq([reward1, reward2, reward3]) 
+      expect(protocol.rewards).to eq([reward1, reward2, reward3])
     end
   end
 
@@ -170,14 +170,14 @@ describe Protocol do
     end
 
     it 'should return 1 if no rewards exist' do
-      [1,10,13,100].each do |val|
+      [1, 10, 13, 100].each do |val|
         expect(protocol_no_rewards.find_correct_multiplier(val)).to eq 1
       end
     end
 
     it 'should return the reward of which a value just exceeded the threshold' do
-      rewards_hash = {} 
-      protocol.rewards.each{|rw| rewards_hash[rw.threshold] = rw.reward_points }
+      rewards_hash = {}
+      protocol.rewards.each { |rw| rewards_hash[rw.threshold] = rw.reward_points }
       max_rw_threshold = rewards_hash.keys.max
       result = (1..(max_rw_threshold + 1)).step(1).map do |val|
         protocol.find_correct_multiplier(val)
@@ -191,7 +191,7 @@ describe Protocol do
         rewards_hash[5],
         rewards_hash[5],
         rewards_hash[7],
-        rewards_hash[7],
+        rewards_hash[7]
       ]
     end
   end

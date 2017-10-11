@@ -42,10 +42,9 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.reward_points).to eq 2
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
-    expect(page).to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
-    expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
+    expect(page).to have_content('Je hebt hiermee €1,- verdiend. Je hebt nu in totaal €2,-')
+    expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
     expect(page).not_to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
-    expect(page).not_to have_content('- verdiend.')
     expect(page).not_to have_content('S-team')
     expect(page).not_to have_content('beloning')
   end
@@ -131,10 +130,10 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.reward_points).to eq 2
       expect(protocol_subscription.possible_reward_points).to eq 2
       expect(protocol_subscription.max_reward_points).to eq 3
-      expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
-      expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog 1 euro te verdienen.')
+      expect(page).not_to have_content('Je hebt hiermee €1,- verdiend. Je hebt nu in totaal €2,-')
+      expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
       expect(page).not_to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
-      expect(page).not_to have_content('euro verdiend')
+      expect(page).not_to have_content('- verdiend')
       expect(page).not_to have_content('te verdienen.')
       expect(page).not_to have_content('S-team')
       expect(page).not_to have_content('beloning')
@@ -221,8 +220,8 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.reward_points).to eq 2
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
-    expect(page).to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
-    expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
+    expect(page).to have_content('Je hebt hiermee €1,- verdiend. Je hebt nu in totaal €2,-')
+    expect(page).to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
   end
 
   it 'should not show rewards for Mentors' do
@@ -262,10 +261,11 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.reward_points).to eq 2
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
-    expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
+    expect(page).not_to have_content('Je hebt hiermee €1,- verdiend. Je hebt nu in totaal €2,-')
     expect(page).not_to have_content('Je hebt nu in totaal')
     expect(page).not_to have_content('euro')
-    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
+    expect(page).not_to have_content('€')
+    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
   end
 
   it 'should not show rewards for Mentors from tokenauth controller' do
@@ -305,9 +305,10 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.reward_points).to eq 2
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
-    expect(page).not_to have_content('Je hebt hiermee 1 euro verdiend. Je hebt nu in totaal 2 euro')
+    expect(page).not_to have_content('Je hebt hiermee €1,- verdiend. Je hebt nu in totaal €2,-')
     expect(page).not_to have_content('Je hebt nu in totaal')
     expect(page).not_to have_content('euro')
-    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1 te verdienen.')
+    expect(page).not_to have_content('€')
+    expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
   end
 end

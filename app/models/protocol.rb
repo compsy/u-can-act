@@ -16,7 +16,6 @@ class Protocol < ApplicationRecord
     end
   end
 
-
   def find_correct_multiplier(value)
     # Precond: Rewards need to be sorted
     rewards_array = create_rewards_array

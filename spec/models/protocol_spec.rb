@@ -36,6 +36,8 @@ describe Protocol do
       protocol = FactoryGirl.build(:protocol)
       protocol.duration = 0
       expect(protocol.valid?).to be_truthy
+      protocol.duration = 1.5
+      expect(protocol.valid?).to be_falsey
       protocol.duration = -1
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :duration

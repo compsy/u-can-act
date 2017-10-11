@@ -61,6 +61,8 @@ describe Measurement do
       measurement = FactoryGirl.build(:measurement)
       measurement.period = 0
       expect(measurement.valid?).to be_truthy
+      measurement.period = 1.5
+      expect(measurement.valid?).to be_falsey
       measurement.period = -1
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :period
@@ -72,11 +74,33 @@ describe Measurement do
     end
   end
 
+  describe 'max_iterations' do
+    it 'should be a positive integer' do
+      measurement = FactoryGirl.build(:measurement)
+      measurement.max_iterations = 0
+      expect(measurement.valid?).to be_falsey
+      measurement.max_iterations = 1.5
+      expect(measurement.valid?).to be_falsey
+      measurement.max_iterations = 2
+      expect(measurement.valid?).to be_truthy
+      measurement.max_iterations = -1
+      expect(measurement.valid?).to be_falsey
+      expect(measurement.errors.messages).to have_key :max_iterations
+      expect(measurement.errors.messages[:max_iterations]).to include('moet groter zijn dan 0')
+    end
+    it 'should accept nil values' do
+      measurement = FactoryGirl.build(:measurement, max_iterations: nil)
+      expect(measurement.valid?).to be_truthy
+    end
+  end
+
   describe 'open_duration' do
     it 'should be a zero or positive integer' do
       measurement = FactoryGirl.build(:measurement)
       measurement.open_duration = 0
       expect(measurement.valid?).to be_truthy
+      measurement.open_duration = 1.5
+      expect(measurement.valid?).to be_falsey
       measurement.open_duration = -1
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :open_duration
@@ -93,6 +117,8 @@ describe Measurement do
       measurement = FactoryGirl.build(:measurement)
       measurement.reward_points = 0
       expect(measurement.valid?).to be_truthy
+      measurement.reward_points = 1.5
+      expect(measurement.valid?).to be_falsey
       measurement.reward_points = -1
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :reward_points

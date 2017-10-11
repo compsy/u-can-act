@@ -72,6 +72,19 @@ class Response < ApplicationRecord
     response_expired? || protocol_subscription.ended?
   end
 
+  def determine_student_mentor
+    student = nil
+    mentor = nil
+    if protocol_subscription.for_myself? # we are student
+      student = protocol_subscription.person
+      mentor = student.type == 'Student' ? student.mentor : nil # Student can in theory just be a person
+    else
+      student = protocol_subscription.filling_out_for
+      mentor = protocol_subscription.person
+    end
+    [student, mentor]
+  end
+
   private
 
   def response_expired?

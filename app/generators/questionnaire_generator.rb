@@ -25,29 +25,14 @@ class QuestionnaireGenerator
     def substitute_variables(response_id, title, content)
       response = Response.find(response_id)
       return [title, content] if response.blank?
-      student, mentor = determine_student_mentor(response)
-      result = []
-      [title, content].each do |obj|
-        result << VariableEvaluator.evaluate_obj(obj,
-                                                 mentor&.organization&.mentor_title,
-                                                 mentor&.gender,
-                                                 student.first_name,
-                                                 student.gender)
+      student, mentor = response.determine_student_mentor
+      [title, content].map do |obj|
+        VariableEvaluator.evaluate_obj(obj,
+                                       mentor&.organization&.mentor_title,
+                                       mentor&.gender,
+                                       student.first_name,
+                                       student.gender)
       end
-      result
-    end
-
-    def determine_student_mentor(response)
-      student = nil
-      mentor = nil
-      if response.protocol_subscription.for_myself? # we are student
-        student = response.protocol_subscription.person
-        mentor = student.type == 'Student' ? student.mentor : nil # Student can in theory just be a person
-      else
-        student = response.protocol_subscription.filling_out_for
-        mentor = response.protocol_subscription.person
-      end
-      [student, mentor]
     end
 
     def questionnaire_header(title)

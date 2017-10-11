@@ -23,7 +23,7 @@ class StudentInProgressRewardPage extends React.Component {
     //TODO: This should be made dynamic.
     let maxStreak = 5;
     let currentStreak =  Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, maxStreak);
-    let inMaxStreak = (currentStreak === maxStreak) 
+    let inMaxStreak = (currentStreak === maxStreak);
 
     percentageStreak =  (currentStreak / maxStreak) * totalAvailable;
 
@@ -37,6 +37,9 @@ class StudentInProgressRewardPage extends React.Component {
   }
 
   render() {
+    if (!this.state.valueEuro) {
+     return(<div> Bezig</div>); 
+    }
     return (
       <div>
         <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
@@ -46,10 +49,12 @@ class StudentInProgressRewardPage extends React.Component {
           </div>
           <div className='section'>
             {this.state.maxStreak ? <Pyro /> : <div/>}
-            <ProgressBar valueEuro={this.state.valueEuro}
-                        percentageStreak={this.state.percentageStreak}
-                        awardableEuro={this.state.awardableEuro}
-                        totalAvailable={this.state.totalAvailable}/>
+            <ProgressBar euroDelta={this.props.euroDelta}
+                         valueEuro={this.state.valueEuro}
+                         currentMultiplier={this.props.currentMultiplier}
+                         percentageStreak={this.state.percentageStreak}
+                         awardableEuro={this.state.awardableEuro}
+                         totalAvailable={this.state.totalAvailable}/>
             <ProgressText earned_euros={this.state.earnedEuros}
                         awardable={this.state.awardableEuro}
                         protocolCompletion={this.props.protocolCompletion} />

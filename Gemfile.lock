@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/compsy/animate-rails.git
+  revision: 4e76fa2d3994fa1f3f61452ebf4ccc17b342f5fb
+  ref: fb-update-animate
+  specs:
+    animate-rails (1.0.11)
+      rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -384,6 +392,7 @@ PLATFORMS
 DEPENDENCIES
   active_interaction
   active_model_serializers
+  animate-rails!
   appsignal
   byebug
   capybara

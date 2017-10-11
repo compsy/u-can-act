@@ -168,6 +168,27 @@ describe Response do
     end
   end
 
+  describe 'determine_student_mentor' do
+    it 'should identify a student response as a response from a student' do
+      organization = FactoryGirl.create(:organization)
+      student = FactoryGirl.create(:student, organization: organization)
+      mentor = FactoryGirl.create(:mentor, organization: organization)
+      FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      prot_stud = FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
+      response = FactoryGirl.create(:response, protocol_subscription: prot_stud)
+      expect(response.determine_student_mentor).to eq([student, mentor])
+    end
+    it 'should identify a mentor response as a response from a mentor do' do
+      organization = FactoryGirl.create(:organization)
+      student = FactoryGirl.create(:student, organization: organization)
+      mentor = FactoryGirl.create(:mentor, organization: organization)
+      prot_ment = FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
+      response = FactoryGirl.create(:response, protocol_subscription: prot_ment)
+      expect(response.determine_student_mentor).to eq([student, mentor])
+    end
+  end
+
   describe 'expired?' do
     it 'should return true if the response is no longer open' do
       response = FactoryGirl.create(:response, open_from: 3.hours.ago)

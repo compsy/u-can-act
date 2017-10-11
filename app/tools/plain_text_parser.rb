@@ -14,6 +14,12 @@ class PlainTextParser
     protocol.id
   end
 
+  def parse_organization_name(organization_name)
+    organization = Organization.find_by_name(organization_name)
+    raise "No organization exists by that name: #{organization_name}" unless organization.present?
+    organization.id
+  end
+
   def parse_start_date(start_date)
     parsed_start_date = Time.zone.parse(start_date)
     # raise "Start date lies in the past: #{start_date}" unless parsed_start_date > Time.zone.now

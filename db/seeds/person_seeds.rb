@@ -20,7 +20,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     end
     Student.create!(first_name: student[:first_name],
                     last_name: student[:last_name],
-                    mobile_phone: phone)
+                    mobile_phone: phone, organization: Organization.first)
   end
 
   mentors =[
@@ -35,7 +35,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     end
     Mentor.create!(first_name: mentor[:first_name],
                    last_name: mentor[:last_name],
-                   mobile_phone: phone)
+                   mobile_phone: phone, organization: Organization.first)
   end
 
   puts 'Generating people - Finished'

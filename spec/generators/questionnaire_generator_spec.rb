@@ -8,7 +8,7 @@ describe QuestionnaireGenerator do
       responseobj = FactoryGirl.create(:response)
       result = described_class.generate_questionnaire(responseobj.id,
                                                       responseobj.measurement.questionnaire.content,
-                                                      responseobj.measurement.questionnaire.title,
+                                                      'Dit is een titel {{deze_student}}',
                                                       'Opslaan',
                                                       '/',
                                                       'authenticity-token')
@@ -20,6 +20,7 @@ describe QuestionnaireGenerator do
       expect(result).to include('utf8')
       expect(result).to include('authenticity_token')
       expect(result).to include('<form')
+      expect(result).to include('Jane')
     end
     it 'should raise an error when given a question of unknown type' do
       questionnaire_content = [{

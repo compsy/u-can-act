@@ -42,7 +42,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    appsignal (2.3.6)
+    appsignal (2.3.7)
       rack
     arel (7.1.4)
     ast (2.3.0)
@@ -50,7 +50,7 @@ GEM
     bson (4.2.2)
     builder (3.2.3)
     byebug (9.1.0)
-    capybara (2.15.3)
+    capybara (2.15.4)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (>= 1.3.3)
@@ -339,11 +339,13 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    workless_revived (2.1.0.2)
+    workless (2.2.0)
       delayed_job (>= 2.0.7)
       platform-api
       rails
       rush
+    workless_revived (2.3.0)
+      workless (>= 2.2.0)
     xpath (2.1.0)
       nokogiri (~> 1.3)
 

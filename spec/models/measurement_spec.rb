@@ -68,7 +68,7 @@ describe Measurement do
       measurement.period = -1
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :period
-      expect(measurement.errors.messages[:period]).to include('moet groter dan of gelijk zijn aan 0')
+      expect(measurement.errors.messages[:period]).to include('moet groter zijn dan 0')
     end
     it 'should accept nil values' do
       measurement = FactoryGirl.build(:measurement, period: nil)

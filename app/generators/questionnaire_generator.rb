@@ -9,6 +9,7 @@ class QuestionnaireGenerator
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
+      title, content = substitute_variables(response_id, title, content)
       body = safe_join([
                          questionnaire_header(title),
                          questionnaire_hidden_fields(response_id, authenticity_token),
@@ -20,6 +21,19 @@ class QuestionnaireGenerator
     end
 
     private
+
+    def substitute_variables(response_id, title, content)
+      response = Response.find(response_id)
+      return [title, content] if response.blank?
+      student, mentor = response.determine_student_mentor
+      [title, content].map do |obj|
+        VariableEvaluator.evaluate_obj(obj,
+                                       mentor&.organization&.mentor_title,
+                                       mentor&.gender,
+                                       student.first_name,
+                                       student.gender)
+      end
+    end
 
     def questionnaire_header(title)
       return ''.html_safe if title.blank?

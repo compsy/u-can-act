@@ -33,6 +33,10 @@ class ProtocolSubscription < ApplicationRecord
     person == filling_out_for
   end
 
+  def mentor?
+    !for_myself?
+  end
+
   def reward_points
     responses.completed.map { |response| response.measurement.reward_points }.reduce(0, :+)
   end

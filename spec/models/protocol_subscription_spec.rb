@@ -193,6 +193,31 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'mentor?' do
+    it 'should return true if it is for someone else' do
+      mentor = FactoryGirl.build(:mentor)
+      student = FactoryGirl.build(:student)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: student)
+      expect(protocol_subscription.mentor?).to be_truthy
+    end
+
+    it 'should return false if it is for myself' do
+      mentor = FactoryGirl.build(:mentor)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: mentor)
+      expect(protocol_subscription.mentor?).to be_falsey
+    end
+    it 'should be false by default' do
+      mentor = FactoryGirl.build(:mentor)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor)
+      expect(protocol_subscription.mentor?).to be_falsey
+    end
+  end
+
   describe 'responses' do
     it 'should create responses when you create a protocol subscription' do
       protocol = FactoryGirl.create(:protocol)

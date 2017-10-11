@@ -59,6 +59,49 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'email' do
+    it 'should accept a nil email' do
+      person = FactoryGirl.create(:person, email: nil)
+      expect(person).to be_valid
+      person = FactoryGirl.create(:person, email: '')
+      expect(person).to be_valid
+    end
+
+    it 'two nil emails should still be unique' do
+      expect(Person.count).to eq(0)
+      FactoryGirl.create(:person, email: nil)
+      FactoryGirl.create(:person, email: '')
+      FactoryGirl.create(:person, email: nil)
+      FactoryGirl.create(:person, email: '')
+      expect(Person.count).to eq(4)
+    end
+
+    it 'should not accept a double period' do
+      person = FactoryGirl.build(:person, email: 'mentor..hoi@test.com')
+      expect(person).to_not be_valid
+      expect(person.errors.messages).to have_key :email
+      expect(person.errors.messages[:email]).to include('is ongeldig')
+    end
+
+    it 'should not accept general invalid emails' do
+      invalid_emails = %w[mentor..hoi@test.com mentor-hoi@ @test.com]
+      invalid_emails.each do |email|
+        person = FactoryGirl.build(:person, email: email)
+        expect(person).to_not be_valid
+        expect(person.errors.messages).to have_key :email
+        expect(person.errors.messages[:email]).to include('is ongeldig')
+      end
+    end
+
+    it 'should accept general valid emails' do
+      valid_emails = %w[mentor.hoi@test.com mentor-hoi@test.com b@a.com mentor+test@test.com]
+      valid_emails.each do |email|
+        person = FactoryGirl.build(:person, email: email)
+        expect(person).to be_valid
+      end
+    end
+  end
+
   describe 'organization_id' do
     it 'should have one' do
       person = FactoryGirl.build(:person, organization_id: nil)

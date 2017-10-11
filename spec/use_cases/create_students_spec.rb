@@ -10,18 +10,21 @@ describe CreateStudents do
   let(:students) do
     [{ first_name: 'a',
        last_name: 'e',
+       gender: Person::MALE,
        mobile_phone: '0612345679',
        protocol_name: 'protname',
        organization_name: 'orgname',
        start_date: dateinfuture },
      { first_name: 'b',
        last_name: 'f',
+       gender: Person::FEMALE,
        mobile_phone: '06-12345670',
        protocol_name: 'protname',
        organization_name: 'orgname',
        start_date: dateinfuture },
      { first_name: 'c',
        last_name: 'g',
+       gender: nil,
        mobile_phone: '0612345671',
        protocol_name: 'protname',
        organization_name: 'orgname',
@@ -47,6 +50,7 @@ describe CreateStudents do
       result = subject.send(:parse_students, students, plain_text_parser)
       expect(result.map(&:keys).uniq.flatten).to match_array(%i[first_name
                                                                 last_name
+                                                                gender
                                                                 mobile_phone
                                                                 protocol_id
                                                                 start_date
@@ -58,18 +62,21 @@ describe CreateStudents do
       timedateinfuture = Time.zone.parse(dateinfuture)
       expect(result.first).to eq(first_name: 'a',
                                  last_name: 'e',
+                                 gender: Person::MALE,
                                  mobile_phone: '0612345679',
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
                                  organization_id: organization.id)
       expect(result.second).to eq(first_name: 'b',
                                   last_name: 'f',
+                                  gender: Person::FEMALE,
                                   mobile_phone: '0612345670',
                                   protocol_id: protocol.id,
                                   start_date: timedateinfuture,
                                   organization_id: organization.id)
       expect(result.third).to eq(first_name: 'c',
                                  last_name: 'g',
+                                 gender: nil,
                                  mobile_phone: '0612345671',
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
@@ -82,12 +89,14 @@ describe CreateStudents do
     let(:parsed_students) do
       [{ first_name: 'a',
          last_name: 'e',
+         gender: Person::MALE,
          mobile_phone: '0612345679',
          protocol_id: protocol.id,
          start_date: timedateinfuture,
          organization_id: organization.id },
        { first_name: 'b',
          last_name: 'f',
+         gender: Person::FEMALE,
          mobile_phone: '0612345670',
          protocol_id: protocol.id,
          start_date: timedateinfuture,
@@ -106,6 +115,7 @@ describe CreateStudents do
         act = Student.find_by_mobile_phone(hash[:mobile_phone])
         expect(act.first_name).to eq hash[:first_name]
         expect(act.last_name).to eq hash[:last_name]
+        expect(act.gender).to eq hash[:gender]
         expect(act.mobile_phone).to eq hash[:mobile_phone]
         expect(act.protocol_subscriptions.first.protocol.id).to eq protocol.id
         expect(act.organization.id).to eq organization.id
@@ -116,6 +126,7 @@ describe CreateStudents do
     it 'should just skip if a person with that phone number already exists' do
       parsed_students << { first_name: 'x',
                            last_name: 'z',
+                           gender: Person::FEMALE,
                            mobile_phone: '0612345679',
                            protocol_id: protocol.id,
                            organization_id: organization.id,

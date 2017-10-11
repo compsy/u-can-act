@@ -56,7 +56,7 @@ gem 'coveralls', require: false
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
 
-gem 'workless_revived'
+gem 'workless'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'

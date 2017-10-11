@@ -69,13 +69,21 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def schedule_responses_for_measurement(measurement)
-    open_from = TimeTools.increase_by_duration(start_date, measurement.open_from_offset)
+    open_from = measurement_open_from(measurement)
     while open_from < end_date
       Response.create!(protocol_subscription_id: id,
                        measurement_id: measurement.id,
                        open_from: open_from)
       break unless measurement.period
       open_from = TimeTools.increase_by_duration(open_from, measurement.period)
+    end
+  end
+
+  def measurement_open_from(measurement)
+    if measurement.open_from_offset.negative?
+      TimeTools.increase_by_duration(end_date, measurement.open_from_offset)
+    else
+      TimeTools.increase_by_duration(start_date, measurement.open_from_offset)
     end
   end
 end

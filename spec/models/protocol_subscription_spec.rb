@@ -245,6 +245,42 @@ describe ProtocolSubscription do
       expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 25, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 5, 2, 13, 0, 0).in_time_zone)
     end
+    it 'should be able to schedule responses relative to the end date' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :relative_to_end_date, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone,
+                                                 end_date: Time.new(2017, 5, 1, 0, 0, 0).in_time_zone) # 3 weeks
+      expect(protocol_subscription.responses.count).to eq(1)
+      expect(protocol_subscription.responses[0].open_from).to(
+        eq(Time.new(2017, 4, 28, 13, 0, 0).in_time_zone) # + 3.weeks - 2.days - 11.hours
+      )
+    end
+    it 'should be able to handle negative open_from_offsets when changing from summer to winter time' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :relative_to_end_date, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone,
+                                                 end_date: Time.new(2017, 10, 30, 0, 0, 0).in_time_zone) # 1 day past
+      expect(protocol_subscription.responses.count).to eq(1)                                             # dst change
+      expect(protocol_subscription.responses[0].open_from).to(
+        eq(Time.new(2017, 10, 27, 13, 0, 0).in_time_zone) # - 2.days - 11.hours
+      )
+    end
+    it 'should be able to handle negative open_from_offsets when changing from winter to summer time' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :relative_to_end_date, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 3, 19, 0, 0, 0).in_time_zone,
+                                                 end_date: Time.new(2017, 3, 27, 0, 0, 0).in_time_zone) # 1 day past
+      expect(protocol_subscription.responses.count).to eq(1)                                            # dst change
+      expect(protocol_subscription.responses[0].open_from).to(
+        eq(Time.new(2017, 3, 24, 13, 0, 0).in_time_zone) # - 2.days - 11.hours
+      )
+    end
     it 'should not change the open_from time when changing from winter time to summer time' do
       # changes at 2AM Sunday, March 26 2017
       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)

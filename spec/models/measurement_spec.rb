@@ -35,14 +35,18 @@ describe Measurement do
   end
 
   describe 'open_from_offset' do
-    it 'should be a zero or positive integer' do
+    it 'should be an integer' do
       measurement = FactoryGirl.build(:measurement)
+      measurement.open_from_offset = 5
+      expect(measurement.valid?).to be_truthy
+      measurement.open_from_offset = -3
+      expect(measurement.valid?).to be_truthy
       measurement.open_from_offset = 0
       expect(measurement.valid?).to be_truthy
-      measurement.open_from_offset = -1
+      measurement.open_from_offset = 1.5
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :open_from_offset
-      expect(measurement.errors.messages[:open_from_offset]).to include('moet groter dan of gelijk zijn aan 0')
+      expect(measurement.errors.messages[:open_from_offset]).to include('moet een geheel getal zijn')
     end
     it 'should not be nil' do
       measurement = FactoryGirl.build(:measurement, open_from_offset: nil)

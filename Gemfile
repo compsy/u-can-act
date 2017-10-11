@@ -63,8 +63,8 @@ gem 'delayed_job_active_record'
 
 # D3 visualization
 # Version is fixed because the radial progress plot does not yet support newer versions
-gem 'd3-rails', '~> 3.5.16'
 gem 'animate-rails', github: 'camelmasa/animate-rails'
+gem 'd3-rails', '~> 3.5.16'
 
 # Gem for cheaper worker nodes on Heroku
 gem 'workless_revived'

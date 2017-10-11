@@ -145,12 +145,64 @@ describe Protocol do
     end
   end
 
-  describe 'calculate_reward' do
+  describe 'rewards' do
+    it 'should return the rewards sorted by threshold' do
+      protocol = FactoryGirl.create(:protocol)
+      reward3 = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      reward1 = FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      reward2 = FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      expect(protocol.rewards).to eq([reward1, reward2, reward3]) 
+    end
+  end
+
+  describe 'find_correct_multiplier' do
     let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
     let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
     let(:protocol_single_reward) do
       reward = FactoryGirl.create(:reward, threshold: 1, reward_points: 100)
       FactoryGirl.create(:protocol, rewards: [reward])
+    end
+
+    it 'should find the current applicable multiplier for a given value' do
+      Reward.all.each do |reward|
+        expect(protocol.find_correct_multiplier(reward.threshold)).to eq reward.reward_points
+      end
+    end
+
+    it 'should return 1 if no rewards exist' do
+      [1,10,13,100].each do |val|
+        expect(protocol_no_rewards.find_correct_multiplier(val)).to eq 1
+      end
+    end
+
+    it 'should return the reward of which a value just exceeded the threshold' do
+      rewards_hash = {} 
+      protocol.rewards.each{|rw| rewards_hash[rw.threshold] = rw.reward_points }
+      max_rw_threshold = rewards_hash.keys.max
+      result = (1..(max_rw_threshold + 1)).step(1).map do |val|
+        protocol.find_correct_multiplier(val)
+      end
+      rewards_hash[1]
+      expect(result).to eq [
+        rewards_hash[1],
+        rewards_hash[1],
+        rewards_hash[1],
+        rewards_hash[1],
+        rewards_hash[5],
+        rewards_hash[5],
+        rewards_hash[7],
+        rewards_hash[7],
+      ]
+    end
+  end
+
+  describe 'calculate_reward' do
+    let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
+    let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
+    let(:protocol_single_reward) do
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 1, reward_points: 100)
+      protocol
     end
 
     let(:measurement_completion) do

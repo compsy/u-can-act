@@ -7,7 +7,6 @@ module Api
                :earned_euros,
                :max_still_awardable_euros,
                :euro_delta,
-               :multiplier_overview,
                :current_multiplier
 
     def completion
@@ -27,10 +26,6 @@ module Api
       to = from + object.responses.future.length
       sliced_completion = completion.slice((from...to))
       object.protocol.calculate_reward(sliced_completion, true)
-    end
-
-    def multiplier_overview
-      object.protocol.create_multiplier_overview(completion, false)
     end
 
     def euro_delta

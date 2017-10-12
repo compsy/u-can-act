@@ -12,16 +12,16 @@ module AuthHelper
   class << self
     def capybara_basic_auth(user, password, page, url)
       # Commented out to improve test coverage. The other lines are never used.
-      if page.driver.respond_to?(:basic_auth)
-        page.driver.basic_auth(user, password)
-      elsif page.driver.respond_to?(:basic_authorize)
-        page.driver.basic_authorize(user, password)
-      elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
-        page.driver.browser.basic_authorize(user, password)
-      else
-        page.visit("http://#{user}:#{password}@" \
-                   "#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/#{url}")
-      end
+      # if page.driver.respond_to?(:basic_auth)
+      # page.driver.basic_auth(user, password)
+      # elsif page.driver.respond_to?(:basic_authorize)
+      # page.driver.basic_authorize(user, password)
+      # elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
+      # page.driver.browser.basic_authorize(user, password)
+      # else
+      page.visit("http://#{user}:#{password}@" \
+                 "#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/#{url}")
+      # end
     end
 
     def visit_with_basic_auth(user, password, page, url); end

@@ -159,8 +159,9 @@ describe Protocol do
     let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
     let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
     let(:protocol_single_reward) do
-      reward = FactoryGirl.create(:reward, threshold: 1, reward_points: 100)
-      FactoryGirl.create(:protocol, rewards: [reward])
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 10, reward_points: 100)
+      protocol
     end
 
     it 'should find the current applicable multiplier for a given value' do
@@ -172,6 +173,22 @@ describe Protocol do
     it 'should return 1 if no rewards exist' do
       [1, 10, 13, 100].each do |val|
         expect(protocol_no_rewards.find_correct_multiplier(val)).to eq 1
+      end
+    end
+
+    it 'should work with a single reward' do
+      # Pre-threshold
+      range = 1...(protocol_single_reward.rewards.first.threshold)
+      expected = 1
+      range.step(1).each do |value|
+        expect(protocol_single_reward.find_correct_multiplier(value)).to eq expected
+      end
+
+      # Post-threshold
+      range = protocol_single_reward.rewards.first.threshold...(protocol_single_reward.rewards.first.threshold * 10)
+      expected = protocol_single_reward.rewards.first.reward_points
+      range.step(1).each do |value|
+        expect(protocol_single_reward.find_correct_multiplier(value)).to eq expected
       end
     end
 

@@ -799,49 +799,6 @@ dagboek_content = [{
                      title: 'Wat heb je sinds gisteren <strong>meegemaakt op school en/of stage?</strong>',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
-                     id: :vX,
-                     type: :expandable,
-                     default_expansions: 1,
-                     max_expansions: 10,
-                     content: [{
-                      id: :vX_1,
-                      type: :textarea,
-                      title: 'Beschrijf in een aantal steekwoorden wat voor doel je gedaan hebt.'
-                     }, {
-                      id: :vX_2,
-                      type: :checkbox,
-                      title: 'Wat voor acties hoorden hierbij?',
-                      options: ['Laagdrempelig contact gelegd',
-                                'Praktische oefeningen uitgevoerd',
-                                'Gespreks- interventies/technieken gebruikt',
-                                'Het netwerk betrokken',
-                                'Motiverende handelingen uitgevoerd',
-                                'Observaties gedaan']
-                     }, {
-                       id: :vX_3,
-                      title: 'Welke hoofddoelen hoorden er bij deze acties?',
-                      options: [
-                        'De relatie verbeteren en/of onderhouden',
-                        'Inzicht krijgen in de belevingswereld',
-                        'Inzicht krijgen in de omgeving',
-                        'Zelfinzicht geven',
-                        'Vaardigheden ontwikkelen',
-                        'De omgeving vreanderen/afstemmen met de omgeving'
-                      ]
-                     },{
-                      id: :vX_4,
-                      hidden: true,
-                      type: :range,
-                      title: 'Slider 1 (lorem!)',
-                      labels: ['zelf geen invloed', 'zelf veel invloed']
-                     },{
-                      id: :vX_5,
-                      hidden: true,
-                      type: :range,
-                      title: 'Slider 2 (lorem!)',
-                      labels: ['zelf geen invloed', 'zelf veel invloed']
-                     }]
-                   }, {
                      id: :v3,
                      hidden: true,
                      type: :range,
@@ -1958,7 +1915,54 @@ dagboek_content = [{
                      title: 'In hoeverre was deze student deze week in staat zijn/haar eigen gedrag te sturen?',
                      labels: ['helemaal niet', 'helemaal'],
                      section_end: true
-                   }]
+                   }, {
+                     id: :v17,
+                     title: 'Doelen voor deze student',
+                     label: 'Voeg doel toe',
+                     type: :expandable,
+                     default_expansions: 1,
+                     max_expansions: 10,
+                     content: [{
+                      id: :v17_1,
+                      type: :textarea,
+                      title: 'Beschrijf in een aantal steekwoorden wat voor doel je gedaan hebt.'
+                     }, {
+                      id: :v17_2,
+                      type: :checkbox,
+                      title: 'Wat voor acties hoorden hierbij?',
+                      options: ['Laagdrempelig contact gelegd',
+                                'Praktische oefeningen uitgevoerd',
+                                'Gespreks- interventies/technieken gebruikt',
+                                'Het netwerk betrokken',
+                                'Motiverende handelingen uitgevoerd',
+                                'Observaties gedaan']
+                     }, {
+                      id: :v17_3,
+                      type: :checkbox,
+                      title: 'Welke hoofddoelen hoorden er bij deze acties?',
+                      options: [
+                        'De relatie verbeteren en/of onderhouden',
+                        'Inzicht krijgen in de belevingswereld',
+                        'Inzicht krijgen in de omgeving',
+                        'Zelfinzicht geven',
+                        'Vaardigheden ontwikkelen',
+                        'De omgeving vreanderen/afstemmen met de omgeving'
+                      ]
+                     },{
+                      id: :v17_4,
+                      type: :range,
+                      title: 'Slider 1 (lorem!)',
+                      labels: ['zelf geen invloed', 'zelf veel invloed']
+                     },{
+                      id: :v17_5,
+                      type: :range,
+                      title: 'Slider 2 (lorem!)',
+                      labels: ['zelf geen invloed', 'zelf veel invloed']
+                     }]
+                   },
+
+
+]
 dagboek7.content = dagboek_content
 dagboek7.title = db_title
 dagboek7.save!

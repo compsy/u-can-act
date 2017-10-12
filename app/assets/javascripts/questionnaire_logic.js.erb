@@ -68,9 +68,33 @@ function time_element() {
   }
 }
 
+
+function updateExpandableButtons() {
+  $( ".expand_expandable").each(function(button) {
+    // $(this) is the button
+    let buttonElement = $(this);
+
+    let myId = buttonElement.attr('id');
+    let elem = $( ".expandable_wrapper.hidden." + myId).first();
+    if(elem.length <= 0) {
+      buttonElement.addClass('disabled');
+    }
+  });
+}
+
+function expandExpandable() {
+  let myId = this.id;
+  // Find the first element that is hidden and expandable
+  let elem = $( ".expandable_wrapper.hidden." + myId).first();
+  elem.removeClass('hidden');
+  updateExpandableButtons();
+}
+
 $(function () {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field);
+  $('.expand_expandable').on('click', expandExpandable);
+  updateExpandableButtons();
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
   $('.otherwise-option').each(toggle_otherwise_field);
   $('label + div.input-field.inline').click(function () {
@@ -88,3 +112,6 @@ $(function () {
   $('textarea').focusin(time_element);
   $('button[type=submit]').click(time_element);
 });
+
+
+

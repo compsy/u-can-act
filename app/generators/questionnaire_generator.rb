@@ -54,27 +54,34 @@ class QuestionnaireGenerator
     def questionnaire_questions(content)
       body = []
       content.each do |question|
-        question_body = case question[:type]
-                        when :radio
-                          generate_radio(question)
-                        when :checkbox
-                          generate_checkbox(question)
-                        when :range
-                          generate_range(question)
-                        when :textarea
-                          generate_textarea(question)
-                        when :raw
-                          generate_raw(question)
-                        else
-                          raise 'Unknown question type'
-                        end
-        question_body = content_tag(:div, question_body, class: 'col s12')
-        body = questionnaire_questions_add_question_section(body, question_body, question)
+        body << single_questionnaire_question(question)
       end
       safe_join(body)
     end
 
-    def questionnaire_questions_add_question_section(body, question_body, question)
+    def single_questionnaire_question(question)
+      question_body = case question[:type]
+                      when :radio
+                        generate_radio(question)
+                      when :checkbox
+                        generate_checkbox(question)
+                      when :range
+                        generate_range(question)
+                      when :textarea
+                        generate_textarea(question)
+                      when :raw
+                        generate_raw(question)
+                      when :expandable
+                        generate_expendable(question)
+                      else
+                        raise 'Unknown question type'
+                      end
+      question_body = content_tag(:div, question_body, class: 'col s12')
+      questionnaire_questions_add_question_section(question_body, question)
+    end
+
+    def questionnaire_questions_add_question_section(question_body, question)
+      body = []
       body << section_start(question[:section_start], question) unless question[:section_start].blank?
       body << content_tag(:div, question_body, class: question_klasses(question))
       body << section_end(question[:section_end], question) unless question[:section_end].blank?
@@ -322,9 +329,9 @@ class QuestionnaireGenerator
 
     def generate_textarea(question)
       safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
-                  textarea_field(question)
-                ])
+        content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+        textarea_field(question)
+      ])
     end
 
     def textarea_field(question)
@@ -338,6 +345,41 @@ class QuestionnaireGenerator
                           TEXTAREA_PLACEHOLDER,
                           for: idify(question[:id]),
                           class: 'flow-text')
+      body = safe_join(body)
+      body = content_tag(:div, body, class: 'input-field col s12')
+      body = content_tag(:div, body, class: 'row')
+      body
+    end
+
+    def generate_expendable(question)
+      safe_join([
+        content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+        expandables(question),
+        expandable_button(question)
+      ])
+    end
+
+    def expandables(question)
+      default_expansions = question[:default_expanssions] || 0
+      expandables = (question[:max_expansionsa] || 2).times.map do |id|
+        sub_set_body = question[:content].map do |sub_question|
+          question_body = single_questionnaire_question(sub_question)
+        end
+
+        sub_set_body = safe_join(sub_set_body)
+        hidden_class = id >= default_expansions ? 'hidden' : ''
+        content_tag(:div, sub_set_body, class: "col s12 expandable_wrapper #{hidden_class} #{question[:id]}")
+      end
+    end
+
+    def expandable_button(question)
+      button_text = question[:label] || '+'
+      body = []
+      body << content_tag(:a,
+                          button_text,
+                          id: idify(question[:id]),
+                          name: answer_name(question[:id]),
+                          class: 'btn expand_expandable')
       body = safe_join(body)
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')

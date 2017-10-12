@@ -361,7 +361,7 @@ class QuestionnaireGenerator
 
     def expandables(question)
       default_expansions = question[:default_expanssions] || 0
-      expandables = (question[:max_expansionsa] || 2).times.map do |id|
+      expandables = (question[:max_expansions] || 2).times.map do |id|
         sub_set_body = question[:content].map do |sub_question|
           question_body = single_questionnaire_question(sub_question)
         end

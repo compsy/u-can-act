@@ -68,14 +68,15 @@ function time_element() {
   }
 }
 
-
 function updateExpandableButtons() {
+  let buttonElement;
+  let myId;
+  let elem;
   $( ".expand_expandable").each(function(button) {
     // $(this) is the button
-    let buttonElement = $(this);
-
-    let myId = buttonElement.attr('id');
-    let elem = $( ".expandable_wrapper.hidden." + myId).first();
+    buttonElement = $(this);
+    myId = buttonElement.attr('id');
+    elem = $( ".expandable_wrapper.hidden." + myId).first();
     if(elem.length <= 0) {
       buttonElement.addClass('disabled');
     }
@@ -83,9 +84,10 @@ function updateExpandableButtons() {
 }
 
 function expandExpandable() {
-  let myId = this.id;
-  // Find the first element that is hidden and expandable
-  let elem = $( ".expandable_wrapper.hidden." + myId).first();
+  const myId = this.id;
+
+  // Find the first element that is hidden and expandable so we can unhide it
+  const elem = $( ".expandable_wrapper.hidden." + myId).first();
   elem.removeClass('hidden');
   updateExpandableButtons();
 }

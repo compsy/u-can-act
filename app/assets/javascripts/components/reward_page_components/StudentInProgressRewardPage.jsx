@@ -1,14 +1,11 @@
 class StudentInProgressRewardPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      valueEuro: undefined, 
-      percentageStreak: undefined,
-      awardableEuro: undefined,
-      totalAvailable: undefined,
-      maxStreak: undefined,
-      max_streak: false
-    };
+    //TODO: This should be made dynamic.
+    this.maxStreak = 5;
+    this.percentageStreak = undefined, 
+    this.totalAvailable = undefined,
+    this.inMaxStreak = false
   }
 
   componentDidMount() {
@@ -16,30 +13,15 @@ class StudentInProgressRewardPage extends React.Component {
     var percentageStreakIdx = this.props.protocolCompletion.findIndex(elem => (elem.future));
     percentageStreakIdx = percentageStreakIdx === 0 ? 0 : percentageStreakIdx -1;
 
-    let valueEuro = this.props.earnedEuros;
-    let awardableEuro = this.props.awardable;
-    let totalAvailable = valueEuro + awardableEuro;
 
-    //TODO: This should be made dynamic.
-    let maxStreak = 5;
-    let currentStreak = Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, maxStreak);
-    let inMaxStreak = (currentStreak === maxStreak);
+    let currentStreak = Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, this.maxStreak);
+    this.inMaxStreak = (currentStreak === this.maxStreak);
 
-    percentageStreak =  (currentStreak / maxStreak) * totalAvailable;
-
-    this.setState({
-      valueEuro:  valueEuro, 
-      percentageStreak: percentageStreak,
-      awardableEuro: awardableEuro,
-      totalAvailable: totalAvailable,
-      maxStreak: inMaxStreak
-    })
+    this.totalAvailable = this.props.earnedEuros + this.props.awardable;
+    this.percentageStreak =  (currentStreak / this.maxStreak) * this.totalAvailable;
   }
 
   render() {
-    if (!this.state.valueEuro) {
-     return(<div> Bezig</div>); 
-    }
     return (
       <div>
         <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
@@ -48,15 +30,15 @@ class StudentInProgressRewardPage extends React.Component {
             <p className='flow-text'> Voortgang van het onderzoek</p>
           </div>
           <div className='section'>
-            {this.state.maxStreak ? <Pyro /> : <div/>}
+            {this.inMaxStreak ? <Pyro /> : <div/>}
             <ProgressBar euroDelta={this.props.euroDelta}
-                         valueEuro={this.state.valueEuro}
+                         valueEuro={this.props.earnedEuros}
                          currentMultiplier={this.props.currentMultiplier}
-                         percentageStreak={this.state.percentageStreak}
-                         awardableEuro={this.state.awardableEuro}
-                         totalAvailable={this.state.totalAvailable}/>
-            <ProgressText earned_euros={this.state.earnedEuros}
-                        awardable={this.state.awardableEuro}
+                         percentageStreak={this.percentageStreak}
+                         awardableEuro={this.props.awardable}
+                         totalAvailable={this.totalAvailable}/>
+            <ProgressText earned_euros={this.props.earnedEuros}
+                        awardable={this.props.awardable}
                         protocolCompletion={this.props.protocolCompletion} />
           </div>
         </div>

@@ -1,5 +1,3 @@
-
-
 class Pyro extends React.Component {
   render() {
     return ( 

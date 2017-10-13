@@ -359,9 +359,6 @@ GEM
     tilt (2.0.8)
     timecop (0.9.1)
     tins (1.15.0)
-    turbolinks (5.0.1)
-      turbolinks-source (~> 5)
-    turbolinks-source (5.0.3)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     tzinfo-data (1.2017.2)
@@ -433,7 +430,6 @@ DEPENDENCIES
   spring-watcher-listen
   therubyracer
   timecop
-  turbolinks
   tzinfo-data
   uglifier
   web-console

@@ -1918,7 +1918,7 @@ dagboek_content = [{
                    }, {
                      id: :v17,
                      title: 'Doelen voor deze student',
-                     label: 'Voeg doel toe',
+                     labels: ['Voeg doel toe', 'Verwijder doel'],
                      type: :expandable,
                      default_expansions: 1,
                      max_expansions: 10,

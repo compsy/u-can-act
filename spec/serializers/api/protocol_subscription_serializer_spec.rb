@@ -12,21 +12,20 @@ module Api
     let!(:protocol_subscription) { FactoryGirl.create(:protocol_subscription, protocol: protocol) }
     let!(:responses) do
       [FactoryGirl.create(:response, :completed,
-                         protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone),
-      FactoryGirl.create(:response, :invite_sent,
-                         protocol_subscription: protocol_subscription, open_from: 7.days.ago.in_time_zone)]
-
-		end	
+                          protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone),
+       FactoryGirl.create(:response, :invite_sent,
+                          protocol_subscription: protocol_subscription, open_from: 7.days.ago.in_time_zone)]
+    end
 
     let!(:streak_responses) do
       # Streak
       (1..7).map do |day|
         FactoryGirl.create(:response,
-												   :completed,
+                           :completed,
                            protocol_subscription: protocol_subscription,
-												   open_from: day.days.ago.in_time_zone)
+                           open_from: day.days.ago.in_time_zone)
       end
-		end
+    end
 
     let!(:future_responses) do
       (1..5).map do |day|
@@ -50,14 +49,14 @@ module Api
           .and_return(321)
 
         # Mock the actual calculation
-				start = responses.length + streak_responses.length
-				endd = start + protocol_subscription.responses.future.length
+        start = responses.length + streak_responses.length
+        endd = start + protocol_subscription.responses.future.length
         slice = (start..endd)
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
           .with(protocol_subscription.protocol_completion.slice(slice), true)
           .and_return(123)
 
-				index = responses.length + streak_responses.length - 1
+        index = responses.length + streak_responses.length - 1
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
           .with([protocol_subscription.protocol_completion[index]])
           .and_return(888)

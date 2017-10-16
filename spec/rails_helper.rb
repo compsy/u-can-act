@@ -39,6 +39,7 @@ Capybara.javascript_driver = :selenium_chrome_headless
 Capybara.default_driver = :rack_test
 
 RSpec.configure do |config|
+  config.color_mode = :off if ENV['CI']
   # Include controller helpers for Devise
   # config.include Devise::Test::ControllerHelpers, type: :controller
   # Devise helpers for capybara

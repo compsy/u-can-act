@@ -64,7 +64,7 @@ gem 'animate-rails', github: 'camelmasa/animate-rails'
 gem 'd3-rails', '~> 3.5.16'
 
 # Gem for cheaper worker nodes on Heroku
-gem 'workless_revived'
+gem 'workless'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'

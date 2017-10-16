@@ -5,22 +5,29 @@ require 'rails_helper'
 describe CreateStudents do
   let!(:plain_text_parser) { PlainTextParser.new }
   let!(:protocol) { FactoryGirl.create(:protocol, name: 'protname') }
+  let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:students) do
     [{ first_name: 'a',
        last_name: 'e',
+       gender: Person::MALE,
        mobile_phone: '0612345679',
        protocol_name: 'protname',
+       organization_name: 'orgname',
        start_date: dateinfuture },
      { first_name: 'b',
        last_name: 'f',
+       gender: Person::FEMALE,
        mobile_phone: '06-12345670',
        protocol_name: 'protname',
+       organization_name: 'orgname',
        start_date: dateinfuture },
      { first_name: 'c',
        last_name: 'g',
+       gender: nil,
        mobile_phone: '0612345671',
        protocol_name: 'protname',
+       organization_name: 'orgname',
        start_date: dateinfuture }]
   end
 
@@ -43,9 +50,11 @@ describe CreateStudents do
       result = subject.send(:parse_students, students, plain_text_parser)
       expect(result.map(&:keys).uniq.flatten).to match_array(%i[first_name
                                                                 last_name
+                                                                gender
                                                                 mobile_phone
                                                                 protocol_id
-                                                                start_date])
+                                                                start_date
+                                                                organization_id])
     end
 
     it 'should set the correct data' do
@@ -53,19 +62,25 @@ describe CreateStudents do
       timedateinfuture = Time.zone.parse(dateinfuture)
       expect(result.first).to eq(first_name: 'a',
                                  last_name: 'e',
+                                 gender: Person::MALE,
                                  mobile_phone: '0612345679',
                                  protocol_id: protocol.id,
-                                 start_date: timedateinfuture)
+                                 start_date: timedateinfuture,
+                                 organization_id: organization.id)
       expect(result.second).to eq(first_name: 'b',
                                   last_name: 'f',
+                                  gender: Person::FEMALE,
                                   mobile_phone: '0612345670',
                                   protocol_id: protocol.id,
-                                  start_date: timedateinfuture)
+                                  start_date: timedateinfuture,
+                                  organization_id: organization.id)
       expect(result.third).to eq(first_name: 'c',
                                  last_name: 'g',
+                                 gender: nil,
                                  mobile_phone: '0612345671',
                                  protocol_id: protocol.id,
-                                 start_date: timedateinfuture)
+                                 start_date: timedateinfuture,
+                                 organization_id: organization.id)
     end
   end
 
@@ -74,14 +89,18 @@ describe CreateStudents do
     let(:parsed_students) do
       [{ first_name: 'a',
          last_name: 'e',
+         gender: Person::MALE,
          mobile_phone: '0612345679',
          protocol_id: protocol.id,
-         start_date: timedateinfuture },
+         start_date: timedateinfuture,
+         organization_id: organization.id },
        { first_name: 'b',
          last_name: 'f',
+         gender: Person::FEMALE,
          mobile_phone: '0612345670',
          protocol_id: protocol.id,
-         start_date: timedateinfuture }]
+         start_date: timedateinfuture,
+         organization_id: organization.id }]
     end
 
     it 'should create students for all hashes in the array supplied' do
@@ -96,8 +115,10 @@ describe CreateStudents do
         act = Student.find_by_mobile_phone(hash[:mobile_phone])
         expect(act.first_name).to eq hash[:first_name]
         expect(act.last_name).to eq hash[:last_name]
+        expect(act.gender).to eq hash[:gender]
         expect(act.mobile_phone).to eq hash[:mobile_phone]
         expect(act.protocol_subscriptions.first.protocol.id).to eq protocol.id
+        expect(act.organization.id).to eq organization.id
         expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)
       end
     end
@@ -105,8 +126,10 @@ describe CreateStudents do
     it 'should just skip if a person with that phone number already exists' do
       parsed_students << { first_name: 'x',
                            last_name: 'z',
+                           gender: Person::FEMALE,
                            mobile_phone: '0612345679',
                            protocol_id: protocol.id,
+                           organization_id: organization.id,
                            start_date: timedateinfuture }
       subject.send(:create_students, parsed_students)
       expect(Student.count).to eq parsed_students.length - 1

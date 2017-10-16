@@ -52,7 +52,8 @@ class RewardPage extends React.Component {
         earnedEuros={earnedEuros}
         currentMultiplier={this.state.result.current_multiplier}
         awardable={maxStillAwardableEuros}
-        protocolCompletion={this.state.result.protocol_completion} />
+        protocolCompletion={this.state.result.protocol_completion}
+        maxStreak={this.state.result.max_streak.threshold}/>
     )
   }
 
@@ -61,7 +62,7 @@ class RewardPage extends React.Component {
       return <div>Bezig...</div>
     }
 
-    result = this.getCorrectResultPage.bind(this)()
+    result = this.getCorrectResultPage()
     return ( 
       <div className="col s12">
         <div className="row">

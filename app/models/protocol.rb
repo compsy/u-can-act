@@ -28,6 +28,10 @@ class Protocol < ApplicationRecord
     determine_single_reward(value, rewards_array[index].second)
   end
 
+  def max_reward
+    rewards.last
+  end
+
   private
 
   def create_multiplier_overview(measurement_completion, check_future)

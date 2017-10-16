@@ -39,34 +39,43 @@ class ProgressBar extends React.Component {
 
   performTimerEvent() {
     this.renderGraph(this.props.valueEuro, this.props.percentageStreak)
-    this.setState({showStreakText: true})
+    this.setState({
+      showStreakText: true
+    })
     clearInterval(this.state.timer);
   }
 
-  renderGraph(valueEuro, percentagestreak, awardable, totalAvailable) {
+  renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
+
     var radial;
     if (this.state.radial) {
       radial = this.state.radial;
-      radial.update([percentagestreak, valueEuro]);
+      radial.update([percentageStreak, valueEuro]);
     } else {
       radial = new RadialProgressChart('.progressRadial', {
         diameter: 200,
         max: totalAvailable,
         round: true,
-        series: [
-          {labelStart: '\u2605', value: percentageStreak, color: '#079975'},
-          {labelStart: '€', value: valueEuro, color: '#243a76'},
-        ],
+        series: [{
+          labelStart: '\u2605',
+          value: percentageStreak,
+          color: '#079975'
+        }, {
+          labelStart: '€',
+          value: valueEuro,
+          color: '#243a76'
+        }, ],
         center: {
-          content: [ 'Je hebt nu',
+          content: ['Je hebt nu',
             function(value) {
               return printAsMoney(value)
-          }, ' daar kan nog '+ printAsMoney(awardable) + ' bij!'],
+            }, ' daar kan nog ' + printAsMoney(awardable) + ' bij!'
+          ],
           y: -50
         }
       });
     }
-    return(radial)
+    return (radial)
   }
 
   createStreakText() {
@@ -75,7 +84,7 @@ class ProgressBar extends React.Component {
       let text = "Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ";
       text += printAsMoney(value);
       text += " extra verdiend!";
-     return(<div className="animated pulse"> {text} </div>) 
+      return (<div className="animated pulse"> {text} </div>)
     }
   }
 
@@ -91,3 +100,9 @@ class ProgressBar extends React.Component {
   }
 }
 
+ProgressBar.defaultProps = {
+  valueEuro: 0,
+  percentageStreak: 0,
+  awardableEuro: 0,
+  totalAvailable: 0
+};

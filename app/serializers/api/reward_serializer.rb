@@ -7,10 +7,19 @@ module Api
                :earned_euros,
                :max_still_awardable_euros,
                :euro_delta,
-               :current_multiplier
+               :current_multiplier,
+               :max_streak
 
     def completion
       @completion ||= object.protocol_completion
+    end
+
+    def max_streak
+      max_reward = object.protocol.max_reward
+      {
+        threshold: max_reward.threshold,
+        reward_points: max_reward.reward_points
+      }
     end
 
     def person_type

@@ -72,6 +72,8 @@ In addition, a `delayed_job` worker should be available at all times. These can 
 ## Creating Protocols and Measurements
 There are two types of Measurements. Periodical and one-time measurements. Periodical measurements are measurements that have a `period` that is not nil. Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
 
+For non-periodical measurements, the `offset_until_end` is ignored.
+
 
 ## Variables that can be used in texts:
 

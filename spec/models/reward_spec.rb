@@ -49,7 +49,7 @@ RSpec.describe Reward, type: :model do
 
     describe 'protocol' do
       it 'should be present' do
-        reward = FactoryGirl.build(:reward, protocol: nil )
+        reward = FactoryGirl.build(:reward, protocol: nil)
         protocol = FactoryGirl.build(:protocol)
         expect(reward).to_not be_valid
         reward.protocol = protocol

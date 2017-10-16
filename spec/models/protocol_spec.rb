@@ -158,10 +158,10 @@ describe Protocol do
   describe 'max_streak' do
     it 'should return the reward with the highest threshold' do
       protocol = FactoryGirl.create(:protocol)
-      reward1 = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
-      reward2 = FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
-      reward3 = FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
-      expect(protocol.max_streak).to eq(reward1)
+      reward = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      expect(protocol.max_streak).to eq(reward)
     end
 
     it 'should nil if there are no rewards' do

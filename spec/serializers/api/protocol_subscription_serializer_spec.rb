@@ -79,7 +79,6 @@ module Api
           protocol_subscription_without_rewards = FactoryGirl.create(:protocol_subscription,
                                                                      protocol: protocol_without_rewards)
           current_json = described_class.new(protocol_subscription_without_rewards).as_json.with_indifferent_access
-          byebug
           expect(current_json[:max_streak]).to be_nil
         end
       end

@@ -121,6 +121,16 @@ ActiveRecord::Schema.define(version: 20171011121518) do
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
   end
 
+  create_table "rewards", force: :cascade do |t|
+    t.integer  "threshold",     null: false
+    t.integer  "reward_points", null: false
+    t.integer  "protocol_id",   null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["protocol_id"], name: "index_rewards_on_protocol_id", using: :btree
+    t.index ["threshold", "protocol_id"], name: "index_rs_on_threshold_and_protocol_id", unique: true, using: :btree
+  end
+
   add_foreign_key "invitation_tokens", "responses"
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
@@ -129,4 +139,5 @@ ActiveRecord::Schema.define(version: 20171011121518) do
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
   add_foreign_key "responses", "measurements"
   add_foreign_key "responses", "protocol_subscriptions"
+  add_foreign_key "rewards", "protocols"
 end

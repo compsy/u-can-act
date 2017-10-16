@@ -43,6 +43,12 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   ADMIN_PASSWORD: <password for the admin panel>
 ```
 
+### Development configuration
+In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In OSX you can do this using Homebrew:
+```
+  brew install chromedriver
+```
+
 ## Background jobs
 The workings of the app rely on three background jobs:
 

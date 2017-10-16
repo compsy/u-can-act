@@ -49,7 +49,39 @@ class ProtocolSubscription < ApplicationRecord
     responses.map { |response| response.measurement.reward_points }.reduce(0, :+)
   end
 
+  def protocol_completion
+    on_streak = 0
+    responses.map do |response|
+      current_streak = -1
+
+      if response.measurement.periodical?
+        on_streak = determine_streak(on_streak, response.completed?, response.future?)
+        current_streak = on_streak
+      end
+      create_protocol_completion_entry(response.completed?,
+                                       response.measurement.periodical?,
+                                       response.measurement.reward_points,
+                                       response.future?,
+                                       current_streak)
+    end
+  end
+
   private
+
+  def determine_streak(streak, current_response_completed, current_response_in_future)
+    return streak + 1 if current_response_completed || current_response_in_future
+    0
+  end
+
+  def create_protocol_completion_entry(is_completed, is_periodical, reward_points, is_in_future, streak)
+    result = {}
+    result[:completed] = is_completed
+    result[:periodical] = is_periodical
+    result[:reward_points] = reward_points
+    result[:future] = is_in_future
+    result[:streak] = streak
+    result
+  end
 
   def initialize_filling_out_for
     self.filling_out_for ||= person

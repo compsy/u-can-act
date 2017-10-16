@@ -13,4 +13,8 @@ class Measurement < ApplicationRecord
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   has_many :responses, dependent: :destroy
+
+  def periodical?
+    period.present?
+  end
 end

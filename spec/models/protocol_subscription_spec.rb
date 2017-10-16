@@ -344,7 +344,7 @@ describe ProtocolSubscription do
       # also add some noncompleted responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
       FactoryGirl.create_list(:response, 11, :invite_sent, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.reward_points).to eq 100
+      expect(protocol_subscription.reward_points).to eq 10
     end
   end
 
@@ -354,7 +354,7 @@ describe ProtocolSubscription do
       FactoryGirl.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
       # also add some noninvited responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 100
+      expect(protocol_subscription.possible_reward_points).to eq 10
     end
 
     it 'should also accumulate the reward points for all not completed responses' do
@@ -364,7 +364,7 @@ describe ProtocolSubscription do
       #
       # also add some noninvited responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 200
+      expect(protocol_subscription.possible_reward_points).to eq 20
     end
   end
 
@@ -373,7 +373,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)
       FactoryGirl.create_list(:response, 10, protocol_subscription: protocol_subscription)
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.max_reward_points).to eq 170
+      expect(protocol_subscription.max_reward_points).to eq 17
     end
   end
 
@@ -395,6 +395,68 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)
       expect(protocol_subscription.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(protocol_subscription.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'protocol_completion' do
+    before do
+      Timecop.freeze(2017, 4, 1)
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'should calculate the correct streak' do
+      protocol = FactoryGirl.create(:protocol, duration: 5.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 2, 1, 0, 0, 0).in_time_zone)
+      protocol_subscription.responses.each_with_index do |response, index|
+        next if index == 0 # Pretend the first response is missing
+        response.completed_at = response.open_from + 1.minute
+      end
+
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+        { completed: true, periodical: true, reward_points: 1, future: false, streak: resp }
+      end
+      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+      expect(result).to eq expected
+    end
+
+    it 'should return -1s if there are no measurements' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+
+      expected = (1..protocol_subscription.responses.length).map do |resp|
+        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+      end
+
+      expect(result).to eq expected
+    end
+
+    it 'should return 0 if a measurement was missed' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 3, 27, 0, 0, 0).in_time_zone)
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+      end
+      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+
+      expect(result).to eq expected
     end
   end
 end

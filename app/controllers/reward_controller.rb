@@ -23,6 +23,5 @@ class RewardController < ApplicationController
 
   def set_protocol_subscription
     @protocol_subscription = @response.protocol_subscription
-    @reward_delta = @response.measurement.reward_points
   end
 end

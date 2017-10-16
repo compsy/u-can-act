@@ -5,9 +5,7 @@ puts 'Generating protocols - Started'
 default_protocol_duration = 4.weeks
 default_open_duration = 1.day
 default_posttest_open_duration = nil
-default_posttest_reward_points = 10
-
-
+default_posttest_reward_points = 100
 
 ###################################
 ## pilot - studenten 1x per week ##
@@ -20,6 +18,15 @@ protocol.duration = default_protocol_duration
 protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten 1x per week')
 protocol.save!
 
+# Add rewards
+reward = protocol.rewards.find_by_threshold(1)
+reward ||= protocol.rewards.build( threshold: 1, reward_points: 1)
+reward.save!
+reward = protocol.rewards.find_by_threshold(5)
+reward ||= protocol.rewards.build( threshold: 5, reward_points: 5)
+reward.save!
+
+
 # Add dagboekmetingen
 db_name = 'dagboek studenten 1x per week donderdag'
 of_offset = 3.days + 12.hours # Thursday noon
@@ -31,7 +38,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 
@@ -60,6 +67,14 @@ protocol.duration = default_protocol_duration
 protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten 2x per week')
 protocol.save!
 
+# Add rewards
+reward = protocol.rewards.find_by_threshold(1)
+reward ||= protocol.rewards.build( threshold: 1, reward_points: 1)
+reward.save!
+reward = protocol.rewards.find_by_threshold(5)
+reward ||= protocol.rewards.build( threshold: 5, reward_points: 5)
+reward.save!
+
 # Add dagboekmetingen
 db_name = 'dagboek studenten 2x per week maandag'
 of_offset = 12.hours # Monday noon
@@ -71,7 +86,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 db_name = 'dagboek studenten 2x per week donderdag'
@@ -84,7 +99,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 # Add nameting/enquete
@@ -112,6 +127,14 @@ protocol.duration = default_protocol_duration
 protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten 5x per week')
 protocol.save!
 
+# Add rewards
+reward = protocol.rewards.find_by_threshold(1)
+reward ||= protocol.rewards.build( threshold: 1, reward_points: 1)
+reward.save!
+reward = protocol.rewards.find_by_threshold(5)
+reward ||= protocol.rewards.build( threshold: 5, reward_points: 5)
+reward.save!
+
 # Add dagboekmetingen
 db_name = 'dagboek studenten 5x per week maandag'
 of_offset = 12.hours # Monday noon
@@ -123,7 +146,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
@@ -136,7 +159,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
@@ -149,7 +172,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 db_name = 'dagboek studenten 5x per week donderdag'
@@ -162,7 +185,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 db_name = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
@@ -175,7 +198,7 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenli
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 # Add nameting/enquete
@@ -211,7 +234,7 @@ db_measurement ||= mentor_protocol.measurements.build(questionnaire_id: dagboekv
 db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = 10
+db_measurement.reward_points = 100
 db_measurement.save!
 
 pr_name = 'pilot - mentoren nameting'

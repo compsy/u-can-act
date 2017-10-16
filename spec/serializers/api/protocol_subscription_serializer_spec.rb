@@ -11,17 +11,25 @@ module Api
     let!(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
     let!(:protocol_subscription) { FactoryGirl.create(:protocol_subscription, protocol: protocol) }
     let!(:responses) do
-      FactoryGirl.create(:response, :completed,
-                         protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone)
+      [FactoryGirl.create(:response, :completed,
+                         protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone),
       FactoryGirl.create(:response, :invite_sent,
-                         protocol_subscription: protocol_subscription, open_from: 7.days.ago.in_time_zone)
+                         protocol_subscription: protocol_subscription, open_from: 7.days.ago.in_time_zone)]
 
+		end	
+
+    let!(:streak_responses) do
       # Streak
-      (1..6).each do |day|
-        FactoryGirl.create(:response, :completed,
-                           protocol_subscription: protocol_subscription, open_from: day.days.ago.in_time_zone)
+      (1..7).map do |day|
+        FactoryGirl.create(:response,
+												   :completed,
+                           protocol_subscription: protocol_subscription,
+												   open_from: day.days.ago.in_time_zone)
       end
-      (0..5).each do |day|
+		end
+
+    let!(:future_responses) do
+      (1..5).map do |day|
         FactoryGirl.create(:response,
                            protocol_subscription: protocol_subscription, open_from: day.days.from_now.in_time_zone)
       end
@@ -42,15 +50,16 @@ module Api
           .and_return(321)
 
         # Mock the actual calculation
-        slice = (8...(8 + protocol_subscription.responses.future.length))
-        sliced_completion = protocol_subscription.protocol_completion.slice(slice)
+				start = responses.length + streak_responses.length
+				endd = start + protocol_subscription.responses.future.length
+        slice = (start..endd)
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
-          .with(sliced_completion, true)
+          .with(protocol_subscription.protocol_completion.slice(slice), true)
           .and_return(123)
 
-        sliced_completion = [protocol_subscription.protocol_completion[6]]
+				index = responses.length + streak_responses.length - 1
         expect_any_instance_of(Protocol).to receive(:calculate_reward)
-          .with(sliced_completion)
+          .with([protocol_subscription.protocol_completion[index]])
           .and_return(888)
         json = described_class.new(protocol_subscription).as_json.with_indifferent_access
 
@@ -84,14 +93,14 @@ module Api
       end
 
       it 'should contain the correct max_still_awardable_euros' do
-        json = described_class.new(protocol_subscription).as_json.with_indifferent_access
-        expected = protocol_subscription.protocol_completion[-6..-1]
+        expected = protocol_subscription.protocol_completion[-5..-1]
         expected = protocol.calculate_reward(expected, true)
         expect(json[:max_still_awardable_euros]).to eq expected
       end
 
       it 'should contain the correct euro_delta' do
-        expected = protocol_subscription.protocol_completion[-7]
+        remove_indices = (future_responses.length + 1) * -1
+        expected = protocol_subscription.protocol_completion[remove_indices]
         expected = protocol.calculate_reward([expected])
         expect(json[:euro_delta]).to eq expected
       end

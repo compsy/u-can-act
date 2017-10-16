@@ -16,7 +16,7 @@ module Api
 
     def max_streak
       max_streak = object.protocol.max_streak
-      return nil unless max_streak.present?
+      return nil if max_streak.blank?
       {
         threshold: max_streak.threshold,
         reward_points: max_streak.reward_points
@@ -40,6 +40,7 @@ module Api
 
     def euro_delta
       latest_streak_value = completion[latest_streak_value_index]
+      return 0 unless latest_streak_value.present?
       object.protocol.calculate_reward([latest_streak_value])
     end
 

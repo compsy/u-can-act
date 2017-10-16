@@ -9,7 +9,7 @@ class Protocol < ApplicationRecord
   has_many :rewards, -> { order threshold: :asc }, dependent: :destroy
 
   def calculate_reward(measurement_completion, check_future = false)
-    return 0 if rewards.blank? || measurement_completion.blank?
+    return 0 if measurement_completion.blank?
     result = create_multiplier_overview(measurement_completion, check_future)
     result.reduce(0) do |total, value|
       total + (value[:multiplier] * value[:reward_points])

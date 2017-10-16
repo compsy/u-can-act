@@ -273,8 +273,8 @@ describe Protocol do
       expect(result).to eq expected_value
     end
 
-    it 'should calculate the correct reward when there are no rewards' do
-      expected_value = 0
+    it 'should calculate the default multiplier of 1 if no multipliers are available' do
+      expected_value = measurement_completion.reduce(0) { |tot, val| tot + (val[:completed] ? val[:reward_points] : 0) }
       result = protocol_no_rewards.calculate_reward(measurement_completion)
       expect(result).to eq expected_value
     end

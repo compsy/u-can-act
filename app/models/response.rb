@@ -50,11 +50,11 @@ class Response < ApplicationRecord
   })
 
   scope :future, (lambda {
-    where('open_from >= :time_now', time_now: Time.zone.now)
+    where('open_from > :time_now', time_now: Time.zone.now)
   })
 
   def future?
-    open_from >= Time.zone.now
+    open_from > Time.zone.now
   end
 
   def completed?

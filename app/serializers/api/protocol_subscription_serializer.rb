@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class RewardSerializer < ActiveModel::Serializer
+  class ProtocolSubscriptionSerializer < ActiveModel::Serializer
     attributes :person_type,
                :protocol_completion,
                :earned_euros,
@@ -15,10 +15,11 @@ module Api
     end
 
     def max_streak
-      max_reward = object.protocol.max_reward
+      max_streak = object.protocol.max_streak
+      return nil unless max_streak.present?
       {
-        threshold: max_reward.threshold,
-        reward_points: max_reward.reward_points
+        threshold: max_streak.threshold,
+        reward_points: max_streak.reward_points
       }
     end
 
@@ -43,6 +44,8 @@ module Api
     end
 
     def current_multiplier
+      current_completion = completion[latest_streak_value_index]
+      return 1 unless current_completion.present?
       latest_streak_value = completion[latest_streak_value_index][:streak]
       object.protocol.find_correct_multiplier(latest_streak_value)
     end

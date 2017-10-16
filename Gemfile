@@ -80,6 +80,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
+  gem 'teaspoon-jasmine'
 end
 
 group :test do
@@ -126,6 +127,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'spring-commands-teaspoon'
   gem 'spring-watcher-listen'
 end
 

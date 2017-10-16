@@ -47,6 +47,16 @@ RSpec.describe Reward, type: :model do
       end
     end
 
+    describe 'protocol' do
+      it 'should be present' do
+        reward = FactoryGirl.build(:reward, protocol: nil )
+        protocol = FactoryGirl.build(:protocol)
+        expect(reward).to_not be_valid
+        reward.protocol = protocol
+        expect(reward).to be_valid
+      end
+    end
+
     describe 'reward_points' do
       it 'should be integer' do
         reward = FactoryGirl.build(:reward, reward_points: 5.1, threshold: 1)

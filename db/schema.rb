@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 20171004090552) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["protocol_id"], name: "index_rewards_on_protocol_id", using: :btree
+    t.index ["threshold", "protocol_id"], name: "index_rs_on_threshold_and_protocol_id", unique: true, using: :btree
   end
 
   add_foreign_key "invitation_tokens", "responses"

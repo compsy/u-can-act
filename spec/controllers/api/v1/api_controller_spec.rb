@@ -18,6 +18,7 @@ module Api
         it 'should return 401 if no response is available' do
           get :index
           expect(response.status).to eq 401
+          expect(response.body).to eq 'This api is only accessible after completing a questionnaire'
         end
 
         it 'should set the correct env vars if the response is available' do
@@ -42,11 +43,17 @@ module Api
         it 'should return true if the protocol subscription is mine' do
           expect(controller.check_access_allowed(test_response.protocol_subscription)).to be_truthy
         end
-        it 'should return true if the protocol subscription is of my student' do
+        it 'should return true if the protocol subscription is for one of a mentor his or her students' do
           current_person = test_response.protocol_subscription.person
-          test_response.protocol_subscription.update_attributes!(filling_out_for: current_person, person: other_person)
+          test_response.protocol_subscription.update_attributes!(filling_out_for: other_person, person: current_person)
           controller.instance_variable_set(:@response, test_response)
           expect(controller.check_access_allowed(test_response.protocol_subscription)).to be_truthy
+        end
+        it 'should return false if Im the student for which the mentor has filled out this questionnaire' do
+          current_person = test_response.protocol_subscription.filling_out_for
+          test_response.protocol_subscription.update_attributes!(filling_out_for: current_person, person: other_person)
+          controller.instance_variable_set(:@response, test_response)
+          expect(controller.check_access_allowed(test_response.protocol_subscription)).to be_falsey
         end
         it 'should return false otherwise' do
           expect(controller.check_access_allowed(other_response.protocol_subscription)).to be_falsey

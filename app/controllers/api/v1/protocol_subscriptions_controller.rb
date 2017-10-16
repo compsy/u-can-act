@@ -1,20 +1,19 @@
 # frozen_string_literal: true
 
-# TODO: HOW TO DEAL WITH AUTHENTICATION HERE? SAME AS IN THE OTHER CONTROLLERS?
 module Api
   module V1
-    class RewardsController < ApiController
+    class ProtocolSubscriptionsController < ApiController
       before_action :set_protocol_subscription, only: %i[show]
       before_action :verify_access, only: %i[show]
       def show
-        render json: @protocol_subscription, serializer: Api::RewardSerializer
+        render json: @protocol_subscription, serializer: Api::ProtocolSubscriptionSerializer
       end
 
       private
 
       def verify_access
         allowed = check_access_allowed(@protocol_subscription)
-        render(status: 403, json: 'You are not allowed to access this response!') unless allowed
+        render(status: 403, json: 'You are not allowed to access this protocol subscription!') unless allowed
       end
 
       def set_protocol_subscription

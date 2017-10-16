@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 module Api
-  describe RewardSerializer do
+  describe ProtocolSubscriptionSerializer do
     before :each do
       Timecop.freeze(2017, 2, 1)
     end
@@ -61,6 +61,27 @@ module Api
 
         completions_strings = protocol_subscription.protocol_completion.map(&:stringify_keys)
         expect(json[:protocol_completion]).to eq completions_strings
+      end
+
+      describe 'max_streak' do
+        it 'should contain a hash with the max achievable streak if there is one' do
+          expect(json[:max_streak]).to_not be_nil
+
+          expect(json[:max_streak][:threshold]).to_not be_nil
+          expect(json[:max_streak][:threshold]).to eq(protocol_subscription.protocol.max_streak.threshold)
+
+          expect(json[:max_streak][:reward_points]).to_not be_nil
+          expect(json[:max_streak][:reward_points]).to eq(protocol_subscription.protocol.max_streak.reward_points)
+        end
+
+        it 'should return nil if there are no streaks' do
+          protocol_without_rewards = FactoryGirl.create(:protocol)
+          protocol_subscription_without_rewards = FactoryGirl.create(:protocol_subscription,
+                                                                     protocol: protocol_without_rewards)
+          current_json = described_class.new(protocol_subscription_without_rewards).as_json.with_indifferent_access
+          byebug
+          expect(current_json[:max_streak]).to be_nil
+        end
       end
 
       it 'should contain the correct max_still_awardable_euros' do

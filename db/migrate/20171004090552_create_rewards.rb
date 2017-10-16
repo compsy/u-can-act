@@ -7,5 +7,7 @@ class CreateRewards < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :rewards, [:threshold, :protocol_id], name: 'index_rs_on_threshold_and_protocol_id', unique: true
   end
 end

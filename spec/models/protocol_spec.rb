@@ -155,6 +155,21 @@ describe Protocol do
     end
   end
 
+  describe 'max_streak' do
+    it 'should return the reward with the highest threshold' do
+      protocol = FactoryGirl.create(:protocol)
+      reward1 = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      reward2 = FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      reward3 = FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      expect(protocol.max_streak).to eq(reward1)
+    end
+
+    it 'should nil if there are no rewards' do
+      protocol = FactoryGirl.create(:protocol)
+      expect(protocol.max_streak).to be_nil
+    end
+  end
+
   describe 'find_correct_multiplier' do
     let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
     let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
@@ -283,7 +298,7 @@ describe Protocol do
       expect(result).to eq expected
     end
 
-    it 'should calculate the max possible future score, then the flag chcek_future is set' do
+    it 'should calculate the max possible future score, then the flag check_future is set' do
       current_measurement_completion = measurement_completion[-1..-2]
       expected = current_measurement_completion.reduce(0) do |tot, val|
         tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
@@ -292,7 +307,7 @@ describe Protocol do
       expect(result).to eq expected
     end
 
-    it 'should not calculate the max possible future score, then the flag chcek_future is not set' do
+    it 'should not calculate the max possible future score, then the flag check_future is not set' do
       current_measurement_completion = measurement_completion[-1..-2]
       result = protocol.calculate_reward(current_measurement_completion, false)
       expect(result).to eq 0

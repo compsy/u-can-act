@@ -4,7 +4,7 @@ require 'rails_helper'
 
 module Api
   module V1
-    describe RewardsController, type: :controller do
+    describe ProtocolSubscriptionsController, type: :controller do
       let(:test_response) { FactoryGirl.create(:response, completed_at: 10.minutes.ago) }
       let(:other_response) { FactoryGirl.create(:response) }
       describe 'show' do
@@ -17,7 +17,7 @@ module Api
           end
           it 'should render the correct json object' do
             allow(controller).to receive(:render)
-              .with(json: test_response.protocol_subscription, serializer: Api::RewardSerializer)
+              .with(json: test_response.protocol_subscription, serializer: Api::ProtocolSubscriptionSerializer)
               .and_call_original
             get :show, params: { id: test_response.protocol_subscription.id }
             expect(response.status).to eq 200
@@ -26,7 +26,7 @@ module Api
           it 'should throw a 403 if the user is not allowed to access' do
             get :show, params: { id: other_response.protocol_subscription.id }
             expect(response.status).to eq 403
-            expect(response.body).to eq 'You are not allowed to access this response!'
+            expect(response.body).to eq 'You are not allowed to access this protocol subscription!'
           end
 
           it 'should throw a 404 if the protocol subscription does not exist' do

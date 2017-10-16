@@ -28,7 +28,7 @@ class Protocol < ApplicationRecord
     determine_single_reward(value, rewards_array[index].second)
   end
 
-  def max_reward
+  def max_streak
     rewards.last
   end
 
@@ -43,7 +43,9 @@ class Protocol < ApplicationRecord
   end
 
   def take_current_measurement_into_account?(is_completed, is_future, take_future_into_account)
-    return true if take_future_into_account
+    # Return true if the measruement is in the future and if we want to get information about
+    # future measurements. If this holds, the completion of the measurement does not matter.
+    return true if is_future && take_future_into_account
     is_completed && !is_future
   end
 

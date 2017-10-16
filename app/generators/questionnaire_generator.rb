@@ -60,12 +60,13 @@ class QuestionnaireGenerator
     end
 
     def single_questionnaire_question(question)
-      question_body = create_quesiton_body(question)
+      question_body = create_question_body(question)
       question_body = content_tag(:div, question_body, class: 'col s12')
       questionnaire_questions_add_question_section(question_body, question)
     end
 
-    def create_quesiton_body(question)
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def create_question_body(question)
       case question[:type]
       when :radio
         generate_radio(question)
@@ -83,6 +84,7 @@ class QuestionnaireGenerator
         raise 'Unknown question type'
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def questionnaire_questions_add_question_section(question_body, question)
       body = []

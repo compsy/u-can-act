@@ -180,6 +180,10 @@ describe Protocol do
     end
 
     it 'should find the current applicable multiplier for a given value' do
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
       Reward.all.each do |reward|
         expect(protocol.find_correct_multiplier(reward.threshold)).to eq reward.reward_points
       end

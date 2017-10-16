@@ -12,7 +12,7 @@ FactoryGirl.define do
       period 1.week.to_i
     end
     trait :relative_to_end_date do
-      open_from_offset((- 2.days - 11.hours).to_i) # Friday 1pm
+      offset_till_end((2.days + 11.hours).to_i) # Friday 1pm
     end
   end
 end

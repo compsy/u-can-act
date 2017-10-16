@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20171011121518) do
     t.integer  "reward_points",    default: 0, null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.integer  "max_iterations"
+    t.integer  "offset_till_end"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end

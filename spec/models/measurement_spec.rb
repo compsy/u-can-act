@@ -40,7 +40,7 @@ describe Measurement do
       measurement.open_from_offset = 5
       expect(measurement.valid?).to be_truthy
       measurement.open_from_offset = -3
-      expect(measurement.valid?).to be_truthy
+      expect(measurement.valid?).to be_falsey
       measurement.open_from_offset = 0
       expect(measurement.valid?).to be_truthy
       measurement.open_from_offset = 1.5
@@ -76,26 +76,6 @@ describe Measurement do
     end
   end
 
-  describe 'max_iterations' do
-    it 'should be a positive integer' do
-      measurement = FactoryGirl.build(:measurement)
-      measurement.max_iterations = 0
-      expect(measurement.valid?).to be_falsey
-      measurement.max_iterations = 1.5
-      expect(measurement.valid?).to be_falsey
-      measurement.max_iterations = 2
-      expect(measurement.valid?).to be_truthy
-      measurement.max_iterations = -1
-      expect(measurement.valid?).to be_falsey
-      expect(measurement.errors.messages).to have_key :max_iterations
-      expect(measurement.errors.messages[:max_iterations]).to include('moet groter zijn dan 0')
-    end
-    it 'should accept nil values' do
-      measurement = FactoryGirl.build(:measurement, max_iterations: nil)
-      expect(measurement.valid?).to be_truthy
-    end
-  end
-
   describe 'open_duration' do
     it 'should be a zero or positive integer' do
       measurement = FactoryGirl.build(:measurement)
@@ -107,6 +87,24 @@ describe Measurement do
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :open_duration
       expect(measurement.errors.messages[:open_duration]).to include('moet groter dan of gelijk zijn aan 0')
+    end
+    it 'should accept nil values' do
+      measurement = FactoryGirl.build(:measurement, open_duration: nil)
+      expect(measurement.valid?).to be_truthy
+    end
+  end
+
+  describe 'offset_till_end' do
+    it 'should be a zero or positive integer' do
+      measurement = FactoryGirl.build(:measurement)
+      measurement.offset_till_end = 0
+      expect(measurement.valid?).to be_truthy
+      measurement.offset_till_end = 1.5
+      expect(measurement.valid?).to be_falsey
+      measurement.offset_till_end = -1
+      expect(measurement.valid?).to be_falsey
+      expect(measurement.errors.messages).to have_key :offset_till_end
+      expect(measurement.errors.messages[:offset_till_end]).to include('moet groter dan of gelijk zijn aan 0')
     end
     it 'should accept nil values' do
       measurement = FactoryGirl.build(:measurement, open_duration: nil)

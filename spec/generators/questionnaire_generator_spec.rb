@@ -33,7 +33,7 @@ describe QuestionnaireGenerator do
       expect do
         described_class.send(:questionnaire_questions,
                              questionnaire_content)
-      end.to raise_error(RuntimeError, 'Unknown question type')
+      end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
   end
 end

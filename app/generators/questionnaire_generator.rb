@@ -412,20 +412,19 @@ class QuestionnaireGenerator
       )
 
       body = safe_join(body)
-      body = content_tag(:div, body, class: 'row')
+      body = content_tag(:div, body, class: 'col s12')
       body
     end
 
     def single_expandable_button(id, label, klass)
-      button = content_tag(
+      content_tag(
         :a,
         label,
         id: id + '_expand',
         data: { belongsto: id },
         name: answer_name(id),
-        class: "btn #{klass}"
+        class: "btn expandable_button waves-effect waves-light #{klass}"
       )
-      content_tag(:div, button, class: 'input-field col s12 m6')
     end
 
     def generate_raw(question)

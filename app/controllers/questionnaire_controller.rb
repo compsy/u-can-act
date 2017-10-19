@@ -24,7 +24,6 @@ class QuestionnaireController < ApplicationController
   end
 
   def create
-    Rails.logger.info questionnaire_content
     response_content = ResponseContent.create!(content: questionnaire_content)
     @response.update_attributes!(content: response_content.id, completed_at: Time.zone.now)
     redirect_to(mentor_overview_index_path) && return unless @protocol_subscription.for_myself?

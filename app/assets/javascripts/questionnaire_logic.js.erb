@@ -19,8 +19,8 @@ function toggle_otherwise_field() {
 }
 
 function toggle_shown_questions() {
-  if ($(this).closest('.row').find('*[data-shows-questions]').length === 0) return;
-  $(this).closest('.row').find('*[data-shows-questions]').each(function (index) {
+  if ($(this).closest('.row').find('input[data-shows-questions]').length === 0) return;
+  $(this).closest('.row').find('input[data-shows-questions]').each(function (index) {
     if ($(this).is(':checked')) {
       $(this).data('shows-questions').forEach(function (entry) {
         var klass = '.' + entry + '_toggle';

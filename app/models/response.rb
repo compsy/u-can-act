@@ -92,7 +92,7 @@ class Response < ApplicationRecord
       mentor = protocol_subscription.person
     else # we are student
       student = protocol_subscription.person
-      mentor = student.type == 'Student' ? student.mentor : nil # Student can in theory just be a person
+      mentor = student.role.group == 'Student' ? student.mentor : nil # Student can in theory just be a person
     end
     [student, mentor]
   end

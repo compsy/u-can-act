@@ -74,6 +74,7 @@ describe 'GET and POST /', type: :feature, js: true do
       page.find(:css, "a[href='#{questionnaire_path(q: token)}']").click
       expect(page).to have_current_path(questionnaire_path(q: token))
 
+      # This is the informed consent
       page.click_on 'Opslaan'
       page.choose('slecht', allow_label_click: true)
       page.check('brood', allow_label_click: true)

@@ -7,6 +7,7 @@ describe CreateMentors do
   let!(:protocol_for_mentors) { FactoryGirl.create(:protocol, name: 'protname-mentor') }
   let!(:protocol_for_students) { FactoryGirl.create(:protocol, name: 'protname-student') }
   let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
+  let!(:role) { FactoryGirl.create(:role, organization: organization, group: 'Mentor', title: 'MentorTitle') }
   let!(:plain_text_parser) { PlainTextParser.new }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let!(:students) { FactoryGirl.create_list(:student, 20) }
@@ -18,6 +19,7 @@ describe CreateMentors do
        mobile_phone: '0612345679',
        protocol_name: protocol_for_mentors.name,
        organization_name: organization.name,
+       role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.first.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
@@ -28,6 +30,7 @@ describe CreateMentors do
        mobile_phone: '06-12345670',
        protocol_name: protocol_for_mentors.name,
        organization_name: organization.name,
+       role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.second.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
@@ -38,6 +41,7 @@ describe CreateMentors do
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
        organization_name: organization.name,
+       role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.third.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
@@ -48,6 +52,7 @@ describe CreateMentors do
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
        organization_name: organization.name,
+       role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.fourth.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
@@ -58,6 +63,7 @@ describe CreateMentors do
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
        organization_name: organization.name,
+       role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.fifth.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name }]
@@ -89,7 +95,7 @@ describe CreateMentors do
                                                                 start_date
                                                                 filling_out_for_id
                                                                 filling_out_for_protocol_id
-                                                                organization_id])
+                                                                role_id])
     end
 
     it 'should set the correct data' do
@@ -104,7 +110,7 @@ describe CreateMentors do
                                  start_date: timedateinfuture,
                                  filling_out_for_id: students.first.id,
                                  filling_out_for_protocol_id: protocol_for_students.id,
-                                 organization_id: organization.id)
+                                 role_id: role.id)
       expect(result.second).to eq(first_name: 'b',
                                   last_name: 'f',
                                   gender: Person::FEMALE,
@@ -114,7 +120,7 @@ describe CreateMentors do
                                   start_date: timedateinfuture,
                                   filling_out_for_id: students.second.id,
                                   filling_out_for_protocol_id: protocol_for_students.id,
-                                  organization_id: organization.id)
+                                  role_id: role.id)
       expect(result.third).to eq(first_name: 'c',
                                  last_name: 'g',
                                  gender: Person::FEMALE,
@@ -124,7 +130,7 @@ describe CreateMentors do
                                  start_date: timedateinfuture,
                                  filling_out_for_id: students.third.id,
                                  filling_out_for_protocol_id: protocol_for_students.id,
-                                 organization_id: organization.id)
+                                 role_id: role.id)
       expect(result.fourth).to eq(first_name: 'c',
                                   last_name: 'g',
                                   gender: Person::FEMALE,
@@ -134,7 +140,7 @@ describe CreateMentors do
                                   start_date: timedateinfuture,
                                   filling_out_for_id: students.fourth.id,
                                   filling_out_for_protocol_id: protocol_for_students.id,
-                                  organization_id: organization.id)
+                                  role_id: role.id)
       expect(result.fifth).to eq(first_name: 'c',
                                  last_name: 'g',
                                  gender: Person::FEMALE,
@@ -144,7 +150,7 @@ describe CreateMentors do
                                  start_date: timedateinfuture,
                                  filling_out_for_id: students.fifth.id,
                                  filling_out_for_protocol_id: protocol_for_students.id,
-                                 organization_id: organization.id)
+                                 role_id: role.id)
     end
   end
 
@@ -161,7 +167,7 @@ describe CreateMentors do
           start_date: timedateinfuture,
           filling_out_for_id: students.first.id,
           filling_out_for_protocol_id: protocol_for_students.id,
-          organization_id: organization.id },
+          role_id: role.id },
         { first_name: 'b',
           last_name: 'f',
           gender: nil,
@@ -171,7 +177,7 @@ describe CreateMentors do
           start_date: timedateinfuture,
           filling_out_for_id: students.second.id,
           filling_out_for_protocol_id: protocol_for_students.id,
-          organization_id: organization.id },
+          role_id: role.id },
         # Note that the next 3 mentors have the same phone number
         { first_name: 'c',
           last_name: 'g',
@@ -182,7 +188,7 @@ describe CreateMentors do
           start_date: timedateinfuture,
           filling_out_for_id: students.third.id,
           filling_out_for_protocol_id: protocol_for_students.id,
-          organization_id: organization.id },
+          role_id: role.id },
         { first_name: 'c',
           last_name: 'g',
           gender: Person::FEMALE,
@@ -192,7 +198,7 @@ describe CreateMentors do
           start_date: timedateinfuture,
           filling_out_for_id: students.fourth.id,
           filling_out_for_protocol_id: protocol_for_students.id,
-          organization_id: organization.id },
+          role_id: role.id },
         { first_name: 'c',
           last_name: 'g',
           gender: Person::FEMALE,
@@ -202,14 +208,14 @@ describe CreateMentors do
           start_date: timedateinfuture,
           filling_out_for_id: students.fifth.id,
           filling_out_for_protocol_id: protocol_for_students.id,
-          organization_id: organization.id }
+          role_id: role.id }
       ]
     end
 
     it 'should create mentors for all hashes in the array supplied' do
-      expect(Mentor.count).to eq 0
+      mentor_pre = Mentor.count
       subject.send(:create_mentors, parsed_mentors)
-      expect(Mentor.count).to eq parsed_mentors.map { |x| x[:mobile_phone] }.uniq.count
+      expect(Mentor.count).to eq parsed_mentors.map { |x| x[:mobile_phone] }.uniq.count + mentor_pre
     end
 
     it 'should create the correct mentors' do
@@ -221,7 +227,7 @@ describe CreateMentors do
         expect(act.email).to eq hash[:email]
         expect(act.gender).to eq hash[:gender]
         expect(act.mobile_phone).to eq hash[:mobile_phone]
-        expect(act.organization.id).to eq organization.id
+        expect(act.role.id).to eq role.id
       end
     end
 

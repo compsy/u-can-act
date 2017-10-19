@@ -18,8 +18,8 @@ class CreateStudents < ActiveInteraction::Base
 
   private
 
-  def parse_students(_students, plain_text_parser)
-    parsed_students .map do |student|
+  def parse_students(students, plain_text_parser)
+    students.map do |student|
       {
         first_name: student[:first_name],
         last_name: student[:last_name],
@@ -27,7 +27,7 @@ class CreateStudents < ActiveInteraction::Base
         mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
         protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
         start_date: plain_text_parser.parse_start_date(student[:start_date]),
-        role_id: plain_text_parser.parse_role_title(student[:organization_name], 'Student')
+        role_id: plain_text_parser.parse_role_title(student[:organization_name], 'StudentTitle')
       }
     end
   end

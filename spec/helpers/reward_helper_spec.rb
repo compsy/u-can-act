@@ -24,7 +24,9 @@ describe RewardHelper do
   describe 'mentor?' do
     it 'should return true when the person is a Mentor' do
       person = double('person')
-      expect(person).to receive(:type).and_return('Mentor')
+      role = double('role')
+      expect(role).to receive(:group).and_return('Mentor')
+      expect(person).to receive(:role).and_return(role)
       protocol_subscription = double('protocol_subscription')
       expect(protocol_subscription).to receive(:person).and_return(person)
       helper.instance_variable_set(:@protocol_subscription, protocol_subscription)
@@ -32,15 +34,9 @@ describe RewardHelper do
     end
     it 'should return false when the person is a Student' do
       person = double('person')
-      expect(person).to receive(:type).and_return('Student')
-      protocol_subscription = double('protocol_subscription')
-      expect(protocol_subscription).to receive(:person).and_return(person)
-      helper.instance_variable_set(:@protocol_subscription, protocol_subscription)
-      expect(helper.mentor?).to be_falsey
-    end
-    it 'should return false when the person is a Person' do
-      person = double('person')
-      expect(person).to receive(:type).and_return('Person')
+      role = double('role')
+      expect(role).to receive(:group).and_return('Student')
+      expect(person).to receive(:role).and_return(role)
       protocol_subscription = double('protocol_subscription')
       expect(protocol_subscription).to receive(:person).and_return(person)
       helper.instance_variable_set(:@protocol_subscription, protocol_subscription)

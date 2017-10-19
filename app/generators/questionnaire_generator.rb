@@ -28,7 +28,7 @@ class QuestionnaireGenerator
       student, mentor = response.determine_student_mentor
       [title, content].map do |obj|
         VariableEvaluator.evaluate_obj(obj,
-                                       mentor&.organization&.mentor_title,
+                                       mentor&.role&.title,
                                        mentor&.gender,
                                        student.first_name,
                                        student.gender)
@@ -66,7 +66,7 @@ class QuestionnaireGenerator
                         when :raw
                           generate_raw(question)
                         else
-                          raise 'Unknown question type'
+                          raise "Unknown question type #{question[:type]}"
                         end
         question_body = content_tag(:div, question_body, class: 'col s12')
         body = questionnaire_questions_add_question_section(body, question_body, question)

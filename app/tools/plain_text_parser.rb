@@ -20,10 +20,10 @@ class PlainTextParser
     organization
   end
 
-  def parse_role_name(organization_name, role_title)
+  def parse_role_title(organization_name, role_title)
     organization = parse_organization_name(organization_name)
     role = organization.roles.find_by_title(role_title)
-    raise "No role exists in that organization by that name: #{role_title}" unless role.present?
+    raise "No role exists in that organization by that title: #{role_title}" unless role.present?
     role.id
   end
 
@@ -40,7 +40,7 @@ class PlainTextParser
     mobile_phone = parse_mobile_phone(mobile_phone)
     person = Person.find_by_mobile_phone(mobile_phone)
     raise "Person #{mobile_phone} does not exist" unless person.present?
-    raise "Person #{mobile_phone} is not a student" unless person.role.type == 'Student'
+    raise "Person #{mobile_phone} is not a student" unless person.role.group == 'Student'
     person.id
   end
 end

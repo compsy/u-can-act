@@ -213,4 +213,30 @@ shared_examples_for 'a person object' do
       expect(person.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'Student' do
+    it 'should have working factory defaults' do
+      student = FactoryGirl.build(:student)
+      pcountb = Person.count
+      scountb = Student.count
+      expect(student.valid?).to be_truthy
+      expect(student.role.group).to eq 'Student'
+      student.save
+      expect(Person.count).to eq(pcountb + 1)
+      expect(Student.count).to eq(scountb + 1)
+    end
+  end
+
+  describe 'Mentor' do
+    it 'should have working factory defaults' do
+      mentor = FactoryGirl.build(:mentor)
+      pcountb = Person.count
+      mcountb = Mentor.count
+      expect(mentor.valid?).to be_truthy
+      expect(mentor.role.group).to eq 'Mentor'
+      mentor.save
+      expect(Person.count).to eq(pcountb + 1)
+      expect(Mentor.count).to eq(mcountb + 1)
+    end
+  end
 end

@@ -4,6 +4,10 @@ class Person < ApplicationRecord
   include ActiveModel::Validations
   MALE = 'male'
   FEMALE = 'female'
+
+  MENTOR = 'Mentor'
+  STUDENT = 'Student'
+
   validates :mobile_phone,
             length: { minimum: 10, maximum: 10 },
             format: /\A\d{10}\z/,

@@ -188,17 +188,25 @@ describe Response do
   describe 'determine_student_mentor' do
     it 'should identify a student response as a response from a student' do
       organization = FactoryGirl.create(:organization)
-      student = FactoryGirl.create(:student, organization: organization)
-      mentor = FactoryGirl.create(:mentor, organization: organization)
+      student_role = FactoryGirl.create(:role, organization: organization, group: 'Student', title: 'StudentTitle')
+      mentor_role = FactoryGirl.create(:role, organization: organization, group: 'Mentor', title: 'MentorTitle')
+
+      student = FactoryGirl.create(:student, role: student_role)
+      mentor = FactoryGirl.create(:mentor, role: mentor_role)
+
       FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
       prot_stud = FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
       response = FactoryGirl.create(:response, protocol_subscription: prot_stud)
       expect(response.determine_student_mentor).to eq([student, mentor])
     end
+
     it 'should identify a mentor response as a response from a mentor do' do
       organization = FactoryGirl.create(:organization)
-      student = FactoryGirl.create(:student, organization: organization)
-      mentor = FactoryGirl.create(:mentor, organization: organization)
+      student_role = FactoryGirl.create(:role, organization: organization, group: 'Student', title: 'StudentTitle')
+      mentor_role = FactoryGirl.create(:role, organization: organization, group: 'Mentor', title: 'MentorTitle')
+
+      student = FactoryGirl.create(:student, role: student_role)
+      mentor = FactoryGirl.create(:mentor, role: mentor_role)
       prot_ment = FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
       FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
       response = FactoryGirl.create(:response, protocol_subscription: prot_ment)

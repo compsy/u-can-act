@@ -16,8 +16,8 @@ class PersonExporter
     private
 
     def export(&_block)
-      fields = %w[type first_name last_name mobile_phone]
-      headers = %w[person_id created_at updated_at] + fields
+      fields = %w[first_name last_name mobile_phone]
+      headers = %w[person_id created_at updated_at role title] + fields
       yield format_headers(headers)
       silence_logger do
         Person.find_each do |person|
@@ -36,6 +36,8 @@ class PersonExporter
       vals['person_id'] = calculate_hash(person.id)
       vals['created_at'] = format_datetime(person.created_at)
       vals['updated_at'] = format_datetime(person.updated_at)
+      vals['role'] = person.role.group
+      vals['title'] = person.role.title
       vals
     end
   end

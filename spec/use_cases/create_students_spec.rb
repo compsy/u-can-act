@@ -6,6 +6,7 @@ describe CreateStudents do
   let!(:plain_text_parser) { PlainTextParser.new }
   let!(:protocol) { FactoryGirl.create(:protocol, name: 'protname') }
   let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
+  let!(:role) { FactoryGirl.create(:role, organization: organization, group: 'Student', title: 'StudentTitle') }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:students) do
     [{ first_name: 'a',
@@ -54,7 +55,7 @@ describe CreateStudents do
                                                                 mobile_phone
                                                                 protocol_id
                                                                 start_date
-                                                                organization_id])
+                                                                role_id])
     end
 
     it 'should set the correct data' do
@@ -66,21 +67,21 @@ describe CreateStudents do
                                  mobile_phone: '0612345679',
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
-                                 organization_id: organization.id)
+                                 role_id: role.id)
       expect(result.second).to eq(first_name: 'b',
                                   last_name: 'f',
                                   gender: Person::FEMALE,
                                   mobile_phone: '0612345670',
                                   protocol_id: protocol.id,
                                   start_date: timedateinfuture,
-                                  organization_id: organization.id)
+                                  role_id: role.id)
       expect(result.third).to eq(first_name: 'c',
                                  last_name: 'g',
                                  gender: nil,
                                  mobile_phone: '0612345671',
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
-                                 organization_id: organization.id)
+                                 role_id: role.id)
     end
   end
 
@@ -93,14 +94,14 @@ describe CreateStudents do
          mobile_phone: '0612345679',
          protocol_id: protocol.id,
          start_date: timedateinfuture,
-         organization_id: organization.id },
+         role_id: role.id },
        { first_name: 'b',
          last_name: 'f',
          gender: Person::FEMALE,
          mobile_phone: '0612345670',
          protocol_id: protocol.id,
          start_date: timedateinfuture,
-         organization_id: organization.id }]
+         role_id: role.id }]
     end
 
     it 'should create students for all hashes in the array supplied' do
@@ -118,7 +119,7 @@ describe CreateStudents do
         expect(act.gender).to eq hash[:gender]
         expect(act.mobile_phone).to eq hash[:mobile_phone]
         expect(act.protocol_subscriptions.first.protocol.id).to eq protocol.id
-        expect(act.organization.id).to eq organization.id
+        expect(act.role.id).to eq role.id
         expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)
       end
     end
@@ -129,7 +130,7 @@ describe CreateStudents do
                            gender: Person::FEMALE,
                            mobile_phone: '0612345679',
                            protocol_id: protocol.id,
-                           organization_id: organization.id,
+                           role_id: role.id,
                            start_date: timedateinfuture }
       subject.send(:create_students, parsed_students)
       expect(Student.count).to eq parsed_students.length - 1

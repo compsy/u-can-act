@@ -21,11 +21,11 @@ FactoryGirl.define do
     end
   end
 
-  factory :mentor, class: 'Mentor', parent: :person do
-    role FactoryGirl.create(:role, group: 'Mentor', title: 'mentor Title')
+  factory :mentor, class: 'Person', parent: :person do
+    role { FactoryGirl.create(:role, group: 'Mentor', title: 'mentor Title') }
   end
 
-  factory :student, class: 'Student', parent: :person do
-    role FactoryGirl.create(:role, group: 'Student', title: 'student Title')
+  factory :student, class: 'Person', parent: :person do
+    role { FactoryGirl.create(:role, group: 'Student', title: 'student Title') }
   end
 end

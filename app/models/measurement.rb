@@ -12,4 +12,8 @@ class Measurement < ApplicationRecord
   validates :open_from_offset, numericality: { greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { greater_than_or_equal_to: 0 }
   has_many :responses, dependent: :destroy
+
+  def periodical?
+    period.present?
+  end
 end

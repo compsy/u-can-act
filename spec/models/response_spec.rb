@@ -142,6 +142,23 @@ describe Response do
         expect(Response.invited.to_a).to eq []
       end
     end
+
+    describe 'future' do
+      it 'should return responses with a open_from that is in the future' do
+        future_response = FactoryGirl.create(:response, :future)
+        expect(Response.future.count).to eq 1
+        expect(Response.future.to_a).to eq [future_response]
+      end
+      it 'should not return responses that were in the past' do
+        responses = []
+        responses << FactoryGirl.create(:response, open_from: 1.minute.ago)
+        responses << FactoryGirl.create(:response, open_from: 2.minutes.ago)
+        responses << FactoryGirl.create(:response, open_from: 3.years.ago)
+        expect(Response.all.length).to eq(responses.length)
+        expect(Response.future.count).to eq 0
+        expect(Response.future.to_a).to eq []
+      end
+    end
   end
 
   describe 'remote_content' do
@@ -219,6 +236,18 @@ describe Response do
       protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       response = FactoryGirl.create(:response, open_from: 1.hour.from_now, protocol_subscription: protocol_subscription)
       expect(response.expired?).to be_falsey
+    end
+  end
+
+  describe 'future?' do
+    it 'should return true if the response is in the future' do
+      response = FactoryGirl.create(:response, open_from: 1.hour.from_now)
+      expect(response.future?).to be_truthy
+    end
+
+    it 'should return false if the response is in the past' do
+      response = FactoryGirl.create(:response, open_from: 1.hour.ago)
+      expect(response.future?).to be_falsey
     end
   end
 

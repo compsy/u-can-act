@@ -6,8 +6,11 @@ machine:
 dependencies:
   pre:
     - ./bin/gemnasium_install
+    - ./bin/chromedriver_install
 test:
   override:
     - RAILS_ENV=test RACK_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+    - bundle exec teaspoon
     - bundle exec rubocop
     - ./bin/gemnasium
+

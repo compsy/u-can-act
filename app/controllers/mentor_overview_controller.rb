@@ -7,7 +7,7 @@ class MentorOverviewController < ApplicationController
   def index
     # @my_protocol_subscriptions is currently not used for mentors
     @my_protocol_subscriptions = @mentor.my_protocols
-    @student_protocol_subscriptions = @mentor.student_protocols
+    @student_protocol_subscriptions = @mentor.for_someone_else_protocols
   end
 
   private

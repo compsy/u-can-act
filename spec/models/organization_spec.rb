@@ -18,7 +18,7 @@ describe Organization, type: :model do
       end
 
       it 'should be invalid when not unique' do
-        organization = FactoryGirl.create(:organization, name: 'test')
+        FactoryGirl.create(:organization, name: 'test')
         organization2 = FactoryGirl.build(:organization, name: 'test')
         expect(organization2).to_not be_valid
       end

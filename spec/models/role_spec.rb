@@ -24,7 +24,7 @@ describe Role, type: :model do
       end
 
       it 'should be valid when not unique but in different organization' do
-        role = FactoryGirl.create(:role, group: 'test')
+        FactoryGirl.create(:role, group: 'test')
         role2 = FactoryGirl.build(:role, group: 'test')
         expect(role2).to be_valid
       end
@@ -45,7 +45,7 @@ describe Role, type: :model do
       end
 
       it 'should be valid when not unique but in different organization' do
-        role = FactoryGirl.create(:role, title: 'test')
+        FactoryGirl.create(:role, title: 'test')
         role2 = FactoryGirl.build(:role, title: 'test')
         expect(role2).to be_valid
       end

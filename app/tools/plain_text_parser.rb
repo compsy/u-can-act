@@ -17,7 +17,14 @@ class PlainTextParser
   def parse_organization_name(organization_name)
     organization = Organization.find_by_name(organization_name)
     raise "No organization exists by that name: #{organization_name}" unless organization.present?
-    organization.id
+    organization
+  end
+
+  def parse_role_name(organization_name, role_title)
+    organization = parse_organization_name(organization_name)
+    role = organization.roles.find_by_title(role_title)
+    raise "No role exists in that organization by that name: #{role_title}" unless role.present?
+    role.id
   end
 
   def parse_start_date(start_date)
@@ -33,7 +40,7 @@ class PlainTextParser
     mobile_phone = parse_mobile_phone(mobile_phone)
     person = Person.find_by_mobile_phone(mobile_phone)
     raise "Person #{mobile_phone} does not exist" unless person.present?
-    raise "Person #{mobile_phone} is not a student" unless person.type == 'Student'
+    raise "Person #{mobile_phone} is not a student" unless person.role.type == 'Student'
     person.id
   end
 end

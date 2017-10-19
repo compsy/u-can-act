@@ -105,7 +105,7 @@ shared_examples_for 'a person object' do
   describe 'role_id' do
     it 'should have one' do
       person = FactoryGirl.build(:person, role_id: nil)
-      expect(person.valid?).to be_falsey
+      expect(person).to_not be_valid
       expect(person.errors.messages).to have_key :role_id
       expect(person.errors.messages[:role_id]).to include('moet opgegeven zijn')
     end

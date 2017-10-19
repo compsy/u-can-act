@@ -34,4 +34,26 @@ class Person < ApplicationRecord
   def max_reward_points
     protocol_subscriptions.map(&:max_reward_points).reduce(0, :+)
   end
+
+  def my_protocols
+    return [] if protocol_subscriptions.blank?
+    protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id }
+  end
+
+  def for_someone_else_protocols
+    return [] if protocol_subscriptions.blank?
+    protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }
+  end
+
+  def mentor
+    warn_for_multiple_mentors
+    ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).first&.person
+  end
+
+  private
+
+  def warn_for_multiple_mentors
+    Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{student.id}" if
+      ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).count > 1
+  end
 end

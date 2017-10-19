@@ -13,14 +13,23 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     { first_name: 'John', last_name: 'Doe' },
     { first_name: 'Jane', last_name: 'Doe' }
   ]
+  organization = Organization.find_by_name('Default organization')
+  organization ||= Organization.new(name: 'Default organization')
+
+  student = organization.roles.where(group: 'Student')
+  student ||= organization.roles.create(group: 'Student', title: 'student')
+
+  mentor = organization.roles.where(group: 'Mentor')
+  mentor ||= organization.roles.create(group: 'Mentor', title: 'mentor')
+  
   students.each do |student|
     phone = generate_phone
     while Person.find_by_mobile_phone(phone).present?
       phone = generate_phone
     end
-    Student.create!(first_name: student[:first_name],
+    Person.create!(first_name: student[:first_name],
                     last_name: student[:last_name],
-                    mobile_phone: phone, organization: Organization.first)
+                    mobile_phone: phone, role: student)
   end
 
   mentors =[
@@ -33,9 +42,9 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     while Person.find_by_mobile_phone(phone).present?
       phone = generate_phone
     end
-    Mentor.create!(first_name: mentor[:first_name],
+    Person.create!(first_name: mentor[:first_name],
                    last_name: mentor[:last_name],
-                   mobile_phone: phone, organization: Organization.first)
+                   mobile_phone: phone, role: mentor)
   end
 
   puts 'Generating people - Finished'

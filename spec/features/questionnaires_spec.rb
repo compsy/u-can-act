@@ -115,6 +115,243 @@ describe 'GET and POST /', type: :feature, js: true do
                                           'v3' => '50')
   end
 
+  describe 'should store the results from the expandables' do
+    it 'should only store the one which is defaultly visible' do
+      questionnaire = FactoryGirl.create(:questionnaire, :one_expansion)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 person: student)
+      responseobj = FactoryGirl.create(:response,
+                                       measurement: measurement,
+                                       protocol_subscription: protocol_subscription,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+
+      # Required questions
+      page.choose('slecht', allow_label_click: true)
+      page.check('brood', allow_label_click: true)
+      page.fill_in('v4_0_1', with: 'dit is een doel')
+
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'slecht',
+                                            'v2_brood' => 'true',
+                                            'v3' => '50',
+                                            'v4_0_1' => 'dit is een doel',
+                                            'v4_0_4' => '50',
+                                            'v4_0_5' => '50')
+
+      not_allowed_keys = (1..10).map do |q_id|
+        (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
+      end.flatten
+
+      expect(responseobj.values.values).to_not include(not_allowed_keys)
+    end
+
+    describe 'should not store any V4s if none of them is visible' do
+      it 'by default' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryGirl.create(:response,
+                                         protocol_subscription: protocol_subscription,
+                                         open_from: 1.hour.ago,
+                                         invited_state: Response::SENT_STATE)
+        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+        visit "/?q=#{invitation_token.token}"
+        expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+        expect(page).to_not have_current_path(mentor_overview_index_path)
+        # expect(page).to have_http_status(200)
+        expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+
+        # Required questions
+        page.choose('slecht', allow_label_click: true)
+        page.check('brood', allow_label_click: true)
+
+        page.click_on 'Opslaan'
+        # expect(page).to have_http_status(200)
+        expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+        responseobj.reload
+        expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+        expect(responseobj.content).to_not be_nil
+        expect(responseobj.values).to include('v1' => 'slecht',
+                                              'v2_brood' => 'true',
+                                              'v3' => '50')
+
+        not_allowed_keys = (0..10).map do |q_id|
+          (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
+        end.flatten
+
+        expect(responseobj.values.values).to_not include(not_allowed_keys)
+      end
+
+      it 'after showing / hiding' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryGirl.create(:response,
+                                         protocol_subscription: protocol_subscription,
+                                         open_from: 1.hour.ago,
+                                         invited_state: Response::SENT_STATE)
+        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+        visit "/?q=#{invitation_token.token}"
+        expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+        expect(page).to_not have_current_path(mentor_overview_index_path)
+        # expect(page).to have_http_status(200)
+        expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+
+        # Required questions
+        page.choose('slecht', allow_label_click: true)
+        page.check('brood', allow_label_click: true)
+
+        remove = page.find('a', text: 'Verwijder doel')
+        add = page.find('a', text: 'Voeg doel toe')
+        10.times { |_x| add.click }
+        10.times { |_x| remove.click }
+
+        page.click_on 'Opslaan'
+        # expect(page).to have_http_status(200)
+        expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+        responseobj.reload
+        expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+        expect(responseobj.content).to_not be_nil
+        expect(responseobj.values).to include('v1' => 'slecht',
+                                              'v2_brood' => 'true',
+                                              'v3' => '50')
+
+        not_allowed_keys = (0..10).map do |q_id|
+          (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
+        end.flatten
+
+        expect(responseobj.values.values).to_not include(not_allowed_keys)
+      end
+    end
+  end
+
+  it 'should only have disabled questions (for the expandables) whenever the default expansion is 0' do
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               person: student,
+                                               start_date: 1.week.ago.at_beginning_of_day)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/?q=#{invitation_token.token}"
+    # expect(page).to have_http_status(200)
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+
+    # v4
+    expect(page).to have_css('a', text: 'Voeg doel toe')
+    expect(page).to have_css('a', text: 'Verwijder doel')
+
+    # All hidden question options should be disabled
+    (0..10).each do |q_id|
+      (1..5).each do |sub_q_id|
+        id = "v4_#{q_id}_#{sub_q_id}"
+        result = page.all("textarea[id^=#{id}],input[id^=#{id}]")
+        all_disabled_and_hidden = result.all? { |elem| elem.disabled? && !elem.visible? }
+        expect(all_disabled_and_hidden).to be_truthy
+      end
+    end
+  end
+
+  it 'should only have exactly 1 non-disabled question (for the expandables) whenever the default expansion is 1' do
+    questionnaire = FactoryGirl.create(:questionnaire, :one_expansion)
+    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               person: student)
+    responseobj = FactoryGirl.create(:response,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/?q=#{invitation_token.token}"
+    # expect(page).to have_http_status(200)
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+
+    # v4
+    expect(page).to have_css('a', text: 'Voeg doel toe')
+    expect(page).to have_css('a', text: 'Verwijder doel')
+
+    # first questions should not be disabled
+    question_id = 0
+    (1..5).each do |sub_q_id|
+      id = "v4_#{question_id}_#{sub_q_id}"
+      result = page.all("textarea[id^=#{id}],input[id^=#{id}]")
+      all_not_disabled = result.none? do |elem|
+        # Skip the 'anders namelijk field, it is allowed to be disabled'
+        anders_namelijk_field = "#{id}_anders_namelijk_text"
+        elem.disabled? && !anders_namelijk_field
+      end
+      expect(all_not_disabled).to be_truthy
+    end
+
+    # All other, hidden question options should be disabled
+    (1..10).each do |q_id|
+      (1..5).each do |sub_q_id|
+        id = "v4_#{q_id}_#{sub_q_id}"
+        result = page.all("textarea[id^=#{id}],input[id^=#{id}]")
+        all_disabled_and_hidden = result.all? { |elem| elem.disabled? && !elem.visible? }
+        expect(all_disabled_and_hidden).to be_truthy
+      end
+    end
+  end
+
+  it 'should have the correct buttons for the expandables' do
+    questionnaire = FactoryGirl.create(:questionnaire, :one_expansion)
+    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               person: student)
+    responseobj = FactoryGirl.create(:response,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/?q=#{invitation_token.token}"
+    # expect(page).to have_http_status(200)
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+
+    # v4
+    expect(page).to have_css('a', text: 'Voeg doel toe')
+    expect(page).to have_css('a', text: 'Verwijder doel')
+
+    add = page.find('a', text: 'Voeg doel toe')
+    remove = page.find('a', text: 'Verwijder doel')
+
+    expect(add[:class].include?('disabled')).to be_falsey
+    expect(remove[:class].include?('disabled')).to be_falsey
+    remove.click
+
+    remove = page.find('a', text: 'Verwijder doel')
+    add = page.find('a', text: 'Voeg doel toe')
+    expect(add[:class].include?('disabled')).to be_falsey
+    expect(remove[:class].include?('disabled')).to be_truthy
+
+    10.times { |_x| add.click }
+
+    remove = page.find('a', text: 'Verwijder doel')
+    add = page.find('a', text: 'Voeg doel toe')
+    expect(add[:class].include?('disabled')).to be_truthy
+    expect(remove[:class].include?('disabled')).to be_falsey
+  end
+
   it 'should require radio buttons to be filled out' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                start_date: 1.week.ago.at_beginning_of_day,

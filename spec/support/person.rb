@@ -179,7 +179,7 @@ shared_examples_for 'a person object' do
       # also add some noncompleted responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
       FactoryGirl.create_list(:response, 11, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
-      expect(person.reward_points).to eq 150
+      expect(person.reward_points).to eq 15
     end
   end
 
@@ -191,7 +191,7 @@ shared_examples_for 'a person object' do
       FactoryGirl.create_list(:response, 5, :invite_sent, protocol_subscription: person.protocol_subscriptions.second)
       # also add some noninvited responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      expect(person.possible_reward_points).to eq 150
+      expect(person.possible_reward_points).to eq 15
     end
   end
 
@@ -202,7 +202,7 @@ shared_examples_for 'a person object' do
       FactoryGirl.create_list(:response, 10, protocol_subscription: person.protocol_subscriptions.first)
       FactoryGirl.create_list(:response, 5, protocol_subscription: person.protocol_subscriptions.second)
       FactoryGirl.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      expect(person.max_reward_points).to eq 220
+      expect(person.max_reward_points).to eq 22
     end
   end
 

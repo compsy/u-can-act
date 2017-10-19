@@ -12,4 +12,10 @@ Rails.application.routes.draw do
   get 'admin/protocol_subscription_export', to: 'admin#protocol_subscription_export'
   get 'admin/questionnaire_export/:id', to: 'admin#questionnaire_export', as: 'admin_questionnaire_export'
   get 'admin/response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
+
+  namespace :api do
+    namespace :v1 do
+      get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
+    end
+  end
 end

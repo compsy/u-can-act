@@ -31,8 +31,10 @@ gem 'coffee-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks'
+
+# Use React for the UI
+gem 'react-rails'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 
@@ -56,12 +58,19 @@ gem 'coveralls', require: false
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
 
+# D3 visualization
+# Version is fixed because the radial progress plot does not yet support newer versions
+gem 'animate-rails', github: 'camelmasa/animate-rails'
+gem 'd3-rails', '~> 3.5.16'
+
+# Gem for cheaper worker nodes on Heroku
 gem 'workless'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'
 
 gem 'active_interaction'
+gem 'active_model_serializers'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -71,6 +80,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
+  gem 'teaspoon-jasmine'
 end
 
 group :test do
@@ -96,8 +106,10 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
 
-  # poltergeist for js testing
-  gem 'poltergeist'
+  # selenium for js testing
+  gem 'capybara-selenium'
+  gem 'chromedriver-helper'
+  gem 'selenium-webdriver'
 end
 
 group :production, :staging do
@@ -115,6 +127,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'spring-commands-teaspoon'
   gem 'spring-watcher-listen'
 end
 

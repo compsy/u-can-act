@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :role do
-    type ""
-    title "MyString"
-    organization nil
+    group 'The group'
+    title 'The title'
+    organization
   end
 end

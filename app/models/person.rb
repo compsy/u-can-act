@@ -14,8 +14,8 @@ class Person < ApplicationRecord
             allow_blank: true,
             uniqueness: true
   validates :first_name, presence: true
-  belongs_to :organization
-  validates :organization_id, presence: true
+  belongs_to :role
+  validates :role_id, presence: true
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
   # Not used right now:

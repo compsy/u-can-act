@@ -102,16 +102,16 @@ shared_examples_for 'a person object' do
     end
   end
 
-  describe 'organization_id' do
+  describe 'role_id' do
     it 'should have one' do
-      person = FactoryGirl.build(:person, organization_id: nil)
+      person = FactoryGirl.build(:person, role_id: nil)
       expect(person.valid?).to be_falsey
-      expect(person.errors.messages).to have_key :organization_id
-      expect(person.errors.messages[:organization_id]).to include('moet opgegeven zijn')
+      expect(person.errors.messages).to have_key :role_id
+      expect(person.errors.messages[:role_id]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve an Organization' do
+    it 'should work to retrieve an role' do
       person = FactoryGirl.create(:person)
-      expect(person.organization).to be_a(Organization)
+      expect(person.role).to be_a(Role)
     end
   end
 

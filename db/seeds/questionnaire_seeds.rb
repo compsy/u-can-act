@@ -1779,7 +1779,7 @@ dagboek_content = [{
                        { title: 'Inzicht krijgen in de omgeving', shows_questions: %i[v6 v7] },
                        { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
                        { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
-                       { title: 'De omgeving vreanderen/afstemmen met de omgeving', shows_questions: %i[v12] }
+                       { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
                      ],
                      section_end: true
                    }, {

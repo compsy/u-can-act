@@ -9,7 +9,7 @@ class Student < Person
   private
 
   def warn_for_multiple_mentors
-    Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{student.id}" if
+    Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{id}" if
       ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).count > 1
   end
 end

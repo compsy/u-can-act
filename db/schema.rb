@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009111239) do
+ActiveRecord::Schema.define(version: 20171011121518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20171009111239) do
     t.integer  "reward_points",    default: 0, null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "offset_till_end"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end
@@ -82,6 +83,7 @@ ActiveRecord::Schema.define(version: 20171009111239) do
     t.datetime "updated_at",                null: false
     t.datetime "informed_consent_given_at"
     t.integer  "filling_out_for_id",        null: false
+    t.datetime "end_date",                  null: false
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
   end

@@ -13,9 +13,11 @@ class ProtocolSubscription < ApplicationRecord
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true, start_of_day: true
+  validates :end_date, presence: true
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
+  after_initialize :initialize_end_date
 
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
@@ -24,7 +26,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def ended?
-    Time.zone.now > TimeTools.increase_by_duration(start_date, protocol.duration)
+    Time.zone.now > end_date
   end
 
   def for_myself?
@@ -85,23 +87,36 @@ class ProtocolSubscription < ApplicationRecord
     self.filling_out_for ||= person
   end
 
+  def initialize_end_date
+    self.end_date ||= TimeTools.increase_by_duration(start_date, protocol.duration) if
+      start_date.present? && protocol.present?
+  end
+
   def schedule_responses
-    prot_sub_end = TimeTools.increase_by_duration(start_date, protocol.duration)
     ActiveRecord::Base.transaction do
       protocol.measurements.each do |measurement|
-        schedule_responses_for_measurement(measurement, prot_sub_end)
+        schedule_responses_for_measurement(measurement)
       end
     end
   end
 
-  def schedule_responses_for_measurement(measurement, prot_sub_end)
+  def schedule_responses_for_measurement(measurement)
     open_from = TimeTools.increase_by_duration(start_date, measurement.open_from_offset)
-    while open_from < prot_sub_end
+    open_till = measurement_open_till(measurement)
+    while open_from < open_till
       Response.create!(protocol_subscription_id: id,
                        measurement_id: measurement.id,
                        open_from: open_from)
       break unless measurement.period
       open_from = TimeTools.increase_by_duration(open_from, measurement.period)
+    end
+  end
+
+  def measurement_open_till(measurement)
+    if measurement.offset_till_end.present?
+      TimeTools.increase_by_duration(end_date, - measurement.offset_till_end)
+    else
+      end_date
     end
   end
 end

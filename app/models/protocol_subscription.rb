@@ -84,11 +84,11 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def initialize_filling_out_for
-    filling_out_for ||= person
+    self.filling_out_for ||= person
   end
 
   def initialize_end_date
-    end_date ||= TimeTools.increase_by_duration(start_date, protocol.duration) if
+    self.end_date ||= TimeTools.increase_by_duration(start_date, protocol.duration) if
       start_date.present? && protocol.present?
   end
 

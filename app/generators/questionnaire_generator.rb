@@ -422,7 +422,7 @@ class QuestionnaireGenerator
         label,
         id: id + '_expand',
         data: { belongsto: id },
-        name: answer_name(id),
+        #name: answer_name(id),
         class: "btn expandable_button waves-effect waves-light #{klass}"
       )
     end

@@ -28,4 +28,24 @@ describe Student do
       expect(Person.last.type).to eq 'Student'
     end
   end
+
+  describe 'mentor' do
+    it 'should give a warning when a student has multiple mentors' do
+      student = FactoryGirl.create(:student)
+      mentor1 = FactoryGirl.create(:mentor)
+      mentor2 = FactoryGirl.create(:mentor)
+      FactoryGirl.create(:protocol_subscription, person: mentor1, filling_out_for: student)
+      FactoryGirl.create(:protocol_subscription, person: mentor2, filling_out_for: student)
+      expect(Rails.logger).to receive(:warn)
+        .with("[Attention] retrieving one of multiple mentors for student: #{student.id}")
+      expect(student.mentor).to eq(mentor1)
+    end
+    it 'should give a warning when a student has multiple mentors' do
+      student = FactoryGirl.create(:student)
+      mentor = FactoryGirl.create(:mentor)
+      FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      expect(Rails.logger).not_to receive(:warn)
+      expect(student.mentor).to eq(mentor)
+    end
+  end
 end

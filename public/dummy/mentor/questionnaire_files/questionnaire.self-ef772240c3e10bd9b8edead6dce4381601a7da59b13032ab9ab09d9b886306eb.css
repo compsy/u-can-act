@@ -55,3 +55,8 @@ ol ol ol {
 .questionnaire-quote {
   font-style: italic;
 }
+
+/* line 39, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+.btn.expandable_button {
+  margin-right: 10px;
+}

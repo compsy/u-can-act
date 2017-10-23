@@ -102,12 +102,14 @@ function findExpandableElement(button, element) {
 function expandExpandable() {
   const elem = findExpandableElement(this, '.expandable_wrapper.hidden');
   elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
+  $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
 }
 
 function collapseExpandable() {
   const elem = findExpandableElement(this, '.expandable_wrapper:not(.hidden)');
   elem.addClass('hidden').find('input,textarea').prop('disabled', true);
+  $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
 }
 

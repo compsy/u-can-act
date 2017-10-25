@@ -8,6 +8,7 @@ dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek_content = [{
   id: :v1,
   type: :radio,
+  show_otherwise: false,
   title: 'Wil je de vragenlijst invullen voor deze student?',
   options: [
     { title: 'Ja', shows_questions: %i[v3] },
@@ -65,7 +66,7 @@ dagboek_content = [{
     type: :checkbox,
     title: 'Aan welke doelen heb jij gewerkt door deze actie(s) uit te voeren?',
     options: [
-      'doel 1',
+      'doel 1\n<br> test',
       'doel 2',
       'doel 3',
       'doel 4',
@@ -120,6 +121,7 @@ behalen?',
   id: :v9,
   hidden: false,
   type: :radio,
+  show_otherwise: false,
   title: 'Heb je de begeleiding van deze student deze week (voor meer dan 50%) overgedragen aan een andere persoon?',
   options: [
     { title: 'Ja', shows_questions: %i[v10 v11 v12] },

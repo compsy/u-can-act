@@ -26,4 +26,30 @@ $input-border-color: color("grey", "darken-1");
 $range-height: 35px;
 $range-width: 35px;
 
+$u-can-act-blue: #1B2962;
+$u-can-act-green: #128B61;
+$u-can-act-grey: #99b5cd;
+
+$accent-color: $u-can-act-blue;
+$secondary-color: $u-can-act-blue !default;
+
 @import "materialize";
+
+//TODO: This should be relative to whether we are a student or not
+input[type=range]::-webkit-slider-thumb {
+  background-color: $u-can-act-blue;
+}
+input[type=range]::-moz-range-thumb {
+  background-color: $u-can-act-blue;
+}
+input[type=range]::-ms-thumb {
+  background-color: $u-can-act-blue;
+}
+
+// Text in the balloon
+input[type=range] + .thumb {
+  background-color: $u-can-act-blue;
+}
+input[type=range] + .thumb.active .value {
+  color: white;
+}

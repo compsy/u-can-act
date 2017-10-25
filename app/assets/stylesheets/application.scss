@@ -26,4 +26,15 @@ $input-border-color: color("grey", "darken-1");
 $range-height: 35px;
 $range-width: 35px;
 
+$u-can-act-blue: #1B2962;
+$u-can-act-green: #128B61;
+$u-can-act-grey: #99b5cd;
+
+//TODO: This should be relative to whether we are a student or not
+$accent-color: $u-can-act-blue;
+$secondary-color: $u-can-act-blue !default;
+
+//$accent-color: $u-can-act-green;
+//$secondary-color: $u-can-act-green !default;
+
 @import "materialize";

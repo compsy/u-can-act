@@ -6365,8 +6365,8 @@ td, th {
 }
 /* line 544, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_global.scss */
 .collection .collection-item.active {
-  background-color: #26a69a;
-  color: #eafaf9;
+  background-color: #1B2962;
+  color: #adb9e8;
 }
 /* line 548, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_global.scss */
 .collection .collection-item.active .secondary-content {
@@ -6376,7 +6376,7 @@ td, th {
 .collection a.collection-item {
   display: block;
   transition: .25s;
-  color: #26a69a;
+  color: #1B2962;
 }
 /* line 558, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_global.scss */
 .collection a.collection-item:not(.active):hover {
@@ -6400,7 +6400,7 @@ td, th {
 /* line 580, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_global.scss */
 .secondary-content {
   float: right;
-  color: #26a69a;
+  color: #1B2962;
 }
 
 /* line 584, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_global.scss */
@@ -6431,7 +6431,7 @@ td, th {
   height: 4px;
   display: block;
   width: 100%;
-  background-color: #acece6;
+  background-color: #7185d8;
   border-radius: 2px;
   margin: 0.5rem 0 1rem 0;
   overflow: hidden;
@@ -6442,12 +6442,12 @@ td, th {
   top: 0;
   left: 0;
   bottom: 0;
-  background-color: #26a69a;
+  background-color: #1B2962;
   transition: width .3s linear;
 }
 /* line 625, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_global.scss */
 .progress .indeterminate {
-  background-color: #26a69a;
+  background-color: #1B2962;
 }
 /* line 627, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_global.scss */
 .progress .indeterminate:before {
@@ -6583,7 +6583,7 @@ span.badge.new {
   font-weight: 300;
   font-size: 0.8rem;
   color: #fff;
-  background-color: #26a69a;
+  background-color: #1B2962;
   border-radius: 2px;
 }
 /* line 21, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_badges.scss */
@@ -8578,14 +8578,14 @@ small {
 /* line 58, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_buttons.scss */
 .btn:focus, .btn-large:focus,
 .btn-floating:focus {
-  background-color: #1d7d74;
+  background-color: #10183a;
 }
 
 /* line 64, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_buttons.scss */
 .btn, .btn-large {
   text-decoration: none;
   color: #fff;
-  background-color: #26a69a;
+  background-color: #1B2962;
   text-align: center;
   letter-spacing: .5px;
   transition: .2s ease-out;
@@ -8593,7 +8593,7 @@ small {
 }
 /* line 74, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_buttons.scss */
 .btn:hover, .btn-large:hover {
-  background-color: #2bbbad;
+  background-color: #213176;
 }
 
 /* line 81, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_buttons.scss */
@@ -8607,7 +8607,7 @@ small {
   height: 40px;
   line-height: 40px;
   padding: 0;
-  background-color: #26a69a;
+  background-color: #1B2962;
   border-radius: 50%;
   transition: .3s;
   cursor: pointer;
@@ -8615,7 +8615,7 @@ small {
 }
 /* line 82, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_buttons.scss */
 .btn-floating:hover {
-  background-color: #26a69a;
+  background-color: #1B2962;
 }
 /* line 87, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_buttons.scss */
 .btn-floating:before {
@@ -8760,7 +8760,7 @@ button.btn-floating {
   z-index: -1;
   width: 40px;
   height: 40px;
-  background-color: #26a69a;
+  background-color: #1B2962;
   border-radius: 50%;
   transform: scale(0);
 }
@@ -8843,7 +8843,7 @@ button.btn-floating {
 /* line 37, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_dropdown.scss */
 .dropdown-content li > a, .dropdown-content li > span {
   font-size: 16px;
-  color: #26a69a;
+  color: #1B2962;
   display: block;
   line-height: 22px;
   padding: 14px 16px;
@@ -9319,13 +9319,13 @@ button.btn-floating {
 
 /* line 2, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_forms.scss */
 select:focus {
-  outline: 1px solid #c9f3ef;
+  outline: 1px solid #8d9de0;
 }
 
 /* line 6, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_forms.scss */
 button:focus {
   outline: none;
-  background-color: #2ab7a9;
+  background-color: #1f3072;
 }
 
 /* line 11, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_forms.scss */
@@ -9442,8 +9442,8 @@ input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #26a69a;
-  box-shadow: 0 1px 0 0 #26a69a;
+  border-bottom: 1px solid #1B2962;
+  box-shadow: 0 1px 0 0 #1B2962;
 }
 /* line 61, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_input-fields.scss */
 input:not([type]):focus:not([readonly]) + label,
@@ -9459,7 +9459,7 @@ input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
 input[type=number]:not(.browser-default):focus:not([readonly]) + label,
 input[type=search]:not(.browser-default):focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label {
-  color: #26a69a;
+  color: #1B2962;
 }
 /* line 90, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_input-fields.scss */
 input:not([type]).validate + label,
@@ -9736,7 +9736,7 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 }
 /* line 200, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_input-fields.scss */
 .input-field .prefix.active {
-  color: #26a69a;
+  color: #1B2962;
 }
 /* line 203, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_input-fields.scss */
 .input-field .prefix ~ input,
@@ -9939,13 +9939,13 @@ textarea.materialize-textarea.validate + label:not(.label-icon).active {
 [type="radio"]:checked + label:after,
 [type="radio"].with-gap:checked + label:before,
 [type="radio"].with-gap:checked + label:after {
-  border: 2px solid #26a69a;
+  border: 2px solid #1B2962;
 }
 
 /* line 68, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_radio-buttons.scss */
 [type="radio"]:checked + label:after,
 [type="radio"].with-gap:checked + label:after {
-  background-color: #26a69a;
+  background-color: #1B2962;
 }
 
 /* line 73, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_radio-buttons.scss */
@@ -10080,8 +10080,8 @@ form p:last-child {
   height: 22px;
   border-top: 2px solid transparent;
   border-left: 2px solid transparent;
-  border-right: 2px solid #26a69a;
-  border-bottom: 2px solid #26a69a;
+  border-right: 2px solid #1B2962;
+  border-bottom: 2px solid #1B2962;
   transform: rotate(40deg);
   backface-visibility: hidden;
   transform-origin: 100% 100%;
@@ -10101,7 +10101,7 @@ form p:last-child {
   height: 22px;
   border-top: none;
   border-left: none;
-  border-right: 2px solid #26a69a;
+  border-right: 2px solid #1B2962;
   border-bottom: none;
   transform: rotate(90deg);
   backface-visibility: hidden;
@@ -10164,8 +10164,8 @@ form p:last-child {
   top: 0;
   width: 20px;
   height: 20px;
-  border: 2px solid #26a69a;
-  background-color: #26a69a;
+  border: 2px solid #1B2962;
+  background-color: #1B2962;
   z-index: 0;
 }
 /* line 179, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_checkboxes.scss */
@@ -10177,8 +10177,8 @@ form p:last-child {
 /* line 185, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_checkboxes.scss */
 [type="checkbox"].filled-in.tabbed:checked:focus + label:after {
   border-radius: 2px;
-  background-color: #26a69a;
-  border-color: #26a69a;
+  background-color: #1B2962;
+  border-color: #1B2962;
 }
 /* line 192, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_checkboxes.scss */
 [type="checkbox"].filled-in:disabled:not(:checked) + label:before {
@@ -10222,7 +10222,7 @@ form p:last-child {
 }
 /* line 19, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_switches.scss */
 .switch label input[type=checkbox]:checked + .lever {
-  background-color: #84c7c1;
+  background-color: #5666a6;
 }
 /* line 22, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_switches.scss */
 .switch label input[type=checkbox]:checked + .lever:before, .switch label input[type=checkbox]:checked + .lever:after {
@@ -10230,7 +10230,7 @@ form p:last-child {
 }
 /* line 26, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_switches.scss */
 .switch label input[type=checkbox]:checked + .lever:after {
-  background-color: #26a69a;
+  background-color: #1B2962;
 }
 
 /* line 32, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_switches.scss */
@@ -10261,7 +10261,7 @@ form p:last-child {
 }
 /* line 57, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_switches.scss */
 .switch label .lever:before {
-  background-color: rgba(38, 166, 154, 0.15);
+  background-color: rgba(27, 41, 98, 0.15);
 }
 /* line 61, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_switches.scss */
 .switch label .lever:after {
@@ -10273,7 +10273,7 @@ form p:last-child {
 input[type=checkbox]:checked:not(:disabled) ~ .lever:active::before,
 input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::before {
   transform: scale(2.4);
-  background-color: rgba(38, 166, 154, 0.15);
+  background-color: rgba(27, 41, 98, 0.15);
 }
 
 /* line 74, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_switches.scss */
@@ -10541,7 +10541,7 @@ input[type=range] + .thumb {
   height: 0;
   width: 0;
   border-radius: 50%;
-  background-color: #26a69a;
+  background-color: #1B2962;
   margin-left: 7px;
   transform-origin: 50% 50%;
   transform: rotate(-45deg);
@@ -10551,7 +10551,7 @@ input[type=range] + .thumb .value {
   display: block;
   width: 30px;
   text-align: center;
-  color: #26a69a;
+  color: #1B2962;
   font-size: 0;
   transform: rotate(45deg);
 }
@@ -10586,7 +10586,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 35px;
   width: 35px;
   border-radius: 50%;
-  background-color: #26a69a;
+  background-color: #1B2962;
   transform-origin: 50% 50%;
   margin: -5px 0 0 0;
   transition: .3s;
@@ -10617,7 +10617,7 @@ input[type=range]::-moz-range-thumb {
   height: 35px;
   width: 35px;
   border-radius: 50%;
-  background: #26a69a;
+  background: #1B2962;
   margin-top: -5px;
 }
 
@@ -10658,7 +10658,7 @@ input[type=range]::-ms-thumb {
   height: 35px;
   width: 35px;
   border-radius: 50%;
-  background: #26a69a;
+  background: #1B2962;
 }
 
 /* line 154, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/forms/_range.scss */
@@ -10773,11 +10773,11 @@ input[type=range]:focus::-ms-fill-upper {
 }
 /* line 61, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_sideNav.scss */
 .side-nav li > a.btn:hover, .side-nav li > a.btn-large:hover, .side-nav li > a.btn-large:hover {
-  background-color: #2bbbad;
+  background-color: #213176;
 }
 /* line 63, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_sideNav.scss */
 .side-nav li > a.btn-floating:hover {
-  background-color: #26a69a;
+  background-color: #1B2962;
 }
 /* line 65, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_sideNav.scss */
 .side-nav li > a > i, .side-nav li > a > [class^="mdi-"], .side-nav li > a li > a > [class*="mdi-"], .side-nav li > a > i.material-icons {
@@ -11001,7 +11001,7 @@ input[type=range]:focus::-ms-fill-upper {
   width: 100%;
   height: 100%;
   opacity: 0;
-  border-color: #26a69a;
+  border-color: #1B2962;
 }
 
 /* line 69, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/_preloader.scss */
@@ -12296,7 +12296,7 @@ input[type=range]:focus::-ms-fill-upper {
 /* line 313, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
 .picker__date-display {
   text-align: left;
-  background-color: #26a69a;
+  background-color: #1B2962;
   color: #fff;
   padding: 18px;
   font-weight: 300;
@@ -12323,7 +12323,7 @@ input[type=range]:focus::-ms-fill-upper {
 .picker__nav--next:hover {
   cursor: pointer;
   color: #000000;
-  background: #a1ded8;
+  background: #6d7ec3;
 }
 
 /* line 340, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
@@ -12389,7 +12389,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 /* line 395, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
 .picker__day.picker__day--today {
-  color: #26a69a;
+  color: #1B2962;
 }
 
 /* line 399, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
@@ -12408,14 +12408,14 @@ input[type=range]:focus::-ms-fill-upper {
 .picker--focused .picker__day--selected {
   border-radius: 50%;
   transform: scale(0.9);
-  background-color: #26a69a;
+  background-color: #1B2962;
   color: #ffffff;
 }
 /* line 416, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
 .picker__day--selected.picker__day--outfocus,
 .picker__day--selected:hover.picker__day--outfocus,
 .picker--focused .picker__day--selected.picker__day--outfocus {
-  background-color: #a1ded8;
+  background-color: #6d7ec3;
 }
 
 /* line 422, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
@@ -12428,7 +12428,7 @@ input[type=range]:focus::-ms-fill-upper {
 .picker__close, .picker__today, .picker__clear {
   font-size: 1.1rem;
   padding: 0 1rem;
-  color: #26a69a;
+  color: #1B2962;
 }
 
 /* line 433, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
@@ -12458,7 +12458,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 /* line 454, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.date.scss */
 button.picker__today:focus, button.picker__clear:focus, button.picker__close:focus {
-  background-color: #a1ded8;
+  background-color: #6d7ec3;
 }
 
 /* ==========================================================================
@@ -12723,7 +12723,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 /* line 213, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.time.scss */
 .clockpicker-tick.active,
 .clockpicker-tick:hover {
-  background-color: rgba(38, 166, 154, 0.25);
+  background-color: rgba(27, 41, 98, 0.25);
 }
 
 /* line 217, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.time.scss */
@@ -12775,24 +12775,49 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 /* line 251, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.time.scss */
 .clockpicker-canvas-bearing {
   stroke: none;
-  fill: #26a69a;
+  fill: #1B2962;
 }
 
 /* line 255, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.time.scss */
 .clockpicker-canvas-bg {
   stroke: none;
-  fill: #26a69a;
+  fill: #1B2962;
 }
 
 /* line 259, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.time.scss */
 .clockpicker-canvas-bg-trans {
-  fill: #26a69a;
+  fill: #1B2962;
 }
 
 /* line 262, /Users/frbl/.rvm/gems/ruby-2.4.2/gems/materialize-sass-0.100.2/app/assets/stylesheets/materialize/components/date_picker/_default.time.scss */
 .clockpicker-canvas line {
-  stroke: #26a69a;
+  stroke: #1B2962;
   stroke-width: 4;
   stroke-linecap: round;
   /*shape-rendering: crispEdges;*/
+}
+
+/* line 39, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/application.scss */
+input[type=range]::-webkit-slider-thumb {
+  background-color: #1B2962;
+}
+
+/* line 42, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/application.scss */
+input[type=range]::-moz-range-thumb {
+  background-color: #1B2962;
+}
+
+/* line 45, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/application.scss */
+input[type=range]::-ms-thumb {
+  background-color: #1B2962;
+}
+
+/* line 50, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/application.scss */
+input[type=range] + .thumb {
+  background-color: #1B2962;
+}
+
+/* line 53, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/application.scss */
+input[type=range] + .thumb.active .value {
+  color: white;
 }

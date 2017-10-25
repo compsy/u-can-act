@@ -137,12 +137,13 @@ Required and allowed options (minimal example and maximal example):
    { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
    { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
   ],
+  show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   section_end: true
 }]
 ```
 
-The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.
+The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field.
 
 ### Type: Radio
 Required and allowed options (minimal example and maximal example):
@@ -167,12 +168,13 @@ Required and allowed options (minimal example and maximal example):
    { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
    { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
   ],
+  show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   section_end: true
 }]
 ```
 
-The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.
+The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field.
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):

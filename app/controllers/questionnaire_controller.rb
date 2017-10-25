@@ -4,6 +4,7 @@ class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 255
 
   before_action :set_response, only: [:show]
+  before_action :set_is_mentor, only: [:show]
   before_action :set_cookie, only: [:show]
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
@@ -115,6 +116,10 @@ class QuestionnaireController < ApplicationController
   def set_cookie
     cookie = { TokenAuthenticationController::RESPONSE_ID_COOKIE => @response.id.to_s }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
+  end
+
+  def set_is_mentor
+    @is_mentor = @response.protocol_subscription.person.mentor?
   end
 
   def check_response(response)

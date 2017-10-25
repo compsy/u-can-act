@@ -25,6 +25,30 @@ RSpec.describe QuestionnaireController, type: :controller do
       expect(response).to have_http_status(200)
       expect(response).to render_template('questionnaire/informed_consent')
     end
+
+    describe 'the @is_mentor_variable' do
+      let(:protocol) { FactoryGirl.create(:protocol, :with_informed_consent_questionnaire)}
+      let(:protocol_subscription) { FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol)}
+      let(:responseobj) { FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)}
+      let(:invitation_token) { FactoryGirl.create(:invitation_token, response: responseobj)}
+      it 'should set it to true when the current person is a mentor' do
+        person = FactoryGirl.create(:mentor)
+        protocol_subscription.update_attributes(person: person)
+        get :show, params: { q: invitation_token.token }
+        expect(controller.instance_variable_get(:@is_mentor)).to_not be_nil
+        expect(controller.instance_variable_get(:@is_mentor)).to be_truthy
+      end
+
+      it 'should set whether the current person is a mentor' do
+        person = FactoryGirl.create(:student)
+        protocol_subscription.update_attributes(person: person)
+        get :show, params: { q: invitation_token.token }
+        expect(controller.instance_variable_get(:@is_mentor)).to_not be_nil
+        expect(controller.instance_variable_get(:@is_mentor)).to be_falsey
+      end
+    end
   end
   describe 'POST /' do
     it 'requires a response id' do

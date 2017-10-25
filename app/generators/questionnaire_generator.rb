@@ -193,7 +193,7 @@ class QuestionnaireGenerator
                       required: true,
                       class: 'otherwise-option'),
                   content_tag(:label,
-                              question[:otherwise_label],
+                              question[:otherwise_label].html_safe,
                               for: idify(question[:id], question[:otherwise_label]),
                               class: 'flow-text')
                 ])
@@ -252,7 +252,7 @@ class QuestionnaireGenerator
       option_body = safe_join([
                                 wrapped_tag,
                                 content_tag(:label,
-                                            title,
+                                            title.html_safe,
                                             for: idify(question_id, title),
                                             class: 'flow-text')
                               ])
@@ -278,7 +278,7 @@ class QuestionnaireGenerator
                       value: true,
                       class: 'otherwise-option'),
                   content_tag(:label,
-                              question[:otherwise_label],
+                              question[:otherwise_label].html_safe,
                               for: idify(question[:id], question[:otherwise_label]),
                               class: 'flow-text')
                 ])

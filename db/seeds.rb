@@ -7,6 +7,11 @@ ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 # need to already exist when the protocol seeds are loaded, and the
 # order is different on production servers.
 require File.join(File.dirname(__FILE__), 'seeds', 'questionnaire_seeds.rb')
+
+Dir[File.join(File.dirname(__FILE__), 'seeds', 'questionnaire_seeds', '*.rb')].each do |file|
+  require file
+end
+
 # Load seeds from the seeds directory.
 Dir[File.join(File.dirname(__FILE__), 'seeds', '*.rb')].each do |file|
   require file

@@ -6,7 +6,7 @@ describe QuestionnaireHelper do
   describe 'logo_image' do
     it 'should return the black logo if no is mentor is set' do
       result = logo_image(nil)
-      expected = 'U_can_act_logo_CMYK_ZWART.png'
+      expected = 'U_can_act_logo_ZWART.png'
       expect(result).to eq(expected)
     end
 

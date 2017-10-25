@@ -255,7 +255,9 @@ describe 'GET and POST /', type: :feature, js: true do
 
     # v4
     expect(page).to have_css('a', text: 'Voeg doel toe')
+    expect(page).to_not have_css('a', text: '+')
     expect(page).to have_css('a', text: 'Verwijder doel')
+    expect(page).to_not have_css('a', text: '-')
 
     # All hidden question options should be disabled
     (0..10).each do |q_id|
@@ -286,7 +288,9 @@ describe 'GET and POST /', type: :feature, js: true do
 
     # v4
     expect(page).to have_css('a', text: 'Voeg doel toe')
+    expect(page).to_not have_css('a', text: '+')
     expect(page).to have_css('a', text: 'Verwijder doel')
+    expect(page).to_not have_css('a', text: '-')
 
     # first questions should not be disabled
     question_id = 0

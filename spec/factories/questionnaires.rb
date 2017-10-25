@@ -25,7 +25,8 @@ FactoryGirl.define do
     }, {
       id: :v4,
       title: 'Doelen voor deze student',
-      labels: ['Voeg doel toe', 'Verwijder doel'],
+      add_button_label: 'Voeg doel toe',
+      remove_button_label: 'Verwijder doel',
       type: :expandable,
       default_expansions: 0,
       max_expansions: 10,
@@ -89,7 +90,8 @@ FactoryGirl.define do
       }, {
         id: :v4,
         title: 'Doelen voor deze student',
-        labels: ['Voeg doel toe', 'Verwijder doel'],
+        add_button_label: 'Voeg doel toe',
+        remove_button_label: 'Verwijder doel',
         type: :expandable,
         default_expansions: 1,
         max_expansions: 10,

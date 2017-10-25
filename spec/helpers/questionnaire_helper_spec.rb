@@ -5,19 +5,22 @@ require 'rails_helper'
 describe QuestionnaireHelper do
   describe 'logo_image' do
     it 'should return the black logo if no is mentor is set' do
-      result = logo_image(nil)
+      instance_variable_set(:@is_mentor, nil)
+      result = logo_image
       expected = 'U_can_act_logo_ZWART.png'
       expect(result).to eq(expected)
     end
 
     it 'should return the green logo if is mentor is false' do
-      result = logo_image(false)
+      instance_variable_set(:@is_mentor, false)
+      result = logo_image
       expected = 'U_can_act_logo_CMYK_GROEN.png'
       expect(result).to eq(expected)
     end
 
     it 'should return the blue logo if is mentor true' do
-      result = logo_image(true)
+      instance_variable_set(:@is_mentor, true)
+      result = logo_image
       expected = 'U_can_act_logo_CMYK_BLAUW.png'
       expect(result).to eq(expected)
     end

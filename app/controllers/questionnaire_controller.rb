@@ -4,9 +4,9 @@ class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 255
 
   before_action :set_response, only: [:show]
-  before_action :set_is_mentor, only: [:show]
   before_action :set_cookie, only: [:show]
   before_action :check_informed_consent, only: [:show]
+  before_action :set_is_mentor, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
   before_action :verify_response_id, only: %i[create create_informed_consent]
   before_action :set_create_response, only: %i[create create_informed_consent]
@@ -21,6 +21,7 @@ class QuestionnaireController < ApplicationController
     @protocol_subscription.save!
     @response.update_attributes!(opened_at: Time.zone.now)
     set_questionnaire_content
+    set_is_mentor
     render :show
   end
 

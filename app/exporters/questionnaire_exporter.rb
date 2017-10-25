@@ -11,7 +11,7 @@ class QuestionnaireExporter
       questionnaire_content = questionnaire.content
       @counter = 0
       Enumerator.new do |enum|
-        export(questionnaire_content) do |line|
+        export_questionnaire(questionnaire_content) do |line|
           enum << line + "\n"
         end
       end
@@ -19,18 +19,23 @@ class QuestionnaireExporter
 
     private
 
-    def export(questionnaire_content, &_block)
+    def export_questionnaire(questionnaire_content, &block)
       fields = %w[type hidden section_start section_end title content labels options otherwise_label min max]
       headers = %w[question_id question_position type hidden section_start section_end] +
                 %w[title content labels options otherwise_label min max]
       yield format_headers(headers)
       questionnaire_content.each do |question|
-        vals = special_fields(question)
-        fields.each do |field|
-          vals[field] = question[field.to_sym]
-        end
-        yield format_hash(headers, vals)
+        next export_question(question, headers, fields, &block) if question[:type] != :expandable
+        question[:content].each { |sub_question| export_question(sub_question, headers, fields, &block) }
       end
+    end
+
+    def export_question(question, headers, fields)
+      vals = special_fields(question)
+      fields.each do |field|
+        vals[field] = question[field.to_sym]
+      end
+      yield format_hash(headers, vals)
     end
 
     def special_fields(question)

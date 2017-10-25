@@ -54,11 +54,11 @@ dagboek_content = [{
       'Laagdrempelig contact leggen; bijv. whatsappen of samen tafeltennissen, wandelen of roken.',
       'Visuele oefeningen uitvoeren; bijv. een netwerkschema op papier uittekenen of in powerpoint gedragsschema’s met deze student uitwerken.',
       'Verbale oefeningen uitvoeren; bijv. een rollenspel spelen, deze student laten presenteren.',
-      'Motiverende gesprekstechnieken gebruiken; bijv. vertrouwen naar deze student uitspreken dat zij/hij haar/zijn tentamen kan halen ,deze student aansporen tot het maken van een presentatie of deze student aanmoedigen tijdens een sportevent.',
+      'Motiverende gesprekstechnieken gebruiken; bijv. vertrouwen naar deze student uitspreken dat zij/hij haar/zijn tentamen kan halen, deze student aansporen tot het maken van een presentatie of deze student aanmoedigen tijdens een sportevent.',
       'Confronterende gesprekstechnieken gebruiken; bijv. deze student een spreekwoordelijke spiegel voorhouden, aanspreken op onhandig gedrag of provocatief coachen.',
-      'Uitleg geven; bijv. deze student informeren over middelengebruik of over de kenmerken ADHD.',
+      'Uitleg geven; bijv. deze student informeren over middelengebruik of over de kenmerken van ADHD.',
       'Emotionele steun bieden; bijv. empathisch reageren op een nare ervaring van deze student, of deze student een luisterend oor bieden.',
-      'De omgeving van deze student betrekken bij de begeleiding; bijv. ouders, vrienden, leraren of hulpverleners uitleg geven over deze student haar/zijn gedrag of handvaten geven om beter met deze student om te gaan.',
+      'De omgeving van deze student betrekken bij de begeleiding; bijv. ouders, vrienden, leraren of hulpverleners uitleg geven over deze student haar/zijn gedrag of vragen om mee te helpen in de begeleiding van deze student.',
       'Hulp vragen aan/overleggen met collega’s of andere professionals; bijv. hulp vragen aan een psycholoog of maatschappelijk werker om mee te helpen/denken in de begeleiding.',
       'Observaties doen; bijv. een voetbalwedstrijd bekijken of deze student observeren tijdens pauzes of lessen.'
     ]
@@ -75,16 +75,21 @@ dagboek_content = [{
       'Inzicht krijgen in de omgeving van deze student; bijv. verdiepen in wat zij/hij zoal meemaakt op school of tijdens haar/zijn hobby(s), verdiepen in deze student haar/zijn familiedynamiek of achterhalen met wie hij zoal omgaat.',
       'De omgeving van deze student veranderen; bijv. kennis vergroten bij ouders, vrienden en leraren van deze student, of hen overtuigen om deze student hulp te bieden.'
     ]
-
   }, {
     id: :v3_4,
     type: :range,
     title: 'Hoe belangrijk denk jij dat deze actie (reeks) was voor de voortgang van deze student in zijn begeleidingstraject?',
     labels: ['niet belangrijk', 'heel belangrijk']
   }, {
+    id: :v3_51,
+    type: :checkbox,
+    show_otherwise: false,
+    title: 'Hoe tevreden ben je met de interactie tussen jou en deze student tijdens deze actie(reeks)?',
+    options: [ 'Niet van toepassing' ]
+  }, {
     id: :v3_5,
     type: :range,
-    title: 'Hoe tevreden ben je met de interactie tussen jou en deze student tijdens deze actie(reeks)?',
+    title: '',
     labels: ['ontevreden', 'heel tevreden']
   }]
 }, {

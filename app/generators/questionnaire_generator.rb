@@ -271,6 +271,7 @@ class QuestionnaireGenerator
     end
 
     def checkbox_otherwise_option(question)
+      return '' if(question.has_key?(:show_otherwise) && !question[:show_otherwise])
       safe_join([
                   tag(:input,
                       type: 'checkbox',

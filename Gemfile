@@ -94,7 +94,7 @@ group :test do
   gem 'simplecov'
 
   # Used for gem mocking
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '= 4.8.0'
 
   # Test which template was rendered
   gem 'rails-controller-testing'

@@ -24,7 +24,7 @@ class Person < ApplicationRecord
   #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
 
   def mentor?
-    self.type == 'Mentor'
+    type == 'Mentor'
   end
 
   def reward_points

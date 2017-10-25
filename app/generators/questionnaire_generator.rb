@@ -175,7 +175,7 @@ class QuestionnaireGenerator
     end
 
     def radio_otherwise(question)
-      return '' if(question.has_key?(:show_otherwise) && !question[:show_otherwise])
+      return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
       option_body = safe_join([
                                 radio_otherwise_option(question),
                                 otherwise_textfield(question)
@@ -262,7 +262,7 @@ class QuestionnaireGenerator
     end
 
     def checkbox_otherwise(question)
-      return '' if(question.has_key?(:show_otherwise) && !question[:show_otherwise])
+      return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
       option_body = safe_join([
                                 checkbox_otherwise_option(question),
                                 otherwise_textfield(question)

@@ -27,12 +27,17 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
 
     describe 'the @is_mentor_variable' do
-      let(:protocol) { FactoryGirl.create(:protocol, :with_informed_consent_questionnaire)}
-      let(:protocol_subscription) { FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol)}
-      let(:responseobj) { FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)}
-      let(:invitation_token) { FactoryGirl.create(:invitation_token, response: responseobj)}
+      let(:protocol) { FactoryGirl.create(:protocol, :with_informed_consent_questionnaire) }
+      let(:protocol_subscription) do
+        FactoryGirl.create(:protocol_subscription,
+                           start_date: 1.week.ago.at_beginning_of_day,
+                           protocol: protocol)
+      end
+      let(:responseobj) do
+        FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                      open_from: 1.hour.ago)
+      end
+      let(:invitation_token) { FactoryGirl.create(:invitation_token, response: responseobj) }
       it 'should set it to true when the current person is a mentor' do
         person = FactoryGirl.create(:mentor)
         protocol_subscription.update_attributes(person: person)

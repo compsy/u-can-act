@@ -1918,7 +1918,8 @@ dagboek_content = [{
                    }, {
                      id: :v17,
                      title: 'Doelen voor deze student',
-                     labels: ['Voeg doel toe', 'Verwijder doel'],
+                     add_button_label: 'Voeg doel toe',
+                     remove_button_label: 'Verwijder doel',
                      type: :expandable,
                      default_expansions: 1,
                      max_expansions: 10,
@@ -1959,7 +1960,7 @@ dagboek_content = [{
                       title: 'Slider 2 (lorem!)',
                       labels: ['zelf geen invloed', 'zelf veel invloed']
                      }]
-                   },
+                   }
 
 
 ]

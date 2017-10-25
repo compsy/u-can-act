@@ -68,34 +68,34 @@ function time_element() {
 }
 
 function addRemoveDisabledClass(buttons, element_class) {
-  let buttonElement;
+  let currentButton;
   let questionnaireId;
   let elem;
   buttons.each(function(button) {
     // $(this) is the button
-    buttonElement = $(this);
-    questionnaireId = buttonElement.attr('data-belongsto');
+    currentButton = $(this);
+    questionnaireId = currentButton.attr('data-belongsto');
     elem = $(element_class + "." + questionnaireId).first();
     if(elem.length <= 0) {
-      buttonElement.addClass('disabled');
+      currentButton.addClass('disabled');
     } else {
-      buttonElement.removeClass('disabled');
+      currentButton.removeClass('disabled');
     }
   });
 }
 
 function updateExpandableButtons() {
-  buttons = $( ".expand_expandable")
+  buttons = $(".expand_expandable")
   addRemoveDisabledClass(buttons, '.expandable_wrapper.hidden')
 
-  buttons = $( ".collapse_expandable")
+  buttons = $(".collapse_expandable")
   addRemoveDisabledClass(buttons, '.expandable_wrapper:not(.hidden)')
 }
 
 function findExpandableElement(button, element) {
   const questionnaireId = $(button).attr('data-belongsto');
   // Find the first element that is hidden and expandable so we can unhide it
-  const elem = $( element + "." + questionnaireId).first();
+  const elem = $(element + "." + questionnaireId).first();
   return(elem)
 }
 

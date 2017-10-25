@@ -401,13 +401,13 @@ class QuestionnaireGenerator
       id = idify(question[:id])
       body << single_expandable_button(
         id,
-        question[:labels]&.first || '+',
+        question[:add_button_label] || '+',
         'expand_expandable'
       )
 
       body << single_expandable_button(
         id,
-        question[:labels]&.second || '-',
+        question[:remove_button_label] || '-',
         'collapse_expandable red'
       )
 

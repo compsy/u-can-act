@@ -33,15 +33,39 @@ class EchoPeople < ActiveInteraction::Base
   end
 
   def process_row(row)
-    result = { first_name: row[0],
-               last_name: row[1],
-               mobile_phone: row[2],
-               protocol_name: row[3],
-               start_date: row[4] }
-    if row.length > 5
-      result[:filling_out_for] = row[5]
-      result[:filling_out_for_protocol] = row[6]
-    end
-    result
+    return create_student_hash(row) if row[0] == 'student'
+    create_mentor_hash(row)
+  end
+
+  def create_student_hash(row)
+    # Student format:
+    # type;organization_name;first_name;last_name;gender;mobile_phone;protocol_name;start_date
+    {
+      organization_name: row[1],
+      first_name:        row[2],
+      last_name:         row[3],
+      gender:            row[4],
+      mobile_phone:      row[5],
+      protocol_name:     row[6],
+      start_date:        row[7]
+    }
+  end
+
+  def create_mentor_hash(row)
+    # Mentor format:
+    # type;organization_name;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;
+    # filling_out_for;filling_out_for_protocol
+    {
+      organization_name:        row[1],
+      first_name:               row[2],
+      last_name:                row[3],
+      gender:                   row[4],
+      mobile_phone:             row[5],
+      email:                    row[6],
+      protocol_name:            row[7],
+      start_date:               row[8],
+      filling_out_for:          row[9],
+      filling_out_for_protocol: row[10]
+    }
   end
 end

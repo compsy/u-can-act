@@ -49,6 +49,18 @@ class Response < ApplicationRecord
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
 
+  scope :future, (lambda {
+    where('open_from > :time_now', time_now: Time.zone.now)
+  })
+
+  def future?
+    open_from > Time.zone.now
+  end
+
+  def completed?
+    completed_at.present?
+  end
+
   def remote_content
     ResponseContent.find(content) if content.present?
   end
@@ -70,6 +82,19 @@ class Response < ApplicationRecord
 
   def expired?
     response_expired? || protocol_subscription.ended?
+  end
+
+  def determine_student_mentor
+    student = nil
+    mentor = nil
+    if protocol_subscription.mentor?
+      student = protocol_subscription.filling_out_for
+      mentor = protocol_subscription.person
+    else # we are student
+      student = protocol_subscription.person
+      mentor = student.type == 'Student' ? student.mentor : nil # Student can in theory just be a person
+    end
+    [student, mentor]
   end
 
   private

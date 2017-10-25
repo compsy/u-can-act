@@ -6,42 +6,58 @@ require 'rails_helper'
 describe CreateMentors do
   let!(:protocol_for_mentors) { FactoryGirl.create(:protocol, name: 'protname-mentor') }
   let!(:protocol_for_students) { FactoryGirl.create(:protocol, name: 'protname-student') }
+  let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
   let!(:plain_text_parser) { PlainTextParser.new }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let!(:students) { FactoryGirl.create_list(:student, 20) }
   let!(:mentors) do
     [{ first_name: 'a',
        last_name: 'e',
+       gender: Person::MALE,
+       email: 'a@person.com',
        mobile_phone: '0612345679',
        protocol_name: protocol_for_mentors.name,
+       organization_name: organization.name,
        start_date: dateinfuture,
        filling_out_for: students.first.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
      { first_name: 'b',
        last_name: 'f',
+       gender: Person::FEMALE,
+       email: 'b@person.com',
        mobile_phone: '06-12345670',
        protocol_name: protocol_for_mentors.name,
+       organization_name: organization.name,
        start_date: dateinfuture,
        filling_out_for: students.second.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
      { first_name: 'c',
        last_name: 'g',
+       gender: Person::FEMALE,
+       email: 'c@person.com',
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
+       organization_name: organization.name,
        start_date: dateinfuture,
        filling_out_for: students.third.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
      { first_name: 'c',
        last_name: 'g',
+       gender: Person::FEMALE,
+       email: 'c@person.com',
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
+       organization_name: organization.name,
        start_date: dateinfuture,
        filling_out_for: students.fourth.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name },
      { first_name: 'c',
        last_name: 'g',
+       gender: Person::FEMALE,
+       email: 'c@person.com',
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
+       organization_name: organization.name,
        start_date: dateinfuture,
        filling_out_for: students.fifth.mobile_phone,
        filling_out_for_protocol: protocol_for_students.name }]
@@ -66,11 +82,14 @@ describe CreateMentors do
       result = subject.send(:parse_mentors, mentors, plain_text_parser)
       expect(result.map(&:keys).uniq.flatten).to match_array(%i[first_name
                                                                 last_name
+                                                                gender
+                                                                email
                                                                 mobile_phone
                                                                 protocol_id
                                                                 start_date
                                                                 filling_out_for_id
-                                                                filling_out_for_protocol_id])
+                                                                filling_out_for_protocol_id
+                                                                organization_id])
     end
 
     it 'should set the correct data' do
@@ -78,39 +97,54 @@ describe CreateMentors do
       timedateinfuture = Time.zone.parse(dateinfuture)
       expect(result.first).to eq(first_name: 'a',
                                  last_name: 'e',
+                                 gender: Person::MALE,
+                                 email: 'a@person.com',
                                  mobile_phone: '0612345679',
                                  protocol_id: protocol_for_mentors.id,
                                  start_date: timedateinfuture,
                                  filling_out_for_id: students.first.id,
-                                 filling_out_for_protocol_id: protocol_for_students.id)
+                                 filling_out_for_protocol_id: protocol_for_students.id,
+                                 organization_id: organization.id)
       expect(result.second).to eq(first_name: 'b',
                                   last_name: 'f',
+                                  gender: Person::FEMALE,
+                                  email: 'b@person.com',
                                   mobile_phone: '0612345670',
                                   protocol_id: protocol_for_mentors.id,
                                   start_date: timedateinfuture,
                                   filling_out_for_id: students.second.id,
-                                  filling_out_for_protocol_id: protocol_for_students.id)
+                                  filling_out_for_protocol_id: protocol_for_students.id,
+                                  organization_id: organization.id)
       expect(result.third).to eq(first_name: 'c',
                                  last_name: 'g',
+                                 gender: Person::FEMALE,
+                                 email: 'c@person.com',
                                  mobile_phone: '0612345671',
                                  protocol_id: protocol_for_mentors.id,
                                  start_date: timedateinfuture,
                                  filling_out_for_id: students.third.id,
-                                 filling_out_for_protocol_id: protocol_for_students.id)
+                                 filling_out_for_protocol_id: protocol_for_students.id,
+                                 organization_id: organization.id)
       expect(result.fourth).to eq(first_name: 'c',
                                   last_name: 'g',
+                                  gender: Person::FEMALE,
+                                  email: 'c@person.com',
                                   mobile_phone: '0612345671',
                                   protocol_id: protocol_for_mentors.id,
                                   start_date: timedateinfuture,
                                   filling_out_for_id: students.fourth.id,
-                                  filling_out_for_protocol_id: protocol_for_students.id)
+                                  filling_out_for_protocol_id: protocol_for_students.id,
+                                  organization_id: organization.id)
       expect(result.fifth).to eq(first_name: 'c',
                                  last_name: 'g',
+                                 gender: Person::FEMALE,
+                                 email: 'c@person.com',
                                  mobile_phone: '0612345671',
                                  protocol_id: protocol_for_mentors.id,
                                  start_date: timedateinfuture,
                                  filling_out_for_id: students.fifth.id,
-                                 filling_out_for_protocol_id: protocol_for_students.id)
+                                 filling_out_for_protocol_id: protocol_for_students.id,
+                                 organization_id: organization.id)
     end
   end
 
@@ -121,38 +155,54 @@ describe CreateMentors do
         { first_name: 'a',
           last_name: 'e',
           mobile_phone: '0612345679',
+          gender: Person::MALE,
+          email: 'a@person.com',
           protocol_id: protocol_for_mentors.id,
           start_date: timedateinfuture,
           filling_out_for_id: students.first.id,
-          filling_out_for_protocol_id: protocol_for_students.id },
+          filling_out_for_protocol_id: protocol_for_students.id,
+          organization_id: organization.id },
         { first_name: 'b',
           last_name: 'f',
+          gender: nil,
+          email: 'b@person.com',
           mobile_phone: '0612345670',
           protocol_id: protocol_for_mentors.id,
           start_date: timedateinfuture,
           filling_out_for_id: students.second.id,
-          filling_out_for_protocol_id: protocol_for_students.id },
+          filling_out_for_protocol_id: protocol_for_students.id,
+          organization_id: organization.id },
+        # Note that the next 3 mentors have the same phone number
         { first_name: 'c',
           last_name: 'g',
+          gender: Person::FEMALE,
+          email: 'c@person.com',
           mobile_phone: '0612345671',
           protocol_id: protocol_for_mentors.id,
           start_date: timedateinfuture,
           filling_out_for_id: students.third.id,
-          filling_out_for_protocol_id: protocol_for_students.id },
+          filling_out_for_protocol_id: protocol_for_students.id,
+          organization_id: organization.id },
         { first_name: 'c',
           last_name: 'g',
+          gender: Person::FEMALE,
+          email: 'c@person.com',
           mobile_phone: '0612345671',
           protocol_id: protocol_for_mentors.id,
           start_date: timedateinfuture,
           filling_out_for_id: students.fourth.id,
-          filling_out_for_protocol_id: protocol_for_students.id },
+          filling_out_for_protocol_id: protocol_for_students.id,
+          organization_id: organization.id },
         { first_name: 'c',
           last_name: 'g',
+          gender: Person::FEMALE,
+          email: 'c@person.com',
           mobile_phone: '0612345671',
           protocol_id: protocol_for_mentors.id,
           start_date: timedateinfuture,
           filling_out_for_id: students.fifth.id,
-          filling_out_for_protocol_id: protocol_for_students.id }
+          filling_out_for_protocol_id: protocol_for_students.id,
+          organization_id: organization.id }
       ]
     end
 
@@ -168,7 +218,10 @@ describe CreateMentors do
         act = Mentor.find_by_mobile_phone(hash[:mobile_phone])
         expect(act.first_name).to eq hash[:first_name]
         expect(act.last_name).to eq hash[:last_name]
+        expect(act.email).to eq hash[:email]
+        expect(act.gender).to eq hash[:gender]
         expect(act.mobile_phone).to eq hash[:mobile_phone]
+        expect(act.organization.id).to eq organization.id
       end
     end
 

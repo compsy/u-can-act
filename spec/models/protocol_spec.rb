@@ -36,6 +36,8 @@ describe Protocol do
       protocol = FactoryGirl.build(:protocol)
       protocol.duration = 0
       expect(protocol.valid?).to be_truthy
+      protocol.duration = 1.5
+      expect(protocol.valid?).to be_falsey
       protocol.duration = -1
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :duration
@@ -142,6 +144,179 @@ describe Protocol do
       protocol = FactoryGirl.create(:protocol)
       expect(protocol.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(protocol.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'rewards' do
+    it 'should return the rewards sorted by threshold' do
+      protocol = FactoryGirl.create(:protocol)
+      reward3 = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      reward1 = FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      reward2 = FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      expect(protocol.rewards).to eq([reward1, reward2, reward3])
+    end
+  end
+
+  describe 'max_streak' do
+    it 'should return the reward with the highest threshold' do
+      protocol = FactoryGirl.create(:protocol)
+      reward = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      expect(protocol.max_streak).to eq(reward)
+    end
+
+    it 'should nil if there are no rewards' do
+      protocol = FactoryGirl.create(:protocol)
+      expect(protocol.max_streak).to be_nil
+    end
+  end
+
+  describe 'find_correct_multiplier' do
+    let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
+    let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
+    let(:protocol_single_reward) do
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 10, reward_points: 100)
+      protocol
+    end
+
+    it 'should find the current applicable multiplier for a given value' do
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      Reward.all.each do |reward|
+        expect(protocol.find_correct_multiplier(reward.threshold)).to eq reward.reward_points
+      end
+    end
+
+    it 'should return 1 if no rewards exist' do
+      [1, 10, 13, 100].each do |val|
+        expect(protocol_no_rewards.find_correct_multiplier(val)).to eq 1
+      end
+    end
+
+    it 'should work with a single reward' do
+      # Pre-threshold
+      range = 1...(protocol_single_reward.rewards.first.threshold)
+      expected = 1
+      range.step(1).each do |value|
+        expect(protocol_single_reward.find_correct_multiplier(value)).to eq expected
+      end
+
+      # Post-threshold
+      range = protocol_single_reward.rewards.first.threshold...(protocol_single_reward.rewards.first.threshold * 10)
+      expected = protocol_single_reward.rewards.first.reward_points
+      range.step(1).each do |value|
+        expect(protocol_single_reward.find_correct_multiplier(value)).to eq expected
+      end
+    end
+
+    it 'should return the reward of which a value just exceeded the threshold' do
+      rewards_hash = {}
+      protocol.rewards.each { |rw| rewards_hash[rw.threshold] = rw.reward_points }
+      max_rw_threshold = rewards_hash.keys.max
+      result = (1..(max_rw_threshold + 1)).step(1).map do |val|
+        protocol.find_correct_multiplier(val)
+      end
+      rewards_hash[1]
+      expect(result).to eq [
+        rewards_hash[1],
+        rewards_hash[1],
+        rewards_hash[1],
+        rewards_hash[1],
+        rewards_hash[5],
+        rewards_hash[5],
+        rewards_hash[7],
+        rewards_hash[7]
+      ]
+    end
+  end
+
+  describe 'calculate_reward' do
+    let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
+    let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
+    let(:protocol_single_reward) do
+      protocol = FactoryGirl.create(:protocol)
+      FactoryGirl.create(:reward, protocol: protocol, threshold: 1, reward_points: 100)
+      protocol
+    end
+
+    let(:measurement_completion) do
+      [{ streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 2, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 3, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 2, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 3, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 4, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 5, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 6, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 7, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 8, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 9, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 10, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 0, periodical: true, reward_points: 1, future: false, completed: false },
+       { streak: 1, periodical: true, reward_points: 1, future: false, completed: true },
+       { streak: 2, periodical: true, reward_points: 1, future: true, completed: false },
+       { streak: 3, periodical: true, reward_points: 1, future: true, completed: false }]
+    end
+
+    it 'should calculate the correct reward when there are no measurements' do
+      measurement_completion = [{ future: true }] * 10
+      expected_value = 0
+      result = protocol.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+
+    it 'should calculate the default multiplier of 1 if no multipliers are available' do
+      expected_value = measurement_completion.reduce(0) { |tot, val| tot + (val[:completed] ? val[:reward_points] : 0) }
+      result = protocol_no_rewards.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+
+    it 'should calculate the correct reward when there is a single reward' do
+      expected_value = measurement_completion.map { |entry| entry[:reward_points] if entry[:completed] }.compact.sum
+      expected_value *= 100
+
+      result = protocol_single_reward.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+
+    it 'should calculate the correct reward when there are multilple rewards' do
+      expected_value = (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 3 + 3 + 5 + 5 + 5 + 5 + 1) * 100
+      result = protocol.calculate_reward(measurement_completion)
+      expect(result).to eq expected_value
+    end
+
+    it 'should caluclate the correct reward for a subset of items' do
+      current_measurement_completion = measurement_completion[4..8]
+      expected = current_measurement_completion.reduce(0) do |tot, val|
+        tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
+      end
+      result = protocol.calculate_reward(current_measurement_completion, false)
+      expect(result).to eq expected
+    end
+
+    it 'should calculate the max possible future score, then the flag check_future is set' do
+      current_measurement_completion = measurement_completion[-1..-2]
+      expected = current_measurement_completion.reduce(0) do |tot, val|
+        tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
+      end
+      result = protocol.calculate_reward(current_measurement_completion, true)
+      expect(result).to eq expected
+    end
+
+    it 'should not calculate the max possible future score, then the flag check_future is not set' do
+      current_measurement_completion = measurement_completion[-1..-2]
+      result = protocol.calculate_reward(current_measurement_completion, false)
+      expect(result).to eq 0
     end
   end
 end

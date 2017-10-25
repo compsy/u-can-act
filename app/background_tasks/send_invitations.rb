@@ -23,7 +23,7 @@ class SendInvitations
 
     def queue_mentor_responses(mentor_responses)
       # We collect the responses for the mentor before, and send them only a single text.
-      mentor_responses.each do |_key, response|
+      mentor_responses.each_value do |response|
         response.update_attributes!(invited_state: Response::SENDING_STATE)
         SendInvitationJob.perform_later response
       end

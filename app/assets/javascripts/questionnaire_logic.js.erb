@@ -31,8 +31,7 @@ function toggle_shown_questions() {
     } else {
       $(this).data('shows-questions').forEach(function (entry) {
         var klass = '.' + entry + '_toggle';
-        $(klass).addClass('hidden')
-          .find('input,textarea').prop('disabled', true);
+        $(klass).addClass('hidden').find('input,textarea').prop('disabled', true);
       });
     }
   });
@@ -68,6 +67,60 @@ function time_element() {
   }
 }
 
+function addRemoveDisabledClass(buttons, element_class) {
+  var currentButton;
+  var questionnaireId;
+  var elem;
+  buttons.each(function(button) {
+    // $(this) is the button
+    currentButton = $(this);
+    questionnaireId = currentButton.attr('data-belongsto');
+    elem = $(element_class + "." + questionnaireId).first();
+    if(elem.length <= 0) {
+      currentButton.addClass('disabled');
+    } else {
+      currentButton.removeClass('disabled');
+    }
+  });
+}
+
+function updateExpandableButtons() {
+  buttons = $(".expand_expandable")
+  addRemoveDisabledClass(buttons, '.expandable_wrapper.hidden')
+
+  buttons = $(".collapse_expandable")
+  addRemoveDisabledClass(buttons, '.expandable_wrapper:not(.hidden)')
+}
+
+function findExpandableElement(button, element) {
+  const questionnaireId = $(button).attr('data-belongsto');
+  // Find the first element that is hidden and expandable so we can unhide it
+  const elem = $(element + "." + questionnaireId).first();
+  return(elem)
+}
+
+function expandExpandable() {
+  const elem = findExpandableElement(this, '.expandable_wrapper.hidden');
+  elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
+  $('.otherwise-option').each(toggle_otherwise_field);
+  updateExpandableButtons();
+}
+
+function collapseExpandable() {
+  const elem = findExpandableElement(this, '.expandable_wrapper:not(.hidden)');
+  elem.addClass('hidden').find('input,textarea').prop('disabled', true);
+  $('.otherwise-option').each(toggle_otherwise_field);
+  updateExpandableButtons();
+}
+
+function disableHiddenInputs() {
+  $('.hidden').each(function(index) {
+    $(this).find('input,textarea').each(function(sub_index){
+      $(this).prop('disabled', true);
+    });
+  });
+}
+
 $(function () {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field);
@@ -87,4 +140,12 @@ $(function () {
   $('input,textarea').change(time_element);
   $('textarea').focusin(time_element);
   $('button[type=submit]').click(time_element);
+
+  $('.expand_expandable').on('click', expandExpandable);
+  $('.collapse_expandable').on('click', collapseExpandable);
+  updateExpandableButtons();
+  disableHiddenInputs();
 });
+
+
+

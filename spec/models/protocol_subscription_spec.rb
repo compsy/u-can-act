@@ -51,6 +51,32 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'end_date' do
+    it 'should have one' do
+      protocol_subscription = FactoryGirl.build(:protocol_subscription)
+      protocol_subscription.end_date = nil
+      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription.errors.messages).to have_key :end_date
+      expect(protocol_subscription.errors.messages[:end_date]).to include('moet opgegeven zijn')
+    end
+    it 'should work to retrieve a Time object' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.end_date).to be_a(Time)
+    end
+    it 'should calculate the default end_date if none is provided' do
+      protocol_subscription = FactoryGirl.create(:protocol_subscription)
+      expect(protocol_subscription.end_date).to(
+        eq(TimeTools.increase_by_duration(protocol_subscription.start_date,
+                                          protocol_subscription.protocol.duration))
+      )
+    end
+    it 'should not overwrite a given end_date' do
+      end_date = TimeTools.increase_by_duration(Time.new(2017, 4, 10, 0, 0, 0).in_time_zone, 3.days)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, end_date: end_date)
+      expect(protocol_subscription.end_date).to eq end_date
+    end
+  end
+
   describe 'protocol_id' do
     it 'should have one' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription, protocol_id: nil)
@@ -167,12 +193,63 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'mentor?' do
+    it 'should return true if it is for someone else' do
+      mentor = FactoryGirl.build(:mentor)
+      student = FactoryGirl.build(:student)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: student)
+      expect(protocol_subscription.mentor?).to be_truthy
+    end
+
+    it 'should return false if it is for myself' do
+      mentor = FactoryGirl.build(:mentor)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: mentor)
+      expect(protocol_subscription.mentor?).to be_falsey
+    end
+    it 'should be false by default' do
+      mentor = FactoryGirl.build(:mentor)
+      protocol_subscription = FactoryGirl.build(:protocol_subscription,
+                                                person: mentor)
+      expect(protocol_subscription.mentor?).to be_falsey
+    end
+  end
+
   describe 'responses' do
     it 'should create responses when you create a protocol subscription' do
       protocol = FactoryGirl.create(:protocol)
       FactoryGirl.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(3)
+    end
+    it 'should create responses up to the specified offset_till_end' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, offset_till_end: 2.weeks)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(2)
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, offset_till_end: 1.week)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(3)
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, offset_till_end: 3.weeks)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(1)
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, offset_till_end: 4.weeks)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(0)
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, offset_till_end: 0)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(4)
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol, offset_till_end: nil)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol)
+      expect(protocol_subscription.responses.count).to eq(4)
     end
     it 'should delete the responses when destroying the protocol subscription' do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)
@@ -194,6 +271,44 @@ describe ProtocolSubscription do
       expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 25, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 5, 2, 13, 0, 0).in_time_zone)
     end
+    # For this functionality (scheduling relative to the end),
+    # we will build in a new property later, and then we can reuse these tests.
+    #     it 'should be able to schedule responses relative to the end date' do
+    #       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+    #       FactoryGirl.create(:measurement, :relative_to_end_date, protocol: protocol)
+    #       protocol_subscription = FactoryGirl.create(:protocol_subscription,
+    #                                                  protocol: protocol,
+    #                                                  start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone,
+    #                                                  end_date: Time.new(2017, 5, 1, 0, 0, 0).in_time_zone) # 3 weeks
+    #       expect(protocol_subscription.responses.count).to eq(1)
+    #       expect(protocol_subscription.responses[0].open_from).to(
+    #         eq(Time.new(2017, 4, 28, 13, 0, 0).in_time_zone) # + 3.weeks - 2.days - 11.hours
+    #       )
+    #     end
+    #     it 'should be able to handle negative open_from_offsets when changing from summer to winter time' do
+    #       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+    #       FactoryGirl.create(:measurement, :relative_to_end_date, protocol: protocol)
+    #       protocol_subscription = FactoryGirl.create(:protocol_subscription,
+    #                                                  protocol: protocol,
+    #                                                  start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone,
+    #                                                  end_date: Time.new(2017, 10, 30, 0, 0, 0).in_time_zone)
+    #       expect(protocol_subscription.responses.count).to eq(1)                     # 1 day past dst change
+    #       expect(protocol_subscription.responses[0].open_from).to(
+    #         eq(Time.new(2017, 10, 27, 13, 0, 0).in_time_zone) # - 2.days - 11.hours
+    #       )
+    #     end
+    #     it 'should be able to handle negative open_from_offsets when changing from winter to summer time' do
+    #       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+    #       FactoryGirl.create(:measurement, :relative_to_end_date, protocol: protocol)
+    #       protocol_subscription = FactoryGirl.create(:protocol_subscription,
+    #                                                  protocol: protocol,
+    #                                                  start_date: Time.new(2017, 3, 19, 0, 0, 0).in_time_zone,
+    #                                                  end_date: Time.new(2017, 3, 27, 0, 0, 0).in_time_zone)
+    #       expect(protocol_subscription.responses.count).to eq(1)                    # 1 day past dst change
+    #       expect(protocol_subscription.responses[0].open_from).to(
+    #         eq(Time.new(2017, 3, 24, 13, 0, 0).in_time_zone) # - 2.days - 11.hours
+    #       )
+    #     end
     it 'should not change the open_from time when changing from winter time to summer time' do
       # changes at 2AM Sunday, March 26 2017
       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
@@ -229,7 +344,7 @@ describe ProtocolSubscription do
       # also add some noncompleted responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
       FactoryGirl.create_list(:response, 11, :invite_sent, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.reward_points).to eq 100
+      expect(protocol_subscription.reward_points).to eq 10
     end
   end
 
@@ -239,7 +354,7 @@ describe ProtocolSubscription do
       FactoryGirl.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
       # also add some noninvited responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 100
+      expect(protocol_subscription.possible_reward_points).to eq 10
     end
 
     it 'should also accumulate the reward points for all not completed responses' do
@@ -249,7 +364,7 @@ describe ProtocolSubscription do
       #
       # also add some noninvited responses. These should not be counted.
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 200
+      expect(protocol_subscription.possible_reward_points).to eq 20
     end
   end
 
@@ -258,7 +373,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)
       FactoryGirl.create_list(:response, 10, protocol_subscription: protocol_subscription)
       FactoryGirl.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.max_reward_points).to eq 170
+      expect(protocol_subscription.max_reward_points).to eq 17
     end
   end
 
@@ -280,6 +395,68 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryGirl.create(:protocol_subscription)
       expect(protocol_subscription.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(protocol_subscription.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'protocol_completion' do
+    before do
+      Timecop.freeze(2017, 4, 1)
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'should calculate the correct streak' do
+      protocol = FactoryGirl.create(:protocol, duration: 5.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 2, 1, 0, 0, 0).in_time_zone)
+      protocol_subscription.responses.each_with_index do |response, index|
+        next if index == 0 # Pretend the first response is missing
+        response.completed_at = response.open_from + 1.minute
+      end
+
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+        { completed: true, periodical: true, reward_points: 1, future: false, streak: resp }
+      end
+      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+      expect(result).to eq expected
+    end
+
+    it 'should return -1s if there are no measurements' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+
+      expected = (1..protocol_subscription.responses.length).map do |resp|
+        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+      end
+
+      expect(result).to eq expected
+    end
+
+    it 'should return 0 if a measurement was missed' do
+      protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
+      FactoryGirl.create(:measurement, :periodical, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 3, 27, 0, 0, 0).in_time_zone)
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+      end
+      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+
+      expect(result).to eq expected
     end
   end
 end

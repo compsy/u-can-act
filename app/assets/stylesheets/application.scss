@@ -12,6 +12,7 @@
  *
  *= require_self
  *= require_tree .
+ *= require animate
  */
 //@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
@@ -24,5 +25,16 @@ $input-border-color: color("grey", "darken-1");
 // Make range sliders easier to use on mobile
 $range-height: 35px;
 $range-width: 35px;
+
+$u-can-act-blue: #1B2962;
+$u-can-act-green: #128B61;
+$u-can-act-grey: #99b5cd;
+
+//TODO: This should be relative to whether we are a student or not
+$accent-color: $u-can-act-blue;
+$secondary-color: $u-can-act-blue !default;
+
+//$accent-color: $u-can-act-green;
+//$secondary-color: $u-can-act-green !default;
 
 @import "materialize";

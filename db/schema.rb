@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531100739) do
+ActiveRecord::Schema.define(version: 20171011121518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,17 +48,29 @@ ActiveRecord::Schema.define(version: 20170531100739) do
     t.integer  "reward_points",    default: 0, null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "offset_till_end"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end
 
-  create_table "people", force: :cascade do |t|
-    t.string   "type",         null: false
-    t.string   "mobile_phone", null: false
-    t.string   "first_name",   null: false
-    t.string   "last_name"
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name",         null: false
+    t.string   "mentor_title"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["name"], name: "index_organizations_on_name", unique: true, using: :btree
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string   "type",            null: false
+    t.string   "mobile_phone",    null: false
+    t.string   "first_name",      null: false
+    t.string   "last_name"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id", null: false
+    t.string   "gender"
+    t.string   "email"
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 
@@ -71,6 +83,7 @@ ActiveRecord::Schema.define(version: 20170531100739) do
     t.datetime "updated_at",                null: false
     t.datetime "informed_consent_given_at"
     t.integer  "filling_out_for_id",        null: false
+    t.datetime "end_date",                  null: false
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
   end
@@ -108,6 +121,16 @@ ActiveRecord::Schema.define(version: 20170531100739) do
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
   end
 
+  create_table "rewards", force: :cascade do |t|
+    t.integer  "threshold",     null: false
+    t.integer  "reward_points", null: false
+    t.integer  "protocol_id",   null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["protocol_id"], name: "index_rewards_on_protocol_id", using: :btree
+    t.index ["threshold", "protocol_id"], name: "index_rs_on_threshold_and_protocol_id", unique: true, using: :btree
+  end
+
   add_foreign_key "invitation_tokens", "responses"
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
@@ -116,4 +139,5 @@ ActiveRecord::Schema.define(version: 20170531100739) do
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
   add_foreign_key "responses", "measurements"
   add_foreign_key "responses", "protocol_subscriptions"
+  add_foreign_key "rewards", "protocols"
 end

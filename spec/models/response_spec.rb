@@ -142,6 +142,23 @@ describe Response do
         expect(Response.invited.to_a).to eq []
       end
     end
+
+    describe 'future' do
+      it 'should return responses with a open_from that is in the future' do
+        future_response = FactoryGirl.create(:response, :future)
+        expect(Response.future.count).to eq 1
+        expect(Response.future.to_a).to eq [future_response]
+      end
+      it 'should not return responses that were in the past' do
+        responses = []
+        responses << FactoryGirl.create(:response, open_from: 1.minute.ago)
+        responses << FactoryGirl.create(:response, open_from: 2.minutes.ago)
+        responses << FactoryGirl.create(:response, open_from: 3.years.ago)
+        expect(Response.all.length).to eq(responses.length)
+        expect(Response.future.count).to eq 0
+        expect(Response.future.to_a).to eq []
+      end
+    end
   end
 
   describe 'remote_content' do
@@ -165,6 +182,27 @@ describe Response do
     it 'should return nil when there is no content' do
       response = FactoryGirl.create(:response)
       expect(response.values).to be_nil
+    end
+  end
+
+  describe 'determine_student_mentor' do
+    it 'should identify a student response as a response from a student' do
+      organization = FactoryGirl.create(:organization)
+      student = FactoryGirl.create(:student, organization: organization)
+      mentor = FactoryGirl.create(:mentor, organization: organization)
+      FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      prot_stud = FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
+      response = FactoryGirl.create(:response, protocol_subscription: prot_stud)
+      expect(response.determine_student_mentor).to eq([student, mentor])
+    end
+    it 'should identify a mentor response as a response from a mentor do' do
+      organization = FactoryGirl.create(:organization)
+      student = FactoryGirl.create(:student, organization: organization)
+      mentor = FactoryGirl.create(:mentor, organization: organization)
+      prot_ment = FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
+      response = FactoryGirl.create(:response, protocol_subscription: prot_ment)
+      expect(response.determine_student_mentor).to eq([student, mentor])
     end
   end
 
@@ -198,6 +236,18 @@ describe Response do
       protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       response = FactoryGirl.create(:response, open_from: 1.hour.from_now, protocol_subscription: protocol_subscription)
       expect(response.expired?).to be_falsey
+    end
+  end
+
+  describe 'future?' do
+    it 'should return true if the response is in the future' do
+      response = FactoryGirl.create(:response, open_from: 1.hour.from_now)
+      expect(response.future?).to be_truthy
+    end
+
+    it 'should return false if the response is in the past' do
+      response = FactoryGirl.create(:response, open_from: 1.hour.ago)
+      expect(response.future?).to be_falsey
     end
   end
 

@@ -1769,8 +1769,17 @@ db_name7 = 'dagboek mentoren 1x per week donderdag'
 dagboek7 = Questionnaire.find_by_name(db_name7)
 dagboek7 ||= Questionnaire.new(name: db_name7)
 dagboek_content = [{
+                     id: :v0,
+                     type: :radio,
+                     title: 'Heb je deze student afgelopen week gezien?',
+                     options: [
+                       { title: 'Ja', shows_questions: %i[v1 v13 v14 v15 v16 v17] },
+                       { title: 'Nee', shows_questions: %i[v1 v13 v14 v15 v16 v17] },
+                     ]
+                   }, {
                      section_start: 'De hoofddoelen',
                      id: :v1,
+                     hidden: true,
                      type: :checkbox,
                      title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
                      options: [
@@ -1895,33 +1904,38 @@ dagboek_content = [{
                      section_end: true
                    }, {
                      section_start: 'Algemene vragen',
+                     hidden: true,
                      id: :v13,
                      type: :range,
                      title: 'Hoeveel tijd heb je deze week besteed aan de acties voor deze student?',
                      labels: ['heel weinig', 'heel veel']
                    }, {
                      id: :v14,
+                     hidden: true,
                      type: :range,
                      title: 'Waren je acties voor deze student deze week vooral gepland of vooral intuïtief?',
                      labels: ['helemaal intuïtief', 'helemaal gepland']
                    }, {
                      id: :v15,
+                     hidden: true,
                      type: :range,
                      title: 'Hoe effectief waren je acties voor deze student deze week, denk je?',
                      labels: ['niet effectief', 'compleet effectief']
                    }, {
                      id: :v16,
+                     hidden: true,
                      type: :range,
                      title: 'In hoeverre was deze student deze week in staat zijn/haar eigen gedrag te sturen?',
                      labels: ['helemaal niet', 'helemaal'],
                      section_end: true
                    }, {
                      id: :v17,
+                     hidden: true,
                      title: 'Doelen voor deze student',
                      add_button_label: 'Voeg doel toe',
                      remove_button_label: 'Verwijder doel',
                      type: :expandable,
-                     default_expansions: 1,
+                     default_expansions: 0,
                      max_expansions: 10,
                      content: [{
                       id: :v17_1,

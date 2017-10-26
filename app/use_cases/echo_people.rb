@@ -33,7 +33,7 @@ class EchoPeople < ActiveInteraction::Base
   end
 
   def process_row(row)
-    return create_student_hash(row) if row[0] == 'student'
+    return create_student_hash(row) if row[0] == Person::STUDENT
     create_mentor_hash(row)
   end
 

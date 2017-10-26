@@ -6,7 +6,7 @@ describe CreateStudents do
   let!(:plain_text_parser) { PlainTextParser.new }
   let!(:protocol) { FactoryGirl.create(:protocol, name: 'protname') }
   let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
-  let!(:role) { FactoryGirl.create(:role, organization: organization, group: 'Student', title: 'StudentTitle') }
+  let!(:role) { FactoryGirl.create(:role, organization: organization, group: Person::STUDENT, title: 'StudentTitle') }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:students) do
     [{ first_name: 'a',
@@ -105,15 +105,15 @@ describe CreateStudents do
     end
 
     it 'should create students for all hashes in the array supplied' do
-      expect(Student.count).to eq 0
+      expect(Person.count).to eq 0
       subject.send(:create_students, parsed_students)
-      expect(Student.count).to eq parsed_students.length
+      expect(Person.count).to eq parsed_students.length
     end
 
     it 'should create the correct students' do
       subject.send(:create_students, parsed_students)
       parsed_students.each do |hash|
-        act = Student.find_by_mobile_phone(hash[:mobile_phone])
+        act = Person.find_by_mobile_phone(hash[:mobile_phone])
         expect(act.first_name).to eq hash[:first_name]
         expect(act.last_name).to eq hash[:last_name]
         expect(act.gender).to eq hash[:gender]
@@ -133,7 +133,7 @@ describe CreateStudents do
                            role_id: role.id,
                            start_date: timedateinfuture }
       subject.send(:create_students, parsed_students)
-      expect(Student.count).to eq parsed_students.length - 1
+      expect(Person.count).to eq parsed_students.length - 1
     end
   end
 end

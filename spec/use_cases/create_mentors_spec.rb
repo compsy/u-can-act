@@ -7,7 +7,7 @@ describe CreateMentors do
   let!(:protocol_for_mentors) { FactoryGirl.create(:protocol, name: 'protname-mentor') }
   let!(:protocol_for_students) { FactoryGirl.create(:protocol, name: 'protname-student') }
   let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
-  let!(:role) { FactoryGirl.create(:role, organization: organization, group: 'Mentor', title: 'MentorTitle') }
+  let!(:role) { FactoryGirl.create(:role, organization: organization, group: Person::MENTOR, title: 'MentorTitle') }
   let!(:plain_text_parser) { PlainTextParser.new }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let!(:students) { FactoryGirl.create_list(:student, 20) }
@@ -213,15 +213,15 @@ describe CreateMentors do
     end
 
     it 'should create mentors for all hashes in the array supplied' do
-      mentor_pre = Mentor.count
+      mentor_pre = Person.count
       subject.send(:create_mentors, parsed_mentors)
-      expect(Mentor.count).to eq parsed_mentors.map { |x| x[:mobile_phone] }.uniq.count + mentor_pre
+      expect(Person.count).to eq parsed_mentors.map { |x| x[:mobile_phone] }.uniq.count + mentor_pre
     end
 
     it 'should create the correct mentors' do
       subject.send(:create_mentors, parsed_mentors)
       parsed_mentors.each do |hash|
-        act = Mentor.find_by_mobile_phone(hash[:mobile_phone])
+        act = Person.find_by_mobile_phone(hash[:mobile_phone])
         expect(act.first_name).to eq hash[:first_name]
         expect(act.last_name).to eq hash[:last_name]
         expect(act.email).to eq hash[:email]
@@ -235,7 +235,7 @@ describe CreateMentors do
       subject.send(:create_mentors, parsed_mentors)
       (0..1).each do |idx|
         hash = parsed_mentors[idx]
-        act = Mentor.find_by_mobile_phone(hash[:mobile_phone])
+        act = Person.find_by_mobile_phone(hash[:mobile_phone])
         expect(act.protocol_subscriptions.count).to eq 2
         expect(act.protocol_subscriptions.first.protocol.id).to eq protocol_for_students.id
         expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)
@@ -246,7 +246,7 @@ describe CreateMentors do
       end
 
       hash = parsed_mentors.third
-      act = Mentor.find_by_mobile_phone(hash[:mobile_phone])
+      act = Person.find_by_mobile_phone(hash[:mobile_phone])
       expect(act.protocol_subscriptions.count).to eq 4
       expect(act.protocol_subscriptions.first.protocol.id).to eq protocol_for_students.id
       expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)

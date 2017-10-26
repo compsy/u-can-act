@@ -54,10 +54,9 @@ ActiveRecord::Schema.define(version: 20171012090258) do
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.string   "name",         null: false
-    t.string   "mentor_title"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_organizations_on_name", unique: true, using: :btree
   end
 
@@ -136,6 +135,7 @@ ActiveRecord::Schema.define(version: 20171012090258) do
     t.integer  "organization_id", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["organization_id", "title"], name: "index_roles_on_organization_id_and_title", unique: true, using: :btree
     t.index ["organization_id"], name: "index_roles_on_organization_id", using: :btree
   end
 

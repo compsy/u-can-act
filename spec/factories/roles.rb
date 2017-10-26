@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :role do
-    group 'The group'
+    group 'Student'
     title 'The title'
     organization
   end

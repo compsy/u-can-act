@@ -16,11 +16,11 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   organization = Organization.find_by_name('Default organization')
   organization ||= Organization.new(name: 'Default organization')
 
-  student = organization.roles.where(group: 'Student').first
-  student ||= organization.roles.create(group: 'Student', title: 'student')
+  student = organization.roles.where(group: Person::STUDENT).first
+  student ||= organization.roles.create(group: Person::STUDENT, title: 'student')
 
-  mentor = organization.roles.where(group: 'Mentor').first
-  mentor ||= organization.roles.create(group: 'Mentor', title: 'mentor')
+  mentor = organization.roles.where(group: Person::MENTOR).first
+  mentor ||= organization.roles.create(group: Person::MENTOR, title: 'mentor')
   
   students.each do |student_hash|
     phone = generate_phone

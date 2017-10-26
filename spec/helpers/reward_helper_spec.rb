@@ -23,11 +23,6 @@ describe RewardHelper do
 
   describe 'mentor?' do
     it 'should return true when the person is a Mentor' do
-      fail
-      #expect(role).to receive(:group).and_return('Mentor')
-      #expect(person).to receive(:role).and_return(role)
-      #person = double('person')
-      #role = double('role')
       person = FactoryGirl.build(:mentor)
       protocol_subscription = double('protocol_subscription')
       expect(protocol_subscription).to receive(:person).and_return(person)
@@ -35,11 +30,6 @@ describe RewardHelper do
       expect(helper.mentor?).to be_truthy
     end
     it 'should return false when the person is a Student' do
-      fail
-      #person = double('person')
-      #role = double('role')
-      #expect(role).to receive(:group).and_return('Student')
-      #expect(person).to receive(:role).and_return(role)
       person = FactoryGirl.build(:student)
       protocol_subscription = double('protocol_subscription')
       expect(protocol_subscription).to receive(:person).and_return(person)

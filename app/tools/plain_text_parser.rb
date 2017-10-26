@@ -40,7 +40,7 @@ class PlainTextParser
     mobile_phone = parse_mobile_phone(mobile_phone)
     person = Person.find_by_mobile_phone(mobile_phone)
     raise "Person #{mobile_phone} does not exist" unless person.present?
-    raise "Person #{mobile_phone} is not a student" unless person.role.group == 'Student'
+    raise "Person #{mobile_phone} is not a student" unless person.role.group == Person::STUDENT
     person.id
   end
 end

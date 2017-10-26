@@ -188,8 +188,10 @@ describe Response do
   describe 'determine_student_mentor' do
     it 'should identify a student response as a response from a student' do
       organization = FactoryGirl.create(:organization)
-      student_role = FactoryGirl.create(:role, organization: organization, group: 'Student', title: 'StudentTitle')
-      mentor_role = FactoryGirl.create(:role, organization: organization, group: 'Mentor', title: 'MentorTitle')
+      student_role = FactoryGirl.create(:role, organization: organization,
+                                               group: Person::STUDENT, title: 'StudentTitle')
+      mentor_role = FactoryGirl.create(:role, organization: organization,
+                                              group: Person::MENTOR, title: 'MentorTitle')
 
       student = FactoryGirl.create(:student, role: student_role)
       mentor = FactoryGirl.create(:mentor, role: mentor_role)
@@ -202,8 +204,10 @@ describe Response do
 
     it 'should identify a mentor response as a response from a mentor do' do
       organization = FactoryGirl.create(:organization)
-      student_role = FactoryGirl.create(:role, organization: organization, group: 'Student', title: 'StudentTitle')
-      mentor_role = FactoryGirl.create(:role, organization: organization, group: 'Mentor', title: 'MentorTitle')
+      student_role = FactoryGirl.create(:role, organization: organization,
+                                               group: Person::STUDENT, title: 'StudentTitle')
+      mentor_role = FactoryGirl.create(:role, organization: organization,
+                                              group: Person::MENTOR, title: 'MentorTitle')
 
       student = FactoryGirl.create(:student, role: student_role)
       mentor = FactoryGirl.create(:mentor, role: mentor_role)

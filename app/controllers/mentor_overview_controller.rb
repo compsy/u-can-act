@@ -23,9 +23,10 @@ class MentorOverviewController < ApplicationController
   def set_mentor
     person_id = @response.protocol_subscription.person_id
     # find_by_id because find raises an error when the object was not found.
-    person = person_id.present? && Person.find_by_id(person_id)
-    is_mentor = person.role.group == Person::MENTOR
-    render(status: 404, plain: 'De mentor kon niet gevonden worden.') && return unless is_mentor
-    @mentor = Person.find(person_id)
+    person = Person.find_by_id(person_id)
+    unless person.present? && person.role.group == Person::MENTOR
+      render(status: 404, plain: 'De mentor kon niet gevonden worden.')
+    end
+    @mentor = person
   end
 end

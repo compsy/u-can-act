@@ -28,7 +28,7 @@ class Person < ApplicationRecord
   #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
 
   def mentor?
-    role&.type == 'Mentor'
+    role&.group == Person::MENTOR
   end
 
   def reward_points

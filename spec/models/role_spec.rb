@@ -13,19 +13,28 @@ describe Role, type: :model do
       it 'should be invalid when not present' do
         role = FactoryGirl.build(:role, group: nil)
         expect(role).to_not be_valid
-        role = FactoryGirl.build(:role, group: 'test group')
+        role = FactoryGirl.build(:role, group: Person::STUDENT)
         expect(role).to be_valid
       end
 
+      it 'should be invalid when not in [student or mentor]' do
+        role = FactoryGirl.build(:role, group: 'bla')
+        expect(role).to_not be_valid
+        role = FactoryGirl.build(:role, group: 'NOTVALID')
+        expect(role).to_not be_valid
+        role = FactoryGirl.build(:role, group: 'Person')
+        expect(role).to_not be_valid
+      end
+
       it 'should be invalid when not unique in organization' do
-        role = FactoryGirl.create(:role, group: 'test')
-        role2 = FactoryGirl.build(:role, group: 'test', organization: role.organization)
+        role = FactoryGirl.create(:role, group: Person::STUDENT)
+        role2 = FactoryGirl.build(:role, group: Person::STUDENT, organization: role.organization)
         expect(role2).to_not be_valid
       end
 
       it 'should be valid when not unique but in different organization' do
-        FactoryGirl.create(:role, group: 'test')
-        role2 = FactoryGirl.build(:role, group: 'test')
+        FactoryGirl.create(:role, group: Person::MENTOR)
+        role2 = FactoryGirl.build(:role, group: Person::MENTOR)
         expect(role2).to be_valid
       end
     end

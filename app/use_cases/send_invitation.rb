@@ -24,7 +24,7 @@ class SendInvitation < ActiveInteraction::Base
 
   def random_message
     if response.measurement.questionnaire.name =~ /nameting/ &&
-       response.protocol_subscription.person.role.group == 'Student'
+       response.protocol_subscription.person.role.group == Person::STUDENT
       'Bedankt voor je inzet. Wij waarderen dit enorm! Je krijgt je beloning als je deze laatste vragenlijst invult:'
     else
       'Je bent fantastisch op weg! Ga zo door.'

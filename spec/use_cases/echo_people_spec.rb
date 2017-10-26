@@ -42,9 +42,9 @@ describe EchoPeople do
       before do
         allow(CSV).to receive(:foreach)
           .and_yield(%w[type organization_name firstname lastname gender mobile_phone protocol_name start_date])
-          .and_yield(['student', 'mijnschool', 'a', 'e', Person::MALE,   '0612345679',  'protname', dateinfuture])
-          .and_yield(['student', 'mijnschool', 'b', 'f', Person::FEMALE, '06-12345670', 'protname', dateinfuture])
-          .and_yield(['student', 'mijnschool', 'c', 'g', Person::MALE,   '0612345671',  'protname', dateinfuture])
+          .and_yield([Person::STUDENT, 'mijnschool', 'a', 'e', Person::MALE,   '0612345679',  'protname', dateinfuture])
+          .and_yield([Person::STUDENT, 'mijnschool', 'b', 'f', Person::FEMALE, '06-12345670', 'protname', dateinfuture])
+          .and_yield([Person::STUDENT, 'mijnschool', 'c', 'g', Person::MALE,   '0612345671',  'protname', dateinfuture])
       end
 
       it 'should return an array with all people (except the header)' do
@@ -68,16 +68,21 @@ describe EchoPeople do
           .and_yield(%w[type organization_name role_title
                         firstname lastname gender
                         mobile_phone email protocol_name start_date])
-          .and_yield(['mentor', 'jouwschool', 'Mentor', 'a', 'e', Person::MALE,   '0612345679',  'mentor1@test.com',
+          .and_yield([Person::MENTOR, 'jouwschool', Person::MENTOR, 'a',
+                      'e', Person::MALE, '0612345679', 'mentor1@test.com',
                       'protname', dateinfuture, '06-12345670', 'pilot'])
-          .and_yield(['mentor', 'jouwschool', 'Mentor', 'a', 'e', Person::FEMALE, '0612345679',  'mentor2@test.com',
-                      'protname', dateinfuture, '0676543219',  'pilot'])
-          .and_yield(['mentor', 'jouwschool', 'Mentor', 'b', 'f', Person::MALE,   '06-12345670', 'mentor3@test.com',
-                      'protname', dateinfuture, '0676543219',  'pilot'])
-          .and_yield(['mentor', 'jouwschool', 'Mentor', 'b', 'f', Person::FEMALE, '06-12345670', 'mentor4@test.com',
-                      'protname', dateinfuture, '0676543266',  'pilot'])
-          .and_yield(['mentor', 'jouwschool', 'Mentor', 'b', 'f', Person::MALE,   '06-12345670', 'mentor5@test.com',
-                      'protname', dateinfuture, '0676543227',  'pilot'])
+          .and_yield([Person::MENTOR, 'jouwschool', Person::MENTOR, 'a',
+                      'e', Person::FEMALE, '0612345679', 'mentor2@test.com',
+                      'protname', dateinfuture, '0676543219', 'pilot'])
+          .and_yield([Person::MENTOR, 'jouwschool', Person::MENTOR, 'b',
+                      'f', Person::MALE, '06-12345670', 'mentor3@test.com',
+                      'protname', dateinfuture, '0676543219', 'pilot'])
+          .and_yield([Person::MENTOR, 'jouwschool', Person::MENTOR, 'b',
+                      'f', Person::FEMALE, '06-12345670', 'mentor4@test.com',
+                      'protname', dateinfuture, '0676543266', 'pilot'])
+          .and_yield([Person::MENTOR, 'jouwschool', Person::MENTOR, 'b',
+                      'f', Person::MALE, '06-12345670', 'mentor5@test.com',
+                      'protname', dateinfuture, '0676543227', 'pilot'])
       end
 
       it 'should return an array with all mentors (except the header)' do

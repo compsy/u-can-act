@@ -1,48 +1,49 @@
-.otherwise-textfield {
-  label {
-    margin-bottom: 20px;
+.mentor, .student {
+  .otherwise-textfield {
+    label {
+      margin-bottom: 20px;
+    }
   }
-}
-.input-field.inline {
-  margin-top: -21px;
-  top: 16px;
-}
-.extra-spacing.row {
-  padding-top: 3rem;
-  margin-bottom: -2rem;
-}
-input[type=range] {
-  margin-top: 26px;
-}
-input[type=range]::-webkit-slider-thumb {
-  margin-top: -16px;
-}
-input[disabled].otherwise {
-  cursor: pointer;
-}
-ol ol {
-  list-style-type: lower-alpha;
-  ol {
-    list-style-type: decimal;
+  .input-field.inline {
+    margin-top: -21px;
+    top: 16px;
   }
-}
-.section-explanation {
-  font-weight: bold;
-}
-.hidden {
-  display: none;
-}
-.questionnaire-image {
-  width: 80%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.questionnaire-quote {
-  font-style: italic;
-}
-
-.btn.expandable_button{
-  margin-right: 10px;
-  margin-bottom: 10px;
+  .extra-spacing.row {
+    padding-top: 3rem;
+    margin-bottom: -2rem;
+  }
+  input[type=range] {
+    margin-top: 26px;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -16px;
+  }
+  input[disabled].otherwise {
+    cursor: pointer;
+  }
+  ol ol {
+    list-style-type: lower-alpha;
+    ol {
+      list-style-type: decimal;
+    }
+  }
+  .section-explanation {
+    font-weight: bold;
+  }
+  .hidden {
+    display: none;
+  }
+  .questionnaire-image {
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .questionnaire-quote {
+    font-style: italic;
+  }
+  .btn.expandable_button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
 }

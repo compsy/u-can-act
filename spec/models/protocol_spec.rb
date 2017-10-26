@@ -305,7 +305,7 @@ describe Protocol do
     end
 
     it 'should calculate the max possible future score, then the flag check_future is set' do
-      current_measurement_completion = measurement_completion[-1..-2]
+      current_measurement_completion = measurement_completion[-2..-1]
       expected = current_measurement_completion.reduce(0) do |tot, val|
         tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
       end
@@ -314,7 +314,7 @@ describe Protocol do
     end
 
     it 'should not calculate the max possible future score, then the flag check_future is not set' do
-      current_measurement_completion = measurement_completion[-1..-2]
+      current_measurement_completion = measurement_completion[-2..-1]
       result = protocol.calculate_reward(current_measurement_completion, false)
       expect(result).to eq 0
     end

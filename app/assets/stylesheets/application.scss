@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -17,24 +18,101 @@
 //@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
-@import "materialize/components/color";
 
-$primary-color: color("blue", "lighten-2") !default;
+@import "materialize/components/color";
+$primary-color: color("blue", "lighten-2");
 $input-border-color: color("grey", "darken-1");
 
 // Make range sliders easier to use on mobile
 $range-height: 35px;
 $range-width: 35px;
 
-$u-can-act-blue: #1B2962;
-$u-can-act-green: #128B61;
+$u-can-act-blue: #243a76;  //#1B2962; buenaparte blue
+$u-can-act-green: #009a74; //#128B61; buenaparte green
 $u-can-act-grey: #99b5cd;
 
-//TODO: This should be relative to whether we are a student or not
-$accent-color: $u-can-act-blue;
-$secondary-color: $u-can-act-blue !default;
+.mentor {
+  $accent-color: $u-can-act-blue;
+  $secondary-color: $u-can-act-blue;
+  // Variables;
+  @import "materialize/components/variables";
 
-//$accent-color: $u-can-act-green;
-//$secondary-color: $u-can-act-green !default;
+  // Reset
+  @import "materialize/components/normalize";
+
+  // materialize/components
+  @import "materialize/components/global";
+  @import "materialize/components/badges";
+  @import "materialize/components/icons-material-design";
+  @import "materialize/components/grid";
+  @import "materialize/components/navbar";
+  @import "materialize/components/roboto";
+  @import "materialize/components/typography";
+  @import "materialize/components/transitions";
+  @import "materialize/components/cards";
+  @import "materialize/components/toast";
+  @import "materialize/components/tabs";
+  @import "materialize/components/tooltip";
+  @import "materialize/components/buttons";
+  @import "materialize/components/dropdown";
+  @import "materialize/components/waves";
+  @import "materialize/components/modal";
+  @import "materialize/components/collapsible";
+  @import "materialize/components/chips";
+  @import "materialize/components/materialbox";
+  @import "materialize/components/forms/forms";
+  @import "materialize/components/table_of_contents";
+  @import "materialize/components/sideNav";
+  @import "materialize/components/preloader";
+  @import "materialize/components/slider";
+  @import "materialize/components/carousel";
+  @import "materialize/components/tapTarget";
+  @import "materialize/components/pulse";
+  @import "materialize/components/date_picker/default";
+  @import "materialize/components/date_picker/default.date";
+  @import "materialize/components/date_picker/default.time";
+}
+
+.student {
+  $accent-color: $u-can-act-green;
+  $secondary-color: $u-can-act-green;
+  // Variables;
+  @import "materialize/components/variables";
+
+  // Reset
+  @import "materialize/components/normalize";
+
+  // materialize/components
+  @import "materialize/components/global";
+  @import "materialize/components/badges";
+  @import "materialize/components/icons-material-design";
+  @import "materialize/components/grid";
+  @import "materialize/components/navbar";
+  @import "materialize/components/roboto";
+  @import "materialize/components/typography";
+  @import "materialize/components/transitions";
+  @import "materialize/components/cards";
+  @import "materialize/components/toast";
+  @import "materialize/components/tabs";
+  @import "materialize/components/tooltip";
+  @import "materialize/components/buttons";
+  @import "materialize/components/dropdown";
+  @import "materialize/components/waves";
+  @import "materialize/components/modal";
+  @import "materialize/components/collapsible";
+  @import "materialize/components/chips";
+  @import "materialize/components/materialbox";
+  @import "materialize/components/forms/forms";
+  @import "materialize/components/table_of_contents";
+  @import "materialize/components/sideNav";
+  @import "materialize/components/preloader";
+  @import "materialize/components/slider";
+  @import "materialize/components/carousel";
+  @import "materialize/components/tapTarget";
+  @import "materialize/components/pulse";
+  @import "materialize/components/date_picker/default";
+  @import "materialize/components/date_picker/default.date";
+  @import "materialize/components/date_picker/default.time";
+}
 
 @import "materialize";

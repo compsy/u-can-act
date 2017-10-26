@@ -27,6 +27,10 @@ class Person < ApplicationRecord
   #          -> { order created_at: :desc },
   #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
 
+  def mentor?
+    role&.type == 'Mentor'
+  end
+
   def reward_points
     protocol_subscriptions.map(&:reward_points).reduce(0, :+)
   end

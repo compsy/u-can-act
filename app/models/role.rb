@@ -6,5 +6,6 @@ class Role < ApplicationRecord
   validates :title, presence: true
   validates_uniqueness_of :title, scope: :organization_id
   belongs_to :organization
+  has_many :persons
   validates :organization_id, presence: true
 end

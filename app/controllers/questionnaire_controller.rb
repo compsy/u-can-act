@@ -9,6 +9,7 @@ class QuestionnaireController < ApplicationController
   before_action :set_questionnaire_content, only: [:show]
   before_action :verify_response_id, only: %i[create create_informed_consent]
   before_action :set_create_response, only: %i[create create_informed_consent]
+  before_action :set_is_mentor, only: %i[show create_informed_consent]
   before_action :check_content_hash, only: [:create]
 
   def show
@@ -115,6 +116,10 @@ class QuestionnaireController < ApplicationController
   def set_cookie
     cookie = { TokenAuthenticationController::RESPONSE_ID_COOKIE => @response.id.to_s }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
+  end
+
+  def set_is_mentor
+    @is_mentor = @response.protocol_subscription.person.mentor?
   end
 
   def check_response(response)

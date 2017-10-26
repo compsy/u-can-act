@@ -170,6 +170,18 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'mentor?' do
+    it 'should be true when the current person is a mentor' do
+      person = FactoryGirl.create(:mentor)
+      expect(person.mentor?).to be_truthy
+    end
+
+    it 'should be false when the current person is not a mentor' do
+      person = FactoryGirl.create(:student)
+      expect(person.mentor?).to be_falsey
+    end
+  end
+
   describe 'reward_points' do
     it 'should accumulate the reward points for all completed protocol subscriptions' do
       person = FactoryGirl.create(:person, :with_protocol_subscriptions)

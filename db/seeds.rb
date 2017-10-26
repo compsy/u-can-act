@@ -6,7 +6,10 @@ ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 # Require personal question seeds separately because they
 # need to already exist when the protocol seeds are loaded, and the
 # order is different on production servers.
-require File.join(File.dirname(__FILE__), 'seeds', 'questionnaire_seeds.rb')
+Dir[File.join(File.dirname(__FILE__), 'seeds', 'questionnaire_seeds', '*.rb')].each do |file|
+  require file
+end
+
 # Load seeds from the seeds directory.
 Dir[File.join(File.dirname(__FILE__), 'seeds', '*.rb')].each do |file|
   require file
@@ -17,8 +20,8 @@ end
 if Rails.env.development?
   puts ""
   protocol = Protocol.find_by_name('pilot - mentoren 1x per week')
-  person = Mentor.first
-  students = Student.all[0..-2]
+  person = Organization.first.roles.where(group: Person::MENTOR).first.persons.first
+  students = Organization.first.roles.where(Person::STUDENT)[0..-2].map{|x| x.person}
   students.each do |student|
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,
@@ -35,7 +38,7 @@ if Rails.env.development?
     puts "mentor questionnaire: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
   end
   protocol = Protocol.find_by_name('pilot - mentoren nameting')
-  person = Mentor.first
+  person = Organization.first.roles.where(group: Person::MENTOR).first.persons.first
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -49,7 +52,7 @@ if Rails.env.development?
   responseobj.initialize_invitation_token!
   puts "mentor posttest: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
 
-  student = Student.first
+  student = Organization.first.roles.where(group: Person::STUDENT).first.persons.first
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('pilot - studenten 1x per week'),
     state: ProtocolSubscription::ACTIVE_STATE,
@@ -62,7 +65,7 @@ if Rails.env.development?
   responseobj.initialize_invitation_token!
   puts "student 1x per week questionnaire: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
 
-  student = Student.second
+  student = Organization.first.roles.where(group: Person::STUDENT).first.persons.second
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('pilot - studenten 2x per week'),
     state: ProtocolSubscription::ACTIVE_STATE,
@@ -81,7 +84,7 @@ if Rails.env.development?
   responseobj.initialize_invitation_token!
   puts "student 2x per week posttest: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
 
-  student = Student.third
+  student = Organization.first.roles.where(group: Person::STUDENT).first.person.third
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('pilot - studenten 5x per week'),
     state: ProtocolSubscription::ACTIVE_STATE,

@@ -6,6 +6,6 @@ module RewardHelper
   end
 
   def mentor?
-    @protocol_subscription.person.role.group == 'Mentor'
+    @protocol_subscription.person.mentor?
   end
 end

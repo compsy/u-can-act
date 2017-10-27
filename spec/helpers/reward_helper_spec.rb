@@ -36,12 +36,5 @@ describe RewardHelper do
       helper.instance_variable_set(:@protocol_subscription, protocol_subscription)
       expect(helper.mentor?).to be_falsey
     end
-    it 'should return false when the person is a Person' do
-      person = FactoryGirl.build(:person)
-      protocol_subscription = double('protocol_subscription')
-      expect(protocol_subscription).to receive(:person).and_return(person)
-      helper.instance_variable_set(:@protocol_subscription, protocol_subscription)
-      expect(helper.mentor?).to be_falsey
-    end
   end
 end

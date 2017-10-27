@@ -19,28 +19,28 @@ class CreateStudents < ActiveInteraction::Base
   private
 
   def parse_students(students, plain_text_parser)
-    parsed_students = []
-    students.each do |student|
-      parsed_students << { first_name: student[:first_name],
-                           last_name: student[:last_name],
-                           gender: student[:gender],
-                           mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
-                           protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
-                           start_date: plain_text_parser.parse_start_date(student[:start_date]),
-                           organization_id: plain_text_parser.parse_organization_name(student[:organization_name]) }
+    students.map do |student|
+      {
+        first_name: student[:first_name],
+        last_name: student[:last_name],
+        gender: student[:gender],
+        mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
+        protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
+        start_date: plain_text_parser.parse_start_date(student[:start_date]),
+        role_id: plain_text_parser.parse_role_title(student[:organization_name], 'StudentTitle')
+      }
     end
-    parsed_students
   end
 
   def create_students(students)
     amount = 0
     students.each do |student|
       next if Person.find_by_mobile_phone(student[:mobile_phone])
-      studentobj = Student.create!(first_name: student[:first_name],
-                                   last_name: student[:last_name],
-                                   gender: student[:gender],
-                                   mobile_phone: student[:mobile_phone],
-                                   organization_id: student[:organization_id])
+      studentobj = Person.create!(first_name: student[:first_name],
+                                  last_name: student[:last_name],
+                                  gender: student[:gender],
+                                  mobile_phone: student[:mobile_phone],
+                                  role_id: student[:role_id])
       ProtocolSubscription.create!(person: studentobj,
                                    protocol_id: student[:protocol_id],
                                    state: ProtocolSubscription::ACTIVE_STATE,

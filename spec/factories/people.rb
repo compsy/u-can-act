@@ -3,12 +3,11 @@
 FactoryGirl.define do
   sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
   factory :person do
-    organization
+    role
     gender Person::MALE
     mobile_phone
     first_name 'Jane'
     last_name 'Doe'
-    type 'Person'
 
     trait :with_random_name do
       sequence(:first_name, 'a') { |n| 'Janine' + n }
@@ -22,11 +21,11 @@ FactoryGirl.define do
     end
   end
 
-  factory :mentor, class: 'Mentor', parent: :person do
-    type 'Mentor'
+  factory :mentor, class: 'Person', parent: :person do
+    role { FactoryGirl.create(:role, group: Person::MENTOR, title: 'mentor Title') }
   end
 
-  factory :student, class: 'Student', parent: :person do
-    type 'Student'
+  factory :student, class: 'Person', parent: :person do
+    role { FactoryGirl.create(:role, group: Person::STUDENT, title: 'student Title') }
   end
 end

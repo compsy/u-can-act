@@ -28,7 +28,7 @@ class QuestionnaireGenerator
       student, mentor = response.determine_student_mentor
       [title, content].map do |obj|
         VariableEvaluator.evaluate_obj(obj,
-                                       mentor&.organization&.mentor_title,
+                                       mentor&.role&.title,
                                        mentor&.gender,
                                        student.first_name,
                                        student.gender)
@@ -81,7 +81,7 @@ class QuestionnaireGenerator
       when :expandable
         generate_expendable(question)
       else
-        raise 'Unknown question type'
+        raise "Unknown question type #{question[:type]}"
       end
     end
     # rubocop:enable Metrics/CyclomaticComplexity

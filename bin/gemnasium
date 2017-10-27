@@ -1,5 +1,8 @@
 #!/bin/bash
-if [[ "$CIRCLE_BRANCH" == "master" ]]
+
+the_date=`date +%H`
+if [[ "$CIRCLE_BRANCH" == "master" ]] && [[ $the_date -ge 4 ]] && [[ $the_date -le 8 ]]
 then
   gemnasium --token $GEMNASIUM_TOKEN autoupdate run || true
 fi
+

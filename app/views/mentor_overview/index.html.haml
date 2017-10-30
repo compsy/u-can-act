@@ -21,3 +21,5 @@
             - response.initialize_invitation_token! if response.invitation_token.nil?
             = link_to('Vragenlijst invullen voor deze student',       |
               questionnaire_path(q: response.invitation_token.token))
+%footer
+  = link_to('Disclaimer', disclaimer_path)

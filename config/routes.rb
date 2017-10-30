@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get 'admin/questionnaire_export/:id', to: 'admin#questionnaire_export', as: 'admin_questionnaire_export'
   get 'admin/response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
 
+  # Static pages
+  get 'disclaimer', to: 'static_pages#disclaimer', as: 'disclaimer'
+
   namespace :api do
     namespace :v1 do
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'

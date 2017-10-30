@@ -93,6 +93,33 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(page).to have_content('beloning')
   end
 
+  it 'should show the disclaimer link on the reward page' do
+    protocol = FactoryGirl.create(:protocol, :with_rewards)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: protocol,
+                                                                       start_date: 1.week.ago.at_beginning_of_day)
+    responseobj = FactoryGirl.create(:response,
+                                     :periodical,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    FactoryGirl.create(:response, :completed,
+                       :periodical,
+                       protocol_subscription: protocol_subscription,
+                       open_from: 1.day.ago)
+    FactoryGirl.create(:response, :completed,
+                       :periodical,
+                       protocol_subscription: protocol_subscription,
+                       open_from: 2.days.ago)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/questionnaire/#{invitation_token.token}"
+    page.choose('slecht', allow_label_click: true)
+    page.check('brood', allow_label_click: true)
+    page.check('kaas en ham', allow_label_click: true)
+    range_select('v3', '57')
+    page.click_on 'Opslaan'
+    expect(page).to have_link('Disclaimer', href: '/disclaimer')
+  end
+
   context 'mentor' do
     it 'should be redirected after a questionnaire to the rewards page' do
       person = FactoryGirl.create(:mentor)

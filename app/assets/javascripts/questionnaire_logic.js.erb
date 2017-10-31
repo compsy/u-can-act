@@ -145,7 +145,14 @@ $(function () {
   $('.collapse_expandable').on('click', collapseExpandable);
   updateExpandableButtons();
   disableHiddenInputs();
+
+  // Needed to disable the warning when leaving a page, when actually submitting it
+  $(document).on("submit", "form", function(event){
+    window.onbeforeunload = null;
+  });
 });
+
+
 
 
 

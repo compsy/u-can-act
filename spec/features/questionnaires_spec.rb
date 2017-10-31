@@ -988,4 +988,21 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v3' => 'of niet soms')
     end
   end
+
+  it 'should have tooltips, and show a toast when they are clicked' do
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               person: student,
+                                               start_date: 1.week.ago.at_beginning_of_day)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/?q=#{invitation_token.token}"
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to_not have_content('hagelslag')
+    # We can serch for all, because theres just one with a tooltip
+    page.all('i').first.click
+    expect(page).to have_content('hagelslag')
+  end
 end

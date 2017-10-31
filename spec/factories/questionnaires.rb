@@ -15,7 +15,11 @@ FactoryGirl.define do
       id: :v2,
       type: :checkbox,
       title: 'Wat heeft u vandaag gegeten?',
-      options: ['brood', 'kaas en ham', 'pizza']
+      options: [
+        { title: 'brood', tooltip: 'Bijvoorbeeld met hagelslag' },
+        { title: 'kaas en ham' },
+        { title: 'pizza' }
+      ]
     }, {
       id: :v3,
       type: :range,

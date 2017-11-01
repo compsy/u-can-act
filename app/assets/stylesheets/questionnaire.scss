@@ -1,4 +1,15 @@
+$u-can-act-grey: #99b5cd;
 .mentor, .student {
+  .tooltip {
+    color: $u-can-act-grey;
+    font-size: 175%;
+    padding-left: 3px;
+    vertical-align: middle;
+    cursor: help;
+  }
+  .toast {
+    background-color: $u-can-act-grey;
+  }
   .otherwise-textfield {
     label {
       margin-bottom: 20px;
@@ -45,5 +56,8 @@
   .btn.expandable_button {
     margin-right: 10px;
     margin-bottom: 10px;
+  }
+  input[type="checkbox"] + label, input[type="radio"] + label {
+    display: inline;
   }
 }

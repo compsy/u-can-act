@@ -21,4 +21,10 @@ module AdminHelper
   def idify(*strs)
     strs.map { |x| x.to_s.parameterize.underscore }.join('_')
   end
+
+  def questionnaire_select_options(questionnaires)
+    questionnaires.map do |questionnaire|
+      [questionnaire.name, questionnaire.name]
+    end
+  end
 end

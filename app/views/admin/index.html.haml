@@ -1,30 +1,38 @@
-%h1 Admin Interface
-%h3 Export data
 .col.s12
-  %ul.collection
-    %li.collection-item.avatar{:style => "min-height:65px"}
-      %i.large.material-icons.circle.blue.lighten-2 description
-      %span.title People
-      %p
-        = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download', |
-          admin_person_export_path(format: 'csv'),                                                 |
-          class: 'waves-effect waves-light btn download-button')
-    %li.collection-item.avatar{:style => "min-height:65px"}
-      %i.large.material-icons.circle.blue.lighten-2 description
-      %span.title ProtocolSubscriptions
-      %p
-        = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download', |
-          admin_protocol_subscription_export_path(format: 'csv'),                                  |
-          class: 'waves-effect waves-light btn download-button')
-    - Questionnaire.all.each do |questionnaire|
+  %h1 Admin Interface
+.col.s6
+  .section
+    %h3 Test Questionnaires
+    = form_tag('/admin/preview', method: 'post') do
+      = select_tag(:id, options_for_select(questionnaire_select_options(@used_questionnaires)))
+      = button_tag('Preview questionnaire', type: 'submit', class: 'btn waves-effect waves-light')
+.col.s12
+  .section
+    %h3 Export data
+    %ul.collection
       %li.collection-item.avatar{:style => "min-height:65px"}
         %i.large.material-icons.circle.blue.lighten-2 description
-        %span.title
-          Questionnaire: #{questionnaire.name}
+        %span.title People
         %p
-          = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Definition', |
-            admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'),                    |
+          = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download', |
+            admin_person_export_path(format: 'csv'),                                                 |
             class: 'waves-effect waves-light btn download-button')
-          = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Responses', |
-            admin_response_export_path(id: questionnaire.name, format: 'csv'),                        |
+      %li.collection-item.avatar{:style => "min-height:65px"}
+        %i.large.material-icons.circle.blue.lighten-2 description
+        %span.title ProtocolSubscriptions
+        %p
+          = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download', |
+            admin_protocol_subscription_export_path(format: 'csv'),                                  |
             class: 'waves-effect waves-light btn download-button')
+      - Questionnaire.all.each do |questionnaire|
+        %li.collection-item.avatar{:style => "min-height:65px"}
+          %i.large.material-icons.circle.blue.lighten-2 description
+          %span.title
+            Questionnaire: #{questionnaire.name}
+          %p
+            = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Definition', |
+              admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'),                    |
+              class: 'waves-effect waves-light btn download-button')
+            = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Responses', |
+              admin_response_export_path(id: questionnaire.name, format: 'csv'),                        |
+              class: 'waves-effect waves-light btn download-button')

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Webapp Begeleiders'
+db_title = 'u-can-act Begeleiders'
 
 db_name1 = 'dagboek mentoren'
 dagboek1 = Questionnaire.find_by_name(db_name1)

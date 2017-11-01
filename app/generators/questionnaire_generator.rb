@@ -343,7 +343,6 @@ class QuestionnaireGenerator
     end
 
     def generate_textarea(question)
-      Rails.logger.info question
       title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       safe_join([content_tag(:p, title, class: 'flow-text'), textarea_field(question)])
     end

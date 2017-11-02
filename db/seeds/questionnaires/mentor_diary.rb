@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Webapp Begeleiders'
+db_title = '' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'dagboek mentoren'
 dagboek1 = Questionnaire.find_by_name(db_name1)

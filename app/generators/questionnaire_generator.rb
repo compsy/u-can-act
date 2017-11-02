@@ -414,8 +414,10 @@ class QuestionnaireGenerator
     def update_options(current_options, sub_id)
       current_options.map do |optorig|
         option = optorig.clone
-        option[:hides_questions] = update_ids(option[:hides_questions], sub_id) if option[:hides_questions].present?
-        option[:shows_questions] = update_ids(option[:shows_questions], sub_id) if option[:shows_questions].present?
+        if option.is_a?(Hash)
+          option[:hides_questions] = update_ids(option[:hides_questions], sub_id) if option[:hides_questions].present?
+          option[:shows_questions] = update_ids(option[:shows_questions], sub_id) if option[:shows_questions].present?
+        end
         option
       end
     end

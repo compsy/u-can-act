@@ -98,7 +98,12 @@ var RewardPage = (function (_React$Component) {
               null,
               'Bedankt voor het invullen van de vragenlijst!'
             ),
-            result
+            result,
+            React.createElement(
+              'a',
+              { href: '/disclaimer' },
+              'Disclaimer'
+            )
           )
         )
       );

@@ -128,7 +128,8 @@ dagboek_content = [{
   hidden: true,
   type: :range,
   title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} het gevoel te geven dat {{hij_zij_student}} dingen goed kan?',
-  labels: ['niet', 'heel sterk']
+  labels: ['niet', 'heel sterk'],
+  section_end: true
 }, {
   id: :v8, # 3.2
   hidden: true,

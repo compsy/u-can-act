@@ -59,8 +59,12 @@ $u-can-act-grey: #99b5cd;
     margin-right: 10px;
     margin-bottom: 10px;
   }
-  input[type="radio"]:not(:checked) + label, input[type="radio"]:checked + label, input[type="checkbox"] + label {
+  input[type="checkbox"] + label {
     padding-top: 0.25rem;
+    display: inline;
+  }
+  input[type="radio"]:not(:checked) + label, input[type="radio"]:checked + label {
+    padding-top: 0.3rem;
     display: inline;
   }
 }

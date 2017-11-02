@@ -30,34 +30,34 @@ dagboek_content = [{
   id: :v3, # 2
   hidden: true,
   title: 'Het bepalen van acties en doelen',
-  add_button_label: 'Nog een actie (reeks) toevoegen',
-  remove_button_label: 'Verwijder actie (reeks)',
+  add_button_label: 'Nog een actie(reeks) toevoegen',
+  remove_button_label: 'Verwijder actie(reeks)',
   type: :expandable,
   default_expansions: 1,
   max_expansions: 10,
   content: [{
+    section_start: 'Actie(reeks)',
     id: :v3_1, # 2.1
     type: :textarea,
-    tooltip: 'Acties zijn bijvoorbeeld gesprekken, whatsappjes, oefeningen en huisbezoeken. Je mag zelf bepalen of jij jouw actie(s) wilt beschrijven in verhaalvorm of in steekwoorden.',
     title: 'Welke belangrijke actie of reeks aan acties die volgens jou bij
       elkaar horen (bijv. omdat ze hetzelfde doel dienen of kort achter elkaar zijn
-      uitgevoerd) heb jij uitgevoerd in de begeleiding van {{deze_student}}?'
+      uitgevoerd) heb jij uitgevoerd in de begeleiding van {{deze_student}}?',
+    tooltip: 'Acties zijn bijvoorbeeld gesprekken, whatsappjes, oefeningen en huisbezoeken. Je mag jouw actie(s) kort beschrijven in steekwoorden of in verhaalvorm.'
   }, {
     id: :v3_2, # 2.2
     type: :checkbox,
-    title: 'Je hebt zojuist een belangrijke actie of meerdere belangrijke bij
-  elkaar horende acties beschreven. Bij welke actiecluster(s) passen deze
-  acties volgens jou het beste?',
+    title: 'In welke categorie(ën) past de zojuist beschreven actie(reeks) volgens jou het beste?',
     options: [
       {title: 'Laagdrempelig contact leggen', tooltip: 'bijv. whatsappen of samen tafeltennissen, wandelen of roken.'},
-      {title: 'Visuele oefeningen uitvoeren', tooltip: 'bijv. een netwerkschema op papier uittekenen of in powerpoint gedragsschema’s met {{deze_student}} uitwerken.'},
-      {title: 'Verbale oefeningen uitvoeren', tooltip: 'bijv. een rollenspel spelen, {{deze_student}} laten presenteren.'},
-      {title: 'Motiverende gesprekstechnieken gebruiken', tooltip: 'bijv. vertrouwen naar {{deze_student}} uitspreken dat {{hij_zij_student}} {{zijn_haar_student}} tentamen kan halen, {{deze_student}} aansporen tot het maken van een presentatie of {{deze_student}} aanmoedigen tijdens een sportevent.'},
-      {title: 'Confronterende gesprekstechnieken gebruiken', tooltip: 'bijv. {{deze_student}} een spreekwoordelijke spiegel voorhouden, aanspreken op onhandig gedrag of provocatief coachen.'},
+      {title: 'Visuele oefeningen uitvoeren', tooltip: 'bijv. een netwerkschema op papier uittekenen of in Powerpoint gedragsschema’s met {{deze_student}} uitwerken.'},
+      {title: 'Verbale oefeningen uitvoeren', tooltip: 'bijv. een rollenspel spelen of {{deze_student}} laten presenteren.'},
+      {title: 'Motiveren', tooltip: 'bijv. vertrouwen naar {{deze_student}} uitspreken dat {{hij_zij_student}} {{zijn_haar_student}} tentamen kan halen, {{deze_student}} aansporen tot het maken van een presentatie of {{deze_student}} aanmoedigen tijdens een sportevent.'},
+      {title: 'Confronteren', tooltip: 'bijv. {{deze_student}} een spreekwoordelijke spiegel voorhouden, aanspreken op onhandig gedrag of provocatief coachen.'},
       {title: 'Uitleg geven', tooltip: 'bijv. {{deze_student}} informeren over middelengebruik of over de kenmerken van ADHD.'},
+      {title: 'Ondersteunen van schoolwerk', tooltip: 'bijv. {{deze_student}} helpen met plannen of samen met {{deze_student}} {{zijn_haar_student}} leerstof doornemen.'},
       {title: 'Emotionele steun bieden', tooltip: 'bijv. empathisch reageren op een nare ervaring van {{deze_student}}, of {{deze_student}} een luisterend oor bieden.'},
       {title: 'De omgeving van {{deze_student}} betrekken bij de begeleiding', tooltip: 'bijv. ouders, vrienden, leraren of hulpverleners uitleg geven over {{deze_student}} {{zijn_haar_student}} gedrag of vragen om mee te helpen in de begeleiding van {{deze_student}}.'},
-      {title: 'Hulp vragen aan/overleggen met collega’s of andere professionals', tooltip: 'bijv. hulp vragen aan een psycholoog of maatschappelijk werker om mee te helpen/denken in de begeleiding.'},
+      {title: 'Hulp vragen aan/overleggen met collega’s of andere professionals', tooltip: 'bijv. hulp vragen aan een psycholoog of maatschappelijk werker om mee te helpen/denken in de begeleiding van {{deze_student}}.'},
       {title: 'Observaties doen', tooltip: 'bijv. een voetbalwedstrijd bekijken of {{deze_student}} observeren tijdens pauzes of lessen.'}
     ]
   }, {
@@ -66,7 +66,7 @@ dagboek_content = [{
     title: 'Aan welke doelen heb jij gewerkt door deze actie(s) uit te voeren?',
     options: [
       {title: 'De relatie met {{deze_student}} verbeteren en/of onderhouden', tooltip: 'bijv. de band met {{deze_student}} proberen te verbeteren of laten weten dat je er voor {{deze_student}} bent.'},
-      {title: 'Emotioneel welzijn van {{deze_student}} ontwikkelen', tooltip: 'bijv. {{deze_student}} leren om {{zijn_haar_student}} emoties beter onder controle krijgen of om {{zijn_haar_student}} emotie(s) beter aan te laten sluiten op situatie(s).'},
+      {title: 'Emotioneel welzijn van {{deze_student}} ontwikkelen', tooltip: 'bijv. {{deze_student}} leren om {{zijn_haar_student}} emoties beter onder controle te krijgen of om {{zijn_haar_student}} emotie(s) beter aan te laten sluiten op situatie(s).'},
       {title: 'Vaardigheden van {{deze_student}} ontwikkelen', tooltip: 'bijv. sociale of schoolse vaardigheden trainen, zoals plannen.'},
       {title: '{{Deze_student}} zelfinzicht geven', tooltip: 'bijv. {{deze_student}} inzicht geven in {{zijn_haar_student}} eigen gedrag, emoties, gedachten of relaties met anderen.'},
       {title: 'Inzicht krijgen in de belevingswereld van {{deze_student}}', tooltip: 'bijv. proberen te achterhalen hoe {{deze_student}} denkt, of hoe {{hij_zij_student}} zich voelt en waarom {{hij_zij_student}} zo denkt of voelt.'},
@@ -82,15 +82,17 @@ dagboek_content = [{
     id: :v3_51,
     type: :checkbox,
     show_otherwise: false,
-    title: 'Hoe tevreden ben je met de interactie tussen jou en {{deze_student}} tijdens deze actie(reeks)?',
+    title: 'Hoe tevreden ben je met de interactie tussen jou en {{deze_student}}?',
     options: ['Niet van toepassing']
   }, {
     id: :v3_5,
     type: :range,
     title: '',
-    labels: ['ontevreden', 'heel tevreden']
+    labels: ['ontevreden', 'heel tevreden'],
+    section_end: true
   }]
 }, {
+  section_start: 'Afsluitende vragen',
   id: :v4, # 3.1
   hidden: true,
   type: :radio,
@@ -102,7 +104,10 @@ dagboek_content = [{
            'twee uur tot tweeënhalf uur',
            'tweeënhalf uur tot drie uur',
            'drie uur tot drieënhalf uur',
-           'drieënhalf uur tot vier uur']
+           'drieënhalf uur tot vier uur',
+           'vier uur tot vierenhalf uur',
+           'vierenhalf uur tot vijf uur',
+           'vijf uur of meer']
 }, {
   id: :v5,
   hidden: true,
@@ -113,20 +118,21 @@ dagboek_content = [{
   id: :v6,
   hidden: true,
   type: :range,
-  title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} te ondersteunen in het maken van eigen beslissingen?',
+  title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} te ondersteunen in het maken van {{zijn_haar_student}} eigen beslissingen?',
   labels: ['niet', 'heel sterk']
 }, {
   id: :v7,
   hidden: true,
   type: :range,
-  title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} het gevoel te geven dat jij er voor {{hem_haar_student}} bent?',
+  title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} het gevoel te geven dat {{hij_zij_student}} dingen goed kan?',
   labels: ['niet', 'heel sterk']
 }, {
   id: :v8,
   hidden: true,
   type: :range,
   title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} te ondersteunen om zich bekwaam te voelen?',
-  labels: ['niet', 'heel sterk']
+  labels: ['niet', 'heel sterk'],
+  section_end: true
 }, {
   id: :v9, # 3.2
   hidden: true,

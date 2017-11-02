@@ -76,7 +76,7 @@ if Rails.env.development?
     invited_state: Response::SENT_STATE)
   responseobj.initialize_invitation_token!
   puts "student voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
-  responseobj = student.protocol_subscriptions.first.responses.second
+  responseobj = student.protocol_subscriptions.first.responses[10]
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)

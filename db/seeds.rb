@@ -3,10 +3,11 @@
 # Running rake db:reset will leave seeds with a terminated connection.
 ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 
-# Require personal question seeds separately because they
-# need to already exist when the protocol seeds are loaded, and the
-# order is different on production servers.
-Dir[File.join(File.dirname(__FILE__), 'seeds', 'questionnaire_seeds', '*.rb')].each do |file|
+Dir[File.join(File.dirname(__FILE__), 'seeds', 'questionnaires', '**', '*.rb')].each do |file|
+  require file
+end
+
+Dir[File.join(File.dirname(__FILE__), 'seeds', 'protocols', '**', '*.rb')].each do |file|
   require file
 end
 
@@ -15,8 +16,9 @@ Dir[File.join(File.dirname(__FILE__), 'seeds', '*.rb')].each do |file|
   require file
 end
 
+# Remember to use create!/save! instead of create/save everywhere in seeds
+
 # WARNING: seeds below are not idempotent: use dbsetup after changing something
-# WARNING: please use create! instead of create everywhere in seeds
 if Rails.env.development?
   puts ""
   protocol = Protocol.find_by_name('pilot - mentoren 1x per week')

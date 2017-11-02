@@ -20,9 +20,9 @@ end
 
 # WARNING: seeds below are not idempotent: use dbsetup after changing something
 if Rails.env.development?
-  puts ''
 
   # Mentor questionnaire seeds
+  puts ''
   protocol = Protocol.find_by_name('mentoren dagboek')
   person = Organization.first.roles.where(group: Person::MENTOR).first.people.first
   students = Organization.first.roles.where(group: Person::STUDENT).first.people[0..-2]
@@ -63,6 +63,7 @@ if Rails.env.development?
   puts "mentor nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
 
   # Student questionnaire seeds
+  puts ''
   student = Organization.first.roles.where(group: Person::STUDENT).first.people.first
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('studenten'),

@@ -83,9 +83,12 @@ dagboek_content = [{
     type: :checkbox,
     show_otherwise: false,
     title: 'Hoe tevreden ben je met de interactie tussen jou en {{deze_student}}?',
-    options: ['Niet van toepassing']
+    options: [
+      { title: 'Niet van toepassing', hides_questions: %i[v3_5] }
+             ]
   }, {
     id: :v3_5,
+    hidden: false,
     type: :range,
     title: '',
     labels: ['ontevreden', 'heel tevreden'],

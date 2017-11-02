@@ -11,7 +11,7 @@ dagboek_content = [{
   show_otherwise: false,
   title: 'Heb je deze week acties ondernomen in de begeleiding van {{deze_student}}?',
   options: [
-    { title: 'Ja', shows_questions: %i[v3 v4 v5 v6 v7 v8 v9] },
+    { title: 'Ja', shows_questions: %i[v3 v4 v5 v6 v7 v8] },
     { title: 'Nee', shows_questions: %i[v2] }
   ]
 }, {
@@ -24,7 +24,7 @@ dagboek_content = [{
     'Ik ben gestopt met de begeleiding van {{deze_student}}.',
     '{{Deze_student}} is gestopt met de opleiding.',
     { title: 'Ik heb de begeleiding van {{deze_student}} overgedragen aan iemand anders.',
-      shows_questions: %i[v10 v11 v12] }
+      shows_questions: %i[v9 v10 v11] }
   ]
 }, {
   id: :v3, # 2
@@ -130,34 +130,27 @@ dagboek_content = [{
   title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} het gevoel te geven dat {{hij_zij_student}} dingen goed kan?',
   labels: ['niet', 'heel sterk']
 }, {
-  id: :v8,
-  hidden: true,
-  type: :range,
-  title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} te ondersteunen om zich bekwaam te voelen?',
-  labels: ['niet', 'heel sterk'],
-  section_end: true
-}, {
-  id: :v9, # 3.2
+  id: :v8, # 3.2
   hidden: true,
   type: :radio,
   show_otherwise: false,
   title: 'Heb je de begeleiding van {{deze_student}} deze week (voor meer dan 50%) overgedragen aan een andere persoon?',
   options: [
-    { title: 'Ja', shows_questions: %i[v10 v11 v12] },
+    { title: 'Ja', shows_questions: %i[v9 v10 v11] },
     { title: 'Nee' }
   ]
 }, {
-  id: :v10, # 3.2.2
+  id: :v9, # 3.2.2
   hidden: true,
   type: :textarea,
   title: 'Waarom heb jij de begeleiding (grotendeels) overgedragen?'
 }, {
-  id: :v11, # 3.2.3
+  id: :v10, # 3.2.3
   hidden: true,
   type: :textarea,
   title: 'Aan wie heb jij de begeleiding (grotendeels) overgedragen?'
 }, {
-  id: :v12, # 3.2.4
+  id: :v11, # 3.2.4
   hidden: true,
   type: :textarea,
   title: 'Wat denk jij dat diegene deze week heeft gedaan in de begeleiding van {{deze_student}}?'

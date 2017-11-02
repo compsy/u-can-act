@@ -96,7 +96,7 @@ class QuestionnaireGenerator
 
     def question_klasses(question)
       klasses = 'row section'
-      klasses += " hidden" if question[:hidden].present?
+      klasses += ' hidden' if question[:hidden].present?
       klasses += " #{idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
       klasses
     end
@@ -164,10 +164,15 @@ class QuestionnaireGenerator
         required: true,
         class: 'validate'
       }
-      tag_options = add_shows_questions(tag_options, option[:shows_questions])
-      tag_options = add_hides_questions(tag_options, option[:hides_questions])
+      tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
       wrapped_tag = tag(:input, tag_options)
       option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
+    end
+
+    def add_shows_hides_questions(tag_options, shows_questions, hides_questions)
+      tag_options = add_shows_questions(tag_options, shows_questions)
+      tag_options = add_hides_questions(tag_options, hides_questions)
+      tag_options
     end
 
     def generate_tooltip(tooltip_content)
@@ -262,8 +267,7 @@ class QuestionnaireGenerator
         name: answer_name(elem_id),
         value: true
       }
-      tag_options = add_shows_questions(tag_options, option[:shows_questions])
-      tag_options = add_hides_questions(tag_options, option[:hides_questions])
+      tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
       wrapped_tag = tag(:input, tag_options)
       option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
     end

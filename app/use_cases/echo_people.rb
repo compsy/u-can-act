@@ -33,7 +33,7 @@ class EchoPeople < ActiveInteraction::Base
   end
 
   def process_row(row)
-    return create_student_hash(row) if row[0] == 'student'
+    return create_student_hash(row) if row[0] == Person::STUDENT
     create_mentor_hash(row)
   end
 
@@ -53,19 +53,20 @@ class EchoPeople < ActiveInteraction::Base
 
   def create_mentor_hash(row)
     # Mentor format:
-    # type;organization_name;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;
+    # type;organization_name;role_title;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;
     # filling_out_for;filling_out_for_protocol
     {
       organization_name:        row[1],
-      first_name:               row[2],
-      last_name:                row[3],
-      gender:                   row[4],
-      mobile_phone:             row[5],
-      email:                    row[6],
-      protocol_name:            row[7],
-      start_date:               row[8],
-      filling_out_for:          row[9],
-      filling_out_for_protocol: row[10]
+      role_title:               row[2],
+      first_name:               row[3],
+      last_name:                row[4],
+      gender:                   row[5],
+      mobile_phone:             row[6],
+      email:                    row[7],
+      protocol_name:            row[8],
+      start_date:               row[9],
+      filling_out_for:          row[10],
+      filling_out_for_protocol: row[11]
     }
   end
 end

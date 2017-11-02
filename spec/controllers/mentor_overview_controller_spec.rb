@@ -41,6 +41,38 @@ RSpec.describe MentorOverviewController, type: :controller do
         get :index
         expect(response).to have_http_status(200)
       end
+
+      describe 'set_mentor' do
+        it 'should render a 404 when the current person is not a mentor' do
+          person = FactoryGirl.create(:student)
+          protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
+                                                                             start_date: 1.week.ago.at_beginning_of_day)
+          responseobj = FactoryGirl.create(:response,
+                                           protocol_subscription: protocol_subscription,
+                                           open_from: 1.hour.ago)
+          allow(controller).to receive(:set_response).and_return(true)
+          controller.instance_variable_set(:@response, responseobj)
+
+          get :index
+          expect(response).to have_http_status(404)
+          expect(response.body).to include('De mentor kon niet gevonden worden.')
+        end
+
+        it 'should set the correct @mentor whenever the person is valid' do
+          person = FactoryGirl.create(:mentor)
+          protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
+                                                                             start_date: 1.week.ago.at_beginning_of_day)
+          responseobj = FactoryGirl.create(:response,
+                                           protocol_subscription: protocol_subscription,
+                                           open_from: 1.hour.ago)
+          allow(controller).to receive(:set_response).and_return(true)
+          controller.instance_variable_set(:@response, responseobj)
+
+          get :index
+          expect(response).to have_http_status(200)
+          expect(response.body).to_not include('De mentor kon niet gevonden worden.')
+        end
+      end
     end
 
     describe 'with a correct call' do

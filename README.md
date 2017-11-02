@@ -29,8 +29,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 ### General settings
 ```
   SECRET_KEY_BASE: <base used for the tokens>
-  HOST_URL: <the url where the application is hosted (e.g. http://myapp.dev)>
-  HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.dev)>
+  HOST_URL: <the url where the application is hosted (e.g. http://myapp.io)>
+  HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.io)>
   INFO_EMAIL: <email address to use as sender for user account emails>
   PROJECT_NAME: <name of the project (e.g. Vsv)>
 
@@ -131,7 +131,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   options: [
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
-   { title: 'Inzicht krijgen in de belevingswereld', shows_questions: %i[v4 v5] },
+   { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', shows_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
    { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
@@ -143,7 +143,7 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field.
+The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 ### Type: Radio
 Required and allowed options (minimal example and maximal example):
@@ -165,7 +165,7 @@ Required and allowed options (minimal example and maximal example):
    { title: 'Inzicht krijgen in de belevingswereld', shows_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
-   { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
+   { title: 'Vaardigheden ontwikkelen', tooltip: 'Zoals wiskunde', shows_questions: %i[v10 v11] },
    { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
   ],
   show_otherwise: true,
@@ -174,7 +174,7 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field.
+The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
@@ -220,6 +220,7 @@ Required and allowed options (minimal example and maximal example):
 [{
   id: :v1,
   type: :textarea,
+  tooltip: 'Bijvoorbeeld het kleurenschema',
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
 }, {
   section_start: 'Tot slot',
@@ -229,7 +230,9 @@ Required and allowed options (minimal example and maximal example):
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
   section_end: true
 }]
-```
+``` 
+
+The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 ### Type: expandable
 Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).

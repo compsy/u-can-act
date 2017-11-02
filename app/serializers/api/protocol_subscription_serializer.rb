@@ -24,7 +24,7 @@ module Api
     end
 
     def person_type
-      object.person.type
+      object.person.role.group
     end
 
     def earned_euros

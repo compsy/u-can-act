@@ -45,6 +45,11 @@ describe 'GET and POST /', type: :feature, js: true do
     end
   end
 
+  it 'should show the disclaimer link on the mentor overview page' do
+    visit "/?q=#{invitation_tokens.first.token}"
+    expect(page).to have_link('Disclaimer', href: '/disclaimer')
+  end
+
   it 'should list the students of the current mentor on the page with the corresponding questionnaire links' do
     visit "/?q=#{invitation_tokens.first.token}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
@@ -74,6 +79,7 @@ describe 'GET and POST /', type: :feature, js: true do
       page.find(:css, "a[href='#{questionnaire_path(q: token)}']").click
       expect(page).to have_current_path(questionnaire_path(q: token))
 
+      # This is the informed consent
       page.click_on 'Opslaan'
       page.choose('slecht', allow_label_click: true)
       page.check('brood', allow_label_click: true)

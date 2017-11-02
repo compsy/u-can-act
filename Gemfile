@@ -63,9 +63,6 @@ gem 'delayed_job_active_record'
 gem 'animate-rails', github: 'camelmasa/animate-rails'
 gem 'd3-rails', '~> 3.5.16'
 
-# Gem for cheaper worker nodes on Heroku
-gem 'workless'
-
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'
 
@@ -118,6 +115,9 @@ group :production, :staging do
 
   # Required by Delayed Job
   gem 'daemons'
+
+  # Gem for cheaper worker nodes on Heroku
+  gem 'workless'
 end
 
 group :development do

@@ -7,7 +7,7 @@ class MentorOverviewController < ApplicationController
   def index
     # @my_protocol_subscriptions is currently not used for mentors
     @my_protocol_subscriptions = @mentor.my_protocols
-    @student_protocol_subscriptions = @mentor.student_protocols
+    @student_protocol_subscriptions = @mentor.for_someone_else_protocols
   end
 
   private
@@ -23,8 +23,10 @@ class MentorOverviewController < ApplicationController
   def set_mentor
     person_id = @response.protocol_subscription.person_id
     # find_by_id because find raises an error when the object was not found.
-    correct_id = person_id.present? && Mentor.find_by_id(person_id).present?
-    render(status: 404, plain: 'De mentor kon niet gevonden worden.') && return unless correct_id
-    @mentor = Mentor.find(person_id)
+    person = Person.find_by_id(person_id)
+    unless person.present? && person.role.group == Person::MENTOR
+      render(status: 404, plain: 'De mentor kon niet gevonden worden.')
+    end
+    @mentor = person
   end
 end

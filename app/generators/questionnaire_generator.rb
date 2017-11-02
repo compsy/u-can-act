@@ -2,7 +2,7 @@
 
 class QuestionnaireGenerator
   extend ActionView::Helpers
-
+  TOOLTIP_DURATION = 4000
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
   TEXTAREA_PLACEHOLDER = 'Vul iets in'
@@ -28,7 +28,7 @@ class QuestionnaireGenerator
       student, mentor = response.determine_student_mentor
       [title, content].map do |obj|
         VariableEvaluator.evaluate_obj(obj,
-                                       mentor&.organization&.mentor_title,
+                                       mentor&.role&.title,
                                        mentor&.gender,
                                        student.first_name,
                                        student.gender)
@@ -81,7 +81,7 @@ class QuestionnaireGenerator
       when :expandable
         generate_expendable(question)
       else
-        raise 'Unknown question type'
+        raise "Unknown question type #{question[:type]}"
       end
     end
     # rubocop:enable Metrics/CyclomaticComplexity
@@ -163,7 +163,13 @@ class QuestionnaireGenerator
       }
       tag_options = add_shows_questions(tag_options, option[:shows_questions])
       wrapped_tag = tag(:input, tag_options)
-      option_body_wrap(question_id, option[:title], wrapped_tag)
+      option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
+    end
+
+    def generate_tooltip(tooltip_content)
+      return nil if tooltip_content.blank?
+      tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
+      content_tag(:a, tooltip_body, onclick: "Materialize.toast('#{tooltip_content}', #{TOOLTIP_DURATION})")
     end
 
     def add_shows_questions(tag_options, shows_questions)
@@ -246,16 +252,17 @@ class QuestionnaireGenerator
       }
       tag_options = add_shows_questions(tag_options, option[:shows_questions])
       wrapped_tag = tag(:input, tag_options)
-      option_body_wrap(question_id, option[:title], wrapped_tag)
+      option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
     end
 
-    def option_body_wrap(question_id, title, wrapped_tag)
+    def option_body_wrap(question_id, title, tooltip, wrapped_tag)
       option_body = safe_join([
                                 wrapped_tag,
                                 content_tag(:label,
                                             title.html_safe,
                                             for: idify(question_id, title),
-                                            class: 'flow-text')
+                                            class: 'flow-text'),
+                                generate_tooltip(tooltip)
                               ])
       option_body = content_tag(:p, option_body)
       option_body
@@ -336,10 +343,8 @@ class QuestionnaireGenerator
     end
 
     def generate_textarea(question)
-      safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
-                  textarea_field(question)
-                ])
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
+      safe_join([content_tag(:p, title, class: 'flow-text'), textarea_field(question)])
     end
 
     def textarea_field(question)
@@ -353,6 +358,7 @@ class QuestionnaireGenerator
                           TEXTAREA_PLACEHOLDER,
                           for: idify(question[:id]),
                           class: 'flow-text')
+
       body = safe_join(body)
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')

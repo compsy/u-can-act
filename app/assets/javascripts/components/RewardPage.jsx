@@ -69,6 +69,7 @@ class RewardPage extends React.Component {
           <div className="col s12">
             <h4>Bedankt voor het invullen van de vragenlijst!</h4>
             {result}
+            <a href='/disclaimer'>Disclaimer</a>
           </div>
         </div>
       </div>

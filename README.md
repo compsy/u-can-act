@@ -86,12 +86,16 @@ For non-periodical measurements, the `offset_until_end` is ignored.
         Zijn_haar_begeleider        Zijn/haar               Haar
         hij_zij_begeleider          hij/zij                 zij
         Hij_zij_begeleider          Hij/zij                 Zij
+        hem_haar_begeleider         hem/haar                haar
+        Hem_haar_begeleider         Hem/haar                Haar
         deze_student                deze student            Rik
         Deze_student                Deze student            Rik
         zijn_haar_student           zijn/haar               zijn
         Zijn_haar_student           Zijn/haar               Zijn
         hij_zij_student             hij/zij                 hij
         Hij_zij_student             Hij/zij                 Hij
+        hem_haar_student            hem/haar                hem
+        Hem_haar_student            Hem/haar                Hem
 ```
 So you can write a sentence as follows:
 ```

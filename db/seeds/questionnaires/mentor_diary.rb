@@ -124,7 +124,7 @@ dagboek_content = [{
   hidden: false,
   type: :radio,
   show_otherwise: false,
-  title: 'Heb je de begeleiding van Henk deze week (voor meer dan 50%) overgedragen aan een andere persoon?',
+  title: 'Heb je de begeleiding van deze student deze week (voor meer dan 50%) overgedragen aan een andere persoon?',
   options: [
     { title: 'Ja', shows_questions: %i[v10 v11 v12] },
     { title: 'Nee' }

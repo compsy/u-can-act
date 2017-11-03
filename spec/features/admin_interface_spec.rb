@@ -13,7 +13,7 @@ describe 'GET /admin', type: :feature, js: true do
       end
     end
 
-    it 'should give a 404 error when not authorized' do
+    it 'should have content HTTP Basic: Access denied. when not authorized' do
       visit '/admin'
       expect(page).to have_content('HTTP Basic: Access denied.')
     end

@@ -11,7 +11,7 @@ class AdminController < ApplicationController
   end
 
   def preview
-    @is_mentor = @questionnaire.name.match?(/mentor/)
+    @use_mentor_layout = @questionnaire.name.match?(/mentor/)
   end
 
   def preview_done

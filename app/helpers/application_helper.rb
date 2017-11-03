@@ -2,8 +2,8 @@
 
 module ApplicationHelper
   def student_mentor_class
-    return '' if @is_mentor.nil?
-    return 'mentor' if @is_mentor
+    return '' if @use_mentor_layout.nil?
+    return 'mentor' if @use_mentor_layout
     'student'
   end
 end

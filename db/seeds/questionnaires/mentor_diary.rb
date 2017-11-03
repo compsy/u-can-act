@@ -93,16 +93,8 @@ dagboek_content = [{
 }, {
   id: :v4,
   hidden: false,
-  type: :radio,
-  title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?',
-  options: ['minder dan een half uur',
-           'een half uur tot een uur',
-           'een uur tot anderhalf uur',
-           'anderhalf uur tot twee uur',
-           'twee uur tot tweeënhalf uur',
-           'tweeënhalf uur tot drie uur',
-           'drie uur tot drieënhalf uur',
-           'drieënhalf uur tot vier uur']
+  type: :time,
+  title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?'
 }, {
   id: :v5,
   hidden: false,

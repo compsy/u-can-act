@@ -286,6 +286,17 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
 
 ```
 
+### Type: time
+Required and allowed options (minimal example):
+
+```
+[{
+  id: :v1,
+  type: :time,
+  title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?'
+}]
+```
+
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

@@ -70,6 +70,8 @@ class QuestionnaireGenerator
       case question[:type]
       when :radio
         generate_radio(question)
+      when :time
+        generate_time(question)
       when :checkbox
         generate_checkbox(question)
       when :range
@@ -140,6 +142,15 @@ class QuestionnaireGenerator
                   radio_options(question),
                   radio_otherwise(question)
                 ])
+    end
+
+    def generate_time(question)
+      safe_join([content_tag(:p, question[:title].html_safe, class: 'flow-text'), time_body(question)])
+    end
+
+    def time_body(question)
+      tag_options = { type: 'time', id: question[:id], required: true, class: 'validate' }
+      tag(:input, tag_options)
     end
 
     def radio_options(question)

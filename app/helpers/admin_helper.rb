@@ -23,8 +23,10 @@ module AdminHelper
   end
 
   def questionnaire_select_options(questionnaires)
-    questionnaires.map do |questionnaire|
-      [questionnaire.name, questionnaire.name]
+    result = [['Selecteer een vragenlijst...', '']]
+    questionnaires.each do |questionnaire|
+      result << [questionnaire.name, questionnaire.name]
     end
+    result
   end
 end

@@ -79,6 +79,7 @@ describe 'GET /admin', type: :feature, js: true do
                                          content: [{ type: :raw, content: 'questionnaire' }])
       basic_auth 'admin', 'admin', '/admin'
       visit '/admin'
+      materialize_select('Selecteer een vragenlijst...', 'myquestionnairename')
       page.click_on 'Preview questionnaire'
       expect(page).to have_content 'some title'
       page.click_on 'Opslaan'

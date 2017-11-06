@@ -97,10 +97,10 @@ In this case:
  - `gender`: the gender of the person
  - `mobile_phone`: the mobile phone number of the person
  - `email`: the email address of the mentor
- - `protocol_name`: the name of the protocol the person will participate in (for mentors this is `mentoren dagboek`
+ - `protocol_name`: the name of the protocol the person will participate in (for mentors this is `mentoren voormeting/nameting`
  - `start_date`: the date at which the person should start
  - `filling_out_for`: the phone number for which the mentor is filling out the questionnaire
- - `filling_out_for_protocol`: the protocol the person is filling out for
+ - `filling_out_for_protocol`: the protocol the person is filling out for (this is `mentoren dagboek` for mentors)
 
 ### The Student CSV
 For the Student data this should be:
@@ -115,7 +115,7 @@ In this case:
  - `last_name`: the last name of the person
  - `gender`: the gender of the person
  - `mobile_phone`: the mobile phone number of the person
- - `protocol_name`: the name of the protocol the person will participate in (for mentors this is `studenten`
+ - `protocol_name`: the name of the protocol the person will participate in (for students this is `studenten`)
  - `start_date`: the date at which the person should start
 
 

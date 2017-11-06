@@ -2,43 +2,36 @@ ic_name = 'informed consent studenten'
 informed_consent = Questionnaire.find_by_name(ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
 ic_content = <<~'END'
+  <p class="flow-text"><em>Informed consent onderzoek naar ontwikkeling en begeleiding</em></p>
   <p class="flow-text">Door op de knop 'volgende' te klikken ga je akkoord met onderstaande afspraken:</p>
-  <p class="flow-text">Ik stem toe mee te doen aan het onderzoek naar ontwikkeling en begeleiding van studenten op het
-    MBO.
-    Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen en Umanise en is goedgekeurd
-    door de Ethische Commissie Psychologie van de RuG.
+  <p class="flow-text">Ik stem toe mee te doen aan het onderzoek naar ontwikkeling en begeleiding van studenten op het MBO. Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen en is goedgekeurd door de Ethische Commissie Psychologie van de RuG.
   </p>
-  <p class="flow-text">Ik ben me ervan bewust dat deelname aan dit onderzoek geheel vrijwillig is.
-    Ik kan mijn medewerking op elk tijdstip stopzetten en de informatie verkregen uit dit onderzoek terugkrijgen of laten
-    verwijderen uit de database.
+  <p class="flow-text">Ik ben me ervan bewust dat deelname aan dit onderzoek geheel vrijwillig is. Ik kan mijn medewerking op elk tijdstip stopzetten en de informatie verkregen uit dit onderzoek terugkrijgen of laten verwijderen uit de database.
   </p>
   <p class="flow-text">De volgende punten zijn mij duidelijk:</p>
   <ol class="flow-text">
-    <li>Het doel van dit onderzoek is om meer inzicht te krijgen in ontwikkeling van jongeren en hoe begeleiding hierop
-      inspeelt om zo het welzijn van jongeren te ondersteunen en voortijdig schoolverlaten te voorkomen.
+    <li>Het doel van dit onderzoek is om meer inzicht te krijgen in ontwikkeling van jongeren en hoe begeleiding hierop inspeelt om zo het welzijn van jongeren te ondersteunen en voortijdig schoolverlaten te voorkomen.
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
-        <li>Ik zal elke week één vragenlijst invullen, voor drie weken in totaal. Deze vragenlijst duurt ongeveer drie minuten.
+        <li>Ik zal elke week één vragenlijst invullen, voor 30 weken in totaal. Deze vragenlijst duurt ongeveer twee minuten.
         </li>
         <li>Ik krijg elke week een herinnering via sms op de dag dat ik de vragenlijst moet invullen.
           In de herinnering staat een link naar de vragenlijst.
         </li>
-        <li>Bij het afronden van het onderzoek krijg ik een beloning van 4 euro.
-          Afronden houdt in dat ik alle wekelijkse vragenlijsten (in totaal 3) en de afsluitende enquête invul binnen 24
-          uur na ontvangst van de sms.
+        <li>Per ingevulde vragenlijst krijg ik een beloning van twee euro. Ik kan een bonus-streak krijgen wanneer ik drie of meer weken achter elkaar een vragenlijst heb ingevuld. Vanaf dan, en voor zolang ik geen week oversla, krijg ik per ingevulde vragenlijst een bonus-euro. De beloning in een bonus-streak is dus drie euro per vragenlijst. Het bedrag dat ik uiteindelijk verdien hangt af van hoeveel ik achter elkaar invul, en dit wordt per persoon achteraf berekend door de onderzoekers (deze berekening is leidend voor het vaststellen van het definitieve bedrag). De maximaal haalbare beloning na het afronden van het onderzoek is 88 euro. Afronden houdt in dat ik alle wekelijkse vragenlijsten (in totaal 30), de startvragenlijst en de afsluitende enquête invul. Voor het invullen van de wekelijkse vragenlijst heb ik telkens 30 uur de tijd.
         </li>
-        <li>Ik geef toestemming voor het bewaren van persoonlijke gegevens: mijn naam en telefoonnummer. Deze vragen de
-          onderzoekers aan mijn begeleider. Deze gegevens worden los van de onderzoeksgegevens opgeslagen (in een aparte
-          database). De onderzoekers hebben dit nodig voor:
+        <li>Ik geef toestemming voor het apart bewaren van persoonlijke gegevens: mijn naam en telefoonnummer. Deze vragen de onderzoekers aan mijn begeleider. Deze gegevens worden los van de onderzoeksgegevens opgeslagen (in een aparte beveiligde database). De onderzoekers hebben dit nodig voor:
           <ol>
             <li>het versturen van herinneringen</li>
             <li>zodat de onderzoekers weten welke begeleider bij welke jongere hoort</li>
           </ol>
         </li>
-        <li>Alle onderzoeksgegevens worden met grote voorzichtigheid behandeld. Al mijn antwoorden op de vragen worden
-          anoniem opgeslagen. De onderzoekers rapporteren de onderzoeksresultaten zonder naam of andere identificerende
-          informatie. Begeleiders, ouders of leraren komen daardoor nooit te weten welke antwoorden ik heb gegeven.
+        <li>Alle onderzoeksgegevens worden naar strikte ethische richtlijnen en met grote voorzichtigheid behandeld. Al mijn antwoorden op de vragen worden anoniem opgeslagen. De onderzoekers rapporteren de onderzoeksresultaten zonder naam of andere identificerende informatie: begeleiders, ouders of leraren komen nooit te weten welke antwoorden ik heb gegeven.
+        </li>
+        <li>Het enige dat mijn begeleider kan zien, is of ik de vragenlijst wel of niet ingevuld heb. Dit is omdat het best lastig kan zijn om het onderzoek zo lang vol te houden, en een begeleider kan helpen met herinneren. De onderzoekers hebben namelijk alleen wat aan de onderzoeksgegevens als begeleider én jongere allebei vragenlijsten invullen.
+        </li>
+        <li>De onderzoekers gebruiken cookies bij de webapp om te zien hoeveel mensen op de website van de webapp komen en hoe zij de webapp gebruiken. Deze cookies bevatten geen persoonsgegevens, en volgen me niet naar andere websites.
         </li>
       </ol>
     </li>
@@ -51,5 +44,5 @@ informed_consent.content = [{
                               type: :raw,
                               content: ic_content
                             }]
-informed_consent.title = 'Informed consent onderzoek naar ontwikkeling en begeleiding (u-can-act)'
+informed_consent.title = 'U-can-act'
 informed_consent.save!

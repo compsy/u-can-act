@@ -3,9 +3,20 @@
 class AdminController < ApplicationController
   include AdminHelper
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
-  before_action :set_questionnaire, only: %i[response_export questionnaire_export]
+  before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
 
-  def index; end
+  def index
+    # exclude pilot study questionnaires
+    @used_questionnaires = Questionnaire.all.reject { |questionnaire| questionnaire.name =~ /x per week/ }
+  end
+
+  def preview
+    @use_mentor_layout = @questionnaire.name.match?(/mentor/)
+  end
+
+  def preview_done
+    redirect_to '/admin'
+  end
 
   def response_export
     questionnaire_filename = idify('responses', @questionnaire.name)
@@ -37,8 +48,12 @@ class AdminController < ApplicationController
   end
 
   def set_questionnaire
-    @questionnaire = Questionnaire.find_by_name(params[:id])
+    @questionnaire = Questionnaire.find_by_name(questionnaire_params[:id])
     return if @questionnaire.present?
     render(status: 404, plain: 'Questionnaire with that name not found.')
+  end
+
+  def questionnaire_params
+    params.permit(:id)
   end
 end

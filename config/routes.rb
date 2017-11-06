@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get 'admin/protocol_subscription_export', to: 'admin#protocol_subscription_export'
   get 'admin/questionnaire_export/:id', to: 'admin#questionnaire_export', as: 'admin_questionnaire_export'
   get 'admin/response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
+  post 'admin/preview', to: 'admin#preview', as: 'admin_preview'
+  post 'admin/preview_done', to: 'admin#preview_done', as: 'admin_preview_done'
 
   # Static pages
   get 'disclaimer', to: 'static_pages#disclaimer', as: 'disclaimer'

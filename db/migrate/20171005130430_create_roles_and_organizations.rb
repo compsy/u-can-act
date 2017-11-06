@@ -27,7 +27,7 @@ class CreateRolesAndOrganizations < ActiveRecord::Migration[5.0]
     add_column :people, :role_id, :integer, foreign_key: true, null: true
 
     Person.all.each do |person|
-      role = Organization.find(person.organization_id).roles.find_by_group(person.role_type)
+      role = default_organization.roles.find_by_group(person.role_type)
       person.role = role
       person.organization_id = nil
       person.save!

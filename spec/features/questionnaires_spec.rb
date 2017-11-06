@@ -150,8 +150,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v2_brood' => 'true',
                                             'v3' => '50',
                                             'v4_0_1' => 'dit is een doel',
-                                            'v4_0_4' => '50',
                                             'v4_0_5' => '50')
+      expect(responseobj.values.values).not_to include('v4_0_4')
 
       not_allowed_keys = (1..10).map do |q_id|
         (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
@@ -591,7 +591,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('label', text: 'Hihaho', visible: true)
       expect(page).to have_css('label', text: 'hahaha', visible: true)
       ## v3
-      #range_select('v3', '64')
+      # range_select('v3', '64')
       # v4
       page.check('antwoord a', allow_label_click: true)
       # v5

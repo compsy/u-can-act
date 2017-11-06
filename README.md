@@ -76,13 +76,14 @@ For non-periodical measurements, the `offset_until_end` is ignored.
 
 ## Importing new students and mentors
 New mentors and students can be imported using the `echo_people` use case. 
+
 ```ruby
   be rake "maintenance:echo_people[CSV_NAME]"
 ```
 
 in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data. It is important that the format of the CSV is ordered as follows. 
 
-### The Mentor CSV
+### The Mentor CSV)
 For the Mentor data this should be:
 
 | type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date |

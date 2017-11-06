@@ -1,6 +1,8 @@
 class CreateRolesAndOrganizations < ActiveRecord::Migration[5.0]
   def change
     rename_column :people, :type, :role_type
+    add_column :people, :gender, :string
+    add_column :people, :email, :string
     
     create_table :organizations do |t|
       t.string :name, null: false

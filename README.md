@@ -85,9 +85,8 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 ### The Mentor CSV
 For the Mentor data this should be:
 
-```
-type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date
-```
+| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Mentor`
@@ -106,9 +105,8 @@ In this case:
 ### The Student CSV
 For the Student data this should be:
 
-```
-type | organization_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date
-```
+|type | organization_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date|
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Student`

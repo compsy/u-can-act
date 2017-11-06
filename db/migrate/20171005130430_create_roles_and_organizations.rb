@@ -29,7 +29,6 @@ class CreateRolesAndOrganizations < ActiveRecord::Migration[5.0]
     Person.all.each do |person|
       role = default_organization.roles.find_by_group(person.role_type)
       person.role = role
-      person.organization_id = nil
       person.save!
     end
 

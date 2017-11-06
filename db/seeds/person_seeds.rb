@@ -11,7 +11,8 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     { first_name: 'Scho', last_name: 'Lier' },
     { first_name: 'Ado', last_name: 'Lecent' },
     { first_name: 'John', last_name: 'Doe' },
-    { first_name: 'Jane', last_name: 'Doe' }
+    { first_name: 'Jane', last_name: 'Doe' },
+    { first_name: 'Hans', last_name: 'Jansen' }
   ]
   organization = Organization.find_by_name('Default organization')
   organization ||= Organization.new(name: 'Default organization')

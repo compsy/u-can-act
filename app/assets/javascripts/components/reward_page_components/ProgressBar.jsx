@@ -11,7 +11,7 @@ class ProgressBar extends React.Component {
   componentDidMount() {
     let timer = setInterval(this.performTimerEvent.bind(this), 1500);
     let radial = this.renderGraph(
-      this.props.valueEuro,
+      this.calculateInitialValue(),
       this.props.percentageStreak,
       this.props.awardableEuro,
       this.props.totalAvailable
@@ -27,8 +27,8 @@ class ProgressBar extends React.Component {
   calculateInitialValue() {
     var initialValue = this.props.valueEuro
     if (this.props.currentMultiplier > 0) {
-      initial_value -= this.props.euroDelta;
-      initial_value += this.props.euroDelta / this.props.currentMultiplier;
+      initialValue -= this.props.euroDelta;
+      initialValue += this.props.euroDelta / this.props.currentMultiplier;
     }
     return initialValue
   }
@@ -38,22 +38,21 @@ class ProgressBar extends React.Component {
   }
 
   performTimerEvent() {
-    this.renderGraph(this.props.valueEuro, this.props.percentageStreak)
     this.setState({
+      radial: this.renderGraph(this.props.valueEuro, this.props.percentageStreak),
       showStreakText: true
     })
     clearInterval(this.state.timer);
   }
 
   renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
-
     var radial;
     if (this.state.radial) {
       radial = this.state.radial;
       radial.update([percentageStreak, valueEuro]);
     } else {
       radial = new RadialProgressChart('.progressRadial', {
-        diameter: 200,
+        diameter: 250,
         max: totalAvailable,
         round: true,
         series: [{
@@ -69,7 +68,7 @@ class ProgressBar extends React.Component {
           content: ['Je hebt nu',
             function(value) {
               return printAsMoney(value)
-            }, ' daar kan nog ' + printAsMoney(awardable) + ' bij!'
+            }, 'je kunt nog ' + printAsMoney(awardable) + ' verdienen!'
           ],
           y: -50
         }

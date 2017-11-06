@@ -58,6 +58,7 @@ class ProtocolSubscription < ApplicationRecord
         on_streak = determine_streak(on_streak, response.completed?, response.future?)
         current_streak = on_streak
       end
+
       create_protocol_completion_entry(response.completed?,
                                        response.measurement.periodical?,
                                        response.measurement.reward_points,

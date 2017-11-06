@@ -23,7 +23,7 @@ class QuestionnaireGenerator
     private
 
     def substitute_variables(response_id, title, content)
-      response = Response.find(response_id)
+      response = Response.find_by_id(response_id) # allow nil response id for preview
       return [title, content] if response.blank?
       student, mentor = response.determine_student_mentor
       [title, content].map do |obj|

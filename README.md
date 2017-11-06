@@ -220,21 +220,42 @@ Required and allowed options (minimal example and maximal example):
 [{
   id: :v1,
   type: :textarea,
-  tooltip: 'Bijvoorbeeld het kleurenschema',
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
 }, {
   section_start: 'Tot slot',
   hidden: true,
   id: :v2,
   type: :textarea,
+  placeholder: 'Place holder',
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
   section_end: true
 }]
-``` 
+```
 
 The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
-### Type: expandable
+### Type: Textfield
+Required and allowed options (minimal example and maximal example):
+
+```
+[{
+  id: :v1,
+  type: :textfield,
+  title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
+}, {
+  section_start: 'Tot slot',
+  hidden: true,
+  id: :v2,
+  type: :textfield,
+  placeholder: 'Place holder',
+  title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
+  section_end: true
+}]
+```
+
+The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+### Type: Expandable
 Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
 ```
 [{

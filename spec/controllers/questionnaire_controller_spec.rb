@@ -42,16 +42,16 @@ RSpec.describe QuestionnaireController, type: :controller do
         person = FactoryGirl.create(:mentor)
         protocol_subscription.update_attributes!(person: person)
         get :show, params: { q: invitation_token.token }
-        expect(assigns(:is_mentor)).to_not be_nil
-        expect(assigns(:is_mentor)).to be_truthy
+        expect(assigns(:use_mentor_layout)).to_not be_nil
+        expect(assigns(:use_mentor_layout)).to be_truthy
       end
 
       it 'should set whether the current person is a mentor' do
         person = FactoryGirl.create(:student)
         protocol_subscription.update_attributes!(person: person)
         get :show, params: { q: invitation_token.token }
-        expect(assigns(:is_mentor)).to_not be_nil
-        expect(assigns(:is_mentor)).to be_falsey
+        expect(assigns(:use_mentor_layout)).to_not be_nil
+        expect(assigns(:use_mentor_layout)).to be_falsey
       end
     end
   end

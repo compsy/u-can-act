@@ -46,4 +46,18 @@ describe AdminHelper do
       expect(helper.idify('Hello', ' goodBye')).to eq 'hello_goodbye'
     end
   end
+
+  describe 'questionnaire_select_options' do
+    it 'should return the names of questionnaires' do
+      questionnaires = [
+        FactoryGirl.create(:questionnaire, name: 'firstname'),
+        FactoryGirl.create(:questionnaire, name: 'secondname')
+      ]
+      expected = [['Selecteer een vragenlijst...', ''], %w[firstname firstname], %w[secondname secondname]]
+      expect(helper.questionnaire_select_options(questionnaires)).to eq expected
+    end
+    it 'should work with an empty list' do
+      expect(helper.questionnaire_select_options([])).to eq [['Selecteer een vragenlijst...', '']]
+    end
+  end
 end

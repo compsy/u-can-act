@@ -319,5 +319,5 @@ If the `content` of an expandable question contains questions with options that 
 [coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?t=MBvZL7&branch=master&service=github
 [coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
 
-[gemnasium-image]: https://gemnasium.com/badges/cf0e4e7a3f11b8f173805a9270972554.svg
+[gemnasium-image]: https://gemnasium.com/badges/github.com/compsy/vsv.svg
 [gemnasium-url]: https://gemnasium.com/github.com/compsy/vsv

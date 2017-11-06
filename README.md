@@ -74,6 +74,53 @@ There are two types of Measurements. Periodical and one-time measurements. Perio
 
 For non-periodical measurements, the `offset_until_end` is ignored.
 
+## Importing new students and mentors
+New mentors and students can be imported using the `echo_people` use case. 
+```ruby
+  be rake "maintenance:echo_people[CSV_NAME]"
+```
+
+in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data. It is important that the format of the CSV is ordered as follows. 
+
+### The Mentor CSV
+For the Mentor data this should be:
+
+```
+type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date
+```
+
+In this case: 
+ - `type` should equal `Mentor`
+ - `organization_name`: the name of the organization the mentor belongs to
+ - `role_title`: the role the mentor has in the organization ('mentor', 'maatje', or 'S-teamer')
+ - `first_name`: the first name of the person
+ - `last_name`: the last name of the person
+ - `gender`: the gender of the person
+ - `mobile_phone`: the mobile phone number of the person
+ - `email`: the email address of the mentor
+ - `protocol_name`: the name of the protocol the person will participate in (for mentors this is `mentoren dagboek`
+ - `start_date`: the date at which the person should start
+ - `filling_out_for`: the phone number for which the mentor is filling out the questionnaire
+ - `filling_out_for_protocol`: the protocol the person is filling out for
+
+### The Student CSV
+For the Student data this should be:
+
+```
+type | organization_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date
+```
+
+In this case: 
+ - `type` should equal `Student`
+ - `organization_name`: the name of the organization the student belongs to
+ - `first_name`: the first name of the person
+ - `last_name`: the last name of the person
+ - `gender`: the gender of the person
+ - `mobile_phone`: the mobile phone number of the person
+ - `protocol_name`: the name of the protocol the person will participate in (for mentors this is `studenten`
+ - `start_date`: the date at which the person should start
+
+
 
 ## Variables that can be used in texts:
 

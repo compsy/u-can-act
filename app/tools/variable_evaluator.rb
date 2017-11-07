@@ -45,6 +45,8 @@ class VariableEvaluator
       }
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # Ik vind het duidelijker om dit volledig uit te schrijven dan dit te gaan opsplitsen.
     def substitutions(subs_hash)
       {
         'begeleider' => subs_hash[:mentor_title],
@@ -59,6 +61,7 @@ class VariableEvaluator
         'hem_haar_student' => personal_pronoun_dativus(subs_hash[:student_gender])
       }
     end
+    # rubocop:enable Metrics/AbcSize
 
     def possessive_determiner(gender)
       case gender

@@ -2,20 +2,15 @@
 
 class VariableEvaluator
   class << self
-    def evaluate_obj(obj, mentor_title = 'begeleider', mentor_gender = nil,
-                     student_name = 'deze student', student_gender = nil)
-      if obj.is_a?(String)
-        return evaluate(obj, mentor_title, mentor_gender,
-                        student_name, student_gender)
-      elsif obj.is_a?(Hash)
+    def evaluate_obj(obj, subs_hash)
+      return evaluate(obj, subs_hash) if obj.is_a?(String)
+      if obj.is_a?(Hash)
         obj.each do |k, v|
-          obj[k] = evaluate_obj(v, mentor_title, mentor_gender,
-                                student_name, student_gender)
+          obj[k] = evaluate_obj(v, subs_hash)
         end
       elsif obj.is_a?(Array)
         obj.each_with_index do |v, i|
-          obj[i] = evaluate_obj(v, mentor_title, mentor_gender,
-                                student_name, student_gender)
+          obj[i] = evaluate_obj(v, subs_hash)
         end
       end
       obj
@@ -23,10 +18,9 @@ class VariableEvaluator
 
     private
 
-    def evaluate(text, mentor_title = 'begeleider', mentor_gender = nil,
-                 student_name = 'deze student', student_gender = nil)
-      mentor_title = 'begeleider' if mentor_title.blank?
-      substitutions_hash = substitutions(mentor_title, mentor_gender, student_name, student_gender)
+    def evaluate(text, subs_hash)
+      full_subs_hash = default_subs_hash.dup.merge(subs_hash.dup)
+      substitutions_hash = substitutions(full_subs_hash)
       substitutions_hash.each do |variable, expansion|
         text = text.gsub("{{#{variable}}}", expansion)
         # if it already starts with a capital, don't capitalize() it, otherwise
@@ -40,16 +34,29 @@ class VariableEvaluator
       text
     end
 
-    def substitutions(mentor_title, mentor_gender, student_name, student_gender)
+    def default_subs_hash
       {
-        'begeleider' => mentor_title,
-        'zijn_haar_begeleider' => possessive_determiner(mentor_gender),
-        'hij_zij_begeleider' => personal_pronoun(mentor_gender),
-        'hem_haar_begeleider' => personal_pronoun_dativus(mentor_gender),
-        'deze_student' => student_name, # incl. "deze" want naam ipv titel
-        'zijn_haar_student' => possessive_determiner(student_gender),
-        'hij_zij_student' => personal_pronoun(student_gender),
-        'hem_haar_student' => personal_pronoun_dativus(student_gender)
+        mentor_title: 'begeleider',
+        mentor_gender: nil,
+        mentor_name: 'je begeleider',
+        organization: 'je begeleidingsinitiatief',
+        student_name: 'deze student', # incl. "deze" want naam ipv titel
+        student_gender: nil
+      }
+    end
+
+    def substitutions(subs_hash)
+      {
+        'begeleider' => subs_hash[:mentor_title],
+        'zijn_haar_begeleider' => possessive_determiner(subs_hash[:mentor_gender]),
+        'hij_zij_begeleider' => personal_pronoun(subs_hash[:mentor_gender]),
+        'hem_haar_begeleider' => personal_pronoun_dativus(subs_hash[:mentor_gender]),
+        'naam_begeleider' => subs_hash[:mentor_name],
+        'je_begeleidingsinitiatief' => subs_hash[:organization],
+        'deze_student' => subs_hash[:student_name],
+        'zijn_haar_student' => possessive_determiner(subs_hash[:student_gender]),
+        'hij_zij_student' => personal_pronoun(subs_hash[:student_gender]),
+        'hem_haar_student' => personal_pronoun_dativus(subs_hash[:student_gender])
       }
     end
 

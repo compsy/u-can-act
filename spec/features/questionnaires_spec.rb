@@ -81,10 +81,6 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Hoeveel tijd deed u over het eten?')
     materialize_select(1, 4, 'div.v4_uren>')
     materialize_select(0, 15, 'div.v4_minuten>')
-    # find("div.v4_uren>div.select-wrapper>input[value=\"1\"]").click
-    # find('div.v4_uren>div.select-wrapper li', text: '4').click
-    # find("div.v4_minuten>div.select-wrapper>input[value=\"0\"]").click
-    # find('div.v4_minuten>div.select-wrapper li', text: '15').click
 
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)

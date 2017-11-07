@@ -7,11 +7,11 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts 'Generating people - Started'
 
   students =[
-    { first_name: 'Stu', last_name: 'Dent' },
-    { first_name: 'Scho', last_name: 'Lier' },
-    { first_name: 'Ado', last_name: 'Lecent' },
-    { first_name: 'John', last_name: 'Doe' },
-    { first_name: 'Jane', last_name: 'Doe' }
+    { first_name: 'Jan', last_name: 'Jansen', gender: 'male' },
+    { first_name: 'Klaziena', last_name: 'Kramer', gender: 'female' },
+    { first_name: 'Erika', last_name: 'de Boer', gender: 'female' },
+    { first_name: 'Henk', last_name: 'Veenstra', gender: 'male' },
+    { first_name: 'Stu', last_name: 'Dent', gender: nil }
   ]
   organization = Organization.find_by_name('Default organization')
   organization ||= Organization.new(name: 'Default organization')
@@ -28,13 +28,15 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
       phone = generate_phone
     end
     Person.create!(first_name: student_hash[:first_name],
-                    last_name: student_hash[:last_name],
-                    mobile_phone: phone, role: student)
+                   last_name: student_hash[:last_name],
+                   gender: student_hash[:gender],
+                   mobile_phone: phone, role: student)
   end
 
   mentors =[
-    { first_name: 'Men', last_name: 'Tor' },
-    { first_name: 'Jan', last_name: 'Jansen' }
+    { first_name: 'Koos', last_name: 'Barendrecht', gender: 'male', email: 'koos_barendrecht@example.com' },
+    { first_name: 'Anna', last_name: 'Groen', gender: 'female', email: 'anna_groen@example.com' },
+    { first_name: 'Men', last_name: 'Tor', gender: nil, email: 'men_tor@example.com' }
   ]
 
   mentors.each do |mentor_hash|
@@ -44,6 +46,8 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     end
     Person.create!(first_name: mentor_hash[:first_name],
                    last_name: mentor_hash[:last_name],
+                   gender: mentor_hash[:gender],
+                   email: mentor_hash[:email],
                    mobile_phone: phone, role: mentor)
   end
 

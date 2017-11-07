@@ -81,7 +81,6 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Hoeveel tijd deed u over het eten?')
     materialize_select(1, 4, 'div.v4_uren>')
     materialize_select(0, 15, 'div.v4_minuten>')
-
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -91,9 +90,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.values).to include('v1' => 'slecht',
                                           'v2_brood' => 'true',
                                           'v2_kaas_en_ham' => 'true',
-                                          'v3' => '57',
-                                          'v4_uren' => '4',
-                                          'v4_minuten' => '15')
+                                          'v3' => '57')
   end
 
   it 'should store the results from the otherwise option for checkboxes and radios' do
@@ -165,8 +162,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v2_brood' => 'true',
                                             'v3' => '50',
                                             'v4_0_1' => 'dit is een doel',
-                                            'v4_0_4' => '50',
                                             'v4_0_5' => '50')
+      expect(responseobj.values.values).not_to include('v4_0_4')
 
       not_allowed_keys = (1..10).map do |q_id|
         (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
@@ -481,14 +478,14 @@ describe 'GET and POST /', type: :feature, js: true do
         type: :checkbox,
         title: 'Wat heeft u vandaag gegeten?',
         options: [
-          { title: 'brood', shows_questions: %i[v3] },
+          { title: 'brood', hides_questions: %i[v3] },
           'kaas en ham',
           { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
         ]
       }, {
         section_start: 'My hidden question',
         id: :v3,
-        hidden: true,
+        hidden: false,
         type: :range,
         title: 'Zie je mij of niet?',
         labels: ['helemaal niet', 'helemaal wel']
@@ -528,15 +525,19 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Hoe voelt u zich vandaag?')
       expect(page).to have_content('slecht')
       expect(page).to have_content('goed')
+      expect(page).to have_content('My hidden question')
+      expect(page).to have_content('Zie je mij of niet?')
+      expect(page).to have_content('helemaal wel')
+      expect(page).to have_content('helemaal niet')
       expect(page).to have_content('Wat heeft u vandaag gegeten?')
       expect(page).to have_content('brood')
       expect(page).to have_content('kaas en ham')
       expect(page).to have_content('pizza')
 
-      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
       expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
       expect(page).to have_css('label', text: 'antwoord a', visible: false)
       expect(page).to have_css('label', text: 'antwoord b', visible: false)
@@ -545,6 +546,18 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('label', text: 'hahaha', visible: false)
       # v1
       page.choose('slecht', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v2
+      page.check('brood', allow_label_click: true)
       expect(page).to have_css('h5', text: 'My hidden question', visible: false)
       expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
       expect(page).to have_css('div', text: 'helemaal niet', visible: false)
@@ -556,23 +569,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('label', text: 'Hihaho', visible: false)
       expect(page).to have_css('label', text: 'hahaha', visible: false)
       # v2
-      page.check('brood', allow_label_click: true)
-      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
-      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
-      expect(page).to have_css('label', text: 'antwoord a', visible: false)
-      expect(page).to have_css('label', text: 'antwoord b', visible: false)
-      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
-      expect(page).to have_css('label', text: 'Hihaho', visible: false)
-      expect(page).to have_css('label', text: 'hahaha', visible: false)
-      # v2
       page.check('pizza', allow_label_click: true)
-      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
       expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
       expect(page).to have_css('label', text: 'antwoord a', visible: true)
       expect(page).to have_css('label', text: 'antwoord b', visible: true)
@@ -580,10 +581,10 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('label', text: 'Hihaho', visible: true)
       expect(page).to have_css('label', text: 'hahaha', visible: true)
       page.uncheck('pizza', allow_label_click: true)
-      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
       expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
       expect(page).to have_css('label', text: 'antwoord a', visible: false)
       expect(page).to have_css('label', text: 'antwoord b', visible: false)
@@ -591,18 +592,18 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('label', text: 'Hihaho', visible: false)
       expect(page).to have_css('label', text: 'hahaha', visible: false)
       page.check('pizza', allow_label_click: true)
-      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
       expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
       expect(page).to have_css('label', text: 'antwoord a', visible: true)
       expect(page).to have_css('label', text: 'antwoord b', visible: true)
       expect(page).to have_css('p', text: 'Zie je mij?', visible: true)
       expect(page).to have_css('label', text: 'Hihaho', visible: true)
       expect(page).to have_css('label', text: 'hahaha', visible: true)
-      # v3
-      range_select('v3', '64')
+      ## v3
+      # range_select('v3', '64')
       # v4
       page.check('antwoord a', allow_label_click: true)
       # v5
@@ -616,7 +617,6 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'slecht',
                                             'v2_brood' => 'true',
                                             'v2_pizza' => 'true',
-                                            'v3' => '64',
                                             'v4_antwoord_a' => 'true',
                                             'v5' => 'hahaha')
     end
@@ -686,8 +686,8 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to include('v1' => 'slecht',
                                             'v2_pizza' => 'true',
+                                            'v3' => '50',
                                             'v5' => 'Hihaho')
-      expect(responseobj.values.keys).not_to include('v3')
     end
   end
   context 'shows and hides radio questions' do
@@ -702,14 +702,14 @@ describe 'GET and POST /', type: :feature, js: true do
         type: :radio,
         title: 'Wat heeft u vandaag gegeten?',
         options: [
-          { title: 'brood', shows_questions: %i[v3] },
+          { title: 'brood', hides_questions: %i[v3] },
           'kaas en ham',
           { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
         ]
       }, {
         section_start: 'My hidden question',
         id: :v3,
-        hidden: true,
+        hidden: false,
         type: :range,
         title: 'Zie je mij of niet?',
         labels: ['helemaal niet', 'helemaal wel']
@@ -753,11 +753,15 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('brood')
       expect(page).to have_content('kaas en ham')
       expect(page).to have_content('pizza')
+      expect(page).to have_content('My hidden question')
+      expect(page).to have_content('Zie je mij of niet?')
+      expect(page).to have_content('helemaal wel')
+      expect(page).to have_content('helemaal niet')
 
-      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
       expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
       expect(page).to have_css('label', text: 'antwoord a', visible: false)
       expect(page).to have_css('label', text: 'antwoord b', visible: false)
@@ -766,18 +770,6 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('label', text: 'hahaha', visible: false)
       # v1
       page.check('slecht', allow_label_click: true)
-      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
-      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
-      expect(page).to have_css('label', text: 'antwoord a', visible: false)
-      expect(page).to have_css('label', text: 'antwoord b', visible: false)
-      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
-      expect(page).to have_css('label', text: 'Hihaho', visible: false)
-      expect(page).to have_css('label', text: 'hahaha', visible: false)
-      # v2
-      page.choose('brood', allow_label_click: true)
       expect(page).to have_css('h5', text: 'My hidden question', visible: true)
       expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
       expect(page).to have_css('div', text: 'helemaal niet', visible: true)
@@ -789,18 +781,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('label', text: 'Hihaho', visible: false)
       expect(page).to have_css('label', text: 'hahaha', visible: false)
       # v2
-      page.choose('pizza', allow_label_click: true)
-      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
-      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
-      expect(page).to have_css('label', text: 'antwoord a', visible: true)
-      expect(page).to have_css('label', text: 'antwoord b', visible: true)
-      expect(page).to have_css('p', text: 'Zie je mij?', visible: true)
-      expect(page).to have_css('label', text: 'Hihaho', visible: true)
-      expect(page).to have_css('label', text: 'hahaha', visible: true)
-      page.choose('kaas en ham', allow_label_click: true)
+      page.choose('brood', allow_label_click: true)
       expect(page).to have_css('h5', text: 'My hidden question', visible: false)
       expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
       expect(page).to have_css('div', text: 'helemaal niet', visible: false)
@@ -811,11 +792,34 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
       expect(page).to have_css('label', text: 'Hihaho', visible: false)
       expect(page).to have_css('label', text: 'hahaha', visible: false)
+      # v2
       page.choose('pizza', allow_label_click: true)
-      expect(page).to have_css('h5', text: 'My hidden question', visible: false)
-      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: false)
-      expect(page).to have_css('div', text: 'helemaal niet', visible: false)
-      expect(page).to have_css('div', text: 'helemaal wel', visible: false)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
+      expect(page).to have_css('label', text: 'antwoord a', visible: true)
+      expect(page).to have_css('label', text: 'antwoord b', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: true)
+      expect(page).to have_css('label', text: 'Hihaho', visible: true)
+      expect(page).to have_css('label', text: 'hahaha', visible: true)
+      page.choose('kaas en ham', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
+      expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: false)
+      expect(page).to have_css('label', text: 'antwoord a', visible: false)
+      expect(page).to have_css('label', text: 'antwoord b', visible: false)
+      expect(page).to have_css('p', text: 'Zie je mij?', visible: false)
+      expect(page).to have_css('label', text: 'Hihaho', visible: false)
+      expect(page).to have_css('label', text: 'hahaha', visible: false)
+      page.choose('pizza', allow_label_click: true)
+      expect(page).to have_css('h5', text: 'My hidden question', visible: true)
+      expect(page).to have_css('p', text: 'Zie je mij of niet?', visible: true)
+      expect(page).to have_css('div', text: 'helemaal niet', visible: true)
+      expect(page).to have_css('div', text: 'helemaal wel', visible: true)
       expect(page).to have_css('p', text: 'Ben ik ook onzichtbaar?', visible: true)
       expect(page).to have_css('label', text: 'antwoord a', visible: true)
       expect(page).to have_css('label', text: 'antwoord b', visible: true)
@@ -836,9 +840,9 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to include('v1_slecht' => 'true',
                                             'v2' => 'pizza',
+                                            'v3' => '64',
                                             'v4_antwoord_a' => 'true',
                                             'v5' => 'hahaha')
-      expect(responseobj.values.keys).not_to include('v3')
     end
     it 'should not prevent from sending invisible answers' do
       protocol = FactoryGirl.create(:protocol)
@@ -870,7 +874,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to include('v2' => 'brood')
-      expect(responseobj.values.keys).to include('v3')
+      expect(responseobj.values.keys).not_to include('v3')
     end
     it 'should require invisible radios once they become visible' do
       protocol = FactoryGirl.create(:protocol)
@@ -906,8 +910,8 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to include('v1_goed' => 'true',
                                             'v2' => 'pizza',
+                                            'v3' => '50',
                                             'v5' => 'Hihaho')
-      expect(responseobj.values.keys).not_to include('v3')
     end
   end
 
@@ -967,6 +971,99 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v3' => 'of niet soms')
     end
     it 'should require not require textareas to be filled out' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_css('label', text: 'Vul iets in', visible: false)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: false)
+      # v1
+      page.choose('brood', allow_label_click: true)
+      expect(page).to have_css('label', text: 'Vul iets in', visible: true)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: true)
+      # v3
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'brood',
+                                            'v3' => 'of niet soms')
+    end
+  end
+
+  context 'textfield' do
+    let(:content) do
+      [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        title: 'Dit is je tekstruimte'
+      }]
+    end
+
+    it 'should store the results from a textfield' do
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('pizza', allow_label_click: true)
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'pizza',
+                                            'v3' => 'of niet soms')
+    end
+    it 'should require not require textfields to be filled out' do
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,

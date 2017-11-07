@@ -384,8 +384,22 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
   }]
 }]
 ```
-
 If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
+
+### Type: time
+Required and allowed options (minimal example):
+
+```
+[{
+  id: :v1,
+  type: :time,
+  hours_from: 0,
+  hours_to: 6,
+  hours_step: 1,
+  title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?'
+}]
+```
+The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

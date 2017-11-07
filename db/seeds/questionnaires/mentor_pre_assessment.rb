@@ -16,9 +16,9 @@ voormeting1.content = [{
                        }, {
                          id: :v2,
                          type: :textfield,
-                         title: 'Wat is je geboortedatum?',
-                         tooltip: 'Noteer je geboortedatum als volgt: dd-mm-jjjj',
-                         placeholder: 'dd-mm-jjjj',
+                         title: 'Wat is je geboortejaar?',
+                         tooltip: 'Noteer je geboortejaar als volgt: jjjj',
+                         placeholder: 'jjjj',
                        }, {
                          id: :v3,
                          type: :textfield,

@@ -11,7 +11,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     { first_name: 'Klaziena', last_name: 'Kramer', gender: 'female' },
     { first_name: 'Erika', last_name: 'de Boer', gender: 'female' },
     { first_name: 'Henk', last_name: 'Veenstra', gender: 'male' },
-    { first_name: 'Janieta', last_name: 'De Jong', gender: 'female' }
+    { first_name: 'Stu', last_name: 'Dent', gender: nil }
   ]
   organization = Organization.find_by_name('Default organization')
   organization ||= Organization.new(name: 'Default organization')
@@ -35,7 +35,8 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
 
   mentors =[
     { first_name: 'Koos', last_name: 'Barendrecht', gender: 'male' },
-    { first_name: 'Anna', last_name: 'Groen', gender: 'female' }
+    { first_name: 'Anna', last_name: 'Groen', gender: 'female' },
+    { first_name: 'Men', last_name: 'Tor', gender: nil }
   ]
 
   mentors.each do |mentor_hash|

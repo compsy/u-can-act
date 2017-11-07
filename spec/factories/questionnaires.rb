@@ -121,12 +121,13 @@ FactoryGirl.define do
             'De relatie verbeteren en/of onderhouden',
             'Inzicht krijgen in de belevingswereld',
             'Inzicht krijgen in de omgeving',
-            'Zelfinzicht geven',
+            { title: 'Zelfinzicht geven', shows_questions: %i[v4_4] },
             'Vaardigheden ontwikkelen',
             'De omgeving vreanderen/afstemmen met de omgeving'
           ]
         }, {
           id: :v4_4,
+          hidden: true,
           type: :range,
           title: 'Slider 1 (lorem!)',
           labels: ['zelf geen invloed', 'zelf veel invloed']

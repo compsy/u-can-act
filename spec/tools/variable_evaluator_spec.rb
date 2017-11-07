@@ -46,9 +46,9 @@ describe VariableEvaluator do
     it 'should replace all the words correctly' do
       given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} en '\
               '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
-              '{{hij_zij_student}} al wel.'
+              '{{hij_zij_student}} al wel voor {{hem_haar_student}}.'
       expected = 'Heeft je stamhoofd al haar vragenlijsten ingevuld voor William Sealy Gosset en zijn vrienden? '\
-                 'Of heeft zij daar nog geen tijd voor gehad? hij al wel.'
+                 'Of heeft zij daar nog geen tijd voor gehad? hij al wel voor hem.'
       expect(described_class.evaluate_obj(given, mentor_title, mentor_gender,
                                           student_name, student_gender)).to eq expected
     end

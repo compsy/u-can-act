@@ -22,7 +22,8 @@ voormeting1.content = [{
                        }, {
                          id: :v3,
                          type: :textfield,
-                         title: 'Hoeveel jaar heb jij tot nu toe gewerkt in de jongerenbegeleiding?'
+                         title: 'Hoeveel jaar heb jij tot nu toe gewerkt in de jongerenbegeleiding?',
+                         placeholder: 'bv. 3'
                        }, {
                          id: :v4,
                          type: :textfield,

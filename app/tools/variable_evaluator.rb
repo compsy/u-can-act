@@ -19,7 +19,9 @@ class VariableEvaluator
     private
 
     def evaluate(text, subs_hash)
-      full_subs_hash = default_subs_hash.dup.merge(subs_hash.dup)
+      full_subs_hash = default_subs_hash.dup.merge(subs_hash.dup) do |_, oldval, newval|
+        newval.blank? ? oldval : newval
+      end
       substitutions_hash = substitutions(full_subs_hash)
       substitutions_hash.each do |variable, expansion|
         text = text.gsub("{{#{variable}}}", expansion)

@@ -101,22 +101,21 @@ function updateExpandableButtons() {
   addRemoveDisabledClass(buttons, '.expandable_wrapper:not(.hidden)')
 }
 
-function findExpandableElement(button, element) {
-  const questionnaireId = $(button).attr('data-belongsto');
-  // Find the first element that is hidden and expandable so we can unhide it
-  const elem = $(element + "." + questionnaireId).first();
-  return(elem)
-}
-
 function expandExpandable() {
-  const elem = findExpandableElement(this, '.expandable_wrapper.hidden');
+  const questionnaireId = $(this).attr('data-belongsto');
+
+  // Find the last element that is hidden and expandable so we can unhide it
+  const elem = $('.expandable_wrapper.hidden' + '.' + questionnaireId).first();
   elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
 }
 
 function collapseExpandable() {
-  const elem = findExpandableElement(this, '.expandable_wrapper:not(.hidden)');
+  const questionnaireId = $(this).attr('data-belongsto');
+
+  // Find the last element that is not hidden and expandable so we can hide it
+  const elem = $('.expandable_wrapper:not(.hidden)' + '.' + questionnaireId).last();
   elem.addClass('hidden').find('input,textarea').prop('disabled', true);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();

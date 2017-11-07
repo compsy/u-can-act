@@ -11,6 +11,10 @@ Dir[File.join(File.dirname(__FILE__), 'seeds', 'protocols', '**', '*.rb')].each 
   require file
 end
 
+Dir[File.join(File.dirname(__FILE__), 'seeds', 'organizations', '**', '*.rb')].each do |file|
+  require file
+end
+
 # Load seeds from the seeds directory.
 Dir[File.join(File.dirname(__FILE__), 'seeds', '*.rb')].each do |file|
   require file

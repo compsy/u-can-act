@@ -26,7 +26,6 @@ class RewardPage extends React.Component {
     // Only update if the subscription id has changed
     let url = '/api/v1/protocol_subscriptions/' + protocolSubscriptionId;
     $.getJSON(url, (response) => {
-      console.log(response);
       self.setState({
         result: response
       })

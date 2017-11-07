@@ -134,7 +134,7 @@ dagboek_content = [{
                    }, {
                      section_start: 'Begeleiding',
                      type: :raw,
-                     content: '<p class="flow-text section-explanation">De volgende vragen gaan over de persoonlijke begeleider die je krijgt. Je antwoorden zijn helemaal anoniem.</p>'
+                     content: '<p class="flow-text section-explanation">De volgende vragen gaan over de persoonlijke begeleiding die je krijgt. Je antwoorden zijn helemaal anoniem.</p>'
                    }, {
                      id: :v20,
                      type: :radio,

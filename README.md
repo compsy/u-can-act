@@ -86,8 +86,8 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 ### The Mentor CSV)
 For the Mentor data this should be:
 
-| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for | filling_out_for_protocol |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Mentor`

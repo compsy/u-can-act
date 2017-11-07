@@ -182,7 +182,9 @@ class QuestionnaireGenerator
     def generate_tooltip(tooltip_content)
       return nil if tooltip_content.blank?
       tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
-      content_tag(:a, tooltip_body, onclick: "Materialize.toast('#{tooltip_content.gsub("'", %q(\\\'))}', #{TOOLTIP_DURATION})")
+      content_tag(:a,
+                  tooltip_body,
+                  onclick: "Materialize.toast('#{tooltip_content.gsub("'", %q(\\\'))}', #{TOOLTIP_DURATION})")
     end
 
     def add_shows_questions(tag_options, shows_questions)

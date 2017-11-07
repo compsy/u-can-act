@@ -104,7 +104,7 @@ function updateExpandableButtons() {
 function expandExpandable() {
   const questionnaireId = $(this).attr('data-belongsto');
 
-  // Find the last element that is hidden and expandable so we can unhide it
+  // Find the first element that is hidden and expandable so we can unhide it
   const elem = $('.expandable_wrapper.hidden' + '.' + questionnaireId).first();
   elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
   $('.otherwise-option').each(toggle_otherwise_field);

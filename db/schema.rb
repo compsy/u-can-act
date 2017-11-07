@@ -66,9 +66,9 @@ ActiveRecord::Schema.define(version: 20171011121518) do
     t.string   "last_name"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.integer  "role_id",      null: false
     t.string   "gender"
     t.string   "email"
+    t.integer  "role_id",      null: false
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 

@@ -176,13 +176,14 @@ class QuestionnaireGenerator
 
     def generate_time(question)
       body = time_body(question)
-      safe_join([content_tag(:p, question[:title].html_safe, class: 'flow-text'), body])
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
+      safe_join([content_tag(:p, title, class: 'flow-text'), body])
     end
 
     def time_body(question)
       from = question[:hours_from] || 0
-      to = question[:hours_to] || 60
-      step = question[:hours_step] || 15
+      to = question[:hours_to] || 6
+      step = question[:hours_step] || 1
 
       hours = time_dropdown(question[:id], from, to, step, 'Uren')
       minutes = time_dropdown(question[:id], 0, 60, 15, 'Minuten')

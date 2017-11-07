@@ -16,7 +16,8 @@ dagboek_content = [{
                      options: [
                        { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6 v7] },
                        'Nee'
-                     ]
+                     ],
+                     show_otherwise: false
                    }, {
                      id: :v2,
                      hidden: true,

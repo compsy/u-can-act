@@ -59,7 +59,8 @@ dagboek_content = [{
       {title: 'De omgeving van {{deze_student}} betrekken bij de begeleiding', tooltip: 'bijv. ouders, vrienden, leraren of hulpverleners uitleg geven over {{deze_student}} {{zijn_haar_student}} gedrag of vragen om mee te helpen in de begeleiding van {{deze_student}}.'},
       {title: 'Hulp vragen aan/overleggen met collega’s of andere professionals', tooltip: 'bijv. hulp vragen aan een psycholoog of maatschappelijk werker om mee te helpen/denken in de begeleiding van {{deze_student}}.'},
       {title: 'Observaties doen', tooltip: 'bijv. een voetbalwedstrijd bekijken of {{deze_student}} observeren tijdens pauzes of lessen.'}
-    ]
+    ],
+    otherwise_tooltip: 'kies dit cluster alleen wanneer de door jouw gekozen actie niet bij andere clusters past.'
   }, {
     id: :v3_3, # 2.3
     type: :checkbox,
@@ -67,12 +68,13 @@ dagboek_content = [{
     options: [
       {title: 'De relatie met {{deze_student}} verbeteren en/of onderhouden', tooltip: 'bijv. de band met {{deze_student}} proberen te verbeteren of laten weten dat je er voor {{deze_student}} bent.'},
       {title: 'Emotioneel welzijn van {{deze_student}} ontwikkelen', tooltip: 'bijv. {{deze_student}} leren om {{zijn_haar_student}} emoties beter onder controle te krijgen of om {{zijn_haar_student}} emotie(s) beter aan te laten sluiten op situatie(s).'},
-      {title: 'Vaardigheden van {{deze_student}} ontwikkelen', tooltip: 'bijv. sociale of schoolse vaardigheden trainen, zoals plannen.'},
+      {title: 'Vaardigheden van {{deze_student}} ontwikkelen', tooltip: 'bijv. sociale of schoolse vaardigheden trainen, zoals plannen. Of {{deze_student}} trainen hoe {{hij_zij_student}} beter met probleemsituaties om kan gaan.'},
       {title: '{{Deze_student}} zelfinzicht geven', tooltip: 'bijv. {{deze_student}} inzicht geven in {{zijn_haar_student}} eigen gedrag, emoties, gedachten of relaties met anderen.'},
       {title: 'Inzicht krijgen in de belevingswereld van {{deze_student}}', tooltip: 'bijv. proberen te achterhalen hoe {{deze_student}} denkt, of hoe {{hij_zij_student}} zich voelt en waarom {{hij_zij_student}} zo denkt of voelt.'},
       {title: 'Inzicht krijgen in de omgeving van {{deze_student}}', tooltip: 'bijv. verdiepen in wat {{hij_zij_student}} zoal meemaakt op school of tijdens {{zijn_haar_student}} hobby(\'s), verdiepen in {{deze_student}} {{zijn_haar_student}} familiedynamiek of achterhalen met wie {{hij_zij_student}} zoal omgaat.'},
       {title: 'De omgeving van {{deze_student}} veranderen', tooltip: 'bijv. kennis vergroten bij ouders, vrienden en leraren van {{deze_student}}, of hen overtuigen om {{deze_student}} hulp te bieden.'}
-    ]
+    ],
+    otherwise_tooltip: 'kies dit cluster alleen wanneer het door jouw gekozen doel niet bij andere clusters past.'
   }, {
     id: :v3_4, # 2.4
     type: :range,
@@ -135,7 +137,8 @@ dagboek_content = [{
   hidden: true,
   type: :radio,
   show_otherwise: false,
-  title: 'Heb je de begeleiding van {{deze_student}} deze week (voor meer dan 50%) overgedragen aan een andere persoon?',
+  title: 'Heb je de begeleiding van {{deze_student}} deze week grotendeels overgedragen aan een andere persoon?',
+  tooltip: 'Met grotendeels bedoelen wij voor meer dan de helft',
   options: [
     { title: 'Ja', shows_questions: %i[v9 v10 v11] },
     { title: 'Nee' }

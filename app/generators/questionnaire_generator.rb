@@ -144,15 +144,6 @@ class QuestionnaireGenerator
                 ])
     end
 
-    def generate_time(question)
-      safe_join([content_tag(:p, question[:title].html_safe, class: 'flow-text'), time_body(question)])
-    end
-
-    def time_body(question)
-      tag_options = { type: 'time', id: question[:id], required: true, class: 'validate' }
-      tag(:input, tag_options)
-    end
-
     def radio_options(question)
       body = []
       question[:options].each do |option|
@@ -175,6 +166,41 @@ class QuestionnaireGenerator
       tag_options = add_shows_questions(tag_options, option[:shows_questions])
       wrapped_tag = tag(:input, tag_options)
       option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
+    end
+
+    def generate_time(question)
+      body = time_body(question)
+      safe_join([content_tag(:p, question[:title].html_safe, class: 'flow-text'), body])
+    end
+
+    def time_body(question)
+      from = question[:hours_from] || 0
+      to = question[:hours_to] || 60
+      step = question[:hours_step] || 15
+
+      hours = time_dropdown(question[:id], from, to, step, 'Uren')
+      minutes = time_dropdown(question[:id], 0, 60, 15, 'Minuten')
+
+      safe_join([hours, minutes])
+    end
+
+    def time_dropdown(question_id, from, to, step, label)
+      elem_id = idify(question_id, label)
+      options = generate_dropdown((from...to).step(step), elem_id)
+      options = safe_join([
+                            options,
+                            content_tag(:label, label)
+                          ])
+      content_tag(:div, options, class: 'input-field col s1')
+    end
+
+    def generate_dropdown(items, id)
+      body = []
+      items.each do |option|
+        body << content_tag(:option, option, key: option)
+      end
+      body = safe_join(body)
+      content_tag(:select, body, id: id)
     end
 
     def generate_tooltip(tooltip_content)

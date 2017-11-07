@@ -94,6 +94,9 @@ dagboek_content = [{
   id: :v4,
   hidden: false,
   type: :time,
+  hours_from: 0,
+  hours_to: 6,
+  hours_step: 1,
   title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?'
 }, {
   id: :v5,

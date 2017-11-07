@@ -25,7 +25,14 @@ describe 'GET and POST /', type: :feature, js: true do
                                          id: :v3,
                                          type: :range,
                                          title: 'Hoe gaat het met u?',
-                                         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
+                                         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+                                       }, {
+                                         id: :v4,
+                                         type: :time,
+                                         title: 'Hoeveel tijd deed u over het eten?',
+                                         hours_from: 1,
+                                         hours_to: 10,
+                                         hours_step: 1,
                                          section_end: true
                                        }])
     measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
@@ -69,6 +76,12 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('beetje mee eens')
     expect(page).to have_content('helemaal mee eens')
     range_select('v3', '57')
+
+    # v4
+    # expect(page).to have_content('Hoeveel tijd deed u over het eten?')
+    # find("div.select-wrapper>select[id=\"v4_uren\"]").click
+    # materialize_select('0', '4')
+    # page.select('15', 'v4_minuten')
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -79,6 +92,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                           'v2_brood' => 'true',
                                           'v2_kaas_en_ham' => 'true',
                                           'v3' => '57')
+    # 'v4_uren' => '4',
+    # 'v4_minuten' => '15'
   end
 
   it 'should store the results from the otherwise option for checkboxes and radios' do

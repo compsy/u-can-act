@@ -201,14 +201,8 @@ class QuestionnaireGenerator
       content_tag(:div, options, class: "input-field col s1 #{elem_id}")
     end
 
-    def generate_dropdown(items, id, initial_option = nil)
+    def generate_dropdown(items, id)
       body = []
-      if initial_option.present?
-        body << content_tag(:option, initial_option,
-                            value: '',
-                            selected: '',
-                            disabled: '')
-      end
       items.each do |option|
         body << content_tag(:option, option, value: option)
       end

@@ -18,44 +18,33 @@ function toggle_otherwise_field() {
   }
 }
 
+function show_hide_entry(entry, show) {
+  var klass = '.' + entry + '_toggle';
+  if (show) {
+    $(klass).removeClass('hidden').find('input,textarea').prop('disabled', false);
+    $('.otherwise-option').each(toggle_otherwise_field);
+  } else {
+    $(klass).addClass('hidden').find('input,textarea').prop('disabled', true);
+  }
+}
+
 function toggle_shown_questions() {
-  if ($(this).closest('.row').find('input[data-shows-questions]').length === 0) return;
   $(this).closest('.row').find('input[data-shows-questions]').each(function (index) {
-    if ($(this).is(':checked')) {
-      $(this).data('shows-questions').forEach(function (entry) {
-        var klass = '.' + entry + '_toggle';
-        $(klass).removeClass('hidden')
-          .find('input,textarea').prop('disabled', false);
-        $('.otherwise-option').each(toggle_otherwise_field);
-      });
-    } else {
-      $(this).data('shows-questions').forEach(function (entry) {
-        var klass = '.' + entry + '_toggle';
-        $(klass).addClass('hidden').find('input,textarea').prop('disabled', true);
-      });
-    }
+    var this_is_checked = $(this).is(':checked');
+    $(this).data('shows-questions').forEach(function (entry) {
+      show_hide_entry(entry, this_is_checked);
+    });
   });
 }
 
 function toggle_hidden_questions() {
-  if ($(this).closest('.row').find('input[data-hides-questions]').length === 0) return;
   $(this).closest('.row').find('input[data-hides-questions]').each(function (index) {
-    if ($(this).is(':checked')) {
-      $(this).data('hides-questions').forEach(function (entry) {
-        var klass = '.' + entry + '_toggle';
-        $(klass).addClass('hidden').find('input,textarea').prop('disabled', true);
-      });
-    } else {
-      $(this).data('hides-questions').forEach(function (entry) {
-        var klass = '.' + entry + '_toggle';
-        $(klass).removeClass('hidden')
-          .find('input,textarea').prop('disabled', false);
-        $('.otherwise-option').each(toggle_otherwise_field);
-      });
-    }
+    var this_is_checked = $(this).is(':checked');
+    $(this).data('hides-questions').forEach(function (entry) {
+      show_hide_entry(entry, !this_is_checked);
+    });
   });
 }
-
 
 function time_element() {
   var curid = $(this).attr('id');

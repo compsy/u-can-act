@@ -2,7 +2,7 @@ ic_name = 'informed consent studenten'
 informed_consent = Questionnaire.find_by_name(ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
 ic_content = <<~'END'
-  <p class="flow-text"><em>Informed consent onderzoek naar ontwikkeling en begeleiding</em></p>
+  <p class="flow-text"><em>Onderzoek naar ontwikkeling en begeleiding</em></p>
   <iframe src="https://player.vimeo.com/video/241526116?title=0&amp;byline=0&amp;portrait=0&amp;color=009a74" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
   <p class="flow-text">Door op de knop 'volgende' te klikken ga je akkoord met onderstaande afspraken:</p>
   <p class="flow-text">Ik stem toe mee te doen aan het onderzoek naar ontwikkeling en begeleiding van studenten op het MBO. Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen en is goedgekeurd door de Ethische Commissie Psychologie van de RuG.

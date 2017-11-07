@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'GET and POST /', type: :feature, js: true do
   let(:student) { FactoryGirl.create(:student) }
-  fit 'should show and store a questionnaire successfully' do
+  it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                person: student,
                                                start_date: 1.week.ago.at_beginning_of_day)

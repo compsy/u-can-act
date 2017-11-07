@@ -22,6 +22,7 @@ class StudentInProgressRewardPage extends React.Component {
           <ProgressBar euroDelta={this.props.euroDelta}
                         valueEuro={this.props.earnedEuros}
                         currentMultiplier={this.props.currentMultiplier}
+                        initialMultiplier={this.props.initialMultiplier}
                         percentageStreak={this.percentageStreak}
                         awardableEuro={this.props.awardable}
                         totalAvailable={this.totalAvailable}/>

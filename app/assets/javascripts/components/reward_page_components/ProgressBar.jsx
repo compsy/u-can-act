@@ -79,9 +79,11 @@ class ProgressBar extends React.Component {
 
   createStreakText() {
     if (this.state.showStreakText && this.props.currentMultiplier > 1) {
-      let value = this.props.euroDelta - this.props.euroDelta / this.props.currentMultiplier
+      let value = (this.props.euroDelta / this.props.currentMultiplier);
+      let defaultValue = value * this.props.initialMultiplier ;
+      let currentBonus = this.props.euroDelta - defaultValue ;
       let text = "Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ";
-      text += printAsMoney(value);
+      text += printAsMoney(currentBonus);
       text += " extra verdiend!";
       return (<div className="animated pulse"> {text} </div>)
     }

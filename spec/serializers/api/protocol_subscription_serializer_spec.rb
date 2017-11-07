@@ -104,6 +104,25 @@ module Api
         expect(json[:euro_delta]).to eq expected
       end
 
+      describe 'should contain the correct initial multiplier' do
+        let(:current_protocol) { FactoryGirl.create(:protocol) }
+        it 'should be 1 if there are no multipliers' do
+          current_protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: current_protocol)
+          result = described_class.new(current_protocol_subscription).as_json.with_indifferent_access
+          expected = 1
+          expect(result[:initial_multiplier]).to eq expected
+        end
+
+        it 'should be the multiplier of the first reward if there are multiple rewards' do
+          reward = FactoryGirl.create(:reward, threshold: 1, reward_points: 42, protocol: current_protocol)
+          FactoryGirl.create(:reward, threshold: 2, reward_points: 150, protocol: current_protocol)
+          current_protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: current_protocol)
+          result = described_class.new(current_protocol_subscription).as_json.with_indifferent_access
+          expected = reward.reward_points
+          expect(result[:initial_multiplier]).to eq expected
+        end
+      end
+
       it 'should contain the correct earned_euros' do
         expected = protocol_subscription.protocol_completion
         expected = protocol.calculate_reward(expected)

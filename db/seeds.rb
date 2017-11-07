@@ -88,7 +88,30 @@ if Rails.env.development?
     invited_state: Response::SENT_STATE)
   responseobj.initialize_invitation_token!
   puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+
   puts ''
+  student = Organization.first.roles.where(group: Person::STUDENT).first.people.second
+  student.protocol_subscriptions.create(
+    protocol: Protocol.find_by_name('studenten'),
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week
+  )
+  responseobjs = student.protocol_subscriptions.first.responses
+  responseobjs[1...3].each do |response|
+    response.update_attributes!(
+      open_from: (1.day.ago - 10.minutes),
+      completed_at: 1.day.ago,
+      invited_state: Response::SENT_STATE
+    )
+  end
+  responseobj = responseobjs.fifth
+  responseobj.update_attributes!(
+    open_from: 1.minute.ago,
+    invited_state: Response::SENT_STATE)
+  responseobj.initialize_invitation_token!
+  puts "student dagboek - Bijna in streak -: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+
+
 end
 
 puts 'Seeds loaded!'

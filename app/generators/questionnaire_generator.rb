@@ -191,16 +191,22 @@ class QuestionnaireGenerator
                             options,
                             content_tag(:label, label)
                           ])
-      content_tag(:div, options, class: 'input-field col s1')
+      content_tag(:div, options, class: "input-field col s1 #{elem_id}")
     end
 
-    def generate_dropdown(items, id)
+    def generate_dropdown(items, id, initial_option = nil)
       body = []
+      if initial_option.present?
+        body << content_tag(:option, initial_option,
+                            value: '',
+                            selected: '',
+                            disabled: '')
+      end
       items.each do |option|
-        body << content_tag(:option, option, key: option)
+        body << content_tag(:option, option, value: option)
       end
       body = safe_join(body)
-      content_tag(:select, body, id: id)
+      content_tag(:select, body, name: answer_name(id), id: id, required: true)
     end
 
     def generate_tooltip(tooltip_content)

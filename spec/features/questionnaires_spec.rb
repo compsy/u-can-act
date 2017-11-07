@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'GET and POST /', type: :feature, js: true do
   let(:student) { FactoryGirl.create(:student) }
-  it 'should show and store a questionnaire successfully' do
+  fit 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                person: student,
                                                start_date: 1.week.ago.at_beginning_of_day)
@@ -78,10 +78,14 @@ describe 'GET and POST /', type: :feature, js: true do
     range_select('v3', '57')
 
     # v4
-    # expect(page).to have_content('Hoeveel tijd deed u over het eten?')
-    # find("div.select-wrapper>select[id=\"v4_uren\"]").click
-    # materialize_select('0', '4')
-    # page.select('15', 'v4_minuten')
+    expect(page).to have_content('Hoeveel tijd deed u over het eten?')
+    materialize_select(1, 4, 'div.v4_uren>')
+    materialize_select(0, 15, 'div.v4_minuten>')
+    # find("div.v4_uren>div.select-wrapper>input[value=\"1\"]").click
+    # find('div.v4_uren>div.select-wrapper li', text: '4').click
+    # find("div.v4_minuten>div.select-wrapper>input[value=\"0\"]").click
+    # find('div.v4_minuten>div.select-wrapper li', text: '15').click
+
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -91,9 +95,9 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.values).to include('v1' => 'slecht',
                                           'v2_brood' => 'true',
                                           'v2_kaas_en_ham' => 'true',
-                                          'v3' => '57')
-    # 'v4_uren' => '4',
-    # 'v4_minuten' => '15'
+                                          'v3' => '57',
+                                          'v4_uren' => '4',
+                                          'v4_minuten' => '15')
   end
 
   it 'should store the results from the otherwise option for checkboxes and radios' do

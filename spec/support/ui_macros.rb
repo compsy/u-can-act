@@ -7,8 +7,10 @@ module UiMacros
     page.execute_script(script)
   end
 
-  def materialize_select(prompt, option)
-    find("div.select-wrapper>input[value=\"#{prompt}\"]").click # open the dropdown
-    find('div.select-wrapper li', text: option).click # select the option wanted
+  def materialize_select(prompt, option, superelement = nil)
+    base = 'div.select-wrapper'
+    base = superelement + base if superelement.present?
+    find("#{base}>input[value=\"#{prompt}\"]").click # open the dropdown
+    find("#{base} li", text: option).click # select the option wanted
   end
 end

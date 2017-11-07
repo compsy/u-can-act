@@ -18,7 +18,7 @@ dagboek_content = [{
   id: :v2,
   hidden: true,
   type: :radio,
-  title: 'Waarom vul jij de vragenlijst niet in voor {{deze_student}}?',
+  title: 'Waarom heb je deze week geen acties ondernomen in de begeleiding van {{deze_student}}?',
   options: [
     'Ik heb deze week geen contact gehad met {{deze_student}}.',
     'Ik ben gestopt met de begeleiding van {{deze_student}}.',

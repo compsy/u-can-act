@@ -132,35 +132,53 @@ dagboek_content = [{
                      labels: ['heel slecht', 'heel goed'],
                      section_end: true
                    }, {
-                     section_start: 'Begeleiding', # YOU ARE HERE
+                     section_start: 'Begeleiding',
                      type: :raw,
-                     content: '<p class="flow-text section-explanation">De volgende vragen gaan over de begeleiding die je krijgt van het S-team. Je antwoorden zijn helemaal anoniem en alleen de onderzoekers kunnen ze zien.</p>'
+                     content: '<p class="flow-text section-explanation">De volgende vragen gaan over de persoonlijke begeleider die je krijgt. Je antwoorden zijn helemaal anoniem.</p>'
                    }, {
                      id: :v20,
                      type: :radio,
-                     title: 'Heb je de afgelopen week je begeleider gesproken?',
+                     title: 'Heb je de afgelopen week je {{begeleider}} gesproken?',
                      options: [
-                       { title: 'Ja', shows_questions: %i[v21 v22 v23] },
+                       { title: 'Ja', shows_questions: %i[v21 v22 v23 v24 v25 v26] },
                        'Nee'
                      ]
                    }, {
                      id: :v21,
                      hidden: true,
                      type: :range,
-                     title: 'Kon je afgelopen week goed <strong>opschieten met je begeleider</strong>?',
+                     title: 'Kon je afgelopen week goed <strong>opschieten met je {{begeleider}}</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v22,
                      hidden: true,
                      type: :range,
-                     title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan je begeleider afgelopen week?',
+                     title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan je {{begeleider}} afgelopen week?',
                      labels: ['gesloten', 'open']
                    }, {
                      id: :v23,
                      hidden: true,
                      type: :range,
-                     title: 'Heeft je begeleider je goed geholpen afgelopen week?',
-                     labels: ['niet goed geholpen', 'heel goed geholpen'],
+                     title: 'Heeft je {{begeleider}} je goed geholpen afgelopen week?',
+                     labels: ['niet goed geholpen', 'heel goed geholpen']
+                   }, {
+                     id: :v24,
+                     hidden: true,
+                     type: :range,
+                     title: 'In hoeverre voelde jij je afgelopen week gesteund door je {{begeleider}} in het maken van je eigen beslissingen?',
+                     labels: ['niet', 'heel sterk']
+                   }, {
+                     id: :v25,
+                     hidden: true,
+                     type: :range,
+                     title: 'In hoeverre had jij het gevoel dat je {{begeleider}} er voor je was deze week?',
+                     labels: ['niet', 'heel sterk']
+                   }, {
+                     id: :v26,
+                     hidden: true,
+                     type: :range,
+                     title: 'In hoeverre gaf jouw {{begeleider}} je afgelopen week het gevoel dat je dingen goed kan?',
+                     labels: ['niet', 'heel sterk'],
                      section_end: true
                    }]
 dagboek1.content = dagboek_content

@@ -97,22 +97,14 @@ dagboek_content = [{
     section_end: true
   }]
 }, {
-  section_start: 'Afsluitende vragen',
-  id: :v4, # 3.1
+  id: :v4,
   hidden: true,
-  type: :radio,
+  type: :time,
+  hours_from: 0,
+  hours_to: 6,
+  hours_step: 1,
   title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van {{deze_student}}?',
-  options: ['minder dan een half uur',
-           'een half uur tot een uur',
-           'een uur tot anderhalf uur',
-           'anderhalf uur tot twee uur',
-           'twee uur tot tweeënhalf uur',
-           'tweeënhalf uur tot drie uur',
-           'drie uur tot drieënhalf uur',
-           'drieënhalf uur tot vier uur',
-           'vier uur tot vierenhalf uur',
-           'vierenhalf uur tot vijf uur',
-           'vijf uur of meer']
+  section_start: 'Afsluitende vragen'
 }, {
   id: :v5,
   hidden: true,

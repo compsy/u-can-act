@@ -21,4 +21,12 @@ module AdminHelper
   def idify(*strs)
     strs.map { |x| x.to_s.parameterize.underscore }.join('_')
   end
+
+  def questionnaire_select_options(questionnaires)
+    result = [['Selecteer een vragenlijst...', '']]
+    questionnaires.each do |questionnaire|
+      result << [questionnaire.name, questionnaire.name]
+    end
+    result
+  end
 end

@@ -179,6 +179,7 @@ Required and allowed options (minimal example and maximal example):
   id: :v2,
   type: :checkbox,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  tooltip: 'some tooltip',
   options: [
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
    { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', hides_questions: %i[v4 v5] },
@@ -189,6 +190,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_tooltip: 'some tooltip',
   section_end: true
 }]
 ```
@@ -229,6 +231,7 @@ Required and allowed options (minimal example and maximal example):
   id: :v2,
   type: :radio,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  tooltip: 'some tooltip',
   options: [
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
    { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5] },
@@ -239,6 +242,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_tooltip: 'some tooltip',
   section_end: true
 }]
 ```
@@ -262,6 +266,7 @@ Required and allowed options (minimal example and maximal example):
   id: :v2,
   type: :range,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
+  tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
   section_end: true
 }]
@@ -297,8 +302,9 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :textarea,
-  placeholder: 'Place holder',
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
+  tooltip: 'some tooltip',
+  placeholder: 'Place holder',
   section_end: true
 }]
 ```
@@ -308,7 +314,7 @@ The `tooltip' field is optional. When present, it will introduce a small i on wh
 ### Type: Textfield
 Required and allowed options (minimal example and maximal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :textfield,
@@ -318,8 +324,9 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :textfield,
-  placeholder: 'Place holder',
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
+  tooltip: 'some tooltip',
+  placeholder: 'Place holder',
   section_end: true
 }]
 ```

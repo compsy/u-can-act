@@ -140,9 +140,10 @@ class QuestionnaireGenerator
 
     def generate_radio(question)
       # TODO: Add radio button validation error message
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
       safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+                  content_tag(:p, title, class: 'flow-text'),
                   radio_options(question),
                   radio_otherwise(question)
                 ])
@@ -181,7 +182,9 @@ class QuestionnaireGenerator
     def generate_tooltip(tooltip_content)
       return nil if tooltip_content.blank?
       tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
-      content_tag(:a, tooltip_body, onclick: "Materialize.toast('#{tooltip_content}', #{TOOLTIP_DURATION})")
+      content_tag(:a,
+                  tooltip_body,
+                  onclick: "Materialize.toast('#{tooltip_content.gsub("'", %q(\\\'))}', #{TOOLTIP_DURATION})")
     end
 
     def add_shows_questions(tag_options, shows_questions)
@@ -204,7 +207,8 @@ class QuestionnaireGenerator
       return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
       option_body = safe_join([
                                 radio_otherwise_option(question),
-                                otherwise_textfield(question)
+                                otherwise_textfield(question),
+                                generate_tooltip(question[:otherwise_tooltip])
                               ])
       option_body = content_tag(:div, option_body, class: 'otherwise-textfield')
       option_body
@@ -245,9 +249,10 @@ class QuestionnaireGenerator
     end
 
     def generate_checkbox(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
       safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+                  content_tag(:p, title, class: 'flow-text'),
                   checkbox_options(question),
                   checkbox_otherwise(question)
                 ])
@@ -292,7 +297,8 @@ class QuestionnaireGenerator
       return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
       option_body = safe_join([
                                 checkbox_otherwise_option(question),
-                                otherwise_textfield(question)
+                                otherwise_textfield(question),
+                                generate_tooltip(question[:otherwise_tooltip])
                               ])
       option_body = content_tag(:div, option_body, class: 'otherwise-textfield')
       option_body
@@ -314,8 +320,9 @@ class QuestionnaireGenerator
     end
 
     def generate_range(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+                  content_tag(:p, title, class: 'flow-text'),
                   range_slider(question),
                   range_labels(question)
                 ])

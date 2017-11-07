@@ -42,5 +42,5 @@ informed_consent1.content = [{
                                type: :raw,
                                content: ic_content
                              }]
-informed_consent1.title = 'U-can-act'
+informed_consent1.title = 'u-can-act'
 informed_consent1.save!

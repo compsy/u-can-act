@@ -90,7 +90,9 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.values).to include('v1' => 'slecht',
                                           'v2_brood' => 'true',
                                           'v2_kaas_en_ham' => 'true',
-                                          'v3' => '57')
+                                          'v3' => '57',
+                                          'v4_uren' => '4',
+                                          'v4_minuten' => '15')
   end
 
   it 'should store the results from the otherwise option for checkboxes and radios' do

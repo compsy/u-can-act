@@ -6,6 +6,7 @@ class QuestionnaireGenerator
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
   TEXTAREA_PLACEHOLDER = 'Vul iets in'
+  TEXTFIELD_PLACEHOLDER = 'Vul iets in'
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
@@ -76,10 +77,12 @@ class QuestionnaireGenerator
         generate_range(question)
       when :textarea
         generate_textarea(question)
+      when :textfield
+        generate_textfield(question)
       when :raw
         generate_raw(question)
       when :expandable
-        generate_expendable(question)
+        generate_expandable(question)
       else
         raise "Unknown question type #{question[:type]}"
       end
@@ -96,7 +99,8 @@ class QuestionnaireGenerator
 
     def question_klasses(question)
       klasses = 'row section'
-      klasses += " hidden #{idify(question[:id], 'toggle')}" if question[:hidden].present?
+      klasses += ' hidden' if question[:hidden].present?
+      klasses += " #{idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
       klasses
     end
 
@@ -104,7 +108,8 @@ class QuestionnaireGenerator
       body = content_tag(:h5, section_title)
       body = content_tag(:div, body, class: 'col s12')
       klasses = 'extra-spacing row'
-      klasses += " hidden #{idify(question[:id], 'toggle')}" if question[:hidden].present?
+      klasses += ' hidden' if question[:hidden].present?
+      klasses += " #{idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
       body = content_tag(:div, body, class: klasses)
       body
     end
@@ -113,7 +118,8 @@ class QuestionnaireGenerator
       body = content_tag(:div, nil, class: 'divider')
       body = content_tag(:div, body, class: 'col s12')
       klasses = 'row'
-      klasses += " hidden #{idify(question[:id], 'toggle')}" if question[:hidden].present?
+      klasses += ' hidden' if question[:hidden].present?
+      klasses += " #{idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
       body = content_tag(:div, body, class: klasses)
       body
     end
@@ -161,9 +167,15 @@ class QuestionnaireGenerator
         required: true,
         class: 'validate'
       }
-      tag_options = add_shows_questions(tag_options, option[:shows_questions])
+      tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
       wrapped_tag = tag(:input, tag_options)
       option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
+    end
+
+    def add_shows_hides_questions(tag_options, shows_questions, hides_questions)
+      tag_options = add_shows_questions(tag_options, shows_questions)
+      tag_options = add_hides_questions(tag_options, hides_questions)
+      tag_options
     end
 
     def generate_tooltip(tooltip_content)
@@ -176,6 +188,14 @@ class QuestionnaireGenerator
       if shows_questions.present?
         shows_questions_str = shows_questions.map { |qid| idify(qid) }.inspect
         tag_options[:data] = { shows_questions: shows_questions_str }
+      end
+      tag_options
+    end
+
+    def add_hides_questions(tag_options, hides_questions)
+      if hides_questions.present?
+        hides_questions_str = hides_questions.map { |qid| idify(qid) }.inspect
+        tag_options[:data] = { hides_questions: hides_questions_str }
       end
       tag_options
     end
@@ -250,7 +270,7 @@ class QuestionnaireGenerator
         name: answer_name(elem_id),
         value: true
       }
-      tag_options = add_shows_questions(tag_options, option[:shows_questions])
+      tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
       wrapped_tag = tag(:input, tag_options)
       option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
     end
@@ -355,7 +375,7 @@ class QuestionnaireGenerator
                           name: answer_name(question[:id]),
                           class: 'materialize-textarea')
       body << content_tag(:label,
-                          TEXTAREA_PLACEHOLDER,
+                          placeholder(question, TEXTAREA_PLACEHOLDER),
                           for: idify(question[:id]),
                           class: 'flow-text')
 
@@ -365,7 +385,33 @@ class QuestionnaireGenerator
       body
     end
 
-    def generate_expendable(question)
+    def generate_textfield(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
+      safe_join([content_tag(:p, title, class: 'flow-text'), textfield_field(question)])
+    end
+
+    def textfield_field(question)
+      body = []
+      body << tag(:input,
+                  type: 'text',
+                  id: idify(question[:id]),
+                  name: answer_name(question[:id]),
+                  class: 'validate')
+      body << content_tag(:label,
+                          placeholder(question, TEXTFIELD_PLACEHOLDER),
+                          for: idify(question[:id]),
+                          class: 'flow-text')
+      body = safe_join(body)
+      body = content_tag(:div, body, class: 'input-field col s12')
+      body = content_tag(:div, body, class: 'row')
+      body
+    end
+
+    def placeholder(question, default_placeholder)
+      question[:placeholder].present? ? question[:placeholder] : default_placeholder
+    end
+
+    def generate_expandable(question)
       safe_join([
                   content_tag(:p, question[:title].html_safe, class: 'flow-text'),
                   expandables(question),
@@ -385,13 +431,39 @@ class QuestionnaireGenerator
       "#{start}_#{sub_id}_#{endd}".to_sym
     end
 
+    def update_ids(ids, sub_id)
+      result = []
+      ids.each do |id|
+        result << id # keep the original id
+        result << update_id(id, sub_id)
+      end
+      result
+    end
+
+    def update_options(current_options, sub_id)
+      current_options.map do |optorig|
+        option = optorig.clone
+        if option.is_a?(Hash)
+          option[:hides_questions] = update_ids(option[:hides_questions], sub_id) if option[:hides_questions].present?
+          option[:shows_questions] = update_ids(option[:shows_questions], sub_id) if option[:shows_questions].present?
+        end
+        option
+      end
+    end
+
+    def update_current_question(current, id)
+      current[:id] = update_id(current[:id], id)
+      current[:options] = update_options(current[:options], id) if current.key?(:options)
+      current
+    end
+
     def expandables(question)
       default_expansions = question[:default_expansions] || 0
       Array.new((question[:max_expansions] || 10)) do |id|
         is_hidden = id >= default_expansions
         sub_question_body = question[:content].map do |sub_question|
           current = sub_question.clone
-          current[:id] = update_id(current[:id], id)
+          current = update_current_question(current, id)
           single_questionnaire_question(current)
         end
 

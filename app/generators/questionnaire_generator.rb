@@ -6,6 +6,7 @@ class QuestionnaireGenerator
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
   TEXTAREA_PLACEHOLDER = 'Vul iets in'
+  TEXTFIELD_PLACEHOLDER = 'Vul iets in'
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
@@ -76,6 +77,8 @@ class QuestionnaireGenerator
         generate_range(question)
       when :textarea
         generate_textarea(question)
+      when :textfield
+        generate_textfield(question)
       when :raw
         generate_raw(question)
       when :expandable
@@ -372,7 +375,7 @@ class QuestionnaireGenerator
                           name: answer_name(question[:id]),
                           class: 'materialize-textarea')
       body << content_tag(:label,
-                          TEXTAREA_PLACEHOLDER,
+                          placeholder(question, TEXTAREA_PLACEHOLDER),
                           for: idify(question[:id]),
                           class: 'flow-text')
 
@@ -380,6 +383,32 @@ class QuestionnaireGenerator
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')
       body
+    end
+
+    def generate_textfield(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
+      safe_join([content_tag(:p, title, class: 'flow-text'), textfield_field(question)])
+    end
+
+    def textfield_field(question)
+      body = []
+      body << tag(:input,
+                  type: 'text',
+                  id: idify(question[:id]),
+                  name: answer_name(question[:id]),
+                  class: 'validate')
+      body << content_tag(:label,
+                          placeholder(question, TEXTFIELD_PLACEHOLDER),
+                          for: idify(question[:id]),
+                          class: 'flow-text')
+      body = safe_join(body)
+      body = content_tag(:div, body, class: 'input-field col s12')
+      body = content_tag(:div, body, class: 'row')
+      body
+    end
+
+    def placeholder(question, default_placeholder)
+      question[:placeholder].present? ? question[:placeholder] : default_placeholder
     end
 
     def generate_expandable(question)

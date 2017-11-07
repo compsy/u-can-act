@@ -17,6 +17,7 @@ nameting1.content = [{
                        id: :v2,
                        type: :textfield,
                        title: 'Wat is je geboortedatum?',
+                       tooltip: 'Noteer je geboortedatum als volgt: dd-mm-jjjj',
                        placeholder: 'dd-mm-jjjj',
                      }, {
                        id: :v3,

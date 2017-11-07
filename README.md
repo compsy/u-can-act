@@ -77,7 +77,7 @@ For non-periodical measurements, the `offset_until_end` is ignored.
 
 ## Variables that can be used in texts:
 
-```ruby
+```
         VARIABLE                    DEFAULT VALUE           EXAMPLE
         =======================================================================
         begeleider                  begeleider              s-team captain
@@ -86,12 +86,16 @@ For non-periodical measurements, the `offset_until_end` is ignored.
         Zijn_haar_begeleider        Zijn/haar               Haar
         hij_zij_begeleider          hij/zij                 zij
         Hij_zij_begeleider          Hij/zij                 Zij
+        hem_haar_begeleider         hem/haar                haar
+        Hem_haar_begeleider         Hem/haar                Haar
         deze_student                deze student            Rik
         Deze_student                Deze student            Rik
         zijn_haar_student           zijn/haar               zijn
         Zijn_haar_student           Zijn/haar               Zijn
         hij_zij_student             hij/zij                 hij
         Hij_zij_student             Hij/zij                 Hij
+        hem_haar_student            hem/haar                hem
+        Hem_haar_student            Hem/haar                Hem
 ```
 So you can write a sentence as follows:
 ```
@@ -117,12 +121,12 @@ For all questions, it is allowed to use HTML tags in the texts. Also, you may us
 ### Type: Checkbox
 Required and allowed options (minimal example and maximal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :checkbox,
   title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken?',
-  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
 }, {
   section_start: 'De hoofddoelen',
   hidden: true,
@@ -131,7 +135,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   options: [
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
-   { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', shows_questions: %i[v4 v5] },
+   { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', hides_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
    { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
@@ -145,15 +149,34 @@ Required and allowed options (minimal example and maximal example):
 
 The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
+Note that the `shows_questions` and `hides_questions` fields require the corresponding questions to have the `hidden: true` and `hidden: false` properties, respectively. For example:
+
+```ruby
+[{
+  id: :v1,
+  type: :checkbox,
+  title: 'Vraag?',
+  options: [{title: 'antwoord', hides_questions: %i[v2], shows_questions: %i[v3]}]
+},{
+  id: :v2,
+  hidden: false,
+  type: '...'
+},{
+  id: :v3,
+  hidden: true,
+  type: '...'
+}]
+```
+
 ### Type: Radio
 Required and allowed options (minimal example and maximal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :radio,
   title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken?',
-  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
 }, {
   section_start: 'De hoofddoelen',
   hidden: true,
@@ -162,7 +185,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   options: [
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
-   { title: 'Inzicht krijgen in de belevingswereld', shows_questions: %i[v4 v5] },
+   { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
    { title: 'Vaardigheden ontwikkelen', tooltip: 'Zoals wiskunde', shows_questions: %i[v10 v11] },
@@ -176,10 +199,12 @@ Required and allowed options (minimal example and maximal example):
 
 The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
+Note that the `shows_questions` and `hides_questions` fields here work identically to those described above in the Type: Checkbox section.
+
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :range,
@@ -200,7 +225,7 @@ Required and allowed options (minimal example and maximal example):
 **Raw questionnaire types should not have an id!**
 Required and allowed options (minimal example and maximal example):
 
-```
+```ruby
 [{
   type: :raw,
   content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/omgeving.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>'
@@ -216,7 +241,7 @@ Required and allowed options (minimal example and maximal example):
 ### Type: Textarea
 Required and allowed options (minimal example and maximal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :textarea,
@@ -236,7 +261,8 @@ The `tooltip' field is optional. When present, it will introduce a small i on wh
 
 ### Type: expandable
 Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
-```
+
+```ruby
 [{
   id: :v17,
   title: 'Doelen voor deze student',
@@ -283,9 +309,9 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
     labels: ['zelf geen invloed', 'zelf veel invloed']
   }]
 }]
-
 ```
 
+If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

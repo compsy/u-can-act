@@ -1,4 +1,4 @@
-organization_name = 'ROC FRIESE POORT'
+organization_name = 'Het ROC FRIESE POORT'
 titles = ['Teamcaptain', 'S-Teamer']
 
 puts "Running seeds for #{organization_name}"

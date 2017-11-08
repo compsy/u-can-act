@@ -1,4 +1,4 @@
-organization_name = 'Nordwin College Niveau 1-2'
+organization_name = 'Het Nordwin College Niveau 1-2'
 titles = ['Teamcaptain', 'S-Teamer']
 
 puts "Running seeds for #{organization_name}"

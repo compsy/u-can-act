@@ -39,6 +39,7 @@ dagboek_content = [{
     section_start: 'Actie(reeks)',
     id: :v3_1, # 2.1
     type: :textarea,
+    required: true,
     title: 'Welke belangrijke actie, of reeks aan acties die volgens jou bij
       elkaar horen (bijv. omdat ze hetzelfde doel dienen of kort achter elkaar zijn
       uitgevoerd), heb jij uitgevoerd in de begeleiding van {{deze_student}}?',
@@ -46,6 +47,7 @@ dagboek_content = [{
   }, {
     id: :v3_2, # 2.2
     type: :checkbox,
+    required: true, # not yet supported
     title: 'In welke categorie(ën) past de zojuist beschreven actie(reeks) volgens jou het beste?',
     options: [
       {title: 'Laagdrempelig contact leggen', tooltip: 'bijv. whatsappen of samen tafeltennissen, wandelen of roken.'},
@@ -64,6 +66,7 @@ dagboek_content = [{
   }, {
     id: :v3_3, # 2.3
     type: :checkbox,
+    required: true, # not yet supported
     title: 'Aan welke doelen heb jij gewerkt door deze actie(s) uit te voeren?',
     options: [
       {title: 'De relatie met {{deze_student}} verbeteren en/of onderhouden', tooltip: 'bijv. de band met {{deze_student}} proberen te verbeteren of laten weten dat je er voor {{deze_student}} bent.'},

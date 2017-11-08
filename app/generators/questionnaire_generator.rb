@@ -418,6 +418,7 @@ class QuestionnaireGenerator
                           nil,
                           id: idify(question[:id]),
                           name: answer_name(question[:id]),
+                          required: question[:required].present?,
                           class: 'materialize-textarea')
       body << content_tag(:label,
                           placeholder(question, TEXTAREA_PLACEHOLDER),
@@ -441,6 +442,7 @@ class QuestionnaireGenerator
                   type: 'text',
                   id: idify(question[:id]),
                   name: answer_name(question[:id]),
+                  required: question[:required].present?,
                   class: 'validate')
       body << content_tag(:label,
                           placeholder(question, TEXTFIELD_PLACEHOLDER),

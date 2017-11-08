@@ -2,7 +2,7 @@
 
 class QuestionnaireGenerator
   extend ActionView::Helpers
-  TOOLTIP_DURATION = 4000
+  TOOLTIP_DURATION = 6000
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
   TEXTAREA_PLACEHOLDER = 'Vul iets in'

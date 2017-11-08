@@ -8,7 +8,8 @@ module Api
                :max_still_awardable_euros,
                :euro_delta,
                :current_multiplier,
-               :max_streak
+               :max_streak,
+               :initial_multiplier
 
     def completion
       @completion ||= object.protocol_completion
@@ -49,6 +50,10 @@ module Api
       return 1 unless current_completion.present?
       latest_streak_value = completion[latest_streak_value_index][:streak]
       object.protocol.find_correct_multiplier(latest_streak_value)
+    end
+
+    def initial_multiplier
+      object.protocol.rewards&.find_by_threshold(1)&.reward_points || 1
     end
 
     private

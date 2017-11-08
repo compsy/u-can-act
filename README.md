@@ -86,8 +86,8 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 ### The Mentor CSV)
 For the Mentor data this should be:
 
-| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Mentor`
@@ -126,22 +126,26 @@ In this case:
 ```
         VARIABLE                    DEFAULT VALUE           EXAMPLE
         =======================================================================
-        begeleider                  begeleider              s-team captain
-        Begeleider                  Begeleider              S-team captain
-        zijn_haar_begeleider        zijn/haar               haar
-        Zijn_haar_begeleider        Zijn/haar               Haar
-        hij_zij_begeleider          hij/zij                 zij
-        Hij_zij_begeleider          Hij/zij                 Zij
-        hem_haar_begeleider         hem/haar                haar
-        Hem_haar_begeleider         Hem/haar                Haar
-        deze_student                deze student            Rik
-        Deze_student                Deze student            Rik
-        zijn_haar_student           zijn/haar               zijn
-        Zijn_haar_student           Zijn/haar               Zijn
-        hij_zij_student             hij/zij                 hij
-        Hij_zij_student             Hij/zij                 Hij
-        hem_haar_student            hem/haar                hem
-        Hem_haar_student            Hem/haar                Hem
+        begeleider                  begeleider                  s-team captain
+        Begeleider                  Begeleider                  S-team captain
+        zijn_haar_begeleider        zijn/haar                   haar
+        Zijn_haar_begeleider        Zijn/haar                   Haar
+        hij_zij_begeleider          hij/zij                     zij
+        Hij_zij_begeleider          Hij/zij                     Zij
+        hem_haar_begeleider         hem/haar                    haar
+        Hem_haar_begeleider         Hem/haar                    Haar
+        naam_begeleider             je begeleider               Elsa
+        Naam_begeleider             Je begeleider               Elsa
+        je_begeleidingsinitiatief   je begeleidingsinitiatief   De Hondsrug
+        Je_begeleidingsinitiatief   Je begeleidingsinitiatief   De Hondsrug
+        deze_student                deze student                Rik
+        Deze_student                Deze student                Rik
+        zijn_haar_student           zijn/haar                   zijn
+        Zijn_haar_student           Zijn/haar                   Zijn
+        hij_zij_student             hij/zij                     hij
+        Hij_zij_student             Hij/zij                     Hij
+        hem_haar_student            hem/haar                    hem
+        Hem_haar_student            Hem/haar                    Hem
 ```
 So you can write a sentence as follows:
 ```

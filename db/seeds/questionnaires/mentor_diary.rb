@@ -18,7 +18,7 @@ dagboek_content = [{
   id: :v2,
   hidden: true,
   type: :radio,
-  title: 'Waarom vul jij de vragenlijst niet in voor {{deze_student}}?',
+  title: 'Waarom heb je deze week geen acties ondernomen in de begeleiding van {{deze_student}}?',
   options: [
     'Ik heb deze week geen contact gehad met {{deze_student}}.',
     'Ik ben gestopt met de begeleiding van {{deze_student}}.',
@@ -29,7 +29,7 @@ dagboek_content = [{
 }, {
   id: :v3, # 2
   hidden: true,
-  title: 'Het bepalen van acties en doelen',
+  title: '',
   add_button_label: 'Nog een actie(reeks) toevoegen',
   remove_button_label: 'Verwijder actie(reeks)',
   type: :expandable,
@@ -39,9 +39,9 @@ dagboek_content = [{
     section_start: 'Actie(reeks)',
     id: :v3_1, # 2.1
     type: :textarea,
-    title: 'Welke belangrijke actie of reeks aan acties die volgens jou bij
+    title: 'Welke belangrijke actie, of reeks aan acties die volgens jou bij
       elkaar horen (bijv. omdat ze hetzelfde doel dienen of kort achter elkaar zijn
-      uitgevoerd) heb jij uitgevoerd in de begeleiding van {{deze_student}}?',
+      uitgevoerd), heb jij uitgevoerd in de begeleiding van {{deze_student}}?',
     tooltip: 'Acties zijn bijvoorbeeld gesprekken, whatsappjes, oefeningen en huisbezoeken. Je mag jouw actie(s) kort beschrijven in steekwoorden of in verhaalvorm.'
   }, {
     id: :v3_2, # 2.2
@@ -104,7 +104,7 @@ dagboek_content = [{
   hours_to: 6,
   hours_step: 1,
   title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van {{deze_student}}?',
-  section_start: 'Afsluitende vragen'
+  section_start: 'Overige vragen'
 }, {
   id: :v5,
   hidden: true,

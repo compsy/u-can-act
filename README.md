@@ -74,28 +74,78 @@ There are two types of Measurements. Periodical and one-time measurements. Perio
 
 For non-periodical measurements, the `offset_until_end` is ignored.
 
+## Importing new students and mentors
+New mentors and students can be imported using the `echo_people` use case. 
+
+```ruby
+  be rake "maintenance:echo_people[CSV_NAME]"
+```
+
+in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data. It is important that the format of the CSV is ordered as follows. 
+
+### The Mentor CSV)
+For the Mentor data this should be:
+
+| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+In this case: 
+ - `type` should equal `Mentor`
+ - `organization_name`: the name of the organization the mentor belongs to
+ - `role_title`: the role the mentor has in the organization ('mentor', 'maatje', or 'S-teamer')
+ - `first_name`: the first name of the person
+ - `last_name`: the last name of the person
+ - `gender`: the gender of the person
+ - `mobile_phone`: the mobile phone number of the person
+ - `email`: the email address of the mentor
+ - `protocol_name`: the name of the protocol the person will participate in (for mentors this is `mentoren voormeting/nameting`
+ - `start_date`: the date at which the person should start
+ - `filling_out_for`: the phone number for which the mentor is filling out the questionnaire
+ - `filling_out_for_protocol`: the protocol the person is filling out for (this is `mentoren dagboek` for mentors)
+
+### The Student CSV
+For the Student data this should be:
+
+|type | organization_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date|
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+In this case: 
+ - `type` should equal `Student`
+ - `organization_name`: the name of the organization the student belongs to
+ - `first_name`: the first name of the person
+ - `last_name`: the last name of the person
+ - `gender`: the gender of the person
+ - `mobile_phone`: the mobile phone number of the person
+ - `protocol_name`: the name of the protocol the person will participate in (for students this is `studenten`)
+ - `start_date`: the date at which the person should start
+
+
 
 ## Variables that can be used in texts:
 
 ```
         VARIABLE                    DEFAULT VALUE           EXAMPLE
         =======================================================================
-        begeleider                  begeleider              s-team captain
-        Begeleider                  Begeleider              S-team captain
-        zijn_haar_begeleider        zijn/haar               haar
-        Zijn_haar_begeleider        Zijn/haar               Haar
-        hij_zij_begeleider          hij/zij                 zij
-        Hij_zij_begeleider          Hij/zij                 Zij
-        hem_haar_begeleider         hem/haar                haar
-        Hem_haar_begeleider         Hem/haar                Haar
-        deze_student                deze student            Rik
-        Deze_student                Deze student            Rik
-        zijn_haar_student           zijn/haar               zijn
-        Zijn_haar_student           Zijn/haar               Zijn
-        hij_zij_student             hij/zij                 hij
-        Hij_zij_student             Hij/zij                 Hij
-        hem_haar_student            hem/haar                hem
-        Hem_haar_student            Hem/haar                Hem
+        begeleider                  begeleider                  s-team captain
+        Begeleider                  Begeleider                  S-team captain
+        zijn_haar_begeleider        zijn/haar                   haar
+        Zijn_haar_begeleider        Zijn/haar                   Haar
+        hij_zij_begeleider          hij/zij                     zij
+        Hij_zij_begeleider          Hij/zij                     Zij
+        hem_haar_begeleider         hem/haar                    haar
+        Hem_haar_begeleider         Hem/haar                    Haar
+        naam_begeleider             je begeleider               Elsa
+        Naam_begeleider             Je begeleider               Elsa
+        je_begeleidingsinitiatief   je begeleidingsinitiatief   De Hondsrug
+        Je_begeleidingsinitiatief   Je begeleidingsinitiatief   De Hondsrug
+        deze_student                deze student                Rik
+        Deze_student                Deze student                Rik
+        zijn_haar_student           zijn/haar                   zijn
+        Zijn_haar_student           Zijn/haar                   Zijn
+        hij_zij_student             hij/zij                     hij
+        Hij_zij_student             Hij/zij                     Hij
+        hem_haar_student            hem/haar                    hem
+        Hem_haar_student            Hem/haar                    Hem
 ```
 So you can write a sentence as follows:
 ```
@@ -132,7 +182,9 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :checkbox,
+  required: true,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  tooltip: 'some tooltip',
   options: [
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
    { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', hides_questions: %i[v4 v5] },
@@ -143,6 +195,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_tooltip: 'some tooltip',
   section_end: true
 }]
 ```
@@ -183,6 +236,7 @@ Required and allowed options (minimal example and maximal example):
   id: :v2,
   type: :radio,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  tooltip: 'some tooltip',
   options: [
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
    { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5] },
@@ -193,6 +247,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_tooltip: 'some tooltip',
   section_end: true
 }]
 ```
@@ -200,6 +255,8 @@ Required and allowed options (minimal example and maximal example):
 The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions` and `hides_questions` fields here work identically to those described above in the Type: Checkbox section.
+
+Radios are always required.
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
@@ -216,6 +273,7 @@ Required and allowed options (minimal example and maximal example):
   id: :v2,
   type: :range,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
+  tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
   section_end: true
 }]
@@ -251,8 +309,9 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :textarea,
-  placeholder: 'Place holder',
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
+  tooltip: 'some tooltip',
+  placeholder: 'Place holder',
   section_end: true
 }]
 ```
@@ -262,7 +321,7 @@ The `tooltip' field is optional. When present, it will introduce a small i on wh
 ### Type: Textfield
 Required and allowed options (minimal example and maximal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :textfield,
@@ -272,8 +331,9 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :textfield,
-  placeholder: 'Place holder',
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
+  tooltip: 'some tooltip',
+  placeholder: 'Place holder',
   section_end: true
 }]
 ```
@@ -331,8 +391,22 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
   }]
 }]
 ```
-
 If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
+
+### Type: time
+Required and allowed options (minimal example):
+
+```
+[{
+  id: :v1,
+  type: :time,
+  hours_from: 0,
+  hours_to: 6,
+  hours_step: 1,
+  title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?'
+}]
+```
+The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

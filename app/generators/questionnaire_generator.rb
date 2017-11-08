@@ -2,7 +2,7 @@
 
 class QuestionnaireGenerator
   extend ActionView::Helpers
-  TOOLTIP_DURATION = 4000
+  TOOLTIP_DURATION = 6000
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
   TEXTAREA_PLACEHOLDER = 'Vul iets in'
@@ -27,12 +27,16 @@ class QuestionnaireGenerator
       response = Response.find_by_id(response_id) # allow nil response id for preview
       return [title, content] if response.blank?
       student, mentor = response.determine_student_mentor
+      subs_hash = {
+        mentor_title: mentor&.role&.title,
+        mentor_gender: mentor&.gender,
+        mentor_name: mentor&.first_name,
+        organization: student.role.organization.name,
+        student_name: student.first_name,
+        student_gender: student.gender
+      }
       [title, content].map do |obj|
-        VariableEvaluator.evaluate_obj(obj,
-                                       mentor&.role&.title,
-                                       mentor&.gender,
-                                       student.first_name,
-                                       student.gender)
+        VariableEvaluator.evaluate_obj(obj, subs_hash)
       end
     end
 
@@ -71,6 +75,8 @@ class QuestionnaireGenerator
       case question[:type]
       when :radio
         generate_radio(question)
+      when :time
+        generate_time(question)
       when :checkbox
         generate_checkbox(question)
       when :range
@@ -140,9 +146,10 @@ class QuestionnaireGenerator
 
     def generate_radio(question)
       # TODO: Add radio button validation error message
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
       safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+                  content_tag(:p, title, class: 'flow-text'),
                   radio_options(question),
                   radio_otherwise(question)
                 ])
@@ -172,6 +179,42 @@ class QuestionnaireGenerator
       option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
     end
 
+    def generate_time(question)
+      body = time_body(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
+      safe_join([content_tag(:p, title, class: 'flow-text'), body])
+    end
+
+    def time_body(question)
+      from = question[:hours_from] || 0
+      to = question[:hours_to] || 6
+      step = question[:hours_step] || 1
+
+      hours = time_dropdown(question[:id], from, to, step, 'Uren')
+      minutes = time_dropdown(question[:id], 0, 60, 15, 'Minuten')
+
+      safe_join([hours, minutes])
+    end
+
+    def time_dropdown(question_id, from, to, step, label)
+      elem_id = idify(question_id, label)
+      options = generate_dropdown((from...to).step(step), elem_id)
+      options = safe_join([
+                            options,
+                            content_tag(:label, label)
+                          ])
+      content_tag(:div, options, class: "input-field col m6 l1 #{elem_id}")
+    end
+
+    def generate_dropdown(items, id)
+      body = []
+      items.each do |option|
+        body << content_tag(:option, option, value: option)
+      end
+      body = safe_join(body)
+      content_tag(:select, body, name: answer_name(id), id: id, required: true)
+    end
+
     def add_shows_hides_questions(tag_options, shows_questions, hides_questions)
       tag_options = add_shows_questions(tag_options, shows_questions)
       tag_options = add_hides_questions(tag_options, hides_questions)
@@ -181,7 +224,9 @@ class QuestionnaireGenerator
     def generate_tooltip(tooltip_content)
       return nil if tooltip_content.blank?
       tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
-      content_tag(:a, tooltip_body, onclick: "Materialize.toast('#{tooltip_content}', #{TOOLTIP_DURATION})")
+      content_tag(:a,
+                  tooltip_body,
+                  onclick: "Materialize.toast('#{tooltip_content.gsub("'", %q(\\\'))}', #{TOOLTIP_DURATION})")
     end
 
     def add_shows_questions(tag_options, shows_questions)
@@ -204,7 +249,8 @@ class QuestionnaireGenerator
       return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
       option_body = safe_join([
                                 radio_otherwise_option(question),
-                                otherwise_textfield(question)
+                                otherwise_textfield(question),
+                                generate_tooltip(question[:otherwise_tooltip])
                               ])
       option_body = content_tag(:div, option_body, class: 'otherwise-textfield')
       option_body
@@ -245,12 +291,20 @@ class QuestionnaireGenerator
     end
 
     def generate_checkbox(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
-      safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
-                  checkbox_options(question),
-                  checkbox_otherwise(question)
-                ])
+      checkbox_group = safe_join([
+                                   content_tag(:p, title, class: 'flow-text'),
+                                   checkbox_options(question),
+                                   checkbox_otherwise(question)
+                                 ])
+      content_tag(:div, checkbox_group, class: checkbox_group_klasses(question))
+    end
+
+    def checkbox_group_klasses(question)
+      klasses = 'checkbox-group'
+      klasses += ' required' if question[:required].present?
+      klasses
     end
 
     def checkbox_options(question)
@@ -292,7 +346,8 @@ class QuestionnaireGenerator
       return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
       option_body = safe_join([
                                 checkbox_otherwise_option(question),
-                                otherwise_textfield(question)
+                                otherwise_textfield(question),
+                                generate_tooltip(question[:otherwise_tooltip])
                               ])
       option_body = content_tag(:div, option_body, class: 'otherwise-textfield')
       option_body
@@ -314,8 +369,9 @@ class QuestionnaireGenerator
     end
 
     def generate_range(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       safe_join([
-                  content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+                  content_tag(:p, title, class: 'flow-text'),
                   range_slider(question),
                   range_labels(question)
                 ])
@@ -368,21 +424,29 @@ class QuestionnaireGenerator
     end
 
     def textarea_field(question)
-      body = []
-      body << content_tag(:textarea,
-                          nil,
-                          id: idify(question[:id]),
-                          name: answer_name(question[:id]),
-                          class: 'materialize-textarea')
-      body << content_tag(:label,
-                          placeholder(question, TEXTAREA_PLACEHOLDER),
-                          for: idify(question[:id]),
-                          class: 'flow-text')
-
-      body = safe_join(body)
+      body = safe_join([
+                         textarea_tag(question),
+                         textarea_label(question)
+                       ])
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')
       body
+    end
+
+    def textarea_tag(question)
+      content_tag(:textarea,
+                  nil,
+                  id: idify(question[:id]),
+                  name: answer_name(question[:id]),
+                  required: question[:required].present?,
+                  class: 'materialize-textarea')
+    end
+
+    def textarea_label(question)
+      content_tag(:label,
+                  placeholder(question, TEXTAREA_PLACEHOLDER),
+                  for: idify(question[:id]),
+                  class: 'flow-text')
     end
 
     def generate_textfield(question)
@@ -391,20 +455,29 @@ class QuestionnaireGenerator
     end
 
     def textfield_field(question)
-      body = []
-      body << tag(:input,
-                  type: 'text',
-                  id: idify(question[:id]),
-                  name: answer_name(question[:id]),
-                  class: 'validate')
-      body << content_tag(:label,
-                          placeholder(question, TEXTFIELD_PLACEHOLDER),
-                          for: idify(question[:id]),
-                          class: 'flow-text')
-      body = safe_join(body)
+      body = safe_join([
+                         textfield_tag(question),
+                         textfield_label(question)
+                       ])
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')
       body
+    end
+
+    def textfield_tag(question)
+      tag(:input,
+          type: 'text',
+          id: idify(question[:id]),
+          name: answer_name(question[:id]),
+          required: question[:required].present?,
+          class: 'validate')
+    end
+
+    def textfield_label(question)
+      content_tag(:label,
+                  placeholder(question, TEXTFIELD_PLACEHOLDER),
+                  for: idify(question[:id]),
+                  class: 'flow-text')
     end
 
     def placeholder(question, default_placeholder)

@@ -26,10 +26,10 @@ describe Role, type: :model do
         expect(role).to_not be_valid
       end
 
-      it 'should be invalid when not unique in organization' do
-        role = FactoryGirl.create(:role, group: Person::STUDENT)
-        role2 = FactoryGirl.build(:role, group: Person::STUDENT, organization: role.organization)
-        expect(role2).to_not be_valid
+      it 'should be valid when not unique in organization if the title is different' do
+        role = FactoryGirl.create(:role, group: Person::STUDENT, title: 'a')
+        role2 = FactoryGirl.build(:role, group: Person::STUDENT, title: 'b', organization: role.organization)
+        expect(role2).to be_valid
       end
 
       it 'should be valid when not unique but in different organization' do

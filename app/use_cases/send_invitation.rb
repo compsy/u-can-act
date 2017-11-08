@@ -23,11 +23,36 @@ class SendInvitation < ActiveInteraction::Base
   end
 
   def random_message
-    if response.measurement.questionnaire.name =~ /nameting/ &&
-       response.protocol_subscription.person.role.group == Person::STUDENT
-      'Bedankt voor je inzet. Wij waarderen dit enorm! Je krijgt je beloning als je deze laatste vragenlijst invult:'
+    if response.protocol_subscription.person.role.group == Person::STUDENT
+      student_texts
+    else # Mentor
+      mentor_texts
+    end
+  end
+
+  def student_texts
+    if response.measurement.questionnaire.name.match?(/voormeting/)
+      "Welkom bij de kick-off van het onderzoek 'u-can-act'. Fijn dat je " \
+      'meedoet! Vandaag starten we met een aantal korte vragen, morgen begint ' \
+      'de wekelijkse vragenlijst. Via de link kom je bij de vragen en een ' \
+      'filmpje met meer info over u-can-act. Succes!'
+    elsif response.protocol_subscription.responses.invited.length == 1
+      'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro!'
     else
-      'Je bent fantastisch op weg! Ga zo door.'
+      'Fijn dat jij meedoet! Door jou kunnen jongeren nog betere begeleiding krijgen in de toekomst!'
+    end
+  end
+
+  def mentor_texts
+    if response.measurement.questionnaire.name.match?(/voormeting/)
+      "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
+      'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
+      'Morgen start de eerste wekelijkse vragenlijst. Succes!'
+    elsif response.protocol_subscription.responses.invited.length == 1
+      'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
+       'Vul nu de eerste wekelijkse vragenlijst in.'
+    else
+      'Heel fijn dat je meedoet aan u-can-act! De volgende wekelijkse vragenlijst staat voor je klaar.'
     end
   end
 

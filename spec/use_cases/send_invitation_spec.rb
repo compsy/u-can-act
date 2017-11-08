@@ -32,15 +32,17 @@ describe SendInvitation do
         response.protocol_subscription.update_attributes!(person: student)
       end
 
-      it 'should send the nameting sms whenever the questionnaire is a nameting and the person is a student' do
-        questionnaire = FactoryGirl.create(:questionnaire, name: 'de nameting vragenlijst')
+      it 'should send the voormeting sms whenever the questionnaire is a voormeting and the person is a student' do
+        questionnaire = FactoryGirl.create(:questionnaire, name: 'de voormeting vragenlijst')
         response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
         FactoryGirl.create(:invitation_token, response: response)
 
         mytok = response.invitation_token.token
-        smstext = 'Bedankt voor je inzet. Wij waarderen dit enorm! ' \
-                  'Je krijgt je beloning als je deze laatste vragenlijst invult: ' \
-                  "#{ENV['HOST_URL']}/?q=#{mytok}"
+        smstext = "Welkom bij de kick-off van het onderzoek 'u-can-act'. Fijn " \
+        'dat je meedoet! Vandaag starten we met een aantal korte vragen, morgen ' \
+        'begint de wekelijkse vragenlijst. Via de link kom je bij de vragen en ' \
+        'een filmpje met meer info over u-can-act. Succes! ' \
+        "#{ENV['HOST_URL']}/?q=#{mytok}"
 
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
@@ -48,13 +50,70 @@ describe SendInvitation do
         described_class.run!(response: response)
       end
 
-      it 'should send the normal text if the questionnaire is not a nameting' do
-        questionnaire = FactoryGirl.create(:questionnaire, name: 'Studenten vragenlijst')
-        response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
+      it 'should send the first text if the questionnaire is not a voormeting and it is the first one' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
+        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
+        FactoryGirl.create(:response,
+                           protocol_subscription: protocol_subscription,
+                           open_from: 48.hours.ago,
+                           completed_at: 10.hours.ago,
+                           invited_state: Response::SENT_STATE,
+                           measurement: measurement)
+
+        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        response = FactoryGirl.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      open_from: 24.hour.ago,
+                                      invited_state: Response::SENDING_STATE,
+                                      measurement: measurement)
+
         FactoryGirl.create(:invitation_token, response: response)
 
         mytok = response.invitation_token.token
-        smstext = "Je bent fantastisch op weg! Ga zo door. #{ENV['HOST_URL']}/?q=#{mytok}"
+        smstext = "Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro! #{ENV['HOST_URL']}/?q=#{mytok}"
+        expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
+                                               text: smstext,
+                                               reference: "vsv-#{response.id}")
+        described_class.run!(response: response)
+      end
+
+      it 'should send the second text if the questionnaire is not a voormeting and it is not the first one' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
+        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
+        FactoryGirl.create(:response,
+                           protocol_subscription: protocol_subscription,
+                           open_from: 48.hours.ago,
+                           completed_at: 10.hours.ago,
+                           invited_state: Response::SENT_STATE,
+                           measurement: measurement)
+
+        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        FactoryGirl.create(:response,
+                           protocol_subscription: protocol_subscription,
+                           open_from: 24.hour.ago,
+                           completed_at: 10.hours.ago,
+                           invited_state: Response::SENT_STATE,
+                           measurement: measurement)
+        response = FactoryGirl.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      open_from: 24.hour.ago,
+                                      invited_state: Response::SENDING_STATE,
+                                      measurement: measurement)
+
+        FactoryGirl.create(:invitation_token, response: response)
+
+        mytok = response.invitation_token.token
+        smstext = 'Fijn dat jij meedoet! Door jou kunnen ' \
+          'jongeren nog betere begeleiding krijgen in de toekomst! ' \
+          "#{ENV['HOST_URL']}/?q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")
@@ -67,24 +126,90 @@ describe SendInvitation do
         response.protocol_subscription.update_attributes!(person: mentor)
       end
 
-      it 'should send the normal text with the regular questionnaire' do
-        questionnaire = FactoryGirl.create(:questionnaire, name: 'Mentoren vragenlijst')
+      it 'should send the initial text with the voormeting questionnaire' do
+        questionnaire = FactoryGirl.create(:questionnaire, name: 'Mentoren voormeting vragenlijst')
         response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
         FactoryGirl.create(:invitation_token, response: response)
         mytok = response.invitation_token.token
-        smstext = "Je bent fantastisch op weg! Ga zo door. #{ENV['HOST_URL']}/?q=#{mytok}"
+
+        smstext = "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
+        'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
+        'Morgen start de eerste wekelijkse vragenlijst. Succes! ' \
+        "#{ENV['HOST_URL']}/?q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")
         described_class.run!(response: response)
       end
 
-      it 'should send the normal text on the nameting' do
-        questionnaire = FactoryGirl.create(:questionnaire, name: 'Mentoren nameting vragenlijst')
-        response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
+      it 'should send the first text if the questionnaire is not a voormeting and it is the first one' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: mentor,
+                                                   filling_out_for: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
+        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
+        FactoryGirl.create(:response,
+                           protocol_subscription: protocol_subscription,
+                           open_from: 48.hours.ago,
+                           completed_at: 10.hours.ago,
+                           invited_state: Response::SENT_STATE,
+                           measurement: measurement)
+
+        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        response = FactoryGirl.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      open_from: 24.hour.ago,
+                                      invited_state: Response::SENDING_STATE,
+                                      measurement: measurement)
+
         FactoryGirl.create(:invitation_token, response: response)
         mytok = response.invitation_token.token
-        smstext = "Je bent fantastisch op weg! Ga zo door. #{ENV['HOST_URL']}/?q=#{mytok}"
+
+        smstext = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
+          'Vul nu de eerste wekelijkse vragenlijst in. ' \
+          "#{ENV['HOST_URL']}/?q=#{mytok}"
+        expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
+                                               text: smstext,
+                                               reference: "vsv-#{response.id}")
+        described_class.run!(response: response)
+      end
+
+      it 'should send the second text if the questionnaire is not a voormeting and it is not the first one' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: mentor,
+                                                   filling_out_for: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
+        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
+        FactoryGirl.create(:response,
+                           protocol_subscription: protocol_subscription,
+                           open_from: 48.hours.ago,
+                           completed_at: 10.hours.ago,
+                           invited_state: Response::SENT_STATE,
+                           measurement: measurement)
+
+        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        FactoryGirl.create(:response,
+                           protocol_subscription: protocol_subscription,
+                           open_from: 24.hour.ago,
+                           completed_at: 10.hours.ago,
+                           invited_state: Response::SENT_STATE,
+                           measurement: measurement)
+        response = FactoryGirl.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      open_from: 24.hour.ago,
+                                      invited_state: Response::SENDING_STATE,
+                                      measurement: measurement)
+
+        FactoryGirl.create(:invitation_token, response: response)
+
+        mytok = response.invitation_token.token
+
+        smstext = 'Heel fijn dat je meedoet aan u-can-act! De volgende wekelijkse vragenlijst staat voor je klaar. ' \
+          "#{ENV['HOST_URL']}/?q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")

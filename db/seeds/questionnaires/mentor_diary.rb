@@ -11,25 +11,25 @@ dagboek_content = [{
   show_otherwise: false,
   title: 'Heb je deze week acties ondernomen in de begeleiding van {{deze_student}}?',
   options: [
-    { title: 'Ja', shows_questions: %i[v3 v4 v5 v6 v7 v8] },
+    { title: 'Ja', shows_questions: %i[v3 v4 v5 v6 v7 v8 v9] },
     { title: 'Nee', shows_questions: %i[v2] }
   ]
 }, {
   id: :v2,
   hidden: true,
   type: :radio,
-  title: 'Waarom vul jij de vragenlijst niet in voor {{deze_student}}?',
+  title: 'Waarom heb je deze week geen acties ondernomen in de begeleiding van {{deze_student}}?',
   options: [
     'Ik heb deze week geen contact gehad met {{deze_student}}.',
     'Ik ben gestopt met de begeleiding van {{deze_student}}.',
     '{{Deze_student}} is gestopt met de opleiding.',
     { title: 'Ik heb de begeleiding van {{deze_student}} overgedragen aan iemand anders.',
-      shows_questions: %i[v9 v10 v11] }
+      shows_questions: %i[v10 v11 v12] }
   ]
 }, {
   id: :v3, # 2
   hidden: true,
-  title: 'Het bepalen van acties en doelen',
+  title: '',
   add_button_label: 'Nog een actie(reeks) toevoegen',
   remove_button_label: 'Verwijder actie(reeks)',
   type: :expandable,
@@ -39,13 +39,15 @@ dagboek_content = [{
     section_start: 'Actie(reeks)',
     id: :v3_1, # 2.1
     type: :textarea,
-    title: 'Welke belangrijke actie of reeks aan acties die volgens jou bij
+    required: true,
+    title: 'Welke belangrijke actie, of reeks aan acties die volgens jou bij
       elkaar horen (bijv. omdat ze hetzelfde doel dienen of kort achter elkaar zijn
-      uitgevoerd) heb jij uitgevoerd in de begeleiding van {{deze_student}}?',
+      uitgevoerd), heb jij uitgevoerd in de begeleiding van {{deze_student}}?',
     tooltip: 'Acties zijn bijvoorbeeld gesprekken, whatsappjes, oefeningen en huisbezoeken. Je mag jouw actie(s) kort beschrijven in steekwoorden of in verhaalvorm.'
   }, {
     id: :v3_2, # 2.2
     type: :checkbox,
+    required: true,
     title: 'In welke categorie(ën) past de zojuist beschreven actie(reeks) volgens jou het beste?',
     options: [
       {title: 'Laagdrempelig contact leggen', tooltip: 'bijv. whatsappen of samen tafeltennissen, wandelen of roken.'},
@@ -64,6 +66,7 @@ dagboek_content = [{
   }, {
     id: :v3_3, # 2.3
     type: :checkbox,
+    required: true,
     title: 'Aan welke doelen heb jij gewerkt door deze actie(s) uit te voeren?',
     options: [
       {title: 'De relatie met {{deze_student}} verbeteren en/of onderhouden', tooltip: 'bijv. de band met {{deze_student}} proberen te verbeteren of laten weten dat je er voor {{deze_student}} bent.'},
@@ -97,22 +100,14 @@ dagboek_content = [{
     section_end: true
   }]
 }, {
-  section_start: 'Afsluitende vragen',
-  id: :v4, # 3.1
+  id: :v4,
   hidden: true,
-  type: :radio,
+  type: :time,
+  hours_from: 0,
+  hours_to: 11,
+  hours_step: 1,
   title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van {{deze_student}}?',
-  options: ['minder dan een half uur',
-           'een half uur tot een uur',
-           'een uur tot anderhalf uur',
-           'anderhalf uur tot twee uur',
-           'twee uur tot tweeënhalf uur',
-           'tweeënhalf uur tot drie uur',
-           'drie uur tot drieënhalf uur',
-           'drieënhalf uur tot vier uur',
-           'vier uur tot vierenhalf uur',
-           'vierenhalf uur tot vijf uur',
-           'vijf uur of meer']
+  section_start: 'Overige vragen'
 }, {
   id: :v5,
   hidden: true,
@@ -130,31 +125,37 @@ dagboek_content = [{
   hidden: true,
   type: :range,
   title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} het gevoel te geven dat {{hij_zij_student}} dingen goed kan?',
+  labels: ['niet', 'heel sterk']
+}, {
+  id: :v8,
+  hidden: true,
+  type: :range,
+  title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} het gevoel te geven dat je er voor {{hem_haar_student}} bent?',
   labels: ['niet', 'heel sterk'],
   section_end: true
 }, {
-  id: :v8, # 3.2
+  id: :v9, # 3.2
   hidden: true,
   type: :radio,
   show_otherwise: false,
   title: 'Heb je de begeleiding van {{deze_student}} deze week grotendeels overgedragen aan een andere persoon?',
   tooltip: 'Met grotendeels bedoelen wij voor meer dan de helft',
   options: [
-    { title: 'Ja', shows_questions: %i[v9 v10 v11] },
+    { title: 'Ja', shows_questions: %i[v10 v11 v12] },
     { title: 'Nee' }
   ]
 }, {
-  id: :v9, # 3.2.2
+  id: :v10, # 3.2.2
   hidden: true,
   type: :textarea,
   title: 'Waarom heb jij de begeleiding (grotendeels) overgedragen?'
 }, {
-  id: :v10, # 3.2.3
+  id: :v11, # 3.2.3
   hidden: true,
   type: :textarea,
   title: 'Aan wie heb jij de begeleiding (grotendeels) overgedragen?'
 }, {
-  id: :v11, # 3.2.4
+  id: :v12, # 3.2.4
   hidden: true,
   type: :textarea,
   title: 'Wat denk jij dat diegene deze week heeft gedaan in de begeleiding van {{deze_student}}?'

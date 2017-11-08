@@ -10,28 +10,22 @@ class StudentInProgressRewardPage extends React.Component {
     this.inMaxStreak = (currentStreak === this.props.maxStreak);
 
     this.totalAvailable = this.props.earnedEuros + this.props.awardable;
-    this.percentageStreak =  (currentStreak / this.props.maxStreak) * this.totalAvailable;
+    this.percentageStreak = (currentStreak / this.props.maxStreak) * this.totalAvailable;
   }
 
   render() {
     return (
       <div>
         <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
-        <div>
-          <div className='section'>
-            <p className='flow-text'> Voortgang van het onderzoek</p>
-          </div>
-          <div className='section'>
-            {this.inMaxStreak ? <Pyro /> : <div/>}
-            <ProgressBar euroDelta={this.props.euroDelta}
-                         valueEuro={this.props.earnedEuros}
-                         currentMultiplier={this.props.currentMultiplier}
-                         percentageStreak={this.percentageStreak}
-                         awardableEuro={this.props.awardable}
-                         totalAvailable={this.totalAvailable}/>
-            <ProgressText awardable={this.props.awardable}
-                        protocolCompletion={this.props.protocolCompletion} />
-          </div>
+        <div className='section'>
+          {this.inMaxStreak ? <Pyro /> : <div/>}
+          <ProgressBar euroDelta={this.props.euroDelta}
+                        valueEuro={this.props.earnedEuros}
+                        currentMultiplier={this.props.currentMultiplier}
+                        initialMultiplier={this.props.initialMultiplier}
+                        percentageStreak={this.percentageStreak}
+                        awardableEuro={this.props.awardable}
+                        totalAvailable={this.totalAvailable}/>
         </div>
       </div>
     )

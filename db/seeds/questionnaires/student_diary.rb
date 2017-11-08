@@ -14,9 +14,10 @@ dagboek_content = [{
                      type: :radio,
                      title: 'Ben je de afgelopen week naar school en/of stage geweest?',
                      options: [
-                       { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6 v7] },
+                       { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6] },
                        'Nee'
-                     ]
+                     ],
+                     show_otherwise: false
                    }, {
                      id: :v2,
                      hidden: true,
@@ -28,60 +29,54 @@ dagboek_content = [{
                      id: :v3,
                      hidden: true,
                      type: :range,
-                     title: 'Hoeveel <strong>invloed</strong> denk je dat je zelf had <strong>op deze gebeurtenissen</strong> op school en/of stage?',
-                     labels: ['geen invloed', 'veel invloed']
-                   }, {
-                     id: :v4,
-                     hidden: true,
-                     type: :range,
                      title: 'Heb je afgelopen week meestal <strong>dingen op school en/of stage gedaan omdat</strong> je het moest of omdat je het zelf wilde?',
                      tooltip: 'Neem hierbij een paar ervaringen in gedachten die voor jou belangrijk waren.',
                      labels: ['omdat ik moest', 'omdat ik het zelf wilde']
                    }, {
-                     id: :v5,
+                     id: :v4,
                      hidden: true,
                      type: :range,
                      title: '<strong>Hoe goed heb je dingen gedaan op school en/of stage</strong> afgelopen week?',
                      tooltip: 'Neem hierbij een paar ervaringen in gedachten die voor jou belangrijk waren.',
                      labels: ['heel slecht', 'heel goed']
                    }, {
-                     id: :v6,
+                     id: :v5,
                      hidden: true,
                      type: :range,
                      title: 'Kon je afgelopen week goed <strong>opschieten met vrienden op school en/of stage</strong>?',
                      tooltip: 'Neem hierbij een paar ervaringen met vrienden in gedachten die voor jou belangrijk waren.',
                      labels: ['heel slecht', 'heel goed']
                    }, {
-                     id: :v7,
+                     id: :v6,
                      hidden: true,
                      type: :range,
                      title: 'Kon je afgelopen week goed <strong>opschieten met leraren op school en/of begeleiders op stage</strong>?',
                      tooltip: 'Neem hierbij een paar ervaringen met leraren (of leidinggevenden op stage) in gedachten die voor jou belangrijk waren.',
                      labels: ['heel slecht', 'heel goed']
                    }, {
-                     id: :v8,
+                     id: :v7,
                      type: :range,
                      title: '<strong>Hoeveel tijd</strong> heb je afgelopen week besteed aan school, stage en huiswerk bij elkaar?',
                      tooltip: 'Een grove gok is prima, het is niet erg als je er een paar uur naast zit.',
                      labels: ['0 uur', '40 uur of meer'],
                      max: 40
                    }, {
-                     id: :v9,
+                     id: :v8,
                      type: :range,
                      title: 'Was dit <strong>genoeg tijd</strong> om goed te presteren op school?',
                      labels: ['niet genoeg tijd', 'te veel tijd']
                    }, {
-                     id: :v10,
+                     id: :v9,
                      type: :range,
                      title: 'Ben je op dit moment blij met je <strong>keuze voor deze opleiding</strong>?',
                      labels: ['niet blij met keuze', 'heel blij met keuze']
                    }, {
-                     id: :v11,
+                     id: :v10,
                      type: :range,
                      title: 'Vind je op dit moment dat je <strong>opleiding</strong> bij je past?',
                      labels: ['past niet goed', 'past heel goed']
                    }, {
-                     id: :v12,
+                     id: :v11,
                      type: :range,
                      title: 'Heb je er op dit moment vertrouwen in dat je dit <strong>schooljaar gaat halen</strong>?',
                      labels: ['geen vertrouwen', 'veel vertrouwen'],
@@ -91,41 +86,36 @@ dagboek_content = [{
                      type: :raw,
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over de tijd die je besteedt buiten school. Je antwoorden zijn helemaal anoniem.</p>'
                    }, {
-                     id: :v13,
+                     id: :v12,
                      type: :range,
                      title: 'Wat heb je de afgelopen week <strong>meegemaakt buiten school</strong>?',
                      tooltip: 'Neem hierbij een paar ervaringen in gedachten die voor jou belangrijk waren.',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
-                     id: :v14,
+                     id: :v13,
                      type: :checkbox,
                      title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken? Je mag meerdere antwoorden geven.',
                      options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
                    }, {
-                     id: :v15,
-                     type: :range,
-                     title: 'Hoeveel <strong>invloed</strong> denk je dat je zelf had <strong>op deze gebeurtenissen</strong> buiten school?',
-                     labels: ['zelf geen invloed', 'zelf veel invloed']
-                   }, {
-                     id: :v16,
+                     id: :v14,
                      type: :range,
                      title: 'Heb je afgelopen week de meeste <strong>dingen buiten school gedaan omdat</strong> je het moest of omdat je het zelf wilde?',
                      tooltip: 'Neem hierbij een paar ervaringen in gedachten die voor jou belangrijk waren.',
                      labels: ['omdat ik moest', 'omdat ik wilde']
                    }, {
-                     id: :v17,
+                     id: :v15,
                      type: :range,
                      title: '<strong>Hoe goed heb je dingen gedaan buiten school</strong> afgelopen week?',
                      tooltip: 'Neem hierbij een paar ervaringen in gedachten die voor jou belangrijk waren.',
                      labels: ['heel slecht', 'heel goed']
                    }, {
-                     id: :v18,
+                     id: :v16,
                      type: :range,
                      title: 'Kon je afgelopen week meestal goed <strong>opschieten met vrienden buiten school</strong>?',
                      tooltip: 'Neem hierbij een paar ervaringen met vrienden in gedachten die voor jou belangrijk waren.',
                      labels: ['heel slecht', 'heel goed']
                    }, {
-                     id: :v19,
+                     id: :v17,
                      type: :range,
                      title: 'Kon je afgelopen week meeestal goed <strong>opschieten met ouders/familie buiten school</strong>?',
                      tooltip: 'Neem hierbij een paar ervaringen met ouders of familie in gedachten die voor jou belangrijk waren.',
@@ -134,50 +124,50 @@ dagboek_content = [{
                    }, {
                      section_start: 'Begeleiding',
                      type: :raw,
-                     content: '<p class="flow-text section-explanation">De volgende vragen gaan over de persoonlijke begeleiding die je krijgt. Je antwoorden zijn helemaal anoniem.</p>'
+                     content: '<p class="flow-text section-explanation">De volgende vragen gaan over de persoonlijke begeleiding die je krijgt van {{je_begeleidingsinitiatief}}. Je antwoorden zijn helemaal anoniem.</p>'
                    }, {
-                     id: :v20,
+                     id: :v18,
                      type: :radio,
-                     title: 'Heb je de afgelopen week je {{begeleider}} gesproken?',
+                     title: 'Heb je de afgelopen week {{naam_begeleider}} gesproken?',
                      options: [
-                       { title: 'Ja', shows_questions: %i[v21 v22 v23 v24 v25 v26] },
+                       { title: 'Ja', shows_questions: %i[v19 v20 v21 v22 v23 v24] },
                        'Nee'
                      ]
+                   }, {
+                     id: :v19,
+                     hidden: true,
+                     type: :range,
+                     title: 'Kon je afgelopen week goed <strong>opschieten met {{naam_begeleider}}</strong>?',
+                     labels: ['heel slecht', 'heel goed']
+                   }, {
+                     id: :v20,
+                     hidden: true,
+                     type: :range,
+                     title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan {{naam_begeleider}} afgelopen week?',
+                     labels: ['gesloten', 'open']
                    }, {
                      id: :v21,
                      hidden: true,
                      type: :range,
-                     title: 'Kon je afgelopen week goed <strong>opschieten met je {{begeleider}}</strong>?',
-                     labels: ['heel slecht', 'heel goed']
+                     title: 'Heeft {{naam_begeleider}} je goed geholpen afgelopen week?',
+                     labels: ['niet goed geholpen', 'heel goed geholpen']
                    }, {
                      id: :v22,
                      hidden: true,
                      type: :range,
-                     title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan je {{begeleider}} afgelopen week?',
-                     labels: ['gesloten', 'open']
+                     title: 'In hoeverre voelde jij je afgelopen week gesteund door {{naam_begeleider}} in het maken van je eigen beslissingen?',
+                     labels: ['niet', 'heel sterk']
                    }, {
                      id: :v23,
                      hidden: true,
                      type: :range,
-                     title: 'Heeft je {{begeleider}} je goed geholpen afgelopen week?',
-                     labels: ['niet goed geholpen', 'heel goed geholpen']
+                     title: 'In hoeverre had jij het gevoel dat {{naam_begeleider}} er voor je was deze week?',
+                     labels: ['niet', 'heel sterk']
                    }, {
                      id: :v24,
                      hidden: true,
                      type: :range,
-                     title: 'In hoeverre voelde jij je afgelopen week gesteund door je {{begeleider}} in het maken van je eigen beslissingen?',
-                     labels: ['niet', 'heel sterk']
-                   }, {
-                     id: :v25,
-                     hidden: true,
-                     type: :range,
-                     title: 'In hoeverre had jij het gevoel dat je {{begeleider}} er voor je was deze week?',
-                     labels: ['niet', 'heel sterk']
-                   }, {
-                     id: :v26,
-                     hidden: true,
-                     type: :range,
-                     title: 'In hoeverre gaf jouw {{begeleider}} je afgelopen week het gevoel dat je dingen goed kan?',
+                     title: 'In hoeverre gaf {{naam_begeleider}} je afgelopen week het gevoel dat je dingen goed kan?',
                      labels: ['niet', 'heel sterk'],
                      section_end: true
                    }]

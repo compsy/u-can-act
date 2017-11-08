@@ -25,7 +25,14 @@ describe 'GET and POST /', type: :feature, js: true do
                                          id: :v3,
                                          type: :range,
                                          title: 'Hoe gaat het met u?',
-                                         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
+                                         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+                                       }, {
+                                         id: :v4,
+                                         type: :time,
+                                         title: 'Hoeveel tijd deed u over het eten?',
+                                         hours_from: 1,
+                                         hours_to: 10,
+                                         hours_step: 1,
                                          section_end: true
                                        }])
     measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
@@ -69,6 +76,11 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('beetje mee eens')
     expect(page).to have_content('helemaal mee eens')
     range_select('v3', '57')
+
+    # v4
+    expect(page).to have_content('Hoeveel tijd deed u over het eten?')
+    materialize_select(1, 4, 'div.v4_uren>')
+    materialize_select(0, 15, 'div.v4_minuten>')
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -78,9 +90,60 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.values).to include('v1' => 'slecht',
                                           'v2_brood' => 'true',
                                           'v2_kaas_en_ham' => 'true',
-                                          'v3' => '57')
+                                          'v3' => '57',
+                                          'v4_uren' => '4',
+                                          'v4_minuten' => '15')
   end
-
+  it 'should respect the required attribute for a group of checkboxes' do
+    content = [{
+      id: :v1,
+      type: :checkbox,
+      required: true,
+      title: 'Wat heeft u vandaag gegeten?',
+      options: %w[brood pizza]
+    }, {
+      id: :v2,
+      type: :checkbox,
+      required: false,
+      title: 'Hoe oud ben jij?',
+      options: %w[12 13]
+    }]
+    protocol = FactoryGirl.create(:protocol)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               protocol: protocol,
+                                               person: student)
+    questionnaire = FactoryGirl.create(:questionnaire, content: content)
+    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     measurement: measurement,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/?q=#{invitation_token.token}"
+    expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+    expect(page).to_not have_current_path(mentor_overview_index_path)
+    # expect(page).to have_http_status(200)
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to have_css('p', text: 'Wat heeft u vandaag gegeten?')
+    page.click_on 'Opslaan'
+    # expect(page).to have_http_status(200)
+    expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+    responseobj.reload
+    expect(responseobj.completed_at).to be_nil
+    expect(responseobj.content).to be_nil
+    page.check('pizza', allow_label_click: true)
+    page.click_on 'Opslaan'
+    expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+    responseobj.reload
+    expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+    expect(responseobj.content).not_to be_nil
+    expect(responseobj.values).to include('v1_pizza' => 'true')
+    expect(responseobj.values.keys).not_to include('v2_12')
+    expect(responseobj.values.keys).not_to include('v2_13')
+    expect(responseobj.values.keys).not_to include('v2')
+  end
   it 'should store the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                person: student,
@@ -958,7 +1021,136 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'pizza',
                                             'v3' => 'of niet soms')
     end
-    it 'should require not require textareas to be filled out' do
+    it 'should require required textareas to be filled out' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_css('label', text: 'Vul iets in', visible: false)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: false)
+      # required field v3 blank: page should not change:
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+      # v1
+      page.choose('brood', allow_label_click: true)
+      expect(page).to have_css('label', text: 'Vul iets in', visible: true)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: true)
+      # v3
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_nil
+      expect(responseobj.content).to be_nil
+      # v2
+      page.fill_in('v2', with: 'hoi')
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).not_to be_nil
+      expect(responseobj.values).to include('v1' => 'brood',
+                                            'v2' => 'hoi',
+                                            'v3' => 'of niet soms')
+    end
+    it 'should not require hidden required textareas to be filled out' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_css('label', text: 'Vul iets in', visible: false)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: false)
+      # required field v3 blank: page should not change:
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+      # v3
+      page.choose('pizza', allow_label_click: true)
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).not_to be_nil
+      expect(responseobj.values).to include('v1' => 'pizza',
+                                            'v3' => 'of niet soms')
+      expect(responseobj.values.keys).not_to include('v2')
+    end
+    it 'should not require textareas to be filled out if they are not required' do
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
@@ -1051,7 +1243,136 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'pizza',
                                             'v3' => 'of niet soms')
     end
-    it 'should require not require textfields to be filled out' do
+    it 'should require required textfields to be filled out' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_css('label', text: 'Vul iets in', visible: false)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: false)
+      # required field v3 blank: page should not change:
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+      # v1
+      page.choose('brood', allow_label_click: true)
+      expect(page).to have_css('label', text: 'Vul iets in', visible: true)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: true)
+      # v3
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_nil
+      expect(responseobj.content).to be_nil
+      # v2
+      page.fill_in('v2', with: 'hoi')
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).not_to be_nil
+      expect(responseobj.values).to include('v1' => 'brood',
+                                            'v2' => 'hoi',
+                                            'v3' => 'of niet soms')
+    end
+    it 'should not require hidden required textfields to be filled out' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
+      protocol = FactoryGirl.create(:protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 start_date: 1.week.ago.at_beginning_of_day,
+                                                 protocol: protocol,
+                                                 person: student)
+      questionnaire = FactoryGirl.create(:questionnaire, content: content)
+      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryGirl.create(:response,
+                                       protocol_subscription: protocol_subscription,
+                                       measurement: measurement,
+                                       open_from: 1.hour.ago,
+                                       invited_state: Response::SENT_STATE)
+      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_css('label', text: 'Vul iets in', visible: false)
+      expect(page).to have_css('p', text: 'Dit is je tekstruimte', visible: false)
+      # required field v3 blank: page should not change:
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+      # v3
+      page.choose('pizza', allow_label_click: true)
+      page.fill_in('v3', with: 'of niet soms')
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).not_to be_nil
+      expect(responseobj.values).to include('v1' => 'pizza',
+                                            'v3' => 'of niet soms')
+      expect(responseobj.values.keys).not_to include('v2')
+    end
+    it 'should not require textfields to be filled out if they are not required' do
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,

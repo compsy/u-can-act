@@ -11,7 +11,7 @@ function toggle_otherwise_field() {
   if ($(this).closest('.row').find("input[type=text].otherwise").length === 0) return;
   if ($(this).closest('.row').find('.otherwise-option').is(':checked')) {
     if ($(this).closest('.row').find("input[type=text].otherwise").prop('disabled')) {
-      $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', false).focus();
+      $(this).closest('.row').find("input[type=text].otherwise:visible").prop('disabled', false).focus();
     }
   } else {
     $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', true);
@@ -21,7 +21,7 @@ function toggle_otherwise_field() {
 function show_hide_entry(entry, show) {
   var klass = '.' + entry + '_toggle';
   if (show) {
-    $(klass).removeClass('hidden').find('input,textarea').prop('disabled', false);
+    $(klass).removeClass('hidden').find('input:visible,textarea:visible').prop('disabled', false);
     $('.otherwise-option').each(toggle_otherwise_field);
   } else {
     $(klass).addClass('hidden').find('input,textarea').prop('disabled', true);
@@ -101,22 +101,21 @@ function updateExpandableButtons() {
   addRemoveDisabledClass(buttons, '.expandable_wrapper:not(.hidden)')
 }
 
-function findExpandableElement(button, element) {
-  const questionnaireId = $(button).attr('data-belongsto');
-  // Find the first element that is hidden and expandable so we can unhide it
-  const elem = $(element + "." + questionnaireId).first();
-  return(elem)
-}
-
 function expandExpandable() {
-  const elem = findExpandableElement(this, '.expandable_wrapper.hidden');
+  const questionnaireId = $(this).attr('data-belongsto');
+
+  // Find the first element that is hidden and expandable so we can unhide it
+  const elem = $('.expandable_wrapper.hidden' + '.' + questionnaireId).first();
   elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
 }
 
 function collapseExpandable() {
-  const elem = findExpandableElement(this, '.expandable_wrapper:not(.hidden)');
+  const questionnaireId = $(this).attr('data-belongsto');
+
+  // Find the last element that is not hidden and expandable so we can hide it
+  const elem = $('.expandable_wrapper:not(.hidden)' + '.' + questionnaireId).last();
   elem.addClass('hidden').find('input,textarea').prop('disabled', true);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
@@ -128,6 +127,25 @@ function disableHiddenInputs() {
       $(this).prop('disabled', true);
     });
   });
+}
+
+function check_required_checkboxes(event) {
+  var returnval = true;
+  var firstelem = null;
+  $('div.checkbox-group.required:visible').each(function(sub_index){
+     if ($(this).find(':checkbox:checked').length == 0) {
+       event.preventDefault();
+       $(this).addClass('erroneous');
+       if (firstelem == null) firstelem = this;
+       returnval = false;
+     }
+  });
+  if (!returnval) { // scroll to the last invalid element
+    $('html, body').animate({
+      scrollTop: $(firstelem).offset().top
+    }, 200);
+  }
+  return returnval;
 }
 
 $(function () {
@@ -149,7 +167,7 @@ $(function () {
   });
   $('input,textarea').change(time_element);
   $('textarea').focusin(time_element);
-  $('button[type=submit]').click(time_element);
+  $('button[type=submit]').click(time_element).click(check_required_checkboxes);
 
   $('.expand_expandable').on('click', expandExpandable);
   $('.collapse_expandable').on('click', collapseExpandable);
@@ -159,6 +177,13 @@ $(function () {
   // Needed to disable the warning when leaving a page, when actually submitting it
   $(document).on("submit", "form", function(event){
     window.onbeforeunload = null;
+  });
+  // Hide toasts on click
+  $(document).on('click','.toast', function(){
+    $(this).hide();
+  });
+  $(document).on('click','.erroneous', function(){
+    $(this).removeClass('erroneous');
   });
 });
 

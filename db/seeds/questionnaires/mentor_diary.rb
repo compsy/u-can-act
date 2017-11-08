@@ -47,7 +47,7 @@ dagboek_content = [{
   }, {
     id: :v3_2, # 2.2
     type: :checkbox,
-    required: true, # not yet supported
+    required: true,
     title: 'In welke categorie(ën) past de zojuist beschreven actie(reeks) volgens jou het beste?',
     options: [
       {title: 'Laagdrempelig contact leggen', tooltip: 'bijv. whatsappen of samen tafeltennissen, wandelen of roken.'},
@@ -66,7 +66,7 @@ dagboek_content = [{
   }, {
     id: :v3_3, # 2.3
     type: :checkbox,
-    required: true, # not yet supported
+    required: true,
     title: 'Aan welke doelen heb jij gewerkt door deze actie(s) uit te voeren?',
     options: [
       {title: 'De relatie met {{deze_student}} verbeteren en/of onderhouden', tooltip: 'bijv. de band met {{deze_student}} proberen te verbeteren of laten weten dat je er voor {{deze_student}} bent.'},

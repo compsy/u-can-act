@@ -293,11 +293,18 @@ class QuestionnaireGenerator
     def generate_checkbox(question)
       title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
-      safe_join([
-                  content_tag(:p, title, class: 'flow-text'),
-                  checkbox_options(question),
-                  checkbox_otherwise(question)
-                ])
+      checkbox_group = safe_join([
+                                   content_tag(:p, title, class: 'flow-text'),
+                                   checkbox_options(question),
+                                   checkbox_otherwise(question)
+                                 ])
+      content_tag(:div, checkbox_group, class: checkbox_group_klasses(question))
+    end
+
+    def checkbox_group_klasses(question)
+      klasses = 'checkbox-group'
+      klasses += ' required' if question[:required].present?
+      klasses
     end
 
     def checkbox_options(question)
@@ -417,21 +424,29 @@ class QuestionnaireGenerator
     end
 
     def textarea_field(question)
-      body = []
-      body << content_tag(:textarea,
-                          nil,
-                          id: idify(question[:id]),
-                          name: answer_name(question[:id]),
-                          class: 'materialize-textarea')
-      body << content_tag(:label,
-                          placeholder(question, TEXTAREA_PLACEHOLDER),
-                          for: idify(question[:id]),
-                          class: 'flow-text')
-
-      body = safe_join(body)
+      body = safe_join([
+                         textarea_tag(question),
+                         textarea_label(question)
+                       ])
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')
       body
+    end
+
+    def textarea_tag(question)
+      content_tag(:textarea,
+                  nil,
+                  id: idify(question[:id]),
+                  name: answer_name(question[:id]),
+                  required: question[:required].present?,
+                  class: 'materialize-textarea')
+    end
+
+    def textarea_label(question)
+      content_tag(:label,
+                  placeholder(question, TEXTAREA_PLACEHOLDER),
+                  for: idify(question[:id]),
+                  class: 'flow-text')
     end
 
     def generate_textfield(question)
@@ -440,20 +455,29 @@ class QuestionnaireGenerator
     end
 
     def textfield_field(question)
-      body = []
-      body << tag(:input,
-                  type: 'text',
-                  id: idify(question[:id]),
-                  name: answer_name(question[:id]),
-                  class: 'validate')
-      body << content_tag(:label,
-                          placeholder(question, TEXTFIELD_PLACEHOLDER),
-                          for: idify(question[:id]),
-                          class: 'flow-text')
-      body = safe_join(body)
+      body = safe_join([
+                         textfield_tag(question),
+                         textfield_label(question)
+                       ])
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')
       body
+    end
+
+    def textfield_tag(question)
+      tag(:input,
+          type: 'text',
+          id: idify(question[:id]),
+          name: answer_name(question[:id]),
+          required: question[:required].present?,
+          class: 'validate')
+    end
+
+    def textfield_label(question)
+      content_tag(:label,
+                  placeholder(question, TEXTFIELD_PLACEHOLDER),
+                  for: idify(question[:id]),
+                  class: 'flow-text')
     end
 
     def placeholder(question, default_placeholder)

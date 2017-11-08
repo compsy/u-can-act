@@ -51,6 +51,7 @@ class RewardPage extends React.Component {
       <StudentInProgressRewardPage euroDelta={euroDelta} 
         earnedEuros={earnedEuros}
         currentMultiplier={this.state.result.current_multiplier}
+        initialMultiplier={this.state.result.initial_multiplier}
         awardable={maxStillAwardableEuros}
         protocolCompletion={this.state.result.protocol_completion}
         maxStreak={this.state.result.max_streak.threshold}/>

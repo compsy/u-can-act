@@ -94,7 +94,56 @@ describe 'GET and POST /', type: :feature, js: true do
                                           'v4_uren' => '4',
                                           'v4_minuten' => '15')
   end
-
+  it 'should respect the required attribute for a group of checkboxes' do
+    content = [{
+      id: :v1,
+      type: :checkbox,
+      required: true,
+      title: 'Wat heeft u vandaag gegeten?',
+      options: %w[brood pizza]
+    }, {
+      id: :v2,
+      type: :checkbox,
+      required: false,
+      title: 'Hoe oud ben jij?',
+      options: %w[12 13]
+    }]
+    protocol = FactoryGirl.create(:protocol)
+    protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                               start_date: 1.week.ago.at_beginning_of_day,
+                                               protocol: protocol,
+                                               person: student)
+    questionnaire = FactoryGirl.create(:questionnaire, content: content)
+    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+    responseobj = FactoryGirl.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     measurement: measurement,
+                                     open_from: 1.hour.ago,
+                                     invited_state: Response::SENT_STATE)
+    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    visit "/?q=#{invitation_token.token}"
+    expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+    expect(page).to_not have_current_path(mentor_overview_index_path)
+    # expect(page).to have_http_status(200)
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to have_css('p', text: 'Wat heeft u vandaag gegeten?')
+    page.click_on 'Opslaan'
+    # expect(page).to have_http_status(200)
+    expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
+    responseobj.reload
+    expect(responseobj.completed_at).to be_nil
+    expect(responseobj.content).to be_nil
+    page.check('pizza', allow_label_click: true)
+    page.click_on 'Opslaan'
+    expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+    responseobj.reload
+    expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+    expect(responseobj.content).not_to be_nil
+    expect(responseobj.values).to include('v1_pizza' => 'true')
+    expect(responseobj.values.keys).not_to include('v2_12')
+    expect(responseobj.values.keys).not_to include('v2_13')
+    expect(responseobj.values.keys).not_to include('v2')
+  end
   it 'should store the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                person: student,

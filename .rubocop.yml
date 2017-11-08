@@ -29,9 +29,9 @@ MethodLength:
   CountComments: false  # count full line comments?
   Max: 20
 
-# Limit modules to have a length of 512
+# Limit modules to have a length of 768
 Metrics/ModuleLength:
-  Max: 512
+  Max: 768
   Exclude:
     - 'spec/**/*'
 
@@ -42,9 +42,9 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - '**/*.rake'
 
-# Limit classes to have a length of 512
+# Limit classes to have a length of 768
 Metrics/ClassLength:
-  Max: 512
+  Max: 768
 
 Metrics/AbcSize:
   Exclude:

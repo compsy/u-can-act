@@ -11,7 +11,7 @@ dagboek_content = [{
   show_otherwise: false,
   title: 'Heb je deze week acties ondernomen in de begeleiding van {{deze_student}}?',
   options: [
-    { title: 'Ja', shows_questions: %i[v3 v4 v5 v6 v7 v9] },
+    { title: 'Ja', shows_questions: %i[v3 v4 v5 v6 v7 v8 v9] },
     { title: 'Nee', shows_questions: %i[v2] }
   ]
 }, {

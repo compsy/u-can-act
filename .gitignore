@@ -15,6 +15,7 @@ capybara-*.html
 rerun.txt
 routes.txt
 people.csv
+students.csv
 mentors.csv
 pickle-email-*.html
 

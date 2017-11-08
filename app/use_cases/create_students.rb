@@ -27,7 +27,7 @@ class CreateStudents < ActiveInteraction::Base
         mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
         protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
         start_date: plain_text_parser.parse_start_date(student[:start_date]),
-        role_id: plain_text_parser.parse_role_title(student[:organization_name], 'StudentTitle')
+        role_id: plain_text_parser.parse_role_title(student[:organization_name], Person::STUDENT)
       }
     end
   end

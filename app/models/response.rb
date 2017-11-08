@@ -2,7 +2,7 @@
 
 class Response < ApplicationRecord
   RECENT_PAST = 2.hours
-  REMINDER_DELAY = 8.hours
+  REMINDER_DELAY = 4.hours
   NOT_SENT_STATE = 'not_sent'
   SENDING_STATE = 'sending'
   SENT_STATE = 'sent'

@@ -182,6 +182,7 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :checkbox,
+  required: true,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
@@ -254,6 +255,8 @@ Required and allowed options (minimal example and maximal example):
 The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions` and `hides_questions` fields here work identically to those described above in the Type: Checkbox section.
+
+Radios are always required.
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):

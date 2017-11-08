@@ -159,6 +159,11 @@ $(function () {
   $(document).on("submit", "form", function(event){
     window.onbeforeunload = null;
   });
+  // Hide toasts on click
+  $(document).on('click','.toast', function(){
+    $(this).hide();
+  });
+
 });
 
 

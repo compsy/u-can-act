@@ -127,7 +127,7 @@ dagboek_content = [{
   id: :v8,
   hidden: true,
   type: :range,
-  title: 'In hoeverre heb jij deze week geprobeerd jouw band met {{deze_student}} te versterken?',
+  title: 'In hoeverre heb jij deze week geprobeerd {{deze_student}} het gevoel te geven dat je er voor {{hem_haar_student}} bent?',
   labels: ['niet', 'heel sterk'],
   section_end: true
 }, {

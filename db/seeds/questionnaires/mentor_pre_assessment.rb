@@ -16,18 +16,22 @@ voormeting1.content = [{
                        }, {
                          id: :v2,
                          type: :textfield,
+                         required: true,
                          title: 'Wat is je geboortejaar?',
                          tooltip: 'Noteer je geboortejaar als volgt: jjjj',
                          placeholder: 'jjjj',
                        }, {
                          id: :v3,
                          type: :textfield,
+                         required: true,
                          title: 'Hoeveel jaar heb jij tot nu toe gewerkt in de jongerenbegeleiding?',
                          placeholder: 'bv. 3'
                        }, {
                          id: :v4,
                          type: :textfield,
+                         required: true,
                          title: 'Wat is je nationaliteit?',
+                         placeholder: 'bv. Nederlandse'
                        }]
 voormeting1.title = 'Voormeting begeleiders'
 voormeting1.save!

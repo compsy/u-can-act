@@ -413,22 +413,29 @@ class QuestionnaireGenerator
     end
 
     def textarea_field(question)
-      body = []
-      body << content_tag(:textarea,
-                          nil,
-                          id: idify(question[:id]),
-                          name: answer_name(question[:id]),
-                          required: question[:required].present?,
-                          class: 'materialize-textarea')
-      body << content_tag(:label,
-                          placeholder(question, TEXTAREA_PLACEHOLDER),
-                          for: idify(question[:id]),
-                          class: 'flow-text')
-
-      body = safe_join(body)
+      body = safe_join([
+                         textarea_tag(question),
+                         textarea_label(question)
+                       ])
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')
       body
+    end
+
+    def textarea_tag(question)
+      content_tag(:textarea,
+                  nil,
+                  id: idify(question[:id]),
+                  name: answer_name(question[:id]),
+                  required: question[:required].present?,
+                  class: 'materialize-textarea')
+    end
+
+    def textarea_label(question)
+      content_tag(:label,
+                  placeholder(question, TEXTAREA_PLACEHOLDER),
+                  for: idify(question[:id]),
+                  class: 'flow-text')
     end
 
     def generate_textfield(question)
@@ -437,21 +444,29 @@ class QuestionnaireGenerator
     end
 
     def textfield_field(question)
-      body = []
-      body << tag(:input,
-                  type: 'text',
-                  id: idify(question[:id]),
-                  name: answer_name(question[:id]),
-                  required: question[:required].present?,
-                  class: 'validate')
-      body << content_tag(:label,
-                          placeholder(question, TEXTFIELD_PLACEHOLDER),
-                          for: idify(question[:id]),
-                          class: 'flow-text')
-      body = safe_join(body)
+      body = safe_join([
+                         textfield_tag(question),
+                         textfield_label(question)
+                       ])
       body = content_tag(:div, body, class: 'input-field col s12')
       body = content_tag(:div, body, class: 'row')
       body
+    end
+
+    def textfield_tag(question)
+      tag(:input,
+          type: 'text',
+          id: idify(question[:id]),
+          name: answer_name(question[:id]),
+          required: question[:required].present?,
+          class: 'validate')
+    end
+
+    def textfield_label(question)
+      content_tag(:label,
+                  placeholder(question, TEXTFIELD_PLACEHOLDER),
+                  for: idify(question[:id]),
+                  class: 'flow-text')
     end
 
     def placeholder(question, default_placeholder)

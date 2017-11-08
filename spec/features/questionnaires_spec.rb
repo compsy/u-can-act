@@ -974,27 +974,27 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should require required textareas to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textarea,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textarea,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
@@ -1041,31 +1041,30 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'brood',
                                             'v2' => 'hoi',
                                             'v3' => 'of niet soms')
-
     end
     it 'should not require hidden required textareas to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textarea,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textarea,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
@@ -1197,27 +1196,27 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should require required textfields to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textfield,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textfield,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
@@ -1264,31 +1263,30 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'brood',
                                             'v2' => 'hoi',
                                             'v3' => 'of niet soms')
-
     end
     it 'should not require hidden required textfields to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textfield,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textfield,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryGirl.create(:protocol)
       protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,

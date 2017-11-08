@@ -4,11 +4,13 @@ voormeting1 ||= Questionnaire.new(name: vm_name1)
 voormeting1.content = [{
                          id: :v1,
                          type: :textfield,
+                         required: true,
                          title: 'Wat is je geboortejaar?',
                          placeholder: 'Vul het volledige jaartal in: bv. 2001'
                        }, {
                          id: :v2,
                          type: :textfield,
+                         required: true,
                          title: 'Wat is je nationaliteit?'
                        }, {
                          id: :v3,
@@ -27,10 +29,12 @@ voormeting1.content = [{
                        }, {
                          id: :v5,
                          type: :textfield,
+                         required: true,
                          title: 'Wat is de naam van je school?'
                        }, {
                          id: :v6,
                          type: :textfield,
+                         required: true,
                          title: 'Welke opleiding doe je daar?'
                        }, {
                          id: :v7,
@@ -40,6 +44,7 @@ voormeting1.content = [{
                        }, {
                          id: :v8,
                          type: :textfield,
+                         required: true,
                          title: 'Hoeveel jaar ben je inmiddels bezig met deze opleiding?'
                        }, {
                          id: :v9,

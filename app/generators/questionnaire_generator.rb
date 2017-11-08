@@ -293,11 +293,14 @@ class QuestionnaireGenerator
     def generate_checkbox(question)
       title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
       question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
-      safe_join([
+      checkbox_group = safe_join([
                   content_tag(:p, title, class: 'flow-text'),
                   checkbox_options(question),
                   checkbox_otherwise(question)
                 ])
+      klasses = 'checkbox-group'
+      klasses += ' required' if question[:required].present?
+      content_tag(:div, checkbox_group, class: klasses)
     end
 
     def checkbox_options(question)

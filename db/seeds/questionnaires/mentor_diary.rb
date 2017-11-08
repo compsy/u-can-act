@@ -101,7 +101,7 @@ dagboek_content = [{
   hidden: true,
   type: :time,
   hours_from: 0,
-  hours_to: 6,
+  hours_to: 11,
   hours_step: 1,
   title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van {{deze_student}}?',
   section_start: 'Overige vragen'

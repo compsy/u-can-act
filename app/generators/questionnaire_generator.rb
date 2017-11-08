@@ -199,7 +199,7 @@ class QuestionnaireGenerator
                             options,
                             content_tag(:label, label)
                           ])
-      content_tag(:div, options, class: "input-field col s1 #{elem_id}")
+      content_tag(:div, options, class: "input-field col m6 l1 #{elem_id}")
     end
 
     def generate_dropdown(items, id)

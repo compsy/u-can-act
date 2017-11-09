@@ -60,6 +60,7 @@ class ProtocolSubscription < ApplicationRecord
       end
 
       create_protocol_completion_entry(response.completed?,
+                                       response.expired?,
                                        response.measurement.periodical?,
                                        response.measurement.reward_points,
                                        response.future?,
@@ -74,9 +75,10 @@ class ProtocolSubscription < ApplicationRecord
     0
   end
 
-  def create_protocol_completion_entry(is_completed, is_periodical, reward_points, is_in_future, streak)
+  def create_protocol_completion_entry(is_completed, is_expired, is_periodical, reward_points, is_in_future, streak)
     result = {}
     result[:completed] = is_completed
+    result[:expired] = is_expired
     result[:periodical] = is_periodical
     result[:reward_points] = reward_points
     result[:future] = is_in_future

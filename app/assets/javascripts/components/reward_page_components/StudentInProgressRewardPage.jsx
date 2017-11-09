@@ -11,8 +11,8 @@ class StudentInProgressRewardPage extends React.Component {
   }
 
   findCurrentStreak() {
-    // Find the last non future index. 
-    // Note that findIndex could return -1 if the value is not found. 
+    // Find the last non future index.
+    // Note that findIndex could return -1 if the value is not found.
     var percentageStreakIdx = this.props.protocolCompletion.findIndex(elem => (elem.future));
     percentageStreakIdx = percentageStreakIdx === -1 ? this.props.protocolCompletion.length : percentageStreakIdx;
     percentageStreakIdx -= 1;

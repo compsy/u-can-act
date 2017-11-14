@@ -59,12 +59,7 @@ class ProtocolSubscription < ApplicationRecord
         current_streak = on_streak
       end
 
-      create_protocol_completion_entry(response.completed?,
-                                       response.expired?,
-                                       response.measurement.periodical?,
-                                       response.measurement.reward_points,
-                                       response.future?,
-                                       current_streak)
+      create_protocol_completion_entry_aux(response, current_streak)
     end
   end
 
@@ -73,6 +68,15 @@ class ProtocolSubscription < ApplicationRecord
   def determine_streak(streak, current_response_completed, current_response_in_future)
     return streak + 1 if current_response_completed || current_response_in_future
     0
+  end
+
+  def create_protocol_completion_entry_aux(response, current_streak)
+    create_protocol_completion_entry(response.completed?,
+                                     response.expired?,
+                                     response.measurement.periodical?,
+                                     response.measurement.reward_points,
+                                     response.future?,
+                                     current_streak)
   end
 
   def create_protocol_completion_entry(is_completed, is_expired, is_periodical, reward_points, is_in_future, streak)

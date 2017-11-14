@@ -16,13 +16,10 @@ raise 'informed consent questionnaire not found' unless protocol.informed_consen
 protocol.save!
 
 # Add rewards
-reward = protocol.rewards.find_by_threshold(1)
-reward ||= protocol.rewards.build(threshold: 1)
-reward.reward_points = 2
+protocol.rewards.destroy_all
+reward = protocol.rewards.create!(threshold: 1, reward_points: 2)
 reward.save!
-reward = protocol.rewards.find_by_threshold(3)
-reward ||= protocol.rewards.build(threshold: 3)
-reward.reward_points = 3
+reward = protocol.rewards.create!(threshold: 3, reward_points: 3)
 reward.save!
 
 # Add voormeting

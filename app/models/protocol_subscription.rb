@@ -55,14 +55,14 @@ class ProtocolSubscription < ApplicationRecord
       current_streak = -1
 
       if response.measurement.periodical?
-        on_streak = determine_streak(on_streak, response.completed?, response.future?)
+        on_streak = determine_streak(on_streak, response.completed?, response.still_possible?)
         current_streak = on_streak
       end
 
       create_protocol_completion_entry(response.completed?,
                                        response.measurement.periodical?,
                                        response.measurement.reward_points,
-                                       response.future?,
+                                       response.still_possible?,
                                        current_streak)
     end
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionnaireController < ApplicationController
-  MAX_ANSWER_LENGTH = 4096
+  MAX_ANSWER_LENGTH = 2048
 
   before_action :set_response, only: [:show]
   before_action :set_cookie, only: [:show]

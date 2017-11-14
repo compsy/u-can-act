@@ -55,8 +55,8 @@ describe Response do
       end
     end
     describe 'still_open_and_not_completed' do
-      it 'should find a response that was opened 5 hours ago' do
-        FactoryGirl.create(:response, open_from: 5.hours.ago.in_time_zone,
+      it 'should find a response that was opened 9 hours ago' do
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
                                       invited_state: described_class::SENT_STATE)
         expect(described_class.still_open_and_not_completed.count).to eq 1
       end
@@ -71,29 +71,29 @@ describe Response do
         expect(described_class.still_open_and_not_completed.count).to eq 0
       end
       it 'should not find a response that is sending' do
-        FactoryGirl.create(:response, open_from: 5.hours.ago.in_time_zone,
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
                                       invited_state: described_class::SENDING_STATE)
         expect(described_class.still_open_and_not_completed.count).to eq 0
       end
       it 'should not find a response that is not sent' do
-        FactoryGirl.create(:response, open_from: 5.hours.ago.in_time_zone,
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
                                       invited_state: described_class::NOT_SENT_STATE)
         expect(described_class.still_open_and_not_completed.count).to eq 0
       end
       it 'should not find a response that is sending the reminder' do
-        FactoryGirl.create(:response, open_from: 5.hours.ago.in_time_zone,
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
                                       invited_state: described_class::SENDING_REMINDER_STATE)
         expect(described_class.still_open_and_not_completed.count).to eq 0
       end
       it 'should not find a response that is completed' do
         FactoryGirl.create(:response,
                            :completed,
-                           open_from: 5.hours.ago.in_time_zone,
+                           open_from: 9.hours.ago.in_time_zone,
                            invited_state: described_class::SENT_STATE)
         expect(described_class.still_open_and_not_completed.count).to eq 0
       end
       it 'should not find a response that has sent a reminder' do
-        FactoryGirl.create(:response, open_from: 5.hours.ago.in_time_zone,
+        FactoryGirl.create(:response, open_from: 9.hours.ago.in_time_zone,
                                       invited_state: described_class::REMINDER_SENT_STATE)
         expect(described_class.still_open_and_not_completed.count).to eq 0
       end

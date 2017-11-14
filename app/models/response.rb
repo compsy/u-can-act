@@ -57,6 +57,10 @@ class Response < ApplicationRecord
     open_from > Time.zone.now
   end
 
+  def still_possible?
+    future? || (!expired? && !completed?)
+  end
+
   def completed?
     completed_at.present?
   end

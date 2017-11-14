@@ -170,6 +170,16 @@ dagboek_content = [{
                      title: 'In hoeverre gaf {{naam_begeleider}} je afgelopen week het gevoel dat je dingen goed kan?',
                      labels: ['niet', 'heel sterk'],
                      section_end: true
+                   }, {
+                     section_start: 'Algemeen',
+                     type: :raw,
+                     content: '<p class="flow-text section-explanation">De volgende vraag gaat over jou in het algemeen. Het gaat dit keer dus niet over een specifieke omgeving, zoals eerder in deze vragenlijst. Je antwoord is helemaal anoniem.</p>'
+                   }, {
+                     id: :v25,
+                     type: :range,
+                     title: 'Hoe voelde jij je deze week?',
+                     labels: ['Heel slecht', 'Heel goed'],
+                     section_end: true
                    }]
 dagboek1.content = dagboek_content
 dagboek1.title = db_title

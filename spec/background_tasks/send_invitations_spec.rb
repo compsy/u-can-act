@@ -62,7 +62,7 @@ describe SendInvitations do
       it 'should queue recent responses' do
         protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         measurement = FactoryGirl.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
-        response = FactoryGirl.create(:response, open_from: 5.hours.ago,
+        response = FactoryGirl.create(:response, open_from: 9.hours.ago,
                                                  protocol_subscription: protocol_subscription,
                                                  invited_state: Response::SENT_STATE,
                                                  measurement: measurement)

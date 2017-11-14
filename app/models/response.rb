@@ -2,7 +2,7 @@
 
 class Response < ApplicationRecord
   RECENT_PAST = 2.hours
-  REMINDER_DELAY = 4.hours
+  REMINDER_DELAY = 8.hours
   NOT_SENT_STATE = 'not_sent'
   SENDING_STATE = 'sending'
   SENT_STATE = 'sent'
@@ -55,6 +55,10 @@ class Response < ApplicationRecord
 
   def future?
     open_from > Time.zone.now
+  end
+
+  def still_possible?
+    future? || (!expired? && !completed?)
   end
 
   def completed?

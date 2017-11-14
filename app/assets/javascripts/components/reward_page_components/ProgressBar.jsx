@@ -95,6 +95,9 @@ class ProgressBar extends React.Component {
         <div className='col m6 push-m3'>
           <div className="progressRadial" />
           {this.createStreakText()}
+          <p>Door een technische fout stond hier vorige week een verkeerd bedrag. Onze excuses! Het bedrag dat er nu
+            staat klopt weer, dat is het maximum dat je kan verdienen als je aan 35 metingen meedoet, maar je hoeft in
+            principe aan slechts 30 metingen mee te doen.</p>
         </div>
       </div>
     )

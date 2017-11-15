@@ -7,7 +7,7 @@
 %ul.collection
   - @student_protocol_subscriptions.each do |protocol_subscription|
     - student = protocol_subscription.filling_out_for
-    - open_responses = protocol_subscription.responses.open.reject{|resp| resp.expired?}
+    - open_responses = protocol_subscription.responses.opened.reject{|resp| resp.expired?}
     %li.collection-item.avatar{:style => "min-height:65px"}
       - if open_responses.blank?
         %i.large.material-icons.circle.green.lighten-2 done

@@ -45,7 +45,7 @@ class Response < ApplicationRecord
   })
 
   # De expired check hiervoor staat in de view:
-  scope :open, (lambda {
+  scope :opened, (lambda {
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
 

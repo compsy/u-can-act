@@ -11,6 +11,11 @@ FactoryGirl.define do
     trait :periodical do
       period 1.week.to_i
     end
+    trait :periodical_and_overlapping do
+      period 1.day.to_i
+      open_duration 36.hours.to_i
+      open_from_offset 9.hours.to_i
+    end
     trait :relative_to_end_date do
       offset_till_end((2.days + 11.hours).to_i) # Friday 1pm
     end

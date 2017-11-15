@@ -427,6 +427,31 @@ describe ProtocolSubscription do
       expect(result).to eq expected
     end
 
+    it 'should calculate the correct streak if there are multiple measurements open' do
+      Timecop.return
+      # Measurements start at 9am with an open_duration of 36 hours. So at 12pm (noon), on the third day,
+      # the first measurement has expired (since it has been 51 hours since the measurement opened),
+      # the second measurement is still open (since it has been 27 hours since the measurement opened),
+      # and the third measurement is still open (since it has been 3 hours since the measurement opened).
+      # So since only the first measurement expired, and the second and third are open, and the rest is
+      # in the future, with 5 measurements total, we expect to see a streak of [0, 1, 2, 3, 4].
+      # Before fixing the logic, this would erroneously show a streak of [0, 0, 0, 1, 2] because it
+      # counted measurements that were still open as missing.
+      Timecop.freeze(2017, 4, 1, 12)
+      protocol = FactoryGirl.create(:protocol, duration: 5.days)
+      FactoryGirl.create(:measurement, :periodical_and_overlapping, protocol: protocol)
+      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                 protocol: protocol,
+                                                 start_date: Time.new(2017, 3, 30, 0, 0, 0).in_time_zone)
+      result = protocol_subscription.protocol_completion
+      expect(result.length).to eq protocol_subscription.responses.length
+      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+      end
+      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+      expect(result).to eq expected
+    end
+
     it 'should return -1s if there are no measurements' do
       protocol = FactoryGirl.create(:protocol, duration: 4.weeks)
       FactoryGirl.create(:measurement, :periodical, protocol: protocol)

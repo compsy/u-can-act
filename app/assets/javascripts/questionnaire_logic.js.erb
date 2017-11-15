@@ -185,9 +185,10 @@ $(function () {
   $(document).on('click','.erroneous', function(){
     $(this).removeClass('erroneous');
   });
+  $(document).on('touchstart', 'body', function (e) {
+    var keyboardDoms = new Set(["INPUT", "TEXTAREA", "SELECT"]);
+    if (keyboardDoms.has(document.activeElement.nodeName) &&
+      !keyboardDoms.has(e.target.nodeName))
+      document.activeElement.blur();
+  });
 });
-
-
-
-
-

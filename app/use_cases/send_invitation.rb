@@ -48,7 +48,7 @@ class SendInvitation < ActiveInteraction::Base
       "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
       'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
       'Morgen start de eerste wekelijkse vragenlijst. Succes!'
-    elsif response.protocol_subscription.responses.invited.length == 1
+    elsif response.protocol_subscription.responses.invited.length == 0 # voormeting is in different protsub
       'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
        'Vul nu de eerste wekelijkse vragenlijst in.'
     else

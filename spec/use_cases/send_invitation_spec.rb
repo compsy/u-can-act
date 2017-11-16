@@ -147,15 +147,6 @@ describe SendInvitation do
                                                    person: mentor,
                                                    filling_out_for: student,
                                                    start_date: 1.week.ago.at_beginning_of_day)
-        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
-        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription,
-                           open_from: 48.hours.ago,
-                           completed_at: 10.hours.ago,
-                           invited_state: Response::SENT_STATE,
-                           measurement: measurement)
-
         dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
         measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
         response = FactoryGirl.create(:response,
@@ -163,10 +154,8 @@ describe SendInvitation do
                                       open_from: 24.hour.ago,
                                       invited_state: Response::SENDING_STATE,
                                       measurement: measurement)
-
         FactoryGirl.create(:invitation_token, response: response)
         mytok = response.invitation_token.token
-
         smstext = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
           'Vul nu de eerste wekelijkse vragenlijst in. ' \
           "#{ENV['HOST_URL']}/?q=#{mytok}"
@@ -181,15 +170,6 @@ describe SendInvitation do
                                                    person: mentor,
                                                    filling_out_for: student,
                                                    start_date: 1.week.ago.at_beginning_of_day)
-        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
-        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription,
-                           open_from: 48.hours.ago,
-                           completed_at: 10.hours.ago,
-                           invited_state: Response::SENT_STATE,
-                           measurement: measurement)
-
         dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
         measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
         FactoryGirl.create(:response,
@@ -203,11 +183,8 @@ describe SendInvitation do
                                       open_from: 24.hour.ago,
                                       invited_state: Response::SENDING_STATE,
                                       measurement: measurement)
-
         FactoryGirl.create(:invitation_token, response: response)
-
         mytok = response.invitation_token.token
-
         smstext = 'Heel fijn dat je meedoet aan u-can-act! De volgende wekelijkse vragenlijst staat voor je klaar. ' \
           "#{ENV['HOST_URL']}/?q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,

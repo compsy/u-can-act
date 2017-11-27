@@ -101,10 +101,10 @@ if Rails.env.development?
     start_date: Time.zone.now.beginning_of_week
   )
   responseobjs = student.protocol_subscriptions.first.responses
-  responseobjs[1...3].each do |response|
+  responseobjs[0...3].each do |response|
     response.update_attributes!(
-      open_from: (1.day.ago - 10.minutes),
-      completed_at: 1.day.ago,
+      open_from: (2.days.ago - 10.minutes),
+      completed_at: 2.day.ago,
       invited_state: Response::SENT_STATE
     )
   end

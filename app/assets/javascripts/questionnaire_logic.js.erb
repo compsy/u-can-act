@@ -186,9 +186,9 @@ $(function () {
     $(this).removeClass('erroneous');
   });
   $(document).on('touchstart', 'body', function (e) {
+    if ($(':focus').hasClass('select-dropdown')) return;
     var keyboardDoms = new Set(["INPUT", "TEXTAREA", "SELECT"]);
-    if (keyboardDoms.has(document.activeElement.nodeName) &&
-      !keyboardDoms.has(e.target.nodeName))
+    if (keyboardDoms.has(document.activeElement.nodeName) && !keyboardDoms.has(e.target.nodeName))
       document.activeElement.blur();
   });
 });

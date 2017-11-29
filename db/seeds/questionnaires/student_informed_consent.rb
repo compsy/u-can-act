@@ -3,7 +3,7 @@ informed_consent = Questionnaire.find_by_name(ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
 ic_content = <<~'END'
   <p class="flow-text"><em>Onderzoek naar ontwikkeling en begeleiding</em></p>
-  <iframe src="https://player.vimeo.com/video/241526116?title=0&amp;byline=0&amp;portrait=0&amp;color=009a74" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://player.vimeo.com/video/241526116?title=0&amp;byline=0&amp;portrait=0&amp;color=009a74' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>
   <p class="flow-text">Door op de knop 'volgende' te klikken ga je akkoord met onderstaande afspraken:</p>
   <p class="flow-text">Ik stem toe mee te doen aan het onderzoek naar ontwikkeling en begeleiding van studenten op het MBO. Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen en is goedgekeurd door de Ethische Commissie Psychologie van de RuG.
   </p>

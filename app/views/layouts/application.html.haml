@@ -24,6 +24,6 @@
       ga('create', 'UA-100060757-1', 'auto');
       ga('set', 'anonymizeIp', true);
       ga('set', 'forceSSL', true);
-      if (document.domain.indexOf('vsvproject.herokuapp.com') !== -1) {
+      if (#{Rails.env.production?}) {
         ga('send', 'pageview');
       }

@@ -32,6 +32,7 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   HOST_URL: <the url where the application is hosted (e.g. http://myapp.io)>
   HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.io)>
   INFO_EMAIL: <email address to use as sender for user account emails>
+  FEEDBACK_EMAIL: <email address used by the feedback button>
   PROJECT_NAME: <name of the project (e.g. Vsv)>
 
   MESSAGEBIRD_ACCESS_KEY: <access key for messagebird>

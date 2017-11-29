@@ -57,7 +57,7 @@ function time_element() {
     timestamp_c = new Date().getTime();
     if (timestamp_a !== null && id_b !== null && id_b !== undefined) {
       var duration = timestamp_b - timestamp_a;
-      if (document.domain.indexOf('vsvproject.herokuapp.com') !== -1) {
+      if (rails_env == 'production') {
         ga('send', 'timing', 'Time to answer question', id_b, duration);
       } else {
         if (rails_env !== 'test')

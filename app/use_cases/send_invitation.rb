@@ -30,6 +30,10 @@ class SendInvitation < ActiveInteraction::Base
     end
   end
 
+  def target_first_name
+    response.protocol_subscription.person.first_name
+  end
+
   def student_texts
     if response.measurement.questionnaire.name.match?(/voormeting/)
       "Welkom bij de kick-off van het onderzoek 'u-can-act'. Fijn dat je " \
@@ -39,7 +43,7 @@ class SendInvitation < ActiveInteraction::Base
     elsif response.protocol_subscription.responses.invited.length == 1
       'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro!'
     else
-      'Fijn dat jij meedoet! Door jou kunnen jongeren nog betere begeleiding krijgen in de toekomst!'
+      "Hoi #{target_first_name}, vul direct de volgende vragenlijst in. Het kost maar 3 minuten en je helpt ons enorm!"
     end
   end
 
@@ -52,7 +56,7 @@ class SendInvitation < ActiveInteraction::Base
       'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
        'Vul nu de eerste wekelijkse vragenlijst in.'
     else
-      'Heel fijn dat je meedoet aan u-can-act! De volgende wekelijkse vragenlijst staat voor je klaar.'
+      "Hoi #{target_first_name}, je wekelijkse vragenlijsten staan weer voor je klaar!"
     end
   end
 

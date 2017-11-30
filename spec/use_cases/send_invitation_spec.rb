@@ -111,8 +111,7 @@ describe SendInvitation do
         FactoryGirl.create(:invitation_token, response: response)
 
         mytok = response.invitation_token.token
-        smstext = 'Fijn dat jij meedoet! Door jou kunnen ' \
-          'jongeren nog betere begeleiding krijgen in de toekomst! ' \
+        smstext = 'Hoi Jane, vul direct de volgende vragenlijst in. Het kost maar 3 minuten en je helpt ons enorm! ' \
           "#{ENV['HOST_URL']}/?q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
@@ -185,7 +184,7 @@ describe SendInvitation do
                                       measurement: measurement)
         FactoryGirl.create(:invitation_token, response: response)
         mytok = response.invitation_token.token
-        smstext = 'Heel fijn dat je meedoet aan u-can-act! De volgende wekelijkse vragenlijst staat voor je klaar. ' \
+        smstext = 'Hoi Jane, je wekelijkse vragenlijsten staan weer voor je klaar! ' \
           "#{ENV['HOST_URL']}/?q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,

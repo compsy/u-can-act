@@ -9,16 +9,19 @@ module AdminHelper
 
   def overview(group)
     @organization_overview.map do |organization|
-      percentage_completed = 0
-      if organization[:data][group][:total] > 0
-        100 * organization[:data][group][:completed] / organization[:data][group][:total]       
-      end
       {
         name: organization[:name],
         completed: organization[:data][group][:completed],
-        percentage_completed: percentage_completed
+        percentage_completed: calculate_completion_percentage(
+          organization[:data][group][:completed],
+          organization[:data][group][:total]
+        )
       }
-    end 
+    end
+  end
+
+  def calculate_completion_percentage(completed, total)
+    total.positive? ? 100 * completed / total : 0
   end
 
   def streaming_headers!

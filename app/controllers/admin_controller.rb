@@ -8,7 +8,7 @@ class AdminController < ApplicationController
   def index
     # exclude pilot study questionnaires
     @used_questionnaires = Questionnaire.all.reject { |questionnaire| questionnaire.name =~ /x per week/ }
-    @organization_overview = Organization.generate_overview
+    @organization_overview = generate_organization_overview
   end
 
   def preview
@@ -37,7 +37,36 @@ class AdminController < ApplicationController
     export_class(questionnaire_filename, 'Questionnaire definition', QuestionnaireExporter, @questionnaire.name)
   end
 
+  def generate_organization_overview
+    Organization.all.map do |organization|
+      organization_stats = stats_for_organization(organization)
+      { name: organization.name, data: organization_stats }
+    end
+  end
+
   private
+
+  def stats_for_organization(organization)
+    organization.roles.each_with_object(Hash.new(0)) do |all_role_stats, role|
+      all_role_stats[role.group] = stats_for_role(role)
+    end
+  end
+
+  def stats_for_role(role)
+    role.people.each_with_object(Hash.new(0)) do |all_person_stats, person|
+      person_stats = stats_for_person(person)
+      all_person_stats[:completed] += person_stats[:completed]
+      all_person_stats[:total]     += person_stats[:total]
+    end
+  end
+
+  def stats_for_person(person)
+    person.protocol_subscriptions.each_with_object(Hash.new(0)) do |all_subscriptions, subscription|
+      past_week = subscription.responses.in_week
+      all_subscriptions[:completed] += past_week.completed.count
+      all_subscriptions[:total] += past_week.count
+    end
+  end
 
   def export_class(filename, data_type_string, exporting_class, *args)
     Rails.logger.warn "[Attention] #{data_type_string} data was exported by: #{request.ip}"

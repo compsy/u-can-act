@@ -53,27 +53,26 @@ class Response < ApplicationRecord
     where('open_from > :time_now', time_now: Time.zone.now)
   })
 
-  def self.in_week(options = {}) 
+  # rubocop:disable Metrics/AbcSize
+  def self.in_week(options = {})
+    raise('Only :week_number and :year are valid options!') unless (options.keys - %i[week_number year]).blank?
+
     # According to
     # https://stackoverflow.com/questions/13075617/rails-3-2-8-how-do-i-get-the-week-number-from-rails,
-    # using %U is bad, hence week_number = Time.zone.now.strftime('%U') is wrong.
+    # using %U is bad, hence week_number = Time.zone.now.strftime('%U') is off by one.
     # instead, use the Date.cweek function
-    unless (options.keys - [:week_number, :year]).blank?
-      raise('Only :week_number and :year are valid options!')
-    end
-
-    week_number = options[:week_number] || Time.zone.now.to_date.cweek
-    year = options[:year] || Time.zone.now.year
-
-    # Date commercial expects integers
-    week_number = week_number.to_i
-    year = year.to_i
+    week_number = (options[:week_number] || Time.zone.now.to_date.cweek).to_i
+    year = (options[:year] || Time.zone.now.year).to_i
 
     date = Date.commercial(year, week_number, 1).in_time_zone
+    between_dates(date.beginning_of_week.in_time_zone, date.end_of_week.in_time_zone)
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def self.between_dates(from, to)
     where(
       'open_from <= :end_of_week AND open_from > :start_of_week',
-      start_of_week: date.beginning_of_week.in_time_zone,
-      end_of_week: date.end_of_week.in_time_zone
+      start_of_week: from, end_of_week: to
     )
   end
 

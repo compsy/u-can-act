@@ -3,9 +3,14 @@
 class SendInvitation < ActiveInteraction::Base
   object :response
 
+  SMS = FALSE
   def execute
     response.initialize_invitation_token!
     SendSms.run!(send_sms_attributes)
+    else
+      mailer = InvitationMailer.invitation_mail(response.protocol_subscription.person.email, random_message, invitation_url)
+      mailer.deliver_now
+    end
   end
 
   private
@@ -13,7 +18,7 @@ class SendInvitation < ActiveInteraction::Base
   def send_sms_attributes
     {
       number: response.protocol_subscription.person.mobile_phone,
-      text: generate_message,
+      text: generate_sms_message,
       reference: generate_reference
     }
   end
@@ -23,10 +28,10 @@ class SendInvitation < ActiveInteraction::Base
   end
 
   def random_message
-    if response.protocol_subscription.person.role.group == Person::STUDENT
-      student_texts
-    else # Mentor
+    if response.protocol_subscription.person.mentor?
       mentor_texts
+    else # Student
+      student_texts
     end
   end
 

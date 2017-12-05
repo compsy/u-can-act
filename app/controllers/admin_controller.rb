@@ -47,13 +47,13 @@ class AdminController < ApplicationController
   private
 
   def stats_for_organization(organization)
-    organization.roles.each_with_object(Hash.new(0)) do |all_role_stats, role|
+    organization.roles.each_with_object(Hash.new(0)) do |role, all_role_stats|
       all_role_stats[role.group] = stats_for_role(role)
     end
   end
 
   def stats_for_role(role)
-    role.people.each_with_object(Hash.new(0)) do |all_person_stats, person|
+    role.people.each_with_object(Hash.new(0)) do |person, all_person_stats|
       person_stats = stats_for_person(person)
       all_person_stats[:completed] += person_stats[:completed]
       all_person_stats[:total]     += person_stats[:total]
@@ -61,10 +61,10 @@ class AdminController < ApplicationController
   end
 
   def stats_for_person(person)
-    person.protocol_subscriptions.each_with_object(Hash.new(0)) do |all_subscriptions, subscription|
+    person.protocol_subscriptions.each_with_object(Hash.new(0)) do |subscription, all_subscriptions|
       past_week = subscription.responses.in_week
-      all_subscriptions[:completed] += past_week.completed.count
-      all_subscriptions[:total] += past_week.count
+      all_subscriptions[:completed] += past_week.completed.count || 0
+      all_subscriptions[:total] += past_week.count || 0
     end
   end
 

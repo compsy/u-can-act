@@ -53,6 +53,30 @@ class Response < ApplicationRecord
     where('open_from > :time_now', time_now: Time.zone.now)
   })
 
+  def self.in_week(options = {}) 
+    # According to
+    # https://stackoverflow.com/questions/13075617/rails-3-2-8-how-do-i-get-the-week-number-from-rails,
+    # using %U is bad, hence week_number = Time.zone.now.strftime('%U') is wrong.
+    # instead, use the Date.cweek function
+    unless (options.keys - [:week_number, :year]).blank?
+      raise('Only :week_number and :year are valid options!')
+    end
+
+    week_number = options[:week_number] || Time.zone.now.to_date.cweek
+    year = options[:year] || Time.zone.now.year
+
+    # Date commercial expects integers
+    week_number = week_number.to_i
+    year = year.to_i
+
+    date = Date.commercial(year, week_number, 1).in_time_zone
+    where(
+      'open_from <= :end_of_week AND open_from > :start_of_week',
+      start_of_week: date.beginning_of_week.in_time_zone,
+      end_of_week: date.end_of_week.in_time_zone
+    )
+  end
+
   def future?
     open_from > Time.zone.now
   end

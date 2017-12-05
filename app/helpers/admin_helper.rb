@@ -7,6 +7,20 @@ module AdminHelper
     headers['Content-Disposition'] = "attachment; filename=\"#{file_name}\""
   end
 
+  def overview(group)
+    @organization_overview.map do |organization|
+      percentage_completed = 0
+      if organization[:data][group][:total] > 0
+        100 * organization[:data][group][:completed] / organization[:data][group][:total]       
+      end
+      {
+        name: organization[:name],
+        completed: organization[:data][group][:completed],
+        percentage_completed: percentage_completed
+      }
+    end 
+  end
+
   def streaming_headers!
     # nginx doc: Setting this to "no" will allow unbuffered responses suitable for Comet and HTTP streaming applications
     headers['X-Accel-Buffering'] = 'no'

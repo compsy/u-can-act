@@ -87,8 +87,8 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 ### The Mentor CSV)
 For the Mentor data this should be:
 
-| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | | end_date |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Mentor`
@@ -103,12 +103,13 @@ In this case:
  - `start_date`: the date at which the person should start
  - `filling_out_for`: the phone number for which the mentor is filling out the questionnaire
  - `filling_out_for_protocol`: the protocol the person is filling out for (this is `mentoren dagboek` for mentors)
+ - `end_date`: the end date of the protocol subscription
 
 ### The Student CSV
 For the Student data this should be:
 
-|type | organization_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date|
-| --- | --- | --- | --- | --- | --- | --- | --- |
+|type | organization_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date | end_date |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Student`
@@ -119,7 +120,7 @@ In this case:
  - `mobile_phone`: the mobile phone number of the person
  - `protocol_name`: the name of the protocol the person will participate in (for students this is `studenten`)
  - `start_date`: the date at which the person should start
-
+ - `end_date`: the end date of the protocol subscription
 
 
 ## Variables that can be used in texts:

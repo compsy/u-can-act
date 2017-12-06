@@ -102,6 +102,44 @@ describe PlainTextParser do
     end
   end
 
+  describe 'parse_end_date' do
+    before do
+      Timecop.freeze(2017, 4, 1)
+    end
+
+    after do
+      Timecop.return
+    end
+    it 'should raise if the end date is in the past' do
+      end_date = '29-3-2017 0:00'
+      expect { subject.parse_end_date(end_date) }.to raise_error(
+        RuntimeError, "End date lies in the past: #{end_date}"
+      )
+    end
+
+    it 'should raise if the end date is not beginning of day' do
+      end_date = '29-5-2017 0:01'
+      expect { subject.parse_end_date(end_date) }.to raise_error(
+        RuntimeError, "End date is not beginning of day: #{end_date}"
+      )
+    end
+
+    it 'should throw if the date is unparsable' do
+      end_date = 'something random'
+      expect { subject.parse_end_date(end_date) }.to raise_error(
+        RuntimeError, "End date is not in the correct format: #{end_date}"
+      )
+    end
+
+    it 'should retrun the correct end date (in rails time format) if everything is correct' do
+      end_date = '29-5-2017 0:00'
+      result = subject.parse_end_date(end_date)
+      expected = Time.zone.parse(end_date)
+      expect(result).to be_a Time
+      expect(result).to eq expected
+    end
+  end
+
   describe 'parse_filling_out_for' do
     let(:student_mobile_phone) { '0612312344' }
     let(:mentor_mobile_phone) { '0612312355' }

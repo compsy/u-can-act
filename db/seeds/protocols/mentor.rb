@@ -30,7 +30,7 @@ pr_name = 'mentoren voormeting/nameting'
 mentor_protocol = Protocol.find_by_name(pr_name)
 mentor_protocol ||= Protocol.new(name: pr_name)
 mentor_protocol.duration = default_protocol_duration
-mentor_protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent mentoren')
+mentor_protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent mentoren second wave')
 raise 'informed consent questionnaire not found' unless mentor_protocol.informed_consent_questionnaire
 mentor_protocol.save!
 

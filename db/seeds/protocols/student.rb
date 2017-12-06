@@ -11,7 +11,7 @@ pr_name = 'studenten'
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
-protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten')
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten second wave')
 raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 protocol.save!
 

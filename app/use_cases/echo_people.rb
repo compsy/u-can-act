@@ -32,8 +32,9 @@ class EchoPeople < ActiveInteraction::Base
     end
   end
 
-  def process_row(row)
-    return create_student_hash(row) if row[0] == Person::STUDENT
+  def process_row(origrow)
+    row = origrow.map(&:strip)
+    return create_student_hash(row) if row[0].strip == Person::STUDENT
     create_mentor_hash(row)
   end
 
@@ -47,7 +48,8 @@ class EchoPeople < ActiveInteraction::Base
       gender:            row[4],
       mobile_phone:      row[5],
       protocol_name:     row[6],
-      start_date:        row[7]
+      start_date:        row[7],
+      end_date:          row[8]
     }
   end
 
@@ -66,7 +68,8 @@ class EchoPeople < ActiveInteraction::Base
       protocol_name:            row[8],
       start_date:               row[9],
       filling_out_for:          row[10],
-      filling_out_for_protocol: row[11]
+      filling_out_for_protocol: row[11],
+      end_date:                 row[12]
     }
   end
 end

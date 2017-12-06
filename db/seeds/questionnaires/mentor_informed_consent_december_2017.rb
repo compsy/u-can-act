@@ -1,4 +1,4 @@
-ic_name1 = 'informed consent mentoren second wave'
+ic_name1 = 'informed consent mentoren december 2017'
 informed_consent1 = Questionnaire.find_by_name(ic_name1)
 informed_consent1 ||= Questionnaire.new(name: ic_name1)
 ic_content = <<~'END'

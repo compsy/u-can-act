@@ -30,7 +30,7 @@ pr_name = 'mentoren voormeting/nameting'
 mentor_protocol = Protocol.find_by_name(pr_name)
 mentor_protocol ||= Protocol.new(name: pr_name)
 mentor_protocol.duration = default_protocol_duration
-mentor_protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent mentoren')
+mentor_protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent mentoren december 2017')
 raise 'informed consent questionnaire not found' unless mentor_protocol.informed_consent_questionnaire
 mentor_protocol.save!
 
@@ -52,7 +52,7 @@ nameting_id = Questionnaire.find_by_name(nm_name)&.id
 raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
 nm_measurement = mentor_protocol.measurements.find_by_questionnaire_id(nameting_id)
 nm_measurement ||= mentor_protocol.measurements.build(questionnaire_id: nameting_id)
-nm_measurement.open_from_offset = 34.weeks + 3.days + 13.hours # Thursday 1pm last week
+nm_measurement.open_from_offset = 30.weeks + 3.days + 13.hours # Thursday 1pm last week
 nm_measurement.period = nil
 nm_measurement.open_duration = default_posttest_open_duration
 nm_measurement.reward_points = default_posttest_reward_points

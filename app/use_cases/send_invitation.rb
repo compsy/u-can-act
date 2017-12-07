@@ -13,8 +13,9 @@ class SendInvitation < ActiveInteraction::Base
 
   private
 
-  def send_email(email, _message, invitation_url)
-    mailer = InvitationMailer.invitation_mail(email, random_message, invitation_url)
+  def send_email(email, message, invitation_url)
+    return unless email.present?
+    mailer = InvitationMailer.invitation_mail(email, message, invitation_url)
     mailer.deliver_now
   end
 

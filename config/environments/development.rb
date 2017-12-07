@@ -59,6 +59,7 @@ Rails.application.configure do
     #domain: ENV['MAILGUN_DOMAIN'],
   #}
  
+  config.action_mailer.delivery_method = :test
   config.action_mailer.smtp_settings = {
     address: 'localhost',
     port: '1025',

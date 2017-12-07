@@ -7,7 +7,7 @@ class SendInvitation < ActiveInteraction::Base
     response.initialize_invitation_token!
     person = response.protocol_subscription.person
 
-    # SendSms.run!(send_sms_attributes)
+    SendSms.run!(send_sms_attributes)
     send_email(person.email, random_message, invitation_url) if person.mentor?
   end
 

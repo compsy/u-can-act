@@ -83,9 +83,16 @@ describe AdminController, type: :controller do
     let!(:role1) {  FactoryGirl.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
     let!(:role2) {  FactoryGirl.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
 
+    let!(:role3) {  FactoryGirl.create(:role, organization: org2, group: Person::STUDENT, title: 'Student') }
+    let!(:role4) {  FactoryGirl.create(:role, organization: org2, group: Person::MENTOR, title: 'Mentor') }
+
     let!(:student1) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
     let!(:student2) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
     let!(:mentor1) { FactoryGirl.create(:person, :with_protocol_subscriptions, role: role2) }
+
+    let!(:student3) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role3) }
+    let!(:student4) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role3) }
+    let!(:mentor2) { FactoryGirl.create(:person, :with_protocol_subscriptions, role: role4) }
 
     let!(:response1) do
       FactoryGirl.create(:response, :completed,

@@ -29,11 +29,20 @@ class PlainTextParser
 
   def parse_start_date(start_date)
     parsed_start_date = Time.zone.parse(start_date)
-    # raise "Start date lies in the past: #{start_date}" unless parsed_start_date > Time.zone.now
     raise "Start date is not in the correct format: #{start_date}" unless parsed_start_date.present?
+    # raise "Start date lies in the past: #{start_date}" unless parsed_start_date > Time.zone.now
     raise "Start date is not beginning of day: #{start_date}" unless
       parsed_start_date.beginning_of_day == parsed_start_date
     parsed_start_date
+  end
+
+  def parse_end_date(end_date)
+    parsed_end_date = Time.zone.parse(end_date)
+    raise "End date is not in the correct format: #{end_date}" unless parsed_end_date.present?
+    raise "End date lies in the past: #{end_date}" unless parsed_end_date > Time.zone.now
+    raise "End date is not beginning of day: #{end_date}" unless
+      parsed_end_date.beginning_of_day == parsed_end_date
+    parsed_end_date
   end
 
   def parse_filling_out_for(mobile_phone)

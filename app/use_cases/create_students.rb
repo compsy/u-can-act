@@ -27,7 +27,8 @@ class CreateStudents < ActiveInteraction::Base
         mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
         protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
         start_date: plain_text_parser.parse_start_date(student[:start_date]),
-        role_id: plain_text_parser.parse_role_title(student[:organization_name], Person::STUDENT)
+        role_id: plain_text_parser.parse_role_title(student[:organization_name], Person::STUDENT),
+        end_date: plain_text_parser.parse_end_date(student[:end_date])
       }
     end
   end
@@ -44,7 +45,8 @@ class CreateStudents < ActiveInteraction::Base
       ProtocolSubscription.create!(person: studentobj,
                                    protocol_id: student[:protocol_id],
                                    state: ProtocolSubscription::ACTIVE_STATE,
-                                   start_date: student[:start_date])
+                                   start_date: student[:start_date],
+                                   end_date: student[:end_date])
       amount += 1
     end
     amount

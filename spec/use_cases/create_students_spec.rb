@@ -8,6 +8,7 @@ describe CreateStudents do
   let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
   let!(:role) { FactoryGirl.create(:role, organization: organization, group: Person::STUDENT, title: Person::STUDENT) }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
+  let(:enddateinfuture) { 42.days.from_now.to_date.to_s }
   let(:students) do
     [{ first_name: 'a',
        last_name: 'e',
@@ -15,21 +16,24 @@ describe CreateStudents do
        mobile_phone: '0612345679',
        protocol_name: 'protname',
        organization_name: 'orgname',
-       start_date: dateinfuture },
+       start_date: dateinfuture,
+       end_date: enddateinfuture },
      { first_name: 'b',
        last_name: 'f',
        gender: Person::FEMALE,
        mobile_phone: '06-12345670',
        protocol_name: 'protname',
        organization_name: 'orgname',
-       start_date: dateinfuture },
+       start_date: dateinfuture,
+       end_date: enddateinfuture },
      { first_name: 'c',
        last_name: 'g',
        gender: nil,
        mobile_phone: '0612345671',
        protocol_name: 'protname',
        organization_name: 'orgname',
-       start_date: dateinfuture }]
+       start_date: dateinfuture,
+       end_date: enddateinfuture }]
   end
 
   describe 'execute' do
@@ -55,38 +59,44 @@ describe CreateStudents do
                                                                 mobile_phone
                                                                 protocol_id
                                                                 start_date
-                                                                role_id])
+                                                                role_id
+                                                                end_date])
     end
 
     it 'should set the correct data' do
       result = subject.send(:parse_students, students, plain_text_parser)
       timedateinfuture = Time.zone.parse(dateinfuture)
+      endtimedateinfuture = Time.zone.parse(enddateinfuture)
       expect(result.first).to eq(first_name: 'a',
                                  last_name: 'e',
                                  gender: Person::MALE,
                                  mobile_phone: '0612345679',
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
-                                 role_id: role.id)
+                                 role_id: role.id,
+                                 end_date: endtimedateinfuture)
       expect(result.second).to eq(first_name: 'b',
                                   last_name: 'f',
                                   gender: Person::FEMALE,
                                   mobile_phone: '0612345670',
                                   protocol_id: protocol.id,
                                   start_date: timedateinfuture,
-                                  role_id: role.id)
+                                  role_id: role.id,
+                                  end_date: endtimedateinfuture)
       expect(result.third).to eq(first_name: 'c',
                                  last_name: 'g',
                                  gender: nil,
                                  mobile_phone: '0612345671',
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
-                                 role_id: role.id)
+                                 role_id: role.id,
+                                 end_date: endtimedateinfuture)
     end
   end
 
   describe 'create_students' do
     let(:timedateinfuture) { Time.zone.parse(dateinfuture) }
+    let(:endtimedateinfuture) { Time.zone.parse(enddateinfuture) }
     let(:parsed_students) do
       [{ first_name: 'a',
          last_name: 'e',
@@ -94,14 +104,16 @@ describe CreateStudents do
          mobile_phone: '0612345679',
          protocol_id: protocol.id,
          start_date: timedateinfuture,
-         role_id: role.id },
+         role_id: role.id,
+         end_date: endtimedateinfuture },
        { first_name: 'b',
          last_name: 'f',
          gender: Person::FEMALE,
          mobile_phone: '0612345670',
          protocol_id: protocol.id,
          start_date: timedateinfuture,
-         role_id: role.id }]
+         role_id: role.id,
+         end_date: endtimedateinfuture }]
     end
 
     it 'should create students for all hashes in the array supplied' do
@@ -121,6 +133,7 @@ describe CreateStudents do
         expect(act.protocol_subscriptions.first.protocol.id).to eq protocol.id
         expect(act.role.id).to eq role.id
         expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)
+        expect(act.protocol_subscriptions.first.end_date).to be_within(1.minute).of(endtimedateinfuture)
       end
     end
 
@@ -131,7 +144,8 @@ describe CreateStudents do
                            mobile_phone: '0612345679',
                            protocol_id: protocol.id,
                            role_id: role.id,
-                           start_date: timedateinfuture }
+                           start_date: timedateinfuture,
+                           end_date: endtimedateinfuture }
       subject.send(:create_students, parsed_students)
       expect(Person.count).to eq parsed_students.length - 1
     end

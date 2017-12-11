@@ -159,6 +159,60 @@ describe Response do
         expect(Response.future.to_a).to eq []
       end
     end
+
+    describe 'in_week' do
+      it 'should find all responses in the current week and year by default' do
+        expected_response = FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
+                                                          invited_state: described_class::NOT_SENT_STATE)
+
+        FactoryGirl.create(:response, open_from: 2.weeks.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+
+        FactoryGirl.create(:response, open_from: 1.week.from_now.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        result = described_class.in_week
+        expect(result.count).to eq 1
+        expect(result.first).to eq expected_response
+      end
+      it 'should find all responses for a given year' do
+        Timecop.freeze(2017, 12, 0o6)
+        date = Time.zone.now - 2.years
+        expected_response = FactoryGirl.create(:response, open_from: date,
+                                                          invited_state: described_class::NOT_SENT_STATE)
+
+        FactoryGirl.create(:response, open_from: 1.hour.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+
+        FactoryGirl.create(:response, open_from: 1.weeks.ago.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+
+        FactoryGirl.create(:response, open_from: 1.week.from_now.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+        result = described_class.in_week(year: 2015)
+        expect(result.first).to eq expected_response
+        expect(result.count).to eq 1
+        Timecop.return
+      end
+      it 'should find all responses for a given week of the year' do
+        week_number = 20
+        date = Date.commercial(Time.zone.now.year, week_number, 1).in_time_zone + 3.days
+        expected_response = FactoryGirl.create(:response, open_from: date,
+                                                          invited_state: described_class::NOT_SENT_STATE)
+
+        FactoryGirl.create(:response, open_from: 1.week.from_now.in_time_zone,
+                                      invited_state: described_class::NOT_SENT_STATE)
+
+        result = described_class.in_week(week_number: week_number)
+        expect(result.count).to eq 1
+        expect(result.first).to eq expected_response
+      end
+      it 'should throw whenever unrecognized options are provided' do
+        expect { described_class.in_week(week: 1) }
+          .to raise_error(RuntimeError, 'Only :week_number and :year are valid options!')
+        expect { described_class.in_week(year_number: 2012) }
+          .to raise_error(RuntimeError, 'Only :week_number and :year are valid options!')
+      end
+    end
   end
 
   describe 'remote_content' do

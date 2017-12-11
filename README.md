@@ -44,7 +44,7 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   ADMIN_PASSWORD: <password for the admin panel>
 
   MAILGUN_API_KEY: <the API key retrieved from mailgun, starts with key->
-  MAILGUN_DOMAIN: <the domain configured with mailgun to send mail from, e.g., sandbox43bf51fb258844f0bc393e806ebd25bb.mailgun.org or u-can-act.nl>
+  MAILGUN_DOMAIN: <the domain configured with mailgun to send mail from, e.g., sandbox43bf51fb258844f0bc393e806ebd25bb.mailgun.org or mg.u-can-act.nl>
   FROM_EMAIL_ADDRESS: <the email address to send the email from, e.g., info@u-can-act.nl>
 ```
 

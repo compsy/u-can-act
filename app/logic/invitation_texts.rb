@@ -1,0 +1,220 @@
+# frozen_string_literal: true
+
+class InvitationTexts
+  STREAK_SIZE = 3
+
+  class << self
+    def student_message(protocol, protocol_completion)
+      curidx = current_index(protocol_completion)
+      sms_pool = []
+
+      sms_pool += special_conditions(protocol_completion, curidx)
+      sms_pool += threshold_conditions(protocol, protocol_completion, curidx) if sms_pool.empty?
+      sms_pool += default_and_streak_conditions(protocol_completion, curidx) if sms_pool.empty?
+
+      # Pick randomly from the eligible response messages
+      sms_pool.sample
+    end
+
+    def mentor_message(_protocol, _protocol_completion)
+      # called with a protocol completion hash
+
+      # curidx = current_index(protocol_completion)
+      sms_pool = []
+
+      # Pick randomly from the eligible response messages
+      sms_pool.sample
+    end
+
+    def nth_response_pool(_curidx)
+      raise 'method nth_response_pool not implemented by subclass!'
+    end
+
+    def rewards_threshold_pool(_threshold)
+      raise 'method rewards_threshold_pool not implemented by subclass!'
+    end
+
+    def default_pool
+      raise 'method default_pool not implemented by subclass!'
+    end
+
+    def about_to_be_on_streak_pool
+      raise 'method about_to_be_on_streak_pool not implemented by subclass!'
+    end
+
+    def on_streak_pool
+      raise 'method on_streak_pool not implemented by subclass!'
+    end
+
+    def first_responses_missed_pool
+      raise 'method first_responses_missed_pool not implemented by subclass!'
+    end
+
+    def missed_last_pool
+      raise 'method missed_last_pool not implemented by subclass!'
+    end
+
+    def missed_more_than_one_pool
+      raise 'method missed_more_than_one_pool not implemented by subclass!'
+    end
+
+    def missed_everything_pool
+      raise 'method missed_everything_pool not implemented by subclass!'
+    end
+
+    def rejoined_after_missing_one_pool
+      raise 'method rejoined_after_missing_one_pool not implemented by subclass!'
+    end
+
+    def rejoined_after_missing_multiple_pool
+      raise 'method rejoined_after_missing_multiple_pool not implemented by subclass!'
+    end
+
+    private
+
+    def default_and_streak_conditions(protocol_completion, curidx)
+      sms_pool = []
+
+      # Streak about to be 3
+      sms_pool += about_to_be_on_streak_pool if protocol_completion[curidx][:streak] == STREAK_SIZE
+
+      # On bonus streak (== on streak > 3)
+      sms_pool += on_streak_pool if protocol_completion[curidx][:streak] > STREAK_SIZE && sms_pool.empty?
+
+      # Default messages
+      sms_pool += default_pool if sms_pool.empty?
+
+      sms_pool
+    end
+
+    def threshold_conditions(protocol, protocol_completion, curidx)
+      current_protocol_completion = truncated_protocol_completion(protocol_completion, curidx)
+      rewards_before = protocol.calculate_reward(current_protocol_completion, false)
+      rewards_after = protocol.calculate_reward(current_protocol_completion, true)
+
+      sms_pool = []
+      8.times do |idx|
+        threshold = (idx + 1) * 10 * 100
+        if rewards_before < threshold && rewards_after >= threshold
+          sms_pool += rewards_threshold_pool(threshold)
+        end
+      end
+      sms_pool
+    end
+
+    def special_conditions(protocol_completion, curidx)
+      sms_pool = []
+
+      sms_pool += first_responses_conditions(protocol_completion, curidx)
+      sms_pool += missed_responses_conditions(protocol_completion, curidx) if sms_pool.empty?
+      sms_pool += rejoined_conditions(protocol_completion, curidx) if sms_pool.empty?
+
+      sms_pool
+    end
+
+    def rejoined_conditions(protocol_completion, curidx)
+      sms_pool = []
+
+      # Opnieuw gestart na 1 gemiste meting
+      sms_pool += rejoined_after_missing_one_pool if rejoined_after_missing_one(protocol_completion, curidx)
+
+      # Opnieuw gestart na 2+ metingen te hebben gemist
+      sms_pool += rejoined_after_missing_multiple_pool if rejoined_after_missing_multiple(protocol_completion,
+                                                                                          curidx) && sms_pool.empty?
+
+      sms_pool
+    end
+
+    def missed_responses_conditions(protocol_completion, curidx)
+      sms_pool = []
+
+      # Laatste vragenlijst gemist, maar wel eerder vragenlijsten ingevuld
+      sms_pool += missed_last_pool if missed_last_only(protocol_completion, curidx)
+
+      # Twee of meer vragenlijsten gemist (wel eerder vragenlijsten ingevuld)
+      sms_pool += missed_more_than_one_pool if missed_more_than_one(protocol_completion, curidx) && sms_pool.empty?
+
+      # Alles tot nu toe gemist
+      # Een vragenlijst gemist en nog nooit een vragenlijst ingevuld (geldt niet bij de tweede vragenlijst)
+      # Only if the previous ones did not apply
+      sms_pool += missed_everything_pool if missed_everything(protocol_completion, curidx) && sms_pool.empty?
+
+      sms_pool
+    end
+
+    def first_responses_conditions(protocol_completion, curidx)
+      sms_pool = []
+
+      # Voormeting en eerste dagboekmeting
+      sms_pool += nth_response_pool(curidx) if sms_pool.empty?
+
+      # Eerste twee metingen gemist
+      sms_pool += first_responses_missed_pool if missed_first_two_responses(protocol_completion, curidx) &&
+                                                 sms_pool.empty?
+
+      sms_pool
+    end
+
+    def current_index(protocol_completion)
+      protocol_completion.find_index { |entry| entry[:future] }
+    end
+
+    def truncated_protocol_completion(protocol_completion, curidx)
+      protocol_completion[0..curidx]
+    end
+
+    def missed_first_two_responses(protocol_completion, curidx)
+      # That is: the voormeting and the first periodical measurement
+      # Minimal pattern: ..C         (V = voormeting, X = completed, C = current)
+      #           index: 012
+      curidx == 2 &&
+        !protocol_completion[0][:completed] &&
+        !protocol_completion[1][:completed]
+    end
+
+    def missed_last_only(protocol_completion, curidx)
+      # Minimal pattern: VX.C         (V = voormeting, X = completed, C = current)
+      #           index: 0123
+      curidx > 2 &&
+        !protocol_completion[curidx - 1][:completed] &&
+        protocol_completion[curidx - 2][:completed]
+    end
+
+    def missed_more_than_one(protocol_completion, curidx)
+      # Minimal pattern: VX..C         (V = voormeting, X = completed, C = current)
+      #           index: 01234
+      curidx > 3 &&
+        !protocol_completion[curidx - 1][:completed] &&
+        !protocol_completion[curidx - 2][:completed] &&
+        protocol_completion[1..(curidx - 3)].map { |x| x[:completed] }.any?
+    end
+
+    def missed_everything(protocol_completion, curidx)
+      # Minimal pattern: V.C           (V = voormeting, X = completed, C = current)
+      #           index: 012
+      curidx > 1 &&
+        protocol_completion[1..(curidx - 1)].map { |x| x[:completed] }.none?
+    end
+
+    def rejoined_after_missing_one(protocol_completion, curidx)
+      # Minimal pattern: VX.XC         (V = voormeting, X = completed, C = current)
+      #           index: 01234
+      curidx > 3 &&
+        protocol_completion[curidx - 1][:completed] &&
+        !protocol_completion[curidx - 2][:completed] &&
+        protocol_completion[curidx - 3][:completed]
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def rejoined_after_missing_multiple(protocol_completion, curidx)
+      # Minimal pattern: VX..XC         (V = voormeting, X = completed, C = current)
+      #           index: 012345
+      curidx > 4 &&
+        protocol_completion[curidx - 1][:completed] &&
+        !protocol_completion[curidx - 2][:completed] &&
+        !protocol_completion[curidx - 3][:completed] &&
+        protocol_completion[1..(curidx - 4)].map { |x| x[:completed] }.any?
+    end
+    # rubocop:enable Metrics/AbcSize
+  end
+end

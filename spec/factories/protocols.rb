@@ -36,4 +36,11 @@ FactoryGirl.define do
       FactoryGirl.create(:reward, threshold: 7, reward_points: 500,  protocol: protocol)
     end
   end
+
+  trait :with_student_rewards do
+    after(:create) do |protocol|
+      FactoryGirl.create(:reward, threshold: 1, reward_points: 2,  protocol: protocol)
+      FactoryGirl.create(:reward, threshold: 3, reward_points: 3,  protocol: protocol)
+    end
+  end
 end

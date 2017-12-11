@@ -50,7 +50,9 @@ class ProgressBar extends React.Component {
     var radial;
     if (this.state.radial) {
       radial = this.state.radial;
-      radial.update([percentageStreak, valueEuro]);
+      radial.update({
+        series: [{value: percentageStreak}, {value: valueEuro}]
+      });
     } else {
       radial = new RadialProgressChart('.progressRadial', {
         diameter: 250,
@@ -67,8 +69,10 @@ class ProgressBar extends React.Component {
         }, ],
         center: {
           content: ['Je hebt nu',
-            function(value) {
-              return printAsMoney(value)
+            function(value, _unused, series) {
+              // Only update the label when the euro value is being displayed
+              if (series.index == 1) { return printAsMoney(value) }
+              return printAsMoney(valueEuro)
             }, 'je kunt nog ' + printAsMoney(awardable) + ' verdienen!'
           ],
           y: -50

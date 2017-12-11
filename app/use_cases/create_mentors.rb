@@ -31,7 +31,8 @@ class CreateMentors < ActiveInteraction::Base
         start_date: plain_text_parser.parse_start_date(mentor[:start_date]),
         filling_out_for_id: plain_text_parser.parse_filling_out_for(mentor[:filling_out_for]),
         filling_out_for_protocol_id: plain_text_parser.parse_protocol_name(mentor[:filling_out_for_protocol]),
-        role_id: plain_text_parser.parse_role_title(mentor[:organization_name], mentor[:role_title])
+        role_id: plain_text_parser.parse_role_title(mentor[:organization_name], mentor[:role_title]),
+        end_date: plain_text_parser.parse_end_date(mentor[:end_date])
       }
     end
   end
@@ -47,7 +48,8 @@ class CreateMentors < ActiveInteraction::Base
                                    filling_out_for_id: mentor[:filling_out_for_id],
                                    protocol_id: mentor[:filling_out_for_protocol_id],
                                    state: ProtocolSubscription::ACTIVE_STATE,
-                                   start_date: mentor[:start_date])
+                                   start_date: mentor[:start_date],
+                                   end_date: mentor[:end_date])
       number_of_mentors += 1
     end
     number_of_mentors
@@ -63,7 +65,8 @@ class CreateMentors < ActiveInteraction::Base
     ProtocolSubscription.create!(person: mentor_obj,
                                  protocol_id: mentor_hash[:protocol_id],
                                  state: ProtocolSubscription::ACTIVE_STATE,
-                                 start_date: mentor_hash[:start_date])
+                                 start_date: mentor_hash[:start_date],
+                                 end_date: mentor_hash[:end_date])
     mentor_obj
   end
 end

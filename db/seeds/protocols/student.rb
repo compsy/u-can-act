@@ -11,7 +11,7 @@ pr_name = 'studenten'
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
-protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten')
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten december 2017')
 raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 protocol.save!
 
@@ -54,7 +54,7 @@ nameting_id = Questionnaire.find_by_name(nm_name)&.id
 raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
 nm_measurement = protocol.measurements.find_by_questionnaire_id(nameting_id)
 nm_measurement ||= protocol.measurements.build(questionnaire_id: nameting_id)
-nm_measurement.open_from_offset = 34.weeks + 3.days + 13.hours # Thursday 1pm last week
+nm_measurement.open_from_offset = 30.weeks + 3.days + 13.hours # Thursday 1pm last week
 nm_measurement.period = nil
 nm_measurement.open_duration = default_posttest_open_duration
 nm_measurement.reward_points =  0

@@ -157,7 +157,7 @@ describe 'GET /admin', type: :feature, js: true do
     end
 
     it 'should show the current week' do
-      Timecop.freeze(2017,12,11)
+      Timecop.freeze(2017, 12, 11)
       FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
                                          content: [{ type: :raw, content: 'questionnaire' }])
       basic_auth 'admin', 'admin', '/admin'

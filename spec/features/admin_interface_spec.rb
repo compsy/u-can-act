@@ -143,7 +143,6 @@ describe 'GET /admin', type: :feature, js: true do
                                          content: [{ type: :raw, content: 'questionnaire' }])
       basic_auth 'admin', 'admin', '/admin'
       visit '/admin'
-      puts page.body
       expect(page).to have_content 'Organization overview'
       expect(page).to have_content org1.name
       expect(page).to have_content 'Organization'
@@ -155,6 +154,17 @@ describe 'GET /admin', type: :feature, js: true do
 
       expect(page).to have_content Person::STUDENT
       expect(page).to have_content Person::MENTOR
+    end
+
+    it 'should show the current week' do
+      Timecop.freeze(2017,12,11)
+      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                                         content: [{ type: :raw, content: 'questionnaire' }])
+      basic_auth 'admin', 'admin', '/admin'
+      visit '/admin'
+      expect(page).to have_content 'Voor week'
+      expect(page).to have_content '50'
+      Timecop.return
     end
   end
 end

@@ -189,8 +189,8 @@ describe Response do
         FactoryGirl.create(:response, open_from: 1.week.from_now.in_time_zone,
                                       invited_state: described_class::NOT_SENT_STATE)
         result = described_class.in_week(year: 2015)
-        expect(result.count).to eq 1
         expect(result.first).to eq expected_response
+        expect(result.count).to eq 1
         Timecop.return
       end
       it 'should find all responses for a given week of the year' do

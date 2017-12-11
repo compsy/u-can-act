@@ -8,7 +8,8 @@
       = button_tag('Preview questionnaire', type: 'submit', class: 'btn waves-effect waves-light')
 .col.s12
   .section
-    %h3 Organization overview
+    %h3 Organization overview 
+    %p Voor week #{Time.zone.now.to_date.cweek}
     .col.m12.l6
       %h4 Mentors
       = render partial: 'organization_overview', locals: {current_overview: overview(Person::MENTOR)}

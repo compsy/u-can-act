@@ -28,9 +28,10 @@ class ProgressBar extends React.Component {
     var initialValue = this.props.valueEuro
     if (this.props.currentMultiplier > 0) {
       initialValue -= this.props.euroDelta;
-      initialValue += this.props.euroDelta / this.props.currentMultiplier;
+      var multiplier = (this.props.euroDelta / this.props.currentMultiplier) * this.props.initialMultiplier;
+      initialValue += multiplier;
     }
-    return initialValue
+    return initialValue;
   }
 
   componentWillUnmount() {

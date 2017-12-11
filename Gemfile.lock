@@ -160,6 +160,8 @@ GEM
       excon
       moneta
       multi_json (>= 1.9.2)
+    highcharts-rails (6.0.3)
+      railties (>= 3.1)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -409,6 +411,7 @@ DEPENDENCIES
   factory_girl_rails (= 4.8.0)
   guard-rspec
   haml-rails
+  highcharts-rails
   jbuilder
   jquery-rails
   listen
@@ -445,4 +448,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.0.pre.3
+   1.16.0

@@ -1,0 +1,170 @@
+%script{:src => "https://code.highcharts.com/modules/heatmap.js"}
+
+:javascript
+  function generate_range(until, reverse) {
+    var result = $.map($(Array(until)), function (val, i) {
+      return i + 1;
+    })
+    if(reverse) return(result.reverse());
+    return(result);
+  }
+
+  function count_number_of_future_measurements(entry) {
+    var result = entry.reduce(function(n, val) {
+      return n + (val === -1);
+    }, 0);
+    return(result)
+  }
+
+  function convert_data(data) {
+    var completed = 1
+    var missed = 0
+    var future = -1 
+
+    var result = [];
+    var temp = [];
+    var future_measurements = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i] !== missed && data[i] !== completed) future_measurements++;
+    }
+
+    // Create the future measurements
+    for (var i = 0; i < future_measurements; i++) {
+      temp = [];
+      temp.push(i);
+      temp.push(0);
+      temp.push(0.5);
+      result.push(temp);
+    }
+
+    var c = future_measurements;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i] === missed || data[i] === completed) {
+        temp = [];
+        temp.push(c);
+        temp.push(0);
+        temp.push(data[i]);
+        result.push(temp);
+        c++;
+      }
+    }
+
+    return result
+  }
+
+
+  function process_data(data, location) {
+    var result = convert_data(data);
+    console.log(result)
+    plot_heatmap(result, generate_range(data.length, true), location)
+  }
+
+  function plot_heatmap(data, range, location) {
+    var plot_location = $(location);
+    plot_location.highcharts({
+      chart: {
+        type: 'heatmap',
+        backgroundColor: null,
+        plotBorderWidth: null,
+        height: 68
+      },
+      exporting: { enabled: false },
+      credits: {
+        enabled: false
+      },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        categories: range,
+        tickInterval: 10
+      },
+      yAxis: {
+        categories: ["Person"],
+        labels: {
+          enabled: false
+        },
+        title: null
+      },
+      colorAxis: {
+        stops: [
+          [0, '#eeeeee'],
+          [0.5, '#d9534f'],
+          [1, '#5cb85c']
+        ],
+        min: -1,
+        max: 1,
+        startOnTick: false,
+        endOnTick: false,
+      },
+      legend: {
+        enabled: false
+      },
+      tooltip: {
+        backgroundColor: null,
+        borderWidth: 0,
+        distance: 10,
+        shadow: false,
+        useHTML: true,
+        style: {
+          padding: 0,
+          color: 'black'
+        },
+        formatter: function () {
+          return this.point.value === 0 ? 'Missende meting' : this.point.value === 1 ? 'Succesvolle meting' : 'Toekomstige meting';
+        }
+      },
+      series: [
+        {
+          borderWidth: 1,
+          color: '#fff',
+          data: data
+        }
+      ]
+    });
+  }
+
+  function start_overview_generation(id) {
+    var container_id = "#container_"+id;
+    var ajax_promise = $.getJSON('api/v1/protocol_subscriptions/'+id);
+
+    ajax_promise.done(function (data) {
+      if($.isEmptyObject(data)) {
+        plot_location.html('<p>Er zijn op dit moment geen deelnemers bezig met het dagboekonderzoek.</p>');
+        return false;
+      }
+      console.log(data)
+      var result = data.protocol_completion.map(function(entry){
+        if(entry.future) return(-1)
+        if(entry.completed) return(1)
+        return(0)
+      })
+      $( "#debug_"+id).text(JSON.stringify(result));
+      //#result = [0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+      process_data(result, container_id);
+    });
+  }
+%div
+  - student = protocol_subscription.filling_out_for
+  - open_responses = protocol_subscription.responses.opened.reject{|resp| resp.expired?}
+  - student_prod_id = protocol_subscription.filling_out_for.protocol_subscriptions.first&.id
+  - if student_prod_id
+    .graph{:id => "debug_#{student_prod_id}"}
+    .graph{:id => "container_#{student_prod_id}"}
+      .progress
+        .indeterminate
+    :javascript
+      var data = start_overview_generation(#{student_prod_id})
+  %li.collection-item.avatar{:style => "min-height:65px"}
+    - if open_responses.blank?
+      %i.large.material-icons.circle.green.lighten-2 done
+      %span.title= "#{student.first_name} #{student.last_name}"
+    - else
+      %i.large.material-icons.circle.orange.lighten-2 perm_identity
+      %span.title= "#{student.first_name} #{student.last_name}"
+      %p
+        - open_responses.each do |response|
+          - next if response.expired?
+          - response.initialize_invitation_token! if response.invitation_token.nil?
+          = link_to('Vragenlijst invullen voor deze student',       |
+            questionnaire_path(q: response.invitation_token.token))

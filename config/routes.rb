@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
+      get 'protocol_subscriptions/:id/overview', to: 'protocol_subscriptions#overview'
     end
   end
 end

@@ -35,6 +35,9 @@ gem 'jquery-rails'
 # Use React for the UI
 gem 'react-rails'
 
+# Use highcharts
+gem 'highcharts-rails'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 

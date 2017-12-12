@@ -4,6 +4,7 @@ class ProgressBar extends React.Component {
     super(props);
     this.state = {
       timer: null,
+      showFireworks: false,
       radial: null
     };
   }
@@ -41,6 +42,7 @@ class ProgressBar extends React.Component {
   performTimerEvent() {
     this.setState({
       radial: this.renderGraph(this.props.valueEuro, this.props.percentageStreak),
+      showFireworks: this.props.inMaxStreak,
       showStreakText: true
     })
     clearInterval(this.state.timer);
@@ -96,10 +98,13 @@ class ProgressBar extends React.Component {
 
   render() {
     return (
-      <div className='row'>
-        <div className='col m6 push-m3'>
-          <div className="progressRadial" />
-          {this.createStreakText()}
+      <div>
+        {this.state.showFireworks ? <Pyro /> : <div/>}
+        <div className='row'>
+          <div className='col m6 push-m3'>
+            <div className="progressRadial" />
+            {this.createStreakText()}
+          </div>
         </div>
       </div>
     )

@@ -4,6 +4,7 @@ class ProgressBar extends React.Component {
     super(props);
     this.state = {
       timer: null,
+      showFireworks: false,
       radial: null
     };
   }
@@ -28,9 +29,10 @@ class ProgressBar extends React.Component {
     var initialValue = this.props.valueEuro
     if (this.props.currentMultiplier > 0) {
       initialValue -= this.props.euroDelta;
-      initialValue += this.props.euroDelta / this.props.currentMultiplier;
+      var multiplier = (this.props.euroDelta / this.props.currentMultiplier) * this.props.initialMultiplier;
+      initialValue += multiplier;
     }
-    return initialValue
+    return initialValue;
   }
 
   componentWillUnmount() {
@@ -40,6 +42,7 @@ class ProgressBar extends React.Component {
   performTimerEvent() {
     this.setState({
       radial: this.renderGraph(this.props.valueEuro, this.props.percentageStreak),
+      showFireworks: this.props.inMaxStreak,
       showStreakText: true
     })
     clearInterval(this.state.timer);
@@ -49,7 +52,9 @@ class ProgressBar extends React.Component {
     var radial;
     if (this.state.radial) {
       radial = this.state.radial;
-      radial.update([percentageStreak, valueEuro]);
+      radial.update({
+        series: [{value: percentageStreak}, {value: valueEuro}]
+      });
     } else {
       radial = new RadialProgressChart('.progressRadial', {
         diameter: 250,
@@ -66,8 +71,10 @@ class ProgressBar extends React.Component {
         }, ],
         center: {
           content: ['Je hebt nu',
-            function(value) {
-              return printAsMoney(value)
+            function(value, _unused, series) {
+              // Only update the label when the euro value is being displayed
+              if (series.index == 1) { return printAsMoney(value) }
+              return printAsMoney(valueEuro)
             }, 'je kunt nog ' + printAsMoney(awardable) + ' verdienen!'
           ],
           y: -50
@@ -91,10 +98,13 @@ class ProgressBar extends React.Component {
 
   render() {
     return (
-      <div className='row'>
-        <div className='col m6 push-m3'>
-          <div className="progressRadial" />
-          {this.createStreakText()}
+      <div>
+        {this.state.showFireworks ? <Pyro /> : <div/>}
+        <div className='row'>
+          <div className='col m6 push-m3'>
+            <div className="progressRadial" />
+            {this.createStreakText()}
+          </div>
         </div>
       </div>
     )

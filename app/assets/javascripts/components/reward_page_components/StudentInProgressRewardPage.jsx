@@ -26,8 +26,8 @@ class StudentInProgressRewardPage extends React.Component {
       <div>
         <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
         <div className='section'>
-          {this.inMaxStreak ? <Pyro /> : <div/>}
-          <ProgressBar euroDelta={this.props.euroDelta}
+          <ProgressBar  inMaxStreak={this.inMaxStreak}
+                        euroDelta={this.props.euroDelta}
                         valueEuro={this.props.earnedEuros}
                         currentMultiplier={this.props.currentMultiplier}
                         initialMultiplier={this.props.initialMultiplier}

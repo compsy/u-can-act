@@ -86,4 +86,85 @@ describe 'GET /admin', type: :feature, js: true do
       expect(page).to have_content 'Admin Interface'
     end
   end
+
+  describe 'organizational overviews' do
+    let!(:org1) { FactoryGirl.create(:organization, name: 'org1') }
+    let!(:org2) { FactoryGirl.create(:organization, name: 'org2') }
+
+    let!(:role1) {  FactoryGirl.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
+    let!(:role2) {  FactoryGirl.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
+
+    let!(:student1) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
+    let!(:student2) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
+    let!(:mentor1) { FactoryGirl.create(:person, :with_protocol_subscriptions, role: role2) }
+
+    let!(:response1) do
+      FactoryGirl.create(:response, :completed,
+                         open_from: Time.zone.now,
+                         protocol_subscription: student1.protocol_subscriptions.first)
+    end
+    let!(:response2) do
+      FactoryGirl.create(:response, :completed,
+                         open_from: Time.zone.now,
+                         protocol_subscription: student2.protocol_subscriptions.first)
+    end
+    let!(:response3) do
+      FactoryGirl.create(:response,
+                         protocol_subscription: student1.protocol_subscriptions.first)
+    end
+    let!(:response4) do
+      FactoryGirl.create(:response,
+                         open_from: Time.zone.now + 1.day,
+                         protocol_subscription: student2.protocol_subscriptions.first)
+    end
+
+    let!(:response5) do
+      FactoryGirl.create(:response, :completed,
+                         open_from: Time.zone.now,
+                         protocol_subscription: mentor1.protocol_subscriptions.first)
+    end
+    let!(:response6) do
+      FactoryGirl.create(:response, :completed,
+                         open_from: Time.zone.now,
+                         protocol_subscription: mentor1.protocol_subscriptions.first)
+    end
+    let!(:response7) do
+      FactoryGirl.create(:response,
+                         open_from: Time.zone.now + 1.day,
+                         protocol_subscription: mentor1.protocol_subscriptions.first)
+    end
+    let!(:response8) do
+      FactoryGirl.create(:response,
+                         protocol_subscription: mentor1.protocol_subscriptions.first)
+    end
+
+    it 'should list the correct organizations' do
+      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                                         content: [{ type: :raw, content: 'questionnaire' }])
+      basic_auth 'admin', 'admin', '/admin'
+      visit '/admin'
+      expect(page).to have_content 'Organization overview'
+      expect(page).to have_content org1.name
+      expect(page).to have_content 'Organization'
+      expect(page).to have_content 'Completed (past week)'
+      expect(page).to have_content 'Completed percentage (past week)'
+
+      # It should not list org2, because it does not have any roles
+      expect(page).to_not have_content org2.name
+
+      expect(page).to have_content Person::STUDENT
+      expect(page).to have_content Person::MENTOR
+    end
+
+    it 'should show the current week' do
+      Timecop.freeze(2017, 12, 11)
+      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                                         content: [{ type: :raw, content: 'questionnaire' }])
+      basic_auth 'admin', 'admin', '/admin'
+      visit '/admin'
+      expect(page).to have_content 'Voor week'
+      expect(page).to have_content '50'
+      Timecop.return
+    end
+  end
 end

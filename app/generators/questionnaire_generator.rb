@@ -26,17 +26,8 @@ class QuestionnaireGenerator
     def substitute_variables(response_id, title, content)
       response = Response.find_by_id(response_id) # allow nil response id for preview
       return [title, content] if response.blank?
-      student, mentor = response.determine_student_mentor
-      subs_hash = {
-        mentor_title: mentor&.role&.title,
-        mentor_gender: mentor&.gender,
-        mentor_name: mentor&.first_name,
-        organization: student.role.organization.name,
-        student_name: student.first_name,
-        student_gender: student.gender
-      }
       [title, content].map do |obj|
-        VariableEvaluator.evaluate_obj(obj, subs_hash)
+        response.substitute_variables(obj)
       end
     end
 

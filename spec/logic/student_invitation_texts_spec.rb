@@ -111,6 +111,20 @@ describe StudentInvitationTexts do
       expect(described_class.student_message(protocol, protocol_completion)).to eq expected
     end
 
+    it 'should send a special message after one response was missed but was on a streak before that' do
+      protocol_completion = [
+        { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
+        { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
+        { completed: true, periodical: true, reward_points: 100, future: false, streak: 2 },
+        { completed: true, periodical: true, reward_points: 100, future: false, streak: 3 },
+        { completed: false, periodical: true, reward_points: 100, future: false, streak: 0 },
+        { completed: false, periodical: true, reward_points: 100, future: true, streak: 1 }
+      ]
+      expected = 'Je was heel goed bezig met het onderzoek {{deze_student}}! ' \
+                 'Probeer je opnieuw de bonus-euro-streak te halen?'
+      expect(described_class.student_message(protocol, protocol_completion)).to eq expected
+    end
+
     it 'should send a special message after more than one response was missed but there are completed responses' do
       protocol_completion = [
         { completed: false, periodical: false, reward_points: 0, future: false, streak: -1 },

@@ -124,6 +124,19 @@ class Response < ApplicationRecord
     [student, mentor]
   end
 
+  def substitute_variables(obj)
+    student, mentor = determine_student_mentor
+    subs_hash = {
+      mentor_title: mentor&.role&.title,
+      mentor_gender: mentor&.gender,
+      mentor_name: mentor&.first_name,
+      organization: student.role.organization.name,
+      student_name: student.first_name,
+      student_gender: student.gender
+    }
+    VariableEvaluator.evaluate_obj(obj, subs_hash)
+  end
+
   private
 
   def response_expired?

@@ -109,6 +109,12 @@ class StudentInvitationTexts < InvitationTexts
       ]
     end
 
+    def missed_after_streak_pool
+      [
+        'Je was heel goed bezig met het onderzoek {{deze_student}}! Probeer je opnieuw de bonus-euro-streak te halen?'
+      ]
+    end
+
     def missed_more_than_one_pool
       [
         'Je hebt ons al enorm geholpen met de vragenlijsten die je hebt ingevuld {{deze_student}}. ' \

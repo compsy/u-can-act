@@ -272,6 +272,43 @@ describe Response do
     end
   end
 
+  describe 'substitute_variables' do
+    it 'should replace variables in a student response' do
+      organization = FactoryGirl.create(:organization)
+      student_role = FactoryGirl.create(:role, organization: organization,
+                                               group: Person::STUDENT, title: Person::STUDENT)
+      mentor_role = FactoryGirl.create(:role, organization: organization,
+                                              group: Person::MENTOR, title: 'MentorTitle')
+
+      student = FactoryGirl.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)
+      mentor = FactoryGirl.create(:mentor, role: mentor_role, first_name: 'Pieter', gender: Person::MALE)
+
+      FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      prot_stud = FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
+      response = FactoryGirl.create(:response, protocol_subscription: prot_stud)
+
+      subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
+      expect(response.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
+    end
+
+    it 'should replace variables in a mentor response' do
+      organization = FactoryGirl.create(:organization)
+      student_role = FactoryGirl.create(:role, organization: organization,
+                                               group: Person::STUDENT, title: Person::STUDENT)
+      mentor_role = FactoryGirl.create(:role, organization: organization,
+                                              group: Person::MENTOR, title: 'MentorTitle')
+
+      student = FactoryGirl.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)
+      mentor = FactoryGirl.create(:mentor, role: mentor_role, first_name: 'Pieter', gender: Person::MALE)
+      prot_ment = FactoryGirl.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      FactoryGirl.create(:protocol_subscription, person: student, filling_out_for: student)
+      response = FactoryGirl.create(:response, protocol_subscription: prot_ment)
+
+      subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
+      expect(response.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
+    end
+  end
+
   describe 'expired?' do
     it 'should return true if the response is no longer open' do
       response = FactoryGirl.create(:response, open_from: 3.hours.ago)

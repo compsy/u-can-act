@@ -70,6 +70,10 @@ class InvitationTexts
       raise 'method rejoined_after_missing_multiple_pool not implemented by subclass!'
     end
 
+    def missed_after_streak_pool
+      raise 'method missed_after_streak_pool not implemented by subclass!'
+    end
+
     private
 
     def default_and_streak_conditions(protocol_completion, curidx)
@@ -128,8 +132,7 @@ class InvitationTexts
     def missed_responses_conditions(protocol_completion, curidx)
       sms_pool = []
 
-      # Laatste vragenlijst gemist, maar wel eerder vragenlijsten ingevuld
-      sms_pool += missed_last_pool if missed_last_only(protocol_completion, curidx)
+      sms_pool += only_missed_last_response(protocol_completion, curidx)
 
       # Twee of meer vragenlijsten gemist (wel eerder vragenlijsten ingevuld)
       sms_pool += missed_more_than_one_pool if missed_more_than_one(protocol_completion, curidx) && sms_pool.empty?
@@ -138,6 +141,18 @@ class InvitationTexts
       # Een vragenlijst gemist en nog nooit een vragenlijst ingevuld (geldt niet bij de tweede vragenlijst)
       # Only if the previous ones did not apply
       sms_pool += missed_everything_pool if missed_everything(protocol_completion, curidx) && sms_pool.empty?
+
+      sms_pool
+    end
+
+    def only_missed_last_response(protocol_completion, curidx)
+      sms_pool = []
+
+      # Laatste vragenlijst gemist, zat in streak
+      sms_pool += missed_after_streak_pool if missed_one_after_streak_pool(protocol_completion, curidx)
+
+      # Laatste vragenlijst gemist, maar wel eerder vragenlijsten ingevuld
+      sms_pool += missed_last_pool if missed_last_only(protocol_completion, curidx) && sms_pool.empty?
 
       sms_pool
     end
@@ -178,6 +193,15 @@ class InvitationTexts
       curidx > 2 &&
         !protocol_completion[curidx - 1][:completed] &&
         protocol_completion[curidx - 2][:completed]
+    end
+
+    def missed_one_after_streak_pool(protocol_completion, curidx)
+      # Minimal pattern: VXXX.C         (V = voormeting, X = completed, C = current)
+      #           index: 012345
+      curidx > 2 && # only make sure that we can check the index at curidx-2.
+        !protocol_completion[curidx - 1][:completed] &&
+        protocol_completion[curidx - 2][:completed] &&
+        protocol_completion[curidx - 2][:streak] >= STREAK_SIZE
     end
 
     def missed_more_than_one(protocol_completion, curidx)

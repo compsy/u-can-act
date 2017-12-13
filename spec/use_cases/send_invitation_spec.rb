@@ -164,6 +164,44 @@ describe SendInvitation do
         described_class.run!(response: response)
       end
 
+      it 'should also send the invitation via email' do
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: mentor,
+                                                   filling_out_for: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                 measurement: measurement)
+        FactoryGirl.create(:invitation_token, response: response)
+        mytok = response.invitation_token.token
+        message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
+          'Vul nu de eerste wekelijkse vragenlijst in.'
+
+        allow(SendSms).to receive(:run!)
+        invitation_url = "#{ENV['HOST_URL']}/?q=#{mytok}"
+        expect(InvitationMailer).to receive(:invitation_mail).with(mentor.email,
+                                                                   message,
+                                                                   invitation_url).and_call_original
+        described_class.run!(response: response)
+        expect(ActionMailer::Base.deliveries.last.to.first).to eq mentor.email
+      end
+
+      it 'should not try to send an email if the mentor does not have an email address' do
+        mentor.update_attributes!(email: nil)
+        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+                                                   person: mentor,
+                                                   filling_out_for: student,
+                                                   start_date: 1.week.ago.at_beginning_of_day)
+        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
+                                                 measurement: measurement)
+        FactoryGirl.create(:invitation_token, response: response)
+        allow(SendSms).to receive(:run!)
+        expect(InvitationMailer).to_not receive(:invitation_mail)
+      end
+
       it 'should send the second text if the questionnaire is not a voormeting and it is not the first one' do
         protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                    person: mentor,

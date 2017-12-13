@@ -22,6 +22,7 @@ FactoryGirl.define do
   end
 
   factory :mentor, class: 'Person', parent: :person do
+    email 'mentor@mentor.com'
     role { FactoryGirl.create(:role, group: Person::MENTOR, title: 'mentor Title') }
   end
 

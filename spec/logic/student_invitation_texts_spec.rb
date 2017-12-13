@@ -9,7 +9,7 @@ describe StudentInvitationTexts do
       protocol_completion = [
         { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 }
       ]
-      expected = 'Welkom bij de kick-off van het onderzoek ‘u-can-act’. Fijn dat je meedoet! ' \
+      expected = 'Welkom bij de kick-off van het onderzoek \'u-can-act\'. Fijn dat je meedoet! ' \
        'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
        'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
       expect(described_class.student_message(protocol, protocol_completion)).to eq expected

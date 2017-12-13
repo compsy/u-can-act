@@ -35,8 +35,9 @@ class SendInvitation < ActiveInteraction::Base
     if response.protocol_subscription.person.mentor?
       mentor_texts
     else # Student
-      response.substitute_variables(StudentInvitationTexts.student_message(response.protocol_subscription.protocol,
-                                                                    response.protocol_subscription.protocol_completion))
+      response.substitute_variables(StudentInvitationTexts
+        .student_message(response.protocol_subscription.protocol,
+                         response.protocol_subscription.protocol_completion))
     end
   end
 

@@ -6,7 +6,7 @@ class StudentInvitationTexts < InvitationTexts
       sms_pool = []
       if curidx.zero? # Voormeting
         sms_pool += [
-          'Welkom bij de kick-off van het onderzoek ‘u-can-act’. Fijn dat je meedoet! ' \
+          'Welkom bij de kick-off van het onderzoek \'u-can-act\'. Fijn dat je meedoet! ' \
           'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
           'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
         ]

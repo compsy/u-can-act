@@ -12,17 +12,13 @@ class InvitationTexts
       sms_pool += threshold_conditions(protocol, protocol_completion, curidx) if sms_pool.empty?
       sms_pool += default_and_streak_conditions(protocol_completion, curidx) if sms_pool.empty?
 
-      # Pick randomly from the eligible response messages
       sms_pool.sample
     end
 
     def mentor_message(_protocol, _protocol_completion)
-      # called with a protocol completion hash
-
       # curidx = current_index(protocol_completion)
       sms_pool = []
 
-      # Pick randomly from the eligible response messages
       sms_pool.sample
     end
 

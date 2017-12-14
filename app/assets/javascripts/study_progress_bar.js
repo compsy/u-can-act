@@ -6,16 +6,16 @@ function generate_range(until, reverse = false) {
   return (result);
 }
 
-function convert_data(data, reverse = false) {
-  var completed = 1
-  var missed = 0
-  var future = -1
+function completedId() { return 1; }
+function missedId() { return 0; }
+function futureId() { return -1; }
 
+function convert_data(data, reverse = false) {
   var result = [];
   var temp = [];
   var future_measurements = 0;
   for (var i = 0; i < data.length; i++) {
-    if (data[i] !== missed && data[i] !== completed) future_measurements++;
+    if (data[i] !== missedId() && data[i] !== completedId()) future_measurements++;
   }
 
   // Create the future measurements
@@ -24,19 +24,19 @@ function convert_data(data, reverse = false) {
       temp = [];
       temp.push(i);
       temp.push(0);
-      temp.push(-1);
+      temp.push(futureId());
       result.push(temp);
     }
 
-    var c = future_measurements;
+    var future_measurement_counter = future_measurements;
     for (var i = 0; i < data.length; i++) {
-      if (data[i] === missed || data[i] === completed) {
+      if (data[i] === missedId() || data[i] === completedId()) {
         temp = [];
-        temp.push(c);
+        temp.push(future_measurement_counter);
         temp.push(0);
         temp.push(data[i]);
         result.push(temp);
-        c++;
+        future_measurement_counter++;
       }
     }
   } else {
@@ -46,18 +46,18 @@ function convert_data(data, reverse = false) {
       temp.push(0);
       temp.push(data[i]);
       result.push(temp);
-      c++;
+      future_measurement_counter++;
     }
   }
 
-  return result
+  return result;
 }
 
 
 function process_data(data, location, reverse) {
   var result = convert_data(data, reverse);
-  var range = generate_range(data.length, reverse)
-  plot_heatmap(result, range, location)
+  var range = generate_range(data.length, reverse);
+  plot_heatmap(result, range, location);
 }
 
 function plot_heatmap(data, range, location) {
@@ -99,7 +99,7 @@ function plot_heatmap(data, range, location) {
         color: 'black'
       },
       formatter: function() {
-        var text = this.point.value === 0 ? 'Missende meting' : this.point.value === 1 ? 'Succesvolle meting' : 'Toekomstige meting';
+        var text = this.point.value === missedId() ? 'Missende meting' : this.point.value === completedId() ? 'Succesvolle meting' : 'Toekomstige meting';
         return text;
       }
     },
@@ -130,9 +130,9 @@ function start_overview_generation(id) {
   ajax_promise.done(function(data) {
     if ($.isEmptyObject(data)) { return false; }
     var result = data.protocol_completion.map(function(entry) {
-      if (entry.future) return (-1)
-      if (entry.completed) return (1)
-      return (0)
+      if (entry.future) return futureId();
+      if (entry.completed) return completedId();
+      return missedId();
     })
     process_data(result, container_id);
   });

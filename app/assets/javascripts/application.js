@@ -19,8 +19,8 @@
 //= require react_ujs
 //= require highcharts
 //= require highcharts/highcharts-more
-//= require highcharts/modules/heatmap
 //= require highcharts/modules/exporting
+//  require highcharts/modules/heatmap
 //= require highcharts/modules/data
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost

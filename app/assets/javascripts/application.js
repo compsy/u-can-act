@@ -25,6 +25,7 @@
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
 //= require radial-progess-chart
+//= require study_progress_bar
 //= require components
 //= require_tree .
 $(function(){

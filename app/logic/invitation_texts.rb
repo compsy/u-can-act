@@ -146,10 +146,10 @@ class InvitationTexts
       sms_pool = []
 
       # Voormeting
-      sms_pool += first_response_pool if sms_pool.empty?
+      sms_pool += first_response_pool if curidx.zero?
 
       # Eerste dagboekmeting
-      sms_pool += second_response_pool if sms_pool.empty?
+      sms_pool += second_response_pool if curidx == 1 && sms_pool.empty?
 
       # Eerste twee metingen gemist
       sms_pool += first_responses_missed_pool if missed_first_two_responses(protocol_completion, curidx) &&

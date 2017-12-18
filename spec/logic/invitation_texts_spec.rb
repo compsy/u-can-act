@@ -3,6 +3,13 @@
 require 'rails_helper'
 
 describe InvitationTexts do
+  describe 'message' do
+    it 'should raise an error' do
+      expect do
+        described_class.message(1, 2)
+      end.to raise_error(RuntimeError, 'method message not implemented by subclass!')
+    end
+  end
   describe 'nth_response_pool' do
     it 'should raise an error' do
       expect do

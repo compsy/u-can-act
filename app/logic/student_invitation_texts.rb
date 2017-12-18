@@ -43,7 +43,7 @@ class StudentInvitationTexts < InvitationTexts
         ]
       when 3000 # 30 euro
         [
-          'De teller blijft lopen! Na deze vragenlijst passeer jij de €30 ☺'
+          'De teller blijft lopen! Na deze vragenlijst passeer jij de €30,- 😃'
         ]
       when 4000 # 40 euro
         [

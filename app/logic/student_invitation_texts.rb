@@ -2,6 +2,17 @@
 
 class StudentInvitationTexts < InvitationTexts
   class << self
+    def message(protocol, protocol_completion)
+      curidx = current_index(protocol_completion)
+      sms_pool = []
+
+      sms_pool += special_conditions(protocol_completion, curidx)
+      sms_pool += threshold_conditions(protocol, protocol_completion, curidx) if sms_pool.empty?
+      sms_pool += default_and_streak_conditions(protocol_completion, curidx) if sms_pool.empty?
+
+      sms_pool.sample
+    end
+
     def nth_response_pool(curidx)
       sms_pool = []
       if curidx.zero? # Voormeting

@@ -1,25 +1,10 @@
 # frozen_string_literal: true
 
 class InvitationTexts
-  STREAK_SIZE = 3
 
   class << self
-    def student_message(protocol, protocol_completion)
-      curidx = current_index(protocol_completion)
-      sms_pool = []
-
-      sms_pool += special_conditions(protocol_completion, curidx)
-      sms_pool += threshold_conditions(protocol, protocol_completion, curidx) if sms_pool.empty?
-      sms_pool += default_and_streak_conditions(protocol_completion, curidx) if sms_pool.empty?
-
-      sms_pool.sample
-    end
-
-    def mentor_message(_protocol, _protocol_completion)
-      # curidx = current_index(protocol_completion)
-      sms_pool = []
-
-      sms_pool.sample
+    def message(_protocol, _protocol_completion)
+      raise 'method message not implemented by subclass!'
     end
 
     def nth_response_pool(_curidx)
@@ -76,10 +61,10 @@ class InvitationTexts
       sms_pool = []
 
       # Streak about to be 3
-      sms_pool += about_to_be_on_streak_pool if protocol_completion[curidx][:streak] == STREAK_SIZE
+      sms_pool += about_to_be_on_streak_pool if protocol_completion[curidx][:streak] == streak_size
 
       # On bonus streak (== on streak > 3)
-      sms_pool += on_streak_pool if protocol_completion[curidx][:streak] > STREAK_SIZE && sms_pool.empty?
+      sms_pool += on_streak_pool if protocol_completion[curidx][:streak] > streak_size && sms_pool.empty?
 
       # Default messages
       sms_pool += default_pool if sms_pool.empty?
@@ -197,7 +182,7 @@ class InvitationTexts
       curidx > 2 && # only make sure that we can check the index at curidx-2.
         !protocol_completion[curidx - 1][:completed] &&
         protocol_completion[curidx - 2][:completed] &&
-        protocol_completion[curidx - 2][:streak] >= STREAK_SIZE
+        protocol_completion[curidx - 2][:streak] >= streak_size
     end
 
     def missed_more_than_one(protocol_completion, curidx)
@@ -236,5 +221,9 @@ class InvitationTexts
         protocol_completion[1..(curidx - 4)].map { |x| x[:completed] }.any?
     end
     # rubocop:enable Metrics/AbcSize
+
+    def streak_size
+      Protocol.find_by_name("studenten")&.rewards&.second&.threshold || 3
+    end
   end
 end

@@ -11,4 +11,12 @@ class SendInvitationJob < ApplicationJob
       response.update_attributes!(invited_state: Response::REMINDER_SENT_STATE)
     end
   end
+
+  def max_attempts
+    2
+  end
+
+  def reschedule_at(current_time, _attempts)
+    current_time + 1.hour
+  end
 end

@@ -77,7 +77,7 @@ class StudentInvitationTexts < InvitationTexts
       # TODO: make sure to replace newlines by spaces in the email template.
       [
         'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk beter te kunnen doen en vul deze vragenlijst in 😃.',
-        "Hoi {{deze_student}},\nEr staat een vragenlijst voor je klaar 😃",
+        "Hoi {{deze_student}},\nEr staat een vragenlijst voor je klaar 😃.",
         'Een u-can-act tip: vul drie vragenlijsten achter elkaar in en verdien een euro extra per vragenlijst!',
         'Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} ' \
         '{{zijn_haar_begeleider}} begeleiding te verbeteren!',
@@ -97,7 +97,7 @@ class StudentInvitationTexts < InvitationTexts
     def on_streak_pool
       [
         'Fijn dat je zo behulpzaam bent {{deze_student}}! Vul je opnieuw de vragenlijst in?',
-        'Je zit nog steeds in je bonus-euro-streak! Jouw u-can-act spaarpot raakt al behoorlijk vol 😜',
+        'Je zit nog steeds in je bonus-euro-streak! Jouw u-can-act spaarpot raakt al behoorlijk vol 😜.',
         'Bedankt voor je inzet! Ga zo door 😃.',
         '{{deze_student}}, je bent een topper! Bedankt voor je goede hulp!',
         'Goed bezig met je bonus-euro-streak, ga zo door!',

@@ -13,21 +13,20 @@ class StudentInvitationTexts < InvitationTexts
       sms_pool.sample
     end
 
-    def nth_response_pool(curidx)
-      sms_pool = []
-      if curidx.zero? # Voormeting
-        sms_pool += [
-          'Welkom bij de kick-off van het onderzoek \'u-can-act\'. Fijn dat je meedoet! ' \
+    def first_response_pool
+      # Voormeting
+      [
+        'Welkom bij de kick-off van het onderzoek \'u-can-act\'. Fijn dat je meedoet! ' \
           'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
           'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
-        ]
-      end
-      if curidx == 1 # Eerste wekelijkse vragenlijst
-        sms_pool += [
-          'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro!'
-        ]
-      end
-      sms_pool
+      ]
+    end
+
+    def second_response_pool
+      # Eerste wekelijkse vragenlijst
+      [
+        'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro!'
+      ]
     end
 
     # rubocop:disable Metrics/MethodLength

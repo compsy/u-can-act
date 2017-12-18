@@ -1,14 +1,19 @@
 # frozen_string_literal: true
 
 class InvitationTexts
+  MAX_REWARD_THRESHOLD = 8000
 
   class << self
     def message(_protocol, _protocol_completion)
       raise 'method message not implemented by subclass!'
     end
 
-    def nth_response_pool(_curidx)
-      raise 'method nth_response_pool not implemented by subclass!'
+    def first_response_pool
+      raise 'method first_response_pool not implemented by subclass!'
+    end
+
+    def second_response_pool
+      raise 'method second_response_pool not implemented by subclass!'
     end
 
     def rewards_threshold_pool(_threshold)
@@ -78,8 +83,7 @@ class InvitationTexts
       rewards_after = protocol.calculate_reward(current_protocol_completion, true)
 
       sms_pool = []
-      8.times do |idx|
-        threshold = (idx + 1) * 10 * 100
+      1000.step(MAX_REWARD_THRESHOLD, 1000) do |threshold| # 1000 = 10 euro
         if rewards_before < threshold && rewards_after >= threshold
           sms_pool += rewards_threshold_pool(threshold)
         end
@@ -141,8 +145,11 @@ class InvitationTexts
     def first_responses_conditions(protocol_completion, curidx)
       sms_pool = []
 
-      # Voormeting en eerste dagboekmeting
-      sms_pool += nth_response_pool(curidx) if sms_pool.empty?
+      # Voormeting
+      sms_pool += first_response_pool if sms_pool.empty?
+
+      # Eerste dagboekmeting
+      sms_pool += second_response_pool if sms_pool.empty?
 
       # Eerste twee metingen gemist
       sms_pool += first_responses_missed_pool if missed_first_two_responses(protocol_completion, curidx) &&

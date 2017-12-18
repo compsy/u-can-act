@@ -10,11 +10,18 @@ describe InvitationTexts do
       end.to raise_error(RuntimeError, 'method message not implemented by subclass!')
     end
   end
-  describe 'nth_response_pool' do
+  describe 'first_response_pool' do
     it 'should raise an error' do
       expect do
-        described_class.nth_response_pool(1)
-      end.to raise_error(RuntimeError, 'method nth_response_pool not implemented by subclass!')
+        described_class.first_response_pool
+      end.to raise_error(RuntimeError, 'method first_response_pool not implemented by subclass!')
+    end
+  end
+  describe 'second_response_pool' do
+    it 'should raise an error' do
+      expect do
+        described_class.second_response_pool
+      end.to raise_error(RuntimeError, 'method second_response_pool not implemented by subclass!')
     end
   end
   describe 'rewards_threshold_pool' do

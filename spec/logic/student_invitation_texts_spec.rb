@@ -177,10 +177,17 @@ describe StudentInvitationTexts do
       expect(described_class.message(protocol, protocol_completion)).to eq expected
     end
   end
-  describe 'nth_response_pool' do
+  describe 'first_response_pool' do
     it 'should not raise an error' do
       expect do
-        described_class.nth_response_pool(1)
+        described_class.first_response_pool
+      end.not_to raise_error
+    end
+  end
+  describe 'second_response_pool' do
+    it 'should not raise an error' do
+      expect do
+        described_class.second_response_pool
       end.not_to raise_error
     end
   end

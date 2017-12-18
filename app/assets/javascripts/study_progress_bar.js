@@ -1,3 +1,15 @@
+function completedId() {
+  return 1;
+}
+
+function missedId() {
+  return 0;
+}
+
+function futureId() {
+  return -1;
+}
+
 function generate_range(until, reverse = false) {
   var result = $.map($(Array(until)), function(val, i) {
     return i + 1;
@@ -5,10 +17,6 @@ function generate_range(until, reverse = false) {
   if (reverse) return (result.reverse());
   return (result);
 }
-
-function completedId() { return 1; }
-function missedId() { return 0; }
-function futureId() { return -1; }
 
 function convert_data(data, reverse = false) {
   var result = [];
@@ -70,7 +78,7 @@ function plot_heatmap(data, range, location) {
     },
     xAxis: {
       categories: range,
-      tickInterval: 5
+      tickInterval: 2
     },
     yAxis: {
       categories: ["Person"],
@@ -128,7 +136,8 @@ function start_overview_generation(id) {
   var ajax_promise = $.getJSON('api/v1/protocol_subscriptions/' + id);
 
   ajax_promise.done(function(data) {
-    if ($.isEmptyObject(data)) { return false; }
+    if ($.isEmptyObject(data)) return false;
+
     var result = data.protocol_completion.map(function(entry) {
       if (entry.future) return futureId();
       if (entry.completed) return completedId();

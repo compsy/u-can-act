@@ -76,15 +76,15 @@ class StudentInvitationTexts < InvitationTexts
     def default_pool
       # TODO: make sure to replace newlines by spaces in the email template.
       [
-        'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk beter te kunnen doen en vul deze vragenlijst in ☺.',
-        "Hoi {{deze_student}},\nEr staat een vragenlijst voor je klaar ☺",
+        'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk beter te kunnen doen en vul deze vragenlijst in 😃.',
+        "Hoi {{deze_student}},\nEr staat een vragenlijst voor je klaar 😃",
         'Een u-can-act tip: vul drie vragenlijsten achter elkaar in en verdien een euro extra per vragenlijst!',
         'Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} ' \
         '{{zijn_haar_begeleider}} begeleiding te verbeteren!',
         "Hoi {{deze_student}},\nVul direct de volgende vragenlijst in. Het kost maar 3 minuten en je helpt ons enorm!",
         "Hallo {{deze_student}},\nVerdien twee euro! Vul nu de vragenlijst in.",
         'Fijn dat jij meedoet! Door jou kunnen jongeren nog betere begeleiding krijgen in de toekomst!',
-        'Help {{je_begeleidingsinitiatief}} nog beter te worden in wat ze doen en vul nu de vragenlijst in ☺.'
+        'Help {{je_begeleidingsinitiatief}} nog beter te worden in wat ze doen en vul nu de vragenlijst in 😃.'
       ]
     end
 
@@ -97,8 +97,8 @@ class StudentInvitationTexts < InvitationTexts
     def on_streak_pool
       [
         'Fijn dat je zo behulpzaam bent {{deze_student}}! Vul je opnieuw de vragenlijst in?',
-        'Je zit nog steeds in je bonus-euro-streak! Jouw u-can-act spaarpot raakt al behoorlijk vol ;)',
-        'Bedankt voor je inzet! Ga zo door ☺.',
+        'Je zit nog steeds in je bonus-euro-streak! Jouw u-can-act spaarpot raakt al behoorlijk vol 😜',
+        'Bedankt voor je inzet! Ga zo door 😃.',
         '{{deze_student}}, je bent een topper! Bedankt voor je goede hulp!',
         'Goed bezig met je bonus-euro-streak, ga zo door!',
         'Super dat je de vragenlijst al zo vaak achter elkaar hebt ingevuld, bedankt en ga zo door!',

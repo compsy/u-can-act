@@ -62,7 +62,7 @@ class InvitationTexts
 
     private
 
-    def default_and_streak_conditions(protocol_completion, curidx)
+    def streak_conditions(protocol_completion, curidx)
       sms_pool = []
 
       # Streak about to be 3
@@ -70,9 +70,6 @@ class InvitationTexts
 
       # On bonus streak (== on streak > 3)
       sms_pool += on_streak_pool if protocol_completion[curidx][:streak] > streak_size && sms_pool.empty?
-
-      # Default messages
-      sms_pool += default_pool if sms_pool.empty?
 
       sms_pool
     end
@@ -230,7 +227,7 @@ class InvitationTexts
     # rubocop:enable Metrics/AbcSize
 
     def streak_size
-      Protocol.find_by_name("studenten")&.rewards&.second&.threshold || 3
+      Protocol.find_by_name('studenten')&.rewards&.second&.threshold || 3
     end
   end
 end

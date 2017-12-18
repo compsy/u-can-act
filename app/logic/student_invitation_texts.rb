@@ -8,7 +8,8 @@ class StudentInvitationTexts < InvitationTexts
 
       sms_pool += special_conditions(protocol_completion, curidx)
       sms_pool += threshold_conditions(protocol, protocol_completion, curidx) if sms_pool.empty?
-      sms_pool += default_and_streak_conditions(protocol_completion, curidx) if sms_pool.empty?
+      sms_pool += streak_conditions(protocol_completion, curidx) if sms_pool.empty?
+      sms_pool += default_pool if sms_pool.empty?
 
       sms_pool.sample
     end

@@ -5,6 +5,15 @@
     "postdeploy": "bundle exec rake db:migrate && bundle exec rake db:seed"
   },
   "env": {
+    "MAILGUN_API_KEY": {
+      "required": true
+    },
+    "MAILGUN_DOMAIN": {
+      "required": true
+    },
+    "FROM_EMAIL_ADDRESS": {
+      "required": true
+    }
   },
   "formation": {
   },

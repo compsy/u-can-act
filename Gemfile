@@ -69,6 +69,9 @@ gem 'd3-rails', '~> 3.5.16'
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'
 
+# Email via mailgun
+gem 'mailgun-ruby'
+
 gem 'active_interaction'
 gem 'active_model_serializers'
 

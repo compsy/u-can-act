@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   post '/' => "questionnaire#create"
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]
-  resources :questionnaire, only: [:show, :create], param: :q
+  resources :questionnaire, only: [:show, :create], param: :uuid
 
   # Admin panel
   get 'admin', to: 'admin#index'

@@ -20,6 +20,15 @@ class Response < ApplicationRecord
                                               REMINDER_SENT_STATE] }
   has_one :invitation_token, dependent: :destroy # has one or none
 
+  after_initialize do |response|
+    unless response.uuid
+      response.uuid = SecureRandom.uuid
+      while Response.where(uuid: response.uuid).count.positive?
+        response.uuid = SecureRandom.uuid
+      end
+    end
+  end
+
   scope :recently_opened_and_not_sent, (lambda {
     where(
       'open_from <= :time_now AND open_from > :recent_past AND invited_state = :not_sent',
@@ -76,6 +85,17 @@ class Response < ApplicationRecord
     )
   end
 
+  def self.find_by_identifier(identifier, token)
+    person = Person.find_by_external_identifier(identifier)
+    return nil unless person
+
+    responses = person.protocol_subscriptions&.active&.map { |sub| sub.responses&.invited }.flatten
+    return nil if responses.blank?
+
+    responses.each { |resp| return resp if resp.invitation_token&.token == token }
+    nil
+  end
+
   def future?
     open_from > Time.zone.now
   end
@@ -98,9 +118,9 @@ class Response < ApplicationRecord
     # created_at is always when the object was last used. Also, if we don't first destroy the
     # invitation_token, then it will set a different token than what we're giving (since tokens have
     # to be unique).
-    token = invitation_token&.token
     invitation_token&.destroy
-    create_invitation_token!(token: token)
+    create_invitation_token!
+    invitation_token.token_plain
   end
 
   def values

@@ -70,7 +70,9 @@ class SendInvitation < ActiveInteraction::Base
   end
 
   def invitation_url
-    "#{ENV['HOST_URL']}/?q=#{response.invitation_token.token}"
+    "#{ENV['HOST_URL']}"\
+      "?u=#{response.protocol_subscription.person.external_identifier}"\
+      "&q=#{response.invitation_token.token}"
   end
 
   def generate_reference

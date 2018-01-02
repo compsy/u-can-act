@@ -64,6 +64,7 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
+    bcrypt (3.1.11)
     bindex (0.5.0)
     bson (4.2.2)
     builder (3.2.3)
@@ -411,6 +412,7 @@ DEPENDENCIES
   active_model_serializers
   animate-rails!
   appsignal
+  bcrypt
   byebug
   capybara
   capybara-screenshot
@@ -463,4 +465,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.0.pre.3
+   1.16.0

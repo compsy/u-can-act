@@ -3,6 +3,7 @@
 class MentorOverviewController < ApplicationController
   before_action :set_response
   before_action :set_mentor
+  before_action :set_is_mentor
 
   def index
     # @my_protocol_subscriptions is currently not used for mentors
@@ -18,6 +19,10 @@ class MentorOverviewController < ApplicationController
     correct_id = response_id.present? && Response.find_by_id(response_id).present?
     render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless correct_id
     @response = Response.find(response_id)
+  end
+
+  def set_is_mentor
+    @use_mentor_layout = @response.protocol_subscription.person.mentor?
   end
 
   def set_mentor

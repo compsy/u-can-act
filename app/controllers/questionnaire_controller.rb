@@ -20,7 +20,7 @@ class QuestionnaireController < ApplicationController
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
     @response.update_attributes!(opened_at: Time.zone.now)
-    redirect_to questionnaire_path(q: @response.invitation_token.token)
+    redirect_to questionnaire_path(uuid: @response.uuid)
   end
 
   def create
@@ -42,10 +42,10 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_response
-    invitation_token = InvitationToken.find_by_token(questionnaire_params[:q])
-    check_invitation_token(invitation_token)
+    the_response = Response.find_by_uuid(questionnaire_params[:uuid])
+    check_response(the_response)
     return if performed?
-    @response = invitation_token.response
+    @response = the_response
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
   end
@@ -84,7 +84,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def questionnaire_params
-    params.permit(:q)
+    params.permit(:uuid)
   end
 
   def questionnaire_create_params
@@ -125,12 +125,5 @@ class QuestionnaireController < ApplicationController
     render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless response
     render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if response.completed_at
     render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if response.expired?
-  end
-
-  def check_invitation_token(invitation_token)
-    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless invitation_token
-    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if
-      invitation_token.response.completed_at
-    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if invitation_token.response.expired?
   end
 end

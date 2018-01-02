@@ -8,6 +8,8 @@ class Person < ApplicationRecord
   MENTOR = 'Mentor'
   STUDENT = 'Student'
 
+  IDENTIFIER_LENGTH = 5
+
   validates :mobile_phone,
             length: { minimum: 10, maximum: 10 },
             format: /\A\d{10}\z/,
@@ -15,6 +17,10 @@ class Person < ApplicationRecord
             uniqueness: true
   validates :email,
             format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
+            allow_blank: true,
+            uniqueness: true
+  validates :external_identifier,
+            format: /[a-z0-9]{#{IDENTIFIER_LENGTH}}/i,
             allow_blank: true,
             uniqueness: true
   validates :first_name, presence: true
@@ -26,6 +32,17 @@ class Person < ApplicationRecord
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },
   #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
+
+  after_initialize do |person|
+    unless person.id
+      unless person.external_identifier
+        person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
+      end
+      while Person.where(external_identifier: person.external_identifier).count.positive?
+        person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
+      end
+    end
+  end
 
   def mentor?
     role&.group == Person::MENTOR

@@ -1,7 +1,7 @@
 %div
   - student = protocol_subscription.filling_out_for
   - open_responses = protocol_subscription.responses.opened.reject{|resp| resp.expired?}
-  - student_prod_id = protocol_subscription.filling_out_for.protocol_subscriptions.first&.id
+  - student_prot_id = protocol_subscription.filling_out_for.protocol_subscriptions.first&.id
   %li.collection-item.avatar{:style => "min-height:65px"}
     - if open_responses.blank?
       %i.large.material-icons.circle.green.lighten-2 done
@@ -11,13 +11,12 @@
       %span.title= "#{student.first_name} #{student.last_name}"
       %p
         - open_responses.each do |response|
-          - next if response.expired?
           - response.initialize_invitation_token! if response.invitation_token.nil?
           = link_to('Vragenlijst invullen voor deze student',       |
             questionnaire_path(q: response.invitation_token.token))
-    - if student_prod_id
+    - if student_prot_id
       :javascript
-        start_overview_generation(#{student_prod_id})
-      .graph{:id => "container_#{student_prod_id}"}
+        start_overview_generation(#{student_prot_id})
+      .graph{:id => "container_#{student_prot_id}"}
         .progress
           .indeterminate

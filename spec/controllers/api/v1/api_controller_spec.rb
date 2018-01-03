@@ -13,7 +13,10 @@ module Api
 
       let(:test_response) { FactoryGirl.create(:response) }
       let(:other_response) { FactoryGirl.create(:response) }
+      let(:student) { FactoryGirl.create(:person) }
+      let(:mentor) { FactoryGirl.create(:person) }
       let(:other_person) { FactoryGirl.create(:person) }
+      let(:yet_another_person) { FactoryGirl.create(:person) }
       describe 'it should verify if the correct response is available in the session' do
         it 'should return 401 if no response is available' do
           get :index
@@ -54,6 +57,32 @@ module Api
           test_response.protocol_subscription.update_attributes!(filling_out_for: current_person, person: other_person)
           controller.instance_variable_set(:@response, test_response)
           expect(controller.check_access_allowed(test_response.protocol_subscription)).to be_falsey
+        end
+        it 'should return true if this is a student Im supervising, eventhough this isnt the psub Im supervising in' do
+          # This is a regular, plain student protocol (filling out for him/her self)
+          current_response = FactoryGirl.create(:response)
+          current_response.protocol_subscription.update_attributes!(person: student, filling_out_for: student)
+
+          # In this protocol I'm supervising the student
+          other_response = FactoryGirl.create(:response)
+          other_response.protocol_subscription.update_attributes!(person: mentor, filling_out_for: student)
+
+          controller.instance_variable_set(:@response, current_response)
+          controller.instance_variable_set(:@current_user, mentor)
+          expect(controller.check_access_allowed(current_response.protocol_subscription)).to be_truthy
+        end
+        it 'should return false if Im a person but this is not my student nor am I the student' do
+          # This is a regular, plain student protocol (filling out for him/her self)
+          current_response = FactoryGirl.create(:response)
+          current_response.protocol_subscription.update_attributes!(person: student, filling_out_for: student)
+
+          # In this protocol I'm supervising a different student
+          other_response = FactoryGirl.create(:response)
+          other_response.protocol_subscription.update_attributes!(person: mentor, filling_out_for: other_person)
+
+          controller.instance_variable_set(:@response, current_response)
+          controller.instance_variable_set(:@current_user, mentor)
+          expect(controller.check_access_allowed(current_response.protocol_subscription)).to be_falsey
         end
         it 'should return false otherwise' do
           expect(controller.check_access_allowed(other_response.protocol_subscription)).to be_falsey

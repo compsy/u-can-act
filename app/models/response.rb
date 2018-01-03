@@ -118,8 +118,9 @@ class Response < ApplicationRecord
     # created_at is always when the object was last used. Also, if we don't first destroy the
     # invitation_token, then it will set a different token than what we're giving (since tokens have
     # to be unique).
+    pre_token = invitation_token&.token_plain
     invitation_token&.destroy
-    create_invitation_token!
+    create_invitation_token! token: pre_token
     invitation_token.token_plain
   end
 
@@ -142,6 +143,13 @@ class Response < ApplicationRecord
       mentor = student.role.group == Person::STUDENT ? student.mentor : nil # Student can in theory just be a person
     end
     [student, mentor]
+  end
+
+  def invitation_url
+    raise 'Cannot generate invitation_url for historical invitation tokens!' if invitation_token.token_plain.blank?
+    "#{ENV['HOST_URL']}"\
+      "?u=#{protocol_subscription.person.external_identifier}"\
+      "&q=#{invitation_token.token_plain}"
   end
 
   private

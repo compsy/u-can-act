@@ -8,7 +8,7 @@ class SendInvitation < ActiveInteraction::Base
     person = response.protocol_subscription.person
 
     SendSms.run!(send_sms_attributes)
-    send_email(person.email, random_message, invitation_url) if person.mentor?
+    send_email(person.email, random_message, response.invitation_url) if person.mentor?
   end
 
   private
@@ -28,7 +28,7 @@ class SendInvitation < ActiveInteraction::Base
   end
 
   def generate_sms_message
-    "#{random_message} #{invitation_url}"
+    "#{random_message} #{response.invitation_url}"
   end
 
   def random_message
@@ -67,12 +67,6 @@ class SendInvitation < ActiveInteraction::Base
     else
       "Hoi #{target_first_name}, je wekelijkse vragenlijsten staan weer voor je klaar!"
     end
-  end
-
-  def invitation_url
-    "#{ENV['HOST_URL']}"\
-      "?u=#{response.protocol_subscription.person.external_identifier}"\
-      "&q=#{response.invitation_token.token}"
   end
 
   def generate_reference

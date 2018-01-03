@@ -7,8 +7,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     it 'shows status 200 when everything is correct' do
       protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      get :show, params: { q: invitation_token.token }
+      get :show, params: { uuid: responseobj.uuid }
       expect(response).to have_http_status(200)
       expect(response).to render_template('questionnaire/show')
     end
@@ -20,8 +19,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                  start_date: 1.week.ago.at_beginning_of_day,
                                                  protocol: protocol)
       responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      get :show, params: { q: invitation_token.token }
+      get :show, params: { uuid: responseobj.uuid }
       expect(response).to have_http_status(200)
       expect(response).to render_template('questionnaire/informed_consent')
     end
@@ -37,11 +35,11 @@ RSpec.describe QuestionnaireController, type: :controller do
         FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
                                       open_from: 1.hour.ago)
       end
-      let(:invitation_token) { FactoryGirl.create(:invitation_token, response: responseobj) }
+
       it 'should set it to true when the current person is a mentor' do
         person = FactoryGirl.create(:mentor)
         protocol_subscription.update_attributes!(person: person)
-        get :show, params: { q: invitation_token.token }
+        get :show, params: { uuid: responseobj.uuid }
         expect(assigns(:use_mentor_layout)).to_not be_nil
         expect(assigns(:use_mentor_layout)).to be_truthy
       end
@@ -49,7 +47,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'should set whether the current person is a mentor' do
         person = FactoryGirl.create(:student)
         protocol_subscription.update_attributes!(person: person)
-        get :show, params: { q: invitation_token.token }
+        get :show, params: { uuid: responseobj.uuid }
         expect(assigns(:use_mentor_layout)).to_not be_nil
         expect(assigns(:use_mentor_layout)).to be_falsey
       end
@@ -69,7 +67,6 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
     it 'requires a response that is not filled out yet' do
       responseobj = FactoryGirl.create(:response, :completed)
-      FactoryGirl.create(:invitation_token, response: responseobj)
       expect_any_instance_of(described_class).to receive(:verify_response_id)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
       expect(response).to have_http_status(404)
@@ -86,7 +83,6 @@ RSpec.describe QuestionnaireController, type: :controller do
       protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
       expect_any_instance_of(described_class).to receive(:verify_response_id)
-      FactoryGirl.create(:invitation_token, response: responseobj)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
       expect(response).to have_http_status(302)
       responseobj.reload
@@ -102,12 +98,11 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                  start_date: 1.week.ago.at_beginning_of_day,
                                                  person: person)
       responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
 
       date = Time.zone.now
       Timecop.freeze(date)
       expect(responseobj.opened_at).to be_nil
-      get :show, params: { q: invitation_token.token }
+      get :show, params: { uuid: responseobj.uuid }
       responseobj.reload
       expect(responseobj.opened_at).to be_within(5.seconds).of(date)
       Timecop.return
@@ -125,7 +120,6 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
       before :each do
         expect_any_instance_of(described_class).to receive(:verify_response_id)
-        FactoryGirl.create(:invitation_token, response: responseobj)
       end
 
       it 'should render the klaar page if the person is a student' do

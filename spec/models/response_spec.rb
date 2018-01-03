@@ -5,12 +5,12 @@ require 'rails_helper'
 describe Response do
   it 'should have valid default properties' do
     response = FactoryGirl.build(:response)
-    expect(response.valid?).to be_truthy
+    expect(response).to be_valid
   end
 
   it 'should have valid default completed properties' do
     response = FactoryGirl.build(:response, :completed)
-    expect(response.valid?).to be_truthy
+    expect(response).to be_valid
   end
 
   context 'scopes' do
@@ -349,27 +349,30 @@ describe Response do
       expect(response.invitation_token).to be_nil
       response.initialize_invitation_token!
       expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token_plain).to_not be_nil
       expect(response.invitation_token.token).to_not be_nil
     end
     it 'should reuse the same token if one already exists' do
       FactoryGirl.create(:invitation_token, response: response)
       expect(response.invitation_token).to_not be_nil
-      expect(response.invitation_token.token).to_not be_nil
-      current_token = response.invitation_token.token
+      expect(response.invitation_token.token_plain).to_not be_nil
+      current_token = response.invitation_token.token_plain
       response.initialize_invitation_token!
       expect(response.invitation_token).to_not be_nil
       expect(response.invitation_token.token).to_not be_nil
-      expect(response.invitation_token.token).to eq current_token
+      expect(response.invitation_token.token_plain).to_not be_nil
+      expect(response.invitation_token.token_plain).to eq current_token
     end
     it 'should update the created_at when reusing a token' do
       FactoryGirl.create(:invitation_token, response: response, created_at: 3.days.ago)
       expect(response.invitation_token).to_not be_nil
       expect(response.invitation_token.created_at).to be_within(5.minutes).of(3.days.ago)
-      current_token = response.invitation_token.token
+      current_token = response.invitation_token.token_plain
       response.initialize_invitation_token!
       expect(response.invitation_token).to_not be_nil
       expect(response.invitation_token.token).to_not be_nil
-      expect(response.invitation_token.token).to eq current_token
+      expect(response.invitation_token.token_plain).to_not be_nil
+      expect(response.invitation_token.token_plain).to eq current_token
       expect(response.invitation_token.created_at).to be_within(5.minutes).of(Time.zone.now)
     end
   end

@@ -16,11 +16,12 @@ class InvitationToken < ApplicationRecord
 
   def token=(new_token)
     @token = Password.create(new_token)
+    @token_plain = new_token
     self.token_hash = @token
   end
 
   after_initialize do |invitation_token|
-    unless invitation_token.id
+    if invitation_token.id.nil? && !@token_plain.present?
       token = SecureRandom.hex(8)
       invitation_token.token = token
       @token_plain = token

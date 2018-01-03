@@ -37,12 +37,13 @@ describe SendInvitation do
         response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
         FactoryGirl.create(:invitation_token, response: response)
 
-        mytok = response.invitation_token.token
+        myid = response.protocol_subscription.person.external_identifier
+        mytok = response.invitation_token.token_plain
         smstext = "Welkom bij de kick-off van het onderzoek 'u-can-act'. Fijn " \
         'dat je meedoet! Vandaag starten we met een aantal korte vragen, morgen ' \
         'begint de wekelijkse vragenlijst. Via de link kom je bij de vragen en ' \
         'een filmpje met meer info over u-can-act. Succes! ' \
-        "#{ENV['HOST_URL']}/?q=#{mytok}"
+        "#{ENV['HOST_URL']}?u=#{myid}&q=#{mytok}"
 
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
@@ -73,8 +74,10 @@ describe SendInvitation do
 
         FactoryGirl.create(:invitation_token, response: response)
 
-        mytok = response.invitation_token.token
-        smstext = "Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro! #{ENV['HOST_URL']}/?q=#{mytok}"
+        mytok = response.invitation_token.token_plain
+        myid = response.protocol_subscription.person.external_identifier
+        smstext = 'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro! '\
+        "#{ENV['HOST_URL']}?u=#{myid}&q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")
@@ -110,9 +113,10 @@ describe SendInvitation do
 
         FactoryGirl.create(:invitation_token, response: response)
 
-        mytok = response.invitation_token.token
+        mytok = response.invitation_token.token_plain
+        myid = response.protocol_subscription.person.external_identifier
         smstext = 'Hoi Jane, vul direct de volgende vragenlijst in. Het kost maar 3 minuten en je helpt ons enorm! ' \
-          "#{ENV['HOST_URL']}/?q=#{mytok}"
+          "#{ENV['HOST_URL']}?u=#{myid}&q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")
@@ -129,12 +133,13 @@ describe SendInvitation do
         questionnaire = FactoryGirl.create(:questionnaire, name: 'Mentoren voormeting vragenlijst')
         response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
         FactoryGirl.create(:invitation_token, response: response)
-        mytok = response.invitation_token.token
+        mytok = response.invitation_token.token_plain
+        myid = response.protocol_subscription.person.external_identifier
 
         smstext = "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
         'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
         'Morgen start de eerste wekelijkse vragenlijst. Succes! ' \
-        "#{ENV['HOST_URL']}/?q=#{mytok}"
+          "#{ENV['HOST_URL']}?u=#{myid}&q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")
@@ -154,10 +159,11 @@ describe SendInvitation do
                                       invited_state: Response::SENDING_STATE,
                                       measurement: measurement)
         FactoryGirl.create(:invitation_token, response: response)
-        mytok = response.invitation_token.token
+        mytok = response.invitation_token.token_plain
+        myid = response.protocol_subscription.person.external_identifier
         smstext = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
           'Vul nu de eerste wekelijkse vragenlijst in. ' \
-          "#{ENV['HOST_URL']}/?q=#{mytok}"
+          "#{ENV['HOST_URL']}?u=#{myid}&q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")
@@ -174,12 +180,13 @@ describe SendInvitation do
         response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
                                                  measurement: measurement)
         FactoryGirl.create(:invitation_token, response: response)
-        mytok = response.invitation_token.token
+        mytok = response.invitation_token.token_plain
+        myid = response.protocol_subscription.person.external_identifier
         message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
           'Vul nu de eerste wekelijkse vragenlijst in.'
 
         allow(SendSms).to receive(:run!)
-        invitation_url = "#{ENV['HOST_URL']}/?q=#{mytok}"
+        invitation_url = "#{ENV['HOST_URL']}?u=#{myid}&q=#{mytok}"
         expect(InvitationMailer).to receive(:invitation_mail).with(mentor.email,
                                                                    message,
                                                                    invitation_url).and_call_original
@@ -221,9 +228,10 @@ describe SendInvitation do
                                       invited_state: Response::SENDING_STATE,
                                       measurement: measurement)
         FactoryGirl.create(:invitation_token, response: response)
-        mytok = response.invitation_token.token
+        mytok = response.invitation_token.token_plain
+        myid = response.protocol_subscription.person.external_identifier
         smstext = 'Hoi Jane, je wekelijkse vragenlijsten staan weer voor je klaar! ' \
-          "#{ENV['HOST_URL']}/?q=#{mytok}"
+          "#{ENV['HOST_URL']}?u=#{myid}&q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: smstext,
                                                reference: "vsv-#{response.id}")

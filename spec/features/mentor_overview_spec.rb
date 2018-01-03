@@ -83,7 +83,6 @@ describe 'GET and POST /', type: :feature, js: true do
                    .first.responses.first.uuid
 
       page.find(:css, "a[href='#{questionnaire_path(uuid: uuid)}']").click
-      byebug
       expect(page).to have_current_path(questionnaire_path(uuid: uuid))
 
       # This is the informed consent

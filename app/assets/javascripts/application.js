@@ -17,7 +17,15 @@
 //= require d3
 //= require react
 //= require react_ujs
+//= require highcharts
+//= require highcharts/highcharts-more
+//= require highcharts/modules/exporting
+//= require highcharts/modules/heatmap
+//= require highcharts/modules/data
+//= require highcharts/modules/boost-canvas
+//= require highcharts/modules/boost
 //= require radial-progess-chart
+//= require study_progress_bar
 //= require components
 //= require_tree .
 $(function(){

@@ -20,8 +20,8 @@ class Person < ApplicationRecord
             allow_blank: true,
             uniqueness: true
   validates :external_identifier,
-            format: /[a-z0-9]{#{IDENTIFIER_LENGTH}}/i,
-            allow_blank: true,
+            format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/i,
+            allow_blank: false,
             uniqueness: true
   validates :first_name, presence: true
   belongs_to :role

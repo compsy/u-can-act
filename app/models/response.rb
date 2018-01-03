@@ -13,6 +13,7 @@ class Response < ApplicationRecord
   belongs_to :measurement
   validates :measurement_id, presence: true
   validates :open_from, presence: true
+  validates :uuid, presence: true, uniqueness: true
   validates :invited_state, inclusion: { in: [NOT_SENT_STATE,
                                               SENDING_STATE,
                                               SENT_STATE,

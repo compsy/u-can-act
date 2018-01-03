@@ -226,6 +226,55 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'external_identifier' do
+    it 'should validate the alpha numeric of size IDENTIFIER_LENGTH format' do
+      person = FactoryGirl.build(:person)
+      test_string = SecureRandom.hex(32)
+      #
+      # Too short
+      (0..(described_class::IDENTIFIER_LENGTH - 1)).each do |chars|
+        ext_ident = test_string[0...chars]
+        person.external_identifier = ext_ident
+        expect(person).to_not be_valid
+      end
+
+      # Too long
+      ((described_class::IDENTIFIER_LENGTH + 1)..(described_class::IDENTIFIER_LENGTH * 2)).each do |chars|
+        ext_ident = test_string[0..chars]
+        person.external_identifier = ext_ident
+        expect(person).to_not be_valid
+      end
+
+      # Goldilocks zone
+      ext_ident = test_string[0...described_class::IDENTIFIER_LENGTH]
+      person.external_identifier = ext_ident
+      expect(person).to be_valid
+    end
+
+    it 'should not allow empty external identifiers' do
+      person = FactoryGirl.build(:person)
+      person.external_identifier = nil
+      expect(person).to_not be_valid
+
+      person.external_identifier = ''
+      expect(person).to_not be_valid
+    end
+
+    it 'should create an external_identifier on initialization' do
+      person = FactoryGirl.build(:person)
+      expect(person.external_identifier).to_not be_blank
+      expect(person.external_identifier.length).to eq described_class::IDENTIFIER_LENGTH
+    end
+
+    it 'should not allow non-unique identifiers' do
+      person = FactoryGirl.create(:person)
+      person2 = FactoryGirl.build(:person, external_identifier: person.external_identifier)
+      expect(person2).to_not be_valid
+      expect(person2.errors.messages).to have_key :external_identifier
+      expect(person2.errors.messages[:external_identifier]).to include('is al in gebruik')
+    end
+  end
+
   describe 'Student' do
     it 'should have working factory defaults' do
       student = FactoryGirl.build(:student)

@@ -22,7 +22,7 @@ class TokenAuthenticationController < ApplicationController
   end
 
   def set_response
-    the_response = Response.find_by_identifier(questionnaire_params[:u], questionnaire_params[:q])
+    the_response = Response.find_by_identifier(identifier_param, token_param)
     check_response(the_response)
     return if performed?
     @response = the_response

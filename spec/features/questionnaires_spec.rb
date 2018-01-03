@@ -1419,7 +1419,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     expect(page).to_not have_content('hagelslag')
     # We can serch for all, because theres just one with a tooltip

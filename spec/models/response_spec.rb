@@ -227,6 +227,38 @@ describe Response do
     end
   end
 
+  describe 'uuid' do
+    it 'should not allow empty external identifiers' do
+      response = FactoryGirl.build(:response)
+      response.uuid = nil
+      expect(response).to_not be_valid
+
+      response.uuid = ''
+      expect(response).to_not be_valid
+    end
+
+    it 'should create an uuid on initialization' do
+      response = FactoryGirl.build(:response)
+      expect(response.uuid).to_not be_blank
+      expect(response.uuid.length).to eq 36
+    end
+
+    it 'should not allow non-unique identifiers' do
+      response = FactoryGirl.create(:response)
+      response2 = FactoryGirl.build(:response, uuid: response.uuid)
+      expect(response2).to_not be_valid
+      expect(response2.errors.messages).to have_key :uuid
+      expect(response2.errors.messages[:uuid]).to include('is al in gebruik')
+    end
+
+    it 'should not generate a new uuid if one is already present' do
+      uuid = SecureRandom.uuid
+      response = FactoryGirl.create(:response, uuid: uuid)
+      response.reload
+      expect(response.uuid).to eq uuid
+    end
+  end
+
   describe 'values' do
     it 'should work when there is content' do
       response = FactoryGirl.create(:response, :completed)
@@ -461,6 +493,83 @@ describe Response do
       response = FactoryGirl.create(:response)
       expect(response.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(response.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'find_by_identifier' do
+    let(:other_person) { FactoryGirl.create(:person) }
+
+    let(:response) { FactoryGirl.create(:response, :invite_sent) }
+    let(:token) { FactoryGirl.create(:invitation_token, response: response) }
+
+    let(:not_sent_response) { FactoryGirl.create(:response) }
+    let(:not_sent_token) { FactoryGirl.create(:invitation_token, response: not_sent_response) }
+
+    it 'should return nil if there is no person with that identifier' do
+      result = Response.find_by_identifier('non_existent', token.token_plain)
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the person has no responses' do
+      result = Response.find_by_identifier(other_person.external_identifier, 'nothing')
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the token does not match any of the responses ' do
+      person = response.protocol_subscription.person
+      result = Response.find_by_identifier(person.external_identifier, 'nothing')
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the token matches an unsent response' do
+      person = response.protocol_subscription.person
+      result = Response.find_by_identifier(person.external_identifier, not_sent_token.token_plain)
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if there is one that matches the description but the hashed token is provided' do
+      person = response.protocol_subscription.person
+      result = Response.find_by_identifier(person.external_identifier, token.token)
+      expect(result).to be_nil
+    end
+
+    it 'should return the response if there is one that matches the description' do
+      person = response.protocol_subscription.person
+      result = Response.find_by_identifier(person.external_identifier, token.token_plain)
+      expect(result).to eq response
+    end
+
+    it 'should return the response if there is one that matches the description and is completed' do
+      response.update_attributes!(completed_at: Time.zone.now)
+      person = response.protocol_subscription.person
+      result = Response.find_by_identifier(person.external_identifier, token.token_plain)
+      expect(result).to eq response
+    end
+  end
+
+  describe 'invitation_url' do
+    it 'should return the correct invitation_url for a response' do
+      response = FactoryGirl.create(:response)
+      token = FactoryGirl.create(:invitation_token, response: response)
+      pt_token = token.token_plain
+      expect(response.invitation_token.token_plain).to_not be_blank
+      result = response.invitation_url
+      expect(result).to match pt_token
+      expect(result).to_not match token.token_hash
+      expect(result).to match response.protocol_subscription.person.external_identifier
+      expect(result).to eq "#{ENV['HOST_URL']}"\
+        "?u=#{response.protocol_subscription.person.external_identifier}"\
+        "&q=#{pt_token}"
+    end
+
+    it 'should raise if called for a previously stored token' do
+      response = FactoryGirl.create(:response)
+      FactoryGirl.create(:invitation_token, response: response)
+      response.reload
+      expect(response.invitation_token).to_not be_blank
+      expect(response.invitation_token.token_plain).to be_blank
+      expect { response.invitation_url }
+        .to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
     end
   end
 end

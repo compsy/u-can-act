@@ -46,10 +46,10 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.content).to be_nil
     expect(responseobj.values).to be_nil
     expect(responseobj.opened_at).to be_nil
-    visit "/?q=#{invitation_token.token}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
 
     # Check whether the correct redirect was performed
-    expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+    expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
     expect(page).to_not have_current_path(mentor_overview_index_path)
     responseobj.reload
     expect(responseobj.opened_at).to be_within(1.minute).of(Time.zone.now)
@@ -121,8 +121,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
-    expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+    expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
     expect(page).to_not have_current_path(mentor_overview_index_path)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -153,8 +153,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
-    expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+    expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
     expect(page).to_not have_current_path(mentor_overview_index_path)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -192,8 +192,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
 
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -233,8 +233,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                          open_from: 1.hour.ago,
                                          invited_state: Response::SENT_STATE)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        visit "/?q=#{invitation_token.token}"
-        expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+        visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+        expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
         expect(page).to_not have_current_path(mentor_overview_index_path)
         # expect(page).to have_http_status(200)
         expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -269,8 +269,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                          open_from: 1.hour.ago,
                                          invited_state: Response::SENT_STATE)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        visit "/?q=#{invitation_token.token}"
-        expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+        visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+        expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
         expect(page).to_not have_current_path(mentor_overview_index_path)
         # expect(page).to have_http_status(200)
         expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -312,7 +312,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
 
@@ -345,7 +345,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
 
@@ -391,7 +391,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
 
@@ -428,7 +428,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -460,7 +460,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.content).to be_nil
     expect(responseobj.values).to be_nil
     expect(responseobj.opened_at).to be_nil
-    visit "/?q=#{invitation_token.token}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     # expect(page).to have_http_status(200)
     expect(page).not_to have_content('vragenlijst-dagboekstudie-studenten')
     expect(page).to have_content('Informed Consent')
@@ -502,7 +502,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+    visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -570,7 +570,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content('Hoe voelt u zich vandaag?')
@@ -685,7 +685,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.click_on 'Opslaan'
@@ -716,7 +716,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
@@ -794,7 +794,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content('Hoe voelt u zich vandaag?')
@@ -909,7 +909,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.click_on 'Opslaan'
@@ -941,7 +941,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
@@ -1004,8 +1004,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1057,8 +1057,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1127,8 +1127,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1164,8 +1164,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1226,8 +1226,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1279,8 +1279,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1349,8 +1349,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1386,8 +1386,8 @@ describe 'GET and POST /', type: :feature, js: true do
                                        open_from: 1.hour.ago,
                                        invited_state: Response::SENT_STATE)
       invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-      visit "/?q=#{invitation_token.token}"
-      expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
+      expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.response.uuid))
       expect(page).to_not have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -1419,7 +1419,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                      open_from: 1.hour.ago,
                                      invited_state: Response::SENT_STATE)
     invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-    visit "/?q=#{invitation_token.token}"
+      visit "?u=#{student.external_identifier}&q=#{invitation_token.token_plain}"
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     expect(page).to_not have_content('hagelslag')
     # We can serch for all, because theres just one with a tooltip

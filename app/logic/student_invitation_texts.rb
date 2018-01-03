@@ -85,7 +85,7 @@ class StudentInvitationTexts < InvitationTexts
         'Help {{je_begeleidingsinitiatief}} nog beter te worden in wat ze doen en vul nu de vragenlijst in 😃.'
       ]
 
-      if protocol.name != 'studenten_control'
+      if protocol&.name != 'studenten_control'
         invite_texts << 'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
                         'beter te kunnen doen en vul deze vragenlijst in 😃'
         invite_texts << 'Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\

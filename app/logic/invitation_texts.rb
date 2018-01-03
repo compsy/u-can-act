@@ -20,7 +20,7 @@ class InvitationTexts
       raise 'method rewards_threshold_pool not implemented by subclass!'
     end
 
-    def default_pool
+    def default_pool(_protocol)
       raise 'method default_pool not implemented by subclass!'
     end
 

@@ -32,7 +32,3 @@ informed_consent.content = [{
                             }]
 informed_consent.title = 'u-can-act'
 informed_consent.save!
-
-
-
-

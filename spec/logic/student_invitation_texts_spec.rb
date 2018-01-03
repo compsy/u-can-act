@@ -209,7 +209,7 @@ describe StudentInvitationTexts do
       protocol = FactoryGirl.build(:protocol, name: 'studenten_control')
       result = described_class.default_pool(protocol)
       expect(result).to_not include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
-                        'beter te kunnen doen en vul deze vragenlijst in 😃')
+                                    'beter te kunnen doen en vul deze vragenlijst in 😃.')
       expect(result).to_not include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
                         '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
 
@@ -222,7 +222,7 @@ describe StudentInvitationTexts do
       protocol = FactoryGirl.build(:protocol, name: 'other_protocol')
       result = described_class.default_pool(protocol)
       expect(result).to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
-                        'beter te kunnen doen en vul deze vragenlijst in 😃')
+                                'beter te kunnen doen en vul deze vragenlijst in 😃.')
       expect(result).to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
                         '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
 

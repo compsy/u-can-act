@@ -5,18 +5,21 @@ class OrganizationOverview extends React.Component {
       Mentor: undefined,
       Student: undefined,
       groups: ['Mentor', 'Student'],
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
+      week_number: 1
     };
   }
 
-  componentDidMount() {
+  updateOrganizationDetails() {
     this.state.groups.forEach((x) => {
       this.loadOrganizationData(x);
     })
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
+    this.updateOrganizationDetails();
   }
+
 
   isDone() {
     return !this.state.result.protocol_completion.some((entry) => {
@@ -26,9 +29,13 @@ class OrganizationOverview extends React.Component {
 
   loadOrganizationData(group) {
     var self = this
+    console.log('Updating!');
 
     // Only update if the subscription id has changed
-    let url = '/api/v1/admin/organization/' + group;
+    let url = '/api/v1/admin/organization/' + group + 
+              '?year=' + this.state.year + 
+              '&week_number=' + this.state.week_number;
+    console.log(url);
     $.getJSON(url, (response) => {
       self.setState({
         [group] : response
@@ -36,13 +43,16 @@ class OrganizationOverview extends React.Component {
     });
   }
 
-  handleYearChange(e) {
-    debugger;
-    console.log(e);
+  handleYearChange(option) {
+    console.log(option);
+    this.setState({year: option})
+    this.updateOrganizationDetails();
   }
 
-  handleWeekChange(e) {
-    console.log(e);
+  handleWeekChange(option) {
+    console.log(option);
+    this.setState({week_number: option})
+    this.updateOrganizationDetails();
   }
 
 
@@ -59,10 +69,10 @@ class OrganizationOverview extends React.Component {
         <h3> Organization overview </h3>
         <div className="col s6">
           <div className="col s3">
-            <WeekDropdownMenu year= {this.state.year} onChange={this.handleWeekChange}/>
+            <WeekDropdownMenu year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
           </div>
           <div className="col s9">
-            <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange}/>
+            <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
           </div>
         </div>
         <div className="col s12">

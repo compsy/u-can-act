@@ -69,7 +69,7 @@ class OrganizationOverview extends React.Component {
         <h3> Organization overview </h3>
         <div className="col s6">
           <div className="col s3">
-            <WeekDropdownMenu year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
+            <WeekDropdownMenu value={this.state.week_numer} year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
           </div>
           <div className="col s9">
             <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>

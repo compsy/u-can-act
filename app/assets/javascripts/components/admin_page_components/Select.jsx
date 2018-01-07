@@ -9,7 +9,7 @@ class Select extends React.Component {
         <option key={option}>{option}</option>
       )
     })
-    selectorOptions.unshift(<option key="def" value="def" disabled>Choose your option</option>)
+    selectorOptions.unshift(<option key="def" value="def" disabled>Selecteer</option>)
 
     return (selectorOptions)
   }
@@ -44,7 +44,7 @@ class Select extends React.Component {
     var options = this.generateSelect(this.props.options);
     return(
       <div className="input-field">
-        <select id={this.uuid} >
+        <select id={this.uuid} defaultValue={this.props.value} >
           {options}
         </select>
         <label>{this.props.label}</label>

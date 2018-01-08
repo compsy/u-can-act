@@ -9,7 +9,7 @@ class StudentInvitationTexts < InvitationTexts
       sms_pool += special_conditions(protocol_completion, curidx)
       sms_pool += threshold_conditions(protocol, protocol_completion, curidx) if sms_pool.empty?
       sms_pool += streak_conditions(protocol_completion, curidx) if sms_pool.empty?
-      sms_pool += default_pool if sms_pool.empty?
+      sms_pool += default_pool(protocol) if sms_pool.empty?
 
       sms_pool.sample
     end
@@ -74,19 +74,24 @@ class StudentInvitationTexts < InvitationTexts
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/MethodLength
 
-    def default_pool
+    def default_pool(protocol)
       # TODO: make sure to replace newlines by spaces in the email template.
-      [
-        'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk beter te kunnen doen en vul deze vragenlijst in 😃.',
+      invite_texts = [
         "Hoi {{deze_student}},\nEr staat een vragenlijst voor je klaar 😃.",
         'Een u-can-act tip: vul drie vragenlijsten achter elkaar in en verdien een euro extra per vragenlijst!',
-        'Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} ' \
-        '{{zijn_haar_begeleider}} begeleiding te verbeteren!',
         "Hoi {{deze_student}},\nVul direct de volgende vragenlijst in. Het kost maar 3 minuten en je helpt ons enorm!",
         "Hallo {{deze_student}},\nVerdien twee euro! Vul nu de vragenlijst in.",
         'Fijn dat jij meedoet! Door jou kunnen jongeren nog betere begeleiding krijgen in de toekomst!',
         'Help {{je_begeleidingsinitiatief}} nog beter te worden in wat ze doen en vul nu de vragenlijst in 😃.'
       ]
+
+      if protocol&.name != 'studenten_control'
+        invite_texts << 'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
+                        'beter te kunnen doen en vul deze vragenlijst in 😃.'
+        invite_texts << 'Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
+                        '{{zijn_haar_begeleider}} begeleiding te verbeteren!'
+      end
+      invite_texts
     end
 
     def about_to_be_on_streak_pool

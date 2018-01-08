@@ -199,10 +199,36 @@ describe StudentInvitationTexts do
     end
   end
   describe 'default_pool' do
-    it 'should not raise an error' do
+    it 'should not raise an error with nil' do
       expect do
-        described_class.default_pool
+        described_class.default_pool(nil)
       end.not_to raise_error
+    end
+
+    it 'should never include the begeleider specific texts if the protocol has the name studenten_control' do
+      protocol = FactoryGirl.build(:protocol, name: 'studenten_control')
+      result = described_class.default_pool(protocol)
+      expect(result).to_not include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
+                                    'beter te kunnen doen en vul deze vragenlijst in 😃.')
+      expect(result).to_not include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
+                        '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
+
+      # Check if the begeleider at all is in the text. Note that je_begeleidingsinitiatief and begeleiding are allowed.
+      result = result.join
+      expect(result).to_not match('begeleider')
+    end
+
+    it 'should include the begeleider specific texts for other protocol names' do
+      protocol = FactoryGirl.build(:protocol, name: 'other_protocol')
+      result = described_class.default_pool(protocol)
+      expect(result).to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
+                                'beter te kunnen doen en vul deze vragenlijst in 😃.')
+      expect(result).to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
+                        '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
+
+      # Check if the begeleieder at all is in the text
+      result = result.join
+      expect(result).to match('begeleider')
     end
   end
   describe 'about_to_be_on_streak_pool' do

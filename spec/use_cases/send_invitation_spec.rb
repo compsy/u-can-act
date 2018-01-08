@@ -3,7 +3,12 @@
 require 'rails_helper'
 
 describe SendInvitation do
-  let(:response) { FactoryGirl.create(:response) }
+  let(:protocol_subscription) { FactoryGirl.create(:protocol_subscription, start_date: Time.zone.now.beginning_of_day) }
+  let(:response) do
+    FactoryGirl.create(:response,
+                       open_from: 10.minutes.ago.in_time_zone,
+                       protocol_subscription: protocol_subscription)
+  end
   let(:student) { FactoryGirl.create(:student) }
   let(:mentor) { FactoryGirl.create(:mentor) }
 
@@ -64,7 +69,7 @@ describe SendInvitation do
                            measurement: measurement)
 
         dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek, open_duration: 36.hours)
         response = FactoryGirl.create(:response,
                                       protocol_subscription: protocol_subscription,
                                       open_from: 24.hour.ago,
@@ -95,7 +100,7 @@ describe SendInvitation do
                            measurement: measurement)
 
         dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
+        measurement = FactoryGirl.create(:measurement, :periodical, questionnaire: dagboek, open_duration: 36.hours)
         FactoryGirl.create(:response,
                            protocol_subscription: protocol_subscription,
                            open_from: 24.hour.ago,
@@ -111,10 +116,8 @@ describe SendInvitation do
         FactoryGirl.create(:invitation_token, response: response)
 
         mytok = response.invitation_token.token
-        smstext = 'Hoi Jane, vul direct de volgende vragenlijst in. Het kost maar 3 minuten en je helpt ons enorm! ' \
-          "#{ENV['HOST_URL']}/?q=#{mytok}"
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
-                                               text: smstext,
+                                               text: %r{ #{ENV['HOST_URL']}\/\?q=#{mytok}},
                                                reference: "vsv-#{response.id}")
         described_class.run!(response: response)
       end

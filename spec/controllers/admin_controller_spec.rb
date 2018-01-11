@@ -47,7 +47,7 @@ describe AdminController, type: :controller do
 
     context 'questionnaire routes' do
       let(:routes_list) { %i[questionnaire_export response_export] }
-      let!(:questionnaire) { FactoryGirl.create(:questionnaire, name: 'my-questionnaire') }
+      let!(:questionnaire) { FactoryBot.create(:questionnaire, name: 'my-questionnaire') }
 
       it 'should render an error when the questionnaire cannot be found' do
         basic_auth 'admin', 'admin'
@@ -77,61 +77,61 @@ describe AdminController, type: :controller do
       Timecop.return
     end
 
-    let!(:org1) { FactoryGirl.create(:organization, name: 'org1') }
-    let!(:org2) { FactoryGirl.create(:organization, name: 'org2') }
+    let!(:org1) { FactoryBot.create(:organization, name: 'org1') }
+    let!(:org2) { FactoryBot.create(:organization, name: 'org2') }
 
-    let!(:role1) {  FactoryGirl.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
-    let!(:role2) {  FactoryGirl.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
+    let!(:role1) {  FactoryBot.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
+    let!(:role2) {  FactoryBot.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
 
-    let!(:role3) {  FactoryGirl.create(:role, organization: org2, group: Person::STUDENT, title: 'Student') }
-    let!(:role4) {  FactoryGirl.create(:role, organization: org2, group: Person::MENTOR, title: 'Mentor') }
+    let!(:role3) {  FactoryBot.create(:role, organization: org2, group: Person::STUDENT, title: 'Student') }
+    let!(:role4) {  FactoryBot.create(:role, organization: org2, group: Person::MENTOR, title: 'Mentor') }
 
-    let!(:student1) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
-    let!(:student2) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
-    let!(:mentor1) { FactoryGirl.create(:person, :with_protocol_subscriptions, role: role2) }
+    let!(:student1) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
+    let!(:student2) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
+    let!(:mentor1) { FactoryBot.create(:person, :with_protocol_subscriptions, role: role2) }
 
-    let!(:student3) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role3) }
-    let!(:student4) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role3) }
-    let!(:mentor2) { FactoryGirl.create(:person, :with_protocol_subscriptions, role: role4) }
+    let!(:student3) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role3) }
+    let!(:student4) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role3) }
+    let!(:mentor2) { FactoryBot.create(:person, :with_protocol_subscriptions, role: role4) }
 
     let!(:response1) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: student1.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: student1.protocol_subscriptions.first)
     end
     let!(:response2) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: student2.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: student2.protocol_subscriptions.first)
     end
     let!(:response3) do
-      FactoryGirl.create(:response,
-                         protocol_subscription: student1.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        protocol_subscription: student1.protocol_subscriptions.first)
     end
     let!(:response4) do
-      FactoryGirl.create(:response,
-                         open_from: Time.zone.now + 1.day,
-                         protocol_subscription: student2.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        open_from: Time.zone.now + 1.day,
+                        protocol_subscription: student2.protocol_subscriptions.first)
     end
 
     let!(:response5) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
     let!(:response6) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
     let!(:response7) do
-      FactoryGirl.create(:response,
-                         open_from: Time.zone.now + 1.day,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        open_from: Time.zone.now + 1.day,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
     let!(:response8) do
-      FactoryGirl.create(:response,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
 
     it 'should generate an overview for all organizations in the db' do

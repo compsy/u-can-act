@@ -11,7 +11,7 @@ describe CompleteProtocolSubscriptions do
 
     describe 'loops through active protocol subscriptions' do
       it 'should update their state to completed' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
         expect(protocol_subscription.ended?).to be_truthy
         described_class.run
         protocol_subscription.reload
@@ -19,8 +19,8 @@ describe CompleteProtocolSubscriptions do
       end
 
       it 'should not affect canceled protocol subscriptions' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day,
-                                                                           state: ProtocolSubscription::CANCELED_STATE)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day,
+                                                                          state: ProtocolSubscription::CANCELED_STATE)
         expect(protocol_subscription.ended?).to be_truthy
         described_class.run
         protocol_subscription.reload
@@ -28,7 +28,7 @@ describe CompleteProtocolSubscriptions do
       end
 
       it 'should not affect protocol subscriptions that have not yet ended' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
         expect(protocol_subscription.ended?).to be_falsey
         described_class.run
         protocol_subscription.reload

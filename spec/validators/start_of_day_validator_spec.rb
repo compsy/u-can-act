@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe StartOfDayValidator do
-  let(:protocol_subscription) { FactoryGirl.build(:protocol_subscription) }
+  let(:protocol_subscription) { FactoryBot.build(:protocol_subscription) }
 
   it 'should return errors if the date is not midnight' do
     protocol_subscription.start_date = Time.new(2017, 4, 10, 0, 0, 1).in_time_zone

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe StudentInvitationTexts do
   describe 'message' do
-    let(:protocol) { FactoryGirl.create(:protocol, :with_student_rewards) }
+    let(:protocol) { FactoryBot.create(:protocol, :with_student_rewards) }
     it 'should send the kick off message for the voormeting' do
       protocol_completion = [
         { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 }
@@ -206,7 +206,7 @@ describe StudentInvitationTexts do
     end
 
     it 'should never include the begeleider specific texts if the protocol has the name studenten_control' do
-      protocol = FactoryGirl.build(:protocol, name: 'studenten_control')
+      protocol = FactoryBot.build(:protocol, name: 'studenten_control')
       result = described_class.default_pool(protocol)
       expect(result).to_not include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
                                     'beter te kunnen doen en vul deze vragenlijst in 😃.')
@@ -219,7 +219,7 @@ describe StudentInvitationTexts do
     end
 
     it 'should include the begeleider specific texts for other protocol names' do
-      protocol = FactoryGirl.build(:protocol, name: 'other_protocol')
+      protocol = FactoryBot.build(:protocol, name: 'other_protocol')
       result = described_class.default_pool(protocol)
       expect(result).to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
                                 'beter te kunnen doen en vul deze vragenlijst in 😃.')

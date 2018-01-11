@@ -123,7 +123,7 @@ group :production, :staging do
   gem 'daemons'
 
   # Gem for cheaper worker nodes on Heroku
-  gem 'workless'
+  # gem 'workless' # disable until this is fixed: https://github.com/lostboy/workless/issues/106#issuecomment-356636649
 end
 
 group :development do

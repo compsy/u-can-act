@@ -1,0 +1,122 @@
+# TODO: store capybara artifacts (html pages/images) for when tests fail
+#       see https://circleci.com/docs/2.0/project-walkthrough/
+#       under "Running Tests"
+# NOTE: If protected branches wait endlessly for circle ci status,
+#       see bottom of this page: https://circleci.com/docs/2.0/workflows/
+
+defaults: &defaults
+  docker:
+    - image: circleci/ruby:2.4-stretch-browsers
+    - image: circleci/postgres:9-alpine
+      environment:
+        POSTGRES_USER: ubuntu
+        POSTGRES_DB: vsv_test  # needed?
+        POSTGRES_PASSWORD: ""  # needed?
+        TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+    - image: circleci/mongo:3.6-jessie
+      environment:
+        TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+  environment:
+    TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+  working_directory: ~/test
+
+version: 2.0
+
+jobs:
+  checkout_code:
+    <<: *defaults
+    steps:
+      - checkout
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/test
+
+  build:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --path vendor/bundle
+      - save_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ~/test/vendor/bundle
+
+  test_rspec:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle --path vendor/bundle
+      - run: ./bin/chromedriver_install # maybe we can do this in a base image
+      - run: bundle exec rake db:create db:schema:load
+      - run: RAILS_ENV=test RACK_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+
+  test_teaspoon:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: ./bin/chromedriver_install # maybe we can do this in a base image
+      - run: bundle exec teaspoon
+
+  test_rubocop:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle exec rubocop
+
+  test_gemnasium:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: ./bin/gemnasium_install
+      - run: ./bin/gemnasium
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - test_rspec:
+          requires:
+            - build
+      - test_teaspoon:
+          requires:
+            - build
+      - test_rubocop:
+          requires:
+            - build
+
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 6 * * *" # 6am utc
+          filters:
+            branches:
+              only: master
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - test_gemnasium:
+          requires:
+            - build

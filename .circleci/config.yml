@@ -9,9 +9,9 @@ defaults: &defaults
     - image: circleci/ruby:2.4.3-browsers
     - image: circleci/postgres:9-alpine
       environment:
-        POSTGRES_USER: ubuntu
-        POSTGRES_DB: vsv_test  # needed?
-        POSTGRES_PASSWORD: ""  # needed?
+        POSTGRES_USER: circleci
+        #POSTGRES_DB: vsv_test  # needed?
+        #POSTGRES_PASSWORD: ""  # needed?
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     - image: circleci/mongo:3.6
       environment:

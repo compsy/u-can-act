@@ -50,7 +50,7 @@ jobs:
 
   test_rspec:
     <<: *defaults
-    #parallelism: 4
+    parallelism: 4
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}

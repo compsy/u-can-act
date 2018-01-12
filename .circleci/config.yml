@@ -140,7 +140,6 @@ workflows:
       - coverage_report:
           requires:
             - test_rspec
-            - test_teaspoon
 
   nightly:
     triggers:

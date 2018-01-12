@@ -53,6 +53,7 @@ jobs:
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - run: bundle --path vendor/bundle
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run: bundle exec rake db:create db:schema:load
       - run: RAILS_ENV=test RACK_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
@@ -65,6 +66,7 @@ jobs:
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - run: bundle --path vendor/bundle
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run: bundle exec teaspoon
 
@@ -86,6 +88,8 @@ jobs:
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - run: bundle --path vendor/bundle
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
+      - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run: ./bin/gemnasium_install
       - run: ./bin/gemnasium
 

@@ -66,6 +66,11 @@ jobs:
       #      mkdir /tmp/test-results
       #      bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o /tmp/test-results/rspec/junit.xml
       - run:
+          name: echo test files
+          command: |
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=filesize)"
+            echo $TEST_FILES
+      - run:
           name: run tests
           command: |
             mkdir /tmp/test-results

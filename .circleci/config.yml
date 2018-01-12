@@ -51,7 +51,7 @@ jobs:
 
   test_rspec:
     <<: *defaults
-    parallelism: 4
+    parallelism: 3
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -114,7 +114,6 @@ jobs:
   coverage_report:
     <<: *defaults
     steps:
-      - run: echo $CIRCLE_PREVIOUS_BUILD_NUM
       - run:
           name: complete report
           command: |
@@ -129,19 +128,19 @@ workflows:
       - build:
           requires:
             - checkout_code
-      - test_teaspoon:
-          requires:
-            - build
       - test_rubocop:
           requires:
             - build
-      - test_rspec:
+      - test_teaspoon:
           requires:
             - test_rubocop
-            - test_teaspoon
+      - test_rspec:
+          requires:
+            - build
       - coverage_report:
           requires:
             - test_rspec
+            - test_teaspoon
 
   nightly:
     triggers:

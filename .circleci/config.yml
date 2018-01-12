@@ -111,6 +111,15 @@ jobs:
       - run: ./bin/gemnasium_install
       - run: ./bin/gemnasium
 
+  coverage_report:
+    <<: *defaults
+    steps:
+      - run: echo $CIRCLE_PREVIOUS_BUILD_NUM
+      - run:
+          name: complete report
+          command: |
+            curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_PREVIOUS_BUILD_NUM&payload[status]=done"
+
 workflows:
   version: 2
 
@@ -130,6 +139,10 @@ workflows:
           requires:
             - test_rubocop
             - test_teaspoon
+      - coverage_report:
+          requires:
+            - test_rspec
+
   nightly:
     triggers:
       - schedule:
@@ -145,7 +158,3 @@ workflows:
       - test_gemnasium:
           requires:
             - build
-
-notify:
-  webhooks:
-    - url: https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN

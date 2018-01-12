@@ -21,6 +21,7 @@ defaults: &defaults
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
     RACK_ENV: test
+    COVERALLS_PARALLEL: true
   working_directory: ~/test
 
 version: 2.0
@@ -60,11 +61,6 @@ jobs:
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run: bundle exec rake db:create db:schema:load
-      #- run:
-      #    name: run tests
-      #    command: |
-      #      mkdir /tmp/test-results
-      #      bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o /tmp/test-results/rspec/junit.xml
       - run:
           name: run tests
           command: |
@@ -90,6 +86,7 @@ jobs:
       - run: bundle --path vendor/bundle
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
+      - run: echo $COVERALLS_REPO_TOKEN
       - run: bundle exec teaspoon
 
   test_rubocop:
@@ -124,16 +121,16 @@ workflows:
       - build:
           requires:
             - checkout_code
-      - test_rspec:
-          requires:
-            - build
       - test_teaspoon:
           requires:
             - build
       - test_rubocop:
           requires:
             - build
-
+      - test_rspec:
+          requires:
+            - test_rubocop
+            - test_teaspoon
   nightly:
     triggers:
       - schedule:
@@ -149,3 +146,7 @@ workflows:
       - test_gemnasium:
           requires:
             - build
+
+notify:
+  webhooks:
+    - url: https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN

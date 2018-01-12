@@ -1,6 +1,3 @@
-# TODO: store capybara artifacts (html pages/images) for when tests fail
-#       see https://circleci.com/docs/2.0/project-walkthrough/
-#       under "Running Tests"
 # NOTE: maybe needed if we run into a scenario where the db is not avaiable?
 #      - run:
 #          name: Wait for db
@@ -66,11 +63,12 @@ jobs:
           command: |
             mkdir -p /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            echo $TEST_FILES
             bundle exec rspec --format documentation \
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
                               -- $(echo "${TEST_FILES}" | sed -e 's/\n/\\n/' -e 's/ /\ /')
-      - store_test_results:
+      - store_test_results:   # TEST_FILES contains newlines, replace by spaces or we get errors
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
@@ -128,16 +126,16 @@ workflows:
       - build:
           requires:
             - checkout_code
+      - test_rubocop:
+          requires:
+            - build
+      - test_teaspoon:
+          requires:
+            - test_rubocop
       - test_rspec:
           requires:
             - build
       - coverage_report:
-          requires:
-            - test_rspec
-      - test_teaspoon:
-          requires:
-            - test_rspec
-      - test_rubocop:
           requires:
             - test_rspec
 

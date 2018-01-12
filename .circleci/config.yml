@@ -66,22 +66,14 @@ jobs:
       #      mkdir /tmp/test-results
       #      bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o /tmp/test-results/rspec/junit.xml
       - run:
-          name: echo test files
-          command: |
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=filesize)"
-            echo $TEST_FILES
-      - run:
           name: run tests
           command: |
-            mkdir /tmp/test-results
+            mkdir -p /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=filesize)"
-
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            "${TEST_FILES}"
-      # collect reports
+            bundle exec rspec --format documentation \
+                              --format RspecJunitFormatter \
+                              --out /tmp/test-results/rspec.xml \
+                              -- $(echo "${TEST_FILES}" | sed -e 's/\n/\\n/' -e 's/ /\ /')
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:

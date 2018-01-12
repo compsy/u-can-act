@@ -51,7 +51,7 @@ jobs:
 
   test_rspec:
     <<: *defaults
-    parallelism: 3
+    parallelism: 4
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -131,13 +131,13 @@ workflows:
       - test_rspec:
           requires:
             - build
+      - coverage_report:
+          requires:
+            - test_rspec
       - test_teaspoon:
           requires:
             - test_rspec
       - test_rubocop:
-          requires:
-            - test_rspec
-      - coverage_report:
           requires:
             - test_rspec
 

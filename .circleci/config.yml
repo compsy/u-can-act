@@ -128,15 +128,15 @@ workflows:
       - build:
           requires:
             - checkout_code
-      - test_rubocop:
+      - test_rspec:
           requires:
             - build
       - test_teaspoon:
           requires:
-            - test_rubocop
-      - test_rspec:
+            - test_rspec
+      - test_rubocop:
           requires:
-            - build
+            - test_rspec
       - coverage_report:
           requires:
             - test_rspec

@@ -1,5 +1,5 @@
 organization_name = 'De Plusgroep'
-titles = ['Pluscoach']
+titles = ['Pluscoach', 'Plusmaatje']
 
 puts "Running seeds for #{organization_name}"
 organization = Organization.find_by_name(organization_name)

@@ -9,12 +9,10 @@ module Api
     def week_number
       @instance_options[:week_number]
     end
-    
+
     def year
       @instance_options[:year]
     end
-
-
 
     def overview
       group = @instance_options[:group]

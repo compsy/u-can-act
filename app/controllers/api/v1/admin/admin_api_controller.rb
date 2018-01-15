@@ -3,11 +3,14 @@
 module Api
   module V1
     module Admin
-      class AdminApiController < ApiController
-        before_action :verify_admin
+      class AdminApiController < ApplicationController
+        before_action :authenticate_admin
 
-        def verify_admin
-          # TODO!!!!!! CHECK ACCESS!
+        private
+
+        def unauthorized_entity(entity_name)
+          render json: { error: 'Unauthorized request',
+                         entity: entity_name, info: params }, status: :unauthorized
         end
       end
     end

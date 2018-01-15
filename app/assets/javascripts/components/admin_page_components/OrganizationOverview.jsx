@@ -27,62 +27,88 @@ class OrganizationOverview extends React.Component {
     })
   }
 
+  setHeader(xhr) {
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('id_token'));
+  }
+
   loadOrganizationData(group) {
     var self = this
-    console.log('Updating!');
 
     // Only update if the subscription id has changed
-    let url = '/api/v1/admin/organization/' + group + 
-              '?year=' + this.state.year + 
-              '&week_number=' + this.state.week_number;
-    console.log(url);
-    $.getJSON(url, (response) => {
-      self.setState({
-        [group] : response
-      })
+    let url = '/api/v1/admin/organization/' + group +
+      '?year=' + this.state.year +
+      '&week_number=' + this.state.week_number;
+
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+      success: (response) => {
+        self.setState({
+          [group]: response
+        })
+      },
+      error: function() {
+        console.log('Error, call failed!');
+      },
+      beforeSend: self.setHeader
     });
   }
 
   handleYearChange(option) {
-    console.log(option);
-    this.setState({year: option})
+    this.setState({
+      year: option
+    })
     this.updateOrganizationDetails();
   }
 
   handleWeekChange(option) {
-    console.log(option);
-    this.setState({week_number: option})
+    this.setState({
+      week_number: option
+    })
     this.updateOrganizationDetails();
+  }
+
+  renderOverview(render) {
+    if (!render) return (<div />)
+    return (
+      <div>
+      <h3> Organization overview </h3>
+      <div className="col s6">
+        <div className="col s3">
+          <WeekDropdownMenu value={this.state.week_numer} year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
+        </div>
+        <div className="col s9">
+          <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
+        </div>
+      </div>
+      <div className="col s12">
+        <div className="row">
+          <div className="col s12">
+            <OrganizationOverviewEntry overview={this.state.Mentor.overview} name='Mentors' />
+            <OrganizationOverviewEntry overview={this.state.Student.overview} name='Students' />
+          </div>
+        </div>
+      </div>
+      </div>
+    )
   }
 
 
   render() {
     var ready = true;
     this.state.groups.forEach((group) => {
-      if (!this.state[group]) { ready = false; }
+      if (!this.state[group]) {
+        ready = false;
+      }
     })
     if (!ready) return <div>Bezig...</div>
 
-      //%p Voor week #{Time.zone.now.to_date.cweek}
-    return ( 
+    //%p Voor week #{Time.zone.now.to_date.cweek}
+    //
+    return (
       <div>
-        <h3> Organization overview </h3>
-        <div className="col s6">
-          <div className="col s3">
-            <WeekDropdownMenu value={this.state.week_numer} year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
-          </div>
-          <div className="col s9">
-            <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
-          </div>
-        </div>
-        <div className="col s12">
-          <div className="row">
-            <div className="col s12">
-              <OrganizationOverviewEntry overview={this.state.Mentor.overview} name='Mentors' />
-              <OrganizationOverviewEntry overview={this.state.Student.overview} name='Students' />
-            </div>
-          </div>
-        </div>
+        {this.renderOverview(true)}
       </div>
     )
   }

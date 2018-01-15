@@ -33,7 +33,7 @@ describe Organization, type: :model do
     end
   end
 
-  describe 'generate_organization_overview' do
+  describe 'organization_overview' do
     before :each do
       Timecop.freeze(2017, 5, 5)
     end
@@ -100,7 +100,7 @@ describe Organization, type: :model do
     end
 
     it 'should generate an overview for all organizations in the db' do
-      result = described_class.generate_organization_overview
+      result = described_class.organization_overview
       expect(result).to_not be_nil
       expect(result).to be_a Array
       expect(result.length).to eq 2
@@ -109,14 +109,14 @@ describe Organization, type: :model do
     end
 
     it 'should list all role titles' do
-      result = described_class.generate_organization_overview.first[:data]
+      result = described_class.organization_overview.first[:data]
       expect(result).to be_a Hash
       expect(result.length).to eq 2
-      expect(result.keys).to eq [Person::STUDENT, Person::MENTOR]
+      expect(result.keys).to match_array [Person::STUDENT, Person::MENTOR]
     end
 
     it 'should list the completed measurements and total measurements for mentors' do
-      result = described_class.generate_organization_overview.first[:data][Person::MENTOR]
+      result = described_class.organization_overview.first[:data][Person::MENTOR]
       expect(result).to be_a Hash
       expect(result.length).to eq 2
       expect(result.keys).to match %i[completed total]
@@ -125,7 +125,7 @@ describe Organization, type: :model do
     end
 
     it 'should list the completed measurements and total measurements for students' do
-      result = described_class.generate_organization_overview.first[:data][Person::STUDENT]
+      result = described_class.organization_overview.first[:data][Person::STUDENT]
       expect(result).to be_a Hash
       expect(result.length).to eq 2
       expect(result.keys).to match %i[completed total]

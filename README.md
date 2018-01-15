@@ -46,6 +46,11 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   MAILGUN_API_KEY: <the API key retrieved from mailgun, starts with key->
   MAILGUN_DOMAIN: <the domain configured with mailgun to send mail from, e.g., sandbox43bf51fb258844f0bc393e806ebd25bb.mailgun.org or mg.u-can-act.nl>
   FROM_EMAIL_ADDRESS: <the email address to send the email from, e.g., info@u-can-act.nl>
+
+  AUTH0_CLIENT_ID: <the client id of the client used at auth0>
+  AUTH0_DOMAIN: <the auth0 domain, e.g., ucanact.eu.auth0.com>
+  AUTH0_CLIENT_SECRET: <the client secret from auth0
+  AUTH0_RSA_DOMAIN: <the URL to retrieve the public keys from>
 ```
 
 ### Development configuration

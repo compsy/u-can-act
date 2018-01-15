@@ -6,10 +6,11 @@ module Api
       class OrganizationController < AdminApiController
         def show
           @organization_overview = Organization.organization_overview(week_number, year)
-          render json: @organization_overview, serializer: Api::OrganizationOverviewSerializer,
-            group: group,
-            week_number: week_number,
-            year: year
+          render json: @organization_overview,
+                 serializer: Api::OrganizationOverviewSerializer,
+                 group: group,
+                 week_number: week_number,
+                 year: year
         end
 
         private
@@ -21,7 +22,7 @@ module Api
         def week_number
           organization_params[:week_number]
         end
-        
+
         def year
           organization_params[:year]
         end

@@ -20,7 +20,6 @@ class Organization < ApplicationRecord
 
   private
 
-
   def stats_for_role(role, week_number, year)
     role.people.each_with_object(Hash.new(0)) do |person, all_person_stats|
       person_stats = stats_for_person(person, week_number, year)

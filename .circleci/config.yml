@@ -124,11 +124,12 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: export BUILD_NUM=$(cat /tmp/workspace/build_num)
-      - run: echo $BUILD_NUM
+      - run: echo $(cat /tmp/workspace/build_num)
+      - run: echo `cat /tmp/workspace/build_num`
       - run:
           name: complete report
           command: |
-            curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$BUILD_NUM&payload[status]=done"
+            curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$(cat /tmp/workspace/build_num)&payload[status]=done"
 
 workflows:
   version: 2

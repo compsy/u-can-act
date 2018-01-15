@@ -58,6 +58,8 @@ jobs:
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run: bundle exec rake db:create db:schema:load
+      - run: mkdir -p /tmp/workspace
+      - run: echo $CIRCLE_BUILD_NUM | tee /tmp/workspace/build_num
       - run:
           name: run tests
           command: |
@@ -73,6 +75,10 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - build_num
 
   test_teaspoon:
     <<: *defaults
@@ -112,10 +118,14 @@ jobs:
   coverage_report:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: export BUILD_NUM=$(cat /tmp/workspace/build_num)
+      - run: echo $BUILD_NUM
       - run:
           name: complete report
           command: |
-            curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_PREVIOUS_BUILD_NUM&payload[status]=done"
+            curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$BUILD_NUM&payload[status]=done"
 
 workflows:
   version: 2

@@ -147,7 +147,7 @@ describe AdminController, type: :controller do
       result = controller.generate_organization_overview.first[:data]
       expect(result).to be_a Hash
       expect(result.length).to eq 2
-      expect(result.keys).to eq [Person::STUDENT, Person::MENTOR]
+      expect(result.keys).to match_array [Person::STUDENT, Person::MENTOR]
     end
 
     it 'should list the completed measurements and total measurements for mentors' do

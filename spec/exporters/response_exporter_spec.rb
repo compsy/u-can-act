@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe ResponseExporter do
   let!(:response) do
-    response_content = FactoryGirl.create(:response_content,
-                                          content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23.0' })
-    FactoryGirl.create(:response, :completed, content: response_content.id.to_s)
+    response_content = FactoryBot.create(:response_content,
+                                         content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23.0' })
+    FactoryBot.create(:response, :completed, content: response_content.id.to_s)
   end
 
   context 'invalid questionnaire' do
@@ -19,9 +19,9 @@ describe ResponseExporter do
   context 'with valid questionnaire' do
     it 'works with responses' do
       # create a response that should be filtered out
-      person = FactoryGirl.create(:student, mobile_phone: '0611055958')
-      protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person)
-      FactoryGirl.create(:response, protocol_subscription: protocol_subscription, measurement: response.measurement)
+      person = FactoryBot.create(:student, mobile_phone: '0611055958')
+      protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
+      FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: response.measurement)
       export = described_class.export_lines(response.measurement.questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 2
       expect(export.first).to match('"v1";"v3";"v23_2a13_brood"') # Test the sorting of keys
@@ -49,7 +49,7 @@ describe ResponseExporter do
         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
         section_end: true
       }]
-      questionnaire = FactoryGirl.create(:questionnaire, content: questionnaire_content)
+      questionnaire = FactoryBot.create(:questionnaire, content: questionnaire_content)
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 1
       expect(export.last.split(';', -1).first).to eq '"response_id"'

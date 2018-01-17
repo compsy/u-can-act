@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
   factory :person do
     role
@@ -16,17 +16,17 @@ FactoryGirl.define do
 
     trait :with_protocol_subscriptions do
       after(:create) do |person|
-        FactoryGirl.create(:protocol_subscription, person: person)
+        FactoryBot.create(:protocol_subscription, person: person)
       end
     end
   end
 
   factory :mentor, class: 'Person', parent: :person do
     email 'mentor@mentor.com'
-    role { FactoryGirl.create(:role, group: Person::MENTOR, title: 'mentor Title') }
+    role { FactoryBot.create(:role, group: Person::MENTOR, title: 'mentor Title') }
   end
 
   factory :student, class: 'Person', parent: :person do
-    role { FactoryGirl.create(:role, group: Person::STUDENT, title: 'student Title') }
+    role { FactoryBot.create(:role, group: Person::STUDENT, title: 'student Title') }
   end
 end

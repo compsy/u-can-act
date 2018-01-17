@@ -4,7 +4,7 @@ require 'rails_helper'
 
 module Api
   module V1
-    fdescribe StatisticsController, type: :controller do
+    describe StatisticsController, type: :controller do
       before do
         Timecop.freeze(Date.new(2017, 5, 8))
       end

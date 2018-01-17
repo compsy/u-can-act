@@ -418,7 +418,7 @@ DEPENDENCIES
   messagebird-rest
   modernizr-rails
   mongoid
-  pg (~> 0.21)
+  pg (~> 0.20)
   pry-rails
   puma
   rails (~> 5.0.2)

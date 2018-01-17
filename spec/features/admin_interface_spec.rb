@@ -76,7 +76,7 @@ describe 'GET /admin', type: :feature, js: true do
   describe 'questionnaire previews' do
     it 'should have working preview of questionnaires' do
       FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                         content: [{ type: :raw, content: 'questionnaire' }])
+                                         content: [{ type: :raw, content: 'questionnaire' }])
       basic_auth 'admin', 'admin', '/admin'
       visit '/admin'
       materialize_select('Selecteer een vragenlijst...', 'myquestionnairename')
@@ -89,7 +89,7 @@ describe 'GET /admin', type: :feature, js: true do
 
   describe 'organizational overviews' do
     let(:admin) { FactoryGirl.create(:admin) }
-    let(:payload) {{ sub: admin.auth0_id_string }}
+    let(:payload) { { sub: admin.auth0_id_string } }
 
     let!(:org1) { FactoryGirl.create(:organization, name: 'org1') }
     let!(:org2) { FactoryGirl.create(:organization, name: 'org2') }
@@ -153,7 +153,7 @@ describe 'GET /admin', type: :feature, js: true do
 
       it 'should not list the correct organizations with an incorrect session' do
         FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                           content: [{ type: :raw, content: 'questionnaire' }])
+                                           content: [{ type: :raw, content: 'questionnaire' }])
 
         visit '/admin'
         page.execute_script("localStorage.setItem('id_token', 'incorrect')")
@@ -190,7 +190,7 @@ describe 'GET /admin', type: :feature, js: true do
 
       it 'should list the correct organizations' do
         FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                           content: [{ type: :raw, content: 'questionnaire' }])
+                                           content: [{ type: :raw, content: 'questionnaire' }])
         basic_auth 'admin', 'admin', '/admin'
         visit '/admin'
         expect(page).to have_content 'Organization overview'
@@ -205,7 +205,6 @@ describe 'GET /admin', type: :feature, js: true do
         expect(page).to have_content Person::STUDENT
         expect(page).to have_content Person::MENTOR
       end
-
     end
   end
 end

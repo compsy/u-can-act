@@ -17,7 +17,7 @@ module AuthHelper
 
     payload['aud'] = Knock.token_audience.call
     id_token = JWT.encode payload, private_key, 'RS256'
-    request.headers['Authorization'] = "Bearer #{id_token}" if (set_header)
+    request.headers['Authorization'] = "Bearer #{id_token}" if set_header
     id_token
   end
 

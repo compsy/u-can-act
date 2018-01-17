@@ -1,0 +1,162 @@
+defaults: &defaults
+  docker:
+    - image: circleci/ruby:2.4.3-browsers
+    - image: circleci/postgres:9-alpine
+      environment:
+        POSTGRES_USER: circleci
+        POSTGRES_PASSWORD: ""
+        TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+    - image: circleci/mongo:3.6
+      environment:
+        TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+  environment:
+    TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+    RAILS_ENV: test
+    RACK_ENV: test
+    COVERALLS_PARALLEL: true
+  working_directory: ~/test
+
+version: 2.0
+
+jobs:
+  checkout_code:
+    <<: *defaults
+    steps:
+      - checkout
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/test
+
+  build:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ~/test/vendor/bundle
+
+  test_rspec:
+    <<: *defaults
+    parallelism: 3
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle --path vendor/bundle
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
+      - run: ./bin/chromedriver_install # maybe we can do this in a base image
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:27017 -timeout 1m
+      - run: bundle exec rake db:create db:schema:load
+      - run: mkdir -p /tmp/workspace
+      - run: echo $CIRCLE_BUILD_NUM | tee /tmp/workspace/build_num
+      - run:
+          name: run tests
+          command: |
+            mkdir -p /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            echo $TEST_FILES
+            bundle exec rspec --format documentation \
+                              --format RspecJunitFormatter \
+                              --out /tmp/test-results/rspec.xml \
+                              -- $(echo "${TEST_FILES}" | sed -e 's/\n/\\n/' -e 's/ /\ /')
+      - store_test_results:   # TEST_FILES contains newlines, replace by spaces or we get errors
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - build_num
+
+  test_teaspoon:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle --path vendor/bundle
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
+      - run: ./bin/chromedriver_install # maybe we can do this in a base image
+      - run: bundle exec teaspoon
+
+  test_rubocop:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle --path vendor/bundle
+      - run: bundle exec rubocop
+
+  test_gemnasium:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle --path vendor/bundle
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
+      - run: ./bin/chromedriver_install # maybe we can do this in a base image
+      - run: ./bin/gemnasium_install
+      - run: ./bin/gemnasium
+
+  coverage_report:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: complete report
+          command: |
+            curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$(cat /tmp/workspace/build_num)&payload[status]=done"
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - test_rubocop:
+          requires:
+            - build
+      - test_teaspoon:
+          requires:
+            - test_rubocop
+      - test_rspec:
+          requires:
+            - build
+      - coverage_report:
+          requires:
+            - test_rspec
+
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 6 * * *" # 6am utc
+          filters:
+            branches:
+              only: master
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - test_gemnasium:
+          requires:
+            - build

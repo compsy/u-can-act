@@ -8,6 +8,25 @@ module Api
       let(:test_response) { FactoryGirl.create(:response, completed_at: 10.minutes.ago) }
       let(:other_response) { FactoryGirl.create(:response) }
       describe 'show' do
+        describe 'it should verify if the correct response is available in the session' do
+          it 'should return 401 if no response is available' do
+            get :show, params: { id: test_response.id }
+            expect(response.status).to eq 401
+            expect(response.body).to eq 'This api is only accessible after completing a questionnaire'
+          end
+
+          it 'should set the correct env vars if the response is available' do
+            allow(CookieJar).to receive(:read_entry)
+              .with(instance_of(ActionDispatch::Cookies::SignedCookieJar),
+                    TokenAuthenticationController::RESPONSE_ID_COOKIE)
+              .and_return(test_response.id)
+
+            get :show, params: { id: test_response.id }
+            expect(controller.instance_variable_get(:@response)).to eq(test_response)
+            expect(controller.instance_variable_get(:@current_user)).to eq(test_response.protocol_subscription.person)
+            expect(response.status).to eq 200
+          end
+        end
         describe 'with cookie' do
           before :each do
             allow(CookieJar).to receive(:read_entry)

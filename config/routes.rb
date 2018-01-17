@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   # Static pages
   get 'disclaimer', to: 'static_pages#disclaimer', as: 'disclaimer'
 
+  # Status
+  get '/status' => 'status#show'
+
   namespace :api do
     namespace :v1 do
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'

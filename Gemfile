@@ -8,7 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 # Specify ruby version for heroku
-ruby '2.4.2'
+ruby '2.4.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
@@ -124,7 +124,7 @@ group :production, :staging do
   gem 'daemons'
 
   # Gem for cheaper worker nodes on Heroku
-  gem 'workless'
+  # gem 'workless' # disable until this is fixed: https://github.com/lostboy/workless/issues/106#issuecomment-356636649
 end
 
 group :development do

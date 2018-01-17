@@ -30,7 +30,7 @@ Knock.setup do |config|
   ## Configure the key used to sign tokens.
   config.token_secret_signature_key = -> {
     OpenSSL::PKey::RSA.new(
-      OpenSSL::X509::Certificate.new(Rails.application.secrets.signing_certificate)
+      OpenSSL::X509::Certificate.new(Base64.strict_decode64(Rails.application.secrets.signing_certificate))
     )
     #Rails.application.secrets.auth0_client_secret
   }
@@ -42,7 +42,8 @@ Knock.setup do |config|
   #jwks_raw = Net::HTTP.get URI(ENV['AUTH0_RSA_DOMAIN'])
   #jwks_keys = Array(JSON.parse(jwks_raw)['keys'])
   #config.token_public_key = OpenSSL::X509::Certificate.new(Base64.decode64(jwks_keys[0]['x5c'].first)).public_key
-  config.token_public_key = OpenSSL::X509::Certificate.new(Rails.application.secrets.signing_certificate).public_key
+  config.token_public_key = OpenSSL::X509::Certificate.new(Base64.strict_decode64(Rails.application.secrets.signing_certificate)).public_key
+  
   #Rails.application.secrets.auth0_client_secret
   
 end

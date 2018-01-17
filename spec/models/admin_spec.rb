@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.fdescribe Admin, type: :model do
+RSpec.describe Admin, type: :model do
   let!(:admin) { FactoryGirl.create(:admin) }
   let!(:admin2) { FactoryGirl.create(:admin) }
   describe 'validations' do

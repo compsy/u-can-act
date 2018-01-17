@@ -1,4 +1,4 @@
-class RouterInstance extends React.Component {
+class AdminRouter extends React.Component {
   constructor(props) {
     super(props);
     this.auth = new Auth()

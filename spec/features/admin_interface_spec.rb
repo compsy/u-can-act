@@ -76,7 +76,7 @@ describe 'GET /admin', type: :feature, js: true do
   describe 'questionnaire previews' do
     it 'should have working preview of questionnaires' do
       FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                         content: [{ type: :raw, content: 'questionnaire' }])
+                         content: [{ type: :raw, content: 'questionnaire' }])
       basic_auth 'admin', 'admin', '/admin'
       visit '/admin'
       materialize_select('Selecteer een vragenlijst...', 'myquestionnairename')
@@ -87,7 +87,7 @@ describe 'GET /admin', type: :feature, js: true do
     end
   end
 
-  describe 'organizational overviews' do
+  fdescribe 'organizational overviews' do
     let!(:org1) { FactoryGirl.create(:organization, name: 'org1') }
     let!(:org2) { FactoryGirl.create(:organization, name: 'org2') }
 
@@ -138,33 +138,60 @@ describe 'GET /admin', type: :feature, js: true do
                          protocol_subscription: mentor1.protocol_subscriptions.first)
     end
 
-    it 'should list the correct organizations' do
-      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                         content: [{ type: :raw, content: 'questionnaire' }])
-      basic_auth 'admin', 'admin', '/admin'
-      visit '/admin'
-      expect(page).to have_content 'Organization overview'
-      expect(page).to have_content org1.name
-      expect(page).to have_content 'Organization'
-      expect(page).to have_content 'Completed (past week)'
-      expect(page).to have_content 'Completed percentage (past week)'
-
-      # It should not list org2, because it does not have any roles
-      expect(page).to_not have_content org2.name
-
-      expect(page).to have_content Person::STUDENT
-      expect(page).to have_content Person::MENTOR
+    xdescribe 'when not loggedin' do
+      it 'should show a login button when not logged in' do
+        basic_auth 'admin', 'admin', '/admin'
+        visit '/admin'
+        expect(page).to have_content 'Log In'
+      end
     end
 
-    it 'should show the current week' do
-      Timecop.freeze(2017, 12, 11)
-      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                         content: [{ type: :raw, content: 'questionnaire' }])
-      basic_auth 'admin', 'admin', '/admin'
-      visit '/admin'
-      expect(page).to have_content 'Voor week'
-      expect(page).to have_content '50'
-      Timecop.return
+    describe 'when loggedin' do
+      before :each do
+        admin = FactoryGirl.create(:admin)
+        payload = { sub: admin.auth0_id_string }
+        token = jwt_auth(payload, false)
+        visit '/admin'
+        page.execute_script("localStorage.setItem('id_token', '#{token}')")
+        visit '/admin'
+      end
+
+      it 'should show a log out button when logged in' do
+        basic_auth 'admin', 'admin', '/admin'
+        visit '/admin'
+        expect(page).to have_content 'Log Out'
+      end
+
+      it 'should list the correct organizations' do
+        FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                           content: [{ type: :raw, content: 'questionnaire' }])
+        basic_auth 'admin', 'admin', '/admin'
+        visit '/admin'
+        expect(page).to have_content 'Organization overview'
+        expect(page).to have_content org1.name
+        expect(page).to have_content 'Organization'
+        expect(page).to have_content 'Completed (past week)'
+        expect(page).to have_content 'Completed percentage (past week)'
+
+        # It should not list org2, because it does not have any roles
+        expect(page).to_not have_content org2.name
+
+        expect(page).to have_content Person::STUDENT
+        expect(page).to have_content Person::MENTOR
+      end
+
+      it 'should show the current week' do
+        Timecop.freeze(2017, 12, 11)
+        FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                           content: [{ type: :raw, content: 'questionnaire' }])
+        basic_auth 'admin', 'admin', '/admin'
+        visit '/admin'
+        expect(page).to have_content 'Voor week'
+        expect(page).to have_content '50'
+        Timecop.return
+      end
+
     end
+
   end
 end

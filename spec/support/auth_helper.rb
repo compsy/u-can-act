@@ -9,7 +9,7 @@ module AuthHelper
     end
   end
 
-  def jwt_auth(payload)
+  def jwt_auth(payload, set_header = true)
     private_key ||= OpenSSL::PKey::RSA.new(
       Rails.application.secrets.private_key,
       Rails.application.secrets.private_key_passphrase
@@ -17,7 +17,7 @@ module AuthHelper
 
     payload['aud'] = Knock.token_audience.call
     id_token = JWT.encode payload, private_key, 'RS256'
-    request.headers['Authorization'] = "Bearer #{id_token}"
+    request.headers['Authorization'] = "Bearer #{id_token}" if (set_header)
     id_token
   end
 

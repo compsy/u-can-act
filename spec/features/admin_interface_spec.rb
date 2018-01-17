@@ -87,7 +87,10 @@ describe 'GET /admin', type: :feature, js: true do
     end
   end
 
-  fdescribe 'organizational overviews' do
+  describe 'organizational overviews' do
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:payload) {{ sub: admin.auth0_id_string }}
+
     let!(:org1) { FactoryGirl.create(:organization, name: 'org1') }
     let!(:org2) { FactoryGirl.create(:organization, name: 'org2') }
 
@@ -138,21 +141,44 @@ describe 'GET /admin', type: :feature, js: true do
                          protocol_subscription: mentor1.protocol_subscriptions.first)
     end
 
-    xdescribe 'when not loggedin' do
+    before :each do
+      basic_auth 'admin', 'admin', '/admin'
+    end
+
+    describe 'when not loggedin' do
       it 'should show a login button when not logged in' do
-        basic_auth 'admin', 'admin', '/admin'
         visit '/admin'
         expect(page).to have_content 'Log In'
+      end
+
+      it 'should not list the correct organizations with an incorrect session' do
+        FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                           content: [{ type: :raw, content: 'questionnaire' }])
+
+        visit '/admin'
+        page.execute_script("localStorage.setItem('id_token', 'incorrect')")
+        page.execute_script("localStorage.setItem('access_token', 'incorrect')")
+        page.execute_script("localStorage.setItem('expires_at', '9999999999999')")
+        visit '/admin'
+
+        expect(page).to_not have_content 'Organization overview'
+        expect(page).to_not have_content org1.name
+        expect(page).to_not have_content 'Organization'
+        expect(page).to_not have_content 'Completed (past week)'
+        expect(page).to_not have_content 'Completed percentage (past week)'
+        expect(page).to_not have_content Person::STUDENT
+        expect(page).to_not have_content Person::MENTOR
       end
     end
 
     describe 'when loggedin' do
       before :each do
-        admin = FactoryGirl.create(:admin)
-        payload = { sub: admin.auth0_id_string }
         token = jwt_auth(payload, false)
+        # Duplicate vist /admin in order to get a correct page object, one with localstorage
         visit '/admin'
         page.execute_script("localStorage.setItem('id_token', '#{token}')")
+        page.execute_script("localStorage.setItem('access_token', '#{token}')")
+        page.execute_script("localStorage.setItem('expires_at', '9999999999999')")
         visit '/admin'
       end
 
@@ -180,18 +206,6 @@ describe 'GET /admin', type: :feature, js: true do
         expect(page).to have_content Person::MENTOR
       end
 
-      it 'should show the current week' do
-        Timecop.freeze(2017, 12, 11)
-        FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                           content: [{ type: :raw, content: 'questionnaire' }])
-        basic_auth 'admin', 'admin', '/admin'
-        visit '/admin'
-        expect(page).to have_content 'Voor week'
-        expect(page).to have_content '50'
-        Timecop.return
-      end
-
     end
-
   end
 end

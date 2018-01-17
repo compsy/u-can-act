@@ -11,7 +11,7 @@ module AuthHelper
 
   def jwt_auth(payload, set_header = true)
     private_key ||= OpenSSL::PKey::RSA.new(
-      Rails.application.secrets.private_key,
+      Base64.strict_decode64(Rails.application.secrets.private_key),
       Rails.application.secrets.private_key_passphrase
     )
 

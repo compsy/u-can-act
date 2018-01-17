@@ -34,7 +34,7 @@ describe InvitationTexts do
   describe 'default_pool' do
     it 'should raise an error' do
       expect do
-        described_class.default_pool
+        described_class.default_pool(nil)
       end.to raise_error(RuntimeError, 'method default_pool not implemented by subclass!')
     end
   end

@@ -35,25 +35,13 @@ class SendInvitation < ActiveInteraction::Base
     if response.protocol_subscription.person.mentor?
       mentor_texts
     else # Student
-      student_texts
+      response.substitute_variables(StudentInvitationTexts.message(response.protocol_subscription.protocol,
+                                                                   response.protocol_subscription.protocol_completion))
     end
   end
 
   def target_first_name
     response.protocol_subscription.person.first_name
-  end
-
-  def student_texts
-    if response.measurement.questionnaire.name.match?(/voormeting/)
-      "Welkom bij de kick-off van het onderzoek 'u-can-act'. Fijn dat je " \
-      'meedoet! Vandaag starten we met een aantal korte vragen, morgen begint ' \
-      'de wekelijkse vragenlijst. Via de link kom je bij de vragen en een ' \
-      'filmpje met meer info over u-can-act. Succes!'
-    elsif response.protocol_subscription.responses.invited.length == 1
-      'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro!'
-    else
-      "Hoi #{target_first_name}, vul direct de volgende vragenlijst in. Het kost maar 3 minuten en je helpt ons enorm!"
-    end
   end
 
   def mentor_texts

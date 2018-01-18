@@ -9,8 +9,7 @@ module Api
         private
 
         def unauthorized_entity(entity_name)
-          render json: { error: 'Unauthorized request',
-                         entity: entity_name, info: params }, status: :unauthorized
+          render json: { error: 'Unauthorized request' }, status: :unauthorized
         end
       end
     end

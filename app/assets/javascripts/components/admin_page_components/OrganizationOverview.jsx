@@ -104,8 +104,6 @@ class OrganizationOverview extends React.Component {
     })
     if (!ready) return <div>Bezig...</div>
 
-    //%p Voor week #{Time.zone.now.to_date.cweek}
-    //
     return (
       <div>
         {this.renderOverview(true)}

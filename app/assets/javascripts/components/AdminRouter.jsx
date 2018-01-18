@@ -24,6 +24,8 @@ class AdminRouter extends React.Component {
           <Route exact path="/admin" render={(props) => {
             return <AdminPage auth={this.auth} {...props} /> 
           }}/>
+
+          // Create clientside route for the auth-0 callback
           <Route path="/admin/callback" render={(props) => {
             self.handleAuthentication(props);
             return <Callback {...props} /> 

@@ -50,7 +50,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   AUTH0_CLIENT_ID: <the client id of the client used at auth0>
   AUTH0_DOMAIN: <the auth0 domain, e.g., ucanact.eu.auth0.com>
   AUTH0_CLIENT_SECRET: <the client secret from auth0
-  AUTH0_RSA_DOMAIN: <the URL to retrieve the public keys from>
+  AUTH0_REDIRECT_URL: <the url to do the callback to. Should be something like: http://vsv.io/admin/callback>
+  AUTH0_AUDIENCE: <The auth0 audience>
   AUTH0_SIGNING_CERTIFICATE: <the BASE64 encoded certificate>
 ```
 

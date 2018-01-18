@@ -6,7 +6,7 @@ class OrganizationOverview extends React.Component {
       Student: undefined,
       groups: ['Mentor', 'Student'],
       year: new Date().getFullYear(),
-      week_number: 1
+      week_number: undefined 
     };
   }
 
@@ -35,9 +35,10 @@ class OrganizationOverview extends React.Component {
     var self = this
 
     // Only update if the subscription id has changed
-    let url = '/api/v1/admin/organization/' + group +
-      '?year=' + this.state.year +
-      '&week_number=' + this.state.week_number;
+    let year = '?year=' + this.state.year
+    let week_number = this.state.week_number === undefined ? '' : '&week_number=' + this.state.week_number 
+
+    let url = '/api/v1/admin/organization/' + group + year + week_number
 
     $.ajax({
       url: url,
@@ -76,7 +77,7 @@ class OrganizationOverview extends React.Component {
       <h3> Organization overview </h3>
       <div className="col s6">
         <div className="col s3">
-          <WeekDropdownMenu value={this.state.week_numer} year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
+          <WeekDropdownMenu value={this.state.week_number} year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
         </div>
         <div className="col s9">
           <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
@@ -93,7 +94,6 @@ class OrganizationOverview extends React.Component {
       </div>
     )
   }
-
 
   render() {
     var ready = true;

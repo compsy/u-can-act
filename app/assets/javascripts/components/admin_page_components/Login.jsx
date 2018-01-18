@@ -1,8 +1,4 @@
 class Login extends React.Component {
-  goTo(route) {
-    this.props.history.replace(`/${route}`)
-  }
-
   login() {
     this.props.auth.login();
   }

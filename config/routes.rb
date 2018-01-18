@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'statistics', to: 'statistics#index'
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
       namespace :admin do
         resources :organization, only: [:show], param: :group

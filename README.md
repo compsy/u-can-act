@@ -53,6 +53,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   AUTH0_REDIRECT_URL: <the url to do the callback to. Should be something like: http://vsv.io/admin/callback>
   AUTH0_AUDIENCE: <The auth0 audience>
   AUTH0_SIGNING_CERTIFICATE: <the BASE64 encoded certificate>
+
+  PROJECT_START_DATE: <the start date of the project, in the forat yyyy-mm-dd>
 ```
 
 ### Development configuration

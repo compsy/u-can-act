@@ -119,7 +119,6 @@ describe SendInvitation do
         FactoryGirl.create(:invitation_token, response: response)
 
         mytok = response.invitation_token.token_plain
-        myid = response.protocol_subscription.person.external_identifier
         expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
                                                text: %r{ #{ENV['HOST_URL']}\/\?q=#{mytok}},
                                                reference: "vsv-#{response.id}")

@@ -3,6 +3,7 @@
 require 'bcrypt'
 
 class InvitationToken < ApplicationRecord
+  TOKEN_LENGTH = 4
   include BCrypt
   belongs_to :response
   validates :response_id, presence: true, uniqueness: true
@@ -22,7 +23,7 @@ class InvitationToken < ApplicationRecord
 
   after_initialize do |invitation_token|
     if invitation_token.id.nil? && !@token_plain.present?
-      token = SecureRandom.hex(8)
+      token = RandomAlphaNumericStringGenerator.generate(InvitationToken::TOKEN_LENGTH)
       invitation_token.token = token
       @token_plain = token
     end

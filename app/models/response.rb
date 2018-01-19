@@ -148,9 +148,8 @@ class Response < ApplicationRecord
 
   def invitation_url
     raise 'Cannot generate invitation_url for historical invitation tokens!' if invitation_token.token_plain.blank?
-    "#{ENV['HOST_URL']}"\
-      "?u=#{protocol_subscription.person.external_identifier}"\
-      "&q=#{invitation_token.token_plain}"
+    concatenated_token = "#{protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+    "#{ENV['HOST_URL']}?q=#{concatenated_token}"
   end
 
   def substitute_variables(obj)

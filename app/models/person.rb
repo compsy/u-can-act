@@ -8,7 +8,7 @@ class Person < ApplicationRecord
   MENTOR = 'Mentor'
   STUDENT = 'Student'
 
-  IDENTIFIER_LENGTH = 5
+  IDENTIFIER_LENGTH = 4
 
   validates :mobile_phone,
             length: { minimum: 10, maximum: 10 },

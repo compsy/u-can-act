@@ -49,8 +49,8 @@ describe 'sending invitations', type: :feature do
         expect(msg[:to]).to eq(responses[index].protocol_subscription.person.mobile_phone)
         expect(msg[:body]).to_not be_blank
         expect(msg[:body]).to include('http')
-        expect(msg[:body]).to include("?u=#{responses[index].protocol_subscription.person.external_identifier}"\
-                                      "&q=#{responses[index].invitation_token.token_plain}")
+        expect(msg[:body]).to include("?q=#{responses[index].protocol_subscription.person.external_identifier}"\
+                                      "#{responses[index].invitation_token.token_plain}")
         expect(msg[:reference]).to eq "vsv-#{responses[index].id}"
       end
     end

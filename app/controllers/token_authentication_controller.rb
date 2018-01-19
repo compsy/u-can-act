@@ -51,13 +51,15 @@ class TokenAuthenticationController < ApplicationController
   end
 
   def identifier_param
-    questionnaire_params[:q][0...Person::IDENTIFIER_LENGTH]
+    identifier = questionnaire_params[:q]
+    identifier[0...Person::IDENTIFIER_LENGTH] if identifier
   end
 
   def token_param
+    identifier = questionnaire_params[:q]
     from = Person::IDENTIFIER_LENGTH
     to = Person::IDENTIFIER_LENGTH + InvitationToken::TOKEN_LENGTH
-    questionnaire_params[:q][from..to]
+    identifier[from..to] if identifier
   end
 
   def questionnaire_params

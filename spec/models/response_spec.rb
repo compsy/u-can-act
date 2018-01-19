@@ -595,8 +595,7 @@ describe Response do
       expect(result).to_not match token.token_hash
       expect(result).to match response.protocol_subscription.person.external_identifier
       expect(result).to eq "#{ENV['HOST_URL']}"\
-        "?u=#{response.protocol_subscription.person.external_identifier}"\
-        "&q=#{pt_token}"
+        "?q=#{response.protocol_subscription.person.external_identifier}#{pt_token}"
     end
 
     it 'should raise if called for a previously stored token' do

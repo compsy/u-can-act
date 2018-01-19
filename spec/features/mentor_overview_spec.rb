@@ -37,7 +37,7 @@ describe 'GET and POST /', type: :feature, js: true do
     end
 
     invitation_tokens.each do |inv_tok|
-      visit "?u=#{inv_tok.response.protocol_subscription.person.external_identifier}&q=#{inv_tok.token_plain}"
+      visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
 
       # Check whether the correct redirect was performed
       expect(page).to_not have_current_path(questionnaire_path(uuid: inv_tok.response.uuid))
@@ -47,13 +47,13 @@ describe 'GET and POST /', type: :feature, js: true do
 
   it 'should show the disclaimer link on the mentor overview page' do
     inv_tok = invitation_tokens.first
-    visit "?u=#{inv_tok.response.protocol_subscription.person.external_identifier}&q=#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Disclaimer', href: '/disclaimer')
   end
 
   it 'should list the students of the current mentor on the page with the corresponding questionnaire links' do
     inv_tok = invitation_tokens.first
-    visit "?u=#{inv_tok.response.protocol_subscription.person.external_identifier}&q=#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
 
     students.each do |student|
@@ -76,7 +76,8 @@ describe 'GET and POST /', type: :feature, js: true do
 
   it 'should be possible to fillout a questionnaire for each of the mentors students' do
     inv_tok = invitation_tokens.first
-    visit "?u=#{inv_tok.response.protocol_subscription.person.external_identifier}&q=#{inv_tok.token_plain}"
+    url = "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
+    visit url
     students.each_with_index do |student, index|
       expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length - index)
       uuid = mentor.protocol_subscriptions.where(filling_out_for_id: student.id)
@@ -98,7 +99,7 @@ describe 'GET and POST /', type: :feature, js: true do
 
   it 'should be able to follow the initial link if one questionnaire has been filled out ' do
     inv_tok = invitation_tokens.first
-    visit "?u=#{inv_tok.response.protocol_subscription.person.external_identifier}&q=#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
 
     uuid = inv_tok.response.uuid
@@ -112,7 +113,7 @@ describe 'GET and POST /', type: :feature, js: true do
     range_select('v3', '57')
     page.click_on 'Opslaan'
 
-    visit "?u=#{inv_tok.response.protocol_subscription.person.external_identifier}&q=#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length - 1)
   end
 end

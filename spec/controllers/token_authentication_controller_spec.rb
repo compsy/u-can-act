@@ -12,7 +12,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       end
 
       it 'should require a q parameter that exists' do
-        get :show, params: { u: 'test', q: 'something' }
+        get :show, params: { q: 'something' }
         expect(response).to have_http_status(404)
         expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
       end
@@ -20,8 +20,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       it 'should require a response that is not filled out yet' do
         responseobj = FactoryGirl.create(:response, :completed)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        get :show, params: { u: responseobj.protocol_subscription.person.external_identifier,
-                             q: invitation_token.token_plain }
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
         expect(response).to have_http_status(404)
         expect(response.body).to include('Je hebt deze vragenlijst al ingevuld.')
       end
@@ -37,16 +37,17 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
         expect(controller).to receive(:redirect_to_questionnaire).with(protocol_subscription.for_myself?,
                                                                        responseobj.uuid).and_call_original
-        get :show, params: { u: responseobj.protocol_subscription.person.external_identifier,
-                             q: invitation_token.token_plain }
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
         expect(response).to have_http_status(302)
       end
 
       it 'should require a q parameter that is not expired' do
         responseobj = FactoryGirl.create(:response, :invite_sent)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        get :show, params: { u: responseobj.protocol_subscription.person.external_identifier,
-                             q: invitation_token.token_plain }
+
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
         expect(response).to have_http_status(404)
         expect(response.body).to include('Deze vragenlijst kan niet meer ingevuld worden.')
       end
@@ -64,8 +65,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
                                          protocol_subscription: protocol_subscription,
                                          open_from: 1.hour.ago)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        get :show, params: { u: responseobj.protocol_subscription.person.external_identifier,
-                             q: invitation_token.token_plain }
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
         expect(response).to have_http_status(302)
         expect(response.location).to_not eq(mentor_overview_index_url)
         expect(response.location).to eq(questionnaire_url(uuid: responseobj.uuid))
@@ -80,8 +81,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         responseobj = FactoryGirl.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
                                                                   open_from: 1.hour.ago)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        get :show, params: { u: responseobj.protocol_subscription.person.external_identifier,
-                             q: invitation_token.token_plain }
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
         expect(response).to have_http_status(302)
         expect(response.location).to_not eq(mentor_overview_index_url)
         expect(response.location).to eq(questionnaire_url(uuid: responseobj.uuid))
@@ -97,8 +98,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         responseobj = FactoryGirl.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
                                                                   open_from: 1.hour.ago)
         invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
-        get :show, params: { u: responseobj.protocol_subscription.person.external_identifier,
-                             q: invitation_token.token_plain }
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
         expect(response).to have_http_status(302)
         expect(response.location).to eq(mentor_overview_index_url)
       end
@@ -125,8 +126,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(CookieJar)
           .to receive(:set_or_update_cookie)
           .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)
-        get :show, params: { u: responseobj.protocol_subscription.person.external_identifier,
-                             q: invitation_token.token_plain }
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
       end
     end
   end

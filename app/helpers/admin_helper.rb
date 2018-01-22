@@ -41,13 +41,16 @@ module AdminHelper
   private
 
   def create_organization_overview_hash(organization, group)
+    completed = 0.0
+    total = 0.0
+    if organization[:data].keys.include? group
+      completed = organization[:data][group][:completed]
+      total = organization[:data][group][:total]
+    end
     {
       name: organization[:name],
       completed: organization[:data][group][:completed],
-      percentage_completed: calculate_completion_percentage(
-        organization[:data][group][:completed],
-        organization[:data][group][:total]
-      )
+      percentage_completed: calculate_completion_percentage(completed, total)
     }
   end
 

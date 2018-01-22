@@ -49,7 +49,7 @@ module AdminHelper
     end
     {
       name: organization[:name],
-      completed: organization[:data][group][:completed],
+      completed: completed,
       percentage_completed: calculate_completion_percentage(completed, total)
     }
   end

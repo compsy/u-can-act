@@ -13,7 +13,6 @@ defaults: &defaults
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
     RACK_ENV: test
-    COVERALLS_PARALLEL: true
   working_directory: ~/test
 
 version: 2.0
@@ -43,12 +42,16 @@ jobs:
 
   test_rspec:
     <<: *defaults
+    environment:
+      COVERALLS_PARALLEL: true
     parallelism: 3
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: echo $TZ
+      - run: echo $COVERALLS_PARALLEL
       - run: bundle --path vendor/bundle
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image

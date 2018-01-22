@@ -43,6 +43,9 @@ jobs:
   test_rspec:
     <<: *defaults
     environment:
+      TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+      RAILS_ENV: test
+      RACK_ENV: test
       COVERALLS_PARALLEL: true
     parallelism: 3
     steps:

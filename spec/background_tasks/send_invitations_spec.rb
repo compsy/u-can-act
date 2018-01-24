@@ -41,9 +41,9 @@ describe SendInvitations do
 
       it 'should call the SendSms use case only once for multiple mentor responses' do
         mentor = FactoryGirl.create(:mentor)
-        student = FactoryGirl.create(:student)
 
         responses = Array.new(10) do |_i|
+          student = FactoryGirl.create(:student)
           protocol_subscription = FactoryGirl.create(:protocol_subscription,
                                                      start_date: 1.week.ago.at_beginning_of_day,
                                                      person: mentor, filling_out_for: student)

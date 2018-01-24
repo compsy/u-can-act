@@ -92,11 +92,61 @@ describe AdminHelper do
         }
       ]
     end
+    let(:overview_no_mentors) do
+      [
+        {
+          name: 'Organization1',
+          data: {
+            Person::STUDENT => {
+              completed: 10,
+              total: 90
+            }
+          }
+        },
+        {
+          name: 'Organization2',
+          data: {
+            Person::STUDENT => {
+              completed: 0,
+              total: 20
+            },
+            Person::MENTOR => {
+              completed: 21,
+              total: 50
+            }
+          }
+        }
+      ]
+    end
 
     it 'should gracefully return an empty array if the @organization_overview var is not set' do
-      result = helper.overview('whatever')
+      result = helper.overview(Person::STUDENT)
       expect(result).to be_empty
       expect(result).to be_a Array
+    end
+
+    it 'should gracefully return when an organization has no mentors' do
+      instance_variable_set(:@organization_overview, overview_no_mentors)
+      [Person::STUDENT, Person::MENTOR].each do |group|
+        result = helper.overview(group)
+        expect(result.length).to eq 2
+        (0..1).each do |idx|
+          expect(result[idx][:name]).to eq overview_no_mentors[idx][:name]
+
+          if overview_no_mentors[idx][:data].keys.include? group
+            completed_expected = overview_no_mentors[idx][:data][group][:completed]
+
+            percentage = overview_no_mentors[idx][:data][group][:completed].to_d /
+                         overview_no_mentors[idx][:data][group][:total].to_d * 100.0
+            percentage_expected = percentage.round
+          else
+            completed_expected = 0.0
+            percentage_expected = 0
+          end
+          expect(result[idx][:completed]).to eq completed_expected
+          expect(result[idx][:percentage_completed]).to eq percentage_expected
+        end
+      end
     end
 
     it 'should return a hash with the correct stats for a specified group' do

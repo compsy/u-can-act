@@ -19,6 +19,12 @@ class ProtocolSubscription < ApplicationRecord
   after_initialize :initialize_filling_out_for
   after_initialize :initialize_end_date
 
+  validates :email,
+            format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
+            allow_blank: true,
+            uniqueness: true
+
+  validates_uniqueness_of :filling_out_for_id, scope: :person_id, conditions: -> { where(state: ACTIVE_STATE) }
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def active?

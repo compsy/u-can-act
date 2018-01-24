@@ -115,6 +115,10 @@ jobs:
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run: ./bin/gemnasium_install
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:27017 -timeout 1m
+      - run: bundle exec rake db:create db:schema:load
       - run: ./bin/gemnasium
 
   coverage_report:

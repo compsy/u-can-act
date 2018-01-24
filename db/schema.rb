@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171011121518) do
+ActiveRecord::Schema.define(version: 20180124221043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20171011121518) do
     t.datetime "informed_consent_given_at"
     t.integer  "filling_out_for_id",        null: false
     t.datetime "end_date",                  null: false
+    t.index ["person_id", "filling_out_for_id"], name: "index_rs_on_person_id_and_filling_out_for_id", unique: true, where: "(((state)::text = 'active'::text) AND (person_id <> filling_out_for_id))", using: :btree
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
   end

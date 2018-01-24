@@ -90,6 +90,51 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'validates uniqueness of students per mentor' do
+    it 'should not allow two protocol subscriptions with the same state and filling_out_for_id' do
+      mentor = FactoryGirl.create(:mentor)
+      student = FactoryGirl.create(:student)
+      FactoryGirl.create(:protocol_subscription, state: 'active', person: mentor, filling_out_for: student)
+      prot2 = FactoryGirl.build(:protocol_subscription, state: 'active',
+                                                        person: mentor,
+                                                        filling_out_for: student)
+      expect(prot2).to_not be_valid
+      expect(prot2.errors.messages).to have_key :filling_out_for_id
+      expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
+    end
+    it 'should allow two subscriptions with the same filling_out_for_id and different states if one is completed' do
+      prot1 = FactoryGirl.create(:protocol_subscription, state: 'completed')
+      prot2 = FactoryGirl.build(:protocol_subscription, state: 'active',
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
+      expect(prot2).to be_valid
+    end
+    it 'should allow two subscriptions with the same filling_out_for_id and different states if one is still active' do
+      prot1 = FactoryGirl.create(:protocol_subscription, state: 'active')
+      prot2 = FactoryGirl.build(:protocol_subscription, state: 'completed',
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
+      expect(prot2).to be_valid
+    end
+    it 'should allow two protocol subscriptions with the same state as long as they are not active' do
+      states = [described_class::CANCELED_STATE, described_class::COMPLETED_STATE]
+      states.each do |state|
+        prot1 = FactoryGirl.create(:protocol_subscription, state: state)
+        prot2 = FactoryGirl.build(:protocol_subscription, state: state,
+                                                          person: prot1.person,
+                                                          filling_out_for_id: prot1.filling_out_for_id)
+        expect(prot2).to be_valid
+      end
+    end
+    it 'should allow a student filling out for him/herself to have two active subscriptions' do
+      prot1 = FactoryGirl.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
+      prot2 = FactoryGirl.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
+      expect(prot2).to be_valid
+    end
+  end
+
   describe 'state' do
     it 'should be one of the predefined states' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription)

@@ -90,6 +90,25 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'validates uniqueness of students per mentor' do
+    it 'should not allow two protocol subscriptions with the same state and filling_out_for_id' do
+      prot1 = FactoryGirl.create(:protocol_subscription, state: 'active')
+      prot2 = FactoryGirl.build(:protocol_subscription, state: 'active',
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
+      expect(prot2).to_not be_valid
+      expect(prot2.errors.messages).to have_key :filling_out_for_id
+      expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
+    end
+    it 'should allow two protocol subscriptions with the same filling_out_for_id and different states' do
+      prot1 = FactoryGirl.create(:protocol_subscription, state: 'completed')
+      prot2 = FactoryGirl.build(:protocol_subscription, state: 'active',
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
+      expect(prot2).to be_valid
+    end
+  end
+
   describe 'state' do
     it 'should be one of the predefined states' do
       protocol_subscription = FactoryGirl.build(:protocol_subscription)

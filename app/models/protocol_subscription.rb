@@ -19,7 +19,7 @@ class ProtocolSubscription < ApplicationRecord
   after_initialize :initialize_filling_out_for
   after_initialize :initialize_end_date
 
-  validates_uniqueness_of :filling_out_for_id, scope: [:person_id, :state], conditions: -> { where(state: ACTIVE_STATE) }
+  validates_uniqueness_of :filling_out_for_id, scope: %i[person_id state], conditions: -> { where(state: ACTIVE_STATE) }
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def active?

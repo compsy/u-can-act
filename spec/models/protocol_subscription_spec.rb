@@ -100,14 +100,14 @@ describe ProtocolSubscription do
       expect(prot2.errors.messages).to have_key :filling_out_for_id
       expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
     end
-    it 'should allow two protocol subscriptions with the same filling_out_for_id and different states if one is already completed' do
+    it 'should allow two subscriptions with the same filling_out_for_id and different states if one is completed' do
       prot1 = FactoryGirl.create(:protocol_subscription, state: 'completed')
       prot2 = FactoryGirl.build(:protocol_subscription, state: 'active',
                                                         person: prot1.person,
                                                         filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
     end
-    it 'should allow two protocol subscriptions with the same filling_out_for_id and different states if one is still active' do
+    it 'should allow two subscriptions with the same filling_out_for_id and different states if one is still active' do
       prot1 = FactoryGirl.create(:protocol_subscription, state: 'active')
       prot2 = FactoryGirl.build(:protocol_subscription, state: 'completed',
                                                         person: prot1.person,

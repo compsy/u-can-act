@@ -114,6 +114,16 @@ describe ProtocolSubscription do
                                                         filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
     end
+    it 'should allow two protocol subscriptions with the same state as long as they are not active' do
+      states = [described_class::CANCELED_STATE, described_class::COMPLETED_STATE]
+      states.each do |state|
+        prot1 = FactoryGirl.create(:protocol_subscription, state: state)
+        prot2 = FactoryGirl.build(:protocol_subscription, state: state,
+                                                          person: prot1.person,
+                                                          filling_out_for_id: prot1.filling_out_for_id)
+        expect(prot2).to be_valid
+      end
+    end
   end
 
   describe 'state' do

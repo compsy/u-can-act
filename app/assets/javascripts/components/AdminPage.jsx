@@ -14,7 +14,7 @@ class AdminPage extends React.Component {
     return ( 
       <div>
         <Login auth={this.props.auth} />
-        { this.renderAdminPage(isAuthenticated) }
+        {this.renderAdminPage(isAuthenticated)}
       </div>
     )
   }

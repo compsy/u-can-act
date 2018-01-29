@@ -3,16 +3,6 @@
 module Api
   class OrganizationOverviewSerializer < ActiveModel::Serializer
     attributes :overview
-    attributes :year
-    attributes :week_number
-
-    def week_number
-      @instance_options[:week_number]
-    end
-
-    def year
-      @instance_options[:year]
-    end
 
     def overview
       group = @instance_options[:group]
@@ -25,15 +15,18 @@ module Api
     private
 
     def create_organization_overview_hash(organization, group)
+      completed = 0.0
+      total = 0.0
+      if organization[:data].keys.include? group
+        completed = organization[:data][group][:completed]
+        total = organization[:data][group][:total]
+      end
       {
         name: organization[:name],
-        completed: organization[:data][group][:completed],
-        percentage_completed: calculate_completion_percentage(
-          organization[:data][group][:completed],
-          organization[:data][group][:total]
-        )
+        completed: completed,
+        percentage_completed: calculate_completion_percentage(completed, total)
       }
-    end
+  end
 
     def calculate_completion_percentage(completed, total)
       return 0.0 if total.nil? || completed.nil? || (total <= 0)

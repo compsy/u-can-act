@@ -4,7 +4,7 @@ class OrganizationOverview extends React.Component {
     this.state = {
       Mentor: undefined,
       Student: undefined,
-      groups: ['Mentor', 'Student'],
+      groups: ['<%= Person::MENTOR %>', '<%= Person::STUDENT %>'],
       year: new Date().getFullYear(),
       week_number: undefined 
     };
@@ -70,8 +70,7 @@ class OrganizationOverview extends React.Component {
     this.updateOrganizationDetails();
   }
 
-  renderOverview(render) {
-    if (!render) return (<div />)
+  renderOverview() {
     return (
       <div>
       <h3> Organization overview </h3>
@@ -106,7 +105,7 @@ class OrganizationOverview extends React.Component {
 
     return (
       <div>
-        {this.renderOverview(true)}
+        {this.renderOverview()}
       </div>
     )
   }

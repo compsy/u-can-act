@@ -3,7 +3,8 @@
 module Api
   module V1
     module Admin
-      class AdminApiController < ApplicationController
+      class AdminApiController < ApiController
+        include Knock::Authenticable
         before_action :authenticate_admin
 
         private

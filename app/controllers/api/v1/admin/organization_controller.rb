@@ -8,9 +8,7 @@ module Api
           @organization_overview = Organization.organization_overview(week_number, year)
           render json: @organization_overview,
                  serializer: Api::OrganizationOverviewSerializer,
-                 group: group,
-                 week_number: week_number,
-                 year: year
+                 group: group
         end
 
         private

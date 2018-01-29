@@ -9,7 +9,7 @@ class OrganizationOverviewEntry extends React.Component {
       cols.push(<td key={entry.name + '_name'}>{entry.name}</td>);
       cols.push(<td key={entry.name + '_completion'}>{entry.completed}</td>);
       cols.push(<td key={entry.name + '_percentage_completion'}>{entry.percentage_completed}%</td>);
-      rows.push(<tr key={entry.name + '_' + overviewName}>{ cols }</tr>);
+      rows.push(<tr key={entry.name + '_' + overviewName}>{cols}</tr>);
     }
     return (rows);
   }
@@ -35,7 +35,7 @@ class OrganizationOverviewEntry extends React.Component {
     return (
       <div className='col m12 l6'>
         <h4> {overviewTitle} </h4>
-        { this.generateTable(rows) }
+        {this.generateTable(rows)}
       </div>
     )
   }

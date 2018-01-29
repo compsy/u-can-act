@@ -28,9 +28,11 @@ class Auth {
         this.setSession(authResult);
       } else if (err) {
         console.log(err);
-        this.history.replace('/admin');
-        location.reload();
       }
+
+      // navigate back to the admin route
+      this.history.replace('/admin');
+      location.reload();
     });
   }
 
@@ -41,9 +43,6 @@ class Auth {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
 
-    // navigate back to the admin route
-    this.history.replace('/admin');
-    location.reload();
   }
 
   logout() {

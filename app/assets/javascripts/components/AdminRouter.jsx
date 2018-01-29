@@ -16,7 +16,6 @@ class AdminRouter extends React.Component {
   render() {
     var Route = ReactRouter.Route;
     var Router = ReactRouterDOM.BrowserRouter;
-    var self = this;
 
     return (
       <Router>
@@ -26,7 +25,7 @@ class AdminRouter extends React.Component {
           }}/>
 
           <Route path="/admin/callback" render={(props) => {
-            self.handleAuthentication(props);
+            this.handleAuthentication(props);
             return <Callback {...props} /> 
           }}/>
         </div>

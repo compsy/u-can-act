@@ -26,7 +26,7 @@ module Api
         completed: completed,
         percentage_completed: calculate_completion_percentage(completed, total)
       }
-  end
+    end
 
     def calculate_completion_percentage(completed, total)
       return 0.0 if total.nil? || completed.nil? || (total <= 0)

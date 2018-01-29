@@ -28,9 +28,7 @@ module Api
             expect(controller).to receive(:render)
               .with(json: overview,
                     serializer: Api::OrganizationOverviewSerializer,
-                    group: group,
-                    week_number: week_number,
-                    year: year)
+                    group: group)
               .and_call_original
 
             get :show, params: { group: group,

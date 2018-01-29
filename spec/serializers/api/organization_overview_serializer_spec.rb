@@ -27,7 +27,7 @@ module Api
 
     describe 'renders the correct json' do
       it 'should contain the correct variables' do
-        expect(json.keys).to eq(%w[overview year week_number])
+        expect(json.keys).to eq(%w[overview])
       end
     end
 
@@ -55,28 +55,6 @@ module Api
           end
           expect(entry['percentage_completed']).to eq(perc)
         end
-      end
-    end
-
-    describe 'week_number' do
-      it 'should return nil for the week number whenever it is not passed in' do
-        expect(json['week_number']).to be_nil
-      end
-
-      it 'should return the week_number the serializer was called with' do
-        json = described_class.new(overview, group: Person::STUDENT, week_number: 20).as_json.with_indifferent_access
-        expect(json['week_number']).to eq(20)
-      end
-    end
-
-    describe 'year' do
-      it 'should return nil for the year whenever the year is not passed in' do
-        expect(json['year']).to be_nil
-      end
-
-      it 'should return the year the serializer was called with' do
-        json = described_class.new(overview, group: Person::STUDENT, year: 2018).as_json.with_indifferent_access
-        expect(json['year']).to eq(2018)
       end
     end
   end

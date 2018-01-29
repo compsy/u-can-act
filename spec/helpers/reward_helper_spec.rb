@@ -23,14 +23,14 @@ describe RewardHelper do
 
   describe 'mentor?' do
     it 'should return true when the person is a Mentor' do
-      person = FactoryGirl.build(:mentor)
+      person = FactoryBot.build(:mentor)
       protocol_subscription = double('protocol_subscription')
       expect(protocol_subscription).to receive(:person).and_return(person)
       helper.instance_variable_set(:@protocol_subscription, protocol_subscription)
       expect(helper.mentor?).to be_truthy
     end
     it 'should return false when the person is a Student' do
-      person = FactoryGirl.build(:student)
+      person = FactoryBot.build(:student)
       protocol_subscription = double('protocol_subscription')
       expect(protocol_subscription).to receive(:person).and_return(person)
       helper.instance_variable_set(:@protocol_subscription, protocol_subscription)

@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe 'complete protocol subscriptions and cleanup invitation tokens', type: :feature do
   it 'should work without mocking the method' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
-    response = FactoryGirl.create(:response, :with_invitation_token, protocol_subscription: protocol_subscription)
+    protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
+    response = FactoryBot.create(:response, :with_invitation_token, protocol_subscription: protocol_subscription)
     expect(protocol_subscription.ended?).to be_truthy
     responsecountprev = Response.count
     invtokencountprev = InvitationToken.count

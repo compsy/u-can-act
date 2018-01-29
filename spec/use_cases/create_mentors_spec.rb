@@ -4,14 +4,14 @@
 require 'rails_helper'
 
 describe CreateMentors do
-  let!(:protocol_for_mentors) { FactoryGirl.create(:protocol, name: 'protname-mentor') }
-  let!(:protocol_for_students) { FactoryGirl.create(:protocol, name: 'protname-student') }
-  let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
-  let!(:role) { FactoryGirl.create(:role, organization: organization, group: Person::MENTOR, title: 'MentorTitle') }
+  let!(:protocol_for_mentors) { FactoryBot.create(:protocol, name: 'protname-mentor') }
+  let!(:protocol_for_students) { FactoryBot.create(:protocol, name: 'protname-student') }
+  let!(:organization) { FactoryBot.create(:organization, name: 'orgname') }
+  let!(:role) { FactoryBot.create(:role, organization: organization, group: Person::MENTOR, title: 'MentorTitle') }
   let!(:plain_text_parser) { PlainTextParser.new }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:enddateinfuture) { 42.days.from_now.to_date.to_s }
-  let!(:students) { FactoryGirl.create_list(:student, 20) }
+  let!(:students) { FactoryBot.create_list(:student, 20) }
   let!(:mentors) do
     [{ first_name: 'a',
        last_name: 'e',

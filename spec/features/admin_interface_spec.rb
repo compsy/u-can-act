@@ -9,7 +9,7 @@ describe 'GET /admin', type: :feature, js: true do
                               'second_name',
                               'hey I have spaces dagboek 5x per week dinsdag, woensdag, vrijdag']
       @questionnaire_names.each do |questionnaire_name|
-        FactoryGirl.create(:questionnaire, name: questionnaire_name)
+        FactoryBot.create(:questionnaire, name: questionnaire_name)
       end
     end
 
@@ -75,8 +75,8 @@ describe 'GET /admin', type: :feature, js: true do
 
   describe 'questionnaire previews' do
     it 'should have working preview of questionnaires' do
-      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                         content: [{ type: :raw, content: 'questionnaire' }])
+      FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                                        content: [{ type: :raw, content: 'questionnaire' }])
       basic_auth 'admin', 'admin', '/admin'
       visit '/admin'
       materialize_select('Selecteer een vragenlijst...', 'myquestionnairename')
@@ -88,83 +88,123 @@ describe 'GET /admin', type: :feature, js: true do
   end
 
   describe 'organizational overviews' do
-    let!(:org1) { FactoryGirl.create(:organization, name: 'org1') }
-    let!(:org2) { FactoryGirl.create(:organization, name: 'org2') }
+    let(:admin) { FactoryBot.create(:admin) }
+    let(:payload) { { sub: admin.auth0_id_string } }
 
-    let!(:role1) {  FactoryGirl.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
-    let!(:role2) {  FactoryGirl.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
+    let!(:org1) { FactoryBot.create(:organization, name: 'org1') }
+    let!(:org2) { FactoryBot.create(:organization, name: 'org2') }
 
-    let!(:student1) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
-    let!(:student2) {  FactoryGirl.create(:person, :with_protocol_subscriptions, role: role1) }
-    let!(:mentor1) { FactoryGirl.create(:person, :with_protocol_subscriptions, role: role2) }
+    let!(:role1) {  FactoryBot.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
+    let!(:role2) {  FactoryBot.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
+
+    let!(:student1) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
+    let!(:student2) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
+    let!(:mentor1) { FactoryBot.create(:person, :with_protocol_subscriptions, role: role2) }
 
     let!(:response1) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: student1.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: student1.protocol_subscriptions.first)
     end
     let!(:response2) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: student2.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: student2.protocol_subscriptions.first)
     end
     let!(:response3) do
-      FactoryGirl.create(:response,
-                         protocol_subscription: student1.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        protocol_subscription: student1.protocol_subscriptions.first)
     end
     let!(:response4) do
-      FactoryGirl.create(:response,
-                         open_from: Time.zone.now + 1.day,
-                         protocol_subscription: student2.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        open_from: Time.zone.now + 1.day,
+                        protocol_subscription: student2.protocol_subscriptions.first)
     end
 
     let!(:response5) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
     let!(:response6) do
-      FactoryGirl.create(:response, :completed,
-                         open_from: Time.zone.now,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response, :completed,
+                        open_from: Time.zone.now,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
     let!(:response7) do
-      FactoryGirl.create(:response,
-                         open_from: Time.zone.now + 1.day,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        open_from: Time.zone.now + 1.day,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
     let!(:response8) do
-      FactoryGirl.create(:response,
-                         protocol_subscription: mentor1.protocol_subscriptions.first)
+      FactoryBot.create(:response,
+                        protocol_subscription: mentor1.protocol_subscriptions.first)
     end
 
-    it 'should list the correct organizations' do
-      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                         content: [{ type: :raw, content: 'questionnaire' }])
+    before :each do
       basic_auth 'admin', 'admin', '/admin'
-      visit '/admin'
-      expect(page).to have_content 'Organization overview'
-      expect(page).to have_content org1.name
-      expect(page).to have_content 'Organization'
-      expect(page).to have_content 'Completed (past week)'
-      expect(page).to have_content 'Completed percentage (past week)'
-
-      # It should not list org2, because it does not have any roles
-      expect(page).to_not have_content org2.name
-
-      expect(page).to have_content Person::STUDENT
-      expect(page).to have_content Person::MENTOR
     end
 
-    it 'should show the current week' do
-      Timecop.freeze(2017, 12, 11)
-      FactoryGirl.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                         content: [{ type: :raw, content: 'questionnaire' }])
-      basic_auth 'admin', 'admin', '/admin'
-      visit '/admin'
-      expect(page).to have_content 'Voor week'
-      expect(page).to have_content '50'
-      Timecop.return
+    describe 'when not loggedin' do
+      it 'should show a login button when not logged in' do
+        visit '/admin'
+        expect(page).to have_content 'Log In'
+      end
+
+      it 'should not list the correct organizations with an incorrect session' do
+        FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                                          content: [{ type: :raw, content: 'questionnaire' }])
+
+        visit '/admin'
+        page.execute_script("localStorage.setItem('id_token', 'incorrect')")
+        page.execute_script("localStorage.setItem('access_token', 'incorrect')")
+        page.execute_script("localStorage.setItem('expires_at', '9999999999999')")
+        visit '/admin'
+
+        expect(page).to_not have_content 'Organization overview'
+        expect(page).to_not have_content org1.name
+        expect(page).to_not have_content 'Organization'
+        expect(page).to_not have_content 'Completed (past week)'
+        expect(page).to_not have_content 'Completed percentage (past week)'
+        expect(page).to_not have_content Person::STUDENT
+        expect(page).to_not have_content Person::MENTOR
+      end
+    end
+
+    describe 'when loggedin' do
+      before :each do
+        token = jwt_auth(payload, false)
+        # Duplicate vist /admin in order to get a correct page object, one with localstorage
+        visit '/admin'
+        page.execute_script("localStorage.setItem('id_token', '#{token}')")
+        page.execute_script("localStorage.setItem('access_token', '#{token}')")
+        page.execute_script("localStorage.setItem('expires_at', '9999999999999')")
+        visit '/admin'
+      end
+
+      it 'should show a log out button when logged in' do
+        basic_auth 'admin', 'admin', '/admin'
+        visit '/admin'
+        expect(page).to have_content 'Log Out'
+      end
+
+      it 'should list the correct organizations' do
+        FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+                                          content: [{ type: :raw, content: 'questionnaire' }])
+        basic_auth 'admin', 'admin', '/admin'
+        visit '/admin'
+        expect(page).to have_content 'Organization overview'
+        expect(page).to have_content org1.name
+        expect(page).to have_content 'Organization'
+        expect(page).to have_content 'Completed (past week)'
+        expect(page).to have_content 'Completed percentage (past week)'
+
+        # It should not list org2, because it does not have any roles
+        expect(page).to_not have_content org2.name
+
+        expect(page).to have_content Person::STUDENT
+        expect(page).to have_content Person::MENTOR
+      end
     end
   end
 end

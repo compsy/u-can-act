@@ -8,29 +8,29 @@ module Api
       Timecop.freeze(2017, 2, 1)
     end
 
-    let!(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
-    let!(:protocol_subscription) { FactoryGirl.create(:protocol_subscription, protocol: protocol) }
+    let!(:protocol) { FactoryBot.create(:protocol, :with_rewards) }
+    let!(:protocol_subscription) { FactoryBot.create(:protocol_subscription, protocol: protocol) }
     let!(:responses) do
-      [FactoryGirl.create(:response, :completed,
-                          protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone),
-       FactoryGirl.create(:response, :invite_sent,
-                          protocol_subscription: protocol_subscription, open_from: 7.days.ago.in_time_zone)]
+      [FactoryBot.create(:response, :completed,
+                         protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone),
+       FactoryBot.create(:response, :invite_sent,
+                         protocol_subscription: protocol_subscription, open_from: 7.days.ago.in_time_zone)]
     end
 
     let!(:streak_responses) do
       # Streak
       (1..7).map do |day|
-        FactoryGirl.create(:response,
-                           :completed,
-                           protocol_subscription: protocol_subscription,
-                           open_from: day.days.ago.in_time_zone)
+        FactoryBot.create(:response,
+                          :completed,
+                          protocol_subscription: protocol_subscription,
+                          open_from: day.days.ago.in_time_zone)
       end
     end
 
     let!(:future_responses) do
       (1..5).map do |day|
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription, open_from: day.days.from_now.in_time_zone)
+        FactoryBot.create(:response,
+                          protocol_subscription: protocol_subscription, open_from: day.days.from_now.in_time_zone)
       end
     end
 
@@ -83,9 +83,9 @@ module Api
         end
 
         it 'should return nil if there are no streaks' do
-          protocol_without_rewards = FactoryGirl.create(:protocol)
-          protocol_subscription_without_rewards = FactoryGirl.create(:protocol_subscription,
-                                                                     protocol: protocol_without_rewards)
+          protocol_without_rewards = FactoryBot.create(:protocol)
+          protocol_subscription_without_rewards = FactoryBot.create(:protocol_subscription,
+                                                                    protocol: protocol_without_rewards)
           current_json = described_class.new(protocol_subscription_without_rewards).as_json.with_indifferent_access
           expect(current_json[:max_streak]).to be_nil
         end
@@ -105,18 +105,18 @@ module Api
       end
 
       describe 'should contain the correct initial multiplier' do
-        let(:current_protocol) { FactoryGirl.create(:protocol) }
+        let(:current_protocol) { FactoryBot.create(:protocol) }
         it 'should be 1 if there are no multipliers' do
-          current_protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: current_protocol)
+          current_protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: current_protocol)
           result = described_class.new(current_protocol_subscription).as_json.with_indifferent_access
           expected = 1
           expect(result[:initial_multiplier]).to eq expected
         end
 
         it 'should be the multiplier of the first reward if there are multiple rewards' do
-          reward = FactoryGirl.create(:reward, threshold: 1, reward_points: 42, protocol: current_protocol)
-          FactoryGirl.create(:reward, threshold: 2, reward_points: 150, protocol: current_protocol)
-          current_protocol_subscription = FactoryGirl.create(:protocol_subscription, protocol: current_protocol)
+          reward = FactoryBot.create(:reward, threshold: 1, reward_points: 42, protocol: current_protocol)
+          FactoryBot.create(:reward, threshold: 2, reward_points: 150, protocol: current_protocol)
+          current_protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: current_protocol)
           result = described_class.new(current_protocol_subscription).as_json.with_indifferent_access
           expected = reward.reward_points
           expect(result[:initial_multiplier]).to eq expected

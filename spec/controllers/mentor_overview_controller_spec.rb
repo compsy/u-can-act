@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe MentorOverviewController, type: :controller do
-  let(:student) { FactoryGirl.create(:student) }
-  let(:mentor) { FactoryGirl.create(:mentor) }
+  let(:student) { FactoryBot.create(:student) }
+  let(:mentor) { FactoryBot.create(:mentor) }
   describe 'GET #index' do
     describe 'Error checking' do
       it 'requires a token with response id that exists' do
@@ -17,10 +17,10 @@ RSpec.describe MentorOverviewController, type: :controller do
         expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
       end
       it 'requires a token with person id that exists and belongs to a Mentor' do
-        person = FactoryGirl.create(:student)
-        protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
-                                                                           start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        person = FactoryBot.create(:student)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, person: person,
+                                                                          start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
         expect(CookieJar).to receive(:read_entry)
           .with(instance_of(ActionDispatch::Cookies::SignedCookieJar),
                 TokenAuthenticationController::RESPONSE_ID_COOKIE)
@@ -30,10 +30,10 @@ RSpec.describe MentorOverviewController, type: :controller do
         expect(response.body).to include('De mentor kon niet gevonden worden.')
       end
       it 'should give status 200 when everything goes correct' do
-        person = FactoryGirl.create(:mentor)
-        protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
-                                                                           start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        person = FactoryBot.create(:mentor)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, person: person,
+                                                                          start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
         expect(CookieJar).to receive(:read_entry)
           .with(instance_of(ActionDispatch::Cookies::SignedCookieJar),
                 TokenAuthenticationController::RESPONSE_ID_COOKIE)
@@ -44,12 +44,12 @@ RSpec.describe MentorOverviewController, type: :controller do
 
       describe 'set_mentor' do
         it 'should render a 404 when the current person is not a mentor' do
-          person = FactoryGirl.create(:student)
-          protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
-                                                                             start_date: 1.week.ago.at_beginning_of_day)
-          responseobj = FactoryGirl.create(:response,
-                                           protocol_subscription: protocol_subscription,
-                                           open_from: 1.hour.ago)
+          person = FactoryBot.create(:student)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, person: person,
+                                                                            start_date: 1.week.ago.at_beginning_of_day)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          open_from: 1.hour.ago)
           allow(controller).to receive(:set_response).and_return(true)
           controller.instance_variable_set(:@response, responseobj)
 
@@ -59,12 +59,12 @@ RSpec.describe MentorOverviewController, type: :controller do
         end
 
         it 'should set the correct @mentor whenever the person is valid' do
-          person = FactoryGirl.create(:mentor)
-          protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
-                                                                             start_date: 1.week.ago.at_beginning_of_day)
-          responseobj = FactoryGirl.create(:response,
-                                           protocol_subscription: protocol_subscription,
-                                           open_from: 1.hour.ago)
+          person = FactoryBot.create(:mentor)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, person: person,
+                                                                            start_date: 1.week.ago.at_beginning_of_day)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          open_from: 1.hour.ago)
           allow(controller).to receive(:set_response).and_return(true)
           controller.instance_variable_set(:@response, responseobj)
 
@@ -79,12 +79,12 @@ RSpec.describe MentorOverviewController, type: :controller do
       before :each do
         some_response = nil
         [mentor, student].each do |person_to_fill_out_for|
-          protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                     start_date: 1.week.ago.at_beginning_of_day,
-                                                     person: mentor,
-                                                     filling_out_for: person_to_fill_out_for)
-          some_response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
-                                                        open_from: 1.hour.ago)
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day,
+                                                    person: mentor,
+                                                    filling_out_for: person_to_fill_out_for)
+          some_response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                       open_from: 1.hour.ago)
         end
 
         expect(CookieJar).to receive(:read_entry)

@@ -4,27 +4,27 @@ require 'rails_helper'
 
 describe Protocol do
   it 'should have valid default properties' do
-    protocol = FactoryGirl.build(:protocol)
+    protocol = FactoryBot.build(:protocol)
     expect(protocol.valid?).to be_truthy
   end
 
   describe 'name' do
     it 'should not allow two protocols with the same name' do
-      protocolone = FactoryGirl.create(:protocol, name: 'myprotocol')
+      protocolone = FactoryBot.create(:protocol, name: 'myprotocol')
       expect(protocolone.valid?).to be_truthy
-      protocoltwo = FactoryGirl.build(:protocol, name: 'myprotocol')
+      protocoltwo = FactoryBot.build(:protocol, name: 'myprotocol')
       expect(protocoltwo.valid?).to be_falsey
       expect(protocoltwo.errors.messages).to have_key :name
       expect(protocoltwo.errors.messages[:name]).to include('is al in gebruik')
     end
     it 'should not accept a nil name' do
-      protocol = FactoryGirl.build(:protocol, name: nil)
+      protocol = FactoryBot.build(:protocol, name: nil)
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :name
       expect(protocol.errors.messages[:name]).to include('moet opgegeven zijn')
     end
     it 'should not accept a blank name' do
-      protocol = FactoryGirl.build(:protocol, name: '')
+      protocol = FactoryBot.build(:protocol, name: '')
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :name
       expect(protocol.errors.messages[:name]).to include('moet opgegeven zijn')
@@ -33,7 +33,7 @@ describe Protocol do
 
   describe 'duration' do
     it 'should be a zero or positive integer' do
-      protocol = FactoryGirl.build(:protocol)
+      protocol = FactoryBot.build(:protocol)
       protocol.duration = 0
       expect(protocol.valid?).to be_truthy
       protocol.duration = 1.5
@@ -44,7 +44,7 @@ describe Protocol do
       expect(protocol.errors.messages[:duration]).to include('moet groter dan of gelijk zijn aan 0')
     end
     it 'should not be nil' do
-      protocol = FactoryGirl.build(:protocol, duration: nil)
+      protocol = FactoryBot.build(:protocol, duration: nil)
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :duration
       expect(protocol.errors.messages[:duration]).to include('is geen getal')
@@ -53,7 +53,7 @@ describe Protocol do
 
   describe 'measurements' do
     it 'should destroy the measurements when destroying the protocol' do
-      protocol = FactoryGirl.create(:protocol, :with_measurements)
+      protocol = FactoryBot.create(:protocol, :with_measurements)
       expect(protocol.measurements.first).to be_a(Measurement)
       meascountbefore = Measurement.count
       protocol.destroy
@@ -63,7 +63,7 @@ describe Protocol do
 
   describe 'protocol_subscriptions' do
     it 'should destroy the protocol_subscriptions when destroying the protocol' do
-      protocol = FactoryGirl.create(:protocol, :with_protocol_subscriptions)
+      protocol = FactoryBot.create(:protocol, :with_protocol_subscriptions)
       expect(protocol.protocol_subscriptions.first).to be_a(ProtocolSubscription)
       protsubcountbefore = ProtocolSubscription.count
       protocol.destroy
@@ -73,8 +73,8 @@ describe Protocol do
 
   describe 'informed_consent_questionnaire' do
     it 'should be able to set an informed consent questionnaire' do
-      questionnaire = FactoryGirl.create(:questionnaire)
-      protocol = FactoryGirl.create(:protocol, informed_consent_questionnaire: questionnaire)
+      questionnaire = FactoryBot.create(:questionnaire)
+      protocol = FactoryBot.create(:protocol, informed_consent_questionnaire: questionnaire)
       questionnaire.reload
       expect(questionnaire.valid?).to be_truthy
       expect(protocol.valid?).to be_truthy
@@ -85,8 +85,8 @@ describe Protocol do
       expect(questionnaire.informed_consent_protocols.first.id).to eq protocol.id
     end
     it 'should be able to have multiple protocols with the same informed consent questionnaire' do
-      questionnaire = FactoryGirl.create(:questionnaire)
-      protocols = FactoryGirl.create_list(:protocol, 3, informed_consent_questionnaire: questionnaire)
+      questionnaire = FactoryBot.create(:questionnaire)
+      protocols = FactoryBot.create_list(:protocol, 3, informed_consent_questionnaire: questionnaire)
       questionnaire.reload
       expect(questionnaire.valid?).to be_truthy
       protocols.each do |protocol|
@@ -99,14 +99,14 @@ describe Protocol do
       expect(questionnaire.informed_consent_protocols.first.id).to eq protocols.first.id
     end
     it 'should not have an informed consent questionnaire by default and still be valid' do
-      protocol = FactoryGirl.create(:protocol)
+      protocol = FactoryBot.create(:protocol)
       expect(protocol.valid?).to be_truthy
       expect(protocol.informed_consent_questionnaire).to be_nil
       expect(protocol.informed_consent_questionnaire_id).to be_nil
     end
     it 'should nullify the attribute when deleting the informed consent questionnaire' do
-      questionnaire = FactoryGirl.create(:questionnaire)
-      protocol_id = FactoryGirl.create(:protocol, informed_consent_questionnaire: questionnaire).id
+      questionnaire = FactoryBot.create(:questionnaire)
+      protocol_id = FactoryBot.create(:protocol, informed_consent_questionnaire: questionnaire).id
       protocol = Protocol.find_by_id(protocol_id)
       expect(protocol).not_to be_nil
       expect(protocol.informed_consent_questionnaire).to eq questionnaire
@@ -122,9 +122,9 @@ describe Protocol do
       expect(protocol.informed_consent_questionnaire_id).to be_nil
     end
     it 'should no longer return the protocol once it has been destroyed' do
-      questionnaire = FactoryGirl.create(:questionnaire)
+      questionnaire = FactoryBot.create(:questionnaire)
       questionnaire_id = questionnaire.id
-      protocol = FactoryGirl.create(:protocol, informed_consent_questionnaire: questionnaire)
+      protocol = FactoryBot.create(:protocol, informed_consent_questionnaire: questionnaire)
       questionnaire = Questionnaire.find_by_id(questionnaire_id)
       expect(questionnaire).not_to be_nil
       expect(questionnaire.informed_consent_protocols.count).to eq 1
@@ -141,7 +141,7 @@ describe Protocol do
 
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
-      protocol = FactoryGirl.create(:protocol)
+      protocol = FactoryBot.create(:protocol)
       expect(protocol.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(protocol.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
@@ -149,43 +149,43 @@ describe Protocol do
 
   describe 'rewards' do
     it 'should return the rewards sorted by threshold' do
-      protocol = FactoryGirl.create(:protocol)
-      reward3 = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
-      reward1 = FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
-      reward2 = FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      protocol = FactoryBot.create(:protocol)
+      reward3 = FactoryBot.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      reward1 = FactoryBot.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      reward2 = FactoryBot.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
       expect(protocol.rewards).to eq([reward1, reward2, reward3])
     end
   end
 
   describe 'max_streak' do
     it 'should return the reward with the highest threshold' do
-      protocol = FactoryGirl.create(:protocol)
-      reward = FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
-      FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
-      FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      protocol = FactoryBot.create(:protocol)
+      reward = FactoryBot.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      FactoryBot.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      FactoryBot.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
       expect(protocol.max_streak).to eq(reward)
     end
 
     it 'should nil if there are no rewards' do
-      protocol = FactoryGirl.create(:protocol)
+      protocol = FactoryBot.create(:protocol)
       expect(protocol.max_streak).to be_nil
     end
   end
 
   describe 'find_correct_multiplier' do
-    let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
-    let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
+    let(:protocol) { FactoryBot.create(:protocol, :with_rewards) }
+    let(:protocol_no_rewards) { FactoryBot.create(:protocol) }
     let(:protocol_single_reward) do
-      protocol = FactoryGirl.create(:protocol)
-      FactoryGirl.create(:reward, protocol: protocol, threshold: 10, reward_points: 100)
+      protocol = FactoryBot.create(:protocol)
+      FactoryBot.create(:reward, protocol: protocol, threshold: 10, reward_points: 100)
       protocol
     end
 
     it 'should find the current applicable multiplier for a given value' do
-      protocol = FactoryGirl.create(:protocol)
-      FactoryGirl.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
-      FactoryGirl.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
-      FactoryGirl.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
+      protocol = FactoryBot.create(:protocol)
+      FactoryBot.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
+      FactoryBot.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
+      FactoryBot.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
       Reward.all.each do |reward|
         expect(protocol.find_correct_multiplier(reward.threshold)).to eq reward.reward_points
       end
@@ -235,11 +235,11 @@ describe Protocol do
   end
 
   describe 'calculate_reward' do
-    let(:protocol) { FactoryGirl.create(:protocol, :with_rewards) }
-    let(:protocol_no_rewards) { FactoryGirl.create(:protocol) }
+    let(:protocol) { FactoryBot.create(:protocol, :with_rewards) }
+    let(:protocol_no_rewards) { FactoryBot.create(:protocol) }
     let(:protocol_single_reward) do
-      protocol = FactoryGirl.create(:protocol)
-      FactoryGirl.create(:reward, protocol: protocol, threshold: 1, reward_points: 100)
+      protocol = FactoryBot.create(:protocol)
+      FactoryBot.create(:reward, protocol: protocol, threshold: 1, reward_points: 100)
       protocol
     end
 

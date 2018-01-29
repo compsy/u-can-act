@@ -12,12 +12,12 @@ describe ProtocolSubscriptionExporter do
 
   context 'with protocol subscriptions' do
     before do
-      FactoryGirl.create(:student, :with_protocol_subscriptions)
-      FactoryGirl.create(:mentor, :with_protocol_subscriptions)
+      FactoryBot.create(:student, :with_protocol_subscriptions)
+      FactoryBot.create(:mentor, :with_protocol_subscriptions)
       # create a response that should be filtered out
-      person = FactoryGirl.create(:student, mobile_phone: '0611055958')
-      protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person)
-      FactoryGirl.create(:response, protocol_subscription: protocol_subscription)
+      person = FactoryBot.create(:student, mobile_phone: '0611055958')
+      protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
+      FactoryBot.create(:response, protocol_subscription: protocol_subscription)
     end
     it 'works with protocol subscriptions' do
       export = described_class.export_lines.to_a.join.split("\n")

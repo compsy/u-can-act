@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:questionnaire_name) { |n| "vragenlijst-dagboekstudie-studenten-#{n}" }
   factory :questionnaire do
     name { generate(:questionnaire_name) }

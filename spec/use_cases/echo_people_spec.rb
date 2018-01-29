@@ -35,7 +35,7 @@ describe EchoPeople do
   end
 
   describe 'echo_people' do
-    let!(:protocol) { FactoryGirl.create(:protocol, name: 'protname') }
+    let!(:protocol) { FactoryBot.create(:protocol, name: 'protname') }
     let(:dateinfuture) { 14.days.from_now.to_date.to_s }
     let(:enddateinfuture) { 42.days.from_now.to_date.to_s }
 

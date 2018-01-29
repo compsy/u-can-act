@@ -4,8 +4,10 @@ class Auth {
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
+
+    // Copy the correct auth0 env vars here.
     this.auth0 = new auth0.WebAuth({
-      domain: "<%=ENV['AUTH0_DOMAIN'] %>",
+      domain: "<%= ENV['AUTH0_DOMAIN'] %>",
       clientID: "<%=ENV['AUTH0_CLIENT_ID']%>",
       redirectUri: "<%= ENV['AUTH0_REDIRECT_URL'] %>",
       audience: "<%=ENV['AUTH0_AUDIENCE'] %>",
@@ -25,8 +27,8 @@ class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
-        this.history.replace('/admin');
         console.log(err);
+        this.history.replace('/admin');
         location.reload();
       }
     });

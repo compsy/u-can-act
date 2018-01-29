@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get 'response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
     post 'preview', to: 'admin#preview', as: 'admin_preview'
     post 'preview_done', to: 'admin#preview_done', as: 'admin_preview_done'
+    get '*path', to: 'admin#index'
   end
 
   # Static pages
@@ -33,5 +34,4 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'admin#index'
 end

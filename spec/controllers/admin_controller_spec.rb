@@ -46,7 +46,7 @@ describe AdminController, type: :controller do
 
     context 'questionnaire routes' do
       let(:routes_list) { %i[questionnaire_export response_export] }
-      let!(:questionnaire) { FactoryGirl.create(:questionnaire, name: 'my-questionnaire') }
+      let!(:questionnaire) { FactoryBot.create(:questionnaire, name: 'my-questionnaire') }
 
       it 'should render an error when the questionnaire cannot be found' do
         basic_auth 'admin', 'admin'

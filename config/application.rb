@@ -34,8 +34,8 @@ module Vsv
       g.orm :active_record
       # set rspec as the testframework
       g.test_framework :rspec, fixture: true
-      # Define the factories of factory girl (model mock)
-      g.fixture_replacement :factory_girl, dir: 'spec/factories'
+      # Define the factories of factory bot (model mock)
+      g.fixture_replacement :factory_bot, dir: 'spec/factories'
 
       # Generate specs for helpers and views
       g.view_specs true

@@ -4,25 +4,25 @@ require 'rails_helper'
 
 describe 'sending invitations', type: :feature do
   let!(:some_response) do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    FactoryGirl.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
+    protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    FactoryBot.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
   end
   let!(:another_response) do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
-    FactoryGirl.create(:response, open_from: 90.minutes.ago, protocol_subscription: protocol_subscription)
+    protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
+    FactoryBot.create(:response, open_from: 90.minutes.ago, protocol_subscription: protocol_subscription)
   end
   let!(:third_response) do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    FactoryGirl.create(:response, open_from: 45.minutes.ago, protocol_subscription: protocol_subscription)
+    protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    FactoryBot.create(:response, open_from: 45.minutes.ago, protocol_subscription: protocol_subscription)
   end
   let!(:fourth_response) do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-    measurement = FactoryGirl.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
-    FactoryGirl.create(:response,
-                       open_from: 9.hours.ago,
-                       protocol_subscription: protocol_subscription,
-                       measurement: measurement,
-                       invited_state: Response::SENT_STATE)
+    protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
+    FactoryBot.create(:response,
+                      open_from: 9.hours.ago,
+                      protocol_subscription: protocol_subscription,
+                      measurement: measurement,
+                      invited_state: Response::SENT_STATE)
   end
 
   let(:responses) { [some_response, another_response, third_response, fourth_response] }

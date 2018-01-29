@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe QuestionnaireExporter do
-  let!(:questionnaire) { FactoryGirl.create(:questionnaire) }
+  let!(:questionnaire) { FactoryBot.create(:questionnaire) }
   context 'invalid questionnaire' do
     it 'should raise an error' do
       expect { described_class.export_lines('not-a-questionnaire') }.to raise_error(RuntimeError,

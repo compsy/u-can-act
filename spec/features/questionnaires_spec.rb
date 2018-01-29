@@ -3,45 +3,45 @@
 require 'rails_helper'
 
 describe 'GET and POST /', type: :feature, js: true do
-  let(:student) { FactoryGirl.create(:student) }
+  let(:student) { FactoryBot.create(:student) }
   it 'should show and store a questionnaire successfully' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               person: student,
-                                               start_date: 1.week.ago.at_beginning_of_day)
-    questionnaire = FactoryGirl.create(:questionnaire, content: [{
-                                         section_start: 'Algemeen',
-                                         id: :v1,
-                                         type: :radio,
-                                         title: 'Hoe voelt u zich vandaag?',
-                                         options: %w[slecht goed],
-                                         otherwise_label: 'Anders nog wat:'
-                                       }, {
-                                         id: :v2,
-                                         type: :checkbox,
-                                         title: 'Wat heeft u vandaag gegeten?',
-                                         options: ['brood', 'kaas en ham', 'pizza'],
-                                         otherwise_label: 'Hier ook iets:'
-                                       }, {
-                                         id: :v3,
-                                         type: :range,
-                                         title: 'Hoe gaat het met u?',
-                                         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
-                                       }, {
-                                         id: :v4,
-                                         type: :time,
-                                         title: 'Hoeveel tijd deed u over het eten?',
-                                         hours_from: 1,
-                                         hours_to: 10,
-                                         hours_step: 1,
-                                         section_end: true
-                                       }])
-    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE,
-                                     measurement: measurement)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              person: student,
+                                              start_date: 1.week.ago.at_beginning_of_day)
+    questionnaire = FactoryBot.create(:questionnaire, content: [{
+                                        section_start: 'Algemeen',
+                                        id: :v1,
+                                        type: :radio,
+                                        title: 'Hoe voelt u zich vandaag?',
+                                        options: %w[slecht goed],
+                                        otherwise_label: 'Anders nog wat:'
+                                      }, {
+                                        id: :v2,
+                                        type: :checkbox,
+                                        title: 'Wat heeft u vandaag gegeten?',
+                                        options: ['brood', 'kaas en ham', 'pizza'],
+                                        otherwise_label: 'Hier ook iets:'
+                                      }, {
+                                        id: :v3,
+                                        type: :range,
+                                        title: 'Hoe gaat het met u?',
+                                        labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+                                      }, {
+                                        id: :v4,
+                                        type: :time,
+                                        title: 'Hoeveel tijd deed u over het eten?',
+                                        hours_from: 1,
+                                        hours_to: 10,
+                                        hours_step: 1,
+                                        section_end: true
+                                      }])
+    measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE,
+                                    measurement: measurement)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil
     expect(responseobj.content).to be_nil
     expect(responseobj.values).to be_nil
@@ -108,19 +108,19 @@ describe 'GET and POST /', type: :feature, js: true do
       title: 'Hoe oud ben jij?',
       options: %w[12 13]
     }]
-    protocol = FactoryGirl.create(:protocol)
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               start_date: 1.week.ago.at_beginning_of_day,
-                                               protocol: protocol,
-                                               person: student)
-    questionnaire = FactoryGirl.create(:questionnaire, content: content)
-    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     measurement: measurement,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol = FactoryBot.create(:protocol)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              start_date: 1.week.ago.at_beginning_of_day,
+                                              protocol: protocol,
+                                              person: student)
+    questionnaire = FactoryBot.create(:questionnaire, content: content)
+    measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    measurement: measurement,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
     expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -145,14 +145,14 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.values.keys).not_to include('v2')
   end
   it 'should store the results from the otherwise option for checkboxes and radios' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               person: student,
-                                               start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              person: student,
+                                              start_date: 1.week.ago.at_beginning_of_day)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
     expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -180,17 +180,17 @@ describe 'GET and POST /', type: :feature, js: true do
 
   describe 'should store the results from the expandables' do
     it 'should only store the one which is defaultly visible' do
-      questionnaire = FactoryGirl.create(:questionnaire, :one_expansion)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 person: student)
-      responseobj = FactoryGirl.create(:response,
-                                       measurement: measurement,
-                                       protocol_subscription: protocol_subscription,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      questionnaire = FactoryBot.create(:questionnaire, :one_expansion)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                person: student)
+      responseobj = FactoryBot.create(:response,
+                                      measurement: measurement,
+                                      protocol_subscription: protocol_subscription,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
 
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
@@ -225,14 +225,14 @@ describe 'GET and POST /', type: :feature, js: true do
 
     describe 'should not store any V4s if none of them is visible' do
       it 'by default' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   person: student,
-                                                   start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryGirl.create(:response,
-                                         protocol_subscription: protocol_subscription,
-                                         open_from: 1.hour.ago,
-                                         invited_state: Response::SENT_STATE)
-        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  person: student,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        invited_state: Response::SENT_STATE)
+        invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
         visit "/?q=#{invitation_token.token}"
         expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
         expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -261,14 +261,14 @@ describe 'GET and POST /', type: :feature, js: true do
       end
 
       it 'after showing / hiding' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   person: student,
-                                                   start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryGirl.create(:response,
-                                         protocol_subscription: protocol_subscription,
-                                         open_from: 1.hour.ago,
-                                         invited_state: Response::SENT_STATE)
-        invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  person: student,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        invited_state: Response::SENT_STATE)
+        invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
         visit "/?q=#{invitation_token.token}"
         expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
         expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -304,14 +304,14 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should only have disabled questions (for the expandables) whenever the default expansion is 0' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               person: student,
-                                               start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              person: student,
+                                              start_date: 1.week.ago.at_beginning_of_day)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -334,17 +334,17 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should only have exactly 1 non-disabled question (for the expandables) whenever the default expansion is 1' do
-    questionnaire = FactoryGirl.create(:questionnaire, :one_expansion)
-    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               start_date: 1.week.ago.at_beginning_of_day,
-                                               person: student)
-    responseobj = FactoryGirl.create(:response,
-                                     measurement: measurement,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    questionnaire = FactoryBot.create(:questionnaire, :one_expansion)
+    measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              start_date: 1.week.ago.at_beginning_of_day,
+                                              person: student)
+    responseobj = FactoryBot.create(:response,
+                                    measurement: measurement,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -380,17 +380,17 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should have the correct buttons for the expandables' do
-    questionnaire = FactoryGirl.create(:questionnaire, :one_expansion)
-    measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               start_date: 1.week.ago.at_beginning_of_day,
-                                               person: student)
-    responseobj = FactoryGirl.create(:response,
-                                     measurement: measurement,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    questionnaire = FactoryBot.create(:questionnaire, :one_expansion)
+    measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              start_date: 1.week.ago.at_beginning_of_day,
+                                              person: student)
+    responseobj = FactoryBot.create(:response,
+                                    measurement: measurement,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -420,14 +420,14 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should require radio buttons to be filled out' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               start_date: 1.week.ago.at_beginning_of_day,
-                                               person: student)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              start_date: 1.week.ago.at_beginning_of_day,
+                                              person: student)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -444,18 +444,18 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should show an informed consent questionnaire' do
-    protocol = FactoryGirl.create(:protocol, :with_informed_consent_questionnaire)
+    protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
     expect(protocol.informed_consent_questionnaire).not_to be_nil
     expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               start_date: 1.week.ago.at_beginning_of_day,
-                                               protocol: protocol,
-                                               person: student)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              start_date: 1.week.ago.at_beginning_of_day,
+                                              protocol: protocol,
+                                              person: student)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     expect(responseobj.completed_at).to be_nil
     expect(responseobj.content).to be_nil
     expect(responseobj.values).to be_nil
@@ -494,14 +494,14 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should not accept strings longer than the max' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               start_date: 1.week.ago.at_beginning_of_day,
-                                               person: student)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              start_date: 1.week.ago.at_beginning_of_day,
+                                              person: student)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -557,19 +557,19 @@ describe 'GET and POST /', type: :feature, js: true do
     end
 
     it 'shows and hides questions' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -672,19 +672,19 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v5' => 'hahaha')
     end
     it 'should not prevent from sending invisible answers' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -703,19 +703,19 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'slecht')
     end
     it 'should require invisible radios once they become visible' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -781,19 +781,19 @@ describe 'GET and POST /', type: :feature, js: true do
     end
 
     it 'shows and hides questions' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -896,19 +896,19 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v5' => 'hahaha')
     end
     it 'should not prevent from sending invisible answers' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -928,19 +928,19 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values.keys).not_to include('v3')
     end
     it 'should require invisible radios once they become visible' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -991,19 +991,19 @@ describe 'GET and POST /', type: :feature, js: true do
     end
 
     it 'should store the results from a textarea' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1044,19 +1044,19 @@ describe 'GET and POST /', type: :feature, js: true do
         required: true,
         title: 'Dit is je tekstruimte'
       }]
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1114,19 +1114,19 @@ describe 'GET and POST /', type: :feature, js: true do
         required: true,
         title: 'Dit is je tekstruimte'
       }]
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1151,19 +1151,19 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values.keys).not_to include('v2')
     end
     it 'should not require textareas to be filled out if they are not required' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1213,19 +1213,19 @@ describe 'GET and POST /', type: :feature, js: true do
     end
 
     it 'should store the results from a textfield' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1266,19 +1266,19 @@ describe 'GET and POST /', type: :feature, js: true do
         required: true,
         title: 'Dit is je tekstruimte'
       }]
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1336,19 +1336,19 @@ describe 'GET and POST /', type: :feature, js: true do
         required: true,
         title: 'Dit is je tekstruimte'
       }]
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1373,19 +1373,19 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values.keys).not_to include('v2')
     end
     it 'should not require textfields to be filled out if they are not required' do
-      protocol = FactoryGirl.create(:protocol)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol,
-                                                 person: student)
-      questionnaire = FactoryGirl.create(:questionnaire, content: content)
-      measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responseobj = FactoryGirl.create(:response,
-                                       protocol_subscription: protocol_subscription,
-                                       measurement: measurement,
-                                       open_from: 1.hour.ago,
-                                       invited_state: Response::SENT_STATE)
-      invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       visit "/?q=#{invitation_token.token}"
       expect(page).to have_current_path(questionnaire_path(q: invitation_token.token))
       expect(page).to_not have_current_path(mentor_overview_index_path)
@@ -1411,14 +1411,14 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   it 'should have tooltips, and show a toast when they are clicked' do
-    protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                               person: student,
-                                               start_date: 1.week.ago.at_beginning_of_day)
-    responseobj = FactoryGirl.create(:response,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 1.hour.ago,
-                                     invited_state: Response::SENT_STATE)
-    invitation_token = FactoryGirl.create(:invitation_token, response: responseobj)
+    protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                              person: student,
+                                              start_date: 1.week.ago.at_beginning_of_day)
+    responseobj = FactoryBot.create(:response,
+                                    protocol_subscription: protocol_subscription,
+                                    open_from: 1.hour.ago,
+                                    invited_state: Response::SENT_STATE)
+    invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
     visit "/?q=#{invitation_token.token}"
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     expect(page).to_not have_content('hagelslag')

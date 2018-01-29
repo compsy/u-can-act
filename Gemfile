@@ -14,7 +14,7 @@ ruby '2.4.3'
 gem 'rails', '~> 5.0.2'
 
 # Use Postgres as the database for Active Record
-gem 'pg'
+gem 'pg', '~> 0.20.0'
 
 # Use Puma as the app server
 gem 'puma'
@@ -103,7 +103,7 @@ group :test do
   gem 'simplecov'
 
   # Used for gem mocking
-  gem 'factory_girl_rails', '= 4.8.0'
+  gem 'factory_bot_rails'
 
   # Test which template was rendered
   gem 'rails-controller-testing'

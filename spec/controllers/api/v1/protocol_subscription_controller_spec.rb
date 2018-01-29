@@ -5,8 +5,8 @@ require 'rails_helper'
 module Api
   module V1
     describe ProtocolSubscriptionsController, type: :controller do
-      let(:test_response) { FactoryGirl.create(:response, completed_at: 10.minutes.ago) }
-      let(:other_response) { FactoryGirl.create(:response) }
+      let(:test_response) { FactoryBot.create(:response, completed_at: 10.minutes.ago) }
+      let(:other_response) { FactoryBot.create(:response) }
       describe 'show' do
         describe 'it should verify if the correct response is available in the session' do
           it 'should return 401 if no response is available' do

@@ -44,7 +44,7 @@ describe PlainTextParser do
     end
 
     it 'should return the protocol id if everything is correct' do
-      protocol = FactoryGirl.create(:protocol)
+      protocol = FactoryBot.create(:protocol)
       expect(subject.parse_protocol_name(protocol.name)).to eq(protocol.id)
     end
   end
@@ -58,22 +58,22 @@ describe PlainTextParser do
     end
 
     it 'should return the organization if everything is correct' do
-      organization = FactoryGirl.create(:organization)
+      organization = FactoryBot.create(:organization)
       expect(subject.parse_organization_name(organization.name)).to eq(organization)
     end
   end
 
   describe 'parse_role_name' do
     it 'should raise if the role does not exist in the organization' do
-      organization = FactoryGirl.create(:organization)
-      role = FactoryGirl.create(:role)
+      organization = FactoryBot.create(:organization)
+      role = FactoryBot.create(:role)
       expect { subject.parse_role_title(organization.name, role.title) }.to raise_error(
         RuntimeError, "No role exists in that organization by that title: #{role.title}"
       )
     end
 
     it 'should return the role id if everything is correct' do
-      role = FactoryGirl.create(:role)
+      role = FactoryBot.create(:role)
       expect(subject.parse_role_title(role.organization.name, role.title)).to eq(role.id)
     end
   end
@@ -152,8 +152,8 @@ describe PlainTextParser do
     end
 
     describe 'with the correct person' do
-      let!(:student) { FactoryGirl.create(:student, mobile_phone: student_mobile_phone) }
-      let!(:mentor) { FactoryGirl.create(:mentor, mobile_phone: mentor_mobile_phone) }
+      let!(:student) { FactoryBot.create(:student, mobile_phone: student_mobile_phone) }
+      let!(:mentor) { FactoryBot.create(:mentor, mobile_phone: mentor_mobile_phone) }
 
       it 'should call the parse mobile phone function' do
         expect(subject).to receive(:parse_mobile_phone).and_return(student_mobile_phone)

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe SendInvitationJob, type: :job do
   describe '#perform_later' do
     it 'performs something later' do
-      response = FactoryGirl.create(:response)
+      response = FactoryBot.create(:response)
       ActiveJob::Base.queue_adapter = :test
       expect do
         SendInvitationJob.perform_later(response)
@@ -13,7 +13,7 @@ describe SendInvitationJob, type: :job do
     end
   end
   describe '#perform' do
-    let(:response) { FactoryGirl.create(:response, invited_state: Response::SENDING_STATE) }
+    let(:response) { FactoryBot.create(:response, invited_state: Response::SENDING_STATE) }
     it 'should send the invitation' do
       expect(SendInvitation).to receive(:run!).with(response: response)
       subject.perform(response)

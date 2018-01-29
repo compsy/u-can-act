@@ -5,7 +5,7 @@ require 'rails_helper'
 describe QuestionnaireGenerator do
   describe 'generate_questionnaire' do # This is the only public method
     it 'should generate a questionnaire' do
-      responseobj = FactoryGirl.create(:response)
+      responseobj = FactoryBot.create(:response)
       result = described_class.generate_questionnaire(responseobj.id,
                                                       responseobj.measurement.questionnaire.content,
                                                       'Dit is een titel {{deze_student}}',

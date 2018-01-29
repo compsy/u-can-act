@@ -64,6 +64,7 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
+    bcrypt (3.1.11)
     bindex (0.5.0)
     bson (4.2.2)
     builder (3.2.3)
@@ -177,6 +178,11 @@ GEM
       thor (>= 0.14, < 2.0)
     json (2.1.0)
     jsonapi-renderer (0.2.0)
+    jwt (1.5.6)
+    knock (2.1.1)
+      bcrypt (~> 3.1)
+      jwt (~> 1.5)
+      rails (>= 4.2)
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.19)
@@ -230,6 +236,7 @@ GEM
     public_suffix (3.0.1)
     puma (3.11.0)
     rack (2.0.3)
+    rack-cors (1.0.2)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.6)
@@ -395,6 +402,7 @@ DEPENDENCIES
   active_model_serializers
   animate-rails!
   appsignal
+  bcrypt
   byebug
   capybara
   capybara-screenshot
@@ -413,6 +421,8 @@ DEPENDENCIES
   highcharts-rails
   jbuilder
   jquery-rails
+  jwt
+  knock
   listen
   mailgun-ruby
   materialize-sass
@@ -422,6 +432,7 @@ DEPENDENCIES
   pg
   pry-rails
   puma
+  rack-cors
   rails (~> 5.0.2)
   rails-controller-testing
   rails-i18n

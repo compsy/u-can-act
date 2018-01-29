@@ -47,8 +47,10 @@ gem 'mongoid'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt'
 
+# Enable cross origin requests
+gem 'rack-cors'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -74,6 +76,10 @@ gem 'mailgun-ruby'
 
 gem 'active_interaction'
 gem 'active_model_serializers'
+
+# Gem for JWT / Authentication
+gem 'jwt'
+gem 'knock'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

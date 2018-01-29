@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :response do
     protocol_subscription
     measurement
@@ -27,7 +27,7 @@ FactoryGirl.define do
     end
     trait :periodical do
       after(:create) do |response|
-        FactoryGirl.create(:measurement, responses: [response], period: 1)
+        FactoryBot.create(:measurement, responses: [response], period: 1)
       end
     end
   end

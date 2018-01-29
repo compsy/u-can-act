@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe CreateStudents do
   let!(:plain_text_parser) { PlainTextParser.new }
-  let!(:protocol) { FactoryGirl.create(:protocol, name: 'protname') }
-  let!(:organization) { FactoryGirl.create(:organization, name: 'orgname') }
-  let!(:role) { FactoryGirl.create(:role, organization: organization, group: Person::STUDENT, title: Person::STUDENT) }
+  let!(:protocol) { FactoryBot.create(:protocol, name: 'protname') }
+  let!(:organization) { FactoryBot.create(:organization, name: 'orgname') }
+  let!(:role) { FactoryBot.create(:role, organization: organization, group: Person::STUDENT, title: Person::STUDENT) }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:enddateinfuture) { 42.days.from_now.to_date.to_s }
   let(:students) do

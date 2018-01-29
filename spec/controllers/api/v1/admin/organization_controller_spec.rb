@@ -13,7 +13,7 @@ module Api
           let(:year) { '2018' }
           let(:group) {  Person::STUDENT }
           let(:overview) { Organization.organization_overview }
-          let(:admin) { FactoryGirl.create(:admin) }
+          let(:admin) { FactoryBot.create(:admin) }
 
           before :each do
             payload = { sub: admin.auth0_id_string }

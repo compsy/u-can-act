@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe Admin, type: :model do
-  let!(:admin) { FactoryGirl.create(:admin) }
-  let!(:admin2) { FactoryGirl.create(:admin) }
+  let!(:admin) { FactoryBot.create(:admin) }
+  let!(:admin2) { FactoryBot.create(:admin) }
   describe 'validations' do
     it 'should have a valid factory' do
-      expect(FactoryGirl.build(:admin)).to be_valid
+      expect(FactoryBot.build(:admin)).to be_valid
     end
     describe 'auth0_id_string' do
       it 'should validate the uniqueness of the auth0_id_string' do

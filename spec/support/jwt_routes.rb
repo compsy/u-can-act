@@ -10,7 +10,7 @@ shared_examples_for 'a jwt authenticated route' do |route, params|
   end
 
   it 'should return a 200 if the route is authenticated' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     payload = { sub: admin.auth0_id_string }
     jwt_auth payload
     get route, params: params

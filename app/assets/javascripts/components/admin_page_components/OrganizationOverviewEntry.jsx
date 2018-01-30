@@ -20,10 +20,10 @@ class OrganizationOverviewEntry extends React.Component {
       <table>
         <thead>
           <tr>
-            <th> Organization</th>
-            <th> Completed</th>
-            <th> Completed percentage</th>
-            <th> > 70% completed questionnaires</th>
+            <th>Organization</th>
+            <th>Completed</th>
+            <th>Completed percentage</th>
+            <th>> 70% completed questionnaires</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

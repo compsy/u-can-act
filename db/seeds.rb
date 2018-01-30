@@ -15,6 +15,19 @@ Dir[File.join(File.dirname(__FILE__), 'seeds', 'organizations', '**', '*.rb')].e
   require file
 end
 
+
+organization_name = 'Het Buro'
+
+puts "Running seeds for #{organization_name}"
+organization = Organization.find_by_name(organization_name)
+organization ||= Organization.create!(name: organization_name)
+organizations = ['Het Nordwin College Niveau 3-4', 'Het ROC FRIESE POORT', 'Het Nordwin College Niveau 1-2']
+
+organizations.each do	|sub_org|
+  sub = Organization.find_by_name(sub_org) 
+  SuperOrganization.create!(sub: sub, super: organization)
+end
+
 # Load seeds from the seeds directory.
 Dir[File.join(File.dirname(__FILE__), 'seeds', '*.rb')].each do |file|
   require file

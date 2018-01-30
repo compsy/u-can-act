@@ -4,6 +4,13 @@ class Organization < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_many :people, dependent: :destroy
   has_many :roles, dependent: :destroy
+  has_many :my_roles, foreign_key: 'organization_id', class_name: "Role"
+
+	has_many :sub_super_organizations, foreign_key: :super_id, class_name: "SuperOrganization"
+  has_many :sub_organizations, through: :sub_super_organizations, source: :sub
+
+	has_many :super_sub_organizations, foreign_key: :sub_id, class_name: "SuperOrganization"
+  has_many :super_organizations, through: :super_sub_organizations, source: :super
 
   DEFAULT_PERCENTAGE = 70
 
@@ -24,6 +31,11 @@ class Organization < ApplicationRecord
       all_role_stats[role.group] = merged
     end
     all_role_stats
+  end
+
+  def roles
+    return my_roles if sub_organizations.blank? 
+    sub_organizations.map{|x| x.roles}.flatten
   end
 
   private

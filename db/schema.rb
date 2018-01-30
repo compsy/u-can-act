@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124221043) do
+ActiveRecord::Schema.define(version: 20180130140123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,11 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.datetime "updated_at",      null: false
     t.index ["organization_id", "title"], name: "index_roles_on_organization_id_and_title", unique: true, using: :btree
     t.index ["organization_id"], name: "index_roles_on_organization_id", using: :btree
+  end
+
+  create_table "super_organizations", id: false, force: :cascade do |t|
+    t.integer "sub_id",   null: false
+    t.integer "super_id", null: false
   end
 
   add_foreign_key "invitation_tokens", "responses"

@@ -33,7 +33,7 @@ describe Organization, type: :model do
     end
   end
 
-  describe 'organization_overview' do
+  describe 'overview' do
     before :each do
       Timecop.freeze(2017, 5, 5)
     end
@@ -41,9 +41,10 @@ describe Organization, type: :model do
     after :each do
       Timecop.return
     end
+
     context 'without subscriptions and people' do
       it 'should return an empty array if no organizations exist' do
-        overview = described_class.organization_overview
+        overview = described_class.overview
         expect(overview).to_not be_nil
         expect(overview).to be_a Array
         expect(overview).to eq []
@@ -54,7 +55,7 @@ describe Organization, type: :model do
         org1 = FactoryBot.create(:organization, name: 'org1')
         org2 = FactoryBot.create(:organization, name: 'org2')
 
-        overview = described_class.organization_overview
+        overview = described_class.overview
         expect(overview).to_not be_nil
         expect(overview).to be_a Array
         expect(overview.length).to eq 2
@@ -72,7 +73,7 @@ describe Organization, type: :model do
         FactoryBot.create(:role, organization: org1, group: Person::STUDENT, title: 'Student')
         FactoryBot.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor')
 
-        overview = described_class.organization_overview
+        overview = described_class.overview
         expect(overview.first[:data]).to be_a Hash
         expect(overview.first[:data].keys.length).to eq 2
         expect(overview.first[:data]['Student']).to be_a Hash
@@ -119,7 +120,7 @@ describe Organization, type: :model do
       end
       let!(:response4) do
         FactoryBot.create(:response,
-                          open_from: Time.zone.now + 1.day,
+                          open_from: Time.zone.now - 10.minutes,
                           protocol_subscription: student2.protocol_subscriptions.first)
       end
 
@@ -135,7 +136,7 @@ describe Organization, type: :model do
       end
       let!(:response7) do
         FactoryBot.create(:response,
-                          open_from: Time.zone.now + 1.day,
+                          open_from: Time.zone.now - 1.day,
                           protocol_subscription: mentor1.protocol_subscriptions.first)
       end
       let!(:response8) do
@@ -149,25 +150,25 @@ describe Organization, type: :model do
                           protocol_subscription: mentor2.protocol_subscriptions.first)
       end
 
-      let!(:response9) do
+      let!(:response10) do
         FactoryBot.create(:response,
                           open_from: Time.zone.now - 10.minutes,
                           protocol_subscription: mentor2.protocol_subscriptions.first)
       end
 
-      let!(:response10) do
+      let!(:response11) do
         FactoryBot.create(:response, :completed,
                           open_from: Time.zone.now,
                           protocol_subscription: mentor3.protocol_subscriptions.first)
       end
 
-      let!(:response11) do
+      let!(:response12) do
         FactoryBot.create(:response,
                           open_from: Time.zone.now - 10.minutes,
                           protocol_subscription: mentor3.protocol_subscriptions.first)
       end
 
-      let(:overview) { described_class.organization_overview }
+      let(:overview) { described_class.overview }
       it 'should generate an overview for all organizations in the db' do
         expect(overview).to_not be_nil
         expect(overview).to be_a Array
@@ -176,7 +177,7 @@ describe Organization, type: :model do
         expect(overview.second[:name]).to eq org2.name
       end
 
-      it 'should list all role titles' do
+      it 'should list all role groups' do
         result = overview.first[:data]
         expect(result).to be_a Hash
         expect(result.length).to eq 2
@@ -185,30 +186,82 @@ describe Organization, type: :model do
 
       it 'should list the completed measurements and total measurements for mentors' do
         result = overview.first[:data][Person::MENTOR]
-        puts result
         expect(result).to be_a Hash
-        expect(result.length).to eq 2
-        expect(result.keys).to match %i[completed total]
+        expect(result.length).to eq 3
+        expect(result.keys).to match %i[completed total met_threshold_completion]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 3
+        expect(result[:met_threshold_completion]).to eq 0
       end
 
       it 'should correctly combine the correct roles for the mentors (it should sum the mentor group)' do
         result = overview.second[:data][Person::MENTOR]
         expect(result).to be_a Hash
-        expect(result.length).to eq 2
-        expect(result.keys).to match %i[completed total]
+        expect(result.length).to eq 3
+        expect(result.keys).to match %i[completed total met_threshold_completion]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 4
+        expect(result[:met_threshold_completion]).to eq 0
+      end
+
+      it 'should list the correct threshold completion based on the provided threshold' do
+        mentor4 = FactoryBot.create(:person, :with_protocol_subscriptions, role: role5)
+        FactoryBot.create(:response, :completed,
+                          open_from: Time.zone.now - 10.minutes,
+                          protocol_subscription: mentor3.protocol_subscriptions.first)
+
+        FactoryBot.create(:response, :completed,
+                          open_from: Time.zone.now - 10.minutes,
+                          protocol_subscription: mentor3.protocol_subscriptions.first)
+
+        FactoryBot.create(:response, :completed,
+                          open_from: Time.zone.now - 10.minutes,
+                          protocol_subscription: mentor4.protocol_subscriptions.first)
+
+        result = described_class.overview(nil, nil, 50).second[:data][Person::MENTOR]
+        # Three mentors should have achieved the 50%
+        expect(result[:met_threshold_completion]).to eq 3
+
+        result = described_class.overview(nil, nil, 75).second[:data][Person::MENTOR]
+        # Two mentors should have achieved the 75%
+        expect(result[:met_threshold_completion]).to eq 2
+
+        result = described_class.overview(nil, nil, 100).second[:data][Person::MENTOR]
+        # Only one should have the 100%
+        expect(result[:met_threshold_completion]).to eq 1
+      end
+
+      it 'should list the correct threshold completion based on the default threshold' do
+        FactoryBot.create(:response, :completed,
+                          open_from: Time.zone.now - 10.minutes,
+                          protocol_subscription: mentor3.protocol_subscriptions.first)
+
+        FactoryBot.create(:response, :completed,
+                          open_from: Time.zone.now - 10.minutes,
+                          protocol_subscription: mentor3.protocol_subscriptions.first)
+
+        expect(described_class::DEFAULT_PERCENTAGE).to_not be_nil
+        expect(described_class::DEFAULT_PERCENTAGE).to be > 0
+        result = described_class.overview.second[:data][Person::MENTOR]
+        result_with_params = described_class.overview(nil,
+                                                      nil,
+                                                      described_class::DEFAULT_PERCENTAGE)
+                                            .second[:data][Person::MENTOR]
+        expect(result[:met_threshold_completion]).to eq result_with_params[:met_threshold_completion]
+        expect(result[:met_threshold_completion]).to eq 1
       end
 
       it 'should list the completed measurements and total measurements for students' do
         result = overview.first[:data][Person::STUDENT]
         expect(result).to be_a Hash
-        expect(result.length).to eq 2
-        expect(result.keys).to match %i[completed total]
+        expect(result.length).to eq 3
+        expect(result.keys).to match %i[completed total met_threshold_completion]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 3
+
+        # one of the students actually had 100% completion, this week, as it
+        # had only one response
+        expect(result[:met_threshold_completion]).to eq 1
       end
     end
   end

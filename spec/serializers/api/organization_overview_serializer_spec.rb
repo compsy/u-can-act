@@ -14,11 +14,14 @@ module Api
     let(:overview) do
       [
         { name: 'Organization 1',
-          data: { Person::STUDENT => { completed: 2, total: 20 }, Person::MENTOR => { completed: 10, total: 20 } } },
+          data: { Person::STUDENT => { completed: 2, total: 20, met_threshold_completion: 1 },
+                  Person::MENTOR => { completed: 10, total: 20, met_threshold_completion: 2 } } },
         { name: 'Organization 2',
-          data: { Person::STUDENT => { completed: 0, total: 0 }, Person::MENTOR => { completed: 5, total: 10 } } },
+          data: { Person::STUDENT => { completed: 0, total: 0, met_threshold_completion: 4 },
+                  Person::MENTOR => { completed: 5, total: 10, met_threshold_completion: 3 } } },
         { name: 'Organization 3',
-          data: { Person::STUDENT => { completed: 5, total: 10 }, Person::MENTOR => { completed: 5, total: 10 } } },
+          data: { Person::STUDENT => { completed: 5, total: 10, met_threshold_completion: 5 },
+                  Person::MENTOR => { completed: 5, total: 10, met_threshold_completion: 6 } } },
         { name: 'Organization 4',
           data: {} }
       ]
@@ -40,11 +43,13 @@ module Api
             data: {
               Person::STUDENT => {
                 completed: 10,
-                total: 90
+                total: 90,
+                met_threshold_completion: 1
               },
               Person::MENTOR => {
                 completed: 11,
-                total: 95
+                total: 95,
+                met_threshold_completion: 10
               }
             }
           },
@@ -53,11 +58,13 @@ module Api
             data: {
               Person::STUDENT => {
                 completed: 0,
-                total: 20
+                total: 20,
+                met_threshold_completion: 18
               },
               Person::MENTOR => {
                 completed: 21,
-                total: 50
+                total: 50,
+                met_threshold_completion: 8
               }
             }
           }
@@ -70,7 +77,8 @@ module Api
             data: {
               Person::STUDENT => {
                 completed: 10,
-                total: 90
+                total: 90,
+                met_threshold_completion: 7
               }
             }
           },
@@ -79,11 +87,13 @@ module Api
             data: {
               Person::STUDENT => {
                 completed: 0,
-                total: 20
+                total: 20,
+                met_threshold_completion: 4
               },
               Person::MENTOR => {
                 completed: 21,
-                total: 50
+                total: 50,
+                met_threshold_completion: 6
               }
             }
           }
@@ -159,6 +169,13 @@ module Api
             perc *= 100.0
           end
           expect(entry['percentage_completed']).to eq(perc)
+        end
+      end
+
+      it 'should include the met_threshold rate for each organization' do
+        json['overview'].each_with_index do |entry, index|
+          expect(entry['name']).to eq(overview[index][:name])
+          expect(entry['met_threshold_completion']).to eq(overview[index][:data][group][:met_threshold_completion])
         end
       end
     end

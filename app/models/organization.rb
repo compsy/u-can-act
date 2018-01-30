@@ -13,9 +13,14 @@ class Organization < ApplicationRecord
   end
 
   def stats_for_organization(week_number, year)
-    roles.each_with_object(Hash.new(0)) do |role, all_role_stats|
-      all_role_stats[role.group] = stats_for_role(role, week_number, year)
+    all_role_stats = Hash.new({})
+    roles.each do |role|
+      merged = all_role_stats[role.group].merge(stats_for_role(role, week_number, year)) do |_key, val1, val2|
+        val1 + val2
+      end
+      all_role_stats[role.group] = merged
     end
+    all_role_stats
   end
 
   private

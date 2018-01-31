@@ -11,8 +11,9 @@ module Api
         describe '#show' do
           let(:week_number) { '1' }
           let(:year) { '2018' }
+          let(:percentage_threshold) { '70' }
           let(:group) {  Person::STUDENT }
-          let(:overview) { Organization.organization_overview }
+          let(:overview) { Organization.overview }
           let(:admin) { FactoryBot.create(:admin) }
 
           before :each do
@@ -21,8 +22,8 @@ module Api
           end
 
           it 'should call the render function with the correct parameters' do
-            expect(Organization).to receive(:organization_overview)
-              .with(week_number, year)
+            expect(Organization).to receive(:overview)
+              .with(week_number, year, percentage_threshold)
               .and_return(overview)
 
             expect(controller).to receive(:render)
@@ -33,7 +34,8 @@ module Api
 
             get :show, params: { group: group,
                                  year: year,
-                                 week_number: week_number }
+                                 week_number: week_number,
+                                 percentage_threshold: percentage_threshold }
           end
 
           it 'should also work without the year and week_number parameters' do
@@ -42,13 +44,14 @@ module Api
           end
 
           it 'should call the overview generator function and store it ' do
-            expect(Organization).to receive(:organization_overview)
-              .with(week_number, year)
+            expect(Organization).to receive(:overview)
+              .with(week_number, year, percentage_threshold)
               .and_return(overview)
 
             get :show, params: { group: Person::STUDENT,
                                  year: year,
-                                 week_number: week_number }
+                                 week_number: week_number,
+                                 percentage_threshold: percentage_threshold }
 
             result = controller.instance_variable_get(:@organization_overview)
             expect(result).to eq(overview)

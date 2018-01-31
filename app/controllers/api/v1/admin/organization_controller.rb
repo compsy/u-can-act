@@ -5,7 +5,7 @@ module Api
     module Admin
       class OrganizationController < AdminApiController
         def show
-          @organization_overview = Organization.organization_overview(week_number, year)
+          @organization_overview = Organization.overview(week_number, year, percentage_threshold)
           render json: @organization_overview,
                  serializer: Api::OrganizationOverviewSerializer,
                  group: group
@@ -25,8 +25,12 @@ module Api
           organization_params[:year]
         end
 
+        def percentage_threshold
+          organization_params[:percentage_threshold]
+        end
+
         def organization_params
-          params.permit(:group, :week_number, :year)
+          params.permit(:group, :week_number, :year, :percentage_threshold)
         end
       end
     end

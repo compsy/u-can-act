@@ -164,8 +164,9 @@ describe 'GET /admin', type: :feature, js: true do
         expect(page).to_not have_content 'Organization overview'
         expect(page).to_not have_content org1.name
         expect(page).to_not have_content 'Organization'
-        expect(page).to_not have_content 'Completed (past week)'
-        expect(page).to_not have_content 'Completed percentage (past week)'
+        expect(page).to_not have_content 'Completed'
+        expect(page).to_not have_content 'Completed percentage'
+        expect(page).to_not have_content '70% completed questionnaires'
         expect(page).to_not have_content Person::STUDENT
         expect(page).to_not have_content Person::MENTOR
       end
@@ -196,8 +197,9 @@ describe 'GET /admin', type: :feature, js: true do
         expect(page).to have_content 'Organization overview'
         expect(page).to have_content org1.name
         expect(page).to have_content 'Organization'
-        expect(page).to have_content 'Completed (past week)'
-        expect(page).to have_content 'Completed percentage (past week)'
+        expect(page).to have_content 'Completed'
+        expect(page).to have_content 'Completed percentage'
+        expect(page).to have_content '≥ 70% completed questionnaires'
 
         # It should not list org2, because it does not have any roles
         expect(page).to_not have_content org2.name

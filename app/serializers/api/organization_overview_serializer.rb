@@ -19,11 +19,13 @@ module Api
       total = 0.0
       if organization[:data].keys.include? group
         completed = organization[:data][group][:completed]
+        met_threshold_completion = organization[:data][group][:met_threshold_completion]
         total = organization[:data][group][:total]
       end
       {
         name: organization[:name],
         completed: completed,
+        met_threshold_completion: met_threshold_completion,
         percentage_completed: calculate_completion_percentage(completed, total)
       }
     end

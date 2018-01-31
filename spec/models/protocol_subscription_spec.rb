@@ -91,39 +91,50 @@ describe ProtocolSubscription do
   end
 
   describe 'validates uniqueness of students per mentor' do
+    let(:mentor) { FactoryBot.create(:mentor) }
+    let(:student) { FactoryBot.create(:student) }
     it 'should not allow two protocol subscriptions with the same state and filling_out_for_id' do
-      mentor = FactoryBot.create(:mentor)
-      student = FactoryBot.create(:student)
-      FactoryBot.create(:protocol_subscription, state: 'active', person: mentor, filling_out_for: student)
-      prot2 = FactoryBot.build(:protocol_subscription, state: 'active',
-                                                       person: mentor,
-                                                       filling_out_for: student)
+      prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                        person: mentor,
+                                                        filling_out_for: student)
+      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                       person: prot1.person,
+                                                       filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to_not be_valid
       expect(prot2.errors.messages).to have_key :filling_out_for_id
       expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
+      expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
+                                            'Validatie mislukt: Filling out for is al in gebruik')
     end
     it 'should allow two subscriptions with the same filling_out_for_id and different states if one is completed' do
-      prot1 = FactoryBot.create(:protocol_subscription, state: 'completed')
-      prot2 = FactoryBot.build(:protocol_subscription, state: 'active',
+      prot1 = FactoryBot.create(:protocol_subscription, state: described_class::COMPLETED_STATE,
+                                                        person: mentor,
+                                                        filling_out_for: student)
+      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
                                                        person: prot1.person,
                                                        filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
+      expect { prot2.save! }.to_not raise_error
     end
     it 'should allow two subscriptions with the same filling_out_for_id and different states if one is still active' do
-      prot1 = FactoryBot.create(:protocol_subscription, state: 'active')
-      prot2 = FactoryBot.build(:protocol_subscription, state: 'completed',
+      prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                        person: mentor,
+                                                        filling_out_for: student)
+      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::COMPLETED_STATE,
                                                        person: prot1.person,
                                                        filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
+      expect { prot2.save! }.to_not raise_error
     end
     it 'should allow two protocol subscriptions with the same state as long as they are not active' do
       states = [described_class::CANCELED_STATE, described_class::COMPLETED_STATE]
       states.each do |state|
-        prot1 = FactoryBot.create(:protocol_subscription, state: state)
+        prot1 = FactoryBot.create(:protocol_subscription, state: state, person: mentor, filling_out_for: student)
         prot2 = FactoryBot.build(:protocol_subscription, state: state,
                                                          person: prot1.person,
                                                          filling_out_for_id: prot1.filling_out_for_id)
         expect(prot2).to be_valid
+        expect { prot2.save! }.to_not raise_error
       end
     end
     it 'should allow a student filling out for him/herself to have two active subscriptions' do
@@ -132,6 +143,7 @@ describe ProtocolSubscription do
                                                        person: prot1.person,
                                                        filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
+      expect { prot2.save! }.to_not raise_error
     end
   end
 

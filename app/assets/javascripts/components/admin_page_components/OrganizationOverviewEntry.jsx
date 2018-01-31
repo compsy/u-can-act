@@ -23,7 +23,7 @@ class OrganizationOverviewEntry extends React.Component {
             <th> Organization</th>
             <th> Completed</th>
             <th> Completed percentage</th>
-            <th> > 70% completed questionnaires</th>
+            <th> &ge; 70% completed questionnaires</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

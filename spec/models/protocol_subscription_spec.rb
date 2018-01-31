@@ -124,6 +124,7 @@ describe ProtocolSubscription do
                                                        person: prot1.person,
                                                        filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
+      expect { prot2.save! }.to_not raise_error
     end
     it 'should allow two protocol subscriptions with the same state as long as they are not active' do
       states = [described_class::CANCELED_STATE, described_class::COMPLETED_STATE]

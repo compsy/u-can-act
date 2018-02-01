@@ -192,6 +192,7 @@ describe Organization, type: :model do
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 3
         expect(result[:met_threshold_completion]).to eq 0
+        expect(result[:percentage_above_threshold]).to eq 0
       end
 
       it 'should correctly combine the correct roles for the mentors (it should sum the mentor group)' do
@@ -202,6 +203,7 @@ describe Organization, type: :model do
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 4
         expect(result[:met_threshold_completion]).to eq 0
+        expect(result[:percentage_above_threshold]).to eq 0
       end
 
       it 'should list the correct threshold completion based on the provided threshold' do
@@ -221,14 +223,17 @@ describe Organization, type: :model do
         result = described_class.overview(nil, nil, 50).second[:data][Person::MENTOR]
         # Three mentors should have achieved the 50%
         expect(result[:met_threshold_completion]).to eq 3
+        expect(result[:percentage_above_threshold]).to eq 100
 
         result = described_class.overview(nil, nil, 75).second[:data][Person::MENTOR]
         # Two mentors should have achieved the 75%
         expect(result[:met_threshold_completion]).to eq 2
+        expect(result[:percentage_above_threshold]).to be_within(0.0001).of(2.0 / 3.0 * 100)
 
         result = described_class.overview(nil, nil, 100).second[:data][Person::MENTOR]
         # Only one should have the 100%
         expect(result[:met_threshold_completion]).to eq 1
+        expect(result[:percentage_above_threshold]).to be_within(0.0001).of(1.0 / 3.0 * 100)
       end
 
       it 'should list the correct threshold completion based on the default threshold' do
@@ -249,6 +254,9 @@ describe Organization, type: :model do
                                             .second[:data][Person::MENTOR]
         expect(result[:met_threshold_completion]).to eq result_with_params[:met_threshold_completion]
         expect(result[:met_threshold_completion]).to eq 1
+
+        # One out of 2 mentors should have made it, hence 50%
+        expect(result[:percentage_above_threshold]).to eq 1.0 / 2.0 * 100
       end
 
       it 'should list the completed measurements and total measurements for students' do
@@ -262,6 +270,9 @@ describe Organization, type: :model do
         # one of the students actually had 100% completion, this week, as it
         # had only one response
         expect(result[:met_threshold_completion]).to eq 1
+
+        # 1 out of two students
+        expect(result[:percentage_above_threshold]).to eq 1.0 / 2.0 * 100
       end
     end
   end

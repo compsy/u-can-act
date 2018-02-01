@@ -58,7 +58,30 @@ class Person < ApplicationRecord
     ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).first&.person
   end
 
+  def stats(week_number, year, threshold_percentage)
+    person_completed = 0
+    person_total = 0
+    protocol_subscriptions.each do |subscription|
+      past_week = subscription.responses.in_week(week_number: week_number, year: year)
+      person_completed += past_week.completed.count || 0
+      person_total += past_week.count || 0
+    end
+    {
+      met_threshold_completion: check_threshold(person_completed, person_total, threshold_percentage),
+      completed: person_completed,
+      total: person_total
+    }
+  end
+
   private
+
+  def check_threshold(completed, total, threshold_percentage)
+    return 0 unless total.positive?
+    threshold_percentage ||= DEFAULT_PERCENTAGE
+    threshold_percentage = threshold_percentage.to_i
+    actual_percentage = completed.to_d / total.to_d * 100
+    actual_percentage >= threshold_percentage ? 1 : 0
+  end
 
   def warn_for_multiple_mentors
     Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{student.id}" if

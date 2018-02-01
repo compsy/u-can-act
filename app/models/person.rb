@@ -7,6 +7,7 @@ class Person < ApplicationRecord
 
   MENTOR = 'Mentor'
   STUDENT = 'Student'
+  DEFAULT_PERCENTAGE = 70
 
   validates :mobile_phone,
             length: { minimum: 10, maximum: 10 },
@@ -77,7 +78,7 @@ class Person < ApplicationRecord
 
   def check_threshold(completed, total, threshold_percentage)
     return 0 unless total.positive?
-    threshold_percentage ||= DEFAULT_PERCENTAGE
+    threshold_percentage ||= Person::DEFAULT_PERCENTAGE
     threshold_percentage = threshold_percentage.to_i
     actual_percentage = completed.to_d / total.to_d * 100
     actual_percentage >= threshold_percentage ? 1 : 0

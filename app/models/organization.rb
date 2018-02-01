@@ -5,8 +5,6 @@ class Organization < ApplicationRecord
   has_many :people, dependent: :destroy
   has_many :roles, dependent: :destroy
 
-  DEFAULT_PERCENTAGE = 70
-
   def self.overview(week_number = nil, year = nil, threshold_percentage = nil)
     Organization.all.map do |organization|
       organization_stats = organization.stats(week_number, year, threshold_percentage)
@@ -17,7 +15,7 @@ class Organization < ApplicationRecord
   def stats(week_number, year, threshold_percentage)
     all_role_stats = Hash.new({})
     roles.each do |role|
-      role_stats = stats_for_role(role, week_number, year, threshold_percentage)
+      role_stats = role.stats(week_number, year, threshold_percentage)
 
       # Note that we merge the stats based on the group of the role, not on the title.
       merged = all_role_stats[role.group].merge(role_stats) do |_key, val1, val2|

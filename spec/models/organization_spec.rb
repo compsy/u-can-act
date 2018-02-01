@@ -76,11 +76,15 @@ describe Organization, type: :model do
         overview = described_class.overview
         expect(overview.first[:data]).to be_a Hash
         expect(overview.first[:data].keys.length).to eq 2
-        expect(overview.first[:data]['Student']).to be_a Hash
-        expect(overview.first[:data]['Student']).to be_blank
 
-        expect(overview.first[:data]['Mentor']).to be_a Hash
-        expect(overview.first[:data]['Mentor']).to be_blank
+        # They should only contain 0 entries
+        %w[Student Mentor].each do |group|
+          expect(overview.first[:data][group]).to be_a Hash
+          expect(overview.first[:data][group]).to_not be_blank
+          overview.first[:data][group].each_value do |val|
+            expect(val).to eq 0
+          end
+        end
       end
     end
 
@@ -188,7 +192,7 @@ describe Organization, type: :model do
         result = overview.first[:data][Person::MENTOR]
         expect(result).to be_a Hash
         expect(result.length).to eq 4
-        expect(result.keys).to match %i[completed total met_threshold_completion percentage_above_threshold]
+        expect(result.keys).to match_array %i[completed total met_threshold_completion percentage_above_threshold]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 3
         expect(result[:met_threshold_completion]).to eq 0
@@ -199,7 +203,7 @@ describe Organization, type: :model do
         result = overview.second[:data][Person::MENTOR]
         expect(result).to be_a Hash
         expect(result.length).to eq 4
-        expect(result.keys).to match %i[completed total met_threshold_completion percentage_above_threshold]
+        expect(result.keys).to match_array %i[completed total met_threshold_completion percentage_above_threshold]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 4
         expect(result[:met_threshold_completion]).to eq 0
@@ -245,12 +249,12 @@ describe Organization, type: :model do
                           open_from: Time.zone.now - 10.minutes,
                           protocol_subscription: mentor3.protocol_subscriptions.first)
 
-        expect(described_class::DEFAULT_PERCENTAGE).to_not be_nil
-        expect(described_class::DEFAULT_PERCENTAGE).to be > 0
+        expect(Person::DEFAULT_PERCENTAGE).to_not be_nil
+        expect(Person::DEFAULT_PERCENTAGE).to be > 0
         result = described_class.overview.second[:data][Person::MENTOR]
         result_with_params = described_class.overview(nil,
                                                       nil,
-                                                      described_class::DEFAULT_PERCENTAGE)
+                                                      Person::DEFAULT_PERCENTAGE)
                                             .second[:data][Person::MENTOR]
         expect(result[:met_threshold_completion]).to eq result_with_params[:met_threshold_completion]
         expect(result[:met_threshold_completion]).to eq 1
@@ -263,7 +267,7 @@ describe Organization, type: :model do
         result = overview.first[:data][Person::STUDENT]
         expect(result).to be_a Hash
         expect(result.length).to eq 4
-        expect(result.keys).to match %i[completed total met_threshold_completion percentage_above_threshold]
+        expect(result.keys).to match_array %i[completed total met_threshold_completion percentage_above_threshold]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 3
 

@@ -9,7 +9,7 @@ class Role < ApplicationRecord
   validates :organization_id, presence: true
 
   def stats(week_number, year, threshold_percentage)
-    all_person_stats = {met_threshold_completion: 0, completed: 0, total: 0}
+    all_person_stats = { met_threshold_completion: 0, completed: 0, total: 0 }
     people.each do |person|
       person_stats = person.stats(week_number, year, threshold_percentage)
       all_person_stats[:completed] += person_stats[:completed]

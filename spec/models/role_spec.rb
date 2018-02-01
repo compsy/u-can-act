@@ -106,8 +106,8 @@ describe Role, type: :model do
       role.people << people
       result = role.stats(week_number, year, threshold_percentage)
       expect(result[:met_threshold_completion]).to eq 0 + 1 + 2
-      expect(result[:completed]).to eq 0+ 1 + 2 
-      expect(result[:total]).to eq 0 + 1 + 2 
+      expect(result[:completed]).to eq 0 + 1 + 2
+      expect(result[:total]).to eq 0 + 1 + 2
     end
 
     it 'should return only zeros if there are no subscriptions' do

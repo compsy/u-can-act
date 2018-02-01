@@ -17,16 +17,32 @@ class Organization < ApplicationRecord
   def stats_for_organization(week_number, year, threshold_percentage)
     all_role_stats = Hash.new({})
     roles.each do |role|
-      new_stats_for_role = stats_for_role(role, week_number, year, threshold_percentage)
-      merged = all_role_stats[role.group].merge(new_stats_for_role) do |_key, val1, val2|
+      role_stats = stats_for_role(role, week_number, year, threshold_percentage)
+
+      # Note that we merge the stats based on the group of the role, not on the title.
+      merged = all_role_stats[role.group].merge(role_stats) do |_key, val1, val2|
         val1 + val2
       end
       all_role_stats[role.group] = merged
     end
-    all_role_stats
+    calculate_above_threshold_percentage(all_role_stats)
   end
 
   private
+
+  def calculate_above_threshold_percentage(role_stats)
+    role_stats.each_key do |group|
+      roles_for_group = roles.where(group: group)
+      perc = calculate_above_threshold_for_group(roles_for_group, role_stats[group])
+      role_stats[group][:percentage_above_threshold] = perc
+    end
+    role_stats
+  end
+
+  def calculate_above_threshold_for_group(roles_for_group, role_stats_for_group)
+    total_people = roles_for_group.reduce(0) { |tot, val| tot + val.people.count }
+    total_people.positive? ? role_stats_for_group[:met_threshold_completion].to_d / total_people.to_d * 100 : 0
+  end
 
   def stats_for_role(role, week_number, year, threshold_percentage)
     role.people.each_with_object(Hash.new(0)) do |person, all_person_stats|
@@ -38,19 +54,27 @@ class Organization < ApplicationRecord
   end
 
   def stats_for_person(person, week_number, year, threshold_percentage)
-    person.protocol_subscriptions.each_with_object(Hash.new(0)) do |subscription, all_subscriptions|
+    person_completed = 0
+    person_total = 0
+    person.protocol_subscriptions.each do |subscription|
       past_week = subscription.responses.in_week(week_number: week_number, year: year)
-      all_subscriptions[:completed] += past_week.completed.count || 0
-      all_subscriptions[:total] += past_week.count || 0
-      all_subscriptions[:met_threshold_completion] += check_threshold(past_week, threshold_percentage)
+      person_completed += past_week.completed.count || 0
+      person_total += past_week.count || 0
     end
+    {
+      met_threshold_completion: check_threshold(person_completed,
+                                                person_total,
+                                                threshold_percentage),
+      completed: person_completed,
+      total: person_total
+    }
   end
 
-  def check_threshold(responses, threshold_percentage)
-    return 0 unless responses.count.positive?
+  def check_threshold(completed, total, threshold_percentage)
+    return 0 unless total.positive?
     threshold_percentage ||= DEFAULT_PERCENTAGE
     threshold_percentage = threshold_percentage.to_i
-    actual_percentage = responses.completed.count.to_d / responses.count.to_d * 100
+    actual_percentage = completed.to_d / total.to_d * 100
     actual_percentage >= threshold_percentage ? 1 : 0
   end
 end

@@ -187,8 +187,8 @@ describe Organization, type: :model do
       it 'should list the completed measurements and total measurements for mentors' do
         result = overview.first[:data][Person::MENTOR]
         expect(result).to be_a Hash
-        expect(result.length).to eq 3
-        expect(result.keys).to match %i[completed total met_threshold_completion]
+        expect(result.length).to eq 4
+        expect(result.keys).to match %i[completed total met_threshold_completion percentage_above_threshold]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 3
         expect(result[:met_threshold_completion]).to eq 0
@@ -197,8 +197,8 @@ describe Organization, type: :model do
       it 'should correctly combine the correct roles for the mentors (it should sum the mentor group)' do
         result = overview.second[:data][Person::MENTOR]
         expect(result).to be_a Hash
-        expect(result.length).to eq 3
-        expect(result.keys).to match %i[completed total met_threshold_completion]
+        expect(result.length).to eq 4
+        expect(result.keys).to match %i[completed total met_threshold_completion percentage_above_threshold]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 4
         expect(result[:met_threshold_completion]).to eq 0
@@ -254,8 +254,8 @@ describe Organization, type: :model do
       it 'should list the completed measurements and total measurements for students' do
         result = overview.first[:data][Person::STUDENT]
         expect(result).to be_a Hash
-        expect(result.length).to eq 3
-        expect(result.keys).to match %i[completed total met_threshold_completion]
+        expect(result.length).to eq 4
+        expect(result.keys).to match %i[completed total met_threshold_completion percentage_above_threshold]
         expect(result[:completed]).to eq 2
         expect(result[:total]).to eq 3
 

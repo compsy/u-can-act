@@ -151,13 +151,13 @@ describe ProtocolSubscription do
     it 'should be one of the predefined states' do
       protocol_subscription = FactoryBot.build(:protocol_subscription)
       protocol_subscription.state = ProtocolSubscription::ACTIVE_STATE
-      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription).to be_valid
       protocol_subscription = FactoryBot.build(:protocol_subscription)
       protocol_subscription.state = ProtocolSubscription::CANCELED_STATE
-      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription).to be_valid
       protocol_subscription = FactoryBot.build(:protocol_subscription)
       protocol_subscription.state = ProtocolSubscription::COMPLETED_STATE
-      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription).to be_valid
     end
     it 'should not be nil' do
       protocol_subscription = FactoryBot.build(:protocol_subscription, state: nil)

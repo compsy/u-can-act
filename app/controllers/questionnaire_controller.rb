@@ -25,7 +25,9 @@ class QuestionnaireController < ApplicationController
 
   def create
     response_content = ResponseContent.create!(content: questionnaire_content)
-    @response.update_attributes!(content: response_content.id, completed_at: Time.zone.now)
+    @response.update_attributes!(content: response_content.id,
+                                 completed_at: Time.zone.now,
+                                 filled_out_for: @prototocol_subscription.filling_out_for)
     redirect_to(mentor_overview_index_path) && return unless @protocol_subscription.for_myself?
     redirect_to klaar_path
   end
@@ -46,8 +48,7 @@ class QuestionnaireController < ApplicationController
     check_invitation_token(invitation_token)
     return if performed?
     @response = invitation_token.response
-    @protocol_subscription = @response.protocol_subscription
-    @protocol = @protocol_subscription.protocol
+    set_protocol_and_subscription
   end
 
   def check_informed_consent
@@ -69,6 +70,10 @@ class QuestionnaireController < ApplicationController
     check_response(@response)
     return if performed?
     set_cookie # Now that we know the response can be filled out, update the cookies so the redirect works as expected.
+    set_protocol_and_subscription
+  end
+
+  def set_protocol_and_subscription
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
   end

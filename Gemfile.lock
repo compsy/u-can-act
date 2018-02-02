@@ -223,15 +223,9 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
-<<<<<<< HEAD
-    parallel (1.12.0)
-    parallel_tests (2.19.0)
-      parallel
-||||||| merged common ancestors
-    parallel (1.12.0)
-=======
     parallel (1.12.1)
->>>>>>> master
+    parallel_tests (2.21.1)
+      parallel
     parser (2.4.0.2)
       ast (~> 2.3)
     pg (0.20.0)
@@ -436,14 +430,8 @@ DEPENDENCIES
   messagebird-rest
   modernizr-rails
   mongoid
-<<<<<<< HEAD
   parallel_tests
-  pg
-||||||| merged common ancestors
-  pg
-=======
   pg (~> 0.20.0)
->>>>>>> master
   pry-rails
   puma
   rack-cors

@@ -232,12 +232,14 @@ describe Organization, type: :model do
         result = described_class.overview(nil, nil, 75).second[:data][Person::MENTOR]
         # Two mentors should have achieved the 75%
         expect(result[:met_threshold_completion]).to eq 2
-        expect(result[:percentage_above_threshold]).to be_within(0.0001).of(2.0 / 3.0 * 100)
+        expected = (2.0 / 3.0 * 100).round
+        expect(result[:percentage_above_threshold]).to eq expected
 
         result = described_class.overview(nil, nil, 100).second[:data][Person::MENTOR]
         # Only one should have the 100%
         expect(result[:met_threshold_completion]).to eq 1
-        expect(result[:percentage_above_threshold]).to be_within(0.0001).of(1.0 / 3.0 * 100)
+        expected = (1.0 / 3.0 * 100).round
+        expect(result[:percentage_above_threshold]).to eq expected
       end
 
       it 'should list the correct threshold completion based on the default threshold' do

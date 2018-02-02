@@ -79,7 +79,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
                                                   start_date: 1.week.ago.at_beginning_of_day,
                                                   person: person)
         responseobj = FactoryBot.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
-                                                                  open_from: 1.hour.ago)
+                                                                 open_from: 1.hour.ago)
         invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
         get :show, params: { q: identifier }
@@ -96,7 +96,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
                                                   person: person,
                                                   filling_out_for: FactoryBot.create(:student))
         responseobj = FactoryBot.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
-                                                                  open_from: 1.hour.ago)
+                                                                 open_from: 1.hour.ago)
         invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
         get :show, params: { q: identifier }

@@ -3,6 +3,7 @@
 class Response < ApplicationRecord
   RECENT_PAST = 2.hours
   REMINDER_DELAY = 8.hours
+
   NOT_SENT_STATE = 'not_sent'
   SENDING_STATE = 'sending'
   SENT_STATE = 'sent'
@@ -24,9 +25,7 @@ class Response < ApplicationRecord
   after_initialize do |response|
     unless response.uuid
       response.uuid = SecureRandom.uuid
-      while Response.where(uuid: response.uuid).count.positive?
-        response.uuid = SecureRandom.uuid
-      end
+      response.uuid = SecureRandom.uuid while Response.where(uuid: response.uuid).count.positive?
     end
   end
 
@@ -164,8 +163,6 @@ class Response < ApplicationRecord
     }
     VariableEvaluator.evaluate_obj(obj, subs_hash)
   end
-
-  private
 
   def response_expired?
     measurement.open_duration.present? &&

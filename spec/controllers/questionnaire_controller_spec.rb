@@ -16,8 +16,8 @@ RSpec.describe QuestionnaireController, type: :controller do
       expect(protocol.informed_consent_questionnaire).not_to be_nil
       expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
       protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 protocol: protocol)
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol)
       responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
       get :show, params: { uuid: responseobj.uuid }
       expect(response).to have_http_status(200)
@@ -36,7 +36,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                      open_from: 1.hour.ago)
       end
 
-      #let(:invitation_token) { FactoryBot.create(:invitation_token, response: responseobj) }
+      # let(:invitation_token) { FactoryBot.create(:invitation_token, response: responseobj) }
       it 'should set it to true when the current person is a mentor' do
         person = FactoryBot.create(:mentor)
         protocol_subscription.update_attributes!(person: person)

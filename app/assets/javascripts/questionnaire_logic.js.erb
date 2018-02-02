@@ -102,20 +102,20 @@ function updateExpandableButtons() {
 }
 
 function expandExpandable() {
-  const questionnaireId = $(this).attr('data-belongsto');
+  var questionnaireId = $(this).attr('data-belongsto');
 
   // Find the first element that is hidden and expandable so we can unhide it
-  const elem = $('.expandable_wrapper.hidden' + '.' + questionnaireId).first();
+  var elem = $('.expandable_wrapper.hidden' + '.' + questionnaireId).first();
   elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
 }
 
 function collapseExpandable() {
-  const questionnaireId = $(this).attr('data-belongsto');
+  var questionnaireId = $(this).attr('data-belongsto');
 
   // Find the last element that is not hidden and expandable so we can hide it
-  const elem = $('.expandable_wrapper:not(.hidden)' + '.' + questionnaireId).last();
+  var elem = $('.expandable_wrapper:not(.hidden)' + '.' + questionnaireId).last();
   elem.addClass('hidden').find('input,textarea').prop('disabled', true);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();

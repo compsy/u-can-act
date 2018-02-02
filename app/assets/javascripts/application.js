@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ./auth/Auth
 //= require jquery
 //= require jquery_ujs
 //= require modernizr
@@ -17,6 +18,10 @@
 //= require d3
 //= require react
 //= require react_ujs
+//= require react-router
+//= require react-router-dom
+//= require history
+//= require auth0
 //= require highcharts
 //= require highcharts/highcharts-more
 //= require highcharts/modules/exporting

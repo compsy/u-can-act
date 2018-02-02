@@ -5,39 +5,40 @@ require 'rails_helper'
 RSpec.describe QuestionnaireController, type: :controller do
   describe 'GET /' do
     it 'shows status 200 when everything is correct' do
-      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
       get :show, params: { uuid: responseobj.uuid }
       expect(response).to have_http_status(200)
       expect(response).to render_template('questionnaire/show')
     end
     it 'should show an informed questionnaire if there is one required' do
-      protocol = FactoryGirl.create(:protocol, :with_informed_consent_questionnaire)
+      protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
       expect(protocol.informed_consent_questionnaire).not_to be_nil
       expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                  start_date: 1.week.ago.at_beginning_of_day,
                                                  protocol: protocol)
-      responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
       get :show, params: { uuid: responseobj.uuid }
       expect(response).to have_http_status(200)
       expect(response).to render_template('questionnaire/informed_consent')
     end
 
     describe 'the @is_mentor_variable' do
-      let(:protocol) { FactoryGirl.create(:protocol) }
+      let(:protocol) { FactoryBot.create(:protocol) }
       let(:protocol_subscription) do
-        FactoryGirl.create(:protocol_subscription,
-                           start_date: 1.week.ago.at_beginning_of_day,
-                           protocol: protocol)
+        FactoryBot.create(:protocol_subscription,
+                          start_date: 1.week.ago.at_beginning_of_day,
+                          protocol: protocol)
       end
       let(:responseobj) do
-        FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
-                                      open_from: 1.hour.ago)
+        FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                     open_from: 1.hour.ago)
       end
 
+      #let(:invitation_token) { FactoryBot.create(:invitation_token, response: responseobj) }
       it 'should set it to true when the current person is a mentor' do
-        person = FactoryGirl.create(:mentor)
+        person = FactoryBot.create(:mentor)
         protocol_subscription.update_attributes!(person: person)
         get :show, params: { uuid: responseobj.uuid }
         expect(assigns(:use_mentor_layout)).to_not be_nil
@@ -45,7 +46,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
 
       it 'should set whether the current person is a mentor' do
-        person = FactoryGirl.create(:student)
+        person = FactoryBot.create(:student)
         protocol_subscription.update_attributes!(person: person)
         get :show, params: { uuid: responseobj.uuid }
         expect(assigns(:use_mentor_layout)).to_not be_nil
@@ -66,22 +67,22 @@ RSpec.describe QuestionnaireController, type: :controller do
       expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
     end
     it 'requires a response that is not filled out yet' do
-      responseobj = FactoryGirl.create(:response, :completed)
+      responseobj = FactoryBot.create(:response, :completed)
       expect_any_instance_of(described_class).to receive(:verify_response_id)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
       expect(response).to have_http_status(404)
       expect(response.body).to include('Je hebt deze vragenlijst al ingevuld.')
     end
     it 'requires a q parameter that is not expired' do
-      responseobj = FactoryGirl.create(:response)
+      responseobj = FactoryBot.create(:response)
       expect_any_instance_of(described_class).to receive(:verify_response_id)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
       expect(response).to have_http_status(404)
       expect(response.body).to include('Deze vragenlijst kan niet meer ingevuld worden.')
     end
     it 'shows status 200 when everything is correct' do
-      protocol_subscription = FactoryGirl.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
       expect_any_instance_of(described_class).to receive(:verify_response_id)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
       expect(response).to have_http_status(302)
@@ -93,11 +94,11 @@ RSpec.describe QuestionnaireController, type: :controller do
 
     it 'should save the response in the database, with the correct timestamp' do
       person_type = :student
-      person = FactoryGirl.create(person_type)
-      protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                 start_date: 1.week.ago.at_beginning_of_day,
-                                                 person: person)
-      responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+      person = FactoryBot.create(person_type)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                person: person)
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
 
       date = Time.zone.now
       Timecop.freeze(date)
@@ -110,13 +111,13 @@ RSpec.describe QuestionnaireController, type: :controller do
 
     describe 'redirecting with mentor' do
       let(:protocol_subscription) do
-        FactoryGirl.create(:protocol_subscription,
-                           start_date: 1.week.ago.at_beginning_of_day)
+        FactoryBot.create(:protocol_subscription,
+                          start_date: 1.week.ago.at_beginning_of_day)
       end
       let(:responseobj) do
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription,
-                           open_from: 1.hour.ago)
+        FactoryBot.create(:response,
+                          protocol_subscription: protocol_subscription,
+                          open_from: 1.hour.ago)
       end
       before :each do
         expect_any_instance_of(described_class).to receive(:verify_response_id)
@@ -129,22 +130,22 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
 
       it 'should redirect to the klaar page if the person is a mentor filling out for themselves' do
-        person = FactoryGirl.create(:mentor)
-        protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
-                                                                           start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
-                                                    open_from: 1.hour.ago)
+        person = FactoryBot.create(:mentor)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, person: person,
+                                                                          start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                   open_from: 1.hour.ago)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
         expect(response.location).to eq klaar_url
       end
       it 'should redirect to the mentor overview page if the person is a mentor filling out for someone else' do
-        person = FactoryGirl.create(:mentor)
-        protocol_subscription = FactoryGirl.create(:protocol_subscription, person: person,
-                                                                           filling_out_for: FactoryGirl.create(:person),
-                                                                           start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
-                                                    open_from: 1.hour.ago)
+        person = FactoryBot.create(:mentor)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, person: person,
+                                                                          filling_out_for: FactoryBot.create(:person),
+                                                                          start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                   open_from: 1.hour.ago)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
         expect(response.location).to eq mentor_overview_index_url

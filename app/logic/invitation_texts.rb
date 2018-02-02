@@ -81,9 +81,7 @@ class InvitationTexts
 
       sms_pool = []
       1000.step(MAX_REWARD_THRESHOLD, 1000) do |threshold| # 1000 = 10 euro
-        if rewards_before < threshold && rewards_after >= threshold
-          sms_pool += rewards_threshold_pool(threshold)
-        end
+        sms_pool += rewards_threshold_pool(threshold) if rewards_before < threshold && rewards_after >= threshold
       end
       sms_pool
     end

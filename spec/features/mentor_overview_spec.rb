@@ -3,28 +3,28 @@
 require 'rails_helper'
 
 describe 'GET and POST /', type: :feature, js: true do
-  let(:mentor) { FactoryGirl.create(:mentor) }
-  let(:students) { FactoryGirl.create_list(:student, 4, :with_random_name) }
+  let(:mentor) { FactoryBot.create(:mentor) }
+  let(:students) { FactoryBot.create_list(:student, 4, :with_random_name) }
   let(:other_students) do
-    FactoryGirl.create_list(:student, 4, :with_random_name)
+    FactoryBot.create_list(:student, 4, :with_random_name)
   end
   let(:response_objects) do
     students.map do |student|
-      prot_sub = FactoryGirl.create(:protocol_subscription,
-                                    person: mentor,
-                                    filling_out_for: student,
-                                    start_date: 1.week.ago.at_beginning_of_day)
-      FactoryGirl.create(:response,
-                         protocol_subscription: prot_sub,
-                         open_from: 1.hour.ago,
-                         invited_state: Response::SENT_STATE)
+      prot_sub = FactoryBot.create(:protocol_subscription,
+                                   person: mentor,
+                                   filling_out_for: student,
+                                   start_date: 1.week.ago.at_beginning_of_day)
+      FactoryBot.create(:response,
+                        protocol_subscription: prot_sub,
+                        open_from: 1.hour.ago,
+                        invited_state: Response::SENT_STATE)
     end
   end
 
   let(:invitation_tokens) do
     response_objects.map do |responseobj|
-      FactoryGirl.create(:invitation_token,
-                         response: responseobj)
+      FactoryBot.create(:invitation_token,
+                        response: responseobj)
     end
   end
 

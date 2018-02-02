@@ -15,8 +15,13 @@ class SendInvitation < ActiveInteraction::Base
 
   def send_email(email, message, invitation_url)
     return unless email.present?
-    mailer = InvitationMailer.invitation_mail(email, message, invitation_url)
-    mailer.deliver_now
+    begin
+      mailer = InvitationMailer.invitation_mail(email, message, invitation_url)
+      mailer.deliver_now
+    rescue StandardError => e
+      Rails.logger.warn "[Attention] Mailgun failed again: #{e.message}"
+      Rails.logger.warn e.backtrace.inspect
+    end
   end
 
   def send_sms_attributes

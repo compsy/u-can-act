@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 describe SendInvitation do
-  let(:protocol_subscription) { FactoryGirl.create(:protocol_subscription, start_date: Time.zone.now.beginning_of_day) }
+  let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, start_date: Time.zone.now.beginning_of_day) }
   let(:response) do
-    FactoryGirl.create(:response,
-                       open_from: 10.minutes.ago.in_time_zone,
-                       protocol_subscription: protocol_subscription)
+    FactoryBot.create(:response,
+                      open_from: 10.minutes.ago.in_time_zone,
+                      protocol_subscription: protocol_subscription)
   end
-  let(:student) { FactoryGirl.create(:student) }
-  let(:mentor) { FactoryGirl.create(:mentor) }
+  let(:student) { FactoryBot.create(:student) }
+  let(:mentor) { FactoryBot.create(:mentor) }
 
   describe 'Validations' do
     it 'should not accept a nil response' do
@@ -38,9 +38,9 @@ describe SendInvitation do
       end
 
       it 'should send the voormeting sms whenever the questionnaire is a voormeting and the person is a student' do
-        questionnaire = FactoryGirl.create(:questionnaire, name: 'de voormeting vragenlijst')
-        response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
-        FactoryGirl.create(:invitation_token, response: response)
+        questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
+        response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+        FactoryBot.create(:invitation_token, response: response)
 
         myid = response.protocol_subscription.person.external_identifier
         mytok = response.invitation_token.token_plain
@@ -57,27 +57,27 @@ describe SendInvitation do
       end
 
       it 'should send the first text if the questionnaire is not a voormeting and it is the first one' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   person: student,
-                                                   start_date: 1.week.ago.at_beginning_of_day)
-        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
-        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription,
-                           open_from: 48.hours.ago,
-                           completed_at: 10.hours.ago,
-                           invited_state: Response::SENT_STATE,
-                           measurement: measurement)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  person: student,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
+        voormeting = FactoryBot.create(:questionnaire, name: 'voormeting')
+        measurement = FactoryBot.create(:measurement, questionnaire: voormeting)
+        FactoryBot.create(:response,
+                          protocol_subscription: protocol_subscription,
+                          open_from: 48.hours.ago,
+                          completed_at: 10.hours.ago,
+                          invited_state: Response::SENT_STATE,
+                          measurement: measurement)
 
-        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek, open_duration: 36.hours)
-        response = FactoryGirl.create(:response,
-                                      protocol_subscription: protocol_subscription,
-                                      open_from: 24.hour.ago,
-                                      invited_state: Response::SENDING_STATE,
-                                      measurement: measurement)
+        dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryBot.create(:measurement, questionnaire: dagboek, open_duration: 36.hours)
+        response = FactoryBot.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 24.hour.ago,
+                                     invited_state: Response::SENDING_STATE,
+                                     measurement: measurement)
 
-        FactoryGirl.create(:invitation_token, response: response)
+        FactoryBot.create(:invitation_token, response: response)
 
         mytok = response.invitation_token.token_plain
         myid = response.protocol_subscription.person.external_identifier
@@ -90,33 +90,33 @@ describe SendInvitation do
       end
 
       it 'should send the second text if the questionnaire is not a voormeting and it is not the first one' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   person: student,
-                                                   start_date: 1.week.ago.at_beginning_of_day)
-        voormeting = FactoryGirl.create(:questionnaire, name: 'voormeting')
-        measurement = FactoryGirl.create(:measurement, questionnaire: voormeting)
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription,
-                           open_from: 48.hours.ago,
-                           completed_at: 10.hours.ago,
-                           invited_state: Response::SENT_STATE,
-                           measurement: measurement)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  person: student,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
+        voormeting = FactoryBot.create(:questionnaire, name: 'voormeting')
+        measurement = FactoryBot.create(:measurement, questionnaire: voormeting)
+        FactoryBot.create(:response,
+                          protocol_subscription: protocol_subscription,
+                          open_from: 48.hours.ago,
+                          completed_at: 10.hours.ago,
+                          invited_state: Response::SENT_STATE,
+                          measurement: measurement)
 
-        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, :periodical, questionnaire: dagboek, open_duration: 36.hours)
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription,
-                           open_from: 24.hour.ago,
-                           completed_at: 10.hours.ago,
-                           invited_state: Response::SENT_STATE,
-                           measurement: measurement)
-        response = FactoryGirl.create(:response,
-                                      protocol_subscription: protocol_subscription,
-                                      open_from: 24.hour.ago,
-                                      invited_state: Response::SENDING_STATE,
-                                      measurement: measurement)
+        dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryBot.create(:measurement, :periodical, questionnaire: dagboek, open_duration: 36.hours)
+        FactoryBot.create(:response,
+                          protocol_subscription: protocol_subscription,
+                          open_from: 24.hour.ago,
+                          completed_at: 10.hours.ago,
+                          invited_state: Response::SENT_STATE,
+                          measurement: measurement)
+        response = FactoryBot.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 24.hour.ago,
+                                     invited_state: Response::SENDING_STATE,
+                                     measurement: measurement)
 
-        FactoryGirl.create(:invitation_token, response: response)
+        FactoryBot.create(:invitation_token, response: response)
 
         mytok = response.invitation_token.token_plain
         myid = response.protocol_subscription.person.external_identifier
@@ -133,9 +133,9 @@ describe SendInvitation do
       end
 
       it 'should send the initial text with the voormeting questionnaire' do
-        questionnaire = FactoryGirl.create(:questionnaire, name: 'Mentoren voormeting vragenlijst')
-        response.measurement = FactoryGirl.create(:measurement, questionnaire: questionnaire)
-        FactoryGirl.create(:invitation_token, response: response)
+        questionnaire = FactoryBot.create(:questionnaire, name: 'Mentoren voormeting vragenlijst')
+        response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+        FactoryBot.create(:invitation_token, response: response)
         mytok = response.invitation_token.token_plain
         myid = response.protocol_subscription.person.external_identifier
 
@@ -150,18 +150,18 @@ describe SendInvitation do
       end
 
       it 'should send the first text if the questionnaire is not a voormeting and it is the first one' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   person: mentor,
-                                                   filling_out_for: student,
-                                                   start_date: 1.week.ago.at_beginning_of_day)
-        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
-        response = FactoryGirl.create(:response,
-                                      protocol_subscription: protocol_subscription,
-                                      open_from: 24.hour.ago,
-                                      invited_state: Response::SENDING_STATE,
-                                      measurement: measurement)
-        FactoryGirl.create(:invitation_token, response: response)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  person: mentor,
+                                                  filling_out_for: student,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
+        dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
+        response = FactoryBot.create(:response,
+                                     protocol_subscription: protocol_subscription,
+                                     open_from: 24.hour.ago,
+                                     invited_state: Response::SENDING_STATE,
+                                     measurement: measurement)
+        FactoryBot.create(:invitation_token, response: response)
         mytok = response.invitation_token.token_plain
         myid = response.protocol_subscription.person.external_identifier
         smstext = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
@@ -173,20 +173,71 @@ describe SendInvitation do
         described_class.run!(response: response)
       end
 
-      it 'should also send the invitation via email' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
+      it 'should send the second text if the questionnaire is not a voormeting and it is not the first one' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                    person: mentor,
                                                    filling_out_for: student,
                                                    start_date: 1.week.ago.at_beginning_of_day)
-        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
-        response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
-                                                 measurement: measurement)
-        FactoryGirl.create(:invitation_token, response: response)
+        dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
+        FactoryBot.create(:response,
+                           protocol_subscription: protocol_subscription,
+                           open_from: 24.hour.ago,
+                           completed_at: 10.hours.ago,
+                           invited_state: Response::SENT_STATE,
+                           measurement: measurement)
+        response = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      open_from: 24.hour.ago,
+                                      invited_state: Response::SENDING_STATE,
+                                      measurement: measurement)
+        FactoryBot.create(:invitation_token, response: response)
         mytok = response.invitation_token.token_plain
         myid = response.protocol_subscription.person.external_identifier
+        smstext = 'Hoi Jane, je wekelijkse vragenlijsten staan weer voor je klaar! ' \
+          "#{ENV['HOST_URL']}?q=#{myid}#{mytok}"
+        expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
+                                               text: smstext,
+                                               reference: "vsv-#{response.id}")
+        described_class.run!(response: response)
+      end
+
+      describe 'send mails' do
+        it 'should not raise if the mail sending fails' do
+          questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
+          response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+          FactoryBot.create(:invitation_token, response: response)
+          allow(SendSms).to receive(:run!).with(any_args).and_return true
+          allow(InvitationMailer).to receive(:invitation_mail).and_raise(RuntimeError, 'Crashing')
+          expect { described_class.run!(response: response) }.to_not raise_error
+        end
+
+        it 'should call the logger if anything fails' do
+          questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
+          response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+          FactoryBot.create(:invitation_token, response: response)
+          allow(SendSms).to receive(:run!).with(any_args).and_return true
+          message = 'crashing'
+          allow(InvitationMailer).to receive(:invitation_mail).and_raise(RuntimeError, message)
+          expect(Rails.logger).to receive(:warn).with("[Attention] Mailgun failed again: #{message}").once
+          expect(Rails.logger).to receive(:warn).with(any_args).once
+
+          described_class.run!(response: response)
+        end
+
+      it 'should also send the invitation via email' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  person: mentor,
+                                                  filling_out_for: student,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
+        dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+        measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                     measurement: measurement)
+        FactoryBot.create(:invitation_token, response: response)
+        mytok = response.invitation_token.token
         message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
-          'Vul nu de eerste wekelijkse vragenlijst in.'
+            'Vul nu de eerste wekelijkse vragenlijst in.'
 
         allow(SendSms).to receive(:run!)
         invitation_url = "#{ENV['HOST_URL']}?q=#{myid}#{mytok}"
@@ -198,47 +249,18 @@ describe SendInvitation do
       end
 
       it 'should not try to send an email if the mentor does not have an email address' do
-        mentor.update_attributes!(email: nil)
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   person: mentor,
-                                                   filling_out_for: student,
-                                                   start_date: 1.week.ago.at_beginning_of_day)
-        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
-        response = FactoryGirl.create(:response, protocol_subscription: protocol_subscription,
-                                                 measurement: measurement)
-        FactoryGirl.create(:invitation_token, response: response)
-        allow(SendSms).to receive(:run!)
-        expect(InvitationMailer).to_not receive(:invitation_mail)
-      end
-
-      it 'should send the second text if the questionnaire is not a voormeting and it is not the first one' do
-        protocol_subscription = FactoryGirl.create(:protocol_subscription,
-                                                   person: mentor,
-                                                   filling_out_for: student,
-                                                   start_date: 1.week.ago.at_beginning_of_day)
-        dagboek = FactoryGirl.create(:questionnaire, name: 'dagboek')
-        measurement = FactoryGirl.create(:measurement, questionnaire: dagboek)
-        FactoryGirl.create(:response,
-                           protocol_subscription: protocol_subscription,
-                           open_from: 24.hour.ago,
-                           completed_at: 10.hours.ago,
-                           invited_state: Response::SENT_STATE,
-                           measurement: measurement)
-        response = FactoryGirl.create(:response,
-                                      protocol_subscription: protocol_subscription,
-                                      open_from: 24.hour.ago,
-                                      invited_state: Response::SENDING_STATE,
-                                      measurement: measurement)
-        FactoryGirl.create(:invitation_token, response: response)
-        mytok = response.invitation_token.token_plain
-        myid = response.protocol_subscription.person.external_identifier
-        smstext = 'Hoi Jane, je wekelijkse vragenlijsten staan weer voor je klaar! ' \
-          "#{ENV['HOST_URL']}?q=#{myid}#{mytok}"
-        expect(SendSms).to receive(:run!).with(number: response.protocol_subscription.person.mobile_phone,
-                                               text: smstext,
-                                               reference: "vsv-#{response.id}")
-        described_class.run!(response: response)
+          mentor.update_attributes!(email: nil)
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    person: mentor,
+                                                    filling_out_for: student,
+                                                    start_date: 1.week.ago.at_beginning_of_day)
+          dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+          measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
+          response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                  measurement: measurement)
+          FactoryBot.create(:invitation_token, response: response)
+          allow(SendSms).to receive(:run!)
+          expect(InvitationMailer).to_not receive(:invitation_mail)
       end
     end
   end

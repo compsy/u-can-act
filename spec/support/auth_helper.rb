@@ -9,6 +9,18 @@ module AuthHelper
     end
   end
 
+  def jwt_auth(payload, set_header = true)
+    private_key ||= OpenSSL::PKey::RSA.new(
+      Base64.strict_decode64(Rails.application.secrets.private_key),
+      Rails.application.secrets.private_key_passphrase
+    )
+
+    payload['aud'] = Knock.token_audience.call
+    id_token = JWT.encode payload, private_key, 'RS256'
+    request.headers['Authorization'] = "Bearer #{id_token}" if set_header
+    id_token
+  end
+
   class << self
     def capybara_basic_auth(user, password, page, url)
       # Commented out to improve test coverage. The other lines are never used.

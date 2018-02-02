@@ -9,17 +9,17 @@ module Api
         Timecop.freeze(Date.new(2017, 5, 8))
       end
 
-      let(:org1) { FactoryGirl.create(:organization) }
-      let(:org2) { FactoryGirl.create(:organization) }
-      let(:student_role1)  { FactoryGirl.create(:role, group: Person::STUDENT, organization: org1) }
-      let(:student_role2)  { FactoryGirl.create(:role, group: Person::STUDENT, organization: org2) }
-      let(:mentor_role1)  { FactoryGirl.create(:role, group: Person::MENTOR, organization: org1) }
-      let(:mentor_role2)  { FactoryGirl.create(:role, group: Person::MENTOR, organization: org2) }
-      let!(:studs1) { FactoryGirl.create_list(:person, 15, role: student_role1) }
-      let!(:studs2) { FactoryGirl.create_list(:person, 9, role: student_role2) }
-      let!(:mentors1) { FactoryGirl.create_list(:person, 1, role: mentor_role1) }
-      let!(:mentors2) { FactoryGirl.create_list(:person, 7, role: mentor_role2) }
-      let!(:responses) { FactoryGirl.create_list(:response, 7, :completed) }
+      let(:org1) { FactoryBot.create(:organization) }
+      let(:org2) { FactoryBot.create(:organization) }
+      let(:student_role1)  { FactoryBot.create(:role, group: Person::STUDENT, organization: org1) }
+      let(:student_role2)  { FactoryBot.create(:role, group: Person::STUDENT, organization: org2) }
+      let(:mentor_role1)  { FactoryBot.create(:role, group: Person::MENTOR, organization: org1) }
+      let(:mentor_role2)  { FactoryBot.create(:role, group: Person::MENTOR, organization: org2) }
+      let!(:studs1) { FactoryBot.create_list(:person, 15, role: student_role1) }
+      let!(:studs2) { FactoryBot.create_list(:person, 9, role: student_role2) }
+      let!(:mentors1) { FactoryBot.create_list(:person, 1, role: mentor_role1) }
+      let!(:mentors2) { FactoryBot.create_list(:person, 7, role: mentor_role2) }
+      let!(:responses) { FactoryBot.create_list(:response, 7, :completed) }
 
       describe 'index' do
         before do

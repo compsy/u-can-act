@@ -14,7 +14,7 @@ ruby '2.4.3'
 gem 'rails', '~> 5.0.2'
 
 # Use Postgres as the database for Active Record
-gem 'pg'
+gem 'pg', '~> 0.20.0'
 
 # Use Puma as the app server
 gem 'puma'
@@ -50,6 +50,8 @@ gem 'mongoid'
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
 
+# Enable cross origin requests
+gem 'rack-cors'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -76,6 +78,10 @@ gem 'mailgun-ruby'
 gem 'active_interaction'
 gem 'active_model_serializers'
 
+# Gem for JWT / Authentication
+gem 'jwt'
+gem 'knock'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
@@ -99,7 +105,7 @@ group :test do
   gem 'simplecov'
 
   # Used for gem mocking
-  gem 'factory_girl_rails', '= 4.8.0'
+  gem 'factory_bot_rails'
 
   # Test which template was rendered
   gem 'rails-controller-testing'

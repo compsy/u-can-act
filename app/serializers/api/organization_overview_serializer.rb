@@ -15,17 +15,27 @@ module Api
     private
 
     def create_organization_overview_hash(organization, group)
-      completed = 0.0
-      total = 0.0
-      if organization[:data].keys.include? group
-        completed = organization[:data][group][:completed]
-        met_threshold_completion = organization[:data][group][:met_threshold_completion]
-        total = organization[:data][group][:total]
-      end
+      return create_serializable_hash(organization[:name]) unless organization[:data].keys.include? group
+      create_hash_for_organization_with_data(organization, group)
+    end
+
+    def create_hash_for_organization_with_data(organization, group)
+      create_serializable_hash(
+        organization[:name],
+        organization[:data][group][:completed],
+        organization[:data][group][:met_threshold_completion],
+        organization[:data][group][:percentage_above_threshold],
+        organization[:data][group][:total]
+      )
+    end
+
+    def create_serializable_hash(name, completed = 0.0, met_threshold_completion = 0.0,
+                                 percentage_threshold = 0.0, total = 0.0)
       {
-        name: organization[:name],
+        name: name,
         completed: completed,
         met_threshold_completion: met_threshold_completion,
+        percentage_above_threshold: percentage_threshold,
         percentage_completed: calculate_completion_percentage(completed, total)
       }
     end

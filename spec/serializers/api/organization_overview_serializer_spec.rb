@@ -132,6 +132,21 @@ module Api
         end
       end
 
+      it 'should return a hash with the correct attributes' do
+        [Person::STUDENT, Person::MENTOR].each do |group|
+          result = described_class.new(instance_var, group: group).as_json.with_indifferent_access
+          expect(result.keys).to include 'overview'
+
+          result = result['overview']
+          expect(result.length).to eq 2
+
+          result.each do |entry|
+            expect(entry.keys).to match_array %w[name completed met_threshold_completion
+                                                 percentage_above_threshold percentage_completed]
+          end
+        end
+      end
+
       it 'should return a hash with the correct stats for a specified group' do
         [Person::STUDENT, Person::MENTOR].each do |group|
           result = described_class.new(instance_var, group: group).as_json.with_indifferent_access

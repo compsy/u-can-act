@@ -102,7 +102,7 @@ class OrganizationOverview extends React.Component {
         ready = false;
       }
     })
-    if (!ready) return <div>Bezig...</div>
+    if (!ready) return (<div><div className="progress"><div className="indeterminate"></div></div></div>)
 
     return (
       <div>

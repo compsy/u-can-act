@@ -38,9 +38,9 @@ class Person < ApplicationRecord
     unless person.id
       unless person.external_identifier
         person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
-      end
-      while Person.where(external_identifier: person.external_identifier).count.positive?
-        person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
+        while Person.where(external_identifier: person.external_identifier).count.positive?
+          person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
+        end
       end
     end
   end

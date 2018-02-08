@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.integer  "response_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.datetime "expiry_date"
     t.string   "token_hash"
+    t.datetime "expires_at",  null: false
     t.index ["response_id"], name: "index_invitation_tokens_on_response_id", unique: true, using: :btree
   end
 
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.string   "gender"
     t.string   "email"
     t.integer  "role_id",             null: false
-    t.string   "external_identifier"
+    t.string   "external_identifier", null: false
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.string   "invited_state",                       default: "not_sent", null: false
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
-    t.string   "uuid",                     limit: 36
+    t.string   "uuid",                     limit: 36,                      null: false
     t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
   end

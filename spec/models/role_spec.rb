@@ -76,4 +76,46 @@ describe Role, type: :model do
     role = FactoryBot.create(:role)
     expect(role.organization).to be_a(Organization)
   end
+
+  describe 'stats' do
+    it 'should return a hash with the correct keys' do
+      role = FactoryBot.create(:role)
+      result = role.stats(5, 2017, 50)
+      expect(result).to be_a Hash
+      expect(result.keys).to eq %i[met_threshold_completion completed total]
+    end
+
+    it 'should calculate the correct stats' do
+      role = FactoryBot.create(:role)
+      year = 2017
+      week_number = 5
+      threshold_percentage = 50
+
+      people = FactoryBot.create_list(:person, 3)
+      people.each_with_index do |person, index|
+        mock_stats = {
+          met_threshold_completion: index,
+          completed: index,
+          total: index
+        }
+        expect(person).to receive(:stats)
+          .with(week_number, year, threshold_percentage)
+          .and_return(mock_stats)
+      end
+
+      role.people << people
+      result = role.stats(week_number, year, threshold_percentage)
+      expect(result[:met_threshold_completion]).to eq 0 + 1 + 2
+      expect(result[:completed]).to eq 0 + 1 + 2
+      expect(result[:total]).to eq 0 + 1 + 2
+    end
+
+    it 'should return only zeros if there are no subscriptions' do
+      role = FactoryBot.create(:role)
+      result = role.stats(5, 2017, 50)
+      expect(result[:met_threshold_completion]).to eq 0
+      expect(result[:completed]).to eq 0
+      expect(result[:total]).to eq 0
+    end
+  end
 end

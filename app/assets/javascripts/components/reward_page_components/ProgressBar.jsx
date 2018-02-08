@@ -4,7 +4,7 @@ class ProgressBar extends React.Component {
     super(props);
     this.state = {
       timer: null,
-      showFireworks: false,
+      showStreakDetails: false,
       radial: null
     };
   }
@@ -21,7 +21,6 @@ class ProgressBar extends React.Component {
     this.setState({
       timer: timer,
       radial: radial,
-      showStreakText: false,
     });
   }
 
@@ -42,8 +41,7 @@ class ProgressBar extends React.Component {
   performTimerEvent() {
     this.setState({
       radial: this.renderGraph(this.props.valueEuro, this.props.percentageStreak),
-      showFireworks: this.props.inMaxStreak,
-      showStreakText: true
+      showStreakDetails: this.props.inMaxStreak,
     })
     clearInterval(this.state.timer);
   }
@@ -85,7 +83,7 @@ class ProgressBar extends React.Component {
   }
 
   createStreakText() {
-    if (this.state.showStreakText && this.props.currentMultiplier > 1) {
+    if (this.state.showStreakDetails && this.props.currentMultiplier > 1) {
       let value = (this.props.euroDelta / this.props.currentMultiplier);
       let defaultValue = value * this.props.initialMultiplier ;
       let currentBonus = this.props.euroDelta - defaultValue ;
@@ -99,7 +97,7 @@ class ProgressBar extends React.Component {
   render() {
     return (
       <div>
-        {this.state.showFireworks ? <Pyro /> : <div/>}
+        {this.state.showStreakDetails ? <Pyro /> : <div/>}
         <div className='row'>
           <div className='col m6 push-m3'>
             <div className="progressRadial" />

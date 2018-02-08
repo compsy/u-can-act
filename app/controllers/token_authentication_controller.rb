@@ -14,7 +14,7 @@ class TokenAuthenticationController < ApplicationController
 
   def redirect_to_questionnaire(for_myself, uuid)
     redirect_url = if for_myself
-                     questionnaire_path(uuid)
+                     questionnaire_path(uuid: uuid)
                    else
                      mentor_overview_index_path
                    end

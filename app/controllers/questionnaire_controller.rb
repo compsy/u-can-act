@@ -38,23 +38,29 @@ class QuestionnaireController < ApplicationController
     content = questionnaire_content
     should_stop = false
     stop_subscription_hash.each do |key, value|
-      next unless content.has_key?(key)
+      next unless content.key?(key)
       expected = Response.stop_subscription_token(key, content[key], @response.id)
       received = value
-      are_equal = ActiveSupport::SecurityUtils::secure_compare(expected,received)
+      are_equal = ActiveSupport::SecurityUtils.secure_compare(expected, received)
       if are_equal
         should_stop = true
         break
       end
     end
     return unless should_stop
+    stop_protocol_subscription
+  end
+
+  def stop_protocol_subscription
     @response.protocol_subscription.cancel!
     flash[:notice] = if @response.protocol_subscription.mentor?
-                       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} is gestopt."
+                       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
+                       'is gestopt.'
                      else
                        'Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!'
                      end
-    Rails.logger.error "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by person #{@response.protocol_subscription.person_id}."
+    Rails.logger.error "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
+                       "person #{@response.protocol_subscription.person_id}."
   end
 
   def check_content_hash

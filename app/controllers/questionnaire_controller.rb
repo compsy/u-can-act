@@ -26,11 +26,36 @@ class QuestionnaireController < ApplicationController
   def create
     response_content = ResponseContent.create!(content: questionnaire_content)
     @response.update_attributes!(content: response_content.id, completed_at: Time.zone.now)
+    check_stop_subscription unless questionnaire_stop_subscription.blank?
     redirect_to(mentor_overview_index_path) && return unless @protocol_subscription.for_myself?
     redirect_to klaar_path
   end
 
   private
+
+  def check_stop_subscription
+    stop_subscription_hash = questionnaire_stop_subscription
+    content = questionnaire_content
+    should_stop = false
+    stop_subscription_hash.each do |key, value|
+      next unless content.has_key?(key)
+      expected = Response.stop_subscription_token(key, content[key], @response.id)
+      received = value
+      are_equal = ActiveSupport::SecurityUtils::secure_compare(expected,received)
+      if are_equal
+        should_stop = true
+        break
+      end
+    end
+    return unless should_stop
+    @response.protocol_subscription.cancel!
+    flash[:notice] = if @response.protocol_subscription.mentor?
+                       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} is gestopt."
+                     else
+                       'Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!'
+                     end
+    Rails.logger.error "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by person #{@response.protocol_subscription.person_id}."
+  end
 
   def check_content_hash
     questionnaire_content.each do |k, v|
@@ -90,7 +115,8 @@ class QuestionnaireController < ApplicationController
   def questionnaire_create_params
     # TODO: change the below line to the following in rails 5.1:
     # params.permit(:response_id, content: {})
-    params.permit(:response_id, content: permit_recursive_params(params[:content]&.to_unsafe_h))
+    params.permit(:response_id, content: permit_recursive_params(params[:content]&.to_unsafe_h),
+                                stop_subscription: permit_recursive_params(params[:stop_subscription]&.to_unsafe_h))
   end
 
   def permit_recursive_params(params)
@@ -110,6 +136,11 @@ class QuestionnaireController < ApplicationController
   def questionnaire_content
     return {} if questionnaire_create_params[:content].nil?
     questionnaire_create_params[:content].to_unsafe_h
+  end
+
+  def questionnaire_stop_subscription
+    return {} if questionnaire_create_params[:stop_subscription].nil?
+    questionnaire_create_params[:stop_subscription].to_unsafe_h
   end
 
   def set_cookie

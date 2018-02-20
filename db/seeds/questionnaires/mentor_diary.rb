@@ -21,10 +21,13 @@ dagboek_content = [{
   title: 'Waarom heb je deze week geen acties ondernomen in de begeleiding van {{deze_student}}?',
   options: [
     'Ik heb deze week geen contact gehad met {{deze_student}}.',
-    'Ik ben gestopt met de begeleiding van {{deze_student}}.',
-    '{{Deze_student}} is gestopt met de opleiding.',
+    { title: 'Ik ben gestopt met de begeleiding van {{deze_student}}.',
+      shows_questions: %i[v14 v15],
+      stop_subscription: true },
+    { title: '{{Deze_student}} is gestopt met de opleiding.',
+      shows_questions: %i[v16 v17 v18] },
     { title: 'Ik heb de begeleiding van {{deze_student}} overgedragen aan iemand anders.',
-      shows_questions: %i[v10 v11 v12] }
+      shows_questions: %i[v10 v11 v12 v13] }
   ]
 }, {
   id: :v3, # 2
@@ -159,6 +162,46 @@ dagboek_content = [{
   hidden: true,
   type: :textarea,
   title: 'Wat denk jij dat diegene deze week heeft gedaan in de begeleiding van {{deze_student}}?'
+}, {
+  id: :v13,
+  hidden: true,
+  type: :raw,
+  content: '<p class="flow-text section-explanation">Is de overdracht van begeleiding van permanente aard? Mail dan de telefoonnummers van jou, {{deze_student}} en de nieuwe begeleider naar <a href="mailto:n.r.snell@rug.nl">n.r.snell@rug.nl</a>.</p>'
+}, {
+  id: :v14,
+  hidden: true,
+  type: :textarea,
+  title: 'Waarom ben je gestopt met de begeleiding van {{deze_student}}?',
+}, {
+  id: :v15,
+  hidden: true,
+  type: :radio,
+  title: 'Denk jij dat {{deze_student}} nog steeds risico loopt om voortijdig te stoppen met {{zijn_haar_student}} opleiding?',
+  options: %w[Ja Nee]
+}, {
+  id: :v16,
+  hidden: true,
+  type: :textarea,
+  title: 'Waarom is {{deze_student}} gestopt met {{zijn_haar_student}} opleiding?',
+}, {
+  id: :v17,
+  hidden: true,
+  type: :radio,
+  title: 'Wat gaat {{deze_student}} doen nu {{hij_zij_student}} gestopt is met {{zijn_haar_student}} opleiding?',
+  options: [
+    'Werken',
+    'Een andere opleiding volgen',
+    'Weet ik niet'
+  ]
+}, {
+  id: :v18,
+  hidden: true,
+  type: :radio,
+  title: 'Stopt jouw begeleiding van {{deze_student}} nu {{hij_zij_student}} met de opleiding is gestopt?',
+  options: [
+    { title: 'Ja', stop_subscription: true },
+    'Nee'
+  ]
 }]
 dagboek1.content = dagboek_content
 dagboek1.title = db_title

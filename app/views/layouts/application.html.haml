@@ -13,6 +13,11 @@
         .card-panel.alert.red.lighten-2
           %strong Let op:
           Je browser heeft momenteel JavaScript uitstaan. Daardoor werkt deze app niet goed.
+    - flash.each do |name, msg|
+      .row
+        .col.s12
+          .card-panel.green{class: name}
+            %span.white-text= msg
     .container
       .row
         = yield

@@ -53,6 +53,10 @@ class Response < ApplicationRecord
     where('open_from > :time_now', time_now: Time.zone.now)
   })
 
+  def self.stop_subscription_token(answer_key, answer_value, response_id)
+    Digest::SHA256.hexdigest("#{answer_key}|#{answer_value}|#{response_id}|#{ENV['STOP_SUBSCRIPTION_SALT']}")
+  end
+
   # rubocop:disable Metrics/AbcSize
   def self.in_week(options = {})
     raise('Only :week_number and :year are valid options!') unless (options.keys - %i[week_number year]).blank?

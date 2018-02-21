@@ -32,7 +32,7 @@ describe QuestionnaireGenerator do
       }]
       expect do
         described_class.send(:questionnaire_questions,
-                             questionnaire_content)
+                             questionnaire_content, nil)
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
   end

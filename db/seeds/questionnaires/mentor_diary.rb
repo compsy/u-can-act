@@ -23,7 +23,8 @@ dagboek_content = [{
     'Ik heb deze week geen contact gehad met {{deze_student}}.',
     { title: 'Ik ben gestopt met de begeleiding van {{deze_student}}.',
       shows_questions: %i[v14 v15],
-      stop_subscription: true },
+      stop_subscription: true,
+      tooltip: 'Let op: als je deze optie selecteert word je hierna niet meer gevraagd om vragenlijsten in te vullen over {{deze_student}}.' },
     { title: '{{Deze_student}} is gestopt met de opleiding.',
       shows_questions: %i[v16 v17 v18] },
     { title: 'Ik heb de begeleiding van {{deze_student}} overgedragen aan iemand anders.',
@@ -199,7 +200,9 @@ dagboek_content = [{
   type: :radio,
   title: 'Stopt jouw begeleiding van {{deze_student}} nu {{hij_zij_student}} met de opleiding is gestopt?',
   options: [
-    { title: 'Ja', stop_subscription: true },
+    { title: 'Ja',
+      stop_subscription: true,
+      tooltip: 'Let op: als je deze optie selecteert word je hierna niet meer gevraagd om vragenlijsten in te vullen over {{deze_student}}.' },
     'Nee'
   ]
 }]

@@ -205,7 +205,7 @@ Required and allowed options (minimal example and maximal example):
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
    { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', hides_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
-   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
+   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true },
    { title: 'Vaardigheden ontwikkelen', shows_questions: %i[v10 v11] },
    { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
   ],
@@ -216,9 +216,11 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip` field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
-Note that the `shows_questions` and `hides_questions` fields require the corresponding questions to have the `hidden: true` and `hidden: false` properties, respectively. For example:
+In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected. 
+
+Note that the `shows_questions` and `hides_questions` option properties require the corresponding questions to have the `hidden: true` and `hidden: false` properties, respectively. For example:
 
 ```ruby
 [{
@@ -257,7 +259,7 @@ Required and allowed options (minimal example and maximal example):
    { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
    { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
-   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9] },
+   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true },
    { title: 'Vaardigheden ontwikkelen', tooltip: 'Zoals wiskunde', shows_questions: %i[v10 v11] },
    { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
   ],
@@ -270,7 +272,7 @@ Required and allowed options (minimal example and maximal example):
 
 The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
-Note that the `shows_questions` and `hides_questions` fields here work identically to those described above in the Type: Checkbox section.
+Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
 Radios are always required.
 

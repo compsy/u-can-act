@@ -37,10 +37,9 @@ class QuestionnaireController < ApplicationController
     stop_subscription_hash = questionnaire_stop_subscription
     content = questionnaire_content
     should_stop = false
-    stop_subscription_hash.each do |key, value|
+    stop_subscription_hash.each do |key, received|
       next unless content.key?(key)
       expected = Response.stop_subscription_token(key, content[key], @response.id)
-      received = value
       are_equal = ActiveSupport::SecurityUtils.secure_compare(expected, received)
       if are_equal
         should_stop = true

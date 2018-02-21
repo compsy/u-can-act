@@ -426,7 +426,7 @@ The dropdown will start from `hours_from` and will offer options until `hours_to
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv
 
-[coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?t=MBvZL7&branch=master&service=github
+[coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
 
 [gemnasium-image]: https://gemnasium.com/badges/github.com/compsy/vsv.svg

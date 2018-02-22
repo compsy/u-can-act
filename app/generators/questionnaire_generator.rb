@@ -14,7 +14,7 @@ class QuestionnaireGenerator
       body = safe_join([
                          questionnaire_header(title),
                          questionnaire_hidden_fields(response_id, authenticity_token),
-                         questionnaire_questions(content),
+                         questionnaire_questions(content, response_id),
                          submit_button(submit_text)
                        ])
       body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
@@ -47,10 +47,12 @@ class QuestionnaireGenerator
       safe_join(hidden_body)
     end
 
-    def questionnaire_questions(content)
+    def questionnaire_questions(content, response_id)
       body = []
       content.each do |question|
-        body << single_questionnaire_question(question)
+        new_question = question.dup
+        new_question[:response_id] = response_id
+        body << single_questionnaire_question(new_question)
       end
       safe_join(body)
     end
@@ -135,6 +137,10 @@ class QuestionnaireGenerator
       "content[#{name}]"
     end
 
+    def stop_subscription_name(name)
+      "stop_subscription[#{name}]"
+    end
+
     def generate_radio(question)
       # TODO: Add radio button validation error message
       title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
@@ -149,12 +155,12 @@ class QuestionnaireGenerator
     def radio_options(question)
       body = []
       question[:options].each do |option|
-        body << radio_option_body(question[:id], option)
+        body << radio_option_body(question[:id], option, question[:response_id])
       end
       safe_join(body)
     end
 
-    def radio_option_body(question_id, option)
+    def radio_option_body(question_id, option, response_id)
       option = { title: option } unless option.is_a?(Hash)
       elem_id = idify(question_id, option[:title])
       tag_options = {
@@ -167,7 +173,7 @@ class QuestionnaireGenerator
       }
       tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
       wrapped_tag = tag(:input, tag_options)
-      option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
+      option_body_wrap(question_id, option, wrapped_tag, idify(question_id), option[:title], response_id)
     end
 
     def generate_time(question)
@@ -301,12 +307,12 @@ class QuestionnaireGenerator
     def checkbox_options(question)
       body = []
       question[:options].each do |option|
-        body << checkbox_option_body(question[:id], option)
+        body << checkbox_option_body(question[:id], option, question[:response_id])
       end
       safe_join(body)
     end
 
-    def checkbox_option_body(question_id, option)
+    def checkbox_option_body(question_id, option, response_id)
       option = { title: option } unless option.is_a?(Hash)
       elem_id = idify(question_id, option[:title])
       tag_options = {
@@ -317,20 +323,30 @@ class QuestionnaireGenerator
       }
       tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
       wrapped_tag = tag(:input, tag_options)
-      option_body_wrap(question_id, option[:title], option[:tooltip], wrapped_tag)
+      option_body_wrap(question_id, option, wrapped_tag, elem_id, 'true', response_id)
     end
 
-    def option_body_wrap(question_id, title, tooltip, wrapped_tag)
+    def option_body_wrap(question_id, option, wrapped_tag, answer_key, answer_value, response_id)
       option_body = safe_join([
                                 wrapped_tag,
                                 content_tag(:label,
-                                            title.html_safe,
-                                            for: idify(question_id, title),
+                                            option[:title].html_safe,
+                                            for: idify(question_id, option[:title]),
                                             class: 'flow-text'),
-                                generate_tooltip(tooltip)
+                                generate_tooltip(option[:tooltip])
                               ])
-      option_body = content_tag(:p, option_body)
+      option_body = safe_join([
+                                content_tag(:p, option_body),
+                                stop_subscription_token(option, answer_key, answer_value, response_id)
+                              ])
       option_body
+    end
+
+    def stop_subscription_token(option, answer_key, answer_value, response_id)
+      return nil unless option[:stop_subscription]
+      tag(:input, name: stop_subscription_name(answer_key),
+                  type: 'hidden',
+                  value: Response.stop_subscription_token(answer_key, answer_value, response_id))
     end
 
     def checkbox_otherwise(question)

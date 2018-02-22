@@ -29,6 +29,10 @@ class ProtocolSubscription < ApplicationRecord
     state == ACTIVE_STATE
   end
 
+  def cancel!
+    update_attributes!(state: CANCELED_STATE, end_date: Time.zone.now)
+  end
+
   def ended?
     Time.zone.now > end_date
   end

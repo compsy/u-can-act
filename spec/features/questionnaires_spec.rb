@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'GET and POST /', type: :feature, js: true do
   let(:student) { FactoryBot.create(:student) }
+  let(:mentor) { FactoryBot.create(:mentor, first_name: 'Dagobert') }
   it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               person: student,
@@ -740,7 +741,165 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v3' => '50',
                                             'v5' => 'Hihaho')
     end
+    it 'should unsubscribe when the stop_subscription option is selected for students' do
+      content = [{
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.check('Ja', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).to have_content('Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1_ja' => 'true')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
+      expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should not unsubscribe when the stop_subscription option is not selected for students' do
+      content = [{
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Succes: Je hebt je voor de dagboekstudie uitgeschreven. ' \
+                                       'Bedankt voor je deelname!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
+      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should unsubscribe when the stop_subscription option is selected for mentors' do
+      content = [{
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                :mentor,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: mentor)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('Webapp Begeleiders')
+      page.click_on 'Vragenlijst invullen voor deze student'
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.check('Ja', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Webapp Begeleiders')
+      expect(page).to have_content('Succes: De begeleiding voor Jane is gestopt.')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1_ja' => 'true')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
+      expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should not unsubscribe when the stop_subscription option is not selected for mentors' do
+      content = [{
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                :mentor,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: mentor)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('Webapp Begeleiders')
+      page.click_on 'Vragenlijst invullen voor deze student'
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.check('Nee', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Webapp Begeleiders')
+      expect(page).not_to have_content('Succes: De begeleiding voor Jane is gestopt.')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1_nee' => 'true')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
+      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
+    end
   end
+
   context 'shows and hides radio questions' do
     let(:content) do
       [{
@@ -963,6 +1122,165 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v2' => 'pizza',
                                             'v3' => '50',
                                             'v5' => 'Hihaho')
+    end
+    it 'should unsubscribe when the stop_subscription option is selected for students' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('Ja', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).to have_content('Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'Ja')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
+      expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should not unsubscribe when the stop_subscription option is not selected for students' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('Nee', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Succes: Je hebt je voor de dagboekstudie uitgeschreven. ' \
+                                       'Bedankt voor je deelname!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'Nee')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
+      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should unsubscribe when the stop_subscription option is selected for mentors' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                :mentor,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: mentor)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('Webapp Begeleiders')
+      page.click_on 'Vragenlijst invullen voor deze student'
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('Ja', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Webapp Begeleiders')
+      expect(page).to have_content('Succes: De begeleiding voor Jane is gestopt.')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'Ja')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
+      expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should not unsubscribe when the stop_subscription option is not selected for mentors' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                :mentor,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: mentor)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago,
+                                      invited_state: Response::SENT_STATE)
+      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      visit "/?q=#{invitation_token.token}"
+      expect(page).to have_content('Webapp Begeleiders')
+      page.click_on 'Vragenlijst invullen voor deze student'
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      # v1
+      page.choose('Nee', allow_label_click: true)
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Webapp Begeleiders')
+      expect(page).not_to have_content('Succes: De begeleiding voor Jane is gestopt.')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'Nee')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
+      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
     end
   end
 

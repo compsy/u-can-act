@@ -336,6 +336,7 @@ GEM
       rubyzip (~> 1.2)
     sexp_processor (4.10.0)
     shellany (0.0.1)
+    silencer (1.0.1)
     simplecov (0.14.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -441,6 +442,7 @@ DEPENDENCIES
   rubocop
   sass-rails
   selenium-webdriver
+  silencer
   simplecov
   spring
   spring-commands-rspec

@@ -533,57 +533,6 @@ describe Response do
     end
   end
 
-  describe 'find_by_identifier' do
-    let(:other_person) { FactoryBot.create(:person) }
-
-    let(:response) { FactoryBot.create(:response, :invite_sent) }
-    let(:token) { FactoryBot.create(:invitation_token, response: response) }
-
-    let(:not_sent_response) { FactoryBot.create(:response) }
-    let(:not_sent_token) { FactoryBot.create(:invitation_token, response: not_sent_response) }
-
-    it 'should return nil if there is no person with that identifier' do
-      result = Response.find_by_identifier('non_existent', token.token_plain)
-      expect(result).to be_nil
-    end
-
-    it 'should return nil if the person has no responses' do
-      result = Response.find_by_identifier(other_person.external_identifier, 'nothing')
-      expect(result).to be_nil
-    end
-
-    it 'should return nil if the token does not match any of the responses ' do
-      person = response.protocol_subscription.person
-      result = Response.find_by_identifier(person.external_identifier, 'nothing')
-      expect(result).to be_nil
-    end
-
-    it 'should return nil if the token matches an unsent response' do
-      person = response.protocol_subscription.person
-      result = Response.find_by_identifier(person.external_identifier, not_sent_token.token_plain)
-      expect(result).to be_nil
-    end
-
-    it 'should return nil if there is one that matches the description but the hashed token is provided' do
-      person = response.protocol_subscription.person
-      result = Response.find_by_identifier(person.external_identifier, token.token)
-      expect(result).to be_nil
-    end
-
-    it 'should return the response if there is one that matches the description' do
-      person = response.protocol_subscription.person
-      result = Response.find_by_identifier(person.external_identifier, token.token_plain)
-      expect(result).to eq response
-    end
-
-    it 'should return the response if there is one that matches the description and is completed' do
-      response.update_attributes!(completed_at: Time.zone.now)
-      person = response.protocol_subscription.person
-      result = Response.find_by_identifier(person.external_identifier, token.token_plain)
-      expect(result).to eq response
-    end
-  end
-
   describe 'invitation_url' do
     it 'should return the correct invitation_url for a response' do
       response = FactoryBot.create(:response)

@@ -24,6 +24,57 @@ describe InvitationToken do
     end
   end
 
+  describe 'test_identifier_token_combination' do
+    let(:other_person) { FactoryBot.create(:person) }
+
+    let(:response) { FactoryBot.create(:response, :invite_sent) }
+    let(:token) { FactoryBot.create(:invitation_token, response: response) }
+
+    let(:not_sent_response) { FactoryBot.create(:response) }
+    let(:not_sent_token) { FactoryBot.create(:invitation_token, response: not_sent_response) }
+
+    it 'should return nil if there is no person with that identifier' do
+      result = InvitationToken.test_identifier_token_combination('non_existent', token.token_plain)
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the person has no responses' do
+      result = InvitationToken.test_identifier_token_combination(other_person.external_identifier, 'nothing')
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the token does not match any of the responses ' do
+      person = response.protocol_subscription.person
+      result = InvitationToken.test_identifier_token_combination(person.external_identifier, 'nothing')
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the token matches an unsent response' do
+      person = response.protocol_subscription.person
+      result = InvitationToken.test_identifier_token_combination(person.external_identifier, not_sent_token.token_plain)
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if there is one that matches the description but the hashed token is provided' do
+      person = response.protocol_subscription.person
+      result = InvitationToken.test_identifier_token_combination(person.external_identifier, token.token)
+      expect(result).to be_nil
+    end
+
+    it 'should return the invitation_token if there is one that matches the description' do
+      person = response.protocol_subscription.person
+      result = InvitationToken.test_identifier_token_combination(person.external_identifier, token.token_plain)
+      expect(result).to eq response.invitation_token
+    end
+
+    it 'should return the invitation_token if there is one that matches the description and is completed' do
+      response.update_attributes!(completed_at: Time.zone.now)
+      person = response.protocol_subscription.person
+      result = InvitationToken.test_identifier_token_combination(person.external_identifier, token.token_plain)
+      expect(result).to eq response.invitation_token
+    end
+  end
+
   describe 'token_hash' do
     it 'should not allow duplicate token hashes' do
       tok = 'myinvitation_token'

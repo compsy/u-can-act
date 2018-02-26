@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class TokenAuthenticationController < ApplicationController
+  before_action :check_params
   before_action :check_invitation_token
 
   RESPONSE_ID_COOKIE = :response_id
@@ -15,6 +16,7 @@ class TokenAuthenticationController < ApplicationController
   def check_invitation_token
     invitation_token = InvitationToken.test_identifier_token_combination(identifier_param, token_param)
     render(status: 401, plain: 'Je bent niet bevoegd om deze vragenlijst te zien.') && return if invitation_token.nil?
+    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') && return if invitation_token.expired?
     store_person_cookie(identifier_param)
   end
 
@@ -33,6 +35,10 @@ class TokenAuthenticationController < ApplicationController
     from = Person::IDENTIFIER_LENGTH
     to = Person::IDENTIFIER_LENGTH + InvitationToken::TOKEN_LENGTH
     identifier[from..to] if identifier
+  end
+
+  def check_params
+    render(status: 401, plain: 'Gebruiker / Vragenlijst niet gevonden.') && return unless identifier_param.present? && token_param.present?
   end
 
   def questionnaire_params

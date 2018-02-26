@@ -3,14 +3,18 @@
 class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
 
+  before_action :set_person
+  before_action :redirect_to_next_page, only: [:index]
   before_action :set_response, only: [:show]
-  before_action :set_cookie, only: [:show]
+  before_action :store_response_cookie, only: %i[index show]
   before_action :set_is_mentor, only: [:show]
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
   before_action :verify_response_id, only: %i[create create_informed_consent]
   before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_content_hash, only: [:create]
+
+  def index; end
 
   def show
     @response.update_attributes!(opened_at: Time.zone.now)
@@ -27,8 +31,7 @@ class QuestionnaireController < ApplicationController
     response_content = ResponseContent.create!(content: questionnaire_content)
     @response.update_attributes!(content: response_content.id, completed_at: Time.zone.now)
     check_stop_subscription unless questionnaire_stop_subscription.blank?
-    redirect_to(mentor_overview_index_path) && return unless @protocol_subscription.for_myself?
-    redirect_to klaar_path
+    redirect_to_next_page
   end
 
   private
@@ -54,12 +57,12 @@ class QuestionnaireController < ApplicationController
     @response.protocol_subscription.cancel!
     flash[:notice] = if @response.protocol_subscription.mentor?
                        "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
-                       'is gestopt.'
+  											 'is gestopt.'
                      else
                        'Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!'
                      end
     Rails.logger.error "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
-                       "person #{@response.protocol_subscription.person_id}."
+			"person #{@response.protocol_subscription.person_id}."
   end
 
   def check_content_hash
@@ -71,6 +74,11 @@ class QuestionnaireController < ApplicationController
     end
   end
 
+  def set_person
+    person_external_identifier = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::PERSON_ID_COOKIE)
+    @person = Person.find_by_external_identifier(person_external_identifier)
+  end
+
   def set_response
     the_response = Response.find_by_uuid(questionnaire_params[:uuid])
     check_response(the_response)
@@ -78,6 +86,20 @@ class QuestionnaireController < ApplicationController
     @response = the_response
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
+  end
+
+  def redirect_to_next_page
+    responses = @person.my_open_responses
+    if @person.mentor? && responses.blank?
+      redirect_url = mentor_overview_index_path
+    elsif responses.blank?
+      redirect_url = klaar_path
+    else
+      first_response = responses.first
+      render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless response
+      redirect_url = questionnaire_path(uuid: first_response.uuid)
+    end
+    redirect_to redirect_url
   end
 
   def check_informed_consent
@@ -98,7 +120,9 @@ class QuestionnaireController < ApplicationController
     @response = Response.find_by_id(questionnaire_create_params[:response_id])
     check_response(@response)
     return if performed?
-    set_cookie # Now that we know the response can be filled out, update the cookies so the redirect works as expected.
+
+    # Now that we know the response can be filled out, update the cookies so the redirect works as expected.
+    store_response_cookie
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
   end
@@ -148,7 +172,7 @@ class QuestionnaireController < ApplicationController
     questionnaire_create_params[:stop_subscription].to_unsafe_h
   end
 
-  def set_cookie
+  def store_response_cookie
     cookie = { TokenAuthenticationController::RESPONSE_ID_COOKIE => @response.id.to_s }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
   end

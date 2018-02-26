@@ -23,9 +23,10 @@ class Response < ApplicationRecord
   has_one :invitation_token, dependent: :destroy # has one or none
 
   after_initialize do |response|
-    unless response.uuid
+    next if response.uuid.present?
+    loop do
       response.uuid = SecureRandom.uuid
-      response.uuid = SecureRandom.uuid while Response.where(uuid: response.uuid).count.positive?
+      break if Response.where(uuid: response.uuid).count.zero?
     end
   end
 
@@ -37,6 +38,7 @@ class Response < ApplicationRecord
       not_sent: NOT_SENT_STATE
     )
   })
+
   scope :still_open_and_not_completed, (lambda {
     where(
       'open_from <= :time_now AND open_from > :recent_past AND invited_state = :sent and completed_at IS NULL',
@@ -87,17 +89,6 @@ class Response < ApplicationRecord
       'open_from <= :end_of_week AND open_from > :start_of_week',
       start_of_week: from, end_of_week: to
     )
-  end
-
-  def self.find_by_identifier(identifier, token)
-    person = Person.find_by_external_identifier(identifier)
-    return nil unless person
-
-    responses = person.protocol_subscriptions&.active&.map { |sub| sub.responses&.invited }.flatten
-    return nil if responses.blank?
-
-    responses.each { |resp| return resp if resp.invitation_token&.token == token }
-    nil
   end
 
   def future?

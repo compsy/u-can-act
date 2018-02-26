@@ -22,13 +22,12 @@ class MentorOverviewController < ApplicationController
   end
 
   def set_is_mentor
-    @use_mentor_layout = @response.protocol_subscription.person.mentor?
+    @use_mentor_layout = true
   end
 
   def set_mentor
-    person_id = @response.protocol_subscription.person_id
-    # find_by_id because find raises an error when the object was not found.
-    person = Person.find_by_id(person_id)
+    person_external_identifier = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::PERSON_ID_COOKIE)
+    person = Person.find_by_external_identifier(person_external_identifier)
     unless person.present? && person.role.group == Person::MENTOR
       render(status: 404, plain: 'De mentor kon niet gevonden worden.')
     end

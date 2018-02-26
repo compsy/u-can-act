@@ -35,13 +35,10 @@ class Person < ApplicationRecord
   #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
 
   after_initialize do |person|
-    unless person.id
-      unless person.external_identifier
-        person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
-        while Person.where(external_identifier: person.external_identifier).count.positive?
-          person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
-        end
-      end
+    next if person.id && person.external_identifier
+    loop do
+      person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
+      break if Person.where(external_identifier: person.external_identifier).count.zero?
     end
   end
 
@@ -64,6 +61,10 @@ class Person < ApplicationRecord
   def my_protocols
     return [] if protocol_subscriptions.blank?
     protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id }
+  end
+
+  def my_open_responses
+    my_protocols.map { |prot| prot.responses.opened }.flatten
   end
 
   def for_someone_else_protocols
@@ -103,6 +104,6 @@ class Person < ApplicationRecord
 
   def warn_for_multiple_mentors
     Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{student.id}" if
-      ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).count > 1
+    ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).count > 1
   end
 end

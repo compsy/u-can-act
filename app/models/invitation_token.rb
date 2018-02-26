@@ -15,6 +15,17 @@ class InvitationToken < ApplicationRecord
 
   attr_accessor :token_plain
 
+  def self.test_identifier_token_combination(identifier, token)
+    person = Person.find_by_external_identifier(identifier)
+    return nil unless person
+
+    responses = person.protocol_subscriptions&.active&.map { |sub| sub.responses&.invited }.flatten
+    return nil if responses.blank?
+
+    responses.each { |resp| return resp.invitation_token if resp.invitation_token&.token == token }
+    nil
+  end
+
   def token
     @token ||= Password.new(token_hash)
   end
@@ -27,9 +38,7 @@ class InvitationToken < ApplicationRecord
 
   def expired?
     # If a response is still valid, it should always be possible to fill it out.
-    return false unless response.response_expired?
-    return false unless Time.zone.now > expires_at
-    true
+    response.response_expired? && Time.zone.now > expires_at
   end
 
   after_initialize do |invitation_token|

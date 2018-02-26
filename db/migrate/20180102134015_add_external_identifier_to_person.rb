@@ -4,14 +4,9 @@ class AddExternalIdentifierToPerson < ActiveRecord::Migration[5.0]
   def change
     add_column :people, :external_identifier, :string
 
-    Person.all.each do |person|
-      next if person.external_identifier
-      person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
-      while Person.where(external_identifier: person.external_identifier).count.positive?
-        person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
-      end
-      person.save!
-    end
+    # Call the initializer for each of the person objects, which causes the external_identifier
+    # to be initialized (which needs to be saved)
+    Person.all.each { |person| person.save! }
 
     change_column_null :people, :external_identifier, false
   end

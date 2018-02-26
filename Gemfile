@@ -88,7 +88,6 @@ group :development, :test do
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
-  gem 'parallel_tests'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
   gem 'teaspoon-jasmine'

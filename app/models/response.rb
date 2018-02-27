@@ -140,9 +140,10 @@ class Response < ApplicationRecord
     [student, mentor]
   end
 
-  def invitation_url
+  def invitation_url(full = true)
     raise 'Cannot generate invitation_url for historical invitation tokens!' if invitation_token.token_plain.blank?
     concatenated_token = "#{protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+    return "?q=#{concatenated_token}" unless full
     "#{ENV['HOST_URL']}?q=#{concatenated_token}"
   end
 

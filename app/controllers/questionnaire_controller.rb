@@ -2,8 +2,7 @@
 
 class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
-
-  before_action :set_person
+  include Concerns::IsLoggedIn
   before_action :redirect_to_next_page, only: [:index]
   before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :set_response, only: [:show]
@@ -74,12 +73,6 @@ class QuestionnaireController < ApplicationController
     end
   end
 
-  def set_person
-    person_external_identifier = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::PERSON_ID_COOKIE)
-    @person = Person.find_by_external_identifier(person_external_identifier)
-    render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.') unless @person.present?
-  end
-
   def set_response
     the_response = Response.find_by_uuid(questionnaire_params[:uuid])
     check_response(the_response)
@@ -90,8 +83,8 @@ class QuestionnaireController < ApplicationController
   end
 
   def redirect_to_next_page
-    responses = @person.my_open_responses
-    if @person.mentor? && responses.blank?
+    responses = current_user.my_open_responses
+    if current_user.mentor? && responses.blank?
       redirect_url = mentor_overview_index_path
     elsif responses.blank?
       redirect_url = klaar_path
@@ -110,8 +103,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def verify_cookie
-    signed_in_person_e_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::PERSON_ID_COOKIE)
-    signed_in_person_id = Person.find_by_external_identifier(signed_in_person_id)&.id
+    signed_in_person_id = current_user&.id
 
     response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
     response_cookie_person_id = Response.find_by_id(response_id)&.protocol_subscription&.person_id
@@ -120,8 +112,9 @@ class QuestionnaireController < ApplicationController
 
     return if response_cookie_person_id && 
               signed_in_person_id &&
-              cookie_person_id == params_person_id &&
-              cookie_person_id == signed_in_person_id
+              signed_in_person_id == params_person_id &&
+              signed_in_person_id == response_cookie_person_id
+
     render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.')
   end
 

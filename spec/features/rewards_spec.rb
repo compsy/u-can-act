@@ -25,7 +25,8 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-    visit "/questionnaire/#{invitation_token.response.uuid}"
+
+    visit responseobj.invitation_url(false)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -70,7 +71,7 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.possible_reward_points).to eq 3
     expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-    visit "/questionnaire/#{invitation_token.response.uuid}"
+    visit responseobj.invitation_url(false)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -111,7 +112,7 @@ describe 'GET /klaar', type: :feature, js: true do
                       protocol_subscription: protocol_subscription,
                       open_from: 2.days.ago)
     invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-    visit "/questionnaire/#{invitation_token.response.uuid}"
+    visit responseobj.invitation_url(false)
     page.choose('slecht', allow_label_click: true)
     page.check('brood', allow_label_click: true)
     page.check('kaas en ham', allow_label_click: true)
@@ -140,7 +141,7 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.possible_reward_points).to eq 2
       expect(protocol_subscription.max_reward_points).to eq 3
       invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-      visit "/questionnaire/#{invitation_token.response.uuid}"
+      visit responseobj.invitation_url(false)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
@@ -184,7 +185,7 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.possible_reward_points).to eq 3
       expect(protocol_subscription.max_reward_points).to eq 3
       invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-      visit "/questionnaire/#{invitation_token.response.uuid}"
+      visit responseobj.invitation_url(false)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
@@ -230,7 +231,7 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-    visit "/questionnaire/#{invitation_token.response.uuid}"
+    visit responseobj.invitation_url(false)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -271,7 +272,7 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-    visit "/questionnaire/#{invitation_token.response.uuid}"
+    visit responseobj.invitation_url(false)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -315,7 +316,7 @@ describe 'GET /klaar', type: :feature, js: true do
     expect(protocol_subscription.possible_reward_points).to eq 2
     expect(protocol_subscription.max_reward_points).to eq 3
     invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
-    visit "/questionnaire/#{invitation_token.response.uuid}"
+    visit responseobj.invitation_url(false)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1

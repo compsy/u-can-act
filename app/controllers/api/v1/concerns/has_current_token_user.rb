@@ -7,12 +7,12 @@ module Api
         extend ActiveSupport::Concern
 
         included do
-          before_action :verify_current_user
+          before_action :verify_current_token_user
         end
 
         private
 
-        def verify_current_user
+        def verify_current_token_user
           response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
           @response = Response.find_by_id(response_id)
           if @response.nil?

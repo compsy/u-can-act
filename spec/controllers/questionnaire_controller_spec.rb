@@ -30,7 +30,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                   start_date: 1.week.ago.at_beginning_of_day,
                                                   person: person)
         responseobj = FactoryBot.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
-                                        open_from: 1.hour.ago)
+                                                                 open_from: 1.hour.ago)
         get :index
         expect(response).to have_http_status(302)
         expect(response.location).to_not eq(mentor_overview_index_url)
@@ -41,12 +41,10 @@ RSpec.describe QuestionnaireController, type: :controller do
         person_type = :mentor
         person = FactoryBot.create(person_type)
         cookie_auth(person)
-        protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                  start_date: 1.week.ago.at_beginning_of_day,
-                                                  person: person,
-                                                  filling_out_for: FactoryBot.create(:student))
-        responseobj = FactoryBot.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
-                                        open_from: 1.hour.ago)
+        FactoryBot.create(:protocol_subscription,
+                          start_date: 1.week.ago.at_beginning_of_day,
+                          person: person,
+                          filling_out_for: FactoryBot.create(:student))
         get :index
         expect(response).to have_http_status(302)
         expect(response.location).to eq(mentor_overview_index_url)
@@ -55,12 +53,14 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'GET /:uuid' do
-    let(:person) {FactoryBot.create(:person)}
+    let(:person) { FactoryBot.create(:person) }
     before :each do
       cookie_auth(person)
     end
     it 'shows status 200 when everything is correct' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day, person: person)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                person: person)
       responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
       get :show, params: { uuid: responseobj.uuid }
       expect(response).to have_http_status(200)
@@ -84,7 +84,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
   describe 'the @is_mentor_variable' do
     let(:protocol) { FactoryBot.create(:protocol) }
-    let(:person) {FactoryBot.create(:person)}
+    let(:person) { FactoryBot.create(:person) }
     let(:protocol_subscription) do
       FactoryBot.create(:protocol_subscription,
                         start_date: 1.week.ago.at_beginning_of_day,
@@ -92,7 +92,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
     let(:responseobj) do
       FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                        open_from: 1.hour.ago)
+                                   open_from: 1.hour.ago)
     end
 
     # let(:invitation_token) { FactoryBot.create(:invitation_token, response: responseobj) }
@@ -116,7 +116,7 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'POST /' do
-    let(:person) {FactoryBot.create(:person)}
+    let(:person) { FactoryBot.create(:person) }
     before :each do
       cookie_auth(person)
     end
@@ -137,8 +137,8 @@ RSpec.describe QuestionnaireController, type: :controller do
       responseobj = FactoryBot.create(:response, :completed)
       expect_any_instance_of(described_class).to receive(:verify_cookie)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
-      expect(response).to have_http_status(404)
-      expect(response.body).to include('Je hebt deze vragenlijst al ingevuld.')
+      expect(response).to have_http_status(302)
+      expect(response.location).to eq klaar_url
     end
     it 'requires a q parameter that is not expired' do
       responseobj = FactoryBot.create(:response)
@@ -181,8 +181,8 @@ RSpec.describe QuestionnaireController, type: :controller do
         FactoryBot.create(:protocol_subscription,
                           start_date: 1.week.ago.at_beginning_of_day)
       end
-      let(:person) {FactoryBot.create(:mentor)}
-      let(:student) {FactoryBot.create(:student)}
+      let(:person) { FactoryBot.create(:mentor) }
+      let(:student) { FactoryBot.create(:student) }
       let(:responseobj) do
         FactoryBot.create(:response,
                           protocol_subscription: protocol_subscription,
@@ -202,10 +202,10 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'should redirect to the mentor overview page if the person is a mentor filling out for someone else' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, person: person,
-                                                  filling_out_for: FactoryBot.create(:person),
-                                                  start_date: 1.week.ago.at_beginning_of_day)
+                                                                          filling_out_for: FactoryBot.create(:person),
+                                                                          start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                        open_from: 1.hour.ago)
+                                                   open_from: 1.hour.ago)
 
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
@@ -214,4 +214,3 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
   end
 end
-

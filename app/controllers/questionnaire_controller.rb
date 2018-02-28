@@ -4,9 +4,9 @@ class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
   before_action :redirect_to_next_page, only: [:index]
-  before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :set_response, only: [:show]
-  before_action :store_response_cookie, only: %i[index show]
+  before_action :verify_cookie, only: %i[create create_informed_consent]
+  before_action :store_response_cookie, only: %i[show]
   before_action :set_is_mentor, only: [:show]
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
@@ -83,17 +83,18 @@ class QuestionnaireController < ApplicationController
   end
 
   def redirect_to_next_page
-    responses = current_user.my_open_responses
-    if current_user.mentor? && responses.blank?
-      redirect_url = mentor_overview_index_path
-    elsif responses.blank?
-      redirect_url = klaar_path
-    else
-      first_response = responses.first
-      render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless response
-      redirect_url = questionnaire_path(uuid: first_response.uuid)
+    first_response = current_user.my_open_responses.first
+    if current_user.mentor? && first_response.nil?
+      redirect_to mentor_overview_index_path
+      return
     end
-    redirect_to redirect_url
+
+    if first_response.nil?
+      redirect_to klaar_path
+      return
+    end
+
+    redirect_to questionnaire_path(uuid: first_response.uuid)
   end
 
   def check_informed_consent
@@ -104,18 +105,20 @@ class QuestionnaireController < ApplicationController
 
   def verify_cookie
     signed_in_person_id = current_user&.id
-
-    response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
-    response_cookie_person_id = Response.find_by_id(response_id)&.protocol_subscription&.person_id
-
+    response_cookie_person_id = person_for_response_cookie
     params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
 
-    return if response_cookie_person_id && 
+    return if response_cookie_person_id &&
               signed_in_person_id &&
               signed_in_person_id == params_person_id &&
               signed_in_person_id == response_cookie_person_id
 
     render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.')
+  end
+
+  def person_for_response_cookie
+    response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
+    Response.find_by_id(response_id)&.protocol_subscription&.person_id
   end
 
   def set_create_response
@@ -184,8 +187,17 @@ class QuestionnaireController < ApplicationController
   end
 
   def check_response(response)
-    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') && return unless response
-    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if response.completed_at
+    unless response
+      render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.')
+      return
+    end
+
+    # Instead of throwing a 404, just redirect to the next page in line if one is already completed.
+    if response.completed_at
+      redirect_to_next_page
+      return
+    end
+
     render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if response.expired?
   end
 end

@@ -37,7 +37,7 @@ RSpec.describe MentorOverviewController, type: :controller do
                                        person: mentor,
                                        filling_out_for: person_to_fill_out_for)
           FactoryBot.create(:response, protocol_subscription: prot_sub,
-                            open_from: 1.hour.ago)
+                                       open_from: 1.hour.ago)
         end
         get :index
         expect(response).to have_http_status(200)

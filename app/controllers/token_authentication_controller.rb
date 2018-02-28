@@ -15,8 +15,15 @@ class TokenAuthenticationController < ApplicationController
 
   def check_invitation_token
     invitation_token = InvitationToken.test_identifier_token_combination(identifier_param, token_param)
-    render(status: 401, plain: 'Je bent niet bevoegd om deze vragenlijst te zien.') && return if invitation_token.nil?
-    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') && return if invitation_token.expired?
+    if invitation_token.nil?
+      render(status: 401, plain: 'Je bent niet bevoegd om deze vragenlijst te zien.')
+      return
+    end
+
+    if invitation_token.expired?
+      render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.')
+      return
+    end
     store_person_cookie(identifier_param)
   end
 
@@ -38,7 +45,8 @@ class TokenAuthenticationController < ApplicationController
   end
 
   def check_params
-    render(status: 401, plain: 'Gebruiker / Vragenlijst niet gevonden.') && return unless identifier_param.present? && token_param.present?
+    return if identifier_param.present? && token_param.present?
+    render(status: 401, plain: 'Gebruiker / Vragenlijst niet gevonden.')
   end
 
   def questionnaire_params

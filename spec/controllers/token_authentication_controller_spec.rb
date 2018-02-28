@@ -34,7 +34,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
                                                 start_date: 1.week.ago.at_beginning_of_day,
                                                 person: person)
       responseobj = FactoryBot.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
-                                                                open_from: 1.hour.ago)
+                                                               open_from: 1.hour.ago)
       invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
       identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
       get :show, params: { q: identifier }
@@ -42,7 +42,6 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       expect(response.location).to_not eq(mentor_overview_index_url)
       expect(response.location).to eq(questionnaire_index_url)
     end
-
 
     describe 'should set the correct cookie' do
       let(:person_type) { :mentor }

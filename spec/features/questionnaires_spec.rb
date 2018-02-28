@@ -95,6 +95,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                           'v4_uren' => '4',
                                           'v4_minuten' => '15')
   end
+
   it 'should respect the required attribute for a group of checkboxes' do
     content = [{
       id: :v1,
@@ -145,6 +146,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.values.keys).not_to include('v2_13')
     expect(responseobj.values.keys).not_to include('v2')
   end
+
   it 'should store the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               person: student,
@@ -1744,5 +1746,75 @@ describe 'GET and POST /', type: :feature, js: true do
     # We can serch for all, because theres just one with a tooltip
     page.all('i').first.click
     expect(page).to have_content('hagelslag')
+  end
+
+  describe 'multiple available questionnaires' do
+    let(:content) { [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]  }
+    let(:number_of_available_questionnaires) { 3 }
+    it 'should open the second questionnaire after the first one if it is open' do
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responses = number_of_available_questionnaires.times.map do 
+        FactoryBot.create(:response,
+                          protocol_subscription: protocol_subscription,
+                          measurement: measurement,
+                          open_from: 1.hour.ago,
+                          invited_state: Response::SENT_STATE)
+      end
+
+      invitation_token = FactoryBot.create(:invitation_token, response: responses.first)
+      visit responses.first.invitation_url(false)
+
+      responses.each_with_index do |responseobj, idx|
+        expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
+        expect(page).to_not have_current_path(mentor_overview_index_path)
+        # expect(page).to have_http_status(200)
+        expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+        # v1
+        page.choose('pizza', allow_label_click: true)
+        page.fill_in('v3', with: 'of niet soms')
+        page.click_on 'Opslaan'
+        # expect(page).to have_http_status(200)
+        unless number_of_available_questionnaires == idx + 1
+          expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+        end
+      end
+     
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+
+      responses.each do |responseobj|
+        responseobj.reload
+        expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+        expect(responseobj.content).to_not be_nil
+        expect(responseobj.values).to include('v1' => 'pizza',
+                                              'v3' => 'of niet soms')
+      end
+    end
   end
 end

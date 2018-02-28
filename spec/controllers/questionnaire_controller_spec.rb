@@ -22,6 +22,24 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(response.location).to eq(questionnaire_url(uuid: responseobj.uuid))
       end
 
+      it 'should redirect to the klaar page if the person is a student but the questionnaire was completed' do
+        person_type = :student
+        person = FactoryBot.create(person_type)
+        cookie_auth(person)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person)
+        responseobj = FactoryBot.create(:response,
+                                        :completed,
+                                        :invite_sent,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago)
+        get :index
+        expect(response).to have_http_status(302)
+        expect(response.location).to_not eq(mentor_overview_index_url)
+        expect(response.location).to eq(klaar_url)
+      end
+
       it 'should redirect to the questionnaire controller for a mentor filling out a questionnaire for themselves' do
         person_type = :mentor
         person = FactoryBot.create(person_type)

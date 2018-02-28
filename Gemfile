@@ -144,6 +144,9 @@ group :development do
   gem 'spring-watcher-listen'
 end
 
+# Silence noisy requests like /status
+gem 'silencer'
+
 # JS / CSS Frameworks
 # gem 'highcharts-rails'
 gem 'materialize-sass'

@@ -56,12 +56,12 @@ class QuestionnaireController < ApplicationController
     @response.protocol_subscription.cancel!
     flash[:notice] = if @response.protocol_subscription.mentor?
                        "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
-  											 'is gestopt.'
+                         'is gestopt.'
                      else
                        'Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!'
                      end
     Rails.logger.error "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
-			"person #{@response.protocol_subscription.person_id}."
+      "person #{@response.protocol_subscription.person_id}."
   end
 
   def check_content_hash
@@ -84,17 +84,18 @@ class QuestionnaireController < ApplicationController
 
   def redirect_to_next_page
     first_response = current_user.my_open_responses.first
-    if current_user.mentor? && first_response.nil?
+
+    if first_response.present?
+      redirect_to questionnaire_path(uuid: first_response.uuid)
+      return
+    end
+
+    if current_user.mentor?
       redirect_to mentor_overview_index_path
       return
     end
 
-    if first_response.nil?
-      redirect_to klaar_path
-      return
-    end
-
-    redirect_to questionnaire_path(uuid: first_response.uuid)
+    redirect_to klaar_path
   end
 
   def check_informed_consent
@@ -106,10 +107,9 @@ class QuestionnaireController < ApplicationController
   def verify_cookie
     signed_in_person_id = current_user&.id
     response_cookie_person_id = person_for_response_cookie
-    params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
 
-    return if response_cookie_person_id &&
-              signed_in_person_id &&
+    params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
+    return if response_cookie_person_id && signed_in_person_id &&
               signed_in_person_id == params_person_id &&
               signed_in_person_id == response_cookie_person_id
 

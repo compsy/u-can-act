@@ -6,9 +6,9 @@ describe 'GET and POST /', type: :feature, js: true do
   let(:student) { FactoryBot.create(:student) }
   let(:mentor) { FactoryBot.create(:mentor, first_name: 'Dagobert') }
   it 'should show and store a questionnaire successfully' do
-    protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                              person: student,
-                                              start_date: 1.week.ago.at_beginning_of_day)
+    protocol_subscription = FactoryBot.create(:protocol_subscription, person: student,
+                                                                      start_date: 1.week.ago.at_beginning_of_day)
+
     questionnaire = FactoryBot.create(:questionnaire, content: [{
                                         section_start: 'Algemeen',
                                         id: :v1,
@@ -1749,7 +1749,8 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   describe 'multiple available questionnaires' do
-    let(:content) { [{
+    let(:content) do
+      [{
         id: :v1,
         type: :radio,
         title: 'Wat heeft u vandaag gegeten?',
@@ -1770,7 +1771,8 @@ describe 'GET and POST /', type: :feature, js: true do
         type: :textfield,
         required: true,
         title: 'Dit is je tekstruimte'
-      }]  }
+      }]
+    end
     let(:number_of_available_questionnaires) { 3 }
     it 'should open the second questionnaire after the first one if it is open' do
       protocol = FactoryBot.create(:protocol)
@@ -1780,7 +1782,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                                 person: student)
       questionnaire = FactoryBot.create(:questionnaire, content: content)
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
-      responses = number_of_available_questionnaires.times.map do 
+      responses = Array.new(number_of_available_questionnaires).map do
         FactoryBot.create(:response,
                           protocol_subscription: protocol_subscription,
                           measurement: measurement,
@@ -1788,7 +1790,7 @@ describe 'GET and POST /', type: :feature, js: true do
                           invited_state: Response::SENT_STATE)
       end
 
-      invitation_token = FactoryBot.create(:invitation_token, response: responses.first)
+      FactoryBot.create(:invitation_token, response: responses.first)
       visit responses.first.invitation_url(false)
 
       responses.each_with_index do |responseobj, idx|
@@ -1805,7 +1807,7 @@ describe 'GET and POST /', type: :feature, js: true do
           expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
         end
       end
-     
+
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
 
       responses.each do |responseobj|

@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.integer  "response_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.string   "token_hash"
+    t.string   "token_hash",  null: false
     t.datetime "expires_at",  null: false
     t.index ["response_id"], name: "index_invitation_tokens_on_response_id", unique: true, using: :btree
   end
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.string   "uuid",                     limit: 36,                      null: false
     t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
+    t.index ["uuid"], name: "index_responses_on_uuid", unique: true, using: :btree
   end
 
   create_table "rewards", force: :cascade do |t|

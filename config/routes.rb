@@ -33,5 +33,10 @@ Rails.application.routes.draw do
       end
     end
   end
-
+  match '/',
+        controller: 'application',
+        action: 'options',
+        constraints: { method: %w[OPTIONS POST PUT PATCH DELETE] },
+        via: %i[options post put patch delete]
+  match '*path', via: :all, to: redirect('/404.html')
 end

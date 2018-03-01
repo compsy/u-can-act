@@ -5,8 +5,8 @@
 %p
   Voor
   %i
-    = @current_user.first_name
-    = @current_user.last_name
+    = current_user.first_name
+    = current_user.last_name
 
 %ul.collection
   - @student_protocol_subscriptions.each do |protocol_subscription|

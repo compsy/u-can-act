@@ -9,7 +9,7 @@ class AddUuidToResponse < ActiveRecord::Migration[5.0]
       response.uuid = SecureRandom.uuid while Response.where(uuid: response.uuid).count.positive?
       response.save!
     end
-
     change_column_null :responses, :uuid, false
+    add_index :responses, :uuid, unique: true
   end
 end

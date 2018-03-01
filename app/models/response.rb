@@ -47,6 +47,7 @@ class Response < ApplicationRecord
       sent: SENT_STATE
     )
   })
+
   scope :completed, (-> { where.not(completed_at: nil) })
   scope :invited, (lambda {
     where('invited_state=? OR invited_state=? OR invited_state=?',
@@ -59,6 +60,10 @@ class Response < ApplicationRecord
   scope :opened, (lambda {
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
+
+  def self.opened_and_not_expired
+    opened.reject(&:expired?)
+  end
 
   scope :future, (lambda {
     where('open_from > :time_now', time_now: Time.zone.now)

@@ -35,7 +35,7 @@ class Person < ApplicationRecord
   #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
 
   after_initialize do |person|
-    next if person.id && person.external_identifier
+    next if person.external_identifier
     loop do
       person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
       break if Person.where(external_identifier: person.external_identifier).count.zero?
@@ -64,7 +64,7 @@ class Person < ApplicationRecord
   end
 
   def my_open_responses
-    my_protocols.map { |prot| prot.responses.opened }.flatten
+    my_protocols.map { |prot| prot.responses.opened_and_not_expired }.flatten
   end
 
   def for_someone_else_protocols

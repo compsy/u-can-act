@@ -21,7 +21,7 @@ class TokenAuthenticationController < ApplicationController
     end
 
     if invitation_token.expired?
-      render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.')
+      render(status: 404, plain: 'Deze link is niet meer geldig.')
       return
     end
     store_person_cookie(identifier_param)

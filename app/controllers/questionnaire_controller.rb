@@ -198,6 +198,8 @@ class QuestionnaireController < ApplicationController
       return
     end
 
-    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if response.expired?
+    return unless response.expired?
+    flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
+    redirect_to_next_page
   end
 end

@@ -54,6 +54,67 @@ describe Response do
         expect(described_class.recently_opened_and_not_sent.count).to eq 3
       end
     end
+
+    describe 'opened_and_not_expired' do
+      let(:protocol_subscription) do
+        FactoryBot.create(:protocol_subscription, start_date: 1.weeks.ago.at_beginning_of_day)
+      end
+
+      let(:measurement) do
+        FactoryBot.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
+      end
+
+      it 'should find a response that was opened 9 hours ago' do
+        resp = FactoryBot.create(:response, open_from: 3.hours.ago.in_time_zone,
+                                            measurement: measurement,
+                                            invited_state: described_class::SENT_STATE,
+                                            protocol_subscription: protocol_subscription)
+        expect(resp.protocol_subscription.ended?).to be_falsey
+        expect(resp.expired?).to be_falsey
+        expect(described_class.opened_and_not_expired.count).to eq 1
+      end
+
+      it 'should not find a response that is not open yet' do
+        FactoryBot.create(:response, open_from: 3.hours.from_now.in_time_zone,
+                                     measurement: measurement,
+                                     invited_state: described_class::SENT_STATE,
+                                     protocol_subscription: protocol_subscription)
+        expect(described_class.opened_and_not_expired.count).to eq 0
+      end
+
+      it 'should not find a response that is completed' do
+        FactoryBot.create(:response, :completed, open_from: 3.hours.from_now.in_time_zone,
+                                                 measurement: measurement,
+                                                 invited_state: described_class::SENT_STATE,
+                                                 protocol_subscription: protocol_subscription)
+        expect(described_class.opened_and_not_expired.count).to eq 0
+      end
+      it 'should be able to retrieve multiple responses' do
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, :completed,
+                          open_from: (described_class::REMINDER_DELAY + 50.minutes).ago.in_time_zone,
+                          measurement: measurement,
+                          protocol_subscription: protocol_subscription,
+                          invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        expect(described_class.opened_and_not_expired.count).to eq 3
+      end
+    end
+
     describe 'still_open_and_not_completed' do
       it 'should find a response that was opened 9 hours ago' do
         FactoryBot.create(:response, open_from: 9.hours.ago.in_time_zone,

@@ -8,6 +8,15 @@ class Response < ApplicationRecord
   validates :measurement_id, presence: true
   belongs_to :invitation_set
   validates :open_from, presence: true
+  validates :uuid, presence: true, uniqueness: true
+
+  after_initialize do |response|
+    next if response.uuid.present?
+    loop do
+      response.uuid = SecureRandom.uuid
+      break if Response.where(uuid: response.uuid).count.zero?
+    end
+  end
 
   scope :recently_opened_and_not_invited, (lambda {
     where(
@@ -29,6 +38,10 @@ class Response < ApplicationRecord
   scope :opened, (lambda {
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
+
+  def self.opened_and_not_expired
+    opened.reject(&:expired?)
+  end
 
   scope :future, (lambda {
     where('open_from > :time_now', time_now: Time.zone.now)
@@ -61,11 +74,6 @@ class Response < ApplicationRecord
     )
   end
 
-  # TODO: remove me
-  def uuid
-    id
-  end
-
   def future?
     open_from > Time.zone.now
   end
@@ -82,17 +90,18 @@ class Response < ApplicationRecord
     ResponseContent.find(content) if content.present?
   end
 
-  # TODO: remove?
-  # def initialize_invitation_token!
-  #   # If a token exists for this response, reuse that token (so the old SMS invite link still works
-  #   # when sending a reminder). But still recreate the invitation_token object, so we know that the
-  #   # created_at is always when the object was last used. Also, if we don't first destroy the
-  #   # invitation_token, then it will set a different token than what we're giving (since tokens have
-  #   # to be unique).
-  #   token = invitation_token&.token
-  #   invitation_token&.destroy
-  #   create_invitation_token!(token: token)
-  # end
+  # TODO: move to invitation_set
+  def initialize_invitation_token!
+    # If a token exists for this response, reuse that token (so the old SMS invite link still works
+    # when sending a reminder). But still recreate the invitation_token object, so we know that the
+    # created_at is always when the object was last used. Also, if we don't first destroy the
+    # invitation_token, then it will set a different token than what we're giving (since tokens have
+    # to be unique).
+    pre_token = invitation_token&.token_plain
+    invitation_token&.destroy
+    create_invitation_token! token: pre_token
+    invitation_token.token_plain
+  end
 
   def values
     remote_content&.content
@@ -115,6 +124,13 @@ class Response < ApplicationRecord
     [student, mentor]
   end
 
+  def invitation_url(full = true)
+    raise 'Cannot generate invitation_url for historical invitation tokens!' if invitation_token.token_plain.blank?
+    concatenated_token = "#{protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+    return "?q=#{concatenated_token}" unless full
+    "#{ENV['HOST_URL']}?q=#{concatenated_token}"
+  end
+
   def substitute_variables(obj)
     student, mentor = determine_student_mentor
     subs_hash = {
@@ -127,8 +143,6 @@ class Response < ApplicationRecord
     }
     VariableEvaluator.evaluate_obj(obj, subs_hash)
   end
-
-  private
 
   def response_expired?
     measurement.open_duration.present? &&

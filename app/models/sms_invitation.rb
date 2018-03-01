@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SmsInvitation < Invitation
-  def send(plain_text_token)
+  def send(_plain_text_token)
     raise 'sending sms'
   end
 

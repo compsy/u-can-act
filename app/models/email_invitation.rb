@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmailInvitation < Invitation
   def send(plain_text_token)
     return unless invitation_set.person.email.present?

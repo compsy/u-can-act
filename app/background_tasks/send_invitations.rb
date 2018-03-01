@@ -12,7 +12,7 @@ class SendInvitations
         next if response.expired?
         next unless response.protocol_subscription.active?
         person_id = response.protocol_subscription.person_id
-        response_sets[person_id] = if response_sets.has_key?(person_id)
+        response_sets[person_id] = if response_sets.key?(person_id)
                                      response_sets[person_id] + [response]
                                    else
                                      [response]

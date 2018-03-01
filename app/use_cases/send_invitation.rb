@@ -15,7 +15,6 @@ class SendInvitation < ActiveInteraction::Base
 
   private
 
-
   def generate_sms_message
     "#{random_message} #{response.invitation_url}"
   end

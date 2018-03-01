@@ -75,7 +75,8 @@ class QuestionnaireController < ApplicationController
     invitation_token = InvitationToken.find_by_token(questionnaire_params[:q])
     check_invitation_token(invitation_token)
     return if performed?
-    @response = invitation_token.response
+    # TODO: temp fix
+    @response = invitation_token.invitation_set.responses.first
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
   end

@@ -170,6 +170,17 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'invitation_sets' do
+    it 'should destroy the invitation_sets when destroying the person' do
+      person = FactoryBot.create(:person)
+      FactoryBot.create(:invitation_set, person: person)
+      expect(person.invitation_sets.first).to be_an(InvitationSet)
+      invsetbefore = InvitationSet.count
+      person.destroy
+      expect(InvitationSet.count).to eq(invsetbefore - 1)
+    end
+  end
+
   describe 'mentor?' do
     it 'should be true when the current person is a mentor' do
       person = FactoryBot.create(:mentor)

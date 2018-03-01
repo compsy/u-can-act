@@ -19,8 +19,8 @@ describe InvitationToken do
       expect(invitation_tokenonetwo.errors.messages[:token]).to include('is al in gebruik')
       # If we supply a token on initialize, but that token is already in use,
       # we replace it with a different token. (So if you want to reuse a token, first delete it).
-      response = FactoryBot.create(:response)
-      invitation_tokenonethree = InvitationToken.new(token: 'myinvitation_token', response_id: response.id)
+      invitation_set = FactoryBot.create(:invitation_set)
+      invitation_tokenonethree = InvitationToken.new(token: 'myinvitation_token', invitation_set_id: invitation_set.id)
       expect(invitation_tokenonethree.valid?).to be_truthy
       expect(invitation_tokenonethree.token).to_not eq 'myinvitation_token'
     end
@@ -38,26 +38,29 @@ describe InvitationToken do
     end
   end
 
-  describe 'response_id' do
+  describe 'invitation_set_id' do
     it 'should have one' do
-      invitation_token = FactoryBot.build(:invitation_token, response_id: nil)
+      invitation_token = FactoryBot.build(:invitation_token, invitation_set_id: nil)
       expect(invitation_token.valid?).to be_falsey
-      expect(invitation_token.errors.messages).to have_key :response_id
-      expect(invitation_token.errors.messages[:response_id]).to include('moet opgegeven zijn')
+      expect(invitation_token.errors.messages).to have_key :invitation_set_id
+      expect(invitation_token.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve a Response' do
+    it 'should work to retrieve an InvitationSet' do
       invitation_token = FactoryBot.create(:invitation_token)
-      expect(invitation_token.response).to be_a(Response)
+      expect(invitation_token.invitation_set).to be_an(InvitationSet)
     end
-    it 'should not allow for more than one token per response' do
-      response = FactoryBot.create(:response)
-      invitationtokenone = FactoryBot.build(:invitation_token, response: response)
-      expect(invitationtokenone.valid?).to be_truthy
-      invitationtokenone.save
-      invitationtokentwo = FactoryBot.build(:invitation_token, response: response)
-      expect(invitationtokentwo.valid?).to be_falsey
-      expect(invitationtokentwo.errors.messages).to have_key :response_id
-      expect(invitationtokentwo.errors.messages[:response_id]).to include('is al in gebruik')
+  end
+
+  describe 'expires_at' do
+    it 'should not be able to be nil' do
+      invitation_token = FactoryBot.build(:invitation_token, expires_at: nil)
+      expect(invitation_token.valid?).to be_falsey
+      expect(invitation_token.errors.messages).to have_key :expires_at
+      expect(invitation_token.errors.messages[:expires_at]).to include('moet opgegeven zijn')
+    end
+    it 'should be able to set it to a value' do
+      invitation_token = FactoryBot.create!(:invitation_token, expires_at: 14.days.from_now.in_time_zone)
+      expect(invitation_token.expires_at).to be_within(1.minute).of(14.days.from_now.in_time_zone)
     end
   end
 

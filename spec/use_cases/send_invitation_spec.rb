@@ -22,16 +22,6 @@ describe SendInvitation do
   end
 
   describe 'execute' do
-    context 'invitation token' do
-      before do
-        expect(SendSms).to receive(:run!)
-      end
-      it 'should call the initialize_token_function of a response' do
-        expect(response).to receive(:initialize_invitation_token!).and_call_original
-        described_class.run!(response: response)
-      end
-    end
-
     describe 'when a student is filling out' do
       before :each do
         response.protocol_subscription.update_attributes!(person: student)

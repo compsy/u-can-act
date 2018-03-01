@@ -39,11 +39,9 @@ if Rails.env.development?
       start_date: Time.zone.now.beginning_of_week
     )
     responseobj = prot_sub.responses.first
-    responseobj.update_attributes!(
-      open_from: 1.minute.ago,
-      invited_state: Response::SENT_STATE)
-    responseobj.initialize_invitation_token!
-    puts "mentor dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+    responseobj.update_attributes!(open_from: 1.minute.ago)
+    # responseobj.initialize_invitation_token!
+    puts "mentor dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.uuid}"
   end
   protocol = Protocol.find_by_name('mentoren voormeting/nameting')
   person = Organization.first.roles.where(group: Person::MENTOR).first.people.first
@@ -54,17 +52,13 @@ if Rails.env.development?
     start_date: Time.zone.now.beginning_of_week
   )
   responseobj = prot_sub.responses.first # voormeting
-  responseobj.update_attributes!(
-    open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "mentor voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  responseobj.update_attributes!(open_from: 1.minute.ago)
+  # responseobj.initialize_invitation_token!
+  puts "mentor voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.uuid}"
   responseobj = prot_sub.responses.last # nameting
-  responseobj.update_attributes!(
-    open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "mentor nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  responseobj.update_attributes!(open_from: 1.minute.ago)
+  # responseobj.initialize_invitation_token!
+  puts "mentor nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.uuid}"
 
   # Student questionnaire seeds
   puts ''
@@ -75,23 +69,17 @@ if Rails.env.development?
     start_date: Time.zone.now.beginning_of_week
   )
   responseobj = student.protocol_subscriptions.first.responses.first
-  responseobj.update_attributes!(
-    open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  responseobj.update_attributes!(open_from: 1.minute.ago)
+  # responseobj.initialize_invitation_token!
+  puts "student voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.uuid}"
   responseobj = student.protocol_subscriptions.first.responses[10]
-  responseobj.update_attributes!(
-    open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  responseobj.update_attributes!(open_from: 1.minute.ago)
+  # responseobj.initialize_invitation_token!
+  puts "student dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.uuid}"
   responseobj = student.protocol_subscriptions.first.responses.last
-  responseobj.update_attributes!(
-    open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  responseobj.update_attributes!(open_from: 1.minute.ago)
+  # responseobj.initialize_invitation_token!
+  puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.uuid}"
 
   puts ''
   student = Organization.first.roles.where(group: Person::STUDENT).first.people.second
@@ -104,17 +92,12 @@ if Rails.env.development?
   responseobjs[0...3].each do |response|
     response.update_attributes!(
       open_from: (2.days.ago - 10.minutes),
-      completed_at: 2.day.ago,
-      invited_state: Response::SENT_STATE
-    )
+      completed_at: 2.day.ago)
   end
   responseobj = responseobjs.fifth
-  responseobj.update_attributes!(
-    open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student dagboek - Bijna in streak -: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
-
+  responseobj.update_attributes!(open_from: 1.minute.ago)
+  # responseobj.initialize_invitation_token!
+  puts "student dagboek - Bijna in streak -: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.uuid}"
 
 end
 

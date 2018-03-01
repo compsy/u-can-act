@@ -14,101 +14,34 @@ describe Response do
   end
 
   context 'scopes' do
-    describe 'recently_opened_and_not_sent' do
+    describe 'recently_opened_and_not_invited' do
       it 'should find a response that was opened an hour ago' do
-        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.recently_opened_and_not_sent.count).to eq 1
+        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
+        expect(described_class.recently_opened_and_not_invited.count).to eq 1
       end
       it 'should not find a response that was opened three hours ago' do
-        FactoryBot.create(:response, open_from: 3.hours.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+        FactoryBot.create(:response, open_from: 3.hours.ago.in_time_zone)
+        expect(described_class.recently_opened_and_not_invited.count).to eq 0
       end
       it 'should not find a response that is not open yet' do
-        FactoryBot.create(:response, open_from: 1.hour.from_now.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+        FactoryBot.create(:response, open_from: 1.hour.from_now.in_time_zone)
+        expect(described_class.recently_opened_and_not_invited.count).to eq 0
       end
       it 'should not find a response that is sending' do
-        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone,
-                                     invited_state: described_class::SENDING_STATE)
-        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
+        expect(described_class.recently_opened_and_not_invited.count).to eq 0
       end
       it 'should not find a response that is sent' do
-        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        expect(described_class.recently_opened_and_not_sent.count).to eq 0
+        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
+        expect(described_class.recently_opened_and_not_invited.count).to eq 0
       end
       it 'should be able to retrieve multiple responses' do
-        FactoryBot.create(:response, open_from: 90.minutes.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        FactoryBot.create(:response, open_from: 60.minutes.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        FactoryBot.create(:response, open_from: 45.minutes.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        FactoryBot.create(:response, open_from: 1.minute.from_now.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        FactoryBot.create(:response, open_from: 121.minutes.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.recently_opened_and_not_sent.count).to eq 3
-      end
-    end
-    describe 'still_open_and_not_completed' do
-      it 'should find a response that was opened 9 hours ago' do
-        FactoryBot.create(:response, open_from: 9.hours.ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 1
-      end
-      it 'should not find a response that was opened eleven hours ago' do
-        FactoryBot.create(:response, open_from: 11.hours.ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 0
-      end
-      it 'should not find a response that is not open yet' do
-        FactoryBot.create(:response, open_from: 7.hours.ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 0
-      end
-      it 'should not find a response that is sending' do
-        FactoryBot.create(:response, open_from: 9.hours.ago.in_time_zone,
-                                     invited_state: described_class::SENDING_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 0
-      end
-      it 'should not find a response that is not sent' do
-        FactoryBot.create(:response, open_from: 9.hours.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 0
-      end
-      it 'should not find a response that is sending the reminder' do
-        FactoryBot.create(:response, open_from: 9.hours.ago.in_time_zone,
-                                     invited_state: described_class::SENDING_REMINDER_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 0
-      end
-      it 'should not find a response that is completed' do
-        FactoryBot.create(:response,
-                          :completed,
-                          open_from: 9.hours.ago.in_time_zone,
-                          invited_state: described_class::SENT_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 0
-      end
-      it 'should not find a response that has sent a reminder' do
-        FactoryBot.create(:response, open_from: 9.hours.ago.in_time_zone,
-                                     invited_state: described_class::REMINDER_SENT_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 0
-      end
-      it 'should be able to retrieve multiple responses' do
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY - 1.minute).ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 121.minutes).ago.in_time_zone,
-                                     invited_state: described_class::SENT_STATE)
-        expect(described_class.still_open_and_not_completed.count).to eq 3
+        FactoryBot.create(:response, open_from: 90.minutes.ago.in_time_zone)
+        FactoryBot.create(:response, open_from: 60.minutes.ago.in_time_zone)
+        FactoryBot.create(:response, open_from: 45.minutes.ago.in_time_zone)
+        FactoryBot.create(:response, open_from: 1.minute.from_now.in_time_zone)
+        FactoryBot.create(:response, open_from: 121.minutes.ago.in_time_zone)
+        expect(described_class.recently_opened_and_not_invited.count).to eq 3
       end
     end
     describe 'completed' do
@@ -380,37 +313,6 @@ describe Response do
     end
   end
 
-  describe 'initialize_response!' do
-    let(:response) { FactoryBot.create(:response) }
-    it 'should create an invitation token' do
-      expect(response.invitation_token).to be_nil
-      response.initialize_invitation_token!
-      expect(response.invitation_token).to_not be_nil
-      expect(response.invitation_token.token).to_not be_nil
-    end
-    it 'should reuse the same token if one already exists' do
-      FactoryBot.create(:invitation_token, response: response)
-      expect(response.invitation_token).to_not be_nil
-      expect(response.invitation_token.token).to_not be_nil
-      current_token = response.invitation_token.token
-      response.initialize_invitation_token!
-      expect(response.invitation_token).to_not be_nil
-      expect(response.invitation_token.token).to_not be_nil
-      expect(response.invitation_token.token).to eq current_token
-    end
-    it 'should update the created_at when reusing a token' do
-      FactoryBot.create(:invitation_token, response: response, created_at: 3.days.ago)
-      expect(response.invitation_token).to_not be_nil
-      expect(response.invitation_token.created_at).to be_within(5.minutes).of(3.days.ago)
-      current_token = response.invitation_token.token
-      response.initialize_invitation_token!
-      expect(response.invitation_token).to_not be_nil
-      expect(response.invitation_token.token).to_not be_nil
-      expect(response.invitation_token.token).to eq current_token
-      expect(response.invitation_token.created_at).to be_within(5.minutes).of(Time.zone.now)
-    end
-  end
-
   describe 'content' do
     it 'should accept nil' do
       response = FactoryBot.build(:response, content: nil)
@@ -444,49 +346,6 @@ describe Response do
       expect(response.valid?).to be_falsey
       expect(response.errors.messages).to have_key :open_from
       expect(response.errors.messages[:open_from]).to include('moet opgegeven zijn')
-    end
-  end
-
-  describe 'invited_state' do
-    it 'should be one of the predefined states' do
-      response = FactoryBot.build(:response)
-      response.invited_state = Response::NOT_SENT_STATE
-      expect(response.valid?).to be_truthy
-      response = FactoryBot.build(:response)
-      response.invited_state = Response::SENDING_STATE
-      expect(response.valid?).to be_truthy
-      response = FactoryBot.build(:response)
-      response.invited_state = Response::SENT_STATE
-      expect(response.valid?).to be_truthy
-    end
-    it 'should not be nil' do
-      response = FactoryBot.build(:response, invited_state: nil)
-      expect(response.valid?).to be_falsey
-      expect(response.errors.messages).to have_key :invited_state
-      expect(response.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
-    end
-    it 'should not be empty' do
-      response = FactoryBot.build(:response, invited_state: '')
-      expect(response.valid?).to be_falsey
-      expect(response.errors.messages).to have_key :invited_state
-      expect(response.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
-    end
-    it 'cannot be just any string' do
-      response = FactoryBot.build(:response, invited_state: 'somestring')
-      expect(response.valid?).to be_falsey
-      expect(response.errors.messages).to have_key :invited_state
-      expect(response.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
-    end
-  end
-
-  describe 'invitation_token' do
-    it 'should destroy the invitation_token when destroying the response' do
-      response = FactoryBot.create(:response)
-      FactoryBot.create(:invitation_token, response: response)
-      expect(response.invitation_token).to be_a(InvitationToken)
-      invtokencountbefore = InvitationToken.count
-      response.destroy
-      expect(InvitationToken.count).to eq(invtokencountbefore - 1)
     end
   end
 

@@ -6,8 +6,10 @@ RSpec.describe QuestionnaireController, type: :controller do
   describe 'GET /' do
     it 'shows status 200 when everything is correct' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      invitation_set = FactoryBot.create(:invitation_set, person: protocol_subscription.person)
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago,
+                                      invitation_set: invitation_set)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: invitation_set)
       get :show, params: { q: invitation_token.token }
       expect(response).to have_http_status(200)
       expect(response).to render_template('questionnaire/show')

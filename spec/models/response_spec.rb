@@ -5,12 +5,12 @@ require 'rails_helper'
 describe Response do
   it 'should have valid default properties' do
     response = FactoryBot.build(:response)
-    expect(response.valid?).to be_truthy
+    expect(response).to be_valid
   end
 
   it 'should have valid default completed properties' do
     response = FactoryBot.build(:response, :completed)
-    expect(response.valid?).to be_truthy
+    expect(response).to be_valid
   end
 
   context 'scopes' do
@@ -54,6 +54,67 @@ describe Response do
         expect(described_class.recently_opened_and_not_sent.count).to eq 3
       end
     end
+
+    describe 'opened_and_not_expired' do
+      let(:protocol_subscription) do
+        FactoryBot.create(:protocol_subscription, start_date: 1.weeks.ago.at_beginning_of_day)
+      end
+
+      let(:measurement) do
+        FactoryBot.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
+      end
+
+      it 'should find a response that was opened 9 hours ago' do
+        resp = FactoryBot.create(:response, open_from: 3.hours.ago.in_time_zone,
+                                            measurement: measurement,
+                                            invited_state: described_class::SENT_STATE,
+                                            protocol_subscription: protocol_subscription)
+        expect(resp.protocol_subscription.ended?).to be_falsey
+        expect(resp.expired?).to be_falsey
+        expect(described_class.opened_and_not_expired.count).to eq 1
+      end
+
+      it 'should not find a response that is not open yet' do
+        FactoryBot.create(:response, open_from: 3.hours.from_now.in_time_zone,
+                                     measurement: measurement,
+                                     invited_state: described_class::SENT_STATE,
+                                     protocol_subscription: protocol_subscription)
+        expect(described_class.opened_and_not_expired.count).to eq 0
+      end
+
+      it 'should not find a response that is completed' do
+        FactoryBot.create(:response, :completed, open_from: 3.hours.from_now.in_time_zone,
+                                                 measurement: measurement,
+                                                 invited_state: described_class::SENT_STATE,
+                                                 protocol_subscription: protocol_subscription)
+        expect(described_class.opened_and_not_expired.count).to eq 0
+      end
+      it 'should be able to retrieve multiple responses' do
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, :completed,
+                          open_from: (described_class::REMINDER_DELAY + 50.minutes).ago.in_time_zone,
+                          measurement: measurement,
+                          protocol_subscription: protocol_subscription,
+                          invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
+                                     measurement: measurement,
+                                     protocol_subscription: protocol_subscription,
+                                     invited_state: described_class::SENT_STATE)
+        expect(described_class.opened_and_not_expired.count).to eq 3
+      end
+    end
+
     describe 'still_open_and_not_completed' do
       it 'should find a response that was opened 9 hours ago' do
         FactoryBot.create(:response, open_from: 9.hours.ago.in_time_zone,
@@ -227,6 +288,38 @@ describe Response do
     end
   end
 
+  describe 'uuid' do
+    it 'should not allow empty external identifiers' do
+      response = FactoryBot.build(:response)
+      response.uuid = nil
+      expect(response).to_not be_valid
+
+      response.uuid = ''
+      expect(response).to_not be_valid
+    end
+
+    it 'should create an uuid on initialization' do
+      response = FactoryBot.build(:response)
+      expect(response.uuid).to_not be_blank
+      expect(response.uuid.length).to eq 36
+    end
+
+    it 'should not allow non-unique identifiers' do
+      response = FactoryBot.create(:response)
+      response2 = FactoryBot.build(:response, uuid: response.uuid)
+      expect(response2).to_not be_valid
+      expect(response2.errors.messages).to have_key :uuid
+      expect(response2.errors.messages[:uuid]).to include('is al in gebruik')
+    end
+
+    it 'should not generate a new uuid if one is already present' do
+      uuid = SecureRandom.uuid
+      response = FactoryBot.create(:response, uuid: uuid)
+      response.reload
+      expect(response.uuid).to eq uuid
+    end
+  end
+
   describe 'values' do
     it 'should work when there is content' do
       response = FactoryBot.create(:response, :completed)
@@ -386,27 +479,30 @@ describe Response do
       expect(response.invitation_token).to be_nil
       response.initialize_invitation_token!
       expect(response.invitation_token).to_not be_nil
+      expect(response.invitation_token.token_plain).to_not be_nil
       expect(response.invitation_token.token).to_not be_nil
     end
     it 'should reuse the same token if one already exists' do
       FactoryBot.create(:invitation_token, response: response)
       expect(response.invitation_token).to_not be_nil
-      expect(response.invitation_token.token).to_not be_nil
-      current_token = response.invitation_token.token
+      expect(response.invitation_token.token_plain).to_not be_nil
+      current_token = response.invitation_token.token_plain
       response.initialize_invitation_token!
       expect(response.invitation_token).to_not be_nil
       expect(response.invitation_token.token).to_not be_nil
-      expect(response.invitation_token.token).to eq current_token
+      expect(response.invitation_token.token_plain).to_not be_nil
+      expect(response.invitation_token.token_plain).to eq current_token
     end
     it 'should update the created_at when reusing a token' do
       FactoryBot.create(:invitation_token, response: response, created_at: 3.days.ago)
       expect(response.invitation_token).to_not be_nil
       expect(response.invitation_token.created_at).to be_within(5.minutes).of(3.days.ago)
-      current_token = response.invitation_token.token
+      current_token = response.invitation_token.token_plain
       response.initialize_invitation_token!
       expect(response.invitation_token).to_not be_nil
       expect(response.invitation_token.token).to_not be_nil
-      expect(response.invitation_token.token).to eq current_token
+      expect(response.invitation_token.token_plain).to_not be_nil
+      expect(response.invitation_token.token_plain).to eq current_token
       expect(response.invitation_token.created_at).to be_within(5.minutes).of(Time.zone.now)
     end
   end
@@ -495,6 +591,31 @@ describe Response do
       response = FactoryBot.create(:response)
       expect(response.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(response.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'invitation_url' do
+    it 'should return the correct invitation_url for a response' do
+      response = FactoryBot.create(:response)
+      token = FactoryBot.create(:invitation_token, response: response)
+      pt_token = token.token_plain
+      expect(response.invitation_token.token_plain).to_not be_blank
+      result = response.invitation_url
+      expect(result).to match pt_token
+      expect(result).to_not match token.token_hash
+      expect(result).to match response.protocol_subscription.person.external_identifier
+      expect(result).to eq "#{ENV['HOST_URL']}"\
+        "?q=#{response.protocol_subscription.person.external_identifier}#{pt_token}"
+    end
+
+    it 'should raise if called for a previously stored token' do
+      response = FactoryBot.create(:response)
+      FactoryBot.create(:invitation_token, response: response)
+      response.reload
+      expect(response.invitation_token).to_not be_blank
+      expect(response.invitation_token.token_plain).to be_blank
+      expect { response.invitation_url }
+        .to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
     end
   end
 end

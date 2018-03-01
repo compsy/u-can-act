@@ -3,6 +3,7 @@
 class Response < ApplicationRecord
   RECENT_PAST = 2.hours
   REMINDER_DELAY = 8.hours
+
   NOT_SENT_STATE = 'not_sent'
   SENDING_STATE = 'sending'
   SENT_STATE = 'sent'
@@ -13,12 +14,21 @@ class Response < ApplicationRecord
   belongs_to :measurement
   validates :measurement_id, presence: true
   validates :open_from, presence: true
+  validates :uuid, presence: true, uniqueness: true
   validates :invited_state, inclusion: { in: [NOT_SENT_STATE,
                                               SENDING_STATE,
                                               SENT_STATE,
                                               SENDING_REMINDER_STATE,
                                               REMINDER_SENT_STATE] }
   has_one :invitation_token, dependent: :destroy # has one or none
+
+  after_initialize do |response|
+    next if response.uuid.present?
+    loop do
+      response.uuid = SecureRandom.uuid
+      break if Response.where(uuid: response.uuid).count.zero?
+    end
+  end
 
   scope :recently_opened_and_not_sent, (lambda {
     where(
@@ -28,6 +38,7 @@ class Response < ApplicationRecord
       not_sent: NOT_SENT_STATE
     )
   })
+
   scope :still_open_and_not_completed, (lambda {
     where(
       'open_from <= :time_now AND open_from > :recent_past AND invited_state = :sent and completed_at IS NULL',
@@ -36,6 +47,7 @@ class Response < ApplicationRecord
       sent: SENT_STATE
     )
   })
+
   scope :completed, (-> { where.not(completed_at: nil) })
   scope :invited, (lambda {
     where('invited_state=? OR invited_state=? OR invited_state=?',
@@ -48,6 +60,10 @@ class Response < ApplicationRecord
   scope :opened, (lambda {
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
   })
+
+  def self.opened_and_not_expired
+    opened.reject(&:expired?)
+  end
 
   scope :future, (lambda {
     where('open_from > :time_now', time_now: Time.zone.now)
@@ -102,9 +118,10 @@ class Response < ApplicationRecord
     # created_at is always when the object was last used. Also, if we don't first destroy the
     # invitation_token, then it will set a different token than what we're giving (since tokens have
     # to be unique).
-    token = invitation_token&.token
+    pre_token = invitation_token&.token_plain
     invitation_token&.destroy
-    create_invitation_token!(token: token)
+    create_invitation_token! token: pre_token
+    invitation_token.token_plain
   end
 
   def values
@@ -128,6 +145,13 @@ class Response < ApplicationRecord
     [student, mentor]
   end
 
+  def invitation_url(full = true)
+    raise 'Cannot generate invitation_url for historical invitation tokens!' if invitation_token.token_plain.blank?
+    concatenated_token = "#{protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+    return "?q=#{concatenated_token}" unless full
+    "#{ENV['HOST_URL']}?q=#{concatenated_token}"
+  end
+
   def substitute_variables(obj)
     student, mentor = determine_student_mentor
     subs_hash = {
@@ -140,8 +164,6 @@ class Response < ApplicationRecord
     }
     VariableEvaluator.evaluate_obj(obj, subs_hash)
   end
-
-  private
 
   def response_expired?
     measurement.open_duration.present? &&

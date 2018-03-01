@@ -162,8 +162,8 @@ RSpec.describe QuestionnaireController, type: :controller do
       responseobj = FactoryBot.create(:response)
       expect_any_instance_of(described_class).to receive(:verify_cookie)
       post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
-      expect(response).to have_http_status(404)
-      expect(response.body).to include('Deze vragenlijst kan niet meer ingevuld worden.')
+      expect(response).to have_http_status(302)
+      expect(response.location).to eq klaar_url
     end
 
     it 'shows status 200 when everything is correct' do

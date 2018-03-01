@@ -37,7 +37,7 @@ describe 'GET and POST /', type: :feature, js: true do
     end
 
     invitation_tokens.each do |inv_tok|
-      visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
+      visit inv_tok.response.invitation_url(false)
 
       # Check whether the correct redirect was performed
       expect(page).to_not have_current_path(questionnaire_path(uuid: inv_tok.response.uuid))

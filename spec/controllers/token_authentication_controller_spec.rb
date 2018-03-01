@@ -24,7 +24,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
         get :show, params: { q: identifier }
         expect(response).to have_http_status(404)
-        expect(response.body).to include('Deze vragenlijst kan niet meer ingevuld worden.')
+        expect(response.body).to include('Deze link is niet meer geldig.')
       end
     end
 

@@ -10,8 +10,8 @@ class AddFilledOutForToResponse < ActiveRecord::Migration[5.0]
       filled_out_for = response.protocol_subscription.filling_out_for
       filled_out_by = response.protocol_subscription.person
 
-      response.filled_out_for = filling_out_for
-      response.filled_out_by = filling_out_by
+      response.filled_out_for = filled_out_for
+      response.filled_out_by = filled_out_by
       response.save!
     end
     # Make sure we also update the students we already changed

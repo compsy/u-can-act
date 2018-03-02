@@ -27,8 +27,10 @@ class ProtocolSubscription < ApplicationRecord
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def transfer!(transfer_to)
+    raise('The person you transfer to should not be the same as the original person!') if transfer_to == person
     protocol_transfers << ProtocolTransfer.new(from: person, to: transfer_to, protocol_subscription_id: id)
-    self.person = person
+    self.filling_out_for = transfer_to if for_myself?
+    self.person = transfer_to
     save!
   end
 

@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :protocol_transfer do
-    from 1
-    to 1
-    protocol_subscription nil
+    from factory: :person
+    to factory: :person
+    protocol_subscription
   end
 end

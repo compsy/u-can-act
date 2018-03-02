@@ -8,5 +8,11 @@ class ProtocolTransfer < ApplicationRecord
   validates :protocol_subscription, presence: true
   validates :from, presence: true
   validates :to, presence: true
-  validates :from, numericality: { other_than: to.id }
+  validate :check_to_from_different
+
+  private
+
+  def check_to_from_different
+    errors.add(:from, 'mag niet hetzelfde zijn als to') if from == to
+  end
 end

@@ -179,6 +179,53 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'transfer!' do
+    let!(:original_mentor) { FactoryBot.create(:mentor, email: 'mentor1@gmail.com') }
+    let!(:new_mentor) { FactoryBot.create(:mentor, email: 'mentor2@gmail.com') }
+    let!(:protocol_subscription) { FactoryBot.create(:protocol_subscription, person: original_mentor) }
+
+    it 'it should create a new protocol transfer object with the correct properties' do
+      expect(protocol_subscription.protocol_transfers).to be_blank
+      protocol_subscription.transfer!(new_mentor)
+      expect(protocol_subscription.protocol_transfers).to_not be_blank
+      expect(protocol_subscription.protocol_transfers.length).to eq 1
+      transfer = protocol_subscription.protocol_transfers.first
+
+      expect(transfer.from).to eq original_mentor
+      expect(transfer.to).to eq new_mentor
+      expect(transfer.protocol_subscription).to eq protocol_subscription
+    end
+
+    it 'should transfer the protocol subscription to the provided transfer_to person' do
+      expect(protocol_subscription.person).to eq original_mentor
+      protocol_subscription.transfer!(new_mentor)
+      protocol_subscription.reload
+      expect(protocol_subscription.person).to_not eq original_mentor
+      expect(protocol_subscription.person).to eq new_mentor
+    end
+
+    it 'should raise if the person transfered to is the same as the original person' do
+      expect(protocol_subscription.person).to eq original_mentor
+      expect { protocol_subscription.transfer!(original_mentor) }
+        .to raise_error(RuntimeError,
+                        'The person you transfer to should not be the same as the original person!')
+      protocol_subscription.reload
+      expect(protocol_subscription.person).to eq original_mentor
+    end
+
+    it 'should also change the filling_out_for if this is the same as the person' do
+      protocol_subscription.filling_out_for = original_mentor
+      expect(protocol_subscription.person).to eq protocol_subscription.filling_out_for
+
+      protocol_subscription.transfer!(new_mentor)
+      protocol_subscription.reload
+      expect(protocol_subscription.person).to_not eq original_mentor
+      expect(protocol_subscription.filling_out_for).to_not eq original_mentor
+      expect(protocol_subscription.person).to eq new_mentor
+      expect(protocol_subscription.filling_out_for).to eq new_mentor
+    end
+  end
+
   describe 'active?' do
     it 'should be active when the state is active' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)

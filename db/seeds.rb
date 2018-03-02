@@ -42,8 +42,8 @@ if Rails.env.development?
     responseobj.update_attributes!(
       open_from: 1.minute.ago,
       invited_state: Response::SENT_STATE)
-    responseobj.initialize_invitation_token!
-    puts "mentor dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+    token = responseobj.initialize_invitation_token!
+    puts "mentor dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{token}"
   end
   protocol = Protocol.find_by_name('mentoren voormeting/nameting')
   person = Organization.first.roles.where(group: Person::MENTOR).first.people.first
@@ -57,14 +57,14 @@ if Rails.env.development?
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "mentor voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  token = responseobj.initialize_invitation_token!
+  puts "mentor voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{token}"
   responseobj = prot_sub.responses.last # nameting
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "mentor nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  token = responseobj.initialize_invitation_token!
+  puts "mentor nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{token}"
 
   # Student questionnaire seeds
   puts ''
@@ -78,20 +78,20 @@ if Rails.env.development?
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  token = responseobj.initialize_invitation_token!
+  puts "student voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
   responseobj = student.protocol_subscriptions.first.responses[10]
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  token = responseobj.initialize_invitation_token!
+  puts "student dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
   responseobj = student.protocol_subscriptions.first.responses.last
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  token = responseobj.initialize_invitation_token!
+  puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
 
   puts ''
   student = Organization.first.roles.where(group: Person::STUDENT).first.people.second
@@ -112,8 +112,8 @@ if Rails.env.development?
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
     invited_state: Response::SENT_STATE)
-  responseobj.initialize_invitation_token!
-  puts "student dagboek - Bijna in streak -: #{Rails.application.routes.url_helpers.root_url}?q=#{responseobj.invitation_token.token}"
+  token = responseobj.initialize_invitation_token!
+  puts "student dagboek - Bijna in streak -: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
 
 
 end

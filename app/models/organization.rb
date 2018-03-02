@@ -5,52 +5,41 @@ class Organization < ApplicationRecord
   has_many :people, dependent: :destroy
   has_many :roles, dependent: :destroy
 
-  DEFAULT_PERCENTAGE = 70
-
   def self.overview(week_number = nil, year = nil, threshold_percentage = nil)
     Organization.all.map do |organization|
-      organization_stats = organization.stats_for_organization(week_number, year, threshold_percentage)
+      organization_stats = organization.stats(week_number, year, threshold_percentage)
       { name: organization.name, data: organization_stats }
     end
   end
 
-  def stats_for_organization(week_number, year, threshold_percentage)
+  def stats(week_number, year, threshold_percentage)
     all_role_stats = Hash.new({})
     roles.each do |role|
-      new_stats_for_role = stats_for_role(role, week_number, year, threshold_percentage)
-      merged = all_role_stats[role.group].merge(new_stats_for_role) do |_key, val1, val2|
+      role_stats = role.stats(week_number, year, threshold_percentage)
+
+      # Note that we merge the stats based on the group of the role, not on the title.
+      merged = all_role_stats[role.group].merge(role_stats) do |_key, val1, val2|
         val1 + val2
       end
       all_role_stats[role.group] = merged
     end
-    all_role_stats
+    calculate_above_threshold_percentage(all_role_stats)
   end
 
   private
 
-  def stats_for_role(role, week_number, year, threshold_percentage)
-    role.people.each_with_object(Hash.new(0)) do |person, all_person_stats|
-      person_stats = stats_for_person(person, week_number, year, threshold_percentage)
-      all_person_stats[:completed] += person_stats[:completed]
-      all_person_stats[:total]     += person_stats[:total]
-      all_person_stats[:met_threshold_completion] += person_stats[:met_threshold_completion]
+  def calculate_above_threshold_percentage(role_stats)
+    role_stats.each_key do |group|
+      roles_for_group = roles.where(group: group)
+      perc = calculate_above_threshold_for_group(roles_for_group, role_stats[group])
+      role_stats[group][:percentage_above_threshold] = perc if perc.present?
     end
+    role_stats
   end
 
-  def stats_for_person(person, week_number, year, threshold_percentage)
-    person.protocol_subscriptions.each_with_object(Hash.new(0)) do |subscription, all_subscriptions|
-      past_week = subscription.responses.in_week(week_number: week_number, year: year)
-      all_subscriptions[:completed] += past_week.completed.count || 0
-      all_subscriptions[:total] += past_week.count || 0
-      all_subscriptions[:met_threshold_completion] += check_threshold(past_week, threshold_percentage)
-    end
-  end
-
-  def check_threshold(responses, threshold_percentage)
-    return 0 unless responses.count.positive?
-    threshold_percentage ||= DEFAULT_PERCENTAGE
-    threshold_percentage = threshold_percentage.to_i
-    actual_percentage = responses.completed.count.to_d / responses.count.to_d * 100
-    actual_percentage >= threshold_percentage ? 1 : 0
+  def calculate_above_threshold_for_group(roles_for_group, role_stats_for_group)
+    total_people = roles_for_group.reduce(0) { |tot, val| tot + val.people.count }
+    return 0 unless total_people.positive?
+    (role_stats_for_group[:met_threshold_completion].to_d / total_people.to_d * 100).round
   end
 end

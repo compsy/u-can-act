@@ -16,6 +16,9 @@ module Api
           end
 
           it 'should set the correct env vars if the response is available' do
+            allow(controller).to receive(:current_user)
+              .and_return(test_response.protocol_subscription.person)
+
             allow(CookieJar).to receive(:read_entry)
               .with(instance_of(ActionDispatch::Cookies::SignedCookieJar),
                     TokenAuthenticationController::RESPONSE_ID_COOKIE)
@@ -29,6 +32,9 @@ module Api
         end
         describe 'with cookie' do
           before :each do
+            allow(controller).to receive(:current_user)
+              .and_return(test_response.protocol_subscription.person)
+
             allow(CookieJar).to receive(:read_entry)
               .with(instance_of(ActionDispatch::Cookies::SignedCookieJar),
                     TokenAuthenticationController::RESPONSE_ID_COOKIE)

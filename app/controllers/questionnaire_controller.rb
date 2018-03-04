@@ -28,7 +28,10 @@ class QuestionnaireController < ApplicationController
 
   def create
     response_content = ResponseContent.create!(content: questionnaire_content)
-    @response.update_attributes!(content: response_content.id, completed_at: Time.zone.now)
+    @response.update_attributes!(content: response_content.id,
+                                 completed_at: Time.zone.now,
+                                 filled_out_by: @protocol_subscription.person,
+                                 filled_out_for: @protocol_subscription.filling_out_for)
     check_stop_subscription unless questionnaire_stop_subscription.blank?
     redirect_to_next_page
   end
@@ -78,8 +81,7 @@ class QuestionnaireController < ApplicationController
     check_response(the_response)
     return if performed?
     @response = the_response
-    @protocol_subscription = @response.protocol_subscription
-    @protocol = @protocol_subscription.protocol
+    set_protocol_and_subscription
   end
 
   def redirect_to_next_page
@@ -125,9 +127,12 @@ class QuestionnaireController < ApplicationController
     @response = Response.find_by_id(questionnaire_create_params[:response_id])
     check_response(@response)
     return if performed?
-
     # Now that we know the response can be filled out, update the cookies so the redirect works as expected.
     store_response_cookie
+    set_protocol_and_subscription
+  end
+
+  def set_protocol_and_subscription
     @protocol_subscription = @response.protocol_subscription
     @protocol = @protocol_subscription.protocol
   end

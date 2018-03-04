@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124221043) do
+ActiveRecord::Schema.define(version: 20180202093541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.integer  "response_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.string   "token_hash"
+    t.string   "token_hash",  null: false
     t.datetime "expires_at",  null: false
     t.index ["response_id"], name: "index_invitation_tokens_on_response_id", unique: true, using: :btree
   end
@@ -96,6 +96,17 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
   end
 
+  create_table "protocol_transfers", force: :cascade do |t|
+    t.integer  "from_id",                  null: false
+    t.integer  "to_id",                    null: false
+    t.integer  "protocol_subscription_id", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["from_id"], name: "index_protocol_transfers_on_from_id", using: :btree
+    t.index ["protocol_subscription_id"], name: "index_protocol_transfers_on_protocol_subscription_id", using: :btree
+    t.index ["to_id"], name: "index_protocol_transfers_on_to_id", using: :btree
+  end
+
   create_table "protocols", force: :cascade do |t|
     t.string   "name",                              null: false
     t.integer  "duration",                          null: false
@@ -126,8 +137,13 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
     t.string   "uuid",                     limit: 36,                      null: false
+    t.integer  "filled_out_for_id"
+    t.integer  "filled_out_by_id"
+    t.index ["filled_out_by_id"], name: "index_responses_on_filled_out_by_id", using: :btree
+    t.index ["filled_out_for_id"], name: "index_responses_on_filled_out_for_id", using: :btree
     t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
+    t.index ["uuid"], name: "index_responses_on_uuid", unique: true, using: :btree
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -155,8 +171,13 @@ ActiveRecord::Schema.define(version: 20180124221043) do
   add_foreign_key "measurements", "questionnaires"
   add_foreign_key "protocol_subscriptions", "people"
   add_foreign_key "protocol_subscriptions", "protocols"
+  add_foreign_key "protocol_transfers", "people", column: "from_id"
+  add_foreign_key "protocol_transfers", "people", column: "to_id"
+  add_foreign_key "protocol_transfers", "protocol_subscriptions"
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
   add_foreign_key "responses", "measurements"
+  add_foreign_key "responses", "people", column: "filled_out_by_id"
+  add_foreign_key "responses", "people", column: "filled_out_for_id"
   add_foreign_key "responses", "protocol_subscriptions"
   add_foreign_key "rewards", "protocols"
   add_foreign_key "roles", "organizations"

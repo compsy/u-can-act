@@ -11,6 +11,8 @@ class Response < ApplicationRecord
   REMINDER_SENT_STATE = 'reminder_sent'
   belongs_to :protocol_subscription
   validates :protocol_subscription_id, presence: true
+  belongs_to :filled_out_for, class_name: 'Person'
+  belongs_to :filled_out_by, class_name: 'Person'
   belongs_to :measurement
   validates :measurement_id, presence: true
   validates :open_from, presence: true

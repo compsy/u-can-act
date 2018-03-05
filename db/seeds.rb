@@ -4,7 +4,7 @@
 ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 
 # These seeds need to be loaded first, and in order.
-%[questionnaires protocols organizations].each do |seed_directory|
+%w[questionnaires protocols organizations].each do |seed_directory|
   Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '**', '*.rb')].each do |file|
     require file
   end
@@ -34,10 +34,10 @@ if Rails.env.development?
       start_date: Time.zone.now.beginning_of_week
     )
     responseobj = prot_sub.responses.first
-    responseobj.update_attributes!(open_from: 1.minute.ago)
-    # TODO: move to invitation_set THIS DOES NOT WORK RIGHT NOW
-    token = responseobj.initialize_invitation_token!
-    puts "mentor dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{token}"
+    invitation_set = InvitationSet.create!(person: person)
+    responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+    invitation_token = invitation_set.invitation_tokens.create!
+    puts "mentor dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{invitation_token.token_plain}"
   end
   protocol = Protocol.find_by_name('mentoren voormeting/nameting')
   person = Organization.first.roles.where(group: Person::MENTOR).first.people.first
@@ -48,15 +48,15 @@ if Rails.env.development?
     start_date: Time.zone.now.beginning_of_week
   )
   responseobj = prot_sub.responses.first # voormeting
-  responseobj.update_attributes!(open_from: 1.minute.ago)
-  # TODO: move to invitation_set THIS DOES NOT WORK RIGHT NOW
-  token = responseobj.initialize_invitation_token!
-  puts "mentor voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{token}"
+  invitation_set = InvitationSet.create!(person: person)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "mentor voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{invitation_token.token_plain}"
   responseobj = prot_sub.responses.last # nameting
-  responseobj.update_attributes!(open_from: 1.minute.ago)
-  # TODO: move to invitation_set THIS DOES NOT WORK RIGHT NOW
-  token = responseobj.initialize_invitation_token!
-  puts "mentor nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{token}"
+  invitation_set = InvitationSet.create!(person: person)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "mentor nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{invitation_token.token_plain}"
 
   # Student questionnaire seeds
   puts ''
@@ -67,20 +67,20 @@ if Rails.env.development?
     start_date: Time.zone.now.beginning_of_week
   )
   responseobj = student.protocol_subscriptions.first.responses.first
-  responseobj.update_attributes!(open_from: 1.minute.ago)
-  # TODO: move to invitation_set THIS DOES NOT WORK RIGHT NOW
-  token = responseobj.initialize_invitation_token!
-  puts "student voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
+  invitation_set = InvitationSet.create!(person: student)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "student voormeting: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{invitation_token.token_plain}"
   responseobj = student.protocol_subscriptions.first.responses[10]
-  responseobj.update_attributes!(open_from: 1.minute.ago)
-  # TODO: move to invitation_set THIS DOES NOT WORK RIGHT NOW
-  token = responseobj.initialize_invitation_token!
-  puts "student dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
+  invitation_set = InvitationSet.create!(person: student)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "student dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{invitation_token.token_plain}"
   responseobj = student.protocol_subscriptions.first.responses.last
-  responseobj.update_attributes!(open_from: 1.minute.ago)
-  # TODO: move to invitation_set THIS DOES NOT WORK RIGHT NOW
-  token = responseobj.initialize_invitation_token!
-  puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
+  invitation_set = InvitationSet.create!(person: student)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{invitation_token.token_plain}"
 
   puts ''
   student = Organization.first.roles.where(group: Person::STUDENT).first.people.second
@@ -96,10 +96,10 @@ if Rails.env.development?
       completed_at: 2.day.ago)
   end
   responseobj = responseobjs.fifth
-  responseobj.update_attributes!(open_from: 1.minute.ago)
-  # TODO: move to invitation_set THIS DOES NOT WORK RIGHT NOW
-  token = responseobj.initialize_invitation_token!
-  puts "student dagboek - Bijna in streak -: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
+  invitation_set = InvitationSet.create!(person: student)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "student dagboek - Bijna in streak -: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{invitation_token.token_plain}"
 
 
 end

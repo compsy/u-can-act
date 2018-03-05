@@ -89,19 +89,6 @@ class Response < ApplicationRecord
     ResponseContent.find(content) if content.present?
   end
 
-  # TODO: move to invitation_set
-  def initialize_invitation_token!
-    # If a token exists for this response, reuse that token (so the old SMS invite link still works
-    # when sending a reminder). But still recreate the invitation_token object, so we know that the
-    # created_at is always when the object was last used. Also, if we don't first destroy the
-    # invitation_token, then it will set a different token than what we're giving (since tokens have
-    # to be unique).
-    pre_token = invitation_token&.token_plain
-    invitation_token&.destroy
-    create_invitation_token! token: pre_token
-    invitation_token.token_plain
-  end
-
   def values
     remote_content&.content
   end

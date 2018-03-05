@@ -5,8 +5,6 @@ class SendInvitation < ActiveInteraction::Base
   object :response
 
   def execute
-    # TODO: move to invitation_set?!?!??!
-    response.initialize_invitation_token!
     person = response.protocol_subscription.person
 
     SendSms.run!(send_sms_attributes)

@@ -30,10 +30,12 @@ class InvitationToken < ApplicationRecord
     person = Person.find_by_external_identifier(identifier)
     return nil unless person
 
-    responses = person.protocol_subscriptions&.active&.map { |sub| sub.responses&.invited }.flatten
-    return nil if responses.blank?
+    person.invitation_sets.each do |invitation_set|
+      invitation_set.invitation_tokens.each do |invitation_token|
+        return invitation_token if invitation_token.token == token
+      end
+    end
 
-    responses.each { |resp| return resp.invitation_token if resp.invitation_token&.token == token }
     nil
   end
 
@@ -49,6 +51,10 @@ class InvitationToken < ApplicationRecord
 
   def expired?
     # If a response is still valid, it should always be possible to fill it out.
-    response.response_expired? && Time.zone.now > expires_at
+    return false if Time.zone.now <= expires_at
+    invitation_set.responses.each do |response|
+      return false unless response.response_expired?
+    end
+    true
   end
 end

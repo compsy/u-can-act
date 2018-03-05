@@ -193,9 +193,9 @@ class QuestionnaireGenerator
       safe_join([hours, minutes])
     end
 
-    def time_dropdown(question_id, from, to, step, label)
+    def time_dropdown(question_id, from_time, to_time, step, label)
       elem_id = idify(question_id, label)
-      options = generate_dropdown((from...to).step(step), elem_id)
+      options = generate_dropdown((from_time...to_time).step(step), elem_id)
       options = safe_join([
                             options,
                             content_tag(:label, label)

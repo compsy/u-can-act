@@ -8,11 +8,11 @@ class MessageBirdAdapter
     @test_mode = test_mode
   end
 
-  def send_text(from, to, body, reference: nil)
+  def send_text(from, recipient, body, reference: nil)
     if test_mode
-      self.class.deliveries << { client: client, from: from, to: to, body: body, reference: reference }
+      self.class.deliveries << { client: client, from: from, to: recipient, body: body, reference: reference }
     else
-      client.message_create(from, to, body, reference: reference)
+      client.message_create(from, recipient, body, reference: reference)
     end
   end
 

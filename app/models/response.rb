@@ -91,10 +91,10 @@ class Response < ApplicationRecord
   end
   # rubocop:enable Metrics/AbcSize
 
-  def self.between_dates(from, to)
+  def self.between_dates(from_date, to_date)
     where(
       'open_from <= :end_of_week AND open_from > :start_of_week',
-      start_of_week: from, end_of_week: to
+      start_of_week: from_date, end_of_week: to_date
     )
   end
 

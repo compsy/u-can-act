@@ -46,11 +46,9 @@ class ResponseExporter
           next if TEST_PHONE_NUMBERS.include?(response.protocol_subscription.person.mobile_phone)
           # Response has a .values function, which we are using here (i.e., it is not a hash from which we get the
           # values)
-          # rubocop:disable Performance/HashEachMethods
           response.values.each do |key, _value|
             headers[key] = ''
           end
-          # rubocop:enable Performance/HashEachMethods
         end
       end
       sort_and_add_default_header_fields(headers)

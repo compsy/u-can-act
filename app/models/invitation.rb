@@ -39,11 +39,6 @@ class Invitation < ApplicationRecord
   end
 
   def generate_message(plain_text_token)
-    "#{invitation_set.invitation_text} #{invitation_url(plain_text_token)}"
-  end
-
-  def invitation_url(plain_text_token)
-    # TODO: FIX ME
-    "#{ENV['HOST_URL']}/?q=#{plain_text_token}"
+    "#{invitation_set.invitation_text} #{invitation_set.invitation_url(plain_text_token)}"
   end
 end

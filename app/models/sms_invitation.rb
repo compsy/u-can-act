@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class SmsInvitation < Invitation
-  def send(_plain_text_token)
-    raise 'sending sms'
+  def send(plain_text_token)
+    SendSms.run!(send_sms_attributes(plain_text_token))
   end
 
   private
@@ -16,6 +16,6 @@ class SmsInvitation < Invitation
   end
 
   def generate_reference
-    "vsv-#{response.id}"
+    "vsv-#{invitation_set.id}"
   end
 end

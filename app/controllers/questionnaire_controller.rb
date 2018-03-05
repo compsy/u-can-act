@@ -63,7 +63,7 @@ class QuestionnaireController < ApplicationController
                      else
                        'Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!'
                      end
-    Rails.logger.error "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
+    Rails.logger.warn "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."
   end
 

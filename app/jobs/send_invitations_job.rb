@@ -14,9 +14,7 @@ class SendInvitationsJob < ApplicationJob
       break
     end
     return unless any_valid
-    # The actual expires_at is updated nightly:
-    # TODO: default expires_at 7days from now
-    invitation_token = InvitationToken.create!(invitation_set: invitation_set, expires_at: 7.days.from_now)
+    invitation_token = invitation_set.invitation_tokens.create!
     plain_text_token = invitation_token.token
     invitation_set.update_attributes!(invitation_text: invitation_text)
     invitation_set.invitations.each do |invitation|

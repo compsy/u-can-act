@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SendInvitation do
+describe SendInvitationsJob do
   let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, start_date: Time.zone.now.beginning_of_day) }
   let(:response) do
     FactoryBot.create(:response,

@@ -1,6 +1,7 @@
 class CreateInvitations < ActiveRecord::Migration[5.0]
   def change
     create_table :invitations do |t|
+      t.references :invitation_set, index: true, foreign_key: true, null: false
       t.string :type, null: false
       t.string :invited_state, null: false, default: 'not_sent'
 

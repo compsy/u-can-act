@@ -6,6 +6,7 @@ class CreateInvitationSets < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_column :responses, :invitation_set_id, :integer, foreign_key: true, null: true
+    add_reference :responses, :invitation_set
+    add_foreign_key :responses, :invitation_sets, column: :invitation_set_id
   end
 end

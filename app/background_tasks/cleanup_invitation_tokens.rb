@@ -18,7 +18,7 @@ class CleanupInvitationTokens
       if expires_at > Time.zone.now
         invitation_token.expires_at = expires_at
         invitation_token.save!
-        next
+        return
       end
       invitation_token.destroy
     end

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Response < ApplicationRecord
+  # Keep the RECENT_PAST check at 2 hours. Resolve the voormeting problem by updating
+  # the open_duration of the voormeting measurement of the student and mentor protocol
+  # to be nil.
   RECENT_PAST = 2.hours
   belongs_to :protocol_subscription
   validates :protocol_subscription_id, presence: true

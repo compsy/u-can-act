@@ -5,18 +5,24 @@ require 'rails_helper'
 describe SendInvitations do
   describe 'run' do
     it 'should call the recently_opened_and_not_sent scope' do
-      expect(Response).to receive(:recently_opened_and_not_sent).and_return []
+      expect(Response).to receive(:recently_opened_and_not_invited).and_return []
       described_class.run
     end
 
     describe 'loops through responses' do
-      it 'should queue recent responses' do
+      it 'should queue recent responses', focus: true do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         response = FactoryBot.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
-        expect(SendInvitationJob).to receive(:perform_later).with(response).and_return true
+        expect(SendInvitationsJob).to receive(:perform_later).and_return true
+        expect(response.invitation_set_id).to be_nil
+        invitationscount = Invitation.count
+        invitationsetscount = InvitationSet.count
         described_class.run
         response.reload
-        expect(response.invited_state).to eq(Response::SENDING_STATE)
+        expect(Invitation.count).to eq(invitationscount + 2) # email and sms
+        expect(InvitationSet.count). to eq(invitationsetscount + 1)
+        expect(response.invitation_set_id).to_not be_nil
+        expect(response.invitation_set_id).to eq InvitationSet.first.id
       end
 
       it 'should not queue a response that is expired' do

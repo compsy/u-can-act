@@ -7,7 +7,7 @@ class SmsInvitation < Invitation
 
   private
 
-  def send_sms_attributes
+  def send_sms_attributes(plain_text_token)
     {
       number: invitation_set.person.mobile_phone,
       text: generate_message(plain_text_token),

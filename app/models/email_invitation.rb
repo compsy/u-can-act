@@ -13,10 +13,9 @@ class EmailInvitation < Invitation
   end
 
   def send_email(plain_text_token)
-    # TODO: check if generate_message should have the url included
     mailer = InvitationMailer.invitation_mail(invitation_set.person.email,
-                                              generate_message(plain_text_token),
-                                              invitation_url(plain_text_token))
+                                              invitation_set.invitation_text,
+                                              invitation_set.invitation_url(plain_text_token))
     mailer.deliver_now
   end
 end

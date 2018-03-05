@@ -10,7 +10,7 @@ describe SendInvitations do
     end
 
     describe 'loops through responses' do
-      it 'should queue recent responses', focus: true do
+      it 'should queue recent responses' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         response = FactoryBot.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
         expect(SendInvitationsJob).to receive(:perform_later).and_return true

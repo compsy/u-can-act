@@ -18,12 +18,21 @@ class ProtocolSubscription < ApplicationRecord
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
   after_initialize :initialize_end_date
+  has_many :protocol_transfers
 
   validates_uniqueness_of :filling_out_for_id,
                           scope: %i[person_id state],
                           conditions: -> { where(state: ACTIVE_STATE) },
                           if: ->(sub) { sub.person_id != sub.filling_out_for_id }
   scope :active, (-> { where(state: ACTIVE_STATE) })
+
+  def transfer!(transfer_to)
+    raise('The person you transfer to should not be the same as the original person!') if transfer_to == person
+    protocol_transfers << ProtocolTransfer.new(from: person, to: transfer_to, protocol_subscription_id: id)
+    self.filling_out_for = transfer_to if for_myself?
+    self.person = transfer_to
+    save!
+  end
 
   def active?
     state == ACTIVE_STATE

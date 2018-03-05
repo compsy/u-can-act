@@ -4,6 +4,8 @@ class Response < ApplicationRecord
   RECENT_PAST = 2.hours
   belongs_to :protocol_subscription
   validates :protocol_subscription_id, presence: true
+  belongs_to :filled_out_for, class_name: 'Person'
+  belongs_to :filled_out_by, class_name: 'Person'
   belongs_to :measurement
   validates :measurement_id, presence: true
   belongs_to :invitation_set
@@ -28,10 +30,7 @@ class Response < ApplicationRecord
   })
   scope :completed, (-> { where.not(completed_at: nil) })
   scope :invited, (lambda {
-    where('invited_state=? OR invited_state=? OR invited_state=?',
-          SENT_STATE,
-          SENDING_REMINDER_STATE,
-          REMINDER_SENT_STATE)
+    where('invitation_set_id IS NOT NULL')
   })
 
   # De expired check hiervoor staat in de view:
@@ -67,10 +66,10 @@ class Response < ApplicationRecord
   end
   # rubocop:enable Metrics/AbcSize
 
-  def self.between_dates(from, to)
+  def self.between_dates(from_date, to_date)
     where(
       'open_from <= :end_of_week AND open_from > :start_of_week',
-      start_of_week: from, end_of_week: to
+      start_of_week: from_date, end_of_week: to_date
     )
   end
 

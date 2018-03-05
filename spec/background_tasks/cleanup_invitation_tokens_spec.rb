@@ -35,8 +35,8 @@ describe CleanupInvitationTokens do
       FactoryBot.create(:invitation_token, invitation_set: invitation_set)
       described_class.run
       expect(InvitationToken.count).to eq 1
-      expect(InvitationToken.first.expires_at).to be_within(1.minute).
-        of(TimeTools.increase_by_duration(Time.zone.now, 10.days - 1.hour))
+      expect(InvitationToken.first.expires_at).to be_within(1.minute)
+        .of(TimeTools.increase_by_duration(Time.zone.now, 10.days - 1.hour))
     end
     it 'should set the expiry to 7 days from now if the response expire time is less than that' do
       measurement = FactoryBot.create(:measurement, open_duration: 6.days)
@@ -47,8 +47,8 @@ describe CleanupInvitationTokens do
       FactoryBot.create(:invitation_token, invitation_set: invitation_set)
       described_class.run
       expect(InvitationToken.count).to eq 1
-      expect(InvitationToken.first.expires_at).to be_within(1.minute).
-        of(TimeTools.increase_by_duration(Time.zone.now, 7.days))
+      expect(InvitationToken.first.expires_at).to be_within(1.minute)
+        .of(TimeTools.increase_by_duration(Time.zone.now, 7.days))
     end
   end
 end

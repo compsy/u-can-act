@@ -7,20 +7,16 @@ class SendInvitationsJob < ApplicationJob
     any_valid = false
     invitation_text = ''
     invitation_set.reload
-    invitation_set.responses.opened.each do |response|
-      next if response.expired?
+    invitation_set.responses.opened_and_not_expired.each do |response|
       invitation_text = random_message(response)
       any_valid = true
       break
     end
     return unless any_valid
     invitation_token = invitation_set.invitation_tokens.create!
-    plain_text_token = invitation_token.token
+    plain_text_token = invitation_token.token_plain
     invitation_set.update_attributes!(invitation_text: invitation_text)
-    invitation_set.invitations.each do |invitation|
-      invitation.sending!
-      SendInvitationJob.perform_later(invitation, plain_text_token)
-    end
+    send_invitations(invitation_set, plain_text_token)
   end
 
   def max_attempts
@@ -32,6 +28,13 @@ class SendInvitationsJob < ApplicationJob
   end
 
   private
+
+  def send_invitations(invitation_set, plain_text_token)
+    invitation_set.invitations.each do |invitation|
+      invitation.sending!
+      SendInvitationJob.perform_later(invitation, plain_text_token)
+    end
+  end
 
   def random_message(response)
     if response.protocol_subscription.person.mentor?

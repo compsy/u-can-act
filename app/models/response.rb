@@ -97,6 +97,14 @@ class Response < ApplicationRecord
     response_expired? || protocol_subscription.ended?
   end
 
+  def expires_at
+    if measurement.open_duration.present?
+      TimeTools.increase_by_duration(open_from, measurement.open_duration)
+    else
+      protocol_subscription.end_date
+    end
+  end
+
   def determine_student_mentor
     student = nil
     mentor = nil

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SmsInvitation < Invitation
-  def send(plain_text_token)
+  def send_invite(plain_text_token)
     SendSms.run!(send_sms_attributes(plain_text_token))
   end
 

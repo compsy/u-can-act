@@ -3,6 +3,7 @@
 FactoryBot.define do
   sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
   factory :person do
+    # TODO: initialize_with { new(attributes) } ?
     role
     gender Person::MALE
     mobile_phone

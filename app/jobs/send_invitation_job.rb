@@ -5,8 +5,8 @@ class SendInvitationJob < ApplicationJob
 
   def perform(invitation, plain_text_token)
     invitation.reload
-    # create message here
-    invitation.send(plain_text_token)
+    invitation.send_invite(plain_text_token)
+    invitation.sent!
   end
 
   def max_attempts

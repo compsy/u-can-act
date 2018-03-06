@@ -21,17 +21,23 @@ class SendInvitations
       queue_invitation_sets(response_sets)
     end
 
+    private
+
     def queue_invitation_sets(response_sets)
       response_sets.each do |person_id, responses|
         invitation_set = InvitationSet.create!(person_id: person_id)
         responses.each do |response|
           response.update_attributes!(invitation_set_id: invitation_set.id)
         end
-        invitation_set.invitations.create!(type: 'EmailInvitation')
-        invitation_set.invitations.create!(type: 'SmsInvitation')
+        create_invitations(invitation_set)
         SendInvitationsJob.perform_later invitation_set
         SendInvitationsJob.set(wait: REMINDER_DELAY).perform_later invitation_set
       end
+    end
+
+    def create_invitations(invitation_set)
+      invitation_set.invitations.create!(type: 'EmailInvitation') unless invitation_set.person&.email.blank?
+      invitation_set.invitations.create!(type: 'SmsInvitation')
     end
   end
 end

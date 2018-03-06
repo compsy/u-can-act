@@ -14,7 +14,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                   start_date: 1.week.ago.at_beginning_of_day,
                                                   person: student)
         responseobj = FactoryBot.create(:response,
-                                        :invite_sent,
+                                        :invited,
                                         protocol_subscription: protocol_subscription,
                                         open_from: 1.hour.ago)
         get :index
@@ -30,7 +30,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                   person: student)
         FactoryBot.create(:response,
                           :completed,
-                          :invite_sent,
+                          :invited,
                           protocol_subscription: protocol_subscription,
                           open_from: 1.hour.ago)
         get :index
@@ -44,8 +44,8 @@ RSpec.describe QuestionnaireController, type: :controller do
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   start_date: 1.week.ago.at_beginning_of_day,
                                                   person: mentor)
-        responseobj = FactoryBot.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
-                                                                 open_from: 1.hour.ago)
+        responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
+                                                             open_from: 1.hour.ago)
         get :index
         expect(response).to have_http_status(302)
         expect(response.location).to_not eq(mentor_overview_index_url)

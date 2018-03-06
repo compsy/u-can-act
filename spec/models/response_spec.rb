@@ -450,11 +450,11 @@ describe Response do
 
   describe 'invitation_url' do
     it 'should return the correct invitation_url for a response' do
-      response = FactoryBot.create(:response)
-      token = FactoryBot.create(:invitation_token, response: response)
+      response = FactoryBot.create(:response, :invited)
+      token = FactoryBot.create(:invitation_token, invitation_set: response.invitation_set)
       pt_token = token.token_plain
       expect(response.invitation_token.token_plain).to_not be_blank
-      result = response.invitation_url
+      result = response.invitation_set.invitation_url(pt_token)
       expect(result).to match pt_token
       expect(result).to_not match token.token_hash
       expect(result).to match response.protocol_subscription.person.external_identifier
@@ -463,12 +463,12 @@ describe Response do
     end
 
     it 'should raise if called for a previously stored token' do
-      response = FactoryBot.create(:response)
-      FactoryBot.create(:invitation_token, response: response)
+      response = FactoryBot.create(:response, :invited)
+      FactoryBot.create(:invitation_token, invitation_set: response.invitation_set)
       response.reload
       expect(response.invitation_token).to_not be_blank
       expect(response.invitation_token.token_plain).to be_blank
-      expect { response.invitation_url }
+      expect { response.invitation_set.invitation_url(response.invitation_token.token_plain) }
         .to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
     end
   end

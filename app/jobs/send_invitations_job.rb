@@ -15,7 +15,7 @@ class SendInvitationsJob < ApplicationJob
     return unless any_valid
     invitation_token = invitation_set.invitation_tokens.create!
     plain_text_token = invitation_token.token_plain
-    invitation_set.update_attributes!(invitation_text: invitation_text)
+    invitation_set.update_attributes!(invitation_text: invitation_text) if invitation_set.invitation_text.blank?
     send_invitations(invitation_set, plain_text_token)
   end
 

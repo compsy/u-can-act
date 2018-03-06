@@ -18,8 +18,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       end
 
       it 'should require a q parameter that is not expired' do
-        responseobj = FactoryBot.create(:response, :invite_sent)
-        invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+        responseobj = FactoryBot.create(:response, :invited)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
         expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
         get :show, params: { q: identifier }
@@ -33,9 +33,9 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
                                                 person: person)
-      responseobj = FactoryBot.create(:response, :invite_sent, protocol_subscription: protocol_subscription,
-                                                               open_from: 1.hour.ago)
-      invitation_token = FactoryBot.create(:invitation_token, response: responseobj)
+      responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
+                                                           open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
       get :show, params: { q: identifier }
       expect(response).to have_http_status(302)
@@ -53,11 +53,11 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       end
       let(:responseobj) do
         FactoryBot.create(:response,
-                          :invite_sent,
+                          :invited,
                           protocol_subscription: protocol_subscription,
                           open_from: 1.hour.ago)
       end
-      let(:invitation_token) { FactoryBot.create(:invitation_token, response: responseobj) }
+      let(:invitation_token) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
 
       it 'should set the response id cookie' do
         expected = { person_id: person.external_identifier.to_s }

@@ -24,7 +24,8 @@ class CleanupInvitationTokens
     end
 
     def calculate_expires_at(invitation_token)
-      expires_at = [Time.zone.now, TimeTools.increase_by_duration(invitation_token.created_at, 7.days)].max
+      expires_at = [Time.zone.now, TimeTools.increase_by_duration(invitation_token.created_at,
+                                                                  InvitationToken::OPEN_TIME_FOR_INVITATION)].max
       invitation_token.invitation_set.responses.each do |response|
         next if response.completed?
         expires_at = [expires_at, response.expires_at].max

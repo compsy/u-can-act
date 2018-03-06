@@ -34,8 +34,8 @@ class Invitation < ApplicationRecord
     update_attributes!(invited_state: new_invited_state)
   end
 
-  def send(_plain_text_token)
-    raise 'send(...) method not implemented by subclass'
+  def send_invite(_plain_text_token)
+    raise 'send_invite(...) method not implemented by subclass'
   end
 
   def generate_message(plain_text_token)

@@ -2,6 +2,7 @@
 
 require 'csv'
 
+# TODO: make an invitation_set exporter
 class ResponseExporter
   extend Exporters
   class << self
@@ -67,7 +68,7 @@ class ResponseExporter
         'person_id' => calculate_hash(response.protocol_subscription.person.id),
         'protocol_subscription_id' => response.protocol_subscription.id,
         'measurement_id' => response.measurement.id,
-        'invited_state' => response.invited_state # TODO: fix me
+        'invitation_set_id' => response.invitation_set_id
       }
       hsh.merge!(response_hash_time_fields(response, %w[open_from opened_at completed_at created_at updated_at]))
     end

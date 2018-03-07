@@ -74,7 +74,7 @@ describe Role, type: :model do
 
   it 'should be able to retrieve an team' do
     role = FactoryBot.create(:role)
-    expect(role.team).to be_a(team)
+    expect(role.team).to be_a Team
   end
 
   describe 'stats' do

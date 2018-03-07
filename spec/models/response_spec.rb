@@ -27,12 +27,8 @@ describe Response do
         FactoryBot.create(:response, open_from: 1.hour.from_now.in_time_zone)
         expect(described_class.recently_opened_and_not_invited.count).to eq 0
       end
-      it 'should not find a response that is sending' do
-        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
-        expect(described_class.recently_opened_and_not_invited.count).to eq 0
-      end
-      it 'should not find a response that is sent' do
-        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
+      it 'should not find a response that was invited' do
+        FactoryBot.create(:response, :invited, open_from: 1.hour.ago.in_time_zone)
         expect(described_class.recently_opened_and_not_invited.count).to eq 0
       end
       it 'should be able to retrieve multiple responses' do
@@ -54,10 +50,10 @@ describe Response do
       end
 
       it 'should find a response that was opened 9 hours ago' do
-        resp = FactoryBot.create(:response, open_from: 3.hours.ago.in_time_zone,
-                                            measurement: measurement,
-                                            invited_state: described_class::SENT_STATE,
-                                            protocol_subscription: protocol_subscription)
+        resp = FactoryBot.create(:response, :invited,
+                                 open_from: 3.hours.ago.in_time_zone,
+                                 measurement: measurement,
+                                 protocol_subscription: protocol_subscription)
         expect(resp.protocol_subscription.ended?).to be_falsey
         expect(resp.expired?).to be_falsey
         expect(described_class.opened_and_not_expired.count).to eq 1
@@ -66,7 +62,6 @@ describe Response do
       it 'should not find a response that is not open yet' do
         FactoryBot.create(:response, open_from: 3.hours.from_now.in_time_zone,
                                      measurement: measurement,
-                                     invited_state: described_class::SENT_STATE,
                                      protocol_subscription: protocol_subscription)
         expect(described_class.opened_and_not_expired.count).to eq 0
       end
@@ -74,32 +69,29 @@ describe Response do
       it 'should not find a response that is completed' do
         FactoryBot.create(:response, :completed, open_from: 3.hours.from_now.in_time_zone,
                                                  measurement: measurement,
-                                                 invited_state: described_class::SENT_STATE,
                                                  protocol_subscription: protocol_subscription)
         expect(described_class.opened_and_not_expired.count).to eq 0
       end
       it 'should be able to retrieve multiple responses' do
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
-                                     measurement: measurement,
-                                     protocol_subscription: protocol_subscription,
-                                     invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
-                                     measurement: measurement,
-                                     protocol_subscription: protocol_subscription,
-                                     invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, :completed,
-                          open_from: (described_class::REMINDER_DELAY + 50.minutes).ago.in_time_zone,
+        FactoryBot.create(:response, :invited,
+                          open_from: (SendInvitations::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
                           measurement: measurement,
-                          protocol_subscription: protocol_subscription,
-                          invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
+                          protocol_subscription: protocol_subscription)
+        FactoryBot.create(:response, :invited,
+                          open_from: (SendInvitations::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
+                          measurement: measurement,
+                          protocol_subscription: protocol_subscription)
+        FactoryBot.create(:response, :completed,
+                          open_from: (SendInvitations::REMINDER_DELAY + 50.minutes).ago.in_time_zone,
+                          measurement: measurement,
+                          protocol_subscription: protocol_subscription)
+        FactoryBot.create(:response, :invited,
+                          open_from: (SendInvitations::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
+                          measurement: measurement,
+                          protocol_subscription: protocol_subscription)
+        FactoryBot.create(:response, open_from: (SendInvitations::REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
                                      measurement: measurement,
-                                     protocol_subscription: protocol_subscription,
-                                     invited_state: described_class::SENT_STATE)
-        FactoryBot.create(:response, open_from: (described_class::REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
-                                     measurement: measurement,
-                                     protocol_subscription: protocol_subscription,
-                                     invited_state: described_class::SENT_STATE)
+                                     protocol_subscription: protocol_subscription)
         expect(described_class.opened_and_not_expired.count).to eq 3
       end
     end
@@ -119,16 +111,13 @@ describe Response do
       it 'should return responses with a invites that dont have the not_send_state' do
         responses = []
         responses << FactoryBot.create(:response, :completed)
-        responses << FactoryBot.create(:response, invited_state: described_class::SENT_STATE)
-        responses << FactoryBot.create(:response, invited_state: described_class::REMINDER_SENT_STATE)
-        responses << FactoryBot.create(:response, invited_state: described_class::SENDING_REMINDER_STATE)
+        responses << FactoryBot.create(:response, :invited)
 
         expect(Response.invited.count).to eq responses.length
         expect(Response.invited.to_a).to eq responses
       end
       it 'should not return responses for which no invite was sent' do
-        responses = FactoryBot.create_list(:response, 10, invited_state: described_class::NOT_SENT_STATE)
-        responses << FactoryBot.create(:response, invited_state: described_class::SENDING_STATE)
+        responses = FactoryBot.create_list(:response, 10)
         expect(Response.all.length).to eq(responses.length)
         expect(Response.invited.count).to eq 0
         expect(Response.invited.to_a).to eq []
@@ -154,14 +143,11 @@ describe Response do
 
     describe 'in_week' do
       it 'should find all responses in the current week and year by default' do
-        expected_response = FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone,
-                                                         invited_state: described_class::NOT_SENT_STATE)
+        expected_response = FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
 
-        FactoryBot.create(:response, open_from: 2.weeks.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
+        FactoryBot.create(:response, open_from: 2.weeks.ago.in_time_zone)
 
-        FactoryBot.create(:response, open_from: 1.week.from_now.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
+        FactoryBot.create(:response, open_from: 1.week.from_now.in_time_zone)
         result = described_class.in_week
         expect(result.count).to eq 1
         expect(result.first).to eq expected_response
@@ -169,17 +155,13 @@ describe Response do
       it 'should find all responses for a given year' do
         Timecop.freeze(2017, 12, 0o6)
         date = Time.zone.now - 2.years
-        expected_response = FactoryBot.create(:response, open_from: date,
-                                                         invited_state: described_class::NOT_SENT_STATE)
+        expected_response = FactoryBot.create(:response, open_from: date)
 
-        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
+        FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
 
-        FactoryBot.create(:response, open_from: 1.weeks.ago.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
+        FactoryBot.create(:response, open_from: 1.weeks.ago.in_time_zone)
 
-        FactoryBot.create(:response, open_from: 1.week.from_now.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
+        FactoryBot.create(:response, open_from: 1.week.from_now.in_time_zone)
         result = described_class.in_week(year: 2015)
         expect(result.first).to eq expected_response
         expect(result.count).to eq 1
@@ -188,11 +170,9 @@ describe Response do
       it 'should find all responses for a given week of the year' do
         week_number = 20
         date = Date.commercial(Time.zone.now.year, week_number, 1).in_time_zone + 3.days
-        expected_response = FactoryBot.create(:response, open_from: date,
-                                                         invited_state: described_class::NOT_SENT_STATE)
+        expected_response = FactoryBot.create(:response, open_from: date)
 
-        FactoryBot.create(:response, open_from: 1.week.from_now.in_time_zone,
-                                     invited_state: described_class::NOT_SENT_STATE)
+        FactoryBot.create(:response, open_from: 1.week.from_now.in_time_zone)
 
         result = described_class.in_week(week_number: week_number)
         expect(result.count).to eq 1
@@ -453,7 +433,10 @@ describe Response do
       response = FactoryBot.create(:response, :invited)
       token = FactoryBot.create(:invitation_token, invitation_set: response.invitation_set)
       pt_token = token.token_plain
-      expect(response.invitation_token.token_plain).to_not be_blank
+      expect(pt_token).to_not be_blank
+      expect(response.invitation_set.invitation_tokens.first.token_plain).to be_blank
+      response.reload
+      expect(response.invitation_set.invitation_tokens.first.token_plain).to be_blank
       result = response.invitation_set.invitation_url(pt_token)
       expect(result).to match pt_token
       expect(result).to_not match token.token_hash
@@ -466,9 +449,9 @@ describe Response do
       response = FactoryBot.create(:response, :invited)
       FactoryBot.create(:invitation_token, invitation_set: response.invitation_set)
       response.reload
-      expect(response.invitation_token).to_not be_blank
-      expect(response.invitation_token.token_plain).to be_blank
-      expect { response.invitation_set.invitation_url(response.invitation_token.token_plain) }
+      expect(response.invitation_set.invitation_tokens.first).to_not be_blank
+      expect(response.invitation_set.invitation_tokens.first.token_plain).to be_blank
+      expect { response.invitation_set.invitation_url(response.invitation_set.invitation_tokens.first.token_plain) }
         .to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
     end
   end

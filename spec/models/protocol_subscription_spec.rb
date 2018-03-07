@@ -447,7 +447,7 @@ describe ProtocolSubscription do
       FactoryBot.create_list(:response, 10, :completed, protocol_subscription: protocol_subscription)
       # also add some noncompleted responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 11, :invite_sent, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: protocol_subscription)
       expect(protocol_subscription.reward_points).to eq 10
     end
   end
@@ -455,7 +455,7 @@ describe ProtocolSubscription do
   describe 'possible_reward_points' do
     it 'should accumulate the reward points for all completed responses' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: protocol_subscription)
       # also add some noninvited responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
       expect(protocol_subscription.possible_reward_points).to eq 10
@@ -463,8 +463,7 @@ describe ProtocolSubscription do
 
     it 'should also accumulate the reward points for all not completed responses' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 10, :reminder_sent, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 20, :invited, protocol_subscription: protocol_subscription)
       #
       # also add some noninvited responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)

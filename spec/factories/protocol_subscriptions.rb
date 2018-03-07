@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :protocol_subscription do
+    # TODO: try removing?
     initialize_with { new(attributes) }
     person
     protocol

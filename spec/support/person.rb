@@ -201,7 +201,7 @@ shared_examples_for 'a person object' do
       FactoryBot.create_list(:response, 5, :completed, protocol_subscription: person.protocol_subscriptions.second)
       # also add some noncompleted responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      FactoryBot.create_list(:response, 11, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: person.protocol_subscriptions.first)
       expect(person.reward_points).to eq 15
     end
   end
@@ -210,8 +210,8 @@ shared_examples_for 'a person object' do
     it 'should accumulate the reward points for all completed responses' do
       person = FactoryBot.create(:person, :with_protocol_subscriptions)
       FactoryBot.create(:protocol_subscription, person: person)
-      FactoryBot.create_list(:response, 10, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
-      FactoryBot.create_list(:response, 5, :invite_sent, protocol_subscription: person.protocol_subscriptions.second)
+      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryBot.create_list(:response, 5, :invited, protocol_subscription: person.protocol_subscriptions.second)
       # also add some noninvited responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
       expect(person.possible_reward_points).to eq 15

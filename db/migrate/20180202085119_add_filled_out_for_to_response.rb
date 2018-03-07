@@ -1,11 +1,13 @@
 class AddFilledOutForToResponse < ActiveRecord::Migration[5.0]
   def change
-    add_reference :responses, :filled_out_for, references: :people 
-    add_foreign_key :responses, :people, column: :filled_out_for_id  
+    add_reference :responses, :filled_out_for, references: :people
+    add_foreign_key :responses, :people, column: :filled_out_for_id
 
-    add_reference :responses, :filled_out_by, references: :people 
-    add_foreign_key :responses, :people, column: :filled_out_by_id  
+    add_reference :responses, :filled_out_by, references: :people
+    add_foreign_key :responses, :people, column: :filled_out_by_id
 
+    # TODO: deze migratie moet al gedraaid zijn anders doet het niks
+    # TODO: omdat in een latere pas invitation_sets worden aangemaakt voor de responses
     Response.invited do |response|
       filled_out_for = response.protocol_subscription.filling_out_for
       filled_out_by = response.protocol_subscription.person

@@ -12,7 +12,7 @@ require 'capybara/rspec'
 require 'selenium/webdriver'
 # require 'capybara-screenshot/rspec' # TODO: reenable?
 Selenium::WebDriver::Chrome.driver_path = '/usr/local/bin/chromedriver' if Selenium::WebDriver::Platform.mac? &&
-  File.exist?('/usr/local/bin/chromedriver')
+                                                                           File.exist?('/usr/local/bin/chromedriver')
 
 # Start coverage report on CircleCI
 if ENV['CI']

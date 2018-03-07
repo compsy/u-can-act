@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :response do
-    # TODO: initialize_with { new(attributes) } ?
     protocol_subscription
     measurement
     open_from Time.new(2017, 4, 10, 9, 0, 0).in_time_zone
@@ -20,9 +19,6 @@ FactoryBot.define do
         FactoryBot.create(:invitation_set, responses: [response], person_id: response.protocol_subscription.person_id)
       end
     end
-    # trait :reminder_sent do
-    #  invited_state Response::REMINDER_SENT_STATE
-    # end
     trait :periodical do
       after(:create) do |response|
         FactoryBot.create(:measurement, responses: [response], period: 1)

@@ -14,7 +14,7 @@ describe InvitationToken do
       expect(invitation_token.expires_at).to_not be_nil
     end
 
-    it 'should initialize with the correct OPEN_FROM_INVITATINO' do
+    it 'should initialize with the correct OPEN_FROM_INVITATION' do
       date = Time.new(2017, 11, 0o2, 0, 0)
       Timecop.freeze(date)
       invitation_token = FactoryBot.create(:invitation_token)
@@ -27,11 +27,11 @@ describe InvitationToken do
   describe 'test_identifier_token_combination' do
     let(:other_person) { FactoryBot.create(:person) }
 
-    let(:response) { FactoryBot.create(:response, :invite_sent) }
-    let(:token) { FactoryBot.create(:invitation_token, response: response) }
+    let(:response) { FactoryBot.create(:response, :invited) }
+    let(:token) { FactoryBot.create(:invitation_token, invitation_set: response.invitation_set) }
 
     let(:not_sent_response) { FactoryBot.create(:response) }
-    let(:not_sent_token) { FactoryBot.create(:invitation_token, response: not_sent_response) }
+    let(:not_sent_token) { FactoryBot.create(:invitation_token) }
 
     it 'should return nil if there is no person with that identifier' do
       result = InvitationToken.test_identifier_token_combination('non_existent', token.token_plain)
@@ -64,14 +64,14 @@ describe InvitationToken do
     it 'should return the invitation_token if there is one that matches the description' do
       person = response.protocol_subscription.person
       result = InvitationToken.test_identifier_token_combination(person.external_identifier, token.token_plain)
-      expect(result).to eq response.invitation_token
+      expect(result).to eq response.invitation_set.invitation_tokens.first
     end
 
     it 'should return the invitation_token if there is one that matches the description and is completed' do
       response.update_attributes!(completed_at: Time.zone.now)
       person = response.protocol_subscription.person
       result = InvitationToken.test_identifier_token_combination(person.external_identifier, token.token_plain)
-      expect(result).to eq response.invitation_token
+      expect(result).to eq response.invitation_set.invitation_tokens.first
     end
   end
 
@@ -150,7 +150,7 @@ describe InvitationToken do
       expect(invitation_token.errors.messages[:expires_at]).to include('moet opgegeven zijn')
     end
     it 'should be able to set it to a value' do
-      invitation_token = FactoryBot.create!(:invitation_token, expires_at: 14.days.from_now.in_time_zone)
+      invitation_token = FactoryBot.create(:invitation_token, expires_at: 14.days.from_now.in_time_zone)
       expect(invitation_token.expires_at).to be_within(1.minute).of(14.days.from_now.in_time_zone)
     end
   end
@@ -166,19 +166,22 @@ describe InvitationToken do
   describe 'expired?' do
     it 'should return false if the connected response is not expired' do
       invitation_token = FactoryBot.create(:invitation_token, expires_at: 10.days.ago)
+      FactoryBot.create(:response, invitation_set: invitation_token.invitation_set)
       expect_any_instance_of(Response).to receive(:response_expired?).and_return(false)
       expect(invitation_token.expired?).to be_falsey
     end
 
-    it 'should return false if the response is expired, but the invitation itself not' do
+    it 'should return false if the invitation_token is not expired' do
       invitation_token = FactoryBot.create(:invitation_token, expires_at: 10.days.from_now)
-      expect_any_instance_of(Response).to receive(:response_expired?).and_return(true)
+      FactoryBot.create(:response, invitation_set: invitation_token.invitation_set)
+      allow_any_instance_of(Response).to receive(:response_expired?).and_return(true)
       expect(invitation_token.expired?).to be_falsey
     end
 
     it 'should return true if both the response and invitation token are expired' do
       invitation_token = FactoryBot.create(:invitation_token, expires_at: 10.days.ago)
-      expect_any_instance_of(Response).to receive(:response_expired?).and_return(true)
+      FactoryBot.create(:response, invitation_set: invitation_token.invitation_set)
+      allow_any_instance_of(Response).to receive(:response_expired?).and_return(true)
       expect(invitation_token.expired?).to be_truthy
     end
   end

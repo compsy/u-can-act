@@ -75,4 +75,72 @@ describe Invitation do
       expect(invitation.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'sending!' do
+    # TODO: Fix me
+  end
+
+  describe 'sent!' do
+    # TODO: fix me
+  end
+
+  describe 'send mails' do
+    # TODO: FIX BELOW
+    it 'should not raise if the mail sending fails' do
+      questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
+      response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      allow(SendSms).to receive(:run!).with(any_args).and_return true
+      allow(InvitationMailer).to receive(:invitation_mail).and_raise(RuntimeError, 'Crashing')
+      expect { described_class.run!(response: response) }.to_not raise_error
+    end
+
+    it 'should call the logger if anything fails' do
+      questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
+      response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      allow(SendSms).to receive(:run!).with(any_args).and_return true
+      message = 'crashing'
+      allow(InvitationMailer).to receive(:invitation_mail).and_raise(RuntimeError, message)
+      expect(Rails.logger).to receive(:warn).with("[Attention] Mailgun failed again: #{message}").once
+      expect(Rails.logger).to receive(:warn).with(any_args).once
+
+      described_class.run!(response: response)
+    end
+
+    it 'should also send the invitation via email' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: student,
+                                                start_date: 1.week.ago.at_beginning_of_day)
+      dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+      measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                              measurement: measurement)
+      myid = response.protocol_subscription.person.external_identifier
+      mytok = response.invitation_token.token_plain
+      message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
+              'Vul nu de eerste wekelijkse vragenlijst in.'
+
+      allow(SendSms).to receive(:run!)
+      invitation_url = "#{ENV['HOST_URL']}?q=#{myid}#{mytok}"
+      expect(InvitationMailer).to receive(:invitation_mail).with(mentor.email,
+                                                                 message,
+                                                                 invitation_url).and_call_original
+      described_class.run!(response: response)
+      expect(ActionMailer::Base.deliveries.last.to.first).to eq mentor.email
+    end
+
+    it 'should not try to send an email if the mentor does not have an email address' do
+      mentor.update_attributes!(email: nil)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: student,
+                                                start_date: 1.week.ago.at_beginning_of_day)
+      dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
+      measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
+      FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                   measurement: measurement)
+      allow(SendSms).to receive(:run!)
+      expect(InvitationMailer).to_not receive(:invitation_mail)
+    end
+  end
 end

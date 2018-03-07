@@ -4,13 +4,13 @@ require 'rails_helper'
 
 describe Response do
   it 'should have valid default properties' do
-    response = FactoryBot.build(:response)
-    expect(response).to be_valid
+    responseobj = FactoryBot.build(:response)
+    expect(responseobj).to be_valid
   end
 
   it 'should have valid default completed properties' do
-    response = FactoryBot.build(:response, :completed)
-    expect(response).to be_valid
+    responseobj = FactoryBot.build(:response, :completed)
+    expect(responseobj).to be_valid
   end
 
   context 'scopes' do
@@ -97,7 +97,7 @@ describe Response do
     end
     describe 'completed' do
       it 'should return responses with a completed_at' do
-        response = FactoryBot.create(:response, :completed)
+        responseobj = FactoryBot.create(:response, :completed)
         expect(Response.completed.count).to eq 1
         expect(Response.completed.to_a).to eq [response]
       end
@@ -189,35 +189,35 @@ describe Response do
 
   describe 'remote_content' do
     it 'should work when there is content' do
-      response = FactoryBot.create(:response, :completed)
-      expect(response.remote_content).to_not be_nil
-      expect(response.remote_content).to eq ResponseContent.find(response.content)
+      responseobj = FactoryBot.create(:response, :completed)
+      expect(responseobj.remote_content).to_not be_nil
+      expect(responseobj.remote_content).to eq ResponseContent.find(responseobj.content)
     end
     it 'should return nil when there is no content' do
-      response = FactoryBot.create(:response)
-      expect(response.remote_content).to be_nil
+      responseobj = FactoryBot.create(:response)
+      expect(responseobj.remote_content).to be_nil
     end
   end
 
   describe 'uuid' do
     it 'should not allow empty external identifiers' do
-      response = FactoryBot.build(:response)
-      response.uuid = nil
-      expect(response).to_not be_valid
+      responseobj = FactoryBot.build(:response)
+      responseobj.uuid = nil
+      expect(responseobj).to_not be_valid
 
-      response.uuid = ''
-      expect(response).to_not be_valid
+      responseobj.uuid = ''
+      expect(responseobj).to_not be_valid
     end
 
     it 'should create an uuid on initialization' do
-      response = FactoryBot.build(:response)
-      expect(response.uuid).to_not be_blank
-      expect(response.uuid.length).to eq 36
+      responseobj = FactoryBot.build(:response)
+      expect(responseobj.uuid).to_not be_blank
+      expect(responseobj.uuid.length).to eq 36
     end
 
     it 'should not allow non-unique identifiers' do
-      response = FactoryBot.create(:response)
-      response2 = FactoryBot.build(:response, uuid: response.uuid)
+      responseobj = FactoryBot.create(:response)
+      response2 = FactoryBot.build(:response, uuid: responseobj.uuid)
       expect(response2).to_not be_valid
       expect(response2.errors.messages).to have_key :uuid
       expect(response2.errors.messages[:uuid]).to include('is al in gebruik')
@@ -225,21 +225,21 @@ describe Response do
 
     it 'should not generate a new uuid if one is already present' do
       uuid = SecureRandom.uuid
-      response = FactoryBot.create(:response, uuid: uuid)
-      response.reload
-      expect(response.uuid).to eq uuid
+      responseobj = FactoryBot.create(:response, uuid: uuid)
+      responseobj.reload
+      expect(responseobj.uuid).to eq uuid
     end
   end
 
   describe 'values' do
     it 'should work when there is content' do
-      response = FactoryBot.create(:response, :completed)
-      expect(response.values).to_not be_nil
-      expect(response.values).to eq ResponseContent.find(response.content).content
+      responseobj = FactoryBot.create(:response, :completed)
+      expect(responseobj.values).to_not be_nil
+      expect(responseobj.values).to eq ResponseContent.find(responseobj.content).content
     end
     it 'should return nil when there is no content' do
-      response = FactoryBot.create(:response)
-      expect(response.values).to be_nil
+      responseobj = FactoryBot.create(:response)
+      expect(responseobj.values).to be_nil
     end
   end
 
@@ -256,8 +256,8 @@ describe Response do
 
       FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
       prot_stud = FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      response = FactoryBot.create(:response, protocol_subscription: prot_stud)
-      expect(response.determine_student_mentor).to eq([student, mentor])
+      responseobj = FactoryBot.create(:response, protocol_subscription: prot_stud)
+      expect(responseobj.determine_student_mentor).to eq([student, mentor])
     end
 
     it 'should identify a mentor response as a response from a mentor do' do
@@ -271,8 +271,8 @@ describe Response do
       mentor = FactoryBot.create(:mentor, role: mentor_role)
       prot_ment = FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
       FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      response = FactoryBot.create(:response, protocol_subscription: prot_ment)
-      expect(response.determine_student_mentor).to eq([student, mentor])
+      responseobj = FactoryBot.create(:response, protocol_subscription: prot_ment)
+      expect(responseobj.determine_student_mentor).to eq([student, mentor])
     end
   end
 
@@ -289,10 +289,10 @@ describe Response do
 
       FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
       prot_stud = FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      response = FactoryBot.create(:response, protocol_subscription: prot_stud)
+      responseobj = FactoryBot.create(:response, protocol_subscription: prot_stud)
 
       subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
-      expect(response.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
+      expect(responseobj.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
     end
 
     it 'should replace variables in a mentor response' do
@@ -306,103 +306,103 @@ describe Response do
       mentor = FactoryBot.create(:mentor, role: mentor_role, first_name: 'Pieter', gender: Person::MALE)
       prot_ment = FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
       FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      response = FactoryBot.create(:response, protocol_subscription: prot_ment)
+      responseobj = FactoryBot.create(:response, protocol_subscription: prot_ment)
 
       subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
-      expect(response.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
+      expect(responseobj.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
     end
   end
 
   describe 'expired?' do
     it 'should return true if the response is no longer open' do
-      response = FactoryBot.create(:response, open_from: 3.hours.ago)
-      expect(response.expired?).to be_truthy
+      responseobj = FactoryBot.create(:response, open_from: 3.hours.ago)
+      expect(responseobj.expired?).to be_truthy
     end
     it 'should return true if the response has no open_duration but the protocol_subscription has ended' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
       measurement = FactoryBot.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
       # open_from does is not used here
-      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
                                               open_from: 1.day.ago)
-      expect(response.expired?).to be_truthy
+      expect(responseobj.expired?).to be_truthy
     end
     it 'should return false if the response has no open_duration but the protocol_subscription has not ended yet' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 2.weeks.ago.at_beginning_of_day)
       measurement = FactoryBot.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
       # open_from does is not used here
-      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
                                               open_from: 1.day.ago)
-      expect(response.expired?).to be_falsey
+      expect(responseobj.expired?).to be_falsey
     end
     it 'should return false if the response is still open' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      response = FactoryBot.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
-      expect(response.expired?).to be_falsey
+      responseobj = FactoryBot.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
+      expect(responseobj.expired?).to be_falsey
     end
     it 'should return false if the response is not open yet' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      response = FactoryBot.create(:response, open_from: 1.hour.from_now, protocol_subscription: protocol_subscription)
-      expect(response.expired?).to be_falsey
+      responseobj = FactoryBot.create(:response, open_from: 1.hour.from_now, protocol_subscription: protocol_subscription)
+      expect(responseobj.expired?).to be_falsey
     end
   end
 
   describe 'future?' do
     it 'should return true if the response is in the future' do
-      response = FactoryBot.create(:response, open_from: 1.hour.from_now)
-      expect(response.future?).to be_truthy
+      responseobj = FactoryBot.create(:response, open_from: 1.hour.from_now)
+      expect(responseobj.future?).to be_truthy
     end
 
     it 'should return false if the response is in the past' do
-      response = FactoryBot.create(:response, open_from: 1.hour.ago)
-      expect(response.future?).to be_falsey
+      responseobj = FactoryBot.create(:response, open_from: 1.hour.ago)
+      expect(responseobj.future?).to be_falsey
     end
   end
 
   describe 'protocol_subscription_id' do
     it 'should have one' do
-      response = FactoryBot.build(:response, protocol_subscription_id: nil)
-      expect(response.valid?).to be_falsey
-      expect(response.errors.messages).to have_key :protocol_subscription_id
-      expect(response.errors.messages[:protocol_subscription_id]).to include('moet opgegeven zijn')
+      responseobj = FactoryBot.build(:response, protocol_subscription_id: nil)
+      expect(responseobj.valid?).to be_falsey
+      expect(responseobj.errors.messages).to have_key :protocol_subscription_id
+      expect(responseobj.errors.messages[:protocol_subscription_id]).to include('moet opgegeven zijn')
     end
     it 'should work to retrieve a ProtocolSubscription' do
-      response = FactoryBot.create(:response)
-      expect(response.protocol_subscription).to be_a(ProtocolSubscription)
+      responseobj = FactoryBot.create(:response)
+      expect(responseobj.protocol_subscription).to be_a(ProtocolSubscription)
     end
   end
 
   describe 'measurement_id' do
     it 'should have one' do
-      response = FactoryBot.build(:response, measurement_id: nil)
-      expect(response.valid?).to be_falsey
-      expect(response.errors.messages).to have_key :measurement_id
-      expect(response.errors.messages[:measurement_id]).to include('moet opgegeven zijn')
+      responseobj = FactoryBot.build(:response, measurement_id: nil)
+      expect(responseobj.valid?).to be_falsey
+      expect(responseobj.errors.messages).to have_key :measurement_id
+      expect(responseobj.errors.messages[:measurement_id]).to include('moet opgegeven zijn')
     end
     it 'should work to retrieve a Measurement' do
-      response = FactoryBot.create(:response)
-      expect(response.measurement).to be_a(Measurement)
+      responseobj = FactoryBot.create(:response)
+      expect(responseobj.measurement).to be_a(Measurement)
     end
   end
 
   describe 'content' do
     it 'should accept nil' do
-      response = FactoryBot.build(:response, content: nil)
-      expect(response.valid?).to be_truthy
+      responseobj = FactoryBot.build(:response, content: nil)
+      expect(responseobj.valid?).to be_truthy
     end
     it 'should accept an empty string' do
-      response = FactoryBot.build(:response, content: '')
-      expect(response.valid?).to be_truthy
+      responseobj = FactoryBot.build(:response, content: '')
+      expect(responseobj.valid?).to be_truthy
     end
     it 'should accept a string' do
       content_hash = { 'v4' => 'goed', 'v5' => ['brood', 'kaas en ham'], 'v6' => 36.2 }
       given_content = FactoryBot.create(:response_content, content: content_hash)
-      response = FactoryBot.create(:response, content: given_content.id)
-      responsecontent = ResponseContent.find(response.content)
+      responseobj = FactoryBot.create(:response, content: given_content.id)
+      responsecontent = ResponseContent.find(responseobj.content)
       expect(responsecontent.content[:v4]).to eq 'goed'
       expect(responsecontent.content[:v5]).to eq ['brood', 'kaas en ham']
       expect(responsecontent.content[:v6]).to eq 36.2
       expect(responsecontent.content).to eq content_hash
-      response_id = response.id
+      response_id = responseobj.id
       responsecontent = ResponseContent.find(Response.find(response_id).content)
       expect(responsecontent.content[:v4]).to eq 'goed'
       expect(responsecontent.content[:v5]).to eq ['brood', 'kaas en ham']
@@ -413,45 +413,45 @@ describe Response do
 
   describe 'open_from' do
     it 'should not be nil' do
-      response = FactoryBot.build(:response, open_from: nil)
-      expect(response.valid?).to be_falsey
-      expect(response.errors.messages).to have_key :open_from
-      expect(response.errors.messages[:open_from]).to include('moet opgegeven zijn')
+      responseobj = FactoryBot.build(:response, open_from: nil)
+      expect(responseobj.valid?).to be_falsey
+      expect(responseobj.errors.messages).to have_key :open_from
+      expect(responseobj.errors.messages[:open_from]).to include('moet opgegeven zijn')
     end
   end
 
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
-      response = FactoryBot.create(:response)
-      expect(response.created_at).to be_within(1.minute).of(Time.zone.now)
-      expect(response.updated_at).to be_within(1.minute).of(Time.zone.now)
+      responseobj = FactoryBot.create(:response)
+      expect(responseobj.created_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
 
   describe 'invitation_url' do
     it 'should return the correct invitation_url for a response' do
-      response = FactoryBot.create(:response, :invited)
-      token = FactoryBot.create(:invitation_token, invitation_set: response.invitation_set)
+      responseobj = FactoryBot.create(:response, :invited)
+      token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       pt_token = token.token_plain
       expect(pt_token).to_not be_blank
-      expect(response.invitation_set.invitation_tokens.first.token_plain).to be_blank
-      response.reload
-      expect(response.invitation_set.invitation_tokens.first.token_plain).to be_blank
-      result = response.invitation_set.invitation_url(pt_token)
+      expect(responseobj.invitation_set.invitation_tokens.first.token_plain).to be_blank
+      responseobj.reload
+      expect(responseobj.invitation_set.invitation_tokens.first.token_plain).to be_blank
+      result = responseobj.invitation_set.invitation_url(pt_token)
       expect(result).to match pt_token
       expect(result).to_not match token.token_hash
-      expect(result).to match response.protocol_subscription.person.external_identifier
+      expect(result).to match responseobj.protocol_subscription.person.external_identifier
       expect(result).to eq "#{ENV['HOST_URL']}"\
-        "?q=#{response.protocol_subscription.person.external_identifier}#{pt_token}"
+        "?q=#{responseobj.protocol_subscription.person.external_identifier}#{pt_token}"
     end
 
     it 'should raise if called for a previously stored token' do
-      response = FactoryBot.create(:response, :invited)
-      FactoryBot.create(:invitation_token, invitation_set: response.invitation_set)
-      response.reload
-      expect(response.invitation_set.invitation_tokens.first).to_not be_blank
-      expect(response.invitation_set.invitation_tokens.first.token_plain).to be_blank
-      expect { response.invitation_set.invitation_url(response.invitation_set.invitation_tokens.first.token_plain) }
+      responseobj = FactoryBot.create(:response, :invited)
+      FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      responseobj.reload
+      expect(responseobj.invitation_set.invitation_tokens.first).to_not be_blank
+      expect(responseobj.invitation_set.invitation_tokens.first.token_plain).to be_blank
+      expect { responseobj.invitation_set.invitation_url(responseobj.invitation_set.invitation_tokens.first.token_plain) }
         .to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
     end
   end

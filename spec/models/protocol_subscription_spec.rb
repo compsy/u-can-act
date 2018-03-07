@@ -516,9 +516,9 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.new(2017, 2, 1, 0, 0, 0).in_time_zone)
-      protocol_subscription.responses.each_with_index do |response, index|
+      protocol_subscription.responses.each_with_index do |responseobj, index|
         next if index == 0 # Pretend the first response is missing
-        response.completed_at = response.open_from + 1.minute
+        responseobj.completed_at = responseobj.open_from + 1.minute
       end
 
       result = protocol_subscription.protocol_completion

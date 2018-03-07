@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Invitation do
+describe Invitation, focus: true do
   it 'should have valid default properties' do
     invitation = FactoryBot.build(:invitation)
     expect(invitation.valid?).to be_truthy
@@ -77,33 +77,68 @@ describe Invitation do
   end
 
   describe 'sending!' do
-    # TODO: Fix me
+    it 'should update the invited_state to sending if it is not_sent' do
+      invitation = FactoryBot.create(:invitation)
+      invitation.sending!
+      expect(invitation.invited_state).to eq Invitation::SENDING_STATE
+      invitation.reload
+      expect(invitation.invited_state).to eq Invitation::SENDING_STATE
+    end
+    it 'should update the invited_state to sending_reminder if it is sending' do
+      invitation = FactoryBot.create(:invitation, invited_state: Invitation::SENDING_STATE)
+      invitation.sending!
+      expect(invitation.invited_state).to eq Invitation::SENDING_STATE
+      invitation.reload
+      expect(invitation.invited_state).to eq Invitation::SENDING_STATE
+    end
+    it 'should update the invited_state to sending_reminder if it is sent' do
+      invitation = FactoryBot.create(:invitation, invited_state: Invitation::SENT_STATE)
+      invitation.sending!
+      expect(invitation.invited_state).to eq Invitation::SENDING_STATE
+      invitation.reload
+      expect(invitation.invited_state).to eq Invitation::SENDING_STATE
+    end
   end
 
   describe 'sent!' do
-    # TODO: fix me
+    it 'should update the invited_state to sent if it is sending' do
+      invitation = FactoryBot.create(:invitation)
+      invitation.sent!
+      expect(invitation.invited_state).to eq Invitation::SENT_STATE
+      invitation.reload
+      expect(invitation.invited_state).to eq Invitation::SENT_STATE
+    end
+    it 'should update the invited_state to reminder_sent if it is sending_reminder' do
+      invitation = FactoryBot.create(:invitation, invited_state: Invitation::SENDING_REMINDER_STATE)
+      invitation.sent!
+      expect(invitation.invited_state).to eq Invitation::REMINDER_SENT_STATE
+      invitation.reload
+      expect(invitation.invited_state).to eq Invitation::REMINDER_SENT_STATE
+    end
   end
 
-  describe 'send mails' do
-    # TODO: FIX BELOW
-    it 'should not raise if the mail sending fails' do
-      questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
-      response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
-      allow(SendSms).to receive(:run!).with(any_args).and_return true
-      allow(InvitationMailer).to receive(:invitation_mail).and_raise(RuntimeError, 'Crashing')
-      expect { described_class.run!(response: response) }.to_not raise_error
+  describe 'generate_message' do
+    it 'should concat the invitation_text with the invitation_url' do
+      invitation_set = FactoryBot.create(:invitation_set, invitation_text: 'mytext')
+      invitation = FactoryBot.create(:invitation, invitation_set: invitation_set)
+      expected = "mytext #{ENV['HOST_URL']}?q=#{invitation_set.person.external_identifier}hiha"
+      expect(invitation.generate_message('hiha')).to eq expected
     end
+  end
 
-    it 'should call the logger if anything fails' do
+  describe 'send_invite' do
+    it 'should send both sms and email invites' do
       questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
       response.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
-      allow(SendSms).to receive(:run!).with(any_args).and_return true
-      message = 'crashing'
-      allow(InvitationMailer).to receive(:invitation_mail).and_raise(RuntimeError, message)
-      expect(Rails.logger).to receive(:warn).with("[Attention] Mailgun failed again: #{message}").once
-      expect(Rails.logger).to receive(:warn).with(any_args).once
-
-      described_class.run!(response: response)
+      expect(SendSms).to receive(:run!)
+      expect(InvitationMailer).to receive(:invitation_mail) # if mailing fails it raises an error, causing that job
+      smsinvitation = FactoryBot.create(:invitation)        # to be repeated (once)
+      emailinvitation = FactoryBot.create(:invitation, :email)
+      mytok = 'asdf'
+      expect do
+        smsinvitation.send_invite(mytok)
+        emailinvitation.send_invite(mytok)
+      end.to_not raise_error
     end
 
     it 'should also send the invitation via email' do
@@ -113,19 +148,25 @@ describe Invitation do
                                                 start_date: 1.week.ago.at_beginning_of_day)
       dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
       measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
-      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+      responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
                                               measurement: measurement)
-      myid = response.protocol_subscription.person.external_identifier
-      mytok = response.invitation_token.token_plain
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      myid = responseobj.protocol_subscription.person.external_identifier
+      mytok = invitation_token.token_plain
       message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
               'Vul nu de eerste wekelijkse vragenlijst in.'
-
-      allow(SendSms).to receive(:run!)
+      responseobj.invitation_set.update_attributes!(invitation_text: message)
       invitation_url = "#{ENV['HOST_URL']}?q=#{myid}#{mytok}"
+      allow(SendSms).to receive(:run!).with(number: mentor.mobile_phone,
+                                            text: "#{message} #{invitation_url}",
+                                            reference: "vsv-#{responseobj.invitation_set.id}")
       expect(InvitationMailer).to receive(:invitation_mail).with(mentor.email,
                                                                  message,
                                                                  invitation_url).and_call_original
-      described_class.run!(response: response)
+      smsinvitation = FactoryBot.create(:invitation)
+      emailinvitation = FactoryBot.create(:invitation, :email)
+      smsinvitation.send_invite(mytok)
+      emailinvitation.send_invite(mytok)
       expect(ActionMailer::Base.deliveries.last.to.first).to eq mentor.email
     end
 
@@ -137,10 +178,15 @@ describe Invitation do
                                                 start_date: 1.week.ago.at_beginning_of_day)
       dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
       measurement = FactoryBot.create(:measurement, questionnaire: dagboek)
-      FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+      FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
                                    measurement: measurement)
-      allow(SendSms).to receive(:run!)
+      expect(SendSms).to receive(:run!)
       expect(InvitationMailer).to_not receive(:invitation_mail)
+      smsinvitation = FactoryBot.create(:invitation)
+      emailinvitation = FactoryBot.create(:invitation, :email)
+      mytok = 'asdf'
+      smsinvitation.send_invite(mytok)
+      emailinvitation.send_invite(mytok)
     end
   end
 end

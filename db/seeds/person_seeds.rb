@@ -13,7 +13,8 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     { first_name: 'Henk', last_name: 'Veenstra', gender: 'male' },
     { first_name: 'Stu', last_name: 'Dent', gender: nil }
   ]
-  team = Team.find_or_create_by(name: 'Default team')
+  organization = Organization.find_or_create_by(name: 'Default organization')
+  team = organization.teams.find_or_create_by(name: 'Default team')
 
   student = team.roles.where(group: Person::STUDENT).first
   student ||= team.roles.create!(group: Person::STUDENT, title: 'student')

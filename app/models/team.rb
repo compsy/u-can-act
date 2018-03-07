@@ -4,17 +4,13 @@ class Team < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_many :people, dependent: :destroy
   has_many :roles, dependent: :destroy
+  belongs_to :organization
 
   def self.overview(week_number = nil, year = nil, threshold_percentage = nil)
     Team.all.map do |team|
       team_stats = team.stats(week_number, year, threshold_percentage)
       { name: team.name, data: team_stats }
     end
-  end
-
-  def organization
-    # TODO: This should be replaced with the newly created organization object
-    self
   end
 
   def stats(week_number, year, threshold_percentage)

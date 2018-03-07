@@ -31,7 +31,7 @@ class CreateMentors < ActiveInteraction::Base
         start_date: plain_text_parser.parse_start_date(mentor[:start_date]),
         filling_out_for_id: plain_text_parser.parse_filling_out_for(mentor[:filling_out_for]),
         filling_out_for_protocol_id: plain_text_parser.parse_protocol_name(mentor[:filling_out_for_protocol]),
-        role_id: plain_text_parser.parse_role_title(mentor[:organization_name], mentor[:role_title]),
+        role_id: plain_text_parser.parse_role_title(mentor[:team_name], mentor[:role_title]),
         end_date: plain_text_parser.parse_end_date(mentor[:end_date])
       }
     end

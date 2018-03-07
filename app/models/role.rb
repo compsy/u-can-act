@@ -3,10 +3,10 @@
 class Role < ApplicationRecord
   validates :group, inclusion: [Person::STUDENT, Person::MENTOR]
   validates :title, presence: true
-  validates_uniqueness_of :title, scope: :organization_id
-  belongs_to :organization
+  validates_uniqueness_of :title, scope: :team_id
+  belongs_to :team
   has_many :people
-  validates :organization_id, presence: true
+  validates :team_id, presence: true
 
   def stats(week_number, year, threshold_percentage)
     all_person_stats = { met_threshold_completion: 0, completed: 0, total: 0 }

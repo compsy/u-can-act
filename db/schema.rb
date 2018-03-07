@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180202093541) do
+ActiveRecord::Schema.define(version: 20180307074200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,13 +59,6 @@ ActiveRecord::Schema.define(version: 20180202093541) do
     t.integer  "offset_till_end"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
-  end
-
-  create_table "organizations", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_organizations_on_name", unique: true, using: :btree
   end
 
   create_table "people", force: :cascade do |t|
@@ -157,13 +150,20 @@ ActiveRecord::Schema.define(version: 20180202093541) do
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string   "group",           null: false
-    t.string   "title",           null: false
-    t.integer  "organization_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.index ["organization_id", "title"], name: "index_roles_on_organization_id_and_title", unique: true, using: :btree
-    t.index ["organization_id"], name: "index_roles_on_organization_id", using: :btree
+    t.string   "group",      null: false
+    t.string   "title",      null: false
+    t.integer  "team_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id", "title"], name: "index_roles_on_team_id_and_title", unique: true, using: :btree
+    t.index ["team_id"], name: "index_roles_on_team_id", using: :btree
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_teams_on_name", unique: true, using: :btree
   end
 
   add_foreign_key "invitation_tokens", "responses"
@@ -180,5 +180,5 @@ ActiveRecord::Schema.define(version: 20180202093541) do
   add_foreign_key "responses", "people", column: "filled_out_for_id"
   add_foreign_key "responses", "protocol_subscriptions"
   add_foreign_key "rewards", "protocols"
-  add_foreign_key "roles", "organizations"
+  add_foreign_key "roles", "teams"
 end

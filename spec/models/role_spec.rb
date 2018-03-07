@@ -26,13 +26,13 @@ describe Role, type: :model do
         expect(role).to_not be_valid
       end
 
-      it 'should be valid when not unique in organization if the title is different' do
+      it 'should be valid when not unique in team if the title is different' do
         role = FactoryBot.create(:role, group: Person::STUDENT, title: 'a')
-        role2 = FactoryBot.build(:role, group: Person::STUDENT, title: 'b', organization: role.organization)
+        role2 = FactoryBot.build(:role, group: Person::STUDENT, title: 'b', team: role.team)
         expect(role2).to be_valid
       end
 
-      it 'should be valid when not unique but in different organization' do
+      it 'should be valid when not unique but in different team' do
         FactoryBot.create(:role, group: Person::MENTOR)
         role2 = FactoryBot.build(:role, group: Person::MENTOR)
         expect(role2).to be_valid
@@ -47,24 +47,24 @@ describe Role, type: :model do
         expect(role).to be_valid
       end
 
-      it 'should be invalid when not unique in organization' do
+      it 'should be invalid when not unique in team' do
         role = FactoryBot.create(:role, title: 'test')
-        role2 = FactoryBot.build(:role, title: 'test', organization: role.organization)
+        role2 = FactoryBot.build(:role, title: 'test', team: role.team)
         expect(role2).to_not be_valid
       end
 
-      it 'should be valid when not unique but in different organization' do
+      it 'should be valid when not unique but in different team' do
         FactoryBot.create(:role, title: 'test')
         role2 = FactoryBot.build(:role, title: 'test')
         expect(role2).to be_valid
       end
     end
 
-    describe 'organization_id' do
+    describe 'team_id' do
       it 'should be invalid when not present' do
-        organization = FactoryBot.create(:organization)
-        role1 = FactoryBot.build(:role, organization_id: nil)
-        role2 = FactoryBot.build(:role, organization: organization)
+        team = FactoryBot.create(:team)
+        role1 = FactoryBot.build(:role, team_id: nil)
+        role2 = FactoryBot.build(:role, team: team)
 
         expect(role1).to_not be_valid
         expect(role2).to be_valid
@@ -72,9 +72,9 @@ describe Role, type: :model do
     end
   end
 
-  it 'should be able to retrieve an organization' do
+  it 'should be able to retrieve an team' do
     role = FactoryBot.create(:role)
-    expect(role.organization).to be_a(Organization)
+    expect(role.team).to be_a(team)
   end
 
   describe 'stats' do

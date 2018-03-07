@@ -2,33 +2,33 @@
 
 require 'rails_helper'
 
-describe Organization, type: :model do
+describe Team, type: :model do
   describe 'validations' do
     it 'should be valid by default' do
-      organization = FactoryBot.create(:organization)
-      expect(organization).to be_valid
+      team = FactoryBot.create(:team)
+      expect(team).to be_valid
     end
 
     describe 'name' do
       it 'should be invalid when not present' do
-        organization = FactoryBot.build(:organization, name: nil)
-        expect(organization).to_not be_valid
-        organization = FactoryBot.build(:organization, name: 'test name')
-        expect(organization).to be_valid
+        team = FactoryBot.build(:team, name: nil)
+        expect(team).to_not be_valid
+        team = FactoryBot.build(:team, name: 'test name')
+        expect(team).to be_valid
       end
 
       it 'should be invalid when not unique' do
-        FactoryBot.create(:organization, name: 'test')
-        organization2 = FactoryBot.build(:organization, name: 'test')
-        expect(organization2).to_not be_valid
+        FactoryBot.create(:team, name: 'test')
+        team2 = FactoryBot.build(:team, name: 'test')
+        expect(team2).to_not be_valid
       end
     end
   end
 
   it 'should be able to retrieve roles' do
-    organization = FactoryBot.create(:organization, :with_roles)
-    expect(organization.roles.to_a).to be_a(Array)
-    organization.roles.each do |role|
+    team = FactoryBot.create(:team, :with_roles)
+    expect(team.roles.to_a).to be_a(Array)
+    team.roles.each do |role|
       expect(role).to be_a(Role)
     end
   end
@@ -43,7 +43,7 @@ describe Organization, type: :model do
     end
 
     context 'without subscriptions and people' do
-      it 'should return an empty array if no organizations exist' do
+      it 'should return an empty array if no teams exist' do
         overview = described_class.overview
         expect(overview).to_not be_nil
         expect(overview).to be_a Array
@@ -51,9 +51,9 @@ describe Organization, type: :model do
         expect(overview.length).to eq 0
       end
 
-      it 'should return empty hashes if only organizations exist' do
-        org1 = FactoryBot.create(:organization, name: 'org1')
-        org2 = FactoryBot.create(:organization, name: 'org2')
+      it 'should return empty hashes if only teams exist' do
+        org1 = FactoryBot.create(:team, name: 'org1')
+        org2 = FactoryBot.create(:team, name: 'org2')
 
         overview = described_class.overview
         expect(overview).to_not be_nil
@@ -69,9 +69,9 @@ describe Organization, type: :model do
       end
 
       it 'should return the correct entries for the roles, even if they are empty' do
-        org1 = FactoryBot.create(:organization, name: 'org1')
-        FactoryBot.create(:role, organization: org1, group: Person::STUDENT, title: 'Student')
-        FactoryBot.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor')
+        org1 = FactoryBot.create(:team, name: 'org1')
+        FactoryBot.create(:role, team: org1, group: Person::STUDENT, title: 'Student')
+        FactoryBot.create(:role, team: org1, group: Person::MENTOR, title: 'Mentor')
 
         overview = described_class.overview
         expect(overview.first[:data]).to be_a Hash
@@ -89,15 +89,15 @@ describe Organization, type: :model do
     end
 
     context 'with subscriptions and people' do
-      let!(:org1) { FactoryBot.create(:organization, name: 'org1') }
-      let!(:org2) { FactoryBot.create(:organization, name: 'org2') }
+      let!(:org1) { FactoryBot.create(:team, name: 'org1') }
+      let!(:org2) { FactoryBot.create(:team, name: 'org2') }
 
-      let!(:role1) {  FactoryBot.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
-      let!(:role2) {  FactoryBot.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
+      let!(:role1) {  FactoryBot.create(:role, team: org1, group: Person::STUDENT, title: 'Student') }
+      let!(:role2) {  FactoryBot.create(:role, team: org1, group: Person::MENTOR, title: 'Mentor') }
 
-      let!(:role3) {  FactoryBot.create(:role, organization: org2, group: Person::STUDENT, title: 'Student') }
-      let!(:role4) {  FactoryBot.create(:role, organization: org2, group: Person::MENTOR, title: 'Mentor') }
-      let!(:role5) {  FactoryBot.create(:role, organization: org2, group: Person::MENTOR, title: 'S-Teamer') }
+      let!(:role3) {  FactoryBot.create(:role, team: org2, group: Person::STUDENT, title: 'Student') }
+      let!(:role4) {  FactoryBot.create(:role, team: org2, group: Person::MENTOR, title: 'Mentor') }
+      let!(:role5) {  FactoryBot.create(:role, team: org2, group: Person::MENTOR, title: 'S-Teamer') }
 
       let!(:student1) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
       let!(:student2) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
@@ -173,7 +173,7 @@ describe Organization, type: :model do
       end
 
       let(:overview) { described_class.overview }
-      it 'should generate an overview for all organizations in the db' do
+      it 'should generate an overview for all teams in the db' do
         expect(overview).to_not be_nil
         expect(overview).to be_a Array
         expect(overview.length).to eq 2

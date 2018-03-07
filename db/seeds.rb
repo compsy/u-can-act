@@ -11,7 +11,7 @@ Dir[File.join(File.dirname(__FILE__), 'seeds', 'protocols', '**', '*.rb')].each 
   require file
 end
 
-Dir[File.join(File.dirname(__FILE__), 'seeds', 'organizations', '**', '*.rb')].each do |file|
+Dir[File.join(File.dirname(__FILE__), 'seeds', 'teams', '**', '*.rb')].each do |file|
   require file
 end
 
@@ -28,8 +28,8 @@ if Rails.env.development?
   # Mentor questionnaire seeds
   puts ''
   protocol = Protocol.find_by_name('mentoren dagboek')
-  person = Organization.first.roles.where(group: Person::MENTOR).first.people.first
-  students = Organization.first.roles.where(group: Person::STUDENT).first.people[0..-2]
+  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people.first
+  students = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[0..-2]
   students.each do |student|
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,
@@ -46,7 +46,8 @@ if Rails.env.development?
     puts "mentor dagboek: #{Rails.application.routes.url_helpers.root_url}?q=#{person.external_identifier}#{token}"
   end
   protocol = Protocol.find_by_name('mentoren voormeting/nameting')
-  person = Organization.first.roles.where(group: Person::MENTOR).first.people.first
+  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people.first
+
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -68,7 +69,7 @@ if Rails.env.development?
 
   # Student questionnaire seeds
   puts ''
-  student = Organization.first.roles.where(group: Person::STUDENT).first.people.first
+  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people.first
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
@@ -94,7 +95,7 @@ if Rails.env.development?
   puts "student nameting: #{Rails.application.routes.url_helpers.root_url}?q=#{student.external_identifier}#{token}"
 
   puts ''
-  student = Organization.first.roles.where(group: Person::STUDENT).first.people.second
+  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people.second
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,

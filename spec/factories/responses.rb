@@ -9,7 +9,9 @@ FactoryBot.define do
       content { create(:response_content).id }
       opened_at Time.new(2017, 4, 10, 9, 2, 36).in_time_zone
       completed_at Time.new(2017, 4, 10, 9, 7, 6).in_time_zone
-      invitation_set
+      after(:create) do |response|
+        FactoryBot.create(:invitation_set, responses: [response], person_id: response.protocol_subscription.person_id)
+      end
     end
     trait :future do
       open_from 10.days.from_now

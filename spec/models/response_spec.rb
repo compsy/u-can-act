@@ -97,9 +97,9 @@ describe Response do
     end
     describe 'completed' do
       it 'should return responses with a completed_at' do
-        FactoryBot.create(:response, :completed)
+        responseobj = FactoryBot.create(:response, :completed)
         expect(Response.completed.count).to eq 1
-        expect(Response.completed.to_a).to eq [response]
+        expect(Response.completed.to_a).to eq [responseobj]
       end
       it 'should not return responses without a completed at' do
         FactoryBot.create(:response)

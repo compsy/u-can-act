@@ -105,9 +105,9 @@ describe SendInvitations do
         described_class.run
         expect(InvitationSet.count).to eq(invitationsetcount + 1)
         expect(Invitation.count).to eq(invitationcount + 2)
-        responses.each do |_response|
-          responseobj.reload
-          expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
+        responses.each do |resp|
+          resp.reload
+          expect(resp.invitation_set_id).to eq InvitationSet.first.id
         end
       end
 
@@ -141,9 +141,9 @@ describe SendInvitations do
         described_class.run
         expect(InvitationSet.count).to eq(invitationsetcount + 1)
         expect(Invitation.count).to eq(invitationcount + 1)
-        [response1, response2].each do |_response|
-          responseobj.reload
-          expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
+        [response1, response2].each do |resp|
+          resp.reload
+          expect(resp.invitation_set_id).to eq InvitationSet.first.id
         end
       end
     end

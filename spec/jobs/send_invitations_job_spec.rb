@@ -32,7 +32,7 @@ describe SendInvitationsJob do
         questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
 
         smstext = "Welkom bij de kick-off van het onderzoek 'u-can-act'. Fijn " \
         'dat je meedoet! Vandaag starten we met een aantal korte vragen, morgen ' \
@@ -60,7 +60,9 @@ describe SendInvitationsJob do
         questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set, invited_state: Invitation::SENT_STATE)
+        FactoryBot.create(:sms_invitation,
+                          invitation_set: responseobj.invitation_set,
+                          invited_state: Invitation::SENT_STATE)
         FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         smstext = 'dont change me'
         responseobj.invitation_set.update_attributes!(invitation_text: smstext)
@@ -86,7 +88,7 @@ describe SendInvitationsJob do
         responseobj.completed_at = 5.minutes.ago
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
         invcountbefore = Invitation.count
@@ -108,7 +110,7 @@ describe SendInvitationsJob do
         questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
         invcountbefore = Invitation.count
@@ -142,10 +144,10 @@ describe SendInvitationsJob do
         dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
         measurement = FactoryBot.create(:measurement, questionnaire: dagboek, open_duration: 36.hours)
         responseobj = FactoryBot.create(:response, :invited,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 24.hour.ago,
-                                     measurement: measurement)
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 24.hour.ago,
+                                        measurement: measurement)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
 
         smstext = 'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro!'
 
@@ -186,10 +188,10 @@ describe SendInvitationsJob do
                           completed_at: 10.hours.ago,
                           measurement: measurement)
         responseobj = FactoryBot.create(:response, :invited,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 24.hours.ago,
-                                     measurement: measurement)
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 24.hours.ago,
+                                        measurement: measurement)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
 
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
@@ -218,7 +220,7 @@ describe SendInvitationsJob do
         questionnaire = FactoryBot.create(:questionnaire, name: 'Mentoren voormeting vragenlijst')
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
 
         smstext = "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
         'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
@@ -244,8 +246,8 @@ describe SendInvitationsJob do
         questionnaire = FactoryBot.create(:questionnaire, name: 'Mentoren voormeting vragenlijst')
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
-        FactoryBot.create(:invitation, :email, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:email_invitation, invitation_set: responseobj.invitation_set)
 
         smstext = "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
         'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
@@ -272,7 +274,9 @@ describe SendInvitationsJob do
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
         FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set, invited_state: Invitation::SENT_STATE)
+        FactoryBot.create(:sms_invitation,
+                          invitation_set: responseobj.invitation_set,
+                          invited_state: Invitation::SENT_STATE)
         smstext = 'dont change me'
         responseobj.invitation_set.update_attributes!(invitation_text: smstext)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENT_STATE
@@ -297,7 +301,7 @@ describe SendInvitationsJob do
         responseobj.completed_at = 5.minutes.ago
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
         invcountbefore = Invitation.count
@@ -319,7 +323,7 @@ describe SendInvitationsJob do
         questionnaire = FactoryBot.create(:questionnaire, name: 'Mentoren voormeting vragenlijst')
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
         invcountbefore = Invitation.count
@@ -346,10 +350,10 @@ describe SendInvitationsJob do
         dagboek = FactoryBot.create(:questionnaire, name: 'dagboek')
         measurement = FactoryBot.create(:measurement, questionnaire: dagboek, open_duration: 36.hours)
         responseobj = FactoryBot.create(:response, :invited,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 24.hour.ago,
-                                     measurement: measurement)
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 24.hour.ago,
+                                        measurement: measurement)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         smstext = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
           'Vul nu de eerste wekelijkse vragenlijst in.'
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
@@ -382,10 +386,10 @@ describe SendInvitationsJob do
                           completed_at: 10.hours.ago,
                           measurement: measurement)
         responseobj = FactoryBot.create(:response, :invited,
-                                     protocol_subscription: protocol_subscription,
-                                     open_from: 24.hour.ago,
-                                     measurement: measurement)
-        FactoryBot.create(:invitation, invitation_set: responseobj.invitation_set)
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 24.hour.ago,
+                                        measurement: measurement)
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         smstext = 'Hoi Jane, je wekelijkse vragenlijsten staan weer voor je klaar!'
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil

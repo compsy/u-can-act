@@ -68,8 +68,8 @@ describe 'sending invitations', type: :feature do
 
     describe 'without active protocol_subscriptions' do
       it 'should not do anything when the protocol_subscriptions are not active' do
-        responses.each do |response|
-          response.protocol_subscription.update_attributes!(state: ProtocolSubscription::CANCELED_STATE)
+        responses.each do |resp|
+          resp.protocol_subscription.update_attributes!(state: ProtocolSubscription::CANCELED_STATE)
         end
         MessageBirdAdapter.deliveries.clear
         SendInvitations.run

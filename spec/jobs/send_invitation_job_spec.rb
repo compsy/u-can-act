@@ -7,7 +7,7 @@ describe SendInvitationJob, type: :job do
 
   describe '#perform_later' do
     it 'performs something later' do
-      invitation = FactoryBot.create(:invitation)
+      invitation = FactoryBot.create(:sms_invitation)
       ActiveJob::Base.queue_adapter = :test
       expect do
         SendInvitationJob.perform_later(invitation, token)
@@ -16,7 +16,7 @@ describe SendInvitationJob, type: :job do
   end
 
   describe '#perform' do
-    let(:invitation) { FactoryBot.create(:invitation, invited_state: Invitation::SENDING_STATE) }
+    let(:invitation) { FactoryBot.create(:sms_invitation, invited_state: Invitation::SENDING_STATE) }
     it 'should send the invitation' do
       expect(invitation).to receive(:send_invite).with(token)
       subject.perform(invitation, token)

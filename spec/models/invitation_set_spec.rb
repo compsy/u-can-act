@@ -46,7 +46,7 @@ describe InvitationSet do
   describe 'invitations' do
     it 'should destroy the invitations when destroying the invitation_set' do
       invitation_set = FactoryBot.create(:invitation_set)
-      FactoryBot.create(:invitation, invitation_set: invitation_set)
+      FactoryBot.create(:sms_invitation, invitation_set: invitation_set)
       expect(invitation_set.invitations.first).to be_a(Invitation)
       invcountbefore = Invitation.count
       invitation_set.destroy

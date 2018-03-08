@@ -97,7 +97,7 @@ describe Response do
     end
     describe 'completed' do
       it 'should return responses with a completed_at' do
-        responseobj = FactoryBot.create(:response, :completed)
+        FactoryBot.create(:response, :completed)
         expect(Response.completed.count).to eq 1
         expect(Response.completed.to_a).to eq [response]
       end
@@ -323,7 +323,7 @@ describe Response do
       measurement = FactoryBot.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
       # open_from does is not used here
       responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
-                                              open_from: 1.day.ago)
+                                                 open_from: 1.day.ago)
       expect(responseobj.expired?).to be_truthy
     end
     it 'should return false if the response has no open_duration but the protocol_subscription has not ended yet' do
@@ -331,7 +331,7 @@ describe Response do
       measurement = FactoryBot.create(:measurement, open_duration: nil, protocol: protocol_subscription.protocol)
       # open_from does is not used here
       responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
-                                              open_from: 1.day.ago)
+                                                 open_from: 1.day.ago)
       expect(responseobj.expired?).to be_falsey
     end
     it 'should return false if the response is still open' do
@@ -341,7 +341,9 @@ describe Response do
     end
     it 'should return false if the response is not open yet' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      responseobj = FactoryBot.create(:response, open_from: 1.hour.from_now, protocol_subscription: protocol_subscription)
+      responseobj = FactoryBot.create(:response,
+                                      open_from: 1.hour.from_now,
+                                      protocol_subscription: protocol_subscription)
       expect(responseobj.expired?).to be_falsey
     end
   end
@@ -451,8 +453,9 @@ describe Response do
       responseobj.reload
       expect(responseobj.invitation_set.invitation_tokens.first).to_not be_blank
       expect(responseobj.invitation_set.invitation_tokens.first.token_plain).to be_blank
-      expect { responseobj.invitation_set.invitation_url(responseobj.invitation_set.invitation_tokens.first.token_plain) }
-        .to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
+      expect do
+        responseobj.invitation_set.invitation_url(responseobj.invitation_set.invitation_tokens.first.token_plain)
+      end.to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
     end
   end
 end

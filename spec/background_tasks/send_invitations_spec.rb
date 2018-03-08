@@ -54,8 +54,8 @@ describe SendInvitations do
       it 'should not queue a response that is outside the recent window' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response,
-                                     open_from: (Response::RECENT_PAST + 1.hour).ago,
-                                     protocol_subscription: protocol_subscription)
+                                        open_from: (Response::RECENT_PAST + 1.hour).ago,
+                                        protocol_subscription: protocol_subscription)
         expect(SendInvitationsJob).not_to receive(:perform_later)
         expect(SendInvitationsJob).not_to receive(:set)
         invitationsetcount = InvitationSet.count
@@ -90,8 +90,10 @@ describe SendInvitations do
           protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                     start_date: 1.week.ago.at_beginning_of_day,
                                                     person: mentor, filling_out_for: student)
-          responseobj = FactoryBot.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
-          response
+          responseobj = FactoryBot.create(:response,
+                                          open_from: 1.hour.ago,
+                                          protocol_subscription: protocol_subscription)
+          responseobj
         end
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
@@ -103,7 +105,7 @@ describe SendInvitations do
         described_class.run
         expect(InvitationSet.count).to eq(invitationsetcount + 1)
         expect(Invitation.count).to eq(invitationcount + 2)
-        responses.each do |response|
+        responses.each do |_response|
           responseobj.reload
           expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
         end
@@ -139,7 +141,7 @@ describe SendInvitations do
         described_class.run
         expect(InvitationSet.count).to eq(invitationsetcount + 1)
         expect(Invitation.count).to eq(invitationcount + 1)
-        [response1, response2].each do |response|
+        [response1, response2].each do |_response|
           responseobj.reload
           expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
         end
@@ -151,8 +153,8 @@ describe SendInvitations do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
         responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
-                                                protocol_subscription: protocol_subscription,
-                                                measurement: measurement)
+                                                   protocol_subscription: protocol_subscription,
+                                                   measurement: measurement)
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
@@ -178,8 +180,8 @@ describe SendInvitations do
         expect(protocol_subscription.person_id).not_to eq(protocol_subscription.filling_out_for_id)
         measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
         responseobj = FactoryBot.create(:response, open_from: 1.minute.ago,
-                                                protocol_subscription: protocol_subscription,
-                                                measurement: measurement)
+                                                   protocol_subscription: protocol_subscription,
+                                                   measurement: measurement)
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
@@ -201,8 +203,8 @@ describe SendInvitations do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       measurement = FactoryBot.create(:measurement, open_duration: 30.minutes, protocol: protocol_subscription.protocol)
       responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
-                                              protocol_subscription: protocol_subscription,
-                                              measurement: measurement)
+                                                 protocol_subscription: protocol_subscription,
+                                                 measurement: measurement)
       expect(SendInvitationsJob).not_to receive(:perform_later)
       expect(SendInvitationsJob).not_to receive(:set)
       invitationsetcount = InvitationSet.count
@@ -220,8 +222,8 @@ describe SendInvitations do
                                                 state: ProtocolSubscription::CANCELED_STATE)
       measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
       responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
-                                              protocol_subscription: protocol_subscription,
-                                              measurement: measurement)
+                                                 protocol_subscription: protocol_subscription,
+                                                 measurement: measurement)
       expect(SendInvitationsJob).not_to receive(:perform_later)
       expect(SendInvitationsJob).not_to receive(:set)
       invitationsetcount = InvitationSet.count
@@ -238,9 +240,9 @@ describe SendInvitations do
       measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
       invitation_set = FactoryBot.create(:invitation_set, person: protocol_subscription.person)
       responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
-                                              protocol_subscription: protocol_subscription,
-                                              measurement: measurement,
-                                              invitation_set: invitation_set)
+                                                 protocol_subscription: protocol_subscription,
+                                                 measurement: measurement,
+                                                 invitation_set: invitation_set)
       expect(SendInvitationsJob).not_to receive(:perform_later)
       expect(SendInvitationsJob).not_to receive(:set)
       invitationsetcount = InvitationSet.count

@@ -5,6 +5,7 @@ class Team < ApplicationRecord
   has_many :people, dependent: :destroy
   has_many :roles, dependent: :destroy
   belongs_to :organization
+  validates :organization_id, presence: true
 
   def self.overview(week_number = nil, year = nil, threshold_percentage = nil)
     Team.all.map do |team|

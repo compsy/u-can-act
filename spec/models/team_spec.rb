@@ -9,7 +9,7 @@ describe Team, type: :model do
       expect(team).to be_valid
     end
 
-    describe 'name' do
+    context 'name' do
       it 'should be invalid when not present' do
         team = FactoryBot.build(:team, name: nil)
         expect(team).to_not be_valid
@@ -21,6 +21,15 @@ describe Team, type: :model do
         FactoryBot.create(:team, name: 'test')
         team2 = FactoryBot.build(:team, name: 'test')
         expect(team2).to_not be_valid
+      end
+    end
+
+    context 'organization' do
+      it 'require an organization' do
+        team = FactoryBot.build(:team, organization: nil)
+        expect(team).to_not be_valid
+        team.organization = FactoryBot.create(:organization)
+        expect(team).to be_valid
       end
     end
   end

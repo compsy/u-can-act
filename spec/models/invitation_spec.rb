@@ -14,13 +14,13 @@ describe Invitation do
 
   describe 'invitation_set' do
     it 'should have one' do
-      invitation = FactoryBot.build(:invitation, invitation_set_id: nil)
+      invitation = FactoryBot.build(:sms_invitation, invitation_set_id: nil)
       expect(invitation.valid?).to be_falsey
       expect(invitation.errors.messages).to have_key :invitation_set_id
       expect(invitation.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
     end
     it 'should work to retrieve an InvitationSet' do
-      invitation = FactoryBot.create(:invitation)
+      invitation = FactoryBot.create(:sms_invitation)
       expect(invitation.invitation_set).to be_an(InvitationSet)
     end
   end

@@ -3,7 +3,6 @@
 namespace :scheduler do
   desc 'Send invitations'
   task send_invitations: :environment do
-    # TODO: fix below comment
     # Run every 15 minutes (max: 2.hours (see RECENT_PAST in Response model))
     puts 'Sending invitations - started'
     SendInvitations.run

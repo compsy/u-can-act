@@ -1,0 +1,71 @@
+#!/bin/bash
+questionnaire=$1
+default_page=index.html
+last_page=reward
+questionnaire_page=questionnaire.html
+
+cd public/dummy
+rm -rf student
+
+bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").response.update_attributes!(completed_at: nil)"
+
+rm -rf student
+wget \
+		 --save-cookies /tmp/cookies.txt \
+     --keep-session-cookies \
+     --recursive \
+     --no-clobber \
+     --page-requisites \
+     --html-extension \
+     --domains vsv.io \
+     --restrict-file-names=unix \
+     --no-parent \
+		 -E -H -k -K -p \
+     -r -e robots=off \
+     -U mozilla \
+    http://vsv.io\?q\=$questionnaire
+
+mv vsv.io student
+mv student/$default_page?q=$questionnaire.html student/$default_page
+cd student
+gsed -i "s/assets/\/dummy\/student\/assets/g" *.html
+
+new_url=`cat $default_page | grep 'form action=' | sed -e 's/<form action="\([^\"]*\)".*/\1/g'`
+echo $new_url
+
+bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").response.update_attributes!(completed_at: Time.zone.now)"
+
+cd ..
+wget \
+     --load-cookies /tmp/cookies.txt \
+     --keep-session-cookies \
+     --recursive \
+     --no-clobber \
+     --page-requisites \
+     --html-extension \
+     --domains vsv.io \
+     --restrict-file-names=unix \
+     --no-parent \
+		 -E -H -k -K -p \
+     -r -e robots=off \
+     -U mozilla \
+    http://vsv.io/klaar
+
+mv vsv.io student/$last_page
+rm student/*.orig
+rm student/**/*.orig
+cd student
+
+gsed -i "s/form action=\"http:\/\/vsv.io\/\"/form action=\"\/dummy\/student\/$last_page\/klaar.html\" method=\"GET\"/g" $default_page
+
+file=`ls assets/components | grep -i RewardPage.self`
+file=$last_page/assets/components/$file
+
+#gsed -i "s/var url = \'\/api\/v1\/protocol_subscriptions\/\' \+ protocolSubscriptionId/var url = \/dummy\/student\/data\.json/g" $file
+gsed -i "s/var url = '\/api\/v1\/protocol_subscriptions\/' + protocolSubscriptionId/var url = '\/dummy\/student\/data\.json'/g" $file
+prot_sub_id=`bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").response.protocol_subscription.id"`
+
+wget --load-cookies /tmp/cookies.txt \
+      -O data.json \
+      http://vsv.io/api/v1/protocol_subscriptions/$prot_sub_id
+

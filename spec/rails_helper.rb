@@ -20,6 +20,8 @@ if ENV['CI']
   SimpleCov.start
 end
 
+Selenium::WebDriver::Chrome.driver_path = '/usr/local/bin/chromedriver'
+
 # Also require the support files for testing
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 

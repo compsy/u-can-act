@@ -24,6 +24,10 @@ describe InvitationToken do
     end
   end
 
+  describe 'test_token' do
+   fail 
+  end
+
   describe 'test_identifier_token_combination' do
     let(:other_person) { FactoryBot.create(:person) }
 

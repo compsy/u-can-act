@@ -5,6 +5,19 @@ require 'rails_helper'
 describe Person do
   it_should_behave_like 'a person object'
 
+  describe 'last_completed_response' do
+    it 'should return nil if no response has been completed so far' do
+      raise
+    end
+    it 'should return the last completed response' do
+      raise
+    end
+
+    it 'should return the last completed response if a person has multiple protocol subscriptions' do
+      raise
+    end
+  end
+
   describe 'stats' do
     it 'should return a hash with the correct keys' do
       person = FactoryBot.create(:person)

@@ -3,7 +3,8 @@
 module Api
   module V1
     class ProtocolSubscriptionsController < ApiController
-      include ::Api::V1::Concerns::HasCurrentTokenUser
+      # include ::Api::V1::Concerns::HasCurrentTokenUser
+      include ::Concerns::IsLoggedIn
 
       before_action :set_protocol_subscription, only: %i[show]
       before_action :verify_access, only: %i[show]

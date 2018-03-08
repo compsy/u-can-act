@@ -2,7 +2,6 @@
 
 class Organization < ApplicationRecord
   validates :name, presence: true, uniqueness: true
-  has_many :people, dependent: :destroy
   has_many :roles, dependent: :destroy
 
   def self.overview(week_number = nil, year = nil, threshold_percentage = nil)

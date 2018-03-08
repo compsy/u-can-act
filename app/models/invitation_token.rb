@@ -27,6 +27,14 @@ class InvitationToken < ApplicationRecord
     end
   end
 
+  def self.test_token(token)
+    from = Person::IDENTIFIER_LENGTH
+    to = Person::IDENTIFIER_LENGTH + InvitationToken::TOKEN_LENGTH
+    identifier = token[0...from]
+    token = token[from..to]
+    InvitationToken.test_identifier_token_combination(identifier, token)
+  end
+
   def self.test_identifier_token_combination(identifier, token)
     person = Person.find_by_external_identifier(identifier)
     return nil unless person

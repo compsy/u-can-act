@@ -10,7 +10,7 @@ require 'database_cleaner'
 require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
-# require 'capybara-screenshot/rspec' # TODO: reenable?
+# require 'capybara-screenshot/rspec'
 Selenium::WebDriver::Chrome.driver_path = '/usr/local/bin/chromedriver' if Selenium::WebDriver::Platform.mac? &&
                                                                            File.exist?('/usr/local/bin/chromedriver')
 

@@ -30,6 +30,8 @@ class InvitationToken < ApplicationRecord
     person = Person.find_by_external_identifier(identifier)
     return nil unless person
 
+    # This is reasonably fast since the invitation_sets of a person
+    # are sorted by descending created_at value.
     person.invitation_sets.each do |invitation_set|
       invitation_set.invitation_tokens.each do |invitation_token|
         return invitation_token if invitation_token.token == token

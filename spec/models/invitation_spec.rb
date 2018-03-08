@@ -12,16 +12,16 @@ describe Invitation do
     expect(invitation.valid?).to be_truthy
   end
 
-  describe 'person' do
+  describe 'invitation_set' do
     it 'should have one' do
-      invitation_set = FactoryBot.build(:invitation_set, person_id: nil)
-      expect(invitation_set.valid?).to be_falsey
-      expect(invitation_set.errors.messages).to have_key :person_id
-      expect(invitation_set.errors.messages[:person_id]).to include('moet opgegeven zijn')
+      invitation = FactoryBot.build(:invitation, invitation_set_id: nil)
+      expect(invitation.valid?).to be_falsey
+      expect(invitation.errors.messages).to have_key :invitation_set_id
+      expect(invitation.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve a Person' do
-      invitation_set = FactoryBot.create(:invitation_set)
-      expect(invitation_set.person).to be_a(Person)
+    it 'should work to retrieve an InvitationSet' do
+      invitation = FactoryBot.create(:invitation)
+      expect(invitation.invitation_set).to be_an(InvitationSet)
     end
   end
 

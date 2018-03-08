@@ -36,7 +36,7 @@ class InvitationSetExporter
         'invitation_set_id' => invitation_set.id,
         'person_id' => calculate_hash(invitation_set.person.id),
         'created_at' => format_datetime(invitation_set.created_at),
-        'updated_at' => format_datetime(invitation_set.updated_at),
+        'updated_at' => format_datetime(invitation_set.updated_at)
       }
       vals
     end

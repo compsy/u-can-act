@@ -17,8 +17,8 @@ class ProtocolSubscriptionExporter
 
     def export(&_block)
       fields = %w[state]
-      headers = %w[protocol_subscription_id person_id created_at updated_at start_date protocol
-                   informed_consent_given_at filling_out_for_person_id] + fields
+      headers = %w[protocol_subscription_id person_id created_at updated_at start_date end_date
+                   protocol informed_consent_given_at filling_out_for_person_id] + fields
       yield format_headers(headers)
       silence_logger do
         ProtocolSubscription.find_each do |protocol_subscription|
@@ -45,6 +45,7 @@ class ProtocolSubscriptionExporter
     end
 
     def add_more_fields(vals, protocol_subscription)
+      vals['end_date'] = format_datetime(protocol_subscription.end_date)
       vals['protocol'] = protocol_subscription.protocol.name
       vals['informed_consent_given_at'] = format_datetime(protocol_subscription.informed_consent_given_at)
       vals['filling_out_for_person_id'] = calculate_hash(protocol_subscription.filling_out_for_id)

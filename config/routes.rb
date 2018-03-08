@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get '/', to: 'admin#index', as: 'admin'
     get 'person_export', to: 'admin#person_export', as: 'admin_person_export'
     get 'protocol_subscription_export', to: 'admin#protocol_subscription_export', as: 'admin_protocol_subscription_export'
+    get 'invitation_set_export', to: 'admin#invitation_set_export', as: 'admin_invitation_set_export'
     get 'questionnaire_export/:id', to: 'admin#questionnaire_export', as: 'admin_questionnaire_export'
     get 'response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
     post 'preview', to: 'admin#preview', as: 'admin_preview'

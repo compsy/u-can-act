@@ -33,7 +33,7 @@ class Person < ApplicationRecord
   # Not used right now:                                                           the last one created.
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },
-  #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
+  #          class_name: 'ProtocolSubscription', foreign_key: 'filled_out_for_id'
 
   after_initialize do |person|
     next if person.external_identifier

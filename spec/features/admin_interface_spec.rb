@@ -41,11 +41,20 @@ describe 'GET /admin', type: :feature, js: true do
       # expect(page.response_headers['Content-Disposition']).to match(/attachment; filename="#{expected_filename}"/)
       expect(page).to have_css('a[disabled]', count: 2)
 
+      # InvitationSets
+      expect(page).to have_content('InvitationSets')
+      expect(page).to have_link('Download', href: '/admin/invitation_set_export.csv')
+      page.all('a', text: 'Download')[2].click
+      # expect(page.response_headers['Content-Type']).to eq 'text/csv'
+      expected_filename = "invitation_sets_#{Time.zone.now.to_date}.csv"
+      # expect(page.response_headers['Content-Disposition']).to match(/attachment; filename="#{expected_filename}"/)
+      expect(page).to have_css('a[disabled]', count: 3)
+
       # Questionnaires
       expect(@questionnaire_names.size).to eq 3
       expect(page).to have_link('Definition', count: @questionnaire_names.size)
       expect(page).to have_link('Responses', count: @questionnaire_names.size)
-      disabled_count = 2
+      disabled_count = 3
       @questionnaire_names.each_with_index do |questionnaire_name, idx|
         expect(page).to have_content("Questionnaire: #{questionnaire_name}")
 

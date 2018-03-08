@@ -53,7 +53,7 @@ describe ResponseExporter do
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 1
       expect(export.last.split(';', -1).first).to eq '"response_id"'
-      expect(export.last.split(';', -1).second).to eq '"person_id"'
+      expect(export.last.split(';', -1).second).to eq '"filled_out_by_id"'
       expect(export.last.split(';', -1).last).to eq '"updated_at"'
     end
   end

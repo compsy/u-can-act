@@ -78,15 +78,17 @@ describe InvitationToken do
   describe 'token_hash' do
     it 'should not allow duplicate token hashes' do
       tok = 'myinvitation_token'
-      invitation_tokenone = FactoryBot.create(:invitation_token, token: 'myinvitation_token')
+      invitation_tokenone = FactoryBot.create(:invitation_token, token: tok)
       expect(invitation_tokenone.token_plain).to eq tok
       expect(invitation_tokenone.token).to_not be_empty
       expect(invitation_tokenone.token.to_s).to_not eq tok
       expect(invitation_tokenone.valid?).to be_truthy
-      invitation_tokenonetwo = FactoryBot.build(:invitation_token, token_hash: invitation_tokenone.token)
-      expect(invitation_tokenonetwo.valid?).to be_falsey
-      expect(invitation_tokenonetwo.errors.messages).to have_key :token_hash
-      expect(invitation_tokenonetwo.errors.messages[:token_hash]).to include('is al in gebruik')
+      invitation_tokentwo = FactoryBot.build(:invitation_token, token: tok)
+      expect(invitation_tokentwo.token_plain).to eq tok
+      expect(invitation_tokentwo.token).to_not be_empty
+      expect(invitation_tokenone.token.to_s).to_not eq tok
+      expect(invitation_tokentwo.valid?).to be_truthy
+      expect(invitation_tokentwo.token.to_s).to_not eq invitation_tokenone.token.to_s
     end
     it 'should not accept a nil token_hash' do
       invitation_token = FactoryBot.build(:invitation_token)
@@ -145,9 +147,7 @@ describe InvitationToken do
   describe 'expires_at' do
     it 'should not be able to be nil' do
       invitation_token = FactoryBot.build(:invitation_token, expires_at: nil)
-      expect(invitation_token.valid?).to be_falsey
-      expect(invitation_token.errors.messages).to have_key :expires_at
-      expect(invitation_token.errors.messages[:expires_at]).to include('moet opgegeven zijn')
+      expect(invitation_token.expires_at).to_not be_nil
     end
     it 'should be able to set it to a value' do
       invitation_token = FactoryBot.create(:invitation_token, expires_at: 14.days.from_now.in_time_zone)

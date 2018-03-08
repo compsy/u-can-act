@@ -3,6 +3,7 @@
 FactoryBot.define do
   sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
   factory :person do
+    initialize_with { new(attributes) } # This makes it so that after_initialize blocks in the model are called.
     role
     gender Person::MALE
     mobile_phone

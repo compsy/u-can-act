@@ -10,7 +10,7 @@ class InvitationToken < ApplicationRecord
   validates :invitation_set_id, presence: true
   validates :expires_at, presence: true
   # Don't supply a token on initialize, it will be generated.
-  validates :token_hash, presence: true, uniqueness: true
+  validates :token_hash, presence: true
 
   attr_accessor :token_plain
 

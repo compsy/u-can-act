@@ -88,6 +88,12 @@ class Response < ApplicationRecord
     completed_at.present?
   end
 
+  def complete!
+    update_attributes!(completed_at: Time.zone.now,
+                       filled_out_by: protocol_subscription.person,
+                       filled_out_for: protocol_subscription.filling_out_for)
+  end
+
   def remote_content
     ResponseContent.find(content) if content.present?
   end

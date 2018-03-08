@@ -2,8 +2,7 @@
 
 FactoryBot.define do
   factory :protocol_subscription do
-    # TODO: try removing?
-    initialize_with { new(attributes) }
+    initialize_with { new(attributes) } # This makes it so that after_initialize blocks in the model are called.
     person
     protocol
     state ProtocolSubscription::ACTIVE_STATE

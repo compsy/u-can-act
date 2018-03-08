@@ -2,8 +2,7 @@
 
 FactoryBot.define do
   factory :invitation_token do
+    initialize_with { new(attributes) } # This makes it so that after_initialize blocks in the model are called.
     invitation_set
-    # TODO: the prop below is not needed if initialized?
-    token '1234'
   end
 end

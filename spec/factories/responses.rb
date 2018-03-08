@@ -2,15 +2,15 @@
 
 FactoryBot.define do
   factory :response do
+    initialize_with { new(attributes) } # This makes it so that after_initialize blocks in the model are called.
     protocol_subscription
     measurement
     open_from Time.new(2017, 4, 10, 9, 0, 0).in_time_zone
     trait :completed do
       content { create(:response_content).id }
-      opened_at Time.new(2017, 4, 10, 9, 2, 36).in_time_zone
-      completed_at Time.new(2017, 4, 10, 9, 7, 6).in_time_zone
       after(:create) do |response|
         FactoryBot.create(:invitation_set, responses: [response], person_id: response.protocol_subscription.person_id)
+        response.complete!
       end
     end
     trait :future do

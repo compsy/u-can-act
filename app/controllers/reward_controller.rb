@@ -11,12 +11,12 @@ class RewardController < ApplicationController
 
   def set_response
     @response = current_user&.last_completed_response
-  end
-
-  def set_protocol_subscription
     unless @response
       render(status: 404, plain: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
     end
-    @protocol_subscription = @response.protocol_subscription if @response
+  end
+
+  def set_protocol_subscription
+    @protocol_subscription = @response.protocol_subscription
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CookieJar
-  COOKIE_LOCATION = :response_id
+  COOKIE_LOCATION = :ucanact_cookie
   class << self
     def verify_param(jar, response_hash)
       cookie = jar[COOKIE_LOCATION]

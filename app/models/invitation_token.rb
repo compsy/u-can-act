@@ -27,11 +27,13 @@ class InvitationToken < ApplicationRecord
     end
   end
 
-  def self.test_token(token)
+  def self.test_token(full_token)
     from = Person::IDENTIFIER_LENGTH
     to = Person::IDENTIFIER_LENGTH + InvitationToken::TOKEN_LENGTH
-    identifier = token[0...from]
-    token = token[from..to]
+    return nil if full_token.nil? || full_token.length < to
+
+    identifier = full_token[0...from]
+    token = full_token[from..to]
     InvitationToken.test_identifier_token_combination(identifier, token)
   end
 

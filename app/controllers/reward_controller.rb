@@ -5,7 +5,7 @@ class RewardController < ApplicationController
   before_action :set_response
   before_action :set_protocol_subscription
 
-  def show; end
+  def index; end
 
   private
 
@@ -14,6 +14,9 @@ class RewardController < ApplicationController
   end
 
   def set_protocol_subscription
+    unless @response
+      render(status: 404, plain: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
+    end
     @protocol_subscription = @response.protocol_subscription if @response
   end
 end

@@ -25,7 +25,29 @@ describe InvitationToken do
   end
 
   describe 'test_token' do
-   fail 
+    it 'it should call the test_identifier_token_combination function with the correct parameters' do
+      identifier = 'abcd'
+      token = '1234'
+      full_token = "#{identifier}#{token}"
+
+      expect(InvitationToken).to receive(:test_identifier_token_combination)
+        .with(identifier, token)
+        .and_return(true)
+
+      expect(InvitationToken.test_token(full_token)).to be_truthy
+    end
+
+    it 'it should return nil if the provided full_token is nil' do
+      expect(InvitationToken.test_token(nil)).to be_nil
+    end
+
+    it 'it should return nil if the provided full_token is too short' do
+      identifier = 'abcd'
+      token = '123'
+      full_token = "#{identifier}#{token}"
+
+      expect(InvitationToken.test_token(full_token)).to be_nil
+    end
   end
 
   describe 'test_identifier_token_combination' do

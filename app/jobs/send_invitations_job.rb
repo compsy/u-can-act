@@ -4,15 +4,13 @@ class SendInvitationsJob < ApplicationJob
   queue_as :default
 
   def perform(invitation_set)
-    any_valid = false
     invitation_text = ''
     invitation_set.reload
     invitation_set.responses.opened_and_not_expired.each do |response|
       invitation_text = random_message(response)
-      any_valid = true
       break
     end
-    return unless any_valid
+    return if invitation_text.blank?
     invitation_token = invitation_set.invitation_tokens.create!
     plain_text_token = invitation_token.token_plain
     invitation_set.update_attributes!(invitation_text: invitation_text) if invitation_set.invitation_text.blank?

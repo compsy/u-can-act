@@ -7,16 +7,12 @@ class SendInvitations
     def run
       # Since we're modifying the object, find_each would probably not work.
       # find_each also isn't needed, since the scope should always be sufficiently small.
-      response_sets = {}
+      response_sets = Hash.new([])
       Response.recently_opened_and_not_invited.each do |response|
         next if response.expired?
         next unless response.protocol_subscription.active?
         person_id = response.protocol_subscription.person_id
-        response_sets[person_id] = if response_sets.key?(person_id)
-                                     response_sets[person_id] + [response]
-                                   else
-                                     [response]
-                                   end
+        response_sets[person_id] += [response]
       end
       queue_invitation_sets(response_sets)
     end

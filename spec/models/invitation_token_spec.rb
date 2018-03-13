@@ -185,4 +185,82 @@ describe InvitationToken do
       expect(invitation_token.expired?).to be_truthy
     end
   end
+
+  describe 'calculate_expires_at', focus: true do
+    context 'without responses' do
+      it 'should return now if it was created more than 7 days ago' do
+        invitation_set = FactoryBot.create(:invitation_set)
+        invitation_token = FactoryBot.create(:invitation_token,
+                                             invitation_set: invitation_set,
+                                             created_at: 8.days.ago)
+        expect(invitation_token.calculate_expires_at).to be_within(1.minute).of(Time.zone.now)
+      end
+      it 'should return 7 days since created_at if it was created in the past week' do
+        invitation_set = FactoryBot.create(:invitation_set)
+        invitation_token = FactoryBot.create(:invitation_token,
+                                             invitation_set: invitation_set,
+                                             created_at: 3.days.ago)
+        expected = TimeTools.increase_by_duration(invitation_token.created_at,
+                                                  described_class::OPEN_TIME_FOR_INVITATION)
+        expect(invitation_token.calculate_expires_at).to be_within(1.minute).of(expected)
+      end
+    end
+    context 'with responses' do
+      it 'should not count completed responses' do
+        measurement = FactoryBot.create(:measurement, open_duration: 10.days)
+        invitation_set = FactoryBot.create(:invitation_set)
+        invitation_token = FactoryBot.create(:invitation_token,
+                                             invitation_set: invitation_set,
+                                             created_at: 3.days.ago)
+        response = FactoryBot.create(:response,
+                                     open_from: 1.hour.ago,
+                                     invitation_set: invitation_set,
+                                     measurement: measurement)
+        response.complete!
+        expected = TimeTools.increase_by_duration(invitation_token.created_at,
+                                                  described_class::OPEN_TIME_FOR_INVITATION)
+        expect(invitation_token.calculate_expires_at).to be_within(1.minute).of(expected)
+      end
+      it 'should return the expires at from the response if the invitation token was created more than 7 days ago' do
+        measurement = FactoryBot.create(:measurement, open_duration: 2.days)
+        invitation_set = FactoryBot.create(:invitation_set)
+        invitation_token = FactoryBot.create(:invitation_token,
+                                             invitation_set: invitation_set,
+                                             created_at: 8.days.ago)
+        response = FactoryBot.create(:response,
+                                     open_from: 1.hour.ago,
+                                     invitation_set: invitation_set,
+                                     measurement: measurement)
+        expected = TimeTools.increase_by_duration(response.open_from, measurement.open_duration)
+        expect(invitation_token.calculate_expires_at).to be_within(1.minute).of(expected)
+      end
+      it 'should return the expires at from the response if it is more recent than created_at + 7 days' do
+        measurement = FactoryBot.create(:measurement, open_duration: 5.days)
+        invitation_set = FactoryBot.create(:invitation_set)
+        invitation_token = FactoryBot.create(:invitation_token,
+                                             invitation_set: invitation_set,
+                                             created_at: 3.days.ago)
+        FactoryBot.create(:response,
+                          open_from: 1.hour.ago,
+                          invitation_set: invitation_set,
+                          measurement: measurement)
+        expected = TimeTools.increase_by_duration(1.hour.ago, measurement.open_duration)
+        expect(invitation_token.calculate_expires_at).to be_within(1.minute).of(expected)
+      end
+      it 'should ignore the expires at from the response if it is less than the other two things' do
+        measurement = FactoryBot.create(:measurement, open_duration: 2.days)
+        invitation_set = FactoryBot.create(:invitation_set)
+        invitation_token = FactoryBot.create(:invitation_token,
+                                             invitation_set: invitation_set,
+                                             created_at: 3.days.ago)
+        FactoryBot.create(:response,
+                          open_from: 1.hour.ago,
+                          invitation_set: invitation_set,
+                          measurement: measurement)
+        expected = TimeTools.increase_by_duration(invitation_token.created_at,
+                                                  described_class::OPEN_TIME_FOR_INVITATION)
+        expect(invitation_token.calculate_expires_at).to be_within(1.minute).of(expected)
+      end
+    end
+  end
 end

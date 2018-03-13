@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe InvitationSetExporter do
+  it_should_behave_like 'an object_exporter object'
+
   context 'without invitation sets' do
     it 'works without invitation sets' do
       export = described_class.export_lines.to_a.join.split("\n")

@@ -1,44 +1,31 @@
 # frozen_string_literal: true
 
-require 'csv'
-
-class PersonExporter
-  extend Exporters
+class PersonExporter < ObjectExporter
   class << self
-    def export_lines
-      Enumerator.new do |enum|
-        export do |line|
-          enum << line + "\n"
-        end
-      end
+    def klass
+      Person
     end
 
-    private
-
-    def export(&_block)
-      fields = %w[first_name last_name mobile_phone]
-      headers = %w[person_id created_at updated_at role title] + fields
-      yield format_headers(headers)
-      silence_logger do
-        Person.find_each do |person|
-          next if TEST_PHONE_NUMBERS.include?(person.mobile_phone)
-          vals = person_hash(person)
-          fields.each do |field|
-            vals[field] = person.send(field.to_sym)
-          end
-          yield format_hash(headers, vals)
-        end
-      end
+    def default_fields
+      %w[first_name last_name mobile_phone]
     end
 
-    def person_hash(person)
-      vals = {}
-      vals['person_id'] = calculate_hash(person.id)
-      vals['created_at'] = format_datetime(person.created_at)
-      vals['updated_at'] = format_datetime(person.updated_at)
-      vals['role'] = person.role.group
-      vals['title'] = person.role.title
-      vals
+    def formatted_fields
+      %w[person_id created_at updated_at role title]
+    end
+
+    def format_fields(person)
+      {
+        'person_id' => calculate_hash(person.id),
+        'created_at' => format_datetime(person.created_at),
+        'updated_at' => format_datetime(person.updated_at),
+        'role' => person.role.group,
+        'title' => person.role.title
+      }
+    end
+
+    def to_be_skipped?(person)
+      TEST_PHONE_NUMBERS.include?(person.mobile_phone)
     end
   end
 end

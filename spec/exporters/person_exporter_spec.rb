@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe PersonExporter do
+  it_should_behave_like 'an object_exporter object'
+
   context 'without people' do
     it 'works without people' do
       export = described_class.export_lines.to_a.join.split("\n")

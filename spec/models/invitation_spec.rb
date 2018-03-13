@@ -137,15 +137,6 @@ describe Invitation do
     end
   end
 
-  describe 'generate_message' do
-    it 'should concat the invitation_text with the invitation_url' do
-      invitation_set = FactoryBot.create(:invitation_set, invitation_text: 'mytext')
-      invitation = FactoryBot.create(:sms_invitation, invitation_set: invitation_set)
-      expected = "mytext #{ENV['HOST_URL']}?q=#{invitation_set.person.external_identifier}hiha"
-      expect(invitation.generate_message('hiha')).to eq expected
-    end
-  end
-
   describe 'send_invite' do
     let(:mentor) { FactoryBot.create(:mentor) }
     let(:student) { FactoryBot.create(:student) }

@@ -49,7 +49,9 @@ describe 'sending invitations', type: :feature do
     end
 
     it 'should send sms messages for open responses' do
+      responses
       SendInvitations.run
+      sleep 1
       expect(MessageBirdAdapter.deliveries.size).to eq(2 * responses.length) # reminder and original
 
       MessageBirdAdapter.deliveries.each_with_index do |msg, index|
@@ -84,7 +86,9 @@ describe 'sending invitations', type: :feature do
     end
 
     it 'should not schedule the sms if the delayed jobs are enabled' do
+      responses
       SendInvitations.run
+      sleep 1
       expect(MessageBirdAdapter.deliveries.size).to eq 0
       expect(Delayed::Job.all.length).to eq(2 * responses.length)
     end

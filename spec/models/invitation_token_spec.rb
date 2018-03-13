@@ -186,7 +186,7 @@ describe InvitationToken do
     end
   end
 
-  describe 'calculate_expires_at', focus: true do
+  describe 'calculate_expires_at' do
     context 'without responses' do
       it 'should return now if it was created more than 7 days ago' do
         invitation_set = FactoryBot.create(:invitation_set)

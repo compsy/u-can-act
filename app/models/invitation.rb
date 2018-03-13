@@ -37,8 +37,4 @@ class Invitation < ApplicationRecord
   def send_invite(_plain_text_token)
     raise 'send_invite(...) method not implemented by subclass'
   end
-
-  def generate_message(plain_text_token)
-    "#{invitation_set.invitation_text} #{invitation_set.invitation_url(plain_text_token)}"
-  end
 end

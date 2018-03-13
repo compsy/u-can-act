@@ -15,6 +15,10 @@ class SmsInvitation < Invitation
     }
   end
 
+  def generate_message(plain_text_token)
+    "#{invitation_set.invitation_text} #{invitation_set.invitation_url(plain_text_token)}"
+  end
+
   def generate_reference
     "vsv-#{invitation_set.id}"
   end

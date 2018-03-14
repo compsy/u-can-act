@@ -1,4 +1,4 @@
-/* line 3, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 3, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .tooltip, .student .tooltip {
   color: #99b5cd;
   font-size: 175%;
@@ -8,82 +8,82 @@
   margin-top: -10px;
   margin-bottom: -10px;
 }
-/* line 12, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 12, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .toast, .student .toast {
-  background: url(close-f327acc71b5f36bab7d9aeff3ed93441616ebe800a448b447bb392f109364c4c.png) 99% 8px/16px 16px no-repeat padding-box border-box scroll #99b5cd;
+  background: url(/assets/close-f327acc71b5f36bab7d9aeff3ed93441616ebe800a448b447bb392f109364c4c.png) 99% 8px/16px 16px no-repeat padding-box border-box scroll #99b5cd;
   word-break: normal;
   cursor: pointer;
 }
-/* line 17, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 17, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .erroneous, .student .erroneous {
   border-left: 2px solid red;
   margin-left: -8px;
   padding-left: 6px;
 }
-/* line 23, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 23, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .otherwise-textfield label, .student .otherwise-textfield label {
   margin-bottom: 20px;
 }
-/* line 27, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 27, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .input-field.inline, .student .input-field.inline {
   margin-top: -21px;
   top: 16px;
 }
-/* line 31, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 31, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .extra-spacing.row, .student .extra-spacing.row {
   padding-top: 3rem;
   margin-bottom: -2rem;
 }
-/* line 35, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 35, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor input[type=range], .student input[type=range] {
   margin-top: 26px;
 }
-/* line 38, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 38, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor input[type=range]::-webkit-slider-thumb, .student input[type=range]::-webkit-slider-thumb {
   margin-top: -16px;
 }
-/* line 41, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 41, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor input[disabled].otherwise, .student input[disabled].otherwise {
   cursor: pointer;
 }
-/* line 44, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 44, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor ol ol, .student ol ol {
   list-style-type: lower-alpha;
 }
-/* line 46, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 46, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor ol ol ol, .student ol ol ol {
   list-style-type: decimal;
 }
-/* line 50, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 50, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .section-explanation, .student .section-explanation {
   font-weight: bold;
 }
-/* line 53, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 53, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .hidden, .student .hidden {
   display: none;
 }
-/* line 56, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 56, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .questionnaire-image, .student .questionnaire-image {
   width: 80%;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-/* line 62, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 62, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .questionnaire-quote, .student .questionnaire-quote {
   font-style: italic;
 }
-/* line 65, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 65, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor .btn.expandable_button, .student .btn.expandable_button {
   margin-right: 10px;
   margin-bottom: 10px;
 }
-/* line 69, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 69, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor input[type="checkbox"] + label, .student input[type="checkbox"] + label {
   padding-top: 0.25rem;
   display: inline;
 }
-/* line 73, /Users/frbl/Workspace/compsy/vsv/app/assets/stylesheets/questionnaire.scss */
+/* line 73, /Users/ando/repos/vsv/app/assets/stylesheets/questionnaire.scss */
 .mentor input[type="radio"]:not(:checked) + label, .mentor input[type="radio"]:checked + label, .student input[type="radio"]:not(:checked) + label, .student input[type="radio"]:checked + label {
   padding-top: 0.3rem;
   display: inline;

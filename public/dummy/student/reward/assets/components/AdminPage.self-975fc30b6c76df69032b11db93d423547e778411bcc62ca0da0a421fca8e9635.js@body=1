@@ -19,7 +19,7 @@ var AdminPage = (function (_React$Component) {
     key: "renderAdminPage",
     value: function renderAdminPage(isAuthenticated) {
       if (isAuthenticated) {
-        return React.createElement(OrganizationOverview, null);
+        return React.createElement(TeamOverview, null);
       }
     }
   }, {

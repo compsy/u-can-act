@@ -8,13 +8,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var OrganizationOverview = (function (_React$Component) {
-  _inherits(OrganizationOverview, _React$Component);
+var TeamOverview = (function (_React$Component) {
+  _inherits(TeamOverview, _React$Component);
 
-  function OrganizationOverview(props) {
-    _classCallCheck(this, OrganizationOverview);
+  function TeamOverview(props) {
+    _classCallCheck(this, TeamOverview);
 
-    _get(Object.getPrototypeOf(OrganizationOverview.prototype), 'constructor', this).call(this, props);
+    _get(Object.getPrototypeOf(TeamOverview.prototype), 'constructor', this).call(this, props);
     this.state = {
       Mentor: undefined,
       Student: undefined,
@@ -24,19 +24,19 @@ var OrganizationOverview = (function (_React$Component) {
     };
   }
 
-  _createClass(OrganizationOverview, [{
-    key: 'updateOrganizationDetails',
-    value: function updateOrganizationDetails() {
+  _createClass(TeamOverview, [{
+    key: 'updateTeamDetails',
+    value: function updateTeamDetails() {
       var _this = this;
 
       this.state.groups.forEach(function (x) {
-        _this.loadOrganizationData(x);
+        _this.loadTeamData(x);
       });
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.updateOrganizationDetails();
+      this.updateTeamDetails();
     }
   }, {
     key: 'isDone',
@@ -51,8 +51,8 @@ var OrganizationOverview = (function (_React$Component) {
       xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('id_token'));
     }
   }, {
-    key: 'loadOrganizationData',
-    value: function loadOrganizationData(group) {
+    key: 'loadTeamData',
+    value: function loadTeamData(group) {
       var self = this;
 
       // Only update if the subscription id has changed
@@ -60,7 +60,7 @@ var OrganizationOverview = (function (_React$Component) {
       var week_number = this.state.week_number === undefined ? '' : '&week_number=' + this.state.week_number;
       var percentage_threshold = '&percentage_threshold=70';
 
-      var url = '/api/v1/admin/organization/' + group + year + week_number + percentage_threshold;
+      var url = '/api/v1/admin/team/' + group + year + week_number + percentage_threshold;
 
       $.ajax({
         url: url,
@@ -81,7 +81,7 @@ var OrganizationOverview = (function (_React$Component) {
       this.setState({
         year: option
       });
-      this.updateOrganizationDetails();
+      this.updateTeamDetails();
     }
   }, {
     key: 'handleWeekChange',
@@ -89,7 +89,7 @@ var OrganizationOverview = (function (_React$Component) {
       this.setState({
         week_number: option
       });
-      this.updateOrganizationDetails();
+      this.updateTeamDetails();
     }
   }, {
     key: 'renderOverview',
@@ -100,7 +100,7 @@ var OrganizationOverview = (function (_React$Component) {
         React.createElement(
           'h3',
           null,
-          ' Organization overview '
+          ' Team overview '
         ),
         React.createElement(
           'div',
@@ -125,8 +125,8 @@ var OrganizationOverview = (function (_React$Component) {
             React.createElement(
               'div',
               { className: 'col s12' },
-              React.createElement(OrganizationOverviewEntry, { overview: this.state.Mentor.overview, name: 'Mentors' }),
-              React.createElement(OrganizationOverviewEntry, { overview: this.state.Student.overview, name: 'Students' })
+              React.createElement(TeamOverviewEntry, { overview: this.state.Mentor.overview, name: 'Mentors' }),
+              React.createElement(TeamOverviewEntry, { overview: this.state.Student.overview, name: 'Students' })
             )
           )
         )
@@ -161,5 +161,5 @@ var OrganizationOverview = (function (_React$Component) {
     }
   }]);
 
-  return OrganizationOverview;
+  return TeamOverview;
 })(React.Component);

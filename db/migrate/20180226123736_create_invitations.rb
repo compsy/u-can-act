@@ -8,8 +8,11 @@ class CreateInvitations < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     # Save the invited state in an invitation set before removing it.
-    Response.all.each do |response|
-      invitation_set = InvitationSet.create!(person: response.protocol_subscription.person)
+    Response.reset_column_information
+    Invitation.reset_column_information
+    InvitationSet.reset_column_information
+    Response.where.not(invited_state: 'not_sent').find_each do |response|
+      invitation_set = InvitationSet.create!(person: response.protocol_subscription.person, responses: [response])
       SmsInvitation.create!(invitation_set: invitation_set, invited_state: response.invited_state)
     end
     remove_column :responses, :invited_state

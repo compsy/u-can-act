@@ -18,7 +18,7 @@ end
 # Remember to use create!/save! instead of create/save everywhere in seeds
 
 # WARNING: seeds below are not idempotent: use dbsetup after changing something
-if Rails.env.development?
+if Rails.env.development? && ProtocolSubscription.count.zero?
 
   # Mentor pre assessment
   puts ''

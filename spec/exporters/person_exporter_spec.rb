@@ -30,15 +30,6 @@ describe PersonExporter do
         expect(export.last.split(';', -1).first).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
         expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
       end
-
-      it 'introduces the correct headers' do
-        headers = export.first.split("\;").map { |x| x.delete('"') }
-        hash = described_class.send(:person_hash, person)
-
-        # +3 for first_name, last_name, mobile_phone
-        expect(headers.length).to eq(hash.length + 3)
-        hash.each_key { |key| expect(headers).to include key }
-      end
     end
   end
 end

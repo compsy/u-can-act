@@ -8,6 +8,8 @@ class CreateOrganizations < ActiveRecord::Migration[5.0]
     add_column :teams, :organization_id, :integer, foreign_key: true, null: true
     add_index :organizations, :name, unique: true
 
+    Organization.reset_column_information
+    Team.reset_column_information
     default_organization = Organization.create!(name: 'Default organization')
 
     Team.all.each do |team|

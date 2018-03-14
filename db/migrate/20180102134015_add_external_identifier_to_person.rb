@@ -6,6 +6,7 @@ class AddExternalIdentifierToPerson < ActiveRecord::Migration[5.0]
 
     # Call the initializer for each of the person objects, which causes the external_identifier
     # to be initialized (which needs to be saved)
+    Person.reset_column_information
     Person.find_each { |person| person.save! }
 
     change_column_null :people, :external_identifier, false

@@ -1,7 +1,8 @@
 #!/usr/bin/env rails runner
 organization = Organization.find_or_create_by!(name: 'Dummy organization-213')
-student_role = organization.roles.find_or_create_by!(group: Person::STUDENT, title: 'student-213')
-mentor_role = organization.roles.find_or_create_by!(group: Person::MENTOR, title: 'mentor-213')
+team = organization.teams.create(name: 'Dummy team')
+student_role = team.roles.find_or_create_by!(group: Person::STUDENT, title: 'student-213')
+mentor_role = team.roles.find_or_create_by!(group: Person::MENTOR, title: 'mentor-213')
 
 students =[
   { first_name: 'Bram', last_name: 'Moolenaar', gender: 'male' },

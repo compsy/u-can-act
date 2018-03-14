@@ -52,12 +52,7 @@ class InvitationToken < ApplicationRecord
   end
 
   def expired?
-    # If a response is still valid, it should always be possible to fill it out.
-    return false if Time.zone.now <= expires_at
-    invitation_set.responses.each do |response|
-      return false unless response.response_expired?
-    end
-    true
+    Time.zone.now > expires_at
   end
 
   def calculate_expires_at

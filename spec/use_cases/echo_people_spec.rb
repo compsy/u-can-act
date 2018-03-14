@@ -42,7 +42,7 @@ describe EchoPeople do
     describe 'with students' do
       before do
         allow(CSV).to receive(:foreach)
-          .and_yield(%w[type organization_name firstname lastname gender
+          .and_yield(%w[type team_name firstname lastname gender
                         mobile_phone protocol_name start_date end_date])
           .and_yield([Person::STUDENT, 'mijnschool', '   a   ', ' e', Person::MALE,
                       '0612345679',  'protname', dateinfuture, enddateinfuture])
@@ -54,15 +54,15 @@ describe EchoPeople do
 
       it 'should return an array with all people (except the header)' do
         expected_output = "people = [];nil\n"
-        expected_output += 'people << {:organization_name=>"mijnschool", :first_name=>"a", :last_name=>"e", ' \
+        expected_output += 'people << {:team_name=>"mijnschool", :first_name=>"a", :last_name=>"e", ' \
                           ':gender=>"male", :mobile_phone=>"0612345679", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:organization_name=>"mijnschool", :first_name=>"b", :last_name=>"f", ' \
+        expected_output += 'people << {:team_name=>"mijnschool", :first_name=>"b", :last_name=>"f", ' \
                           ':gender=>"female", :mobile_phone=>"06-12345670", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:organization_name=>"mijnschool", :first_name=>"c", :last_name=>"g", ' \
+        expected_output += 'people << {:team_name=>"mijnschool", :first_name=>"c", :last_name=>"g", ' \
                           ':gender=>"male", :mobile_phone=>"0612345671", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
@@ -73,7 +73,7 @@ describe EchoPeople do
     describe 'with mentors' do
       before do
         allow(CSV).to receive(:foreach)
-          .and_yield(%w[type organization_name role_title
+          .and_yield(%w[type team_name role_title
                         firstname lastname gender
                         mobile_phone email protocol_name start_date])
           .and_yield([Person::MENTOR, 'jouwschool', Person::MENTOR, 'a',
@@ -95,35 +95,35 @@ describe EchoPeople do
 
       it 'should return an array with all mentors (except the header)' do
         expected_output = "people = [];nil\n"
-        expected_output += 'people << {:organization_name=>"jouwschool", ' \
+        expected_output += 'people << {:team_name=>"jouwschool", ' \
                            ':role_title=>"Mentor", :first_name=>"a", :last_name=>"e", ' \
                            ':gender=>"male", :mobile_phone=>"0612345679", ' \
                            ':email=>"mentor1@test.com", :protocol_name=>"protname", ' \
                            ":start_date=>\"#{dateinfuture}\", " \
                            ':filling_out_for=>"06-12345670", :filling_out_for_protocol=>"pilot", ' \
                            ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:organization_name=>"jouwschool", ' \
+        expected_output += 'people << {:team_name=>"jouwschool", ' \
                            ':role_title=>"Mentor", :first_name=>"a", :last_name=>"e", ' \
                            ':gender=>"female", :mobile_phone=>"0612345679", ' \
                            ':email=>"mentor2@test.com", :protocol_name=>"protname", ' \
                            ":start_date=>\"#{dateinfuture}\", " \
                            ':filling_out_for=>"0676543219", :filling_out_for_protocol=>"pilot", ' \
                            ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:organization_name=>"jouwschool", ' \
+        expected_output += 'people << {:team_name=>"jouwschool", ' \
                            ':role_title=>"Mentor", :first_name=>"b", :last_name=>"f", ' \
                            ':gender=>"male", :mobile_phone=>"06-12345670", ' \
                            ':email=>"mentor3@test.com", :protocol_name=>"protname", ' \
                            ":start_date=>\"#{dateinfuture}\", " \
                            ':filling_out_for=>"0676543219", :filling_out_for_protocol=>"pilot", ' \
                            ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:organization_name=>"jouwschool", ' \
+        expected_output += 'people << {:team_name=>"jouwschool", ' \
                            ':role_title=>"Mentor", :first_name=>"b", :last_name=>"f", ' \
                            ':gender=>"female", :mobile_phone=>"06-12345670", ' \
                            ':email=>"mentor4@test.com", :protocol_name=>"protname", ' \
                            ":start_date=>\"#{dateinfuture}\", " \
                            ':filling_out_for=>"0676543266", :filling_out_for_protocol=>"pilot", ' \
                            ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:organization_name=>"jouwschool", ' \
+        expected_output += 'people << {:team_name=>"jouwschool", ' \
                            ':role_title=>"Mentor", :first_name=>"b", :last_name=>"f", ' \
                            ':gender=>"male", :mobile_phone=>"06-12345670", ' \
                            ':email=>"mentor5@test.com", :protocol_name=>"protname", ' \

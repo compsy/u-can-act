@@ -101,13 +101,13 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 ### The Mentor CSV)
 For the Mentor data this should be:
 
-| type | organization_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | | end_date |
+| type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | | end_date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Mentor`
- - `organization_name`: the name of the organization the mentor belongs to
- - `role_title`: the role the mentor has in the organization ('mentor', 'maatje', or 'S-teamer')
+ - `team_name`: the name of the team the mentor belongs to
+ - `role_title`: the role the mentor has in the team ('mentor', 'maatje', or 'S-teamer')
  - `first_name`: the first name of the person
  - `last_name`: the last name of the person
  - `gender`: the gender of the person
@@ -122,12 +122,12 @@ In this case:
 ### The Student CSV
 For the Student data this should be:
 
-|type | organization_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date | end_date |
+|type | team_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date | end_date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Student`
- - `organization_name`: the name of the organization the student belongs to
+ - `team_name`: the name of the team the student belongs to
  - `first_name`: the first name of the person
  - `last_name`: the last name of the person
  - `gender`: the gender of the person

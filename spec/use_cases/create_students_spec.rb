@@ -5,8 +5,8 @@ require 'rails_helper'
 describe CreateStudents do
   let!(:plain_text_parser) { PlainTextParser.new }
   let!(:protocol) { FactoryBot.create(:protocol, name: 'protname') }
-  let!(:organization) { FactoryBot.create(:organization, name: 'orgname') }
-  let!(:role) { FactoryBot.create(:role, organization: organization, group: Person::STUDENT, title: Person::STUDENT) }
+  let!(:team) { FactoryBot.create(:team, name: 'orgname') }
+  let!(:role) { FactoryBot.create(:role, team: team, group: Person::STUDENT, title: Person::STUDENT) }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:enddateinfuture) { 42.days.from_now.to_date.to_s }
   let(:students) do
@@ -15,7 +15,7 @@ describe CreateStudents do
        gender: Person::MALE,
        mobile_phone: '0612345679',
        protocol_name: 'protname',
-       organization_name: 'orgname',
+       team_name: 'orgname',
        start_date: dateinfuture,
        end_date: enddateinfuture },
      { first_name: 'b',
@@ -23,7 +23,7 @@ describe CreateStudents do
        gender: Person::FEMALE,
        mobile_phone: '06-12345670',
        protocol_name: 'protname',
-       organization_name: 'orgname',
+       team_name: 'orgname',
        start_date: dateinfuture,
        end_date: enddateinfuture },
      { first_name: 'c',
@@ -31,7 +31,7 @@ describe CreateStudents do
        gender: nil,
        mobile_phone: '0612345671',
        protocol_name: 'protname',
-       organization_name: 'orgname',
+       team_name: 'orgname',
        start_date: dateinfuture,
        end_date: enddateinfuture }]
   end

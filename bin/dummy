@@ -1,0 +1,82 @@
+#!/usr/bin/env rails runner
+organization = Organization.find_or_create_by!(name: 'Dummy organization-213')
+team = organization.teams.create(name: 'Dummy team')
+student_role = team.roles.find_or_create_by!(group: Person::STUDENT, title: 'student-213')
+mentor_role = team.roles.find_or_create_by!(group: Person::MENTOR, title: 'mentor-213')
+
+students =[
+  { first_name: 'Bram', last_name: 'Moolenaar', gender: 'male' },
+  { first_name: 'Edsger', last_name: 'Dijkstra', gender: 'male' },
+  { first_name: 'Andrew', last_name: 'Tanenbaum', gender: 'male' }
+]
+phone = nil
+students = students.map do |student_hash|
+  loop do
+    phone = "06#{rand(10 ** 8).to_s.rjust(8,'0')}"
+    break if Person.find_by_mobile_phone(phone).nil?
+  end
+  Person.create!(first_name: student_hash[:first_name],
+                  last_name: student_hash[:last_name],
+                  gender: student_hash[:gender],
+                  mobile_phone: phone, role: student_role)
+end
+
+loop do
+  phone = "06#{rand(10 ** 8).to_s.rjust(8,'0')}"
+  break if Person.find_by_mobile_phone(phone).nil?
+end
+
+Person.find_by_email('janssens_hermanus81@gmail.com')&.destroy
+mentor = Person.create!(first_name: 'Guido',
+                last_name: 'van Rossum',
+                gender: 'male',
+                email: 'janssens_hermanus81@gmail.com',
+                mobile_phone: phone, role: mentor_role)
+
+
+protocol = Protocol.find_by_name('mentoren dagboek')
+
+responseobj = nil
+invitation_set = InvitationSet.create!(person: mentor)
+token = invitation_set.invitation_tokens.create!
+students[0..1].each do |student|
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: mentor,
+    filling_out_for: student,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week
+  )
+  responseobj = prot_sub.responses.first
+  responseobj.update_attributes!(
+    open_from: 1.minute.ago,
+    invitation_set: invitation_set)
+end
+tok = "#{responseobj.protocol_subscription.person.external_identifier}#{token.token_plain}"
+file_name = Rails.root.join('bin','dummy_mentor').to_s
+`#{file_name} #{tok}`
+
+student = students.last
+student.protocol_subscriptions.create!(
+  protocol: Protocol.find_by_name('studenten'),
+  state: ProtocolSubscription::ACTIVE_STATE,
+  start_date: Time.zone.now.beginning_of_week,
+  informed_consent_given_at: Time.zone.now
+)
+
+student.protocol_subscriptions.first.responses.each do |resp|
+  resp.update_attributes!(open_from: 10.years.from_now)
+end
+responseobj = student.protocol_subscriptions.first.responses[1]
+invitation_set = InvitationSet.create!(person: student)
+token = invitation_set.invitation_tokens.create!
+responseobj.update_attributes!(
+  open_from: 1.minute.ago,
+  invitation_set: invitation_set)
+tok = "#{responseobj.protocol_subscription.person.external_identifier}#{token.token_plain}"
+file_name = Rails.root.join('bin','dummy_student').to_s
+`#{file_name} #{tok}`
+
+mentor.destroy
+students.map(&:destroy)
+organization.destroy

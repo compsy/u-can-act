@@ -41,11 +41,20 @@ describe 'GET /admin', type: :feature, js: true do
       # expect(page.response_headers['Content-Disposition']).to match(/attachment; filename="#{expected_filename}"/)
       expect(page).to have_css('a[disabled]', count: 2)
 
+      # InvitationSets
+      expect(page).to have_content('InvitationSets')
+      expect(page).to have_link('Download', href: '/admin/invitation_set_export.csv')
+      page.all('a', text: 'Download')[2].click
+      # expect(page.response_headers['Content-Type']).to eq 'text/csv'
+      expected_filename = "invitation_sets_#{Time.zone.now.to_date}.csv"
+      # expect(page.response_headers['Content-Disposition']).to match(/attachment; filename="#{expected_filename}"/)
+      expect(page).to have_css('a[disabled]', count: 3)
+
       # Questionnaires
       expect(@questionnaire_names.size).to eq 3
       expect(page).to have_link('Definition', count: @questionnaire_names.size)
       expect(page).to have_link('Responses', count: @questionnaire_names.size)
-      disabled_count = 2
+      disabled_count = 3
       @questionnaire_names.each_with_index do |questionnaire_name, idx|
         expect(page).to have_content("Questionnaire: #{questionnaire_name}")
 
@@ -87,15 +96,15 @@ describe 'GET /admin', type: :feature, js: true do
     end
   end
 
-  describe 'organizational overviews' do
+  describe 'team overviews' do
     let(:admin) { FactoryBot.create(:admin) }
     let(:payload) { { sub: admin.auth0_id_string } }
 
-    let!(:org1) { FactoryBot.create(:organization, name: 'org1') }
-    let!(:org2) { FactoryBot.create(:organization, name: 'org2') }
+    let!(:org1) { FactoryBot.create(:team, name: 'org1') }
+    let!(:org2) { FactoryBot.create(:team, name: 'org2') }
 
-    let!(:role1) {  FactoryBot.create(:role, organization: org1, group: Person::STUDENT, title: 'Student') }
-    let!(:role2) {  FactoryBot.create(:role, organization: org1, group: Person::MENTOR, title: 'Mentor') }
+    let!(:role1) {  FactoryBot.create(:role, team: org1, group: Person::STUDENT, title: 'Student') }
+    let!(:role2) {  FactoryBot.create(:role, team: org1, group: Person::MENTOR, title: 'Mentor') }
 
     let!(:student1) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
     let!(:student2) {  FactoryBot.create(:person, :with_protocol_subscriptions, role: role1) }
@@ -151,7 +160,7 @@ describe 'GET /admin', type: :feature, js: true do
         expect(page).to have_content 'Log In'
       end
 
-      it 'should not list the correct organizations with an incorrect session' do
+      it 'should not list the correct teams with an incorrect session' do
         FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
                                           content: [{ type: :raw, content: 'questionnaire' }])
 
@@ -161,9 +170,9 @@ describe 'GET /admin', type: :feature, js: true do
         page.execute_script("localStorage.setItem('expires_at', '9999999999999')")
         visit '/admin'
 
-        expect(page).to_not have_content 'Organization overview'
+        expect(page).to_not have_content 'Team overview'
         expect(page).to_not have_content org1.name
-        expect(page).to_not have_content 'Organization'
+        expect(page).to_not have_content 'Team'
         expect(page).to_not have_content 'Completed'
         expect(page).to_not have_content 'Completed percentage'
         expect(page).to_not have_content '70% completed questionnaires'
@@ -189,14 +198,14 @@ describe 'GET /admin', type: :feature, js: true do
         expect(page).to have_content 'Log Out'
       end
 
-      it 'should list the correct organizations' do
+      it 'should list the correct teams' do
         FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
                                           content: [{ type: :raw, content: 'questionnaire' }])
         basic_auth 'admin', 'admin', '/admin'
         visit '/admin'
-        expect(page).to have_content 'Organization overview'
+        expect(page).to have_content 'Team overview'
         expect(page).to have_content org1.name
-        expect(page).to have_content 'Organization'
+        expect(page).to have_content 'Team'
         expect(page).to have_content 'Completed'
         expect(page).to have_content 'Completed percentage'
         expect(page).to have_content '≥ 70% completed questionnaires'

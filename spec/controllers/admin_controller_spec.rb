@@ -1,17 +1,18 @@
 # frozen_string_literal: true
+# frozen_string_literal: true
 
 require 'rails_helper'
 
 describe AdminController, type: :controller do
   describe "GET 'index'" do
-    it 'should initiate an organization overview' do
+    it 'should initiate an team overview' do
       basic_auth 'admin', 'admin'
       get :index
     end
   end
 
   describe "GET 'routes'" do
-    let(:routes_list) { %i[index person_export protocol_subscription_export] }
+    let(:routes_list) { %i[index person_export protocol_subscription_export invitation_set_export] }
 
     it 'should require basic http auth' do
       routes_list.each do |route|

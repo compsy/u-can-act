@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
@@ -11,6 +11,8 @@ require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 # require 'capybara-screenshot/rspec'
+Selenium::WebDriver::Chrome.driver_path = '/usr/local/bin/chromedriver' if Selenium::WebDriver::Platform.mac? &&
+                                                                           File.exist?('/usr/local/bin/chromedriver')
 
 # Start coverage report on CircleCI
 if ENV['CI']

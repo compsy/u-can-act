@@ -3,39 +3,49 @@
 require 'rails_helper'
 
 RSpec.describe RewardController, type: :controller do
+  it_should_behave_like 'an is_logged_in concern', :index
   describe 'GET /klaar' do
-    it 'should require a response id' do
-      get :show
-      expect(response).to have_http_status(401)
-      expect(response.body).to include('Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
-    end
-    it 'should require a valid response id' do
-      expect(CookieJar).to receive(:read_entry)
-        .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), TokenAuthenticationController::RESPONSE_ID_COOKIE)
-        .and_return('5')
+    let(:student) { FactoryBot.create(:student) }
 
-      get :show
-      expect(response).to have_http_status(401)
-      expect(response.body).to include('Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
-    end
-    it 'should require a completed response' do
-      responseobj = FactoryBot.create(:response)
-      expect(CookieJar).to receive(:read_entry)
-        .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), TokenAuthenticationController::RESPONSE_ID_COOKIE)
-        .and_return(responseobj.id.to_s)
+    describe 'with logged in student' do
+      before :each do
+        cookie_auth(student)
+      end
 
-      get :show
-      expect(response).to have_http_status(400)
-      expect(response.body).to include('Je kan deze pagina pas bekijken als je de vragenlijst hebt ingevuld.')
-    end
-    it 'does not give an error when the response is completed' do
-      responseobj = FactoryBot.create(:response, :completed)
-      expect(CookieJar).to receive(:read_entry)
-        .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), TokenAuthenticationController::RESPONSE_ID_COOKIE)
-        .and_return(responseobj.id.to_s)
+      it 'should require a questionnaire to be filled out id' do
+        get :index
+        expect(response).to have_http_status(404)
+        expect(response.body).to include('Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
+      end
 
-      get :show
-      expect(response).to have_http_status(200)
+      it 'should require a completed response and thus not work with a not-completed response' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: student)
+        FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+
+        get :index
+        expect(response).to have_http_status(404)
+        expect(response.body).to include('Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
+      end
+
+      it 'does not give an error when the response is completed' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: student)
+        FactoryBot.create(:response, :completed, protocol_subscription: protocol_subscription)
+
+        get :index
+        expect(response).to have_http_status(200)
+      end
+
+      it 'should load the last completed response for displaying the reward' do
+        responseobj = FactoryBot.create(:response, :completed)
+        expect_any_instance_of(Person).to receive(:last_completed_response).and_return(responseobj)
+
+        get :index
+        expect(controller.instance_variable_get(:@response)).to eq responseobj
+      end
     end
   end
 end

@@ -1,54 +1,52 @@
 # frozen_string_literal: true
 
 class TokenAuthenticationController < ApplicationController
-  before_action :set_response, only: [:show]
-  before_action :set_cookie, only: [:show]
+  before_action :check_params
+  before_action :check_invitation_token
 
   RESPONSE_ID_COOKIE = :response_id
+  PERSON_ID_COOKIE = :person_id
 
   def show
-    redirect_to_questionnaire(@response.protocol_subscription.for_myself?, @response.invitation_token.token)
+    redirect_to questionnaire_index_path
   end
 
   private
 
-  def redirect_to_questionnaire(for_myself, token)
-    redirect_url = if for_myself
-                     questionnaire_path(q: token)
-                   else
-                     mentor_overview_index_path
-                   end
-    redirect_to redirect_url
+  def check_invitation_token
+    invitation_token = InvitationToken.test_identifier_token_combination(identifier_param, token_param)
+    if invitation_token.nil?
+      render(status: 401, plain: 'Je bent niet bevoegd om deze vragenlijst te zien.')
+      return
+    end
+
+    if invitation_token.expired?
+      render(status: 404, plain: 'Deze link is niet meer geldig.')
+      return
+    end
+    store_person_cookie(identifier_param)
   end
 
-  def set_response
-    invitation_token = InvitationToken.find_by_token(questionnaire_params[:q])
-    check_invitation_token(invitation_token)
-    return if performed?
-    @response = invitation_token.response
-  end
-
-  def set_cookie
-    cookie = { RESPONSE_ID_COOKIE => @response.id.to_s }
+  def store_person_cookie(identifier)
+    cookie = { PERSON_ID_COOKIE => identifier }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
   end
 
-  def check_invitation_token(invitation_token)
-    check_invitation_token_available(invitation_token)
-    # If the protocol subscription is for someone else, it could be the case that there are multiple questionnaires
-    # waiting
-    return if performed? || !invitation_token.response.protocol_subscription.for_myself?
-    check_invitation_token_still_accessible(invitation_token)
+  def identifier_param
+    identifier = questionnaire_params[:q]
+    identifier[0...Person::IDENTIFIER_LENGTH] if identifier
   end
 
-  def check_invitation_token_available(invitation_token)
-    render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.') unless invitation_token
+  def token_param
+    identifier = questionnaire_params[:q]
+    from = Person::IDENTIFIER_LENGTH
+    to = Person::IDENTIFIER_LENGTH + InvitationToken::TOKEN_LENGTH
+    identifier[from..to] if identifier
   end
 
-  def check_invitation_token_still_accessible(invitation_token)
-    render(status: 404, plain: 'Je hebt deze vragenlijst al ingevuld.') && return if
-      invitation_token.response.completed_at
-    render(status: 404, plain: 'Deze vragenlijst kan niet meer ingevuld worden.') if invitation_token.response.expired?
+  def check_params
+    return if identifier_param.present? && token_param.present?
+    render(status: 401, plain: 'Gebruiker / Vragenlijst niet gevonden.')
   end
 
   def questionnaire_params

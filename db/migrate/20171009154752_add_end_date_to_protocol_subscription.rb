@@ -1,6 +1,7 @@
 class AddEndDateToProtocolSubscription < ActiveRecord::Migration[5.0]
   def up
     add_column :protocol_subscriptions, :end_date, :datetime, null: true
+    ProtocolSubscription.reset_column_information
     ProtocolSubscription.all.each do |protocol_subscription|
       protocol_subscription.update_attributes(end_date:
                                               TimeTools.increase_by_duration(protocol_subscription.start_date,

@@ -6,8 +6,8 @@ require 'rails_helper'
 describe CreateMentors do
   let!(:protocol_for_mentors) { FactoryBot.create(:protocol, name: 'protname-mentor') }
   let!(:protocol_for_students) { FactoryBot.create(:protocol, name: 'protname-student') }
-  let!(:organization) { FactoryBot.create(:organization, name: 'orgname') }
-  let!(:role) { FactoryBot.create(:role, organization: organization, group: Person::MENTOR, title: 'MentorTitle') }
+  let!(:team) { FactoryBot.create(:team, name: 'orgname') }
+  let!(:role) { FactoryBot.create(:role, team: team, group: Person::MENTOR, title: 'MentorTitle') }
   let!(:plain_text_parser) { PlainTextParser.new }
   let(:dateinfuture) { 14.days.from_now.to_date.to_s }
   let(:enddateinfuture) { 42.days.from_now.to_date.to_s }
@@ -19,7 +19,7 @@ describe CreateMentors do
        email: 'a@person.com',
        mobile_phone: '0612345679',
        protocol_name: protocol_for_mentors.name,
-       organization_name: organization.name,
+       team_name: team.name,
        role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.first.mobile_phone,
@@ -31,7 +31,7 @@ describe CreateMentors do
        email: 'b@person.com',
        mobile_phone: '06-12345670',
        protocol_name: protocol_for_mentors.name,
-       organization_name: organization.name,
+       team_name: team.name,
        role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.second.mobile_phone,
@@ -43,7 +43,7 @@ describe CreateMentors do
        email: 'c@person.com',
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
-       organization_name: organization.name,
+       team_name: team.name,
        role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.third.mobile_phone,
@@ -55,7 +55,7 @@ describe CreateMentors do
        email: 'c@person.com',
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
-       organization_name: organization.name,
+       team_name: team.name,
        role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.fourth.mobile_phone,
@@ -67,7 +67,7 @@ describe CreateMentors do
        email: 'c@person.com',
        mobile_phone: '0612345671',
        protocol_name: protocol_for_mentors.name,
-       organization_name: organization.name,
+       team_name: team.name,
        role_title: role.title,
        start_date: dateinfuture,
        filling_out_for: students.fifth.mobile_phone,

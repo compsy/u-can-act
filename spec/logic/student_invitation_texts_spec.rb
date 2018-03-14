@@ -197,6 +197,41 @@ describe StudentInvitationTexts do
         described_class.rewards_threshold_pool(1)
       end.not_to raise_error
     end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(1000))
+        .to eq ['Whoop! Na deze vragenlijst heb je €10,- verdiend. Ga zo door!']
+    end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(2000))
+        .to eq ['Je gaat hard {{deze_student}}! Na deze vragenlijst heb je al €20,- gespaard.']
+    end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(3000))
+        .to eq ['De teller blijft lopen! Na deze vragenlijst passeer jij de €30,- 😃']
+    end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(4000))
+        .to eq ['Hé {{deze_student}}. Door jouw goede inzet heb je bijna €40,- verdiend!']
+    end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(5000))
+        .to eq ['Geweldig, na deze vragenlijst heb je al €50,- verdiend!']
+    end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(6000))
+        .to eq ['Door jouw fantastische hulp heb jij al bijna €60,- verdiend!']
+    end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(7000))
+        .to eq ['Weet jij al wat je gaat doen met de €70,- die jij na deze vragenlijst hebt verdiend?']
+    end
+    it 'should have a message for 10 euro' do
+      expect(described_class.rewards_threshold_pool(8000))
+        .to eq ['Wat heb jij je al ontzettend goed ingezet {{deze_student}}! Inmiddels heb je bijna €80,- verdiend.']
+    end
+    it 'should return an empty array otherwise' do
+      expect(described_class.rewards_threshold_pool(10_000)).to eq []
+    end
   end
   describe 'default_pool' do
     it 'should not raise an error with nil' do

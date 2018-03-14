@@ -1,0 +1,76 @@
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WeekDropdownMenu = (function (_React$Component) {
+  _inherits(WeekDropdownMenu, _React$Component);
+
+  function WeekDropdownMenu() {
+    _classCallCheck(this, WeekDropdownMenu);
+
+    _get(Object.getPrototypeOf(WeekDropdownMenu.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(WeekDropdownMenu, [{
+    key: 'getMaxWeekNumber',
+
+    /* For a given date, get the ISO week number
+     * FROM https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
+     * Based on information at:
+     *
+     *    http://www.merlyn.demon.co.uk/weekcalc.htm#WNR
+     *
+     * Algorithm is to find nearest thursday, it's year
+     * is the year of the week number. Then get weeks
+     * between that date and the first day of that year.
+     *
+     * Note that dates in one year can be weeks of previous
+     * or next year, overlap is up to 3 days.
+     *
+     * e.g. 2014/12/29 is Monday in week  1 of 2015
+     *      2012/1/1   is Sunday in week 52 of 2011
+     */
+    value: function getMaxWeekNumber(d) {
+      // Copy date so don't modify original
+      current_date = new Date();
+      if (d.getFullYear() == current_date.getFullYear()) {
+        d = new Date(Date.UTC(current_date.getFullYear(), current_date.getMonth(), current_date.getDate()));
+      } else {
+        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      }
+      // Set to nearest Thursday: current date + 4 - current day number
+      // Make Sunday's day number 7
+      d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+      // Get first day of year
+      var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+      // Calculate full weeks to nearest Thursday
+      var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+      // Return array of year and week number
+      return [weekNo];
+    }
+  }, {
+    key: 'generateWeeks',
+    value: function generateWeeks(year) {
+      var dat = new Date(year, 11, 31);
+      var end = this.getMaxWeekNumber(dat);
+      var weeks = [];
+      for (var i = 1; i <= end; i++) {
+        weeks.push(i);
+      }
+      return weeks;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var weeks = this.generateWeeks(this.props.year).reverse();
+      var selected = weeks[0];
+      return React.createElement(Select, { value: selected, options: weeks, label: 'Weeknummer', onChange: this.props.onChange });
+    }
+  }]);
+
+  return WeekDropdownMenu;
+})(React.Component);

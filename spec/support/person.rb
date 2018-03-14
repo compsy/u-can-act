@@ -170,6 +170,17 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'invitation_sets' do
+    it 'should destroy the invitation_sets when destroying the person' do
+      person = FactoryBot.create(:person)
+      FactoryBot.create(:invitation_set, person: person)
+      expect(person.invitation_sets.first).to be_an(InvitationSet)
+      invsetbefore = InvitationSet.count
+      person.destroy
+      expect(InvitationSet.count).to eq(invsetbefore - 1)
+    end
+  end
+
   describe 'mentor?' do
     it 'should be true when the current person is a mentor' do
       person = FactoryBot.create(:mentor)
@@ -190,7 +201,7 @@ shared_examples_for 'a person object' do
       FactoryBot.create_list(:response, 5, :completed, protocol_subscription: person.protocol_subscriptions.second)
       # also add some noncompleted responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      FactoryBot.create_list(:response, 11, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: person.protocol_subscriptions.first)
       expect(person.reward_points).to eq 15
     end
   end
@@ -199,8 +210,8 @@ shared_examples_for 'a person object' do
     it 'should accumulate the reward points for all completed responses' do
       person = FactoryBot.create(:person, :with_protocol_subscriptions)
       FactoryBot.create(:protocol_subscription, person: person)
-      FactoryBot.create_list(:response, 10, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
-      FactoryBot.create_list(:response, 5, :invite_sent, protocol_subscription: person.protocol_subscriptions.second)
+      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryBot.create_list(:response, 5, :invited, protocol_subscription: person.protocol_subscriptions.second)
       # also add some noninvited responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
       expect(person.possible_reward_points).to eq 15
@@ -223,6 +234,55 @@ shared_examples_for 'a person object' do
       person = FactoryBot.create(:person)
       expect(person.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(person.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'external_identifier' do
+    it 'should validate the alpha numeric of size IDENTIFIER_LENGTH format' do
+      person = FactoryBot.build(:person)
+      test_string = SecureRandom.hex(32)
+      #
+      # Too short
+      (0..(described_class::IDENTIFIER_LENGTH - 1)).each do |chars|
+        ext_ident = test_string[0...chars]
+        person.external_identifier = ext_ident
+        expect(person).to_not be_valid
+      end
+
+      # Too long
+      ((described_class::IDENTIFIER_LENGTH + 1)..(described_class::IDENTIFIER_LENGTH * 2)).each do |chars|
+        ext_ident = test_string[0..chars]
+        person.external_identifier = ext_ident
+        expect(person).to_not be_valid
+      end
+
+      # Goldilocks zone
+      ext_ident = test_string[0...described_class::IDENTIFIER_LENGTH]
+      person.external_identifier = ext_ident
+      expect(person).to be_valid
+    end
+
+    it 'should not allow empty external identifiers' do
+      person = FactoryBot.build(:person)
+      person.external_identifier = nil
+      expect(person).to_not be_valid
+
+      person.external_identifier = ''
+      expect(person).to_not be_valid
+    end
+
+    it 'should create an external_identifier on initialization' do
+      person = FactoryBot.build(:person)
+      expect(person.external_identifier).to_not be_blank
+      expect(person.external_identifier.length).to eq described_class::IDENTIFIER_LENGTH
+    end
+
+    it 'should not allow non-unique identifiers' do
+      person = FactoryBot.create(:person)
+      person2 = FactoryBot.build(:person, external_identifier: person.external_identifier)
+      expect(person2).to_not be_valid
+      expect(person2.errors.messages).to have_key :external_identifier
+      expect(person2.errors.messages[:external_identifier]).to include('is al in gebruik')
     end
   end
 

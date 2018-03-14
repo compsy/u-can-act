@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124221043) do
+ActiveRecord::Schema.define(version: 20180307093314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,13 +38,30 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
+  create_table "invitation_sets", force: :cascade do |t|
+    t.integer  "person_id",       null: false
+    t.string   "invitation_text"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["person_id"], name: "index_invitation_sets_on_person_id", using: :btree
+  end
+
   create_table "invitation_tokens", force: :cascade do |t|
-    t.integer  "response_id", null: false
-    t.string   "token",       null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["response_id"], name: "index_invitation_tokens_on_response_id", unique: true, using: :btree
-    t.index ["token"], name: "index_invitation_tokens_on_token", unique: true, using: :btree
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "token_hash",        null: false
+    t.datetime "expires_at",        null: false
+    t.integer  "invitation_set_id", null: false
+    t.index ["invitation_set_id"], name: "index_invitation_tokens_on_invitation_set_id", using: :btree
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.integer  "invitation_set_id",                      null: false
+    t.string   "type",                                   null: false
+    t.string   "invited_state",     default: "not_sent", null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["invitation_set_id"], name: "index_invitations_on_invitation_set_id", using: :btree
   end
 
   create_table "measurements", force: :cascade do |t|
@@ -69,14 +86,15 @@ ActiveRecord::Schema.define(version: 20180124221043) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.string   "mobile_phone", null: false
-    t.string   "first_name",   null: false
+    t.string   "mobile_phone",        null: false
+    t.string   "first_name",          null: false
     t.string   "last_name"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "gender"
     t.string   "email"
-    t.integer  "role_id",      null: false
+    t.integer  "role_id",             null: false
+    t.string   "external_identifier", null: false
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 
@@ -93,6 +111,17 @@ ActiveRecord::Schema.define(version: 20180124221043) do
     t.index ["person_id", "filling_out_for_id"], name: "index_rs_on_person_id_and_filling_out_for_id", unique: true, where: "(((state)::text = 'active'::text) AND (person_id <> filling_out_for_id))", using: :btree
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id", using: :btree
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id", using: :btree
+  end
+
+  create_table "protocol_transfers", force: :cascade do |t|
+    t.integer  "from_id",                  null: false
+    t.integer  "to_id",                    null: false
+    t.integer  "protocol_subscription_id", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["from_id"], name: "index_protocol_transfers_on_from_id", using: :btree
+    t.index ["protocol_subscription_id"], name: "index_protocol_transfers_on_protocol_subscription_id", using: :btree
+    t.index ["to_id"], name: "index_protocol_transfers_on_to_id", using: :btree
   end
 
   create_table "protocols", force: :cascade do |t|
@@ -115,17 +144,24 @@ ActiveRecord::Schema.define(version: 20180124221043) do
   end
 
   create_table "responses", force: :cascade do |t|
-    t.integer  "protocol_subscription_id",                      null: false
-    t.integer  "measurement_id",                                null: false
+    t.integer  "protocol_subscription_id",            null: false
+    t.integer  "measurement_id",                      null: false
     t.string   "content"
-    t.datetime "open_from",                                     null: false
+    t.datetime "open_from",                           null: false
     t.datetime "opened_at"
     t.datetime "completed_at"
-    t.string   "invited_state",            default: "not_sent", null: false
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "uuid",                     limit: 36, null: false
+    t.integer  "filled_out_for_id"
+    t.integer  "filled_out_by_id"
+    t.integer  "invitation_set_id"
+    t.index ["filled_out_by_id"], name: "index_responses_on_filled_out_by_id", using: :btree
+    t.index ["filled_out_for_id"], name: "index_responses_on_filled_out_for_id", using: :btree
+    t.index ["invitation_set_id"], name: "index_responses_on_invitation_set_id", using: :btree
     t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
+    t.index ["uuid"], name: "index_responses_on_uuid", unique: true, using: :btree
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -139,23 +175,39 @@ ActiveRecord::Schema.define(version: 20180124221043) do
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string   "group",           null: false
-    t.string   "title",           null: false
-    t.integer  "organization_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.index ["organization_id", "title"], name: "index_roles_on_organization_id_and_title", unique: true, using: :btree
-    t.index ["organization_id"], name: "index_roles_on_organization_id", using: :btree
+    t.string   "group",      null: false
+    t.string   "title",      null: false
+    t.integer  "team_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id", "title"], name: "index_roles_on_team_id_and_title", unique: true, using: :btree
+    t.index ["team_id"], name: "index_roles_on_team_id", using: :btree
   end
 
-  add_foreign_key "invitation_tokens", "responses"
+  create_table "teams", force: :cascade do |t|
+    t.string   "name",            null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id", null: false
+    t.index ["name"], name: "index_teams_on_name", unique: true, using: :btree
+  end
+
+  add_foreign_key "invitation_sets", "people"
+  add_foreign_key "invitation_tokens", "invitation_sets"
+  add_foreign_key "invitations", "invitation_sets"
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
   add_foreign_key "protocol_subscriptions", "people"
   add_foreign_key "protocol_subscriptions", "protocols"
+  add_foreign_key "protocol_transfers", "people", column: "from_id"
+  add_foreign_key "protocol_transfers", "people", column: "to_id"
+  add_foreign_key "protocol_transfers", "protocol_subscriptions"
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
+  add_foreign_key "responses", "invitation_sets"
   add_foreign_key "responses", "measurements"
+  add_foreign_key "responses", "people", column: "filled_out_by_id"
+  add_foreign_key "responses", "people", column: "filled_out_for_id"
   add_foreign_key "responses", "protocol_subscriptions"
   add_foreign_key "rewards", "protocols"
-  add_foreign_key "roles", "organizations"
+  add_foreign_key "roles", "teams"
 end

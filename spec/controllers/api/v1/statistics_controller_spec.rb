@@ -9,12 +9,12 @@ module Api
         Timecop.freeze(Date.new(2017, 5, 8))
       end
 
-      let(:org1) { FactoryBot.create(:organization) }
-      let(:org2) { FactoryBot.create(:organization) }
-      let(:student_role1)  { FactoryBot.create(:role, group: Person::STUDENT, organization: org1) }
-      let(:student_role2)  { FactoryBot.create(:role, group: Person::STUDENT, organization: org2) }
-      let(:mentor_role1)  { FactoryBot.create(:role, group: Person::MENTOR, organization: org1) }
-      let(:mentor_role2)  { FactoryBot.create(:role, group: Person::MENTOR, organization: org2) }
+      let(:org1) { FactoryBot.create(:team) }
+      let(:org2) { FactoryBot.create(:team) }
+      let(:student_role1)  { FactoryBot.create(:role, group: Person::STUDENT, team: org1) }
+      let(:student_role2)  { FactoryBot.create(:role, group: Person::STUDENT, team: org2) }
+      let(:mentor_role1)  { FactoryBot.create(:role, group: Person::MENTOR, team: org1) }
+      let(:mentor_role2)  { FactoryBot.create(:role, group: Person::MENTOR, team: org2) }
       let!(:studs1) { FactoryBot.create_list(:person, 15, role: student_role1) }
       let!(:studs2) { FactoryBot.create_list(:person, 9, role: student_role2) }
       let!(:mentors1) { FactoryBot.create_list(:person, 1, role: mentor_role1) }

@@ -16,7 +16,7 @@ module Api
 
       def verify_access
         allowed = check_access_allowed(@protocol_subscription)
-        render(status: 403, json: 'U heeft geen toegang tot deze protocol subscriptie') unless allowed
+        render(status: 403, json: 'U heeft geen toegang tot deze protocolsubscriptie') unless allowed
       end
 
       def set_protocol_subscription

@@ -14,17 +14,15 @@ describe 'GET and POST /', type: :feature, js: true do
                                    person: mentor,
                                    filling_out_for: student,
                                    start_date: 1.week.ago.at_beginning_of_day)
-      FactoryBot.create(:response,
+      FactoryBot.create(:response, :invited,
                         protocol_subscription: prot_sub,
-                        open_from: 1.hour.ago,
-                        invited_state: Response::SENT_STATE)
+                        open_from: 1.hour.ago)
     end
   end
 
   let(:invitation_tokens) do
     response_objects.map do |responseobj|
-      FactoryBot.create(:invitation_token,
-                        response: responseobj)
+      FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
     end
   end
 
@@ -37,23 +35,23 @@ describe 'GET and POST /', type: :feature, js: true do
     end
 
     invitation_tokens.each do |inv_tok|
-      visit inv_tok.response.invitation_url(false)
+      visit inv_tok.invitation_set.invitation_url(inv_tok.token_plain, false)
 
       # Check whether the correct redirect was performed
-      expect(page).to_not have_current_path(questionnaire_path(uuid: inv_tok.response.uuid))
+      expect(page).to_not have_current_path(questionnaire_path(uuid: inv_tok.invitation_set.responses.first.uuid))
       expect(page).to have_current_path(mentor_overview_index_path)
     end
   end
 
   it 'should show the disclaimer link on the mentor overview page' do
     inv_tok = invitation_tokens.first
-    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Disclaimer', href: '/disclaimer')
   end
 
   it 'should list the students of the current mentor on the page with the corresponding questionnaire links' do
     inv_tok = invitation_tokens.first
-    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
 
     students.each do |student|
@@ -62,7 +60,7 @@ describe 'GET and POST /', type: :feature, js: true do
       uuid = mentor.protocol_subscriptions.where(filling_out_for_id: student.id)
                    .first.responses.first.uuid
       token = mentor.protocol_subscriptions.where(filling_out_for_id: student.id)
-                    .first.responses.first.invitation_token.token
+                    .first.responses.first.invitation_set.invitation_tokens.first.token
 
       expect(page).to have_link(href: questionnaire_path(uuid: uuid))
       expect(page).to_not have_content(token)
@@ -76,7 +74,7 @@ describe 'GET and POST /', type: :feature, js: true do
 
   it 'should be possible to fillout a questionnaire for each of the mentors students' do
     inv_tok = invitation_tokens.first
-    url = "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
+    url = "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     visit url
     students.each_with_index do |student, index|
       expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length - index)
@@ -99,10 +97,10 @@ describe 'GET and POST /', type: :feature, js: true do
 
   it 'should be able to follow the initial link if one questionnaire has been filled out ' do
     inv_tok = invitation_tokens.first
-    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
 
-    uuid = inv_tok.response.uuid
+    uuid = inv_tok.invitation_set.responses.first.uuid
     page.find(:css, "a[href='#{questionnaire_path(uuid: uuid)}']").click
     expect(page).to have_current_path(questionnaire_path(uuid: uuid))
 
@@ -113,7 +111,7 @@ describe 'GET and POST /', type: :feature, js: true do
     range_select('v3', '57')
     page.click_on 'Opslaan'
 
-    visit "?q=#{inv_tok.response.protocol_subscription.person.external_identifier}#{inv_tok.token_plain}"
+    visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length - 1)
   end
 end

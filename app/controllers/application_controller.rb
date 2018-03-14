@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
-  protect_from_forgery with: :exception, except: :options
+  protect_from_forgery prepend: true, with: :exception, except: :options
 
   def options
     head :ok

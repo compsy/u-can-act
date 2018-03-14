@@ -3,13 +3,10 @@
 class SendInvitationJob < ApplicationJob
   queue_as :default
 
-  def perform(response)
-    SendInvitation.run!(response: response)
-    if response.invited_state == Response::SENDING_STATE
-      response.update_attributes!(invited_state: Response::SENT_STATE)
-    else
-      response.update_attributes!(invited_state: Response::REMINDER_SENT_STATE)
-    end
+  def perform(invitation, plain_text_token)
+    invitation.reload
+    invitation.send_invite(plain_text_token)
+    invitation.sent!
   end
 
   def max_attempts

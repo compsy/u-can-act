@@ -29,10 +29,11 @@ class Person < ApplicationRecord
   validates :role_id, presence: true
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
-  # Not used right now:
+  has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy # invitation_sets.first is
+  # Not used right now:                                                           the last one created.
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },
-  #          class_name: 'ProtocolSubscription', foreign_key: 'filling_out_for_id'
+  #          class_name: 'ProtocolSubscription', foreign_key: 'filled_out_for_id'
 
   after_initialize do |person|
     next if person.external_identifier

@@ -170,6 +170,17 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'invitation_sets' do
+    it 'should destroy the invitation_sets when destroying the person' do
+      person = FactoryBot.create(:person)
+      FactoryBot.create(:invitation_set, person: person)
+      expect(person.invitation_sets.first).to be_an(InvitationSet)
+      invsetbefore = InvitationSet.count
+      person.destroy
+      expect(InvitationSet.count).to eq(invsetbefore - 1)
+    end
+  end
+
   describe 'mentor?' do
     it 'should be true when the current person is a mentor' do
       person = FactoryBot.create(:mentor)
@@ -190,7 +201,7 @@ shared_examples_for 'a person object' do
       FactoryBot.create_list(:response, 5, :completed, protocol_subscription: person.protocol_subscriptions.second)
       # also add some noncompleted responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      FactoryBot.create_list(:response, 11, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: person.protocol_subscriptions.first)
       expect(person.reward_points).to eq 15
     end
   end
@@ -199,8 +210,8 @@ shared_examples_for 'a person object' do
     it 'should accumulate the reward points for all completed responses' do
       person = FactoryBot.create(:person, :with_protocol_subscriptions)
       FactoryBot.create(:protocol_subscription, person: person)
-      FactoryBot.create_list(:response, 10, :invite_sent, protocol_subscription: person.protocol_subscriptions.first)
-      FactoryBot.create_list(:response, 5, :invite_sent, protocol_subscription: person.protocol_subscriptions.second)
+      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: person.protocol_subscriptions.first)
+      FactoryBot.create_list(:response, 5, :invited, protocol_subscription: person.protocol_subscriptions.second)
       # also add some noninvited responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
       expect(person.possible_reward_points).to eq 15

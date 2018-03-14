@@ -447,7 +447,7 @@ describe ProtocolSubscription do
       FactoryBot.create_list(:response, 10, :completed, protocol_subscription: protocol_subscription)
       # also add some noncompleted responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 11, :invite_sent, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: protocol_subscription)
       expect(protocol_subscription.reward_points).to eq 10
     end
   end
@@ -455,7 +455,7 @@ describe ProtocolSubscription do
   describe 'possible_reward_points' do
     it 'should accumulate the reward points for all completed responses' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: protocol_subscription)
       # also add some noninvited responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
       expect(protocol_subscription.possible_reward_points).to eq 10
@@ -463,8 +463,7 @@ describe ProtocolSubscription do
 
     it 'should also accumulate the reward points for all not completed responses' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :invite_sent, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 10, :reminder_sent, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 20, :invited, protocol_subscription: protocol_subscription)
       #
       # also add some noninvited responses. These should not be counted.
       FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
@@ -517,9 +516,9 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.new(2017, 2, 1, 0, 0, 0).in_time_zone)
-      protocol_subscription.responses.each_with_index do |response, index|
+      protocol_subscription.responses.each_with_index do |responseobj, index|
         next if index == 0 # Pretend the first response is missing
-        response.completed_at = response.open_from + 1.minute
+        responseobj.completed_at = responseobj.open_from + 1.minute
       end
 
       result = protocol_subscription.protocol_completion

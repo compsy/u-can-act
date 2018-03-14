@@ -55,14 +55,14 @@ describe SendSms do
     end
 
     it 'return the response of the sent text message' do
-      response = described_class.run!(number: number, text: text, reference: reference)
-      expect(response).to be_a(Array)
-      expect(response.first).to be_a(Hash)
-      expect(response.first.keys).to include(:client)
-      expect(response.first.keys).to include(:to)
-      expect(response.first.keys).to include(:from)
-      expect(response.first.keys).to include(:body)
-      expect(response.first.keys).to include(:reference)
+      responseobj = described_class.run!(number: number, text: text, reference: reference)
+      expect(responseobj).to be_a(Array)
+      expect(responseobj.first).to be_a(Hash)
+      expect(responseobj.first.keys).to include(:client)
+      expect(responseobj.first.keys).to include(:to)
+      expect(responseobj.first.keys).to include(:from)
+      expect(responseobj.first.keys).to include(:body)
+      expect(responseobj.first.keys).to include(:reference)
     end
   end
 

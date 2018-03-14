@@ -6,12 +6,11 @@ class InvitationToken < ApplicationRecord
   include BCrypt
   TOKEN_LENGTH = 4
   OPEN_TIME_FOR_INVITATION = 7.days
-  belongs_to :response
-  validates :response_id, presence: true, uniqueness: true
+  belongs_to :invitation_set
+  validates :invitation_set_id, presence: true
   validates :expires_at, presence: true
-
   # Don't supply a token on initialize, it will be generated.
-  validates :token_hash, presence: true, uniqueness: true
+  validates :token_hash, presence: true
 
   attr_accessor :token_plain
 
@@ -41,10 +40,14 @@ class InvitationToken < ApplicationRecord
     person = Person.find_by_external_identifier(identifier)
     return nil unless person
 
-    responses = person.protocol_subscriptions&.active&.map { |sub| sub.responses&.invited }.flatten
-    return nil if responses.blank?
+    # This is reasonably fast since the invitation_sets of a person
+    # are sorted by descending created_at value.
+    person.invitation_sets.each do |invitation_set|
+      invitation_set.invitation_tokens.each do |invitation_token|
+        return invitation_token if invitation_token.token == token
+      end
+    end
 
-    responses.each { |resp| return resp.invitation_token if resp.invitation_token&.token == token }
     nil
   end
 
@@ -59,7 +62,15 @@ class InvitationToken < ApplicationRecord
   end
 
   def expired?
-    # If a response is still valid, it should always be possible to fill it out.
-    response.response_expired? && Time.zone.now > expires_at
+    Time.zone.now > expires_at
+  end
+
+  def calculate_expires_at
+    expiresat = [Time.zone.now, TimeTools.increase_by_duration(created_at, OPEN_TIME_FOR_INVITATION)].max
+    invitation_set.responses.each do |response|
+      next if response.completed?
+      expiresat = [expiresat, response.expires_at].max
+    end
+    expiresat
   end
 end

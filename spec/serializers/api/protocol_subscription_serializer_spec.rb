@@ -13,7 +13,7 @@ module Api
     let!(:responses) do
       [FactoryBot.create(:response, :completed,
                          protocol_subscription: protocol_subscription, open_from: 8.days.ago.in_time_zone),
-       FactoryBot.create(:response, :invite_sent,
+       FactoryBot.create(:response, :invited,
                          protocol_subscription: protocol_subscription, open_from: 7.days.ago.in_time_zone)]
     end
 

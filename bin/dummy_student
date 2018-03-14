@@ -26,7 +26,7 @@ wget \
      --page-requisites \
      --html-extension \
      --domains $domain \
-     --restrict-file-names=unix \
+     --restrict-file-names=windows \
      --no-parent \
 		 -E -H -k -K -p \
      -r -e robots=off \
@@ -52,7 +52,7 @@ wget \
      --page-requisites \
      --html-extension \
      --domains $domain \
-     --restrict-file-names=unix \
+     --restrict-file-names=windows \
      --no-parent \
 		 -E -H -k -K -p \
      -r -e robots=off \

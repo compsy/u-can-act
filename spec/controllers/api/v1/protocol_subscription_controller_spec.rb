@@ -34,7 +34,7 @@ module Api
           it 'should throw a 403 if the user is not allowed to access' do
             get :show, params: { id: other_response.protocol_subscription.id }
             expect(response.status).to eq 403
-            expect(response.body).to eq 'U heeft geen toegang tot deze protocol subscriptie'
+            expect(response.body).to eq 'U heeft geen toegang tot deze protocolsubscriptie'
           end
 
           it 'should throw a 404 if the protocol subscription does not exist' do

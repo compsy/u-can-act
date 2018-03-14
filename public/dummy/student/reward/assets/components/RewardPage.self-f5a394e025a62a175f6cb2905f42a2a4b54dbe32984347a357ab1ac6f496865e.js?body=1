@@ -41,7 +41,7 @@ var RewardPage = (function (_React$Component) {
       var self = this;
 
       // Only update if the subscription id has changed
-      var url = '/dummy/student/data.json';
+      var url = '/api/v1/protocol_subscriptions/' + protocolSubscriptionId;
       $.getJSON(url, function (response) {
         self.setState({
           result: response

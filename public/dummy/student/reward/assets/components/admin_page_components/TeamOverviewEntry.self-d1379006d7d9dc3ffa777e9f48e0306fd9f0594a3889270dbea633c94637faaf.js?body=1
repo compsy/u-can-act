@@ -6,16 +6,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var OrganizationOverviewEntry = (function (_React$Component) {
-  _inherits(OrganizationOverviewEntry, _React$Component);
+var TeamOverviewEntry = (function (_React$Component) {
+  _inherits(TeamOverviewEntry, _React$Component);
 
-  function OrganizationOverviewEntry() {
-    _classCallCheck(this, OrganizationOverviewEntry);
+  function TeamOverviewEntry() {
+    _classCallCheck(this, TeamOverviewEntry);
 
-    _get(Object.getPrototypeOf(OrganizationOverviewEntry.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(TeamOverviewEntry.prototype), 'constructor', this).apply(this, arguments);
   }
 
-  _createClass(OrganizationOverviewEntry, [{
+  _createClass(TeamOverviewEntry, [{
     key: 'generateOverviewRows',
     value: function generateOverviewRows(overview, overviewName) {
       var rows = [];
@@ -74,7 +74,7 @@ var OrganizationOverviewEntry = (function (_React$Component) {
             React.createElement(
               'th',
               null,
-              ' Organization'
+              ' Team'
             ),
             React.createElement(
               'th',
@@ -131,5 +131,5 @@ var OrganizationOverviewEntry = (function (_React$Component) {
     }
   }]);
 
-  return OrganizationOverviewEntry;
+  return TeamOverviewEntry;
 })(React.Component);

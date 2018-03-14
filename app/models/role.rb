@@ -5,7 +5,7 @@ class Role < ApplicationRecord
   validates :title, presence: true
   validates_uniqueness_of :title, scope: :team_id
   belongs_to :team
-  has_many :people
+  has_many :people, dependent: :destroy
   validates :team_id, presence: true
 
   def stats(week_number, year, threshold_percentage)

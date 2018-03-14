@@ -2,7 +2,6 @@
 
 class Team < ApplicationRecord
   validates :name, presence: true, uniqueness: true
-  has_many :people, dependent: :destroy
   has_many :roles, dependent: :destroy
   belongs_to :organization
   validates :organization_id, presence: true

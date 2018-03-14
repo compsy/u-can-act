@@ -8,7 +8,7 @@ class CreateOrganizations < ActiveRecord::Migration[5.0]
     add_column :teams, :organization_id, :integer, foreign_key: true, null: true
     add_index :organizations, :name, unique: true
 
-    default_organization = Organization.find_or_create_by(name: 'Default organization')
+    default_organization = Organization.create!(name: 'Default organization')
 
     Team.all.each do |team|
       team.update_attributes!(organization: default_organization)

@@ -1,0 +1,194 @@
+var id_a = null;
+var timestamp_a = null;
+var id_b = null;
+var timestamp_b = null;
+var id_c = null;
+var timestamp_c = null;
+var rails_env = 'development';
+
+function toggle_otherwise_field() {
+  if ($(this).closest('.row').hasClass('hidden')) return;
+  if ($(this).closest('.row').find("input[type=text].otherwise").length === 0) return;
+  if ($(this).closest('.row').find('.otherwise-option').is(':checked')) {
+    if ($(this).closest('.row').find("input[type=text].otherwise").prop('disabled')) {
+      $(this).closest('.row').find("input[type=text].otherwise:visible").prop('disabled', false).focus();
+    }
+  } else {
+    $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', true);
+  }
+}
+
+function show_hide_entry(entry, show) {
+  var klass = '.' + entry + '_toggle';
+  if (show) {
+    $(klass).removeClass('hidden').find('input:visible,textarea:visible,input[type=hidden]').prop('disabled', false);
+    $('.otherwise-option').each(toggle_otherwise_field);
+  } else {
+    $(klass).addClass('hidden').find('input,textarea').prop('disabled', true);
+  }
+}
+
+function toggle_shown_questions() {
+  $(this).closest('.row').find('input[data-shows-questions]').each(function (index) {
+    var this_is_checked = $(this).is(':checked');
+    $(this).data('shows-questions').forEach(function (entry) {
+      show_hide_entry(entry, this_is_checked);
+    });
+  });
+}
+
+function toggle_hidden_questions() {
+  $(this).closest('.row').find('input[data-hides-questions]').each(function (index) {
+    var this_is_checked = $(this).is(':checked');
+    $(this).data('hides-questions').forEach(function (entry) {
+      show_hide_entry(entry, !this_is_checked);
+    });
+  });
+}
+
+function time_element() {
+  var curid = $(this).attr('id');
+  if (curid !== id_c) {
+    id_a = id_b;
+    timestamp_a = timestamp_b;
+    id_b = id_c;
+    timestamp_b = timestamp_c;
+    id_c = curid;
+    timestamp_c = new Date().getTime();
+    if (timestamp_a !== null && id_b !== null && id_b !== undefined) {
+      var duration = timestamp_b - timestamp_a;
+      if (rails_env == 'production') {
+        ga('send', 'timing', 'Time to answer question', id_b, duration);
+      } else {
+        if (rails_env !== 'test')
+          console.debug('send', 'timing', 'Time to answer question', id_b, duration);
+      }
+      var timingfield = id_b + '_timing';
+      if ($('#'+timingfield).length > 0) {
+        $('#'+timingfield).val(duration);
+      } else {
+        $('form').append('<input type="hidden" id="' + timingfield +
+                         '" name="content[' + timingfield + ']" value="' + duration + '" />');
+      }
+    }
+  } else {
+    timestamp_c = new Date().getTime();
+  }
+}
+
+function addRemoveDisabledClass(buttons, element_class) {
+  var currentButton;
+  var questionnaireId;
+  var elem;
+  buttons.each(function(button) {
+    // $(this) is the button
+    currentButton = $(this);
+    questionnaireId = currentButton.attr('data-belongsto');
+    elem = $(element_class + "." + questionnaireId).first();
+    if(elem.length <= 0) {
+      currentButton.addClass('disabled');
+    } else {
+      currentButton.removeClass('disabled');
+    }
+  });
+}
+
+function updateExpandableButtons() {
+  buttons = $(".expand_expandable")
+  addRemoveDisabledClass(buttons, '.expandable_wrapper.hidden')
+
+  buttons = $(".collapse_expandable")
+  addRemoveDisabledClass(buttons, '.expandable_wrapper:not(.hidden)')
+}
+
+function expandExpandable() {
+  var questionnaireId = $(this).attr('data-belongsto');
+
+  // Find the first element that is hidden and expandable so we can unhide it
+  var elem = $('.expandable_wrapper.hidden' + '.' + questionnaireId).first();
+  elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
+  $('.otherwise-option').each(toggle_otherwise_field);
+  updateExpandableButtons();
+}
+
+function collapseExpandable() {
+  var questionnaireId = $(this).attr('data-belongsto');
+
+  // Find the last element that is not hidden and expandable so we can hide it
+  var elem = $('.expandable_wrapper:not(.hidden)' + '.' + questionnaireId).last();
+  elem.addClass('hidden').find('input,textarea').prop('disabled', true);
+  $('.otherwise-option').each(toggle_otherwise_field);
+  updateExpandableButtons();
+}
+
+function disableHiddenInputs() {
+  $('.hidden').each(function(index) {
+    $(this).find('input,textarea').each(function(sub_index){
+      $(this).prop('disabled', true);
+    });
+  });
+}
+
+function check_required_checkboxes(event) {
+  var returnval = true;
+  var firstelem = null;
+  $('div.checkbox-group.required:visible').each(function(sub_index){
+     if ($(this).find(':checkbox:checked').length == 0) {
+       event.preventDefault();
+       $(this).addClass('erroneous');
+       if (firstelem == null) firstelem = this;
+       returnval = false;
+     }
+  });
+  if (!returnval) { // scroll to the last invalid element
+    $('html, body').animate({
+      scrollTop: $(firstelem).offset().top
+    }, 200);
+  }
+  return returnval;
+}
+
+$(function () {
+  timestamp_c = new Date().getTime();
+  $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
+  $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
+  $('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);
+  $('.otherwise-option').each(toggle_otherwise_field);
+  $('label + div.input-field.inline').click(function () {
+    if ($(this).find('input[type=text][disabled]').length) {
+      $(this).prev().click();
+    }
+  });
+  $('textarea,input[type=text]').keypress(function (event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      $(this).blur();
+    }
+  });
+  $('input,textarea').change(time_element);
+  $('textarea').focusin(time_element);
+  $('button[type=submit]').click(time_element).click(check_required_checkboxes);
+
+  $('.expand_expandable').on('click', expandExpandable);
+  $('.collapse_expandable').on('click', collapseExpandable);
+  updateExpandableButtons();
+  disableHiddenInputs();
+
+  // Needed to disable the warning when leaving a page, when actually submitting it
+  $(document).on("submit", "form", function(event){
+    window.onbeforeunload = null;
+  });
+  // Hide toasts on click
+  $(document).on('click','.toast', function(){
+    $(this).hide();
+  });
+  $(document).on('click','.erroneous', function(){
+    $(this).removeClass('erroneous');
+  });
+  $(document).on('touchstart', 'body', function (e) {
+    if ($(':focus').hasClass('select-dropdown')) return;
+    var keyboardDoms = new Set(["INPUT", "TEXTAREA", "SELECT"]);
+    if (keyboardDoms.has(document.activeElement.nodeName) && !keyboardDoms.has(e.target.nodeName))
+      document.activeElement.blur();
+  });
+});

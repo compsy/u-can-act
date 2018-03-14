@@ -1,0 +1,53 @@
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StudentFinalRewardPage = (function (_React$Component) {
+  _inherits(StudentFinalRewardPage, _React$Component);
+
+  function StudentFinalRewardPage() {
+    _classCallCheck(this, StudentFinalRewardPage);
+
+    _get(Object.getPrototypeOf(StudentFinalRewardPage.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(StudentFinalRewardPage, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'section' },
+        React.createElement(
+          'p',
+          { className: 'flow-text' },
+          'Heel erg bedankt dat je meedeed aan ons onderzoek! Door jouw deelname kunnen wij onze webapp zo verbeteren dat deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers. Zodra de gegevens bij ons binnen zijn ontvangt jouw S-team begeleider jouw beloning en kan jij je beloning daar dus ophalen.'
+        ),
+        React.createElement(
+          'p',
+          { className: 'flow-text' },
+          'In totaal heb je €',
+          this.props.earnedEuros,
+          ' verdiend.'
+        ),
+        React.createElement(
+          'p',
+          { className: 'flow-text' },
+          'Hartelijke groeten van het RUG onderzoeksteam:',
+          React.createElement('br', null),
+          'Nick Snell, Teun Blijlevens en Mandy van der Gaag'
+        ),
+        React.createElement(
+          'p',
+          { className: 'flow-text' },
+          'Je kan deze pagina veilig sluiten.'
+        )
+      );
+    }
+  }]);
+
+  return StudentFinalRewardPage;
+})(React.Component);

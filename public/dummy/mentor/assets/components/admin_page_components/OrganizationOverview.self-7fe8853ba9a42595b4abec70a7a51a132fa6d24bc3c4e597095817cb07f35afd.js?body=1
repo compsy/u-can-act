@@ -1,0 +1,165 @@
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var OrganizationOverview = (function (_React$Component) {
+  _inherits(OrganizationOverview, _React$Component);
+
+  function OrganizationOverview(props) {
+    _classCallCheck(this, OrganizationOverview);
+
+    _get(Object.getPrototypeOf(OrganizationOverview.prototype), 'constructor', this).call(this, props);
+    this.state = {
+      Mentor: undefined,
+      Student: undefined,
+      groups: ['Mentor', 'Student'],
+      year: new Date().getFullYear(),
+      week_number: undefined
+    };
+  }
+
+  _createClass(OrganizationOverview, [{
+    key: 'updateOrganizationDetails',
+    value: function updateOrganizationDetails() {
+      var _this = this;
+
+      this.state.groups.forEach(function (x) {
+        _this.loadOrganizationData(x);
+      });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.updateOrganizationDetails();
+    }
+  }, {
+    key: 'isDone',
+    value: function isDone() {
+      return !this.state.result.protocol_completion.some(function (entry) {
+        return entry.future;
+      });
+    }
+  }, {
+    key: 'setHeader',
+    value: function setHeader(xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('id_token'));
+    }
+  }, {
+    key: 'loadOrganizationData',
+    value: function loadOrganizationData(group) {
+      var self = this;
+
+      // Only update if the subscription id has changed
+      var year = '?year=' + this.state.year;
+      var week_number = this.state.week_number === undefined ? '' : '&week_number=' + this.state.week_number;
+      var percentage_threshold = '&percentage_threshold=70';
+
+      var url = '/api/v1/admin/organization/' + group + year + week_number + percentage_threshold;
+
+      $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          self.setState(_defineProperty({}, group, response));
+        },
+        error: function () {
+          console.log('Error, call failed!');
+        },
+        beforeSend: self.setHeader
+      });
+    }
+  }, {
+    key: 'handleYearChange',
+    value: function handleYearChange(option) {
+      this.setState({
+        year: option
+      });
+      this.updateOrganizationDetails();
+    }
+  }, {
+    key: 'handleWeekChange',
+    value: function handleWeekChange(option) {
+      this.setState({
+        week_number: option
+      });
+      this.updateOrganizationDetails();
+    }
+  }, {
+    key: 'renderOverview',
+    value: function renderOverview() {
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          'h3',
+          null,
+          ' Organization overview '
+        ),
+        React.createElement(
+          'div',
+          { className: 'col s6' },
+          React.createElement(
+            'div',
+            { className: 'col s3' },
+            React.createElement(WeekDropdownMenu, { value: this.state.week_number, year: this.state.year, onChange: this.handleWeekChange.bind(this) })
+          ),
+          React.createElement(
+            'div',
+            { className: 'col s9' },
+            React.createElement(YearDropdownMenu, { value: this.state.year, onChange: this.handleYearChange.bind(this) })
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'col s12' },
+          React.createElement(
+            'div',
+            { className: 'row' },
+            React.createElement(
+              'div',
+              { className: 'col s12' },
+              React.createElement(OrganizationOverviewEntry, { overview: this.state.Mentor.overview, name: 'Mentors' }),
+              React.createElement(OrganizationOverviewEntry, { overview: this.state.Student.overview, name: 'Students' })
+            )
+          )
+        )
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var ready = true;
+      this.state.groups.forEach(function (group) {
+        if (!_this2.state[group]) {
+          ready = false;
+        }
+      });
+      if (!ready) return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          'div',
+          { className: 'progress' },
+          React.createElement('div', { className: 'indeterminate' })
+        )
+      );
+
+      return React.createElement(
+        'div',
+        null,
+        this.renderOverview()
+      );
+    }
+  }]);
+
+  return OrganizationOverview;
+})(React.Component);

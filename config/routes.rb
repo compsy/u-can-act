@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       get 'statistics', to: 'statistics#index'
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
       namespace :admin do
-        resources :organization, only: [:show], param: :group
+        resources :team, only: [:show], param: :group
       end
     end
   end

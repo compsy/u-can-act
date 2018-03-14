@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 module Api
-  describe OrganizationOverviewSerializer do
+  describe TeamOverviewSerializer do
     before :each do
       Timecop.freeze(2017, 7, 1)
     end
@@ -13,16 +13,16 @@ module Api
 
     let(:overview) do
       [
-        { name: 'Organization 1',
+        { name: 'Team 1',
           data: { Person::STUDENT => { completed: 2, total: 20, met_threshold_completion: 1 },
                   Person::MENTOR => { completed: 10, total: 20, met_threshold_completion: 2 } } },
-        { name: 'Organization 2',
+        { name: 'Team 2',
           data: { Person::STUDENT => { completed: 0, total: 0, met_threshold_completion: 4 },
                   Person::MENTOR => { completed: 5, total: 10, met_threshold_completion: 3 } } },
-        { name: 'Organization 3',
+        { name: 'Team 3',
           data: { Person::STUDENT => { completed: 5, total: 10, met_threshold_completion: 5 },
                   Person::MENTOR => { completed: 5, total: 10, met_threshold_completion: 6 } } },
-        { name: 'Organization 4',
+        { name: 'Team 4',
           data: {} }
       ]
     end
@@ -39,7 +39,7 @@ module Api
       let(:instance_var) do
         [
           {
-            name: 'Organization1',
+            name: 'Team1',
             data: {
               Person::STUDENT => {
                 completed: 10,
@@ -54,7 +54,7 @@ module Api
             }
           },
           {
-            name: 'Organization2',
+            name: 'Team2',
             data: {
               Person::STUDENT => {
                 completed: 0,
@@ -73,7 +73,7 @@ module Api
       let(:overview_no_mentors) do
         [
           {
-            name: 'Organization1',
+            name: 'Team1',
             data: {
               Person::STUDENT => {
                 completed: 10,
@@ -83,7 +83,7 @@ module Api
             }
           },
           {
-            name: 'Organization2',
+            name: 'Team2',
             data: {
               Person::STUDENT => {
                 completed: 0,
@@ -108,7 +108,7 @@ module Api
         expect(result['overview']).to be_blank
       end
 
-      it 'should gracefully return when an organization has no mentors' do
+      it 'should gracefully return when an team has no mentors' do
         [Person::STUDENT, Person::MENTOR].each do |group|
           result = described_class.new(overview_no_mentors, group: group).as_json.with_indifferent_access
           result = result['overview']
@@ -162,18 +162,18 @@ module Api
         end
       end
 
-      it 'should not add entries for organizations without any data' do
+      it 'should not add entries for teams without any data' do
         expect(names_in_json).to_not include(overview.last[:name])
       end
 
-      it 'should add an instance for all organizations with data' do
+      it 'should add an instance for all teams with data' do
         expect(names_in_json.length).to eq(3)
         expect(names_in_json).to include(overview.first[:name])
         expect(names_in_json).to include(overview.second[:name])
         expect(names_in_json).to include(overview.third[:name])
       end
 
-      it 'should include the completed rate for each organization' do
+      it 'should include the completed rate for each team' do
         json['overview'].each_with_index do |entry, index|
           expect(entry['name']).to eq(overview[index][:name])
           expect(entry['completed']).to eq(overview[index][:data][group][:completed])
@@ -187,7 +187,7 @@ module Api
         end
       end
 
-      it 'should include the met_threshold rate for each organization' do
+      it 'should include the met_threshold rate for each team' do
         json['overview'].each_with_index do |entry, index|
           expect(entry['name']).to eq(overview[index][:name])
           expect(entry['met_threshold_completion']).to eq(overview[index][:data][group][:met_threshold_completion])

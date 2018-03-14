@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
 module Api
-  class OrganizationOverviewSerializer < ActiveModel::Serializer
+  class TeamOverviewSerializer < ActiveModel::Serializer
     attributes :overview
 
     def overview
       group = @instance_options[:group]
-      object.map do |organization|
-        next if organization[:data].blank?
-        create_organization_overview_hash(organization, group)
+      object.map do |team|
+        next if team[:data].blank?
+        create_team_overview_hash(team, group)
       end.compact
     end
 
     private
 
-    def create_organization_overview_hash(organization, group)
-      return create_serializable_hash(organization[:name]) unless organization[:data].keys.include? group
-      create_hash_for_organization_with_data(organization, group)
+    def create_team_overview_hash(team, group)
+      return create_serializable_hash(team[:name]) unless team[:data].keys.include? group
+      create_hash_for_team_with_data(team, group)
     end
 
-    def create_hash_for_organization_with_data(organization, group)
+    def create_hash_for_team_with_data(team, group)
       create_serializable_hash(
-        organization[:name],
-        organization[:data][group][:completed],
-        organization[:data][group][:met_threshold_completion],
-        organization[:data][group][:percentage_above_threshold],
-        organization[:data][group][:total]
+        team[:name],
+        team[:data][group][:completed],
+        team[:data][group][:met_threshold_completion],
+        team[:data][group][:percentage_above_threshold],
+        team[:data][group][:total]
       )
     end
 

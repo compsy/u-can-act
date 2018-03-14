@@ -133,7 +133,7 @@ class Response < ApplicationRecord
       mentor_title: mentor&.role&.title,
       mentor_gender: mentor&.gender,
       mentor_name: mentor&.first_name,
-      organization: student.role.organization.name,
+      organization: student.role.team.organization.name,
       student_name: student.first_name,
       student_gender: student.gender
     }

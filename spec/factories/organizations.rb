@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  sequence(:organization_name) { |n| "organisatie-#{n}" }
+  sequence(:organization_name) { |n| "organization-#{n}" }
   factory :organization do
     name { generate(:organization_name) }
 
-    trait :with_roles do
+    trait :with_teams do
       after(:create) do |organization|
-        FactoryBot.create(:role, group: Person::STUDENT, title: 'Studenttitle', organization: organization)
-        FactoryBot.create(:role, group: Person::MENTOR, title: 'Mentortitle', organization: organization)
+        FactoryBot.create(:team, organization: organization)
+        FactoryBot.create(:team, organization: organization)
       end
     end
   end

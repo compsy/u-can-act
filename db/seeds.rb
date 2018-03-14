@@ -4,7 +4,7 @@
 ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 
 # These seeds need to be loaded first, and in order.
-%w[questionnaires protocols organizations].each do |seed_directory|
+%w[questionnaires protocols organizations teams].each do |seed_directory|
   Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '**', '*.rb')].each do |file|
     require file
   end
@@ -23,7 +23,7 @@ if Rails.env.development?
   # Mentor pre assessment
   puts ''
   protocol = Protocol.find_by_name('mentoren voormeting/nameting')
-  person = Organization.first.roles.where(group: Person::MENTOR).first.people[0]
+  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people[0]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -38,8 +38,8 @@ if Rails.env.development?
 
   # Mentor diary
   protocol = Protocol.find_by_name('mentoren dagboek')
-  person = Organization.first.roles.where(group: Person::MENTOR).first.people[1]
-  students = Organization.first.roles.where(group: Person::STUDENT).first.people[0..-2]
+  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people[1]
+  students = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[0..-2]
   invitation_set = InvitationSet.create!(person: person)
   invitation_token = invitation_set.invitation_tokens.create!
   students.each do |student|
@@ -57,7 +57,7 @@ if Rails.env.development?
 
   # Mentor post assessment
   protocol = Protocol.find_by_name('mentoren voormeting/nameting')
-  person = Organization.first.roles.where(group: Person::MENTOR).first.people[2]
+  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people[2]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -74,7 +74,7 @@ if Rails.env.development?
 
   # Student pre assessment
   puts ''
-  student = Organization.first.roles.where(group: Person::STUDENT).first.people[0]
+  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[0]
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
@@ -88,7 +88,7 @@ if Rails.env.development?
   puts "student voormeting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Student diary
-  student = Organization.first.roles.where(group: Person::STUDENT).first.people[1]
+  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[1]
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
@@ -103,7 +103,7 @@ if Rails.env.development?
   puts "student dagboek: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Student diary almost in streak
-  student = Organization.first.roles.where(group: Person::STUDENT).first.people[2]
+  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[2]
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
@@ -123,14 +123,15 @@ if Rails.env.development?
   puts "student dagboek (bijna in streak): #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Student post assessment
-  student = Organization.first.roles.where(group: Person::STUDENT).first.people[3]
+  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[3]
   student.protocol_subscriptions.create(
     protocol: Protocol.find_by_name('studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
   )
-  responseobj = student.protocol_subscriptions.first.responses.last # nameting
+  responseobj = student.protocol_subscriptions.first.responses.
+    select{|x|x.measurement.questionnaire.name =~ /nameting/}.first # nameting
   voormeting = student.protocol_subscriptions.first.responses.first
   dagboekmeting = student.protocol_subscriptions.first.responses.second
   [voormeting, dagboekmeting].each { |resp| resp.update_attributes!(open_from: 2.weeks.from_now) }

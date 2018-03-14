@@ -14,16 +14,16 @@ class PlainTextParser
     protocol.id
   end
 
-  def parse_organization_name(organization_name)
-    organization = Organization.find_by_name(organization_name)
-    raise "No organization exists by that name: #{organization_name}" unless organization.present?
-    organization
+  def parse_team_name(team_name)
+    team = Team.find_by_name(team_name)
+    raise "No team exists by that name: #{team_name}" unless team.present?
+    team
   end
 
-  def parse_role_title(organization_name, role_title)
-    organization = parse_organization_name(organization_name)
-    role = organization.roles.find_by_title(role_title)
-    raise "No role exists in that organization by that title: #{role_title}" unless role.present?
+  def parse_role_title(team_name, role_title)
+    team = parse_team_name(team_name)
+    role = team.roles.find_by_title(role_title)
+    raise "No role exists in that team by that title: #{role_title}" unless role.present?
     role.id
   end
 

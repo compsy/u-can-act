@@ -245,10 +245,10 @@ describe Response do
 
   describe 'determine_student_mentor' do
     it 'should identify a student response as a response from a student' do
-      organization = FactoryBot.create(:organization)
-      student_role = FactoryBot.create(:role, organization: organization,
+      team = FactoryBot.create(:team)
+      student_role = FactoryBot.create(:role, team: team,
                                               group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, organization: organization,
+      mentor_role = FactoryBot.create(:role, team: team,
                                              group: Person::MENTOR, title: 'MentorTitle')
 
       student = FactoryBot.create(:student, role: student_role)
@@ -261,10 +261,10 @@ describe Response do
     end
 
     it 'should identify a mentor response as a response from a mentor do' do
-      organization = FactoryBot.create(:organization)
-      student_role = FactoryBot.create(:role, organization: organization,
+      team = FactoryBot.create(:team)
+      student_role = FactoryBot.create(:role, team: team,
                                               group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, organization: organization,
+      mentor_role = FactoryBot.create(:role, team: team,
                                              group: Person::MENTOR, title: 'MentorTitle')
 
       student = FactoryBot.create(:student, role: student_role)
@@ -278,10 +278,10 @@ describe Response do
 
   describe 'substitute_variables' do
     it 'should replace variables in a student response' do
-      organization = FactoryBot.create(:organization)
-      student_role = FactoryBot.create(:role, organization: organization,
+      team = FactoryBot.create(:team)
+      student_role = FactoryBot.create(:role, team: team,
                                               group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, organization: organization,
+      mentor_role = FactoryBot.create(:role, team: team,
                                              group: Person::MENTOR, title: 'MentorTitle')
 
       student = FactoryBot.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)
@@ -296,10 +296,10 @@ describe Response do
     end
 
     it 'should replace variables in a mentor response' do
-      organization = FactoryBot.create(:organization)
-      student_role = FactoryBot.create(:role, organization: organization,
+      team = FactoryBot.create(:team)
+      student_role = FactoryBot.create(:role, team: team,
                                               group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, organization: organization,
+      mentor_role = FactoryBot.create(:role, team: team,
                                              group: Person::MENTOR, title: 'MentorTitle')
 
       student = FactoryBot.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)

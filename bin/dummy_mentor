@@ -1,0 +1,67 @@
+#!/bin/bash
+questionnaire=$1
+default_page=index.html
+last_page=final.html
+questionnaire_page=questionnaire.html
+domain=vsv.io
+website_url=http://$domain
+
+if [[ ! -f "Gemfile" ]]; then
+	echo "The dummy runner is not running from the correct directory! Stopping from dummy_mentor."
+	exit 1
+fi
+
+mkdir -p public/dummy
+cd public/dummy
+rm -rf mentor
+
+wget \
+		 --save-cookies /tmp/cookies.txt \
+     --keep-session-cookies \
+     --recursive \
+     --no-clobber \
+     --page-requisites \
+     --html-extension \
+     --domains $domain \
+     --restrict-file-names=unix \
+     --no-parent \
+		 -E -H -k -K -p \
+     -r -e robots=off \
+     -U mozilla \
+    $website_url\?q\=$questionnaire
+
+mv $domain mentor
+mv mentor/$default_page?q=$questionnaire.html mentor/$default_page
+rm mentor/*.orig
+rm mentor/**/*.orig
+
+cd mentor
+cp $default_page $last_page
+
+# Update the asset urls
+gsed -i "s/assets/\/dummy\/mentor\/assets/g" *.html
+
+# remove the first entry (we make it seem that it is completed)
+gsed -i "0,/<i class='large material-icons circle orange lighten-2'>perm_identity<\/i>/s//<i class='large material-icons circle green lighten-2'>done<\/i>/g" $default_page
+gsed -i "0,/<a href=\"questionnaire\/[^\"]*\">Vragenlijst invullen voor deze student<\/a>/s///g" $default_page
+
+
+## Grab the url with the questionnaire page
+new_url=`cat $default_page | grep 'questionnaire/' | sed -e 's/<a href="\(questionnaire\/[^\"]*\)".*/\1/g'`
+q_url=`echo $new_url | sed -e 's/[^\/]*\/\(.*\)/\1/g'`
+echo $new_url
+echo $q_url
+
+## Replace the other URLS with the new questionnaire dummy
+gsed -i "s/<a href=\"questionnaire\/[^\"]*\">Vragenlijst invullen voor deze student<\/a>/<a href='\/dummy\/mentor\/questionnaire\/$q_url'>Vragenlijst invullen voor deze student<\/a>/g" $default_page
+
+## Replace the other URLS with the new questionnaire dummy
+gsed -i "s/form action=\"http:\/\/$domain\/\"/form action=\"\/dummy\/mentor\/$last_page\" method=\"GET\"/g" $new_url
+
+
+############# Last page
+## remove the all entries (we make it seem that it is completed)
+gsed -i "s/<i class='large material-icons circle orange lighten-2'>perm_identity<\/i>/<i class='large material-icons circle green lighten-2'>done<\/i>/g" $last_page
+gsed -i "s/<a href=\"questionnaire\/[^\"]*\">Vragenlijst invullen voor deze student<\/a>//g" $last_page
+
+

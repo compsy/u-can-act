@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   post '/informed_consent' => 'questionnaire#create_informed_consent'
-  get '/klaar' => 'reward#show'
+  get '/klaar' => 'reward#index'
   post '/' => "questionnaire#create"
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]

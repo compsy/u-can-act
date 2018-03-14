@@ -6,9 +6,6 @@ module Api
   module V1
     describe ApiController, type: :controller do
       controller(ApiController) do
-        def index
-          render plain: 'Request OK'
-        end
       end
 
       let(:test_response) { FactoryBot.create(:response) }

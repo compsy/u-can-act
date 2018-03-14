@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ResponseExporter do
-  let!(:response) do
+  let!(:responseobj) do
     response_content = FactoryBot.create(:response_content,
                                          content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23.0' })
     FactoryBot.create(:response, :completed, content: response_content.id.to_s)
@@ -21,11 +21,11 @@ describe ResponseExporter do
       # create a response that should be filtered out
       person = FactoryBot.create(:student, mobile_phone: '0611055958')
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
-      FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: response.measurement)
-      export = described_class.export_lines(response.measurement.questionnaire.name).to_a.join.split("\n")
+      FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: responseobj.measurement)
+      export = described_class.export_lines(responseobj.measurement.questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 2
       expect(export.first).to match('"v1";"v3";"v23_2a13_brood"') # Test the sorting of keys
-      expect(export.last.split(';', -1).first).to eq "\"#{response.id}\""
+      expect(export.last.split(';', -1).first).to eq "\"#{responseobj.id}\""
       # bubblebabble format for second field (person_id)
       expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
@@ -53,7 +53,7 @@ describe ResponseExporter do
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 1
       expect(export.last.split(';', -1).first).to eq '"response_id"'
-      expect(export.last.split(';', -1).second).to eq '"person_id"'
+      expect(export.last.split(';', -1).second).to eq '"filled_out_by_id"'
       expect(export.last.split(';', -1).last).to eq '"updated_at"'
     end
   end

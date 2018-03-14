@@ -44,6 +44,7 @@ module Exporters
   end
 
   def calculate_hash(clear_text)
+    return '' if clear_text.blank?
     hash = Digest::MD5.bubblebabble(clear_text.to_s + ENV['PERSON_SALT'])
     hash.split('-')[0..4].join('-')
   end

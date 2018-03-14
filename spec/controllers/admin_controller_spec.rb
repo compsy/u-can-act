@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# frozen_string_literal: true
 
 require 'rails_helper'
 
@@ -11,7 +12,7 @@ describe AdminController, type: :controller do
   end
 
   describe "GET 'routes'" do
-    let(:routes_list) { %i[index person_export protocol_subscription_export] }
+    let(:routes_list) { %i[index person_export protocol_subscription_export invitation_set_export] }
 
     it 'should require basic http auth' do
       routes_list.each do |route|

@@ -38,13 +38,30 @@ ActiveRecord::Schema.define(version: 20180307093314) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
+  create_table "invitation_sets", force: :cascade do |t|
+    t.integer  "person_id",       null: false
+    t.string   "invitation_text"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["person_id"], name: "index_invitation_sets_on_person_id", using: :btree
+  end
+
   create_table "invitation_tokens", force: :cascade do |t|
-    t.integer  "response_id", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "token_hash",  null: false
-    t.datetime "expires_at",  null: false
-    t.index ["response_id"], name: "index_invitation_tokens_on_response_id", unique: true, using: :btree
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "token_hash",        null: false
+    t.datetime "expires_at",        null: false
+    t.integer  "invitation_set_id", null: false
+    t.index ["invitation_set_id"], name: "index_invitation_tokens_on_invitation_set_id", using: :btree
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.integer  "invitation_set_id",                      null: false
+    t.string   "type",                                   null: false
+    t.string   "invited_state",     default: "not_sent", null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["invitation_set_id"], name: "index_invitations_on_invitation_set_id", using: :btree
   end
 
   create_table "measurements", force: :cascade do |t|
@@ -127,20 +144,21 @@ ActiveRecord::Schema.define(version: 20180307093314) do
   end
 
   create_table "responses", force: :cascade do |t|
-    t.integer  "protocol_subscription_id",                                 null: false
-    t.integer  "measurement_id",                                           null: false
+    t.integer  "protocol_subscription_id",            null: false
+    t.integer  "measurement_id",                      null: false
     t.string   "content"
-    t.datetime "open_from",                                                null: false
+    t.datetime "open_from",                           null: false
     t.datetime "opened_at"
     t.datetime "completed_at"
-    t.string   "invited_state",                       default: "not_sent", null: false
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
-    t.string   "uuid",                     limit: 36,                      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "uuid",                     limit: 36, null: false
     t.integer  "filled_out_for_id"
     t.integer  "filled_out_by_id"
+    t.integer  "invitation_set_id"
     t.index ["filled_out_by_id"], name: "index_responses_on_filled_out_by_id", using: :btree
     t.index ["filled_out_for_id"], name: "index_responses_on_filled_out_for_id", using: :btree
+    t.index ["invitation_set_id"], name: "index_responses_on_invitation_set_id", using: :btree
     t.index ["measurement_id"], name: "index_responses_on_measurement_id", using: :btree
     t.index ["protocol_subscription_id"], name: "index_responses_on_protocol_subscription_id", using: :btree
     t.index ["uuid"], name: "index_responses_on_uuid", unique: true, using: :btree
@@ -174,7 +192,9 @@ ActiveRecord::Schema.define(version: 20180307093314) do
     t.index ["name"], name: "index_teams_on_name", unique: true, using: :btree
   end
 
-  add_foreign_key "invitation_tokens", "responses"
+  add_foreign_key "invitation_sets", "people"
+  add_foreign_key "invitation_tokens", "invitation_sets"
+  add_foreign_key "invitations", "invitation_sets"
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
   add_foreign_key "protocol_subscriptions", "people"
@@ -183,6 +203,7 @@ ActiveRecord::Schema.define(version: 20180307093314) do
   add_foreign_key "protocol_transfers", "people", column: "to_id"
   add_foreign_key "protocol_transfers", "protocol_subscriptions"
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
+  add_foreign_key "responses", "invitation_sets"
   add_foreign_key "responses", "measurements"
   add_foreign_key "responses", "people", column: "filled_out_by_id"
   add_foreign_key "responses", "people", column: "filled_out_for_id"

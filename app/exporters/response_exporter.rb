@@ -56,18 +56,19 @@ class ResponseExporter
 
     def sort_and_add_default_header_fields(headers)
       headers = headers.keys.sort { |x, y| format_key(x) <=> format_key(y) }
-      headers = %w[response_id person_id protocol_subscription_id measurement_id open_from] +
-                %w[invited_state opened_at completed_at created_at updated_at] + headers
+      headers = %w[response_id filled_out_by_id filled_out_for_id protocol_subscription_id measurement_id] +
+                %w[invitation_set_id open_from opened_at completed_at created_at updated_at] + headers
       headers
     end
 
     def response_hash(response)
       hsh = {
         'response_id' => response.id,
-        'person_id' => calculate_hash(response.protocol_subscription.person.id),
-        'protocol_subscription_id' => response.protocol_subscription.id,
-        'measurement_id' => response.measurement.id,
-        'invited_state' => response.invited_state
+        'filled_out_by_id' => calculate_hash(response.filled_out_by_id),
+        'filled_out_for_id' => calculate_hash(response.filled_out_for_id),
+        'protocol_subscription_id' => response.protocol_subscription_id,
+        'measurement_id' => response.measurement_id,
+        'invitation_set_id' => response.invitation_set_id
       }
       hsh.merge!(response_hash_time_fields(response, %w[open_from opened_at completed_at created_at updated_at]))
     end

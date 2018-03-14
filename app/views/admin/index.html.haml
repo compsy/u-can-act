@@ -27,6 +27,13 @@
           = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download', |
             admin_protocol_subscription_export_path(format: 'csv'),                                  |
             class: 'waves-effect waves-light btn download-button')
+      %li.collection-item.avatar{:style => "min-height:65px"}
+        %i.large.material-icons.circle.blue.lighten-2 description
+        %span.title InvitationSets
+        %p
+          = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download', |
+            admin_invitation_set_export_path(format: 'csv'),                                  |
+            class: 'waves-effect waves-light btn download-button')
       - Questionnaire.all.each do |questionnaire|
         %li.collection-item.avatar{:style => "min-height:65px"}
           %i.large.material-icons.circle.blue.lighten-2 description

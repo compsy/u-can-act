@@ -18,14 +18,21 @@ describe 'sending invitations', type: :feature do
   let!(:fourth_response) do
     protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
     measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
-    FactoryBot.create(:response,
-                      open_from: 9.hours.ago,
+    FactoryBot.create(:response, :invited,
+                      open_from: 30.minutes.ago,
                       protocol_subscription: protocol_subscription,
-                      measurement: measurement,
-                      invited_state: Response::SENT_STATE)
+                      measurement: measurement)
+  end
+  let!(:fifth_response) do
+    protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+    measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
+    FactoryBot.create(:response,
+                      open_from: (Response::RECENT_PAST + 1.hour).ago,
+                      protocol_subscription: protocol_subscription,
+                      measurement: measurement)
   end
 
-  let(:responses) { [some_response, another_response, third_response, fourth_response] }
+  let(:responses) { [some_response, another_response, third_response] }
 
   before(:each) do
     # Clear the messagebird list.
@@ -42,23 +49,29 @@ describe 'sending invitations', type: :feature do
     end
 
     it 'should send sms messages for open responses' do
+      responses
       SendInvitations.run
-      expect(MessageBirdAdapter.deliveries.size).to eq responses.length
+      sleep 1
+      expect(MessageBirdAdapter.deliveries.size).to eq(2 * responses.length) # reminder and original
 
       MessageBirdAdapter.deliveries.each_with_index do |msg, index|
-        expect(msg[:to]).to eq(responses[index].protocol_subscription.person.mobile_phone)
+        responseobj = responses.select do |resp|
+          resp.protocol_subscription.person_id == InvitationSet.all[1 + (index / 2)].person_id
+        end.first
+        responseobj.reload
+        expect(msg[:to]).to eq(responseobj.protocol_subscription.person.mobile_phone)
         expect(msg[:body]).to_not be_blank
         expect(msg[:body]).to include('http')
-        expect(msg[:body]).to include("?q=#{responses[index].protocol_subscription.person.external_identifier}"\
-                                      "#{responses[index].invitation_token.token_plain}")
-        expect(msg[:reference]).to eq "vsv-#{responses[index].id}"
+        expect(msg[:body]).to include("?q=#{responseobj.protocol_subscription.person.external_identifier}" \
+                                      "#{responseobj.invitation_set.invitation_tokens.first.token_plain}")
+        expect(msg[:reference]).to eq "vsv-#{responseobj.invitation_set.id}"
       end
     end
 
     describe 'without active protocol_subscriptions' do
       it 'should not do anything when the protocol_subscriptions are not active' do
-        responses.each do |response|
-          response.protocol_subscription.update_attributes!(state: ProtocolSubscription::CANCELED_STATE)
+        responses.each do |resp|
+          resp.protocol_subscription.update_attributes!(state: ProtocolSubscription::CANCELED_STATE)
         end
         MessageBirdAdapter.deliveries.clear
         SendInvitations.run
@@ -73,9 +86,11 @@ describe 'sending invitations', type: :feature do
     end
 
     it 'should not schedule the sms if the delayed jobs are enabled' do
+      responses
       SendInvitations.run
+      sleep 1
       expect(MessageBirdAdapter.deliveries.size).to eq 0
-      expect(Delayed::Job.all.length).to eq responses.length
+      expect(Delayed::Job.all.length).to eq(2 * responses.length)
     end
   end
 end

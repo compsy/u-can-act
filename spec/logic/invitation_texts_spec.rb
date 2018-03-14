@@ -94,4 +94,11 @@ describe InvitationTexts do
       end.to raise_error(RuntimeError, 'method rejoined_after_missing_multiple_pool not implemented by subclass!')
     end
   end
+  describe 'missed_after_streak_pool' do
+    it 'should raise an error' do
+      expect do
+        described_class.missed_after_streak_pool
+      end.to raise_error(RuntimeError, 'method missed_after_streak_pool not implemented by subclass!')
+    end
+  end
 end

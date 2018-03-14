@@ -28,10 +28,8 @@ class QuestionnaireController < ApplicationController
 
   def create
     response_content = ResponseContent.create!(content: questionnaire_content)
-    @response.update_attributes!(content: response_content.id,
-                                 completed_at: Time.zone.now,
-                                 filled_out_by: @protocol_subscription.person,
-                                 filled_out_for: @protocol_subscription.filling_out_for)
+    @response.update_attributes!(content: response_content.id)
+    @response.complete!
     check_stop_subscription unless questionnaire_stop_subscription.blank?
     redirect_to_next_page
   end
@@ -63,7 +61,7 @@ class QuestionnaireController < ApplicationController
                      else
                        'Succes: Je hebt je voor de dagboekstudie uitgeschreven. Bedankt voor je deelname!'
                      end
-    Rails.logger.error "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
+    Rails.logger.warn "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."
   end
 

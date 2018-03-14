@@ -13,13 +13,12 @@ describe 'GET /klaar', type: :feature, js: true do
     end
 
     let!(:responseobj) do
-      FactoryBot.create(:response, :periodical,
+      FactoryBot.create(:response, :periodical, :invited,
                         protocol_subscription: protocol_subscription,
-                        open_from: 1.hour.ago,
-                        invited_state: Response::SENT_STATE)
+                        open_from: 1.hour.ago)
     end
 
-    let!(:invtoken) { FactoryBot.create(:invitation_token, response: responseobj) }
+    let!(:invtoken) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
 
     def fill_out_questionnaire
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
@@ -36,8 +35,7 @@ describe 'GET /klaar', type: :feature, js: true do
     it 'should be redirected after a questionnaire to the rewards page' do
       FactoryBot.create(:response,
                         :periodical, protocol_subscription: protocol_subscription,
-                                     open_from: 1.day.from_now,
-                                     invited_state: Response::NOT_SENT_STATE)
+                                     open_from: 1.day.from_now)
       FactoryBot.create(:response, :completed,
                         :periodical,
                         protocol_subscription: protocol_subscription,
@@ -46,7 +44,7 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.possible_reward_points).to eq 2
       expect(protocol_subscription.max_reward_points).to eq 3
 
-      visit responseobj.invitation_url(false)
+      visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
       # expect(page).to have_http_status(200)
       fill_out_questionnaire
       # expect(page).to have_http_status(200)
@@ -72,7 +70,7 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.reward_points).to eq 2
       expect(protocol_subscription.possible_reward_points).to eq 3
       expect(protocol_subscription.max_reward_points).to eq 3
-      visit responseobj.invitation_url(false)
+      visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
       # expect(page).to have_http_status(200)
       fill_out_questionnaire
       # expect(page).to have_http_status(200)
@@ -96,7 +94,7 @@ describe 'GET /klaar', type: :feature, js: true do
                         :periodical,
                         protocol_subscription: protocol_subscription,
                         open_from: 2.days.ago)
-      visit responseobj.invitation_url(false)
+      visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
       fill_out_questionnaire
       expect(page).to have_link('Disclaimer', href: '/disclaimer')
     end
@@ -105,8 +103,7 @@ describe 'GET /klaar', type: :feature, js: true do
       FactoryBot.create(:response,
                         :periodical,
                         protocol_subscription: protocol_subscription,
-                        open_from: 1.day.from_now,
-                        invited_state: Response::NOT_SENT_STATE)
+                        open_from: 1.day.from_now)
       FactoryBot.create(:response, :completed,
                         :periodical,
                         protocol_subscription: protocol_subscription,
@@ -114,7 +111,7 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.reward_points).to eq 1
       expect(protocol_subscription.possible_reward_points).to eq 2
       expect(protocol_subscription.max_reward_points).to eq 3
-      visit responseobj.invitation_url(false)
+      visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
       # expect(page).to have_http_status(200)
       fill_out_questionnaire
       # expect(page).to have_http_status(200)
@@ -137,10 +134,9 @@ describe 'GET /klaar', type: :feature, js: true do
     end
 
     let(:responseobj) do
-      FactoryBot.create(:response,
+      FactoryBot.create(:response, :invited,
                         protocol_subscription: protocol_subscription,
-                        open_from: 1.hour.ago,
-                        invited_state: Response::SENT_STATE)
+                        open_from: 1.hour.ago)
     end
 
     let!(:completed_responseobj) do
@@ -149,13 +145,13 @@ describe 'GET /klaar', type: :feature, js: true do
                         open_from: 2.days.ago)
     end
 
-    let!(:invitation_token) { FactoryBot.create(:invitation_token, response: responseobj) }
+    let!(:invitation_token) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
 
     it 'should not show rewards for Mentors, and it should redirect back to the webapp' do
       expect(protocol_subscription.reward_points).to eq 1
       expect(protocol_subscription.possible_reward_points).to eq 2
       expect(protocol_subscription.max_reward_points).to eq 2
-      visit responseobj.invitation_url(false)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1

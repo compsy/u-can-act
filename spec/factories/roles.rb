@@ -5,6 +5,6 @@ FactoryBot.define do
   factory :role do
     group 'Student'
     title
-    organization
+    team
   end
 end

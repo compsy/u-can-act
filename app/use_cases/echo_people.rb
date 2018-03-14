@@ -40,9 +40,9 @@ class EchoPeople < ActiveInteraction::Base
 
   def create_student_hash(row)
     # Student format:
-    # type;organization_name;first_name;last_name;gender;mobile_phone;protocol_name;start_date;end_date
+    # type;team_name;first_name;last_name;gender;mobile_phone;protocol_name;start_date;end_date
     {
-      organization_name: row[1],
+      team_name:         row[1],
       first_name:        row[2],
       last_name:         row[3],
       gender:            row[4],
@@ -55,10 +55,10 @@ class EchoPeople < ActiveInteraction::Base
 
   def create_mentor_hash(row)
     # Mentor format:
-    # type;organization_name;role_title;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;
+    # type;team_name;role_title;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;
     # filling_out_for;filling_out_for_protocol;end_date
     {
-      organization_name:        row[1],
+      team_name:                row[1],
       role_title:               row[2],
       first_name:               row[3],
       last_name:                row[4],

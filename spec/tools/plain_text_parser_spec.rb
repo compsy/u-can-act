@@ -49,32 +49,32 @@ describe PlainTextParser do
     end
   end
 
-  describe 'parse_organization_name' do
-    it 'should raise if the organization does not exist' do
-      organization_name = 'something random'
-      expect { subject.parse_organization_name(organization_name) }.to raise_error(
-        RuntimeError, "No organization exists by that name: #{organization_name}"
+  describe 'parse_team_name' do
+    it 'should raise if the team does not exist' do
+      team_name = 'something random'
+      expect { subject.parse_team_name(team_name) }.to raise_error(
+        RuntimeError, "No team exists by that name: #{team_name}"
       )
     end
 
-    it 'should return the organization if everything is correct' do
-      organization = FactoryBot.create(:organization)
-      expect(subject.parse_organization_name(organization.name)).to eq(organization)
+    it 'should return the team if everything is correct' do
+      team = FactoryBot.create(:team)
+      expect(subject.parse_team_name(team.name)).to eq(team)
     end
   end
 
   describe 'parse_role_name' do
-    it 'should raise if the role does not exist in the organization' do
-      organization = FactoryBot.create(:organization)
+    it 'should raise if the role does not exist in the team' do
+      team = FactoryBot.create(:team)
       role = FactoryBot.create(:role)
-      expect { subject.parse_role_title(organization.name, role.title) }.to raise_error(
-        RuntimeError, "No role exists in that organization by that title: #{role.title}"
+      expect { subject.parse_role_title(team.name, role.title) }.to raise_error(
+        RuntimeError, "No role exists in that team by that title: #{role.title}"
       )
     end
 
     it 'should return the role id if everything is correct' do
       role = FactoryBot.create(:role)
-      expect(subject.parse_role_title(role.organization.name, role.title)).to eq(role.id)
+      expect(subject.parse_role_title(role.team.name, role.title)).to eq(role.id)
     end
   end
 

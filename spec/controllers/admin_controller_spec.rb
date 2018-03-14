@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe AdminController, type: :controller do
   describe "GET 'index'" do
-    it 'should initiate an organization overview' do
+    it 'should initiate an team overview' do
       basic_auth 'admin', 'admin'
       get :index
     end

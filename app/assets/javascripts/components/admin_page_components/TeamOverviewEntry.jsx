@@ -1,4 +1,4 @@
-class OrganizationOverviewEntry extends React.Component {
+class TeamOverviewEntry extends React.Component {
   generateOverviewRows(overview, overviewName) {
     var rows = [];
     var cols = [];
@@ -21,7 +21,7 @@ class OrganizationOverviewEntry extends React.Component {
       <table>
         <thead>
           <tr>
-            <th> Organization</th>
+            <th> Team</th>
             <th> Completed</th>
             <th> Completed percentage</th>
             <th> &ge; 70% completed questionnaires</th>

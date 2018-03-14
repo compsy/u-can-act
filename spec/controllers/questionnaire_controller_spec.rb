@@ -188,16 +188,6 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
 
     describe 'redirecting with mentor' do
-      let(:protocol_subscription) do
-        FactoryBot.create(:protocol_subscription,
-                          start_date: 1.week.ago.at_beginning_of_day)
-      end
-      let(:responseobj) do
-        FactoryBot.create(:response,
-                          protocol_subscription: protocol_subscription,
-                          open_from: 1.hour.ago)
-      end
-
       before :each do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         cookie_auth(mentor)

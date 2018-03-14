@@ -17,7 +17,7 @@ describe SendInvitationsJob do
       invitation_set = FactoryBot.create(:invitation_set)
       ActiveJob::Base.queue_adapter = :test
       expect do
-        SendInvitationsJob.perform_later(invitation_set)
+        described_class.perform_later(invitation_set)
       end.to have_enqueued_job(described_class)
     end
   end
@@ -407,6 +407,20 @@ describe SendInvitationsJob do
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENDING_STATE
         expect(responseobj.invitation_set.invitation_text).to eq smstext
       end
+    end
+  end
+
+  describe 'max_attempts' do
+    it 'should be two' do
+      expect(subject.max_attempts).to eq 2
+    end
+  end
+
+  describe 'reschedule_at' do
+    it 'should be in one hour' do
+      time_now = Time.zone.now
+      expect(subject.reschedule_at(time_now, 1)).to be_within(1.minute)
+        .of(TimeTools.increase_by_duration(time_now, 1.hour))
     end
   end
 end

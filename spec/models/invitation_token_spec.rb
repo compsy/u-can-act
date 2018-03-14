@@ -190,24 +190,20 @@ describe InvitationToken do
   end
 
   describe 'expired?' do
-    it 'should return false if the connected response is not expired' do
-      invitation_token = FactoryBot.create(:invitation_token, expires_at: 10.days.ago)
-      FactoryBot.create(:response, invitation_set: invitation_token.invitation_set)
-      expect_any_instance_of(Response).to receive(:response_expired?).and_return(false)
-      expect(invitation_token.expired?).to be_falsey
-    end
-
-    it 'should return false if the invitation_token is not expired' do
+    it 'should return false if it expires in the future' do
       invitation_token = FactoryBot.create(:invitation_token, expires_at: 10.days.from_now)
-      FactoryBot.create(:response, invitation_set: invitation_token.invitation_set)
-      allow_any_instance_of(Response).to receive(:response_expired?).and_return(true)
       expect(invitation_token.expired?).to be_falsey
     end
 
-    it 'should return true if both the response and invitation token are expired' do
+    it 'should return false if it expires right now' do
+      Timecop.freeze(2017, 5, 5) do
+        invitation_token = FactoryBot.create(:invitation_token, expires_at: Time.zone.now)
+        expect(invitation_token.expired?).to be_falsey
+      end
+    end
+
+    it 'should return true if it expired in the past' do
       invitation_token = FactoryBot.create(:invitation_token, expires_at: 10.days.ago)
-      FactoryBot.create(:response, invitation_set: invitation_token.invitation_set)
-      allow_any_instance_of(Response).to receive(:response_expired?).and_return(true)
       expect(invitation_token.expired?).to be_truthy
     end
   end

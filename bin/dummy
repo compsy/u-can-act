@@ -36,6 +36,8 @@ mentor = Person.create!(first_name: 'Guido',
 protocol = Protocol.find_by_name('mentoren dagboek')
 
 responseobj = nil
+invitation_set = InvitationSet.create!(person: mentor)
+token = invitation_set.invitation_tokens.create!
 students[0..1].each do |student|
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
@@ -47,10 +49,9 @@ students[0..1].each do |student|
   responseobj = prot_sub.responses.first
   responseobj.update_attributes!(
     open_from: 1.minute.ago,
-    invited_state: Response::SENT_STATE)
-  token = responseobj.initialize_invitation_token!
+    invitation_set: invitation_set)
 end
-tok = "#{responseobj.protocol_subscription.person.external_identifier}#{responseobj.invitation_token.token_plain}"
+tok = "#{responseobj.protocol_subscription.person.external_identifier}#{token.token_plain}"
 file_name = Rails.root.join('bin','dummy_mentor').to_s
 `#{file_name} #{tok}`
 
@@ -63,16 +64,15 @@ student.protocol_subscriptions.create!(
 )
 
 student.protocol_subscriptions.first.responses.each do |resp|
-  resp.update_attributes!(
-    open_from: 10.years.from_now,
-    invited_state: Response::NOT_SENT_STATE)
+  resp.update_attributes!(open_from: 10.years.from_now)
 end
 responseobj = student.protocol_subscriptions.first.responses[1]
+invitation_set = InvitationSet.create!(person: student)
+token = invitation_set.invitation_tokens.create!
 responseobj.update_attributes!(
   open_from: 1.minute.ago,
-  invited_state: Response::SENT_STATE)
-token = responseobj.initialize_invitation_token!
-tok = "#{responseobj.protocol_subscription.person.external_identifier}#{responseobj.invitation_token.token_plain}"
+  invitation_set: invitation_set)
+tok = "#{responseobj.protocol_subscription.person.external_identifier}#{token.token_plain}"
 file_name = Rails.root.join('bin','dummy_student').to_s
 `#{file_name} #{tok}`
 

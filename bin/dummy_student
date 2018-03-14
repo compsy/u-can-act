@@ -15,7 +15,7 @@ mkdir -p public/dummy
 cd public/dummy
 rm -rf student
 
-bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").response.update_attributes!(completed_at: nil)"
+bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").invitation_set.responses.first.update_attributes!(completed_at: nil)"
 
 rm -rf student
 wget \
@@ -41,7 +41,7 @@ gsed -i "s/assets/\/dummy\/student\/assets/g" *.html
 new_url=`cat $default_page | grep 'form action=' | sed -e 's/<form action="\([^\"]*\)".*/\1/g'`
 echo $new_url
 
-bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").response.update_attributes!(completed_at: Time.zone.now)"
+bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").invitation_set.responses.first.complete!"
 
 cd ..
 wget \
@@ -70,7 +70,7 @@ file=`ls assets/components | grep -i RewardPage.self`
 file=$last_page/assets/components/$file
 
 gsed -i "s/var url = '\/api\/v1\/protocol_subscriptions\/' + protocolSubscriptionId/var url = '\/dummy\/student\/data\.json'/g" $file
-prot_sub_id=`bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").response.protocol_subscription.id"`
+prot_sub_id=`bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").invitation_set.responses.first.protocol_subscription.id"`
 
 wget --load-cookies /tmp/cookies.txt \
       -O data.json \

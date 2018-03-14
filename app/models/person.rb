@@ -43,6 +43,12 @@ class Person < ApplicationRecord
     end
   end
 
+  def last_completed_response
+    protocol_subscriptions.map { |x| x.responses.completed }
+                          .flatten
+                          .sort_by(&:completed_at).last
+  end
+
   def mentor?
     role&.group == Person::MENTOR
   end
@@ -104,7 +110,7 @@ class Person < ApplicationRecord
   end
 
   def warn_for_multiple_mentors
-    Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{student.id}" if
+    Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{id}" if
     ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).count > 1
   end
 end

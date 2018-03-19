@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+ 
 <browserconfig>
-  <msapplication>
-    <tile>
-      <square70x70logo src="/icons/Icon-70.png" />
-      <square150x150logo src="/icons/Icon-150.png" />
-      <wide310x150logo src="/icons/Icon-wide-310-150.png" />
-      <square310x310logo src="/icons/Icon-310.png"/>
-      <tilecolor>transparent</tilecolor>
-    </tile>
-  </msapplication>
+    <msapplication>
+        <tile>
+            <square70x70logo src="/icons/mstile-70x70.png"/>
+            <square150x150logo src="/icons/mstile-150x150.png"/>
+            <wide310x150logo src="/icons/mstile-310x150.png"/>
+            <square310x310logo src="/icons/mstile-310x310.png"/>
+            <square144x144logo src="/icons/mstile-144x144.png"/>
+            <TileColor>#FFFFFF</TileColor>
+            <TileImage>/icons/mstile-144x144.png</TileImage>
+        </tile>
+    </msapplication>
 </browserconfig>

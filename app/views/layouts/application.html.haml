@@ -1,34 +1,18 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    -# App title is used for the launch title of the application in iOS
-    %meta{name: "apple-mobile-web-app-title", content: "u-can-act"}/
-    -# Removes the border of the app on iOS
-    %meta{name: "apple-mobile-web-app-capable", content: "yes"}/
-    -# Needed for microsoft platforms
-    %meta{name: "msapplication-config", content: "/browserconfig.xml"}/
-    -# iPhone(first generation or 2G), iPhone 3G, iPhone 3GS
-    %link{rel: "apple-touch-icon", sizes: "57x57", href: "/icons/Icon-57.png"}/
-    -# iPad and iPad mini @1x
-    %link{rel: "apple-touch-icon", sizes: "76x76", href: "/icons/Icon-76.png"}/
-    -# iPhone 4, iPhone 4s, iPhone 5, iPhone 5c, iPhone 5s, iPhone 6, iPhone 6s, iPhone 7, iPhone 7s, iPhone8
-    %link{rel: "apple-touch-icon", sizes: "120x120", href: "/icons/Icon-120.png"}/
-    -# iPad and iPad mini @2x
-    %link{rel: "apple-touch-icon", sizes: "152x152", href: "/icons/Icon-152.png"}/
-    -# iPad Pro
-    %link{rel: "apple-touch-icon", sizes: "167x167", href: "/icons/Icon-167.png"}/
-    -# iPhone X, iPhone 8 Plus, iPhone 7 Plus, iPhone 6s Plus, iPhone 6 Plus
-    %link{rel: "apple-touch-icon", sizes: "180x180", href: "/icons/Icon-180.png"}/
-    -# Android Devices High Resolution
-    %link{rel: "icon", sizes: "192x192", href: "/icons/Icon-192.png"}/
-    -# Android Devices Normal Resolution
-    %link{rel: "icon", sizes: "128x128", href: "/icons/Icon-128.png"}/
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    %meta{name: "application-name", content: "u-can-act"}
+    = favicon_link_tag 'favicon.ico'
+    = render 'shared/android_icons_head', prefix: 'Icon', icon_sizes: %w(192 128)
+    = render 'shared/apple_icons_head', prefix: 'Icon', icon_sizes: %w(57 60 72 76 114 120 144 152 180)
+    = render 'shared/windows_icons_head'
+
     %title u-can-act
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
-    %meta{:content => "width=device-width,initial-scale=1.0", :name => "viewport"}/
+    %meta{:content => "width=device-width,initial-scale=1.0", :name => "viewport"}
   %body{class: student_mentor_class}
     %noscript
       .notices

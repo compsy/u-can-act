@@ -1,0 +1,8 @@
+{
+  "name": "u-can-act",
+  "short_name": "u-can-act",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Voorkom voortijdig schoolverlaten"
+}

@@ -280,6 +280,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    redis (4.0.1)
     ref (2.0.0)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
@@ -437,6 +438,7 @@ DEPENDENCIES
   rails-controller-testing
   rails-i18n
   react-rails
+  redis
   rspec-rails
   rspec_junit_formatter
   rubocop

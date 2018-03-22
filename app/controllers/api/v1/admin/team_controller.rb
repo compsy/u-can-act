@@ -7,7 +7,7 @@ module Api
         def show
           @team_overview = Team.overview(week_number: week_number,
                                          year: year,
-                                         percentage_threshold: percentage_threshold)
+                                         threshold_percentage: percentage_threshold)
           render json: @team_overview,
                  serializer: Api::TeamOverviewSerializer,
                  group: group

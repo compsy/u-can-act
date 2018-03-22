@@ -16,7 +16,7 @@ describe RedisCachedCall do
       final_result = 'somethingelse'
       expect(RedisService).to receive(:get).with(key).and_return(result)
       expect(Marshal).to receive(:load).with(result).and_return(final_result)
-      described_class.cache(key, bust_cache) { 'test' } 
+      described_class.cache(key, bust_cache) { 'test' }
     end
 
     it 'should call the block provided to the function and store its results in the cache' do
@@ -27,7 +27,10 @@ describe RedisCachedCall do
       expect(RedisService).to receive(:set).with(key, marshalled_output)
 
       called = false
-      result = described_class.cache(key, bust_cache) { called = true; expected } 
+      result = described_class.cache(key, bust_cache) do
+        called = true
+        expected
+      end
       expect(called).to be_truthy
       expect(result).to eq expected
     end

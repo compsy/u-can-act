@@ -72,7 +72,7 @@ describe Team, type: :model do
         expect(RedisCachedCall).to receive(:cache).with(key, bust_cache) do |&block|
           expect(block).to_not be_nil
         end
-        overview = described_class.overview(bust_cache: bust_cache)
+        described_class.overview(bust_cache: bust_cache)
       end
       it 'by default it should call the method with bust cache is false' do
         key = described_class.overview_key
@@ -80,7 +80,7 @@ describe Team, type: :model do
         expect(RedisCachedCall).to receive(:cache).with(key, bust_cache) do |&block|
           expect(block).to_not be_nil
         end
-        overview = described_class.overview
+        described_class.overview
       end
     end
     describe 'without caching' do
@@ -277,18 +277,24 @@ describe Team, type: :model do
                             open_from: Time.zone.now - 10.minutes,
                             protocol_subscription: mentor4.protocol_subscriptions.first)
 
-          result = described_class.overview(week_number: nil, year: nil, threshold_percentage: 50).second[:data][Person::MENTOR]
+          result = described_class.overview(week_number: nil,
+                                            year: nil,
+                                            threshold_percentage: 50).second[:data][Person::MENTOR]
           # Three mentors should have achieved the 50%
           expect(result[:met_threshold_completion]).to eq 3
           expect(result[:percentage_above_threshold]).to eq 100
 
-          result = described_class.overview(week_number: nil, year: nil, threshold_percentage: 75).second[:data][Person::MENTOR]
+          result = described_class.overview(week_number: nil,
+                                            year: nil,
+                                            threshold_percentage: 75).second[:data][Person::MENTOR]
           # Two mentors should have achieved the 75%
           expect(result[:met_threshold_completion]).to eq 2
           expected = (2.0 / 3.0 * 100).round
           expect(result[:percentage_above_threshold]).to eq expected
 
-          result = described_class.overview(week_number: nil, year: nil, threshold_percentage: 100).second[:data][Person::MENTOR]
+          result = described_class.overview(week_number: nil,
+                                            year: nil,
+                                            threshold_percentage: 100).second[:data][Person::MENTOR]
           # Only one should have the 100%
           expect(result[:met_threshold_completion]).to eq 1
           expected = (1.0 / 3.0 * 100).round

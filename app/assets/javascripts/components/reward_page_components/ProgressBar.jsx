@@ -99,7 +99,7 @@ class ProgressBar extends React.Component {
       <div>
         {this.state.showStreakDetails ? <Pyro /> : <div/>}
         <div className='row'>
-          <div className='col m6 push-m3'>
+          <div className='col l6 push-l3 m8 push-m2 s12'>
             <div className="progressRadial" />
             {this.createStreakText()}
           </div>

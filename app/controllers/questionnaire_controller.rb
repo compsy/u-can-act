@@ -113,6 +113,7 @@ class QuestionnaireController < ApplicationController
               signed_in_person_id == params_person_id &&
               signed_in_person_id == response_cookie_person_id
 
+    log_cookie
     render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.')
   end
 

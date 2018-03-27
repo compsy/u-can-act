@@ -30,6 +30,7 @@ class TokenAuthenticationController < ApplicationController
   def store_person_cookie(identifier)
     cookie = { PERSON_ID_COOKIE => identifier }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
+    store_verification_cookie
   end
 
   def identifier_param

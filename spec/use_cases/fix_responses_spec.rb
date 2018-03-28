@@ -120,7 +120,13 @@ describe FixResponses do
         v3_9_3_vaardigheden_van_deze_student_ontwikkelen
       ].freeze
   describe 'execute' do
-    it 'should not raise an error' do
+    it 'should not raise an error when there is no mentor questionnaire' do
+      expect do
+        described_class.run!
+      end.to_not raise_error
+    end
+    it 'should not raise an error when there is a mentor questionnaire' do
+      questionnaire = FactoryBot.create(:questionnaire, name: 'dagboek mentoren')
       expect do
         described_class.run!
       end.to_not raise_error
@@ -138,7 +144,7 @@ describe FixResponses do
       response = FactoryBot.create(:response, measurement: measurement, content: response_content.id)
       expect(response.values).to eq old_hsh
       described_class.run!
-      response.reload!
+      response.reload
       expect(response.values).to eq new_hsh
     end
   end

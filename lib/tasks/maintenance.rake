@@ -12,8 +12,8 @@ namespace :maintenance do
 
   desc 'Fixing variables in the Mongo responses'
   task fix_responses: :environment do
-    Rails.logger.info 'Fixing responses - started'
+    puts 'Fixing responses - started'
     FixResponses.run!
-    Rails.logger.info 'Fixing responses - finished'
+    puts 'Fixing responses - finished'
   end
 end

@@ -97,16 +97,16 @@ class FixResponses < ActiveInteraction::Base
     @total_replaced = 0
     Questionnaire.find_by_name('dagboek mentoren').measurements.each do |measurement|
       measurement.responses.where('content IS NOT NULL').find_each do |response|
-        fix_response(response)
+        fix_response_content(response.content)
       end
     end
-    Rails.logger.info("Total replaced/seen: #{@total_replaced} / #{@total_seen}.")
+    puts "Total replaced/seen: #{@total_replaced} / #{@total_seen}."
   end
 
   private
 
-  def fix_response(response)
-    response_content = ResponseContent.find(response)
+  def fix_response_content(content)
+    response_content = ResponseContent.find(content)
     @total_seen += 1
     @atleastonereplaced = false
     new_hsh = calculate_new_hash(response_content.content)
@@ -127,7 +127,7 @@ class FixResponses < ActiveInteraction::Base
           varregex = "#{varregex}_timing" if timing
           varregex = /\A#{varregex}\z/
           next unless key =~ varregex
-          new_key = "#{variable}_timing" if timing
+          new_key = timing ? "#{variable}_timing" : variable
           @atleastonereplaced = true if new_key != key # only count it if we actually change the key
           replaced = true
           break

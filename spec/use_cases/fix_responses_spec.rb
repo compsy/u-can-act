@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe FixResponses do
-  KEYS = hsh = %w[
+  KEYS = %w[
     v1
     v10
     v10_timing
@@ -126,7 +126,7 @@ describe FixResponses do
       end.to_not raise_error
     end
     it 'should not raise an error when there is a mentor questionnaire' do
-      questionnaire = FactoryBot.create(:questionnaire, name: 'dagboek mentoren')
+      FactoryBot.create(:questionnaire, name: 'dagboek mentoren')
       expect do
         described_class.run!
       end.to_not raise_error

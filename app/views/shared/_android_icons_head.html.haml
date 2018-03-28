@@ -1,0 +1,3 @@
+%link{rel: "manifest", href: "/manifest.json"}/
+- icon_sizes.each do |size|
+  %link{rel: "icon", sizes: "#{size}x#{size}", href: "/images/#{prefix}-#{size}.png"}

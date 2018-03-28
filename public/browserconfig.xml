@@ -3,13 +3,13 @@
 <browserconfig>
     <msapplication>
         <tile>
-            <square70x70logo src="/icons/mstile-70x70.png"/>
-            <square150x150logo src="/icons/mstile-150x150.png"/>
-            <wide310x150logo src="/icons/mstile-310x150.png"/>
-            <square310x310logo src="/icons/mstile-310x310.png"/>
-            <square144x144logo src="/icons/mstile-144x144.png"/>
+            <square70x70logo src="/images/mstile-70x70.png"/>
+            <square150x150logo src="/images/mstile-150x150.png"/>
+            <wide310x150logo src="/images/mstile-310x150.png"/>
+            <square310x310logo src="/images/mstile-310x310.png"/>
+            <square144x144logo src="/images/mstile-144x144.png"/>
             <TileColor>#FFFFFF</TileColor>
-            <TileImage>/icons/mstile-144x144.png</TileImage>
+            <TileImage>/images/mstile-144x144.png</TileImage>
         </tile>
     </msapplication>
 </browserconfig>

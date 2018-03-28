@@ -564,10 +564,7 @@ class QuestionnaireGenerator
         is_hidden = id >= default_expansions
         sub_question_body = []
         question[:content].each_with_index do |sub_question, idx|
-          current = sub_question.deep_dup
-          current[:raw] = question[:raw][:content][idx]
-          current = update_current_question(current, id)
-          sub_question_body << single_questionnaire_question(current)
+          sub_question_body << add_expandable_question(sub_question, idx, id)
         end
 
         sub_question_body = safe_join(sub_question_body)
@@ -577,6 +574,13 @@ class QuestionnaireGenerator
           class: " col s12 expandable_wrapper #{is_hidden ? 'hidden' : ''} #{question[:id]}"
         )
       end
+    end
+
+    def add_expandable_question(sub_question, idx, id)
+      current = sub_question.deep_dup
+      current[:raw] = question[:raw][:content][idx]
+      current = update_current_question(current, id)
+      single_questionnaire_question(current)
     end
 
     def expandable_buttons(question)

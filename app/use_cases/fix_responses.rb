@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class FixResponses < ActiveInteraction::Base
+  # Regex to make these:
+  # sed $'s/></\\\n/g' < input_fields.html | grep -i "id=" |
+  # sed -e 's/^.*id="\([^"]*\)".*$/\1/g' | sort | uniq | grep -i "deze_student"
   VARIABLES = %w[
     v2_deze_student_is_gestopt_met_de_opleiding
     v2_ik_ben_gestopt_met_de_begeleiding_van_deze_student

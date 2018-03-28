@@ -564,7 +564,7 @@ class QuestionnaireGenerator
         is_hidden = id >= default_expansions
         sub_question_body = []
         question[:content].each_with_index do |sub_question, idx|
-          sub_question_body << add_expandable_question(sub_question, idx, id)
+          sub_question_body << add_expandable_question(question, sub_question, idx, id)
         end
 
         sub_question_body = safe_join(sub_question_body)
@@ -576,7 +576,7 @@ class QuestionnaireGenerator
       end
     end
 
-    def add_expandable_question(sub_question, idx, id)
+    def add_expandable_question(question, sub_question, idx, id)
       current = sub_question.deep_dup
       current[:raw] = question[:raw][:content][idx]
       current = update_current_question(current, id)

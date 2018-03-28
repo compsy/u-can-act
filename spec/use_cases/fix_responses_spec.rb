@@ -2,21 +2,12 @@
 
 require 'rails_helper'
 
-describe FixResponses, focus: true do
-  describe 'execute' do
-    it 'should not raise an error' do
-      expect do
-        described_class.run!
-      end.to_not raise_error
-    end
-    it 'should fix answers from the mentor diary questionnaire' do
-      questionnaire = FactoryBot.create(:questionnaire, name: 'dagboek mentoren')
-      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
-      hsh = %w[]
-        v1' =>
-        v10' =>
-        v10_timing' =>
-        v11' =>
+describe FixResponses do
+  KEYS = hsh = %w[
+        v1
+        v10
+        v10_timing
+        v11
         v11_timing
         v12
         v12_timing
@@ -127,9 +118,28 @@ describe FixResponses, focus: true do
         v3_9_3_inzicht_krijgen_in_de_belevingswereld_van_deze_student
         v3_9_3_inzicht_krijgen_in_de_omgeving_van_deze_student
         v3_9_3_vaardigheden_van_deze_student_ontwikkelen
-      }
-      response_content = FactoryBot.create(:response_content, content: hsh)
-      response = FactoryBot.create(:response, measurement: measurement, content: )
+      ].freeze
+  describe 'execute' do
+    it 'should not raise an error' do
+      expect do
+        described_class.run!
+      end.to_not raise_error
+    end
+    it 'should fix answers from the mentor diary questionnaire' do
+      questionnaire = FactoryBot.create(:questionnaire, name: 'dagboek mentoren')
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      old_hsh = {}
+      new_hsh = {}
+      KEYS.each_with_index do |key, idx|
+        old_hsh[key.gsub('deze_student','ando_pando')] = idx
+        new_hsh[key] = idx
+      end
+      response_content = FactoryBot.create(:response_content, content: old_hsh)
+      response = FactoryBot.create(:response, measurement: measurement, content: response_content.id)
+      expect(response.values).to eq old_hsh
+      described_class.run!
+      response.reload!
+      expect(response.values).to eq new_hsh
     end
   end
 end

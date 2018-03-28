@@ -95,7 +95,12 @@ class FixResponses < ActiveInteraction::Base
   def execute
     @total_seen = 0
     @total_replaced = 0
-    Questionnaire.find_by_name('dagboek mentoren').measurements.each do |measurement|
+    questionnaire = Questionnaire.find_by_name('dagboek mentoren')
+    if questionnaire.blank?
+      puts "Error: questionnaire not found'
+      return
+    end
+    questionnaire.measurements.each do |measurement|
       measurement.responses.where('content IS NOT NULL').find_each do |response|
         fix_response_content(response.content)
       end

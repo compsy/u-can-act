@@ -10,7 +10,7 @@ class QuestionnaireGenerator
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
-      raw_content = content.dup
+      raw_content = content.deep_dup
       title, content = substitute_variables(response_id, title, content)
       body = safe_join([
                          questionnaire_header(title),
@@ -51,7 +51,7 @@ class QuestionnaireGenerator
     def questionnaire_questions(content, response_id, raw_content)
       body = []
       content.each_with_index do |question, idx|
-        new_question = question.dup
+        new_question = question.deep_dup
         new_question[:response_id] = response_id
         new_question[:raw] = raw_content[idx]
         body << single_questionnaire_question(new_question)
@@ -165,7 +165,7 @@ class QuestionnaireGenerator
       question[:options].each_with_index do |option, idx|
         raw_option = question[:raw][:options][idx]
         raw_option = { title: raw_option } unless raw_option.is_a?(Hash)
-        option = option.dup
+        option = option.deep_dup
         option = { title: option } unless option.is_a?(Hash)
         option[:raw] = raw_option
         body << radio_option_body(question[:id], option, question[:response_id])
@@ -274,7 +274,7 @@ class QuestionnaireGenerator
                       value: question[:otherwise_label],
                       required: true,
                       class: 'otherwise-option'),
-                  radio_otherwise_option_label(question)
+                  otherwise_option_label(question)
                 ])
     end
 
@@ -329,7 +329,7 @@ class QuestionnaireGenerator
       question[:options].each_with_index do |option, idx|
         raw_option = question[:raw][:options][idx]
         raw_option = { title: raw_option } unless raw_option.is_a?(Hash)
-        option = option.dup
+        option = option.deep_dup
         option = { title: option } unless option.is_a?(Hash)
         option[:raw] = raw_option
         body << checkbox_option_body(question[:id], option, question[:response_id])
@@ -543,7 +543,7 @@ class QuestionnaireGenerator
 
     def update_options(current_options, sub_id)
       current_options.map do |optorig|
-        option = optorig.clone
+        option = optorig.deep_dup
         if option.is_a?(Hash)
           option[:hides_questions] = update_ids(option[:hides_questions], sub_id) if option[:hides_questions].present?
           option[:shows_questions] = update_ids(option[:shows_questions], sub_id) if option[:shows_questions].present?
@@ -562,10 +562,12 @@ class QuestionnaireGenerator
       default_expansions = question[:default_expansions] || 0
       Array.new((question[:max_expansions] || 10)) do |id|
         is_hidden = id >= default_expansions
-        sub_question_body = question[:content].map do |sub_question|
-          current = sub_question.clone
+        sub_question_body = []
+        question[:content].each_with_index do |sub_question, idx|
+          current = sub_question.deep_dup
+          current[:raw] = question[:raw][:content][idx]
           current = update_current_question(current, id)
-          single_questionnaire_question(current)
+          sub_question_body << single_questionnaire_question(current)
         end
 
         sub_question_body = safe_join(sub_question_body)

@@ -97,7 +97,7 @@ class FixResponses < ActiveInteraction::Base
     @total_replaced = 0
     questionnaire = Questionnaire.find_by_name('dagboek mentoren')
     if questionnaire.blank?
-      puts "Error: questionnaire not found'
+      puts 'Error: questionnaire not found'
       return
     end
     questionnaire.measurements.each do |measurement|

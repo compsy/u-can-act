@@ -14,6 +14,6 @@ namespace :maintenance do
   task fix_responses: :environment do
     puts 'Fixing responses - started'
     FixResponses.run!
-    puts 'Fixing responses - finished'
+    puts 'Fixing responses - done'
   end
 end

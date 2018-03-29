@@ -2,11 +2,9 @@
 
 class RedisCachedCall
   def self.cache(key, bust_cache, &block)
-    if bust_cache
-      RedisService.set(key, nil)
-    else
+    if !bust_cache && RedisService.exists(key)
       # Try to return the key from the cache
-      result = RedisService.get(key)
+      result = RedisService.get(key) 
 
       # Rubocop marks marshallload as unsafe as it can lead to remote code
       # execution # when loading from an untrusted source. In our case this is
@@ -15,10 +13,10 @@ class RedisCachedCall
       # # Note that we are not using from / to json here, as these methods
       # won't properly encode the # symbols used. If we store symbols and
       # retrieve / parse the json later # (with symbolize_keys), the nested
-      # keys are not converted correctly.  # There are other ways but Marshal
+      # keys are not converted correctly.  There are other ways but Marshal
       # is probably still the best option.
       # rubocop:disable Security/MarshalLoad
-      return Marshal.load(result) if result.present?
+      return Marshal.load(result)
       # rubocop:enable Security/MarshalLoad
     end
 

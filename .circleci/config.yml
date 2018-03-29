@@ -62,7 +62,7 @@ jobs:
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run:
           name: Wait for db
-          command: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:27017 -timeout 1m
+          command: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:27017 -wait tcp://localhost:6379 -timeout 1m # Waits for mongo / postgres / redis docker container to be available
       - run: bundle exec rake db:create db:schema:load
       - run: mkdir -p /tmp/workspace
       - run: echo $CIRCLE_BUILD_NUM | tee /tmp/workspace/build_num

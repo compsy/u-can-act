@@ -3,7 +3,6 @@
 class Team < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_many :roles, dependent: :destroy
-  has_many :people, through: :roles
   belongs_to :organization
   validates :organization_id, presence: true
   TEAM_OVERVIEW_BASE_KEY = 'team_overview'

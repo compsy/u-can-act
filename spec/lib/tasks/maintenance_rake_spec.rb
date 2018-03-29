@@ -29,7 +29,7 @@ describe 'rake maintenance:fix_responses', type: :task do
   it 'should preload the Rails environment' do
     expect(task.prerequisites).to include 'environment'
   end
-  
+
   it 'should call the fix responses use case' do
     expect(FixResponses).to receive(:run!)
     expect do

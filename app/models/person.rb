@@ -81,13 +81,13 @@ class Person < ApplicationRecord
 
   def mentor
     warn_for_multiple_mentors
-    ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).first&.person
+    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).first&.person
   end
 
   def stats(week_number, year, threshold_percentage)
     person_completed = 0
     person_total = 0
-    protocol_subscriptions.each do |subscription|
+    protocol_subscriptions.active.each do |subscription|
       past_week = subscription.responses.in_week(week_number: week_number, year: year)
       person_completed += past_week.completed.count || 0
       person_total += past_week.count || 0
@@ -111,6 +111,6 @@ class Person < ApplicationRecord
 
   def warn_for_multiple_mentors
     Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{id}" if
-    ProtocolSubscription.where(filling_out_for_id: id).where.not(person_id: id).count > 1
+    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).count > 1
   end
 end

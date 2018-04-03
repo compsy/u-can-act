@@ -8,7 +8,7 @@ describe RedisCachedCall do
     let(:bust_cache) { false }
     it 'should call the redis service to reset the cache if bust cache is set' do
       expect(RedisService).to receive(:set).with(key, Marshal.dump('test')).and_raise('stop_execution')
-      expect {described_class.cache(key, true) { 'test' }}.to raise_error('stop_execution')
+      expect { described_class.cache(key, true) { 'test' } }.to raise_error('stop_execution')
     end
 
     it 'should call the redis service to retrieve the cache' do
@@ -39,7 +39,6 @@ describe RedisCachedCall do
     end
 
     it 'should not call the block provided to the function and store its results in the cache' do
-      marshalled_output = 'test123'
       expected = 'test'
       expect(RedisService).to receive(:get).with(key).and_return(Marshal.dump(expected))
       expect(RedisService).to receive(:exists).with(key).and_return(true)

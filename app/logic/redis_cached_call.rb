@@ -4,7 +4,7 @@ class RedisCachedCall
   def self.cache(key, bust_cache, &block)
     if !bust_cache && RedisService.exists(key)
       # Try to return the key from the cache
-      result = RedisService.get(key) 
+      result = RedisService.get(key)
 
       # Rubocop marks marshallload as unsafe as it can lead to remote code
       # execution # when loading from an untrusted source. In our case this is

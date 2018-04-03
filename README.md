@@ -56,6 +56,10 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   AUTH0_SIGNING_CERTIFICATE: <the BASE64 encoded certificate>
 
   PROJECT_START_DATE: <the start date of the project, in the forat yyyy-mm-dd>
+
+  REDIS_HOST: <the url of the redis host>
+  REDIS_PORT: <the port of the redis host>
+  REDIS_PASSWORD: <the password of the redis host>
 ```
 
 ### Development configuration

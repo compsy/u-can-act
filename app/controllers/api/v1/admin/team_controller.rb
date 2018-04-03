@@ -5,7 +5,9 @@ module Api
     module Admin
       class TeamController < AdminApiController
         def show
-          @team_overview = Team.overview(week_number, year, percentage_threshold)
+          @team_overview = Team.overview(week_number: week_number,
+                                         year: year,
+                                         threshold_percentage: percentage_threshold)
           render json: @team_overview,
                  serializer: Api::TeamOverviewSerializer,
                  group: group

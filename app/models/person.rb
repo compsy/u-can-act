@@ -87,7 +87,7 @@ class Person < ApplicationRecord
   def stats(week_number, year, threshold_percentage)
     person_completed = 0
     person_total = 0
-    protocol_subscriptions.each do |subscription|
+    protocol_subscriptions.active.each do |subscription|
       past_week = subscription.responses.in_week(week_number: week_number, year: year)
       person_completed += past_week.completed.count || 0
       person_total += past_week.count || 0

@@ -11,5 +11,9 @@ FactoryBot.define do
     trait :mentor do
       filling_out_for { create(:person) }
     end
+
+    trait :canceled do
+      state ProtocolSubscription::CANCELED_STATE
+    end
   end
 end

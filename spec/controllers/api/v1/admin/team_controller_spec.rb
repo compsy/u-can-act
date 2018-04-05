@@ -23,7 +23,7 @@ module Api
 
           it 'should call the render function with the correct parameters' do
             expect(Team).to receive(:overview)
-              .with(week_number, year, percentage_threshold)
+              .with(week_number: week_number, year: year, threshold_percentage: percentage_threshold)
               .and_return(overview)
 
             expect(controller).to receive(:render)
@@ -45,7 +45,7 @@ module Api
 
           it 'should call the overview generator function and store it ' do
             expect(Team).to receive(:overview)
-              .with(week_number, year, percentage_threshold)
+              .with(week_number: week_number, year: year, threshold_percentage: percentage_threshold)
               .and_return(overview)
 
             get :show, params: { group: Person::STUDENT,

@@ -66,33 +66,53 @@ describe Person do
   end
 
   describe 'stats' do
+    let(:person) { FactoryBot.create(:person) }
     it 'should return a hash with the correct keys' do
-      person = FactoryBot.create(:person)
       result = person.stats(5, 2017, 50)
       expect(result).to be_a Hash
       expect(result.keys).to match_array %i[met_threshold_completion completed total]
     end
 
     it 'should calculate the correct stats' do
-      person = FactoryBot.create(:person)
-      subscription = FactoryBot.create(:protocol_subscription)
-      mock_response = double('response')
-      allow(mock_response).to receive(:completed).and_return([1, 1])
-      allow(mock_response).to receive(:count).and_return(3)
+      subscription = FactoryBot.create(:protocol_subscription, person: person)
+      number_missed = 1
+      number_completed = 2
 
-      mock_responses = double('responses')
-      allow(mock_responses).to receive(:in_week).with(week_number: 5, year: 2017).and_return(mock_response)
-      expect(subscription).to receive(:responses).and_return(mock_responses)
-      person.protocol_subscriptions << subscription
+      # Two completed responses, and one missed one
+      FactoryBot.create_list(:response, number_completed, :completed,
+                             protocol_subscription: subscription,
+                             open_from: Time.new(2017, 2, 2, 0, 0, 0).in_time_zone)
+
+      FactoryBot.create_list(:response, number_missed,
+                             protocol_subscription: subscription,
+                             open_from: Time.new(2017, 2, 2, 0, 0, 0).in_time_zone)
+      result = person.stats(5, 2017, 50)
+      expect(result[:met_threshold_completion]).to eq 1
+      expect(result[:completed]).to eq number_completed
+      expect(result[:total]).to eq number_completed + number_missed
+    end
+
+    it 'should not take into account the non-active protocol subscriptions' do
+      number_missed = 1
+      number_completed = 2
+      subscriptions = [FactoryBot.create(:protocol_subscription, person: person),
+                       FactoryBot.create(:protocol_subscription, :canceled, person: person)]
+
+      subscriptions.each do |subscription|
+        FactoryBot.create_list(:response, number_completed, :completed,
+                               protocol_subscription: subscription,
+                               open_from: Time.new(2017, 2, 2, 0, 0, 0).in_time_zone)
+        FactoryBot.create_list(:response, number_missed, protocol_subscription: subscription,
+                                                         open_from: Time.new(2017, 2, 2, 0, 0, 0).in_time_zone)
+      end
 
       result = person.stats(5, 2017, 50)
       expect(result[:met_threshold_completion]).to eq 1
-      expect(result[:completed]).to eq 2
-      expect(result[:total]).to eq 3
+      expect(result[:completed]).to eq number_completed
+      expect(result[:total]).to eq number_completed + number_missed
     end
 
     it 'should return only zeros if there are no subscriptions' do
-      person = FactoryBot.create(:person)
       result = person.stats(5, 2017, 50)
       expect(result[:met_threshold_completion]).to eq 0
       expect(result[:completed]).to eq 0

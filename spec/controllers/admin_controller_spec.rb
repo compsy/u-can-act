@@ -12,7 +12,12 @@ describe AdminController, type: :controller do
   end
 
   describe "GET 'routes'" do
-    let(:routes_list) { %i[index person_export protocol_subscription_export invitation_set_export] }
+    let(:routes_list) do
+      %i[index person_export
+         protocol_subscription_export
+         invitation_set_export
+         protocol_transfer_export]
+    end
 
     it 'should require basic http auth' do
       routes_list.each do |route|

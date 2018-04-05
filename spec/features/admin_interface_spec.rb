@@ -199,6 +199,7 @@ describe 'GET /admin', type: :feature, js: true do
       end
 
       it 'should list the correct teams' do
+        Team.overview(bust_cache: true)
         FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
                                           content: [{ type: :raw, content: 'questionnaire' }])
         basic_auth 'admin', 'admin', '/admin'

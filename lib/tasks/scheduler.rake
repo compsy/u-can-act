@@ -9,6 +9,14 @@ namespace :scheduler do
     puts 'Sending invitations - done'
   end
 
+  desc 'Run overview cacher'
+  task cache_overview: :environment do
+    # Run hourly on days where the content could have changed
+    puts 'Caching overview - started'
+    CacheOverview.run
+    puts 'Caching overview - done'
+  end
+
   desc 'Set protocol subscriptions to completed'
   task complete_protocol_subscriptions: :environment do
     # Run daily (e.g., at 3am).

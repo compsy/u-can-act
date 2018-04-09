@@ -35,6 +35,10 @@ class AdminController < ApplicationController
     export_class('invitation_sets', 'InvitationSet', InvitationSetExporter)
   end
 
+  def protocol_transfer_export
+    export_class('protocol_transfers', 'ProtocolTransfer', ProtocolTransferExporter)
+  end
+
   def questionnaire_export
     questionnaire_filename = idify('questionnaire', @questionnaire.name)
     export_class(questionnaire_filename, 'Questionnaire definition', QuestionnaireExporter, @questionnaire.name)

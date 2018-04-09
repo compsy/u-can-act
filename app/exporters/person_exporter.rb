@@ -7,7 +7,7 @@ class PersonExporter < ObjectExporter
     end
 
     def default_fields
-      %w[first_name last_name mobile_phone]
+      %w[]
     end
 
     def formatted_fields

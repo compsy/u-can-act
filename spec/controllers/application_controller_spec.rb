@@ -3,13 +3,6 @@
 require 'rails_helper'
 
 describe ApplicationController, type: :controller do
-  controller(ApplicationController) do
-    def index
-      store_verification_cookie
-      render plain: 'done'
-    end
-  end
-
   describe 'options' do
     it 'should head okay' do
       get :options
@@ -46,6 +39,13 @@ describe ApplicationController, type: :controller do
   end
 
   describe 'store_verification_cookie' do
+    controller(ApplicationController) do
+      def index
+        store_verification_cookie
+        render plain: 'done'
+      end
+    end
+
     it 'should store the verification cookie' do
       expected = { described_class::TEST_COOKIE => described_class::TEST_COOKIE_ENTRY }
       expect(CookieJar)

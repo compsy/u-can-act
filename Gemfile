@@ -16,6 +16,9 @@ gem 'rails', '~> 5.0.2'
 # Use Postgres as the database for Active Record
 gem 'pg', '= 0.20.0'
 
+# Driver for Redis datastore
+gem 'redis'
+
 # Use Puma as the app server
 gem 'puma'
 # Use SCSS for stylesheets

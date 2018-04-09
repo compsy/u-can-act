@@ -22,7 +22,7 @@ module Api
       def set_protocol_subscription
         @protocol_subscription = ProtocolSubscription.find_by_id(params[:id])
         return if @protocol_subscription.present?
-        render(status: 404, plain: 'Protocol subscription met dat ID niet gevonden')
+        render(status: 404, body: 'Protocol subscription met dat ID niet gevonden', layout: 'application')
       end
     end
   end

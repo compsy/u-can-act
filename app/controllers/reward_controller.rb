@@ -12,7 +12,9 @@ class RewardController < ApplicationController
   def set_response
     @response = current_user&.last_completed_response
     return if @response
-    render(status: 404, plain: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
+    render(status: 404,
+           body: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.',
+           layout: 'application')
   end
 
   def set_protocol_subscription

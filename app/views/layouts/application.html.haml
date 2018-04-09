@@ -11,6 +11,10 @@
     = javascript_include_tag 'application'
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
   %body{class: student_mentor_class}
+    .cookie-warning
+      .card-panel.alert.red.lighten-2
+        %strong Let op:
+        Je browser staat momenteel geen cookies toe. Daardoor werkt deze app niet goed.
     %noscript
       .notices
         .card-panel.alert.red.lighten-2

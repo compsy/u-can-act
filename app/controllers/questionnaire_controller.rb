@@ -67,10 +67,10 @@ class QuestionnaireController < ApplicationController
 
   def check_content_hash
     questionnaire_content.each do |k, v|
-      if k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
-        render(status: 400, plain: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen')
-        break
-      end
+      next unless k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
+      render(status: 400, body: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
+             layout: 'application')
+      break
     end
   end
 
@@ -114,7 +114,7 @@ class QuestionnaireController < ApplicationController
               signed_in_person_id == response_cookie_person_id
 
     log_cookie
-    render(status: 401, plain: 'Je hebt geen toegang tot deze vragenlijst.')
+    render(status: 401, body: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
   end
 
   def person_for_response_cookie
@@ -192,7 +192,7 @@ class QuestionnaireController < ApplicationController
 
   def check_response(response)
     unless response
-      render(status: 404, plain: 'De vragenlijst kon niet gevonden worden.')
+      render(status: 404, body: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
       return
     end
 

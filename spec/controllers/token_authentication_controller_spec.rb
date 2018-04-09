@@ -61,6 +61,10 @@ RSpec.describe TokenAuthenticationController, type: :controller do
 
       it 'should set the response id cookie' do
         expected = { person_id: person.external_identifier.to_s }
+
+        expect(controller)
+          .to receive(:store_verification_cookie).and_return true
+
         expect(CookieJar)
           .to receive(:set_or_update_cookie)
           .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)

@@ -163,12 +163,7 @@ class QuestionnaireGenerator
     def radio_options(question)
       body = []
       question[:options].each_with_index do |option, idx|
-        raw_option = question[:raw][:options][idx]
-        raw_option = { title: raw_option } unless raw_option.is_a?(Hash)
-        option = option.deep_dup
-        option = { title: option } unless option.is_a?(Hash)
-        option[:raw] = raw_option
-        body << radio_option_body(question[:id], option, question[:response_id])
+        body << radio_option_body(question[:id], add_raw_to_option(option, question, idx), question[:response_id])
       end
       safe_join(body)
     end
@@ -327,14 +322,18 @@ class QuestionnaireGenerator
     def checkbox_options(question)
       body = []
       question[:options].each_with_index do |option, idx|
-        raw_option = question[:raw][:options][idx]
-        raw_option = { title: raw_option } unless raw_option.is_a?(Hash)
-        option = option.deep_dup
-        option = { title: option } unless option.is_a?(Hash)
-        option[:raw] = raw_option
-        body << checkbox_option_body(question[:id], option, question[:response_id])
+        body << checkbox_option_body(question[:id], add_raw_to_option(option, question, idx), question[:response_id])
       end
       safe_join(body)
+    end
+
+    def add_raw_to_option(option, question, idx)
+      raw_option = question[:raw][:options][idx]
+      raw_option = { title: raw_option } unless raw_option.is_a?(Hash)
+      option = option.deep_dup
+      option = { title: option } unless option.is_a?(Hash)
+      option[:raw] = raw_option
+      option
     end
 
     def checkbox_option_body(question_id, option, response_id)

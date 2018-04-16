@@ -12,7 +12,7 @@ module Concerns
 
     def verify_mentor
       return current_user if current_user&.mentor?
-      render(status: 401, body: 'Niet ingelogd als mentor.', layout: 'application')
+      render(status: 401, html: 'Niet ingelogd als mentor.', layout: 'application')
     end
   end
 end

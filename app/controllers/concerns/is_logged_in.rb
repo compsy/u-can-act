@@ -13,7 +13,7 @@ module Concerns
     def verify_current_user
       return current_user unless current_user.nil?
       log_cookie
-      render(status: 401, body: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
+      render(status: 401, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
     end
   end
 end

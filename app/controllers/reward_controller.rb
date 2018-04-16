@@ -13,7 +13,7 @@ class RewardController < ApplicationController
     @response = current_user&.last_completed_response
     return if @response
     render(status: 404,
-           body: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.',
+           html: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.',
            layout: 'application')
   end
 

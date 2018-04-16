@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe TokenAuthenticationController, type: :controller do
+  render_views
   describe 'GET #show' do
     describe 'Error checking' do
       it 'should return http not found when not given any params' do

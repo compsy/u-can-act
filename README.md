@@ -226,12 +226,14 @@ The options array can contain either hashes or strings. If it is just a string, 
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
 
 Note that this (and all other question types) may have a `show_after` property. This may have the following values:
+
 ```ruby
+# To indicate that a question should appear 4 weeks after the start
+# of the protocol subscription, use:
 { show_after: 4.weeks }
-# which is equivalent to:
-{ show_after: { offset: 4.weeks } }
-# or alternatively:
-{ show_after: { date: Time.new(2018, 6, 5, 9, 0, 0).in_time_zone } }
+
+# or alternatively, you may specify an absoute date:
+{ show_after: Time.new(2018, 6, 5, 9, 0, 0).in_time_zone }
 ```
 
 Note that the `shows_questions` and `hides_questions` option properties require the corresponding questions to have the `hidden: true` and `hidden: false` properties, respectively. For example:

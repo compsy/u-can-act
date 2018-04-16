@@ -8,11 +8,11 @@ dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek_content = [{
                      type: :raw,
                      content: '<p class="flow-text section-explanation">Laat mij zien na 14 april</p>',
-                     show_after: { date: Time.new(2018, 4, 14).in_time_zone }
+                     show_after: Time.new(2018, 4, 14).in_time_zone
                    }, {
                      type: :raw,
                      content: '<p class="flow-text section-explanation">Laat mij zien na 18 april (je zou me dus niet moeten kunnen zien)</p>',
-                     show_after: { date: Time.new(2018, 4, 14).in_time_zone }
+                     show_after: Time.new(2018, 4, 18).in_time_zone
                    }, {
                      type: :raw,
                      content: '<p class="flow-text section-explanation">Laat mij zien na 1 seconde</p>',

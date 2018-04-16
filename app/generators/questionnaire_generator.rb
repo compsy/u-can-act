@@ -54,9 +54,52 @@ class QuestionnaireGenerator
         new_question = question.deep_dup
         new_question[:response_id] = response_id
         new_question[:raw] = raw_content[idx]
-        body << single_questionnaire_question(new_question)
+        body << single_questionnaire_question(new_question) if should_show?(new_question)
       end
       safe_join(body)
+    end
+
+    def should_show?(question)
+      return true unless question.key?(:show_after)
+      show_after_hash = ensure_show_after_hash(question[:show_after])
+      if show_after_hash.key?(:offset)
+        show_after_hash[:date] = convert_offset_to_date(show_after_hash[:offset],
+                                                        question[:response_id])
+      end
+      ensure_date_validity(show_after_hash[:date])
+      show_after = show_after_hash[:date].in_time_zone
+      show_after < Time.zone.now
+    end
+
+    def ensure_show_after_hash(show_after)
+      show_after_hash = show_after
+      show_after_hash = if an_offset?(show_after_hash)
+                          { offset: show_after_hash }
+                        elsif a_time?(show_after_hash)
+                          { date: show_after_hash }
+                        else
+                          raise "Unknown show_after type: #{show_after}"
+                        end
+      show_after_hash
+    end
+
+    def ensure_date_validity(date)
+      raise "Unknown show_after date type: #{date}" unless a_time?(date)
+    end
+
+    def convert_offset_to_date(offset, response_id)
+      raise "Unknown show_after offset type: #{offset}" unless an_offset?(offset)
+      response = Response.find_by_id(response_id)
+      return 2.seconds.ago if response.blank? # If we don't have a response, just show it
+      TimeTools.increase_by_duration(response.protocol_subscription.start_date, offset)
+    end
+
+    def a_time?(value)
+      value.is_a?(ActiveSupport::TimeWithZone) || value.is_a(Time) || value.is_a?(Date) || value.is_a?(DateTime)
+    end
+
+    def an_offset?(value)
+      value.is_a?(ActiveSupport::Duration) || value.is_a?(Integer)
     end
 
     def single_questionnaire_question(question)

@@ -37,6 +37,7 @@ gem 'jquery-rails'
 
 # Use React for the UI
 gem 'react-rails'
+gem 'react-source'
 
 # Use highcharts
 gem 'highcharts-rails'

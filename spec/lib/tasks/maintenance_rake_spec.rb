@@ -24,3 +24,17 @@ describe 'rake maintenance:echo_people', type: :task do
                   "Echoing people from 'somefile.csv' - done\n").to_stdout
   end
 end
+
+describe 'rake maintenance:fix_responses', type: :task do
+  it 'should preload the Rails environment' do
+    expect(task.prerequisites).to include 'environment'
+  end
+
+  it 'should call the fix responses use case' do
+    expect(FixResponses).to receive(:run!)
+    expect do
+      task.execute
+    end.to output("Fixing responses - started\n" \
+                  "Fixing responses - done\n").to_stdout
+  end
+end

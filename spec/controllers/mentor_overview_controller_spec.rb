@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe MentorOverviewController, type: :controller do
+  render_views
   let(:student) { FactoryBot.create(:student) }
   let(:mentor) { FactoryBot.create(:mentor) }
   describe 'GET #index' do

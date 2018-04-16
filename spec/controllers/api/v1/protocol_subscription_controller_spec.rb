@@ -5,6 +5,7 @@ require 'rails_helper'
 module Api
   module V1
     describe ProtocolSubscriptionsController, type: :controller do
+      render_views
       let(:test_response) { FactoryBot.create(:response, completed_at: 10.minutes.ago) }
       let(:protocol_subscription) { test_response.protocol_subscription }
       let(:other_response) { FactoryBot.create(:response) }
@@ -40,7 +41,8 @@ module Api
           it 'should throw a 404 if the protocol subscription does not exist' do
             get :show, params: { id: 192_301 }
             expect(response.status).to eq 404
-            expect(response.body).to eq 'Protocol subscription met dat ID niet gevonden'
+            expect(response).to render_template(layout: 'application')
+            expect(response.body).to include 'Protocol subscription met dat ID niet gevonden'
           end
         end
 
@@ -48,7 +50,8 @@ module Api
           it 'should return 401 if no protocol_subscription is available' do
             get :show, params: { id: protocol_subscription.id }
             expect(response.status).to eq 401
-            expect(response.body).to eq 'Je hebt geen toegang tot deze vragenlijst.'
+            expect(response).to render_template(layout: 'application')
+            expect(response.body).to include 'Je hebt geen toegang tot deze vragenlijst.'
           end
         end
       end

@@ -36,7 +36,7 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 
 # Use React for the UI
-gem 'react-rails'
+gem 'react-rails', '= 1.6.2'
 gem 'react-source'
 
 # Use highcharts

@@ -1,13 +1,14 @@
 
 describe("RewardPage", function() {
   beforeEach(function() {
-    this.component = React.createElement(RewardPage, 1);
+    component = React.createElement(RewardPage, 1);
+    this.rendered = TestUtils.renderIntoDocument(component)
   });
   
   it("returns true if the protocol subscription is done", function() {
-    console.log(this.component);
+    console.log(this.rendered);
 
-    done = this.component.isDone()
+    done = this.rendered.isDone()
     expect(done).toEqual(true);
   });
 });

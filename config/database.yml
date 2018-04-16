@@ -15,4 +15,5 @@ test:
   username: <%= ENV['POSTGRES_USERNAME'] || ENV['USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   encoding: utf8
+  min_messages: warning
   host: docker.io

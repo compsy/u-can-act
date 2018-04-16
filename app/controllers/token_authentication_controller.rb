@@ -16,12 +16,12 @@ class TokenAuthenticationController < ApplicationController
   def check_invitation_token
     invitation_token = InvitationToken.test_identifier_token_combination(identifier_param, token_param)
     if invitation_token.nil?
-      render(status: 401, plain: 'Je bent niet bevoegd om deze vragenlijst te zien.')
+      render(status: 401, html: 'Je bent niet bevoegd om deze vragenlijst te zien.', layout: 'application')
       return
     end
 
     if invitation_token.expired?
-      render(status: 404, plain: 'Deze link is niet meer geldig.')
+      render(status: 404, html: 'Deze link is niet meer geldig.', layout: 'application')
       return
     end
     store_person_cookie(identifier_param)
@@ -30,6 +30,7 @@ class TokenAuthenticationController < ApplicationController
   def store_person_cookie(identifier)
     cookie = { PERSON_ID_COOKIE => identifier }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
+    store_verification_cookie
   end
 
   def identifier_param
@@ -46,7 +47,7 @@ class TokenAuthenticationController < ApplicationController
 
   def check_params
     return if identifier_param.present? && token_param.present?
-    render(status: 401, plain: 'Gebruiker / Vragenlijst niet gevonden.')
+    render(status: 401, html: 'Gebruiker / Vragenlijst niet gevonden.', layout: 'application')
   end
 
   def questionnaire_params

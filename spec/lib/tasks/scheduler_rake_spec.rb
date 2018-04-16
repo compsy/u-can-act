@@ -56,3 +56,22 @@ describe 'rake scheduler:cleanup_invitation_tokens', type: :task do
                                       "Destroying stale invitation tokens - done\n").to_stdout
   end
 end
+
+describe 'rake scheduler:cache_overview', type: :task do
+  it 'should preload the Rails environment' do
+    expect(task.prerequisites).to include 'environment'
+  end
+
+  it 'should run gracefully without teams' do
+    expect do
+      expect { task.execute }.to output("Caching overview - started\n" \
+                                        "Caching overview - done\n").to_stdout
+    end.not_to(raise_error)
+  end
+
+  it 'should call the complete cache overview background task' do
+    expect(CacheOverview).to receive(:run)
+    expect { task.execute }.to output("Caching overview - started\n" \
+                                      "Caching overview - done\n").to_stdout
+  end
+end

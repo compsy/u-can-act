@@ -9,4 +9,11 @@ namespace :maintenance do
     EchoPeople.run!(file_name: args[:csv_file])
     puts "Echoing people from '#{args[:csv_file]}' - done"
   end
+
+  desc 'Fixing variables in the Mongo responses'
+  task fix_responses: :environment do
+    puts 'Fixing responses - started'
+    FixResponses.run!
+    puts 'Fixing responses - done'
+  end
 end

@@ -21,4 +21,37 @@ describe ApplicationController, type: :controller do
       end
     end
   end
+
+  describe 'log_cookie' do
+    it 'should log an info message with the correct text when cookies enabled' do
+      controller.store_verification_cookie
+      expect(Rails.logger)
+        .to receive(:info)
+        .with('Cookies are enabled')
+      controller.log_cookie
+    end
+    it 'should log an info message with the correct text when cookies disabled' do
+      expect(Rails.logger)
+        .to receive(:info)
+        .with('Cookies are NOT enabled for this user!')
+      controller.log_cookie
+    end
+  end
+
+  describe 'store_verification_cookie' do
+    controller(ApplicationController) do
+      def index
+        store_verification_cookie
+        render plain: 'done'
+      end
+    end
+
+    it 'should store the verification cookie' do
+      expected = { described_class::TEST_COOKIE => described_class::TEST_COOKIE_ENTRY }
+      expect(CookieJar)
+        .to receive(:set_or_update_cookie)
+        .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)
+      get :index
+    end
+  end
 end

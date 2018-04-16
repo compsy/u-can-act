@@ -6,6 +6,22 @@ db_name1 = 'dagboek studenten'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek_content = [{
+                     type: :raw,
+                     content: '<p class="flow-text section-explanation">Laat mij zien na 14 april</p>',
+                     show_after: { date: Time.new(2018, 4, 14).in_time_zone }
+                   }, {
+                     type: :raw,
+                     content: '<p class="flow-text section-explanation">Laat mij zien na 18 april (je zou me dus niet moeten kunnen zien)</p>',
+                     show_after: { date: Time.new(2018, 4, 14).in_time_zone }
+                   }, {
+                     type: :raw,
+                     content: '<p class="flow-text section-explanation">Laat mij zien na 1 seconde</p>',
+                     show_after: 1.second
+                   }, {
+                     type: :raw,
+                     content: '<p class="flow-text section-explanation">Laat mij zien na 9 weken (je zou me dus niet moeten kunnen zien)</p>',
+                     show_after: 9.weeks
+                   }, {
                      section_start: 'School en Stage',
                      type: :raw,
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over school en stage. Je antwoorden zijn helemaal anoniem.</p>'

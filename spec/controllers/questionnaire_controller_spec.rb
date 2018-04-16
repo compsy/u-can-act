@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionnaireController, type: :controller do
+  render_views
   let(:person) { FactoryBot.create(:person) }
   let(:mentor) { FactoryBot.create(:mentor) }
   let(:student) { FactoryBot.create(:student) }

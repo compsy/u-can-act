@@ -10,11 +10,12 @@ class QuestionnaireGenerator
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
+      raw_content = content.deep_dup
       title, content = substitute_variables(response_id, title, content)
       body = safe_join([
                          questionnaire_header(title),
                          questionnaire_hidden_fields(response_id, authenticity_token),
-                         questionnaire_questions(content, response_id),
+                         questionnaire_questions(content, response_id, raw_content),
                          submit_button(submit_text)
                        ])
       body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
@@ -47,11 +48,12 @@ class QuestionnaireGenerator
       safe_join(hidden_body)
     end
 
-    def questionnaire_questions(content, response_id)
+    def questionnaire_questions(content, response_id, raw_content)
       body = []
-      content.each do |question|
-        new_question = question.dup
+      content.each_with_index do |question, idx|
+        new_question = question.deep_dup
         new_question[:response_id] = response_id
+        new_question[:raw] = raw_content[idx]
         body << single_questionnaire_question(new_question)
       end
       safe_join(body)
@@ -144,7 +146,7 @@ class QuestionnaireGenerator
     def generate_radio(question)
       # TODO: Add radio button validation error message
       title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-      question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
+      question = add_otherwise_label(question)
       safe_join([
                   content_tag(:p, title, class: 'flow-text'),
                   radio_options(question),
@@ -152,17 +154,22 @@ class QuestionnaireGenerator
                 ])
     end
 
+    def add_otherwise_label(question)
+      question[:raw][:otherwise_label] = OTHERWISE_TEXT if question[:raw][:otherwise_label].blank?
+      question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
+      question
+    end
+
     def radio_options(question)
       body = []
-      question[:options].each do |option|
-        body << radio_option_body(question[:id], option, question[:response_id])
+      question[:options].each_with_index do |option, idx|
+        body << radio_option_body(question[:id], add_raw_to_option(option, question, idx), question[:response_id])
       end
       safe_join(body)
     end
 
     def radio_option_body(question_id, option, response_id)
-      option = { title: option } unless option.is_a?(Hash)
-      elem_id = idify(question_id, option[:title])
+      elem_id = idify(question_id, option[:raw][:title])
       tag_options = {
         name: answer_name(idify(question_id)),
         type: 'radio',
@@ -258,38 +265,46 @@ class QuestionnaireGenerator
                   tag(:input,
                       name: answer_name(idify(question[:id])),
                       type: 'radio',
-                      id: idify(question[:id], question[:otherwise_label]),
+                      id: idify(question[:id], question[:raw][:otherwise_label]),
                       value: question[:otherwise_label],
                       required: true,
                       class: 'otherwise-option'),
-                  content_tag(:label,
-                              question[:otherwise_label].html_safe,
-                              for: idify(question[:id], question[:otherwise_label]),
-                              class: 'flow-text')
+                  otherwise_option_label(question)
                 ])
+    end
+
+    def otherwise_option_label(question)
+      content_tag(:label,
+                  question[:otherwise_label].html_safe,
+                  for: idify(question[:id], question[:raw][:otherwise_label]),
+                  class: 'flow-text')
     end
 
     def otherwise_textfield(question)
       # Used for both radios and checkboxes
       option_field = safe_join([
                                  tag(:input,
-                                     id: idify(question[:id], question[:otherwise_label], 'text'),
-                                     name: answer_name(idify(question[:id], question[:otherwise_label], 'text')),
+                                     id: idify(question[:id], question[:raw][:otherwise_label], 'text'),
+                                     name: answer_name(idify(question[:id], question[:raw][:otherwise_label], 'text')),
                                      type: 'text',
                                      disabled: true,
                                      required: true,
                                      class: 'validate otherwise'),
-                                 content_tag(:label,
-                                             OTHERWISE_PLACEHOLDER,
-                                             for: idify(question[:id], question[:otherwise_label], 'text'))
+                                 otherwise_textfield_label(question)
                                ])
       option_field = content_tag(:div, option_field, class: 'input-field inline')
       option_field
     end
 
+    def otherwise_textfield_label(question)
+      content_tag(:label,
+                  OTHERWISE_PLACEHOLDER,
+                  for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
+    end
+
     def generate_checkbox(question)
       title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-      question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
+      question = add_otherwise_label(question)
       checkbox_group = safe_join([
                                    content_tag(:p, title, class: 'flow-text'),
                                    checkbox_options(question),
@@ -306,15 +321,23 @@ class QuestionnaireGenerator
 
     def checkbox_options(question)
       body = []
-      question[:options].each do |option|
-        body << checkbox_option_body(question[:id], option, question[:response_id])
+      question[:options].each_with_index do |option, idx|
+        body << checkbox_option_body(question[:id], add_raw_to_option(option, question, idx), question[:response_id])
       end
       safe_join(body)
     end
 
-    def checkbox_option_body(question_id, option, response_id)
+    def add_raw_to_option(option, question, idx)
+      raw_option = question[:raw][:options][idx]
+      raw_option = { title: raw_option } unless raw_option.is_a?(Hash)
+      option = option.deep_dup
       option = { title: option } unless option.is_a?(Hash)
-      elem_id = idify(question_id, option[:title])
+      option[:raw] = raw_option
+      option
+    end
+
+    def checkbox_option_body(question_id, option, response_id)
+      elem_id = idify(question_id, option[:raw][:title])
       tag_options = {
         type: 'checkbox',
         id: elem_id,
@@ -331,7 +354,7 @@ class QuestionnaireGenerator
                                 wrapped_tag,
                                 content_tag(:label,
                                             option[:title].html_safe,
-                                            for: idify(question_id, option[:title]),
+                                            for: idify(question_id, option[:raw][:title]),
                                             class: 'flow-text'),
                                 generate_tooltip(option[:tooltip])
                               ])
@@ -364,14 +387,11 @@ class QuestionnaireGenerator
       safe_join([
                   tag(:input,
                       type: 'checkbox',
-                      id: idify(question[:id], question[:otherwise_label]),
-                      name: answer_name(idify(question[:id], question[:otherwise_label])),
+                      id: idify(question[:id], question[:raw][:otherwise_label]),
+                      name: answer_name(idify(question[:id], question[:raw][:otherwise_label])),
                       value: true,
                       class: 'otherwise-option'),
-                  content_tag(:label,
-                              question[:otherwise_label].html_safe,
-                              for: idify(question[:id], question[:otherwise_label]),
-                              class: 'flow-text')
+                  otherwise_option_label(question)
                 ])
     end
 
@@ -522,7 +542,7 @@ class QuestionnaireGenerator
 
     def update_options(current_options, sub_id)
       current_options.map do |optorig|
-        option = optorig.clone
+        option = optorig.deep_dup
         if option.is_a?(Hash)
           option[:hides_questions] = update_ids(option[:hides_questions], sub_id) if option[:hides_questions].present?
           option[:shows_questions] = update_ids(option[:shows_questions], sub_id) if option[:shows_questions].present?
@@ -541,10 +561,9 @@ class QuestionnaireGenerator
       default_expansions = question[:default_expansions] || 0
       Array.new((question[:max_expansions] || 10)) do |id|
         is_hidden = id >= default_expansions
-        sub_question_body = question[:content].map do |sub_question|
-          current = sub_question.clone
-          current = update_current_question(current, id)
-          single_questionnaire_question(current)
+        sub_question_body = []
+        question[:content].each_with_index do |sub_question, idx|
+          sub_question_body << add_expandable_question(question, sub_question, idx, id)
         end
 
         sub_question_body = safe_join(sub_question_body)
@@ -554,6 +573,13 @@ class QuestionnaireGenerator
           class: " col s12 expandable_wrapper #{is_hidden ? 'hidden' : ''} #{question[:id]}"
         )
       end
+    end
+
+    def add_expandable_question(question, sub_question, idx, id)
+      current = sub_question.deep_dup
+      current[:raw] = question[:raw][:content][idx]
+      current = update_current_question(current, id)
+      single_questionnaire_question(current)
     end
 
     def expandable_buttons(question)

@@ -9,7 +9,7 @@ RSpec.describe MentorOverviewController, type: :controller do
   describe 'GET #index' do
     describe 'Authentication' do
       it 'should throw if there is no logged in person' do
-        expect(controller).to receive(:current_user).and_return(nil)
+        expect(controller).to receive(:current_user).at_least(:once).and_return(nil)
         get :index
         expect(response).to have_http_status(401)
         expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')

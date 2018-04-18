@@ -41,7 +41,7 @@ describe 'sending invitations', type: :feature do
       cntinvs = Invitation.count
       SendInvitations.run
       sleep 1
-      expect(Invitation.count).to eq(cntinvs + 2)
+      expect(Invitation.count).to eq(cntinvs + responses.length)
       expect(Delayed::Job.all.length).to eq(0)
       expect(MessageBirdAdapter.deliveries.size).to eq(2 * responses.length) # reminder and original
 
@@ -89,7 +89,7 @@ describe 'sending invitations', type: :feature do
       cntinvs = Invitation.count
       SendInvitations.run
       sleep 1
-      expect(Invitation.count).to eq(cntinvs + 2)
+      expect(Invitation.count).to eq(cntinvs + responses.length)
       expect(MessageBirdAdapter.deliveries.size).to eq 0
       expect(Delayed::Job.all.length).to eq(2 * responses.length)
     end

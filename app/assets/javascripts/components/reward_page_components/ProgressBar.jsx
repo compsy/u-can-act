@@ -27,15 +27,16 @@ class ProgressBar extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    //TODO: ANDO ALS DIT HIER NOG STAAT MOET JE HET TEGEN ME ZEGGEN!
+    clearInterval(this.state.timer);
+  }
+
   calculateInitialValue(initialValue, delta, initialMultiplier, currentMultiplier) {
     if (currentMultiplier <= 0) { return initialValue; }
 
     var multiplier = (delta / currentMultiplier) * initialMultiplier;
     return initialValue - delta +  multiplier;
-  }
-
-  componentWillUnmount() {
-    this.clearInterval(this.state.timer);
   }
 
   performTimerEvent() {

@@ -42,6 +42,8 @@ describe 'sending invitations', type: :feature do
       SendInvitations.run
       sleep 1
       expect(Invitation.count).to eq(cntinvs + responses.length)
+      puts "\n\n\nHIER: #{Invitation.first.invited_state}\n\n\n"
+      puts "\n\n\nHIER: #{Invitation.last.invited_state}\n\n\n"
       expect(Delayed::Job.all.length).to eq(0)
       expect(MessageBirdAdapter.deliveries.size).to eq(2 * responses.length) # reminder and original
 
@@ -90,6 +92,8 @@ describe 'sending invitations', type: :feature do
       SendInvitations.run
       sleep 1
       expect(Invitation.count).to eq(cntinvs + responses.length)
+      puts "\n\n\nHIER: #{Invitation.first.invited_state}\n\n\n"
+      puts "\n\n\nHIER: #{Invitation.last.invited_state}\n\n\n"
       expect(MessageBirdAdapter.deliveries.size).to eq 0
       expect(Delayed::Job.all.length).to eq(2 * responses.length)
     end

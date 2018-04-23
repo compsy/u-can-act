@@ -72,11 +72,10 @@ class QuestionnaireGenerator
     end
 
     def ensure_show_after_hash(show_after)
-      show_after_hash = show_after
-      show_after_hash = if an_offset?(show_after_hash)
-                          { offset: show_after_hash }
-                        elsif a_time?(show_after_hash)
-                          { date: show_after_hash }
+      show_after_hash = if an_offset?(show_after)
+                          { offset: show_after }
+                        elsif a_time?(show_after)
+                          { date: show_after }
                         else
                           raise "Unknown show_after type: #{show_after}"
                         end

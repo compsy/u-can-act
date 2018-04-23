@@ -35,8 +35,6 @@ class QuestionnaireController < ApplicationController
   end
 
   def destroy
-    # TODO: Currently we use set_reponse here to set the current response. If we don't have a response here,
-    # check if this function is actually the correct one to set the response with.
     stop_measurement = @protocol.stop_measurement
     if stop_measurement.nil?
       stop_protocol_subscription

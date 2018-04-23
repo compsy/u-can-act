@@ -1,6 +1,7 @@
 ic_name1 = 'informed consent mentoren'
 informed_consent1 = Questionnaire.find_by_name(ic_name1)
 informed_consent1 ||= Questionnaire.new(name: ic_name1)
+informed_consent1.key ||= ic_name1.parameterize.underscore
 ic_content = <<~'END'
   <p class="flow-text"><em>Onderzoek naar ontwikkeling en begeleiding</em></p>
   <p class="flow-text">Door op de knop 'volgende' te klikken ga je akkoord met onderstaande afspraken:</p>

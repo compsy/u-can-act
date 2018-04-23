@@ -3,6 +3,7 @@ db_title = 'Webapp Begeleiders'
 db_name1 = 'dagboek mentoren 1x per week donderdag'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
+dagboek1.key ||= db_name1.parameterize.underscore
 dagboek_content = [{
                      section_start: 'De hoofddoelen',
                      id: :v1,

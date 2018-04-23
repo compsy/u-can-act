@@ -3,6 +3,7 @@ db_title = 'Webapp Jongeren'
 db_name1 = 'dagboek studenten 2x per week maandag'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
+dagboek1.key ||= db_name1.parameterize.underscore
 dagboek_content = [{
                      section_start: 'School',
                      type: :raw,
@@ -82,6 +83,7 @@ dagboek1.save!
 db_name2 = 'dagboek studenten 2x per week donderdag'
 dagboek2 = Questionnaire.find_by_name(db_name2)
 dagboek2 ||= Questionnaire.new(name: db_name2)
+dagboek2.key ||= db_name2.parameterize.underscore
 dagboek_content = [{
                      section_start: 'School',
                      type: :raw,

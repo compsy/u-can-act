@@ -1,6 +1,7 @@
 ic_name = 'informed consent studenten 1x per week'
 informed_consent = Questionnaire.find_by_name(ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
+informed_consent.key ||= ic_name.parameterize.underscore
 ic_content = <<~'END'
   <p class="flow-text">Door op de knop 'volgende' te klikken ga je akkoord met onderstaande afspraken:</p>
   <p class="flow-text">Ik stem toe mee te doen aan het onderzoek naar ontwikkeling en begeleiding van studenten op het

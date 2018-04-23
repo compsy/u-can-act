@@ -1,6 +1,7 @@
 vm_name1 = 'voormeting studenten'
 voormeting1 = Questionnaire.find_by_name(vm_name1)
 voormeting1 ||= Questionnaire.new(name: vm_name1)
+voormeting1.key ||= vm_name1.parameterize.underscore
 voormeting1.content = [{
                          id: :v1,
                          type: :textfield,

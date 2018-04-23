@@ -1,6 +1,7 @@
 nm_name1 = 'nameting mentoren'
 nameting1 = Questionnaire.find_by_name(nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
+nameting1.key ||= nm_name1.parameterize.underscore
 nameting1.content = [{
                        section_start: 'Introductie',
                        type: :raw,

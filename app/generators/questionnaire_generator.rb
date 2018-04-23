@@ -124,6 +124,8 @@ class QuestionnaireGenerator
         generate_textfield(question)
       when :raw
         generate_raw(question)
+      when :unsubscribe
+        generate_unsubscribe(question)
       when :expandable
         generate_expandable(question)
       else
@@ -656,6 +658,25 @@ class QuestionnaireGenerator
 
     def generate_raw(question)
       question[:content].html_safe
+    end
+
+    def generate_unsubscribe(question)
+
+      body = safe_join([
+                  question[:content].html_safe,
+                  tag(:br),
+                  question[:button_text].html_safe
+                ])
+
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Card Title</span>
+          <p>INSERT CONTEN THERE</p>
+        </div>
+        <div class="card-action">
+          <a href="#">INSERT BUTTON TEXT HERE</a>
+        </div>
+      </div>
     end
 
     def idify(*strs)

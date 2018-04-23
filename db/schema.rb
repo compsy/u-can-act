@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20180423091508) do
     t.datetime "updated_at", null: false
     t.string   "title"
     t.string   "key",        null: false
+    t.index ["key"], name: "questionnaires_key", using: :btree
     t.index ["name"], name: "index_questionnaires_on_name", unique: true, using: :btree
   end
 

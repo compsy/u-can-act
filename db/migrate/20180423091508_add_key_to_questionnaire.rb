@@ -6,5 +6,6 @@ class AddKeyToQuestionnaire < ActiveRecord::Migration[5.0]
       questionnaire.save! 
     end
     change_column_null :questionnaires, :key, false
+    add_index :questionnaires, :key, name: "questionnaires_key"
   end
 end

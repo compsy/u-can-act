@@ -31,6 +31,35 @@ describe Questionnaire do
     end
   end
 
+  describe 'key' do
+    it 'should not allow two questionnaires with the same name' do
+      questionnaireone = FactoryBot.create(:questionnaire, key: 'myquestionnaire')
+      expect(questionnaireone.valid?).to be_truthy
+      questionnaireonetwo = FactoryBot.build(:questionnaire, key: 'myquestionnaire')
+      expect(questionnaireonetwo.valid?).to be_falsey
+      expect(questionnaireonetwo.errors.messages).to have_key :key
+      expect(questionnaireonetwo.errors.messages[:key]).to include('is al in gebruik')
+    end
+    it 'should not accept a nil key' do
+      questionnaire = FactoryBot.build(:questionnaire, key: nil)
+      expect(questionnaire.valid?).to be_falsey
+      expect(questionnaire.errors.messages).to have_key :key
+      expect(questionnaire.errors.messages[:key]).to include('moet opgegeven zijn')
+    end
+    it 'should not accept a blank key' do
+      questionnaire = FactoryBot.build(:questionnaire, key: '')
+      expect(questionnaire.valid?).to be_falsey
+      expect(questionnaire.errors.messages).to have_key :key
+      expect(questionnaire.errors.messages[:key]).to include('moet opgegeven zijn')
+    end
+    it 'should not allow a key with spaces' do
+      questionnaire = FactoryBot.build(:questionnaire, key: 'niet goed')
+      expect(questionnaire.valid?).to be_falsey
+      expect(questionnaire.errors.messages).to have_key :key
+      expect(questionnaire.errors.messages[:key]).to include('is ongeldig')
+    end
+  end
+
   describe 'title' do
     it 'should allow two questionnaires with the same title' do
       questionnaireone = FactoryBot.create(:questionnaire, title: 'myquestionnaire')

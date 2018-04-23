@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307093314) do
+ActiveRecord::Schema.define(version: 20180423060737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,15 +65,17 @@ ActiveRecord::Schema.define(version: 20180307093314) do
   end
 
   create_table "measurements", force: :cascade do |t|
-    t.integer  "questionnaire_id",             null: false
-    t.integer  "protocol_id",                  null: false
+    t.integer  "questionnaire_id",                 null: false
+    t.integer  "protocol_id",                      null: false
     t.integer  "period"
-    t.integer  "open_from_offset",             null: false
+    t.integer  "open_from_offset",                 null: false
     t.integer  "open_duration"
-    t.integer  "reward_points",    default: 0, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "reward_points",    default: 0,     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.integer  "offset_till_end"
+    t.boolean  "stop_measurement", default: false, null: false
+    t.boolean  "send_invite",      default: true,  null: false
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end

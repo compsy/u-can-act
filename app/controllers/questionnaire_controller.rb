@@ -4,7 +4,7 @@ class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
   before_action :redirect_to_next_page, only: [:index]
-  before_action :set_response, only: [:show]
+  before_action :set_response, only: %i[show destroy]
   before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :store_response_cookie, only: %i[show]
   before_action :set_is_mentor, only: [:show]
@@ -34,9 +34,23 @@ class QuestionnaireController < ApplicationController
     redirect_to_next_page
   end
 
+  def destroy
+    # TODO: Currently we use set_reponse here to set the current response. If we don't have a response here,
+    # check if this function is actually the correct one to set the response with.
+    stop_measurement = @protocol.stop_measurement
+    if stop_measurement.nil?
+      stop_protocol_subscription
+      return
+    end
+
+    redirect_to_next_page stop_measurement.responses.first
+  end
+
   private
 
   def check_stop_subscription
+    return stop_protocol_subscription if @response.measurement.stop_measurement?
+
     stop_subscription_hash = questionnaire_stop_subscription
     content = questionnaire_content
     should_stop = false
@@ -82,9 +96,8 @@ class QuestionnaireController < ApplicationController
     set_protocol_and_subscription
   end
 
-  def redirect_to_next_page
-    first_response = current_user.my_open_responses.first
-
+  def redirect_to_next_page(first_response = nil)
+    first_response ||= current_user.my_open_responses.first
     if first_response.present?
       redirect_to questionnaire_path(uuid: first_response.uuid)
       return
@@ -147,7 +160,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def questionnaire_params
-    params.permit(:uuid)
+    params.permit(:uuid, :method)
   end
 
   def questionnaire_create_params

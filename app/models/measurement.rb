@@ -5,6 +5,8 @@ class Measurement < ApplicationRecord
   validates :questionnaire_id, presence: true
   belongs_to :protocol
   validates :protocol_id, presence: true
+  validates :stop_measurement, inclusion: { in: [true, false] }
+  validates :send_invite, inclusion: { in: [true, false] }
   # period can be nil, in which case the questionnaire is one-off and not repeated
   validates :period, numericality: { only_integer: true, allow_nil: true, greater_than: 0 }
   # open_duration can be nil, in which case the questionnaire can be filled out until the end of the protocol
@@ -16,5 +18,13 @@ class Measurement < ApplicationRecord
 
   def periodical?
     period.present?
+  end
+
+  def should_invite?
+    send_invite
+  end
+
+  def stop_measurement?
+    stop_measurement
   end
 end

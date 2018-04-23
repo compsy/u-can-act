@@ -43,11 +43,27 @@ describe Protocol do
       expect(protocol.errors.messages).to have_key :duration
       expect(protocol.errors.messages[:duration]).to include('moet groter dan of gelijk zijn aan 0')
     end
+
     it 'should not be nil' do
       protocol = FactoryBot.build(:protocol, duration: nil)
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :duration
       expect(protocol.errors.messages[:duration]).to include('is geen getal')
+    end
+  end
+
+  describe 'stop_measurement' do
+    it 'should return the stop_measurement if one is available' do
+      protocol = FactoryBot.create(:protocol, :with_measurements)
+      stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      protocol.reload
+      expect(protocol.stop_measurement).to_not be_nil
+      expect(protocol.stop_measurement).to eq(stop_measurement)
+    end
+
+    it 'should return nil if no stop_measurement is available' do
+      protocol = FactoryBot.create(:protocol, :with_measurements)
+      expect(protocol.stop_measurement).to be_nil
     end
   end
 
@@ -58,6 +74,17 @@ describe Protocol do
       meascountbefore = Measurement.count
       protocol.destroy
       expect(Measurement.count).to eq(meascountbefore - 1)
+    end
+
+    it 'should validate the number of stop_measurements' do
+      protocol = FactoryBot.create(:protocol, :with_measurements)
+      expect(protocol).to be_valid
+      FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      expect(protocol).to be_valid
+      FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+
+      protocol.reload
+      expect(protocol).to_not be_valid
     end
   end
 

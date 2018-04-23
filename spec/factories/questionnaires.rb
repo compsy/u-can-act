@@ -2,8 +2,10 @@
 
 FactoryBot.define do
   sequence(:questionnaire_name) { |n| "vragenlijst-dagboekstudie-studenten-#{n}" }
+  sequence(:questionnaire_key) { |n| "vragenlijst-dagboekstudie-studenten-key-#{n}" }
   factory :questionnaire do
     name { generate(:questionnaire_name) }
+    key { generate(:questionnaire_key) }
     title 'vragenlijst-dagboekstudie-studenten'
     content [{
       section_start: 'Algemeen',

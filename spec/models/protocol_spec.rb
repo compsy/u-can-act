@@ -63,6 +63,7 @@ describe Protocol do
 
     it 'should return nil if no stop_measurement is available' do
       protocol = FactoryBot.create(:protocol, :with_measurements)
+      protocol.reload
       expect(protocol.stop_measurement).to be_nil
     end
   end
@@ -70,6 +71,7 @@ describe Protocol do
   describe 'measurements' do
     it 'should destroy the measurements when destroying the protocol' do
       protocol = FactoryBot.create(:protocol, :with_measurements)
+      protocol.reload
       expect(protocol.measurements.first).to be_a(Measurement)
       meascountbefore = Measurement.count
       protocol.destroy
@@ -80,9 +82,9 @@ describe Protocol do
       protocol = FactoryBot.create(:protocol, :with_measurements)
       expect(protocol).to be_valid
       FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      protocol.reload
       expect(protocol).to be_valid
       FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
-
       protocol.reload
       expect(protocol).to_not be_valid
     end

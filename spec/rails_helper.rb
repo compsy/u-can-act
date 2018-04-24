@@ -82,6 +82,8 @@ RSpec.configure do |config|
     Timecop.return
     DatabaseCleaner.clean
     ActionMailer::Base.deliveries.clear
+    MessageBirdAdapter.deliveries.clear
+    Delayed::Job.destroy_all # probably not needed
   end
 
   config.before(type: :feature) do

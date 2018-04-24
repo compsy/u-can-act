@@ -216,13 +216,25 @@ Required and allowed options (minimal example and maximal example):
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   otherwise_tooltip: 'some tooltip',
+  show_after: Time.new(2018, 5, 6).in_time_zone,
   section_end: true
 }]
 ```
 
 The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip` field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
-In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected. 
+In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
+
+Note that this (and all other question types) may have a `show_after` property. This may have the following values:
+
+```ruby
+# To indicate that a question should appear 4 weeks after the start
+# of the protocol subscription, use:
+{ show_after: 4.weeks }
+
+# or alternatively, you may specify an absoute date:
+{ show_after: Time.new(2018, 6, 5, 9, 0, 0).in_time_zone }
+```
 
 Note that the `shows_questions` and `hides_questions` option properties require the corresponding questions to have the `hidden: true` and `hidden: false` properties, respectively. For example:
 

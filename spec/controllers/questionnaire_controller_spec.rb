@@ -161,11 +161,22 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(response.body).to include('Bedankt voor je deelname!')
       end
 
-      it 'should redirect to the stop measurement if one is available' do
-        protocol = responseobj.protocol_subscription.protocol
-        FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      it 'should redirect to the correct stop measurement if one is available' do
+        protocol_subscription = responseobj.protocol_subscription
+        protocol = protocol_subscription.protocol
+        stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+        stop_response = FactoryBot.create(:response, 
+                                          :not_expired,
+                                          measurement: stop_measurement)
+        protocol_subscription.responses << stop_response
+        protocol_subscription.save!
+        expect(protocol_subscription.responses.length).to eq 2
         delete :destroy, params: { uuid: responseobj.uuid }
+        query = URI.parse(response.location).path.split('/').last
+
         expect(response).to have_http_status(302)
+        expect(query).to eq stop_response.uuid
+        expect(protocol_subscription.stop_response.uuid).to eq stop_response.uuid
       end
     end
   end

@@ -55,6 +55,7 @@ raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
 nm_measurement = protocol.measurements.find_by_questionnaire_id(nameting_id)
 nm_measurement ||= protocol.measurements.build(questionnaire_id: nameting_id)
 nm_measurement.open_from_offset = 30.weeks + 3.days + 13.hours # Thursday 1pm last week
+nm_measurement.stop_measurement = true
 nm_measurement.period = nil
 nm_measurement.open_duration = default_posttest_open_duration
 nm_measurement.reward_points =  0

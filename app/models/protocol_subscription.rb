@@ -34,6 +34,12 @@ class ProtocolSubscription < ApplicationRecord
     save!
   end
 
+  def stop_response
+    # We can be sure there is always only one stop response as this is forced / validated in the
+    # protocol class.
+    responses.joins(:measurement).where(measurements: {stop_measurement: true}).first
+  end
+
   def active?
     state == ACTIVE_STATE
   end

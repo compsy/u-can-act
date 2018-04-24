@@ -5,6 +5,7 @@ class QuestionnaireController < ApplicationController
   include Concerns::IsLoggedIn
   before_action :redirect_to_next_page, only: [:index]
   before_action :set_response, only: %i[show destroy]
+  # TODO: verify cookie for show as well
   before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :store_response_cookie, only: %i[show]
   before_action :set_is_mentor, only: [:show]
@@ -35,13 +36,17 @@ class QuestionnaireController < ApplicationController
   end
 
   def destroy
-    stop_measurement = @protocol.stop_measurement
-    if stop_measurement.nil?
+    stop_response = @protocol_subscription.stop_response
+
+    if stop_response.nil?
       stop_protocol_subscription
       return
     end
 
-    redirect_to_next_page stop_measurement.responses.first
+    # Note, we don't unsubscribe yet. If a person clicks the 'stop' link, the
+    # person is redirected to the stop questionnaire. However, as long as the
+    # student does not submit that questionnaire, he or she is not unsubscribed
+    redirect_to_next_page stop_response
   end
 
   private
@@ -96,6 +101,9 @@ class QuestionnaireController < ApplicationController
 
   def redirect_to_next_page(first_response = nil)
     first_response ||= current_user.my_open_responses.first
+    Rails.logger.info '?'*100	
+    Rails.logger.info first_response.uuid
+    Rails.logger.info '?'*100	
     if first_response.present?
       redirect_to questionnaire_path(uuid: first_response.uuid)
       return

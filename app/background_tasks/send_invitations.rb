@@ -23,7 +23,9 @@ class SendInvitations
       response_sets.each do |person_id, responses|
         invitation_set = InvitationSet.create!(person_id: person_id, responses: responses)
         create_invitations(invitation_set)
+        puts "calling sendinvitationsjobs.perform_later with invitation_set: #{invitation_set.id}"
         SendInvitationsJob.perform_later invitation_set
+        puts "calling sendinvitationsjobs.wait(8 hours).perform_later with invitation_set: #{invitation_set.id}"
         SendInvitationsJob.set(wait: REMINDER_DELAY).perform_later invitation_set
       end
     end

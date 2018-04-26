@@ -427,10 +427,10 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
 ```
 If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
 
-### Type: time
+### Type: Time
 Required and allowed options (minimal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :time,
@@ -441,6 +441,26 @@ Required and allowed options (minimal example):
 }]
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
+
+### Type: Unsubscribe
+Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.
+
+Required and allowed options (minimal example):
+
+```ruby
+[{
+  type: :unsubscribe,
+  title: 'Klaar met dit schooljaar?',
+  content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien.',
+  button_text: 'Onderzoek afronden',
+  show_after: Time.new(2018, 6, 15).in_time_zone
+}]
+```
+
+Required properties for an unsubscribe `question` type are `title`, `content`, and `button_text`.
+
+Unsubscribe questions do not need an `id`.
+
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

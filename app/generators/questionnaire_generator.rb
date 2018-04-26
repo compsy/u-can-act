@@ -661,22 +661,30 @@ class QuestionnaireGenerator
     end
 
     def generate_unsubscribe(question)
-
       body = safe_join([
-                  question[:content].html_safe,
-                  tag(:br),
-                  question[:button_text].html_safe
-                ])
+                         generate_unsubscribe_content(question),
+                         generate_unsubscribe_action(question)
+                       ])
+      body = content_tag(:div, body, class: 'card light-grey-background-color')
+      body
+    end
 
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title">Card Title</span>
-          <p>INSERT CONTEN THERE</p>
-        </div>
-        <div class="card-action">
-          <a href="#">INSERT BUTTON TEXT HERE</a>
-        </div>
-      </div>
+    def generate_unsubscribe_content(question)
+      body = []
+      body << content_tag(:span, question[:title].html_safe, class: 'card-title') if question[:title].present?
+      body << content_tag(:p, question[:content].html_safe)
+      body = safe_join(body)
+      body = content_tag(:div, body, class: 'card-content black-text')
+      body
+    end
+
+    def generate_unsubscribe_action(question)
+      response = Response.find_by_id(question[:response_id])
+      url_href = '#'
+      url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
+      body = content_tag(:a, question[:button_text].html_safe,
+                         method: 'DELETE', href: url_href, class: 'btn waves-effect waves-light navigate-away-allowed')
+      content_tag(:div, body, class: 'card-action')
     end
 
     def idify(*strs)

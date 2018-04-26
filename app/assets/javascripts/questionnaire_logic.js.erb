@@ -175,7 +175,10 @@ $(function () {
   disableHiddenInputs();
 
   // Needed to disable the warning when leaving a page, when actually submitting it
-  $(document).on("submit", "form", function(event){
+  $(document).on("submit", "form", function(event) {
+    window.onbeforeunload = null;
+  });
+  $(document).on("click", ".navigate-away-allowed", function (event) {
     window.onbeforeunload = null;
   });
   // Hide toasts on click

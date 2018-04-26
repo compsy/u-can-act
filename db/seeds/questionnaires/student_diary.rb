@@ -7,9 +7,10 @@ dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek_content = [{
                      type: :unsubscribe,
-                     button_text: 'Onderzoek afronden',
                      title: 'Klaar met dit schooljaar?',
-                     content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien.'
+                     content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijst in.',
+                     button_text: 'Onderzoek afronden',
+                     show_after: (Rails.env.development? ? 1.second.ago : Time.new(2018, 6, 15).in_time_zone)
                    }, {
                      section_start: 'School en Stage',
                      type: :raw,

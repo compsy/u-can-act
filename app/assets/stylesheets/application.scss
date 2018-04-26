@@ -21,15 +21,19 @@
 
 @import "materialize/components/color";
 $primary-color: color("blue", "lighten-2");
-$input-border-color: color("grey", "darken-1");
+$input-border-color: color("grey", "darken-2");
 
 // Make range sliders easier to use on mobile
 $range-height: 35px;
 $range-width: 35px;
 
-$u-can-act-blue: #243a76;  //#1B2962; buenaparte blue
-$u-can-act-green: #009a74; //#128B61; buenaparte green
+$u-can-act-blue: #243a76;   // #1B2962; buenaparte blue
+$u-can-act-green: #009a74;  // #128B61; buenaparte green
+$u-can-act-yellow:   #edb800; // if blue is 2316a5
+//$u-can-act-yellow: #edb900; // if blue is 2516a5
+$u-can-act-orange: #ed5800; // if green is 009a73
 $u-can-act-grey: #99b5cd;
+$u-can-act-light-grey: #f6f6f6;
 
 .mentor {
   $accent-color: $u-can-act-blue;
@@ -71,6 +75,9 @@ $u-can-act-grey: #99b5cd;
   @import "materialize/components/date_picker/default";
   @import "materialize/components/date_picker/default.date";
   @import "materialize/components/date_picker/default.time";
+  .light-grey-background-color {
+    background-color: $u-can-act-light-grey;
+  }
 }
 
 .student {
@@ -113,6 +120,9 @@ $u-can-act-grey: #99b5cd;
   @import "materialize/components/date_picker/default";
   @import "materialize/components/date_picker/default.date";
   @import "materialize/components/date_picker/default.time";
+  .light-grey-background-color {
+    background-color: $u-can-act-light-grey;
+  }
 }
 
 @import "materialize";
@@ -143,4 +153,8 @@ $u-can-act-grey: #99b5cd;
   font-family: "Roboto",helvetica,arial,sans-serif;
   z-index: 999;
   transition: all .1s ease-in-out;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
 }

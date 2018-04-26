@@ -1873,8 +1873,8 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'unsubscribe' do
     it 'should work when specifying title, content, and button text' do
       content = [{
-                   type: :unsubscribe
-                 }]
+        type: :unsubscribe
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1892,11 +1892,11 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should work without specifying title, content, and button text' do
       content = [{
-                   type: :unsubscribe,
-                   title: 'Creativity Inc',
-                   content: 'Overcoming the unseen forces that stand in the way of true inspiration',
-                   button_text: 'Edwin Catmull'
-                 }]
+        type: :unsubscribe,
+        title: 'Creativity Inc',
+        content: 'Overcoming the unseen forces that stand in the way of true inspiration',
+        button_text: 'Edwin Catmull'
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,

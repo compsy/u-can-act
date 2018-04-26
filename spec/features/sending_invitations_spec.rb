@@ -40,7 +40,7 @@ describe 'sending invitations', type: :feature do
       Delayed::Worker.delay_jobs = false
       cntinvs = Invitation.count
       SendInvitations.run
-      sleep 1
+      Delayed::Worker.new.work_off # http://artsy.github.io/blog/2012/08/16/testing-with-delayed-jobs/
       expect(Invitation.count).to eq(cntinvs + responses.length)
       puts "\n\n\nHIER: #{Invitation.first.invited_state}\n\n\n"
       puts "\n\n\nHIER: #{Invitation.last.invited_state}\n\n\n"
@@ -89,8 +89,10 @@ describe 'sending invitations', type: :feature do
       MessageBirdAdapter.deliveries.clear
       expect(Delayed::Worker.delay_jobs).to be_truthy
       cntinvs = Invitation.count
+      puts 'Before SendInvitations.run'
       SendInvitations.run
-      sleep 1
+      puts 'After SendInvitations.run'
+      # Delayed::Worker.new.work_off # http://artsy.github.io/blog/2012/08/16/testing-with-delayed-jobs/
       expect(Invitation.count).to eq(cntinvs + responses.length)
       puts "\n\n\nHIER: #{Invitation.first.invited_state}\n\n\n"
       puts "\n\n\nHIER: #{Invitation.last.invited_state}\n\n\n"

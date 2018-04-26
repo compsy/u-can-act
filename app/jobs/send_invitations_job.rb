@@ -4,12 +4,14 @@ class SendInvitationsJob < ApplicationJob
   queue_as :default
 
   def perform(invitation_set)
+    puts "In sendinvitationsjob#perform with invitation_set: #{invitation_set.id}"
     invitation_text = ''
     invitation_set.reload
     invitation_set.responses.opened_and_not_expired.each do |response|
       invitation_text = random_message(response)
       break
     end
+    puts 'WARNING: In sendinvitationsjob#perform: invitation_text is blank' if invitation_text.blank?
     return if invitation_text.blank?
     invitation_token = invitation_set.invitation_tokens.create!
     plain_text_token = invitation_token.token_plain
@@ -29,6 +31,7 @@ class SendInvitationsJob < ApplicationJob
 
   def send_invitations(invitation_set, plain_text_token)
     invitation_set.invitations.each do |invitation|
+      puts "sending invitation #{invitation.id}"
       invitation.sending!
       SendInvitationJob.perform_later(invitation, plain_text_token)
     end

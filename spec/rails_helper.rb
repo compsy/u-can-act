@@ -83,7 +83,8 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
     ActionMailer::Base.deliveries.clear
     MessageBirdAdapter.deliveries.clear
-    Delayed::Job.destroy_all # probably not needed
+    ActiveJob::Base.queue_adapter = :delayed_job # other tests may leave a lingering :test here,
+                                                 # causing delayed job specs to fail
   end
 
   config.before(type: :feature) do

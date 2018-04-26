@@ -4,6 +4,7 @@ class SendInvitationJob < ApplicationJob
   queue_as :default
 
   def perform(invitation, plain_text_token)
+    puts "In SendInvitationJob#perform with invitation: #{invitation.id}"
     invitation.reload
     invitation.send_invite(plain_text_token)
     invitation.sent!

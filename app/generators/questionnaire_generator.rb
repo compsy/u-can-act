@@ -108,6 +108,7 @@ class QuestionnaireGenerator
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
     def create_question_body(question)
       case question[:type]
       when :radio
@@ -132,6 +133,7 @@ class QuestionnaireGenerator
         raise "Unknown question type #{question[:type]}"
       end
     end
+    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
 
     def questionnaire_questions_add_question_section(question_body, question)

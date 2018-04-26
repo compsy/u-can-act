@@ -101,9 +101,6 @@ class QuestionnaireController < ApplicationController
 
   def redirect_to_next_page(first_response = nil)
     first_response ||= current_user.my_open_responses.first
-    Rails.logger.info '?'*100	
-    Rails.logger.info first_response.uuid
-    Rails.logger.info '?'*100	
     if first_response.present?
       redirect_to questionnaire_path(uuid: first_response.uuid)
       return

@@ -7,7 +7,7 @@ FactoryBot.define do
     open_from_offset((1.day + 13.hours).to_i) # Tuesday 1pm
     open_duration 2.hours.to_i
     reward_points 1
-    send_invite true
+    should_invite true
     stop_measurement false
     trait :stop_measurement do
       stop_measurement true

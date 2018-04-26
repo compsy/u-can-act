@@ -326,48 +326,38 @@ describe ProtocolSubscription do
     it 'should create responses when you create a protocol subscription' do
       protocol = FactoryBot.create(:protocol)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
-
-      # ANDO: Heb jij enig idee waarom ik deze reloads moet doen ineens?
-      protocol.measurements.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(3)
     end
     it 'should create responses up to the specified offset_till_end' do
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 2.weeks)
-      protocol.measurements.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(2)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 1.week)
-      protocol.measurements.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(3)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 3.weeks)
-      protocol.measurements.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(1)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 4.weeks)
-      protocol.measurements.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(0)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 0)
-      protocol.measurements.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(4)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: nil)
-      protocol.measurements.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(4)
     end
     it 'should delete the responses when destroying the protocol subscription' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       FactoryBot.create(:response, protocol_subscription: protocol_subscription)
-      protocol_subscription.reload
       expect(protocol_subscription.responses.first).to be_a(Response)
       responsecountbefore = Response.count
       protocol_subscription.destroy
@@ -376,7 +366,6 @@ describe ProtocolSubscription do
     it 'should create responses with a nonvarying open_from' do
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
-      protocol.reload
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
@@ -427,7 +416,6 @@ describe ProtocolSubscription do
     it 'should not change the open_from time when changing from winter time to summer time' do
       # changes at 2AM Sunday, March 26 2017
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
-      protocol.reload
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
@@ -441,7 +429,6 @@ describe ProtocolSubscription do
     it 'should not change the open_from time when changing from summer time to winter time' do
       # changes at 3AM Sunday, October 29 2017
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
-      protocol.reload
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
@@ -525,7 +512,6 @@ describe ProtocolSubscription do
 
     it 'should calculate the correct streak' do
       protocol = FactoryBot.create(:protocol, duration: 5.weeks)
-      protocol.reload
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
@@ -556,7 +542,6 @@ describe ProtocolSubscription do
       # counted measurements that were still open as missing.
       Timecop.freeze(2017, 4, 1, 12)
       protocol = FactoryBot.create(:protocol, duration: 5.days)
-      protocol.reload
       FactoryBot.create(:measurement, :periodical_and_overlapping, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
@@ -588,7 +573,6 @@ describe ProtocolSubscription do
 
     it 'should return 0 if a measurement was missed' do
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
-      protocol.reload
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,

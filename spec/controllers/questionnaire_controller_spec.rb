@@ -165,7 +165,7 @@ RSpec.describe QuestionnaireController, type: :controller do
         protocol_subscription = responseobj.protocol_subscription
         protocol = protocol_subscription.protocol
         stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
-        stop_response = FactoryBot.create(:response, 
+        stop_response = FactoryBot.create(:response,
                                           :not_expired,
                                           measurement: stop_measurement)
         protocol_subscription.responses << stop_response

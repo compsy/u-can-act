@@ -32,6 +32,8 @@ vm_measurement.open_from_offset = 2.days + 17.hours + 45.minutes # Wednesday 17:
 vm_measurement.period = nil
 vm_measurement.open_duration = default_open_duration
 vm_measurement.reward_points = 0
+vm_measurement.stop_measurement = false
+vm_measurement.should_invite = true
 vm_measurement.save!
 
 # Add dagboekmetingen
@@ -46,6 +48,8 @@ db_measurement.open_from_offset = of_offset
 db_measurement.period = 1.week
 db_measurement.open_duration = default_open_duration
 db_measurement.reward_points = default_reward_points
+db_measurement.stop_measurement = false
+db_measurement.should_invite = true
 db_measurement.save!
 
 # Add nameting/enquete
@@ -58,4 +62,6 @@ nm_measurement.open_from_offset = 30.weeks + 3.days + 13.hours # Thursday 1pm la
 nm_measurement.period = nil
 nm_measurement.open_duration = default_posttest_open_duration
 nm_measurement.reward_points =  0
+nm_measurement.stop_measurement = true
+nm_measurement.should_invite = true
 nm_measurement.save!

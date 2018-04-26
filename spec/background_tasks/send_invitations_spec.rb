@@ -259,7 +259,7 @@ describe SendInvitations do
 
     it 'should not queue responses that have should_invite false measurements' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      measurement = FactoryBot.create(:measurement, send_invite: false, open_duration: 1.day,
+      measurement = FactoryBot.create(:measurement, should_invite: false, open_duration: 1.day,
                                                     protocol: protocol_subscription.protocol)
       responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
                                                  protocol_subscription: protocol_subscription,
@@ -269,7 +269,6 @@ describe SendInvitations do
       invitationsetcount = InvitationSet.count
       invitationcount = Invitation.count
       described_class.run
-      responseobj.reload
       expect(responseobj.invitation_set_id).to be_nil
       expect(InvitationSet.count).to eq invitationsetcount
       expect(Invitation.count).to eq invitationcount

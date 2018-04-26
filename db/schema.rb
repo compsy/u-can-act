@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20180423060737) do
     t.datetime "updated_at",                       null: false
     t.integer  "offset_till_end"
     t.boolean  "stop_measurement", default: false, null: false
-    t.boolean  "send_invite",      default: true,  null: false
+    t.boolean  "should_invite",    default: true,  null: false
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end

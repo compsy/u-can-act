@@ -57,6 +57,10 @@ describe Measurement do
   end
 
   describe 'stop_measurement' do
+    it 'should be false by default' do
+      measurement = Measurement.new
+      expect(measurement.stop_measurement?).to be_falsey
+    end
     it 'should be present and boolean' do
       measurement = FactoryBot.build(:measurement)
       measurement.stop_measurement = nil
@@ -75,22 +79,26 @@ describe Measurement do
     end
   end
 
-  describe 'send_invite' do
+  describe 'should_invite' do
+    it 'should be true by default' do
+      measurement = Measurement.new
+      expect(measurement.should_invite?).to be_truthy
+    end
     it 'should be present and boolean' do
       measurement = FactoryBot.build(:measurement)
-      measurement.send_invite = nil
+      measurement.should_invite = nil
       expect(measurement).to_not be_valid
 
-      measurement.send_invite = true
+      measurement.should_invite = true
       expect(measurement).to be_valid
-      measurement.send_invite = false
+      measurement.should_invite = false
       expect(measurement).to be_valid
     end
     it 'should set the correct error messages' do
-      measurement = FactoryBot.build(:measurement, send_invite: nil)
+      measurement = FactoryBot.build(:measurement, should_invite: nil)
       expect(measurement).to_not be_valid
-      expect(measurement.errors.messages).to have_key :send_invite
-      expect(measurement.errors.messages[:send_invite]).to include('is niet in de lijst opgenomen')
+      expect(measurement.errors.messages).to have_key :should_invite
+      expect(measurement.errors.messages[:should_invite]).to include('is niet in de lijst opgenomen')
     end
   end
 

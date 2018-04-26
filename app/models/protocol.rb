@@ -40,8 +40,8 @@ class Protocol < ApplicationRecord
   private
 
   def at_most_one_stop_measurement
-    stop_measurements = measurements.select(&:stop_measurement?)
-    return if stop_measurements.nil? || stop_measurements.length <= 1
+    stop_measurements = measurements.all.select(&:stop_measurement?)
+    return if stop_measurements.blank? || stop_measurements.length <= 1
 
     errors.add(:measurements, 'can only have a single stop_measurement')
   end

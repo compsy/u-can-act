@@ -11,7 +11,7 @@ class SendInvitationsJob < ApplicationJob
       invitation_text = random_message(response)
       break
     end
-    puts "WARNING: In sendinvitationsjob#perform: invitation_text is blank" if invitation_text.blank?
+    puts 'WARNING: In sendinvitationsjob#perform: invitation_text is blank' if invitation_text.blank?
     return if invitation_text.blank?
     invitation_token = invitation_set.invitation_tokens.create!
     plain_text_token = invitation_token.token_plain

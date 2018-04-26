@@ -674,7 +674,7 @@ class QuestionnaireGenerator
     def generate_unsubscribe_content(question)
       body = []
       body << content_tag(:span, question[:title].html_safe, class: 'card-title') if question[:title].present?
-      body << content_tag(:p, question[:content].html_safe)
+      body << content_tag(:p, question[:content].html_safe) if question[:content].present?
       body = safe_join(body)
       body = content_tag(:div, body, class: 'card-content black-text')
       body
@@ -684,7 +684,7 @@ class QuestionnaireGenerator
       response = Response.find_by_id(question[:response_id])
       url_href = '#'
       url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
-      body = content_tag(:a, question[:button_text].html_safe,
+      body = content_tag(:a, question[:button_text].html_safe || 'Uitschrijven',
                          'data-method': 'delete',
                          href: url_href,
                          class: 'btn waves-effect waves-light navigate-away-allowed',

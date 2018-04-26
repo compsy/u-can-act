@@ -1,7 +1,7 @@
 ic_name = 'informed consent studenten december 2017'
 informed_consent = Questionnaire.find_by_name(ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
-informed_consent.key ||= ic_name.parameterize.underscore
+informed_consent.key = File.basename(__FILE__)[0...-3]
 ic_content = <<~'END'
   <p class="flow-text"><em>Onderzoek naar ontwikkeling en begeleiding</em></p>
   <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://player.vimeo.com/video/241526116?title=0&amp;byline=0&amp;portrait=0&amp;color=009a74' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>

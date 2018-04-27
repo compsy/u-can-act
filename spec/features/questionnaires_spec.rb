@@ -1922,6 +1922,7 @@ describe 'GET and POST /', type: :feature, js: true do
         content: 'Overcoming the unseen forces that stand in the way of true inspiration',
         button_text: 'Unsubscribe'
       }]
+
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1930,35 +1931,14 @@ describe 'GET and POST /', type: :feature, js: true do
 
       questionnaire_unsub = FactoryBot.create(:questionnaire, content: content)
       post_questionnaire = FactoryBot.create(:questionnaire, content: [{
-                                          section_start: 'Algemeen',
-                                          id: :v1,
-                                          type: :radio,
-                                          title: 'Hoe voelt u zich vandaag?',
-                                          options: %w[slecht goed],
-                                          otherwise_label: 'Anders nog wat:'
-                                        }, {
-                                          id: :v2,
-                                          type: :checkbox,
-                                          title: 'Wat heeft u vandaag gegeten?',
-                                          options: ['brood', 'kaas en ham', 'pizza'],
-                                          otherwise_label: 'Hier ook iets:'
-                                        }, {
-                                          id: :v3,
-                                          type: :range,
-                                          title: 'Hoe gaat het met u?',
-                                          labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
-                                        }, {
-                                          id: :v4,
-                                          type: :time,
-                                          title: 'Hoeveel tijd deed u over het eten?',
-                                          hours_from: 1,
-                                          hours_to: 10,
-                                          hours_step: 1,
-                                          section_end: true
-                                        }])
+                                               id: :v3,
+                                               type: :range,
+                                               title: 'Hoe gaat het met u?',
+                                               labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+                                             }])
 
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire_unsub, protocol: protocol)
-      stop_measurement = FactoryBot.create(:measurement, :stop_measurement, 
+      stop_measurement = FactoryBot.create(:measurement, :stop_measurement,
                                            questionnaire: post_questionnaire, protocol: protocol)
 
       responseobj = FactoryBot.create(:response, :invited,
@@ -1967,14 +1947,23 @@ describe 'GET and POST /', type: :feature, js: true do
                                       open_from: 1.hour.ago)
 
       FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                      measurement: stop_measurement)
-                                      #open_from: 1.hour.ago)
+                                   measurement: stop_measurement)
+      # open_from: 1.hour.ago)
 
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       page.click_on 'Unsubscribe'
       expect(page).to_not have_content('Bedankt voor je deelname!')
-      expect(page).to have_content('Hoeveel tijd deed u over het eten?')
+      expect(page).to_not have_content(content.first[:content])
+      expect(page).to have_content('Hoe gaat het met u?')
+      expect(page).to have_content('Opslaan')
+      protocol_subscription.reload
+      expect(protocol_subscription).to be_active
+      page.click_on 'Opslaan'
+      expect(page).to_not have_content('Hoe gaat het met u?')
+      expect(page).to have_content('Bedankt voor je deelname!')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
     end
 
     it 'should redirect to the destroy page if no stop_measurement is available' do
@@ -1999,6 +1988,8 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       page.click_on 'Unsubscribe'
       expect(page).to have_content('Bedankt voor je deelname!')
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
     end
   end
 end

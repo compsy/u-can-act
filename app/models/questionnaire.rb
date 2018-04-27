@@ -3,6 +3,7 @@
 class Questionnaire < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :content, presence: true
+  validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z]+[a-z_0-9]*\Z/ }
   serialize :content, Array
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,

@@ -57,7 +57,7 @@ class QuestionnaireController < ApplicationController
     # We assume that if a stop measurement is submitted, it is always the last
     # questionnaire of the protocol.
     return stop_protocol_subscription if @response.measurement.stop_measurement?
-    return unless stop_subscription_hash.blank?
+    return if stop_subscription_hash.blank?
 
     should_stop = false
     stop_subscription_hash.each do |key, received|

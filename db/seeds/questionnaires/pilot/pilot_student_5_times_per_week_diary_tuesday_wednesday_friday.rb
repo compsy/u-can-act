@@ -1,9 +1,8 @@
 db_title = 'Webapp Jongeren'
-
-db_name1 = 'dagboek studenten 1x per week donderdag'
-dagboek1 = Questionnaire.find_by_name(db_name1)
-dagboek1 ||= Questionnaire.new(name: db_name1)
-dagboek1.key = File.basename(__FILE__)[0...-3]
+db_name2 = 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag'
+dagboek2 = Questionnaire.find_by_name(db_name2)
+dagboek2 ||= Questionnaire.new(name: db_name2)
+dagboek2.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [{
                      section_start: 'School',
                      type: :raw,
@@ -11,7 +10,7 @@ dagboek_content = [{
                    }, {
                      id: :v1,
                      type: :radio,
-                     title: 'Ben je de afgelopen week naar school en/of stage geweest?',
+                     title: 'Ben je sinds gisteren naar school en/of stage geweest?',
                      options: [
                        { title: 'Ja', shows_questions: %i[v2 v3 v4 v5 v6 v7] },
                        'Nee'
@@ -20,7 +19,7 @@ dagboek_content = [{
                      id: :v2,
                      hidden: true,
                      type: :range,
-                     title: 'Wat heb je de afgelopen week <strong>meegemaakt op school en/of stage?</strong>',
+                     title: 'Wat heb je sinds gisteren <strong>meegemaakt op school en/of stage?</strong>',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
                      id: :v3,
@@ -32,32 +31,32 @@ dagboek_content = [{
                      id: :v4,
                      hidden: true,
                      type: :range,
-                     title: 'Ben je afgelopen week vooral <strong>naar school en/of stage gegaan</strong> omdat je het moest of omdat je het zelf wilde?',
+                     title: 'Ben je sinds gisteren vooral <strong>naar school en/of stage gegaan</strong> omdat je het moest of omdat je het zelf wilde?',
                      labels: ['omdat ik moest', 'omdat ik wilde']
                    }, {
                      id: :v5,
                      hidden: true,
                      type: :range,
-                     title: '<strong>Hoe goed heb je het gedaan</strong> afgelopen week op school en/of stage?',
+                     title: '<strong>Hoe goed heb je het</strong> sinds gisteren <strong>gedaan</strong> op school en/of stage?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v6,
                      hidden: true,
                      type: :range,
-                     title: 'Kon je afgelopen week goed <strong>opschieten met vrienden op school en/of stage</strong>?',
+                     title: 'Kon je sinds gisteren goed <strong>opschieten met vrienden op school en/of stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v7,
                      hidden: true,
                      type: :range,
-                     title: 'Kon je afgelopen week goed <strong>opschieten met leraren op school en/of begeleiders op stage</strong>?',
+                     title: 'Kon je sinds gisteren goed <strong>opschieten met leraren op school en/of begeleiders op stage</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v8,
                      type: :range,
-                     title: '<strong>Hoeveel tijd</strong> heb je afgelopen week besteed aan school, stage en huiswerk bij elkaar opgeteld? Een grove gok is prima, het is niet erg als je er een paar uur naast zit.',
-                     labels: ['0 uur', '40 uur of meer'],
-                     max: 40
+                     title: '<strong>Hoeveel tijd</strong> heb je sinds gisteren besteed aan school, stage en huiswerk bij elkaar opgeteld? Een grove gok is prima, het is niet erg als je er een paar uur naast zit.',
+                     labels: ['0 uur', '12 uur of meer'],
+                     max: 12
                    }, {
                      id: :v9,
                      type: :range,
@@ -86,7 +85,7 @@ dagboek_content = [{
                    }, {
                      id: :v13,
                      type: :range,
-                     title: 'Wat heb je afgelopen week <strong>meegemaakt buiten school</strong>?',
+                     title: 'Wat heb je sinds gisteren <strong>meegemaakt buiten school</strong>?',
                      labels: ['vooral nare dingen', 'vooral leuke dingen']
                    }, {
                      id: :v14,
@@ -101,56 +100,25 @@ dagboek_content = [{
                    }, {
                      id: :v16,
                      type: :range,
-                     title: 'Heb je afgelopen week jouw activiteiten <strong>buiten school vooral gedaan</strong> omdat je het moest doen of omdat je het zelf wilde doen?',
+                     title: 'Heb je sinds gisteren jouw activiteiten <strong>buiten school vooral gedaan</strong> omdat je het moest doen of omdat je het zelf wilde doen?',
                      labels: ['omdat ik moest', 'omdat ik wilde']
                    }, {
                      id: :v17,
                      type: :range,
-                     title: 'Heb je afgelopen week dingen gedaan waar je <strong>trots</strong> op bent?',
+                     title: 'Heb je sinds gisteren dingen gedaan waar je <strong>trots</strong> op bent?',
                      labels: ['helemaal niet', 'heel veel']
                    }, {
                      id: :v18,
                      type: :range,
-                     title: 'Kon je afgelopen week goed <strong>opschieten met vrienden buiten school</strong>?',
+                     title: 'Kon je sinds gisteren goed <strong>opschieten met vrienden buiten school</strong>?',
                      labels: ['heel slecht', 'heel goed']
                    }, {
                      id: :v19,
                      type: :range,
-                     title: 'Kon je afgelopen week goed <strong>opschieten met ouders/familie</strong>?',
+                     title: 'Kon je sinds gisteren goed <strong>opschieten met ouders/familie</strong>?',
                      labels: ['heel slecht', 'heel goed'],
                      section_end: true
-                   }, {
-                     section_start: 'Begeleiding',
-                     type: :raw,
-                     content: '<p class="flow-text section-explanation">De volgende vragen gaan over de begeleiding die je krijgt van het S-team. Je antwoorden zijn helemaal anoniem en alleen de onderzoekers kunnen ze zien.</p>'
-                   }, {
-                     id: :v20,
-                     type: :radio,
-                     title: 'Heb je de afgelopen week je begeleider gesproken?',
-                     options: [
-                       { title: 'Ja', shows_questions: %i[v21 v22 v23] },
-                       'Nee'
-                     ]
-                   }, {
-                     id: :v21,
-                     hidden: true,
-                     type: :range,
-                     title: 'Kon je afgelopen week goed <strong>opschieten met je begeleider</strong>?',
-                     labels: ['heel slecht', 'heel goed']
-                   }, {
-                     id: :v22,
-                     hidden: true,
-                     type: :range,
-                     title: 'Hoe <strong>open</strong> was je <strong>in wat je vertelde</strong> aan je begeleider afgelopen week?',
-                     labels: ['gesloten', 'open']
-                   }, {
-                     id: :v23,
-                     hidden: true,
-                     type: :range,
-                     title: 'Heeft je begeleider je goed geholpen afgelopen week?',
-                     labels: ['niet goed geholpen', 'heel goed geholpen'],
-                     section_end: true
                    }]
-dagboek1.content = dagboek_content
-dagboek1.title = db_title
-dagboek1.save!
+dagboek2.content = dagboek_content
+dagboek2.title = db_title
+dagboek2.save!

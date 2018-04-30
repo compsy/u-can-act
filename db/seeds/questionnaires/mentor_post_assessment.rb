@@ -1,6 +1,7 @@
 nm_name1 = 'nameting mentoren'
 nameting1 = Questionnaire.find_by_name(nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
+nameting1.key = File.basename(__FILE__)[0...-3]
 nameting1.content = [{
                        section_start: 'Introductie',
                        type: :raw,

@@ -216,13 +216,25 @@ Required and allowed options (minimal example and maximal example):
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   otherwise_tooltip: 'some tooltip',
+  show_after: Time.new(2018, 5, 6).in_time_zone,
   section_end: true
 }]
 ```
 
 The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip` field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
-In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected. 
+In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
+
+Note that this (and all other question types) may have a `show_after` property. This may have the following values:
+
+```ruby
+# To indicate that a question should appear 4 weeks after the start
+# of the protocol subscription, use:
+{ show_after: 4.weeks }
+
+# or alternatively, you may specify an absoute date:
+{ show_after: Time.new(2018, 6, 5, 9, 0, 0).in_time_zone }
+```
 
 Note that the `shows_questions` and `hides_questions` option properties require the corresponding questions to have the `hidden: true` and `hidden: false` properties, respectively. For example:
 
@@ -415,10 +427,10 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
 ```
 If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
 
-### Type: time
+### Type: Time
 Required and allowed options (minimal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :time,
@@ -429,6 +441,26 @@ Required and allowed options (minimal example):
 }]
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
+
+### Type: Unsubscribe
+Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.
+
+Required and allowed options (minimal example):
+
+```ruby
+[{
+  type: :unsubscribe,
+  title: 'Klaar met dit schooljaar?',
+  content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien.',
+  button_text: 'Onderzoek afronden',
+  show_after: Time.new(2018, 6, 15).in_time_zone
+}]
+```
+
+Usable properties for an unsubscribe `question` type are `title`, `content`, and `button_text` (all are optional).
+
+Unsubscribe questions do not need an `id`.
+
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

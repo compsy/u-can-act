@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Api::V1::ApiController, type: :controller do
-  controller(ApiController) do
+  controller(Api::V1::ApiController) do
   end
 
   let(:test_response) { FactoryBot.create(:response) }

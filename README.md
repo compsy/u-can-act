@@ -457,7 +457,7 @@ Required and allowed options (minimal example):
 }]
 ```
 
-Required properties for an unsubscribe `question` type are `title`, `content`, and `button_text`.
+Usable properties for an unsubscribe `question` type are `title`, `content`, and `button_text` (all are optional).
 
 Unsubscribe questions do not need an `id`.
 

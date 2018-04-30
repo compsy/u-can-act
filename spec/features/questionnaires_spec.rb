@@ -1871,7 +1871,7 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   context 'unsubscribe' do
-    it 'should work when specifying title, content, and button text' do
+    it 'should work without specifying title, content, and button text' do
       content = [{
         type: :unsubscribe
       }]
@@ -1890,7 +1890,7 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_content('Uitschrijven')
     end
-    it 'should work without specifying title, content, and button text' do
+    it 'should work when specifying title, content, and button text' do
       content = [{
         type: :unsubscribe,
         title: 'Creativity Inc',

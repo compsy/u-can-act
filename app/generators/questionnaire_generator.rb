@@ -108,6 +108,7 @@ class QuestionnaireGenerator
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
     def create_question_body(question)
       case question[:type]
       when :radio
@@ -124,12 +125,15 @@ class QuestionnaireGenerator
         generate_textfield(question)
       when :raw
         generate_raw(question)
+      when :unsubscribe
+        generate_unsubscribe(question)
       when :expandable
         generate_expandable(question)
       else
         raise "Unknown question type #{question[:type]}"
       end
     end
+    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
 
     def questionnaire_questions_add_question_section(question_body, question)
@@ -656,6 +660,36 @@ class QuestionnaireGenerator
 
     def generate_raw(question)
       question[:content].html_safe
+    end
+
+    def generate_unsubscribe(question)
+      body = safe_join([
+                         generate_unsubscribe_content(question),
+                         generate_unsubscribe_action(question)
+                       ])
+      body = content_tag(:div, body, class: 'card light-grey-background-color')
+      body
+    end
+
+    def generate_unsubscribe_content(question)
+      body = []
+      body << content_tag(:span, question[:title].html_safe, class: 'card-title') if question[:title].present?
+      body << content_tag(:p, question[:content].html_safe) if question[:content].present?
+      body = safe_join(body)
+      body = content_tag(:div, body, class: 'card-content black-text')
+      body
+    end
+
+    def generate_unsubscribe_action(question)
+      response = Response.find_by_id(question[:response_id])
+      url_href = '#'
+      url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
+      body = content_tag(:a, question[:button_text].html_safe || 'Uitschrijven',
+                         'data-method': 'delete',
+                         href: url_href,
+                         class: 'btn waves-effect waves-light navigate-away-allowed',
+                         rel: 'nofollow')
+      content_tag(:div, body, class: 'card-action')
     end
 
     def idify(*strs)

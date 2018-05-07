@@ -30,7 +30,7 @@ vm_measurement = protocol.measurements.find_by_questionnaire_id(voormeting_id)
 vm_measurement ||= protocol.measurements.build(questionnaire_id: voormeting_id)
 vm_measurement.open_from_offset = 2.days + 17.hours + 45.minutes # Wednesday 17:45
 vm_measurement.period = nil
-vm_measurement.open_duration = default_open_duration
+vm_measurement.open_duration = nil
 vm_measurement.reward_points = 0
 vm_measurement.save!
 

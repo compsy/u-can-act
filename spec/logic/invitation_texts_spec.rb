@@ -17,6 +17,13 @@ describe InvitationTexts do
       end.to raise_error(RuntimeError, 'method first_response_pool not implemented by subclass!')
     end
   end
+  describe 'repeated_first_response_pool' do
+    it 'should raise an error' do
+      expect do
+        described_class.repeated_first_response_pool
+      end.to raise_error(RuntimeError, 'method repeated_first_response_pool not implemented by subclass!')
+    end
+  end
   describe 'second_response_pool' do
     it 'should raise an error' do
       expect do

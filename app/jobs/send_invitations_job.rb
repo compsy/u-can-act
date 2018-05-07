@@ -47,8 +47,23 @@ class SendInvitationsJob < ApplicationJob
     response.protocol_subscription.person.first_name
   end
 
+  def open_questionnaire?(response, questionnaire_name)
+    response.protocol_subscription.person.my_open_responses.select do |x|
+      x.measurement.questionnaire.name == questionnaire_name
+    end.count.positive?
+  end
+
+  def completed_some?(response)
+    person = response.protocol_subscription.person
+    Response.where.not(completed_at: nil).where(filled_out_by_id: person.id).count.positive?
+  end
+
   def mentor_texts(response)
-    if response.measurement.questionnaire.name.match?(/voormeting/)
+    if open_questionnaire?(response, 'voormeting mentoren') && completed_some?(response)
+      'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze ' \
+      'week ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ' \
+      'ingevuld. Na het invullen hiervan kom je weer bij de wekelijkse vragenlijst.'
+    elsif open_questionnaire?(response, 'voormeting mentoren') && !completed_some?(response)
       "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
       'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
       'Morgen start de eerste wekelijkse vragenlijst. Succes!'

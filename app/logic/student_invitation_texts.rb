@@ -14,12 +14,21 @@ class StudentInvitationTexts < InvitationTexts
       sms_pool.sample
     end
 
+    def repeated_first_response_pool
+      # Voormeting (repeated)
+      [
+        'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze week ' \
+        'ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ingevuld. ' \
+        'Je beloning loopt gewoon door natuurlijk!'
+      ]
+    end
+
     def first_response_pool
       # Voormeting
       [
         'Welkom bij de kick-off van het onderzoek \'u-can-act\'. Fijn dat je meedoet! ' \
-          'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
-          'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
+        'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
+        'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
       ]
     end
 

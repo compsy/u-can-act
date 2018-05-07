@@ -48,8 +48,8 @@ class SendInvitationsJob < ApplicationJob
   end
 
   def open_questionnaire?(response, questionnaire_name)
-    response.protocol_subscription.person.my_open_responses.select do |x|
-      x.measurement.questionnaire.name == questionnaire_name
+    response.protocol_subscription.person.my_open_responses.select do |resp|
+      resp.measurement.questionnaire.name == questionnaire_name
     end.count.positive?
   end
 

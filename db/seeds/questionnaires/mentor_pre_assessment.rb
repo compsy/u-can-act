@@ -1,6 +1,7 @@
 vm_name1 = 'voormeting mentoren'
 voormeting1 = Questionnaire.find_by_name(vm_name1)
 voormeting1 ||= Questionnaire.new(name: vm_name1)
+voormeting1.key = File.basename(__FILE__)[0...-3]
 voormeting1.content = [{
                          id: :v1,
                          type: :radio,

@@ -54,9 +54,51 @@ class QuestionnaireGenerator
         new_question = question.deep_dup
         new_question[:response_id] = response_id
         new_question[:raw] = raw_content[idx]
-        body << single_questionnaire_question(new_question)
+        body << single_questionnaire_question(new_question) if should_show?(new_question)
       end
       safe_join(body)
+    end
+
+    def should_show?(question)
+      return true unless question.key?(:show_after)
+      show_after_hash = ensure_show_after_hash(question[:show_after])
+      if show_after_hash.key?(:offset)
+        show_after_hash[:date] = convert_offset_to_date(show_after_hash[:offset],
+                                                        question[:response_id])
+      end
+      ensure_date_validity(show_after_hash[:date])
+      show_after = show_after_hash[:date].in_time_zone
+      show_after < Time.zone.now
+    end
+
+    def ensure_show_after_hash(show_after)
+      show_after_hash = if an_offset?(show_after)
+                          { offset: show_after }
+                        elsif a_time?(show_after)
+                          { date: show_after }
+                        else
+                          raise "Unknown show_after type: #{show_after}"
+                        end
+      show_after_hash
+    end
+
+    def ensure_date_validity(date)
+      raise "Unknown show_after date type: #{date}" unless a_time?(date)
+    end
+
+    def convert_offset_to_date(offset, response_id)
+      raise "Unknown show_after offset type: #{offset}" unless an_offset?(offset)
+      response = Response.find_by_id(response_id)
+      return 2.seconds.ago if response.blank? # If we don't have a response, just show it
+      TimeTools.increase_by_duration(response.protocol_subscription.start_date, offset)
+    end
+
+    def a_time?(value)
+      value.is_a?(ActiveSupport::TimeWithZone) || value.is_a(Time) || value.is_a?(Date) || value.is_a?(DateTime)
+    end
+
+    def an_offset?(value)
+      value.is_a?(ActiveSupport::Duration) || value.is_a?(Integer)
     end
 
     def single_questionnaire_question(question)
@@ -66,6 +108,7 @@ class QuestionnaireGenerator
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
     def create_question_body(question)
       case question[:type]
       when :radio
@@ -82,12 +125,15 @@ class QuestionnaireGenerator
         generate_textfield(question)
       when :raw
         generate_raw(question)
+      when :unsubscribe
+        generate_unsubscribe(question)
       when :expandable
         generate_expandable(question)
       else
         raise "Unknown question type #{question[:type]}"
       end
     end
+    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
 
     def questionnaire_questions_add_question_section(question_body, question)
@@ -614,6 +660,36 @@ class QuestionnaireGenerator
 
     def generate_raw(question)
       question[:content].html_safe
+    end
+
+    def generate_unsubscribe(question)
+      body = safe_join([
+                         generate_unsubscribe_content(question),
+                         generate_unsubscribe_action(question)
+                       ])
+      body = content_tag(:div, body, class: 'card light-grey-background-color')
+      body
+    end
+
+    def generate_unsubscribe_content(question)
+      body = []
+      body << content_tag(:span, question[:title].html_safe, class: 'card-title') if question[:title].present?
+      body << content_tag(:p, question[:content].html_safe) if question[:content].present?
+      body = safe_join(body)
+      body = content_tag(:div, body, class: 'card-content black-text')
+      body
+    end
+
+    def generate_unsubscribe_action(question)
+      response = Response.find_by_id(question[:response_id])
+      url_href = '#'
+      url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
+      body = content_tag(:a, question[:button_text].html_safe || 'Uitschrijven',
+                         'data-method': 'delete',
+                         href: url_href,
+                         class: 'btn waves-effect waves-light navigate-away-allowed',
+                         rel: 'nofollow')
+      content_tag(:div, body, class: 'card-action')
     end
 
     def idify(*strs)

@@ -1782,4 +1782,137 @@ describe 'GET and POST /', type: :feature, js: true do
       end
     end
   end
+
+  context 'show_after' do
+    it 'should show items that have a show after duration that is past' do
+      content = [{
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 1.day
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_content('Wie is de mol?')
+    end
+    it 'should not show items that have a show after duration that is future' do
+      content = [{
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 2.weeks
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to_not have_content('Wie is de mol?')
+    end
+    it 'should show items that have a show after absolute time that is past' do
+      content = [{
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 5.minutes.ago
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_content('Wie is de mol?')
+    end
+    it 'should not show items that have a show after absolute time that is future' do
+      content = [{
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 2.days.from_now
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to_not have_content('Wie is de mol?')
+    end
+  end
+
+  context 'unsubscribe' do
+    it 'should work without specifying title, content, and button text' do
+      content = [{
+        type: :unsubscribe
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_content('Uitschrijven')
+    end
+    it 'should work when specifying title, content, and button text' do
+      content = [{
+        type: :unsubscribe,
+        title: 'Creativity Inc',
+        content: 'Overcoming the unseen forces that stand in the way of true inspiration',
+        button_text: 'Edwin Catmull'
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_content('Creativity Inc')
+      expect(page).to have_content('Overcoming the unseen forces that stand in the way of true inspiration')
+      expect(page).to have_content('Edwin Catmull')
+    end
+  end
 end

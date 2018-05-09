@@ -12,6 +12,10 @@ class InvitationTexts
       raise 'method first_response_pool not implemented by subclass!'
     end
 
+    def repeated_first_response_pool
+      raise 'method repeated_first_response_pool not implemented by subclass!'
+    end
+
     def second_response_pool
       raise 'method second_response_pool not implemented by subclass!'
     end
@@ -140,8 +144,7 @@ class InvitationTexts
     def first_responses_conditions(protocol_completion, curidx)
       sms_pool = []
 
-      # Voormeting
-      sms_pool += first_response_pool if curidx.zero?
+      sms_pool += first_response_conditions(protocol_completion, curidx) if curidx.zero?
 
       # Eerste dagboekmeting
       sms_pool += second_response_pool if curidx == 1 && sms_pool.empty?
@@ -153,12 +156,28 @@ class InvitationTexts
       sms_pool
     end
 
+    def first_response_conditions(protocol_completion, _curidx)
+      sms_pool = []
+
+      # Repeated Voormeting
+      sms_pool += repeated_first_response_pool if completed_some?(protocol_completion)
+
+      # Voormeting
+      sms_pool += first_response_pool if !completed_some?(protocol_completion) && sms_pool.empty?
+
+      sms_pool
+    end
+
     def current_index(protocol_completion)
       protocol_completion.find_index { |entry| entry[:future] }
     end
 
     def truncated_protocol_completion(protocol_completion, curidx)
       protocol_completion[0..curidx]
+    end
+
+    def completed_some?(protocol_completion)
+      protocol_completion.map { |x| x[:completed] }.any?
     end
 
     def missed_first_two_responses(protocol_completion, curidx)

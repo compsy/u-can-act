@@ -17,9 +17,11 @@ class StudentInvitationTexts < InvitationTexts
     def repeated_first_response_pool
       # Voormeting (repeated)
       [
-        'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze week ' \
-        'ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ingevuld. ' \
-        'Je beloning loopt gewoon door natuurlijk!'
+        'Bedankt voor je inzet! Door een technische fout kreeg je vorige week een verkeerde ' \
+        '\'welkom bij het onderzoek\' sms toegestuurd, maar het onderzoek en je beloning lopen ' \
+        'gewoon door. Onze excuses voor de verwarring. Als je op de link klikt kom je eerst nog ' \
+        'even bij de allereerste vragenlijst (de voormeting; die had je nog niet ingevuld), ' \
+        'daarna kom je gewoon weer bij de wekelijkse vragenlijst.'
       ]
     end
 

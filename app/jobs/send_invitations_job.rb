@@ -37,9 +37,15 @@ class SendInvitationsJob < ApplicationJob
   def random_message(response)
     if response.protocol_subscription.person.mentor?
       mentor_texts(response)
-    else # Student
-      response.substitute_variables(StudentInvitationTexts.message(response.protocol_subscription.protocol,
-                                                                   response.protocol_subscription.protocol_completion))
+    elsif filled_out_student_voormeting_last_week?(response)
+      'Bedankt voor je inzet! Door een technische fout kreeg je vorige week een verkeerde ' \
+      '\'welkom bij het onderzoek\' sms toegestuurd, maar het onderzoek en je beloning lopen ' \
+      'gewoon door. Onze excuses voor de verwarring. Hier weer een link naar de wekelijkse vragenlijst:'
+    else
+      response.substitute_variables(
+        StudentInvitationTexts.message(response.protocol_subscription.protocol,
+                                       response.protocol_subscription.protocol_completion)
+      )
     end
   end
 
@@ -59,15 +65,35 @@ class SendInvitationsJob < ApplicationJob
   end
 
   # rubocop:disable Metrics/AbcSize
+  def filled_out_student_voormeting_last_week?(response)
+    return false unless Time.zone.now > Time.new(2018, 5, 10, 9).in_time_zone &&
+                        Time.zone.now < Time.new(2018, 5, 14).in_time_zone
+    person = response.protocol_subscription.person
+    measurements = Questionnaire.find_by_name('voormeting studenten')&.measurements
+    if measurements.blank? || measurements.count != 2
+      Rails.logger.info '[Attention] ERROR: voormeting studenten measurements not found'
+      puts 'ERROR: voormeting studenten measurements not found'
+      return false
+    end
+    Response.where('completed_at IS NOT NULL AND completed_at >= :begin_at AND completed_at <= :end_at',
+                   begin_at: Time.new(2018, 5, 3, 10).in_time_zone,
+                   end_at: Time.new(2018, 5, 10, 9, 59).in_time_zone)
+            .where('measurement_id = :measid1 OR measurement_id = :measid2',
+                   measid1: measurements.first.id, measid2: measurements.second.id)
+            .where(filled_out_by_id: person.id).count.positive?
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  # rubocop:disable Metrics/AbcSize
   def filled_out_mentor_voormeting_last_week?(response)
     return false unless Time.zone.now > Time.new(2018, 5, 10, 9).in_time_zone &&
                         Time.zone.now < Time.new(2018, 5, 14).in_time_zone
     person = response.protocol_subscription.person
     # the following does not work for student voormeting because it is used in multiple measurements
-    measurement = Questionnaire.find_by_name('voormeting mentoren').measurements.first
+    measurement = Questionnaire.find_by_name('voormeting mentoren')&.measurements&.first
     if measurement.blank?
-      Rails.logger.info '[Attention] ERROR: voormeting mentoren questionnaire not found'
-      puts 'ERROR: voormeting mentoren questionnaire not found'
+      Rails.logger.info '[Attention] ERROR: voormeting mentoren measurement not found'
+      puts 'ERROR: voormeting mentoren measurement not found'
       return false
     end
     Response.where('completed_at IS NOT NULL AND completed_at >= :begin_at AND completed_at <= :end_at',

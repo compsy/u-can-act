@@ -306,12 +306,15 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :range,
+  min: 0,
+  max: 100,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
   section_end: true
 }]
 ```
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively.
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**

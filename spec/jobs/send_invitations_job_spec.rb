@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SendInvitationsJob do
+describe SendInvitationsJob, focus: true do
   let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, start_date: Time.zone.now.beginning_of_day) }
   let(:responseobj) do
     FactoryBot.create(:response, :invited,
@@ -66,6 +66,9 @@ describe SendInvitationsJob do
                                                       questionnaire: questionnaire,
                                                       open_duration: nil,
                                                       open_from_offset: 0)
+          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
+          protocol_subscription.save!
+          responseobj.open_from = 10.minutes.ago.in_time_zone
           responseobj.save!
           FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
           FactoryBot.create(:response, :completed, protocol_subscription: responseobj.protocol_subscription,
@@ -102,6 +105,9 @@ describe SendInvitationsJob do
                                                       questionnaire: questionnaire,
                                                       open_duration: nil,
                                                       open_from_offset: 0)
+          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
+          protocol_subscription.save!
+          responseobj.open_from = 10.minutes.ago.in_time_zone
           responseobj.save!
           FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
           FactoryBot.create(:response, :completed, protocol_subscription: responseobj.protocol_subscription,
@@ -136,6 +142,9 @@ describe SendInvitationsJob do
                                                       questionnaire: questionnaire,
                                                       open_duration: nil,
                                                       open_from_offset: 0)
+          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
+          protocol_subscription.save!
+          responseobj.open_from = 10.minutes.ago.in_time_zone
           responseobj.save!
           FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
           FactoryBot.create(:response, :completed, protocol_subscription: responseobj.protocol_subscription,
@@ -177,6 +186,9 @@ describe SendInvitationsJob do
                                                       questionnaire: questionnaire,
                                                       open_duration: nil,
                                                       open_from_offset: 0)
+          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
+          protocol_subscription.save!
+          responseobj.open_from = 10.minutes.ago.in_time_zone
           responseobj.save!
           FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
           FactoryBot.create(:response, :completed, protocol_subscription: responseobj.protocol_subscription,
@@ -409,6 +421,9 @@ describe SendInvitationsJob do
                                                       questionnaire: questionnaire,
                                                       open_duration: nil,
                                                       open_from_offset: 0)
+          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
+          protocol_subscription.save!
+          responseobj.open_from = 10.minutes.ago.in_time_zone
           responseobj.save!
           FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
           FactoryBot.create(:response, :completed, protocol_subscription: responseobj.protocol_subscription)
@@ -443,6 +458,9 @@ describe SendInvitationsJob do
                                                       questionnaire: questionnaire,
                                                       open_duration: nil,
                                                       open_from_offset: 0)
+          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
+          protocol_subscription.save!
+          responseobj.open_from = 10.minutes.ago.in_time_zone
           responseobj.save!
           FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
           FactoryBot.create(:response, :completed, protocol_subscription: responseobj.protocol_subscription)
@@ -475,6 +493,9 @@ describe SendInvitationsJob do
                                                       questionnaire: questionnaire,
                                                       open_duration: nil,
                                                       open_from_offset: 0)
+          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
+          protocol_subscription.save!
+          responseobj.open_from = 10.minutes.ago.in_time_zone
           responseobj.save!
           FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
           FactoryBot.create(:response, :completed, protocol_subscription: responseobj.protocol_subscription)

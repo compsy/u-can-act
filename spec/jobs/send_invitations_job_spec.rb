@@ -452,7 +452,7 @@ describe SendInvitationsJob do
       end
 
       it 'should send a repeated text with the repeated voormeting questionnaire text' do
-        Timecop.freeze(2018, 5, 19) do
+        Timecop.freeze(2018, 5, 29) do
           questionnaire = FactoryBot.create(:questionnaire, name: 'voormeting mentoren')
           responseobj.measurement = FactoryBot.create(:measurement,
                                                       questionnaire: questionnaire,

@@ -29,6 +29,7 @@ class ProgressBar extends React.Component {
 
   componentWillUnmount() {
     //TODO: ANDO ALS DIT HIER NOG STAAT MOET JE HET TEGEN ME ZEGGEN!
+    //TODO: Testen of het goed gaat met de clearinterval nu.
     clearInterval(this.state.timer);
   }
 

@@ -1,6 +1,6 @@
 describe("MentorRewardPage", function() {
   beforeEach(function() {
-    component = React.createElement(MentorRewardPage, {});
+    var component = React.createElement(MentorRewardPage, {});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
   

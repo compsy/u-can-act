@@ -82,6 +82,9 @@ RSpec.configure do |config|
     Timecop.return
     DatabaseCleaner.clean
     ActionMailer::Base.deliveries.clear
+    MessageBirdAdapter.deliveries.clear
+    ActiveJob::Base.queue_adapter = :delayed_job # other tests may leave a lingering :test here,
+    # causing delayed job specs to fail
   end
 
   config.before(type: :feature) do

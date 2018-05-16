@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-# frozen_string_literal: true
 
 require 'rails_helper'
 
 describe AdminController, type: :controller do
+  render_views
   describe "GET 'index'" do
     it 'should initiate an team overview' do
       basic_auth 'admin', 'admin'
@@ -59,7 +59,8 @@ describe AdminController, type: :controller do
         routes_list.each do |route|
           get route, params: { id: 'some_questionnaire' }
           expect(response.status).to eq 404
-          expect(response.body).to eq 'Questionnaire with that name not found.'
+          expect(response).to render_template(layout: 'application')
+          expect(response.body).to include 'Questionnaire with that name not found.'
         end
       end
 

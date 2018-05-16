@@ -1,10 +1,10 @@
 # frozen_string_literal: true
-
 db_title = '' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'dagboek mentoren'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
+dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [{
   id: :v1, # 1
   type: :radio,

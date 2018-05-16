@@ -11,7 +11,7 @@ end
 ruby '2.4.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.1.6'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 0.20.0'

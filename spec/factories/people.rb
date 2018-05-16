@@ -22,6 +22,10 @@ FactoryBot.define do
     end
   end
 
+  trait :with_test_phone_number do
+    mobile_phone '0654125412'
+  end
+
   factory :mentor, class: 'Person', parent: :person do
     email 'mentor@mentor.com'
     role { FactoryBot.create(:role, group: Person::MENTOR, title: 'mentor Title') }

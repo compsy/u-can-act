@@ -31,9 +31,12 @@ describe ProtocolTransferExporter do
       student = FactoryBot.create(:student)
       mentor = FactoryBot.create(:mentor, email: 'mentor3@mentor.com')
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
+
+      ENV['TEST_PHONE_NUMBERS'] = '0653415423,0621312311'
+
       mentor2 = FactoryBot.create(:mentor,
                                   email: 'mentor4@mentor.com',
-                                  mobile_phone: Exporters::TEST_PHONE_NUMBERS.first)
+                                  mobile_phone: ENV['TEST_PHONE_NUMBERS'].split(',').first)
       protocol_subscription.transfer!(mentor2)
       export = described_class.export_lines.to_a.join.split("\n")
       expect(export.size).to eq 2

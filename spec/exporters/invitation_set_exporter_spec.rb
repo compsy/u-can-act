@@ -19,10 +19,11 @@ describe InvitationSetExporter do
       mentor = FactoryBot.create(:mentor)
       FactoryBot.create(:invitation_set, person: mentor)
       # create a response that should be filtered out
-      person = FactoryBot.create(:student, mobile_phone: '0611055958')
+      person = FactoryBot.create(:student, :with_test_phone_number)
       invitation_set = FactoryBot.create(:invitation_set, person: person)
       FactoryBot.create(:response, invitation_set: invitation_set)
     end
+
     it 'works with invitation sets' do
       export = described_class.export_lines.to_a.join.split("\n")
       expect(export.size).to eq 3

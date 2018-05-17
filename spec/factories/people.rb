@@ -23,7 +23,7 @@ FactoryBot.define do
   end
 
   trait :with_test_phone_number do
-    mobile_phone '0654125412'
+    mobile_phone ENV['TEST_PHONE_NUMBERS'].split(',').first
   end
 
   factory :mentor, class: 'Person', parent: :person do

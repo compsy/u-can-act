@@ -35,7 +35,7 @@ namespace :scheduler do
 
   task monitoring: :environment do
     puts 'Monitoring - started'
-    SnitchJob.notify
+    SnitchJob.perform_later
     puts 'Monitoring - done'
   end
 end

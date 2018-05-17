@@ -59,6 +59,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>
   REDIS_PASSWORD: <the password of the redis host>
+
+  SNITCH_KEY: <the key which the snitcher should call>
 ```
 
 ### Development configuration

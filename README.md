@@ -60,6 +60,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>
   REDIS_PASSWORD: <the password of the redis host>
+
+  TEST_PHONE_NUMBERS: <the list of phonenumbers that are actually test phone numbers. The list needs to be comma separated, eg 0612341234,0676565641>
 ```
 
 ### Development configuration

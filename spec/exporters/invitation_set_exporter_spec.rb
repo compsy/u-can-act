@@ -13,10 +13,10 @@ describe InvitationSetExporter do
   end
 
   context 'with invitation sets' do
-      let!(:student) {FactoryBot.create(:student)}
-      let!(:mentor)  {FactoryBot.create(:mentor)}
-      # create a response that should be filtered out
-      let!(:person) {FactoryBot.create(:student, :with_test_phone_number)}
+    let!(:student) { FactoryBot.create(:student) }
+    let!(:mentor)  { FactoryBot.create(:mentor) }
+    # create a response that should be filtered out
+    let!(:person) { FactoryBot.create(:student, :with_test_phone_number) }
 
     before do
       FactoryBot.create(:invitation_set, person: student)
@@ -28,7 +28,7 @@ describe InvitationSetExporter do
 
     it 'works with invitation sets' do
       export = described_class.export_lines.to_a.join.split("\n")
-      expect( ENV['TEST_PHONE_NUMBERS'].split(',')).to include person.mobile_phone
+      expect(ENV['TEST_PHONE_NUMBERS'].split(',')).to include person.mobile_phone
       expect(export.size).to eq 3
       # bubblebabble format for first field (person_id)
       expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)

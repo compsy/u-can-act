@@ -24,7 +24,7 @@ describe PersonExporter do
       let(:export) { described_class.export_lines.to_a.join.split("\n") }
 
       it 'creates the correct bubblebable format' do
-        expect( ENV['TEST_PHONE_NUMBERS'].split(',')).to include student2.mobile_phone
+        expect(ENV['TEST_PHONE_NUMBERS'].split(',')).to include student2.mobile_phone
 
         expect(export.size).to eq 4
 

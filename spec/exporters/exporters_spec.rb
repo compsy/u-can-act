@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 describe Exporters do
+  before do
+    @old_env = ENV['TEST_PHONE_NUMBERS']
+  end
+
+  after do
+    ENV['TEST_PHONE_NUMBERS'] = @old_env
+  end
+
   describe 'test_phone_number?' do
     it 'should check if the phone number is listed in the env var when there is one phone number in ENV' do
       ENV['TEST_PHONE_NUMBERS'] = '0612341234'

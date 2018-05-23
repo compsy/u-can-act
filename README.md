@@ -3,7 +3,6 @@ Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependency Status][gemnasium-image]][gemnasium-url]
 
 
 ## Installation
@@ -60,6 +59,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>
   REDIS_PASSWORD: <the password of the redis host>
+
+  SNITCH_KEY: <the key which the snitcher should call>
 ```
 
 ### Development configuration
@@ -306,12 +307,15 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :range,
+  min: 0,
+  max: 100,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
   section_end: true
 }]
 ```
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively.
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**
@@ -467,6 +471,3 @@ Unsubscribe questions do not need an `id`.
 
 [coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
-
-[gemnasium-image]: https://gemnasium.com/badges/github.com/compsy/vsv.svg
-[gemnasium-url]: https://gemnasium.com/github.com/compsy/vsv

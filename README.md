@@ -3,7 +3,6 @@ Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependency Status][gemnasium-image]][gemnasium-url]
 
 
 ## Installation
@@ -472,6 +471,3 @@ Unsubscribe questions do not need an `id`.
 
 [coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
-
-[gemnasium-image]: https://gemnasium.com/badges/github.com/compsy/vsv.svg
-[gemnasium-url]: https://gemnasium.com/github.com/compsy/vsv

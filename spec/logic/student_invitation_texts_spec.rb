@@ -15,6 +15,36 @@ describe StudentInvitationTexts do
       expect(described_class.message(protocol, protocol_completion)).to eq expected
     end
 
+    it 'should send a special message when the voormeting is not yet filled out' do
+      Timecop.freeze(2018, 5, 19) do
+        protocol_completion = [
+          { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 },
+          { completed: true, periodical: true, reward_points: 0, future: false, streak: 1 },
+          { completed: false, periodical: true, reward_points: 0, future: true, streak: 2 }
+        ]
+        expected = 'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze week ' \
+          'ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ingevuld. ' \
+          'Je beloning loopt gewoon door natuurlijk!'
+        expect(described_class.message(protocol, protocol_completion)).to eq expected
+      end
+    end
+
+    it 'should send a different message in a certain week' do
+      Timecop.freeze(2018, 5, 12) do
+        protocol_completion = [
+          { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 },
+          { completed: true, periodical: true, reward_points: 0, future: false, streak: 1 },
+          { completed: false, periodical: true, reward_points: 0, future: true, streak: 2 }
+        ]
+        expected = 'Bedankt voor je inzet! Door een technische fout kreeg je vorige week een verkeerde ' \
+          '\'welkom bij het onderzoek\' sms toegestuurd, maar het onderzoek en je beloning lopen ' \
+          'gewoon door. Onze excuses voor de verwarring. Als je op de link klikt kom je eerst nog ' \
+          'even bij de allereerste vragenlijst (de voormeting; die had je nog niet ingevuld), ' \
+          'daarna kom je gewoon weer bij de wekelijkse vragenlijst.'
+        expect(described_class.message(protocol, protocol_completion)).to eq expected
+      end
+    end
+
     it 'should send a special message for the first weekly questionnaire' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
@@ -181,6 +211,13 @@ describe StudentInvitationTexts do
     it 'should not raise an error' do
       expect do
         described_class.first_response_pool
+      end.not_to raise_error
+    end
+  end
+  describe 'repeated_first_response_pool' do
+    it 'should not raise an error' do
+      expect do
+        described_class.repeated_first_response_pool
       end.not_to raise_error
     end
   end

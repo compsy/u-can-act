@@ -46,7 +46,7 @@ class Person < ApplicationRecord
   def last_completed_response
     protocol_subscriptions.map { |x| x.responses.completed }
                           .flatten
-                          .sort_by(&:completed_at).last
+                          .max_by(&:completed_at)
   end
 
   def mentor?

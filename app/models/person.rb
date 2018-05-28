@@ -65,6 +65,10 @@ class Person < ApplicationRecord
     protocol_subscriptions.map(&:max_reward_points).reduce(0, :+)
   end
 
+  def max_still_earnable_reward_points
+    protocol_subscriptions.active.map(&:max_still_earnable_reward_points).reduce(0, :+)
+  end
+
   def my_protocols
     return [] if protocol_subscriptions.blank?
     protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id }

@@ -14,4 +14,12 @@ class Reward < ApplicationRecord
     end
     total_reward_points / 100.0
   end
+
+  def self.max_still_earnable_euros
+    students = Person.all.reject{|person| person.mentor?}
+    max_still_earnable_reward_points = students.reduce(0) do |total, student|
+      total + student.max_still_earnable_reward_points
+    end
+    max_still_earnable_reward_points / 100.0
+  end
 end

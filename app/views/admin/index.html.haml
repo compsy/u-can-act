@@ -8,8 +8,9 @@
       = button_tag('Preview questionnaire', type: 'submit', class: 'btn waves-effect waves-light')
 .col.s6
   .section
-    %h4 Money Earned So Far
-    = print_as_money(Reward.total_euros)
+    %h4 Reward Money
+    %p= "Total earned so far: #{print_as_money(Reward.total_euros)}"
+    %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
 .col.s12
   .section
   = react_component('AdminRouter')

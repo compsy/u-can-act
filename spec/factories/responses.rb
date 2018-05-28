@@ -13,6 +13,14 @@ FactoryBot.define do
         response.complete!
       end
     end
+
+    trait :not_expired do
+      open_from 1.minute.ago.in_time_zone
+      after(:build) do |response|
+        FactoryBot.create(:protocol_subscription, responses: [response], end_date: 10.days.from_now)
+      end
+    end
+
     trait :future do
       open_from 10.days.from_now
     end

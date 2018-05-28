@@ -24,7 +24,8 @@ class InvitationSetExporter < ObjectExporter
     end
 
     def to_be_skipped?(invitation_set)
-      TEST_PHONE_NUMBERS.include?(invitation_set.person.mobile_phone)
+      invitation_set.person.mobile_phone
+      Exporters.test_phone_number?(invitation_set.person.mobile_phone)
     end
   end
 end

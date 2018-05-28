@@ -19,7 +19,6 @@ describe ProtocolTransferExporter do
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
       mentor2 = FactoryBot.create(:mentor, email: 'mentor2@mentor.com')
       protocol_subscription.transfer!(mentor2)
-
     end
 
     it 'works with protocol transfers' do

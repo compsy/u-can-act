@@ -25,7 +25,7 @@ class ProtocolTransferExporter < ObjectExporter
     end
 
     def to_be_skipped?(protocol_transfer)
-      TEST_PHONE_NUMBERS.include?(protocol_transfer.protocol_subscription.person.mobile_phone)
+      Exporters.test_phone_number?(protocol_transfer.protocol_subscription.person.mobile_phone)
     end
   end
 end

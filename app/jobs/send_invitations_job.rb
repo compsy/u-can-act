@@ -103,12 +103,20 @@ class SendInvitationsJob < ApplicationJob
   end
   # rubocop:enable Metrics/AbcSize
 
+  def one_time_reminder_window
+    Time.zone.now > Time.new(2018, 5, 17, 9).in_time_zone &&
+      Time.zone.now < Time.new(2018, 5, 21).in_time_zone
+  end
+
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def mentor_texts(response)
-    if filled_out_mentor_voormeting_last_week?(response)
+    if one_time_reminder_window
+      "Hoi #{target_first_name(response)}, tot morgen 18.00 uur kan je de vragenlijst " \
+      'weer voor jouw jongeren invullen. Veel succes!'
+    elsif filled_out_mentor_voormeting_last_week?(response)
       'Bedankt voor je inzet! Door een technische fout kreeg je vorige week een verkeerde ' \
       '\'welkom bij het onderzoek\' sms toegestuurd, maar het onderzoek loopt gewoon door. ' \
       'Onze excuses voor de verwarring. Bij deze weer een link naar de wekelijkse vragenlijst:'

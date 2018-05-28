@@ -3,7 +3,6 @@ Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependency Status][gemnasium-image]][gemnasium-url]
 
 
 ## Installation
@@ -62,6 +61,7 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   REDIS_PASSWORD: <the password of the redis host>
 
   TEST_PHONE_NUMBERS: <the list of phonenumbers that are actually test phone numbers. The list needs to be comma separated, eg 0612341234,0676565641>
+  SNITCH_KEY: <the key which the snitcher should call>
 ```
 
 ### Development configuration
@@ -472,6 +472,3 @@ Unsubscribe questions do not need an `id`.
 
 [coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
-
-[gemnasium-image]: https://gemnasium.com/badges/github.com/compsy/vsv.svg
-[gemnasium-url]: https://gemnasium.com/github.com/compsy/vsv

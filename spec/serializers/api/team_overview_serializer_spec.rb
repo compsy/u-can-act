@@ -114,7 +114,7 @@ describe Api::TeamOverviewSerializer do
         (0..1).each do |idx|
           expect(result[idx][:name]).to eq overview_no_mentors[idx][:name]
 
-          if overview_no_mentors[idx][:data].keys.include? group
+          if overview_no_mentors[idx][:data].key?(group)
             completed_expected = overview_no_mentors[idx][:data][group][:completed]
 
             percentage = overview_no_mentors[idx][:data][group][:completed].to_d /

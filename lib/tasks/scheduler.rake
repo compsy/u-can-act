@@ -32,4 +32,10 @@ namespace :scheduler do
     CleanupInvitationTokens.run
     puts 'Destroying stale invitation tokens - done'
   end
+
+  task monitoring: :environment do
+    puts 'Monitoring - started'
+    SnitchJob.perform_later
+    puts 'Monitoring - done'
+  end
 end

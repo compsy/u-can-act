@@ -1,0 +1,13 @@
+nl:
+  activerecord:
+    attributes:
+      person:
+        first_name: Voornaam
+        last_name: Achternaam
+        gender: Geslacht
+        email: Emailadres 
+        mobile_phone: Mobiele telefoonnummer
+    models:
+      person:
+        one: Persoon
+        other: Personen

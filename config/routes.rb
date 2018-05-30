@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   post '/informed_consent' => 'questionnaire#create_informed_consent'
   get '/klaar' => 'reward#index'
-  post '/' => "questionnaire#create"
+  post '/' => 'questionnaire#create'
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]
-  resources :questionnaire, only: [:index, :show, :create, :destroy], param: :uuid
+  resources :questionnaire, only: %i[index show create destroy], param: :uuid
+  resource :person, only: %i[edit update]
 
   # Admin panel
   scope path: :admin do

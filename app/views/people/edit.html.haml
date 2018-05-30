@@ -1,0 +1,43 @@
+= render partial: 'shared/header'
+- if @person.errors.any?
+  .col.s12
+    .card.light-grey-background-color
+      .card-content.black-text
+        %span.card-title
+          = @person.errors.count
+          = t('misc.error', :count => @person.errors.count)
+          in de gegevens, het volgende moet aangepast worden:
+        %ul
+          - @person.errors.full_messages.each do |msg|
+            %li= msg
+.extra-spacing.row
+  .col.s12
+    %h5 Accountgegevens bewerken
+.extra-spacing.row
+  .col.s12
+    = form_for(@person) do |f|
+      .input-field
+        = f.label :first_name
+        = f.text_field :first_name, required: false, title: "Voornaam"
+      .input-field
+        = f.label :last_name
+        = f.text_field :last_name, required: false, title: "Achternaam"
+      .input-field
+        = f.label :gender, name: 'gender'
+        %br/
+        %p
+          = f.radio_button :gender, "male"
+          = f.label :gender, value: "male" do
+            Man
+        %p
+          = f.radio_button :gender, "female"
+          = f.label :gender, value: "female" do
+            Vrouw
+      .input-field
+        = f.label :email
+        = f.email_field :email, required: false, title: "email"
+      .input-field
+        = f.label :mobile_phone
+        = f.telephone_field :mobile_phone, autofocus: true, maxlength: 10, required: true, pattern: "[0-9]{10}", title: "Vul de tien getallen in zonder streepje."
+      .actions
+        = f.submit "Opslaan", class: "btn waves-effect waves-light"

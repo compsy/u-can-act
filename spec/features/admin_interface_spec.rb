@@ -18,7 +18,7 @@ describe 'GET /admin', type: :feature, js: true do
       expect(page).to have_content('HTTP Basic: Access denied.')
     end
 
-    it 'should be able to download questionnaires correctly', focus: true do
+    it 'should be able to download questionnaires correctly' do
       basic_auth 'admin', 'admin', '/admin'
       visit '/admin'
 
@@ -26,7 +26,7 @@ describe 'GET /admin', type: :feature, js: true do
       expect(page).to have_content('People')
       expect(page).not_to have_css('a[disabled]')
       expect(page).to have_link('Download', href: '/admin/person_export.csv')
-      page.all('div', text: 'Current Study')[0].click
+      find('ul.collapsible>li:first-child>.collapsible-header').click # fold out the first collapsible thing
       page.all('a', text: 'Download')[0].click
       # expect(page.response_headers['Content-Type']).to eq 'text/csv'
       expected_filename = "people_#{Time.zone.now.to_date}.csv"

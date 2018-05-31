@@ -7,6 +7,7 @@ nl:
         gender: Geslacht
         email: Emailadres 
         mobile_phone: Mobiele telefoonnummer
+        iban: Bankrekeningnummer (IBAN)
     models:
       person:
         one: Persoon

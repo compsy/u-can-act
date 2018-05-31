@@ -8,7 +8,7 @@ class Reward < ApplicationRecord
   belongs_to :protocol
 
   def self.total_euros
-    students = Person.all.reject{|person| person.mentor?}
+    students = Person.all.reject(&:mentor?)
     total_reward_points = students.reduce(0) do |total, student|
       total + student.reward_points
     end
@@ -16,7 +16,7 @@ class Reward < ApplicationRecord
   end
 
   def self.max_still_earnable_euros
-    students = Person.all.reject{|person| person.mentor?}
+    students = Person.all.reject(&:mentor?)
     max_still_earnable_reward_points = students.reduce(0) do |total, student|
       total + student.max_still_earnable_reward_points
     end

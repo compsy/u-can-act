@@ -90,7 +90,8 @@ class ProtocolSubscription < ApplicationRecord
     end
   end
 
-  def completion # cached version
+  def completion
+    # cached version
     @completion ||= protocol_completion
   end
 

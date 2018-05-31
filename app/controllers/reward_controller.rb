@@ -4,6 +4,7 @@ class RewardController < ApplicationController
   include Concerns::IsLoggedIn
   before_action :set_response
   before_action :set_protocol_subscription
+  before_action :use_mentor_layout
 
   def index; end
 
@@ -19,5 +20,9 @@ class RewardController < ApplicationController
 
   def set_protocol_subscription
     @protocol_subscription = @response.protocol_subscription
+  end
+
+  def use_mentor_layout
+    @use_mentor_layout = @response.protocol_subscription.person.mentor?
   end
 end

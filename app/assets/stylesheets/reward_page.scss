@@ -135,3 +135,38 @@ $box-shadow2: ();
 .pulse {
   overflow: hidden;
 }
+
+//.material-tooltip span::after {
+    //content: " ";
+    //position: absolute;
+    //bottom: 100%;  [> At the top of the tooltip <]
+    //left: 50%;
+    //margin-left: -5px;
+    //border-width: 5px;
+    //border-style: solid;
+    //border-color: transparent transparent black transparent;
+//}
+.material-tooltip {
+
+    $bg: $accent-color;   // #1B2962; buenaparte blue
+    padding: 5px 20px 20px;
+    border-radius: 10px;
+    background: $bg;
+    overflow: visible;
+  .backdrop {
+      display: none !important;
+  }
+
+&:after {
+    position: absolute;
+    content: " ";
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent $bg transparent;
+}
+}
+
+

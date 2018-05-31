@@ -2,22 +2,38 @@ class RewardPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: undefined
+      result: undefined,
+      person: undefined
     };
   }
 
   componentDidMount() {
     this.loadRewardData(this.props.protocolSubscriptionId);
+    this.loadCurrentPerson();
   }
 
   componentWillReceiveProps(nextProps) {
     this.loadRewardData(nextProps.protocolSubscriptionId);
+    this.loadCurrentPerson();
   }
 
   isDone() {
     return !this.state.result.protocol_completion.some((entry) => {
       return entry.future
     })
+  }
+
+  loadCurrentPerson() {
+    var self = this
+
+    // Only update if the subscription id has changed
+    let url = '/api/v1/person/me';
+    $.getJSON(url, (response) => {
+      console.log(response);
+      self.setState({
+        person: response
+      })
+    });
   }
 
   loadRewardData(protocolSubscriptionId) {
@@ -59,7 +75,7 @@ class RewardPage extends React.Component {
   }
 
   render() {
-    if (!this.state.result) {
+    if (!this.state.result || !this.state.person) {
       return <div>Bezig...</div>
     }
 
@@ -72,7 +88,7 @@ class RewardPage extends React.Component {
             {result}
             <ul>
               <li><a href='/disclaimer'>Disclaimer</a></li>
-              <li><a href='/person/edit'>Gegevens aanpassen</a></li>
+              <li><EditPersonLink person={this.state.person} /></li>
             </ul>
           </div>
         </div>

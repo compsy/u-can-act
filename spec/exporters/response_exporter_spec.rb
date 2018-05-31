@@ -19,7 +19,7 @@ describe ResponseExporter do
   context 'with valid questionnaire' do
     it 'works with responses' do
       # create a response that should be filtered out
-      person = FactoryBot.create(:student, mobile_phone: '0611055958')
+      person = FactoryBot.create(:student, :with_test_phone_number)
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
       FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: responseobj.measurement)
       export = described_class.export_lines(responseobj.measurement.questionnaire.name).to_a.join.split("\n")
@@ -30,6 +30,7 @@ describe ResponseExporter do
       expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
+
     it 'works without responses' do
       questionnaire_content = [{
         section_start: 'Algemeen',

@@ -24,7 +24,7 @@ class ResponseExporter
     def export(questionnaire, headers, &_block)
       silence_logger do
         response_query(questionnaire).each do |response|
-          next if TEST_PHONE_NUMBERS.include?(response.protocol_subscription.person.mobile_phone)
+          next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
           vals = response_hash(response)
           response_values = response.values
           vals.merge!(response_values) if response_values.present?
@@ -43,7 +43,7 @@ class ResponseExporter
       silence_logger do
         Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
                 .where.not(content: nil).find_each do |response|
-          next if TEST_PHONE_NUMBERS.include?(response.protocol_subscription.person.mobile_phone)
+          next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
           # Response has a .values function, which we are using here (i.e., it is not a hash from which we get the
           # values)
           response.values.each do |key, _value|

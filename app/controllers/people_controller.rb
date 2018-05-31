@@ -22,7 +22,7 @@ class PeopleController < ApplicationController
   end
 
   def person_params
-    params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone)
+    params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
   end
 
   def set_current_person

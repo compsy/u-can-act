@@ -74,8 +74,12 @@ RSpec.describe PeopleController, type: :controller do
       expect(response.location).to eq klaar_url
     end
 
-    xit 'should show the correct notification' do
-      # TODO: Test
+    it 'should show the correct notification' do
+      person_attributes = person.attributes.slice('email', 'first_name', 'last_name', 'email', 'mobile_phone')
+
+      expect(flash[:notice]).to be_blank
+      put :update, params: { person: person_attributes }
+      expect(flash[:notice]).to_not be_blank
     end
 
     it 'should render edit when updated attributes are missing' do

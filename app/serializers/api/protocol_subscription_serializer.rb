@@ -33,35 +33,24 @@ module Api
     end
 
     def max_still_awardable_euros
-      from = latest_streak_value_index + 1
-      to = from + object.responses.future.length
-      sliced_completion = completion.slice((from...to))
-      object.protocol.calculate_reward(sliced_completion, true)
+      object.max_still_earnable_reward_points
     end
 
     def euro_delta
-      latest_streak_value = completion[latest_streak_value_index]
+      latest_streak_value = completion[object.latest_streak_value_index]
       return 0 unless latest_streak_value.present?
       object.protocol.calculate_reward([latest_streak_value])
     end
 
     def current_multiplier
-      current_completion = completion[latest_streak_value_index]
+      current_completion = completion[object.latest_streak_value_index]
       return 1 unless current_completion.present?
-      latest_streak_value = completion[latest_streak_value_index][:streak]
+      latest_streak_value = completion[object.latest_streak_value_index][:streak]
       object.protocol.find_correct_multiplier(latest_streak_value)
     end
 
     def initial_multiplier
       object.protocol.rewards&.find_by_threshold(1)&.reward_points || 1
-    end
-
-    private
-
-    def latest_streak_value_index
-      completion_index = completion.find_index { |entry| entry[:future] }
-      return 0 if completion_index.nil? || (completion_index - 1).negative?
-      completion_index - 1
     end
   end
 end

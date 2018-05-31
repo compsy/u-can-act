@@ -175,7 +175,8 @@ class QuestionnaireGenerator
       submit_body = content_tag(:button,
                                 submit_text,
                                 type: 'submit',
-                                class: 'btn waves-effect waves-light')
+                                class: 'btn waves-effect waves-light',
+                                data: { disable_with: 'Bezig...' })
       submit_body = content_tag(:div, submit_body, class: 'col s12')
       submit_body = content_tag(:div, submit_body, class: 'row section')
       submit_body

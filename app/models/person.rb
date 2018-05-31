@@ -54,19 +54,19 @@ class Person < ApplicationRecord
   end
 
   def reward_points
-    protocol_subscriptions.map(&:reward_points).reduce(0, :+)
+    protocol_subscriptions.sum(&:reward_points)
   end
 
   def possible_reward_points
-    protocol_subscriptions.map(&:possible_reward_points).reduce(0, :+)
+    protocol_subscriptions.sum(&:possible_reward_points)
   end
 
   def max_reward_points
-    protocol_subscriptions.map(&:max_reward_points).reduce(0, :+)
+    protocol_subscriptions.sum(&:max_reward_points)
   end
 
   def max_still_earnable_reward_points
-    protocol_subscriptions.active.map(&:max_still_earnable_reward_points).reduce(0, :+)
+    protocol_subscriptions.active.sum(&:max_still_earnable_reward_points)
   end
 
   def my_protocols

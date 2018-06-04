@@ -3,13 +3,12 @@
 require 'digest/bubblebabble'
 
 module Exporters
-  TEST_PHONE_NUMBERS = [
-    '0622708372', # Frank
-    '0618654931', # Nick
-    '0630737625', # Teun
-    '0611055958', # Ando
-    '0650748891'  # Mandy
-  ].freeze
+  def self.test_phone_number?(phone_number)
+    test_phone_numbers = ENV['TEST_PHONE_NUMBERS']
+    return false if test_phone_numbers.blank?
+    test_phone_numbers = test_phone_numbers.split(',')
+    test_phone_numbers.include?(phone_number)
+  end
 
   def silence_logger
     if ActiveRecord::Base.logger

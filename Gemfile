@@ -137,7 +137,10 @@ group :production, :staging do
 
   # Gem for cheaper worker nodes on Heroku
   # gem 'workless' # disable until this is fixed: https://github.com/lostboy/workless/issues/106#issuecomment-356636649
+  # This is quoted as a possible fix: https://github.com/lostboy/workless/pull/107
 end
+
+gem 'workless', git: 'https://github.com/patricklindsay/workless.git', branch: 'fixes'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.

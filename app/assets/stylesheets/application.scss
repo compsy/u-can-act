@@ -35,6 +35,7 @@ $u-can-act-orange: #ed5800; // if green is 009a73
 $u-can-act-grey: #99b5cd;
 $u-can-act-light-grey: #f6f6f6;
 
+
 .mentor {
   $accent-color: $u-can-act-blue;
   $secondary-color: $u-can-act-blue;
@@ -76,9 +77,7 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/date_picker/default";
   @import "materialize/components/date_picker/default.date";
   @import "materialize/components/date_picker/default.time";
-  .light-grey-background-color {
-    background-color: $u-can-act-light-grey;
-  }
+
   @import "reward_page";
   @import "questionnaire";
 }
@@ -124,11 +123,14 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/date_picker/default";
   @import "materialize/components/date_picker/default.date";
   @import "materialize/components/date_picker/default.time";
+  @import "questionnaire";
+  @import "reward_page";
+}
+
+.mentor, .student {
   .light-grey-background-color {
     background-color: $u-can-act-light-grey;
   }
-  @import "reward_page";
-  @import "questionnaire";
 }
 
 @import "materialize";

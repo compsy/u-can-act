@@ -504,15 +504,13 @@ describe ProtocolSubscription do
   describe 'max_still_earnable_reward_points' do
     it 'should be correct for the first three measurements' do
       protocol = FactoryBot.create(:protocol)
-      FactoryBot.create(:measurement, protocol: protocol)
+      FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol.rewards.create!(threshold: 1, reward_points: 2)
       protocol.rewards.create!(threshold: 3, reward_points: 3)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.zone.now.beginning_of_day)
-      puts protocol_subscription.latest_streak_value_index
-      puts protocol_subscription.protocol_completion.pretty_inspect
       expect(protocol_subscription.max_still_earnable_reward_points).to eq 7
     end
   end

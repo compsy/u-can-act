@@ -74,5 +74,63 @@ RSpec.describe Reward, type: :model do
         expect(reward).to be_valid
       end
     end
+
+    describe 'max_still_earnable_euros' do
+      it 'should work with one person' do
+        protocol = FactoryBot.create(:protocol)
+        FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
+        FactoryBot.create(:measurement, :periodical, protocol: protocol)
+        protocol.rewards.create!(threshold: 1, reward_points: 2)
+        protocol.rewards.create!(threshold: 3, reward_points: 3)
+        FactoryBot.create(:protocol_subscription,
+                          protocol: protocol,
+                          start_date: Time.zone.now.beginning_of_day)
+        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.07
+      end
+      it 'should work with multiple people' do
+        protocol = FactoryBot.create(:protocol)
+        FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
+        FactoryBot.create(:measurement, :periodical, protocol: protocol)
+        protocol.rewards.create!(threshold: 1, reward_points: 2)
+        protocol.rewards.create!(threshold: 3, reward_points: 3)
+        FactoryBot.create(:protocol_subscription,
+                          protocol: protocol,
+                          start_date: Time.zone.now.beginning_of_day)
+        FactoryBot.create(:protocol_subscription,
+                          protocol: protocol,
+                          start_date: Time.zone.now.beginning_of_day)
+        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.14
+      end
+    end
+    describe 'total_euros' do
+      it 'should work with one person' do
+        protocol = FactoryBot.create(:protocol)
+        FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
+        FactoryBot.create(:measurement, :periodical, protocol: protocol)
+        protocol.rewards.create!(threshold: 1, reward_points: 2)
+        protocol.rewards.create!(threshold: 3, reward_points: 3)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  protocol: protocol,
+                                                  start_date: Time.zone.now.beginning_of_day)
+        protocol_subscription.responses.first.complete!
+        expect(Reward.total_euros(bust_cache: true)).to eq 0.01
+      end
+      it 'should work with multiple people' do
+        protocol = FactoryBot.create(:protocol)
+        FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
+        FactoryBot.create(:measurement, :periodical, protocol: protocol)
+        protocol.rewards.create!(threshold: 1, reward_points: 2)
+        protocol.rewards.create!(threshold: 3, reward_points: 3)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  protocol: protocol,
+                                                  start_date: Time.zone.now.beginning_of_day)
+        protocol_subscription.responses.first.complete!
+        protocol_subscription2 = FactoryBot.create(:protocol_subscription,
+                                                   protocol: protocol,
+                                                   start_date: Time.zone.now.beginning_of_day)
+        protocol_subscription2.responses.first.complete!
+        expect(Reward.total_euros(bust_cache: true)).to eq 0.02
+      end
+    end
   end
 end

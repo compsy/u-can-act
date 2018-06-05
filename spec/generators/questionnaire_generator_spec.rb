@@ -36,4 +36,17 @@ describe QuestionnaireGenerator do
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
   end
+  describe 'generate_json_questionnaire' do
+    it 'should replace names in the json' do
+      fail
+    end
+
+    it 'should replace names in the title' do
+      fail
+    end
+
+    it 'should return a hash with the title and content' do
+      fail
+    end
+  end
 end

@@ -78,6 +78,10 @@ class Person < ApplicationRecord
     my_protocols.map { |prot| prot.responses.opened_and_not_expired }.flatten
   end
 
+  def responses
+    my_protocols.map { |prot| prot.responses}.flatten
+  end
+
   def for_someone_else_protocols
     return [] if protocol_subscriptions.blank?
     protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }

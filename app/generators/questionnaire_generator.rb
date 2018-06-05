@@ -22,8 +22,7 @@ class QuestionnaireGenerator
       body
     end
 
-    def generate_json_questionnaire(response_id, content, title)
-      raw_content = content.deep_dup
+    def generate_hash_questionnaire(response_id, content, title)
       title, content = substitute_variables(response_id, title, content)
       { title: title, content: content }
     end

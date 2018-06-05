@@ -24,8 +24,8 @@ module Api
       def set_responses
         # TODO: This will be replaced with current user once we have correct authentication
         person = Person.find_by_external_identifier(response_params[:external_identifier])
-        @responses = person.my_open_responses and return if person.present?
-        render(status: 404, json: 'Persoon met die external_identifier niet gevonden') 
+        (@responses = person.my_open_responses) && return if person.present?
+        render(status: 404, json: 'Persoon met die external_identifier niet gevonden')
       end
 
       def set_response

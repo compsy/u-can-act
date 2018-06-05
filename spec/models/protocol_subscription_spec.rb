@@ -593,7 +593,7 @@ describe ProtocolSubscription do
       protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol)
-      
+
       expect(protocol_subscription.informed_consent_given_at).to be_nil
       expect(protocol_subscription.needs_informed_consent?).to be_truthy
     end

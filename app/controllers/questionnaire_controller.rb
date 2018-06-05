@@ -13,7 +13,7 @@ class QuestionnaireController < ApplicationController
   before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_content_hash, only: [:create]
 
-  def index; 
+  def index
     redirect_to NextPageFinder.get_next_page
   end
 
@@ -93,7 +93,6 @@ class QuestionnaireController < ApplicationController
       break
     end
   end
-
 
   def check_informed_consent
     render :informed_consent if @protocol_subscription.needs_informed_consent?

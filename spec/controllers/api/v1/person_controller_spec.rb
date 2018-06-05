@@ -7,7 +7,7 @@ describe Api::V1::PersonController, type: :controller do
 
   describe 'it requires a person to be logged in' do
     it 'should not show' do
-      get :show, params: { id: 'me' }
+      get :me
       expect(response.status).to eq 401
     end
   end
@@ -21,11 +21,11 @@ describe Api::V1::PersonController, type: :controller do
       allow(controller).to receive(:render)
         .with(json: person, serializer: Api::PersonSerializer)
         .and_call_original
-      get :show, params: { id: 'me' }
+      get :me
     end
 
     it 'should render the correct json' do
-      get :show, params: { id: 'me' }
+      get :me
       expect(response.status).to eq 200
       expect(response.header['Content-Type']).to include 'application/json'
       json = JSON.parse(response.body)

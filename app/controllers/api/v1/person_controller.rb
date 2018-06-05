@@ -5,8 +5,8 @@ module Api
     class PersonController < ApiController
       include ::Concerns::IsLoggedIn
 
-      def show
-        render json: current_user, serializer: Api::PersonSerializer if params[:id] == 'me'
+      def me
+        render json: current_user, serializer: Api::PersonSerializer
       end
     end
   end

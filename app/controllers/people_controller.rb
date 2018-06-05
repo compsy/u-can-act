@@ -9,7 +9,7 @@ class PeopleController < ApplicationController
 
   def update
     if @person.update_attributes(person_params)
-      redirect_to klaar_path, flash: { notice: 'Profile geüpdatet' }
+      redirect_to klaar_path, flash: { notice: 'Gegevens geüpdatet' }
     else
       render :edit
     end

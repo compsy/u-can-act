@@ -587,4 +587,30 @@ describe ProtocolSubscription do
       expect(result).to eq expected
     end
   end
+
+  describe 'needs_informed_consent?' do
+    it 'should return true if the informed consent is not yet provided for a protocol' do
+      protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol)
+      
+      expect(protocol_subscription.informed_consent_given_at).to be_nil
+      expect(protocol_subscription.needs_informed_consent?).to be_truthy
+    end
+
+    it 'should return false if the protocol does not require informed consent' do
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol)
+      expect(protocol_subscription.needs_informed_consent?).to be_falsey
+    end
+
+    it 'should return false if informed consent was given' do
+      protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                informed_consent_given_at: 10.days.ago)
+      expect(protocol_subscription.needs_informed_consent?).to be_falsey
+    end
+  end
 end

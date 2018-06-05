@@ -90,6 +90,11 @@ class ProtocolSubscription < ApplicationRecord
     end
   end
 
+  def needs_informed_consent?
+    !(protocol.informed_consent_questionnaire.blank? ||
+      informed_consent_given_at.present?)
+  end
+
   private
 
   def determine_streak(streak, current_response_completed, current_response_in_future)

@@ -22,21 +22,19 @@ describe Api::V1::ResponseController, type: :controller do
     )
   end
 
-  describe 'requires basic authentication' do
-    it 'should require basic auth for show' do
-      get :show, params: { uuid: response1.uuid }
-      expect(response.status).to eq 401
-    end
+  describe 'show should be authenticated' do
+    let(:params) { { uuid: response1.uuid } }
+    it_should_behave_like 'a basic authenticated route', 'get', :show
+  end
 
-    it 'should require basic auth for index' do
-      get :index
-      expect(response.status).to eq 401
-    end
+  describe 'index should be authenticated' do
+    let(:params) { { external_identifier: person.external_identifier } }
+    it_should_behave_like 'a basic authenticated route', 'get', :index
+  end
 
-    it 'should require basic auth for create' do
-      post :create
-      expect(response.status).to eq 401
-    end
+  describe 'create should be authenticated' do
+    let(:params) { {} }
+    it_should_behave_like 'a basic authenticated route', 'post', :create
   end
 
   describe 'authenticated' do

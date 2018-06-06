@@ -22,7 +22,7 @@ module Api
       @questionnaire = QuestionnaireGenerator.generate_hash_questionnaire(
         object.id,
         questionnaire.content,
-        questionnaire.name
+        questionnaire.title
       )
     end
   end

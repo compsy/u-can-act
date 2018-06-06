@@ -13,9 +13,9 @@ describe Api::PersonalizedQuestionnaireSerializer do
   end
 
   it 'should contain the correct value for the questionnaire_title' do
-    name = response.measurement.questionnaire.name
-    expect(name).to_not be_blank
-    expect(json['questionnaire_title']).to eq name
+    title = response.measurement.questionnaire.title
+    expect(title).to_not be_blank
+    expect(json['questionnaire_title']).to eq title
   end
 
   it 'should contain the correct value for the questionnaire_content' do

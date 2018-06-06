@@ -15,9 +15,4 @@ describe Api::QuestionnaireShortSerializer do
     expect(questionnaire.title).to_not be_blank
     expect(json['title']).to eq questionnaire.title
   end
-
-  it 'should contain the correct value for the name' do
-    expect(questionnaire.name).to_not be_blank
-    expect(json['name']).to eq questionnaire.name
-  end
 end

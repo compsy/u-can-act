@@ -2,6 +2,6 @@
 
 module Api
   class QuestionnaireShortSerializer < ActiveModel::Serializer
-    attributes :key, :title, :name
+    attributes :key, :title
   end
 end

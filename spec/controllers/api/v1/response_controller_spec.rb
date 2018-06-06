@@ -56,7 +56,7 @@ describe Api::V1::ResponseController, type: :controller do
         json = JSON.parse(response.body)
         expect(json).to_not be_nil
         expect(json['uuid']).to eq response1.uuid
-        expect(json['questionnaire_title']).to eq response1.measurement.questionnaire.name
+        expect(json['questionnaire_title']).to eq response1.measurement.questionnaire.title
         expect(json['questionnaire_content']).to_not be_nil
         expect(json['questionnaire_content'].as_json)
           .to eq(response1.measurement.questionnaire.content.as_json)
@@ -99,7 +99,6 @@ describe Api::V1::ResponseController, type: :controller do
         [response1, response2].each_with_index do |resp, index|
           expect(json[index]['uuid']).to eq(resp.uuid)
           expect(json[index]['questionnaire']['key']).to eq(resp.measurement.questionnaire.key)
-          expect(json[index]['questionnaire']['name']).to eq(resp.measurement.questionnaire.name)
           expect(json[index]['questionnaire']['title']).to eq(resp.measurement.questionnaire.title)
         end
       end

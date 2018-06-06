@@ -16,6 +16,6 @@ describe Api::ResponseSerializer do
       .to receive(:new)
       .and_call_original
       .twice
-    puts described_class.new(response).as_json
+    described_class.new(response).as_json
   end
 end

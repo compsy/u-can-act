@@ -4,6 +4,7 @@ module Api
   module V1
     class ApiController < ApplicationController
       include Knock::Authenticable
+      skip_before_action :verify_authenticity_token
 
       private 
 

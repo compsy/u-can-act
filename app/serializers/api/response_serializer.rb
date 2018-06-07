@@ -1,14 +1,11 @@
+<<<<<<< HEAD
 # frozen_string_literal: true
 
 module Api
   class ResponseSerializer < ActiveModel::Serializer
-    attributes :uuid, :questionnaire
-
-    def questionnaire
-      {
-        key: object.measurement.questionnaire.key,
-        name: object.measurement.questionnaire.name
-      }
+    attributes :uuid
+    has_one :questionnaire do
+      QuestionnaireShortSerializer.new(object.measurement.questionnaire)
     end
   end
 end

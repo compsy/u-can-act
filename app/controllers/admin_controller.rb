@@ -7,7 +7,7 @@ class AdminController < ApplicationController
 
   def index
     # exclude pilot study questionnaires
-    @used_questionnaires = Questionnaire.all.reject { |questionnaire| questionnaire.name =~ /x per week/ }
+    @used_questionnaires = Questionnaire.all - Questionnaire.pilot
   end
 
   def preview

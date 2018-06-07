@@ -3,7 +3,6 @@ Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependency Status][gemnasium-image]][gemnasium-url]
 
 
 ## Installation
@@ -60,6 +59,12 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>
   REDIS_PASSWORD: <the password of the redis host>
+
+  TEST_PHONE_NUMBERS: <the list of phonenumbers that are actually test phone numbers. The list needs to be comma separated, eg 0612341234,0676565641>
+  SNITCH_KEY: <the key which the snitcher should call>
+
+  API_KEY: <the secret username that can be used to access the api>
+  API_SECRET: <the secret password that can be used to access the api>
 ```
 
 ### Development configuration
@@ -306,12 +311,15 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :range,
+  min: 0,
+  max: 100,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
   section_end: true
 }]
 ```
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively.
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**
@@ -427,10 +435,10 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
 ```
 If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
 
-### Type: time
+### Type: Time
 Required and allowed options (minimal example):
 
-```
+```ruby
 [{
   id: :v1,
   type: :time,
@@ -442,11 +450,28 @@ Required and allowed options (minimal example):
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
 
+### Type: Unsubscribe
+Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.
+
+Required and allowed options (minimal example):
+
+```ruby
+[{
+  type: :unsubscribe,
+  title: 'Klaar met dit schooljaar?',
+  content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien.',
+  button_text: 'Onderzoek afronden',
+  show_after: Time.new(2018, 6, 15).in_time_zone
+}]
+```
+
+Usable properties for an unsubscribe `question` type are `title`, `content`, and `button_text` (all are optional).
+
+Unsubscribe questions do not need an `id`.
+
+
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv
 
 [coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
-
-[gemnasium-image]: https://gemnasium.com/badges/github.com/compsy/vsv.svg
-[gemnasium-url]: https://gemnasium.com/github.com/compsy/vsv

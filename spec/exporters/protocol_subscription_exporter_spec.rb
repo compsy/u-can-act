@@ -17,7 +17,7 @@ describe ProtocolSubscriptionExporter do
       FactoryBot.create(:student, :with_protocol_subscriptions)
       FactoryBot.create(:mentor, :with_protocol_subscriptions)
       # create a response that should be filtered out
-      person = FactoryBot.create(:student, mobile_phone: '0611055958')
+      person = FactoryBot.create(:student, :with_test_phone_number)
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
       FactoryBot.create(:response, protocol_subscription: protocol_subscription)
     end

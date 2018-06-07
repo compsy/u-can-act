@@ -141,6 +141,46 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
   end
 
+  describe 'DELETE' do
+    describe 'unsubscribing from a protocol' do
+      before :each do
+        cookie_auth(student)
+      end
+      let(:responseobj) { FactoryBot.create(:response, :not_expired) }
+
+      it 'it should stop the protocol subscription' do
+        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::ACTIVE_STATE)
+        delete :destroy, params: { uuid: responseobj.uuid }
+        responseobj.protocol_subscription.reload
+        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
+      end
+
+      it 'should redirect to the correct page' do
+        delete :destroy, params: { uuid: responseobj.uuid }
+        expect(response).to have_http_status(200)
+        expect(response.body).to include('Bedankt voor je deelname!')
+      end
+
+      it 'should redirect to the correct stop measurement if one is available' do
+        protocol_subscription = responseobj.protocol_subscription
+        protocol = protocol_subscription.protocol
+        stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+        stop_response = FactoryBot.create(:response,
+                                          :not_expired,
+                                          measurement: stop_measurement)
+        protocol_subscription.responses << stop_response
+        protocol_subscription.save!
+        expect(protocol_subscription.responses.length).to eq 2
+        delete :destroy, params: { uuid: responseobj.uuid }
+        query = URI.parse(response.location).path.split('/').last
+
+        expect(response).to have_http_status(302)
+        expect(query).to eq stop_response.uuid
+        expect(protocol_subscription.stop_response.uuid).to eq stop_response.uuid
+      end
+    end
+  end
+
   describe 'POST /' do
     describe 'redirecting with a student' do
       before :each do

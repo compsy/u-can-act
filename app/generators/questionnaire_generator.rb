@@ -94,7 +94,7 @@ class QuestionnaireGenerator
     end
 
     def a_time?(value)
-      value.is_a?(ActiveSupport::TimeWithZone) || value.is_a(Time) || value.is_a?(Date) || value.is_a?(DateTime)
+      value.is_a?(ActiveSupport::TimeWithZone) || value.is_a?(Time) || value.is_a?(Date) || value.is_a?(DateTime)
     end
 
     def an_offset?(value)

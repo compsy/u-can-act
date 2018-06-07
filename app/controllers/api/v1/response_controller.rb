@@ -4,7 +4,6 @@ module Api
   module V1
     class ResponseController < ApiController
       before_action :authenticate_auth_user
-      include ::Concerns::IsBasicAuthenticated
       before_action :set_person, only: %i[show index]
       before_action :set_responses, only: %i[index show]
 
@@ -24,12 +23,14 @@ module Api
       private
 
       def set_person
+        Rails.logger.info 'setting user'	
         @person = current_auth_user.person
         return if @person.present?
         render(status: 404, json: 'Deelnemer met dat external id niet gevonden')
       end
 
       def set_responses
+        Rails.logger.info 'setting responses'	
         @responses = @person.my_open_responses
         return if @responses.present?
         render(status: 404, json: 'Geen responses voor deze persoon gevonden')

@@ -115,24 +115,13 @@ class QuestionnaireController < ApplicationController
   end
 
   def verify_cookie
-    signed_in_person_id = current_user&.id
-    response_cookie_person_id = person_for_response_cookie
-    params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
-    return if response_cookie_person_id && signed_in_person_id &&
-              signed_in_person_id == params_person_id &&
-              signed_in_person_id == response_cookie_person_id
-
-    log_cookie
+    # TODO: !!THIS HAS CHANGED A LOT!! NEEDS TO BE CHECKED VERY CAREFULLY!
+    return if AuthenticationVerifier.valid? questionnaire_create_params[:response_id]
     render(status: 401, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
   end
 
-  def person_for_response_cookie
-    response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
-    Response.find_by_id(response_id)&.protocol_subscription&.person_id
-  end
-
   def set_response
-    the_response = Response.find_by_uuid(questionnaire_params[:uuid])
+    the_response = current_user.my_open_responses.find_by_uuid(questionnaire_params[:uuid])
     check_response(the_response)
     return if performed?
     @response = the_response

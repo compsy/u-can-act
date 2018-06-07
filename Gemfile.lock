@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/patricklindsay/workless.git
-  revision: ced5496f9862e67855b3b5c26d929478bda31afb
+  revision: 05bf7d92fa9a6ec98a0b21a8d9593e1843464575
   branch: fixes
   specs:
     workless (2.2.0)

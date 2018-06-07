@@ -2,7 +2,7 @@
 
 module Api
   class ResponseSerializer < ActiveModel::Serializer
-    attributes :id, :questionnaire
+    attributes :uuid, :questionnaire
 
     def questionnaire
       {

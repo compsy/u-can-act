@@ -7,6 +7,7 @@ class Person < ApplicationRecord
 
   MENTOR = 'Mentor'
   STUDENT = 'Student'
+  OTHER = 'Other'
   DEFAULT_PERCENTAGE = 70
 
   IDENTIFIER_LENGTH = 4
@@ -30,6 +31,7 @@ class Person < ApplicationRecord
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
   has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy # invitation_sets.first is
+  has_one :auth_user
   # Not used right now:                                                           the last one created.
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },

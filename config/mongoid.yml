@@ -3,7 +3,7 @@ development:
     default:
       database: vsv_development
       hosts:
-        - docker.io:27017
+        - mongo:27017
       options:
         # Mongoid now supports the new read preferences that the core drivers provide. These include:
         #
@@ -39,7 +39,7 @@ test:
     default:
       database: vsv_test
       hosts:
-        - docker.io:27017
+        - mongo:27017
 
 staging:
   clients:

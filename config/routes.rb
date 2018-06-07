@@ -29,7 +29,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :questionnaire, only: [:show], param: :key
-      resources :response, only: [:show], param: :external_identifier
+      resources :response, only: [:show, :index], param: :uuid
+      resources :people, only: [:create], param: :external_identifier
       get 'statistics', to: 'statistics#index'
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
       namespace :admin do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180423091508) do
+ActiveRecord::Schema.define(version: 20180524215837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,16 @@ ActiveRecord::Schema.define(version: 20180423091508) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.index ["auth0_id_string"], name: "index_admins_on_auth0_id_string", unique: true, using: :btree
+  end
+
+  create_table "auth_users", force: :cascade do |t|
+    t.string   "auth0_id_string"
+    t.string   "password_digest"
+    t.string   "role"
+    t.integer  "person_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["person_id"], name: "index_auth_users_on_person_id", using: :btree
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -194,6 +204,7 @@ ActiveRecord::Schema.define(version: 20180423091508) do
     t.index ["name"], name: "index_teams_on_name", unique: true, using: :btree
   end
 
+  add_foreign_key "auth_users", "people"
   add_foreign_key "invitation_sets", "people"
   add_foreign_key "invitation_tokens", "invitation_sets"
   add_foreign_key "invitations", "invitation_sets"

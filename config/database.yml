@@ -4,7 +4,7 @@ development:
   username: <%= ENV['POSTGRES_USERNAME'] || ENV['USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   encoding: utf8
-  host: docker.io
+  host: db
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -16,4 +16,4 @@ test:
   password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   encoding: utf8
   min_messages: warning
-  host: docker.io
+  host: db

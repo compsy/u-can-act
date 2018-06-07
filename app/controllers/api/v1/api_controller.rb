@@ -7,8 +7,8 @@ module Api
 
       private 
 
-      def unauthorized_entity(_entity_name)
-        render json: { error: "#{_entity_name} Unauthorized request" }, status: :unauthorized
+      def unauthorized_entity(entity_name)
+        render json: { error: "#{entity_name} Unauthorized request" }, status: :unauthorized
       end
 
       def check_access_allowed(protocol_subscription)

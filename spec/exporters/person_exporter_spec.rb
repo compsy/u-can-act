@@ -18,12 +18,14 @@ describe PersonExporter do
     let!(:mentor) { FactoryBot.create :mentor }
 
     # Create a person that should be filtered out
-    let!(:student2) { FactoryBot.create(:student, mobile_phone: '0611055958') }
+    let!(:student2) { FactoryBot.create(:student, :with_test_phone_number) }
 
     describe 'works with people' do
       let(:export) { described_class.export_lines.to_a.join.split("\n") }
 
       it 'creates the correct bubblebable format' do
+        expect(ENV['TEST_PHONE_NUMBERS'].split(',')).to include student2.mobile_phone
+
         expect(export.size).to eq 4
 
         # bubblebabble format for first field (person_id)

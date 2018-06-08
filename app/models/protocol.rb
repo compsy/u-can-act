@@ -4,6 +4,7 @@ class Protocol < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :duration, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   has_many :measurements, dependent: :destroy
+  validate :at_most_one_stop_measurement
   has_many :protocol_subscriptions, dependent: :destroy
   belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire' # can be nil
   has_many :rewards, -> { order threshold: :asc }, dependent: :destroy
@@ -32,7 +33,18 @@ class Protocol < ApplicationRecord
     rewards.last
   end
 
+  def stop_measurement
+    measurements.find(&:stop_measurement?)
+  end
+
   private
+
+  def at_most_one_stop_measurement
+    stop_measurements = measurements.all.select(&:stop_measurement?)
+    return if stop_measurements.blank? || stop_measurements.length <= 1
+
+    errors.add(:measurements, 'can only have a single stop_measurement')
+  end
 
   def create_multiplier_overview(measurement_completion, check_future)
     measurement_completion.map do |current|

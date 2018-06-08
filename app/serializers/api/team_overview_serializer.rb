@@ -15,7 +15,7 @@ module Api
     private
 
     def create_team_overview_hash(team, group)
-      return create_serializable_hash(team[:name]) unless team[:data].keys.include? group
+      return create_serializable_hash(team[:name]) unless team[:data].key?(group)
       create_hash_for_team_with_data(team, group)
     end
 

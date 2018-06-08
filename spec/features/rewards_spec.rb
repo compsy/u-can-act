@@ -80,7 +80,7 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.possible_reward_points).to eq 3
       expect(protocol_subscription.max_reward_points).to eq 3
       expect(page).to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
-      expect(page).to have_content('€3 verdiend.')
+      expect(page).to have_content('€3,- verdiend.')
       expect(page).to have_content('S-team')
       expect(page).to have_content('beloning')
     end

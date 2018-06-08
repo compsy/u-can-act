@@ -501,6 +501,50 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'max_still_earnable_reward_points' do
+    it 'should be correct for the first three measurements' do
+      protocol = FactoryBot.create(:protocol)
+      FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
+      FactoryBot.create(:measurement, :periodical, protocol: protocol)
+      protocol.rewards.create!(threshold: 1, reward_points: 2)
+      protocol.rewards.create!(threshold: 3, reward_points: 3)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.zone.now.beginning_of_day)
+      expect(protocol_subscription.max_still_earnable_reward_points).to eq 7
+    end
+  end
+
+  describe 'latest_streak_value_index' do
+    it 'should be correct' do
+      pc = [{ completed: false, periodical: false, reward_points: 1, future: false, streak: -1 },
+            { completed: false, periodical: true,  reward_points: 1, future: false, streak: 1 },
+            { completed: false, periodical: true,  reward_points: 1, future: true, streak: 2 },
+            { completed: false, periodical: true,  reward_points: 1, future: true, streak: 3 }]
+      expect_any_instance_of(described_class).to receive(:completion).and_return(pc)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      expect(protocol_subscription.latest_streak_value_index).to eq 1
+    end
+    it 'should work when there is no future measurement' do
+      pc = [{ completed: false, periodical: false, reward_points: 1, future: false, streak: -1 },
+            { completed: false, periodical: true,  reward_points: 1, future: false, streak: 1 },
+            { completed: false, periodical: true,  reward_points: 1, future: false, streak: 2 },
+            { completed: false, periodical: true,  reward_points: 1, future: false, streak: 3 }]
+      expect_any_instance_of(described_class).to receive(:completion).and_return(pc)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      expect(protocol_subscription.latest_streak_value_index).to eq 0
+    end
+    it 'should work when the first measurement is in the future' do
+      pc = [{ completed: false, periodical: false, reward_points: 1, future: true, streak: -1 },
+            { completed: false, periodical: true,  reward_points: 1, future: false, streak: 1 },
+            { completed: false, periodical: true,  reward_points: 1, future: true, streak: 2 },
+            { completed: false, periodical: true,  reward_points: 1, future: false, streak: 3 }]
+      expect_any_instance_of(described_class).to receive(:completion).and_return(pc)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      expect(protocol_subscription.latest_streak_value_index).to eq 0
+    end
+  end
+
   describe 'protocol_completion' do
     before do
       Timecop.freeze(2017, 4, 1)

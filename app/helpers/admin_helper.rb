@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module AdminHelper
+  include ActionView::Helpers::NumberHelper
   def file_headers!(name)
     file_name = "#{name}.csv"
     headers['Content-Type'] = 'text/csv'
@@ -28,5 +29,9 @@ module AdminHelper
       result << [questionnaire.name, questionnaire.name]
     end
     result
+  end
+
+  def print_as_money(amount)
+    number_to_currency(amount, locale: :nl)
   end
 end

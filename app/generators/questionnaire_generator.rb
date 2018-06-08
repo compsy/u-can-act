@@ -175,7 +175,8 @@ class QuestionnaireGenerator
       submit_body = content_tag(:button,
                                 submit_text,
                                 type: 'submit',
-                                class: 'btn waves-effect waves-light')
+                                class: 'btn waves-effect waves-light',
+                                data: { disable_with: 'Bezig...' })
       submit_body = content_tag(:div, submit_body, class: 'col s12')
       submit_body = content_tag(:div, submit_body, class: 'row section')
       submit_body
@@ -684,7 +685,7 @@ class QuestionnaireGenerator
       response = Response.find_by_id(question[:response_id])
       url_href = '#'
       url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
-      body = content_tag(:a, question[:button_text].html_safe || 'Uitschrijven',
+      body = content_tag(:a, (question[:button_text] || 'Uitschrijven').html_safe,
                          'data-method': 'delete',
                          href: url_href,
                          class: 'btn waves-effect waves-light navigate-away-allowed',

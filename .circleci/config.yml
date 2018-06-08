@@ -108,23 +108,6 @@ jobs:
       - run: bundle --path vendor/bundle
       - run: bundle exec rubocop
 
-  test_gemnasium:
-    <<: *defaults
-    steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: bundle --path vendor/bundle
-      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
-      - run: ./bin/chromedriver_install # maybe we can do this in a base image
-      - run: ./bin/gemnasium_install
-      - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:27017 -timeout 1m
-      - run: bundle exec rake db:create db:schema:load
-      - run: ./bin/gemnasium
-
   coverage_report:
     <<: *defaults
     steps:
@@ -155,19 +138,3 @@ workflows:
       - coverage_report:
           requires:
             - test_rspec
-
-  nightly:
-    triggers:
-      - schedule:
-          cron: "0 6 * * *" # 6am utc
-          filters:
-            branches:
-              only: master
-    jobs:
-      - checkout_code
-      - build:
-          requires:
-            - checkout_code
-      - test_gemnasium:
-          requires:
-            - build

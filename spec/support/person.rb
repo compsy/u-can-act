@@ -170,6 +170,20 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'responses' do
+    it 'should count all responses for a person' do
+      person = FactoryBot.create(:person)
+      protsub1 = FactoryBot.create(:protocol_subscription, person: person)
+      FactoryBot.create_list(:response, 10, :completed, protocol_subscription: protsub1)
+      FactoryBot.create_list(:response, 7, protocol_subscription: protsub1)
+      protsub2 = FactoryBot.create(:protocol_subscription, person: person)
+      FactoryBot.create_list(:response, 5, :completed, protocol_subscription: protsub2)
+      FactoryBot.create_list(:response, 3, protocol_subscription: protsub2)
+      expect(person.responses.count).to eq 25
+      expect(person.responses.completed.count).to eq 15
+    end
+  end
+
   describe 'invitation_sets' do
     it 'should destroy the invitation_sets when destroying the person' do
       person = FactoryBot.create(:person)

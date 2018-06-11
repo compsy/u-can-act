@@ -76,7 +76,8 @@ class Person < ApplicationRecord
   end
 
   def my_open_responses(for_myself = true)
-    my_protocols(for_myself).map { |prot| prot.responses.opened_and_not_expired }.flatten
+    responses = my_protocols(for_myself).map { |prot| prot.responses.opened_and_not_expired }.flatten
+    responses.sort_by(&:open_from)
   end
 
   def mentor

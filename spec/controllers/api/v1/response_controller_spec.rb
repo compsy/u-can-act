@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe Api::V1::ResponseController, type: :controller do
   let!(:person) { FactoryBot.create(:person) }
-  let!(:response1) { FactoryBot.create(:response, :not_expired) }
-  let!(:response2) { FactoryBot.create(:response, :not_expired) }
+  let!(:response1) { FactoryBot.create(:response, :not_expired, open_from: 10.minutes.ago) }
+  let!(:response2) { FactoryBot.create(:response, :not_expired, open_from: 8.minutes.ago) }
   let!(:response3) { FactoryBot.create(:response, :future) }
   let!(:response4) { FactoryBot.create(:response, :completed) }
 
@@ -120,7 +120,7 @@ describe Api::V1::ResponseController, type: :controller do
       it 'should set the correct instance variables' do
         get :index, params: { external_identifier: person.external_identifier }
         expect(controller.instance_variable_get(:@responses)).to_not be_nil
-        expect(controller.instance_variable_get(:@responses)).to eq [response1, response2]
+        expect(controller.instance_variable_get(:@responses)).to match_array [response1, response2]
       end
     end
 

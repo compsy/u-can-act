@@ -184,6 +184,21 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'my_open_responses' do
+    it 'should count all responses for a person' do
+      person = FactoryBot.create(:person)
+      protsub1 = FactoryBot.create(:protocol_subscription, person: person, start_date: Time.zone.now.beginning_of_day)
+      resp1 = FactoryBot.create(:response, open_from: 60.minutes.ago, protocol_subscription: protsub1)
+      FactoryBot.create(:response, :completed, open_from: 61.minutes.ago, protocol_subscription: protsub1)
+      resp3 = FactoryBot.create(:response, open_from: 70.minutes.ago, protocol_subscription: protsub1)
+      protsub2 = FactoryBot.create(:protocol_subscription, person: person, start_date: 1.day.ago.beginning_of_day)
+      resp2 = FactoryBot.create(:response, open_from: 65.minutes.ago, protocol_subscription: protsub2)
+      FactoryBot.create(:response, :completed, open_from: 71.minutes.ago, protocol_subscription: protsub2)
+      resp4 = FactoryBot.create(:response, open_from: 75.minutes.ago, protocol_subscription: protsub2)
+      expect(person.my_open_responses).to eq [resp4, resp3, resp2, resp1]
+    end
+  end
+
   describe 'invitation_sets' do
     it 'should destroy the invitation_sets when destroying the person' do
       person = FactoryBot.create(:person)

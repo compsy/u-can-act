@@ -75,3 +75,22 @@ describe 'rake scheduler:cache_overview', type: :task do
                                       "Caching overview - done\n").to_stdout
   end
 end
+
+describe 'rake scheduler:monitoring', type: :task do
+  it 'should preload the Rails environment' do
+    expect(task.prerequisites).to include 'environment'
+  end
+
+  it 'should run gracefully' do
+    expect do
+      expect { task.execute }.to output("Monitoring - started\n" \
+                                        "Monitoring - done\n").to_stdout
+    end.not_to(raise_error)
+  end
+
+  it 'should call the snitchjob' do
+    expect(SnitchJob).to receive(:perform_later)
+    expect { task.execute }.to output("Monitoring - started\n" \
+                                      "Monitoring - done\n").to_stdout
+  end
+end

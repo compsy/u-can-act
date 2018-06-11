@@ -40,6 +40,11 @@ describe Questionnaire do
       expect(questionnaireonetwo.errors.messages).to have_key :key
       expect(questionnaireonetwo.errors.messages[:key]).to include('is al in gebruik')
     end
+    it 'should not allow two questionnaires with the same key in the database' do
+      FactoryBot.create(:questionnaire, key: 'myquestionnaire')
+      questionnaireonetwo = FactoryBot.build(:questionnaire, key: 'myquestionnaire')
+      expect { questionnaireonetwo.save(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
+    end
     it 'should not accept a nil key' do
       questionnaire = FactoryBot.build(:questionnaire, key: nil)
       expect(questionnaire.valid?).to be_falsey

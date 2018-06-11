@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180531063403) do
+ActiveRecord::Schema.define(version: 20180611113156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20180531063403) do
     t.integer  "offset_till_end"
     t.boolean  "stop_measurement", default: false, null: false
     t.boolean  "should_invite",    default: true,  null: false
+    t.string   "redirect_url"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end

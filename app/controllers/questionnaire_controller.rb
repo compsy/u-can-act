@@ -14,7 +14,7 @@ class QuestionnaireController < ApplicationController
   before_action :check_content_hash, only: [:create]
 
   def index
-    redirect_to NextPageFinder.get_next_page
+    redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
   def show
@@ -33,7 +33,7 @@ class QuestionnaireController < ApplicationController
     @response.update_attributes!(content: response_content.id)
     @response.complete!
     check_stop_subscription
-    redirect_to NextPageFinder.get_next_page
+    redirect_to NextPageFinder.get_next_page current_user: current_user, previous_response: @response
   end
 
   def destroy
@@ -47,7 +47,7 @@ class QuestionnaireController < ApplicationController
     # Note, we don't unsubscribe yet. If a person clicks the 'stop' link, the
     # person is redirected to the stop questionnaire. However, as long as the
     # student does not submit that questionnaire, he or she is not unsubscribed
-    redirect_to NextPageFinder.get_next_page stop_response
+    redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: stop_response
   end
 
   private
@@ -199,13 +199,13 @@ class QuestionnaireController < ApplicationController
 
     # Instead of throwing a 404, just redirect to the next page in line if one is already completed.
     if response.completed_at
-      redirect_to NextPageFinder.get_next_page
+      redirect_to NextPageFinder.get_next_page current_user: current_user
       return
     end
 
     # A person should always be able to fill out a stop measurement
     return if !response.expired? || response.measurement.stop_measurement
     flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
-    redirect_to NextPageFinder.get_next_page
+    redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 end

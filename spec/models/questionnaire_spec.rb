@@ -32,7 +32,7 @@ describe Questionnaire do
   end
 
   describe 'key' do
-    it 'should not allow two questionnaires with the same name' do
+    it 'should not allow two questionnaires with the same key' do
       questionnaireone = FactoryBot.create(:questionnaire, key: 'myquestionnaire')
       expect(questionnaireone.valid?).to be_truthy
       questionnaireonetwo = FactoryBot.build(:questionnaire, key: 'myquestionnaire')

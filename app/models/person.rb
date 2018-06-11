@@ -76,7 +76,7 @@ class Person < ApplicationRecord
   end
 
   def my_open_responses
-    my_protocols.map { |prot| prot.responses.opened_and_not_expired }.flatten
+    my_protocols.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end
 
   def open_questionnaire?(questionnaire_name)

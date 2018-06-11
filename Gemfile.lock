@@ -219,7 +219,7 @@ GEM
     lumberjack (1.0.13)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
-    mailgun-ruby (1.1.9)
+    mailgun-ruby (1.1.10)
       rest-client (~> 2.0)
     materialize-sass (0.100.2)
       sass (~> 3.3)

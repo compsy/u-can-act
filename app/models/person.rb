@@ -69,18 +69,14 @@ class Person < ApplicationRecord
     protocol_subscriptions.active.sum(&:max_still_earnable_reward_points)
   end
 
-  def my_protocols
+  def my_protocols(for_myself = true)
     return [] if protocol_subscriptions.blank?
-    protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id }
-  end
-
-  def my_open_responses
-    my_protocols.map { |prot| prot.responses.opened_and_not_expired }.flatten
-  end
-
-  def for_someone_else_protocols
-    return [] if protocol_subscriptions.blank?
+    return protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id } if for_myself
     protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }
+  end
+
+  def my_open_responses(for_myself = true)
+    my_protocols(for_myself).map { |prot| prot.responses.opened_and_not_expired }.flatten
   end
 
   def mentor

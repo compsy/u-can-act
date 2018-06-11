@@ -50,14 +50,13 @@ class SendInvitationsJob < ApplicationJob
   end
 
   def open_questionnaire?(response, questionnaire_name)
-    response.protocol_subscription.person.my_open_responses.select do |resp|
-      resp.measurement.questionnaire.name == questionnaire_name
-    end.count.positive?
+    person = response.protocol_subscription.person
+    person.open_questionnaire?(questionnaire_name)
   end
 
   def completed_some?(response)
     person = response.protocol_subscription.person
-    Response.where.not(completed_at: nil).where(filled_out_by_id: person.id).count.positive?
+    person.responses.completed.count.positive?
   end
 
   def mentor_texts(response)

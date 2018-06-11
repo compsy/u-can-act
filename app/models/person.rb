@@ -29,6 +29,7 @@ class Person < ApplicationRecord
   validates :role_id, presence: true
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
+  has_many :responses, through: :protocol_subscriptions
   has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy # invitation_sets.first is
   # Not used right now:                                                           the last one created.
   # has_many :supervised_protocol_subscriptions,
@@ -76,6 +77,12 @@ class Person < ApplicationRecord
 
   def my_open_responses
     my_protocols.map { |prot| prot.responses.opened_and_not_expired }.flatten
+  end
+
+  def open_questionnaire?(questionnaire_name)
+    my_open_responses.select do |resp|
+      resp.measurement.questionnaire.name == questionnaire_name
+    end.count.positive?
   end
 
   def for_someone_else_protocols

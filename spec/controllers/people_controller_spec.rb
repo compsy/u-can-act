@@ -71,7 +71,7 @@ RSpec.describe PeopleController, type: :controller do
       put :update, params: { person: person_attributes }
 
       expect(response.status).to eq 302
-      expect(response.location).to eq klaar_url
+      expect(response.location).to end_with klaar_path
     end
 
     it 'should show the correct notification' do

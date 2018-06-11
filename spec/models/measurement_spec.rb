@@ -196,4 +196,11 @@ describe Measurement do
       expect(measurement.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'redirect_url' do
+    it 'spec_name' do
+      measurement = FactoryBot.create(:measurement, redirect_url: 'test')
+      expect(measurement.redirect_url).to eq('test')
+    end
+  end
 end

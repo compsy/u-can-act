@@ -3,10 +3,11 @@ class EditPersonLink extends React.Component {
     super(props);
     //this.timer = null;
     this.timer = null;
+    this.add_emphasis = false;
   }
 
   decorate_link(url, text, person) {
-    if (person === undefined || person.iban !== null) {
+    if (!this.add_emphasis && person === undefined || person.iban !== null) {
       return (<a href={url}>{text}</a>)
     }
 

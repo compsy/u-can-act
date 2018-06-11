@@ -123,10 +123,6 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(page).to have_content('Je hebt hiermee €1,- verdiend.')
       expect(page).to_not have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
     end
-
-    it 'should contain a link to the edit person page' do
-      raise('not implemented')
-    end
   end
 
   context 'Mentor' do

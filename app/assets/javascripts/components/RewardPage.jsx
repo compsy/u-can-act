@@ -88,7 +88,6 @@ class RewardPage extends React.Component {
             {result}
             <ul>
               <li><a href='/disclaimer'>Disclaimer</a></li>
-              <li><EditPersonLink person={this.state.person} /></li>
             </ul>
           </div>
         </div>

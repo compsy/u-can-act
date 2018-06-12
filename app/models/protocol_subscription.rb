@@ -94,7 +94,7 @@ class ProtocolSubscription < ApplicationRecord
     !(protocol.informed_consent_questionnaire.blank? ||
       informed_consent_given_at.present?)
   end
-  
+
   def completion
     # cached version
     @completion ||= protocol_completion

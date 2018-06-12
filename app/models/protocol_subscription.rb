@@ -94,6 +94,24 @@ class ProtocolSubscription < ApplicationRecord
     !(protocol.informed_consent_questionnaire.blank? ||
       informed_consent_given_at.present?)
   end
+  
+  def completion
+    # cached version
+    @completion ||= protocol_completion
+  end
+
+  def max_still_earnable_reward_points
+    from = latest_streak_value_index + 1
+    to = from + responses.future.length
+    sliced_completion = completion.slice((from...to))
+    protocol.calculate_reward(sliced_completion, true)
+  end
+
+  def latest_streak_value_index
+    completion_index = completion.find_index { |entry| entry[:future] }
+    return 0 if completion_index.nil? || (completion_index - 1).negative?
+    completion_index - 1
+  end
 
   private
 

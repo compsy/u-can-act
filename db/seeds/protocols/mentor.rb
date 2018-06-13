@@ -56,7 +56,9 @@ nameting_id = Questionnaire.find_by_name(nm_name)&.id
 raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
 nm_measurement = mentor_protocol.measurements.find_by_questionnaire_id(nameting_id)
 nm_measurement ||= mentor_protocol.measurements.build(questionnaire_id: nameting_id)
-nm_measurement.open_from_offset = 30.weeks + 3.days + 13.hours # Thursday 1pm last week
+nm_measurement.open_from_offset = nil
+nm_measurement.offset_till_end = TimeTools.increase_by_duration(Time.find_zone('Amsterdam').local(2018, 7, 16, 0, 0),
+                                                                - (2.days + 12.hours))
 nm_measurement.period = nil
 nm_measurement.open_duration = default_posttest_open_duration
 nm_measurement.reward_points = default_posttest_reward_points

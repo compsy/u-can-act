@@ -62,6 +62,9 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
   TEST_PHONE_NUMBERS: <the list of phonenumbers that are actually test phone numbers. The list needs to be comma separated, eg 0612341234,0676565641>
   SNITCH_KEY: <the key which the snitcher should call>
+
+  API_KEY: <the secret username that can be used to access the api>
+  API_SECRET: <the secret password that can be used to access the api>
 ```
 
 ### Development configuration

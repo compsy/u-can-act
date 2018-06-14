@@ -45,12 +45,7 @@ describe RedisCachedCall do
       expect(Marshal).to_not receive(:dump)
       expect(RedisService).to_not receive(:set)
 
-      called = false
-      result = described_class.cache(key, bust_cache) do
-        called = true
-        raise('should not happen!')
-      end
-      expect(called).to be_falsey
+      result = described_class.cache(key, bust_cache) { raise('should not happen!') }
       expect(result).to eq expected
     end
   end

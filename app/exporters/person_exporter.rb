@@ -7,7 +7,7 @@ class PersonExporter < ObjectExporter
     end
 
     def default_fields
-      %w[]
+      %w[gender]
     end
 
     def formatted_fields
@@ -23,7 +23,7 @@ class PersonExporter < ObjectExporter
     end
 
     def to_be_skipped?(person)
-      TEST_PHONE_NUMBERS.include?(person.mobile_phone)
+      Exporters.test_phone_number?(person.mobile_phone)
     end
 
     private

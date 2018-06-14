@@ -22,6 +22,11 @@ class QuestionnaireGenerator
       body
     end
 
+    def generate_hash_questionnaire(response_id, content, title)
+      title, content = substitute_variables(response_id, title, content)
+      { title: title, content: content }
+    end
+
     private
 
     def substitute_variables(response_id, title, content)
@@ -94,11 +99,11 @@ class QuestionnaireGenerator
     end
 
     def a_time?(value)
-      value.is_a?(ActiveSupport::TimeWithZone) || value.is_a(Time) || value.is_a?(Date) || value.is_a?(DateTime)
+      TimeTools.a_time?(value)
     end
 
     def an_offset?(value)
-      value.is_a?(ActiveSupport::Duration) || value.is_a?(Integer)
+      TimeTools.an_offset?(value)
     end
 
     def single_questionnaire_question(question)
@@ -175,7 +180,8 @@ class QuestionnaireGenerator
       submit_body = content_tag(:button,
                                 submit_text,
                                 type: 'submit',
-                                class: 'btn waves-effect waves-light')
+                                class: 'btn waves-effect waves-light',
+                                data: { disable_with: 'Bezig...' })
       submit_body = content_tag(:div, submit_body, class: 'col s12')
       submit_body = content_tag(:div, submit_body, class: 'row section')
       submit_body
@@ -684,7 +690,7 @@ class QuestionnaireGenerator
       response = Response.find_by_id(question[:response_id])
       url_href = '#'
       url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
-      body = content_tag(:a, question[:button_text].html_safe || 'Uitschrijven',
+      body = content_tag(:a, (question[:button_text] || 'Uitschrijven').html_safe,
                          'data-method': 'delete',
                          href: url_href,
                          class: 'btn waves-effect waves-light navigate-away-allowed',

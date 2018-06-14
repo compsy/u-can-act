@@ -26,6 +26,7 @@ describe 'GET /admin', type: :feature, js: true do
       expect(page).to have_content('People')
       expect(page).not_to have_css('a[disabled]')
       expect(page).to have_link('Download', href: '/admin/person_export.csv')
+      find('ul.collapsible>li:first-child>.collapsible-header').click # fold out the first collapsible thing
       page.all('a', text: 'Download')[0].click
       # expect(page.response_headers['Content-Type']).to eq 'text/csv'
       expected_filename = "people_#{Time.zone.now.to_date}.csv"

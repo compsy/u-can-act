@@ -29,6 +29,7 @@ class Person < ApplicationRecord
   validates :role_id, presence: true
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
+  has_many :responses, through: :protocol_subscriptions
   has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy # invitation_sets.first is
   # Not used right now:                                                           the last one created.
   # has_many :supervised_protocol_subscriptions,
@@ -46,7 +47,7 @@ class Person < ApplicationRecord
   def last_completed_response
     protocol_subscriptions.map { |x| x.responses.completed }
                           .flatten
-                          .sort_by(&:completed_at).last
+                          .max_by(&:completed_at)
   end
 
   def mentor?
@@ -54,29 +55,35 @@ class Person < ApplicationRecord
   end
 
   def reward_points
-    protocol_subscriptions.map(&:reward_points).reduce(0, :+)
+    protocol_subscriptions.sum(&:reward_points)
   end
 
   def possible_reward_points
-    protocol_subscriptions.map(&:possible_reward_points).reduce(0, :+)
+    protocol_subscriptions.sum(&:possible_reward_points)
   end
 
   def max_reward_points
-    protocol_subscriptions.map(&:max_reward_points).reduce(0, :+)
+    protocol_subscriptions.sum(&:max_reward_points)
   end
 
-  def my_protocols
+  def max_still_earnable_reward_points
+    protocol_subscriptions.active.sum(&:max_still_earnable_reward_points)
+  end
+
+  def my_protocols(for_myself = true)
     return [] if protocol_subscriptions.blank?
-    protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id }
-  end
-
-  def my_open_responses
-    my_protocols.map { |prot| prot.responses.opened_and_not_expired }.flatten
-  end
-
-  def for_someone_else_protocols
-    return [] if protocol_subscriptions.blank?
+    return protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id } if for_myself
     protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }
+  end
+
+  def my_open_responses(for_myself = true)
+    my_protocols(for_myself).map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+  end
+
+  def open_questionnaire?(questionnaire_name)
+    my_open_responses.select do |resp|
+      resp.measurement.questionnaire.name == questionnaire_name
+    end.count.positive?
   end
 
   def mentor

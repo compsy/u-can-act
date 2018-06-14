@@ -4,9 +4,10 @@ class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
   before_action :redirect_to_next_page, only: [:index]
-  before_action :set_response, only: [:show]
-  before_action :verify_cookie, only: %i[create create_informed_consent]
+  before_action :set_response, only: %i[show destroy]
+  # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
+  before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :set_is_mentor, only: [:show]
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
@@ -30,8 +31,22 @@ class QuestionnaireController < ApplicationController
     response_content = ResponseContent.create!(content: questionnaire_content)
     @response.update_attributes!(content: response_content.id)
     @response.complete!
-    check_stop_subscription unless questionnaire_stop_subscription.blank?
+    check_stop_subscription
     redirect_to_next_page
+  end
+
+  def destroy
+    stop_response = @protocol_subscription.stop_response
+
+    if stop_response.nil?
+      stop_protocol_subscription
+      return
+    end
+
+    # Note, we don't unsubscribe yet. If a person clicks the 'stop' link, the
+    # person is redirected to the stop questionnaire. However, as long as the
+    # student does not submit that questionnaire, he or she is not unsubscribed
+    redirect_to_next_page stop_response
   end
 
   private
@@ -39,12 +54,16 @@ class QuestionnaireController < ApplicationController
   def check_stop_subscription
     stop_subscription_hash = questionnaire_stop_subscription
     content = questionnaire_content
+    # We assume that if a stop measurement is submitted, it is always the last
+    # questionnaire of the protocol.
+    return stop_protocol_subscription if @response.measurement.stop_measurement?
+    return if stop_subscription_hash.blank?
+
     should_stop = false
     stop_subscription_hash.each do |key, received|
       next unless content.key?(key)
       expected = Response.stop_subscription_token(key, content[key], @response.id)
-      are_equal = ActiveSupport::SecurityUtils.secure_compare(expected, received)
-      if are_equal
+      if ActiveSupport::SecurityUtils.secure_compare(expected, received)
         should_stop = true
         break
       end
@@ -74,17 +93,8 @@ class QuestionnaireController < ApplicationController
     end
   end
 
-  def set_response
-    the_response = Response.find_by_uuid(questionnaire_params[:uuid])
-    check_response(the_response)
-    return if performed?
-    @response = the_response
-    set_protocol_and_subscription
-  end
-
-  def redirect_to_next_page
-    first_response = current_user.my_open_responses.first
-
+  def redirect_to_next_page(first_response = nil)
+    first_response ||= current_user.my_open_responses.first
     if first_response.present?
       redirect_to questionnaire_path(uuid: first_response.uuid)
       return
@@ -107,7 +117,6 @@ class QuestionnaireController < ApplicationController
   def verify_cookie
     signed_in_person_id = current_user&.id
     response_cookie_person_id = person_for_response_cookie
-
     params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
     return if response_cookie_person_id && signed_in_person_id &&
               signed_in_person_id == params_person_id &&
@@ -120,6 +129,14 @@ class QuestionnaireController < ApplicationController
   def person_for_response_cookie
     response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
     Response.find_by_id(response_id)&.protocol_subscription&.person_id
+  end
+
+  def set_response
+    the_response = Response.find_by_uuid(questionnaire_params[:uuid])
+    check_response(the_response)
+    return if performed?
+    @response = the_response
+    set_protocol_and_subscription
   end
 
   def set_create_response
@@ -147,7 +164,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def questionnaire_params
-    params.permit(:uuid)
+    params.permit(:uuid, :method)
   end
 
   def questionnaire_create_params
@@ -202,7 +219,8 @@ class QuestionnaireController < ApplicationController
       return
     end
 
-    return unless response.expired?
+    # A person should always be able to fill out a stop measurement
+    return if !response.expired? || response.measurement.stop_measurement
     flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
     redirect_to_next_page
   end

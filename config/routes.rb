@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   post '/' => "questionnaire#create"
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]
-  resources :questionnaire, only: [:index, :show, :create], param: :uuid
+  resources :questionnaire, only: [:index, :show, :create, :destroy], param: :uuid
 
   # Admin panel
   scope path: :admin do
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :questionnaire, only: [:show], param: :key
+      resources :response, only: [:show, :index, :create], param: :uuid
       get 'statistics', to: 'statistics#index'
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
       namespace :admin do

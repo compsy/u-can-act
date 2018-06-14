@@ -37,9 +37,11 @@ class SendInvitationsJob < ApplicationJob
   def random_message(response)
     if response.protocol_subscription.person.mentor?
       mentor_texts(response)
-    else # Student
-      response.substitute_variables(StudentInvitationTexts.message(response.protocol_subscription.protocol,
-                                                                   response.protocol_subscription.protocol_completion))
+    else
+      response.substitute_variables(
+        StudentInvitationTexts.message(response.protocol_subscription.protocol,
+                                       response.protocol_subscription.protocol_completion)
+      )
     end
   end
 
@@ -47,8 +49,22 @@ class SendInvitationsJob < ApplicationJob
     response.protocol_subscription.person.first_name
   end
 
+  def open_questionnaire?(response, questionnaire_name)
+    person = response.protocol_subscription.person
+    person.open_questionnaire?(questionnaire_name)
+  end
+
+  def completed_some?(response)
+    person = response.protocol_subscription.person
+    person.responses.completed.count.positive?
+  end
+
   def mentor_texts(response)
-    if response.measurement.questionnaire.name.match?(/voormeting/)
+    if open_questionnaire?(response, 'voormeting mentoren') && completed_some?(response)
+      'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze ' \
+      'week ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ' \
+      'ingevuld. Na het invullen hiervan kom je weer bij de wekelijkse vragenlijst.'
+    elsif open_questionnaire?(response, 'voormeting mentoren') && !completed_some?(response)
       "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
       'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
       'Morgen start de eerste wekelijkse vragenlijst. Succes!'

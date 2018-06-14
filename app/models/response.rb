@@ -76,6 +76,10 @@ class Response < ApplicationRecord
     )
   end
 
+  def self.after_date(date)
+    where('open_from > :date', date: date)
+  end
+
   def future?
     open_from > Time.zone.now
   end

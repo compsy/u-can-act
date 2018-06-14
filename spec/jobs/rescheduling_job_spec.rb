@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SnitchJob do
+describe ReschedulingJob do
   describe '#perform_later' do
     it 'performs something later' do
       ActiveJob::Base.queue_adapter = :test
@@ -13,9 +13,10 @@ describe SnitchJob do
   end
 
   describe 'perform' do
-    it 'should call the snitch function with the correct parameters' do
-      expect(ENV['SNITCH_KEY']).to_not be_blank
-      expect(Snitcher).to receive(:snitch).with(ENV['SNITCH_KEY'])
+    it 'should call the reschedule responses use case with the correct parameters' do
+      FactoryBot.create(:protocol_subscription, :canceled)
+      protsub = FactoryBot.create(:protocol_subscription)
+      expect(RescheduleResponses).to receive(:run!).with(protocol_subscription: protsub)
       described_class.perform_now
     end
   end

@@ -562,7 +562,7 @@ describe ProtocolSubscription do
       Timecop.return
     end
 
-    fit 'should calculate the correct streak' do
+    it 'should calculate the correct streak' do
       Timecop.freeze(2017, 3, 30, 0, 0, 0)
       protocol_duration = 5.weeks
       protocol = FactoryBot.create(:protocol, duration: protocol_duration)

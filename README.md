@@ -74,7 +74,7 @@ In order to run the Capybara specs of the VSV project, you need to install the c
 ```
 
 ## Background jobs
-The workings of the app rely on three background jobs:
+The workings of the app rely on three background jobs.
 
 Every 15 minutes, the following rake task should run:
 ```

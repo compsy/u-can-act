@@ -73,7 +73,7 @@ describe Api::V1::ResponseController, type: :controller do
         get :show, params: { uuid: 'non-exis-tent' }
         expect(response.status).to eq 404
         expect(response.body).to_not be_nil
-        expect(response.body).to eq 'Response met die key niet gevonden'
+        expect(response.body).to eq 'Response met dat uuid niet gevonden'
       end
 
       it 'should set the correct instance variables' do
@@ -125,6 +125,22 @@ describe Api::V1::ResponseController, type: :controller do
     end
 
     describe 'create' do
+      let(:content) { { 'v1' => 'a', 'v2' => 'c' } }
+      let(:the_response) { FactoryBot.create(:response, content: nil) }
+
+      it 'should be able to post new results to the api' do
+        post :create, params: { uuid: the_response.uuid, content: content }
+        the_response.reload
+        expect(the_response.content).to_not be_nil
+        expect(the_response.completed_at).to_not be_nil
+        expect(the_response.completed_at).to be_within(1.minute).of(Time.zone.now)
+      end
+      it 'should throw a 404 if the response does not exist' do
+        post :create, params: { uuid: 'non-exis-tent', content: content }
+        expect(response.status).to eq 404
+        expect(response.body).to_not be_nil
+        expect(response.body).to eq 'Response met dat uuid niet gevonden'
+      end
     end
   end
 end

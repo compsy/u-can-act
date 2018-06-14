@@ -11,7 +11,7 @@ dagboek_content = [{
                      title: 'Klaar met dit schooljaar?',
                      content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijst in.',
                      button_text: 'Onderzoek afronden',
-                     show_after: (Rails.env.development? ? 1.second.ago : Time.new(2018, 6, 15).in_time_zone)
+                     show_after: (Rails.env.development? ? 1.second.ago : Time.new(2018, 6, 20).in_time_zone)
                    }, {
                      section_start: 'School en Stage',
                      type: :raw,

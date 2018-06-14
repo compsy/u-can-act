@@ -48,11 +48,11 @@ describe Measurement do
       expect(measurement.errors.messages).to have_key :open_from_offset
       expect(measurement.errors.messages[:open_from_offset]).to include('moet een geheel getal zijn')
     end
-    it 'should not be nil' do
+    it 'should be able to be nil as long as offset_till_end is set' do
       measurement = FactoryBot.build(:measurement, open_from_offset: nil)
-      expect(measurement.valid?).to be_falsey
-      expect(measurement.errors.messages).to have_key :open_from_offset
-      expect(measurement.errors.messages[:open_from_offset]).to include('is geen getal')
+      expect(measurement).to_not be_valid
+      measurement = FactoryBot.build(:measurement, open_from_offset: nil, offset_till_end: 1.week)
+      expect(measurement).to be_valid
     end
   end
 
@@ -142,13 +142,13 @@ describe Measurement do
 
   describe 'offset_till_end' do
     it 'should be a zero or positive integer' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.build(:measurement, open_from_offset: nil)
       measurement.offset_till_end = 0
-      expect(measurement.valid?).to be_truthy
+      expect(measurement).to be_valid
       measurement.offset_till_end = 1.5
-      expect(measurement.valid?).to be_falsey
+      expect(measurement).to_not be_valid
       measurement.offset_till_end = -1
-      expect(measurement.valid?).to be_falsey
+      expect(measurement).to_not be_valid
       expect(measurement.errors.messages).to have_key :offset_till_end
       expect(measurement.errors.messages[:offset_till_end]).to include('moet groter dan of gelijk zijn aan 0')
     end
@@ -194,6 +194,94 @@ describe Measurement do
       measurement = FactoryBot.create(:measurement)
       expect(measurement.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(measurement.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'response_times' do
+    context 'periodical measurements' do
+      it 'should work if there is an offset_till_end present' do
+        start_date = Time.new(2017, 10, 10).in_time_zone
+        end_date = TimeTools.increase_by_duration(start_date, 1.week)
+        measurement = FactoryBot.create(:measurement, period: 1.day, open_from_offset: 0, offset_till_end: 2.days)
+        expected_times = [start_date,
+                          TimeTools.increase_by_duration(start_date, 1.day),
+                          TimeTools.increase_by_duration(start_date, 2.days),
+                          TimeTools.increase_by_duration(start_date, 3.days),
+                          TimeTools.increase_by_duration(start_date, 4.days)]
+        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+      end
+      it 'should work if there is is not an offset_till_end present' do
+        start_date = Time.new(2017, 10, 10).in_time_zone
+        end_date = TimeTools.increase_by_duration(start_date, 1.week)
+        measurement = FactoryBot.create(:measurement, period: 1.day, open_from_offset: 0, offset_till_end: nil)
+        expected_times = [start_date,
+                          TimeTools.increase_by_duration(start_date, 1.day),
+                          TimeTools.increase_by_duration(start_date, 2.days),
+                          TimeTools.increase_by_duration(start_date, 3.days),
+                          TimeTools.increase_by_duration(start_date, 4.days),
+                          TimeTools.increase_by_duration(start_date, 5.days),
+                          TimeTools.increase_by_duration(start_date, 6.days)]
+        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+      end
+    end
+    context 'nonperiodical measurements' do
+      it 'should work with only an open_from_offset' do
+        start_date = Time.new(2017, 10, 10).in_time_zone
+        end_date = TimeTools.increase_by_duration(start_date, 1.week)
+        measurement = FactoryBot.create(:measurement, open_from_offset: 3.days, offset_till_end: nil)
+        expected_times = [TimeTools.increase_by_duration(start_date, 3.days)]
+        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+      end
+      it 'should work withonly an offset_till_end' do
+        start_date = Time.new(2017, 10, 10).in_time_zone
+        end_date = TimeTools.increase_by_duration(start_date, 1.week)
+        measurement = FactoryBot.create(:measurement, open_from_offset: nil, offset_till_end: 5.days)
+        expected_times = [TimeTools.increase_by_duration(start_date, 2.days)]
+        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+      end
+    end
+  end
+
+  describe 'validations' do
+    context 'either_open_from_or_offset_till_end' do
+      describe 'periodical measurements' do
+        it 'should not work without an open_from_offset' do
+          measurement = FactoryBot.build(:measurement, :periodical, open_from_offset: nil)
+          expect(measurement).to_not be_valid
+          expect(measurement.errors.messages).to have_key :open_from_offset
+          expect(measurement.errors.messages[:open_from_offset]).to include('cannot be blank')
+        end
+      end
+      describe 'nonperiodical measurements' do
+        it 'should work with only open_from_offset' do
+          measurement = FactoryBot.build(:measurement, open_from_offset: 1.week, offset_till_end: nil)
+          expect(measurement).to be_valid
+        end
+        it 'should work with only offset_till_end' do
+          measurement = FactoryBot.build(:measurement, offset_till_end: 1.week, open_from_offset: nil)
+          expect(measurement).to be_valid
+        end
+        it 'should fail validation with both open_from_offset and open_till_end' do
+          measurement = FactoryBot.build(:measurement, offset_till_end: 1.week, open_from_offset: 1.week)
+          expect(measurement).to_not be_valid
+          expect(measurement.errors.messages).to have_key :open_from_offset
+          expect(measurement.errors.messages[:open_from_offset])
+            .to include('cannot be present if offset_till_end is present')
+          expect(measurement.errors.messages).to have_key :offset_till_end
+          expect(measurement.errors.messages[:offset_till_end])
+            .to include('cannot be present if open_from_offset is present')
+        end
+        it 'should fail validation with neither open_from_offset or open_till_end' do
+          measurement = FactoryBot.build(:measurement, offset_till_end: nil, open_from_offset: nil)
+          expect(measurement).to_not be_valid
+          expect(measurement.errors.messages).to have_key :open_from_offset
+          expect(measurement.errors.messages[:open_from_offset])
+            .to include('cannot be blank if offset_till_end is blank')
+          expect(measurement.errors.messages).to have_key :offset_till_end
+          expect(measurement.errors.messages[:offset_till_end])
+            .to include('cannot be blank if open_from_offset is blank')
+        end
+      end
     end
   end
 end

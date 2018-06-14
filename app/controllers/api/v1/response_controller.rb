@@ -49,7 +49,7 @@ module Api
       def response_params
         # TODO: change the below line to the following in rails 5.1:
         # params.permit(:response_id, content: {})
-        params.permit(:external_identifier, :uuid, :content)
+        params.permit(:external_identifier, :uuid, content: permit_recursive_params(params[:content]&.to_unsafe_h))
       end
     end
   end

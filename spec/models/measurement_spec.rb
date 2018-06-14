@@ -48,8 +48,10 @@ describe Measurement do
       expect(measurement.errors.messages).to have_key :open_from_offset
       expect(measurement.errors.messages[:open_from_offset]).to include('moet een geheel getal zijn')
     end
-    it 'should be able to be nil' do
+    it 'should be able to be nil as long as offset_till_end is set' do
       measurement = FactoryBot.build(:measurement, open_from_offset: nil)
+      expect(measurement).to_not be_valid
+      measurement = FactoryBot.build(:measurement, open_from_offset: nil, offset_till_end: 1.week)
       expect(measurement).to be_valid
     end
   end
@@ -140,13 +142,13 @@ describe Measurement do
 
   describe 'offset_till_end' do
     it 'should be a zero or positive integer' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.build(:measurement, open_from_offset: nil)
       measurement.offset_till_end = 0
-      expect(measurement.valid?).to be_truthy
+      expect(measurement).to be_valid
       measurement.offset_till_end = 1.5
-      expect(measurement.valid?).to be_falsey
+      expect(measurement).to_not be_valid
       measurement.offset_till_end = -1
-      expect(measurement.valid?).to be_falsey
+      expect(measurement).to_not be_valid
       expect(measurement.errors.messages).to have_key :offset_till_end
       expect(measurement.errors.messages[:offset_till_end]).to include('moet groter dan of gelijk zijn aan 0')
     end

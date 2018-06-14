@@ -16,6 +16,11 @@ module Api
       end
 
       def create
+        Rails.logger.info '!'*100	
+        Rails.logger.info params	
+        Rails.logger.info response_content	
+
+
         response_content = ResponseContent.create!(content: response_content)
         @response.update_attributes!(content: response_content.id)
         @response.complete!
@@ -34,7 +39,7 @@ module Api
       def set_response
         @response = Response.find_by_uuid(response_params[:uuid])
         return if @response.present?
-        render(status: 404, json: 'Response met die key niet gevonden')
+        render(status: 404, json: 'Response met dat uuid niet gevonden')
       end
 
       def response_content
@@ -45,7 +50,8 @@ module Api
       def response_params
         # TODO: change the below line to the following in rails 5.1:
         # params.permit(:response_id, content: {})
-        params.permit(:external_identifier, :uuid, :content)
+        #params.permit(:external_identifier, :uuid, :content)
+        {}
       end
     end
   end

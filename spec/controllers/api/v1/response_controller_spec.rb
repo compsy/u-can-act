@@ -33,7 +33,7 @@ describe Api::V1::ResponseController, type: :controller do
   end
 
   describe 'create should be authenticated' do
-    let(:params) { {} }
+    let(:params) { {uuid: response2.uuid} }
     it_should_behave_like 'a basic authenticated route', 'post', :create
   end
 
@@ -130,11 +130,21 @@ describe Api::V1::ResponseController, type: :controller do
 
       it 'should be able to post new results to the api' do
         post :create, params: { uuid: the_response.uuid, content: content }
+        expect(response.status).to eq 201
+      end
+
+      it 'should store the response and update its contents' do
+        post :create, params: { uuid: the_response.uuid, content: content }
         the_response.reload
         expect(the_response.content).to_not be_nil
-        expect(the_response.completed_at).to_not be_nil
+        expect(the_response.completed_at).to_not be_nil 
         expect(the_response.completed_at).to be_within(1.minute).of(Time.zone.now)
+        expect(the_response.content).to_not be_nil
+        expect(the_response.remote_content).to_not be_nil
+        expect(the_response.remote_content.content).to_not be_nil
+        expect(the_response.remote_content.content).to eq content
       end
+
       it 'should throw a 404 if the response does not exist' do
         post :create, params: { uuid: 'non-exis-tent', content: content }
         expect(response.status).to eq 404

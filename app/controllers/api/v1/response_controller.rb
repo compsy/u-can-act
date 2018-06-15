@@ -16,12 +16,8 @@ module Api
       end
 
       def create
-        Rails.logger.info '!' * 100
-        Rails.logger.info params
-        Rails.logger.info response_content
-
-        response_content = ResponseContent.create!(content: response_content)
-        @response.update_attributes!(content: response_content.id)
+        content = ResponseContent.create!(content: response_content)
+        @response.update_attributes!(content: content.id)
         @response.complete!
         head 201
       end

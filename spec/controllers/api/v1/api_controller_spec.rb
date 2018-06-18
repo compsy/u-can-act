@@ -16,7 +16,7 @@ describe Api::V1::ApiController, type: :controller do
   let(:other_person) { FactoryBot.create(:person) }
   let(:yet_another_person) { FactoryBot.create(:person) }
 
-  fdescribe 'raise_bad_request' do
+  describe 'raise_bad_request' do
     it 'should render a 400 when called' do
       post :create
       expect(response.status).to eq 400

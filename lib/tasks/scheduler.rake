@@ -38,4 +38,10 @@ namespace :scheduler do
     SnitchJob.perform_later
     puts 'Monitoring - done'
   end
+
+  task rescheduling: :environment do
+    puts 'Rescheduling - started'
+    ReschedulingJob.perform_later
+    puts 'Rescheduling - done'
+  end
 end

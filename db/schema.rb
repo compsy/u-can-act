@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180611144737) do
+ActiveRecord::Schema.define(version: 20180613123125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20180611144737) do
     t.integer  "questionnaire_id",                 null: false
     t.integer  "protocol_id",                      null: false
     t.integer  "period"
-    t.integer  "open_from_offset",                 null: false
+    t.integer  "open_from_offset"
     t.integer  "open_duration"
     t.integer  "reward_points",    default: 0,     null: false
     t.datetime "created_at",                       null: false

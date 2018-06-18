@@ -32,7 +32,7 @@ describe("Login", function() {
       expect(result.type).toEqual('a');
       expect(result.props.className).toEqual('waves-effect waves-light btn login-button');
       expect(result.props.children).toEqual('Log Out');
-      expect(result.props.onClick.name).toEqual('bound logout');
+      expect(result.props.onClick.name.endsWith('logout')).toBeTruthy();
     });
 
     it("it should return a login button if the person is currently logged out", function() {
@@ -41,7 +41,7 @@ describe("Login", function() {
       expect(result.type).toEqual('a');
       expect(result.props.className).toEqual('waves-effect waves-light btn login-button');
       expect(result.props.children).toEqual('Log In');
-      expect(result.props.onClick.name).toEqual('bound login');
+      expect(result.props.onClick.name.endsWith('login')).toBeTruthy();
     });
 
   });

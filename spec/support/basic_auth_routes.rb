@@ -34,9 +34,10 @@ shared_examples_for 'a basic authenticated route' do |method, route|
     ENV['API_SECRET'] = pre_secret
   end
 
-  it 'should return a 200 if the route is authenticated' do
+  it 'should return a 2xx if the route is authenticated' do
     basic_api_auth name: ENV['API_KEY'], password: ENV['API_SECRET']
     call_url(method, route)
-    expect(response.status).to eq 200
+    expect(response.status).to be < 300
+    expect(response.status).to be >= 200
   end
 end

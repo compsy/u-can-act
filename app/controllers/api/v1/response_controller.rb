@@ -6,6 +6,7 @@ module Api
       include ::Concerns::IsBasicAuthenticated
       before_action :set_response, only: %i[show create]
       before_action :set_responses, only: %i[index]
+      before_action :check_empty_response, only: %i[create]
 
       def show
         render json: @response, serializer: Api::PersonalizedQuestionnaireSerializer
@@ -35,6 +36,11 @@ module Api
         @response = Response.find_by_uuid(response_params[:uuid])
         return if @response.present?
         render(status: 404, json: 'Response met dat uuid niet gevonden')
+      end
+
+      def check_empty_response
+        return if @response.content.blank?
+        render(status: 400, json: 'Response met dat uuid heeft al content')
       end
 
       def response_content

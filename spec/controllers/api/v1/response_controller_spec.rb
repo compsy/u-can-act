@@ -33,7 +33,7 @@ describe Api::V1::ResponseController, type: :controller do
   end
 
   describe 'create should be authenticated' do
-    let(:params) { {uuid: response2.uuid} }
+    let(:params) { { uuid: response2.uuid } }
     it_should_behave_like 'a basic authenticated route', 'post', :create
   end
 
@@ -137,7 +137,7 @@ describe Api::V1::ResponseController, type: :controller do
         post :create, params: { uuid: the_response.uuid, content: content }
         the_response.reload
         expect(the_response.content).to_not be_nil
-        expect(the_response.completed_at).to_not be_nil 
+        expect(the_response.completed_at).to_not be_nil
         expect(the_response.completed_at).to be_within(1.minute).of(Time.zone.now)
         expect(the_response.content).to_not be_nil
         expect(the_response.remote_content).to_not be_nil
@@ -150,6 +150,13 @@ describe Api::V1::ResponseController, type: :controller do
         expect(response.status).to eq 404
         expect(response.body).to_not be_nil
         expect(response.body).to eq 'Response met dat uuid niet gevonden'
+      end
+
+      it 'should throw a 400 if the response has been completed already' do
+        post :create, params: { uuid: the_response.uuid, content: content }
+        post :create, params: { uuid: the_response.uuid, content: content }
+        expect(response.status).to eq 400
+        expect(response.body).to eq 'Response met dat uuid heeft al content'
       end
     end
   end

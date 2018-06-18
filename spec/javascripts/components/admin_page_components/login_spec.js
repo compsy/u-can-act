@@ -43,7 +43,6 @@ describe("Login", function() {
       expect(result.props.children).toEqual('Log In');
       expect(result.props.onClick.name.endsWith('login')).toBeTruthy();
     });
-
   });
 
   describe("render", function() {

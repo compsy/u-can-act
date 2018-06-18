@@ -45,12 +45,12 @@ describe NextPageFinder do
     it 'should redirect to the mentor page if the person is a mentor and no questionnaires are available' do
       mentor = FactoryBot.create(:mentor)
       result = described_class.get_next_page(current_user: mentor)
-      expect(result).to eq mentor_overview_index_path
+      expect(result).to eq Rails.application.routes.url_helpers.mentor_overview_index_path
     end
 
     it 'should redirect to the klaar_path if no questionnaires are available, nor is the current person a mentor' do
       result = described_class.get_next_page(current_user: person)
-      expect(result).to eq klaar_path
+      expect(result).to eq Rails.application.routes.url_helpers.klaar_path
     end
   end
 end

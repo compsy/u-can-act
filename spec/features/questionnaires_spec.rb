@@ -2021,10 +2021,11 @@ describe 'GET and POST /', type: :feature, js: true do
       page.click_on 'Opslaan'
       # expect(page).to have_http_status(200)
       # Just check a simple URL to see if it has redirected correctly.
-      expect(page).to have_content({ 'number_of_students' => 1,
-                                     'number_of_mentors' => 0,
-                                     'duration_of_project_in_weeks' => 32,
-                                     'number_of_completed_questionnaires' => 1 }.to_json)
+
+      expect(page).to have_content('number_of_students')
+      expect(page).to have_content('number_of_mentors')
+      expect(page).to have_content('duration_of_project_in_weeks')
+      expect(page).to have_content('number_of_completed_questionnaires')
       responseobj.reload
     end
   end

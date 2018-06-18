@@ -64,4 +64,5 @@ nm_measurement.open_duration = default_posttest_open_duration
 nm_measurement.reward_points =  0
 nm_measurement.stop_measurement = true
 nm_measurement.should_invite = true
+nm_measurement.redirect_url = '/person/edit'
 nm_measurement.save!

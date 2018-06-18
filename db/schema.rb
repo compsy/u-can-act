@@ -98,7 +98,6 @@ ActiveRecord::Schema.define(version: 20180611144737) do
     t.string   "email"
     t.integer  "role_id",             null: false
     t.string   "external_identifier", null: false
-    t.string   "bankaccount"
     t.string   "iban"
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end

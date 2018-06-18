@@ -23,9 +23,15 @@ describe IbanValidator do
     end
   end
 
-  it 'should not return errors if the iban is correct' do
-    person.iban = 'NL91ABNA0417164300'
-    expect(person).to be_valid
+  describe 'with a correct iban' do
+    it 'should not return errors' do
+      person.iban = 'NL91ABNA0417164300'
+      expect(person).to be_valid
+    end
+    it 'should not return errors with spaces in the iban' do
+      person.iban = 'NL 91 ABNA 0 4171 64 300'
+      expect(person).to be_valid
+    end
   end
 
   it 'should not return errors if the iban is nil' do

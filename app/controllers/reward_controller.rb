@@ -23,6 +23,6 @@ class RewardController < ApplicationController
   end
 
   def use_mentor_layout
-    @use_mentor_layout = @response.protocol_subscription.person.mentor?
+    @use_mentor_layout = false
   end
 end

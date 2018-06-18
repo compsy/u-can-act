@@ -12,11 +12,6 @@ class RewardPage extends React.Component {
     this.loadCurrentPerson();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.loadRewardData(nextProps.protocolSubscriptionId);
-    this.loadCurrentPerson();
-  }
-
   isDone() {
     return !this.state.result.protocol_completion.some((entry) => {
       return entry.future
@@ -29,7 +24,6 @@ class RewardPage extends React.Component {
     // Only update if the subscription id has changed
     let url = '/api/v1/person/me';
     $.getJSON(url, (response) => {
-      console.log(response);
       self.setState({
         person: response
       })
@@ -50,7 +44,7 @@ class RewardPage extends React.Component {
 
   getCorrectResultPage() {
     if (this.state.result.person_type === 'Mentor') {
-      if(!this.isDone()) {
+      if (!this.isDone()) {
         return <div />
       }
       return (<MentorRewardPage />)
@@ -80,7 +74,7 @@ class RewardPage extends React.Component {
     }
 
     result = this.getCorrectResultPage()
-    return ( 
+    return (
       <div className="col s12">
         <div className="row">
           <div className="col s12">
@@ -88,6 +82,7 @@ class RewardPage extends React.Component {
             {result}
             <ul>
               <li><a href='/disclaimer'>Disclaimer</a></li>
+              {/* <li><EditPersonLink person={this.state.person}/></li> */}
             </ul>
           </div>
         </div>

@@ -174,20 +174,6 @@ class QuestionnaireController < ApplicationController
                                 stop_subscription: permit_recursive_params(params[:stop_subscription]&.to_unsafe_h))
   end
 
-  def permit_recursive_params(params)
-    # TODO: remove this function in rails 5.1 (which is already out, but not supported by delayed_job_active_record)
-    return [] if params.blank?
-    params.map do |key, _value|
-      # if value.is_a?(Array)
-      #  { key => [permit_recursive_params(value.first)] }
-      # elsif value.is_a?(Hash) || value.is_a?(ActionController::Parameters)
-      #  { key => permit_recursive_params(value) }
-      # else
-      key
-      # end
-    end
-  end
-
   def questionnaire_content
     return {} if questionnaire_create_params[:content].nil?
     questionnaire_create_params[:content].to_unsafe_h

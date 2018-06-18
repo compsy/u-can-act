@@ -4,6 +4,9 @@ require 'rails_helper'
 
 describe Api::V1::ApiController, type: :controller do
   controller(Api::V1::ApiController) do
+    def create
+      raise_bad_request
+    end
   end
 
   let(:test_response) { FactoryBot.create(:response) }
@@ -12,6 +15,14 @@ describe Api::V1::ApiController, type: :controller do
   let(:mentor) { FactoryBot.create(:person) }
   let(:other_person) { FactoryBot.create(:person) }
   let(:yet_another_person) { FactoryBot.create(:person) }
+
+  fdescribe 'raise_bad_request' do
+    it 'should render a 400 when called' do
+      post :create
+      expect(response.status).to eq 400
+      expect(response.body).to eq 'Error while parsing json parameters: '
+    end
+  end
 
   describe 'check_access_allowed' do
     before :each do

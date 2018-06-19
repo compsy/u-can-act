@@ -8,7 +8,7 @@ class StudentFinalRewardPage extends React.Component {
           binnen zijn ontvangt jouw S-team begeleider jouw beloning en kan jij je beloning daar dus ophalen.
         </p>
         <p className='flow-text'>
-           In totaal heb je €{this.props.earnedEuros} verdiend.
+           In totaal heb je {printAsMoney(this.props.earnedEuros)} verdiend.
         </p>
         <p className='flow-text'>
           Hartelijke groeten van het RUG onderzoeksteam:

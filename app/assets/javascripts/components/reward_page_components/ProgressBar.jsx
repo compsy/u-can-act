@@ -12,7 +12,10 @@ class ProgressBar extends React.Component {
   componentDidMount() {
     let timer = setInterval(this.performTimerEvent.bind(this), 1500);
     let radial = this.renderGraph(
-      this.calculateInitialValue(),
+      this.calculateInitialValue(this.props.valueEuro,
+                                 this.props.euroDelta, 
+                                 this.props.initialMultiplier,
+                                 this.props.currentMultiplier ),
       this.props.percentageStreak,
       this.props.awardableEuro,
       this.props.totalAvailable
@@ -24,18 +27,17 @@ class ProgressBar extends React.Component {
     });
   }
 
-  calculateInitialValue() {
-    var initialValue = this.props.valueEuro
-    if (this.props.currentMultiplier > 0) {
-      initialValue -= this.props.euroDelta;
-      var multiplier = (this.props.euroDelta / this.props.currentMultiplier) * this.props.initialMultiplier;
-      initialValue += multiplier;
-    }
-    return initialValue;
+  componentWillUnmount() {
+    //TODO: ANDO ALS DIT HIER NOG STAAT MOET JE HET TEGEN ME ZEGGEN!
+    //TODO: Testen of het goed gaat met de clearinterval nu.
+    clearInterval(this.state.timer);
   }
 
-  componentWillUnmount() {
-    this.clearInterval(this.state.timer);
+  calculateInitialValue(initialValue, delta, initialMultiplier, currentMultiplier) {
+    if (currentMultiplier <= 0) { return initialValue; }
+
+    var multiplier = (delta / currentMultiplier) * initialMultiplier;
+    return initialValue - delta +  multiplier;
   }
 
   performTimerEvent() {

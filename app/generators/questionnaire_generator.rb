@@ -33,8 +33,9 @@ class QuestionnaireGenerator
 
     def substitute_variables(response, title, content)
       return [title, content] if response.blank?
+      subs_hash = VariableSubstitutor.substitute_variables(response)
       [title, content].map do |obj|
-        response.substitute_variables(obj)
+        VariableEvaluator.evaluate_obj(obj, subs_hash)
       end
     end
 

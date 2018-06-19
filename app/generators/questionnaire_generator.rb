@@ -272,8 +272,8 @@ class QuestionnaireGenerator
     end
 
     def add_shows_hides_questions(tag_options, shows_questions, hides_questions)
-      tag_options = add_shows_questions(tag_options, shows_questions)
-      tag_options = add_hides_questions(tag_options, hides_questions)
+      tag_options = add_show_hide_question(tag_options, shows_questions, :shows_questions)
+      tag_options = add_show_hide_question(tag_options, hides_questions, :hides_questions)
       tag_options
     end
 
@@ -285,20 +285,19 @@ class QuestionnaireGenerator
                   onclick: "Materialize.toast('#{tooltip_content.gsub("'", %q(\\\'))}', #{TOOLTIP_DURATION})")
     end
 
-    def add_shows_questions(tag_options, shows_questions)
-      if shows_questions.present?
-        shows_questions_str = shows_questions.map { |qid| idify(qid) }.inspect
-        tag_options[:data] = { shows_questions: shows_questions_str }
+    def add_show_hide_question(tag_options, questions_to_toggle, key)
+      if questions_to_toggle.present?
+        questions_to_toggle_str = questions_to_toggle.map { |qid| idify(qid) }.inspect
+        append_tag(tag_options, :data, key => questions_to_toggle_str)
       end
       tag_options
     end
 
-    def add_hides_questions(tag_options, hides_questions)
-      if hides_questions.present?
-        hides_questions_str = hides_questions.map { |qid| idify(qid) }.inspect
-        tag_options[:data] = { hides_questions: hides_questions_str }
-      end
-      tag_options
+    def append_tag(tag_options, field, data)
+      # The append_tag function allows us to specify both shows and hides attributes
+      # in one question
+      tag_options[field] ||= {}
+      tag_options[field] = tag_options[field].merge data
     end
 
     def radio_otherwise(question)

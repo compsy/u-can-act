@@ -9,9 +9,9 @@ nameting1.content = [{
 }, {
   id: :v2,
   type: :range,
-  title: 'In hoeverre heb jij met {{naam_studenten}} de doelen behaald in {{zijn_haar_studenten}} begeleidingstraject?',
+  title: 'In hoeverre vind jij dat {{naam_studenten}} vooruitgang heeft geboekt in {{zijn_haar_studenten}} begeleidingstraject?',
   foreach: :student,
-  labels: ['Helemaal niet ', 'helemaal wel']
+  labels: ['Helemaal niet ', 'heel veel']
 }, {
   id: :v3,
   type: :range,

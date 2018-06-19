@@ -12,12 +12,11 @@ class QuestionnaireGenerator
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
       response = Response.find_by_id(response_id) # allow nil response id for preview
       raw_content = content.deep_dup
-      content = QuestionnaireExpander.expand_content(content, response)
-      title, content = substitute_variables(response, title, content)
+      title = substitute_variables(response, title).first
       body = safe_join([
                          questionnaire_header(title),
                          questionnaire_hidden_fields(response_id, authenticity_token),
-                         questionnaire_questions(content, response_id, raw_content),
+                         questionnaire_questions(content, response, raw_content),
                          submit_button(submit_text)
                        ])
       body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
@@ -25,18 +24,17 @@ class QuestionnaireGenerator
     end
 
     def generate_hash_questionnaire(response_id, content, title)
-      title, content = substitute_variables(response_id, title, content)
+      response = Response.find_by_id(response_id) # allow nil response id for preview
+      title = substitute_variables(response, title).first
+      content = substitute_variables(response, content)
       { title: title, content: content }
     end
 
     private
 
-    def substitute_variables(response, title, content)
-      return [title, content] if response.blank?
-      subs_hash = VariableSubstitutor.substitute_variables(response)
-      [title, content].map do |obj|
-        VariableEvaluator.evaluate_obj(obj, subs_hash)
-      end
+    def substitute_variables(response, obj_to_substitute)
+      return obj_to_substitute if obj_to_substitute.blank?
+      QuestionnaireExpander.expand_content(obj_to_substitute, response)
     end
 
     def questionnaire_header(title)
@@ -55,13 +53,16 @@ class QuestionnaireGenerator
       safe_join(hidden_body)
     end
 
-    def questionnaire_questions(content, response_id, raw_content)
+    def questionnaire_questions(content, response, raw_content)
       body = []
       content.each_with_index do |question, idx|
         new_question = question.deep_dup
-        new_question[:response_id] = response_id
-        new_question[:raw] = raw_content[idx]
-        body << single_questionnaire_question(new_question) if should_show?(new_question)
+        new_question = substitute_variables(response, new_question)
+        new_question.each do |quest|
+          quest[:response_id] = response.id
+          quest[:raw] = raw_content[idx]
+          body << single_questionnaire_question(quest) if should_show?(quest)
+        end
       end
       safe_join(body)
     end

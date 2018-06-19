@@ -9,7 +9,7 @@ nameting1.content = [{
 }, {
   id: :v2,
   type: :range,
-  title: 'In hoeverre vind jij dat {{naam_studenten}} vooruitgang heeft geboekt in {{zijn_haar_studenten}} begeleidingstraject?',
+  title: 'In hoeverre vind jij dat {{deze_student}} vooruitgang heeft geboekt in {{zijn_haar_student}} begeleidingstraject?',
   foreach: :student,
   labels: ['Helemaal niet ', 'heel veel']
 }, {
@@ -28,7 +28,7 @@ nameting1.content = [{
   min: 1,
   max: 10,
   step: 0.5,
-  title: 'Wat voor cijfer zou je de app geven? (slider, op de halve punt)',
+  title: 'Wat voor cijfer zou je de app geven?',
   labels: ['1', '10']
 }, {
   id: :v5,

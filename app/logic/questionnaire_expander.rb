@@ -3,67 +3,35 @@
 class QuestionnaireExpander
   class << self
     def expand_content(content, response)
-      raise unless content.is_a? Array
-      content.reduce([]) do |total, question|
-        total.concat(question[:foreach].present? ? process_foreach(question, response) : [question])
+      if content.is_a? Hash
+        return process_foreach(content, response) if content[:foreach].present?
       end
+
+      process_normal(content, response)
     end
 
     private
 
-    def process_foreach(question, response)
-      res = []
-      case question[:foreach]
+    def process_normal(content, response)
+      subs_hash = VariableSubstitutor.substitute_variables(response)
+      result = VariableEvaluator.evaluate_obj(content, subs_hash)
+      [result]
+    end
+
+    def process_foreach(content, response)
+      case content[:foreach]
       when :student
-        response.person.my_students.each_with_index do |person, idx|
-          res << replace_question(question.deep_dup, person, idx)
+        mentor = response.person
+        mentor.my_students.map do |student|
+          # TODO: fix the keys!
+          content_dup = content.deep_dup
+          subs_hash = VariableSubstitutor.create_substitution_hash(mentor, student)
+          content_dup[:id] = "#{content_dup[:id]}_#{student.external_identifier}"
+          VariableEvaluator.evaluate_obj(content_dup, subs_hash)
         end
       else
-        raise "Foreach option #{question[:foreach]} not found"
+        raise "Only :student foreach type is allowed, not #{content[:foreach]}"
       end
-      res
     end
-
-    # TODO: We'd probably want to change idx to an actual identifier
-    def replace_question(question, person, idx)
-      question = replace_student_names(question, idx)
-      question = replace_student_zijn_haar(question, idx)
-      question = replace_student_hij_zij(question, idx)
-      question = replace_student_hem_haar(question, idx)
-      question = replace_id(question, person)
-      question
-    end
-
-    def replace_student_names(question, idx)
-      question[:title] = question[:title].gsub('{{naam_studenten}}',
-                                               "{{student_#{idx}}}")
-      question
-    end
-
-    def replace_student_zijn_haar(question, idx)
-      question[:title] = question[:title].gsub('{{zijn_haar_studenten}}',
-                                               "{{zijn_haar_student_#{idx}}}")
-      question
-    end
-
-    def replace_student_hij_zij(question, idx)
-      question[:title] = question[:title].gsub('{{hij_zij_studenten}}',
-                                               "{{hij_zij_student_#{idx}}}")
-      question
-    end
-
-    def replace_student_hem_haar(question, idx)
-      question[:title] = question[:title].gsub('{{hem_haar_studenten}}',
-                                               "{{hem_haar_student_#{idx}}}")
-      question
-    end
-
-    def replace_id(question, person)
-      # TODO: Should this be some kind of bubblebabble?
-      question[:id] = "#{question[:id]}_#{person.external_identifier}".to_sym
-      question
-    end
-
-    def test; end
   end
 end

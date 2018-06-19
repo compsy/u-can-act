@@ -1991,4 +1991,42 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
     end
   end
+  describe 'with redirect url' do
+    let(:redirect_url) { '/api/v1/statistics' }
+    it 'should redirect to the redirect url of a provided measurement if it has one' do
+      content = [{
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol,
+                                                    redirect_url: redirect_url)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      page.choose('brood', allow_label_click: true)
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      # Just check a simple URL to see if it has redirected correctly.
+
+      expect(page).to have_content('number_of_students')
+      expect(page).to have_content('number_of_mentors')
+      expect(page).to have_content('duration_of_project_in_weeks')
+      expect(page).to have_content('number_of_completed_questionnaires')
+      responseobj.reload
+    end
+  end
 end

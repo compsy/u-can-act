@@ -1,9 +1,9 @@
-
 .progressRadial {
   .rbc-label-start {
     fill: #FFD700;
     font-size: 25px;
   }
+
   .rbc-center-text-line1 {
     font-size: 70px;
     padding: 10px;
@@ -19,65 +19,65 @@ $height: 500;
 // Create the explosion...
 $box-shadow: ();
 $box-shadow2: ();
+
 @for $i from 0 through $particles {
-  $box-shadow: $box-shadow,
-               random($width)-$width / 2 + px
-               random($height)-$height / 1.2 + px
-               hsl(random(360), 100, 50);
-  $box-shadow2: $box-shadow2, 0 0 yellow
-}
-@mixin keyframes ($animationName) {
-    @-webkit-keyframes #{$animationName} {
-        @content;
-    }
+  $box-shadow: $box-shadow, (random($width) - $width / 2 + px) (random($height) - $height / 1.2 + px) hsl(random(360), 100, 50);
 
-    @-moz-keyframes #{$animationName} {
-        @content;
-    }
-
-    @-o-keyframes #{$animationName} {
-        @content;
-    }
-
-    @-ms-keyframes #{$animationName} {
-        @content;
-    }
-
-    @keyframes #{$animationName} {
-        @content;
-    }
+  $box-shadow2: $box-shadow2, 0 0 yellow;
 }
 
-@mixin animation-delay ($settings) {
-    -moz-animation-delay: $settings;
-    -webkit-animation-delay: $settings;
-    -o-animation-delay: $settings;
-    -ms-animation-delay: $settings;
-    animation-delay: $settings;
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+
+  @-ms-keyframes #{$animationName} {
+    @content;
+  }
+
+  @keyframes #{$animationName} {
+    @content;
+  }
 }
 
-@mixin animation-duration ($settings) {
-    -moz-animation-duration: $settings;
-    -webkit-animation-duration: $settings;
-    -o-animation-duration: $settings;
-    -ms-animation-duration: $settings;
-    animation-duration: $settings;
+@mixin animation-delay($settings) {
+  -moz-animation-delay: $settings;
+  -webkit-animation-delay: $settings;
+  -o-animation-delay: $settings;
+  -ms-animation-delay: $settings;
+  animation-delay: $settings;
 }
 
-@mixin animation ($settings) {
-    -moz-animation: $settings;
-    -webkit-animation: $settings;
-    -o-animation: $settings;
-    -ms-animation: $settings;
-    animation: $settings;
+@mixin animation-duration($settings) {
+  -moz-animation-duration: $settings;
+  -webkit-animation-duration: $settings;
+  -o-animation-duration: $settings;
+  -ms-animation-duration: $settings;
+  animation-duration: $settings;
 }
 
-@mixin transform ($settings) {
-    transform: $settings;
-    -moz-transform: $settings;
-    -webkit-transform: $settings;
-    -o-transform: $settings;
-    -ms-transform: $settings;
+@mixin animation($settings) {
+  -moz-animation: $settings;
+  -webkit-animation: $settings;
+  -o-animation: $settings;
+  -ms-animation: $settings;
+  animation: $settings;
+}
+
+@mixin transform($settings) {
+  transform: $settings;
+  -moz-transform: $settings;
+  -webkit-transform: $settings;
+  -o-transform: $settings;
+  -ms-transform: $settings;
 }
 
 .fireworks_component {
@@ -87,6 +87,7 @@ $box-shadow2: ();
     height: 5px;
     border-radius: 50%;
     box-shadow: $box-shadow2;
+
     @include animation((1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards));
   }
 
@@ -97,34 +98,41 @@ $box-shadow2: ();
 
   @include keyframes(bang) {
     to {
-      box-shadow:$box-shadow;
+      box-shadow: $box-shadow;
     }
   }
 
-  @include keyframes(gravity)  {
+
+  @include keyframes(gravity) {
     to {
       @include transform(translateY(200px));
+
       opacity: 0;
     }
   }
+
 
   @include keyframes(position) {
     0%, 19.9% {
       margin-top: 10%;
       margin-left: 40%;
     }
+
     20%, 39.9% {
       margin-top: 40%;
       margin-left: 30%;
     }
+
     40%, 59.9% {
       margin-top: 20%;
-      margin-left: 70%
+      margin-left: 70%;
     }
+
     60%, 79.9% {
       margin-top: 30%;
       margin-left: 20%;
     }
+
     80%, 99.9% {
       margin-top: 30%;
       margin-left: 80%;
@@ -134,4 +142,29 @@ $box-shadow2: ();
 
 .pulse {
   overflow: hidden;
+}
+
+.material-tooltip {
+  $bg: $accent-color;
+
+  // #1B2962; buenaparte blue
+  padding: 5px 20px 20px;
+  border-radius: 10px;
+  background: $bg;
+  overflow: visible;
+
+  .backdrop {
+    display: none !important;
+  }
+
+  &:after {
+    position: absolute;
+    content: " ";
+    bottom: 100%;
+    left: 25%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent $bg transparent;
+  }
 }

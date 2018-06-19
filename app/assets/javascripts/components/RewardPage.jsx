@@ -2,22 +2,32 @@ class RewardPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: undefined
+      result: undefined,
+      person: undefined
     };
   }
 
   componentDidMount() {
     this.loadRewardData(this.props.protocolSubscriptionId);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.loadRewardData(nextProps.protocolSubscriptionId);
+    this.loadCurrentPerson();
   }
 
   isDone() {
     return !this.state.result.protocol_completion.some((entry) => {
       return entry.future
     })
+  }
+
+  loadCurrentPerson() {
+    var self = this
+
+    // Only update if the subscription id has changed
+    let url = '/api/v1/person/me';
+    $.getJSON(url, (response) => {
+      self.setState({
+        person: response
+      })
+    });
   }
 
   loadRewardData(protocolSubscriptionId) {
@@ -34,7 +44,7 @@ class RewardPage extends React.Component {
 
   getCorrectResultPage() {
     if (this.state.result.person_type === 'Mentor') {
-      if(!this.isDone()) {
+      if (!this.isDone()) {
         return <div />
       }
       return (<MentorRewardPage />)
@@ -59,18 +69,21 @@ class RewardPage extends React.Component {
   }
 
   render() {
-    if (!this.state.result) {
+    if (!this.state.result || !this.state.person) {
       return <div>Bezig...</div>
     }
 
     result = this.getCorrectResultPage()
-    return ( 
+    return (
       <div className="col s12">
         <div className="row">
           <div className="col s12">
             <h4>Bedankt voor het invullen van de vragenlijst!</h4>
             {result}
-            <a href='/disclaimer'>Disclaimer</a>
+            <ul>
+              <li><a href='/disclaimer'>Disclaimer</a></li>
+              {/* <li><EditPersonLink person={this.state.person}/></li> */}
+            </ul>
           </div>
         </div>
       </div>

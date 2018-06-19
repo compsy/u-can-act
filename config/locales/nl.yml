@@ -1,2 +1,5 @@
 nl:
-  hello: "Hallo wereld"
+  misc:
+    error:
+      one:   fout
+      other: fouten

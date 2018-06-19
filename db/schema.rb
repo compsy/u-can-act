@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20180613123125) do
     t.integer  "offset_till_end"
     t.boolean  "stop_measurement", default: false, null: false
     t.boolean  "should_invite",    default: true,  null: false
+    t.string   "redirect_url"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end
@@ -97,6 +98,7 @@ ActiveRecord::Schema.define(version: 20180613123125) do
     t.string   "email"
     t.integer  "role_id",             null: false
     t.string   "external_identifier", null: false
+    t.string   "iban"
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 

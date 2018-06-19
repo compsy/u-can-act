@@ -70,6 +70,11 @@ class Person < ApplicationRecord
     protocol_subscriptions.active.sum(&:max_still_earnable_reward_points)
   end
 
+  def my_students
+    return [] unless mentor?
+    my_protocols(false).map(&:filling_out_for)
+  end
+
   def my_protocols(for_myself = true)
     return [] if protocol_subscriptions.blank?
     return protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id } if for_myself

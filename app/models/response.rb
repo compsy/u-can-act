@@ -6,6 +6,7 @@ class Response < ApplicationRecord
   # to be nil.
   RECENT_PAST = 2.hours
   belongs_to :protocol_subscription
+  has_one :person, through: :protocol_subscription
   validates :protocol_subscription_id, presence: true
   belongs_to :filled_out_for, class_name: 'Person'
   belongs_to :filled_out_by, class_name: 'Person'
@@ -124,12 +125,19 @@ class Response < ApplicationRecord
       student = protocol_subscription.person
       mentor = student.role.group == Person::STUDENT ? student.mentor : nil # Student can in theory just be a person
     end
+
     [student, mentor]
   end
 
   def substitute_variables(obj)
     student, mentor = determine_student_mentor
-    subs_hash = {
+    subs_hash = substitute_singular_variables(mentor, student)
+    subs_hash.merge! substitute_plural_variables(mentor, student)
+    VariableEvaluator.evaluate_obj(obj, subs_hash)
+  end
+
+  def substitute_singular_variables(mentor, student)
+    {
       mentor_title: mentor&.role&.title,
       mentor_gender: mentor&.gender,
       mentor_name: mentor&.first_name,
@@ -137,7 +145,13 @@ class Response < ApplicationRecord
       student_name: student.first_name,
       student_gender: student.gender
     }
-    VariableEvaluator.evaluate_obj(obj, subs_hash)
+  end
+
+  def substitute_plural_variables(_mentor, student)
+    {
+      student_names: student&.my_students&.map(&:first_name),
+      student_genders: student&.my_students&.map(&:gender)
+    }
   end
 
   def response_expired?

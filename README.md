@@ -313,13 +313,14 @@ Required and allowed options (minimal example and maximal example):
   type: :range,
   min: 0,
   max: 100,
+  step: 1,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
   section_end: true
 }]
 ```
-The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively.
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. It also supports `step`, which sets the step size of the slider (set to 1 by default).
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**

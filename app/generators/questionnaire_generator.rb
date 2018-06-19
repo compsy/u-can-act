@@ -10,8 +10,10 @@ class QuestionnaireGenerator
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
+      response = Response.find_by_id(response_id) # allow nil response id for preview
       raw_content = content.deep_dup
-      title, content = substitute_variables(response_id, title, content)
+      content = QuestionnaireExpander.expand_content(content, response)
+      title, content = substitute_variables(response, title, content)
       body = safe_join([
                          questionnaire_header(title),
                          questionnaire_hidden_fields(response_id, authenticity_token),
@@ -29,8 +31,7 @@ class QuestionnaireGenerator
 
     private
 
-    def substitute_variables(response_id, title, content)
-      response = Response.find_by_id(response_id) # allow nil response id for preview
+    def substitute_variables(response, title, content)
       return [title, content] if response.blank?
       [title, content].map do |obj|
         response.substitute_variables(obj)

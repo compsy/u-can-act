@@ -42,6 +42,7 @@ class VariableEvaluator
         mentor_gender: nil,
         mentor_name: 'je begeleider',
         organization: 'je begeleidingsinitiatief',
+        student_names: [],
         student_name: 'deze student', # incl. "deze" want naam ipv titel
         student_gender: nil
       }
@@ -50,6 +51,11 @@ class VariableEvaluator
     # rubocop:disable Metrics/AbcSize
     # Ik vind het duidelijker om dit volledig uit te schrijven dan dit te gaan opsplitsen.
     def substitutions(subs_hash)
+      subs = singular_substitutions(subs_hash)
+      subs.merge(plural_substitutions(subs_hash))
+    end
+
+    def singular_substitutions(subs_hash)
       {
         'begeleider' => subs_hash[:mentor_title],
         'zijn_haar_begeleider' => possessive_determiner(subs_hash[:mentor_gender]),
@@ -63,6 +69,22 @@ class VariableEvaluator
         'hem_haar_student' => personal_pronoun_dativus(subs_hash[:student_gender])
       }
     end
+
+    def plural_substitutions(subs_hash)
+      subs = {}
+      # TODO: use zip?
+      subs_hash[:student_names].each_with_index do |name, idx|
+        subs["student_#{idx}"] = name
+      end
+
+      subs_hash[:student_genders].each_with_index do |gender, idx|
+        subs["zijn_haar_student_#{idx}"] = possessive_determiner(gender)
+        subs["hij_zij_student_#{idx}"] = personal_pronoun(gender)
+        subs["hem_haar_student_#{idx}"] = personal_pronoun_dativus(gender)
+      end
+      subs
+    end
+
     # rubocop:enable Metrics/AbcSize
 
     def possessive_determiner(gender)

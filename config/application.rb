@@ -37,7 +37,6 @@ module Vsv
     # Enable react addons
     config.react.addons = true
 
-
     config.generators do |g|
       # Set basic DBMS as main database
       g.orm :active_record

@@ -20,6 +20,9 @@ class Person < ApplicationRecord
             format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
             allow_blank: true,
             uniqueness: true
+
+  validates_with IbanValidator
+
   validates :external_identifier,
             format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/i,
             allow_blank: false,

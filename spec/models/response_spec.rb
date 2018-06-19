@@ -188,6 +188,17 @@ describe Response do
     end
   end
 
+  describe 'after_date' do
+    it 'should return responses with a open_from that is in the future' do
+      FactoryBot.create(:response, open_from: Time.new(2018, 10, 9))
+      FactoryBot.create(:response, open_from: Time.new(2018, 10, 10))
+      expected = FactoryBot.create(:response, open_from: Time.new(2018, 10, 11))
+      thedate = Time.new(2018, 10, 10)
+      expect(Response.after_date(thedate).count).to eq 1
+      expect(Response.after_date(thedate).to_a).to eq [expected]
+    end
+  end
+
   describe 'remote_content' do
     it 'should work when there is content' do
       responseobj = FactoryBot.create(:response, :completed)

@@ -24,5 +24,8 @@ FactoryBot.define do
     trait :relative_to_end_date do
       offset_till_end((2.days + 11.hours).to_i) # Friday 1pm
     end
+    trait :with_redirect_url do
+      redirect_url '/person/edit'
+    end
   end
 end

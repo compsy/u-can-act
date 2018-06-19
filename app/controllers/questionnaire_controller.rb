@@ -3,7 +3,6 @@
 class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
-  before_action :redirect_to_next_page, only: [:index]
   before_action :set_response, only: %i[show destroy]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
@@ -14,7 +13,9 @@ class QuestionnaireController < ApplicationController
   before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_content_hash, only: [:create]
 
-  def index; end
+  def index
+    redirect_to NextPageFinder.get_next_page current_user: current_user
+  end
 
   def show
     @response.update_attributes!(opened_at: Time.zone.now)
@@ -32,7 +33,7 @@ class QuestionnaireController < ApplicationController
     @response.update_attributes!(content: response_content.id)
     @response.complete!
     check_stop_subscription
-    redirect_to_next_page
+    redirect_to NextPageFinder.get_next_page current_user: current_user, previous_response: @response
   end
 
   def destroy
@@ -46,7 +47,7 @@ class QuestionnaireController < ApplicationController
     # Note, we don't unsubscribe yet. If a person clicks the 'stop' link, the
     # person is redirected to the stop questionnaire. However, as long as the
     # student does not submit that questionnaire, he or she is not unsubscribed
-    redirect_to_next_page stop_response
+    redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: stop_response
   end
 
   private
@@ -93,25 +94,8 @@ class QuestionnaireController < ApplicationController
     end
   end
 
-  def redirect_to_next_page(first_response = nil)
-    first_response ||= current_user.my_open_responses.first
-    if first_response.present?
-      redirect_to questionnaire_path(uuid: first_response.uuid)
-      return
-    end
-
-    if current_user.mentor?
-      redirect_to mentor_overview_index_path
-      return
-    end
-
-    redirect_to klaar_path
-  end
-
   def check_informed_consent
-    return if @protocol.informed_consent_questionnaire.blank? ||
-              @protocol_subscription.informed_consent_given_at.present?
-    render :informed_consent
+    render :informed_consent if @protocol_subscription.needs_informed_consent?
   end
 
   def verify_cookie
@@ -201,13 +185,13 @@ class QuestionnaireController < ApplicationController
 
     # Instead of throwing a 404, just redirect to the next page in line if one is already completed.
     if response.completed_at
-      redirect_to_next_page
+      redirect_to NextPageFinder.get_next_page current_user: current_user
       return
     end
 
     # A person should always be able to fill out a stop measurement
     return if !response.expired? || response.measurement.stop_measurement
     flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
-    redirect_to_next_page
+    redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 end

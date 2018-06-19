@@ -41,7 +41,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       get :show, params: { q: identifier }
       expect(response).to have_http_status(302)
       expect(response.location).to_not eq(mentor_overview_index_url)
-      expect(response.location).to eq(questionnaire_index_url)
+      expect(response.location).to end_with(questionnaire_index_path)
     end
 
     describe 'should set the correct cookie' do

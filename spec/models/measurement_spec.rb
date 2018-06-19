@@ -197,6 +197,13 @@ describe Measurement do
     end
   end
 
+  describe 'redirect_url' do
+    it 'should have a redirect url' do
+      measurement = FactoryBot.create(:measurement, redirect_url: 'test')
+      expect(measurement.redirect_url).to eq('test')
+    end
+  end
+
   describe 'response_times' do
     context 'periodical measurements' do
       it 'should work if there is an offset_till_end present' do

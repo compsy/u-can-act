@@ -3,26 +3,28 @@
 class QuestionnaireExpander
   class << self
     def expand_content(content, response)
-      res = []
-      content.each do |question|
-        new_question = question.deep_dup
-        unless new_question[:foreach].present?
-          res << new_question
-          next
-        end
-        response.person.my_students.each_with_index do |person, idx|
-          # TODO: add case
-          tmp_question = new_question.deep_dup
-          tmp_question = replace_question(tmp_question, person, idx)
-          res << tmp_question
-        end
+      raise unless content.is_a? Array
+      content.reduce([]) do |total, question|
+        total.concat(question[:foreach].present? ? process_foreach(question, response) : [question])
       end
-      res
     end
 
     private
 
-    # TODO: change idx to person id or something
+    def process_foreach(question, response)
+      res = []
+      case question[:foreach]
+      when :student
+        response.person.my_students.each_with_index do |person, idx|
+          res << replace_question(question.deep_dup, person, idx)
+        end
+      else
+        raise "Foreach option #{question[:foreach]} not found"
+      end
+      res
+    end
+
+    # TODO: We'd probably want to change idx to an actual identifier
     def replace_question(question, person, idx)
       question = replace_student_names(question, idx)
       question = replace_student_zijn_haar(question, idx)
@@ -58,7 +60,6 @@ class QuestionnaireExpander
 
     def replace_id(question, person)
       # TODO: Should this be some kind of bubblebabble?
-      Rails.logger.info question.pretty_inspect
       question[:id] = "#{question[:id]}_#{person.external_identifier}".to_sym
       question
     end

@@ -23,7 +23,6 @@ class QuestionnaireExpander
       when :student
         mentor = response.person
         mentor.my_students.map do |student|
-          # TODO: fix the keys!
           content_dup = content.deep_dup
           subs_hash = VariableSubstitutor.create_substitution_hash(mentor, student)
           content_dup[:id] = "#{content_dup[:id]}_#{student.external_identifier}"

@@ -288,43 +288,6 @@ describe Response do
     end
   end
 
-  describe 'substitute_variables' do
-    it 'should replace variables in a student response' do
-      team = FactoryBot.create(:team)
-      student_role = FactoryBot.create(:role, team: team,
-                                              group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, team: team,
-                                             group: Person::MENTOR, title: 'MentorTitle')
-
-      student = FactoryBot.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)
-      mentor = FactoryBot.create(:mentor, role: mentor_role, first_name: 'Pieter', gender: Person::MALE)
-
-      FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
-      prot_stud = FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      responseobj = FactoryBot.create(:response, protocol_subscription: prot_stud)
-
-      subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
-      expect(responseobj.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
-    end
-
-    it 'should replace variables in a mentor response' do
-      team = FactoryBot.create(:team)
-      student_role = FactoryBot.create(:role, team: team,
-                                              group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, team: team,
-                                             group: Person::MENTOR, title: 'MentorTitle')
-
-      student = FactoryBot.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)
-      mentor = FactoryBot.create(:mentor, role: mentor_role, first_name: 'Pieter', gender: Person::MALE)
-      prot_ment = FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
-      FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      responseobj = FactoryBot.create(:response, protocol_subscription: prot_ment)
-
-      subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
-      expect(responseobj.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
-    end
-  end
-
   describe 'expires_at' do
     it 'should work for always-open measurements' do
       protocol = FactoryBot.create(:protocol, duration: 2.weeks)

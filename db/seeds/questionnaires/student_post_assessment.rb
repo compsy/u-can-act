@@ -16,7 +16,8 @@ nameting1.content = [{
 }, {
   id: :v2,
   hidden: true,
-  type: :textfield,
+  type: :date,
+  max: [2018, 11, 01],
   required: true,
   title: 'Wanneer ben je ongeveer gestopt? Als je het niet precies meer weet, vul dan iets in dat zo goed mogelijk in de buurt komt'
 }, {

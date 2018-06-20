@@ -27,7 +27,7 @@ class QuestionnaireGenerator
     def generate_hash_questionnaire(response_id, content, title)
       response = Response.find_by_id(response_id) # allow nil response id for preview
       title = substitute_variables(response, title).first
-      content = substitute_variables(response, content)
+      content = substitute_variables(response, content).first
       { title: title, content: content }
     end
 
@@ -60,7 +60,7 @@ class QuestionnaireGenerator
         new_question = question.deep_dup
         new_question = substitute_variables(response, new_question)
         new_question.each do |quest|
-          quest[:response_id] = response.id
+          quest[:response_id] = response&.id
           quest[:raw] = raw_content[idx]
           body << single_questionnaire_question(quest) if should_show?(quest)
         end

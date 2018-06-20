@@ -13,6 +13,15 @@ describe Response do
     expect(responseobj).to be_valid
   end
 
+  describe 'person' do
+    it 'should have a person through the protocol subscription' do
+      response = FactoryBot.build(:response, :completed)
+      result = response.person
+      expect(result).to_not be_blank
+      expect(result).to eq response.protocol_subscription.person
+    end
+  end
+
   context 'scopes' do
     describe 'recently_opened_and_not_invited' do
       it 'should find a response that was opened an hour ago' do

@@ -14,6 +14,12 @@ describe VariableSubstitutor do
       let!(:prot_ment) { FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student) }
       let!(:prot_stud) { FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student) }
 
+      it 'should return an empty hash if the response is nil' do
+        result = described_class.substitute_variables(nil)
+        expect(result).to be_a Hash
+        expect(result).to be_blank
+      end
+
       describe 'with a student response' do
         let(:responseobj) { FactoryBot.create(:response, protocol_subscription: prot_stud) }
 

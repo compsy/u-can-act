@@ -42,7 +42,6 @@ class VariableEvaluator
         mentor_gender: nil,
         mentor_name: 'je begeleider',
         organization: 'je begeleidingsinitiatief',
-        student_names: [],
         student_name: 'deze student', # incl. "deze" want naam ipv titel
         student_gender: nil
       }

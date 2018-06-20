@@ -3,6 +3,7 @@
 class VariableSubstitutor
   class << self
     def substitute_variables(response)
+      return {} unless response.present?
       student, mentor = response.determine_student_mentor
       create_substitution_hash(mentor, student)
     end

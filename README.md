@@ -320,7 +320,7 @@ Required and allowed options (minimal example and maximal example):
   section_end: true
 }]
 ```
-The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. It also supports `step`, which sets the step size of the slider (set to 1 by default).
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**

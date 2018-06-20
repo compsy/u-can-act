@@ -7,6 +7,7 @@ class QuestionnaireGenerator
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
   TEXTAREA_PLACEHOLDER = 'Vul iets in'
   TEXTFIELD_PLACEHOLDER = 'Vul iets in'
+  DATEFIELD_PLACEHOLDER = 'Vul een datum in'
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
@@ -117,6 +118,7 @@ class QuestionnaireGenerator
 
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
     def create_question_body(question)
       case question[:type]
       when :radio
@@ -135,12 +137,15 @@ class QuestionnaireGenerator
         generate_raw(question)
       when :unsubscribe
         generate_unsubscribe(question)
+      when :date
+        generate_date(question)
       when :expandable
         generate_expandable(question)
       else
         raise "Unknown question type #{question[:type]}"
       end
     end
+    # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
 
@@ -699,6 +704,38 @@ class QuestionnaireGenerator
                          class: 'btn waves-effect waves-light navigate-away-allowed',
                          rel: 'nofollow')
       content_tag(:div, body, class: 'card-action')
+    end
+
+    def generate_date(question)
+      title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
+      safe_join([content_tag(:p, title, class: 'flow-text'), mydate_field(question)])
+    end
+
+    def mydate_field(question)
+      body = safe_join([
+                         mydate_tag(question),
+                         mydate_label(question)
+                       ])
+      body = content_tag(:div, body, class: 'input-field col s12')
+      body = content_tag(:div, body, class: 'row')
+      body
+    end
+
+    def mydate_tag(question)
+      tag(:input,
+          type: 'text',
+          id: idify(question[:id]),
+          name: answer_name(question[:id]),
+          required: question[:required].present?,
+          class: 'datepicker',
+          data: { min: question[:min], max: question[:max] })
+    end
+
+    def mydate_label(question)
+      content_tag(:label,
+                  placeholder(question, DATEFIELD_PLACEHOLDER),
+                  for: idify(question[:id]),
+                  class: 'flow-text')
     end
 
     def idify(*strs)

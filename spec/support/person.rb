@@ -14,8 +14,30 @@ shared_examples_for 'a person object' do
     expect(person.valid?).to be_truthy
   end
 
+  describe 'iban' do
+    let(:person) { FactoryBot.create(:person) }
+    it 'should have a validated iban' do
+      person.iban = '123'
+      expect(person.valid?).to be_falsey
+      expect(person.errors.messages).to have_key :iban
+      expect(person.errors.messages[:iban]).to include('is ongeldig')
+    end
+
+    it 'should call the iban validator' do
+      expect_any_instance_of(IbanValidator).to receive(:validate).with(person).and_call_original
+      person.iban = '123'
+      expect(person.valid?).to be_falsey
+    end
+  end
+
   describe 'mobile_phone' do
     let(:person) { FactoryBot.create(:person) }
+
+    it 'should call the mobile phone validator' do
+      expect_any_instance_of(MobilePhoneValidator).to receive(:validate).with(person).and_call_original
+      person.mobile_phone = '123'
+      expect(person.valid?).to be_falsey
+    end
 
     it 'should not accept an empty number' do
       person.mobile_phone = ''

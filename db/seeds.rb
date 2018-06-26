@@ -70,15 +70,15 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   invitation_set = InvitationSet.create!(person: person)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
-  students.each do |student|
-    prot_sub = ProtocolSubscription.create!(
-      protocol: protocol,
-      person: person,
-      filling_out_for: student,
-      state: ProtocolSubscription::ACTIVE_STATE,
-      start_date: 10.years.ago.beginning_of_week
-    )
-  end
+  #students.each do |student|
+    #prot_sub = ProtocolSubscription.create!(
+      #protocol: protocol,
+      #person: person,
+      #filling_out_for: student,
+      #state: ProtocolSubscription::ACTIVE_STATE,
+      #start_date: 10.years.ago.beginning_of_week
+    #)
+  #end
   puts "mentor nameting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Student pre assessment

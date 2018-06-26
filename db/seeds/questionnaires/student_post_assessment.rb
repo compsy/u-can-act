@@ -7,10 +7,11 @@ nameting1.key = File.basename(__FILE__)[0...-3]
 nameting1.content = [{
   id: :v1,
   type: :radio,
-  title: 'Ben je definitief gestopt met je opleding (zonder diploma)?',
+  title: 'Ben je dit schooljaar definitief gestopt met je opleiding?',
   options: [
-    { title: 'Ja', shows_questions: %i[v2 v3 v4] },
-    'Nee'
+    { title: 'Ja, ik ben gestopt met mijn opleiding zonder dat ik mijn diploma heb gehaald.', shows_questions: %i[v2 v3 v4] },
+    { title: 'Ja, ik ben gestopt nadat ik mijn diploma had gehaald.', shows_questions: %i[v2 v3 v4] },
+    { title: 'Nee, ik volg nog steeds dezelfde opleiding.', shows_questions: %i[v5] },
   ],
   show_otherwise: false
 }, {
@@ -19,7 +20,7 @@ nameting1.content = [{
   type: :date,
   max: [2018, 11, 01],
   required: true,
-  title: 'Wanneer ben je ongeveer gestopt? Als je het niet precies meer weet, vul dan iets in dat zo goed mogelijk in de buurt komt'
+  title: 'Wanneer ben je ongeveer gestopt? Als je het niet precies meer weet, vul dan iets in dat zo goed mogelijk in de buurt komt.'
 }, {
   id: :v3,
   type: :radio,
@@ -46,7 +47,7 @@ nameting1.content = [{
   hidden: true,
   type: :range,
   title: 'Hoe zeker ben je ervan dat je jouw opleiding gaat afmaken?',
-  labels: ['Helemaal niet', 'helemaal wel']
+  labels: ['helemaal niet zeker', 'helemaal zeker']
 }, {
   id: :v6,
   type: :checkbox,
@@ -70,30 +71,25 @@ nameting1.content = [{
   title: 'Kun je iets zeggen over hoe je ervoor staat/stond qua cijfers?',
   hidden: true,
   type: :range,
-  labels: ['Heel slecht', 'heel goed']
+  labels: ['heel slecht', 'heel goed']
 }, {
   id: :v7,
-  type: :radio,
-  title: 'Zie jij de begeleiding van {{je_begeleidingsinitiatief}} als onderdeel van de school, of vind jij dat de begeleiding van {{je_begeleidingsinitiatief}} los staat van de school?',
-  options: [
-    'Onderdeel van school',
-    'Los van school'
-  ],
-  show_otherwise: false
+  type: :range,
+  title: 'Vind je dat de begeleiding die jij krijgt van {{je_begeleidingsinitiatief}} bij de school hoort, of juist los staat van de school?',
+  labels: ['hoort helemaal bij de school', 'staat helemaal los van de school'],
 }, {
   id: :v8,
-  type: :textarea,
-  title: 'Hoe zou je de begeleiding die je van {{je_begeleidingsinitiatief}} hebt gekregen beschrijven, in één woord?'
+  type: :textfield,
+  title: 'Hoe zou je de begeleiding die je van {{je_begeleidingsinitiatief}} hebt gekregen in één woord beschrijven?'
 }, {
   id: :v9,
   title: 'Hoe nuttig vond jij de begeleiding die je hebt gekregen van {{je_begeleidingsinitiatief}}?',
-  hidden: true,
   type: :range,
-  labels: ['Helemaal niet nuttig', 'heel erg nuttig']
+  labels: ['helemaal niet nuttig', 'heel erg nuttig']
 }, {
   id: :v10,
   type: :radio,
-  title: 'Wil je je eigen data niet-anoniem delen met {{naam_begeleider}}, zodat hij/zij ervan kan leren? <strong>Als je nee aanvinkt blijft je data compleet anoniem!</strong>',
+  title: 'Wil je je ingevulde vragenlijsten delen met {{naam_begeleider}}, zodat hij/zij ervan kan leren? Als je nee aanvinkt krijgt {{naam_begeleider}} jouw ingevulde vragenlijsten niet te zien.',
   options: [
     'Ja',
     'Nee'
@@ -101,30 +97,30 @@ nameting1.content = [{
   show_otherwise: false
 }, {
   id: :v11,
-  title: 'Hoe moeilijk was het om zo lang elke week de app in te vullen?',
+  title: 'Hoe vond jij het om ongeveer een half jaar lang de webapp wekelijks in te vullen?',
   type: :range,
-  labels: ['Heel moeilijk', 'heel makkelijk']
+  labels: ['heel moeilijk vol te houden', 'heel makkelijk vol te houden']
 }, {
   id: :v12,
-  title: 'Wat voor cijfer zou je de app geven?',
+  title: 'Wat voor cijfer zou je de webapp geven?',
   type: :range,
   step: 0.5,
   min: 1,
   max: 10,
-  labels: ['1', '10']
+  labels: %w[1 10]
 }, {
   id: :v13,
-  title: 'In hoeverre zou je vrienden aanraden om ook mee te doen aan het u-can-act onderzoek?',
+  title: 'Zou je jouw vrienden aanraden om ook mee te doen aan het u-can-act onderzoek?',
   type: :range,
-  labels: ['Helemaal niet', 'helemaal wel']
+  labels: ['nee, totaal niet', 'ja, zeker wel']
 }, {
-  id: :v8,
+  id: :v14,
   type: :textarea,
-  title: 'Heb je nog tips voor ons om het onderzoek of de app beter te maken in de toekomst?'
+  title: 'Heb je nog tips voor ons om het onderzoek of de webapp beter te maken in de toekomst?'
 }, {
   section_start: '',
   type: :raw,
-  content: '<p class="flow-text section-explanation">Ga naar de laatste pagina om je beloning te ontvangen.</p>'
+  content: '<p class="flow-text section-explanation">Klik op opslaan om je beloning te ontvangen.</p>'
 } ]
 nameting1.title = 'Eindmeting'
 nameting1.save!

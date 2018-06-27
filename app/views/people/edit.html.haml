@@ -45,8 +45,8 @@
       %p 
         Dit wordt in een aparte database opgeslagen, zodat de vragen die je net hebt beantwoord alsnog helemaal anoniem zijn. 
       %p 
-        Let op: wij verwijderen al je persoonlijke gegevens, dus je naam, telefoonnummer en IBAN, op 31 augustus 2018. Hierna is het niet meer mogelijk om correcties te doen in het uitbetalen, want we hebben je gegevens niet meer. Trek daarom op tijd aan de bel als je denkt dat er iets mis is gegaan (mail 
-        = link_to ENV['INFO_EMAIL'], ENV['INFO_EMAIL']
+        Let op: wij verwijderen al je persoonlijke gegevens, dus je naam, telefoonnummer en IBAN, op 31 augustus 2018. Hierna is het niet meer mogelijk om correcties te doen in het uitbetalen, want dan hebben we je gegevens niet meer. Trek daarom op tijd aan de bel als je denkt dat er iets mis is gegaan (mail 
+        %span>= link_to " #{ENV['INFO_EMAIL']}", "mailto:#{ENV['INFO_EMAIL']}"
         ), je hoort het bedrag voor 17 augustus te ontvangen. 
       %br
       .input-field

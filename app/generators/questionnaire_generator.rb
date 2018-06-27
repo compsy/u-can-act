@@ -69,18 +69,18 @@ class QuestionnaireGenerator
         new_question = question.deep_dup
         new_question = substitute_variables(response, new_question)
         new_question.each do |quest|
-          body << yield(quest, idx) if should_show?(quest)
+          (body << yield(quest, idx)) if should_show?(quest, response&.id)
         end
       end
       body
     end
 
-    def should_show?(question)
+    def should_show?(question, response_id)
       return true unless question.key?(:show_after)
       show_after_hash = ensure_show_after_hash(question[:show_after])
       if show_after_hash.key?(:offset)
         show_after_hash[:date] = convert_offset_to_date(show_after_hash[:offset],
-                                                        question[:response_id])
+                                                        response_id)
       end
       ensure_date_validity(show_after_hash[:date])
       show_after = show_after_hash[:date].in_time_zone

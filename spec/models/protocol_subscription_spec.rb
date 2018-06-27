@@ -240,6 +240,27 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'cancel!' do
+    it 'should cancel the protocol subscription' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
+      protocol_subscription.cancel!
+      expect(protocol_subscription.state).to eq described_class::CANCELED_STATE
+      expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should destroy future responses' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
+      FactoryBot.create_list(:response, 3, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 5, :completed, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 7, :future, protocol_subscription: protocol_subscription)
+      countbefore = Response.count
+      protocol_subscription.cancel!
+      expect(Response.count).to eq(countbefore - 7)
+      protocol_subscription.responses.each do |respobj|
+        expect(respobj.open_from).to be <= Time.zone.now
+      end
+    end
+  end
+
   describe 'ended?' do
     it 'should be ended after the duration of the protocol' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 5.weeks.ago.at_beginning_of_day)

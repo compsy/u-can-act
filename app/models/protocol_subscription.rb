@@ -46,6 +46,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def cancel!
     update_attributes!(state: CANCELED_STATE, end_date: Time.zone.now)
+    responses.future.destroy_all
   end
 
   def ended?

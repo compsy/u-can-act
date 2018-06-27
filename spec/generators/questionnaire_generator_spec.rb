@@ -31,7 +31,7 @@ describe QuestionnaireGenerator do
         options: %w[slecht goed]
       }]
       expect do
-        described_class.send(:questionnaire_questions,
+        described_class.send(:questionnaire_questions_html,
                              questionnaire_content, nil, questionnaire_content)
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
@@ -43,7 +43,7 @@ describe QuestionnaireGenerator do
         show_after: 'hoi en doei'
       }]
       expect do
-        described_class.send(:questionnaire_questions,
+        described_class.send(:questionnaire_questions_html,
                              questionnaire_content, nil, questionnaire_content)
       end.to raise_error(RuntimeError, 'Unknown show_after type: hoi en doei')
     end

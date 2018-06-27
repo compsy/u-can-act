@@ -40,12 +40,12 @@ class SendInvitationsJob < ApplicationJob
     else
       subs_hash = VariableSubstitutor.substitute_variables(response)
       content = if in_announcement_week
-        'Hoi {{deze_student}}, jouw vragenlijst staat weer voor je klaar. Heb je inmiddels zomervakantie? ' \
-          'Dat kan je vanaf nu aangeven aangeven in de app.'
-      else
-        StudentInvitationTexts.message(response.protocol_subscription.protocol,
-                                       response.protocol_subscription.protocol_completion)
-      end
+                  'Hoi {{deze_student}}, jouw vragenlijst staat weer voor je klaar. Heb je inmiddels zomervakantie? ' \
+                    'Dat kan je vanaf nu aangeven aangeven in de app.'
+                else
+                  StudentInvitationTexts.message(response.protocol_subscription.protocol,
+                                                 response.protocol_subscription.protocol_completion)
+                end
       VariableEvaluator.evaluate_obj(content, subs_hash)
     end
   end

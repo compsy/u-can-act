@@ -158,7 +158,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'should redirect to the correct page' do
         delete :destroy, params: { uuid: responseobj.uuid }
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Bedankt voor je deelname!')
+        expect(response.body).to include('Bedankt voor je inzet!')
       end
 
       it 'should redirect to the correct stop measurement if one is available' do

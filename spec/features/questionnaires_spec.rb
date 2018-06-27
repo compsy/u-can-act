@@ -1950,7 +1950,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       page.click_on 'Unsubscribe'
-      expect(page).to_not have_content('Bedankt voor je deelname!')
+      expect(page).to_not have_content('Bedankt voor je inzet!')
       expect(page).to_not have_content(content.first[:content])
       expect(page).to have_content('Hoe gaat het met u?')
       expect(page).to have_content('Opslaan')
@@ -1958,7 +1958,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(protocol_subscription).to be_active
       page.click_on 'Opslaan'
       expect(page).to_not have_content('Hoe gaat het met u?')
-      expect(page).to have_content('Bedankt voor je deelname!')
+      expect(page).to have_content('Bedankt voor je inzet!')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
     end
@@ -1984,7 +1984,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       page.click_on 'Unsubscribe'
-      expect(page).to have_content('Bedankt voor je deelname!')
+      expect(page).to have_content('Bedankt voor je inzet!')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
     end

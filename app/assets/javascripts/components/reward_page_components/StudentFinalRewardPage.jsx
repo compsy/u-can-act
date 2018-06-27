@@ -6,7 +6,7 @@ class StudentFinalRewardPage extends React.Component {
           Heel erg bedankt voor je inzet voor dit onderzoek!
         </p>
         <p className='flow-text'>
-          In totaal heb je €{this.props.earnedEuros} verdiend.
+          In totaal heb je {printAsMoney(this.props.earnedEuros)} verdiend.
           We zullen dit bedrag overmaken op IBAN nummer: {this.props.iban}.
           <br/>
           Klopt dit nummer niet?

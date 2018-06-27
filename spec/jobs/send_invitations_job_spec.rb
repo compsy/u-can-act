@@ -64,7 +64,7 @@ describe SendInvitationsJob do
         end
       end
 
-      fit 'should send send a special sms in a certain week' do
+      it 'should send send a special sms in a certain week' do
         Timecop.freeze(2018, 6, 28) do
           questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
           responseobj.measurement = FactoryBot.create(:measurement,

@@ -10,7 +10,7 @@ nameting1.content = [{
   title: 'Ben je dit schooljaar definitief gestopt met je opleiding?',
   options: [
     { title: 'Ja, ik ben gestopt met mijn opleiding zonder dat ik mijn diploma heb gehaald.', shows_questions: %i[v2 v3 v4] },
-    { title: 'Ja, ik ben gestopt nadat ik mijn diploma had gehaald.', shows_questions: %i[v2 v3 v4] },
+    { title: 'Ja, ik ben gestopt nadat ik mijn diploma had gehaald.', shows_questions: %i[v2 v4] },
     { title: 'Nee, ik volg nog steeds dezelfde opleiding.', shows_questions: %i[v5] },
   ],
   show_otherwise: false

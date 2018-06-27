@@ -38,10 +38,10 @@ class SendInvitationsJob < ApplicationJob
     if response.protocol_subscription.person.mentor?
       mentor_texts(response)
     else
-      response.substitute_variables(
-        StudentInvitationTexts.message(response.protocol_subscription.protocol,
-                                       response.protocol_subscription.protocol_completion)
-      )
+      subs_hash = VariableSubstitutor.substitute_variables(response)
+      content = StudentInvitationTexts.message(response.protocol_subscription.protocol,
+                                               response.protocol_subscription.protocol_completion)
+      VariableEvaluator.evaluate_obj(content, subs_hash)
     end
   end
 

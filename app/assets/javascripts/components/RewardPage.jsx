@@ -51,8 +51,11 @@ class RewardPage extends React.Component {
     }
 
     let earnedEuros = this.state.result.earned_euros / 100;
+    let name = this.state.person.first_name + ' ' + this.state.person.last_name;
     if (this.isDone()) {
-      return (<StudentFinalRewardPage earnedEuros={earnedEuros} iban={this.state.person.iban} />)
+      return (<StudentFinalRewardPage earnedEuros={earnedEuros}
+                                      iban={this.state.person.iban}
+                                      name={name}/>)
     }
 
     let euroDelta = this.state.result.euro_delta / 100;

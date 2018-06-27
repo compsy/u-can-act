@@ -7,8 +7,8 @@ class StudentFinalRewardPage extends React.Component {
         </p>
         <p className='flow-text'>
           In totaal heb je {printAsMoney(this.props.earnedEuros)} verdiend.
-          We zullen dit bedrag overmaken op IBAN nummer: {this.props.iban}.
-          <br/>
+          We zullen dit bedrag overmaken op IBAN:<br/>
+          <strong>{this.props.iban}</strong> t.n.v. <strong>{this.props.name}.</strong><br/>
           Klopt dit nummer niet?
           Klik <a href="/person/edit">hier</a> om het aan te passen.
         </p>

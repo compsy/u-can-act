@@ -17,7 +17,7 @@ class QuestionnaireGenerator
       body = safe_join([
                          questionnaire_header(title),
                          questionnaire_hidden_fields(response_id, authenticity_token),
-                         questionnaire_questions(content, response, raw_content),
+                         questionnaire_questions_html(content, response, raw_content),
                          submit_button(submit_text)
                        ])
       body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
@@ -27,7 +27,7 @@ class QuestionnaireGenerator
     def generate_hash_questionnaire(response_id, content, title)
       response = Response.find_by_id(response_id) # allow nil response id for preview
       title = substitute_variables(response, title).first
-      content = substitute_variables(response, content).first
+      content = questionnaire_questions(content, response) { |quest| quest }
       { title: title, content: content }
     end
 
@@ -54,18 +54,25 @@ class QuestionnaireGenerator
       safe_join(hidden_body)
     end
 
-    def questionnaire_questions(content, response, raw_content)
+    def questionnaire_questions_html(content, response, raw_content)
+      body = questionnaire_questions(content, response, true) do |quest, idx|
+        quest[:response_id] = response&.id
+        quest[:raw] = raw_content[idx]
+        single_questionnaire_question(quest)
+      end
+      safe_join(body)
+    end
+
+    def questionnaire_questions(content, response)
       body = []
       content.each_with_index do |question, idx|
         new_question = question.deep_dup
         new_question = substitute_variables(response, new_question)
         new_question.each do |quest|
-          quest[:response_id] = response&.id
-          quest[:raw] = raw_content[idx]
-          body << single_questionnaire_question(quest) if should_show?(quest)
+          body << yield(quest, idx) if should_show?(quest)
         end
       end
-      safe_join(body)
+      body
     end
 
     def should_show?(question)

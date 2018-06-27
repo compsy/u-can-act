@@ -18,7 +18,7 @@
       %p{style: @person.iban.blank? ? 'color:red' : ''}
         Om de beloning over te maken hebben we nog je IBAN gegevens nodig.
       %p
-        Dit wordt in een aparte database opgeslagen, zodat de vragen die je net hebt beantwoord alsnog helemaal anoniem zijn.
+        Dit wordt los van de vragenlijsten opgeslagen, zodat de vragen die je net hebt beantwoord alsnog helemaal anoniem zijn.
       %p
         Let op: wij verwijderen al je persoonlijke gegevens, dus je naam, telefoonnummer en IBAN, op 31 augustus 2018. Hierna is het niet meer mogelijk om correcties te doen in het uitbetalen, want dan hebben we je gegevens niet meer. Trek daarom op tijd aan de bel als je denkt dat er iets mis is gegaan (mail
         %span>= link_to " #{ENV['INFO_EMAIL']}", "mailto:#{ENV['INFO_EMAIL']}"
@@ -26,7 +26,6 @@
       %br
       .input-field
         = f.label :iban
-        -# Regex from: https://murani.nl/blog/2015-09-28/nederlandse-reguliere-expressies
         = f.text_field :iban, placeholder: 'NL12 RABO 0123 4123 41', autofocus: true, required: true, pattern: "^[a-zA-Z]{2}[0-9]{2}[ ]?[a-zA-Z0-9]{4}[ ]?[0-9 ]{7}([a-zA-Z0-9 ]?){0,16}$", title: "Vul het rekeningnummer in IBAN formaat in."
       .row
         .col.s6

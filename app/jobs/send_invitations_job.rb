@@ -39,10 +39,20 @@ class SendInvitationsJob < ApplicationJob
       mentor_texts(response)
     else
       subs_hash = VariableSubstitutor.substitute_variables(response)
-      content = StudentInvitationTexts.message(response.protocol_subscription.protocol,
-                                               response.protocol_subscription.protocol_completion)
+      content = if in_announcement_week
+        'Hoi {{deze_student}}, jouw vragenlijst staat weer voor je klaar. Heb je inmiddels zomervakantie? ' \
+          'Dat kan je vanaf nu aangeven aangeven in de app.'
+      else
+        StudentInvitationTexts.message(response.protocol_subscription.protocol,
+                                       response.protocol_subscription.protocol_completion)
+      end
       VariableEvaluator.evaluate_obj(content, subs_hash)
     end
+  end
+
+  def in_announcement_week
+    Time.zone.now > Time.new(2018, 6, 27).in_time_zone &&
+      Time.zone.now < Time.new(2018, 7, 4).in_time_zone
   end
 
   def target_first_name(response)

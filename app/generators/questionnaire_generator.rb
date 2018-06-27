@@ -55,7 +55,7 @@ class QuestionnaireGenerator
     end
 
     def questionnaire_questions_html(content, response, raw_content)
-      body = questionnaire_questions(content, response, true) do |quest, idx|
+      body = questionnaire_questions(content, response) do |quest, idx|
         quest[:response_id] = response&.id
         quest[:raw] = raw_content[idx]
         single_questionnaire_question(quest)

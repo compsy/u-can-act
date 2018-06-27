@@ -70,7 +70,8 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   invitation_set = InvitationSet.create!(person: person)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
-  students.each do |student|
+  nameting_students = Team.find_by_name('Default team').roles.where(title: 'nameting-student').first.people[0..-2]
+  nameting_students.each do |student|
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,
       person: person,

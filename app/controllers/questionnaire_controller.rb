@@ -79,7 +79,7 @@ class QuestionnaireController < ApplicationController
                        "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
                          'is gestopt.'
                      else
-                       'Succes: Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
+                       'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
                      end
     Rails.logger.warn "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."

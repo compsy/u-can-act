@@ -39,6 +39,16 @@
       .input-field
         = f.label :mobile_phone
         = f.telephone_field :mobile_phone, autofocus: true, maxlength: 10, required: true, pattern: "[0-9]{10}", title: "Vul de tien getallen in zonder streepje."
+      %h5 Bankgegevens
+      %p 
+        Om de beloning over te maken hebben we nog je IBAN gegevens nodig.  
+      %p 
+        Dit wordt in een aparte database opgeslagen, zodat de vragen die je net hebt beantwoord alsnog helemaal anoniem zijn. 
+      %p 
+        Let op: wij verwijderen al je persoonlijke gegevens, dus je naam, telefoonnummer en IBAN, op 31 augustus 2018. Hierna is het niet meer mogelijk om correcties te doen in het uitbetalen, want dan hebben we je gegevens niet meer. Trek daarom op tijd aan de bel als je denkt dat er iets mis is gegaan (mail 
+        %span>= link_to " #{ENV['INFO_EMAIL']}", "mailto:#{ENV['INFO_EMAIL']}"
+        ), je hoort het bedrag voor 17 augustus te ontvangen. 
+      %br
       .input-field
         = f.label :iban
         -# Regex from: https://murani.nl/blog/2015-09-28/nederlandse-reguliere-expressies

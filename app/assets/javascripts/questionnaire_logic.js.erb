@@ -28,13 +28,37 @@ function show_hide_entry(entry, show) {
   }
 }
 
+function sort_inputs_by_checked(inputs) {
+  var result = [];
+
+  inputs.each(function(index) {
+    if ($(this).is(':checked')) {
+      return result.push(inputs[index]);
+    } 
+    result.unshift(inputs[index]);
+  })
+
+  return result;
+}
+
 function toggle_shown_questions() {
-  $(this).closest('.row').find('input[data-shows-questions]').each(function (index) {
-    var this_is_checked = $(this).is(':checked');
-    $(this).data('shows-questions').forEach(function (entry) {
+  var inputs = $(this).closest('.row').find('input[data-shows-questions]');
+
+  // The sorting is needed for the case where we have radios with multiple
+  // shows questions. It could be the case that eventhough 1 radio shows
+  // entries, another one can hide the exact same entries. This is because it
+  // passes through the list from top to bottom, instead of the sorted version
+  // (unchecked entries first)
+  // This means that checked questions get priority
+  var sorted_inputs = sort_inputs_by_checked(inputs);
+
+  for(var i = 0; i < sorted_inputs.length; i++){
+    var elem = $(sorted_inputs[i]);
+    var this_is_checked = elem.is(':checked');
+    elem.data('shows-questions').forEach(function (entry) {
       show_hide_entry(entry, this_is_checked);
     });
-  });
+  }
 }
 
 function toggle_hidden_questions() {
@@ -68,7 +92,7 @@ function time_element() {
         $('#'+timingfield).val(duration);
       } else {
         $('form').append('<input type="hidden" id="' + timingfield +
-                         '" name="content[' + timingfield + ']" value="' + duration + '" />');
+          '" name="content[' + timingfield + ']" value="' + duration + '" />');
       }
     }
   } else {
@@ -133,12 +157,12 @@ function check_required_checkboxes(event) {
   var returnval = true;
   var firstelem = null;
   $('div.checkbox-group.required:visible').each(function(sub_index){
-     if ($(this).find(':checkbox:checked').length == 0) {
-       event.preventDefault();
-       $(this).addClass('erroneous');
-       if (firstelem == null) firstelem = this;
-       returnval = false;
-     }
+    if ($(this).find(':checkbox:checked').length == 0) {
+      event.preventDefault();
+      $(this).addClass('erroneous');
+      if (firstelem == null) firstelem = this;
+      returnval = false;
+    }
   });
   if (!returnval) { // scroll to the last invalid element
     $('html, body').animate({

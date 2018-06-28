@@ -31,9 +31,6 @@ module Vsv
 
     config.active_job.queue_adapter = :delayed_job
 
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
     # Enable react addons
     config.react.addons = true
 

@@ -28,8 +28,6 @@ class ProgressBar extends React.Component {
   }
 
   componentWillUnmount() {
-    //TODO: ANDO ALS DIT HIER NOG STAAT MOET JE HET TEGEN ME ZEGGEN!
-    //TODO: Testen of het goed gaat met de clearinterval nu.
     clearInterval(this.state.timer);
   }
 
@@ -41,6 +39,7 @@ class ProgressBar extends React.Component {
   }
 
   performTimerEvent() {
+    console.log('Timing!');
     this.setState({
       radial: this.renderGraph(this.props.valueEuro, this.props.percentageStreak),
       showStreakDetails: this.props.inMaxStreak,

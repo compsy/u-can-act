@@ -6,11 +6,11 @@ describe("MentorRewardPage", function() {
   
   it("it should return the correct text", function() {
     var elems = ReactDOM.findDOMNode(this.rendered).children;
-    var expected = 'Heel erg bedankt dat je meedeed aan ons onderzoek! Door jouw deelname kunnen wij onze webapp zo verbeteren dat deze veel beter zal aansluiten aan de wensen van toekomstige deelnemers.';
+    var expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!';
     var result = elems[0].innerText;
     expect(result).toEqual(expected);
 
-    var expected = 'Hartelijke groeten van het RUG onderzoeksteam:\nNick Snell, Teun Blijlevens en Mandy van der Gaag';
+    var expected = 'Hartelijke groeten van het u-can-act team.';
     var result = elems[1].innerText;
     expect(result).toEqual(expected);
 

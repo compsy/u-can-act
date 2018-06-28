@@ -2,8 +2,6 @@ describe("Login", function() {
   beforeEach(function() {
     this.dummy_auth = jasmine.createSpyObj('auth', ['login', 'isAuthenticated', 'logout']);
 
-    debugger;
-
     component = React.createElement(Login, {
       auth: this.dummy_auth
     });

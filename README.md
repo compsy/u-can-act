@@ -21,6 +21,7 @@ Initialize the database
 ## Dependencies
 The VSV application has the following dependencies:
 - PostgreSQL
+- Redis
 
 ## Configuration
 The .env.local file is used for storing all ENV variables. Below is a list of all required ENV variables.

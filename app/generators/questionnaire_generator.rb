@@ -704,7 +704,11 @@ class QuestionnaireGenerator
     def generate_unsubscribe_action(question)
       response = Response.find_by_id(question[:response_id])
       url_href = '#'
-      url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
+      if response
+        url_href = "#{question[:unsubscribe_url]}
+                    #{question[:unsubscribe_url].ends_with?('/') ? '' : '/'}
+                    #{response.uuid}"
+      end
       body = content_tag(:a, (question[:button_text] || 'Uitschrijven').html_safe,
                          'data-method': 'delete',
                          href: url_href,

@@ -102,7 +102,7 @@ RSpec.describe Organization, type: :model do
         expect(described_class)
           .to receive(:summarize_organization_data)
           .exactly(organizations.length).times
-        result = described_class.overview(bust_cache: true)
+        described_class.overview(bust_cache: true)
       end
 
       it 'should retrieve the stats of the teams for each team of all organizations' do
@@ -129,7 +129,6 @@ RSpec.describe Organization, type: :model do
       end
 
       it 'should pass the weeknumber, year and threshold percentage through to the team stats' do
-        return_value = { 'Abc' => { a: 1 } }
         organization = FactoryBot.create(:organization)
         FactoryBot.create(:team, organization: organization)
 
@@ -142,10 +141,10 @@ RSpec.describe Organization, type: :model do
           .with(week_number, year, threshold_percentage)
           .and_call_original
 
-        result = described_class.overview(week_number: week_number,
-                                          year: year,
-                                          threshold_percentage: threshold_percentage,
-                                          bust_cache: true)
+        described_class.overview(week_number: week_number,
+                                 year: year,
+                                 threshold_percentage: threshold_percentage,
+                                 bust_cache: true)
       end
     end
   end

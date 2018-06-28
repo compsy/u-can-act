@@ -39,7 +39,6 @@ class ProgressBar extends React.Component {
   }
 
   performTimerEvent() {
-    console.log('Timing!');
     this.setState({
       radial: this.renderGraph(this.props.valueEuro, this.props.percentageStreak),
       showStreakDetails: this.props.inMaxStreak,

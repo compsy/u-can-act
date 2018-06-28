@@ -56,13 +56,6 @@ describe("Select", function() {
   });
 
   describe("redraw", function() {
-    it("it should call the material_select function on the select", function() {
-      // Don't know how to test this. Something like this?
-      //var select = ReactDOM.findDOMNode(this.rendered).children[0];
-      //spyOn(select, 'material_select');
-      //this.rendered.redraw()
-      //expect(select.material_select).toHaveBeenCalled()
-    });
   });
 
   describe("componentDidUpdate", function() {

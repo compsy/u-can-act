@@ -479,13 +479,14 @@ The `min` and `max` properties can be either two arrays as in the above example,
 Please note that there is currently a bug in the date picker when you specify dates as arrays. So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
 
 ### Type: Unsubscribe
-Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.
+Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property. The `unsubscribe_url` should be a url that accepts a `DELETE` request, and which should deal with stopping the protocol subscription (mandatory).
 
 Required and allowed options (minimal example):
 
 ```ruby
 [{
   type: :unsubscribe,
+  unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: ''),
   title: 'Klaar met dit schooljaar?',
   content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien.',
   button_text: 'Onderzoek afronden',

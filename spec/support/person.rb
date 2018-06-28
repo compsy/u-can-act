@@ -14,6 +14,27 @@ shared_examples_for 'a person object' do
     expect(person.valid?).to be_truthy
   end
 
+  describe 'my_students' do
+    it 'should return an empty array if the person is not a mentor' do
+      student = FactoryBot.create(:student)
+      result = student.my_students
+      expect(result).to be_blank
+      expect(result).to eq []
+    end
+
+    it 'should return a list of all students supervised by a mentor' do
+      mentor = FactoryBot.create(:mentor)
+      students = FactoryBot.create_list(:student, 10)
+      students.each do |student|
+        FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
+      end
+      result = mentor.my_students
+
+      expect(result).to_not be_blank
+      expect(result).to match_array students
+    end
+  end
+
   describe 'iban' do
     let(:person) { FactoryBot.create(:person) }
     it 'should have a validated iban' do

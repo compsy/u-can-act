@@ -10,18 +10,35 @@
         %ul
           - @person.errors.full_messages.each do |msg|
             %li= msg
-.extra-spacing.row
+
+.row
   .col.s12
-    %h5 Accountgegevens bewerken
-.extra-spacing.row
-  .col.s12
-    = form_for(@person) do |f|
+    = form_for(@person, html: { class: 'settings' }) do |f|
+      %h5 Bankgegevens
+      %p{style: @person.iban.blank? ? 'color:red' : ''}
+        Om de beloning over te maken hebben we nog je IBAN gegevens nodig.
+      %p
+        Dit wordt los van de vragenlijsten opgeslagen, zodat de vragen die je net hebt beantwoord alsnog helemaal anoniem zijn.
+      %p
+        Let op: wij verwijderen al je persoonlijke gegevens, dus je naam, telefoonnummer en IBAN, op 31 augustus 2018. Hierna is het niet meer mogelijk om correcties te doen in het uitbetalen, want dan hebben we je gegevens niet meer. Trek daarom op tijd aan de bel als je denkt dat er iets mis is gegaan (mail
+        %span>= link_to " #{ENV['INFO_EMAIL']}", "mailto:#{ENV['INFO_EMAIL']}"
+        ), je hoort het bedrag voor 17 augustus te ontvangen.
+      %br
       .input-field
-        = f.label :first_name
-        = f.text_field :first_name, required: true, title: "Voornaam"
-      .input-field
-        = f.label :last_name
-        = f.text_field :last_name, required: false, title: "Achternaam"
+        = f.label :iban
+        = f.text_field :iban, placeholder: 'NL12 RABO 0123 4123 41', autofocus: true, required: true, pattern: "^[a-zA-Z]{2}[0-9]{2}[ ]?[a-zA-Z0-9]{4}[ ]?[0-9 ]{7}([a-zA-Z0-9 ]?){0,16}$", title: "Vul het rekeningnummer in IBAN formaat in."
+      .row
+        .col.s6
+          .input-field
+            = f.label :first_name
+            = f.text_field :first_name, required: true, title: "Voornaam"
+        .col.s6
+          .input-field
+            = f.label :last_name
+            = f.text_field :last_name, required: false, title: "Achternaam"
+      .actions
+        = f.submit "Opslaan", class: "btn waves-effect waves-light"
+      %h5 Accountgegevens bewerken
       %p
         = f.label :gender, name: 'gender'
         %br/
@@ -39,9 +56,5 @@
       .input-field
         = f.label :mobile_phone
         = f.telephone_field :mobile_phone, autofocus: true, maxlength: 10, required: true, pattern: "[0-9]{10}", title: "Vul de tien getallen in zonder streepje."
-      .input-field
-        = f.label :iban
-        -# Regex from: https://murani.nl/blog/2015-09-28/nederlandse-reguliere-expressies
-        = f.text_field :iban, placeholder: 'NL12RABO0123412341', autofocus: true, required: true, pattern: "^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$", title: "Vul het rekeningnummer in IBAN formaat in."
       .actions
         = f.submit "Opslaan", class: "btn waves-effect waves-light"

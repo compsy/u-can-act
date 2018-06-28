@@ -11,12 +11,13 @@ class QuestionnaireGenerator
 
   class << self
     def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
+      response = Response.find_by_id(response_id) # allow nil response id for preview
       raw_content = content.deep_dup
-      title, content = substitute_variables(response_id, title, content)
+      title = substitute_variables(response, title).first
       body = safe_join([
                          questionnaire_header(title),
                          questionnaire_hidden_fields(response_id, authenticity_token),
-                         questionnaire_questions(content, response_id, raw_content),
+                         questionnaire_questions_html(content, response, raw_content),
                          submit_button(submit_text)
                        ])
       body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
@@ -24,18 +25,17 @@ class QuestionnaireGenerator
     end
 
     def generate_hash_questionnaire(response_id, content, title)
-      title, content = substitute_variables(response_id, title, content)
+      response = Response.find_by_id(response_id) # allow nil response id for preview
+      title = substitute_variables(response, title).first
+      content = questionnaire_questions(content, response) { |quest| quest }
       { title: title, content: content }
     end
 
     private
 
-    def substitute_variables(response_id, title, content)
-      response = Response.find_by_id(response_id) # allow nil response id for preview
-      return [title, content] if response.blank?
-      [title, content].map do |obj|
-        response.substitute_variables(obj)
-      end
+    def substitute_variables(response, obj_to_substitute)
+      return obj_to_substitute if obj_to_substitute.blank?
+      QuestionnaireExpander.expand_content(obj_to_substitute, response)
     end
 
     def questionnaire_header(title)
@@ -54,23 +54,33 @@ class QuestionnaireGenerator
       safe_join(hidden_body)
     end
 
-    def questionnaire_questions(content, response_id, raw_content)
-      body = []
-      content.each_with_index do |question, idx|
-        new_question = question.deep_dup
-        new_question[:response_id] = response_id
-        new_question[:raw] = raw_content[idx]
-        body << single_questionnaire_question(new_question) if should_show?(new_question)
+    def questionnaire_questions_html(content, response, raw_content)
+      body = questionnaire_questions(content, response) do |quest, idx|
+        quest[:response_id] = response&.id
+        quest[:raw] = raw_content[idx]
+        single_questionnaire_question(quest)
       end
       safe_join(body)
     end
 
-    def should_show?(question)
+    def questionnaire_questions(content, response)
+      body = []
+      content.each_with_index do |question, idx|
+        new_question = question.deep_dup
+        new_question = substitute_variables(response, new_question)
+        new_question.each do |quest|
+          (body << yield(quest, idx)) if should_show?(quest, response&.id)
+        end
+      end
+      body
+    end
+
+    def should_show?(question, response_id)
       return true unless question.key?(:show_after)
       show_after_hash = ensure_show_after_hash(question[:show_after])
       if show_after_hash.key?(:offset)
         show_after_hash[:date] = convert_offset_to_date(show_after_hash[:offset],
-                                                        question[:response_id])
+                                                        response_id)
       end
       ensure_date_validity(show_after_hash[:date])
       show_after = show_after_hash[:date].in_time_zone
@@ -277,8 +287,8 @@ class QuestionnaireGenerator
     end
 
     def add_shows_hides_questions(tag_options, shows_questions, hides_questions)
-      tag_options = add_shows_questions(tag_options, shows_questions)
-      tag_options = add_hides_questions(tag_options, hides_questions)
+      tag_options = add_show_hide_question(tag_options, shows_questions, :shows_questions)
+      tag_options = add_show_hide_question(tag_options, hides_questions, :hides_questions)
       tag_options
     end
 
@@ -290,20 +300,19 @@ class QuestionnaireGenerator
                   onclick: "Materialize.toast('#{tooltip_content.gsub("'", %q(\\\'))}', #{TOOLTIP_DURATION})")
     end
 
-    def add_shows_questions(tag_options, shows_questions)
-      if shows_questions.present?
-        shows_questions_str = shows_questions.map { |qid| idify(qid) }.inspect
-        tag_options[:data] = { shows_questions: shows_questions_str }
+    def add_show_hide_question(tag_options, questions_to_toggle, key)
+      if questions_to_toggle.present?
+        questions_to_toggle_str = questions_to_toggle.map { |qid| idify(qid) }.inspect
+        append_tag(tag_options, :data, key => questions_to_toggle_str)
       end
       tag_options
     end
 
-    def add_hides_questions(tag_options, hides_questions)
-      if hides_questions.present?
-        hides_questions_str = hides_questions.map { |qid| idify(qid) }.inspect
-        tag_options[:data] = { hides_questions: hides_questions_str }
-      end
-      tag_options
+    def append_tag(tag_options, field, data)
+      # The append_tag function allows us to specify both shows and hides attributes
+      # in one question
+      tag_options[field] ||= {}
+      tag_options[field] = tag_options[field].merge data
     end
 
     def radio_otherwise(question)
@@ -469,6 +478,7 @@ class QuestionnaireGenerator
                        name: answer_name(idify(question[:id])),
                        min: minmax[:min].to_s,
                        max: minmax[:max].to_s,
+                       step: question[:step] || 1,
                        required: true)
       range_body = content_tag(:p, range_body, class: 'range-field')
       range_body

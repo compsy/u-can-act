@@ -48,7 +48,7 @@ describe 'GET /edit', type: :feature, js: true do
 
     page.choose('Man', allow_label_click: true)
 
-    page.click_on 'Opslaan'
+    all('input[type="submit"][value="Opslaan"]').first.click
     visit edit_person_path
 
     expect(page).to have_selector("input[value='new_first']")
@@ -74,7 +74,7 @@ describe 'GET /edit', type: :feature, js: true do
     page.fill_in('person_email', with: 'anew@email.com')
     page.fill_in('person_iban', with: 'NL13RTEF0518590011')
     page.choose('Man', allow_label_click: true)
-    page.click_on 'Opslaan'
+    all('input[type="submit"][value="Opslaan"]').first.click
 
     person.reload
 

@@ -51,14 +51,17 @@ class RewardPage extends React.Component {
     }
 
     let earnedEuros = this.state.result.earned_euros / 100;
+    let name = this.state.person.first_name + ' ' + this.state.person.last_name;
     if (this.isDone()) {
-      return (<StudentFinalRewardPage earnedEuros={earnedEuros} />)
+      return (<StudentFinalRewardPage earnedEuros={earnedEuros}
+                                      iban={this.state.person.iban}
+                                      name={name}/>)
     }
 
     let euroDelta = this.state.result.euro_delta / 100;
     let maxStillAwardableEuros = this.state.result.max_still_awardable_euros / 100;
     return (
-      <StudentInProgressRewardPage euroDelta={euroDelta} 
+      <StudentInProgressRewardPage euroDelta={euroDelta}
         earnedEuros={earnedEuros}
         currentMultiplier={this.state.result.current_multiplier}
         initialMultiplier={this.state.result.initial_multiplier}
@@ -82,7 +85,7 @@ class RewardPage extends React.Component {
             {result}
             <ul>
               <li><a href='/disclaimer'>Disclaimer</a></li>
-              {/* <li><EditPersonLink person={this.state.person}/></li> */}
+              <li><EditPersonLink person={this.state.person}/></li>
             </ul>
           </div>
         </div>

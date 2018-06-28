@@ -55,9 +55,9 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.max_reward_points).to eq 3
       expect(page).to have_content('Je hebt hiermee €1,- verdiend.')
       expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
-      expect(page).not_to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
-      expect(page).not_to have_content('S-team')
-      expect(page).not_to have_content('beloning')
+      expect(page).not_to have_content('Heel erg bedankt voor je inzet voor dit onderzoek!')
+      expect(page).not_to have_content('IBAN')
+      expect(page).not_to have_content('aan te passen')
     end
 
     it 'should show the earned page when done with the research' do
@@ -79,10 +79,10 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(protocol_subscription.reward_points).to eq 3
       expect(protocol_subscription.possible_reward_points).to eq 3
       expect(protocol_subscription.max_reward_points).to eq 3
-      expect(page).to have_content('Heel erg bedankt dat je meedeed aan ons onderzoek!')
+      expect(page).to have_content('Heel erg bedankt voor je inzet voor dit onderzoek!')
       expect(page).to have_content('€3,- verdiend.')
-      expect(page).to have_content('S-team')
-      expect(page).to have_content('beloning')
+      expect(page).to have_content('IBAN')
+      expect(page).to have_content('aan te passen')
     end
 
     it 'should show the disclaimer link on the reward page' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-nm_name1 = 'nameting studenten'
+nm_name1 = 'nameting studenten controle'
 nameting1 = Questionnaire.find_by_name(nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
 nameting1.key = File.basename(__FILE__)[0...-3]
@@ -72,29 +72,6 @@ nameting1.content = [{
   hidden: true,
   type: :range,
   labels: ['heel slecht', 'heel goed']
-}, {
-  id: :v7,
-  type: :range,
-  title: 'Vind je dat de begeleiding die jij krijgt van {{je_begeleidingsinitiatief}} bij de school hoort, of juist los staat van de school?',
-  labels: ['hoort helemaal bij de school', 'staat helemaal los van de school'],
-}, {
-  id: :v8,
-  type: :textfield,
-  title: 'Hoe zou je de begeleiding die je van {{je_begeleidingsinitiatief}} hebt gekregen in één woord beschrijven?'
-}, {
-  id: :v9,
-  title: 'Hoe nuttig vond jij de begeleiding die je hebt gekregen van {{je_begeleidingsinitiatief}}?',
-  type: :range,
-  labels: ['helemaal niet nuttig', 'heel erg nuttig']
-}, {
-  id: :v10,
-  type: :radio,
-  title: 'Wil je je ingevulde vragenlijsten delen met {{naam_begeleider}}, zodat hij/zij ervan kan leren? Als je nee aanvinkt krijgt {{naam_begeleider}} jouw ingevulde vragenlijsten niet te zien.',
-  options: [
-    'Ja',
-    'Nee'
-  ],
-  show_otherwise: false
 }, {
   id: :v11,
   title: 'Hoe vond jij het om ongeveer een half jaar lang de webapp wekelijks in te vullen?',

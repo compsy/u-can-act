@@ -75,22 +75,38 @@ In order to run the Capybara specs of the VSV project, you need to install the c
 ```
 
 ## Background jobs
-The workings of the app rely on three background jobs:
+The workings of the app rely on the following background jobs:
 
-Every 15 minutes, the following rake task should run:
-```
-rake scheduler:send_invitations
-```
-
-Daily (e.g., at 3am), the following rake task should run:
+Daily (e.g., at 2:30am), the following rake task should run:
 ```
 rake scheduler:complete_protocol_subscriptions
 ```
 
-Daily (e.g., at 4am), the following rake task should run:
+Daily (e.g., at 3am), the following rake task should run:
 ```
 rake scheduler:cleanup_invitation_tokens
 ```
+
+Every 10 minutes, the following rake task should run:
+```
+rake scheduler:send_invitations
+```
+
+Every hour, the following rake task should run:
+```
+rake scheduler:cache_overview
+```
+
+Daily (e.g., at 3pm), the following rake task should run:
+```
+rake scheduler:monitoring
+```
+
+Daily (e.g., at 3:30am), the following rake task should run:
+```
+rake scheduler:rescheduling
+```
+
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 

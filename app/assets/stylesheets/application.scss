@@ -80,6 +80,7 @@ $u-can-act-light-grey: #f6f6f6;
 
   @import "reward_page";
   @import "questionnaire";
+  @import "settings";
 }
 
 .student {
@@ -123,8 +124,10 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/date_picker/default";
   @import "materialize/components/date_picker/default.date";
   @import "materialize/components/date_picker/default.time";
+
   @import "questionnaire";
   @import "reward_page";
+  @import "settings";
 }
 
 .mentor, .student {

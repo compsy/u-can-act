@@ -53,7 +53,7 @@ db_measurement.should_invite = true
 db_measurement.save!
 
 # Add nameting/enquete
-nm_name = 'nameting studenten'
+nm_name = 'nameting studenten controle'
 nameting_id = Questionnaire.find_by_name(nm_name)&.id
 raise "Cannot find questionnaire: #{nm_name}" unless nameting_id
 nm_measurement = protocol.measurements.find_by_questionnaire_id(nameting_id)

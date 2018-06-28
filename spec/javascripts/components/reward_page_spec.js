@@ -1,0 +1,4 @@
+
+describe("RewardPage", function() {
+});
+

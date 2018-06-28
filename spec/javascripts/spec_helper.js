@@ -32,3 +32,4 @@
 // the configuration and use this file as a manifest.
 //
 // For more information: http://github.com/modeset/teaspoon
+window.TestUtils = React.addons.TestUtils

@@ -46,6 +46,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def cancel!
     update_attributes!(state: CANCELED_STATE, end_date: Time.zone.now)
+    responses.future.destroy_all
   end
 
   def ended?
@@ -88,6 +89,11 @@ class ProtocolSubscription < ApplicationRecord
                                        response.still_possible?,
                                        current_streak)
     end
+  end
+
+  def needs_informed_consent?
+    !(protocol.informed_consent_questionnaire.blank? ||
+      informed_consent_given_at.present?)
   end
 
   def completion

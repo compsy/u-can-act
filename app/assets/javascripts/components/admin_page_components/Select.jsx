@@ -1,9 +1,10 @@
 class Select extends React.Component {
   constructor(props) {
     super(props);
-    this.uuid = this.uuid();
+    this._uuid = this.uuid();
   }
-  generateSelect(items) {
+
+  generateSelectOptions(items) {
     let selectorOptions = items.map((option) => {
       return (
         <option key={option}>{option}</option>
@@ -14,7 +15,6 @@ class Select extends React.Component {
     return (selectorOptions)
   }
 
-
   uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -23,7 +23,7 @@ class Select extends React.Component {
   }
 
   redraw() {
-    var select = $('#' + this.uuid);
+    var select = $('#' + this._uuid);
     select.material_select(this._onChange.bind(this));
   }
 
@@ -35,16 +35,19 @@ class Select extends React.Component {
     this.redraw();
   }
 
+  getSelectedOption() {
+    return $('#' + this._uuid).find(":selected").text();
+  }
+
   _onChange(e) {
-    var selected_option = $('#' + this.uuid).find(":selected").text()
-    this.props.onChange(selected_option);
+    this.props.onChange(this.getSelectedOption());
   }
 
   render() {
-    var options = this.generateSelect(this.props.options);
+    var options = this.generateSelectOptions(this.props.options);
     return(
       <div className="input-field">
-        <select id={this.uuid} defaultValue={this.props.value} >
+        <select id={this._uuid} defaultValue={this.props.value} >
           {options}
         </select>
         <label>{this.props.label}</label>

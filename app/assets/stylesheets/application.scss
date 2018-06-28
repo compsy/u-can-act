@@ -11,8 +11,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ * require_tree .
  *= require_self
- *= require_tree .
  *= require animate
  */
 //@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
@@ -35,9 +35,11 @@ $u-can-act-orange: #ed5800; // if green is 009a73
 $u-can-act-grey: #99b5cd;
 $u-can-act-light-grey: #f6f6f6;
 
+
 .mentor {
   $accent-color: $u-can-act-blue;
   $secondary-color: $u-can-act-blue;
+
   // Variables;
   @import "materialize/components/variables";
 
@@ -75,14 +77,16 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/date_picker/default";
   @import "materialize/components/date_picker/default.date";
   @import "materialize/components/date_picker/default.time";
-  .light-grey-background-color {
-    background-color: $u-can-act-light-grey;
-  }
+
+  @import "reward_page";
+  @import "questionnaire";
+  @import "settings";
 }
 
 .student {
   $accent-color: $u-can-act-green;
   $secondary-color: $u-can-act-green;
+
   // Variables;
   @import "materialize/components/variables";
 
@@ -120,6 +124,13 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/date_picker/default";
   @import "materialize/components/date_picker/default.date";
   @import "materialize/components/date_picker/default.time";
+
+  @import "questionnaire";
+  @import "reward_page";
+  @import "settings";
+}
+
+.mentor, .student {
   .light-grey-background-color {
     background-color: $u-can-act-light-grey;
   }
@@ -158,3 +169,4 @@ $u-can-act-light-grey: #f6f6f6;
 body {
   -webkit-font-smoothing: antialiased;
 }
+

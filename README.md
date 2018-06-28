@@ -313,13 +313,14 @@ Required and allowed options (minimal example and maximal example):
   type: :range,
   min: 0,
   max: 100,
+  step: 1,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
   section_end: true
 }]
 ```
-The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively.
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**
@@ -449,6 +450,33 @@ Required and allowed options (minimal example):
 }]
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
+
+### Type: Date
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :date,
+  title: 'Wanneer ben je gestopt?',
+}, {
+  section_start: 'Tot slot',
+  hidden: true,
+  id: :v2,
+  type: :date,
+  title: 'Wanneer ben je gestopt?',
+  required: true,
+  tooltip: 'some tooltip',
+  placeholder: 'Place holder',
+  min: [2018, 06, 14],
+  max: [2018, 07, 20],
+  section_end: true
+}]
+```
+
+The `min` and `max` properties can be either two arrays as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
+
+Please note that there is currently a bug in the date picker when you specify dates as arrays. So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
 
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.

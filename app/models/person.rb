@@ -20,6 +20,9 @@ class Person < ApplicationRecord
             format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
             allow_blank: true,
             uniqueness: true
+
+  validates_with IbanValidator
+
   validates :external_identifier,
             format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/i,
             allow_blank: false,
@@ -68,6 +71,11 @@ class Person < ApplicationRecord
 
   def max_still_earnable_reward_points
     protocol_subscriptions.active.sum(&:max_still_earnable_reward_points)
+  end
+
+  def my_students
+    return [] unless mentor?
+    my_protocols(false).map(&:filling_out_for)
   end
 
   def my_protocols(for_myself = true)

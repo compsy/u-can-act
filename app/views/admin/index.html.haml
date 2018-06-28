@@ -4,7 +4,7 @@
   .section
     %h4 Test Questionnaires
     = form_tag('/admin/preview', method: 'post') do
-      = select_tag(:id, options_for_select(questionnaire_select_options(@used_questionnaires), disabled: '', selected: ''), required: true)
+      = select_tag(:id, options_for_select(questionnaire_select_options(@used_questionnaires.sort_by{|x|x.name}), disabled: '', selected: ''), required: true)
       = button_tag('Preview questionnaire', type: 'submit', class: 'btn waves-effect waves-light')
 .col.s6
   .section

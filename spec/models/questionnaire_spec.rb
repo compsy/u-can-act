@@ -3,9 +3,64 @@
 require 'rails_helper'
 
 describe Questionnaire do
-  it 'should have valid default properties' do
-    questionnaire = FactoryBot.build(:questionnaire)
-    expect(questionnaire.valid?).to be_truthy
+  describe 'validations' do
+    it 'should have valid default properties' do
+      questionnaire = FactoryBot.build(:questionnaire)
+      expect(questionnaire.valid?).to be_truthy
+    end
+
+    describe 'all_ids_unique' do
+      let(:invalid_questionnaire) do
+        FactoryBot.build(:questionnaire, content: [{
+                           section_start: 'Algemeen',
+                           id: :v1,
+                           type: :radio,
+                           title: 'Hoe voelt u zich vandaag?',
+                           options: %w[slecht goed],
+                           otherwise_label: 'Anders nog wat:'
+                         }, {
+                           section_start: 'Algemeen',
+                           id: :v2,
+                           type: :radio,
+                           title: 'Hoe voelt u zich vandaag?',
+                           options: %w[slecht goed],
+                           otherwise_label: 'Anders nog wat:'
+                         }, {
+                           id: :v1,
+                           type: :checkbox,
+                           title: 'Wat heeft u vandaag gegeten?',
+                           options: ['brood', 'kaas en ham', 'pizza'],
+                           otherwise_label: 'Hier ook iets:'
+                         }])
+      end
+      let(:valid_questionnaire) do
+        FactoryBot.build(:questionnaire, content: [{
+                           section_start: 'Algemeen',
+                           id: :v1,
+                           type: :radio,
+                           title: 'Hoe voelt u zich vandaag?',
+                           options: %w[slecht goed],
+                           otherwise_label: 'Anders nog wat:'
+                         }, {
+                           id: :v2,
+                           type: :checkbox,
+                           title: 'Wat heeft u vandaag gegeten?',
+                           options: ['brood', 'kaas en ham', 'pizza'],
+                           otherwise_label: 'Hier ook iets:'
+                         }])
+      end
+
+      it 'should not be valid with duplicate keys' do
+        expect(invalid_questionnaire).to_not be_valid
+        expect(invalid_questionnaire.errors.messages).to have_key :content
+        expect(invalid_questionnaire.errors.messages[:content]).to include('can only have a series of unique ids')
+      end
+
+      it 'should be valid without duplicate keys' do
+        expect(valid_questionnaire).to be_valid
+        expect(valid_questionnaire.errors.messages).to_not have_key :content
+      end
+    end
   end
 
   describe 'name' do

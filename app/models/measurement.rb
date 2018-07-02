@@ -3,7 +3,8 @@
 class Measurement < ApplicationRecord
   belongs_to :questionnaire
   validates :questionnaire_id, presence: true
-  belongs_to :protocol
+  belongs_to :protocol # , autosave: true, validate: true
+  validate :at_most_one_stop_measurement_per_protocol
   validates :protocol_id, presence: true
   validates :stop_measurement, inclusion: { in: [true, false] }
   validates :should_invite, inclusion: { in: [true, false] }
@@ -15,7 +16,7 @@ class Measurement < ApplicationRecord
   validates :open_from_offset, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates_associated :protocol
+
   validate :either_open_from_or_offset_till_end
 
   has_many :responses, dependent: :destroy
@@ -40,6 +41,13 @@ class Measurement < ApplicationRecord
   end
 
   private
+
+  def at_most_one_stop_measurement_per_protocol
+    return unless stop_measurement
+    protocol.reload
+    return if protocol.stop_measurement.nil? || protocol.stop_measurement == self
+    errors.add(:protocol, 'can only have a single stop_measurement')
+  end
 
   def open_till(end_date)
     if offset_till_end.present?

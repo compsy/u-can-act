@@ -11,13 +11,14 @@ class QuestionnaireGenerator
 
   class << self
     # rubocop:disable Metrics/ParameterLists
-    def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token, unsubscribe_url)
+    def generate_questionnaire(response_id:, content:, title:, submit_text:, action:, unsubscribe_url:, params: {})
+      params[:response_id] = response_id
       response = Response.find_by_id(response_id) # allow nil response id for preview
       raw_content = content.deep_dup
       title = substitute_variables(response, title).first
       body = safe_join([
                          questionnaire_header(title),
-                         questionnaire_hidden_fields(response_id, authenticity_token),
+                         questionnaire_hidden_fields(params),
                          questionnaire_questions_html(content, response, raw_content, unsubscribe_url),
                          submit_button(submit_text)
                        ])
@@ -48,11 +49,12 @@ class QuestionnaireGenerator
       header_body
     end
 
-    def questionnaire_hidden_fields(response_id, authenticity_token)
+    def questionnaire_hidden_fields(params)
       hidden_body = []
       hidden_body << tag(:input, name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
-      hidden_body << tag(:input, name: 'authenticity_token', type: 'hidden', value: authenticity_token)
-      hidden_body << tag(:input, name: 'response_id', type: 'hidden', value: response_id)
+      params.each do |key, value|
+        hidden_body << tag(:input, name: key.to_s, type: 'hidden', value: value) if value.present?
+      end
       safe_join(hidden_body)
     end
 

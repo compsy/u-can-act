@@ -15,6 +15,21 @@ class PeopleController < ApplicationController
     end
   end
 
+  def unsubscribe
+    Rails.logger.warn "[Attention] Stopping all protocol subscriptions for person #{@person.id}."
+    @person.protocol_subscriptions.active.each do |protocol_subscription|
+      stop_response = protocol_subscription.stop_response
+      if stop_response.blank?
+        @response.protocol_subscription.cancel!
+      else
+        redirect_to NextPageFinder.get_next_page current_user: current_user,
+                                                 next_response: stop_response,
+                                                 params: { callback_url: '/person/unsubscribe' }
+        break
+      end
+    end
+  end
+
   private
 
   def set_layout

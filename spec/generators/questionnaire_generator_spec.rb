@@ -6,15 +6,18 @@ describe QuestionnaireGenerator do
   let(:responseobj) { FactoryBot.create(:response) }
   describe 'generate_questionnaire' do # This is the only public method
     it 'should generate a questionnaire' do
-      result = described_class.generate_questionnaire(responseobj.id,
-                                                      responseobj.measurement.questionnaire.content,
-                                                      'Dit is een titel {{deze_student}}',
-                                                      'Opslaan',
-                                                      '/',
-                                                      'authenticity-token',
-                                                      Rails.application.routes.url_helpers.questionnaire_path(
-                                                        uuid: responseobj.uuid
-                                                      ))
+      result = described_class
+               .generate_questionnaire(
+                 response_id: responseobj.id,
+                 content: responseobj.measurement.questionnaire.content,
+                 title: 'Dit is een titel {{deze_student}}',
+                 submit_text: 'Opslaan',
+                 action: '/',
+                 unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: responseobj.uuid),
+                 params: {
+                   authenticity_token: 'authenticity-token'
+                 }
+               )
       # We already check the semantics of the questionnaire in the feature test, so just
       # check for the hidden fields here and make sure that we get a form.
       expect(result).to include('authenticity-token')

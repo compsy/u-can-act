@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]
   resources :questionnaire, only: %i[index show create destroy], param: :uuid
-  resource :person, only: %i[edit update]
+  resource :person, only: %i[edit update unsubscribe]
 
   # Admin panel
   scope path: :admin do

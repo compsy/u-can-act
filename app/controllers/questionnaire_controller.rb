@@ -33,7 +33,8 @@ class QuestionnaireController < ApplicationController
     @response.update_attributes!(content: response_content.id)
     @response.complete!
     check_stop_subscription
-    redirect_to NextPageFinder.get_next_page current_user: current_user, previous_response: @response
+    redirect_to questionnaire_create_params[:callback_url] || NextPageFinder.get_next_page(current_user: current_user,
+                                                                                           previous_response: @response)
   end
 
   def destroy
@@ -138,27 +139,36 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_questionnaire_content
-    @content = QuestionnaireGenerator.generate_questionnaire(@response.id,
-                                                             @response.measurement.questionnaire.content,
-                                                             @response.measurement.questionnaire.title,
-                                                             'Opslaan',
-                                                             '/',
-                                                             form_authenticity_token(form_options: { action: '/',
-                                                                                                     method: 'post' }),
-                                                             Rails.application.routes.url_helpers.questionnaire_path(
-                                                               uuid: @response.uuid
-                                                             ))
+    @content = QuestionnaireGenerator
+               .generate_questionnaire(
+                 response_id: @response.id,
+                 content: @response.measurement.questionnaire.content,
+                 title: @response.measurement.questionnaire.title,
+                 submit_text: 'Opslaan',
+                 action: '/',
+                 unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: @response.uuid),
+                 params: default_questionnaire_params
+               )
+  end
+
+  def default_questionnaire_params
+    {
+      authenticity_token: form_authenticity_token(form_options: { action: '/', method: 'post' }),
+      callback_url: questionnaire_params[:callback_url]
+    }
   end
 
   def questionnaire_params
-    params.permit(:uuid, :method)
+    params.permit(:uuid, :method, :callback_url)
   end
 
   def questionnaire_create_params
     # TODO: change the below line to the following in rails 5.1:
     # params.permit(:response_id, content: {})
-    params.permit(:response_id, content: permit_recursive_params(params[:content]&.to_unsafe_h),
-                                stop_subscription: permit_recursive_params(params[:stop_subscription]&.to_unsafe_h))
+    params.permit(:response_id,
+                  :callback_url,
+                  content: permit_recursive_params(params[:content]&.to_unsafe_h),
+                  stop_subscription: permit_recursive_params(params[:stop_subscription]&.to_unsafe_h))
   end
 
   def questionnaire_content

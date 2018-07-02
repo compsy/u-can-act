@@ -5,11 +5,10 @@ class Questionnaire < ApplicationRecord
   validates :content, presence: true
   validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z]+[a-z_0-9]*\Z/ }
   serialize :content, Array
+  validate :all_content_ids_unique
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
                                         foreign_key: 'informed_consent_questionnaire_id'
-
-  validate :all_ids_unique
 
   scope :pilot, (lambda {
     where('name = :name1 OR name = :name2 OR name = :name3 OR name = :name4 OR ' \
@@ -33,7 +32,7 @@ class Questionnaire < ApplicationRecord
           name15: 'dagboek studenten 5x per week donderdag')
   })
 
-  def all_ids_unique
+  def all_content_ids_unique
     ids = content.map { |entry| entry[:id] }
     result = ids.detect { |entry| ids.count(entry) > 1 }
 

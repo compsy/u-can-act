@@ -9,7 +9,7 @@ describe Questionnaire do
       expect(questionnaire.valid?).to be_truthy
     end
 
-    describe 'all_ids_unique' do
+    describe 'all_content_ids_unique' do
       let(:invalid_questionnaire) do
         FactoryBot.build(:questionnaire, content: [{
                            section_start: 'Algemeen',

@@ -144,7 +144,10 @@ class QuestionnaireController < ApplicationController
                                                              'Opslaan',
                                                              '/',
                                                              form_authenticity_token(form_options: { action: '/',
-                                                                                                     method: 'post' }))
+                                                                                                     method: 'post' }),
+                                                             Rails.application.routes.url_helpers.questionnaire_path(
+                                                               uuid: @response.uuid
+                                                             ))
   end
 
   def questionnaire_params

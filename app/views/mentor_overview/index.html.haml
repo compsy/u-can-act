@@ -1,16 +1,25 @@
 = render partial: 'shared/header'
 :javascript
   window.onbeforeunload = null;
-%h1 Webapp Begeleiders
+%h2 Webapp Begeleiders
 %p
   Voor
   %i
     = current_user.first_name
     = current_user.last_name
+.row.section
+  .col.s12= QuestionnaireGenerator.send(:generate_unsubscribe, { type: :unsubscribe,
+                                title: 'Klaar met dit schooljaar?',
+                                content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijsten in.',
+                                button_text: 'Onderzoek afronden',
+                                unsubscribe_url: '/person/unsubscribe' })
 
-%ul.collection
-  - @student_protocol_subscriptions.each do |protocol_subscription|
-    = render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
+.row.section
+  .col.s12
+    %ul.collection
+      - @student_protocol_subscriptions.each do |protocol_subscription|
+        = render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
+
 %footer
   .div.container
   %ul

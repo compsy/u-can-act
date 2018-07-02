@@ -11,7 +11,10 @@ describe QuestionnaireGenerator do
                                                       'Dit is een titel {{deze_student}}',
                                                       'Opslaan',
                                                       '/',
-                                                      'authenticity-token')
+                                                      'authenticity-token',
+                                                      Rails.application.routes.url_helpers.questionnaire_path(
+                                                        uuid: responseobj.uuid
+                                                      ))
       # We already check the semantics of the questionnaire in the feature test, so just
       # check for the hidden fields here and make sure that we get a form.
       expect(result).to include('authenticity-token')

@@ -11,7 +11,7 @@
       %span.title= "#{student.first_name} #{student.last_name}"
       %p
         - open_responses.each do |response|
-          = link_to('Vragenlijst invullen voor deze student',       |
+          = link_to('Vragenlijst invullen voor deze student',
             questionnaire_path(uuid: response.uuid))
     - if student_prot_id
       :javascript

@@ -4,6 +4,7 @@ development:
   username: <%= ENV['POSTGRES_USERNAME'] || ENV['USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   encoding: utf8
+  port: 5433
   host: docker.io
 
 # Warning: The database defined as "test" will be erased and

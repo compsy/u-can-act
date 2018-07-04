@@ -31,9 +31,21 @@ describe QuestionnaireGenerator do
         options: %w[slecht goed]
       }]
       expect do
-        described_class.send(:questionnaire_questions,
+        described_class.send(:questionnaire_questions_html,
                              questionnaire_content, nil, questionnaire_content)
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
+    end
+    it 'should raise an error when given an unknown show_after type' do
+      questionnaire_content = [{
+        id: :v1,
+        type: :raw,
+        content: 'Hoe voelt u zich vandaag?',
+        show_after: 'hoi en doei'
+      }]
+      expect do
+        described_class.send(:questionnaire_questions_html,
+                             questionnaire_content, nil, questionnaire_content)
+      end.to raise_error(RuntimeError, 'Unknown show_after type: hoi en doei')
     end
   end
   describe 'generate_json_questionnaire' do

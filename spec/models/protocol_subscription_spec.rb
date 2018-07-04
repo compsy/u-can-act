@@ -240,6 +240,27 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'cancel!' do
+    it 'should cancel the protocol subscription' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
+      protocol_subscription.cancel!
+      expect(protocol_subscription.state).to eq described_class::CANCELED_STATE
+      expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
+    end
+    it 'should destroy future responses' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
+      FactoryBot.create_list(:response, 3, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 5, :completed, protocol_subscription: protocol_subscription)
+      FactoryBot.create_list(:response, 7, :future, protocol_subscription: protocol_subscription)
+      countbefore = Response.count
+      protocol_subscription.cancel!
+      expect(Response.count).to eq(countbefore - 7)
+      protocol_subscription.responses.each do |respobj|
+        expect(respobj.open_from).to be <= Time.zone.now
+      end
+    end
+  end
+
   describe 'ended?' do
     it 'should be ended after the duration of the protocol' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 5.weeks.ago.at_beginning_of_day)
@@ -323,6 +344,14 @@ describe ProtocolSubscription do
   end
 
   describe 'responses' do
+    before :each do
+      Timecop.freeze(Time.new(2017, 3, 19, 0, 0, 0))
+    end
+
+    after :each do
+      Timecop.return
+    end
+
     it 'should create responses when you create a protocol subscription' do
       protocol = FactoryBot.create(:protocol)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -555,16 +584,20 @@ describe ProtocolSubscription do
     end
 
     it 'should calculate the correct streak' do
-      protocol = FactoryBot.create(:protocol, duration: 5.weeks)
+      Timecop.freeze(2017, 3, 30, 0, 0, 0)
+      protocol_duration = 5.weeks
+      protocol = FactoryBot.create(:protocol, duration: protocol_duration)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
-                                                start_date: Time.new(2017, 2, 1, 0, 0, 0).in_time_zone)
+                                                start_date: Time.new(2017, 4, 1, 0, 0, 0).in_time_zone)
+
+      # Jump to the end of the protocol
+      Timecop.freeze(Date.today + protocol_duration)
       protocol_subscription.responses.each_with_index do |responseobj, index|
         next if index == 0 # Pretend the first response is missing
         responseobj.completed_at = responseobj.open_from + 1.minute
       end
-
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
@@ -572,10 +605,10 @@ describe ProtocolSubscription do
       end
       expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
       expect(result).to eq expected
+      Timecop.return
     end
 
     it 'should calculate the correct streak if there are multiple measurements open' do
-      Timecop.return
       # Measurements start at 9am with an open_duration of 36 hours. So at 12pm (noon), on the third day,
       # the first measurement has expired (since it has been 51 hours since the measurement opened),
       # the second measurement is still open (since it has been 27 hours since the measurement opened),
@@ -584,12 +617,13 @@ describe ProtocolSubscription do
       # in the future, with 5 measurements total, we expect to see a streak of [0, 1, 2, 3, 4].
       # Before fixing the logic, this would erroneously show a streak of [0, 0, 0, 1, 2] because it
       # counted measurements that were still open as missing.
-      Timecop.freeze(2017, 4, 1, 12)
+      Timecop.freeze(2017, 3, 29, 0, 0, 0)
       protocol = FactoryBot.create(:protocol, duration: 5.days)
       FactoryBot.create(:measurement, :periodical_and_overlapping, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.new(2017, 3, 30, 0, 0, 0).in_time_zone)
+      Timecop.freeze(2017, 4, 1, 12)
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
@@ -597,6 +631,7 @@ describe ProtocolSubscription do
       end
       expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
       expect(result).to eq expected
+      Timecop.return
     end
 
     it 'should return -1s if there are no measurements' do
@@ -616,11 +651,16 @@ describe ProtocolSubscription do
     end
 
     it 'should return 0 if a measurement was missed' do
+      Timecop.freeze(2017, 3, 26, 0, 0, 0)
+
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.new(2017, 3, 27, 0, 0, 0).in_time_zone)
+
+      # Move forward in time to miss a measurement
+      Timecop.freeze(2017, 4, 3, 0, 0, 0)
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
@@ -629,6 +669,33 @@ describe ProtocolSubscription do
       expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
 
       expect(result).to eq expected
+      Timecop.return
+    end
+  end
+
+  describe 'needs_informed_consent?' do
+    it 'should return true if the informed consent is not yet provided for a protocol' do
+      protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol)
+
+      expect(protocol_subscription.informed_consent_given_at).to be_nil
+      expect(protocol_subscription.needs_informed_consent?).to be_truthy
+    end
+
+    it 'should return false if the protocol does not require informed consent' do
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol)
+      expect(protocol_subscription.needs_informed_consent?).to be_falsey
+    end
+
+    it 'should return false if informed consent was given' do
+      protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                informed_consent_given_at: 10.days.ago)
+      expect(protocol_subscription.needs_informed_consent?).to be_falsey
     end
   end
 end

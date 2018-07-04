@@ -13,6 +13,10 @@
     = render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
 %footer
   .div.container
-  = link_to('Disclaimer', disclaimer_path)
+  %ul
+    %li
+      = link_to('Disclaimer', disclaimer_path)
+    -#%li
+      -#= link_to('Gegevens aanpassen', edit_person_path)
 
 = render 'shared/feedback_button'

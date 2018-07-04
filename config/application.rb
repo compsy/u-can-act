@@ -9,6 +9,7 @@ Mongo::Logger.logger.level = ::Logger::INFO
 
 module Vsv
   class Application < Rails::Application
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -26,8 +27,12 @@ module Vsv
     config.autoload_paths += %W(#{config.root}/app/adapters)
     config.autoload_paths += %W(#{config.root}/app/generators)
     config.autoload_paths += %W(#{config.root}/app/exporters)
+    config.autoload_paths += %W(#{config.root}/app/middleware)
 
     config.active_job.queue_adapter = :delayed_job
+
+    # Enable react addons
+    config.react.addons = true
 
     config.generators do |g|
       # Set basic DBMS as main database

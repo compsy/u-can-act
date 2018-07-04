@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # frozen_string_literal: true
 
 module Api
@@ -6,6 +7,7 @@ module Api
       before_action :authenticate_person
       before_action :set_person, only: %i[show index]
       before_action :set_responses, only: %i[index show]
+      #include ::Concerns::IsLoggedIn
 
       def create
         person = Person.new(person_params)
@@ -14,6 +16,10 @@ module Api
         else
           # TODO: Render the errors
         end
+      end
+
+      def me
+        render json: current_user, serializer: Api::PersonSerializer
       end
 
       private

@@ -13,6 +13,15 @@ describe Response do
     expect(responseobj).to be_valid
   end
 
+  describe 'person' do
+    it 'should have a person through the protocol subscription' do
+      response = FactoryBot.build(:response, :completed)
+      result = response.person
+      expect(result).to_not be_blank
+      expect(result).to eq response.protocol_subscription.person
+    end
+  end
+
   context 'scopes' do
     describe 'recently_opened_and_not_invited' do
       it 'should find a response that was opened an hour ago' do
@@ -188,6 +197,17 @@ describe Response do
     end
   end
 
+  describe 'after_date' do
+    it 'should return responses with a open_from that is in the future' do
+      FactoryBot.create(:response, open_from: Time.new(2018, 10, 9))
+      FactoryBot.create(:response, open_from: Time.new(2018, 10, 10))
+      expected = FactoryBot.create(:response, open_from: Time.new(2018, 10, 11))
+      thedate = Time.new(2018, 10, 10)
+      expect(Response.after_date(thedate).count).to eq 1
+      expect(Response.after_date(thedate).to_a).to eq [expected]
+    end
+  end
+
   describe 'remote_content' do
     it 'should work when there is content' do
       responseobj = FactoryBot.create(:response, :completed)
@@ -274,43 +294,6 @@ describe Response do
       FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
       responseobj = FactoryBot.create(:response, protocol_subscription: prot_ment)
       expect(responseobj.determine_student_mentor).to eq([student, mentor])
-    end
-  end
-
-  describe 'substitute_variables' do
-    it 'should replace variables in a student response' do
-      team = FactoryBot.create(:team)
-      student_role = FactoryBot.create(:role, team: team,
-                                              group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, team: team,
-                                             group: Person::MENTOR, title: 'MentorTitle')
-
-      student = FactoryBot.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)
-      mentor = FactoryBot.create(:mentor, role: mentor_role, first_name: 'Pieter', gender: Person::MALE)
-
-      FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
-      prot_stud = FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      responseobj = FactoryBot.create(:response, protocol_subscription: prot_stud)
-
-      subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
-      expect(responseobj.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
-    end
-
-    it 'should replace variables in a mentor response' do
-      team = FactoryBot.create(:team)
-      student_role = FactoryBot.create(:role, team: team,
-                                              group: Person::STUDENT, title: Person::STUDENT)
-      mentor_role = FactoryBot.create(:role, team: team,
-                                             group: Person::MENTOR, title: 'MentorTitle')
-
-      student = FactoryBot.create(:student, role: student_role, first_name: 'Emma', gender: Person::FEMALE)
-      mentor = FactoryBot.create(:mentor, role: mentor_role, first_name: 'Pieter', gender: Person::MALE)
-      prot_ment = FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
-      FactoryBot.create(:protocol_subscription, person: student, filling_out_for: student)
-      responseobj = FactoryBot.create(:response, protocol_subscription: prot_ment)
-
-      subtext = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
-      expect(responseobj.substitute_variables(subtext)).to eq 'Hoi Emma zij Pieter hem'
     end
   end
 

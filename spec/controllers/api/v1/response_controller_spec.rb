@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe Api::V1::ResponseController, type: :controller do
   let!(:person) { FactoryBot.create(:person) }
-  let!(:response1) { FactoryBot.create(:response, :not_expired) }
-  let!(:response2) { FactoryBot.create(:response, :not_expired) }
+  let!(:response1) { FactoryBot.create(:response, :not_expired, open_from: 10.minutes.ago) }
+  let!(:response2) { FactoryBot.create(:response, :not_expired, open_from: 8.minutes.ago) }
   let!(:response3) { FactoryBot.create(:response, :future) }
   let!(:response4) { FactoryBot.create(:response, :completed) }
 
@@ -33,7 +33,7 @@ describe Api::V1::ResponseController, type: :controller do
   end
 
   describe 'create should be authenticated' do
-    let(:params) { {} }
+    let(:params) { { uuid: response2.uuid } }
     it_should_behave_like 'a basic authenticated route', 'post', :create
   end
 
@@ -73,7 +73,7 @@ describe Api::V1::ResponseController, type: :controller do
         get :show, params: { uuid: 'non-exis-tent' }
         expect(response.status).to eq 404
         expect(response.body).to_not be_nil
-        expect(response.body).to eq 'Response met die key niet gevonden'
+        expect(response.body).to eq 'Response met dat uuid niet gevonden'
       end
 
       it 'should set the correct instance variables' do
@@ -120,11 +120,44 @@ describe Api::V1::ResponseController, type: :controller do
       it 'should set the correct instance variables' do
         get :index, params: { external_identifier: person.external_identifier }
         expect(controller.instance_variable_get(:@responses)).to_not be_nil
-        expect(controller.instance_variable_get(:@responses)).to eq [response1, response2]
+        expect(controller.instance_variable_get(:@responses)).to match_array [response1, response2]
       end
     end
 
     describe 'create' do
+      let(:content) { { 'v1' => 'a', 'v2' => 'c' } }
+      let(:the_response) { FactoryBot.create(:response, content: nil) }
+
+      it 'should be able to post new results to the api' do
+        post :create, params: { uuid: the_response.uuid, content: content }
+        expect(response.status).to eq 201
+      end
+
+      it 'should store the response and update its contents' do
+        post :create, params: { uuid: the_response.uuid, content: content }
+        the_response.reload
+        expect(the_response.content).to_not be_nil
+        expect(the_response.completed_at).to_not be_nil
+        expect(the_response.completed_at).to be_within(1.minute).of(Time.zone.now)
+        expect(the_response.content).to_not be_nil
+        expect(the_response.remote_content).to_not be_nil
+        expect(the_response.remote_content.content).to_not be_nil
+        expect(the_response.remote_content.content).to eq content
+      end
+
+      it 'should throw a 404 if the response does not exist' do
+        post :create, params: { uuid: 'non-exis-tent', content: content }
+        expect(response.status).to eq 404
+        expect(response.body).to_not be_nil
+        expect(response.body).to eq 'Response met dat uuid niet gevonden'
+      end
+
+      it 'should throw a 400 if the response has been completed already' do
+        post :create, params: { uuid: the_response.uuid, content: content }
+        post :create, params: { uuid: the_response.uuid, content: content }
+        expect(response.status).to eq 400
+        expect(response.body).to eq 'Response met dat uuid heeft al content'
+      end
     end
   end
 end

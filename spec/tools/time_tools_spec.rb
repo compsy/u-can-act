@@ -27,4 +27,57 @@ describe TimeTools do
       expect(described_class.increase_by_duration(given, 3600 * 24 * 7)).to be_within(1.second).of(expected)
     end
   end
+
+  describe 'a_time?' do
+    it 'should see an activesupport time with zone as a time' do
+      time = Time.zone.now
+      expect(described_class.a_time?(time)).to be_truthy
+    end
+    it 'should see a time as a time' do
+      time = Time.new(2002)
+      expect(described_class.a_time?(time)).to be_truthy
+    end
+    it 'should see a date as a time' do
+      time = Date.new(2002, 2, 3)
+      expect(described_class.a_time?(time)).to be_truthy
+    end
+    # rubocop:disable Style/DateTime
+    it 'should see a datetime as a time' do
+      time = DateTime.new(2012, 8, 29, 22, 35, 0)
+      expect(described_class.a_time?(time)).to be_truthy
+    end
+    # rubocop:enable Style/DateTime
+    it 'should not see anything else as a time' do
+      expect(described_class.a_time?('ando')).to be_falsey
+      expect(described_class.a_time?(42)).to be_falsey
+      expect(described_class.a_time?([1, 2, 3])).to be_falsey
+      expect(described_class.a_time?(%w[ab c d])).to be_falsey
+      expect(described_class.a_time?(a: 'hoi', b: 'doei', c: 13)).to be_falsey
+      expect(described_class.a_time?(1.minute)).to be_falsey
+    end
+  end
+
+  describe 'an_offset?' do
+    it 'should see an active support duration as an offset' do
+      offset = 1.minute
+      expect(described_class.an_offset?(offset)).to be_truthy
+    end
+    it 'should see an integer as an offset' do
+      offset = 15
+      expect(described_class.an_offset?(offset)).to be_truthy
+    end
+    # rubocop:disable Style/DateTime
+    it 'should not see anything else as an offset' do
+      # time date datetime, activesupport time with zone
+      expect(described_class.an_offset?('ando')).to be_falsey
+      expect(described_class.an_offset?([1, 2, 3])).to be_falsey
+      expect(described_class.an_offset?(%w[ab c d])).to be_falsey
+      expect(described_class.an_offset?(a: 'hoi', b: 'doei', c: 13)).to be_falsey
+      expect(described_class.an_offset?(Time.zone.now)).to be_falsey
+      expect(described_class.an_offset?(Date.new(2002, 2, 3))).to be_falsey
+      expect(described_class.an_offset?(Time.new(2002))).to be_falsey
+      expect(described_class.an_offset?(DateTime.new(2012, 8, 29, 22, 35, 0))).to be_falsey
+    end
+    # rubocop:enable Style/DateTime
+  end
 end

@@ -22,6 +22,10 @@ FactoryBot.define do
     end
   end
 
+  trait :with_iban do
+    iban 'NL91ABNA0417164300'
+  end
+
   trait :with_test_phone_number do
     mobile_phone ENV['TEST_PHONE_NUMBERS'].split(',').first
   end

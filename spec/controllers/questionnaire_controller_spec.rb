@@ -20,8 +20,8 @@ RSpec.describe QuestionnaireController, type: :controller do
                                         open_from: 1.hour.ago)
         get :index
         expect(response).to have_http_status(302)
-        expect(response.location).to_not eq(mentor_overview_index_url)
-        expect(response.location).to eq(questionnaire_url(uuid: responseobj.uuid))
+        expect(response.location).to_not end_with(mentor_overview_index_path)
+        expect(response.location).to end_with(questionnaire_path(uuid: responseobj.uuid))
       end
 
       it 'should redirect to the klaar page if the person is a student but the questionnaire was completed' do
@@ -36,8 +36,8 @@ RSpec.describe QuestionnaireController, type: :controller do
                           open_from: 1.hour.ago)
         get :index
         expect(response).to have_http_status(302)
-        expect(response.location).to_not eq(mentor_overview_index_url)
-        expect(response.location).to eq(klaar_url)
+        expect(response.location).to_not end_with(mentor_overview_index_path)
+        expect(response.location).to end_with(klaar_path)
       end
 
       it 'should redirect to the questionnaire controller for a mentor filling out a questionnaire for themselves' do
@@ -49,8 +49,8 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                              open_from: 1.hour.ago)
         get :index
         expect(response).to have_http_status(302)
-        expect(response.location).to_not eq(mentor_overview_index_url)
-        expect(response.location).to eq(questionnaire_url(uuid: responseobj.uuid))
+        expect(response.location).to_not eq(mentor_overview_index_path)
+        expect(response.location).to end_with(questionnaire_path(uuid: responseobj.uuid))
       end
 
       it 'should redirect to the mentor controller for a mentor filling out a questionnaire for someone else' do
@@ -61,7 +61,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                           filling_out_for: FactoryBot.create(:student))
         get :index
         expect(response).to have_http_status(302)
-        expect(response.location).to eq(mentor_overview_index_url)
+        expect(response.location).to end_with(mentor_overview_index_path)
       end
     end
   end
@@ -158,7 +158,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'should redirect to the correct page' do
         delete :destroy, params: { uuid: responseobj.uuid }
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Bedankt voor je deelname!')
+        expect(response.body).to include('Bedankt voor je inzet!')
       end
 
       it 'should redirect to the correct stop measurement if one is available' do
@@ -204,7 +204,7 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
-        expect(response.location).to eq klaar_url
+        expect(response.location).to end_with klaar_path
       end
 
       it 'requires a q parameter that is not expired' do
@@ -212,7 +212,7 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
-        expect(response.location).to eq klaar_url
+        expect(response.location).to end_with klaar_path
       end
 
       it 'shows status 200 when everything is correct' do
@@ -243,7 +243,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
-        expect(response.location).to eq mentor_overview_index_url
+        expect(response.location).to end_with mentor_overview_index_path
       end
 
       it 'should redirect to the mentor overview page if the person is a mentor filling out for someone else' do
@@ -255,7 +255,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(302)
-        expect(response.location).to eq mentor_overview_index_url
+        expect(response.location).to end_with mentor_overview_index_path
       end
     end
 

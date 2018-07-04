@@ -7,6 +7,12 @@ dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [{
+                     type: :unsubscribe,
+                     title: 'Klaar met dit schooljaar?',
+                     content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijst in.',
+                     button_text: 'Onderzoek afronden',
+                     show_after: (Rails.env.development? ? 1.second.ago : Time.new(2018, 6, 27).in_time_zone)
+                   }, {
                      section_start: 'School en Stage',
                      type: :raw,
                      content: '<p class="flow-text section-explanation">De volgende vragen gaan over school en stage. Je antwoorden zijn helemaal anoniem.</p>'

@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require 'rails_helper'
@@ -14,7 +13,7 @@ describe SnitchJob do
   end
 
   describe 'perform' do
-    it 'should call the Teamoverview function with the correct parameters' do
+    it 'should call the snitch function with the correct parameters' do
       expect(ENV['SNITCH_KEY']).to_not be_blank
       expect(Snitcher).to receive(:snitch).with(ENV['SNITCH_KEY'])
       described_class.perform_now

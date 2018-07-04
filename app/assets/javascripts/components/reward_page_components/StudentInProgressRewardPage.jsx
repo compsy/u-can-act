@@ -2,7 +2,7 @@ class StudentInProgressRewardPage extends React.Component {
   constructor(props) {
     super(props);
 
-    let currentStreak = this.findCurrentStreak();
+    let currentStreak = this.findCurrentStreak(this.props.protocolCompletion, this.props.maxStreak);
     this.inMaxStreak = (currentStreak === this.props.maxStreak);
     this.totalAvailable = this.props.earnedEuros + this.props.awardable;
 
@@ -10,15 +10,19 @@ class StudentInProgressRewardPage extends React.Component {
     this.percentageStreak = (currentStreak / this.props.maxStreak) * this.totalAvailable;
   }
 
-  findCurrentStreak() {
+  findCurrentStreak(protocolCompletion, maxStreak) {
     // Find the last non future index.
     // Note that findIndex could return -1 if the value is not found.
-    var percentageStreakIdx = this.props.protocolCompletion.findIndex(elem => (elem.future));
-    percentageStreakIdx = percentageStreakIdx === -1 ? this.props.protocolCompletion.length : percentageStreakIdx;
+    var percentageStreakIdx = protocolCompletion.findIndex(elem => (elem.future));
+    percentageStreakIdx = percentageStreakIdx === -1 ? protocolCompletion.length : percentageStreakIdx;
     percentageStreakIdx -= 1;
 
+    // Fallback: if no streak / only future measurements exist, return zero.
+    // This should never happen, but makes the code more robust.
+    if (percentageStreakIdx < 0) { return 0; }
+
     // Make sure the streak value does not exceed the maximum possible streak value
-    return Math.max(Math.min(this.props.protocolCompletion[percentageStreakIdx].streak, this.props.maxStreak), 0);
+    return Math.max(Math.min(protocolCompletion[percentageStreakIdx].streak, maxStreak), 0);
   }
 
   render() {
@@ -39,4 +43,3 @@ class StudentInProgressRewardPage extends React.Component {
     )
   }
 }
-

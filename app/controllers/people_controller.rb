@@ -17,10 +17,11 @@ class PeopleController < ApplicationController
 
   def unsubscribe
     Rails.logger.warn "[Attention] Stopping all protocol subscriptions for person #{@person.id}."
+    # TODO: order prot subs by has measurement id or whatever
     @person.protocol_subscriptions.active.each do |protocol_subscription|
       stop_response = protocol_subscription.stop_response
       if stop_response.blank?
-        @response.protocol_subscription.cancel!
+        protocol_subscription.cancel!
       else
         redirect_to NextPageFinder.get_next_page current_user: current_user,
                                                  next_response: stop_response,
@@ -28,6 +29,9 @@ class PeopleController < ApplicationController
         break
       end
     end
+    return if performed?
+    flash[:notice] = 'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
+    redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
   private

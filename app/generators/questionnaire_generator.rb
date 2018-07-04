@@ -710,7 +710,7 @@ class QuestionnaireGenerator
       url_href = '#'
       url_href = question[:unsubscribe_url] if question[:unsubscribe_url]
       body = content_tag(:a, (question[:button_text] || 'Uitschrijven').html_safe,
-                         'data-method': 'delete',
+                         'data-method': (question[:data_method] || 'delete'),
                          href: url_href,
                          class: 'btn waves-effect waves-light navigate-away-allowed',
                          rel: 'nofollow')

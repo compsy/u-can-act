@@ -7,19 +7,24 @@
   %i
     = current_user.first_name
     = current_user.last_name
-- if Time.zone.now > Time.new(2018, 6, 27).in_time_zone && Time.zone.now < Time.new(2018, 8, 1).in_time_zone
+
+- if Time.zone.now < Time.new(2018, 8, 1).in_time_zone && current_user.protocol_subscriptions.active.count.positive?
   .row.section
     .col.s12= QuestionnaireGenerator.send(:generate_unsubscribe, { type: :unsubscribe,
                                   title: 'Klaar met dit schooljaar?',
                                   content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijsten in.',
                                   button_text: 'Onderzoek afronden',
-                                  unsubscribe_url: '/person/unsubscribe' })
+                                  unsubscribe_url: '/person/unsubscribe',
+                                  data_method: 'get' })
 
 .row.section
   .col.s12
-    %ul.collection
-      - @student_protocol_subscriptions.each do |protocol_subscription|
-        = render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
+    - if @student_protocol_subscriptions.blank?
+      %p.flow-text Er zijn geen actieve dagboekstudies op dit moment.
+    - else
+      %ul.collection
+        - @student_protocol_subscriptions.each do |protocol_subscription|
+          = render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
 
 %footer
   .div.container

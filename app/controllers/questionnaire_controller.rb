@@ -54,13 +54,18 @@ class QuestionnaireController < ApplicationController
   private
 
   def check_stop_subscription
-    stop_subscription_hash = questionnaire_stop_subscription
-    content = questionnaire_content
     # We assume that if a stop measurement is submitted, it is always the last
     # questionnaire of the protocol.
     return stop_protocol_subscription if @response.measurement.stop_measurement?
+    stop_subscription_hash = questionnaire_stop_subscription
+    content = questionnaire_content
     return if stop_subscription_hash.blank?
 
+    # NOTE: When a questionnaire has a "stop subscription" question, it bypasses the
+    #       stop measurement (i.e., the protocol subscription will be stopped without
+    #       requiring its stop measurement to be filled out). So only use "stop subscription"
+    #       questions in protocols that don't have a stop_measurement. (Maybe check this
+    #       in model validations).
     should_stop = false
     stop_subscription_hash.each do |key, received|
       next unless content.key?(key)

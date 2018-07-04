@@ -20,7 +20,7 @@
 .row.section
   .col.s12
     - if @student_protocol_subscriptions.blank?
-      %p.flow-text Er zijn geen actieve dagboekstudies op dit moment.
+      %p.flow-text Je begeleidt op dit moment geen studenten in u-can-act.
     - else
       %ul.collection
         - @student_protocol_subscriptions.each do |protocol_subscription|

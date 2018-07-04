@@ -3,10 +3,9 @@
 module Api
   module V1
     class ResponseController < ApiController
-      include ::Concerns::IsBasicAuthenticated
+      #include ::Concerns::IsBasicAuthenticated
       before_action :set_person, only: %i[show index]
       before_action :set_response, only: %i[show create]
-      before_action :set_responses, only: %i[index]
       before_action :set_responses, only: %i[index show]
       before_action :check_empty_response, only: %i[create]
 
@@ -16,6 +15,7 @@ module Api
       end
 
       def index
+        Rails.logger.info @responses	
         render json: @responses, each_serializer: Api::ResponseSerializer
       end
 
@@ -30,7 +30,7 @@ module Api
 
       def set_person
         Rails.logger.info 'setting user'	
-        @person = current_auth_user.person
+        @person = current_auth_user&.person
         return if @person.present?
         render(status: 404, json: 'Deelnemer met dat external id niet gevonden')
       end
@@ -40,6 +40,7 @@ module Api
         @responses = @person.my_open_responses
         return if @responses.present?
         render(status: 404, json: 'Geen responses voor deze persoon gevonden')
+      end
 
       def set_response
         @response = Response.find_by_uuid(response_params[:uuid])

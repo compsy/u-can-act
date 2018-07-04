@@ -36,15 +36,15 @@ class AuthUser < ApplicationRecord
     Rails.logger.info 'preMAKING PROTSUB!!!!!!!!!!!!!!!!!!!!!!!!'
     if obj.person.protocol_subscriptions.blank?
       Rails.logger.info 'MAKING PROTSUB!!!!!!!!!!!!!!!!!!!!!!!!'
-
-      protocol = Protocol.find_by_name('mentoren voormeting/nameting')
-      prot_sub = ProtocolSubscription.create(
+      protocol = Protocol.find_by_name('kct')
+      prot_sub = ProtocolSubscription.create!(
         protocol: protocol,
         person: obj.person,
         state: ProtocolSubscription::ACTIVE_STATE,
-        start_date: Time.zone.now.beginning_of_week
+        start_date: Time.zone.now
       )
     end
+    Rails.logger.info 'Done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'	
     obj
   end
 end

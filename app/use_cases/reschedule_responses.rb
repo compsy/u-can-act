@@ -25,6 +25,8 @@ class RescheduleResponses < ActiveInteraction::Base
 
   def schedule_responses_for_measurement(measurement)
     measurement.response_times(protocol_subscription.start_date, protocol_subscription.end_date).each do |time|
+      Rails.logger.info time
+      Rails.logger.info future	  
       next if time <= future
       Response.create!(protocol_subscription_id: protocol_subscription.id,
                        measurement_id: measurement.id,

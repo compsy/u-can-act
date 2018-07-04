@@ -33,6 +33,18 @@ shared_examples_for 'a person object' do
       expect(result).to_not be_blank
       expect(result).to match_array students
     end
+
+    it 'should also iterate over inactive protocol subscriptions' do
+      mentor = FactoryBot.create(:mentor)
+      students = FactoryBot.create_list(:student, 10)
+      students.each do |student|
+        FactoryBot.create(:protocol_subscription, :canceled, person: mentor, filling_out_for: student)
+      end
+      result = mentor.my_students
+
+      expect(result).to_not be_blank
+      expect(result).to match_array students
+    end
   end
 
   describe 'iban' do

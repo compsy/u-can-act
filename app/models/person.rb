@@ -74,8 +74,8 @@ class Person < ApplicationRecord
   end
 
   def my_students
-    return [] unless mentor?
-    my_protocols(false).map(&:filling_out_for)
+    return [] unless mentor? && protocol_subscriptions.present?
+    protocol_subscriptions.reject { |prot_sub| prot_sub.filling_out_for_id == id }.map(&:filling_out_for)
   end
 
   def my_protocols(for_myself = true)

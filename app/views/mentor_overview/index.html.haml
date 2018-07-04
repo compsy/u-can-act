@@ -7,12 +7,13 @@
   %i
     = current_user.first_name
     = current_user.last_name
-.row.section
-  .col.s12= QuestionnaireGenerator.send(:generate_unsubscribe, { type: :unsubscribe,
-                                title: 'Klaar met dit schooljaar?',
-                                content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijsten in.',
-                                button_text: 'Onderzoek afronden',
-                                unsubscribe_url: '/person/unsubscribe' })
+- if Time.zone.now > Time.new(2018, 6, 27).in_time_zone && Time.zone.now < Time.new(2018, 8, 1).in_time_zone
+  .row.section
+    .col.s12= QuestionnaireGenerator.send(:generate_unsubscribe, { type: :unsubscribe,
+                                  title: 'Klaar met dit schooljaar?',
+                                  content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijsten in.',
+                                  button_text: 'Onderzoek afronden',
+                                  unsubscribe_url: '/person/unsubscribe' })
 
 .row.section
   .col.s12

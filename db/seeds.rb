@@ -151,6 +151,21 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   puts "student nameting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
   puts ''
 
+  # Student post assessment
+  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people.where(first_name: "Differentiatie").first
+  student.protocol_subscriptions.create(
+    protocol: Protocol.find_by_name('differentiatie_studenten'),
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week,
+    informed_consent_given_at: 10.minutes.ago
+  )
+  responseobj = student.protocol_subscriptions.first.responses.first
+  invitation_set = InvitationSet.create!(person: student)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "differentiatie meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+  puts ''
+
 end
 
 puts 'Seeds loaded!'

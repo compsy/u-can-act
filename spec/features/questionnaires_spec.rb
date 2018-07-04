@@ -2066,4 +2066,36 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => Date.today.to_formatted_s(:db))
     end
   end
+
+  context 'callback_url' do
+    let(:content) do
+      [{
+        type: :raw,
+        content: '<p>Hihaho</p>'
+      }]
+    end
+
+    it 'should redirect after filling out a questionnaire if a callback_url is supplied' do
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      visit "#{questionnaire_path(uuid: responseobj.uuid)}?callback_url=%2Fperson%2Fedit"
+      expect(page).to have_current_path("#{questionnaire_path(uuid: responseobj.uuid)}?callback_url=%2Fperson%2Fedit")
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_content('Hihaho')
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Accountgegevens bewerken')
+    end
+  end
 end

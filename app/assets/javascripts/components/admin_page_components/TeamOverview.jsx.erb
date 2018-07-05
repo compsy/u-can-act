@@ -6,7 +6,7 @@ class TeamOverview extends React.Component {
       Student: undefined,
       groups: ['<%= Person::MENTOR %>', '<%= Person::STUDENT %>'],
       year: new Date().getFullYear(),
-      week_number: undefined 
+      week_number: undefined
     };
   }
 
@@ -36,8 +36,8 @@ class TeamOverview extends React.Component {
 
     // Only update if the subscription id has changed
     let year = '?year=' + this.state.year
-    let week_number = this.state.week_number === undefined ? '' : '&week_number=' + this.state.week_number 
-    let percentage_threshold = '&percentage_threshold=70' 
+    let week_number = this.state.week_number === undefined ? '' : '&week_number=' + this.state.week_number
+    let percentage_threshold = '&percentage_threshold=70'
 
     let url = '/api/v1/admin/team/' + group + year + week_number + percentage_threshold
 

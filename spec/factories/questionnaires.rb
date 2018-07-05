@@ -141,5 +141,9 @@ FactoryBot.define do
         }]
       }]
     end
+
+    trait :minimal do
+      content [{ type: :raw, content: '<p>Hoihoihoi</p>' }]
+    end
   end
 end

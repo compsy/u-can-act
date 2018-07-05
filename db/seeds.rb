@@ -3,6 +3,10 @@
 # Running rake db:reset will leave seeds with a terminated connection.
 ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 
+if Rails.env.development?
+  Person.destroy_all
+end
+
 # These seeds need to be loaded first, and in order.
 %w[questionnaires protocols organizations teams].each do |seed_directory|
   Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '**', '*.rb')].each do |file|

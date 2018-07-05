@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]
   resources :questionnaire, only: %i[index show create destroy], param: :uuid
-  resource :person, only: %i[edit update]
+  resource :person, only: %i[edit update] do
+    get 'unsubscribe'
+  end
 
   # Admin panel
   scope path: :admin do
@@ -42,6 +44,7 @@ Rails.application.routes.draw do
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
       namespace :admin do
         resources :team, only: [:show], param: :group
+        resources :organization, only: [:show], param: :group
       end
     end
   end

@@ -13,10 +13,4 @@ module UiMacros
     find("#{base}>input[value=\"#{prompt}\"]").click # open the dropdown
     find("#{base} li", text: option).click # select the option wanted
   end
-
-  def date_select(id, value)
-    selector = %(input[type=hidden][name=\\"content[#{id}]\\"])
-    script = %-$("#{selector}").val("#{value}")-
-    page.execute_script(script)
-  end
 end

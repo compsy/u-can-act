@@ -205,7 +205,7 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 
 
 ## Questionnaire Syntax
-The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`.
+The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`.
 
 
 For all questions, it is allowed to use HTML tags in the texts. Also, you may use any of the special variables defined in the previous section.

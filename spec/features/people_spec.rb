@@ -85,3 +85,70 @@ describe 'GET /edit', type: :feature, js: true do
     expect(person.iban).to eq('NL13RTEF0518590011')
   end
 end
+
+describe 'GET /unsubscribe', type: :feature, js: true do
+  let!(:person) { FactoryBot.create(:mentor, gender: 'female') }
+
+  let(:protocol) { FactoryBot.create(:protocol) }
+
+  let(:protocol_subscription) do
+    FactoryBot.create(:protocol_subscription,
+                      :mentor,
+                      protocol: protocol,
+                      person: person,
+                      start_date: 1.week.ago.at_beginning_of_day)
+  end
+
+  let!(:responseobj) do
+    FactoryBot.create(:response, :periodical, :invited,
+                      protocol_subscription: protocol_subscription,
+                      open_from: 1.hour.ago)
+  end
+  let!(:invtoken) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
+
+  before :each do
+    # Login
+    visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
+  end
+
+  it 'should unsubscribe when you click the unsubscribe button' do
+    expect(page).to have_content('Klaar met dit schooljaar?')
+    expect(person.protocol_subscriptions.active.count).to eq 1
+    page.click_on 'Onderzoek afronden'
+    expect(person.protocol_subscriptions.active.count).to eq 0
+    expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+  end
+
+  it 'should redirect to a stop questionnaire if there is one and then unsubscribe when click unsubscribe button' do
+    questionnaire = FactoryBot.create(:questionnaire, :minimal)
+    measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol, questionnaire: questionnaire)
+    FactoryBot.create(:response,
+                      measurement: measurement,
+                      protocol_subscription: protocol_subscription,
+                      open_from: 4.hours.from_now)
+    protocol2 = FactoryBot.create(:protocol)
+    protocol_subscription2 = FactoryBot.create(:protocol_subscription,
+                                               :mentor,
+                                               protocol: protocol,
+                                               person: person,
+                                               start_date: 1.week.ago.at_beginning_of_day)
+    measurement2 = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol2, questionnaire: questionnaire)
+    FactoryBot.create(:response,
+                      measurement: measurement2,
+                      protocol_subscription: protocol_subscription2,
+                      open_from: 5.hours.from_now)
+    expect(page).to have_content('Klaar met dit schooljaar?')
+    expect(person.protocol_subscriptions.active.count).to eq 2
+    page.click_on 'Onderzoek afronden'
+    expect(person.protocol_subscriptions.active.count).to eq 2
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to have_content('Hoihoihoi')
+    page.click_on 'Opslaan'
+    expect(person.protocol_subscriptions.active.count).to eq 1
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to have_content('Hoihoihoi')
+    page.click_on 'Opslaan'
+    expect(person.protocol_subscriptions.active.count).to eq 0
+    expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+  end
+end

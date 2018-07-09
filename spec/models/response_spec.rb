@@ -369,6 +369,25 @@ describe Response do
     end
   end
 
+  describe 'future_or_current?' do
+    it 'should return true if the response is in the future' do
+      responseobj = FactoryBot.create(:response, open_from: 1.hour.from_now)
+      expect(responseobj.future_or_current?).to be_truthy
+    end
+
+    it 'should return true if the response is in the past but not expired' do
+      responseobj = FactoryBot.create(:response, open_from: 1.hour.ago)
+      expect(responseobj).to receive(:expired?).and_return(false)
+      expect(responseobj.future_or_current?).to be_truthy
+    end
+
+    it 'should return false if the response is in the past but and expired' do
+      responseobj = FactoryBot.create(:response, open_from: 1.hour.ago)
+      expect(responseobj).to receive(:expired?).and_return(true)
+      expect(responseobj.future_or_current?).to be_falsey
+    end
+  end
+
   describe 'protocol_subscription_id' do
     it 'should have one' do
       responseobj = FactoryBot.build(:response, protocol_subscription_id: nil)

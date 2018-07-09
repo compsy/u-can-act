@@ -15,8 +15,17 @@ FactoryBot.define do
     end
 
     after(:build) do |response|
-      response.filled_out_by_id = response.protocol_subscription.person_id
-      response.filled_out_for_id = response.protocol_subscription.filling_out_for_id
+      if response.protocol_subscription.present?
+        response.filled_out_by_id = response.protocol_subscription.person_id
+        response.filled_out_for_id = response.protocol_subscription.filling_out_for_id
+      end
+    end
+
+    trait :without_filled_out_by_ids do
+      after(:build) do |response|
+        response.filled_out_by_id = nil
+        response.filled_out_for_id = nil
+      end
     end
 
     trait :not_expired do

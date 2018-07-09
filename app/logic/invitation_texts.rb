@@ -169,7 +169,8 @@ class InvitationTexts
     end
 
     def current_index(protocol_completion)
-      protocol_completion.find_index { |entry| entry[:future] }
+      # || 0 in case there are no other measurements
+      protocol_completion.find_index { |entry| entry[:future] } || 0
     end
 
     def truncated_protocol_completion(protocol_completion, curidx)

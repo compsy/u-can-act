@@ -76,9 +76,7 @@ class ProtocolSubscription < ApplicationRecord
   def protocol_completion
     on_streak = 0
     responses.map do |response|
-      current_streak = -1
-
-      on_streak, current_streak = retrieve_periodical_streak(on_streak, current_streak, response)
+      on_streak, current_streak = retrieve_periodical_streak(on_streak, response)
 
       create_protocol_completion_entry(response.completed?,
                                        response.measurement.periodical?,
@@ -89,14 +87,14 @@ class ProtocolSubscription < ApplicationRecord
     end
   end
 
-  def retrieve_periodical_streak(on_streak, current_streak, response)
+  def retrieve_periodical_streak(on_streak, response)
     if response.measurement.periodical?
       on_streak = determine_streak(on_streak, response.completed?, response.still_possible?)
 
       # Return the on_streak twice, so we update the current_streak
       return [on_streak, on_streak]
     end
-    [on_streak, current_streak]
+    [on_streak, -1]
   end
 
   def needs_informed_consent?

@@ -17,6 +17,10 @@ FactoryBot.define do
     end
   end
 
+  trait :with_invitation_text do
+    invitation_text 'Welcome to the u-can-act research project'
+  end
+
   trait :with_measurements do
     after(:create) do |protocol|
       FactoryBot.create(:measurement, protocol: protocol)

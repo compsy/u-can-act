@@ -163,6 +163,26 @@ describe Protocol do
     end
   end
 
+  describe 'invitation_text' do
+    it 'should be possible to define an invitation text' do
+      protocol = FactoryBot.create(:protocol)
+      protocol.invitation_text = 'test'
+      expect { protocol.save! }.to_not raise_error
+    end
+    it 'should have a factory with an invitation text' do
+      protocol = FactoryBot.build(:protocol)
+      expect(protocol.invitation_text).to be_nil
+      protocol = FactoryBot.build(:protocol, :with_invitation_text)
+      expect(protocol.invitation_text).to_not be_nil
+    end
+
+    it 'should be valid without an invitation text' do
+      protocol = FactoryBot.build(:protocol)
+      expect(protocol.invitation_text).to be_nil
+      expect(protocol).to be_valid
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       protocol = FactoryBot.create(:protocol)

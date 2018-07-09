@@ -24,10 +24,15 @@ describe ProtocolTransferExporter do
     it 'works with protocol transfers' do
       export = described_class.export_lines.to_a.join.split("\n")
       expect(export.size).to eq 2
-      # bubblebabble format for first field (person_id)
-      expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
+
+      # External ids
+      ids = Person.pluck(:external_identifier)
+      id_col = export.last.split(';', -1).second
+      expect(ids.any? { |id| id_col.include? id }).to be_truthy
+      expect(id_col).to match(/\A"[a-z0-9]{4}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
+
     it 'filters out some numbers' do
       old_env = ENV['TEST_PHONE_NUMBERS']
       ENV['TEST_PHONE_NUMBERS'] = '0653415423,0621312311'
@@ -42,8 +47,12 @@ describe ProtocolTransferExporter do
       protocol_subscription.transfer!(mentor2)
       export = described_class.export_lines.to_a.join.split("\n")
       expect(export.size).to eq 2
-      # bubblebabble format for first field (person_id)
-      expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
+
+      # External ids
+      ids = Person.all.map { |p| p.external_identifier unless Exporters.test_phone_number? p.mobile_phone }
+      id_col = export.last.split(';', -1).second
+      expect(ids.any? { |id| id_col.include? id }).to be_truthy
+      expect(id_col).to match(/\A"[a-z0-9]{4}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
       ENV['TEST_PHONE_NUMBERS'] = old_env
     end

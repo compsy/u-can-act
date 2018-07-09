@@ -3,7 +3,10 @@
 class QuestionnaireExpander
   class << self
     def expand_content(content, response)
-      return process_foreach(content, response) if content.is_a?(Hash) && content[:foreach].present?
+      if(content.is_a?(Hash)) 
+        return process_foreach(content, response) if content[:foreach].present?
+        return process_uses(content, response) if content[:uses].present?
+      end
 
       process_normal(content, response)
     end
@@ -14,6 +17,19 @@ class QuestionnaireExpander
       subs_hash = VariableSubstitutor.substitute_variables(response)
       result = VariableEvaluator.evaluate_obj(content, subs_hash)
       [result]
+    end
+
+    def process_uses(content, response)
+      case content[:uses].keys.first
+      when :previous
+        question_id = content[:uses][:previous]
+        previous_value = PreviousResponseFinder.find_value(response, question_id)
+        subs_hash = VariableSubstitutor.substitute_variables(response)
+        subs_hash["previous_#{previous_variable_name}"] = previous_value
+        result = VariableEvaluator.evaluate_obj(content_dup, subs_hash)
+      else
+        raise "Only :student foreach type is allowed, not #{content[:foreach]}"
+      end
     end
 
     def process_foreach(content, response)

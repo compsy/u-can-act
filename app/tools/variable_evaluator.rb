@@ -24,16 +24,34 @@ class VariableEvaluator
       end
       substitutions_hash = substitutions(full_subs_hash)
       substitutions_hash.each do |variable, expansion|
-        text = text.gsub("{{#{variable}}}", expansion)
-        # if it already starts with a capital, don't capitalize() it, otherwise
-        # a name like Jan-Willem will be changed to Jan-willem.
-        text = if expansion.match?(/^[A-Z]/)
-                 text.gsub("{{#{variable.capitalize}}}", expansion)
-               else
-                 text.gsub("{{#{variable.capitalize}}}", expansion.capitalize)
-               end
+        text = perform_static_substitution(text, variable, expansion)
+        text = perform_dynamic_substitution(text, variable, expansion)
       end
       text
+    end
+
+    ##
+    # Substitutes variables in a piece of text. This method allows for defaults
+    # to be set using the pipe (|) operator. E.g.:
+    # {{name|Henk Jan}} would translate to Henk Jan if no name is present.
+    #
+    # Params:
+    # +text+:: +String+ the text in which the variables need to be replaced.
+    # +variable+:: +String+ the current variable that is up for substitution.
+    # +expansion+:: +String+ the string with which +variable+ should be replaced.
+    def perform_dynamic_substitution(text, variable, expansion)
+      # TODO: Also include capitalization here?
+      return text.gsub(/{{#{variable}\|[^\}]*}}/, expansion) if expansion.blank?
+      return text.gsub(/{{#{variable}\|([^\}]*)}}/, '\1')
+    end
+
+    def perform_static_substitution(text, variable, expansion)
+      text = text.gsub("{{#{variable}}}", expansion)
+      # if it already starts with a capital, don't capitalize() it, otherwise
+      # a name like Jan-Willem will be changed to Jan-willem.
+      return text.gsub("{{#{variable.capitalize}}}", expansion) if expansion.match?(/^[A-Z]/)
+
+      return text.gsub("{{#{variable.capitalize}}}", expansion.capitalize)
     end
 
     def default_subs_hash

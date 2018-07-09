@@ -10,5 +10,10 @@ class PreviousResponseFinder
       return nil if completed_responses.blank?
       return completed_responses.last
     end
+
+    def find_value(response, question_id)
+      previous_response = find(response)
+      previous_value = previous_response.values[question_id]
+    end
   end
 end

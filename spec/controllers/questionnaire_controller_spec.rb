@@ -268,7 +268,9 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
 
       let!(:responseobj) do
-        FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        FactoryBot.create(:response, :without_filled_out_by_ids,
+                          protocol_subscription: protocol_subscription,
+                          open_from: 1.hour.ago)
       end
 
       before :each do

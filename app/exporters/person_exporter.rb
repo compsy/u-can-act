@@ -29,7 +29,7 @@ class PersonExporter < ObjectExporter
     private
 
     def person_properties(person, vals)
-      vals['person_id'] = calculate_hash(person.id)
+      vals['person_id'] = person.external_identifier
       vals['created_at'] = format_datetime(person.created_at)
       vals['updated_at'] = format_datetime(person.updated_at)
       vals

@@ -14,6 +14,11 @@ FactoryBot.define do
       end
     end
 
+    after(:build) do |response|
+      response.filled_out_by_id = response.protocol_subscription.person_id
+      response.filled_out_for_id = response.protocol_subscription.filling_out_for_id
+    end
+
     trait :not_expired do
       open_from 1.minute.ago.in_time_zone
       after(:build) do |response|

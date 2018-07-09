@@ -21,12 +21,16 @@ describe ProtocolSubscriptionExporter do
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
       FactoryBot.create(:response, protocol_subscription: protocol_subscription)
     end
+
     it 'works with protocol subscriptions' do
       export = described_class.export_lines.to_a.join.split("\n")
       expect(export.size).to eq 3
-      # bubblebabble format for first field (person_id)
-      expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
-      expect(export.last.split(';', -1)[-2]).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
+
+      # External ids
+      ids = Person.all.map { |p| p.external_identifier unless Exporters.test_phone_number? p.mobile_phone }
+      id_col = export.last.split(';', -1).second
+      expect(ids.any? { |id| id_col.include? id }).to be_truthy
+      expect(id_col).to match(/\A"[a-z0-9]{4}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
   end

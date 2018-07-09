@@ -23,10 +23,6 @@ class GenerateInvitationText < ActiveInteraction::Base
   end
 
   def student_texts(response)
-    if in_announcement_week
-      return 'Hoi {{deze_student}}, jouw vragenlijst staat weer voor je klaar. Heb je inmiddels zomervakantie? ' \
-        'Dat kan je vanaf nu aangeven aangeven in de app.'
-    end
     StudentInvitationTexts.message(response.protocol_subscription.protocol,
                                    response.protocol_subscription.protocol_completion)
   end
@@ -46,11 +42,6 @@ class GenerateInvitationText < ActiveInteraction::Base
     else
       "Hoi #{target_first_name(response)}, je wekelijkse vragenlijsten staan weer voor je klaar!"
     end
-  end
-
-  def in_announcement_week
-    Time.zone.now > Time.new(2018, 6, 27).in_time_zone &&
-      Time.zone.now < Time.new(2018, 7, 4).in_time_zone
   end
 
   def target_first_name(response)

@@ -43,25 +43,9 @@ describe GenerateInvitationText do
                             protocol: protocol, person: student)
         end
         let(:response) { FactoryBot.create(:response, protocol_subscription: protocol_subscription) }
-        it 'should return a special text if the current week is an announcement week' do
-          base_date = Time.new(2018, 6, 25).in_time_zone
-          expected_text = "Hoi #{student.first_name}, jouw vragenlijst staat weer voor je klaar. " \
-                  'Heb je inmiddels zomervakantie? Dat kan je vanaf nu aangeven aangeven in de app.'
-          (1...20).each do |offset|
-            Timecop.freeze(base_date + offset.days)
-            result = described_class.run!(response: response)
-            if offset > 2 && offset < 9
-              expect(result).to eq(expected_text)
-            else
-              expect(result).to_not eq(expected_text)
-            end
-          end
-        end
 
-        it 'should call the student invitation texts generator when we are not in the announcement week' do
+        it 'should call the student invitation texts generator' do
           expected = 'test'
-          base_date = Time.new(2018, 6, 25).in_time_zone
-          Timecop.freeze(base_date)
           expect(StudentInvitationTexts).to receive(:message)
             .with(protocol, protocol_subscription.protocol_completion)
             .and_return(expected)

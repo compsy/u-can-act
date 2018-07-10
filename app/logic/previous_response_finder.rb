@@ -13,7 +13,11 @@ class PreviousResponseFinder
 
     def find_value(response, question_id)
       previous_response = find(response)
-      previous_value = previous_response.values[question_id]
+      return nil if previous_response&.values.blank?
+
+      # The keys of the values of a response are usually strings, but to also
+      # support symbols, use with_indifferent_access here.
+      previous_value = previous_response.values.with_indifferent_access[question_id]
     end
   end
 end

@@ -3,7 +3,87 @@
 require 'rails_helper'
 
 describe PreviousResponseFinder do
-  describe 'self.find' do
+  describe 'find_value' do
+    it 'should return nil if the previous response is not available' do
+      measurement = FactoryBot.create(:measurement, period: 1.day)
+      response = FactoryBot.create(:response, measurement: measurement)
+
+      expect(described_class).to receive(:find)
+        .with(response)
+        .and_return(nil)
+
+      result = described_class.find_value(response, :v1)
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the previous response its values are not available' do
+      measurement = FactoryBot.create(:measurement, period: 1.day)
+      response = FactoryBot.create(:response, measurement: measurement)
+
+      mock = double('response')
+      allow(mock).to receive(:values)
+        .and_return({})
+
+      expect(described_class).to receive(:find)
+        .with(response)
+        .and_return(mock)
+
+      result = described_class.find_value(response, :v1)
+      expect(result).to be_nil
+    end
+
+    it 'should return nil if the previous response its values do not contain the key' do
+      measurement = FactoryBot.create(:measurement, period: 1.day)
+      response = FactoryBot.create(:response, measurement: measurement)
+
+      mock = double('response')
+      allow(mock).to receive(:values)
+        .and_return({v2: 'hoi'})
+
+      expect(described_class).to receive(:find)
+        .with(response)
+        .and_return(mock)
+
+      result = described_class.find_value(response, :v1)
+      expect(result).to be_nil
+    end
+
+    it 'should return the previous response its values' do
+      measurement = FactoryBot.create(:measurement, period: 1.day)
+      response = FactoryBot.create(:response, measurement: measurement)
+      expected = 'hoi'
+
+      mock = double('response')
+      allow(mock).to receive(:values)
+        .and_return({v1: expected})
+
+      expect(described_class).to receive(:find)
+        .with(response)
+        .and_return(mock)
+
+      result = described_class.find_value(response, :v1)
+      expect(result).to eq expected
+    end
+
+    it 'should return the previous response its values' do
+      measurement = FactoryBot.create(:measurement, period: 1.day)
+      response = FactoryBot.create(:response, measurement: measurement)
+      expected = 'hoi'
+
+      mock = double('response')
+      allow(mock).to receive(:values)
+        .and_return({'v1' => expected})
+
+      expect(described_class).to receive(:find)
+        .with(response)
+        .and_return(mock)
+
+      result = described_class.find_value(response, :v1)
+      expect(result).to eq expected
+    end
+  end
+
+  describe 'find' do
     it 'should return nil if the provided respoonse is nil' do
       result = described_class.find(nil)
       expect(result).to be_nil

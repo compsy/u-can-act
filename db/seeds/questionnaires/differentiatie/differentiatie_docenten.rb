@@ -19,9 +19,10 @@ dagboek_content = [{
   section_start: "Tijdens de afgelopen les…",
   id: :v1,
   uses: {
-    previous: :v1
+    previous: :v1,
+    default: 'De vorige meting'
   }
-  title: "{{previous_v1|de vorige meting}} gedaan?",
+  title: "{{previous_v1}} gedaan?",
   type: :likert,
   options: ['1<br>helemaal niet waar', '2', '3', '4', '5<br>helemaal waar']
 }]

@@ -20,15 +20,20 @@ class QuestionnaireExpander
     end
 
     def process_uses(content, response)
+      unless content[:uses].is_a? Hash
+        raise "Uses must be of hash type type, not '#{content[:uses]}'"
+      end
+
       case content[:uses].keys.first
       when :previous
         question_id = content[:uses][:previous]
+        default_value = content[:uses][:default]
         previous_value = PreviousResponseFinder.find_value(response, question_id)
         subs_hash = VariableSubstitutor.substitute_variables(response)
-        subs_hash["previous_#{previous_variable_name}"] = previous_value
-        result = VariableEvaluator.evaluate_obj(content_dup, subs_hash)
+        subs_hash["previous_#{question_id}"] = previous_value || default_value
+        [VariableEvaluator.evaluate_obj(content, subs_hash)]
       else
-        raise "Only :student foreach type is allowed, not #{content[:foreach]}"
+        raise "Only :previous uses type is allowed, not '#{content[:uses]}'"
       end
     end
 

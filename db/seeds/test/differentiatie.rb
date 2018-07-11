@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 # Differentiatie person
 person = Team.find_by_name('Default team').roles.where(group: Person::STUDENT)
               .first
@@ -49,8 +48,9 @@ person.protocol_subscriptions.create(
 )
 
 responseobj = person.protocol_subscriptions.first.responses.first
-response_content = ResponseContent.create!(content: {'v1': 'iets in de gaten houden'} )
+response_content = ResponseContent.create!(content: {'v1': 'DIT MOET ER STAAN!'} )
 responseobj.content = response_content.id
+responseobj.complete!
 responseobj.save
 
 responseobj = person.protocol_subscriptions.first.responses.second
@@ -58,3 +58,4 @@ invitation_set = InvitationSet.create!(person: person)
 responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
 invitation_token = invitation_set.invitation_tokens.create!
 puts "differentiatie docent meting met eerdere vragenlijst: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+

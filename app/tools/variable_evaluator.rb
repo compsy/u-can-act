@@ -19,14 +19,31 @@ class VariableEvaluator
     private
 
     def evaluate(text, subs_hash)
-      full_subs_hash = default_subs_hash.dup.merge(subs_hash.dup) do |_, oldval, newval|
-        newval.blank? ? oldval : newval
-      end
+      full_subs_hash = merge(default_subs_hash, subs_hash)
       substitutions_hash = substitutions(full_subs_hash)
+
+      substitutions_hash = merge_string_items(substitutions_hash, subs_hash)
+
+      Rails.logger.info substitutions_hash	
       substitutions_hash.each do |variable, expansion|
         text = perform_static_substitution(text, variable, expansion)
       end
       text
+    end
+
+    def merge_string_items(default, extra)
+      extra.each_key do |key|
+        if key.is_a? String
+          default[key] = extra[key]
+        end
+      end
+      default
+    end
+
+    def merge(default, extra)
+       default.dup.merge(extra.dup) do |_, oldval, newval|
+        newval.blank? ? oldval : newval
+      end
     end
 
     def perform_static_substitution(text, variable, expansion)

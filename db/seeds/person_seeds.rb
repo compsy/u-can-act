@@ -19,19 +19,21 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   mentor ||= team.roles.create!(group: Person::MENTOR, title: 'mentor')
 
   students =[
-    { first_name: 'Jan',            last_name: 'Jansen',      gender: 'male',   role: student},
-    { first_name: 'Klaziena',       last_name: 'Kramer',      gender: 'female', role: student},
-    { first_name: 'Erika',          last_name: 'de Boer',     gender: 'female', role: student},
-    { first_name: 'Eric',           last_name: 'de Vries',    gender: 'male',   role: student},
-    { first_name: 'Henk',           last_name: 'Veenstra',    gender: 'male',   role: student},
-    { first_name: 'Bert',           last_name: 'Huizinga',    gender: nil,      role: student},
-    { first_name: 'Differentiatie', last_name: 'Student',     gender: 'female', role: student},
-    { first_name: 'Arjen',          last_name: 'Arends',      gender: 'male',   role: nameting_student},
-    { first_name: 'Bernard',        last_name: 'Berends',     gender: 'male',   role: nameting_student},
-    { first_name: 'Cornelis',       last_name: 'Cornelissen', gender: 'male',   role: nameting_student},
-    { first_name: 'Dirk',           last_name: 'de Dienaar',  gender: 'male',   role: nameting_student},
-    { first_name: 'Emma',           last_name: 'Eggen',       gender: 'female', role: nameting_student},
-    { first_name: 'Fennelien',      last_name: 'Flandal',     gender: 'female', role: nameting_student}
+    { first_name: 'Jan',            last_name: 'Jansen',              gender: 'male',   role: student},
+    { first_name: 'Klaziena',       last_name: 'Kramer',              gender: 'female', role: student},
+    { first_name: 'Erika',          last_name: 'de Boer',             gender: 'female', role: student},
+    { first_name: 'Eric',           last_name: 'de Vries',            gender: 'male',   role: student},
+    { first_name: 'Henk',           last_name: 'Veenstra',            gender: 'male',   role: student},
+    { first_name: 'Bert',           last_name: 'Huizinga',            gender: nil,      role: student},
+    { first_name: 'Differentiatie', last_name: 'Student',             gender: 'female', role: student},
+    { first_name: 'Differentiatie', last_name: 'Docent',              gender: nil,      role: student},
+    { first_name: 'Differentiatie', last_name: 'Docent vorige vraag', gender: nil,      role: student},
+    { first_name: 'Arjen',          last_name: 'Arends',              gender: 'male',   role: nameting_student},
+    { first_name: 'Bernard',        last_name: 'Berends',             gender: 'male',   role: nameting_student},
+    { first_name: 'Cornelis',       last_name: 'Cornelissen',         gender: 'male',   role: nameting_student},
+    { first_name: 'Dirk',           last_name: 'de Dienaar',          gender: 'male',   role: nameting_student},
+    { first_name: 'Emma',           last_name: 'Eggen',               gender: 'female', role: nameting_student},
+    { first_name: 'Fennelien',      last_name: 'Flandal',             gender: 'female', role: nameting_student},
   ]
 
   students.each do |student_hash|

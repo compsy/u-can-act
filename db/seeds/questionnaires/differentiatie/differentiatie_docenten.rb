@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 db_title = '' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
-db_name1 = 'differentiatie mentoren'
+db_name1 = 'differentiatie docenten'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
@@ -17,11 +17,11 @@ dagboek_content = [{
   options: ['1<br>helemaal niet waar', '2', '3', '4', '5<br>helemaal waar']
 }, {
   section_start: "Tijdens de afgelopen les…",
-  id: :v1,
+  id: :v2,
   uses: {
     previous: :v1,
     default: 'De vorige meting'
-  }
+  },
   title: "{{previous_v1}} gedaan?",
   type: :likert,
   options: ['1<br>helemaal niet waar', '2', '3', '4', '5<br>helemaal waar']
@@ -29,7 +29,4 @@ dagboek_content = [{
 dagboek1.content = dagboek_content
 dagboek1.title = db_title
 dagboek1.save!
-
-
-
 

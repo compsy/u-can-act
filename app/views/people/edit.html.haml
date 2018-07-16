@@ -13,14 +13,5 @@
 
 .row
   .col.s12
-    - if can? :update, Person, :iban
-      = render 'iban_form'
-    = form_for(@person, html: { class: 'settings' }) do |f|
-      %h5 Accountgegevens bewerken
-      - if cannot? :update, Person, :iban
-        = render partial: 'name_fields', locals: {f: f}
-      = render partial: 'gender_fields', locals: {f: f}
-      = render partial: 'email_fields', locals: {f: f}
-      = render partial: 'mobile_phone_fields', locals: {f: f}
-      .actions
-        = f.submit "Opslaan", class: "btn waves-effect waves-light"
+    = render partial: 'iban_form'
+    = render partial: 'personal_details_from'

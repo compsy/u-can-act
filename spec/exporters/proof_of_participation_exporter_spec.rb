@@ -62,9 +62,7 @@ fdescribe ProofOfParticipationExporter do
         expect(entry.first).to eq subscription.person.first_name
         expect(entry.second).to eq subscription.person.last_name
         expect(entry.third).to eq completed.to_s
-        expect(entry.fourth).to eq subscription.start_date
-        expect(entry.fifth).to eq subscription.end_date
-        expect(entry.sixth).to eq subscription.state
+        expect(entry[5]).to eq subscription.state
         completed += 1
       end
     end

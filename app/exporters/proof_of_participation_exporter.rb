@@ -11,7 +11,7 @@ class ProofOfParticipationExporter < ObjectExporter
     end
 
     def formatted_fields
-      %w[first_name last_name number_completed]
+      %w[first_name last_name number_completed start_date end_date]
     end
 
     def format_fields(protocol_subscription)
@@ -19,7 +19,8 @@ class ProofOfParticipationExporter < ObjectExporter
       vals['first_name'] = protocol_subscription.person.first_name
       vals['last_name'] = protocol_subscription.person.last_name
       vals['number_completed'] = protocol_subscription.responses.completed.count
-format_datetime
+      vals['start_date'] = format_datetime(protocol_subscription.end_date)
+      vals['end_date'] = format_datetime(protocol_subscription.end_date)
       vals
     end
 

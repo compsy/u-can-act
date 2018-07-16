@@ -86,6 +86,10 @@ gem 'active_model_serializers'
 gem 'jwt'
 gem 'knock'
 
+# Gem for authorization
+# Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474
+gem 'cancancan', github: 'CanCanCommunity/cancancan', branch: 'feature/3.0.0'
+
 # Gem for calling deadmanssnitch
 gem 'snitcher'
 

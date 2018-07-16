@@ -13,5 +13,6 @@
 
 .row
   .col.s12
-    = render partial: 'iban_form'
-    = render partial: 'personal_details_from'
+    = form_for(@person, html: { class: 'settings' }) do |f|
+      = render partial: 'iban_form', locals: {f: f} 
+      = render partial: 'personal_details_from', locals: {f: f} 

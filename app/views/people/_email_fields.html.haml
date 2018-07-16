@@ -1,4 +1,4 @@
-- if cannot? :update, Person, :email
+- if can? :update, Person, :email
   .input-field
     = f.label :email
     = f.email_field :email, required: false, title: "email"

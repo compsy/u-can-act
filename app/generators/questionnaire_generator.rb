@@ -10,19 +10,22 @@ class QuestionnaireGenerator
   DATEFIELD_PLACEHOLDER = 'Vul een datum in'
 
   class << self
-    def generate_questionnaire(response_id, content, title, submit_text, action, authenticity_token)
+    # rubocop:disable Metrics/ParameterLists
+    def generate_questionnaire(response_id:, content:, title:, submit_text:, action:, unsubscribe_url:, params: {})
+      params[:response_id] = response_id
       response = Response.find_by_id(response_id) # allow nil response id for preview
       raw_content = content.deep_dup
       title = substitute_variables(response, title).first
       body = safe_join([
                          questionnaire_header(title),
-                         questionnaire_hidden_fields(response_id, authenticity_token),
-                         questionnaire_questions_html(content, response, raw_content),
+                         questionnaire_hidden_fields(params),
+                         questionnaire_questions_html(content, response, raw_content, unsubscribe_url),
                          submit_button(submit_text)
                        ])
       body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
       body
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def generate_hash_questionnaire(response_id, content, title)
       response = Response.find_by_id(response_id) # allow nil response id for preview
@@ -46,18 +49,20 @@ class QuestionnaireGenerator
       header_body
     end
 
-    def questionnaire_hidden_fields(response_id, authenticity_token)
+    def questionnaire_hidden_fields(params)
       hidden_body = []
       hidden_body << tag(:input, name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
-      hidden_body << tag(:input, name: 'authenticity_token', type: 'hidden', value: authenticity_token)
-      hidden_body << tag(:input, name: 'response_id', type: 'hidden', value: response_id)
+      params.each do |key, value|
+        hidden_body << tag(:input, name: key.to_s, type: 'hidden', value: value) if value.present?
+      end
       safe_join(hidden_body)
     end
 
-    def questionnaire_questions_html(content, response, raw_content)
+    def questionnaire_questions_html(content, response, raw_content, unsubscribe_url)
       body = questionnaire_questions(content, response) do |quest, idx|
         quest[:response_id] = response&.id
         quest[:raw] = raw_content[idx]
+        quest[:unsubscribe_url] = unsubscribe_url
         single_questionnaire_question(quest)
       end
       safe_join(body)
@@ -702,11 +707,10 @@ class QuestionnaireGenerator
     end
 
     def generate_unsubscribe_action(question)
-      response = Response.find_by_id(question[:response_id])
       url_href = '#'
-      url_href = Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid) if response
+      url_href = question[:unsubscribe_url] if question[:unsubscribe_url]
       body = content_tag(:a, (question[:button_text] || 'Uitschrijven').html_safe,
-                         'data-method': 'delete',
+                         'data-method': (question[:data_method] || 'delete'),
                          href: url_href,
                          class: 'btn waves-effect waves-light navigate-away-allowed',
                          rel: 'nofollow')

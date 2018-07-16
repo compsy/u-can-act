@@ -64,40 +64,6 @@ describe SendInvitationsJob do
         end
       end
 
-      it 'should send send a special sms in a certain week' do
-        Timecop.freeze(2018, 6, 28) do
-          questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')
-          responseobj.measurement = FactoryBot.create(:measurement,
-                                                      questionnaire: questionnaire,
-                                                      open_duration: nil,
-                                                      open_from_offset: 0)
-          protocol_subscription.start_date = 10.minutes.ago.beginning_of_day
-          protocol_subscription.save!
-          responseobj.open_from = 10.minutes.ago.in_time_zone
-          responseobj.save!
-          FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
-
-          smstext = 'Hoi Jane, jouw vragenlijst staat weer voor je klaar. Heb je inmiddels zomervakantie? ' \
-                    'Dat kan je vanaf nu aangeven aangeven in de app.'
-
-          expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
-          expect(responseobj.invitation_set.invitation_text).to be_nil
-          invcountbefore = Invitation.count
-          invtokcountbefore = InvitationToken.count
-          invtoksininvsetbefore = responseobj.invitation_set.invitation_tokens.count
-          ActiveJob::Base.queue_adapter = :test
-          expect do
-            subject.perform(responseobj.invitation_set)
-          end.to have_enqueued_job(SendInvitationJob).with(instance_of(SmsInvitation), /[a-z0-9]{4}/)
-          responseobj.reload
-          expect(Invitation.count).to eq invcountbefore
-          expect(InvitationToken.count).to eq(1 + invtokcountbefore)
-          expect(responseobj.invitation_set.invitation_tokens.count).to eq(1 + invtoksininvsetbefore)
-          expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENDING_STATE
-          expect(responseobj.invitation_set.invitation_text).to eq smstext
-        end
-      end
-
       it 'should send the repeated voormeting sms when the questionnaire is a voormeting and the person is a student' do
         Timecop.freeze(2018, 5, 19) do
           questionnaire = FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst')

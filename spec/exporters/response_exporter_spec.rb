@@ -23,11 +23,16 @@ describe ResponseExporter do
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
       FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: responseobj.measurement)
       export = described_class.export_lines(responseobj.measurement.questionnaire.name).to_a.join.split("\n")
+
       expect(export.size).to eq 2
       expect(export.first).to match('"v1";"v3";"v23_2a13_brood"') # Test the sorting of keys
       expect(export.last.split(';', -1).first).to eq "\"#{responseobj.id}\""
-      # bubblebabble format for second field (person_id)
-      expect(export.last.split(';', -1).second).to match(/\A"([a-z]{5}\-){4}[a-z]{5}"\z/)
+
+      # External ids
+      ids = Person.all.map { |p| p.external_identifier unless Exporters.test_phone_number? p.mobile_phone }
+      id_col = export.last.split(';', -1).second
+      expect(ids.any? { |id| id_col.include? id }).to be_truthy
+      expect(id_col).to match(/\A"[a-z0-9]{4}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end
 

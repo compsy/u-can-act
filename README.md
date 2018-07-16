@@ -205,7 +205,7 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 
 
 ## Questionnaire Syntax
-The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`.
+The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`.
 
 
 For all questions, it is allowed to use HTML tags in the texts. Also, you may use any of the special variables defined in the previous section.
@@ -498,6 +498,8 @@ Please note that there is currently a bug in the date picker when you specify da
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.
 
+Including an unsubscribe type "question" in a questionnaire will show a card with a button. Clicking this button will redirect the user to the unsubscribe route for the protocol subscription to which the current questionnaire belongs. If the protocol has a stop measurement, the user is first redirected to fill out this questionnaire, after which they will be unsubscribed from the protocol.
+
 Required and allowed options (minimal example):
 
 ```ruby
@@ -510,9 +512,11 @@ Required and allowed options (minimal example):
 }]
 ```
 
-Usable properties for an unsubscribe `question` type are `title`, `content`, and `button_text` (all are optional).
-
 Unsubscribe questions do not need an `id`.
+
+Usable properties for an unsubscribe `question` type are `title`, `content`, `button_text`, and `data_method` (all are optional).
+
+The default `data_method` is `delete`. The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a

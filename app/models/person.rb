@@ -71,6 +71,10 @@ class Person < ApplicationRecord
     protocol_subscriptions.sum(&:max_reward_points)
   end
 
+  def active_protocol_subscriptions_with_stop_responses_first
+    protocol_subscriptions.active.sort_by { |prot_sub| prot_sub.stop_response.blank? ? 1 : 0 }
+  end
+
   def max_still_earnable_reward_points
     protocol_subscriptions.active.sum(&:max_still_earnable_reward_points)
   end

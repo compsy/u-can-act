@@ -27,6 +27,14 @@ class AdminController < ApplicationController
     export_class('people', 'Person', PersonExporter)
   end
 
+  def reward_export
+    export_class('rewards', 'Person', RewardExporter)
+  end
+
+  def proof_of_participation_export
+    export_class('participation', 'ProtocolSubscription', ProofOfParticipationExporter)
+  end
+
   def protocol_subscription_export
     export_class('protocol_subscriptions', 'ProtocolSubscription', ProtocolSubscriptionExporter)
   end

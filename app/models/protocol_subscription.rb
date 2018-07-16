@@ -61,6 +61,10 @@ class ProtocolSubscription < ApplicationRecord
     !for_myself?
   end
 
+  def earned_euros
+    protocol.calculate_reward(completion)
+  end
+
   def reward_points
     responses.completed.map { |response| response.measurement.reward_points }.reduce(0, :+)
   end

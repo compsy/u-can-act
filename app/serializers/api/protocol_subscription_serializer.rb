@@ -28,10 +28,6 @@ module Api
       object.person.role.group
     end
 
-    def earned_euros
-      object.protocol.calculate_reward(completion)
-    end
-
     def max_still_awardable_euros
       object.max_still_earnable_reward_points
     end

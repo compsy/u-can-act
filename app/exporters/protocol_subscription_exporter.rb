@@ -21,7 +21,7 @@ class ProtocolSubscriptionExporter < ObjectExporter
         'person_id' => protocol_subscription.person.external_identifier,
         'created_at' => format_datetime(protocol_subscription.created_at),
         'updated_at' => format_datetime(protocol_subscription.updated_at),
-        'start_date' => format_datetime(protocol_subscription.start_date)
+        'start_date' => format_datetime(protocol_subscription.start_date),
       }
       vals = add_more_fields(vals, protocol_subscription)
       vals
@@ -35,6 +35,7 @@ class ProtocolSubscriptionExporter < ObjectExporter
 
     def add_more_fields(vals, protocol_subscription)
       vals['end_date'] = format_datetime(protocol_subscription.end_date)
+      vals['number_completed'] = protocol_subscription.responses.completed.count
       vals['protocol'] = protocol_subscription.protocol.name
       vals['informed_consent_given_at'] = format_datetime(protocol_subscription.informed_consent_given_at)
       vals['filling_out_for_person_id'] = protocol_subscription.filling_out_for.external_identifier

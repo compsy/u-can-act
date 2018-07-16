@@ -3,7 +3,7 @@
 module Api
   module V1
     class ResponseController < ApiController
-      #include ::Concerns::IsBasicAuthenticated
+      # include ::Concerns::IsBasicAuthenticated
       before_action :set_person, only: %i[show index]
       before_action :set_response, only: %i[show create]
       before_action :set_responses, only: %i[index show]
@@ -15,7 +15,7 @@ module Api
       end
 
       def index
-        Rails.logger.info @responses	
+        Rails.logger.info ">>>>>> #{@responses}"
         render json: @responses, each_serializer: Api::ResponseSerializer
       end
 
@@ -29,28 +29,30 @@ module Api
       private
 
       def set_person
-        Rails.logger.info 'setting user'	
         @person = current_auth_user&.person
         return if @person.present?
-        render(status: 404, json: 'Deelnemer met dat external id niet gevonden')
+        result = { result: 'Deelnemer met dat external id niet gevonden' }
+        render(status: 404, json: result)
       end
 
       def set_responses
-        Rails.logger.info 'setting responses'	
         @responses = @person.my_open_responses
         return if @responses.present?
-        render(status: 404, json: 'Geen responses voor deze persoon gevonden')
+        result = { result: 'Geen responses voor deze persoon gevonden' }
+        render(status: 404, json: result)
       end
 
       def set_response
         @response = Response.find_by_uuid(response_params[:uuid])
         return if @response.present?
-        render(status: 404, json: 'Response met dat uuid niet gevonden')
+        result = { result: 'Response met dat uuid niet gevonden' }
+        render(status: 404, json: result)
       end
 
       def check_empty_response
         return if @response.content.blank?
-        render(status: 400, json: 'Response met dat uuid heeft al content')
+        result = { result: 'Response met dat uuid heeft al content' }
+        render(status: 400, json: result)
       end
 
       def response_content

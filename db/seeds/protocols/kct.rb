@@ -1,5 +1,5 @@
 default_protocol_duration = 1000000 # evt eerder dynamisch afbreken
-default_open_duration = 30.hours     # "tot de volgende dag 6 uur"
+default_open_duration = 30.years     # "tot de volgende dag 6 uur"
 default_posttest_open_duration = nil
 default_reward_points = 100
 

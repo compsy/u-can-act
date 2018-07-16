@@ -15,17 +15,19 @@ protocol.informed_consent_questionnaire = nil
 protocol.save!
 
 # Add dagboekmetingen
-db_name = 'demo'
-of_offset = 3.days + 12.hours # Thursday noon
-dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
-raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
-db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
-                                             open_from_offset: of_offset).first
-db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
-db_measurement.open_from_offset = 0
-db_measurement.period = nil
-db_measurement.open_duration = default_open_duration
-db_measurement.reward_points = default_reward_points
-db_measurement.stop_measurement = false
-db_measurement.should_invite = true
-db_measurement.save!
+questionnaires = %w(demo demo demo demo)
+questionnaires.each do |name|
+  of_offset = 3.days + 12.hours # Thursday noon
+  dagboekvragenlijst_id = Questionnaire.find_by_name(name)&.id
+  raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
+  db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
+                                              open_from_offset: of_offset).first
+  db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+  db_measurement.open_from_offset = 0
+  db_measurement.period = nil
+  db_measurement.open_duration = default_open_duration
+  db_measurement.reward_points = default_reward_points
+  db_measurement.stop_measurement = false
+  db_measurement.should_invite = true
+  db_measurement.save!
+end

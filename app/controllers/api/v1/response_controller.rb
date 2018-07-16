@@ -29,6 +29,13 @@ module Api
       private
 
       def set_person
+        Rails.logger.info '+'*100
+        Rails.logger.info AuthUser.all.inspect
+        token = request.headers['Authorization'].split.last
+        Rails.logger.info token
+        a = Knock::AuthToken.new(token: token)
+        Rails.logger.info a.entity_for(AuthUser)
+        Rails.logger.info '-'*100
         @person = current_auth_user&.person
         return if @person.present?
         result = { result: 'Deelnemer met dat external id niet gevonden' }

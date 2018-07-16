@@ -6,10 +6,11 @@ module Api
       include Knock::Authenticable
       skip_before_action :verify_authenticity_token
 
-      private 
+      private
 
       def unauthorized_entity(entity_name)
-        render json: { error: "#{entity_name} Unauthorized request" }, status: :unauthorized
+        render json: { error: "#{entity_name} Unauthorized request" },
+               status: :unauthorized
       end
 
       # Called from the middleware!

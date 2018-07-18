@@ -62,7 +62,7 @@ describe SendInvitationsJob do
         end
       end
 
-      it 'should send reminders' do
+      it 'should send reminders with the same text' do
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
         FactoryBot.create(:sms_invitation,
@@ -86,6 +86,35 @@ describe SendInvitationsJob do
         expect(InvitationToken.count).to eq(1 + invtokcountbefore)
         expect(responseobj.invitation_set.invitation_tokens.count).to eq(1 + invtoksininvsetbefore)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENDING_REMINDER_STATE
+        expect(responseobj.invitation_set.invitation_text).to eq smstext
+      end
+
+      it 'should not send a reminder if there are no open responses' do
+        responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+        responseobj.save!
+        FactoryBot.create(:sms_invitation,
+                          invitation_set: responseobj.invitation_set,
+                          invited_state: Invitation::SENT_STATE)
+        FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+
+        smstext = 'dont change me'
+        responseobj.invitation_set.update_attributes!(invitation_text: smstext)
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENT_STATE
+        expect(responseobj.invitation_set.invitation_text).to eq smstext
+        responseobj.complete!
+
+        invcountbefore = Invitation.count
+        invtokcountbefore = InvitationToken.count
+        invtoksininvsetbefore = responseobj.invitation_set.invitation_tokens.count
+        ActiveJob::Base.queue_adapter = :test
+        expect do
+          subject.perform(responseobj.invitation_set)
+        end.to_not have_enqueued_job(SendInvitationJob)
+        responseobj.reload
+        expect(Invitation.count).to eq invcountbefore
+        expect(InvitationToken.count).to eq(invtokcountbefore)
+        expect(responseobj.invitation_set.invitation_tokens.count).to eq(invtoksininvsetbefore)
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to eq smstext
       end
 
@@ -136,6 +165,7 @@ describe SendInvitationsJob do
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
       end
+
     end
 
     describe 'when a mentor is filling out' do

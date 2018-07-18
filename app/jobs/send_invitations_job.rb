@@ -5,10 +5,13 @@ class SendInvitationsJob < ApplicationJob
 
   def perform(invitation_set)
     invitation_set.reload
+    open_responses = invitation_set.responses.opened_and_not_expired
+
+    # We don't want to invite if there are no responses that are open
+    return if open_responses.blank?
 
     if invitation_set.invitation_text.blank?
-      invitation_text = create_invitation_text(invitation_set)
-      return if invitation_text.blank?
+      invitation_text = create_invitation_text(open_responses)
       invitation_set.update_attributes!(invitation_text: invitation_text)
     end
 
@@ -25,10 +28,8 @@ class SendInvitationsJob < ApplicationJob
 
   private
 
-  def create_invitation_text(invitation_set)
-    invitation_set.responses.opened_and_not_expired.each do |response|
-      return GenerateInvitationText.run!(response: response)
-    end
+  def create_invitation_text(responses)
+    responses.each { |response| return GenerateInvitationText.run!(response: response) }
   end
 
   def finalize_and_schedule_invitation_set(invitation_set)

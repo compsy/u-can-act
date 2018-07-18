@@ -23,38 +23,10 @@ class GenerateInvitationText < ActiveInteraction::Base
   end
 
   def student_texts(response)
-    StudentInvitationTexts.message(response.protocol_subscription.protocol,
-                                   response.protocol_subscription.protocol_completion)
+    StudentInvitationTexts.message(response)
   end
 
   def mentor_texts(response)
-    if open_questionnaire?(response, 'voormeting mentoren') && completed_some?(response)
-      'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze ' \
-      'week ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ' \
-      'ingevuld. Na het invullen hiervan kom je weer bij de wekelijkse vragenlijst.'
-    elsif open_questionnaire?(response, 'voormeting mentoren') && !completed_some?(response)
-      "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
-      'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
-      'Morgen start de eerste wekelijkse vragenlijst. Succes!'
-    elsif response.protocol_subscription.responses.invited.count == 1 # voormeting is in different protsub
-      'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
-       'Vul nu de eerste wekelijkse vragenlijst in.'
-    else
-      "Hoi #{target_first_name(response)}, je wekelijkse vragenlijsten staan weer voor je klaar!"
-    end
-  end
-
-  def target_first_name(response)
-    response.protocol_subscription.person.first_name
-  end
-
-  def open_questionnaire?(response, questionnaire_name)
-    person = response.protocol_subscription.person
-    person.open_questionnaire?(questionnaire_name)
-  end
-
-  def completed_some?(response)
-    person = response.protocol_subscription.person
-    person.responses.completed.count.positive?
+    MentorInvitationTexts.message(response)
   end
 end

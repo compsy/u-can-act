@@ -165,7 +165,6 @@ describe SendInvitationsJob do
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
       end
-
     end
 
     describe 'when a mentor is filling out' do

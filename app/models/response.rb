@@ -89,6 +89,10 @@ class Response < ApplicationRecord
     future? || (!expired? && !completed?)
   end
 
+  def future_or_current?
+    future? || !expired?
+  end
+
   def completed?
     completed_at.present?
   end

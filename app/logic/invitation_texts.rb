@@ -4,7 +4,7 @@ class InvitationTexts
   MAX_REWARD_THRESHOLD = 8000
 
   class << self
-    def message(_protocol, _protocol_completion)
+    def message(_response)
       raise 'method message not implemented by subclass!'
     end
 
@@ -65,6 +65,19 @@ class InvitationTexts
     end
 
     private
+
+    def in_announcement_week?
+      Time.zone.now > Time.new(2018, 7, 18).in_time_zone &&
+        Time.zone.now < Time.new(2018, 7, 25).in_time_zone
+    end
+
+    def post_assessment?(response)
+      response.measurement.questionnaire.name.include? 'nameting'
+    end
+
+    def target_first_name(response)
+      response.protocol_subscription.person.first_name
+    end
 
     def streak_conditions(protocol_completion, curidx)
       sms_pool = []
@@ -169,7 +182,8 @@ class InvitationTexts
     end
 
     def current_index(protocol_completion)
-      protocol_completion.find_index { |entry| entry[:future] }
+      # -1 in case there are no other measurements
+      protocol_completion.find_index { |entry| entry[:future] } || -1
     end
 
     def truncated_protocol_completion(protocol_completion, curidx)

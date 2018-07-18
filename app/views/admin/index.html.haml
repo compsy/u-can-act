@@ -56,6 +56,22 @@
                   admin_protocol_transfer_export_path(format: 'csv'),
                   class: 'waves-effect waves-light btn download-button')
 
+            %li.collection-item.avatar{:style => "min-height:65px"}
+              %i.large.material-icons.circle.blue.lighten-2 description
+              %span.title Rewards
+              %p
+                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
+                  admin_reward_export_path(format: 'csv'),
+                  class: 'waves-effect waves-light btn download-button')
+
+            %li.collection-item.avatar{:style => "min-height:65px"}
+              %i.large.material-icons.circle.blue.lighten-2 description
+              %span.title Proof of participation
+              %p
+                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
+                  admin_proof_of_participation_export_path(format: 'csv'),
+                  class: 'waves-effect waves-light btn download-button')
+
             - @pilot_questionnaires = Questionnaire.pilot
             - @rest_questionnaires = Questionnaire.all - @pilot_questionnaires
             - @rest_questionnaires.each do |questionnaire|

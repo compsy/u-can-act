@@ -23,11 +23,11 @@ describe CalculateEarnedByPerson do
       expect(result).to eq number_of_subs * reward
     end
 
-    it 'should also take inactive subs into account' do
+    it 'should also take canceled subs into account' do
       protocol = FactoryBot.create(:protocol, :with_rewards)
       3.times do |_x|
         protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                  :inactive,
+                                                  :canceled,
                                                   protocol: protocol,
                                                   person: person)
         (1..7).map do |day|

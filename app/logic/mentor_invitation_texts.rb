@@ -9,7 +9,7 @@ class MentorInvitationTexts < InvitationTexts
 
     private
 
-    def announcement_week_texts
+    def announcement_week_texts(response)
       if post_assessment?(response)
         return "Hoi #{target_first_name(response)}, wij willen net als jij "\
                'graag vsv voorkomen. Wil jij ons voor de laatste keer helpen'\
@@ -21,11 +21,19 @@ class MentorInvitationTexts < InvitationTexts
     end
 
     def normal_texts(response)
-      pre_assessment_questionnaire_texts(response) if open_questionnaire?(response, 'voormeting mentoren')
-      if response.protocol_subscription.responses.invited.count == 1 # voormeting is in different protsub
-        return 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
-         'Vul nu de eerste wekelijkse vragenlijst in.'
-      end
+      return pre_assessment_questionnaire_texts(response) if open_questionnaire?(response, 'voormeting mentoren')
+
+      # voormeting is in different protsub
+      return was_invited_message if response.protocol_subscription.responses.invited.count == 1
+      default_message(response)
+    end
+
+    def was_invited_message
+      'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
+      'Vul nu de eerste wekelijkse vragenlijst in.'
+    end
+
+    def default_message(response)
       "Hoi #{target_first_name(response)}, je wekelijkse vragenlijsten staan weer voor je klaar!"
     end
 
@@ -41,17 +49,19 @@ class MentorInvitationTexts < InvitationTexts
     end
 
     def open_questionnaire?(response, questionnaire_name)
-      person = response.protocol_subscription.person
-      person.open_questionnaire?(questionnaire_name)
+      get_person(response).open_questionnaire?(questionnaire_name)
     end
 
     def completed_some?(response)
-      person = response.protocol_subscription.person
-      person.responses.completed.count.positive?
+      get_person(response).responses.completed.count.positive?
     end
 
     def target_first_name(response)
       response.protocol_subscription.person.first_name
+    end
+
+    def get_person(response)
+      response.protocol_subscription.person
     end
   end
 end

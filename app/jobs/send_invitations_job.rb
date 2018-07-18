@@ -4,17 +4,15 @@ class SendInvitationsJob < ApplicationJob
   queue_as :default
 
   def perform(invitation_set)
-    invitation_text = ''
     invitation_set.reload
-    invitation_set.responses.opened_and_not_expired.each do |response|
-      invitation_text = GenerateInvitationText.run!(response: response)
-      break
+
+    if invitation_set.invitation_text.blank?
+      invitation_text = create_invitation_text(invitation_set)
+      return if invitation_text.blank?
+      invitation_set.update_attributes!(invitation_text: invitation_text)
     end
-    return if invitation_text.blank?
-    invitation_token = invitation_set.invitation_tokens.create!
-    plain_text_token = invitation_token.token_plain
-    invitation_set.update_attributes!(invitation_text: invitation_text) if invitation_set.invitation_text.blank?
-    send_invitations(invitation_set, plain_text_token)
+
+    finalize_and_schedule_invitation_set(invitation_set)
   end
 
   def max_attempts
@@ -26,6 +24,18 @@ class SendInvitationsJob < ApplicationJob
   end
 
   private
+
+  def create_invitation_text(invitation_set)
+    invitation_set.responses.opened_and_not_expired.each do |response|
+      return GenerateInvitationText.run!(response: response)
+    end
+  end
+
+  def finalize_and_schedule_invitation_set(invitation_set)
+    invitation_token = invitation_set.invitation_tokens.create!
+    plain_text_token = invitation_token.token_plain
+    send_invitations(invitation_set, plain_text_token)
+  end
 
   def send_invitations(invitation_set, plain_text_token)
     invitation_set.invitations.each do |invitation|

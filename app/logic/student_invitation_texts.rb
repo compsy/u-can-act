@@ -8,18 +8,6 @@ class StudentInvitationTexts < InvitationTexts
                      response.protocol_subscription.protocol_completion)
     end
 
-    def announcement_week_texts
-      if post_assessment?(response)
-        return '{{deze_student}}, wil jij jouw beloning ontvangen?' \
-        ' Vul dan de laatste vragenlijst in, alleen dan kunnen wij je' \
-        ' uitbetalen. Het zou zonde zijn om jouw gevulde u-can-act spaarpot' \
-        ' niet te innen, toch?'
-      end
-      'Hoi {{deze_student}}, vul je de laatste vragenlijst in,' \
-      ' waar je ook je IBAN nummer kan invullen? Let op: alleen '\
-      ' dan kunnen wij jouw beloning uitbetalen.'
-    end
-
     def pooled_message(protocol, protocol_completion)
       curidx = current_index(protocol_completion)
       sms_pool = []
@@ -181,6 +169,20 @@ class StudentInvitationTexts < InvitationTexts
       [
         'Sinds vorige week ben je er weer bij. Super! Vul nog twee vragenlijsten in en jaag op de bonus euro\'s!'
       ]
+    end
+
+    private
+
+    def announcement_week_texts(response)
+      if post_assessment?(response)
+        return '{{deze_student}}, wil jij jouw beloning ontvangen?' \
+        ' Vul dan de laatste vragenlijst in, alleen dan kunnen wij je' \
+        ' uitbetalen. Het zou zonde zijn om jouw gevulde u-can-act spaarpot' \
+        ' niet te innen, toch?'
+      end
+      'Hoi {{deze_student}}, vul je de laatste vragenlijst in,' \
+      ' waar je ook je IBAN nummer kan invullen? Let op: alleen '\
+      ' dan kunnen wij jouw beloning uitbetalen.'
     end
   end
 end

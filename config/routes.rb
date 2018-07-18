@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     get 'questionnaire_export/:id', to: 'admin#questionnaire_export', as: 'admin_questionnaire_export'
     get 'response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
     get 'reward_export', to: 'admin#reward_export', as: 'admin_reward_export'
-    get 'admin_proof_of_participation_export', to: 'admin#admin_proof_of_participation_export', as: 'admin_proof_of_participation_export'
+    get 'proof_of_participation_export', to: 'admin#proof_of_participation_export', as: 'admin_proof_of_participation_export'
 
     post 'preview', to: 'admin#preview', as: 'admin_preview'
     post 'preview_done', to: 'admin#preview_done', as: 'admin_preview_done'

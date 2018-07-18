@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe ProofOfParticipationExporter do
+describe ProofOfParticipationExporter do
   it_should_behave_like 'an object_exporter object'
 
   describe 'without participants' do

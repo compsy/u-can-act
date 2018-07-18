@@ -14,7 +14,12 @@ describe RewardExporter do
 
   describe 'with participants' do
     let(:number_of_students) { 10 }
-    let!(:students) { FactoryBot.create_list(:student, number_of_students, :with_random_name, :with_protocol_subscriptions, :with_iban) }
+    let!(:students) do
+      FactoryBot.create_list(:student,
+                             number_of_students,
+                             :with_random_name,
+                             :with_protocol_subscriptions, :with_iban)
+    end
     before do
       FactoryBot.create(:mentor, :with_protocol_subscriptions)
     end

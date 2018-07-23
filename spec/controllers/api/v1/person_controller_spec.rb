@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe Api::V1::PersonController, type: :controller do
+describe Api::V1::PersonController, type: :controller do
   let(:team) { FactoryBot.create(:team) }
 
   let(:student_role) { FactoryBot.create(:role, :student, team: team) }

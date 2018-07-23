@@ -26,6 +26,8 @@
         - @student_protocol_subscriptions.each do |protocol_subscription|
           = render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
 
+  = react_component('MentorPage')
+
 %footer
   .div.container
   %ul

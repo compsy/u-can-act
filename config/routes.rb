@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :questionnaire, only: [:show], param: :key
       resources :response, only: [:show, :index, :create], param: :uuid
-      resources :person do
+      resources :person, only: [:create] do
         collection do
           get :me
         end

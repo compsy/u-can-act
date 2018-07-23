@@ -8,6 +8,8 @@ module Api
       def me
         render json: current_user, serializer: Api::PersonSerializer
       end
+
+      def create; end
     end
   end
 end

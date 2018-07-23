@@ -124,7 +124,7 @@ dagboek_content = [{
                    }, {
                      id: :v17,
                      type: :range,
-                     title: 'Kon je afgelopen week meeestal goed <strong>opschieten met ouders/familie buiten school</strong>?',
+                     title: 'Kon je afgelopen week meestal goed <strong>opschieten met ouders/familie buiten school</strong>?',
                      tooltip: 'Neem hierbij een paar ervaringen met ouders of familie in gedachten die voor jou belangrijk waren.',
                      labels: ['heel slecht', 'heel goed'],
                      section_end: true

@@ -3,8 +3,78 @@
 require 'rails_helper'
 
 describe StudentInvitationTexts do
+  let(:protocol) { FactoryBot.create(:protocol, :with_student_rewards) }
+  let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, protocol: protocol) }
+
+  let(:voormeting) { FactoryBot.create(:questionnaire, name: 'voormeting mentoren') }
+  let(:nameting) { FactoryBot.create(:questionnaire, name: 'nameting mentoren') }
+  let(:measurement1) { FactoryBot.create(:measurement, questionnaire: voormeting) }
+  let(:measurement2) { FactoryBot.create(:measurement) }
+  let(:measurement3) { FactoryBot.create(:measurement, questionnaire: nameting) }
   describe 'message' do
-    let(:protocol) { FactoryBot.create(:protocol, :with_student_rewards) }
+    describe 'in announcement week' do
+      before :each do
+        Timecop.freeze(2018, 7, 19)
+      end
+      after :each do
+        Timecop.return
+      end
+
+      it 'should return the post_assessment text if the response is a post assessment' do
+        expected = '{{deze_student}}, wil jij jouw beloning ontvangen?'\
+                   ' Vul dan de laatste vragenlijst in, alleen dan kunnen wij je uitbetalen.'\
+                   ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen, toch?'
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                measurement: measurement3,
+                                                completed_at: nil,
+                                                open_from: 1.minute.ago)
+        result = described_class.message(response)
+        expect(result).to eq(expected)
+      end
+
+      it 'should return the normal text if the response is not a post assessment' do
+        expected = 'Hoi {{deze_student}}, vul je de laatste vragenlijst in,' \
+                   ' waar je ook je IBAN nummer kan invullen? Let op: alleen '\
+                   ' dan kunnen wij jouw beloning uitbetalen.'
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                measurement: measurement2,
+                                                completed_at: nil,
+                                                open_from: 1.minute.ago)
+        result = described_class.message(response)
+        expect(result).to eq(expected)
+      end
+    end
+
+    describe 'not in announcement week' do
+      before :each do
+        Timecop.freeze(2018, 7, 10)
+      end
+      after :each do
+        Timecop.return
+      end
+
+      it 'should call and return the pooled message' do
+        expected = 'expected message'
+        protocol_completion = [
+          { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 }
+        ]
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                completed_at: nil,
+                                                open_from: 1.minute.ago)
+        expect(protocol_subscription).to receive(:protocol_completion)
+          .and_return(protocol_completion)
+
+        expect(described_class)
+          .to receive(:pooled_message)
+          .with(protocol, protocol_completion)
+          .and_return expected
+        result = described_class.message(response)
+        expect(result).to eq expected
+      end
+    end
+  end
+
+  describe 'pooled message' do
     it 'should send the kick off message for the voormeting' do
       protocol_completion = [
         { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 }
@@ -12,7 +82,7 @@ describe StudentInvitationTexts do
       expected = 'Welkom bij de kick-off van het onderzoek \'u-can-act\'. Fijn dat je meedoet! ' \
        'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
        'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message when the voormeting is not yet filled out' do
@@ -25,7 +95,7 @@ describe StudentInvitationTexts do
         expected = 'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze week ' \
           'ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ingevuld. ' \
           'Je beloning loopt gewoon door natuurlijk!'
-        expect(described_class.message(protocol, protocol_completion)).to eq expected
+        expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
       end
     end
 
@@ -35,7 +105,7 @@ describe StudentInvitationTexts do
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 1 }
       ]
       expected = 'Vul jouw eerste wekelijkse vragenlijst in en verdien twee euro!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message when about to be on a streak' do
@@ -47,7 +117,7 @@ describe StudentInvitationTexts do
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 4 }
       ]
       expected = 'Je bent goed bezig {{deze_student}}! Vul deze vragenlijst in en bereik de bonus-euro-streak!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message when on a streak' do
@@ -62,7 +132,7 @@ describe StudentInvitationTexts do
       expected_set = described_class.on_streak_pool
       expect(expected_set).to be_an Array
       expect(expected_set.size).to be > 5
-      expect(expected_set.member?(described_class.message(protocol, protocol_completion))).to be_truthy
+      expect(expected_set.member?(described_class.pooled_message(protocol, protocol_completion))).to be_truthy
     end
 
     it 'should send a special message when passing a reward threshold' do
@@ -74,7 +144,7 @@ describe StudentInvitationTexts do
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 4 }
       ]
       expected = 'Whoop! Na deze vragenlijst heb je €10,- verdiend. Ga zo door!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: false, periodical: true, reward_points: 100, future: false, streak: 0 },
@@ -86,7 +156,7 @@ describe StudentInvitationTexts do
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 4 }
       ]
       expected = 'Whoop! Na deze vragenlijst heb je €10,- verdiend. Ga zo door!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -99,7 +169,7 @@ describe StudentInvitationTexts do
         { completed: true, periodical: true, reward_points: 100, future: true, streak: 8 }
       ]
       expected = 'Je gaat hard {{deze_student}}! Na deze vragenlijst heb je al €20,- gespaard.'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message when the first two responses were missed' do
@@ -110,7 +180,7 @@ describe StudentInvitationTexts do
       ]
       expected = 'Vergeten te starten {{deze_student}}? Geen probleem, dat kan als nog! ' \
                  'Start met het helpen van andere jongeren en vul de vragenlijst in.'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message after one response was missed but the one before that was completed' do
@@ -122,7 +192,7 @@ describe StudentInvitationTexts do
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 1 }
       ]
       expected = 'We hebben je gemist vorige week. Help je deze week weer mee?'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message after one response was missed but was on a streak before that' do
@@ -136,7 +206,7 @@ describe StudentInvitationTexts do
       ]
       expected = 'Je was heel goed bezig met het onderzoek {{deze_student}}! ' \
                  'Probeer je opnieuw de bonus-euro-streak te halen?'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message after more than one response was missed but there are completed responses' do
@@ -149,7 +219,7 @@ describe StudentInvitationTexts do
       ]
       expected = 'Je hebt ons al enorm geholpen met de vragenlijsten die je hebt ingevuld {{deze_student}}. ' \
         'Wil je ons weer helpen?'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message when all periodical responses were missed' do
@@ -162,7 +232,7 @@ describe StudentInvitationTexts do
       ]
       expected = 'Start met u-can-act en help jouw begeleiders en andere ' \
                  'jongeren terwijl jij €2,- per drie minuten verdient!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message when rejoining after a single missed measurement' do
@@ -174,7 +244,7 @@ describe StudentInvitationTexts do
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 2 }
       ]
       expected = 'Na een weekje rust ben je er sinds de vorige week weer bij. Fijn dat je weer mee doet!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
     it 'should send a special message when rejoining after a single missed measurement' do
@@ -188,7 +258,7 @@ describe StudentInvitationTexts do
       ]
       expected = 'Sinds vorige week ben je er weer bij. Super! ' \
                  'Vul nog twee vragenlijsten in en jaag op de bonus euro\'s!'
-      expect(described_class.message(protocol, protocol_completion)).to eq expected
+      expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
   end
   describe 'first_response_pool' do

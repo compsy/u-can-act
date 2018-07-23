@@ -19,19 +19,17 @@ module ApplicationHelper
   end
 
   def jwt_auth
-    begin
-      token = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
-      token ||= JWT.decode(params[:auth], nil, false)
-      auth_user = AuthUser.find_by_auth0_id_string(token.first["sub"])
-      @current_user = auth_user.person if auth_user.present?
+    token = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+    token ||= JWT.decode(params[:auth], nil, false)
+    auth_user = AuthUser.find_by_auth0_id_string(token.first['sub'])
+    @current_user = auth_user.person if auth_user.present?
 
-      cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => token }
-      CookieJar.set_or_update_cookie(cookies.signed, cookie)
+    cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => token }
+    CookieJar.set_or_update_cookie(cookies.signed, cookie)
 
-    # Rescue if the argument passed is not a JWT token
-    rescue JWT::DecodeError => e
-      Rails.logger.info e.message
-    end
+  # Rescue if the argument passed is not a JWT token
+  rescue JWT::DecodeError => e
+    Rails.logger.info e.message
   end
 
   def logo_image

@@ -4,11 +4,11 @@ class MentorPage extends React.Component {
     this.state = {
       lastId: -1,
       personForms: [],
+      showProcessingMessage: false
     };
   }
 
   handleOnChange(name, value, id) {
-
     var forms = this.state.personForms
     var form = forms.find(x => x.id === id)
     form.values[name] = value;
@@ -36,31 +36,27 @@ class MentorPage extends React.Component {
 
     this.setState({
       personForms: forms,
-      lastId: id
+      lastId: id,
+      showProcessingMessage: false
     });
-  }
-
-  addPersonFormButton() {
-    return (
-      <div className="col s6">
-        <a className="waves-effect waves-light btn" onClick={this.handleAddPerson.bind(this)}>
-          {this.state.personForms.length < 1 ? 'Student toevoegen' : 'Nog een student toevoegen' }
-        </a>
-      </div>
-    );
   }
 
   handleSavePeople() {
     console.log(this.state);
+    this.setState({
+      personForms: [],
+      showProcessingMessage: true,
+      lastId: -1
+    })
   }
 
-  savePeopleButton() {
-    if (this.state.personForms.length > 0) {
+  processingMessage(){
+    if (this.state.showProcessingMessage && this.state.personForms.length === 0) {
       return (
-        <div className="col s6">
-          <a className="waves-effect waves-light btn" onClick={this.handleSavePeople.bind(this)}>
-            {this.state.personForms.length == 1 ? 'Student' : 'Studenten' } opslaan
-          </a>
+        <div className="card-panel green">
+          <span className="white-text">
+            Nieuwe studenten worden toegevoegd.
+          </span>
         </div>
       )
     }
@@ -71,11 +67,12 @@ class MentorPage extends React.Component {
       <div className="col s12">
         <div className="row">
           <div className="col s12">
+            {this.processingMessage()}
             {this.state.personForms.map(FormToRender => <FormToRender.form values={FormToRender.values} formId={FormToRender.id} handleOnChange={ this.handleOnChange.bind(this) }/>)}
             <div className="col s12">
               <div className="row">
-                {this.savePeopleButton()}
-                {this.addPersonFormButton()}
+                <SavePeopleButton numberOfForms={this.state.personForms.length} handleOnClick={this.handleSavePeople.bind(this)} />
+                <AddPersonFormButton numberOfForms={this.state.personForms.length} handleOnClick={this.handleAddPerson.bind(this)} />
               </div>
             </div>
           </div>

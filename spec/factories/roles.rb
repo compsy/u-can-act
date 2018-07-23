@@ -6,5 +6,13 @@ FactoryBot.define do
     group 'Student'
     title
     team
+
+    trait :student do
+      group 'Student'
+    end
+
+    trait :mentor do
+      group 'Mentor'
+    end
   end
 end

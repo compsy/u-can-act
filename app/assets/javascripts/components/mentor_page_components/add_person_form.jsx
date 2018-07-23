@@ -1,10 +1,7 @@
 class AddPersonForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  handleOnChange(e){
-     this.props.handleOnChange(e.target.name, e.target.value, this.props.formId);
+  handleOnChange(e) {
+    this.props.handleOnChange(e.target.name, e.target.value, this.props.formId);
   }
 
   render() {
@@ -32,3 +29,13 @@ class AddPersonForm extends React.Component {
     )
   }
 }
+
+AddPersonForm.defaultProps = {
+  values: {
+    firstName: undefined,
+    lastName: undefined,
+    mobilePhone: undefined,
+    protocol: undefined
+  },
+  formId: undefined
+};

@@ -2,40 +2,156 @@
 
 require 'rails_helper'
 
-describe Api::V1::PersonController, type: :controller do
-  let(:person) { FactoryBot.create(:person, :with_iban, email: 'test@test2.com') }
+fdescribe Api::V1::PersonController, type: :controller do
+  let(:team) { FactoryBot.create(:team) }
 
-  describe 'it requires a person to be logged in' do
+  let(:student_role) { FactoryBot.create(:role, :student, team: team) }
+  let(:mentor_role) { FactoryBot.create(:role, :mentor, team: team) }
+
+  let(:other_student_role) { FactoryBot.create(:role, :student) }
+  let(:other_mentor_role) { FactoryBot.create(:role, :student) }
+
+  let(:person) { FactoryBot.create(:person, :with_iban, role: mentor_role, email: 'test@test2.com') }
+  let(:student) { FactoryBot.create(:person, role: student_role) }
+  let(:protocol) { FactoryBot.create(:protocol) }
+
+  let(:valid_person_params) do
+    {
+      person: {
+        first_name: 'First',
+        last_name: 'Last',
+        gender: Person::MALE,
+        mobile_phone: '0612341234',
+        role_id: student_role.id
+      },
+      protocol: {
+        id: protocol.id
+      }
+    }
+  end
+
+  describe 'when not logged in' do
     it 'should not show' do
       get :me
       expect(response.status).to eq 401
     end
+
+    it 'should not create' do
+      post :create, params: { first_name: 'test', last_name: 'Last name',
+                              mobile_phone: '0612341234', protocol_id: protocol.id }
+      expect(response.status).to eq 401
+    end
   end
 
-  describe 'show' do
+  describe 'when logged in' do
     before :each do
       cookie_auth(person)
     end
 
-    it 'should call the correct serializer' do
-      allow(controller).to receive(:render)
-        .with(json: person, serializer: Api::PersonSerializer)
-        .and_call_original
-      get :me
+    describe 'create' do
+      describe 'validates role id' do
+        it 'should head 403 if the current user is not a mentor' do
+          cookie_auth(student)
+          post :create, params: valid_person_params
+          expect(response.status).to eq 403
+        end
+
+        it 'should head 403 if the provided role is not a student role in the correct organization' do
+          valid_person_params[:person][:role_id] = mentor_role.id
+          post :create, params: valid_person_params
+          expect(response.status).to eq 403
+        end
+      end
+
+      context 'invalid person' do
+        let(:person_params) do
+          {
+            person: { mobile_phone: '0612341234', role_id: student_role.id },
+            protocol: { id: protocol.id }
+          }
+        end
+
+        it 'should not create a person' do
+          pre_count = Person.count
+          post :create, params: person_params
+          expect(Person.count).to eq pre_count
+        end
+
+        it 'should head 400' do
+          post :create, params: person_params
+          expect(response.status).to eq 400
+        end
+
+        it 'should return the errors' do
+          post :create, params: person_params
+          result = JSON.parse(response.body)
+          expect(result).to be_a Hash
+          expect(result.keys).to match_array ['errors']
+          missing_entries = ['first_name']
+          expect(result['errors'].keys).to match_array missing_entries
+          missing_entries.each do |entry|
+            expect(result['errors'][entry]).to match_array ['moet opgegeven zijn']
+          end
+        end
+
+        it 'should render a 400 with errors if the role_id is not provided' do
+          person_params[:person].delete :role_id
+          post :create, params: person_params
+          expect(response.status).to eq 400
+
+          result = JSON.parse(response.body)
+          expect(result).to be_a Hash
+          expect(result.keys).to match_array ['errors']
+          missing_entries = ['role_id']
+
+          expect(result['errors'].keys).to match_array missing_entries
+          missing_entries.each do |entry|
+            expect(result['errors'][entry]).to match_array ['moet opgegeven zijn']
+          end
+        end
+      end
+
+      context 'valid person' do
+        it 'should create a person' do
+          pre_count = Person.count
+          post :create, params: valid_person_params
+          expect(Person.count).to eq pre_count + 1
+        end
+
+        it 'should head 201' do
+          post :create, params: valid_person_params
+          expect(response.status).to eq 201
+        end
+
+        it 'should return the person' do
+          post :create, params: valid_person_params
+          result = JSON.parse(response.body)
+          expect(result).to be_a Hash
+        end
+      end
     end
 
-    it 'should render the correct json' do
-      get :me
-      expect(response.status).to eq 200
-      expect(response.header['Content-Type']).to include 'application/json'
-      json = JSON.parse(response.body)
-      expect(json).to_not be_nil
-      expect(json['first_name']).to eq person.first_name
-      expect(json['last_name']).to eq person.last_name
-      expect(json['mobile_phone']).to eq person.mobile_phone
-      expect(json['gender']).to eq person.gender
-      expect(json['email']).to eq person.email
-      expect(json['iban']).to eq person.iban
+    describe 'show' do
+      it 'should call the correct serializer' do
+        allow(controller).to receive(:render)
+          .with(json: person, serializer: Api::PersonSerializer)
+          .and_call_original
+        get :me
+      end
+
+      it 'should render the correct json' do
+        get :me
+        expect(response.status).to eq 200
+        expect(response.header['Content-Type']).to include 'application/json'
+        json = JSON.parse(response.body)
+        expect(json).to_not be_nil
+        expect(json['first_name']).to eq person.first_name
+        expect(json['last_name']).to eq person.last_name
+        expect(json['mobile_phone']).to eq person.mobile_phone
+        expect(json['gender']).to eq person.gender
+        expect(json['email']).to eq person.email
+        expect(json['iban']).to eq person.iban
+      end
     end
   end
 end

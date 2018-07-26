@@ -177,8 +177,8 @@ class StudentInvitationTexts < InvitationTexts
       if post_assessment?(response)
         return '{{deze_student}}, wil jij jouw beloning ontvangen? Dit is de laatste'\
         ' kans om jouw IBAN in te vullen en alleen dan kunnen wij jou uitbetalen.'\
-          ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen,'\
-          ' toch?'
+        ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen,'\
+        ' toch?'
       end
 
       'Hoi {{deze_student}}, wil je je beloning ontvangen? Geef dan je IBAN'\

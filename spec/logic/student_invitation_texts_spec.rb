@@ -14,7 +14,7 @@ describe StudentInvitationTexts do
   describe 'message' do
     describe 'in announcement week' do
       before :each do
-        Timecop.freeze(2018, 7, 19)
+        Timecop.freeze(2018, 7, 26)
       end
       after :each do
         Timecop.return
@@ -33,9 +33,11 @@ describe StudentInvitationTexts do
       end
 
       it 'should return the normal text if the response is not a post assessment' do
-        expected = 'Hoi {{deze_student}}, vul je de laatste vragenlijst in,' \
-                   ' waar je ook je IBAN nummer kan invullen? Let op: alleen '\
-                   ' dan kunnen wij jouw beloning uitbetalen.'
+        expected = 'Hoi {{deze_student}}, wil je je beloning ontvangen? Geef dan je IBAN'\
+                    ' nummer aan ons door. Alleen dan kunnen wij jouw beloning uitbetalen.'\
+                    " Dit kan je doen door de laatste vragenlijst in te vullen.\n"\
+                    'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
+                    ' vragenlijst een stuk korter dan je gewend bent .'
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                 measurement: measurement2,
                                                 completed_at: nil,

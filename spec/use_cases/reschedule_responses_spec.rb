@@ -140,10 +140,10 @@ describe RescheduleResponses do
         expect(Response.all.first.protocol_subscription).to eq protocol_subscription
       end
 
-      fit 'should reschedule not future responses for non periodical measurements if they is one completed ' do
+      it 'should reschedule not future responses for non periodical measurements if they is one completed ' do
         protocol.reload
         protocol.measurements.destroy_all
-        measurement = FactoryBot.create(:measurement, :periodical, 
+        measurement = FactoryBot.create(:measurement, :periodical,
                                         protocol: protocol,
                                         open_duration: 10.weeks,
                                         reward_points:  0,
@@ -170,6 +170,8 @@ describe RescheduleResponses do
 
         described_class.run!(protocol_subscription: protocol_subscription)
         expect(Response.count).to eq(2)
+        expect(Response.all.first.protocol_subscription).to eq protocol_subscription
+        expect(Response.all.second.protocol_subscription).to_not eq protocol_subscription
       end
     end
   end

@@ -155,10 +155,10 @@ describe RescheduleResponses do
         expect(protocol.measurements.length).to eq 1
 
         # Create finished response
-        finished_response = Response.create!(protocol_subscription_id: protocol_subscription.id,
-                                             measurement_id: measurement.id,
-                                             completed_at: 7.days.ago.in_time_zone,
-                                             open_from: 8.days.ago.in_time_zone)
+        Response.create!(protocol_subscription_id: protocol_subscription.id,
+                         measurement_id: measurement.id,
+                         completed_at: 7.days.ago.in_time_zone,
+                         open_from: 8.days.ago.in_time_zone)
 
         expect_any_instance_of(Measurement).to receive(:response_times).with(
           protocol_subscription.start_date,
@@ -171,7 +171,7 @@ describe RescheduleResponses do
         described_class.run!(protocol_subscription: protocol_subscription)
         expect(Response.count).to eq(2)
         expect(Response.all.first.protocol_subscription).to eq protocol_subscription
-        expect(Response.all.second.protocol_subscription).to_not eq protocol_subscription
+        expect(Response.all.second.protocol_subscription).to eq protocol_subscription
       end
     end
   end

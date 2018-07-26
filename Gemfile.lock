@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/CanCanCommunity/cancancan.git
   revision: 6e782102f5dfef4bd3cc3feadc49802ea942c234
-  branch: feature/3.0.0
+  ref: 6e782102f5dfef4bd3cc3feadc49802ea942c234
   specs:
     cancancan (2.2.0)
 
@@ -87,7 +87,7 @@ GEM
     bson (4.3.0)
     builder (3.2.3)
     byebug (10.0.2)
-    capybara (3.4.1)
+    capybara (3.4.2)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -241,7 +241,7 @@ GEM
     minitest (5.11.3)
     modernizr-rails (2.7.1)
     moneta (0.8.1)
-    mongo (2.5.3)
+    mongo (2.6.1)
       bson (>= 4.3.0, < 5.0.0)
     mongoid (6.1.1)
       activemodel (~> 5.0)
@@ -348,7 +348,7 @@ GEM
     rspec-support (3.7.1)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (0.58.1)
+    rubocop (0.58.2)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5, != 2.5.1.1)
@@ -363,7 +363,7 @@ GEM
     rubyzip (1.2.1)
     rush (0.6.8)
       session
-    sass (3.5.6)
+    sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)

@@ -21,7 +21,7 @@ describe MentorInvitationTexts do
 
   describe 'In the anouncement week' do
     before :each do
-      Timecop.freeze(2018, 7, 19)
+      Timecop.freeze(2018, 7, 26)
     end
 
     after :each do
@@ -45,7 +45,9 @@ describe MentorInvitationTexts do
                                               measurement: measurement1,
                                               open_from: 1.minute.ago)
       expected = 'Hoi Jane, de allerlaatste vragenlijsten staan voor je klaar. Voor ons is het ontzettend belangrijk' \
-                 ' dat deze wordt ingevuld. Help jij ons voor de laatste keer?'
+                 " dat deze wordt ingevuld. Help jij ons voor de laatste keer?\n"\
+                 'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
+                 ' vragenlijst een stuk korter dan je gewend bent .'
       result = described_class.message(response)
       expect(result).to eq(expected)
     end

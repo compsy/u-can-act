@@ -175,14 +175,17 @@ class StudentInvitationTexts < InvitationTexts
 
     def announcement_week_texts(response)
       if post_assessment?(response)
-        return '{{deze_student}}, wil jij jouw beloning ontvangen?' \
-        ' Vul dan de laatste vragenlijst in, alleen dan kunnen wij je' \
-        ' uitbetalen. Het zou zonde zijn om jouw gevulde u-can-act spaarpot' \
-        ' niet te innen, toch?'
+        return '{{deze_student}}, wil jij jouw beloning ontvangen? Dit is de laatste'\
+        ' kans om jouw IBAN in te vullen en alleen dan kunnen wij jou uitbetalen.'\
+        ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen,'\
+        ' toch?'
       end
-      'Hoi {{deze_student}}, vul je de laatste vragenlijst in,' \
-      ' waar je ook je IBAN nummer kan invullen? Let op: alleen '\
-      ' dan kunnen wij jouw beloning uitbetalen.'
+
+      'Hoi {{deze_student}}, wil je je beloning ontvangen? Geef dan je IBAN'\
+      ' nummer aan ons door. Alleen dan kunnen wij jouw beloning uitbetalen.'\
+      " Dit kan je doen door de laatste vragenlijst in te vullen.\n"\
+      'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
+      ' vragenlijst een stuk korter dan je gewend bent .'
     end
   end
 end

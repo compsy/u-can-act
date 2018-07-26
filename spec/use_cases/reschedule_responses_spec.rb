@@ -105,6 +105,7 @@ describe RescheduleResponses do
       end
 
       it 'should reschedule not future responses for non periodical measurements if they is one completed ' do
+        protocol.reload
         # Using the student nameting as an example
         Response.destroy_all
 
@@ -127,6 +128,7 @@ describe RescheduleResponses do
 
       it 'should reschedule future responses for non periodical measurements if there are none completed ' do
         Response.destroy_all
+        protocol.reload
 
         expect_any_instance_of(Measurement).to receive(:response_times).with(
           protocol_subscription.start_date,

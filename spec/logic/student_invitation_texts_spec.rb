@@ -21,9 +21,10 @@ describe StudentInvitationTexts do
       end
 
       it 'should return the post_assessment text if the response is a post assessment' do
-        expected = '{{deze_student}}, wil jij jouw beloning ontvangen?'\
-                   ' Vul dan de laatste vragenlijst in, alleen dan kunnen wij je uitbetalen.'\
-                   ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen, toch?'
+        expected = '{{deze_student}}, wil jij jouw beloning ontvangen? Dit is de laatste'\
+        ' kans om jouw IBAN in te vullen en alleen dan kunnen wij jou uitbetalen.'\
+        ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen,'\
+        ' toch?'
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                 measurement: measurement3,
                                                 completed_at: nil,

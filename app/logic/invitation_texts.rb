@@ -67,8 +67,8 @@ class InvitationTexts
     private
 
     def in_announcement_week?
-      Time.zone.now > Time.new(2018, 7, 18).in_time_zone &&
-        Time.zone.now < Time.new(2018, 7, 25).in_time_zone
+      Time.zone.now > Time.new(2018, 7, 24).in_time_zone &&
+        Time.zone.now < Time.new(2018, 8, 1).in_time_zone
     end
 
     def post_assessment?(response)

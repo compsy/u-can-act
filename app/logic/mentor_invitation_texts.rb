@@ -57,7 +57,7 @@ class MentorInvitationTexts < InvitationTexts
     end
 
     def target_first_name(response)
-      response.protocol_subscription.person.first_name
+      get_person(response).first_name
     end
 
     def get_person(response)

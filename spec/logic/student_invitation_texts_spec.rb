@@ -14,16 +14,17 @@ describe StudentInvitationTexts do
   describe 'message' do
     describe 'in announcement week' do
       before :each do
-        Timecop.freeze(2018, 7, 19)
+        Timecop.freeze(2018, 7, 26)
       end
       after :each do
         Timecop.return
       end
 
       it 'should return the post_assessment text if the response is a post assessment' do
-        expected = '{{deze_student}}, wil jij jouw beloning ontvangen?'\
-                   ' Vul dan de laatste vragenlijst in, alleen dan kunnen wij je uitbetalen.'\
-                   ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen, toch?'
+        expected = '{{deze_student}}, wil jij jouw beloning ontvangen? Dit is de laatste'\
+        ' kans om jouw IBAN in te vullen en alleen dan kunnen wij jou uitbetalen.'\
+        ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen,'\
+        ' toch?'
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                 measurement: measurement3,
                                                 completed_at: nil,
@@ -33,9 +34,11 @@ describe StudentInvitationTexts do
       end
 
       it 'should return the normal text if the response is not a post assessment' do
-        expected = 'Hoi {{deze_student}}, vul je de laatste vragenlijst in,' \
-                   ' waar je ook je IBAN nummer kan invullen? Let op: alleen '\
-                   ' dan kunnen wij jouw beloning uitbetalen.'
+        expected = 'Hoi {{deze_student}}, wil je je beloning ontvangen? Geef dan je IBAN'\
+                    ' nummer aan ons door. Alleen dan kunnen wij jouw beloning uitbetalen.'\
+                    " Dit kan je doen door de laatste vragenlijst in te vullen.\n"\
+                    'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
+                    ' vragenlijst een stuk korter dan je gewend bent .'
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                 measurement: measurement2,
                                                 completed_at: nil,

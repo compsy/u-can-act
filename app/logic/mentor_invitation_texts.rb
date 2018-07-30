@@ -11,13 +11,15 @@ class MentorInvitationTexts < InvitationTexts
 
     def announcement_week_texts(response)
       if post_assessment?(response)
-        return "Hoi #{target_first_name(response)}, wij willen net als jij "\
-               'graag vsv voorkomen. Wil jij ons voor de laatste keer helpen'\
-               ' en de laatste, maar cruciale, u-can-act vragenlijst invullen?'
+        return "Hoi #{target_first_name(response)}, wij willen net als jij graag vsv voorkomen."\
+          ' Wil jij ons voor de laatste keer helpen en de laatste, maar cruciale,'\
+          ' u-can-act vragenlijst invullen?'
       end
       "Hoi #{target_first_name(response)}, de allerlaatste vragenlijsten"\
-        ' staan voor je klaar. Voor ons is het ontzettend belangrijk dat'\
-        ' deze wordt ingevuld. Help jij ons voor de laatste keer?'
+      ' staan voor je klaar. Voor ons is het ontzettend belangrijk dat deze'\
+      " wordt ingevuld. Help jij ons voor de laatste keer?\n"\
+      'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
+      ' vragenlijst een stuk korter dan je gewend bent .'
     end
 
     def normal_texts(response)
@@ -57,7 +59,7 @@ class MentorInvitationTexts < InvitationTexts
     end
 
     def target_first_name(response)
-      response.protocol_subscription.person.first_name
+      get_person(response).first_name
     end
 
     def get_person(response)

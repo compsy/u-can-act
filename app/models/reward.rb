@@ -12,7 +12,7 @@ class Reward < ApplicationRecord
   def self.total_earned_euros(bust_cache: false)
     RedisCachedCall.cache(TOTAL_EARNED_SO_FAR, bust_cache) do
       students = Person.all.reject(&:mentor?)
-      students.sum { |student| CalculateEarnedByPerson.run!(person: student) }
+      students.sum { |student| CalculateEarnedEurosByPerson.run!(person: student) }
     end
   end
 
@@ -20,7 +20,7 @@ class Reward < ApplicationRecord
     RedisCachedCall.cache(CAN_STILL_BE_EARNED, bust_cache) do
       students = Person.all.reject(&:mentor?)
       students.sum do |student|
-        CalculateTotalByPerson.run!(person: student) - CalculateEarnedByPerson.run!(person: student)
+        CalculateMaximumEurosByPerson.run!(person: student) - CalculateEarnedEurosByPerson.run!(person: student)
       end
     end
   end

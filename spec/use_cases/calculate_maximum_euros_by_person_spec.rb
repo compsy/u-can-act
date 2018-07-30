@@ -2,16 +2,16 @@
 
 require 'rails_helper'
 
-describe CalculateEarnedByPerson do
+describe CalculateMaximumEurosByPerson do
   describe 'run!' do
     let(:person) { FactoryBot.create(:person) }
-    it 'should calculate the sum over all earned euros of all protocol subscriptions' do
+    it 'should calculate the sum over all euros of all protocol subscriptions' do
       reward = 30
       number_of_subs = 3
       protocol = FactoryBot.create(:protocol)
       allow_any_instance_of(ProtocolSubscription)
         .to receive(:earned_euros)
-        .with(no_args)
+        .with(true)
         .and_return(reward)
 
       number_of_subs.times do |_x|
@@ -43,7 +43,7 @@ describe CalculateEarnedByPerson do
         end
       end
       result = described_class.run!(person: person)
-      expect(result).to be 21
+      expect(result).to be 42
     end
 
     it 'should only look at protocol subscriptions one fills out for him / herself ' do

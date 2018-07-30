@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class CalculateTotalByPerson < ActiveInteraction::Base
+class CalculateMaximumEurosByPerson < ActiveInteraction::Base
   object :person
 
-  # Calculates the total amount of money a person can earn
+  # Calculates the maximum amount of euros a person can earn
   #
   # Params:
   # - person: the person for which to calculate the reward

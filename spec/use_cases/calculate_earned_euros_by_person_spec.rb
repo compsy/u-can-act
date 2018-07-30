@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe CalculateEarnedByPerson do
+describe CalculateEarnedEurosByPerson do
   describe 'run!' do
     let(:person) { FactoryBot.create(:person) }
     it 'should calculate the sum over all earned euros of all protocol subscriptions' do
@@ -11,6 +11,7 @@ describe CalculateEarnedByPerson do
       protocol = FactoryBot.create(:protocol)
       allow_any_instance_of(ProtocolSubscription)
         .to receive(:earned_euros)
+        .with(no_args)
         .and_return(reward)
 
       number_of_subs.times do |_x|
@@ -29,16 +30,20 @@ describe CalculateEarnedByPerson do
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   :canceled,
                                                   protocol: protocol,
-                                                  person: person)
+                                                  person: person,
+                                                  start_date: 10.days.ago.beginning_of_day)
         (1..7).map do |day|
           FactoryBot.create(:response,
                             :completed,
                             protocol_subscription: protocol_subscription,
                             open_from: day.days.ago.in_time_zone)
+          FactoryBot.create(:response,
+                            protocol_subscription: protocol_subscription,
+                            open_from: day.days.from_now.in_time_zone)
         end
       end
       result = described_class.run!(person: person)
-      expect(result).to be 21
+      expect(result - 0.21).to be < 0.0001
     end
 
     it 'should only look at protocol subscriptions one fills out for him / herself ' do
@@ -47,12 +52,16 @@ describe CalculateEarnedByPerson do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 filling_out_for_id: other_person.id,
                                                 protocol: protocol,
-                                                person: person)
+                                                person: person,
+                                                start_date: 10.days.ago.beginning_of_day)
       (1..7).map do |day|
         FactoryBot.create(:response,
                           :completed,
                           protocol_subscription: protocol_subscription,
                           open_from: day.days.ago.in_time_zone)
+        FactoryBot.create(:response,
+                          protocol_subscription: protocol_subscription,
+                          open_from: day.days.from_now.in_time_zone)
       end
       result = described_class.run!(person: person)
       expect(result).to be 0

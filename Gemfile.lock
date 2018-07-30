@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/CanCanCommunity/cancancan.git
+  revision: 6e782102f5dfef4bd3cc3feadc49802ea942c234
+  ref: 6e782102f5dfef4bd3cc3feadc49802ea942c234
+  specs:
+    cancancan (2.2.0)
+
+GIT
   remote: https://github.com/camelmasa/animate-rails.git
   revision: ff6dd54ac8534e3df4a56fabc6a3e307957be886
   specs:
@@ -234,7 +241,7 @@ GEM
     minitest (5.11.3)
     modernizr-rails (2.7.1)
     moneta (0.8.1)
-    mongo (2.5.3)
+    mongo (2.6.1)
       bson (>= 4.3.0, < 5.0.0)
     mongoid (6.1.1)
       activemodel (~> 5.0)
@@ -356,7 +363,7 @@ GEM
     rubyzip (1.2.1)
     rush (0.6.8)
       session
-    sass (3.5.6)
+    sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -415,7 +422,7 @@ GEM
       thread_safe (~> 0.1)
     tzinfo-data (1.2018.5)
       tzinfo (>= 1.0.0)
-    uglifier (4.1.16)
+    uglifier (4.1.17)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -442,6 +449,7 @@ DEPENDENCIES
   appsignal
   bcrypt
   byebug
+  cancancan!
   capybara
   capybara-screenshot
   capybara-selenium
@@ -503,4 +511,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

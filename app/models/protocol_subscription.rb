@@ -61,8 +61,8 @@ class ProtocolSubscription < ApplicationRecord
     !for_myself?
   end
 
-  def earned_euros
-    protocol.calculate_reward(completion)
+  def earned_euros(check_future = false)
+    protocol.calculate_reward(completion, check_future)
   end
 
   def reward_points
@@ -112,7 +112,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def max_still_earnable_reward_points
-    from = latest_streak_value_index + 1
+    from = latest_streak_value_index
     to = from + responses.future.length
     sliced_completion = completion.slice((from...to))
     protocol.calculate_reward(sliced_completion, true)

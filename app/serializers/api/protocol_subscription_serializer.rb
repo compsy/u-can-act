@@ -43,7 +43,7 @@ module Api
       return 1 if no_streak_detected
       current_completion = completion[object.latest_streak_value_index]
       return 1 unless current_completion.present?
-      latest_streak_value = completion[object.latest_streak_value_index][:streak]
+      latest_streak_value = current_completion[:streak]
       object.protocol.find_correct_multiplier(latest_streak_value)
     end
 

@@ -3,7 +3,7 @@
 class CalculateTotalByPerson < ActiveInteraction::Base
   object :person
 
-  # Calculates the amount of money a person has earned
+  # Calculates the total amount of money a person can earn
   #
   # Params:
   # - person: the person for which to calculate the reward

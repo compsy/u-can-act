@@ -12,23 +12,16 @@ class Reward < ApplicationRecord
   def self.total_earned_euros(bust_cache: false)
     RedisCachedCall.cache(TOTAL_EARNED_SO_FAR, bust_cache) do
       students = Person.all.reject(&:mentor?)
-      earned_reward_points = 0
-      students.each do |student|
-        earned_reward_points += CalculateEarnedByPerson.run!(person: student)
-      end
-      earned_reward_points / 100.0
+      students.sum { |student| CalculateEarnedByPerson.run!(person: student) }
     end
   end
 
   def self.max_still_earnable_euros(bust_cache: false)
     RedisCachedCall.cache(CAN_STILL_BE_EARNED, bust_cache) do
       students = Person.all.reject(&:mentor?)
-      still_earnable_reward_points = 0
-      students.each do |student|
-        still_earnable_reward_points += (CalculateTotalByPerson.run!(person: student) -
-                                         CalculateEarnedByPerson.run!(person: student))
+      students.sum do |student|
+        CalculateTotalByPerson.run!(person: student) - CalculateEarnedByPerson.run!(person: student)
       end
-      still_earnable_reward_points / 100.0
     end
   end
 end

@@ -62,7 +62,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def earned_euros(check_future = false)
-    protocol.calculate_reward(completion, check_future)
+    protocol.calculate_reward(completion, check_future) / 100.0
   end
 
   def protocol_completion

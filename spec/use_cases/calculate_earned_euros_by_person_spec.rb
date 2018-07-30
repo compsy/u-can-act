@@ -43,7 +43,7 @@ describe CalculateEarnedEurosByPerson do
         end
       end
       result = described_class.run!(person: person)
-      expect(result).to be 21
+      expect(result - 0.21).to be < 0.0001
     end
 
     it 'should only look at protocol subscriptions one fills out for him / herself ' do

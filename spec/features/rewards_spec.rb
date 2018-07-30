@@ -76,7 +76,7 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(Reward.total_earned_euros(bust_cache: true)).to eq 3.0
       expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.0
       expect(page).to have_content('Heel erg bedankt voor je inzet voor dit onderzoek!')
-      expect(page).to have_content('€3,- verdiend.')
+      expect(page).to have_content('€0,03 verdiend.')
       expect(page).to have_content('IBAN')
       expect(page).to have_content('aan te passen')
     end

@@ -62,7 +62,7 @@ describe Api::ProtocolSubscriptionSerializer do
       json = described_class.new(protocol_subscription).as_json.with_indifferent_access
 
       expect(json[:person_type]).to eq protocol_subscription.person.role.group
-      expect(json[:earned_euros]).to eq 321
+      expect(json[:earned_euros]).to eq 3.21
       expect(json[:euro_delta]).to eq 888
       expect(json[:max_still_awardable_euros]).to eq 123
 
@@ -124,7 +124,7 @@ describe Api::ProtocolSubscriptionSerializer do
 
     it 'should contain the correct earned_euros' do
       expected = protocol_subscription.protocol_completion
-      expected = protocol.calculate_reward(expected)
+      expected = protocol.calculate_reward(expected) / 100.0
       expect(json[:earned_euros]).to eq expected
     end
   end

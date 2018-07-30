@@ -16,7 +16,7 @@ class RewardExporter < ObjectExporter
 
     def format_fields(person)
       vals = {}
-      vals['earned'] = CalculateEarnedByPerson.run!(person: person)
+      vals['earned'] = CalculateEarnedByPerson.run!(person: person) / 100.0
       vals
     end
 

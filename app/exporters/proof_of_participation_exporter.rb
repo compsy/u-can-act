@@ -25,7 +25,7 @@ class ProofOfParticipationExporter < ObjectExporter
     end
 
     def to_be_skipped?(protocol_subscription)
-      Exporters.test_phone_number?(protocol_subscription.person.mobile_phone)
+      protocol_subscription.person.mentor? || Exporters.test_phone_number?(protocol_subscription.person.mobile_phone)
     end
   end
 end

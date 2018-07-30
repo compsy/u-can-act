@@ -34,8 +34,9 @@ describe ProofOfParticipationExporter do
     it 'should export the students and mentors' do
       export = described_class.export_lines.to_a.join.split("\n")
       # -1 for the header
-      expect(export.size - 1).to eq number_of_students + number_of_mentors
-      expect(export.size - 1).to eq ProtocolSubscription.count
+      # Note that it should not export the mentors
+      expect(export.size - 1).to eq number_of_students # + number_of_mentors
+      expect(export.size - 1).to eq ProtocolSubscription.count - number_of_mentors
     end
 
     it 'should create the correct export' do
@@ -56,9 +57,10 @@ describe ProofOfParticipationExporter do
         completed += 1
       end
       export = described_class.export_lines.to_a.join.split("\n")
-      export = export.last(ProtocolSubscription.count).map { |entry| entry.delete('"').split(';') }
+      export = export.last(ProtocolSubscription.count - number_of_mentors).map { |entry| entry.delete('"').split(';') }
       completed = 2
-      export.zip(ProtocolSubscription.all).each do |entry, subscription|
+      prot_subs = ProtocolSubscription.all.reject { |prot_sub| prot_sub.person.mentor? }
+      export.zip(prot_subs).each do |entry, subscription|
         expect(entry.first).to eq subscription.person.first_name
         expect(entry.second).to eq subscription.person.last_name
         expect(entry.third).to eq completed.to_s
@@ -77,10 +79,11 @@ describe ProofOfParticipationExporter do
 
       post_export = described_class.export_lines.to_a.join.split("\n")
       expect(pre_export).to match_array post_export
-      #
+
       # -1 for the header
-      expect(post_export.size - 1).to eq number_of_students + number_of_mentors
-      expect(post_export.size - 1).to eq ProtocolSubscription.count - 1
+      # Note that it should not export the mentors
+      expect(post_export.size - 1).to eq number_of_students # + number_of_mentors
+      expect(post_export.size - 1).to eq ProtocolSubscription.count - 1 - number_of_mentors
     end
   end
 end

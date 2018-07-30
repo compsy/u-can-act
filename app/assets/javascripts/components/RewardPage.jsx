@@ -31,7 +31,7 @@ class RewardPage extends React.Component {
   }
 
   loadRewardData(protocolSubscriptionId) {
-    var self = this
+    var self = this;
 
     // Only update if the subscription id has changed
     let url = '/api/v1/protocol_subscriptions/' + protocolSubscriptionId;
@@ -42,20 +42,20 @@ class RewardPage extends React.Component {
     });
   }
 
-  getCorrectResultPage() {
-    if (this.state.result.person_type === 'Mentor') {
-      if (!this.isDone()) {
-        return <div />
-      }
-      return (<MentorRewardPage />)
+  renderMentorRewardPage() {
+    if (!this.isDone()) {
+      return (<div />);
     }
+    return (<MentorRewardPage />);
+  }
 
+  renderStudentRewardPage() {
     let earnedEuros = this.state.result.earned_euros / 100;
     let name = this.state.person.first_name + ' ' + this.state.person.last_name;
     if (this.isDone()) {
       return (<StudentFinalRewardPage earnedEuros={earnedEuros}
                                       iban={this.state.person.iban}
-                                      name={name}/>)
+                                      name={name}/>);
     }
 
     let euroDelta = this.state.result.euro_delta / 100;
@@ -68,7 +68,14 @@ class RewardPage extends React.Component {
         awardable={maxStillAwardableEuros}
         protocolCompletion={this.state.result.protocol_completion}
         maxStreak={this.state.result.max_streak.threshold}/>
-    )
+    );
+  }
+
+  getCorrectResultPage() {
+    if (this.state.result.person_type === 'Mentor') {
+      return this.renderMentorRewardPage();
+    }
+    return this.renderStudentRewardPage();
   }
 
   render() {

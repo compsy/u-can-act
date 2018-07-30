@@ -540,7 +540,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.zone.now.beginning_of_day)
-      expect(protocol_subscription.max_still_earnable_reward_points).to eq 7
+      expect(protocol_subscription.max_still_earnable_reward_points).to eq 8
     end
   end
 
@@ -561,7 +561,7 @@ describe ProtocolSubscription do
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 3 }]
       expect_any_instance_of(described_class).to receive(:completion).and_return(pc)
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      expect(protocol_subscription.latest_streak_value_index).to eq 0
+      expect(protocol_subscription.latest_streak_value_index).to eq(-1)
     end
     it 'should work when the first measurement is in the future' do
       pc = [{ completed: false, periodical: false, reward_points: 1, future: true, streak: -1 },
@@ -570,7 +570,7 @@ describe ProtocolSubscription do
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 3 }]
       expect_any_instance_of(described_class).to receive(:completion).and_return(pc)
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      expect(protocol_subscription.latest_streak_value_index).to eq 0
+      expect(protocol_subscription.latest_streak_value_index).to eq(-1)
     end
   end
 

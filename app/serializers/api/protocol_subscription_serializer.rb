@@ -33,12 +33,14 @@ module Api
     end
 
     def euro_delta
+      return 0 if no_streak_detected
       latest_streak_value = completion[object.latest_streak_value_index]
       return 0 unless latest_streak_value.present?
       object.protocol.calculate_reward([latest_streak_value])
     end
 
     def current_multiplier
+      return 1 if no_streak_detected
       current_completion = completion[object.latest_streak_value_index]
       return 1 unless current_completion.present?
       latest_streak_value = completion[object.latest_streak_value_index][:streak]
@@ -47,6 +49,10 @@ module Api
 
     def initial_multiplier
       object.protocol.rewards&.find_by_threshold(1)&.reward_points || 1
+    end
+
+    def no_streak_detected
+      object.latest_streak_value_index == -1
     end
   end
 end

@@ -44,7 +44,7 @@ describe Api::ProtocolSubscriptionSerializer do
     it 'should contain the correct variables' do
       # Mock the actual calculation
       expect_any_instance_of(Protocol).to receive(:calculate_reward)
-        .with(protocol_subscription.protocol_completion)
+        .with(protocol_subscription.protocol_completion, false)
         .and_return(321)
 
       # Mock the actual calculation

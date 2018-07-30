@@ -65,18 +65,6 @@ class ProtocolSubscription < ApplicationRecord
     protocol.calculate_reward(completion, check_future)
   end
 
-  def reward_points
-    responses.completed.map { |response| response.measurement.reward_points }.reduce(0, :+)
-  end
-
-  def possible_reward_points
-    responses.invited.map { |response| response.measurement.reward_points }.reduce(0, :+)
-  end
-
-  def max_reward_points
-    responses.map { |response| response.measurement.reward_points }.reduce(0, :+)
-  end
-
   def protocol_completion
     on_streak = 0
     responses.map do |response|

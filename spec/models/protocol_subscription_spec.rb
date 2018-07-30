@@ -470,45 +470,6 @@ describe ProtocolSubscription do
     end
   end
 
-  describe 'reward_points' do
-    it 'should accumulate the reward points for all completed protocol subscriptions' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :completed, protocol_subscription: protocol_subscription)
-      # also add some noncompleted responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.reward_points).to eq 10
-    end
-  end
-
-  describe 'possible_reward_points' do
-    it 'should accumulate the reward points for all completed responses' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: protocol_subscription)
-      # also add some noninvited responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 10
-    end
-
-    it 'should also accumulate the reward points for all not completed responses' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 20, :invited, protocol_subscription: protocol_subscription)
-      #
-      # also add some noninvited responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 20
-    end
-  end
-
-  describe 'max_reward_points' do
-    it 'should accumulate the reward points for all responses period' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.max_reward_points).to eq 17
-    end
-  end
-
   describe 'informed_consent_given_at' do
     it 'should be nil by default' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)

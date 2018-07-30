@@ -1,0 +1,12 @@
+- if can?(:update, Person, :first_name) || can?(:update, Person, :last_name)
+  .row
+    - if can? :update, Person, :first_name
+      .col.s6
+        .input-field
+          = f.label :first_name
+          = f.text_field :first_name, required: true, title: "Voornaam"
+    - if can? :update, Person, :last_name
+      .col.s6
+        .input-field
+          = f.label :last_name
+          = f.text_field :last_name, required: false, title: "Achternaam"

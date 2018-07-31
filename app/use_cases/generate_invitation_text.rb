@@ -18,15 +18,11 @@ class GenerateInvitationText < ActiveInteraction::Base
   def generate_text(response)
     invitation_text = response.protocol_subscription.protocol.invitation_text
     return invitation_text if invitation_text.present?
-    result = Compsy::MicroserviceApi::CallService.run! action: 'svc-messages', 
-                                              namespace: ENV['MICROSERVICE_NAMESPACE'],
-                                              parameters: generate_hash(response)
+    result = Compsy::MicroserviceApi::CallService.run! action: 'svc-messages',
+                                                       namespace: ENV['MICROSERVICE_NAMESPACE'],
+                                                       parameters: generate_hash(response)
     result.response['result']['payload']
-
-    #return mentor_texts(response) if response.protocol_subscription.person.mentor?
-    #student_texts(response)
   end
-
 
   def generate_hash(response)
     hash = {}
@@ -46,36 +42,31 @@ class GenerateInvitationText < ActiveInteraction::Base
   def response_hash(response)
     {
       questionnaire_name: response.measurement.questionnaire.name,
-      open_questionnaires: response.person.my_open_responses.map{|x| x.measurement.questionnaire.name}
-    } 
+      open_questionnaires: response.person.my_open_responses.map { |x| x.measurement.questionnaire.name }
+    }
   end
 
   def protocol_subscription_hash(response)
     protocol_completion = response.protocol_subscription.completion
-    curidx = protocol_completion.find_index { |entry| entry[:future] } || -1
-
-    current_protocol_completion = protocol_completion[0..curidx]
-
-    protocol = response.protocol_subscription.protocol
-    current_reward = protocol.calculate_reward(current_protocol_completion, false)
-    maximum_reward = protocol.calculate_reward(current_protocol_completion, true)
 
     {
       invitations: response.protocol_subscription.responses.invited.count,
-      protocol: {
-        name: protocol.name,
-        current_reward: current_reward,
-        maximum_reward: maximum_reward,
-        streak_threshold: Protocol.find_by_name('studenten')&.rewards&.second&.threshold || 3
-      },
-      protocol_completion: protocol_completion
+      protocol_completion: protocol_completion,
+      protocol: protocol_hash(response, protocol_completion)
     }
   end
-  #def student_texts(response)
-    #StudentInvitationTexts.message(response)
-  #end
 
-  #def mentor_texts(response)
-    #MentorInvitationTexts.message(response)
-  #end
+  def protocol_hash(response, protocol_completion)
+    curidx = protocol_completion.find_index { |entry| entry[:future] } || -1
+    current_protocol_completion = protocol_completion[0..curidx]
+    protocol = response.protocol_subscription.protocol
+    current_reward = protocol.calculate_reward(current_protocol_completion, false)
+    maximum_reward = protocol.calculate_reward(current_protocol_completion, true)
+    {
+      name: protocol.name,
+      current_reward: current_reward,
+      maximum_reward: maximum_reward,
+      streak_threshold: Protocol.find_by_name('studenten')&.rewards&.second&.threshold || 3
+    }
+  end
 end

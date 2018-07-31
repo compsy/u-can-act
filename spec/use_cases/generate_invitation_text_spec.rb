@@ -46,34 +46,13 @@ describe GenerateInvitationText do
 
         it 'should call the student invitation texts generator' do
           expected = 'test'
-          expect(StudentInvitationTexts).to receive(:message)
-            .with(response)
-            .and_return(expected)
-          result = described_class.run!(response: response)
-          expect(result).to eq(expected)
-        end
-      end
-
-      describe 'mentor' do
-        let(:questionnaire) { FactoryBot.create(:questionnaire, name: 'voormeting mentoren') }
-        let(:measurement1) { FactoryBot.create(:measurement, questionnaire: questionnaire) }
-        let(:measurement2) { FactoryBot.create(:measurement) }
-
-        let(:protocol) { FactoryBot.create(:protocol, measurements: [measurement1, measurement2]) }
-        let(:mentor) { FactoryBot.create(:mentor) }
-
-        let(:protocol_subscription) do
-          FactoryBot.create(:protocol_subscription,
-                            end_date: 10.days.from_now,
-                            protocol: protocol, person: mentor)
-        end
-        let(:response) { FactoryBot.create(:response, protocol_subscription: protocol_subscription) }
-
-        it 'should call the mentor invitation texts generator' do
-          expected = 'test'
-          expect(MentorInvitationTexts).to receive(:message)
-            .with(response)
-            .and_return(expected)
+          result = double('result')
+          allow(result).to receive(:response).and_return('result' => { 'payload' => expected })
+          expect(Compsy::MicroserviceApi::CallService).to receive(:run!)
+            .with(action: 'svc-messages',
+                  namespace: ENV['MICROSERVICE_NAMESPACE'],
+                  parameters: subject.send(:generate_hash, response))
+            .and_return(result)
           result = described_class.run!(response: response)
           expect(result).to eq(expected)
         end

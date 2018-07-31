@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-include Sessions
 
 describe BasicAuthSession do
+  include Sessions
   let(:session)  { FactoryBot.build(:basic_auth_session) }
   let(:response) { double('response', code: 201, parsed_response: 'some_response') }
 
@@ -49,12 +49,13 @@ describe BasicAuthSession do
   end
 
   describe '#get' do
-    let(:params) { {blocking: true, some: 'param' }}
+    let(:params) { { blocking: true, some: 'param' } }
     it 'performs a get request' do
       expect(HTTParty).to receive(:get).with(
         'http://microservice.dev/api/v1/some_path',
-          query: params,
-          basic_auth: { username: 'some_username', password: 'some_password' })
+        query: params,
+        basic_auth: { username: 'some_username', password: 'some_password' }
+      )
                                        .and_return(response)
       session.get '/some_path', some: 'param'
     end

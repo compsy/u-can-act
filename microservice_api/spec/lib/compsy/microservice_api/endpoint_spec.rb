@@ -18,7 +18,7 @@ describe Endpoint do
   end
 
   describe '#initialize' do
-    it 'calls MicroserviceApi.basic_auth_session to fill in basic_auth_session if the basic_auth_session is not passed in' do
+    it 'calls MicroserviceApi.basic_auth_session to fill in basic_auth_session if the session is not passed in' do
       bas_double = Compsy::MicroserviceApi::Sessions::BasicAuthSession.new # doubles dont pass AI default type checking
       allow(Compsy::MicroserviceApi).to receive(:basic_auth_session).and_return bas_double
       endpoint = TestEndpoint.new

@@ -9,7 +9,6 @@ end
 
 gem 'compsy-microservice-api', path: 'microservice_api'
 
-
 # Specify ruby version for heroku
 ruby '2.4.3'
 

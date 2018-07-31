@@ -1,0 +1,41 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
+require 'rubygems'
+
+begin
+  require 'bundler'
+rescue LoadError => e
+  warn e.message
+  warn 'Run `gem install bundler` to install Bundler.'
+  exit(-1)
+end
+
+begin
+  Bundler.setup(:development)
+rescue Bundler::BundlerError => e
+  warn e.message
+  warn 'Run `bundle install` to install missing gems.'
+  exit e.status_code
+end
+
+require 'rake'
+
+task test: :spec
+task default: :spec
+
+task :release do
+  # run bundle in parent dir to update Gemfile.lock
+  Bundler.with_clean_env do
+    `bundle --gemfile=../Gemfile`
+  end
+  `git add ../Gemfile.lock && git commit -m 'update microservice-api in Gemfile.lock'`
+  # fetch tags first to prevent errors when releasing gem
+  `git fetch --tags`
+end
+
+require 'bundler/gem_tasks'
+
+require 'yard'
+YARD::Rake::YardocTask.new
+task doc: :yard

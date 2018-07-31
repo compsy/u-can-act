@@ -1,0 +1,34 @@
+nl:
+  active_interaction:
+    errors:
+      models:
+        roqua/rom_api/start_fill_out_session:
+          attributes:
+        roqua/rom_api/start_protocol_subscription:
+          attributes:
+            start_at:
+              must_not_be_in_the_past: mag niet in het verleden liggen.
+            base:
+              protocol_must_be_automatic: Het protocol is niet geautomatiseerd.
+              protocol_scheduler_options_invalid: Het protocol is verkeerd ingesteld.
+              patient_id_taken: Dit dossier is reeds geabonneerd op dit protocol.
+              flag_does_not_exist: Een van de opgegeven vlaggen bestaat niet.
+              flag_value_invalid: Een van de opgegeven vlaggen bevat een waarde anders dan true, false of nil.
+              text_message_template_blank: Er is geen SMS-template beschikbaar voor het protocol.
+              invitation_template_blank: Er is geen Email-template beschikbaar voor het protocol.
+        roqua/rom_api/create_response:
+          attributes:
+            base:
+              answer_completed_at_after_or_equal_to: "is te vroeg"
+              answer_completed_at_before: "is te laat"
+        roqua/rom_api/update_response:
+          attributes:
+            base:
+              answer_completed_at_after_or_equal_to: "is te vroeg"
+              answer_completed_at_before: "is te laat"
+    attributes:
+      roqua/rom_api/start_fill_out_session:
+        questionnaire_keys: Vragenlijsten
+        return_to: Return url
+      roqua/rom_api/start_protocol_subscription:
+        start_at: Startmoment

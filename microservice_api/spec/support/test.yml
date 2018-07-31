@@ -1,0 +1,8 @@
+en:
+  active_interaction:
+    errors:
+      models:
+        test_endpoint:
+          attributes:
+            base:
+              some_annoying_error: Some annoying error

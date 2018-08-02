@@ -1,0 +1,15 @@
+# Beware! This file is public by definition
+default: &default
+  application_name: 'u-can-act'
+  logo:
+    mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'
+    student_logo: 'U_can_act_logo_CMYK_GROEN.png'
+    fallback_logo: 'U_can_act_logo_ZWART.png'
+development:
+  <<: *default
+production:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default

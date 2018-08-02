@@ -43,7 +43,6 @@ describe Api::V1::SettingsController, type: :controller do
     end
 
     describe 'unwanted variables' do
-
       it 'should not contain table variables' do
         expect(result_keys).to_not include 'table'
       end

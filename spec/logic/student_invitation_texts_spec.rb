@@ -14,31 +14,17 @@ describe StudentInvitationTexts do
   describe 'message' do
     describe 'in announcement week' do
       before :each do
-        Timecop.freeze(2018, 7, 26)
+        Timecop.freeze(2018, 8, 2)
       end
+
       after :each do
         Timecop.return
       end
 
-      it 'should return the post_assessment text if the response is a post assessment' do
-        expected = '{{deze_student}}, wil jij jouw beloning ontvangen? Dit is de laatste'\
-        ' kans om jouw IBAN in te vullen en alleen dan kunnen wij jou uitbetalen.'\
-        ' Het zou zonde zijn om jouw gevulde u-can-act spaarpot niet te innen,'\
-        ' toch?'
-        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                                measurement: measurement3,
-                                                completed_at: nil,
-                                                open_from: 1.minute.ago)
-        result = described_class.message(response)
-        expect(result).to eq(expected)
-      end
-
-      it 'should return the normal text if the response is not a post assessment' do
-        expected = 'Hoi {{deze_student}}, wil je je beloning ontvangen? Geef dan je IBAN'\
-                    ' nummer aan ons door. Alleen dan kunnen wij jouw beloning uitbetalen.'\
-                    " Dit kan je doen door de laatste vragenlijst in te vullen.\n"\
-                    'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
-                    ' vragenlijst een stuk korter dan je gewend bent .'
+      it 'should return correct text' do
+        expected = 'Hoi {{deze_student}}, je hebt geld verdiend met je deelname'\
+        ' aan u-can-act: dit is je laatste kans om te innen! Vul de laatste'\
+        ' vragenlijst en IBAN in, alleen dan kunnen we je beloning overmaken.'
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                 measurement: measurement2,
                                                 completed_at: nil,

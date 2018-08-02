@@ -41,7 +41,7 @@ describe RewardExporter do
     it 'should create the correct export' do
       reward = 0
       students.each do |student|
-        expect(CalculateEarnedByPerson)
+        expect(CalculateEarnedEurosByPerson)
           .to receive(:run!)
           .with(person: student)
           .and_return reward

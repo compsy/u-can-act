@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CalculateEarnedByPerson < ActiveInteraction::Base
+class CalculateEarnedEurosByPerson < ActiveInteraction::Base
   object :person
 
   # Calculates the amount of money a person has earned

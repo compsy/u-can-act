@@ -8,7 +8,7 @@ class PeopleController < ApplicationController
   def edit; end
 
   def update
-    if @person.update_attributes(person_params)
+    if @person.update_attributes(people_params)
       redirect_to NextPageFinder.get_next_page(current_user: current_user), flash: { notice: 'Gegevens geüpdatet' }
     else
       render :edit
@@ -37,7 +37,7 @@ class PeopleController < ApplicationController
     @use_mentor_layout = @person.mentor?
   end
 
-  def person_params
+  def people_params
     params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
   end
 

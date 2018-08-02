@@ -21,7 +21,7 @@ describe MentorInvitationTexts do
 
   describe 'In the anouncement week' do
     before :each do
-      Timecop.freeze(2018, 7, 26)
+      Timecop.freeze(2018, 8, 2)
     end
 
     after :each do

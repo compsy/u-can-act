@@ -2,7 +2,7 @@
 
 class CreateAnonymousUser < ActiveInteraction::Base
   string :auth0_id_string
-  string :team_name
+  string :team_name, default: nil
 
   # Creates an anonymous user
   #
@@ -29,6 +29,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
   def create_or_find_person(auth_user)
     return auth_user if auth_user.person.present?
     team = Team.find_by_name(team_name)
+    return auth_user unless team
     auth_user.person = Person.create(first_name: auth_user.auth0_id_string,
                                      last_name: auth_user.auth0_id_string,
                                      gender: nil,

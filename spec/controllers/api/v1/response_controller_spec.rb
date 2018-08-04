@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 describe Api::V1::ResponseController, type: :controller do
-  let!(:person) { FactoryBot.create(:person) }
+  let!(:person) { FactoryBot.create(:person, :with_auth_user) }
+  let!(:the_auth_user) { person.auth_user }
   let!(:response1) { FactoryBot.create(:response, :not_expired, open_from: 10.minutes.ago) }
   let!(:response2) { FactoryBot.create(:response, :not_expired, open_from: 8.minutes.ago) }
   let!(:response3) { FactoryBot.create(:response, :future) }
@@ -22,19 +23,33 @@ describe Api::V1::ResponseController, type: :controller do
     )
   end
 
+  let!(:team) { FactoryBot.create(:team) }
+  let!(:protocol) { FactoryBot.create(:protocol) }
+
+  # The_payload automatically gets used by the shared example
+  let!(:the_payload) do
+    { AuthUser::SITE_LOCATION => {
+      'roles' => ['user'],
+      'team' => person.role.team.name,
+      'protocol' => response1.protocol_subscription.protocol.name
+    } }
+  end
+
+  # Create an auth user here, so the spec won't create it for us
+
   describe 'show should be authenticated' do
-    let(:params) { { uuid: response1.uuid } }
-    it_should_behave_like 'a basic authenticated route', 'get', :show
+    let!(:params) { { uuid: response1.uuid } }
+    it_should_behave_like 'a jwt authenticated route', 'get', :show
   end
 
   describe 'index should be authenticated' do
     let(:params) { { external_identifier: person.external_identifier } }
-    it_should_behave_like 'a basic authenticated route', 'get', :index
+    it_should_behave_like 'a jwt authenticated route', 'get', :index
   end
 
   describe 'create should be authenticated' do
     let(:params) { { uuid: response2.uuid } }
-    it_should_behave_like 'a basic authenticated route', 'post', :create
+    it_should_behave_like 'a jwt authenticated route', 'post', :create
   end
 
   describe 'authenticated' do

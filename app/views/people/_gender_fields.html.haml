@@ -1,0 +1,12 @@
+- if can? :update, Person, :gender
+  %p
+    = f.label :gender, name: 'gender'
+    %br/
+    %p
+      = f.radio_button :gender, "male"
+      = f.label :gender, value: "male" do
+        Man
+    %p
+      = f.radio_button :gender, "female"
+      = f.label :gender, value: "female" do
+        Vrouw

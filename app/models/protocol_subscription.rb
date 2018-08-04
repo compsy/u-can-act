@@ -61,16 +61,8 @@ class ProtocolSubscription < ApplicationRecord
     !for_myself?
   end
 
-  def reward_points
-    responses.completed.map { |response| response.measurement.reward_points }.reduce(0, :+)
-  end
-
-  def possible_reward_points
-    responses.invited.map { |response| response.measurement.reward_points }.reduce(0, :+)
-  end
-
-  def max_reward_points
-    responses.map { |response| response.measurement.reward_points }.reduce(0, :+)
+  def earned_euros(check_future = false)
+    protocol.calculate_reward(completion, check_future) / 100.0
   end
 
   def protocol_completion
@@ -116,7 +108,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def latest_streak_value_index
     completion_index = completion.find_index { |entry| entry[:future] }
-    return 0 if completion_index.nil? || (completion_index - 1).negative?
+    return -1 if completion_index.nil?
     completion_index - 1
   end
 

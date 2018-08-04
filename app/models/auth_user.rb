@@ -7,6 +7,9 @@ class AuthUser < ApplicationRecord
   AUTH0_KEY_LOCATION = 'sub'
   SITE_LOCATION = 'https://kct.evionix.org'
 
+  ADMIN_ROLE = 'admin'
+  USER_ROLE = 'user'
+
   class << self
     ##
     # This function gets called automatically when authorizing a user. So note

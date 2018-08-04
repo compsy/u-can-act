@@ -33,7 +33,7 @@ module Api
 
         @person = current_auth_user&.person
         return if @person.present?
-        result = { result: 'Deelnemer met dat external id niet gevonden' }
+        result = { result: 'Deelnemer niet gevonden' }
         render(status: 404, json: result)
       end
 

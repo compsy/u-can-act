@@ -111,7 +111,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_response
-    the_response = current_user.my_open_responses.find_by_uuid(questionnaire_params[:uuid])
+    the_response = current_user.my_open_responses(nil).find_by_uuid(questionnaire_params[:uuid])
     check_response(the_response)
     return if performed?
     @response = the_response

@@ -67,47 +67,59 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'GET /:uuid' do
-    before :each do
-      cookie_auth(person)
-    end
-    it 'shows status 200 when everything is correct' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                start_date: 1.week.ago.at_beginning_of_day,
-                                                person: person)
-      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-      get :show, params: { uuid: responseobj.uuid }
-      expect(response).to have_http_status(200)
-      expect(response).to render_template('questionnaire/show')
+    xdescribe 'with jwt auth' do
+      it 'should be tested' do
+        
+      end
     end
 
-    it 'should show an informed questionnaire if there is one required' do
-      protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
-      expect(protocol.informed_consent_questionnaire).not_to be_nil
-      expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
-      protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                start_date: 1.week.ago.at_beginning_of_day,
-                                                person: person,
-                                                protocol: protocol)
-      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-      get :show, params: { uuid: responseobj.uuid }
-      expect(response).to have_http_status(200)
-      expect(response).to render_template('questionnaire/informed_consent')
-    end
+    describe 'with cookie auth' do
+      before :each do
+        cookie_auth(person)
+      end
 
-    it 'should save the response in the database, with the correct timestamp' do
-      cookie_auth(mentor)
-      protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                start_date: 1.week.ago.at_beginning_of_day,
-                                                person: mentor,
-                                                filling_out_for: person)
-      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-      date = Time.zone.now
-      Timecop.freeze(date)
-      expect(responseobj.opened_at).to be_nil
-      get :show, params: { uuid: responseobj.uuid }
-      responseobj.reload
-      expect(responseobj.opened_at).to be_within(5.seconds).of(date)
-      Timecop.return
+      it 'shows status 200 when everything is correct' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/show')
+      end
+
+      it 'should show an informed questionnaire if there is one required' do
+        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+        expect(protocol.informed_consent_questionnaire).not_to be_nil
+        expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person,
+                                                  protocol: protocol)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/informed_consent')
+      end
+
+      it 'should save the response in the database, with the correct timestamp' do
+        cookie_auth(mentor)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: mentor,
+                                                  filling_out_for: person)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago)
+        date = Time.zone.now
+        Timecop.freeze(date)
+        expect(responseobj.opened_at).to be_nil
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response.status).to eq 200
+        responseobj.reload
+        expect(responseobj.opened_at).to be_within(5.seconds).of(date)
+        Timecop.return
+      end
     end
   end
 
@@ -142,41 +154,59 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'DELETE' do
-    describe 'unsubscribing from a protocol' do
-      before :each do
-        cookie_auth(student)
+    describe 'with jwt auth' do
+      it 'should be tested' do
+        
       end
-      let(:responseobj) { FactoryBot.create(:response, :not_expired) }
+    end
+    describe 'with cookie auth' do
+      describe 'unsubscribing from a protocol' do
+        before :each do
+          cookie_auth(student)
+        end
 
-      it 'it should stop the protocol subscription' do
-        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::ACTIVE_STATE)
-        delete :destroy, params: { uuid: responseobj.uuid }
-        responseobj.protocol_subscription.reload
-        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
-      end
+        let!(:protocol_subscription) do
+          FactoryBot.create(:protocol_subscription,
+                            start_date: 1.week.ago.at_beginning_of_day,
+                            person: student)
+        end
+        let!(:responseobj) do
+          FactoryBot.create(:response,
+                            :not_expired,
+                            protocol_subscription: protocol_subscription
+                            )
+        end
 
-      it 'should redirect to the correct page' do
-        delete :destroy, params: { uuid: responseobj.uuid }
-        expect(response).to have_http_status(200)
-        expect(response.body).to include('Bedankt voor je inzet!')
-      end
+        it 'it should stop the protocol subscription' do
+          expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::ACTIVE_STATE)
+          delete :destroy, params: { uuid: responseobj.uuid }
+          responseobj.protocol_subscription.reload
+          expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
+        end
 
-      it 'should redirect to the correct stop measurement if one is available' do
-        protocol_subscription = responseobj.protocol_subscription
-        protocol = protocol_subscription.protocol
-        stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
-        stop_response = FactoryBot.create(:response,
-                                          :not_expired,
-                                          measurement: stop_measurement)
-        protocol_subscription.responses << stop_response
-        protocol_subscription.save!
-        expect(protocol_subscription.responses.length).to eq 2
-        delete :destroy, params: { uuid: responseobj.uuid }
-        query = URI.parse(response.location).path.split('/').last
+        it 'should redirect to the correct page' do
+          delete :destroy, params: { uuid: responseobj.uuid }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Bedankt voor je inzet!')
+        end
 
-        expect(response).to have_http_status(302)
-        expect(query).to eq stop_response.uuid
-        expect(protocol_subscription.stop_response.uuid).to eq stop_response.uuid
+        it 'should redirect to the correct stop measurement if one is available' do
+          protocol_subscription = responseobj.protocol_subscription
+          protocol = protocol_subscription.protocol
+          stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+          stop_response = FactoryBot.create(:response,
+                                            :not_expired,
+                                            measurement: stop_measurement)
+          protocol_subscription.responses << stop_response
+          protocol_subscription.save!
+          expect(protocol_subscription.responses.length).to eq 2
+          delete :destroy, params: { uuid: responseobj.uuid }
+          query = URI.parse(response.location).path.split('/').last
+
+          expect(response).to have_http_status(302)
+          expect(query).to eq stop_response.uuid
+          expect(protocol_subscription.stop_response.uuid).to eq stop_response.uuid
+        end
       end
     end
   end

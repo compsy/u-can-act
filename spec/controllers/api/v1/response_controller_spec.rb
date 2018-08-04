@@ -4,7 +4,17 @@ require 'rails_helper'
 
 describe Api::V1::ResponseController, type: :controller do
   let!(:person) { FactoryBot.create(:person, :with_auth_user) }
+  # Create a the_auth_user here, so the spec won't create it for us
   let!(:the_auth_user) { person.auth_user }
+
+  # the_payload automatically gets used by the shared example
+  let!(:the_payload) do
+    { AuthUser::SITE_LOCATION => {
+      'roles' => ['user'],
+      'team' => person.role.team.name,
+      'protocol' => response1.protocol_subscription.protocol.name
+    } }
+  end
   let!(:response1) { FactoryBot.create(:response, :not_expired, open_from: 10.minutes.ago) }
   let!(:response2) { FactoryBot.create(:response, :not_expired, open_from: 8.minutes.ago) }
   let!(:response3) { FactoryBot.create(:response, :future) }
@@ -26,35 +36,25 @@ describe Api::V1::ResponseController, type: :controller do
   let!(:team) { FactoryBot.create(:team) }
   let!(:protocol) { FactoryBot.create(:protocol) }
 
-  # The_payload automatically gets used by the shared example
-  let!(:the_payload) do
-    { AuthUser::SITE_LOCATION => {
-      'roles' => ['user'],
-      'team' => person.role.team.name,
-      'protocol' => response1.protocol_subscription.protocol.name
-    } }
-  end
-
-  # Create an auth user here, so the spec won't create it for us
-
   describe 'show should be authenticated' do
-    let!(:params) { { uuid: response1.uuid } }
+    let!(:the_params) { { uuid: response1.uuid } }
     it_should_behave_like 'a jwt authenticated route', 'get', :show
   end
 
   describe 'index should be authenticated' do
-    let(:params) { { external_identifier: person.external_identifier } }
+    let(:the_params) { { external_identifier: person.external_identifier } }
     it_should_behave_like 'a jwt authenticated route', 'get', :index
   end
 
   describe 'create should be authenticated' do
-    let(:params) { { uuid: response2.uuid } }
+    let(:the_params) { { uuid: response2.uuid } }
     it_should_behave_like 'a jwt authenticated route', 'post', :create
   end
 
   describe 'authenticated' do
     before :each do
-      basic_api_auth name: ENV['API_KEY'], password: ENV['API_SECRET']
+      the_payload[:sub] = the_auth_user.auth0_id_string
+      jwt_auth the_payload
     end
 
     describe 'show' do
@@ -88,7 +88,7 @@ describe Api::V1::ResponseController, type: :controller do
         get :show, params: { uuid: 'non-exis-tent' }
         expect(response.status).to eq 404
         expect(response.body).to_not be_nil
-        expect(response.body).to eq 'Response met dat uuid niet gevonden'
+        expect(response.body).to eq({ result: 'Response met dat uuid niet gevonden' }.to_json)
       end
 
       it 'should set the correct instance variables' do
@@ -126,10 +126,12 @@ describe Api::V1::ResponseController, type: :controller do
       end
 
       it 'should render a 404 if the requested person is not found' do
-        get :index, params: { external_identifier: 'wrong' }
+        jwt_auth(sub: FactoryBot.create(:auth_user).auth0_id_string)
+        get :index
         expect(response.status).to eq 404
         expect(response.body).to_not be_nil
-        expect(response.body).to eq 'Persoon met die external_identifier niet gevonden'
+        expected = { result: 'Deelnemer niet gevonden' }.to_json
+        expect(response.body).to eq expected
       end
 
       it 'should set the correct instance variables' do
@@ -141,37 +143,38 @@ describe Api::V1::ResponseController, type: :controller do
 
     describe 'create' do
       let(:content) { { 'v1' => 'a', 'v2' => 'c' } }
-      let(:the_response) { FactoryBot.create(:response, content: nil) }
 
       it 'should be able to post new results to the api' do
-        post :create, params: { uuid: the_response.uuid, content: content }
+        post :create, params: { uuid: response1.uuid, content: content }
         expect(response.status).to eq 201
       end
 
       it 'should store the response and update its contents' do
-        post :create, params: { uuid: the_response.uuid, content: content }
-        the_response.reload
-        expect(the_response.content).to_not be_nil
-        expect(the_response.completed_at).to_not be_nil
-        expect(the_response.completed_at).to be_within(1.minute).of(Time.zone.now)
-        expect(the_response.content).to_not be_nil
-        expect(the_response.remote_content).to_not be_nil
-        expect(the_response.remote_content.content).to_not be_nil
-        expect(the_response.remote_content.content).to eq content
+        post :create, params: { uuid: response1.uuid, content: content }
+        response1.reload
+        expect(response1.content).to_not be_nil
+        expect(response1.completed_at).to_not be_nil
+        expect(response1.completed_at).to be_within(1.minute).of(Time.zone.now)
+        expect(response1.content).to_not be_nil
+        expect(response1.remote_content).to_not be_nil
+        expect(response1.remote_content.content).to_not be_nil
+        expect(response1.remote_content.content).to eq content
       end
 
       it 'should throw a 404 if the response does not exist' do
         post :create, params: { uuid: 'non-exis-tent', content: content }
         expect(response.status).to eq 404
         expect(response.body).to_not be_nil
-        expect(response.body).to eq 'Response met dat uuid niet gevonden'
+        expected = { result: 'Response met dat uuid niet gevonden' }.to_json
+        expect(response.body).to eq expected
       end
 
       it 'should throw a 400 if the response has been completed already' do
-        post :create, params: { uuid: the_response.uuid, content: content }
-        post :create, params: { uuid: the_response.uuid, content: content }
+        post :create, params: { uuid: response1.uuid, content: content }
+        post :create, params: { uuid: response1.uuid, content: content }
         expect(response.status).to eq 400
-        expect(response.body).to eq 'Response met dat uuid heeft al content'
+        expected = { result: 'Response met dat uuid heeft al content' }.to_json
+        expect(response.body).to eq expected
       end
     end
   end

@@ -3,8 +3,18 @@
 require 'rails_helper'
 
 describe Api::V1::Admin::OrganizationController, type: :controller do
-  it_should_behave_like 'a jwt authenticated route', :show, group: Person::STUDENT
-  it_should_behave_like 'a jwt authenticated route', :show, group: Person::MENTOR
+  let!(:the_auth_user) { FactoryBot.create(:auth_user, :admin) }
+
+  describe 'for students' do
+    let!(:the_params) { { group: Person::STUDENT } }
+    it_should_behave_like 'a jwt authenticated route', 'get', :show
+  end
+
+  describe 'for mentors' do
+    let!(:the_params) { { group: Person::MENTOR } }
+    it_should_behave_like 'a jwt authenticated route', 'get', :show
+  end
+
   describe '#show' do
     let(:week_number) { '1' }
     let(:year) { '2018' }
@@ -12,10 +22,9 @@ describe Api::V1::Admin::OrganizationController, type: :controller do
     let(:group) { Person::STUDENT }
     let!(:organizations) { FactoryBot.create(:organization, :with_teams) }
     let(:overview) { Organization.overview bust_cache: true }
-    let(:admin) { FactoryBot.create(:admin) }
 
     before :each do
-      payload = { sub: admin.auth0_id_string }
+      payload = { sub: the_auth_user.auth0_id_string }
       jwt_auth payload
     end
 

@@ -75,7 +75,9 @@ class Person < ApplicationRecord
   end
 
   def my_open_responses(for_myself = true)
-    my_protocols(for_myself).map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+    active_subscriptions = protocol_subscriptions.active if for_myself.blank?
+    active_subscriptions ||= my_protocols(for_myself)
+    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end
 
   def open_questionnaire?(questionnaire_name)

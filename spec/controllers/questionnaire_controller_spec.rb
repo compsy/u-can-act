@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe QuestionnaireController, type: :controller do
+RSpec.fdescribe QuestionnaireController, type: :controller do
   render_views
   let(:person) { FactoryBot.create(:person) }
   let(:mentor) { FactoryBot.create(:mentor) }
@@ -69,7 +69,6 @@ RSpec.describe QuestionnaireController, type: :controller do
   describe 'GET /:uuid' do
     xdescribe 'with jwt auth' do
       it 'should be tested' do
-        
       end
     end
 
@@ -156,7 +155,6 @@ RSpec.describe QuestionnaireController, type: :controller do
   describe 'DELETE' do
     describe 'with jwt auth' do
       it 'should be tested' do
-        
       end
     end
     describe 'with cookie auth' do
@@ -172,9 +170,8 @@ RSpec.describe QuestionnaireController, type: :controller do
         end
         let!(:responseobj) do
           FactoryBot.create(:response,
-                            :not_expired,
-                            protocol_subscription: protocol_subscription
-                            )
+                            open_from: 1.hour.ago,
+                            protocol_subscription: protocol_subscription)
         end
 
         it 'it should stop the protocol subscription' do

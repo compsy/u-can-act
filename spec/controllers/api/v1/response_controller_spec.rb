@@ -42,7 +42,6 @@ describe Api::V1::ResponseController, type: :controller do
   end
 
   describe 'index should be authenticated' do
-    let(:the_params) { { external_identifier: person.external_identifier } }
     it_should_behave_like 'a jwt authenticated route', 'get', :index
   end
 

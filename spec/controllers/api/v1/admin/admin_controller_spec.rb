@@ -22,7 +22,7 @@ describe Api::V1::Admin::AdminApiController, type: :controller do
     expect(response.status).to eq 403
     expect(response.body).to_not be_nil
 
-    expected = { result: 'Not implemented, check if the user has the correct role' }.to_json
+    expected = { result: 'User is not an admin' }.to_json
     expect(response.body).to eq expected
   end
 end

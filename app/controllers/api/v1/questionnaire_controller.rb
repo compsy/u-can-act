@@ -22,7 +22,6 @@ module Api
         end
       end
 
-
       private
 
       def check_admin_authenticated

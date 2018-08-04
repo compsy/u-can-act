@@ -24,7 +24,7 @@ RSpec.describe AuthUser, type: :model do
       }
     end
 
-    let(:incorrect_payload_no_site) do
+    let(:correct_payload_no_site) do
       {
         described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0'
       }
@@ -46,11 +46,6 @@ RSpec.describe AuthUser, type: :model do
         .to raise_error RuntimeError, "Invalid payload #{incorrect_payload} - no sub key"
     end
 
-    it 'should raise if the payload (metadata) is invalid' do
-      expect { described_class.from_token_payload(incorrect_payload_no_site) }
-        .to raise_error RuntimeError, "Invalid payload #{incorrect_payload_no_site} - no site key"
-    end
-
     it 'should create an anonymous user with the correct id and team' do
       expect(CreateAnonymousUser)
         .to receive(:run!)
@@ -69,6 +64,15 @@ RSpec.describe AuthUser, type: :model do
                         name: correct_payload[described_class::SITE_LOCATION]['team'])
       result = described_class.from_token_payload(correct_payload)
       expect(result).to be_a described_class
+    end
+
+    it 'should just create an auth_user if the metadata is missing' do
+      pre_count = ProtocolSubscription.count
+      result = described_class.from_token_payload(correct_payload_no_site)
+      expect(result).to be_a AuthUser
+      expect(result.person).to be_blank
+      post_count = ProtocolSubscription.count
+      expect(pre_count).to eq post_count
     end
 
     describe 'creates protocol subscriptions' do

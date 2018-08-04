@@ -5,9 +5,9 @@ class JwtAuthenticator
     def auth(cookies, params)
       token = token_from_cookie_or_params(params, cookies)
       return if token.nil?
-      auth_user = AuthUser.find_by_auth0_id_string(token.first['sub'])
 
       store_token_in_cookie(token, cookies)
+      auth_user = AuthUser.find_by_auth0_id_string(token.first['sub'])
       return auth_user.person if auth_user.present?
     end
 

@@ -12,7 +12,7 @@ class ProtocolSubscription < ApplicationRecord
   belongs_to :protocol
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
-  validates :start_date, presence: true # , start_of_day: true
+  validates :start_date, presence: true
   validates :end_date, presence: true
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy
   after_create :schedule_responses

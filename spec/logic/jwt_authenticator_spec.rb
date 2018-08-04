@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe JwtAuthenticator do
+describe JwtAuthenticator do
   describe 'auth' do
     let(:person) { FactoryBot.create(:person, :with_auth_user) }
     it 'should use the auth from the cookiejar if available' do

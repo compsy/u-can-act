@@ -10,23 +10,23 @@ class CreateAnonymousUser < ActiveInteraction::Base
   # - auth0_id_string: the id retrieved from auth0
   def execute
     auth_user = create_or_find_auth_user(auth0_id_string)
-    create_person(auth_user)
+    auth_user = create_or_find_person(auth_user)
+    Rails.logger.info auth_user
+    auth_user
   end
 
   private
 
   def create_or_find_auth_user(auth0_id_string)
     auth_user = AuthUser.find_by_auth0_id_string(auth0_id_string)
-    unless auth_user.present?
-      auth_user = AuthUser.create(
-        auth0_id_string: auth0_id_string,
-        password_digest: SecureRandom.hex(10)
-      )
-    end
-    auth_user
+    return auth_user if auth_user.present?
+    AuthUser.create(
+      auth0_id_string: auth0_id_string,
+      password_digest: SecureRandom.hex(10)
+    )
   end
 
-  def create_person(auth_user)
+  def create_or_find_person(auth_user)
     return auth_user if auth_user.person.present?
     team = Team.find_by_name(team_name)
     auth_user.person = Person.create(first_name: auth_user.auth0_id_string,

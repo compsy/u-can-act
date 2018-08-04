@@ -4,6 +4,7 @@ module Api
   module V1
     class ResponseController < ApiController
       # include ::Concerns::IsBasicAuthenticated
+      before_action :check_current_user
       before_action :set_person, only: %i[show index]
       before_action :set_response, only: %i[show create]
       before_action :set_responses, only: %i[index show]
@@ -28,14 +29,16 @@ module Api
 
       private
 
+      def check_current_user
+        result = { result: 'Not logged in' }
+        render(status: 403, json: result) unless current_auth_user.present?
+      end
+
       def set_person
-        Rails.logger.info '+'*100
-        Rails.logger.info AuthUser.all.inspect
-        token = request.headers['Authorization'].split.last
-        Rails.logger.info token
-        a = Knock::AuthToken.new(token: token)
-        Rails.logger.info a.entity_for(AuthUser)
-        Rails.logger.info '-'*100
+        # Debugging
+        # token = request.headers['Authorization'].split.last
+        # Knock::AuthToken.new(token: token)
+
         @person = current_auth_user&.person
         return if @person.present?
         result = { result: 'Deelnemer met dat external id niet gevonden' }

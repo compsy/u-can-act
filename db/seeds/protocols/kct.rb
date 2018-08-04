@@ -15,7 +15,7 @@ protocol.informed_consent_questionnaire = nil
 protocol.save!
 
 # Add dagboekmetingen
-questionnaires = %w(demo demo demo demo)
+questionnaires = ['KCT Q-COM', 'KCT Q-COP', 'KCT Q-RES', 'KCT Q-SE']
 questionnaires.each do |name|
   of_offset = 3.days + 12.hours # Thursday noon
   dagboekvragenlijst_id = Questionnaire.find_by_name(name)&.id

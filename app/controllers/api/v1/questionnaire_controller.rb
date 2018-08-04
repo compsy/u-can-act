@@ -11,7 +11,7 @@ module Api
 
         # TODO: Add different formats
         content = rendered_questionnaire_content(@questionnaire)
-        render html:
+        render html: content
       end
 
       def create

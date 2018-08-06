@@ -4,6 +4,8 @@ Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 
+## Reference
+Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). U-can-act Web-app (Version 1.0) [Web application software]. Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
 
 ## Installation
 Create checkout and install dependencies

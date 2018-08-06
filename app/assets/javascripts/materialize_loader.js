@@ -1,6 +1,15 @@
-$(function(){
-  $('select').material_select();
-  Materialize.updateTextFields();
+$(function() {
+  // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
+  // var collapsibleElem = document.querySelector('.collapsible');
+  // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+
+  // Or with jQuery
+
+  $('.sidenav').sidenav();
+  $('select').formSelect();
+  $('.fixed-action-btn').floatingActionButton();
+  $('.collapsible').collapsible();
+  M.updateTextFields();
   $('.datepicker').each(function(index) {
     $(this).pickadate({
       formatSubmit: 'yyyy-mm-dd',

@@ -73,24 +73,24 @@ class TeamOverview extends React.Component {
 
   renderOverview() {
     return (
-      <div>
-      <h3> Team overview </h3>
-      <div className="col s6">
-        <div className="col s3">
-          <WeekDropdownMenu value={this.state.week_number} year= {this.state.year} onChange={this.handleWeekChange.bind(this)}/>
-        </div>
-        <div className="col s9">
-          <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
-        </div>
-      </div>
-      <div className="col s12">
-        <div className="row">
-          <div className="col s12">
-            <TeamOverviewEntry overview={this.state.Mentor.overview} name='Mentors' />
-            <TeamOverviewEntry overview={this.state.Student.overview} name='Students' />
+      <div className="container">
+        <h3> Team overview </h3>
+        <div className="col s12">
+          <div className="col s4">
+            <WeekDropdownMenu value={this.state.week_number} year={this.state.year} onChange={this.handleWeekChange.bind(this)}/>
+          </div>
+          <div className="col s8">
+            <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
           </div>
         </div>
-      </div>
+        <div className="col s12">
+          <div className="row">
+            <div className="col s12">
+              <TeamOverviewEntry overview={this.state.Mentor.overview} name='Mentors' />
+              <TeamOverviewEntry overview={this.state.Student.overview} name='Students' />
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

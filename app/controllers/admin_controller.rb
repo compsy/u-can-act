@@ -5,7 +5,7 @@ class AdminController < ApplicationController
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
   before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
 
-  def index
+  def preview_overview
     # exclude pilot study questionnaires
     @used_questionnaires = Questionnaire.all - Questionnaire.pilot
   end

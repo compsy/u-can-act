@@ -20,10 +20,12 @@ class AdminRouter extends React.Component {
     return (
       <Router>
         <div>
-          <Route path="/admin" render={(props) => {
+          <Route exact path="/admin" render={(props) => {
             return <AdminPage auth={this.auth} {...props} /> 
           }}/>
-
+          <Route path="/admin/organization_overview" render={(props) => {
+            return <OrganizationOverview auth={this.auth} {...props} /> 
+          }}/>
           <Route path="/admin/callback" render={(props) => {
             this.handleAuthentication(props);
             return <Callback {...props} /> 

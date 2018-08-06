@@ -36,7 +36,7 @@ class TeamOverviewEntry extends React.Component {
   render() {
     var rows = this.generateOverviewRows(this.props.overview);
     return (
-      <div className='col m12 l6'>
+      <div className='col m12'>
         <h4>{this.props.name}</h4>
         {this.generateTable(rows)}
       </div>

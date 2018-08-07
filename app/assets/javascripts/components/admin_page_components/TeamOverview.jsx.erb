@@ -45,16 +45,19 @@ class TeamOverview extends React.Component {
       url: url,
       type: 'GET',
       dataType: 'json',
-      success: (response) => {
-        self.setState({
-          [group]: response
-        })
-      },
       error: function() {
         console.log('Error, call failed!');
       },
       beforeSend: self.setHeader
+    }).done((response) => {
+      self.handleSuccess(response, group)
     });
+  }
+
+  handleSuccess(response, group) {
+    this.setState({
+      [group]: response
+    })
   }
 
   handleYearChange(option) {
@@ -71,30 +74,6 @@ class TeamOverview extends React.Component {
     this.updateTeamDetails();
   }
 
-  renderOverview() {
-    return (
-      <div className="container">
-        <h3> Team overview </h3>
-        <div className="col s12">
-          <div className="col s4">
-            <WeekDropdownMenu value={this.state.week_number} year={this.state.year} onChange={this.handleWeekChange.bind(this)}/>
-          </div>
-          <div className="col s8">
-            <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
-          </div>
-        </div>
-        <div className="col s12">
-          <div className="row">
-            <div className="col s12">
-              <TeamOverviewEntry overview={this.state.Mentor.overview} name='Mentors' />
-              <TeamOverviewEntry overview={this.state.Student.overview} name='Students' />
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   render() {
     var ready = true;
     this.state.groups.forEach((group) => {
@@ -103,10 +82,27 @@ class TeamOverview extends React.Component {
       }
     })
     if (!ready) return (<div><div className="progress"><div className="indeterminate"></div></div></div>)
-
     return (
       <div>
-        {this.renderOverview()}
+        <div className="container">
+          <h3> Team overview </h3>
+          <div className="col s12">
+            <div className="col s4">
+              <WeekDropdownMenu value={this.state.week_number} year={this.state.year} onChange={this.handleWeekChange.bind(this)}/>
+            </div>
+            <div className="col s8">
+              <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
+            </div>
+          </div>
+          <div className="col s12">
+            <div className="row">
+              <div className="col s12">
+                <TeamOverviewEntry overview={this.state.Mentor.overview} name='Mentors' />
+                <TeamOverviewEntry overview={this.state.Student.overview} name='Students' />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

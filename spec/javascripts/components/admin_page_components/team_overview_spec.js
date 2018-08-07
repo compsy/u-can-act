@@ -185,7 +185,7 @@ describe("TeamOverview", function() {
     });
   });
 
-  describe("renderOverview", function() {
+  describe("render", function() {
     it("it should render when there is data to render", function() {
       const component = React.createElement(TeamOverview, {});
       const rendered = TestUtils.renderIntoDocument(component)
@@ -215,10 +215,6 @@ describe("TeamOverview", function() {
       expect(nodes).toEqual(jasmine.any(Array));
       expect(nodes.length).toBe(0)
     });
-
-  });
-
-  describe("render", function() {
 
   });
 });

@@ -121,7 +121,7 @@ describe("TeamOverviewEntry", function() {
 
     it("it should return a div with the correct class", function() {
       expect(this.result.nodeName).toEqual('DIV');
-      expect(this.result.attributes.class.nodeValue).toEqual('col m12 l6');
+      expect(this.result.attributes.class.nodeValue).toEqual('col m12');
     });
 
     it("it should return the correct title", function() {

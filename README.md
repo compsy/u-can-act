@@ -3,6 +3,7 @@ Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
+[![Dependabot Status][dependabot-image]](dependabot-url)
 
 ## Reference
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). U-can-act Web-app (Version 1.0) [Web application software]. Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
@@ -526,3 +527,6 @@ The default `data_method` is `delete`. The `data_method` should typically not be
 
 [coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
+
+[dependabot-image]: https://api.dependabot.com/badges/status?host=github&repo=compsy/vsv
+[dependabot-url]: https://dependabot.com

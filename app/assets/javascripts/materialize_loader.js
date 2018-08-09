@@ -5,11 +5,28 @@ $(function() {
 
   // Or with jQuery
 
+  // Enable ranges - the thumb element does not show when this is deleted
+  var array_of_dom_elements = document.querySelectorAll("input[type=range]");
+  M.Range.init(array_of_dom_elements);
+
+  // Enable the sidenav
   $('.sidenav').sidenav();
+
+  // Enable materialize selects (can test in the organization overview)
   $('select').formSelect();
+
+  // Floats the button on the admin dashboard - small screen
   $('.fixed-action-btn').floatingActionButton();
+
+  // Enable collapsible fields (used in the export)
   $('.collapsible').collapsible();
+
+  // Enable materialize textfields
   M.updateTextFields();
+
+  // Enable datepickers
+  $('.datepicker').datepicker();
+
   $('.datepicker').each(function(index) {
     $(this).pickadate({
       formatSubmit: 'yyyy-mm-dd',

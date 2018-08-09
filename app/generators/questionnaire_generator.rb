@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuestionnaireGenerator 
+class QuestionnaireGenerator
   include ActionView::Helpers
 
   def initialize
@@ -14,7 +14,10 @@ class QuestionnaireGenerator
       raw: RawGenerator.new,
       unsubscribe: UnsubscribeGenerator.new,
       date: DateGenerator.new,
-      expandable: ExpandableGenerator.new
+      expandable: ExpandableGenerator.new,
+      section_start: SectionStartGenerator.new,
+      section_end: SectionEndGenerator.new,
+      klasses: KlassesGenerator.new
     }
   end
 
@@ -24,11 +27,11 @@ class QuestionnaireGenerator
     raw_content = content.deep_dup
     title = substitute_variables(response, title).first
     body = safe_join([
-                        questionnaire_header(title),
-                        questionnaire_hidden_fields(params),
-                        questionnaire_questions_html(content, response, raw_content, unsubscribe_url),
-                        submit_button(submit_text)
-                      ])
+                       questionnaire_header(title),
+                       questionnaire_hidden_fields(params),
+                       questionnaire_questions_html(content, response, raw_content, unsubscribe_url),
+                       submit_button(submit_text)
+                     ])
     body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
     body
   end
@@ -41,6 +44,12 @@ class QuestionnaireGenerator
   end
 
   private
+
+  def find_generator(type)
+    generator = @generators[type]
+    return generator if generator.present?
+    raise "Unknown question type #{question[:type]}"
+  end
 
   def substitute_variables(response, obj_to_substitute)
     return obj_to_substitute if obj_to_substitute.blank?
@@ -129,50 +138,19 @@ class QuestionnaireGenerator
   end
 
   def single_questionnaire_question(question)
-    question_body = create_question_body(question)
+    question_body = find_generator(question[:type]).generate(question)
     question_body = content_tag(:div, question_body, class: 'col s12')
-    questionnaire_questions_add_question_section(question_body, question)
+    question_body = content_tag(:div, question_body,
+                                class: "#{find_generator(:klasses).generate(question)}")
+    wrap_question_in_sections(question_body, question)
   end
 
-  def create_question_body(question)
-    generator = @generators[question[:type]]
-    raise "Unknown question type #{question[:type]}" unless generator
-    generator.generate(question)
-  end
-
-  def questionnaire_questions_add_question_section(question_body, question)
+  def wrap_question_in_sections(question_body, question)
     body = []
-    body << section_start(question[:section_start], question) unless question[:section_start].blank?
-    body << content_tag(:div, question_body, class: question_klasses(question))
-    body << section_end(question[:section_end], question) unless question[:section_end].blank?
-    body
-  end
-
-  def question_klasses(question)
-    klasses = 'row section'
-    klasses += ' hidden' if question[:hidden].present?
-    klasses += " #{Generator.idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
-    klasses
-  end
-
-  def section_start(section_title, question)
-    body = content_tag(:h5, section_title)
-    body = content_tag(:div, body, class: 'col s12')
-    klasses = 'extra-spacing row'
-    klasses += ' hidden' if question[:hidden].present?
-    klasses += " #{Generator.idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
-    body = content_tag(:div, body, class: klasses)
-    body
-  end
-
-  def section_end(_unused_arg, question)
-    body = content_tag(:div, nil, class: 'divider')
-    body = content_tag(:div, body, class: 'col s12')
-    klasses = 'row'
-    klasses += ' hidden' if question[:hidden].present?
-    klasses += " #{Generator.idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
-    body = content_tag(:div, body, class: klasses)
-    body
+    body << find_generator(:section_start).generate(question)
+    body << question_body
+    body << find_generator(:section_end).generate(question)
+    body.compact
   end
 
   def submit_button(submit_text)

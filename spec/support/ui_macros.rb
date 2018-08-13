@@ -10,7 +10,12 @@ module UiMacros
   def materialize_select(prompt, option, superelement = nil)
     base = 'div.select-wrapper'
     base = superelement + base if superelement.present?
-    find("#{base}>input[value=\"#{prompt}\"]").click # open the dropdown
+
+    # 1. Find the element that matches the prompt
+    # 2. Go to the parent ul
+    # 3. Go to the parent div
+    # 4. Click on it to open the dropdown
+    find_all("#{base}>ul>li", text: prompt).first.find(:xpath, '..').find(:xpath, '..').click
     find("#{base} li", text: option).click # select the option wanted
   end
 end

@@ -144,8 +144,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_questionnaire_content
-    questionnaire_generator = QuestionnaireGenerator.new
-    @content = questionnaire_generator.generate_questionnaire(
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
       response_id: @response.id,
       content: @response.measurement.questionnaire.content,
       title: @response.measurement.questionnaire.title,

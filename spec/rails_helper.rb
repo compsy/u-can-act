@@ -37,6 +37,20 @@ ActiveRecord::Migration.maintain_test_schema!
 Capybara.default_selector = :css
 Capybara.default_max_wait_time = 4
 Capybara.ignore_hidden_elements = false
+
+Capybara.register_driver :selenium_chrome_headless do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  [
+    'headless',
+
+    # We need to specify the window size, otherwise it is to small and
+    # collapses everything in the admin panel.
+    'window-size=1280x1280'
+  ].each { |arg| options.add_argument(arg) }
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
 Capybara.javascript_driver = :selenium_chrome_headless
 Capybara.default_driver = :rack_test
 

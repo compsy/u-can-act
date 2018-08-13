@@ -25,22 +25,19 @@ $(function() {
   M.updateTextFields();
 
   // Enable datepickers
-  $('.datepicker').datepicker();
-
-  $('.datepicker').each(function(index) {
-    $(this).pickadate({
-      formatSubmit: 'yyyy-mm-dd',
-      hiddenName: true,
-      monthsFull: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+  $('.datepicker').datepicker({
+    minDate: $(this).data('min'),
+    maxDate: $(this).data('max'),
+    format: 'yyyy-mm-dd',
+    i18n: {
+      months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
       monthsShort: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
-      weekdaysFull: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+      weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
       weekdaysShort: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
-      weekdaysLetter: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
-      min: $(this).data('min'),
-      max: $(this).data('max'),
-      today: 'Vandaag',
+      weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
       clear: 'Wissen',
+      cancel: 'Annuleren',
       close: 'Ok'
-    });
+    }
   });
 });

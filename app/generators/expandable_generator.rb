@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ExpandableGenerator < Generator
+
   def generate(question)
     safe_join([
                 content_tag(:p, question[:title].html_safe, class: 'flow-text'),
@@ -31,7 +32,8 @@ class ExpandableGenerator < Generator
     current = sub_question.deep_dup
     current[:raw] = question[:raw][:content][idx]
     current = update_current_question(current, id)
-    single_questionnaire_question(current)
+    questionnaire_question_qenerator = QuestionnaireQuestionGenerator.new
+    questionnaire_question_qenerator.generate(current)
   end
 
   def expandable_buttons(question)

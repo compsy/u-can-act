@@ -14,15 +14,11 @@ class Generator
     throw 'Generate not implemented!'
   end
 
-  def self.idify(*strs)
-    strs.map { |x| x.to_s.parameterize.underscore }.join('_')
-  end
+  private
 
   def idify(*strs)
     strs.map { |x| x.to_s.parameterize.underscore }.join('_')
   end
-
-  private
 
   def generate_tooltip(tooltip_content)
     return nil if tooltip_content.blank?
@@ -72,7 +68,65 @@ class Generator
     "stop_subscription[#{name}]"
   end
 
+  def decorate_with_otherwise(question, option_body)
+    option_body = wrap_toggle_in_label(
+      option_body,
+      question[:otherwise_label].html_safe,
+      idify(question[:id], question[:raw][:otherwise_label])
+    )
+
+    wrap_toggle_with_textfield(
+      question,
+      option_body
+    )
+  end
+
+  def decorate_with_label(question, option_body, option)
+    option_body = wrap_toggle_in_label(
+      option_body,
+      option[:title].html_safe,
+      idify(question[:id], option[:raw][:title])
+    )
+
+    option_body = safe_join(
+      [
+        option_body,
+        generate_tooltip(option[:tooltip])
+      ]
+    )
+
+    content_tag(:p, option_body)
+  end
+
   # Move next functions to specific super for radio and check?
+  def wrap_toggle_with_textfield(question, option_body)
+    option_body = safe_join(
+      [
+        option_body,
+        otherwise_textfield(question),
+        generate_tooltip(question[:otherwise_tooltip])
+      ]
+    )
+
+    content_tag(:div, option_body, class: 'otherwise-textfield')
+  end
+
+  def wrap_toggle_in_label(option_body, label, for_question)
+    option_body = safe_join([
+                              option_body,
+                              content_tag(
+                                :span,
+                                label,
+                                class: 'flow-text'
+                              )
+                            ])
+
+    content_tag(:label,
+                option_body,
+                for: for_question,
+                class: 'flow-text')
+  end
+
   def add_otherwise_label(question)
     question[:raw][:otherwise_label] = OTHERWISE_TEXT if question[:raw][:otherwise_label].blank?
     question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
@@ -86,43 +140,6 @@ class Generator
     option = { title: option } unless option.is_a?(Hash)
     option[:raw] = raw_option
     option
-  end
-
-
-  def option_body_wrap(question_id, option, wrapped_tag, answer_key, answer_value, response_id)
-    option_body = safe_join(
-      [
-        wrapped_tag,
-        content_tag(:span,
-                    option[:title].html_safe,
-                    class: 'flow-text')
-      ]
-    )
-
-    option_body = safe_join(
-      [
-        content_tag(:label,
-                    option_body,
-                    for: idify(question_id, option[:raw][:title]),
-                    class: 'flow-text'),
-        generate_tooltip(option[:tooltip])
-      ]
-    )
-
-    option_body = safe_join(
-      [
-        content_tag(:p, option_body),
-        stop_subscription_token(option, answer_key, answer_value, response_id)
-      ]
-    )
-    option_body
-  end
-
-  def otherwise_option_label(question)
-    content_tag(:label,
-                question[:otherwise_label].html_safe,
-                for: idify(question[:id], question[:raw][:otherwise_label]),
-                class: 'flow-text')
   end
 
   def otherwise_textfield(question)
@@ -146,5 +163,4 @@ class Generator
                 OTHERWISE_PLACEHOLDER,
                 for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
   end
-
 end

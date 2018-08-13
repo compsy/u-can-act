@@ -4,23 +4,10 @@ class QuestionnaireGenerator
   include ActionView::Helpers
 
   def initialize
-    @generators = {
-      radio: RadioGenerator.new,
-      time: TimeGenerator.new,
-      checkbox: CheckboxGenerator.new,
-      range: RangeGenerator.new,
-      textarea: TextareaGenerator.new,
-      textfield: TextfieldGenerator.new,
-      raw: RawGenerator.new,
-      unsubscribe: UnsubscribeGenerator.new,
-      date: DateGenerator.new,
-      expandable: ExpandableGenerator.new,
-      section_start: SectionStartGenerator.new,
-      section_end: SectionEndGenerator.new,
-      klasses: KlassesGenerator.new
-    }
+    @questionnaire_question_qenerator = QuestionnaireQuestionGenerator.new
   end
 
+  # rubocop:disable Metrics/ParameterLists
   def generate_questionnaire(response_id:, content:, title:, submit_text:, action:, unsubscribe_url:, params: {})
     params[:response_id] = response_id
     response = Response.find_by_id(response_id) # allow nil response id for preview
@@ -35,6 +22,7 @@ class QuestionnaireGenerator
     body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
     body
   end
+  # rubocop:enable Metrics/ParameterLists
 
   def generate_hash_questionnaire(response_id, content, title)
     response = Response.find_by_id(response_id) # allow nil response id for preview
@@ -44,12 +32,6 @@ class QuestionnaireGenerator
   end
 
   private
-
-  def find_generator(type)
-    generator = @generators[type]
-    return generator if generator.present?
-    raise "Unknown question type #{question[:type]}"
-  end
 
   def substitute_variables(response, obj_to_substitute)
     return obj_to_substitute if obj_to_substitute.blank?
@@ -78,7 +60,7 @@ class QuestionnaireGenerator
       quest[:response_id] = response&.id
       quest[:raw] = raw_content[idx]
       quest[:unsubscribe_url] = unsubscribe_url
-      single_questionnaire_question(quest)
+      @questionnaire_question_qenerator.generate(quest)
     end
     safe_join(body)
   end
@@ -135,22 +117,6 @@ class QuestionnaireGenerator
 
   def an_offset?(value)
     TimeTools.an_offset?(value)
-  end
-
-  def single_questionnaire_question(question)
-    question_body = find_generator(question[:type]).generate(question)
-    question_body = content_tag(:div, question_body, class: 'col s12')
-    question_body = content_tag(:div, question_body,
-                                class: "#{find_generator(:klasses).generate(question)}")
-    wrap_question_in_sections(question_body, question)
-  end
-
-  def wrap_question_in_sections(question_body, question)
-    body = []
-    body << find_generator(:section_start).generate(question)
-    body << question_body
-    body << find_generator(:section_end).generate(question)
-    body.compact
   end
 
   def submit_button(submit_text)

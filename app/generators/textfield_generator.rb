@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TextfieldGenerator < Generator
-  def generate
+  def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     safe_join([content_tag(:p, title, class: 'flow-text'), textfield_field(question)])
   end

@@ -16,7 +16,7 @@ class AdminController < ApplicationController
   end
 
   def preview_done
-    redirect_to '/admin'
+    redirect_to '/admin/preview_overview'
   end
 
   def response_export

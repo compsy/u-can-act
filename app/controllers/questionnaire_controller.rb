@@ -29,6 +29,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def create
+    Rails.logger.info params
     response_content = ResponseContent.create!(content: questionnaire_content)
     @response.update_attributes!(content: response_content.id)
     @response.complete!
@@ -150,7 +151,7 @@ class QuestionnaireController < ApplicationController
       title: @response.measurement.questionnaire.title,
       submit_text: 'Opslaan',
       action: '/',
-      unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: @response.uuid),
+      unsubscribe_url: @response.unsubscribe_url,
       params: default_questionnaire_params
     )
   end

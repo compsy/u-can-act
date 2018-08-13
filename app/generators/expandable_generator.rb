@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ExpandableGenerator < Generator
-
   def generate(question)
     safe_join([
                 content_tag(:p, question[:title].html_safe, class: 'flow-text'),

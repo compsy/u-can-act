@@ -81,6 +81,10 @@ class Response < ApplicationRecord
     where('open_from > :date', date: date)
   end
 
+  def unsubscribe_url
+    Rails.application.routes.url_helpers.questionnaire_path(uuid: uuid)
+  end
+
   def future?
     open_from > Time.zone.now
   end

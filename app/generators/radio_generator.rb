@@ -22,6 +22,25 @@ class RadioGenerator < Generator
     safe_join(body)
   end
 
+  def radio_option_body(question, option)
+    elem_id = idify(question[:id], option[:raw][:title])
+    tag_options = question_options(question, option, elem_id)
+    tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
+
+    option_body = tag(:input, tag_options)
+    option_body = decorate_with_label(question, option_body, option)
+    decorate_with_stop_subscription(question, option_body, option)
+  end
+
+  def decorate_with_stop_subscription(question, option_body, option)
+    safe_join(
+      [
+        option_body,
+        stop_subscription_token(option, idify(question[:id]), option[:title], question[:response_id])
+      ]
+    )
+  end
+
   def question_options(question, option, elem_id)
     {
       name: answer_name(idify(question[:id])),
@@ -31,20 +50,6 @@ class RadioGenerator < Generator
       required: true,
       class: 'validate'
     }
-  end
-
-  def radio_option_body(question, option)
-    elem_id = idify(question[:id], option[:raw][:title])
-    tag_options = question_options(question, option, elem_id)
-    tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
-    option_body = tag(:input, tag_options)
-
-    safe_join(
-      [
-        decorate_with_label(question, option_body, option),
-        stop_subscription_token(option, elem_id, 'true', question[:response_id])
-      ]
-    )
   end
 
   def radio_otherwise(question)

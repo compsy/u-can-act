@@ -29,7 +29,6 @@ class QuestionnaireController < ApplicationController
   end
 
   def create
-    Rails.logger.info params
     response_content = ResponseContent.create!(content: questionnaire_content)
     @response.update_attributes!(content: response_content.id)
     @response.complete!

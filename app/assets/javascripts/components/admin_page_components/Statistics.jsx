@@ -6,7 +6,6 @@ class Statistics extends React.Component {
     };
   }
 
-
   componentDidMount() {
     this.updateStatistics();
   }

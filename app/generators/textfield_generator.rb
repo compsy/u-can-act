@@ -6,6 +6,8 @@ class TextfieldGenerator < Generator
     safe_join([content_tag(:p, title, class: 'flow-text'), textfield_field(question)])
   end
 
+  private
+
   def textfield_field(question)
     body = safe_join([
                        textfield_tag(question),

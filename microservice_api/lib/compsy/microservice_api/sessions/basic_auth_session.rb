@@ -11,8 +11,14 @@ module Compsy
         def initialize(microservice_host: ENV['MICROSERVICE_HOST'],
                        username: ENV['MICROSERVICE_BASICAUTH_ID'],
                        password: ENV['MICROSERVICE_BASICAUTH_SECRET'])
+          raise 'Mircoservice host not set' unless microservice_host.present?
+          raise 'Mircoservice host should start with http[s]' unless microservice_host =~ %r{^http[s]?://.*}
           @microservice_host = microservice_host
+
+          raise 'Mircoservice username not set' unless username.present?
           @username = username
+
+          raise 'Mircoservice password not set' unless password.present?
           @password = password
         end
 
@@ -75,7 +81,10 @@ module Compsy
         end
 
         def full_url_for(path)
-          microservice_host + api_base + path
+          raise 'Path is mandatory' unless path.present?
+          res = microservice_host + api_base + path
+          puts res
+          res
         end
 
         def api_base

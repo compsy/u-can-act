@@ -29,8 +29,6 @@ gem 'haml-rails'
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -86,6 +84,10 @@ gem 'active_model_serializers'
 gem 'jwt'
 gem 'knock'
 
+# Gem for authorization
+# Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474
+gem 'cancancan', github: 'CanCanCommunity/cancancan', ref: '6e782102f5dfef4bd3cc3feadc49802ea942c234'
+
 # Gem for calling deadmanssnitch
 gem 'snitcher'
 
@@ -134,7 +136,9 @@ end
 
 group :production, :staging do
   # JavaScript runtime
-  gem 'therubyracer'
+  # gem 'therubyracer'
+  # ExecJS::RubyRacerRuntime is not supported. Please replace therubyracer with mini_racer in your Gemfile.
+  gem 'mini_racer'
 
   # Required by Delayed Job
   gem 'daemons'
@@ -162,7 +166,7 @@ gem 'silencer'
 
 # JS / CSS Frameworks
 # gem 'highcharts-rails'
-gem 'materialize-sass'
+gem 'materialize-sass', '~> 1.0.0.rc2'
 gem 'modernizr-rails'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -144,16 +144,15 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_questionnaire_content
-    @content = QuestionnaireGenerator
-               .generate_questionnaire(
-                 response_id: @response.id,
-                 content: @response.measurement.questionnaire.content,
-                 title: @response.measurement.questionnaire.title,
-                 submit_text: 'Opslaan',
-                 action: '/',
-                 unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: @response.uuid),
-                 params: default_questionnaire_params
-               )
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
+      response_id: @response.id,
+      content: @response.measurement.questionnaire.content,
+      title: @response.measurement.questionnaire.title,
+      submit_text: 'Opslaan',
+      action: '/',
+      unsubscribe_url: @response.unsubscribe_url,
+      params: default_questionnaire_params
+    )
   end
 
   def default_questionnaire_params

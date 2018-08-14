@@ -1,46 +1,220 @@
 describe("TeamOverview", function() {
   beforeEach(function() {
-    var component = React.createElement(TeamOverview, { });
+    const component = React.createElement(TeamOverview, {});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
   describe("constructor", function() {
+    it("it should set the default state", function() {
+      const expectedState = {
+        Mentor: undefined,
+        Student: undefined,
+        groups: ['Mentor', 'Student'],
+        year: new Date().getFullYear(),
+        week_number: undefined
+      };
+      expect(this.rendered.state).toEqual(expectedState);
+    });
   });
 
   describe("updateTeamDetails", function() {
-    
+    it("it should call the loadTeamData function for each group", function() {
+      spyOn(TeamOverview.prototype, 'loadTeamData')
+      const component = React.createElement(TeamOverview, {});
+      const rendered = TestUtils.renderIntoDocument(component);
+
+      // Note that we do not have to call the update team details ourselves. It gets called in 
+      // the component did mount function, which is tested elsewhere
+      expect(TeamOverview.prototype.loadTeamData.calls.count()).toEqual(rendered.state.groups.length);
+
+      const groups = ['1', '2', '3', '4'];
+      this.rendered.setState({
+        groups: groups
+      });
+
+      rendered.updateTeamDetails()
+      expect(TeamOverview.prototype.loadTeamData.calls.count()).toEqual(groups.length);
+    });
   });
 
   describe("componentDidMount", function() {
-    
+    it("it should call the updateTeamDetails function", function() {
+      spyOn(TeamOverview.prototype, 'updateTeamDetails')
+      const component = React.createElement(TeamOverview, {});
+      const rendered = TestUtils.renderIntoDocument(component);
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalled();
+    });
   });
 
   describe("isDone", function() {
-    
+    it("it should return true if there are no more future measurements", function() {
+      this.rendered.setState({
+        result: {
+          protocol_completion: [{
+            future: false
+          }, {
+            future: false
+          }, {
+            future: false
+          }]
+        }
+      });
+      result = this.rendered.isDone()
+      expect(result).toBeTruthy();
+    });
+
+    it("it should return false if there are future measurements", function() {
+      this.rendered.setState({
+        result: {
+          protocol_completion: [{
+            future: false
+          }, {
+            future: false
+          }, {
+            future: true
+          }]
+        }
+      });
+      result = this.rendered.isDone()
+      expect(result).toBeFalsy();
+    });
   });
 
   describe("setHeader", function() {
-    
+    it("it should dest the xhr request header for authorization", function() {
+      localStorage.removeItem('id_token')
+      const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
+      this.rendered.setHeader(xhr);
+      expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", "Bearer null");
+    });
+
+    it("it should use the authorization token from the  ", function() {
+      const id_token = '1234abc';
+      localStorage.setItem('id_token', id_token)
+      const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
+      this.rendered.setHeader(xhr);
+      expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
+    });
   });
 
   describe('loadTeamData', function() {
-    
+    const group = 'Mentor';
+    const year = new Date().getFullYear();
+    let expectedUrl = `/api/v1/admin/team/${group}?year=${year}&percentage_threshold=70`
+    const theFakeResponse = {
+      'text': 'this a a fake response'
+    }
+
+    it("it should include the correct attributes in a call", function() {
+      spyOn($, 'ajax').and.callFake(function(e) {
+        expect(e.type).toEqual('GET');
+        expect(e.dataType).toEqual('json');
+        return $.Deferred().resolve(theFakeResponse).promise();
+      });
+      this.rendered.loadTeamData(group)
+    });
+
+    it("it should get the json ajax function with the correct route", function() {
+      spyOn($, 'ajax').and.callFake(function(e) {
+        expect(e.url).toEqual(expectedUrl);
+        return $.Deferred().resolve(theFakeResponse).promise();
+      });
+
+      spyOn(this.rendered, 'handleSuccess').and.callThrough();
+      this.rendered.loadTeamData(group)
+      expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
+    });
+
+    it("it should call ajax function with the correct route with the correct week", function() {
+      let week_number = 42
+      this.rendered.setState({
+        week_number: week_number
+      });
+      expectedUrl = `/api/v1/admin/team/${group}?year=${year}&week_number=${week_number}&percentage_threshold=70`
+      spyOn($, 'ajax').and.callFake(function(e) {
+        expect(e.url).toEqual(expectedUrl);
+        return $.Deferred().resolve(theFakeResponse).promise();
+      });
+
+      spyOn(this.rendered, 'handleSuccess').and.callThrough();
+      this.rendered.loadTeamData(group)
+      expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
+    });
+
+    it("it should include the correct headers", function() {
+      spyOn($, 'ajax').and.callFake(function(e) {
+        expect(e.beforeSend).toEqual(TeamOverview.prototype.setHeader);
+        return $.Deferred().resolve(theFakeResponse).promise();
+      });
+      this.rendered.loadTeamData(group)
+    });
   });
-  
+
   describe("handleYearChange", function() {
-    
+    it("should call the update team details function", function() {
+      spyOn(TeamOverview.prototype, 'updateTeamDetails')
+
+      const component = React.createElement(TeamOverview, {});
+      const rendered = TestUtils.renderIntoDocument(component);
+      expect(TeamOverview.prototype.updateTeamDetails.calls.count()).toEqual(1);
+      rendered.handleYearChange('the-year');
+      expect(TeamOverview.prototype.updateTeamDetails.calls.count()).toEqual(2);
+    });
+
+    it("should update the state with the new week", function() {
+      this.rendered.handleYearChange('the-year');
+      expect(this.rendered.state.year).toEqual('the-year');
+    });
   });
 
   describe("handleWeekChange", function() {
-    
-  });
+    it("should call the update team details function", function() {
+      spyOn(TeamOverview.prototype, 'updateTeamDetails')
 
-  describe("renderOverview", function() {
-    
+      const component = React.createElement(TeamOverview, {});
+      const rendered = TestUtils.renderIntoDocument(component);
+
+      expect(TeamOverview.prototype.updateTeamDetails.calls.count()).toEqual(1);
+      rendered.handleWeekChange('week_number');
+      expect(TeamOverview.prototype.updateTeamDetails.calls.count()).toEqual(2);
+    });
+
+    it("should update the state with the new week", function() {
+      this.rendered.handleWeekChange('the-week');
+      expect(this.rendered.state.week_number).toEqual('the-week');
+    });
   });
 
   describe("render", function() {
-    
-  });
+    it("it should render when there is data to render", function() {
+      const component = React.createElement(TeamOverview, {});
+      const rendered = TestUtils.renderIntoDocument(component)
+      rendered.setState({
+        Mentor: {
+          overview: []
+        },
+        Student: {
+          overview: []
+        }
+      });
 
+      const nodes = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'team-overview-entry')
+
+      // One for mentors, one for students
+      expect(nodes).not.toBe(undefined)
+      expect(nodes.length).toBe(2)
+    });
+    it("it should not render when there is no data", function() {
+      const component = React.createElement(TeamOverview, {});
+      const rendered = TestUtils.renderIntoDocument(component)
+
+      // Helper to find all elements in a page, can be useful for reference:
+      //const node = TestUtils.findAllInRenderedTree(rendered, function(a) {return true})
+      const nodes = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'team-overview-entry')
+
+      expect(nodes).toEqual(jasmine.any(Array));
+      expect(nodes.length).toBe(0)
+    });
+
+  });
 });

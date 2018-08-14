@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/CanCanCommunity/cancancan.git
+  revision: 6e782102f5dfef4bd3cc3feadc49802ea942c234
+  ref: 6e782102f5dfef4bd3cc3feadc49802ea942c234
+  specs:
+    cancancan (2.2.0)
+
+GIT
   remote: https://github.com/camelmasa/animate-rails.git
   revision: ff6dd54ac8534e3df4a56fabc6a3e307957be886
   specs:
@@ -71,6 +78,8 @@ GEM
       io-like (~> 0.3.0)
     arel (7.1.4)
     ast (2.4.0)
+    autoprefixer-rails (9.1.0)
+      execjs
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -80,7 +89,7 @@ GEM
     bson (4.3.0)
     builder (3.2.3)
     byebug (10.0.2)
-    capybara (3.4.2)
+    capybara (3.5.1)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -204,7 +213,7 @@ GEM
       rails (>= 4.2)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.19)
+    libv8 (6.7.288.46.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -222,8 +231,9 @@ GEM
       mini_mime (>= 0.1.1)
     mailgun-ruby (1.1.10)
       rest-client (~> 2.0)
-    materialize-sass (0.100.2)
-      sass (~> 3.3)
+    materialize-sass (1.0.0.rc2)
+      autoprefixer-rails (>= 6.0.3)
+      sass (>= 3.5.2)
     messagebird-rest (1.3.3)
     method_source (0.9.0)
     mime-types (3.1)
@@ -231,10 +241,12 @@ GEM
     mime-types-data (3.2016.0521)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
+    mini_racer (0.2.0)
+      libv8 (>= 6.3)
     minitest (5.11.3)
     modernizr-rails (2.7.1)
     moneta (0.8.1)
-    mongo (2.5.3)
+    mongo (2.6.1)
       bson (>= 4.3.0, < 5.0.0)
     mongoid (6.1.1)
       activemodel (~> 5.0)
@@ -311,34 +323,33 @@ GEM
       tilt
     react-source (0.13.3)
     redis (4.0.1)
-    ref (2.0.0)
     request_store (1.4.1)
       rack (>= 1.4)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rspec (3.7.0)
-      rspec-core (~> 3.7.0)
-      rspec-expectations (~> 3.7.0)
-      rspec-mocks (~> 3.7.0)
-    rspec-core (3.7.1)
-      rspec-support (~> 3.7.0)
-    rspec-expectations (3.7.0)
+    rspec (3.8.0)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
+    rspec-core (3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-expectations (3.8.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.7.0)
-    rspec-mocks (3.7.0)
+      rspec-support (~> 3.8.0)
+    rspec-mocks (3.8.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.7.0)
-    rspec-rails (3.7.2)
+      rspec-support (~> 3.8.0)
+    rspec-rails (3.8.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
-      rspec-core (~> 3.7.0)
-      rspec-expectations (~> 3.7.0)
-      rspec-mocks (~> 3.7.0)
-      rspec-support (~> 3.7.0)
-    rspec-support (3.7.1)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-support (3.8.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (0.58.2)
@@ -356,7 +367,7 @@ GEM
     rubyzip (1.2.1)
     rush (0.6.8)
       session
-    sass (3.5.6)
+    sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -367,7 +378,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.13.1)
+    selenium-webdriver (3.14.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
     session (3.2.0)
@@ -403,9 +414,6 @@ GEM
     temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -415,7 +423,7 @@ GEM
       thread_safe (~> 0.1)
     tzinfo-data (1.2018.5)
       tzinfo (>= 1.0.0)
-    uglifier (4.1.16)
+    uglifier (4.1.17)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -442,6 +450,7 @@ DEPENDENCIES
   appsignal
   bcrypt
   byebug
+  cancancan!
   capybara
   capybara-screenshot
   capybara-selenium
@@ -465,8 +474,9 @@ DEPENDENCIES
   listen
   lograge
   mailgun-ruby
-  materialize-sass
+  materialize-sass (~> 1.0.0.rc2)
   messagebird-rest
+  mini_racer
   modernizr-rails
   mongoid
   pg (= 0.20.0)
@@ -492,7 +502,6 @@ DEPENDENCIES
   spring-commands-teaspoon
   spring-watcher-listen
   teaspoon-jasmine
-  therubyracer
   timecop
   tzinfo-data
   uglifier
@@ -503,4 +512,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

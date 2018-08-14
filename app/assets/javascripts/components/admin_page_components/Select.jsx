@@ -24,7 +24,7 @@ class Select extends React.Component {
 
   redraw() {
     var select = $('#' + this._uuid);
-    select.material_select(this._onChange.bind(this));
+    select.formSelect().change(this._onChange.bind(this));
   }
 
   componentDidUpdate() {

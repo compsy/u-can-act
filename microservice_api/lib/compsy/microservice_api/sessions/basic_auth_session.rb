@@ -82,9 +82,7 @@ module Compsy
 
         def full_url_for(path)
           raise 'Path is mandatory' unless path.present?
-          res = microservice_host + api_base + path
-          puts res
-          res
+          microservice_host + api_base + path
         end
 
         def api_base

@@ -69,12 +69,12 @@ class ProgressBar extends React.Component {
         series: [{
           labelStart: '\u2605',
           value: percentageStreak,
-          color: this.totalAvailableColor;
+          color: this.totalAvailableColor
         }, {
           labelStart: '€',
           value: valueEuro,
-          color: this.valueEuroColor;
-        }, ],
+          color: this.valueEuroColor
+        }],
         center: {
           content: ['Je hebt nu',
             function(value, _unused, series) {

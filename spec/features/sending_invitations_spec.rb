@@ -36,6 +36,8 @@ describe 'sending invitations', type: :feature do
 
   describe 'without delayed_jobs' do
     it 'should send sms messages for open responses' do
+      mock_svc_messages
+
       MessageBirdAdapter.deliveries.clear
       Delayed::Worker.delay_jobs = false
       cntinvs = Invitation.count

@@ -317,7 +317,7 @@ GEM
       rails (>= 3.2)
       tilt
     react-source (0.13.3)
-    redis (4.0.1)
+    redis (4.0.2)
     ref (2.0.0)
     request_store (1.4.1)
       rack (>= 1.4)

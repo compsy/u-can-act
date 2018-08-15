@@ -3,6 +3,7 @@
 class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
+  rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_auth_token
   before_action :set_response, only: %i[show destroy]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
@@ -211,5 +212,9 @@ class QuestionnaireController < ApplicationController
     return if !response.expired? || response.measurement.stop_measurement
     flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
     redirect_to NextPageFinder.get_next_page current_user: current_user
+  end
+
+  def invalid_auth_token
+
   end
 end

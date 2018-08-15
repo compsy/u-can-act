@@ -103,15 +103,6 @@ shared_examples_for 'a person object' do
       expect(person.errors.messages).to have_key :mobile_phone
       expect(person.errors.messages[:mobile_phone]).to include('mag alleen een Nederlands nummer zijn')
     end
-
-    it 'should have a uniqueness constraint on phone numbers' do
-      student = FactoryBot.create(:student, mobile_phone: '0611111111')
-      expect(student.valid?).to be_truthy
-      mentor = FactoryBot.build(:mentor, mobile_phone: '0611111111')
-      expect(mentor.valid?).to be_falsey
-      expect(mentor.errors.messages).to have_key :mobile_phone
-      expect(mentor.errors.messages[:mobile_phone]).to include('is al in gebruik')
-    end
   end
 
   describe 'email' do
@@ -120,15 +111,6 @@ shared_examples_for 'a person object' do
       expect(person).to be_valid
       person = FactoryBot.create(:person, email: '')
       expect(person).to be_valid
-    end
-
-    it 'two nil emails should still be unique' do
-      expect(Person.count).to eq(0)
-      FactoryBot.create(:person, email: nil)
-      FactoryBot.create(:person, email: '')
-      FactoryBot.create(:person, email: nil)
-      FactoryBot.create(:person, email: '')
-      expect(Person.count).to eq(4)
     end
 
     it 'should not accept a double period' do

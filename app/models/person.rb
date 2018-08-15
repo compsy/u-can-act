@@ -14,12 +14,10 @@ class Person < ApplicationRecord
   validates :mobile_phone,
             length: { minimum: 10, maximum: 10 },
             format: /\A\d{10}\z/,
-            mobile_phone: true,
-            uniqueness: true
+            mobile_phone: true
   validates :email,
             format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
-            allow_blank: true,
-            uniqueness: true
+            allow_blank: true
 
   validates_with IbanValidator
 

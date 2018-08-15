@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709070445) do
+ActiveRecord::Schema.define(version: 20180815132049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,7 +99,6 @@ ActiveRecord::Schema.define(version: 20180709070445) do
     t.integer  "role_id",             null: false
     t.string   "external_identifier", null: false
     t.string   "iban"
-    t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 
   create_table "protocol_subscriptions", force: :cascade do |t|

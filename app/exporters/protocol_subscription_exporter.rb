@@ -18,7 +18,7 @@ class ProtocolSubscriptionExporter < ObjectExporter
     def format_fields(protocol_subscription)
       vals = {
         'protocol_subscription_id' => protocol_subscription.id,
-        'person_id' => calculate_hash(protocol_subscription.person_id),
+        'person_id' => protocol_subscription.person.external_identifier,
         'created_at' => format_datetime(protocol_subscription.created_at),
         'updated_at' => format_datetime(protocol_subscription.updated_at),
         'start_date' => format_datetime(protocol_subscription.start_date)
@@ -37,7 +37,7 @@ class ProtocolSubscriptionExporter < ObjectExporter
       vals['end_date'] = format_datetime(protocol_subscription.end_date)
       vals['protocol'] = protocol_subscription.protocol.name
       vals['informed_consent_given_at'] = format_datetime(protocol_subscription.informed_consent_given_at)
-      vals['filling_out_for_person_id'] = calculate_hash(protocol_subscription.filling_out_for_id)
+      vals['filling_out_for_person_id'] = protocol_subscription.filling_out_for.external_identifier
       vals
     end
   end

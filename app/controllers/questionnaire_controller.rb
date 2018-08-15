@@ -33,7 +33,8 @@ class QuestionnaireController < ApplicationController
     @response.update_attributes!(content: response_content.id)
     @response.complete!
     check_stop_subscription
-    redirect_to NextPageFinder.get_next_page current_user: current_user, previous_response: @response
+    redirect_to questionnaire_create_params[:callback_url] || NextPageFinder.get_next_page(current_user: current_user,
+                                                                                           previous_response: @response)
   end
 
   def destroy
@@ -53,13 +54,18 @@ class QuestionnaireController < ApplicationController
   private
 
   def check_stop_subscription
-    stop_subscription_hash = questionnaire_stop_subscription
-    content = questionnaire_content
     # We assume that if a stop measurement is submitted, it is always the last
     # questionnaire of the protocol.
     return stop_protocol_subscription if @response.measurement.stop_measurement?
+    stop_subscription_hash = questionnaire_stop_subscription
+    content = questionnaire_content
     return if stop_subscription_hash.blank?
 
+    # NOTE: When a questionnaire has a "stop subscription" question, it bypasses the
+    #       stop measurement (i.e., the protocol subscription will be stopped without
+    #       requiring its stop measurement to be filled out). So only use "stop subscription"
+    #       questions in protocols that don't have a stop_measurement. (Maybe check this
+    #       in model validations).
     should_stop = false
     stop_subscription_hash.each do |key, received|
       next unless content.key?(key)
@@ -138,24 +144,36 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_questionnaire_content
-    @content = QuestionnaireGenerator.generate_questionnaire(@response.id,
-                                                             @response.measurement.questionnaire.content,
-                                                             @response.measurement.questionnaire.title,
-                                                             'Opslaan',
-                                                             '/',
-                                                             form_authenticity_token(form_options: { action: '/',
-                                                                                                     method: 'post' }))
+    @content = QuestionnaireGenerator
+               .generate_questionnaire(
+                 response_id: @response.id,
+                 content: @response.measurement.questionnaire.content,
+                 title: @response.measurement.questionnaire.title,
+                 submit_text: 'Opslaan',
+                 action: '/',
+                 unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: @response.uuid),
+                 params: default_questionnaire_params
+               )
+  end
+
+  def default_questionnaire_params
+    {
+      authenticity_token: form_authenticity_token(form_options: { action: '/', method: 'post' }),
+      callback_url: questionnaire_params[:callback_url]
+    }
   end
 
   def questionnaire_params
-    params.permit(:uuid, :method)
+    params.permit(:uuid, :method, :callback_url)
   end
 
   def questionnaire_create_params
     # TODO: change the below line to the following in rails 5.1:
     # params.permit(:response_id, content: {})
-    params.permit(:response_id, content: permit_recursive_params(params[:content]&.to_unsafe_h),
-                                stop_subscription: permit_recursive_params(params[:stop_subscription]&.to_unsafe_h))
+    params.permit(:response_id,
+                  :callback_url,
+                  content: permit_recursive_params(params[:content]&.to_unsafe_h),
+                  stop_subscription: permit_recursive_params(params[:stop_subscription]&.to_unsafe_h))
   end
 
   def questionnaire_content

@@ -4,9 +4,12 @@ require 'rails_helper'
 
 shared_examples_for 'a basic authenticated route' do |method, route|
   def call_url(method, route)
-    return get route, params: params if method == 'get'
-    return post route, params: params if method == 'post'
-    raise 'method not supported'
+    case method
+    when 'get'
+      get route, params: params if method == 'get'
+    when 'post'
+      post route, params: params if method == 'post'
+    end
   end
 
   it 'should return a 401 when not authenticated' do

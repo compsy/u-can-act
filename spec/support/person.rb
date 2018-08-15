@@ -33,6 +33,18 @@ shared_examples_for 'a person object' do
       expect(result).to_not be_blank
       expect(result).to match_array students
     end
+
+    it 'should also iterate over inactive protocol subscriptions' do
+      mentor = FactoryBot.create(:mentor)
+      students = FactoryBot.create_list(:student, 10)
+      students.each do |student|
+        FactoryBot.create(:protocol_subscription, :canceled, person: mentor, filling_out_for: student)
+      end
+      result = mentor.my_students
+
+      expect(result).to_not be_blank
+      expect(result).to match_array students
+    end
   end
 
   describe 'iban' do
@@ -262,42 +274,6 @@ shared_examples_for 'a person object' do
     it 'should be false when the current person is not a mentor' do
       person = FactoryBot.create(:student)
       expect(person.mentor?).to be_falsey
-    end
-  end
-
-  describe 'reward_points' do
-    it 'should accumulate the reward points for all completed protocol subscriptions' do
-      person = FactoryBot.create(:person, :with_protocol_subscriptions)
-      FactoryBot.create(:protocol_subscription, person: person)
-      FactoryBot.create_list(:response, 10, :completed, protocol_subscription: person.protocol_subscriptions.first)
-      FactoryBot.create_list(:response, 5, :completed, protocol_subscription: person.protocol_subscriptions.second)
-      # also add some noncompleted responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: person.protocol_subscriptions.first)
-      expect(person.reward_points).to eq 15
-    end
-  end
-
-  describe 'possible_reward_points' do
-    it 'should accumulate the reward points for all completed responses' do
-      person = FactoryBot.create(:person, :with_protocol_subscriptions)
-      FactoryBot.create(:protocol_subscription, person: person)
-      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: person.protocol_subscriptions.first)
-      FactoryBot.create_list(:response, 5, :invited, protocol_subscription: person.protocol_subscriptions.second)
-      # also add some noninvited responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      expect(person.possible_reward_points).to eq 15
-    end
-  end
-
-  describe 'max_reward_points' do
-    it 'should accumulate the reward points for all responses period' do
-      person = FactoryBot.create(:person, :with_protocol_subscriptions)
-      FactoryBot.create(:protocol_subscription, person: person)
-      FactoryBot.create_list(:response, 10, protocol_subscription: person.protocol_subscriptions.first)
-      FactoryBot.create_list(:response, 5, protocol_subscription: person.protocol_subscriptions.second)
-      FactoryBot.create_list(:response, 7, protocol_subscription: person.protocol_subscriptions.second)
-      expect(person.max_reward_points).to eq 22
     end
   end
 

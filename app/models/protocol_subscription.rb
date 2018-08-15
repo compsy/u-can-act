@@ -61,34 +61,32 @@ class ProtocolSubscription < ApplicationRecord
     !for_myself?
   end
 
-  def reward_points
-    responses.completed.map { |response| response.measurement.reward_points }.reduce(0, :+)
-  end
-
-  def possible_reward_points
-    responses.invited.map { |response| response.measurement.reward_points }.reduce(0, :+)
-  end
-
-  def max_reward_points
-    responses.map { |response| response.measurement.reward_points }.reduce(0, :+)
+  def earned_euros(check_future = false)
+    protocol.calculate_reward(completion, check_future) / 100.0
   end
 
   def protocol_completion
     on_streak = 0
     responses.map do |response|
-      current_streak = -1
-
-      if response.measurement.periodical?
-        on_streak = determine_streak(on_streak, response.completed?, response.still_possible?)
-        current_streak = on_streak
-      end
+      on_streak, current_streak = retrieve_periodical_streak(on_streak, response)
 
       create_protocol_completion_entry(response.completed?,
                                        response.measurement.periodical?,
                                        response.measurement.reward_points,
                                        response.still_possible?,
-                                       current_streak)
+                                       current_streak,
+                                       response.future_or_current?)
     end
+  end
+
+  def retrieve_periodical_streak(on_streak, response)
+    if response.measurement.periodical?
+      on_streak = determine_streak(on_streak, response.completed?, response.still_possible?)
+
+      # Return the on_streak twice, so we update the current_streak
+      return [on_streak, on_streak]
+    end
+    [on_streak, -1]
   end
 
   def needs_informed_consent?
@@ -110,7 +108,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def latest_streak_value_index
     completion_index = completion.find_index { |entry| entry[:future] }
-    return 0 if completion_index.nil? || (completion_index - 1).negative?
+    return -1 if completion_index.nil?
     completion_index - 1
   end
 
@@ -121,13 +119,16 @@ class ProtocolSubscription < ApplicationRecord
     0
   end
 
-  def create_protocol_completion_entry(is_completed, is_periodical, reward_points, is_in_future, streak)
+  def create_protocol_completion_entry(is_completed, is_periodical,
+                                       reward_points, is_in_future, streak, future_or_current)
     result = {}
     result[:completed] = is_completed
     result[:periodical] = is_periodical
     result[:reward_points] = reward_points
     result[:future] = is_in_future
     result[:streak] = streak
+    result[:future_or_current] = future_or_current
+
     result
   end
 

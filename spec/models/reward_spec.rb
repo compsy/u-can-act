@@ -85,7 +85,7 @@ RSpec.describe Reward, type: :model do
         FactoryBot.create(:protocol_subscription,
                           protocol: protocol,
                           start_date: Time.zone.now.beginning_of_day)
-        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.07
+        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.08
       end
       it 'should work with multiple people' do
         protocol = FactoryBot.create(:protocol)
@@ -99,13 +99,14 @@ RSpec.describe Reward, type: :model do
         FactoryBot.create(:protocol_subscription,
                           protocol: protocol,
                           start_date: Time.zone.now.beginning_of_day)
-        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.14
+        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.16
       end
     end
-    describe 'total_euros' do
+
+    describe 'total_earned_euros' do
       it 'should work with one person' do
         protocol = FactoryBot.create(:protocol)
-        FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
+        FactoryBot.create(:measurement, protocol: protocol, open_from_offset: 0)
         FactoryBot.create(:measurement, :periodical, protocol: protocol)
         protocol.rewards.create!(threshold: 1, reward_points: 2)
         protocol.rewards.create!(threshold: 3, reward_points: 3)
@@ -113,7 +114,9 @@ RSpec.describe Reward, type: :model do
                                                   protocol: protocol,
                                                   start_date: Time.zone.now.beginning_of_day)
         protocol_subscription.responses.first.complete!
-        expect(Reward.total_euros(bust_cache: true)).to eq 0.01
+        Timecop.freeze(1.week.from_now) do
+          expect(Reward.total_earned_euros(bust_cache: true)).to eq 0.02
+        end
       end
       it 'should work with multiple people' do
         protocol = FactoryBot.create(:protocol)
@@ -123,13 +126,15 @@ RSpec.describe Reward, type: :model do
         protocol.rewards.create!(threshold: 3, reward_points: 3)
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   protocol: protocol,
-                                                  start_date: Time.zone.now.beginning_of_day)
+                                                  start_date: 1.week.ago.beginning_of_day)
         protocol_subscription.responses.first.complete!
         protocol_subscription2 = FactoryBot.create(:protocol_subscription,
                                                    protocol: protocol,
-                                                   start_date: Time.zone.now.beginning_of_day)
+                                                   start_date: 1.week.ago.beginning_of_day)
         protocol_subscription2.responses.first.complete!
-        expect(Reward.total_euros(bust_cache: true)).to eq 0.02
+        Timecop.freeze(1.week.from_now) do
+          expect(Reward.total_earned_euros(bust_cache: true)).to eq 0.04
+        end
       end
     end
   end

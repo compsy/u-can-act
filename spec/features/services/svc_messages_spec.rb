@@ -6,7 +6,6 @@ describe 'SvcMessages' do
   let(:described_class) { GenerateInvitationText }
 
   describe 'Student texts' do
-    
   end
 
   describe 'Mentor texts' do

@@ -24,6 +24,8 @@ class ProtocolSubscription < ApplicationRecord
                           scope: %i[person_id state],
                           conditions: -> { where(state: ACTIVE_STATE) },
                           if: ->(sub) { sub.person_id != sub.filling_out_for_id }
+
+  validates_with PersonMentorMobilePhoneUniquenessValidator
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def transfer!(transfer_to)

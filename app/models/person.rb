@@ -25,6 +25,7 @@ class Person < ApplicationRecord
             format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/i,
             allow_blank: false,
             uniqueness: true
+
   validates :first_name, presence: true
   belongs_to :role
   validates :role_id, presence: true

@@ -147,6 +147,42 @@ describe ProtocolSubscription do
     end
   end
 
+  fdescribe 'validates uniqueness of students mobile phone per mentor' do
+    let(:mobile_phone) { '0688888888' }
+    let(:mentor) { FactoryBot.create(:mentor) }
+    let(:mentor2) { FactoryBot.create(:mentor) }
+    let(:student) { FactoryBot.create(:student, mobile_phone: mobile_phone) }
+    let(:student2) { FactoryBot.create(:student, mobile_phone: mobile_phone) }
+    it 'should not allow two protocol subscriptions with the same mobile_phone number for the student' do
+      FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                person: mentor,
+                                                filling_out_for: student)
+      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                       person: mentor,
+                                                       filling_out_for: student2)
+
+      expect(prot2).to_not be_valid
+      expect(prot2.errors.messages).to have_key :filling_out_for_id
+      expect(prot2.errors.messages[:filling_out_for_id]).to include('telefoonnummer is al in gebruik')
+      expect { prot2.save! }.to raise_error(
+        ActiveRecord::RecordInvalid,
+        'Validatie mislukt: Filling out for telefoonnummer is al in gebruik'
+      )
+    end
+
+    it 'should allow two protocol subscriptions with the same mobile_phone number for different mentors' do
+      FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                person: mentor,
+                                                filling_out_for: student)
+      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                       person: mentor2,
+                                                       filling_out_for: student2)
+
+      expect(prot2).to be_valid
+      expect { prot2.save! }.to_not raise_error
+    end
+  end
+
   describe 'state' do
     it 'should be one of the predefined states' do
       protocol_subscription = FactoryBot.build(:protocol_subscription)

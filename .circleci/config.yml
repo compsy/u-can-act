@@ -13,7 +13,7 @@ defaults: &defaults
     - image: circleci/mongo:3.6
       environment:
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
-    - image: compsy/svc-messages
+    - image: registry.hub.docker.com/compsy/svc-messages
       environment:
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
   environment:

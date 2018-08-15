@@ -18,9 +18,10 @@ class GenerateInvitationText < ActiveInteraction::Base
   def generate_text(response)
     invitation_text = response.protocol_subscription.protocol.invitation_text
     return invitation_text if invitation_text.present?
+    parameters = generate_hash(response)
     result = Compsy::MicroserviceApi::CallService.run! action: 'svc-messages',
                                                        namespace: ENV['MICROSERVICE_NAMESPACE'],
-                                                       parameters: generate_hash(response)
+                                                       parameters: parameters
     result.response['result']['payload']
   end
 

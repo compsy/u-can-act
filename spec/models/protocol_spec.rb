@@ -81,7 +81,8 @@ describe Protocol do
       expect(protocol).to be_valid
       FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
       expect(protocol).to be_valid
-      FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      meas = FactoryBot.build(:measurement, :stop_measurement, protocol: protocol)
+      meas.save(validate: false)
       expect(protocol).to_not be_valid
     end
   end

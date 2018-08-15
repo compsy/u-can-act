@@ -70,6 +70,7 @@ RSpec.describe PeopleController, type: :controller do
       FactoryBot.create(:measurement, :stop_measurement,
                         protocol: protocol,
                         open_from_offset: (2.days + 13.hours).to_i)
+      protocol.reload
       FactoryBot.create(:protocol_subscription,
                         person: person,
                         protocol: protocol,
@@ -99,6 +100,7 @@ RSpec.describe PeopleController, type: :controller do
         expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
         expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
       end
+
       it 'should redirect to the klaar page and cancel any active protocol subscriptions' do
         person = FactoryBot.create(:mentor)
         cookie_auth(person)
@@ -116,6 +118,7 @@ RSpec.describe PeopleController, type: :controller do
         expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
         expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
       end
+
       it 'should redirect to a stop response if there is one' do
         person = FactoryBot.create(:mentor)
         cookie_auth(person)
@@ -123,6 +126,8 @@ RSpec.describe PeopleController, type: :controller do
         FactoryBot.create(:measurement, :stop_measurement,
                           protocol: protocol,
                           open_from_offset: (2.days + 13.hours).to_i)
+        protocol.reload
+
         FactoryBot.create(:protocol_subscription,
                           person: person,
                           protocol: protocol,

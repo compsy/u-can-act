@@ -3,6 +3,8 @@
 class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
+  protect_from_forgery prepend: true, with: :exception, except: :create
+  before_action :log_csrf_error, only: %i[create]
   before_action :set_response, only: %i[show destroy]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
@@ -211,5 +213,17 @@ class QuestionnaireController < ApplicationController
     return if !response.expired? || response.measurement.stop_measurement
     flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
     redirect_to NextPageFinder.get_next_page current_user: current_user
+  end
+
+  def log_csrf_error
+    return unless protect_against_forgery? # is false in test environment
+    return if valid_request_origin? && any_authenticity_token_valid?
+    record_warning_in_rails_logger
+    params['content']['csrf_failed'] = 'true' if params['content'].present?
+  end
+
+  def record_warning_in_rails_logger
+    Rails.logger.warn "[Attention] CSRF error for user #{current_user&.id} at " \
+                      "#{request.fullpath} with params: #{params.pretty_inspect}"
   end
 end

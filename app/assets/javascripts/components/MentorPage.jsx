@@ -4,8 +4,14 @@ class MentorPage extends React.Component {
     this.state = {
       lastId: -1,
       personForms: [],
-      showProcessingMessage: false
+      showProcessingMessage: false,
+      roles: []
     };
+  }
+
+  componentWillMount(props) {
+    this.loadRoles();
+    this.loadProtocols();
   }
 
   handleOnChange(name, value, id) {
@@ -19,9 +25,59 @@ class MentorPage extends React.Component {
     });
   }
 
+  loadRoles() {
+    // TODO: Move to vsv_api_js
+    var self = this;
+    fetch('/api/v1/role', {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, cors, *same-origin
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      data = data.map((entry) => {
+        return entry.title
+      })
+      self.setState({
+        roles: data
+      })
+    }).catch(error => console.error(error));
+  }
+
+  loadProtocols() {
+    // TODO: Move to vsv_api_js
+    var self = this;
+    fetch('/api/v1/protocol', {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, cors, *same-origin
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      data = data.map((entry) => {
+        return entry.name
+      })
+      self.setState({
+        protocols: data
+      })
+    }).catch(error => console.error(error));
+  }
+
+  storeSupervisedStudent(values) {
+    // TODO: Move to vsv_api_js
+    fetch('/api/v1/supervised_person', {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, cors, *same-origin
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(values), // body data type must match "Content-Type" header
+    });
+  }
+
   handleAddPerson() {
     var forms = this.state.personForms;
-
     var id = this.state.lastId + 1;
     forms.push({
       form: AddPersonForm,
@@ -29,7 +85,12 @@ class MentorPage extends React.Component {
         firstName: undefined,
         lastName: undefined,
         mobilePhone: undefined,
-        protocol: undefined
+        protocol: undefined,
+        rol: undefined
+      },
+      generalAttributes: {
+        roles: this.state.roles,
+        protocols: this.state.protocols
       },
       id: id
     });
@@ -41,24 +102,39 @@ class MentorPage extends React.Component {
     });
   }
 
-  handleSavePeople() {
-    console.log(this.state);
-    this.setState({
-      personForms: [],
-      showProcessingMessage: true,
-      lastId: -1
-    })
+  buildSupervisedStudentJson(formValues) {
+    var person = {
+      first_name: formValues.firstName,
+      last_name: formValues.lastName,
+      gender: formValues.gender,
+      mobile_phone: formValues.mobilePhone
+    }
+
+    var protocol = {
+      name: formValues.protocol
+    }
+
+    return {
+      person: person,
+      protocol: protocol
+    };
   }
 
-  processingMessage(){
-    if (this.state.showProcessingMessage && this.state.personForms.length === 0) {
-      return (
-        <div className="card-panel green">
-          <span className="white-text">
-            Nieuwe studenten worden toegevoegd.
-          </span>
-        </div>
-      )
+  handleSavePeople() {
+    var self = this;
+    var formValues = undefined;
+    this.state.personForms.forEach(function(entry) {
+      formValues = self.buildSupervisedStudentJson(entry.values);
+    });
+
+    this.storeSupervisedStudent(formValues);
+    if (false) {
+      // Reset the state
+      this.setState({
+        personForms: [],
+        showProcessingMessage: true,
+        lastId: -1
+      })
     }
   }
 
@@ -67,8 +143,8 @@ class MentorPage extends React.Component {
       <div className="col s12">
         <div className="row">
           <div className="col s12">
-            {this.processingMessage()}
-            {this.state.personForms.map(FormToRender => <FormToRender.form values={FormToRender.values} formId={FormToRender.id} handleOnChange={ this.handleOnChange.bind(this) }/>)}
+            <Message message='Nieuwe studenten worden toegevoegd.' shouldShow={ this.state.showProcessingMessage && this.state.personForms.length === 0 } />
+            {this.state.personForms.map(FormToRender => <FormToRender.form values={FormToRender.values} generalAttributes={FormToRender.generalAttributes} formId={FormToRender.id} key={FormToRender.id} handleOnChange={ this.handleOnChange.bind(this) }/>)}
             <div className="col s12">
               <div className="row">
                 <SavePeopleButton numberOfForms={this.state.personForms.length} handleOnClick={this.handleSavePeople.bind(this)} />

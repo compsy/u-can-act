@@ -19,12 +19,12 @@
 
 .row.section
   .col.s12
-    - if @student_protocol_subscriptions.blank?
-      %p.flow-text Je begeleidt op dit moment geen studenten in u-can-act.
-    - else
-      %ul.collection
-        - @student_protocol_subscriptions.each do |protocol_subscription|
-          = render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
+    -#- if @student_protocol_subscriptions.blank?
+      -#%p.flow-text Je begeleidt op dit moment geen studenten in u-can-act.
+    -#- else
+      -#%ul.collection
+        -#- @student_protocol_subscriptions.each do |protocol_subscription|
+          -#= render partial: 'participant_overview', locals: { protocol_subscription: protocol_subscription }
 
   = react_component('MentorPage')
 

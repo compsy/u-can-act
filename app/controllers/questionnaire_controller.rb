@@ -216,6 +216,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def log_csrf_error
+    return unless protect_against_forgery? # is false in test environment
     return if valid_request_origin? && any_authenticity_token_valid?
     record_warning_in_rails_logger
     params['content']['csrf_failed'] = 'true' if params['content'].present?

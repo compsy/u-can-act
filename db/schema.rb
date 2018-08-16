@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180815132049) do
+ActiveRecord::Schema.define(version: 20180816082448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "admins", force: :cascade do |t|
     t.string   "auth0_id_string", null: false
@@ -128,12 +129,13 @@ ActiveRecord::Schema.define(version: 20180815132049) do
   end
 
   create_table "protocols", force: :cascade do |t|
-    t.string   "name",                              null: false
-    t.integer  "duration",                          null: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.string   "name",                                                                    null: false
+    t.integer  "duration",                                                                null: false
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
     t.integer  "informed_consent_questionnaire_id"
     t.string   "invitation_text"
+    t.uuid     "uuid",                              default: -> { "uuid_generate_v4()" }, null: false
     t.index ["informed_consent_questionnaire_id"], name: "index_protocols_on_informed_consent_questionnaire_id", using: :btree
     t.index ["name"], name: "index_protocols_on_name", unique: true, using: :btree
   end
@@ -181,11 +183,12 @@ ActiveRecord::Schema.define(version: 20180815132049) do
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string   "group",      null: false
-    t.string   "title",      null: false
-    t.integer  "team_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "group",                                            null: false
+    t.string   "title",                                            null: false
+    t.integer  "team_id",                                          null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.uuid     "uuid",       default: -> { "uuid_generate_v4()" }, null: false
     t.index ["team_id", "title"], name: "index_roles_on_team_id_and_title", unique: true, using: :btree
     t.index ["team_id"], name: "index_roles_on_team_id", using: :btree
   end

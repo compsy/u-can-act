@@ -3,5 +3,6 @@
 module Api
   class ProtocolSerializer < ActiveModel::Serializer
     attributes :name
+    attributes :uuid
   end
 end

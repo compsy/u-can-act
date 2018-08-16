@@ -6,8 +6,13 @@ class Select extends React.Component {
 
   generateSelectOptions(items) {
     let selectorOptions = items.map((option) => {
+      if (typeof option != 'object') {
+        return (
+          <option name={option} key={option} value={option}>{option}</option>
+        )
+      }
       return (
-        <option key={option}>{option}</option>
+        <option name={option.text} key={option.value} value={option.value}>{option.text}</option>
       )
     })
     selectorOptions.unshift(<option key="def" value="def" disabled>Selecteer</option>)
@@ -33,14 +38,18 @@ class Select extends React.Component {
 
   componentDidMount() {
     this.redraw();
+
+    // Trigger an onchange here so the surrounding component will have the
+    // correct props selected in this component
+    this._onChange();
   }
 
   getSelectedOption() {
-    return $('#' + this._uuid).find(":selected").text();
+    return $('#' + this._uuid).val();
   }
 
   _onChange(e) {
-    this.props.onChange(this.getSelectedOption());
+    this.props.onChange(this.getSelectedOption(), this.props.name);
   }
 
   render() {

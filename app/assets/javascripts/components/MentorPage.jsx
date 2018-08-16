@@ -20,6 +20,7 @@ class MentorPage extends React.Component {
     form.values[name] = value;
     forms[id] = form;
 
+    console.log(forms);
     this.setState({
       personForms: forms
     });
@@ -35,8 +36,8 @@ class MentorPage extends React.Component {
       return response.json()
     }).then(data => {
       data = data.map((entry) => {
-        return entry.title
-      })
+        return { text: entry.title, value: entry.uuid }
+      });
       self.setState({
         roles: data
       })
@@ -56,8 +57,8 @@ class MentorPage extends React.Component {
       return response.json()
     }).then(data => {
       data = data.map((entry) => {
-        return entry.name
-      })
+        return { text: entry.name, value: entry.uuid }
+      });
       self.setState({
         protocols: data
       })
@@ -85,8 +86,8 @@ class MentorPage extends React.Component {
         firstName: undefined,
         lastName: undefined,
         mobilePhone: undefined,
-        protocol: undefined,
-        rol: undefined
+        protocol_uuid: undefined,
+        role_uuid: undefined
       },
       generalAttributes: {
         roles: this.state.roles,
@@ -107,16 +108,21 @@ class MentorPage extends React.Component {
       first_name: formValues.firstName,
       last_name: formValues.lastName,
       gender: formValues.gender,
-      mobile_phone: formValues.mobilePhone
+      mobile_phone: formValues.mobilePhone,
     }
 
     var protocol = {
-      name: formValues.protocol
+      uuid: formValues.protocol_uuid
+    }
+
+    var role = {
+      uuid: formValues.role_uuid
     }
 
     return {
       person: person,
-      protocol: protocol
+      protocol: protocol,
+      role: role
     };
   }
 

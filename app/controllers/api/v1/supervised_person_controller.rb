@@ -5,22 +5,41 @@ module Api
     class SupervisedPersonController < ApiController
       include ::Concerns::IsLoggedIn
       # before_action :check_role_id_for_created_person, only: [:create]
-
-      def me
-        render json: current_user, serializer: Api::PersonSerializer
-      end
+      before_action :load_role
+      before_action :load_protocol
 
       def create
-        Rails.logger.info 'ja!'	
-        #person = Person.new(person_params)
-        #if person.save
-          #render json: person, serializer: Api::PersonSerializer, status: 201
-        #else
-          #render json: { errors: person.errors }, status: 400
-        #end
+        Rails.logger.info 'ja!'
+        Rails.logger.info protocol_params
+        Rails.logger.info role_params
+        Rails.logger.info person_params
+
+        ActiveRecord::Base.transaction do
+          person = create_person
+          return if performed?
+          subscribe_to_protocols(person)
+        end
+
+        render json: person, serializer: Api::PersonSerializer, status: 201
       end
 
       private
+
+      def create_person
+        person = Person.new(person_params)
+        person.role = @role
+        return person if person.save
+        render json: { errors: person.errors }, status: 400
+      end
+
+      def subscribe_to_protocols(person)
+        ProtocolSubscription.create!(person: person,
+                                     protocol: @protocol,
+                                     state: ProtocolSubscription::ACTIVE_STATE,
+                                     start_date: protocol_params[:start_date],
+                                     end_date: protocol_params[:end_date])
+        # TODO: Create subscription for mentor
+      end
 
       def check_role_id_for_created_person
         return unless check_correct_rights
@@ -51,23 +70,30 @@ module Api
         true
       end
 
-      def check_role_id_presence
-        if params[:person][:role_id].blank?
-          render json: { errors: { role_id: ['moet opgegeven zijn'] } }, status: 400
-          return false
-        end
-        true
+      def load_protocol
+        @protocol = Protocol.find_by_uuid(protocol_params[:uuid])
+        render json: { errors: { protocol_uuid: ['niet gevonden'] } }, status: 400 unless @protocol.present
+      end
+
+      def load_role
+        @role = Role.find_by_uuid(role_params[:uuid])
+        render json: { errors: { role_uuid: ['niet gevonden'] } }, status: 400 unless @role.present
+      end
+
+      def role_params
+        params.require(:role).permit(:uuid)
       end
 
       def protocol_params
-        params.require(:protocol).permit(:name)
+        params.require(:protocol).permit(:uuid,
+                                         :start_date,
+                                         :end_date)
       end
 
       def person_params
         params.require(:person).permit(:first_name,
                                        :last_name,
                                        :email,
-                                       :role_id,
                                        :gender,
                                        :mobile_phone)
       end

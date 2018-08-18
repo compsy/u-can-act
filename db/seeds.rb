@@ -8,7 +8,7 @@ if Rails.env.development?
 end
 
 # These seeds need to be loaded first, and in order.
-%w[questionnaires protocols organizations teams].each do |seed_directory|
+%w[questionnaires protocols organizations teams supervision_trajectories].each do |seed_directory|
   Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '**', '*.rb')].each do |file|
     require file
   end

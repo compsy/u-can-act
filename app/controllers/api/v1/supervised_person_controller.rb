@@ -6,7 +6,7 @@ module Api
       include ::Concerns::IsLoggedIn
       # before_action :check_role_id_for_created_person, only: [:create]
       before_action :load_role
-      before_action :load_protocol
+      before_action :load_supervision_trajectory
 
       def create
         Rails.logger.info 'ja!'
@@ -17,7 +17,10 @@ module Api
         ActiveRecord::Base.transaction do
           person = create_person
           return if performed?
-          subscribe_to_protocols(person)
+          @supervision_trajectory.subscribe!(student: person,
+                                             mentor: current_user,
+                                             start_date: protocol_params[:start_date],
+                                             end_date: protocol_params[:end_date])
         end
 
         render json: person, serializer: Api::PersonSerializer, status: 201
@@ -30,15 +33,6 @@ module Api
         person.role = @role
         return person if person.save
         render json: { errors: person.errors }, status: 400
-      end
-
-      def subscribe_to_protocols(person)
-        ProtocolSubscription.create!(person: person,
-                                     protocol: @protocol,
-                                     state: ProtocolSubscription::ACTIVE_STATE,
-                                     start_date: protocol_params[:start_date],
-                                     end_date: protocol_params[:end_date])
-        # TODO: Create subscription for mentor
       end
 
       def check_role_id_for_created_person
@@ -70,14 +64,14 @@ module Api
         true
       end
 
-      def load_protocol
-        @protocol = Protocol.find_by_uuid(protocol_params[:uuid])
-        render json: { errors: { protocol_uuid: ['niet gevonden'] } }, status: 400 unless @protocol.present
+      def load_supervision_trajectory
+        @supervision_trajectory = SupervisionTrajectory.find_by_uuid(protocol_params[:uuid])
+        render json: { errors: { supervision_trajectory_uuid: ['niet gevonden'] } }, status: 400 unless @supervision_trajectory.present?
       end
 
       def load_role
         @role = Role.find_by_uuid(role_params[:uuid])
-        render json: { errors: { role_uuid: ['niet gevonden'] } }, status: 400 unless @role.present
+        render json: { errors: { role_uuid: ['niet gevonden'] } }, status: 400 unless @role.present?
       end
 
       def role_params

@@ -11,7 +11,7 @@ class MentorPage extends React.Component {
 
   componentWillMount(props) {
     this.loadRoles();
-    this.loadProtocols();
+    this.loadSupervisionTrajectories();
   }
 
   handleOnChange(name, value, id) {
@@ -36,7 +36,10 @@ class MentorPage extends React.Component {
       return response.json()
     }).then(data => {
       data = data.map((entry) => {
-        return { text: entry.title, value: entry.uuid }
+        return {
+          text: entry.title,
+          value: entry.uuid
+        }
       });
       self.setState({
         roles: data
@@ -44,10 +47,10 @@ class MentorPage extends React.Component {
     }).catch(error => console.error(error));
   }
 
-  loadProtocols() {
+  loadSupervisionTrajectories() {
     // TODO: Move to vsv_api_js
     var self = this;
-    fetch('/api/v1/protocol', {
+    fetch('/api/v1/supervision_trajectory', {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
       headers: {
@@ -57,10 +60,13 @@ class MentorPage extends React.Component {
       return response.json()
     }).then(data => {
       data = data.map((entry) => {
-        return { text: entry.name, value: entry.uuid }
+        return {
+          text: entry.name,
+          value: entry.uuid
+        }
       });
       self.setState({
-        protocols: data
+        supervisionTrajectories: data
       })
     }).catch(error => console.error(error));
   }
@@ -86,12 +92,14 @@ class MentorPage extends React.Component {
         firstName: undefined,
         lastName: undefined,
         mobilePhone: undefined,
-        protocol_uuid: undefined,
-        role_uuid: undefined
+        supervisionTrajectoryUuid: undefined,
+        roleUuid: undefined,
+        startDate: undefined,
+        endDate: undefined,
       },
       generalAttributes: {
         roles: this.state.roles,
-        protocols: this.state.protocols
+        supervisionTrajectories: this.state.supervisionTrajectories
       },
       id: id
     });
@@ -112,16 +120,21 @@ class MentorPage extends React.Component {
     }
 
     var protocol = {
-      uuid: formValues.protocol_uuid
+      start_date: formValues.startDate,
+      end_date: formValues.endDate
+    }
+
+    var supervision_trajectory = {
+      uuid: formValues.supervisionTrajectoryUuid
     }
 
     var role = {
-      uuid: formValues.role_uuid
+      uuid: formValues.roleUuid
     }
 
     return {
       person: person,
-      protocol: protocol,
+      supervision_trajectory: supervision_trajectory,
       role: role
     };
   }
@@ -153,8 +166,10 @@ class MentorPage extends React.Component {
             {this.state.personForms.map(FormToRender => <FormToRender.form values={FormToRender.values} generalAttributes={FormToRender.generalAttributes} formId={FormToRender.id} key={FormToRender.id} handleOnChange={ this.handleOnChange.bind(this) }/>)}
             <div className="col s12">
               <div className="row">
-                <SavePeopleButton numberOfForms={this.state.personForms.length} handleOnClick={this.handleSavePeople.bind(this)} />
-                <AddPersonFormButton numberOfForms={this.state.personForms.length} handleOnClick={this.handleAddPerson.bind(this)} />
+                <SavePeopleButton numberOfForms={this.state.personForms.length}
+                                  handleOnClick={this.handleSavePeople.bind(this)} />
+                <AddPersonFormButton numberOfForms={this.state.personForms.length}
+                                     handleOnClick={this.handleAddPerson.bind(this)} />
               </div>
             </div>
           </div>

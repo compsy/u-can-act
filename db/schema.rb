@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180816082448) do
+ActiveRecord::Schema.define(version: 20180816114045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,6 +193,19 @@ ActiveRecord::Schema.define(version: 20180816082448) do
     t.index ["team_id"], name: "index_roles_on_team_id", using: :btree
   end
 
+  create_table "supervision_trajectories", force: :cascade do |t|
+    t.uuid     "uuid",                    default: -> { "uuid_generate_v4()" }, null: false
+    t.string   "name",                                                          null: false
+    t.integer  "protocol_for_mentor_id"
+    t.integer  "protocol_for_student_id"
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.index ["name"], name: "index_supervision_trajectories_on_name", unique: true, using: :btree
+    t.index ["protocol_for_mentor_id", "protocol_for_student_id"], name: "index_rs_on_protocol_for_mentor_id_and_protocol_for_student_id", unique: true, using: :btree
+    t.index ["protocol_for_mentor_id"], name: "index_supervision_trajectories_on_protocol_for_mentor_id", using: :btree
+    t.index ["protocol_for_student_id"], name: "index_supervision_trajectories_on_protocol_for_student_id", using: :btree
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string   "name",            null: false
     t.datetime "created_at",      null: false
@@ -219,4 +232,6 @@ ActiveRecord::Schema.define(version: 20180816082448) do
   add_foreign_key "responses", "protocol_subscriptions"
   add_foreign_key "rewards", "protocols"
   add_foreign_key "roles", "teams"
+  add_foreign_key "supervision_trajectories", "protocols", column: "protocol_for_mentor_id"
+  add_foreign_key "supervision_trajectories", "protocols", column: "protocol_for_student_id"
 end

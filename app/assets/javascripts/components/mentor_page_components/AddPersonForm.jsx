@@ -1,6 +1,7 @@
 class AddPersonForm extends React.Component {
 
   handleOnChange(e) {
+    console.log(e);
     this.props.handleOnChange(e.target.name, e.target.value, this.props.formId);
   }
 
@@ -23,16 +24,16 @@ class AddPersonForm extends React.Component {
             <TextField id="mobile_phone" name="mobilePhone" value={this.props.values.mobilePhone} label='Mobile phone'  onChange={this.handleOnChange.bind(this)} />
           </div>
           <div className="col m3 s12">
-            <Select name='role_uuid' value={this.props.values.role_uuid} options={this.props.generalAttributes.roles} label='Rol' onChange={this.handleOnDropdownChange.bind(this)} />
+            <MaterializeUniqueIDComponent SubComponent={Select} name='roleUuid' value={this.props.values.roleUuid} options={this.props.generalAttributes.roles} label='Rol' onChange={this.handleOnDropdownChange.bind(this)} />
           </div>
           <div className="col m6 s12">
-            <Select name='protocol_uuid' value={this.props.values.protocol_uuid} options={this.props.generalAttributes.protocols} label='Protocol' onChange={this.handleOnDropdownChange.bind(this)} />
+            <MaterializeUniqueIDComponent SubComponent={Select} name='supervisionTrajectoryUuid' value={this.props.values.supervisionTrajectoryUuid} options={this.props.generalAttributes.supervisionTrajectories} label='Begeleidingstrajecten' onChange={this.handleOnDropdownChange.bind(this)} />
           </div>
           <div className="col m3 s12">
-            <DateField id="start_date" name="startDate" value={this.props.values.startDate} label='Start date'  onChange={this.handleOnChange.bind(this)} />
+            <MaterializeUniqueIDComponent SubComponent={DateField} id="start_date" name="startDate" value={this.props.values.startDate} label='Start date' onChange={this.handleOnChange.bind(this)} />
           </div>
           <div className="col m3 s12">
-            <DateField id="end_date" name="endDate" value={this.props.values.endDate} label='End date'  onChange={this.handleOnChange.bind(this)} />
+            <MaterializeUniqueIDComponent SubComponent={DateField} id="end_date" name="endDate" value={this.props.values.endDate} label='End date' onChange={this.handleOnChange.bind(this)} />
           </div>
         </div>
       </div>
@@ -45,8 +46,12 @@ AddPersonForm.defaultProps = {
     firstName: undefined,
     lastName: undefined,
     mobilePhone: undefined,
-    protocol: undefined
+    supervisionTrajectoryUuid: undefined,
+    roleUuid: undefined,
+    startDate: undefined,
+    endDate: undefined
   },
-  roles: undefined,
+  roles: [],
+  supervisionTrajectories: [],
   formId: undefined
 };

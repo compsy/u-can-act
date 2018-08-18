@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :questionnaire, only: [:show], param: :key
       resources :role, only: [:index]
+      resources :supervision_trajectory, only: [:index]
       resources :protocol, only: [:index]
       resources :response, only: [:show, :index, :create], param: :uuid
       resources :supervised_person, only: [:create]

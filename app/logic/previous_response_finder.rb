@@ -8,7 +8,7 @@ class PreviousResponseFinder
 
       completed_responses = response.protocol_subscription.responses.completed
       return nil if completed_responses.blank?
-      return completed_responses.last
+      completed_responses.last
     end
 
     def find_value(response, question_id)
@@ -17,7 +17,7 @@ class PreviousResponseFinder
 
       # The keys of the values of a response are usually strings, but to also
       # support symbols, use with_indifferent_access here.
-      previous_value = previous_response.values.with_indifferent_access[question_id]
+      previous_response.values.with_indifferent_access[question_id]
     end
   end
 end

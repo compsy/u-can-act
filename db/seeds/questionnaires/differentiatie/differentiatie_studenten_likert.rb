@@ -8,7 +8,7 @@ dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [{
   section_start: 'Dagboek',
   type: :raw,
-  content: '<p class="flow-text section-explanation">Denk aan de afgelopen les. Geef voor elke uitspraak aan in welke mate de uitspraak waar is voor jou.</p>'
+  content: '<p class="flow-text section-explanation">Hoi! Fijn dat je het dagboek weer invult &#x263a; Denk bij het invullen aan afgelopen les. Geef voor elke uitspraak aan in welke mate de uitspraak waar is voor jou. Je kunt kiezen uit vijf antwoorden.</p>'
 }, {
   section_start: "Tijdens de afgelopen les…",
   id: :v1,

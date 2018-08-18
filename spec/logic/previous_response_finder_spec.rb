@@ -38,7 +38,7 @@ describe PreviousResponseFinder do
 
       mock = double('response')
       allow(mock).to receive(:values)
-        .and_return({v2: 'hoi'})
+        .and_return(v2: 'hoi')
 
       expect(described_class).to receive(:find)
         .with(response)
@@ -55,7 +55,7 @@ describe PreviousResponseFinder do
 
       mock = double('response')
       allow(mock).to receive(:values)
-        .and_return({v1: expected})
+        .and_return(v1: expected)
 
       expect(described_class).to receive(:find)
         .with(response)
@@ -72,7 +72,7 @@ describe PreviousResponseFinder do
 
       mock = double('response')
       allow(mock).to receive(:values)
-        .and_return({'v1' => expected})
+        .and_return('v1' => expected)
 
       expect(described_class).to receive(:find)
         .with(response)

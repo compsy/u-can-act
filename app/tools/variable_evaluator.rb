@@ -24,7 +24,7 @@ class VariableEvaluator
 
       substitutions_hash = merge_string_items(substitutions_hash, subs_hash)
 
-      Rails.logger.info substitutions_hash	
+      Rails.logger.info substitutions_hash
       substitutions_hash.each do |variable, expansion|
         text = perform_static_substitution(text, variable, expansion)
       end
@@ -33,15 +33,13 @@ class VariableEvaluator
 
     def merge_string_items(default, extra)
       extra.each_key do |key|
-        if key.is_a? String
-          default[key] = extra[key]
-        end
+        default[key] = extra[key] if key.is_a? String
       end
       default
     end
 
     def merge(default, extra)
-       default.dup.merge(extra.dup) do |_, oldval, newval|
+      default.dup.merge(extra.dup) do |_, oldval, newval|
         newval.blank? ? oldval : newval
       end
     end
@@ -52,7 +50,7 @@ class VariableEvaluator
       # a name like Jan-Willem will be changed to Jan-willem.
       return text.gsub("{{#{variable.capitalize}}}", expansion) if expansion.match?(/^[A-Z]/)
 
-      return text.gsub("{{#{variable.capitalize}}}", expansion.capitalize)
+      text.gsub("{{#{variable.capitalize}}}", expansion.capitalize)
     end
 
     def default_subs_hash

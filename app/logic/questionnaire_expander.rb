@@ -3,7 +3,7 @@
 class QuestionnaireExpander
   class << self
     def expand_content(content, response)
-      if(content.is_a?(Hash)) 
+      if content.is_a?(Hash)
         return process_foreach(content, response) if content[:foreach].present?
         return process_uses(content, response) if content[:uses].present?
       end
@@ -20,21 +20,23 @@ class QuestionnaireExpander
     end
 
     def process_uses(content, response)
-      unless content[:uses].is_a? Hash
-        raise "Uses must be of hash type type, not '#{content[:uses]}'"
-      end
+      raise "Uses must be of hash type type, not '#{content[:uses]}'" unless content[:uses].is_a? Hash
 
       case content[:uses].keys.first
       when :previous
-        question_id = content[:uses][:previous]
-        default_value = content[:uses][:default]
-        previous_value = PreviousResponseFinder.find_value(response, question_id)
-        subs_hash = VariableSubstitutor.substitute_variables(response)
-        subs_hash["previous_#{question_id}"] = previous_value || default_value
-        [VariableEvaluator.evaluate_obj(content, subs_hash)]
+        process_uses_previous(content, response)
       else
         raise "Only :previous uses type is allowed, not '#{content[:uses]}'"
       end
+    end
+
+    def process_uses_previous(content, response)
+      question_id = content[:uses][:previous]
+      default_value = content[:uses][:default]
+      previous_value = PreviousResponseFinder.find_value(response, question_id)
+      subs_hash = VariableSubstitutor.substitute_variables(response)
+      subs_hash["previous_#{question_id}"] = previous_value || default_value
+      [VariableEvaluator.evaluate_obj(content, subs_hash)]
     end
 
     def process_foreach(content, response)

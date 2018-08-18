@@ -2,10 +2,10 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
-    %meta{name: "application-name", content: "u-can-act"}
+    %meta{name: "application-name", content: ENV['PROJECT_NAME']}
     = render 'shared/favicon'
 
-    %title u-can-act
+    %title #{ENV['PROJECT_NAME']}
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'

@@ -14,7 +14,8 @@ module ApplicationHelper
   end
 
   def logo_image
-    return 'differentiatie_logo.png'
+    # TODO: Remove once we have divided this into two repos
+    return '' if ENV['SETTING_DONT_SHOW_LOGO'].present?
     return 'U_can_act_logo_ZWART.png' if @use_mentor_layout.nil?
     @use_mentor_layout ? 'U_can_act_logo_CMYK_BLAUW.png' : 'U_can_act_logo_CMYK_GROEN.png'
   end

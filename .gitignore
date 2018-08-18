@@ -7,6 +7,7 @@ capybara-*.html
 /tmp/data
 /tmp/restart.txt
 /tmp/rspec_guard_result
+/tmp/*
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /coverage/

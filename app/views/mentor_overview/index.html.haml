@@ -20,7 +20,7 @@
 .row.section
   .col.s12
     - if @student_protocol_subscriptions.blank?
-      %p.flow-text Je begeleidt op dit moment geen studenten in u-can-act.
+      %p.flow-text Je begeleidt op dit moment geen studenten in #{ENV['PROJECT_NAME']}.
     - else
       %ul.collection
         - @student_protocol_subscriptions.each do |protocol_subscription|
@@ -35,3 +35,6 @@
       -#= link_to('Gegevens aanpassen', edit_person_path)
 
 = render 'shared/feedback_button'
+
+
+

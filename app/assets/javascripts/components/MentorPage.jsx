@@ -163,7 +163,8 @@ class MentorPage extends React.Component {
         <div className="row">
           <div className="col s12">
             <Message message='Nieuwe studenten worden toegevoegd.' shouldShow={ this.state.showProcessingMessage && this.state.personForms.length === 0 } />
-            {this.state.personForms.map(FormToRender => <FormToRender.form values={FormToRender.values} generalAttributes={FormToRender.generalAttributes} formId={FormToRender.id} key={FormToRender.id} handleOnChange={ this.handleOnChange.bind(this) }/>)}
+            {this.state.personForms.map((FormToRender) => 
+              <FormToRender.form values={FormToRender.values} generalAttributes={FormToRender.generalAttributes} formId={FormToRender.id} key={FormToRender.id} handleOnChange={ this.handleOnChange.bind(this) }/>)}
             <div className="col s12">
               <div className="row">
                 <SavePeopleButton numberOfForms={this.state.personForms.length}

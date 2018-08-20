@@ -15,6 +15,7 @@ class TokenAuthenticationController < ApplicationController
 
   def check_invitation_token
     invitation_token = InvitationToken.test_identifier_token_combination(identifier_param, token_param)
+    Rails.logger.info invitation_token.inspect
     if invitation_token.nil?
       render(status: 401, html: 'Je bent niet bevoegd om deze vragenlijst te zien.', layout: 'application')
       return

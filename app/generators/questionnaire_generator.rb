@@ -222,7 +222,7 @@ class QuestionnaireGenerator
       question = add_otherwise_label(question)
       safe_join([
                   content_tag(:p, title, class: 'flow-text'),
-                  likert_options(question),
+                  likert_options(question)
                 ])
     end
 
@@ -269,12 +269,12 @@ class QuestionnaireGenerator
 
     def likert_body_wrap(question_id, option, wrapped_tag, answer_key, answer_value, response_id)
       title = content_tag(:span,
-                  option[:title].html_safe
-                  )
+                          option[:title].html_safe)
 
       option_body = safe_join([
                                 wrapped_tag,
-                                content_tag(:label, title, class: 'flow-text', for: idify(question_id, option[:raw][:title])),
+                                content_tag(:label, title, class: 'flow-text', for: idify(question_id,
+                                                                                          option[:raw][:title])),
                                 generate_tooltip(option[:tooltip])
                               ])
       option_body = safe_join([

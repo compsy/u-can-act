@@ -2067,7 +2067,7 @@ describe 'GET and POST /', type: :feature, js: true do
     end
   end
 
-  fcontext 'likert' do
+  context 'likert' do
     let(:content) do
       [{
         id: :v1,

@@ -27,7 +27,9 @@ describe ObjectExporter do
       expect(described_class).to receive(:formatted_fields).and_return(2)
       expect(described_class).to receive(:default_fields).and_return(3)
       expect(described_class).to receive(:export).and_yield("\xC3\xBC") # utf-8 u with umlaut
-      expect(described_class.export_lines.to_a).to eq([+"\xFC\n".force_encoding('ISO-8859-1')]) # ISO-8859-1 u w/ umlaut
+      expect(described_class.export_lines.to_a).to(
+        eq([(+"\xFC\n").force_encoding('ISO-8859-1')])
+      ) # ISO-8859-1 u w/ umlaut
     end
   end
 

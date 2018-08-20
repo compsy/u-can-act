@@ -2,7 +2,13 @@
 
 class StudentInvitationTexts < InvitationTexts
   class << self
-    def message(protocol, protocol_completion)
+    def message(response)
+      return announcement_week_texts(response) if in_announcement_week?
+      pooled_message(response.protocol_subscription.protocol,
+                     response.protocol_subscription.protocol_completion)
+    end
+
+    def pooled_message(protocol, protocol_completion)
       curidx = current_index(protocol_completion)
       sms_pool = []
 
@@ -163,6 +169,14 @@ class StudentInvitationTexts < InvitationTexts
       [
         'Sinds vorige week ben je er weer bij. Super! Vul nog twee vragenlijsten in en jaag op de bonus euro\'s!'
       ]
+    end
+
+    private
+
+    def announcement_week_texts(_response)
+      'Hoi {{deze_student}}, je hebt geld verdiend met je deelname aan u-can-act: dit'\
+      ' is je laatste kans om te innen! Vul de laatste vragenlijst en IBAN in,'\
+      ' alleen dan kunnen we je beloning overmaken.'
     end
   end
 end

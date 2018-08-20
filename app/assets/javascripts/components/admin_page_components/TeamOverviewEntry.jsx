@@ -33,19 +33,13 @@ class TeamOverviewEntry extends React.Component {
     )
   }
 
-  createOverview(overview, overviewTitle) {
+  render() {
     var rows = this.generateOverviewRows(this.props.overview);
-
     return (
       <div className='col m12 l6'>
-        <h4> {overviewTitle} </h4>
+        <h4>{this.props.name}</h4>
         {this.generateTable(rows)}
       </div>
     )
-  }
-
-  render() {
-    var rendering = this.createOverview(this.props.overview, this.props.name)
-    return ( rendering )
   }
 }

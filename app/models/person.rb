@@ -57,25 +57,13 @@ class Person < ApplicationRecord
     role&.group == Person::MENTOR
   end
 
-  def reward_points
-    protocol_subscriptions.sum(&:reward_points)
-  end
-
-  def possible_reward_points
-    protocol_subscriptions.sum(&:possible_reward_points)
-  end
-
-  def max_reward_points
-    protocol_subscriptions.sum(&:max_reward_points)
-  end
-
-  def max_still_earnable_reward_points
-    protocol_subscriptions.active.sum(&:max_still_earnable_reward_points)
+  def active_protocol_subscriptions_with_stop_responses_first
+    protocol_subscriptions.active.sort_by { |prot_sub| prot_sub.stop_response.blank? ? 1 : 0 }
   end
 
   def my_students
-    return [] unless mentor?
-    my_protocols(false).map(&:filling_out_for)
+    return [] unless mentor? && protocol_subscriptions.present?
+    protocol_subscriptions.reject { |prot_sub| prot_sub.filling_out_for_id == id }.map(&:filling_out_for)
   end
 
   def my_protocols(for_myself = true)

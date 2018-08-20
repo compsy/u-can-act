@@ -6,7 +6,7 @@ describe InvitationTexts do
   describe 'message' do
     it 'should raise an error' do
       expect do
-        described_class.message(1, 2)
+        described_class.message(1)
       end.to raise_error(RuntimeError, 'method message not implemented by subclass!')
     end
   end

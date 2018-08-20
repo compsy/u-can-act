@@ -49,6 +49,12 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_link('Disclaimer', href: '/disclaimer')
   end
 
+  it 'should not show the Gegevens aanpassen link on the mentor overview page' do
+    inv_tok = invitation_tokens.first
+    visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
+    expect(page).to_not have_link('Gegevens aanpassen', href: '/person/edit')
+  end
+
   it 'should list the students of the current mentor on the page with the corresponding questionnaire links' do
     inv_tok = invitation_tokens.first
     visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"

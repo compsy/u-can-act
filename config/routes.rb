@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]
   resources :questionnaire, only: %i[index show create destroy], param: :uuid
-  resource :person, only: %i[edit update]
+  resource :person, only: %i[edit update] do
+    get 'unsubscribe'
+  end
 
   # Admin panel
   scope path: :admin do
@@ -18,6 +20,9 @@ Rails.application.routes.draw do
     get 'protocol_transfer_export', to: 'admin#protocol_transfer_export', as: 'admin_protocol_transfer_export'
     get 'questionnaire_export/:id', to: 'admin#questionnaire_export', as: 'admin_questionnaire_export'
     get 'response_export/:id', to: 'admin#response_export', as: 'admin_response_export'
+    get 'reward_export', to: 'admin#reward_export', as: 'admin_reward_export'
+    get 'proof_of_participation_export', to: 'admin#proof_of_participation_export', as: 'admin_proof_of_participation_export'
+
     post 'preview', to: 'admin#preview', as: 'admin_preview'
     post 'preview_done', to: 'admin#preview_done', as: 'admin_preview_done'
     get '*path', to: 'admin#index'
@@ -42,6 +47,7 @@ Rails.application.routes.draw do
       get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
       namespace :admin do
         resources :team, only: [:show], param: :group
+        resources :organization, only: [:show], param: :group
       end
     end
   end

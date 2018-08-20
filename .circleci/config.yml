@@ -120,7 +120,6 @@ jobs:
 
 workflows:
   version: 2
-
   commit:
     jobs:
       - checkout_code

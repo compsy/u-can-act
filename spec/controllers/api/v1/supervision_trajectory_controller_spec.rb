@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe Api::V1::SupervisionTrajectoryController, type: :controller do
+describe Api::V1::SupervisionTrajectoryController, type: :controller do
   let(:team) { FactoryBot.create(:team) }
   let(:mentor_role) { FactoryBot.create(:role, :mentor, team: team) }
   let(:person) { FactoryBot.create(:person, :with_iban, role: mentor_role, email: 'test@test2.com') }

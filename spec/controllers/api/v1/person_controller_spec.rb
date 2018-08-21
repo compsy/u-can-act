@@ -186,12 +186,6 @@ describe Api::V1::PersonController, type: :controller do
       end
 
       describe 'check_role_id_for_created_person filter' do
-        it 'should fail if the person does not have the correct rights' do
-          cookie_auth(student)
-          post :create, params: { person: new_person.attributes, role: { uuid: new_person.role.uuid } }
-          expect(response.status).to eq 403
-        end
-
         it 'should check if the provided role is valid / allowed' do
           cookie_auth(person)
           mentor_role.reload

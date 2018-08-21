@@ -6,7 +6,6 @@ describe Api::V1::RoleController, type: :controller do
   let(:team) { FactoryBot.create(:team) }
   let(:mentor_role) { FactoryBot.create(:role, :mentor, team: team) }
   let(:person) { FactoryBot.create(:person, :with_iban, role: mentor_role, email: 'test@test2.com') }
-  let(:params) { {} }
 
   it_should_behave_like 'an is_logged_in_as_mentor concern', 'get', :index
 

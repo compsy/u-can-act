@@ -4,8 +4,9 @@ module Api
   module V1
     class PersonController < ApiController
       include ::Concerns::IsLoggedIn
+      include ::Concerns::IsLoggedInAsMentor
       before_action :load_role, only: [:create]
-      before_action :check_role_id_for_created_person, only: [:create]
+      before_action :check_valid_role, only: [:create]
 
       def me
         render json: current_user, serializer: Api::PersonSerializer
@@ -23,11 +24,6 @@ module Api
 
       private
 
-      def check_role_id_for_created_person
-        return unless check_correct_rights
-        return unless check_valid_role
-      end
-
       def check_valid_role
         roles = current_user.role.team.roles.where(group: Person::STUDENT)
 
@@ -35,16 +31,6 @@ module Api
         role_uuids = roles.map { |role| role.uuid.to_s }
 
         if role_uuids.exclude? @role.uuid
-          head 403
-          return false
-        end
-        true
-      end
-
-      def check_correct_rights
-        # Mentors can currently only create persons that are students in their own
-        # organization!
-        if current_user.role.group != Person::MENTOR
           head 403
           return false
         end

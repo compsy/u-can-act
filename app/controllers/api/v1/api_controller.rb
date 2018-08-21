@@ -6,8 +6,8 @@ module Api
       skip_before_action :verify_authenticity_token
 
       rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
-        error = "'#{parameter_missing_exception.param}' parameter is verplicht"
-        response = { errors: [error] }
+        error = { parameter_missing_exception.param => ['is mandatory'] }
+        response = { errors: error }
         render json: response, status: :unprocessable_entity
       end
 

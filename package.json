@@ -1,0 +1,25 @@
+{
+  "name": "u-can-act",
+  "version": "0.0.1",
+  "description": "Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek",
+  "main": ".",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/compsy/vsv.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/compsy/vsv/issues"
+  },
+  "homepage": "https://github.com/compsy/vsv#readme",
+  "dependencies": {
+    "vsv_api": "0.0.1-4"
+  }
+}

@@ -10,8 +10,8 @@ class MentorPage extends React.Component {
   }
 
   componentWillMount(props) {
-    this.loadRoles();
-    this.loadSupervisionTrajectories();
+    this.listRoles();
+    this.listSupervisionTrajectories();
   }
 
   handleOnChange(name, value, id) {
@@ -26,8 +26,8 @@ class MentorPage extends React.Component {
     });
   }
 
-  loadRoles() {
-    // TODO: Move to vsv_api_js
+  listRoles() {
+    // TODO: Use from vsv_api_js
     var self = this;
     fetch('/api/v1/role', {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -47,8 +47,8 @@ class MentorPage extends React.Component {
     }).catch(error => console.error(error));
   }
 
-  loadSupervisionTrajectories() {
-    // TODO: Move to vsv_api_js
+  listSupervisionTrajectories() {
+    // TODO: Use from vsv_api_js
     var self = this;
     fetch('/api/v1/supervision_trajectory', {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -72,15 +72,15 @@ class MentorPage extends React.Component {
   }
 
   storeSupervisedStudent(values) {
-    // TODO: Move to vsv_api_js
-    fetch('/api/v1/supervised_person', {
+    // TODO: Use from vsv_api_js
+    return fetch('/api/v1/supervised_person', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify(values), // body data type must match "Content-Type" header
-    });
+    })
   }
 
   handleAddPerson() {
@@ -134,6 +134,7 @@ class MentorPage extends React.Component {
 
     return {
       person: person,
+      protocol: protocol,
       supervision_trajectory: supervision_trajectory,
       role: role
     };
@@ -146,15 +147,24 @@ class MentorPage extends React.Component {
       formValues = self.buildSupervisedStudentJson(entry.values);
     });
 
-    this.storeSupervisedStudent(formValues);
-    if (false) {
-      // Reset the state
-      this.setState({
-        personForms: [],
-        showProcessingMessage: true,
-        lastId: -1
-      })
-    }
+    this.storeSupervisedStudent(formValues).then(function(response) {
+      if (response.status === 201) {
+        // Reset the state
+        self.setState({
+          personForms: [],
+          showProcessingMessage: true,
+          lastId: -1,
+          warnings: undefined
+        })
+      } else {
+        response.json().then((parsedResponse) => {
+          console.log(parsedResponse);
+          self.setState({
+            warnings: parsedResponse.errors
+          })
+        });
+      }
+    }).catch(error => console.error(error));
   }
 
   render() {
@@ -162,6 +172,7 @@ class MentorPage extends React.Component {
       <div className="col s12">
         <div className="row">
           <div className="col s12">
+            <WarningMessage message={this.state.warnings} />
             <Message message='Nieuwe studenten worden toegevoegd.' shouldShow={ this.state.showProcessingMessage && this.state.personForms.length === 0 } />
             {this.state.personForms.map((FormToRender) => 
               <FormToRender.form values={FormToRender.values} generalAttributes={FormToRender.generalAttributes} formId={FormToRender.id} key={FormToRender.id} handleOnChange={ this.handleOnChange.bind(this) }/>)}

@@ -5,6 +5,14 @@ module Api
     class ApiController < ApplicationController
       skip_before_action :verify_authenticity_token
 
+      rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
+        error = "'#{parameter_missing_exception.param}' parameter is verplicht"
+        response = { errors: [error] }
+        respond_to do |format|
+          format.json { render json: response, status: :unprocessable_entity }
+        end
+      end
+
       # Called from the middleware!
       def raise_bad_request
         render plain: "Error while parsing json parameters: #{request.env['RAW_POST_DATA']}", status: 400

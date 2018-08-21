@@ -1,7 +1,12 @@
 class AddPersonForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      student: 'Student'
+    };
+  }
 
   handleOnChange(e) {
-    console.log(e);
     this.props.handleOnChange(e.target.name, e.target.value, this.props.formId);
   }
 
@@ -10,12 +15,20 @@ class AddPersonForm extends React.Component {
     this.props.handleOnChange(name, e, this.props.formId);
   }
 
+  handleOnFirstNameChange(e) {
+    this.setState({
+      student: e.target.value
+    });
+    this.props.handleOnChange(e.target.name, e.target.value, this.props.formId);
+  }
+
   render() {
     return (
       <div className="col s12">
+          <h3> {this.state.student} toevoegen </h3>
         <div className="row">
           <div className="col m3 s12">
-            <TextField id="first_name" name="firstName" label='First Name' value={this.props.values.firstName} type="text" class="validate"  onChange={this.handleOnChange.bind(this)}/>
+            <TextField id="first_name" name="firstName" label='First Name' value={this.props.values.firstName} type="text" class="validate"  onChange={this.handleOnFirstNameChange.bind(this)}/>
           </div>
           <div className="col m3 s12">
             <TextField id="last_name" name="lastName" label='Last Name' value={this.props.values.lastName} type="text" class="validate"  onChange={this.handleOnChange.bind(this)}/>

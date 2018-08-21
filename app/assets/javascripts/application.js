@@ -31,6 +31,7 @@
 //= require highcharts/modules/boost
 //= require radial-progess-chart
 //= require study_progress_bar
+//= require vsv_api/lib/vsv_api
 //= require components
 //= require_tree .
 $(function(){

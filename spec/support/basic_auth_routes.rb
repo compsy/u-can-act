@@ -4,6 +4,7 @@ require 'rails_helper'
 
 shared_examples_for 'a basic authenticated route' do |method, route|
   def call_url(method, route)
+    params ||= {}
     case method
     when 'get'
       get route, params: params if method == 'get'

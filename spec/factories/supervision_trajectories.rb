@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  sequence(:name) { |n| "name-#{n}" }
   factory :supervision_trajectory do
-    name 'Supervision trajectory'
+    name
     protocol_for_mentor nil
     protocol_for_student nil
 

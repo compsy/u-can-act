@@ -5,7 +5,7 @@ class SupervisionTrajectory < ApplicationRecord
   belongs_to :protocol_for_student, class_name: 'Protocol'
   validates :name, uniqueness: true
 
-  validates :protocol_for_mentor, uniqueness: { scope: :protocol_for_student }
+  validates :protocol_for_mentor, uniqueness: { scope: :protocol_for_student }, allow_blank: true
 
   def subscribe!(mentor:, student:, start_date:, end_date:)
     subscribe_student(student, start_date, end_date)

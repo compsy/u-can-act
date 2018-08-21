@@ -4,22 +4,10 @@ module Api
   module V1
     class SupervisionTrajectoryController < ApiController
       include ::Concerns::IsLoggedIn
-      before_action :check_correct_rights, only: [:index]
+      include ::Concerns::IsLoggedInAsMentor
 
       def index
-        render json: SupervisionTrajectory.all
-      end
-
-      private
-
-      def check_correct_rights
-        # Mentors can currently only create persons that are students in their own
-        # organization!
-        if current_user.role.group != Person::MENTOR
-          head 403
-          return false
-        end
-        true
+        render json: SupervisionTrajectory.all, each_serializer: Api::SupervisionTrajectorySerializer
       end
     end
   end

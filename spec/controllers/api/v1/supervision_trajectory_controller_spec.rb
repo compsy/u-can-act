@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::RoleController, type: :controller do
+fdescribe Api::V1::SupervisionTrajectoryController, type: :controller do
   let(:team) { FactoryBot.create(:team) }
   let(:mentor_role) { FactoryBot.create(:role, :mentor, team: team) }
   let(:person) { FactoryBot.create(:person, :with_iban, role: mentor_role, email: 'test@test2.com') }
@@ -28,30 +28,29 @@ describe Api::V1::RoleController, type: :controller do
         expect(response.status).to eq 200
       end
 
-      it 'should list an empty array if no roles are available' do
+      it 'should list an empty array if no supervisiontrajectories are available' do
         get :index
         result = JSON.parse(response.body)
         expect(result).to be_an Array
         expect(result).to be_blank
       end
 
-      it 'should only list the available roles' do
-        roles = FactoryBot.create_list(:role, 10, team: team)
-        FactoryBot.create_list(:role, 10)
+      it 'should all supervisiontrajectories' do
+        traj = FactoryBot.create_list(:supervision_trajectory, 10)
         get :index
         result = JSON.parse(response.body)
         expect(result).to be_an Array
         expect(result).to_not be_blank
         expect(result.length).to eq 10
         result.each_with_index do |res, idx|
-          expect(res['title']).to eq roles[idx].title
+          expect(res['name']).to eq traj[idx].name
         end
       end
 
       it 'should use the correct serializer' do
-        roles = FactoryBot.create_list(:role, 10, team: team)
+        traj = FactoryBot.create_list(:supervision_trajectory, 10)
         expect(controller).to receive(:render)
-          .with(json: roles, each_serializer: Api::RoleSerializer)
+          .with(json: traj, each_serializer: Api::SupervisionTrajectorySerializer)
           .and_call_original
         get :index
       end

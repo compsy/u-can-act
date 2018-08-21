@@ -8,9 +8,6 @@ describe Api::V1::PersonController, type: :controller do
   let(:student_role) { FactoryBot.create(:role, :student, team: team) }
   let(:mentor_role) { FactoryBot.create(:role, :mentor, team: team) }
 
-  let(:other_student_role) { FactoryBot.create(:role, :student) }
-  let(:other_mentor_role) { FactoryBot.create(:role, :student) }
-
   let(:person) { FactoryBot.create(:person, :with_iban, role: mentor_role, email: 'test@test2.com') }
   let(:student) { FactoryBot.create(:person, role: student_role) }
   let(:protocol) { FactoryBot.create(:protocol) }
@@ -133,7 +130,7 @@ describe Api::V1::PersonController, type: :controller do
 
     describe 'show' do
       it 'should call the correct serializer' do
-        allow(controller).to receive(:render)
+        expect(controller).to receive(:render)
           .with(json: person, serializer: Api::PersonSerializer)
           .and_call_original
         get :me
@@ -151,6 +148,57 @@ describe Api::V1::PersonController, type: :controller do
         expect(json['gender']).to eq person.gender
         expect(json['email']).to eq person.email
         expect(json['iban']).to eq person.iban
+      end
+    end
+
+    describe 'create' do
+      let(:new_person) { FactoryBot.build(:person, role: student_role) }
+      describe 'with a valid call' do
+        before :each do
+          # Reload is needed so PG can give it a uuid
+          student_role.reload
+        end
+
+        it 'should head 201' do
+          post :create, params: { person: new_person.attributes, role: { uuid: new_person.role.uuid } }
+          expect(response.status).to eq 201
+        end
+
+        it 'should call the correct serializer' do
+          expect(controller).to receive(:render)
+            .with(json: kind_of(Person), serializer: Api::PersonSerializer, status: 201)
+            .and_call_original
+          post :create, params: { person: new_person.attributes, role: { uuid: new_person.role.uuid } }
+        end
+
+        it 'should return the created person json' do
+          post :create, params: { person: new_person.attributes, role: { uuid: new_person.role.uuid } }
+          expect(response.header['Content-Type']).to include 'application/json'
+
+          json = JSON.parse(response.body)
+          expect(json).to_not be_nil
+          expect(json['first_name']).to eq new_person.first_name
+          expect(json['last_name']).to eq new_person.last_name
+          expect(json['mobile_phone']).to eq new_person.mobile_phone
+          expect(json['gender']).to eq new_person.gender
+          expect(json['iban']).to eq new_person.iban
+        end
+      end
+
+      describe 'check_role_id_for_created_person filter' do
+        it 'should fail if the person does not have the correct rights' do
+          cookie_auth(student)
+          post :create, params: { person: new_person.attributes, role: { uuid: new_person.role.uuid } }
+          expect(response.status).to eq 403
+        end
+
+        it 'should check if the provided role is valid / allowed' do
+          cookie_auth(person)
+          mentor_role.reload
+          new_person.role = mentor_role
+          post :create, params: { person: new_person.attributes, role: { uuid: new_person.role.uuid } }
+          expect(response.status).to eq 403
+        end
       end
     end
   end

@@ -7,7 +7,7 @@ module Api
       before_action :check_correct_rights, only: [:index]
 
       def index
-        render json: current_user.role.team.roles.where(group: Person::STUDENT)
+        render json: current_user.role.team.roles.where(group: Person::STUDENT), each_serializer: Api::RoleSerializer
       end
 
       private

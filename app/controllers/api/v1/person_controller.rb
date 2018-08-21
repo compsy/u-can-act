@@ -4,6 +4,7 @@ module Api
   module V1
     class PersonController < ApiController
       include ::Concerns::IsLoggedIn
+      before_action :load_role, only: [:create]
       before_action :check_role_id_for_created_person, only: [:create]
 
       def me
@@ -12,10 +13,11 @@ module Api
 
       def create
         person = Person.new(person_params)
+        person.role = @role
         if person.save
           render json: person, serializer: Api::PersonSerializer, status: 201
         else
-          render json: { errors: person.errors }, status: 400
+          render json: { errors: person.errors }, status: 422
         end
       end
 
@@ -23,7 +25,6 @@ module Api
 
       def check_role_id_for_created_person
         return unless check_correct_rights
-        return unless check_role_id_presence
         return unless check_valid_role
       end
 
@@ -31,9 +32,9 @@ module Api
         roles = current_user.role.team.roles.where(group: Person::STUDENT)
 
         # to_s because the rest call gives us a string
-        role_ids = roles.map { |role| role.id.to_s }
+        role_uuids = roles.map { |role| role.uuid.to_s }
 
-        if role_ids.exclude? params[:person][:role_id]
+        if role_uuids.exclude? @role.uuid
           head 403
           return false
         end
@@ -50,19 +51,18 @@ module Api
         true
       end
 
-      def check_role_id_presence
-        if params[:person][:role_id].blank?
-          render json: { errors: { role_id: ['moet opgegeven zijn'] } }, status: 400
-          return false
-        end
-        true
+      def load_role
+        @role = Role.find_by_uuid(role_params[:uuid])
+      end
+
+      def role_params
+        params.require(:role).permit(:uuid)
       end
 
       def person_params
         params.require(:person).permit(:first_name,
                                        :last_name,
                                        :email,
-                                       :role_id,
                                        :gender,
                                        :mobile_phone)
       end

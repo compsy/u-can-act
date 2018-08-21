@@ -7,6 +7,11 @@ describe Api::V1::ApiController, type: :controller do
     def create
       raise_bad_request
     end
+
+    def index
+      # This will raise!
+      ActionController::Parameters.new(protocol: {}).require(:protocol)
+    end
   end
 
   let(:test_response) { FactoryBot.create(:response) }
@@ -21,6 +26,21 @@ describe Api::V1::ApiController, type: :controller do
       post :create
       expect(response.status).to eq 400
       expect(response.body).to eq 'Error while parsing json parameters: '
+    end
+  end
+
+  describe 'ParameterMissing' do
+    it 'should head a 422 whenever the parameter missing error occurs' do
+      get :index
+      expect(response.status).to eq 422
+    end
+
+    it 'should head a json with the correct message when this error is thrown' do
+      get :index
+      result = response.body
+      result = JSON.parse(result)
+      expect(result.keys).to eq ['errors']
+      expect(result['errors']).to eq ["'protocol' parameter is verplicht"]
     end
   end
 

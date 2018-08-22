@@ -28,8 +28,9 @@ module Api
 
       def set_person
         # Debugging
-        # token = request.headers['Authorization'].split.last
-        # Knock::AuthToken.new(token: token)
+        token = request.headers['Authorization'].split.last
+        Rails.logger.info Knock::AuthToken.new(token: token)
+        Rails.logger.info current_auth_user
 
         @person = current_auth_user&.person
         return if @person.present?

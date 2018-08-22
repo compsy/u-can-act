@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe Api::SupervisionTrajectorySerializer do
-  let!(:the_subject) { FactoryBot.create(:supervision_trajectory) }
+describe Api::ProtocolSerializer do
+  let!(:the_subject) { FactoryBot.create(:protocol) }
   before { the_subject.reload }
 
   subject(:json) { described_class.new(the_subject).as_json.with_indifferent_access }

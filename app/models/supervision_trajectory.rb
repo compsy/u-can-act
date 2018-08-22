@@ -3,7 +3,7 @@
 class SupervisionTrajectory < ApplicationRecord
   belongs_to :protocol_for_mentor, class_name: 'Protocol'
   belongs_to :protocol_for_student, class_name: 'Protocol'
-  validates :name, uniqueness: true
+  validates :name, presence: true, uniqueness: true
 
   validates :protocol_for_mentor, uniqueness: { scope: :protocol_for_student }, allow_blank: true
 

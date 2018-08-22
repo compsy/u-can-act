@@ -8,11 +8,11 @@ FactoryBot.define do
     protocol_for_student nil
 
     trait :with_protocol_for_mentor do
-      protocol_for_mentor
+      protocol_for_mentor { create(:protocol) }
     end
 
     trait :with_protocol_for_student do
-      protocol_for_mentor
+      protocol_for_student { create(:protocol) }
     end
   end
 end

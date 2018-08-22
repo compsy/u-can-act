@@ -5,7 +5,6 @@ class AuthUser < ApplicationRecord
   validates :auth0_id_string, presence: true, uniqueness: true
   belongs_to :person, dependent: :destroy
   AUTH0_KEY_LOCATION = 'sub'
-  SITE_LOCATION = 'https://kct.evionix.org'
 
   ADMIN_ROLE = 'admin'
   USER_ROLE = 'user'
@@ -18,7 +17,7 @@ class AuthUser < ApplicationRecord
     def from_token_payload(payload)
       Rails.logger.info '!'*100	
       Rails.logger.info payload	
-      metadata = payload[SITE_LOCATION] || {}
+      metadata = payload[ENV['SITE_LOCATION']] || {}
       id = payload[AUTH0_KEY_LOCATION]
       raise "Invalid payload #{payload} - no sub key" unless payload.key?(AUTH0_KEY_LOCATION)
 

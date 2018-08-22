@@ -105,17 +105,20 @@ RSpec.describe SupervisionTrajectory, type: :model do
 
     it 'should subscribe both a student and a mentor to the protocols' do
       pre_prot_subs = ProtocolSubscription.count
-      traj = FactoryBot.create(:supervision_trajectory, :with_protocol_for_mentor, :with_protocol_for_student, name: 'test')
+      traj = FactoryBot.create(:supervision_trajectory,
+                               :with_protocol_for_mentor,
+                               :with_protocol_for_student,
+                               name: 'test')
       traj.subscribe!(mentor: mentor, student: student,
                       start_date: 10.hours.ago.in_time_zone.beginning_of_day,
                       end_date: 10.days.from_now.beginning_of_day)
-  
+
       # Expect 1 for the mentor and 1 for the student
       expect(ProtocolSubscription.count).to eq(pre_prot_subs + 2)
     end
 
     it 'should be able to only subscribe a mentor' do
-      start =10.hours.ago.in_time_zone.beginning_of_day
+      start = 10.hours.ago.in_time_zone.beginning_of_day
       endd = 10.days.from_now.beginning_of_day
 
       pre_prot_subs = ProtocolSubscription.count
@@ -123,9 +126,9 @@ RSpec.describe SupervisionTrajectory, type: :model do
       traj.subscribe!(mentor: mentor, student: student,
                       start_date: start,
                       end_date: endd)
-  
+
       expect(ProtocolSubscription.count).to eq(pre_prot_subs + 1)
-      prot_sub =ProtocolSubscription.last
+      prot_sub = ProtocolSubscription.last
       expect(prot_sub.protocol).to eq(traj.protocol_for_mentor)
       expect(prot_sub.start_date).to eq start
       expect(prot_sub.end_date).to eq endd
@@ -134,7 +137,7 @@ RSpec.describe SupervisionTrajectory, type: :model do
     end
 
     it 'should be able to only subscribe a student' do
-      start =10.hours.ago.in_time_zone.beginning_of_day
+      start = 10.hours.ago.in_time_zone.beginning_of_day
       endd = 10.days.from_now.beginning_of_day
 
       pre_prot_subs = ProtocolSubscription.count
@@ -142,7 +145,7 @@ RSpec.describe SupervisionTrajectory, type: :model do
       traj.subscribe!(mentor: mentor, student: student,
                       start_date: start,
                       end_date: endd)
-  
+
       # Expect 1 for the mentor and 1 for the student
       expect(ProtocolSubscription.count).to eq(pre_prot_subs + 1)
       prot_sub = ProtocolSubscription.last

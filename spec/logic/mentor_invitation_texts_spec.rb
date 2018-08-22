@@ -71,7 +71,6 @@ describe MentorInvitationTexts do
                                               measurement: measurement1,
                                               open_from: 1.minute.ago)
 
-
       result = described_class.message(response)
       expect(result).to eq 'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze ' \
                            'week ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ' \

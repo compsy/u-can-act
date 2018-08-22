@@ -29,12 +29,12 @@ module Api
       def set_person
         # Debugging
         token = request.headers['Authorization'].split.last
-        Rails.logger.info Knock::AuthToken.new(token: token)
-        Rails.logger.info current_auth_user
+        Rails.logger.warn Knock::AuthToken.new(token: token)
+        Rails.logger.warn current_auth_user.person.inspect
 
         @person = current_auth_user&.person
         return if @person.present?
-        result = { result: 'Deelnemer niet gevonden' }
+        result = { result: current_auth_user.to_json }
         render(status: 404, json: result)
       end
 

@@ -28,6 +28,8 @@ shared_examples_for 'a person object' do
       students.each do |student|
         FactoryBot.create(:protocol_subscription, person: mentor, filling_out_for: student)
       end
+
+      mentor.reload
       result = mentor.my_students
 
       expect(result).to_not be_blank
@@ -40,6 +42,7 @@ shared_examples_for 'a person object' do
       students.each do |student|
         FactoryBot.create(:protocol_subscription, :canceled, person: mentor, filling_out_for: student)
       end
+      mentor.reload
       result = mentor.my_students
 
       expect(result).to_not be_blank

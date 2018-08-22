@@ -11,6 +11,10 @@ describe Api::V1::PersonController, type: :controller do
   let(:person) { FactoryBot.create(:person, :with_iban, role: mentor_role, email: 'test@test2.com') }
   let(:student) { FactoryBot.create(:person, role: student_role) }
   let(:protocol) { FactoryBot.create(:protocol) }
+  before :each do
+    student_role.reload
+    mentor_role.reload
+  end
 
   let(:valid_person_params) do
     {
@@ -21,8 +25,8 @@ describe Api::V1::PersonController, type: :controller do
         mobile_phone: '0612341234',
         role_id: student_role.id
       },
-      protocol: {
-        id: protocol.id
+      role: {
+        uuid: student_role.uuid
       }
     }
   end
@@ -46,15 +50,11 @@ describe Api::V1::PersonController, type: :controller do
     end
 
     describe 'create' do
-      describe 'validates role id' do
-        it 'should head 403 if the current user is not a mentor' do
-          cookie_auth(student)
-          post :create, params: valid_person_params
-          expect(response.status).to eq 403
-        end
+      it_should_behave_like 'an is_logged_in_as_mentor concern', 'post', :create
 
+      describe 'validates role id' do
         it 'should head 403 if the provided role is not a student role in the correct organization' do
-          valid_person_params[:person][:role_id] = mentor_role.id
+          valid_person_params[:role][:uuid] = mentor_role.uuid
           post :create, params: valid_person_params
           expect(response.status).to eq 403
         end
@@ -63,8 +63,10 @@ describe Api::V1::PersonController, type: :controller do
       context 'invalid person' do
         let(:person_params) do
           {
-            person: { mobile_phone: '0612341234', role_id: student_role.id },
-            protocol: { id: protocol.id }
+            person: { mobile_phone: '0612341234' },
+            role: {
+              uuid: student_role.uuid
+            }
           }
         end
 
@@ -74,9 +76,9 @@ describe Api::V1::PersonController, type: :controller do
           expect(Person.count).to eq pre_count
         end
 
-        it 'should head 400' do
+        it 'should head 422' do
           post :create, params: person_params
-          expect(response.status).to eq 400
+          expect(response.status).to eq 422
         end
 
         it 'should return the errors' do
@@ -91,19 +93,20 @@ describe Api::V1::PersonController, type: :controller do
           end
         end
 
-        it 'should render a 400 with errors if the role_id is not provided' do
-          person_params[:person].delete :role_id
+        it 'should render a 422 with errors if the role_id is not provided' do
+          person_params = valid_person_params
+          person_params.delete(:role)
           post :create, params: person_params
-          expect(response.status).to eq 400
+          expect(response.status).to eq 422
 
           result = JSON.parse(response.body)
           expect(result).to be_a Hash
           expect(result.keys).to match_array ['errors']
-          missing_entries = ['role_id']
+          missing_entries = ['role']
 
           expect(result['errors'].keys).to match_array missing_entries
           missing_entries.each do |entry|
-            expect(result['errors'][entry]).to match_array ['moet opgegeven zijn']
+            expect(result['errors'][entry]).to match_array ['is mandatory']
           end
         end
       end

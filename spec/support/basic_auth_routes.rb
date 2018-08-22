@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 shared_examples_for 'a basic authenticated route' do |method, route|
-  def call_url(method, route)
-    params ||= {}
+  def call_url(method, route, params)
+    # params = {} if params.blank?
     case method
     when 'get'
       get route, params: params if method == 'get'
@@ -13,15 +13,23 @@ shared_examples_for 'a basic authenticated route' do |method, route|
     end
   end
 
+  let(:new_params) do
+    if defined? params
+      params
+    else
+      {}
+    end
+  end
+
   it 'should return a 401 when not authenticated' do
-    call_url(method, route)
+    call_url(method, route, new_params)
     expect(response.status).to eq 401
     expect(response.body).to include 'HTTP Basic: Access denied.'
   end
 
   it 'should return a 401 when not authenticated due to wrong password' do
     basic_api_auth name: 'wrong', password: 'wronger'
-    call_url(method, route)
+    call_url(method, route, new_params)
     expect(response.status).to eq 401
     expect(response.body).to include 'HTTP Basic: Access denied.'
   end
@@ -32,7 +40,7 @@ shared_examples_for 'a basic authenticated route' do |method, route|
     expect(ENV['API_SECRET']).to be_blank
     basic_api_auth name: ENV['API_KEY'], password: ''
 
-    call_url(method, route)
+    call_url(method, route, new_params)
     expect(response.status).to eq 401
     expect(response.body).to include 'HTTP Basic: Access denied.'
     ENV['API_SECRET'] = pre_secret
@@ -40,7 +48,7 @@ shared_examples_for 'a basic authenticated route' do |method, route|
 
   it 'should return a 2xx if the route is authenticated' do
     basic_api_auth name: ENV['API_KEY'], password: ENV['API_SECRET']
-    call_url(method, route)
+    call_url(method, route, new_params)
     expect(response.status).to be < 300
     expect(response.status).to be >= 200
   end

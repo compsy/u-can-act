@@ -28,12 +28,12 @@ describe Api::V1::ResponseController, type: :controller do
   end
 
   describe 'index should be authenticated' do
-    let(:params) { { external_identifier: person.external_identifier } }
+    let!(:params) { { external_identifier: person.external_identifier } }
     it_should_behave_like 'a basic authenticated route', 'get', :index
   end
 
   describe 'create should be authenticated' do
-    let(:params) { { uuid: response2.uuid } }
+    let!(:params) { { uuid: response2.uuid } }
     it_should_behave_like 'a basic authenticated route', 'post', :create
   end
 

@@ -3,6 +3,10 @@
 class MentorInvitationTexts < InvitationTexts
   class << self
     def message(response)
+      # The reload is needed because of the PersonMentorMobilePhoneUniquenessValidator,
+      # which is annoying. Any ideas?
+      response.reload
+
       return announcement_week_texts(response) if in_announcement_week?
       normal_texts(response)
     end

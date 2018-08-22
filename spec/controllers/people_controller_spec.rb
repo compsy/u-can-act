@@ -99,6 +99,7 @@ RSpec.describe PeopleController, type: :controller do
         expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
         expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
       end
+
       it 'should redirect to the klaar page and cancel any active protocol subscriptions' do
         person = FactoryBot.create(:mentor)
         cookie_auth(person)
@@ -116,6 +117,7 @@ RSpec.describe PeopleController, type: :controller do
         expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
         expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
       end
+
       it 'should redirect to a stop response if there is one' do
         person = FactoryBot.create(:mentor)
         cookie_auth(person)

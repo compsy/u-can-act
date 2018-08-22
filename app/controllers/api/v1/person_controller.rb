@@ -5,6 +5,7 @@ module Api
     class PersonController < ApiController
       include ::Concerns::IsLoggedIn
       include ::Concerns::IsLoggedInAsMentor
+      skip_before_action :verify_mentor, only: :me
       before_action :load_role, only: [:create]
       before_action :check_valid_role, only: [:create]
 

@@ -18,6 +18,7 @@ FactoryBot.define do
     trait :with_protocol_subscriptions do
       after(:create) do |person|
         FactoryBot.create(:protocol_subscription, person: person)
+        person.protocol_subscriptions.reload
       end
     end
   end

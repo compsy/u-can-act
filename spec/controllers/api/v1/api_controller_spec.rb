@@ -40,7 +40,8 @@ describe Api::V1::ApiController, type: :controller do
       result = response.body
       result = JSON.parse(result)
       expect(result.keys).to eq ['errors']
-      expect(result['errors']).to eq ["'protocol' parameter is verplicht"]
+      expect(result['errors'].keys).to eq ['protocol']
+      expect(result['errors']['protocol']).to eq ['is mandatory']
     end
   end
 

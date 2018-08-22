@@ -147,7 +147,7 @@ describe ProtocolSubscription do
     end
   end
 
-  fdescribe 'validates uniqueness of students mobile phone per mentor' do
+  describe 'validates uniqueness of students mobile phone per mentor' do
     let(:mobile_phone) { '0688888888' }
     let(:mentor) { FactoryBot.create(:mentor) }
     let(:mentor2) { FactoryBot.create(:mentor) }

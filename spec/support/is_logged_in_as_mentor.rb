@@ -13,7 +13,7 @@ shared_examples_for 'an is_logged_in_as_mentor concern' do |method, route|
     end
   end
 
-  it 'should head a 403 if the current person is not a mentor' do
+  it 'should head a 401 if the current person is not a mentor' do
     student = FactoryBot.create(:student)
     cookie_auth(student)
     call_url(method, route)

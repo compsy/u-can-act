@@ -42,15 +42,15 @@ describe Api::V1::RoleController, type: :controller do
         expect(result).to be_an Array
         expect(result).to_not be_blank
         expect(result.length).to eq 10
-        result.each_with_index do |res, idx|
-          expect(res['title']).to eq roles[idx].title
-        end
+        result = result.map { |res| res['title'] }
+        expected = roles.map(&:title)
+        expect(result).to match_array(expected)
       end
 
       it 'should use the correct serializer' do
-        roles = FactoryBot.create_list(:role, 10, team: team)
+        roles = FactoryBot.create_list(:role, 10, :student, team: team)
         expect(controller).to receive(:render)
-          .with(json: roles, each_serializer: Api::RoleSerializer)
+          .with(json: array_including(roles), each_serializer: Api::RoleSerializer)
           .and_call_original
         get :index
       end

@@ -1,5 +1,5 @@
 default_protocol_duration = 1000000 # evt eerder dynamisch afbreken
-default_open_duration = 30.years     # "tot de volgende dag 6 uur"
+default_open_duration = 30.years 
 default_posttest_open_duration = nil
 default_reward_points = 100
 
@@ -17,13 +17,11 @@ protocol.save!
 # Add dagboekmetingen
 questionnaires = ['KCT Q-COM', 'KCT Q-COP', 'KCT Q-RES', 'KCT Q-SE']
 questionnaires.each do |name|
-  of_offset = 3.days + 12.hours # Thursday noon
+  of_offset = 0.days # Thursday noon
   dagboekvragenlijst_id = Questionnaire.find_by_name(name)&.id
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
-  db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
-                                              open_from_offset: of_offset).first
+  db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
-  db_measurement.open_from_offset = 0
   db_measurement.period = nil
   db_measurement.open_duration = default_open_duration
   db_measurement.reward_points = default_reward_points

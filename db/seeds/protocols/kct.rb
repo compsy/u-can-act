@@ -24,6 +24,7 @@ questionnaires.each do |name|
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
   db_measurement.period = nil
   db_measurement.open_duration = default_open_duration
+  db_measurement.open_from_offset = 0
   db_measurement.reward_points = default_reward_points
   db_measurement.stop_measurement = false
   db_measurement.should_invite = true

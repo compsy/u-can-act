@@ -19,7 +19,9 @@ class StudentInProgressRewardPage extends React.Component {
 
     // Fallback: if no streak / only future measurements exist, return zero.
     // This should never happen, but makes the code more robust.
-    if (percentageStreakIdx < 0) { return 0; }
+    if (percentageStreakIdx < 0) {
+      return 0;
+    }
 
     // Make sure the streak value does not exceed the maximum possible streak value
     return Math.max(Math.min(protocolCompletion[percentageStreakIdx].streak, maxStreak), 0);
@@ -40,6 +42,6 @@ class StudentInProgressRewardPage extends React.Component {
                         totalAvailable={this.totalAvailable}/>
         </div>
       </div>
-    )
+    );
   }
 }

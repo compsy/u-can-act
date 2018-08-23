@@ -31,6 +31,8 @@ class AuthUser < ApplicationRecord
 
     def subscribe_to_protocol_if_needed(person, metadata)
       return if metadata['protocol'].nil?
+
+      # A person can only be subscribed to the same protocol once
       return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == metadata['protocol'] }
       SubscribeToProtocol.run!(protocol_name: metadata['protocol'], person: person)
     end

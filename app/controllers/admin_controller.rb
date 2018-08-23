@@ -5,7 +5,7 @@ class AdminController < ApplicationController
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
   before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
   before_action :set_questionnaire_content, only: %i[preview]
-  before_action :load_questionnaires, only: %i[export preview]
+  before_action :load_questionnaires, only: %i[export preview_overview]
 
   def preview
     @use_mentor_layout = @questionnaire.name.match?(/mentor/)

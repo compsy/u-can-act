@@ -39,20 +39,20 @@ describe 'rake maintenance:fix_responses', type: :task do
   end
 end
 
-describe 'rake maintenance:scrambler', type: :task do
+describe 'rake maintenance:scramble', type: :task do
   it 'should preload the Rails environment' do
     expect(task.prerequisites).to include 'environment'
   end
 
   it 'scramble all names in the database' do
     FactoryBot.create_list(:person, 10)
-    pre_people = People.all.map(&:first_name)
+    pre_people = Person.all.map(&:first_name)
     expect do
       task.execute
     end.to output("Scrambling people - started\n" \
                   "Scrambling people - done\n").to_stdout
 
-    post_people = People.all.map(&:first_name)
+    post_people = Person.all.map(&:first_name)
 
     pre_people.each do |name|
       expect(post_people).to_not include name

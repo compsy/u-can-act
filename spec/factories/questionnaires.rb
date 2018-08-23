@@ -6,8 +6,8 @@ FactoryBot.define do
   factory :questionnaire do
     name { generate(:questionnaire_name) }
     key { generate(:questionnaire_key) }
-    title 'vragenlijst-dagboekstudie-studenten'
-    content [{
+    title { 'vragenlijst-dagboekstudie-studenten' }
+    content { [{
       section_start: 'Algemeen',
       id: :v1,
       type: :radio,
@@ -73,10 +73,10 @@ FactoryBot.define do
         title: 'Slider 2 (lorem!)',
         labels: ['zelf geen invloed', 'zelf veel invloed']
       }]
-    }]
+    }] }
 
     trait :one_expansion do
-      content [{
+      content { [{
         section_start: 'Algemeen',
         id: :v1,
         type: :radio,
@@ -139,11 +139,11 @@ FactoryBot.define do
           title: 'Slider 2 (lorem!)',
           labels: ['zelf geen invloed', 'zelf veel invloed']
         }]
-      }]
+      }] }
     end
 
     trait :minimal do
-      content [{ type: :raw, content: '<p>Hoihoihoi</p>' }]
+      content { [{ type: :raw, content: '<p>Hoihoihoi</p>' }] }
     end
   end
 end

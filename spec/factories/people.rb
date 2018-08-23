@@ -5,10 +5,10 @@ FactoryBot.define do
   factory :person do
     initialize_with { new(attributes) } # This makes it so that after_initialize blocks in the model are called.
     role
-    gender Person::MALE
+    gender { Person::MALE }
     mobile_phone
-    first_name 'Jane'
-    last_name 'Doe'
+    first_name { 'Jane' }
+    last_name { 'Doe' }
 
     trait :with_random_name do
       sequence(:first_name, 'a') { |n| 'Janine' + n }
@@ -23,15 +23,15 @@ FactoryBot.define do
   end
 
   trait :with_iban do
-    iban 'NL91ABNA0417164300'
+    iban { 'NL91ABNA0417164300' }
   end
 
   trait :with_test_phone_number do
-    mobile_phone ENV['TEST_PHONE_NUMBERS'].split(',').first
+    mobile_phone { ENV['TEST_PHONE_NUMBERS'].split(',').first }
   end
 
   factory :mentor, class: 'Person', parent: :person do
-    email 'mentor@mentor.com'
+    email { 'mentor@mentor.com' }
     role { FactoryBot.create(:role, group: Person::MENTOR, title: 'mentor Title') }
   end
 

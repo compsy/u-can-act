@@ -70,7 +70,7 @@ RSpec.describe PeopleController, type: :controller do
       FactoryBot.create(:measurement, :stop_measurement,
                         protocol: protocol,
                         open_from_offset: (2.days + 13.hours).to_i)
-      protocol.reload
+
       FactoryBot.create(:protocol_subscription,
                         person: person,
                         protocol: protocol,

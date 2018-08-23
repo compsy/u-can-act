@@ -46,16 +46,28 @@ describe 'rake maintenance:scramble', type: :task do
 
   it 'scramble all names in the database' do
     FactoryBot.create_list(:person, 10)
-    pre_people = Person.all.map(&:first_name)
+    FactoryBot.create_list(:student, 10)
+    FactoryBot.create_list(:mentor, 10)
+
+    ids = Person.all.map(&:id)
+    pre_people = Person.all.map(&:dup)
     expect do
       task.execute
     end.to output("Scrambling people - started\n" \
                   "Scrambling people - done\n").to_stdout
 
-    post_people = Person.all.map(&:first_name)
-
-    pre_people.each do |name|
-      expect(post_people).to_not include name
+    pre_people.each_with_index do |person, idx|
+      id = ids[idx]
+      other_person = Person.find(id)
+      expect(other_person.first_name).to_not eq person.first_name
+      expect(other_person.last_name).to_not eq person.last_name
+      expect(other_person.mobile_phone).to_not eq person.mobile_phone
+      if  person.mentor?
+        expect(other_person.iban).to be_blank
+      else
+        expect(other_person.iban).to_not eq person.iban
+      end
+      expect(other_person.email).to_not eq person.email
     end
   end
 end

@@ -18,7 +18,7 @@ namespace :maintenance do
   end
 
   desc 'Scrambling all persons'
-  task :scramble, :environment do
+  task scramble: :environment do
     puts 'Scrambling people - started'
     ActiveRecord::Base.transaction do
       people = Person.all

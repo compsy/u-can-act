@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
+  sequence(:email) { |n| "email#{n}@email.com" }
   factory :person do
     initialize_with { new(attributes) } # This makes it so that after_initialize blocks in the model are called.
     role
@@ -31,7 +32,7 @@ FactoryBot.define do
   end
 
   factory :mentor, class: 'Person', parent: :person do
-    email { 'mentor@mentor.com' }
+    email
     role { FactoryBot.create(:role, group: Person::MENTOR, title: 'mentor Title') }
   end
 

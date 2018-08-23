@@ -474,7 +474,7 @@ DEPENDENCIES
   listen
   lograge
   mailgun-ruby
-  materialize-sass (~> 1.0.0.rc2)
+  materialize-sass (>= 1.0.0.rc2)
   messagebird-rest
   mini_racer
   modernizr-rails
@@ -512,4 +512,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.2
+   1.16.3

@@ -253,6 +253,30 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(responseobj.content).to_not be_nil
         expect(responseobj.values).to eq('v1' => 'true')
       end
+
+      context 'request forgery protection' do
+        before do
+          ActionController::Base.allow_forgery_protection = true
+        end
+        after do
+          ActionController::Base.allow_forgery_protection = false
+        end
+        it 'logs an attention message and adds a key to the answers when authenticity token fails' do
+          expect_any_instance_of(described_class).to receive(:verify_cookie)
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          open_from: 1.hour.ago)
+          expect(Rails.logger).to receive(:warn).with(/^\[Attention\]/)
+          post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+          expect(response).to have_http_status(302)
+          responseobj.reload
+          expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+          expect(responseobj.content).to_not be_nil
+          expect(responseobj.values).to eq('v1' => 'true', 'csrf_failed' => 'true')
+        end
+      end
     end
 
     describe 'redirecting with mentor' do

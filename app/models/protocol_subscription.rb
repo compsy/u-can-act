@@ -142,6 +142,6 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def schedule_responses
-    RescheduleResponses.run!(protocol_subscription: self, future: 1.second.ago)
+    RescheduleResponses.run!(protocol_subscription: self, future: 10.minutes.ago)
   end
 end

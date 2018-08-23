@@ -3,7 +3,7 @@
 class SubscribeToProtocol < ActiveInteraction::Base
   string :protocol_name
   object :person
-  time :start_date, default: 10.minutes.ago
+  time :start_date, default: Time.zone.now
 
   # Function to start a protocol subscription for a person
   #

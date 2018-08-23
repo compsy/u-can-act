@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RadioGenerator < Generator
+class RadioGenerator < QuestionTypeGenerator
   def generate(question)
     # TODO: Add radio button validation error message
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])

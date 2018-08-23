@@ -5,11 +5,7 @@ class AdminController < ApplicationController
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
   before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
   before_action :set_questionnaire_content, only: %i[preview]
-
-  def preview_overview
-    # exclude pilot study questionnaires
-    @used_questionnaires = Questionnaire.all - Questionnaire.pilot
-  end
+  before_action :load_questionnaires, only: %i[export preview]
 
   def preview
     @use_mentor_layout = @questionnaire.name.match?(/mentor/)
@@ -71,8 +67,7 @@ class AdminController < ApplicationController
   end
 
   def set_questionnaire_content
-    questionnaire_generator = QuestionnaireGenerator.new
-    @content = questionnaire_generator.generate_questionnaire(
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
       response_id: nil,
       content: @questionnaire.content,
       title: @questionnaire.title,
@@ -82,6 +77,12 @@ class AdminController < ApplicationController
       params: { authenticity_token: form_authenticity_token(form_options: { action: '/admin/preview_done',
                                                                             method: 'post' }) }
     )
+  end
+
+  def load_questionnaires
+    # exclude pilot study questionnaires
+    @pilot_questionnaires = Questionnaire.pilot
+    @normal_questionnaires = Questionnaire.all - @pilot_questionnaires
   end
 
   def questionnaire_params

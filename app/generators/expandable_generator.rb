@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ExpandableGenerator < Generator
+class ExpandableGenerator < QuestionTypeGenerator
   def generate(question)
     safe_join([
                 content_tag(:p, question[:title].html_safe, class: 'flow-text'),
@@ -41,13 +41,13 @@ class ExpandableGenerator < Generator
     body << single_expandable_button(
       id,
       question[:add_button_label] || '+',
-      'expand_expandable'
+      'expand_expandable success'
     )
 
     body << single_expandable_button(
       id,
       question[:remove_button_label] || '-',
-      'collapse_expandable red'
+      'collapse_expandable warning'
     )
 
     body = safe_join(body)

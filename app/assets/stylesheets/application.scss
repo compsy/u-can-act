@@ -46,12 +46,12 @@ $u-can-act-orange: #ed5800;
 $u-can-act-grey: #99b5cd;
 $u-can-act-light-grey: #f6f6f6;
 
-.accent-color-text{
-  color: $u-can-act-green
+.accent-color-text {
+  color: $u-can-act-green;
 }
 
-.accent-color{
-  background-color: $u-can-act-green
+.accent-color {
+  background-color: $u-can-act-green;
 }
 
 .mentor {
@@ -154,6 +154,7 @@ $u-can-act-light-grey: #f6f6f6;
 
 @import "materialize";
 
+
 // Feedback button
 .feedback-button {
   height: 40px;
@@ -185,12 +186,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.admin-interface {
-  padding-left: 300px;
+.success {
+  background-color: $u-can-act-green !important;
 }
 
-@media only screen and (max-width: 992px) {
-  .admin-interface {
-    padding-left: 0;
-  }
+.success-text {
+  color: $u-can-act-green !important;
+}
+
+.warning {
+  background-color: $u-can-act-orange !important;
+}
+
+.warning-text {
+  color: $u-can-act-orange !important;
 }

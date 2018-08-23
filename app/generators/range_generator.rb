@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RangeGenerator < Generator
+class RangeGenerator < QuestionTypeGenerator
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     safe_join([

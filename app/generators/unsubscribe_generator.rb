@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UnsubscribeGenerator < Generator
+class UnsubscribeGenerator < QuestionTypeGenerator
   def generate(question)
     body = safe_join([
                        generate_unsubscribe_content(question),

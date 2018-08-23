@@ -1,38 +1,49 @@
 %ul#slide-out.sidenav.sidenav-fixed
   %li
     .user-view
-      = image_tag 'U_can_act_logo_CMYK_GROEN.png', class: 'circle'
-    = link_to( admin_path, class: 'waves-effect') do
+      = image_tag 'U_can_act_logo_CMYK_GROEN.png', style: 'width: 64px; height: 64px'
+    = link_to(admin_path, class: 'waves-effect') do
       %span.black-text Admin interface 
   %li
-    = link_to( admin_path, class: 'waves-effect') do
+    = link_to(admin_path, class: 'waves-effect') do
       %i.material-icons> dashboard
       Dashboard
   %li
-    = link_to( admin_export_path, class: 'waves-effect') do
+    = link_to(admin_export_path, class: 'waves-effect') do
       %i.material-icons> import_export
       Exports
   %li
-    = link_to( admin_preview_overview_path, class: 'waves-effect') do
+    = link_to(admin_preview_overview_path, class: 'waves-effect') do
       %i.material-icons> question_answer
       Preview questionnaires
   %li
-    = link_to( admin_organization_overview_path, class: 'waves-effect') do
+    = link_to(admin_organization_overview_path, class: 'waves-effect') do
       %i.material-icons> apps
       Organization overview
+  %li
+    %div.divider
+  %li
+    %a.subheader Dummy applications
+  %li
+    = link_to("#{ENV['HOST_URL']}/dummy/mentor", class: 'waves-effect', target: '_blank') do
+      %i.material-icons> label
+      Mentor dummy
+    = link_to("#{ENV['HOST_URL']}/dummy/student", class: 'waves-effect', target: '_blank') do
+      %i.material-icons> label
+      Student dummy
 .fixed-action-btn.hide-on-large-only
   %a.btn-floating.btn-large.accent-color.sidenav-trigger{"data-target" => "slide-out", :href => "#"}
     %i.material-icons menu
   %ul
     %li
-      = link_to( admin_path, class: 'btn-floating') do
+      = link_to(admin_path, class: 'btn-floating') do
         %i.material-icons> dashboard
     %li
-      = link_to( admin_export_path, class: 'btn-floating') do
+      = link_to(admin_export_path, class: 'btn-floating') do
         %i.material-icons> import_export
     %li
-      = link_to( admin_preview_overview_path, class: 'btn-floating') do
+      = link_to(admin_preview_overview_path, class: 'btn-floating') do
         %i.material-icons> question_answer
     %li
-      = link_to( admin_organization_overview_path, class: 'btn-floating') do
+      = link_to(admin_organization_overview_path, class: 'btn-floating') do
         %i.material-icons> apps

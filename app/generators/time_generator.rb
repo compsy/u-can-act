@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TimeGenerator < Generator
+class TimeGenerator < QuestionTypeGenerator
   def generate(question)
     body = time_body(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])

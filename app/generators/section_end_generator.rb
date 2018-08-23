@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SectionEndGenerator < Generator
+class SectionEndGenerator < QuestionTypeGenerator
   def generate(question)
     return nil if question[:section_end].blank?
     body = content_tag(:div, nil, class: 'divider')

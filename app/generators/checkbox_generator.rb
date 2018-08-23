@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CheckboxGenerator < Generator
+class CheckboxGenerator < QuestionTypeGenerator
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     question = add_otherwise_label(question)

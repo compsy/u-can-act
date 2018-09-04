@@ -2,7 +2,7 @@
 
 title = 'Q-MTQ-KCT'
 
-name = 'Vragenlijst mentale weerbaarheid: MTQ48'
+name = 'KCT Q-MTQ'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -10,9 +10,16 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 def create_question(id, title, section_end: false)
   res = {
     id: id,
-    type: :range,
+    type: :likert,
     title: title,
-    labels: %w[1 5]
+    show_otherwise: false,
+    options: [
+      'Zeer mee oneens',
+      'Oneens',
+      'Noch mee eens, noch mee oneens',
+      'Mee eens',
+      'Zeer mee eens',
+    ]
   }
   res[:section_end] = true if section_end
   res
@@ -23,14 +30,13 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">Geef een antwoord op onderstaande
-        vragen door één van de getallen te omcirkelen. Deze hebben de volgende
-        betekenis:</p>
-    <p class="flow-text section-explanation">1 = zeer mee oneens; 2 = oneens; 
-        3 = noch mee eens, noch mee oneens; 4 = mee eens, 5 = zeer mee eens</p>
+        vragen door één van de antwoorden aan te klikken.
+    </p>
     <p class="flow-text section-explanation">Geef nauwkeurig antwoord en overweeg
-        hoe u over het algemeen op de betreffende stelling reageert.  Besteed niet
+        hoe u over het algemeen op de betreffende stelling reageert. Besteed niet
         teveel tijd per vraag. De vragenlijst helemaal invullen duurt ongeveer 7
-        minuten.</p>'
+        minuten.
+    </p>'
   },
   create_question(:v1, 'Ik vind meestal wel iets om me te motiveren'),
   create_question(:v2, 'Over het algemeen vind ik dat ik alles onder controle heb'),

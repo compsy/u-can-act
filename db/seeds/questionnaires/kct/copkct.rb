@@ -1,11 +1,32 @@
 # frozen_string_literal: true
 
-title = 'Q-COP-KCT' 
+title = 'Q-COP-KCT'
 
 name = 'KCT Q-COP'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
+
+def create_question(id, title, section_end)
+  default_options = [
+    'Nooit',
+    'Bijna nooit',
+    'Soms',
+    'Vaak',
+    'Altijd'
+  ]
+
+  res = {
+    id: id,
+    type: :likert,
+    title: title,
+    options: default_options,
+    show_otherwise: false
+  }
+  res[:section_end] = true if section_end
+  res
+end
+
 content = [
   {
     type: :raw,
@@ -19,174 +40,24 @@ content = [
     <li class="collection-item"> een relatie is verbroken</li>
     <li class="collection-item"> ontslag</li>
     </ul>
-    Wat doe jij normaal gesproken bij zo’n probleem of tegenslag?'
-  }, {
-    id: :v1,
-    type: :radio,
-    title: 'Ik maak een plan van aanpak en voer dat uit.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v2,
-    type: :radio,
-    title: 'Ik zoek vrienden op waarmee je kunt lachen.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v3,
-    type: :radio,
-    title: 'Ik probeer het te vergeten door me op andere dingen te richten.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v4,
-    type: :radio,
-    title: 'Ik probeer afstand te nemen van de situatie door iets anders te gaan doen.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v5,
-    type: :radio,
-    title: 'Ik pak het probleem doelgericht aan.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v6,
-    type: :radio,
-    title: 'Ik bespreek het met iemand om de situatie beter te leren begrijpen.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v7,
-    type: :radio,
-    title: 'Ik probeer me te ontspannen en het probleem te vergeten.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v8,
-    type: :radio,
-    title: 'Ik ga werken aan een oplossing voor het probleem.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v9,
-    type: :radio,
-    title: 'Ik praat erover met iemand die dicht bij me staat.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v10,
-    type: :radio,
-    title: 'Ik probeer de spanning te verminderen door bijvoorbeeld te gaan roken, drinken, eten of sporten.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v11,
-    type: :radio,
-    title: 'Ik verander iets waardoor het probleem wordt opgelost.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v12,
-    type: :radio,
-    title: 'Ik zoek anderen op voor de afleiding.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v13,
-    type: :radio,
-    title: 'Ik denk aan andere dingen die niets met de tegenslag te maken hebben.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v14,
-    type: :radio,
-    title: 'Ik zet de zaken op een rij en los het probleem op.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ]
-  }, {
-    id: :v15,
-    type: :radio,
-    title: 'Ik praat erover met iemand die iets soortgelijks heeft meegemaakt.',
-    options: [
-      'Nooit',
-      'Bijna nooit',
-      'Soms',
-      'Vaak',
-      'Altijd'
-    ],
-    section_end: true
-  }
+    <p class="flow-text section-explanation">Wat doe jij normaal gesproken bij zo’n probleem of tegenslag?</p>
+    '
+  },
+  create_question(:v1, 'Ik maak een plan van aanpak en voer dat uit.', false),
+  create_question(:v2, 'Ik zoek vrienden op waarmee je kunt lachen.', false),
+  create_question(:v3, 'Ik probeer het te vergeten door me op andere dingen te richten.', false),
+  create_question(:v4, 'Ik probeer afstand te nemen van de situatie door iets anders te gaan doen.', false),
+  create_question(:v5, 'Ik pak het probleem doelgericht aan.', false),
+  create_question(:v6, 'Ik bespreek het met iemand om de situatie beter te leren begrijpen.', false),
+  create_question(:v7, 'Ik probeer me te ontspannen en het probleem te vergeten.', false),
+  create_question(:v8, 'Ik ga werken aan een oplossing voor het probleem.', false),
+  create_question(:v9, 'Ik praat erover met iemand die dicht bij me staat.', false),
+  create_question(:v10, 'Ik probeer de spanning te verminderen door bijvoorbeeld te gaan roken, drinken, eten of sporten.', false),
+  create_question(:v11, 'Ik verander iets waardoor het probleem wordt opgelost.', false),
+  create_question(:v12, 'Ik zoek anderen op voor de afleiding.', false),
+  create_question(:v13, 'Ik denk aan andere dingen die niets met de tegenslag te maken hebben.', false),
+  create_question(:v14, 'Ik zet de zaken op een rij en los het probleem op.', false),
+  create_question(:v15, 'Ik praat erover met iemand die iets soortgelijks heeft meegemaakt.', true)
 ]
 questionnaire.content = content
 questionnaire.title = title

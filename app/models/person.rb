@@ -35,7 +35,7 @@ class Person < ApplicationRecord
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
   has_many :responses, through: :protocol_subscriptions
   has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy # invitation_sets.first is
-  has_one :auth_user
+  has_one :auth_user, dependent: :destroy
   # Not used right now:                                                           the last one created.
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },

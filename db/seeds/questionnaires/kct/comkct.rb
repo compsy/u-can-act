@@ -17,29 +17,34 @@ default_options = [
 content = [
   {
     id: :v1,
-    type: :radio,
+    type: :likert,
     title: 'Het is moeilijk voor mij om het behalen van de ECO serieus te nemen.',
+    show_otherwise: false,
     options: default_options
   }, {
     id: :v2,
-    type: :radio,
+    type: :likert,
     title: 'Eerlijk gezegd, kan het me niet schelen of ik de ECO wel of niet haal.',
+    show_otherwise: false,
     options: default_options
   }, {
     id: :v3,
-    type: :radio,
+    type: :likert,
     title: 'Voor mij is het heel belangrijk om het behalen van de ECO na te streven.',
+    show_otherwise: false,
     options: default_options
   }, {
     id: :v4,
-    type: :radio,
+    type: :likert,
     title: 'Er hoeft niet veel te gebeuren om het behalen van de ECO te laten vallen.',
+    show_otherwise: false,
     options: default_options
   }, {
     id: :v5,
-    type: :radio,
+    type: :likert,
     title: 'Ik vind het behalen van de ECO een goed doel om voor te gaan.',
     options: default_options,
+    show_otherwise: false,
     section_end: true
   }
 ]

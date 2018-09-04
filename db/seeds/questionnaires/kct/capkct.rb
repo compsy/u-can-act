@@ -9,8 +9,8 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 def create_question(id, title, image,options, section_end)
   res = {
     id: id,
-    type: :radio,
-    title: "<p class=\"flow-text\">#{title}</p><img src=\"/images/questionnaires/kct/#{image}\" style=\"width: 50%; margin-left: 3rem;\" />",
+    type: :likert,
+    title: "<p class=\"flow-text\">#{title}</p><img src=\"/images/questionnaires/kct/#{image}\" style=\"width: 80%; margin-left: 3rem;\" />",
     options: options,
     show_otherwise: false
   }
@@ -44,8 +44,6 @@ def rotate_question(id, title, image, section_end: false)
       "H"
     ], section_end)
 end
-
-
 
 content = [
   {

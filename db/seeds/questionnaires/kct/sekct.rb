@@ -12,7 +12,14 @@ def create_question(id, title, section_end: false)
     id: id,
     type: :range,
     title: title,
-    labels: %w[0 100],
+    step: 10,
+    min: 0,
+    max: 100,
+    labels: [
+     'Helemaal niet zeker',
+     'Neutraal',
+     'Heel erg zeker',
+    ],
   }
   res[:section_end] = true if section_end
   res

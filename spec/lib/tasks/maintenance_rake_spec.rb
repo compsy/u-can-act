@@ -40,34 +40,66 @@ describe 'rake maintenance:fix_responses', type: :task do
 end
 
 describe 'rake maintenance:scramble', type: :task do
+  let(:persons) { FactoryBot.create_list(:person, 10) }
+  let(:students) { FactoryBot.create_list(:student, 10) }
+  let(:mentors) { FactoryBot.create_list(:mentor, 10) }
+
   it 'should preload the Rails environment' do
     expect(task.prerequisites).to include 'environment'
   end
 
-  it 'scramble all names in the database' do
-    FactoryBot.create_list(:person, 10)
-    FactoryBot.create_list(:student, 10)
-    FactoryBot.create_list(:mentor, 10)
-
-    ids = Person.all.map(&:id)
-    pre_people = Person.all.map(&:dup)
+  it 'should send the correct logging' do
     expect do
       task.execute
     end.to output("Scrambling people - started\n" \
                   "Scrambling people - done\n").to_stdout
+  end
 
-    pre_people.each_with_index do |person, idx|
-      id = ids[idx]
-      other_person = Person.find(id)
-      expect(other_person.first_name).to_not eq person.first_name
-      expect(other_person.last_name).to_not eq person.last_name
-      expect(other_person.mobile_phone).to_not eq person.mobile_phone
-      if  person.mentor?
-        expect(other_person.iban).to be_blank
-      else
-        expect(other_person.iban).to_not eq person.iban
+  describe 'should scramble' do
+    let(:ids) { Person.all.map(&:id) }
+    let(:pre_people) { Person.all.map(&:dup) }
+    it 'names' do
+      task.execute
+      pre_people.each_with_index do |person, idx|
+        id = ids[idx]
+        other_person = Person.find(id)
+        expect(other_person.first_name).to_not eq person.first_name
+        expect(other_person.last_name).to_not eq person.last_name
       end
-      expect(other_person.email).to_not eq person.email
+    end
+
+    it 'mobile phone numbers' do
+      task.execute
+
+      pre_people.each_with_index do |person, idx|
+        id = ids[idx]
+        other_person = Person.find(id)
+        expect(other_person.mobile_phone).to_not eq person.mobile_phone
+      end
+    end
+
+    it 'email addresses' do
+      task.execute
+
+      pre_people.each_with_index do |person, idx|
+        id = ids[idx]
+        other_person = Person.find(id)
+        expect(other_person.email).to_not eq person.email
+      end
+    end
+
+    it 'iban' do
+      task.execute
+
+      pre_people.each_with_index do |person, idx|
+        id = ids[idx]
+        other_person = Person.find(id)
+        if  person.mentor?
+          expect(other_person.iban).to be_blank
+        else
+          expect(other_person.iban).to_not eq person.iban
+        end
+      end
     end
   end
 end

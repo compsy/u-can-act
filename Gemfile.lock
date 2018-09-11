@@ -144,10 +144,10 @@ GEM
     erubis (2.7.0)
     excon (0.62.0)
     execjs (2.7.0)
-    factory_bot (4.10.0)
+    factory_bot (4.11.1)
       activesupport (>= 3.0.0)
-    factory_bot_rails (4.10.0)
-      factory_bot (~> 4.10.0)
+    factory_bot_rails (4.11.1)
+      factory_bot (~> 4.11.1)
       railties (>= 3.0.0)
     ffi (1.9.25)
     formatador (0.2.5)
@@ -356,6 +356,8 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
+    rubocop-rspec (1.28.0)
+      rubocop (>= 0.58.0)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
     ruby_parser (3.11.0)
@@ -428,7 +430,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.5)
     unicode-display_width (1.4.0)
-    web-console (3.6.2)
+    web-console (3.7.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
@@ -490,6 +492,7 @@ DEPENDENCIES
   rspec-rails
   rspec_junit_formatter
   rubocop
+  rubocop-rspec
   sass-rails
   selenium-webdriver
   silencer
@@ -511,4 +514,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.2
+   1.16.3

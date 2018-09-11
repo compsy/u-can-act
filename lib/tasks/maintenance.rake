@@ -16,4 +16,25 @@ namespace :maintenance do
     FixResponses.run!
     puts 'Fixing responses - done'
   end
+
+  desc 'Scrambling all persons'
+  task scramble: :environment do
+    puts 'Scrambling people - started'
+    ActiveRecord::Base.transaction do
+      people = Person.all
+      last_mobile_phone = 0
+      people.each do |person|
+        first = (0...8).map { ('a'..'z').to_a[rand(26)] }.join
+        last = (0...10).map { ('a'..'z').to_a[rand(26)] }.join
+        person.first_name = first
+        person.last_name = last
+        person.mobile_phone = "06#{format('%08d', last_mobile_phone)}"
+        person.email = "#{first}.#{last}@u-can-act.nl"
+        person.iban = 'NL20INGB0001234567' unless person.mentor?
+        last_mobile_phone += 1
+        person.save!
+      end
+    end
+    puts 'Scrambling people - done'
+  end
 end

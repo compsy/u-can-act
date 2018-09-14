@@ -21,6 +21,7 @@ questionnaires = [
   'KCT Q-COP',
   'KCT Q-DEM',
   'KCT Q-MTQ',
+  'KCT Q-NEO',
   'KCT Q-OPT',
   'KCT Q-RES',
   'KCT Q-SE'

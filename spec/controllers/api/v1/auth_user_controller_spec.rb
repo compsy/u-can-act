@@ -51,6 +51,13 @@ describe Api::V1::AuthUserController, type: :controller do
         expect(user.person.role).to_not be_nil
         expect(user.person.role).to eq team.roles.first
       end
+
+      it 'should call the correct serializer' do
+        allow(controller).to receive(:render)
+          .with(json: instance_of(AuthUser), serializer: Api::AuthUserSerializer)
+          .and_call_original
+        post :create
+      end
     end
   end
 end

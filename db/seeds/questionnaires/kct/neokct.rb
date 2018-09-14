@@ -13,13 +13,7 @@ def create_question(id, title, section_end)
     type: :likert,
     title: title,
     show_otherwise: false,
-    options: [
-      'Helemaal oneens',
-      'Oneens',
-      'Neutraal',
-      'Eens',
-      'Helemaal eens'
-    ]
+    options: %w[HO O N E HE]
   }
   res[:section_end] = true if section_end
   res
@@ -34,11 +28,11 @@ content = [
       uitspraak uw mening het beste weergeeft. Let er op dat u geen uitspraken overslaat.
     </p>
     <ul class="collection">
-      <li class="collection-item">Klik <strong>Helemaal oneens</strong> aan als u het helemaal oneens bent met de uitspraak, of als u de uitspraak absoluut onwaar vindt.</li>
-      <li class="collection-item">Klik <strong>Oneens</strong> aan als u het oneens bent met de uitspraak, of als u de uitspraak grotendeels onwaar vindt.</li>
-      <li class="collection-item">Klik <strong>Neutraal</strong> aan als u neutraal bent, niet kunt beslissen, of als u de uitspraak ongeveer even waar als onwaar vindt.</li>
-      <li class="collection-item">Klik <strong>Eens</strong> aan als u het eens bent met de uitspraak, of als u de uitspraak grotendeels waar vindt.</li>
-      <li class="collection-item">Klik <strong>Helemaal eens</strong> aan als u het helemaal eens bent met de uitspraak, of als u de uitspraak absoluut waar vindt.</li>
+      <li class="collection-item">Klik <strong>HO</strong> aan als u het helemaal oneens bent met de uitspraak, of als u de uitspraak absoluut onwaar vindt.</li>
+      <li class="collection-item">Klik <strong>O</strong> aan als u het oneens bent met de uitspraak, of als u de uitspraak grotendeels onwaar vindt.</li>
+      <li class="collection-item">Klik <strong>N</strong> aan als u neutraal bent, niet kunt beslissen, of als u de uitspraak ongeveer even waar als onwaar vindt.</li>
+      <li class="collection-item">Klik <strong>E</strong> aan als u het eens bent met de uitspraak, of als u de uitspraak grotendeels waar vindt.</li>
+      <li class="collection-item">Klik <strong>HE</strong> aan als u het helemaal eens bent met de uitspraak, of als u de uitspraak absoluut waar vindt.</li>
     </ul>'
   },
   create_question(:v1, 'Ik ben geen tobber.', false),

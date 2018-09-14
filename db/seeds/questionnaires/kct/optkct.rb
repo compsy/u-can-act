@@ -46,7 +46,7 @@ content = [
   create_question(:v7, "Ik verwacht eigenlijk nooit dat de dingen zullen lopen zoals ik graag zou willen dat ze lopen.", false),
   create_question(:v8, "Ik raak niet snel opgewonden.", false),
   create_question(:v9, "Ik reken er meestal niet op dat mij iets goeds zal overkomen.", false),
-  create_question(:v10, "Over het algemeen verwacht ik dat me meer goede dingen dan slechte dingen zullen overkomen.", true)
+  create_question(:v10, "Over het algemeen verwacht ik dat me meer goede dingen dan slechte dingen zullen overkomen.", false)
 ]
 questionnaire.content = content
 questionnaire.title = title

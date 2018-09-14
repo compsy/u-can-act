@@ -57,7 +57,7 @@ content = [
   create_question(:v12, 'Ik zoek anderen op voor de afleiding.', false),
   create_question(:v13, 'Ik denk aan andere dingen die niets met de tegenslag te maken hebben.', false),
   create_question(:v14, 'Ik zet de zaken op een rij en los het probleem op.', false),
-  create_question(:v15, 'Ik praat erover met iemand die iets soortgelijks heeft meegemaakt.', true)
+  create_question(:v15, 'Ik praat erover met iemand die iets soortgelijks heeft meegemaakt.', false)
 ]
 questionnaire.content = content
 questionnaire.title = title

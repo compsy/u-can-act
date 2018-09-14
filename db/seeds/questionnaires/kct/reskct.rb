@@ -45,7 +45,7 @@ content = [
     type: :radio,
     title: 'Ik heb lang nodig om over een tegenslag heen te komen.',
     options: default_options,
-    section_end: true
+    section_end: false
   }
 ]
 questionnaire.content = content

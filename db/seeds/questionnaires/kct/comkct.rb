@@ -44,8 +44,7 @@ content = [
     type: :likert,
     title: 'Ik vind het behalen van de ECO een goed doel om voor te gaan.',
     options: default_options,
-    show_otherwise: false,
-    section_end: true
+    show_otherwise: false
   }
 ]
 questionnaire.content = content

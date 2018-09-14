@@ -16,9 +16,9 @@ def create_question(id, title, section_end: false)
     min: 0,
     max: 100,
     labels: [
-     'Helemaal niet zeker',
-     'Neutraal',
-     'Heel erg zeker',
+     'helemaal niet zeker',
+     'neutraal',
+     'heel erg zeker',
     ],
   }
   res[:section_end] = true if section_end
@@ -43,7 +43,7 @@ content = [
   create_question(:v11, 'Te weten wat je moet doen als het de komende weken tegen zit?'),
   create_question(:v12, 'Meerdere oplossingen te bedenken als je in de ECO met een probleem wordt geconfronteerd?'),
   create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?'),
-  create_question(:v14, 'Ten koste van alles de ECO met succes af te ronden?', section_end: true)
+  create_question(:v14, 'Ten koste van alles de ECO met succes af te ronden?')
 ]
 questionnaire.content = content
 questionnaire.title = title

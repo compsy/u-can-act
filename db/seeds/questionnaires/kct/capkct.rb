@@ -74,7 +74,7 @@ content = [
   create_block_question(:v8, "8.", 'mr_53.jpg'),
   create_block_question(:v9, "9.", 'mr_54.jpg'),
   create_block_question(:v10, "10.", 'mr_55.jpg'),
-  create_block_question(:v11, "11.", 'mr_56.jpg'),
+  create_block_question(:v11, "11.", 'mr_56.jpg', section_end: true),
   {
     type: :raw,
     title: 'Figuren draaien',

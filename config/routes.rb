@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :questionnaire, only: [:show, :create], param: :key
       resources :response, only: [:show, :index, :create], param: :uuid
       resources :people, only: [:create], param: :external_identifier
+      resources :auth_user, only: [:create]
       resources :person do
         collection do
           get :me

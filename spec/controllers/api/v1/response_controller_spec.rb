@@ -9,7 +9,7 @@ describe Api::V1::ResponseController, type: :controller do
 
   # the_payload automatically gets used by the shared example
   let!(:the_payload) do
-    { AuthUser::SITE_LOCATION => {
+    { ENV['SITE_LOCATION'] => {
       'roles' => ['user'],
       'team' => person.role.team.name,
       'protocol' => response1.protocol_subscription.protocol.name

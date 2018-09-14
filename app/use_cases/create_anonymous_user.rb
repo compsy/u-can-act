@@ -28,15 +28,25 @@ class CreateAnonymousUser < ActiveInteraction::Base
 
   def create_or_find_person(auth_user)
     return auth_user if auth_user.person.present?
-    team = Team.find_by_name(team_name)
-    return auth_user unless team
     auth_user.person = Person.create(first_name: auth_user.auth0_id_string,
                                      last_name: auth_user.auth0_id_string,
                                      gender: nil,
                                      mobile_phone: generate_fake_phonenumber,
-                                     role: team.roles.first,
+                                     role: find_role,
                                      auth_user: auth_user)
     auth_user
+  end
+
+  def find_role
+    team = Team.find_by_name(team_name)
+    role = team&.roles&.first
+    return role if role.present?
+
+    # Note the somewhat duplicate logging here. This is because the jwt package catches
+    # our errors and only shows that authentication is unauthorized (which is hard to debug).
+    message = "Team #{team_name} not found or does not have roles!"
+    Rails.logger.error message
+    raise(message)
   end
 
   def generate_fake_phonenumber

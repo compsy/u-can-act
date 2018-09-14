@@ -7,7 +7,7 @@ questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
-def create_question(id, title, section_end: false)
+def create_question(id, title, section_end)
   res = {
     id: id,
     type: :likert,
@@ -39,7 +39,6 @@ content = [
       <li class="collection-item">Klik <strong>Neutraal</strong> aan als u neutraal bent, niet kunt beslissen, of als u de uitspraak ongeveer even waar als onwaar vindt.</li>
       <li class="collection-item">Klik <strong>Eens</strong> aan als u het eens bent met de uitspraak, of als u de uitspraak grotendeels waar vindt.</li>
       <li class="collection-item">Klik <strong>Helemaal eens</strong> aan als u het helemaal eens bent met de uitspraak, of als u de uitspraak absoluut waar vindt.</li>
-      <li class="collection-item"> ontslag</li>
     </ul>'
   },
   create_question(:v1, 'Ik ben geen tobber.', false),

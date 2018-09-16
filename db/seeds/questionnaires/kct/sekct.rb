@@ -28,7 +28,13 @@ end
 content = [
   {
     type: :raw,
-    content: '<p class="flow-text section-explanation"> Hoe zeker ben je ervan dat je in staat bent om:</p>'
+    content: '
+    <p class="flow-text section-explanation">
+      Vul onderstaande vragen eerlijk in.
+    </p>
+    <p class="flow-text section-explanation"> 
+      Hoe zeker ben je ervan dat je in staat bent om:
+    </p>'
   },
   create_question(:v1, 'Tot de top 10 van de beste kandidaten te behoren die in december zijn baret gaat halen?'),
   create_question(:v2, 'Nog goed te functioneren nadat je een nacht niet hebt geslapen?'),

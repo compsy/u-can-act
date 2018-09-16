@@ -12,8 +12,9 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-    Onderstaande informatie is van belang voor de wetenschappelijke kennis, waarbij het van
-    belang is dat we informatie hebben over het "soort" onderzoekdeelnemers (hierbij blijven
+    Onderstaande informatie is bedoeld als achtergrondkennis voor de
+    onderzoekers. Het is van belang om informatie te hebben over het soort
+    deelnemers van het onderzoek (hierbij blijven
     identificeerbare gegevens, zoals namen, volledig anoniem).
     </p>'
   }, {

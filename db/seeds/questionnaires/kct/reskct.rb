@@ -28,6 +28,13 @@ def create_question(id, title, section_end: false)
 end
 
 content = [
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Vul onderstaande vragen eerlijk in.
+    </p>'
+  },
   create_question(:v1, 'Na een tegenslag herstel ik me snel.'),
   create_question(:v2, 'Ik vind het moeilijk om me na een stressvolle gebeurtenis te herpakken.'),
   create_question(:v3, 'Ik krabbel snel op na een negatieve gebeurtenis.'),

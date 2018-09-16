@@ -16,6 +16,12 @@ default_options = [
 
 content = [
   {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Vul onderstaande vragen eerlijk in.
+    </p>'
+  }, {
     id: :v1,
     type: :likert,
     title: 'Het is moeilijk voor mij om het behalen van de ECO serieus te nemen.',

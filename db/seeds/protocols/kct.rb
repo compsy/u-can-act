@@ -11,7 +11,7 @@ pr_name = 'kct'
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
-protocol.informed_consent_questionnaire = nil
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name('KCT Q-IC')
 protocol.save!
 
 # Add dagboekmetingen

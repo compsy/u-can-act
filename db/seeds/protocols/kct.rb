@@ -16,7 +16,8 @@ protocol.save!
 
 # Add dagboekmetingen
 questionnaires = [
-  'KCT Q-CAP',
+  'KCT Q-CAP-1',
+  'KCT Q-CAP-2',
   'KCT Q-COM',
   'KCT Q-COP',
   'KCT Q-DEM',

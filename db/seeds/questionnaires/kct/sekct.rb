@@ -43,7 +43,7 @@ content = [
   create_question(:v11, 'Te weten wat je moet doen als het de komende weken tegen zit?'),
   create_question(:v12, 'Meerdere oplossingen te bedenken als je in de ECO met een probleem wordt geconfronteerd?'),
   create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?'),
-  create_question(:v14, 'Ten koste van alles de ECO met succes af te ronden?')
+  create_question(:v14, 'De ECO met succes af te ronden?')
 ]
 questionnaire.content = content
 questionnaire.title = title

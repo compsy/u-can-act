@@ -31,7 +31,6 @@ content = [
   {
     type: :raw,
     content: '<p class="flow-text section-explanation"> 
-      Nu volgt een vragenlijst die gaat over uw mate van optimisme.
       Er volgen 10 vragen met uitspraken over persoonlijke doelen en ervaringen.
       Geef bij elke uitspraak aan in welke mate deze in het algemeen op u van toepassing is.
     </p>

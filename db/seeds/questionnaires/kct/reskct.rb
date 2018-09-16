@@ -14,39 +14,33 @@ default_options = [
   'Altijd'
 ]
 
-content = [
-  {
-    id: :v1,
+def create_question(id, title, section_end: false)
+  default_options = [
+    'Nooit',
+    'Bijna nooit',
+    'Soms',
+    'Vaak',
+    'Altijd'
+  ]
+
+  res = {
+    id: :id,
     type: :radio,
-    title: 'Na een tegenslag herstel ik me snel.',
+    title: title,
+    show_otherwise: false,
     options: default_options
-  }, {
-    id: :v2,
-    type: :radio,
-    title: 'Ik vind het moeilijk om me na een stressvolle gebeurtenis te herpakken.',
-    options: default_options
-  }, {
-    id: :v3,
-    type: :radio,
-    title: 'Ik krabbel snel op na een negatieve gebeurtenis.',
-    options: default_options
-  }, {
-    id: :v4,
-    type: :radio,
-    title: 'Het is voor mij moeilijk om te herstellen nadat er iets vervelends is gebeurd.',
-    options: default_options
-  }, {
-    id: :v5,
-    type: :radio,
-    title: 'Ik herstel normaal gesproken snel als ik een lastige tijd heb gehad.',
-    options: default_options
-  }, {
-    id: :v6,
-    type: :radio,
-    title: 'Ik heb lang nodig om over een tegenslag heen te komen.',
-    options: default_options,
-    section_end: false
   }
+  res[:section_end] = section_end
+  res
+end
+
+content = [
+  create_question(:v1, 'Na een tegenslag herstel ik me snel.'),
+  create_question(:v2, 'Ik vind het moeilijk om me na een stressvolle gebeurtenis te herpakken.'),
+  create_question(:v3, 'Ik krabbel snel op na een negatieve gebeurtenis.'),
+  create_question(:v4, 'Het is voor mij moeilijk om te herstellen nadat er iets vervelends is gebeurd.'),
+  create_question(:v5, 'Ik herstel normaal gesproken snel als ik een lastige tijd heb gehad.'),
+  create_question(:v6, 'Ik heb lang nodig om over een tegenslag heen te komen.')
 ]
 questionnaire.content = content
 questionnaire.title = title

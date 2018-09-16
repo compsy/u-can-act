@@ -83,7 +83,7 @@ content = [
   create_question(:v43, 'Als ik vind dat iemand geen gelijk heeft, dan ben ik niet bang om met deze persoon hierover in discussie te gaan'),
   create_question(:v44, 'Ik hou meestal van een uitdaging'),
   create_question(:v45, 'Ik heb meestal mijn zenuwen onder controle'),
-  create_question(:v46, 'In discussies geef ik meestal toe,zelfs wanneer ik een duidelijke mening heb'),
+  create_question(:v46, 'In discussies geef ik meestal toe, zelfs wanneer ik een duidelijke mening heb'),
   create_question(:v47, 'Bij tegenslag vind ik het meestal moeilijk om vast te houden aan mijn doel'),
   create_question(:v48, 'Ik kan me meestal aanpassen aan uitdagingen die ik op mijn weg tegenkom')
 ]

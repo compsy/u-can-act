@@ -15,10 +15,8 @@ class SubscribeToProtocol < ActiveInteraction::Base
   # - person: the person to start the protocol for
   # - start_date: the date when the subscription should start
   def execute
-    protocol = Protocol.find_by_name(protocol_name)
-    raise 'Protocol not found' unless protocol.present?
+    protocol = find_protocol
     raise 'Person is nil' unless person.present?
-
     start_date = Time.now.in_time_zone if start_date.blank?
     Rails.logger.info("Starting a protocol subscription at #{start_date}. It is now #{Time.zone.now}")
 
@@ -29,5 +27,11 @@ class SubscribeToProtocol < ActiveInteraction::Base
       start_date: start_date
     )
     prot_sub
+  end
+
+  def find_protocol
+    protocol = Protocol.find_by_name(protocol_name)
+    return protocol if protocol.present?
+    raise 'Protocol not found'
   end
 end

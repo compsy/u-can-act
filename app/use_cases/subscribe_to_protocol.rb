@@ -3,7 +3,7 @@
 class SubscribeToProtocol < ActiveInteraction::Base
   string :protocol_name
   object :person
-  time :start_date, default: Time.zone.now
+  time :start_date, default: Time.now.in_time_zone
 
   # Function to start a protocol subscription for a person
   #
@@ -15,6 +15,8 @@ class SubscribeToProtocol < ActiveInteraction::Base
     protocol = Protocol.find_by_name(protocol_name)
     raise 'Protocol not found' unless protocol.present?
     raise 'Person is nil' unless person.present?
+
+    Rails.logger.info("Starting a protocol subscription at #{start_date}. It is now #{Time.zone.now}")
 
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,

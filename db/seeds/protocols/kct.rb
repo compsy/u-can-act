@@ -1,4 +1,4 @@
-default_protocol_duration = 1000000 # evt eerder dynamisch afbreken
+default_protocol_duration = 30.years  # evt eerder dynamisch afbreken
 default_open_duration = 30.years 
 default_posttest_open_duration = nil
 default_reward_points = 100

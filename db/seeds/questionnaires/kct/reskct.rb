@@ -6,13 +6,6 @@ name = 'KCT Q-RES'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
-default_options = [
-  'Nooit',
-  'Bijna nooit',
-  'Soms',
-  'Vaak',
-  'Altijd'
-]
 
 def create_question(id, title, section_end: false)
   default_options = [
@@ -24,7 +17,7 @@ def create_question(id, title, section_end: false)
   ]
 
   res = {
-    id: :id,
+    id: id,
     type: :radio,
     title: title,
     show_otherwise: false,

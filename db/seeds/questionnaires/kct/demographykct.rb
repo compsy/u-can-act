@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-title = 'Demografische vragen'
+title = 'Q-DEM-KCT'
 
 name = 'KCT Q-DEM'
 questionnaire = Questionnaire.find_by_name(name)

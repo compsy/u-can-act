@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 title = 'Q-CAP-1-KCT' 
+
 name = 'KCT Q-CAP-1'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)

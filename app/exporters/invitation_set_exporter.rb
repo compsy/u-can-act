@@ -17,7 +17,7 @@ class InvitationSetExporter < ObjectExporter
     def format_fields(invitation_set)
       {
         'invitation_set_id' => invitation_set.id,
-        'person_id' => calculate_hash(invitation_set.person_id),
+        'person_id' => invitation_set.person.external_identifier,
         'created_at' => format_datetime(invitation_set.created_at),
         'updated_at' => format_datetime(invitation_set.updated_at)
       }

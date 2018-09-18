@@ -64,8 +64,8 @@ class ResponseExporter
     def response_hash(response)
       hsh = {
         'response_id' => response.id,
-        'filled_out_by_id' => calculate_hash(response.filled_out_by_id),
-        'filled_out_for_id' => calculate_hash(response.filled_out_for_id),
+        'filled_out_by_id' => response.filled_out_by&.external_identifier,
+        'filled_out_for_id' => response.filled_out_for&.external_identifier,
         'protocol_subscription_id' => response.protocol_subscription_id,
         'measurement_id' => response.measurement_id,
         'invitation_set_id' => response.invitation_set_id

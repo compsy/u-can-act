@@ -11,6 +11,26 @@ describe ObjectExporter do
       expect(described_class).to receive(:export).with(1, 2, 3)
       described_class.export_lines.to_a
     end
+    it 'should encode the exported string' do
+      str = double('string')
+      expect(str).to receive(:encode)
+        .with('ISO-8859-1', 'UTF-8', invalid: :replace, undef: :replace)
+        .and_return('hoi')
+      expect(described_class).to receive(:klass).and_return(1)
+      expect(described_class).to receive(:formatted_fields).and_return(2)
+      expect(described_class).to receive(:default_fields).and_return(3)
+      expect(described_class).to receive(:export).and_yield(str)
+      expect(described_class.export_lines.to_a).to eq(["hoi\n"])
+    end
+    it 'should actually replace the encoding of the strings' do
+      expect(described_class).to receive(:klass).and_return(1)
+      expect(described_class).to receive(:formatted_fields).and_return(2)
+      expect(described_class).to receive(:default_fields).and_return(3)
+      expect(described_class).to receive(:export).and_yield("\xC3\xBC") # utf-8 u with umlaut
+      expect(described_class.export_lines.to_a).to(
+        eq([(+"\xFC\n").force_encoding('ISO-8859-1')])
+      ) # ISO-8859-1 u w/ umlaut
+    end
   end
 
   describe 'klass' do

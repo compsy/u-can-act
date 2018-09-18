@@ -42,12 +42,6 @@ module Exporters
     text.to_s.tr('\'', '\\\'').tr('"', '\'')
   end
 
-  def calculate_hash(clear_text)
-    return '' if clear_text.blank?
-    hash = Digest::MD5.bubblebabble(clear_text.to_s + ENV['PERSON_SALT'])
-    hash.split('-')[0..4].join('-')
-  end
-
   def format_datetime(datetime)
     datetime&.strftime('%d-%m-%Y %H:%M:%S')
   end

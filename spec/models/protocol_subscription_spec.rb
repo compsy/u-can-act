@@ -470,45 +470,6 @@ describe ProtocolSubscription do
     end
   end
 
-  describe 'reward_points' do
-    it 'should accumulate the reward points for all completed protocol subscriptions' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :completed, protocol_subscription: protocol_subscription)
-      # also add some noncompleted responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 11, :invited, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.reward_points).to eq 10
-    end
-  end
-
-  describe 'possible_reward_points' do
-    it 'should accumulate the reward points for all completed responses' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, :invited, protocol_subscription: protocol_subscription)
-      # also add some noninvited responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 10
-    end
-
-    it 'should also accumulate the reward points for all not completed responses' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 20, :invited, protocol_subscription: protocol_subscription)
-      #
-      # also add some noninvited responses. These should not be counted.
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.possible_reward_points).to eq 20
-    end
-  end
-
-  describe 'max_reward_points' do
-    it 'should accumulate the reward points for all responses period' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
-      FactoryBot.create_list(:response, 10, protocol_subscription: protocol_subscription)
-      FactoryBot.create_list(:response, 7, protocol_subscription: protocol_subscription)
-      expect(protocol_subscription.max_reward_points).to eq 17
-    end
-  end
-
   describe 'informed_consent_given_at' do
     it 'should be nil by default' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
@@ -540,7 +501,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: Time.zone.now.beginning_of_day)
-      expect(protocol_subscription.max_still_earnable_reward_points).to eq 7
+      expect(protocol_subscription.max_still_earnable_reward_points).to eq 8
     end
   end
 
@@ -561,7 +522,7 @@ describe ProtocolSubscription do
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 3 }]
       expect_any_instance_of(described_class).to receive(:completion).and_return(pc)
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      expect(protocol_subscription.latest_streak_value_index).to eq 0
+      expect(protocol_subscription.latest_streak_value_index).to eq(-1)
     end
     it 'should work when the first measurement is in the future' do
       pc = [{ completed: false, periodical: false, reward_points: 1, future: true, streak: -1 },
@@ -570,7 +531,7 @@ describe ProtocolSubscription do
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 3 }]
       expect_any_instance_of(described_class).to receive(:completion).and_return(pc)
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      expect(protocol_subscription.latest_streak_value_index).to eq 0
+      expect(protocol_subscription.latest_streak_value_index).to eq(-1)
     end
   end
 
@@ -601,9 +562,14 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: true, periodical: true, reward_points: 1, future: false, streak: resp }
+        { completed: true, periodical: true, reward_points: 1, future: false, future_or_current: false, streak: resp }
       end
-      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+      expected.unshift(completed: false,
+                       periodical: true,
+                       reward_points: 1,
+                       future: false,
+                       future_or_current: false,
+                       streak: 0)
       expect(result).to eq expected
       Timecop.return
     end
@@ -627,9 +593,14 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
       end
-      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+      expected.unshift(completed: false,
+                       periodical: true,
+                       reward_points: 1,
+                       future_or_current: false,
+                       future: false,
+                       streak: 0)
       expect(result).to eq expected
       Timecop.return
     end
@@ -644,7 +615,7 @@ describe ProtocolSubscription do
       expect(result.length).to eq protocol_subscription.responses.length
 
       expected = (1..protocol_subscription.responses.length).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
       end
 
       expect(result).to eq expected
@@ -664,9 +635,14 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, streak: resp }
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
       end
-      expected.unshift(completed: false, periodical: true, reward_points: 1, future: false, streak: 0)
+      expected.unshift(completed: false,
+                       periodical: true,
+                       reward_points: 1,
+                       future_or_current: false,
+                       future: false,
+                       streak: 0)
 
       expect(result).to eq expected
       Timecop.return

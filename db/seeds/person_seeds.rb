@@ -33,7 +33,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     { first_name: 'Cornelis',       last_name: 'Cornelissen',         gender: 'male',   role: nameting_student},
     { first_name: 'Dirk',           last_name: 'de Dienaar',          gender: 'male',   role: nameting_student},
     { first_name: 'Emma',           last_name: 'Eggen',               gender: 'female', role: nameting_student},
-    { first_name: 'Fennelien',      last_name: 'Flandal',             gender: 'female', role: nameting_student},
+    { first_name: 'Fennelien',      last_name: 'Flandal',             gender: 'female', role: nameting_student}
   ]
 
   students.each do |student_hash|

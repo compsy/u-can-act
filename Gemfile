@@ -36,7 +36,8 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 
 # Use React for the UI
-gem 'react-rails'
+gem 'react-rails', '= 1.6.2'
+gem 'react-source'
 
 # Use highcharts
 gem 'highcharts-rails'
@@ -85,6 +86,10 @@ gem 'active_model_serializers'
 gem 'jwt'
 gem 'knock'
 
+# Gem for authorization
+# Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474
+gem 'cancancan', github: 'CanCanCommunity/cancancan', ref: '6e782102f5dfef4bd3cc3feadc49802ea942c234'
+
 # Gem for calling deadmanssnitch
 gem 'snitcher'
 
@@ -105,6 +110,7 @@ end
 group :test do
   # Code quality monitoring
   gem 'rubocop'
+  gem 'rubocop-rspec'
 
   # Allows jumping back and forth in time
   gem 'timecop'

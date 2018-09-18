@@ -34,6 +34,118 @@ RSpec.describe PeopleController, type: :controller do
     end
   end
 
+  describe '/unsubscribe' do
+    before :each do
+      cookie_auth(person)
+    end
+
+    it 'should redirect to the klaar page without any active protocol subscriptions' do
+      get :unsubscribe
+      expect(response.status).to eq 302
+      expect(response.body).to match %r{\/klaar}
+      expect(controller.instance_variable_get(:@person)).to_not be_nil
+      expect(controller.instance_variable_get(:@person)).to eq person
+
+      expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
+      expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
+    end
+
+    it 'should redirect to the klaar page and cancel any active protocol subscriptions' do
+      FactoryBot.create_list(:protocol_subscription, 5, person: person)
+      expect(person.protocol_subscriptions.active.count).to eq 5
+      get :unsubscribe
+      expect(person.protocol_subscriptions.active.count).to eq 0
+      expect(person.protocol_subscriptions.count).to eq 5
+      expect(response.status).to eq 302
+      expect(response.body).to match %r{\/klaar}
+      expect(controller.instance_variable_get(:@person)).to_not be_nil
+      expect(controller.instance_variable_get(:@person)).to eq person
+
+      expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
+      expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
+    end
+
+    it 'should redirect to a stop response if there is one' do
+      protocol = FactoryBot.create(:protocol)
+      FactoryBot.create(:measurement, :stop_measurement,
+                        protocol: protocol,
+                        open_from_offset: (2.days + 13.hours).to_i)
+
+      FactoryBot.create(:protocol_subscription,
+                        person: person,
+                        protocol: protocol,
+                        start_date: 1.day.ago.at_beginning_of_day)
+      get :unsubscribe
+      expect(person.protocol_subscriptions.active.count).to eq 1
+      expect(response.status).to eq 302
+      expect(response.body).to match %r{\/questionnaire}
+      expect(response.body).to match(/\?callback_url=%2Fperson%2Funsubscribe/)
+      expect(controller.instance_variable_get(:@person)).to_not be_nil
+      expect(controller.instance_variable_get(:@person)).to eq person
+
+      expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
+      expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
+    end
+
+    context 'for mentors' do
+      it 'should redirect to the mentor overview page without any active protocol subscriptions' do
+        person = FactoryBot.create(:mentor)
+        cookie_auth(person)
+        get :unsubscribe
+        expect(response.status).to eq 302
+        expect(response.body).to match %r{\/mentor_overview}
+        expect(controller.instance_variable_get(:@person)).to_not be_nil
+        expect(controller.instance_variable_get(:@person)).to eq person
+
+        expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
+        expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
+      end
+
+      it 'should redirect to the klaar page and cancel any active protocol subscriptions' do
+        person = FactoryBot.create(:mentor)
+        cookie_auth(person)
+        FactoryBot.create_list(:protocol_subscription, 5, person: person)
+        FactoryBot.create_list(:protocol_subscription, 5, :mentor, person: person)
+        expect(person.protocol_subscriptions.active.count).to eq 10
+        get :unsubscribe
+        expect(person.protocol_subscriptions.active.count).to eq 0
+        expect(person.protocol_subscriptions.count).to eq 10
+        expect(response.status).to eq 302
+        expect(response.body).to match %r{\/mentor_overview}
+        expect(controller.instance_variable_get(:@person)).to_not be_nil
+        expect(controller.instance_variable_get(:@person)).to eq person
+
+        expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
+        expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
+      end
+
+      it 'should redirect to a stop response if there is one' do
+        person = FactoryBot.create(:mentor)
+        cookie_auth(person)
+        protocol = FactoryBot.create(:protocol)
+        FactoryBot.create(:measurement, :stop_measurement,
+                          protocol: protocol,
+                          open_from_offset: (2.days + 13.hours).to_i)
+        protocol.reload
+
+        FactoryBot.create(:protocol_subscription,
+                          person: person,
+                          protocol: protocol,
+                          start_date: 1.day.ago.at_beginning_of_day)
+        get :unsubscribe
+        expect(person.protocol_subscriptions.active.count).to eq 1
+        expect(response.status).to eq 302
+        expect(response.body).to match %r{\/questionnaire}
+        expect(response.body).to match(/\?callback_url=%2Fperson%2Funsubscribe/)
+        expect(controller.instance_variable_get(:@person)).to_not be_nil
+        expect(controller.instance_variable_get(:@person)).to eq person
+
+        expect(controller.instance_variable_get(:@use_mentor_layout)).to_not be_nil
+        expect(controller.instance_variable_get(:@use_mentor_layout)).to eq person.mentor?
+      end
+    end
+  end
+
   describe '/update' do
     before :each do
       cookie_auth(person)

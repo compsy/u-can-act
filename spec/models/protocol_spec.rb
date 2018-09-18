@@ -56,6 +56,7 @@ describe Protocol do
     it 'should return the stop_measurement if one is available' do
       protocol = FactoryBot.create(:protocol, :with_measurements)
       stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      protocol.reload
       expect(protocol.stop_measurement).to_not be_nil
       expect(protocol.stop_measurement).to eq(stop_measurement)
     end
@@ -80,7 +81,8 @@ describe Protocol do
       expect(protocol).to be_valid
       FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
       expect(protocol).to be_valid
-      FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      meas = FactoryBot.build(:measurement, :stop_measurement, protocol: protocol)
+      meas.save(validate: false)
       expect(protocol).to_not be_valid
     end
   end
@@ -160,6 +162,26 @@ describe Protocol do
       questionnaire = Questionnaire.find_by_id(questionnaire_id)
       expect(questionnaire).not_to be_nil
       expect(questionnaire.informed_consent_protocols.count).to eq 0
+    end
+  end
+
+  describe 'invitation_text' do
+    it 'should be possible to define an invitation text' do
+      protocol = FactoryBot.create(:protocol)
+      protocol.invitation_text = 'test'
+      expect { protocol.save! }.to_not raise_error
+    end
+    it 'should have a factory with an invitation text' do
+      protocol = FactoryBot.build(:protocol)
+      expect(protocol.invitation_text).to be_nil
+      protocol = FactoryBot.build(:protocol, :with_invitation_text)
+      expect(protocol.invitation_text).to_not be_nil
+    end
+
+    it 'should be valid without an invitation text' do
+      protocol = FactoryBot.build(:protocol)
+      expect(protocol.invitation_text).to be_nil
+      expect(protocol).to be_valid
     end
   end
 

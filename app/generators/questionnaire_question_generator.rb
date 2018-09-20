@@ -7,6 +7,7 @@ class QuestionnaireQuestionGenerator < Generator
       time: TimeGenerator.new,
       checkbox: CheckboxGenerator.new,
       range: RangeGenerator.new,
+      likert: LikertGenerator.new,
       textarea: TextareaGenerator.new,
       textfield: TextfieldGenerator.new,
       raw: RawGenerator.new,

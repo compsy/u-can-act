@@ -7,15 +7,23 @@
   margin-top: -10px;
   margin-bottom: -10px;
 }
+
 .toast {
-  background: image-url('close.png') 99% 8px/16px 16px no-repeat padding-box border-box scroll $u-can-act-grey;
+  background: image-url("close.png") 99% 8px / 16px 16px no-repeat padding-box border-box scroll $u-can-act-grey;
   word-break: normal;
   cursor: pointer;
 }
+
 .erroneous {
   border-left: 2px solid red;
   margin-left: -8px;
   padding-left: 6px;
+}
+
+.otherwise-textfield {
+  label {
+    margin-bottom: 20px;
+  }
 }
 
 .input-field.inline {
@@ -23,49 +31,105 @@
   margin-bottom: 0px;
   top: 16px;
 }
+
 .extra-spacing.row {
   padding-top: 3rem;
   margin-bottom: -2rem;
 }
+
 input[type=range] {
   margin-top: 26px;
 }
+
 input[type=range]::-webkit-slider-thumb {
   margin-top: -16px;
 }
+
 input[disabled].otherwise {
   cursor: pointer;
 }
+
 ol ol {
   list-style-type: lower-alpha;
+
   ol {
     list-style-type: decimal;
   }
 }
+
 .section-explanation {
   font-weight: bold;
 }
+
 .hidden {
   display: none;
 }
+
 .questionnaire-image {
   width: 80%;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
+
 .questionnaire-quote {
   font-style: italic;
 }
+
 .btn.expandable_button {
   margin-right: 10px;
   margin-bottom: 10px;
 }
+
 input[type="checkbox"] + label {
   padding-top: 0.25rem;
   display: inline;
 }
-input[type="radio"]:not(:checked) + label, input[type="radio"]:checked + label {
+
+.radio-item input[type="radio"]:not(:checked) + label, .radio-item input[type="radio"]:checked + label {
   padding-top: 0.3rem;
   display: inline;
+}
+
+form .likert-scale {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 0;
+}
+
+form .likert-item {
+  text-align: center;
+  vertical-align: center;
+  display: block;
+
+  label {
+    padding-left: 0px !important;
+
+    &:before, &:after {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 0 0 0;
+    }
+
+    &:before {
+      position: relative;
+    }
+
+    &:after {
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    span {
+      width: 100%;
+      text-align: center;
+      vertical-align: center;
+      display: inline-block;
+    }
+  }
 }

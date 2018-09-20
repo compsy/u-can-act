@@ -56,6 +56,7 @@ describe Protocol do
     it 'should return the stop_measurement if one is available' do
       protocol = FactoryBot.create(:protocol, :with_measurements)
       stop_measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      protocol.reload
       expect(protocol.stop_measurement).to_not be_nil
       expect(protocol.stop_measurement).to eq(stop_measurement)
     end
@@ -80,7 +81,8 @@ describe Protocol do
       expect(protocol).to be_valid
       FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
       expect(protocol).to be_valid
-      FactoryBot.create(:measurement, :stop_measurement, protocol: protocol)
+      meas = FactoryBot.build(:measurement, :stop_measurement, protocol: protocol)
+      meas.save(validate: false)
       expect(protocol).to_not be_valid
     end
   end

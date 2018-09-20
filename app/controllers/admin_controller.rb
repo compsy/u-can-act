@@ -59,7 +59,32 @@ class AdminController < ApplicationController
     response.status = 200
     self.response_body = exporting_class.send(:export_lines, *args)
   end
+    export_class('protocol_transfers', 'ProtocolTransfer', ProtocolTransferExporter)
+  end
 
+  def questionnaire_export
+    questionnaire_filename = idify('questionnaire', @questionnaire.name)
+    export_class(questionnaire_filename, 'Questionnaire definition', QuestionnaireExporter, @questionnaire.name)
+  end
+
+  private
+
+  def export_class(filename, data_type_string, exporting_class, *args)
+    Rails.logger.warn "[Attention] #{data_type_string} data was exported by: #{request.ip}"
+    filename = filename + '_' + date_string
+    file_headers!(filename)
+    streaming_headers!
+    response.status = 200
+    self.response_body = exporting_class.send(:export_lines, *args)
+  end
+
+  def set_questionnaire
+    @questionnaire = Questionnaire.find_by_name(questionnaire_params[:id])
+    return if @questionnaire.present?
+    render(status: 404, html: 'Questionnaire with that name not found.', layout: 'application')
+  end
+
+  def s
   def set_questionnaire
     @questionnaire = Questionnaire.find_by_name(questionnaire_params[:id])
     return if @questionnaire.present?

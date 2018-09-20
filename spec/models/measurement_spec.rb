@@ -77,6 +77,30 @@ describe Measurement do
       expect(measurement.errors.messages).to have_key :stop_measurement
       expect(measurement.errors.messages[:stop_measurement]).to include('is niet in de lijst opgenomen')
     end
+
+    it 'should not be allowed to have two stop_measurements in one prototcol' do
+      expect(Measurement.count).to eq 0
+      protocol = FactoryBot.create(:protocol)
+      measurement = FactoryBot.create(:measurement, stop_measurement: true, protocol: protocol)
+      expect(measurement).to be_valid
+      measurement = FactoryBot.build(:measurement, stop_measurement: true, protocol: protocol)
+      expect(measurement).to_not be_valid
+      expect(measurement.errors.messages.keys).to include(:protocol)
+      expect(measurement.errors.messages[:protocol]).to include('can only have a single stop_measurement')
+      expect(Measurement.count).to eq 1
+    end
+
+    it 'should not be allowed to have multiple measurements in one prototcol' do
+      expect(Measurement.count).to eq 0
+      protocol = FactoryBot.create(:protocol)
+      measurement = FactoryBot.create(:measurement, stop_measurement: true, protocol: protocol)
+      expect(measurement).to be_valid
+      measurement = FactoryBot.create(:measurement, stop_measurement: false, protocol: protocol)
+      expect(measurement).to be_valid
+      measurement = FactoryBot.create(:measurement, stop_measurement: false, protocol: protocol)
+      expect(measurement).to be_valid
+      expect(Measurement.count).to eq 3
+    end
   end
 
   describe 'should_invite' do

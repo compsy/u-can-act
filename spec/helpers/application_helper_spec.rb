@@ -53,25 +53,49 @@ describe ApplicationHelper do
   end
 
   describe 'logo_image' do
-    it 'should return the black logo if no is mentor is set' do
-      instance_variable_set(:@use_mentor_layout, nil)
-      result = logo_image
-      expected = 'U_can_act_logo_ZWART.png'
-      expect(result).to eq(expected)
+    describe 'with SETTING_DONT_SHOW_LOGO' do
+      before :each do
+        @pre = ENV['SETTING_DONT_SHOW_LOGO']
+        ENV['SETTING_DONT_SHOW_LOGO'] = 'true'
+      end
+      after :each do
+        ENV['SETTING_DONT_SHOW_LOGO'] = @pre
+      end
+      it 'should return no logo when the env var is set' do
+        instance_variable_set(:@use_mentor_layout, false)
+        result = logo_image
+        expect(result).to be_nil
+      end
     end
 
-    it 'should return the green logo if is mentor is false' do
-      instance_variable_set(:@use_mentor_layout, false)
-      result = logo_image
-      expected = 'U_can_act_logo_CMYK_GROEN.png'
-      expect(result).to eq(expected)
-    end
+    describe 'without SETTING_DONT_SHOW_LOGO' do
+      before :each do
+        @pre = ENV['SETTING_DONT_SHOW_LOGO']
+        ENV['SETTING_DONT_SHOW_LOGO'] = nil
+      end
+      after :each do
+        ENV['SETTING_DONT_SHOW_LOGO'] = @pre
+      end
+      it 'should return the black logo if no is mentor is set' do
+        instance_variable_set(:@use_mentor_layout, nil)
+        result = logo_image
+        expected = 'U_can_act_logo_ZWART.png'
+        expect(result).to eq(expected)
+      end
 
-    it 'should return the blue logo if is mentor true' do
-      instance_variable_set(:@use_mentor_layout, true)
-      result = logo_image
-      expected = 'U_can_act_logo_CMYK_BLAUW.png'
-      expect(result).to eq(expected)
+      it 'should return the green logo if is mentor is false' do
+        instance_variable_set(:@use_mentor_layout, false)
+        result = logo_image
+        expected = 'U_can_act_logo_CMYK_GROEN.png'
+        expect(result).to eq(expected)
+      end
+
+      it 'should return the blue logo if is mentor true' do
+        instance_variable_set(:@use_mentor_layout, true)
+        result = logo_image
+        expected = 'U_can_act_logo_CMYK_BLAUW.png'
+        expect(result).to eq(expected)
+      end
     end
   end
 end

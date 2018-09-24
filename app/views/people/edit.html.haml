@@ -14,5 +14,6 @@
 .row
   .col.s12
     = form_for(@person, html: { class: 'settings' }) do |f|
-      = render partial: 'iban_form', locals: {f: f} 
+      -# TODO: The SETTING_HIDE_EDIT_IBAN should be moved to a separate settings file.
+      = render partial: 'iban_form', locals: {f: f} unless ENV['SETTING_HIDE_EDIT_IBAN'].present?
       = render partial: 'personal_details_from', locals: {f: f} 

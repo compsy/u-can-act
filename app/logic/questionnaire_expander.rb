@@ -32,7 +32,7 @@ class QuestionnaireExpander
 
     def process_uses_previous(content, response)
       question_id = content[:uses][:previous]
-      default_value = content[:uses][:default]
+      default_value = content[:uses][:default] || ''
       previous_value = PreviousResponseFinder.find_value(response, question_id)
       subs_hash = VariableSubstitutor.substitute_variables(response)
       subs_hash["previous_#{question_id}"] = previous_value || default_value

@@ -83,14 +83,17 @@ class QuestionnaireController < ApplicationController
 
   def stop_protocol_subscription
     @response.protocol_subscription.cancel!
-    flash[:notice] = if @response.protocol_subscription.mentor?
-                       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
-                         'is gestopt.'
-                     else
-                       "Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!"
-                     end
+    flash[:notice] = stop_protocol_subscription_notice
     Rails.logger.warn "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."
+  end
+
+  def stop_protocol_subscription_notice
+    if @response.protocol_subscription.mentor?
+      return "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
+                'is gestopt.'
+    end
+    "Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!"
   end
 
   def check_content_hash

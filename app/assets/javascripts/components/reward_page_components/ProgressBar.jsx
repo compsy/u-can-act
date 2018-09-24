@@ -1,5 +1,4 @@
 class ProgressBar extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -63,7 +62,8 @@ class ProgressBar extends React.Component {
           value: percentageStreak,
           color: '#079975'
         }, {
-          labelStart: '€',
+          labelStart: '\u2714',
+          //labelStart: '€',
           value: valueEuro,
           color: '#243a76'
         }, ],

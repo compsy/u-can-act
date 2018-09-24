@@ -16,6 +16,13 @@ protocol.invitation_text ='Er staat een nieuw dagboek voor je klaar. Klik op de 
 raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 protocol.save!
 
+# Add rewards
+protocol.rewards.destroy_all
+reward = protocol.rewards.create!(threshold: 1, reward_points: 1)
+reward.save!
+reward = protocol.rewards.create!(threshold: 3, reward_points: 2)
+reward.save!
+
 # Add dagboekmetingen
 db_name = 'differentiatie studenten range'
 of_offset = 3.days + 12.hours # Thursday noon

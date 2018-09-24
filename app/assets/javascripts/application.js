@@ -37,12 +37,33 @@ $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})
 });
 
+// TODO: We need some sort of webpack setup to automatically inject these
+// 'ENV' vars into the compiled javascript
+//var SIGN = '€'
+//var SIGN_SINGULAR = SIGN;
+//var REWARD_IS_MONEY = true;
+//var FRONT_PLACEMENT = true;
+
+var REWARD_IS_MONEY = false;
+var SIGN = ' punten';
+var SIGN_SINGULAR = ' punt';
+var FRONT_PLACEMENT = false;
+
 printAsMoney = function(euroValue) {
-  euroValue = parseFloat(Math.round(euroValue * 100) / 100).toFixed(2);
+  var sign = euroValue === 1 ? SIGN_SINGULAR : SIGN
+  var euroValue = parseFloat(Math.round(euroValue * 100) / 100).toFixed(2);
+
   euroValue = euroValue.toString();
   euroValue = euroValue.replace('.',',');
-  euroValue = euroValue.replace(',00',',-');
-  euroValue = '€' + euroValue;
-  return(euroValue);
+  if (REWARD_IS_MONEY) {
+    euroValue = euroValue.replace(',00',',-');
+  } else {
+    euroValue = euroValue.replace(',00','');
+  }
+
+  if (FRONT_PLACEMENT) {
+    return sign + euroValue;
+  }
+  return euroValue + sign;
 }
 

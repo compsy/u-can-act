@@ -2,7 +2,7 @@ class EditPersonLink extends React.Component {
   constructor(props) {
     super(props);
     this.timer = null;
-    this.add_emphasis = true;
+    this.add_emphasis = false;
   }
 
   decorate_link(url, text, person) {

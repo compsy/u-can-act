@@ -78,8 +78,6 @@ GEM
       io-like (~> 0.3.0)
     arel (7.1.4)
     ast (2.4.0)
-    autoprefixer-rails (9.1.4)
-      execjs
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -231,8 +229,8 @@ GEM
       mini_mime (>= 0.1.1)
     mailgun-ruby (1.1.10)
       rest-client (~> 2.0)
-    materialize-sass (1.0.0)
-      autoprefixer-rails (>= 6.0.3)
+    materialize-sass (0.100.2)
+      sass (~> 3.3)
     messagebird-rest (1.4.1)
     method_source (0.9.0)
     mime-types (3.2.2)
@@ -477,7 +475,7 @@ DEPENDENCIES
   listen
   lograge
   mailgun-ruby
-  materialize-sass
+  materialize-sass (= 0.100.2)
   messagebird-rest
   modernizr-rails
   mongoid

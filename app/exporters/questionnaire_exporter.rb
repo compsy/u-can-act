@@ -8,6 +8,7 @@ class QuestionnaireExporter
     def export_lines(questionnaire_name)
       questionnaire = Questionnaire.find_by_name(questionnaire_name)
       raise 'Questionnaire not found' unless questionnaire
+
       questionnaire_content = questionnaire.content
       @counter = 0
       Enumerator.new do |enum|
@@ -26,6 +27,7 @@ class QuestionnaireExporter
       yield format_headers(headers)
       questionnaire_content.each do |question|
         next export_question(question, headers, fields, &block) if question[:type] != :expandable
+
         question[:content].each { |sub_question| export_question(sub_question, headers, fields, &block) }
       end
     end

@@ -47,6 +47,7 @@ class PeopleController < ApplicationController
 
   def unsubscribed
     return if performed?
+
     flash[:notice] = 'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end

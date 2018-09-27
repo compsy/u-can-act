@@ -51,6 +51,7 @@ class Team < ApplicationRecord
   def calculate_above_threshold_for_group(roles_for_group, role_stats_for_group)
     total_people = roles_for_group.reduce(0) { |tot, val| tot + val.people.count }
     return 0 unless total_people.positive?
+
     (role_stats_for_group[:met_threshold_completion].to_d / total_people.to_d * 100).round
   end
 end

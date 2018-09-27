@@ -6,6 +6,7 @@ class CookieJar
     def verify_param(jar, response_hash)
       cookie = jar[COOKIE_LOCATION]
       return false if response_hash.nil? || cookie.nil?
+
       cookie = JSON.parse(cookie)
       response_hash.each do |key, value|
         valid_cookie = cookie[key.to_s] == value
@@ -22,6 +23,7 @@ class CookieJar
     def read_entry(jar, entry)
       cookie = jar[COOKIE_LOCATION]
       return false if entry.nil? || cookie.nil?
+
       cookie = JSON.parse(cookie)
       cookie[entry.to_s]
     end

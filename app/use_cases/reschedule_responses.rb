@@ -27,6 +27,7 @@ class RescheduleResponses < ActiveInteraction::Base
     measurement.response_times(protocol_subscription.start_date, protocol_subscription.end_date).each do |time|
       next if current_or_past_time? time
       next if measurement_response_completed_and_not_periodical? measurement
+
       Response.create!(protocol_subscription_id: protocol_subscription.id,
                        measurement_id: measurement.id,
                        open_from: time)

@@ -47,6 +47,7 @@ class TokenAuthenticationController < ApplicationController
 
   def check_params
     return if identifier_param.present? && token_param.present?
+
     render(status: 401, html: 'Gebruiker / Vragenlijst niet gevonden.', layout: 'application')
   end
 

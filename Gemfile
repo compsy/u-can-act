@@ -167,7 +167,7 @@ gem 'silencer'
 
 # JS / CSS Frameworks
 # gem 'highcharts-rails'
-gem 'materialize-sass'
+gem 'materialize-sass', '= 0.100.2'
 gem 'modernizr-rails'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

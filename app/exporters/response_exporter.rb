@@ -8,6 +8,7 @@ class ResponseExporter
     def export_lines(questionnaire_name)
       questionnaire = Questionnaire.find_by_name(questionnaire_name)
       raise 'Questionnaire not found' unless questionnaire
+
       Enumerator.new do |enum|
         enum << '"' # output a character to the stream right away
         csv_headers = export_headers(questionnaire)
@@ -25,6 +26,7 @@ class ResponseExporter
       silence_logger do
         response_query(questionnaire).each do |response|
           next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
+
           vals = response_hash(response)
           response_values = response.values
           vals.merge!(response_values) if response_values.present?
@@ -44,6 +46,7 @@ class ResponseExporter
         Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
                 .where.not(content: nil).find_each do |response|
           next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
+
           # Response has a .values function, which we are using here (i.e., it is not a hash from which we get the
           # values)
           response.values.each do |key, _value|
@@ -107,6 +110,7 @@ class ResponseExporter
       # first, last are the start and end positions of the first and last digits of the first number
       # in the string key. (A number is a substring consisting of consecutive digits only.)
       return key if first == -1
+
       t = prefix_number(key, first) # find stuff before the number
       len = 4 - (1 + last - first)
       len.times do

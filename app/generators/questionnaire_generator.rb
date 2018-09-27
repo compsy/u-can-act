@@ -38,11 +38,13 @@ class QuestionnaireGenerator
 
     def substitute_variables(response, obj_to_substitute)
       return obj_to_substitute if obj_to_substitute.blank?
+
       QuestionnaireExpander.expand_content(obj_to_substitute, response)
     end
 
     def questionnaire_header(title)
       return ''.html_safe if title.blank?
+
       header_body = content_tag(:h4, title, class: 'header')
       header_body = content_tag(:div, header_body, class: 'col s12')
       header_body = content_tag(:div, header_body, class: 'row')
@@ -82,6 +84,7 @@ class QuestionnaireGenerator
 
     def should_show?(question, response_id)
       return true unless question.key?(:show_after)
+
       show_after_hash = ensure_show_after_hash(question[:show_after])
       if show_after_hash.key?(:offset)
         show_after_hash[:date] = convert_offset_to_date(show_after_hash[:offset],
@@ -109,8 +112,10 @@ class QuestionnaireGenerator
 
     def convert_offset_to_date(offset, response_id)
       raise "Unknown show_after offset type: #{offset}" unless an_offset?(offset)
+
       response = Response.find_by_id(response_id)
       return 2.seconds.ago if response.blank? # If we don't have a response, just show it
+
       TimeTools.increase_by_duration(response.protocol_subscription.start_date, offset)
     end
 
@@ -351,6 +356,7 @@ class QuestionnaireGenerator
 
     def generate_tooltip(tooltip_content)
       return nil if tooltip_content.blank?
+
       tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
       content_tag(:a,
                   tooltip_body,
@@ -374,6 +380,7 @@ class QuestionnaireGenerator
 
     def radio_otherwise(question)
       return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
+
       option_body = safe_join([
                                 radio_otherwise_option(question),
                                 otherwise_textfield(question),
@@ -490,6 +497,7 @@ class QuestionnaireGenerator
 
     def stop_subscription_token(option, answer_key, answer_value, response_id)
       return nil unless option[:stop_subscription]
+
       tag(:input, name: stop_subscription_name(answer_key),
                   type: 'hidden',
                   value: Response.stop_subscription_token(answer_key, answer_value, response_id))
@@ -497,6 +505,7 @@ class QuestionnaireGenerator
 
     def checkbox_otherwise(question)
       return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
+
       option_body = safe_join([
                                 checkbox_otherwise_option(question),
                                 otherwise_textfield(question),
@@ -645,10 +654,12 @@ class QuestionnaireGenerator
 
     def update_id(id, sub_id)
       return nil if id.nil?
+
       id = id.to_s
 
       # We don't want to inject the id if no _ is present
       return "#{id}_#{sub_id}".to_sym unless id.include? '_'
+
       id = id.split('_')
       start = id.first
       endd = id[1..-1].join('_')

@@ -6,7 +6,7 @@ describe QuestionnaireGenerator do
   let(:responseobj) { FactoryBot.create(:response) }
   describe 'generate_questionnaire' do # This is the only public method
     it 'should generate a questionnaire' do
-      result = described_class
+      result = subject
                .generate_questionnaire(
                  response_id: responseobj.id,
                  content: responseobj.measurement.questionnaire.content,
@@ -37,8 +37,8 @@ describe QuestionnaireGenerator do
         options: %w[slecht goed]
       }]
       expect do
-        described_class.send(:questionnaire_questions_html,
-                             questionnaire_content, nil, questionnaire_content, nil)
+        subject.send(:questionnaire_questions_html,
+                     questionnaire_content, nil, questionnaire_content, nil)
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
     it 'should raise an error when given an unknown show_after type' do
@@ -49,8 +49,8 @@ describe QuestionnaireGenerator do
         show_after: 'hoi en doei'
       }]
       expect do
-        described_class.send(:questionnaire_questions_html,
-                             questionnaire_content, nil, questionnaire_content, nil)
+        subject.send(:questionnaire_questions_html,
+                     questionnaire_content, nil, questionnaire_content, nil)
       end.to raise_error(RuntimeError, 'Unknown show_after type: hoi en doei')
     end
   end
@@ -63,9 +63,9 @@ describe QuestionnaireGenerator do
         title: 'Hoe voelt {{deze_student}} zich vandaag?',
         options: %w[slecht goed]
       }]
-      @result = described_class.generate_hash_questionnaire(responseobj.id,
-                                                            questionnaire_content,
-                                                            'Dit is een titel {{deze_student}}')
+      @result = subject.generate_hash_questionnaire(responseobj.id,
+                                                    questionnaire_content,
+                                                    'Dit is een titel {{deze_student}}')
     end
     it 'should return a hash with the title and content' do
       expect(@result).to be_a Hash

@@ -4,18 +4,15 @@ class AdminController < ApplicationController
   include AdminHelper
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
   before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
-
-  def index
-    # exclude pilot study questionnaires
-    @used_questionnaires = Questionnaire.all - Questionnaire.pilot
-  end
+  before_action :set_questionnaire_content, only: %i[preview]
+  before_action :load_questionnaires, only: %i[export preview_overview]
 
   def preview
     @use_mentor_layout = @questionnaire.name.match?(/mentor/)
   end
 
   def preview_done
-    redirect_to '/admin'
+    redirect_to '/admin/preview_overview'
   end
 
   def response_export
@@ -68,6 +65,25 @@ class AdminController < ApplicationController
     return if @questionnaire.present?
 
     render(status: 404, html: 'Questionnaire with that name not found.', layout: 'application')
+  end
+
+  def set_questionnaire_content
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
+      response_id: nil,
+      content: @questionnaire.content,
+      title: @questionnaire.title,
+      submit_text: 'Opslaan',
+      action: '/admin/preview_done',
+      unsubscribe_url: nil,
+      params: { authenticity_token: form_authenticity_token(form_options: { action: '/admin/preview_done',
+                                                                            method: 'post' }) }
+    )
+  end
+
+  def load_questionnaires
+    # exclude pilot study questionnaires
+    @pilot_questionnaires = Questionnaire.pilot
+    @normal_questionnaires = Questionnaire.all - @pilot_questionnaires
   end
 
   def questionnaire_params

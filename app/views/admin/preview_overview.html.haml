@@ -1,0 +1,8 @@
+= render partial: 'menu'
+.admin-interface
+  .col.s12
+    %h1 Preview questionnaires
+    .section
+      = form_tag('/admin/preview', method: 'post') do
+        = select_tag(:id, options_for_select(questionnaire_select_options(@normal_questionnaires.sort_by{|x|x.name}), disabled: '', selected: ''), required: true)
+        = button_tag('Preview questionnaire', type: 'submit', class: 'btn waves-effect waves-light')

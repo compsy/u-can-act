@@ -28,6 +28,7 @@
 
 .input-field.inline {
   margin-top: -21px;
+  margin-bottom: 0px;
   top: 16px;
 }
 
@@ -98,33 +99,33 @@ form .likert-scale {
   padding: 0 0 0 0;
 }
 
-form .likert-item {
+.likert-item {
   text-align: center;
   vertical-align: center;
   display: block;
 
   label {
-    padding-left: 0px !important;
-
-    &:before, &:after {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 0 0 0 0;
-    }
-
-    &:before {
-      position: relative;
-    }
-
-    &:after {
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-    }
-
     span {
+      padding: 2px !important;
+
+      &:before, &:after {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 2px 2px 2px 2px;
+      }
+
+      &:before {
+        position: relative;
+      }
+
+      &:after {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
       width: 100%;
       text-align: center;
       vertical-align: center;

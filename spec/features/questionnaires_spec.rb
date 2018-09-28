@@ -2056,7 +2056,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to_not have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.find('#v1').click
-      page.click_on 'Vandaag'
+      page.find('.is-today').click
       page.click_on 'Ok'
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')

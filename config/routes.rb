@@ -47,8 +47,9 @@ Rails.application.routes.draw do
           get :me
         end
       end
-      get 'statistics', to: 'statistics#index'
-      get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
+      resources :statistics, only: [:index]
+      resources :settings, only: [:index]
+      resources :protocol_subscriptions, only: [:show]
       namespace :admin do
         resources :team, only: [:show], param: :group
         resources :organization, only: [:show], param: :group

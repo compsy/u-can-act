@@ -9,5 +9,5 @@ team = Team.find_by_name(team_name)
 team ||= Team.create!(name: team_name, organization: organization)
 team.update_attributes!(organization: organization)
 
-entry = team.roles.where(group: Person::STUDENT, title: title).first
-entry ||= team.roles.create!(group: Person::STUDENT, title: title)
+entry = team.roles.where(group: Person::SOLO, title: title).first
+entry ||= team.roles.create!(group: Person::SOLO, title: title)

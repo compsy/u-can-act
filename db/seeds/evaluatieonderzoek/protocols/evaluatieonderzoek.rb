@@ -14,10 +14,10 @@ ev_id = Questionnaire.find_by_name(ev_name)&.id
 raise "Cannot find questionnaire: #{ev_name}" unless ev_id
 ev_measurement = ev_protocol.measurements.find_by_questionnaire_id(ev_id)
 ev_measurement ||= ev_protocol.measurements.build(questionnaire_id: ev_id)
-ev_measurement.open_from_offset = 0.seconds # open right away
+ev_measurement.open_from_offset = 0 # open right away
 ev_measurement.period = nil # one-off and not repeated
 ev_measurement.open_duration = nil # always open
-ev_measurement.reward_points = default_posttest_reward_points
+ev_measurement.reward_points = 0
 ev_measurement.stop_measurement = true # unsubscribe immediately
 ev_measurement.should_invite = false # don't send invitations
 ev_measurement.redirect_url = '/person/edit' # after filling out questionnaire, go to person edit page.

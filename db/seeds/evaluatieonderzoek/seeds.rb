@@ -1,6 +1,6 @@
 # These seeds need to be loaded first, and in order.
 %w[questionnaires protocols organizations teams].each do |seed_directory|
-  Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '**', '*.rb')].each do |file|
+  Dir[File.join(File.dirname(__FILE__), seed_directory, '**', '*.rb')].each do |file|
     require file
   end
 end
@@ -35,13 +35,16 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   # Evaluatieonderzoek
   puts ''
   protocol = Protocol.find_by_name('evaluatieonderzoek')
-  person = Team.find_by_name('Evaluatieonderzoek').roles.where(group: Person::STUDENT).first.people[0]
+  person = Team.find_by_name('Evaluatieonderzoek').roles.where(group: Person::SOLO).first.people[0]
+  prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
     state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: Time.zone.now.beginning_of_day
+    start_date: prot_start
   )
+  RescheduleResponses.run!(protocol_subscription: prot_sub,
+                           future: TimeTools.increase_by_duration(prot_start, -1.second))
   responseobj = prot_sub.responses.first # evaluatieonderzoek
   invitation_set = InvitationSet.create!(person: person)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)

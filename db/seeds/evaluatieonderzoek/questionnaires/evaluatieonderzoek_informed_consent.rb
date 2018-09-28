@@ -46,5 +46,5 @@ informed_consent1.content = [{
                                ],
                                show_otherwise: false
                              }]
-informed_consent1.title = 'Evaluatieonderzoek'
+informed_consent1.title = ''
 informed_consent1.save!

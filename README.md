@@ -522,6 +522,36 @@ Usable properties for an unsubscribe `question` type are `title`, `content`, `bu
 The default `data_method` is `delete`. The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
 
+
+### Type: Dropdown
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :dropdown,
+  title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken?',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  id: :v2,
+  type: :dropdown,
+  title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  tooltip: 'some tooltip',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis'],
+  section_end: true
+}]
+```
+
+The options array must contain of strings. Currently, there is no support for `shows_questions` or `hides_questions` triggers based on selected options in a dropdown.
+
+The dropdown does not support a `show_otherwise` option.  
+ 
+ The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
+
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv
 

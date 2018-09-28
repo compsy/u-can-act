@@ -15,13 +15,13 @@ class LikertGenerator < QuestionTypeGenerator
   def likert_options(question)
     body = []
     question[:options].each_with_index do |option, idx|
-      body << likert_option_body(question, add_raw_to_option(option, question, idx), question[:response_id])
+      body << likert_option_body(question, add_raw_to_option(option, question, idx))
     end
-    #safe_join(body)
+    # safe_join(body)
     content_tag(:div, safe_join(body), class: 'likert-scale')
   end
 
-  def likert_option_body(question, option, response_id)
+  def likert_option_body(question, option)
     elem_id = idify(question[:id], option[:raw][:title])
     tag_options = question_options(question, option, elem_id)
     tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
@@ -40,22 +40,5 @@ class LikertGenerator < QuestionTypeGenerator
       required: true,
       class: 'validate'
     }
-  end
-
-  def likert_body_wrap(question_id, option, wrapped_tag, answer_key, answer_value, response_id)
-    title = content_tag(:span,
-                        option[:title].html_safe)
-
-    option_body = safe_join([
-                              wrapped_tag,
-                              content_tag(:label, title, class: 'flow-text', for: idify(question_id,
-                                                                                        option[:raw][:title])),
-                              generate_tooltip(option[:tooltip])
-                            ])
-    option_body = safe_join([
-                              content_tag(:p, option_body),
-                              stop_subscription_token(option, answer_key, answer_value, response_id)
-                            ])
-    option_body
   end
 end

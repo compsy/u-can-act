@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180928093944) do
+ActiveRecord::Schema.define(version: 20180928100152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,14 @@ ActiveRecord::Schema.define(version: 20180928093944) do
     t.string   "redirect_url"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id", using: :btree
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
+  end
+
+  create_table "one_time_responses", force: :cascade do |t|
+    t.string   "token"
+    t.integer  "protocol_id", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["protocol_id"], name: "index_one_time_responses_on_protocol_id", using: :btree
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -204,6 +212,7 @@ ActiveRecord::Schema.define(version: 20180928093944) do
   add_foreign_key "invitations", "invitation_sets"
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
+  add_foreign_key "one_time_responses", "protocols"
   add_foreign_key "protocol_subscriptions", "people"
   add_foreign_key "protocol_subscriptions", "protocols"
   add_foreign_key "protocol_transfers", "people", column: "from_id"

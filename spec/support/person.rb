@@ -72,18 +72,14 @@ shared_examples_for 'a person object' do
       expect(person.valid?).to be_falsey
     end
 
-    it 'should not accept an empty number' do
+    it 'should accept an empty number' do
       person.mobile_phone = ''
-      expect(person.valid?).to be_falsey
-      expect(person.errors.messages).to have_key :mobile_phone
-      expect(person.errors.messages[:mobile_phone]).to include('is te kort (minimaal 10 tekens)')
+      expect(person.valid?).to be_truthy
     end
 
-    it 'should not accept nil as a number' do
+    it 'should accept nil as a number' do
       person.mobile_phone = nil
-      expect(person.valid?).to be_falsey
-      expect(person.errors.messages).to have_key :mobile_phone
-      expect(person.errors.messages[:mobile_phone]).to include('is ongeldig')
+      expect(person.valid?).to be_truthy
     end
 
     it 'should not accept numbers that are not length 10' do

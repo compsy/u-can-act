@@ -13,6 +13,7 @@ class QuestionTypeGenerator < Generator
 
   def generate_tooltip(tooltip_content)
     return nil if tooltip_content.blank?
+
     tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
     content_tag(:a,
                 tooltip_body,
@@ -50,6 +51,7 @@ class QuestionTypeGenerator < Generator
 
   def stop_subscription_token(option, answer_key, answer_value, response_id)
     return nil unless option[:stop_subscription]
+
     tag(:input, name: stop_subscription_name(answer_key),
                 type: 'hidden',
                 value: Response.stop_subscription_token(answer_key, answer_value, response_id))

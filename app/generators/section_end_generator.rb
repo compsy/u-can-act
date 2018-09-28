@@ -3,6 +3,7 @@
 class SectionEndGenerator < QuestionTypeGenerator
   def generate(question)
     return nil if question[:section_end].blank?
+
     body = content_tag(:div, nil, class: 'divider')
     body = content_tag(:div, body, class: 'col s12')
     klasses = 'row'

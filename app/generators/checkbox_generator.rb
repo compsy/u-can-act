@@ -53,6 +53,7 @@ class CheckboxGenerator < QuestionTypeGenerator
 
   def checkbox_otherwise(question)
     return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
+
     option_body = checkbox_otherwise_option(question)
     decorate_with_otherwise(question, option_body)
   end

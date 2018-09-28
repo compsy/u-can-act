@@ -93,10 +93,12 @@ class ExpandableGenerator < QuestionTypeGenerator
 
   def update_id(id, sub_id)
     return nil if id.nil?
+
     id = id.to_s
 
     # We don't want to inject the id if no _ is present
     return "#{id}_#{sub_id}".to_sym unless id.include? '_'
+
     id = id.split('_')
     start = id.first
     endd = id[1..-1].join('_')

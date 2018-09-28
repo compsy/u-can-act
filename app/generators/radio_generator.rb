@@ -54,6 +54,7 @@ class RadioGenerator < QuestionTypeGenerator
 
   def radio_otherwise(question)
     return '' if question.key?(:show_otherwise) && !question[:show_otherwise]
+
     option_body = radio_otherwise_option(question)
     decorate_with_otherwise(question, option_body)
   end

@@ -557,6 +557,7 @@ describe ProtocolSubscription do
       Timecop.freeze(Date.today + protocol_duration)
       protocol_subscription.responses.each_with_index do |responseobj, index|
         next if index == 0 # Pretend the first response is missing
+
         responseobj.completed_at = responseobj.open_from + 1.minute
       end
       result = protocol_subscription.protocol_completion

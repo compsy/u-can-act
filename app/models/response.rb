@@ -18,6 +18,7 @@ class Response < ApplicationRecord
 
   after_initialize do |response|
     next if response.uuid.present?
+
     loop do
       response.uuid = SecureRandom.uuid
       break if Response.where(uuid: response.uuid).count.zero?

@@ -41,6 +41,7 @@ class Person < ApplicationRecord
 
   after_initialize do |person|
     next if person.external_identifier
+
     loop do
       person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
       break if Person.where(external_identifier: person.external_identifier).count.zero?
@@ -63,12 +64,14 @@ class Person < ApplicationRecord
 
   def my_students
     return [] unless mentor? && protocol_subscriptions.present?
+
     protocol_subscriptions.reject { |prot_sub| prot_sub.filling_out_for_id == id }.map(&:filling_out_for)
   end
 
   def my_protocols(for_myself = true)
     return [] if protocol_subscriptions.blank?
     return protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id } if for_myself
+
     protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }
   end
 
@@ -106,6 +109,7 @@ class Person < ApplicationRecord
 
   def check_threshold(completed, total, threshold_percentage)
     return 0 unless total.positive?
+
     threshold_percentage ||= Person::DEFAULT_PERCENTAGE
     threshold_percentage = threshold_percentage.to_i
     actual_percentage = completed.to_d / total.to_d * 100

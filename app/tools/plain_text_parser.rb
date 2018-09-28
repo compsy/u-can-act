@@ -5,18 +5,21 @@ class PlainTextParser
     parsed_mobile_phone = mobile_phone.gsub(/[^0-9]+/, '')
     raise "Phone number is not 10 characters long: #{mobile_phone}" unless parsed_mobile_phone.size == 10
     raise "Phone number does not start with 06: #{mobile_phone}" unless parsed_mobile_phone.index('06')&.zero?
+
     parsed_mobile_phone
   end
 
   def parse_protocol_name(protocol_name)
     protocol = Protocol.find_by_name(protocol_name)
     raise "No protocol exists by that name: #{protocol_name}" unless protocol.present?
+
     protocol.id
   end
 
   def parse_team_name(team_name)
     team = Team.find_by_name(team_name)
     raise "No team exists by that name: #{team_name}" unless team.present?
+
     team
   end
 
@@ -24,6 +27,7 @@ class PlainTextParser
     team = parse_team_name(team_name)
     role = team.roles.find_by_title(role_title)
     raise "No role exists in that team by that title: #{role_title}" unless role.present?
+
     role.id
   end
 
@@ -33,6 +37,7 @@ class PlainTextParser
     # raise "Start date lies in the past: #{start_date}" unless parsed_start_date > Time.zone.now
     raise "Start date is not beginning of day: #{start_date}" unless
       parsed_start_date.beginning_of_day == parsed_start_date
+
     parsed_start_date
   end
 
@@ -42,6 +47,7 @@ class PlainTextParser
     raise "End date lies in the past: #{end_date}" unless parsed_end_date > Time.zone.now
     raise "End date is not beginning of day: #{end_date}" unless
       parsed_end_date.beginning_of_day == parsed_end_date
+
     parsed_end_date
   end
 
@@ -50,6 +56,7 @@ class PlainTextParser
     person = Person.find_by_mobile_phone(mobile_phone)
     raise "Person #{mobile_phone} does not exist" unless person.present?
     raise "Person #{mobile_phone} is not a student" unless person.role.group == Person::STUDENT
+
     person.id
   end
 end

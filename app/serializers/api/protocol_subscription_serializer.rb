@@ -18,6 +18,7 @@ module Api
     def max_streak
       max_streak = object.protocol.max_streak
       return nil if max_streak.blank?
+
       {
         threshold: max_streak.threshold,
         reward_points: max_streak.reward_points
@@ -34,15 +35,19 @@ module Api
 
     def euro_delta
       return 0 if no_streak_detected
+
       latest_streak_value = completion[object.latest_streak_value_index]
       return 0 unless latest_streak_value.present?
+
       object.protocol.calculate_reward([latest_streak_value])
     end
 
     def current_multiplier
       return 1 if no_streak_detected
+
       current_completion = completion[object.latest_streak_value_index]
       return 1 unless current_completion.present?
+
       latest_streak_value = current_completion[:streak]
       object.protocol.find_correct_multiplier(latest_streak_value)
     end

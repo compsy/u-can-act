@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   def permit_recursive_params(params)
     # TODO: remove this function in rails 5.1 (which is already out, but not supported by delayed_job_active_record)
     return [] if params.blank?
+
     params.map do |key, _value|
       # if value.is_a?(Array)
       #  { key => [permit_recursive_params(value.first)] }

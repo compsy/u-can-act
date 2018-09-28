@@ -4,6 +4,7 @@ class VariableEvaluator
   class << self
     def evaluate_obj(obj, subs_hash)
       return evaluate(obj, subs_hash) if obj.is_a?(String)
+
       if obj.is_a?(Hash)
         obj.each do |k, v|
           obj[k] = evaluate_obj(v, subs_hash)

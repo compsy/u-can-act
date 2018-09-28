@@ -35,11 +35,13 @@ class QuestionnaireGenerator
 
   def substitute_variables(response, obj_to_substitute)
     return obj_to_substitute if obj_to_substitute.blank?
+
     QuestionnaireExpander.expand_content(obj_to_substitute, response)
   end
 
   def questionnaire_header(title)
     return ''.html_safe if title.blank?
+
     header_body = content_tag(:h4, title, class: 'header')
     header_body = content_tag(:div, header_body, class: 'col s12')
     header_body = content_tag(:div, header_body, class: 'row')
@@ -79,6 +81,7 @@ class QuestionnaireGenerator
 
   def should_show?(question, response_id)
     return true unless question.key?(:show_after)
+
     show_after_hash = ensure_show_after_hash(question[:show_after])
     if show_after_hash.key?(:offset)
       show_after_hash[:date] = convert_offset_to_date(show_after_hash[:offset],
@@ -106,8 +109,10 @@ class QuestionnaireGenerator
 
   def convert_offset_to_date(offset, response_id)
     raise "Unknown show_after offset type: #{offset}" unless an_offset?(offset)
+
     response = Response.find_by_id(response_id)
     return 2.seconds.ago if response.blank? # If we don't have a response, just show it
+
     TimeTools.increase_by_duration(response.protocol_subscription.start_date, offset)
   end
 

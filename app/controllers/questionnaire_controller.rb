@@ -86,6 +86,7 @@ class QuestionnaireController < ApplicationController
 
   def stop_protocol_subscription
     @response.protocol_subscription.cancel!
+    # TODO: Een speciale notice voor evalueerders
     flash[:notice] = if @response.protocol_subscription.mentor?
                        "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
                          'is gestopt.'

@@ -3,6 +3,8 @@
 class QuestionnaireController < ApplicationController
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
+  protect_from_forgery prepend: true, with: :exception, except: :create
+  before_action :log_csrf_error, only: %i[create]
   before_action :set_response, only: %i[show destroy]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
@@ -57,6 +59,7 @@ class QuestionnaireController < ApplicationController
     # We assume that if a stop measurement is submitted, it is always the last
     # questionnaire of the protocol.
     return stop_protocol_subscription if @response.measurement.stop_measurement?
+
     stop_subscription_hash = questionnaire_stop_subscription
     content = questionnaire_content
     return if stop_subscription_hash.blank?
@@ -69,6 +72,7 @@ class QuestionnaireController < ApplicationController
     should_stop = false
     stop_subscription_hash.each do |key, received|
       next unless content.key?(key)
+
       expected = Response.stop_subscription_token(key, content[key], @response.id)
       if ActiveSupport::SecurityUtils.secure_compare(expected, received)
         should_stop = true
@@ -76,6 +80,7 @@ class QuestionnaireController < ApplicationController
       end
     end
     return unless should_stop
+
     stop_protocol_subscription
   end
 
@@ -94,6 +99,7 @@ class QuestionnaireController < ApplicationController
   def check_content_hash
     questionnaire_content.each do |k, v|
       next unless k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
+
       render(status: 400, html: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
              layout: 'application')
       break
@@ -125,6 +131,7 @@ class QuestionnaireController < ApplicationController
     the_response = Response.find_by_uuid(questionnaire_params[:uuid])
     check_response(the_response)
     return if performed?
+
     @response = the_response
     set_protocol_and_subscription
   end
@@ -133,6 +140,7 @@ class QuestionnaireController < ApplicationController
     @response = Response.find_by_id(questionnaire_create_params[:response_id])
     check_response(@response)
     return if performed?
+
     # Now that we know the response can be filled out, update the cookies so the redirect works as expected.
     store_response_cookie
     set_protocol_and_subscription
@@ -144,16 +152,15 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_questionnaire_content
-    @content = QuestionnaireGenerator
-               .generate_questionnaire(
-                 response_id: @response.id,
-                 content: @response.measurement.questionnaire.content,
-                 title: @response.measurement.questionnaire.title,
-                 submit_text: 'Opslaan',
-                 action: '/',
-                 unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: @response.uuid),
-                 params: default_questionnaire_params
-               )
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
+      response_id: @response.id,
+      content: @response.measurement.questionnaire.content,
+      title: @response.measurement.questionnaire.title,
+      submit_text: 'Opslaan',
+      action: '/',
+      unsubscribe_url: @response.unsubscribe_url,
+      params: default_questionnaire_params
+    )
   end
 
   def default_questionnaire_params
@@ -178,11 +185,13 @@ class QuestionnaireController < ApplicationController
 
   def questionnaire_content
     return {} if questionnaire_create_params[:content].nil?
+
     questionnaire_create_params[:content].to_unsafe_h
   end
 
   def questionnaire_stop_subscription
     return {} if questionnaire_create_params[:stop_subscription].nil?
+
     questionnaire_create_params[:stop_subscription].to_unsafe_h
   end
 
@@ -209,7 +218,21 @@ class QuestionnaireController < ApplicationController
 
     # A person should always be able to fill out a stop measurement
     return if !response.expired? || response.measurement.stop_measurement
+
     flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
     redirect_to NextPageFinder.get_next_page current_user: current_user
+  end
+
+  def log_csrf_error
+    return unless protect_against_forgery? # is false in test environment
+    return if valid_request_origin? && any_authenticity_token_valid?
+
+    record_warning_in_rails_logger
+    params['content']['csrf_failed'] = 'true' if params['content'].present?
+  end
+
+  def record_warning_in_rails_logger
+    Rails.logger.warn "[Attention] CSRF error for user #{current_user&.id} at " \
+                      "#{request.fullpath} with params: #{params.pretty_inspect}"
   end
 end

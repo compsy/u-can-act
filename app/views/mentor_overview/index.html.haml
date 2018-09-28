@@ -8,9 +8,9 @@
     = current_user.first_name
     = current_user.last_name
 
-- if Time.zone.now < Time.new(2018, 9, 1).in_time_zone && current_user.protocol_subscriptions.active.count.positive?
+- if Time.zone.now < Time.new(2018, 10, 1).in_time_zone && current_user.protocol_subscriptions.active.count.positive?
   .row.section
-    .col.s12= QuestionnaireGenerator.send(:generate_unsubscribe, { type: :unsubscribe,
+    .col.s12= UnsubscribeGenerator.new.generate({ type: :unsubscribe,
                                   title: 'Klaar met dit schooljaar?',
                                   content: 'Ben je klaar met dit schooljaar? Klik dan op de knop \'Onderzoek afronden\' om het onderzoek te voltooien. Zo nee, vul dan gewoon de onderstaande vragenlijsten in.',
                                   button_text: 'Onderzoek afronden',

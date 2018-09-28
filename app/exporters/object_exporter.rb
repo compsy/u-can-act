@@ -8,7 +8,8 @@ class ObjectExporter
     def export_lines
       Enumerator.new do |enum|
         export(klass, formatted_fields, default_fields) do |line|
-          enum << line + "\n"
+          # Encode to ISO-8859-1 because Excel can't handle UTF-8 for some reason.
+          enum << line.encode('ISO-8859-1', 'UTF-8', invalid: :replace, undef: :replace) + "\n"
         end
       end
     end
@@ -41,6 +42,7 @@ class ObjectExporter
       silence_logger do
         klass.find_each do |klass_instance|
           next if to_be_skipped?(klass_instance)
+
           vals = format_fields(klass_instance)
           default_fields.each do |field|
             vals[field] = klass_instance.send(field.to_sym)

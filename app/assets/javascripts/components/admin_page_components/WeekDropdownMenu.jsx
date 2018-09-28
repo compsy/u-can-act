@@ -46,7 +46,7 @@ class WeekDropdownMenu extends React.Component {
     var weeks = this.generateWeeks(this.props.year).reverse();
     var selected = weeks[0];
     return(
-      <Select value={selected} options={weeks} label='Weeknummer' onChange={this.props.onChange} />
+      <Select value={selected} options={weeks} className='dropdown' label='Weeknumber' onChange={this.props.onChange} />
     )
   }
 }

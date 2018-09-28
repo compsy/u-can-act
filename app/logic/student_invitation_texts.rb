@@ -4,6 +4,7 @@ class StudentInvitationTexts < InvitationTexts
   class << self
     def message(response)
       return announcement_week_texts(response) if in_announcement_week?
+
       pooled_message(response.protocol_subscription.protocol,
                      response.protocol_subscription.protocol_completion)
     end

@@ -4,6 +4,7 @@ class MentorInvitationTexts < InvitationTexts
   class << self
     def message(response)
       return announcement_week_texts(response) if in_announcement_week?
+
       normal_texts(response)
     end
 
@@ -27,6 +28,7 @@ class MentorInvitationTexts < InvitationTexts
 
       # voormeting is in different protsub
       return was_invited_message if response.protocol_subscription.responses.invited.count == 1
+
       default_message(response)
     end
 

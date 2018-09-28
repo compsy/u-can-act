@@ -18,6 +18,7 @@ class Response < ApplicationRecord
 
   after_initialize do |response|
     next if response.uuid.present?
+
     loop do
       response.uuid = SecureRandom.uuid
       break if Response.where(uuid: response.uuid).count.zero?
@@ -79,6 +80,10 @@ class Response < ApplicationRecord
 
   def self.after_date(date)
     where('open_from > :date', date: date)
+  end
+
+  def unsubscribe_url
+    Rails.application.routes.url_helpers.questionnaire_path(uuid: uuid)
   end
 
   def future?

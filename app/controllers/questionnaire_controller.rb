@@ -86,7 +86,6 @@ class QuestionnaireController < ApplicationController
 
   def stop_protocol_subscription
     @response.protocol_subscription.cancel!
-    # TODO: Een speciale notice voor evalueerders
     flash[:notice] = stop_protocol_subscription_notice
     Rails.logger.warn "[Attention] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."

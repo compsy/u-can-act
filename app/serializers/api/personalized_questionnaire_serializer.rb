@@ -20,7 +20,8 @@ module Api
       return @questionnaire if @questionnaire.present?
 
       questionnaire = object.measurement.questionnaire
-      @questionnaire = QuestionnaireGenerator.generate_hash_questionnaire(
+      generator = QuestionnaireGenerator.new
+      @questionnaire = generator.generate_hash_questionnaire(
         object.id,
         questionnaire.content,
         questionnaire.title

@@ -27,7 +27,7 @@ class DropdownGenerator < QuestionTypeGenerator
   def generate_dropdown(question, id)
     body = []
     placeholder = question[:placeholder] ? question[:placeholder] : DROPDOWN_PLACEHOLDER
-    body << content_tag(:option, placeholder, disabled: nil, selected: nil, value: '')
+    body << content_tag(:option, placeholder, disabled: true, selected: true, value: '')
     question[:options].each_with_index do |option, idx|
       body << content_tag(:option, option, value: question[:raw][:options][idx])
     end

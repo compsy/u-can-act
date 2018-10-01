@@ -21,7 +21,7 @@ class DropdownGenerator < QuestionTypeGenerator
                           options,
                           content_tag(:label, label)
                         ])
-    content_tag(:div, options, class: "input-field col s6 #{elem_id}")
+    content_tag(:div, options, class: "input-field col s12 m6 no-padding #{elem_id}")
   end
 
   def generate_dropdown(question, id)

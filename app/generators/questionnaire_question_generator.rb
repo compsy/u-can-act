@@ -13,6 +13,7 @@ class QuestionnaireQuestionGenerator < Generator
       raw: RawGenerator.new,
       unsubscribe: UnsubscribeGenerator.new,
       date: DateGenerator.new,
+      dropdown: DropdownGenerator.new,
       expandable: ExpandableGenerator.new,
       section_start: SectionStartGenerator.new,
       section_end: SectionEndGenerator.new,

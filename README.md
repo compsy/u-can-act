@@ -538,6 +538,7 @@ Required and allowed options (minimal example and maximal example):
   id: :v2,
   type: :dropdown,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  label: 'RMC regio',
   tooltip: 'some tooltip',
   options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis'],
   section_end: true
@@ -546,8 +547,14 @@ Required and allowed options (minimal example and maximal example):
 
 The options array must contain of strings. Currently, there is no support for `shows_questions` or `hides_questions` triggers based on selected options in a dropdown.
 
-The dropdown does not support a `show_otherwise` option.  
- 
+The dropdown does not support a `show_otherwise` option.
+
+Dropdowns are always required.
+
+A dropdown can have a `placeholder` property which is the text used when no option is selected. If no `placeholder` is specified, a default text is used.
+
+A dropdown can have a `label` property which is a small text that is always visible printed directly above the dropdown.
+
  The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.

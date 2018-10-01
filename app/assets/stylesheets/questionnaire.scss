@@ -133,3 +133,11 @@ form .likert-scale {
     }
   }
 }
+
+.input-field.col.no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+.input-field.col.no-padding label {
+  left: 0;
+}

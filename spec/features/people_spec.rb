@@ -199,7 +199,7 @@ describe 'GET /unsubscribe', type: :feature, js: true do
     visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
   end
 
-  it 'should unsubscribe when you click the unsubscribe button' do
+  xit 'should unsubscribe when you click the unsubscribe button' do
     expect(page).to have_content('Klaar met dit schooljaar?')
     expect(person.protocol_subscriptions.active.count).to eq 1
     page.click_on 'Onderzoek afronden'
@@ -207,7 +207,7 @@ describe 'GET /unsubscribe', type: :feature, js: true do
     expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
   end
 
-  it 'should redirect to a stop questionnaire if there is one and then unsubscribe when click unsubscribe button' do
+  xit 'should redirect to a stop questionnaire if there is one and then unsubscribe when click unsubscribe button' do
     questionnaire = FactoryBot.create(:questionnaire, :minimal)
     measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol, questionnaire: questionnaire)
     FactoryBot.create(:response,

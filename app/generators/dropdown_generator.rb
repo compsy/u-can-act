@@ -18,10 +18,10 @@ class DropdownGenerator < QuestionTypeGenerator
     elem_id = idify(question[:id])
     options = generate_dropdown(question, elem_id)
     options = safe_join([
-                          options,
-                          content_tag(:label, label)
+                          content_tag(:label, label),
+                          options
                         ])
-    content_tag(:div, options, class: "input-field col s12 m6 no-padding #{elem_id}")
+    content_tag(:div, options, class: "col s12 m6 no-padding #{elem_id}")
   end
 
   def generate_dropdown(question, id)
@@ -32,6 +32,6 @@ class DropdownGenerator < QuestionTypeGenerator
       body << content_tag(:option, option, value: question[:raw][:options][idx])
     end
     body = safe_join(body)
-    content_tag(:select, body, name: answer_name(id), id: id, required: true)
+    content_tag(:select, body, name: answer_name(id), id: id, required: true, class: 'browser-default')
   end
 end

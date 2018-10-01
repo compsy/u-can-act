@@ -41,7 +41,8 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
     protocol: protocol,
     person: person,
     state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: prot_start
+    start_date: prot_start,
+    informed_consent_given_at: Time.zone.now
   )
   RescheduleResponses.run!(protocol_subscription: prot_sub,
                            future: TimeTools.increase_by_duration(prot_start, -1.second))

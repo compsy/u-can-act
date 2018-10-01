@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionnaireQuestionGenerator < Generator
+  # rubocop:disable Metrics/AbcSize
   def initialize
     @generators = {
       radio: RadioGenerator.new,
@@ -20,6 +21,7 @@ class QuestionnaireQuestionGenerator < Generator
       klasses: KlassesGenerator.new
     }
   end
+  # rubocop:enable Metrics/AbcSize
 
   def generate(question)
     question_body = find_generator(question[:type]).generate(question)

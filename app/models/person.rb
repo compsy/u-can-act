@@ -7,6 +7,8 @@ class Person < ApplicationRecord
 
   MENTOR = 'Mentor'
   STUDENT = 'Student'
+  SOLO = 'Solo'
+
   DEFAULT_PERCENTAGE = 70
 
   IDENTIFIER_LENGTH = 4

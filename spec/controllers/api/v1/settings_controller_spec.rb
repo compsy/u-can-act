@@ -6,6 +6,7 @@ describe Api::V1::SettingsController, type: :controller do
   describe 'index' do
     def flat_hash(hash, final = [], res = {})
       return res.update(final => hash) unless hash.is_a? Hash
+
       hash.each { |key, val| flat_hash(val, final + [key], res) }
       res
     end

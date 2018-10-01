@@ -29,7 +29,7 @@ ic_content = <<~'END'
     </li>
     <li>Voor vragen over het onderzoek kan er contact opgenomen worden met het algemene informatie e-mailadres van het u-can-act projectteam van de RuG (<a href="mailto:info@u-can-act.nl">info@u-can-act.nl</a>).
     </li>
-    <li>Klik hier voor meer informatie over het onderzoek. Op deze manier download u een PDF bestand met alle informatie over het onderzoek op uw telefoon, tablet of computer, zodat u deze informatie ten allen tijde kunt raadplegen.
+    <li>Klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor meer informatie over het onderzoek. Op deze manier download u een PDF bestand met alle informatie over het onderzoek op uw telefoon, tablet of computer, zodat u deze informatie ten allen tijde kunt raadplegen.
     </li>
   </ol>
 END

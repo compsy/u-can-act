@@ -189,7 +189,7 @@ $(function () {
       $(this).blur();
     }
   });
-  $('input,textarea').change(time_element);
+  $('input,textarea,select').change(time_element);
   $('textarea').focusin(time_element);
   $('button[type=submit]').click(time_element).click(check_required_checkboxes);
 

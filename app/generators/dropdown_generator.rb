@@ -15,7 +15,7 @@ class DropdownGenerator < QuestionTypeGenerator
 
   def answer_options(question)
     label = question[:label]
-    elem_id = idify(question[:id], label)
+    elem_id = idify(question[:id])
     options = generate_dropdown(question, elem_id)
     options = safe_join([
                           options,

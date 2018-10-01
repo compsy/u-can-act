@@ -553,7 +553,7 @@ Dropdowns are always required.
 
 A dropdown can have a `placeholder` property which is the text used when no option is selected. If no `placeholder` is specified, a default text is used.
 
-A dropdown can have a `label` property which is a small text that is always visible printed directly above the dropdown.
+A dropdown can have a `label` property which is a small text that is always visible and is printed directly above the dropdown.
 
  The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 

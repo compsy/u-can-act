@@ -13,10 +13,10 @@ evaluatie.content = [{
                        options: [
                          { title: 'Gemeente, afdeling RMC',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. leerplicht, het gaat erom dat u verantwoordelijk bent voor onder andere onderwijsparticipatie',
-                           shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43 v44 v45 v45_1 v46 v46_1 v47 v48 v49 v49_1 v50 v50_1 v51 v52 v52_1 v53 v53_1 v54 v55 v56 v56_1 v57 v57_1] },
+                           shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43 v44 v45 v45_1 v46 v46_1 v47 v48 v49 v49_1 v50 v50_1 v51 v52 v52_1 v53 v53_1 v54 v55 v56 v56_1 v57 v57_1 v72 v72_1 v76 v77 v78 v79 v80 v81] },
                          { title: 'Gemeente: afdeling dienst werk en inkomen',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. sociaal domein, participatie, het gaat erom dat je verantwoordelijk bent voor onder andere arbeidsparticipatie',
-                           shows_questions: %i[v4 v15 v16] },
+                           shows_questions: %i[v4 v15 v16 v71 v71_1] },
                          { title: 'School',
                            shows_questions: %i[v2 v5 v6 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43] }
                        ],
@@ -694,11 +694,252 @@ evaluatie.content = [{
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de verdeling van de gelden over contactgemeente en contactschool?',
-                       labels: ['Heel oneerlijk','Heel eerlijk']
+                       labels: ['Heel oneerlijk', 'Heel eerlijk']
                      }, {
                        section_start: '',
                        type: :raw,
                        content: '<div class="divider"></div><p class="flow-text"><strong>Samenwerking</strong></p>',
+                     }, {
+                       id: :v62,
+                       type: :checkbox,
+                       show_otherwise: true,
+                       title: 'Met wie heeft u in de afgelopen twee jaar samengewerkt in de aanpak van VSV en het begeleiden van kwetsbare jongeren?',
+                       options: [
+                         { title: 'Gemeente, afdeling RMC', shows_questions: %i[v63_gem_rmc v64_gem_rmc] },
+                         { title: 'Gemeente, afdeling dienst werk en inkomen', shows_questions: %i[v63_gem_dwi v64_gem_dwi] },
+                         { title: 'Scholen', shows_questions: %i[v63_scholen v64_scholen] },
+                         { title: '(Jeugd)zorg', shows_questions: %i[v63_zorg v64_zorg] },
+                         { title: 'Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)', shows_questions: %i[v63_werkgvr v64_werkgvr] },
+                         { title: 'Ministerie van Onderwijs Cultuur en wetenschap', shows_questions: %i[v63_minist v64_minist] }
+                       ]
+                     }, {
+                       id: :v63_gem_rmc,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling RMC</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                     }, {
+                       id: :v64_gem_rmc,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Gemeente, afdeling RMC</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Heel negatief', 'Heel positief']
+                     }, {
+                       id: :v63_gem_dwi,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling dienst werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                     }, {
+                       id: :v64_gem_dwi,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Gemeente, afdeling dienst werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Heel negatief', 'Heel positief']
+                     }, {
+                       id: :v63_scholen,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe intensief heeft u samengewerkt met <strong>Scholen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                     }, {
+                       id: :v64_scholen,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Scholen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Heel negatief', 'Heel positief']
+                     }, {
+                       id: :v63_zorg,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe intensief heeft u samengewerkt met <strong>(Jeugd)zorg</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                     }, {
+                       id: :v64_zorg,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>(Jeugd)zorg</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Heel negatief', 'Heel positief']
+                     }, {
+                       id: :v63_werkgvr,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe intensief heeft u samengewerkt met <strong>Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                     }, {
+                       id: :v64_werkgvr,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Heel negatief', 'Heel positief']
+                     }, {
+                       id: :v63_minist,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                     }, {
+                       id: :v64_minist,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       tooltip: maatregelitje,
+                       labels: ['Heel negatief', 'Heel positief']
+                     }, {
+                       id: :v65,
+                       type: :range,
+                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio om voortijdig schoolverlaten te verminderen?',
+                       labels: ['Helemaal niet', 'Heel veel'],
+                     }, {
+                       id: :v65_1,
+                       type: :textarea,
+                       title: 'Eventuele toelichting (bij bovenstaand antwoord)',
+                       placeholder: 'Vul hier een eventuele toelichting in'
+                     }, {
+                       id: :v66,
+                       type: :range,
+                       title: 'Hoe ervaart u de samenwerking met partners in de regio om voortijdig schoolverlaten te verminderen?',
+                       labels: ['Heel negatief', 'Heel positief'],
+                     }, {
+                       id: :v67,
+                       type: :range,
+                       title: '<strong>In welke mate</strong> heeft u de afgelopen twee jaar samengewerkt met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
+                       labels: ['Helemaal niet', 'Heel veel'],
+                     }, {
+                       id: :v67_1,
+                       type: :textarea,
+                       title: 'Eventuele toelichting (bij bovenstaand antwoord)',
+                       placeholder: 'Vul hier een eventuele toelichting in'
+                     }, {
+                       id: :v68,
+                       type: :range,
+                       title: '<strong>Hoe ervaart u</strong> de samenwerking met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
+                       labels: ['Heel negatief', 'Heel positief'],
+                     }, {
+                       id: :v69,
+                       type: :radio,
+                       title: 'Zijn er voor zover u weet sinds de invoering van de beleidsmaatregelen in 2016 nieuwe samenwerkingspartners bij gekomen?',
+                       options: [
+                         { title: 'Ja', shows_questions: %i[v70] },
+                         { title: 'Nee' }
+                       ],
+                       show_otherwise: false
+                     }, {
+                       id: :v70,
+                       hidden: true,
+                       type: :textarea,
+                       title: 'Kunt u kort omschrijven wie dit zijn en waarin u samenwerkt?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       id: :v71,
+                       hidden: true,
+                       type: :checkbox,
+                       show_otherwise: false,
+                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de RMC afdelingen van gemeenten in uw regio?',
+                       options: [{ title: 'Niet van toepassing', hides_questions: %i[v71_1] }]
+                     }, {
+                       id: :v71_1,
+                       hidden: true,
+                       type: :textarea,
+                       title: '',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       id: :v72,
+                       hidden: true,
+                       type: :checkbox,
+                       show_otherwise: false,
+                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de afdelingen ‘dienst werk en inkomen’ van gemeenten in uw regio?',
+                       options: [{ title: 'Niet van toepassing', hides_questions: %i[v72_1] }],
+                       tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. sociaal domein, participatie: het gaat hier om de afdeling verantwoordelijk voor onder andere arbeidsparticipatie.'
+                     }, {
+                       id: :v72_1,
+                       hidden: true,
+                       type: :textarea,
+                       title: '',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       section_start: '',
+                       type: :raw,
+                       content: '<div class="divider"></div><p class="flow-text"><strong>Vooruitblik en Decentralisatie-uitkering</strong></p>',
+                     }, {
+                       id: :v73,
+                       type: :textarea,
+                       title: 'Heeft u nog advies of opmerkingen voor landelijk beleid om uw <strong>dagelijkse werkzaamheden</strong> te ondersteunen?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       id: :v74,
+                       type: :textarea,
+                       title: 'Heeft u nog advies of opmerkingen voor landelijk beleid om de <strong>samenwerking in uw regio</strong> verder te verbeteren?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       id: :v75,
+                       type: :textarea,
+                       title: 'Heeft u nog advies of opmerkingen voor landelijk beleid wat betreft de <strong>verdeling van financiële middelen</strong>?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       id: :v76,
+                       hidden: true,
+                       type: :radio,
+                       title: 'Momenteel wordt een deel van het regiobudget in de vorm van een specifieke uitkering (geoormerkt geld) uitgekeerd.<br>Is het volgens u mogelijk om deze specifieke uitkering van het regiobudget om te zetten in een decentralisatie-uitkering (niet geoormerkt)?',
+                       options: [
+                         { title: 'Ja' },
+                         { title: 'Nee' },
+                         { title: 'Weet ik niet' }
+                       ],
+                       show_otherwise: false,
+                       tooltip: 'Een deel van het regionaal budget voor VSV en kwetsbare jongeren komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen \'op de grote hoop\', via het Gemeentefonds.'
+                     }, {
+                       id: :v77,
+                       hidden: true,
+                       type: :range,
+                       title: 'In hoeverre is een decentralisatie-uitkering wenselijk?',
+                       labels: ['Helemaal niet wenselijk', 'Heel wenselijk'],
+                     }, {
+                       id: :v78,
+                       hidden: true,
+                       type: :textarea,
+                       title: 'Wat voor gevolgen zou dat hebben voor uw werkzaamheden als RMC-coördinator?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       id: :v79,
+                       hidden: true,
+                       type: :textarea,
+                       title: 'Wat voor gevolgen zou dat volgens u hebben voor de samenwerking met uw partners in de regio?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Evaluatie register vrijstellingen leerplichtwet</strong></p>',
+                       id: :v80,
+                       hidden: true,
+                       type: :range,
+                       title: 'In hoeverre heeft het registreren van vrijstellingen eraan bijgedragen dat de betreffende jongeren niet meer onterecht als VSV-er werden benaderd?',
+                       labels: ['Geen bijdrage', 'Heel veel bijdrage']
+                     }, {
+                       id: :v81,
+                       hidden: true,
+                       type: :radio,
+                       title: 'Komt u nog steeds jongeren tegen die een vrijstelling hebben, maar toch als VSV-er worden geteld?',
+                       options: [
+                         { title: 'Ja', shows_questions: %i[v82] },
+                         { title: 'Nee' }
+                       ],
+                       show_otherwise: false
+                     }, {
+                       id: :v82,
+                       hidden: true,
+                       type: :textarea,
+                       title: 'Kunt u dit toelichten?',
+                       placeholder: 'Vul hier uw antwoord in'
                      }]
 evaluatie.title = 'De huidige aanpak van voortijdig schoolverlaten en jongeren in kwetsbare posities: een evaluatie van het nationale beleid'
 evaluatie.save!

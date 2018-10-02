@@ -4,7 +4,7 @@ class SectionStartGenerator < Generator
   def generate(question)
     return nil if question[:section_start].blank?
 
-    body = content_tag(:h5, question[:section_start])
+    body = content_tag(:h5, question[:section_start].html_safe)
     body = content_tag(:div, body, class: 'col s12')
     klasses = 'extra-spacing row'
     klasses += ' hidden' if question[:hidden].present?

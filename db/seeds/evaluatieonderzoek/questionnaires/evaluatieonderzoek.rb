@@ -180,8 +180,8 @@ evaluatie.content = [{
                        title: 'Is uw school een contactschool?',
                        tooltip: 'Binnen elke RMC-regio is er één school aangewezen als ‘contactschool’ voor het terugdringen van voortijdig schoolverlaten (VSV). Deze school heeft o.a. als taak het informeren van de RMC contactgemeente en de onderwijsinstellingen binnen de RMC regio over maatregelen in het regionale programma om VSV terug te dringen, en de uitvoering van dit programma, waaronder de besteding van de subsidie.',
                        options: [
-                         'Contactgemeente',
-                         'Geen contactgemeente',
+                         { title: 'Contactschool', shows_questions: %i[v61] },
+                         'Geen contactschool',
                          'Weet ik niet'
                        ],
                        show_otherwise: false
@@ -192,7 +192,7 @@ evaluatie.content = [{
                        title: 'Is uw gemeente een contactgemeente?',
                        tooltip: 'Binnen elke RMC-regio is er één gemeente aangewezen als ‘contactgemeente’ voor het terugdringen van voortijdig schoolverlaten en monitoren van kwetsbare jongeren. Zij coördineren de melding en registratie van voortijdig schoolverlaters door scholen in de regio en organiseren de samenwerking met diverse partijen op het gebied van werk, zorg en onderwijs om een passend traject voor individuele jongeren aan te bieden.',
                        options: [
-                         'Contactgemeente',
+                         { title: 'Contactgemeente', shows_questions: %i[v61] },
                          'Geen contactgemeente',
                          'Weet ik niet'
                        ],
@@ -661,6 +661,44 @@ evaluatie.content = [{
                        section_start: '',
                        type: :raw,
                        content: '<div class="divider"></div><p class="flow-text"><strong>Financiële situatie</strong></p>',
+                     }, {
+                       id: :v58,
+                       type: :radio,
+                       title: 'Zijn de huidige financiële middelen voor het voorkomen van VSV en het begeleiden van jongeren in een kwetsbare positie toereikend voor de uitvoering van uw taken?',
+                       options: [
+                         { title: 'Ja' },
+                         { title: 'Nee', shows_questions: %i[v59 v59_1 v60] }
+                       ],
+                       show_otherwise: false
+                     }, {
+                       id: :v59,
+                       hidden: true,
+                       type: :checkbox,
+                       show_otherwise: false,
+                       title: 'Welk bedrag komt u ongeveer tekort voor de uitvoering van de taken?',
+                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v59_1] }]
+                     }, {
+                       id: :v59_1,
+                       hidden: true,
+                       type: :textfield,
+                       title: '',
+                       placeholder: 'Vul een bedrag in'
+                     }, {
+                       id: :v60,
+                       hidden: true,
+                       type: :textarea,
+                       title: 'Welke taken kunt u niet of moeilijk uitvoeren door de ontoereikende financiële situatie?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       id: :v61,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe ervaart u de verdeling van de gelden over contactgemeente en contactschool?',
+                       labels: ['Heel oneerlijk','Heel eerlijk']
+                     }, {
+                       section_start: '',
+                       type: :raw,
+                       content: '<div class="divider"></div><p class="flow-text"><strong>Samenwerking</strong></p>',
                      }]
 evaluatie.title = 'De huidige aanpak van voortijdig schoolverlaten en jongeren in kwetsbare posities: een evaluatie van het nationale beleid'
 evaluatie.save!

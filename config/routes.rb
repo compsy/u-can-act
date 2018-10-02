@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     get 'proof_of_participation_export', to: 'admin#proof_of_participation_export', as: 'admin_proof_of_participation_export'
 
     post 'preview', to: 'admin#preview', as: 'admin_preview'
+    get 'preview', to: 'admin#preview', as: 'admin_preview'
     post 'preview_done', to: 'admin#preview_done', as: 'admin_preview_done'
     get '*path', to: 'admin#index'
   end

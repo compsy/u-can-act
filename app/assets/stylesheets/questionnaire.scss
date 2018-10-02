@@ -12,6 +12,7 @@
   background: image-url("close.png") 99% 8px / 16px 16px no-repeat padding-box border-box scroll $u-can-act-grey;
   word-break: normal;
   cursor: pointer;
+  display: block;
 }
 
 .erroneous {

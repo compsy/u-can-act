@@ -8,7 +8,7 @@ evaluatie.content = [{
                        content: '<p class="flow-text"><em>Wij vragen u eerst om enkele achtergrondgegevens, om te kunnen achterhalen welke rol u speelt in welke regio. De resultaten worden op landelijk niveau geanalyseerd en zijn niet terug te leiden op een specifieke regio. Uw privacy is gegarandeerd.</em></p>'
                      }, {
                        id: :v1,
-                       type: :checkbox,
+                       type: :radio,
                        title: 'Bij welke organisatie werkt u?',
                        options: [
                          { title: 'Gemeente, afdeling RMC',

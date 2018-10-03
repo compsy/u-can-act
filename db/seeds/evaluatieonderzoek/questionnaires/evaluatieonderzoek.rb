@@ -1,11 +1,11 @@
 ev_name = 'evaluatieonderzoek'
 evaluatie = Questionnaire.find_by_name(ev_name)
 evaluatie ||= Questionnaire.new(name: ev_name)
-maatregelitje = '<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs.</li></ul>'
+maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs.</li></ul>'
 evaluatie.key = File.basename(__FILE__)[0...-3]
 evaluatie.content = [{
                        type: :raw,
-                       content: '<p class="flow-text"><em>Wij vragen u eerst om enkele achtergrondgegevens, om te kunnen achterhalen welke rol u speelt in welke regio. De resultaten worden op landelijke niveau geanalyseerd en zijn niet terug te leiden op een specifieke regio. Uw privacy is gegarandeerd.</em></p>'
+                       content: '<p class="flow-text"><em>Wij vragen u eerst om enkele achtergrondgegevens, om te kunnen achterhalen welke rol u speelt in welke regio. De resultaten worden op landelijk niveau geanalyseerd en zijn niet terug te leiden op een specifieke regio. Uw privacy is gegarandeerd.</em></p>'
                      }, {
                        id: :v1,
                        type: :radio,
@@ -200,7 +200,7 @@ evaluatie.content = [{
                      }, {
                        section_start: 'Werkwijze RMC',
                        type: :raw,
-                       content: '<div class="divider"></div><p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over  voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities.  Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p>
+                       content: '<div class="divider"></div><p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p>
 <ul class="flow-text browser-default">
 <li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li>
 <li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li>
@@ -520,7 +520,7 @@ evaluatie.content = [{
                        id: :v44,
                        hidden: true,
                        type: :range,
-                       title: 'Heeft u in de praktijk iets gemerkt van de toegevoegde taak om  jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO te monitoren?',
+                       title: 'Heeft u in de praktijk iets gemerkt van de toegevoegde taak om jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO te monitoren?',
                        labels: ['Helemaal niks gemerkt', 'Heel veel gemerkt']
                      }, {
                        id: :v45,

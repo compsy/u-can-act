@@ -191,3 +191,8 @@ label {
   padding-bottom: 8px;
   cursor: pointer;
 }
+
+// Make toasts more readable
+.toast {
+  font-weight: 400;
+}

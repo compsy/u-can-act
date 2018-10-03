@@ -2,22 +2,28 @@ ev_name = 'evaluatieonderzoek'
 evaluatie = Questionnaire.find_by_name(ev_name)
 evaluatie ||= Questionnaire.new(name: ev_name)
 maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs.</li></ul>'
+maatregel1 = '<p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs.'
+maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren op te stellen en te realiseren.</p>'
+maatregel3 = '<p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor de totstandkoming van de regionale samenwerking.</p>'
+maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionaal budget: de kassiersrol van het regionaal budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
+maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
+maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
 evaluatie.key = File.basename(__FILE__)[0...-3]
 evaluatie.content = [{
                        type: :raw,
-                       content: '<p class="flow-text"><em>Wij vragen u eerst om enkele achtergrondgegevens, om te kunnen achterhalen welke rol u speelt in welke regio. De resultaten worden op landelijk niveau geanalyseerd en zijn niet terug te leiden op een specifieke regio. Uw privacy is gegarandeerd.</em></p>'
+                       content: '<p class="flow-text"><em>Wij vragen u eerst om enkele achtergrondgegevens, om te kunnen achterhalen welke rol u speelt in welke regio. De resultaten worden op landelijk niveau geanalyseerd en zijn niet terug te leiden naar een specifieke regio. Uw privacy is gegarandeerd. Als er een i-button staat bij een vraag, dan kunt u daar op klikken voor meer informatie.</em></p>'
                      }, {
                        id: :v1,
                        type: :radio,
-                       title: 'Bij welke organisatie werkt u?',
+                       title: 'Bij wat voor organisatie bent u werkzaam?',
                        options: [
-                         { title: 'Gemeente, afdeling RMC',
+                         { title: 'Een gemeente, afdeling RMC',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. leerplicht, het gaat erom dat u verantwoordelijk bent voor onder andere onderwijsparticipatie.',
                            shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43 v44 v45 v45_1 v46 v46_1 v47 v48 v49 v49_1 v50 v50_1 v51 v52 v52_1 v53 v53_1 v54 v55 v56 v56_1 v57 v57_1 v72 v72_1 v76 v77 v78 v79 v80 v81] },
-                         { title: 'Gemeente: afdeling dienst werk en inkomen',
+                         { title: 'Een gemeente, afdeling dienst werk en inkomen',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. sociaal domein, participatie, het gaat erom dat u verantwoordelijk bent voor onder andere arbeidsparticipatie.',
                            shows_questions: %i[v4 v15 v16 v71 v71_1] },
-                         { title: 'School',
+                         { title: 'Een school',
                            shows_questions: %i[v2 v5 v6 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43] }
                        ],
                        show_otherwise: false
@@ -198,9 +204,9 @@ evaluatie.content = [{
                        ],
                        show_otherwise: false
                      }, {
-                       section_start: 'Werkwijze RMC',
+                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Werkwijze RMC</strong></p>',
                        type: :raw,
-                       content: '<div class="divider"></div><p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs</li></ul><p class="flow-text"><strong>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</strong></p>'
+                       content: '<p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs</li></ul><p class="flow-text" style="margin-bottom:-40px;margin-top:100px;"><em>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</em></p>'
                      }, {
                        id: :v8,
                        type: :range,
@@ -270,17 +276,17 @@ evaluatie.content = [{
                      }, {
                        section_start: '',
                        type: :raw,
-                       content: '<div class="divider"></div><p class="flow-text"><strong>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</strong></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="M.toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Dienst Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;}, 6000)"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>',
+                       content: '<div class="divider"></div><p class="flow-text"><em>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</em></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="M.toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Dienst Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;, displayLength: 19380})"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>',
                      }, {
                        id: :v17,
                        type: :range,
-                       title: 'Heeft u in de praktijk <strong>iets gemerkt</strong> van de intensivering van de regionale samenwerking om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie?',
+                       title: 'Heeft u in de praktijk iets gemerkt van de intensivering van de regionale samenwerking om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie?',
                        labels: ['Helemaal niks gemerkt', 'Heel veel gemerkt']
                      }, {
                        id: :v18,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre is er binnen uw regio een <strong>sluitend vangnet</strong> voor jongeren in een kwetsbare positie?',
+                       title: 'In hoeverre is er binnen uw regio een sluitend vangnet voor jongeren in een kwetsbare positie?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v18_1] }]
                      }, {
                        id: :v18_1,
@@ -292,7 +298,7 @@ evaluatie.content = [{
                        id: :v19,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Hoe ervaart u de <strong>kwaliteit</strong> van het vangnet voor kwetsbare jongeren?',
+                       title: 'Hoe ervaart u de kwaliteit van het vangnet voor kwetsbare jongeren?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v19_1] }]
                      }, {
                        id: :v19_1,
@@ -304,12 +310,14 @@ evaluatie.content = [{
                        id: :v20,
                        type: :range,
                        title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (1) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel klein', 'Heel groot']
+                       labels: ['Heel klein', 'Heel groot'],
+                       tooltip: maatregel1
                      }, {
                        id: :v21,
                        type: :range,
                        title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (1) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel negatief', 'Heel positief']
+                       labels: ['Heel negatief', 'Heel positief'],
+                       tooltip: maatregel1
                      }, {
                        id: :v22,
                        type: :radio,
@@ -333,7 +341,7 @@ evaluatie.content = [{
                        title: 'Waarom zijn er geen nieuwe partijen toegevoegd aan de (bestuurlijke) samenwerking?',
                        placeholder: 'Vul hier uw antwoord in',
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren op te stellen en te realiseren.</p>',
+                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel2,
                        id: :v25,
                        hidden: true,
                        type: :range,
@@ -396,15 +404,17 @@ evaluatie.content = [{
                        hidden: true,
                        type: :range,
                        title: 'Hoe groot is het gevolg van deze maatregel (2) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel klein', 'Heel groot']
+                       labels: ['Heel klein', 'Heel groot'],
+                       tooltip: maatregel2
                      }, {
                        id: :v31,
                        hidden: true,
                        type: :range,
                        title: 'Wat vindt u van de gevolgen van deze maatregel (2) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel negatief', 'Heel positief']
+                       labels: ['Heel negatief', 'Heel positief'],
+                       tooltip: maatregel2
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor de totstandkoming van de regionale samenwerking.</p>',
+                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel3,
                        id: :v32,
                        hidden: true,
                        type: :range,
@@ -441,13 +451,15 @@ evaluatie.content = [{
                        hidden: true,
                        type: :range,
                        title: 'Hoe groot is het gevolg van deze maatregel (3) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel klein', 'Heel groot']
+                       labels: ['Heel klein', 'Heel groot'],
+                       tooltip: maatregel3
                      }, {
                        id: :v36,
                        hidden: true,
                        type: :range,
                        title: 'Wat vindt u van de gevolgen van deze maatregel (3) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel negatief', 'Heel positief']
+                       labels: ['Heel negatief', 'Heel positief'],
+                       tooltip: maatregel3
                      }, {
                        id: :v37,
                        hidden: true,
@@ -465,7 +477,7 @@ evaluatie.content = [{
                        title: 'Wat is er veranderd sinds de RMC contactgemeente hiervoor verantwoordelijk is?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionaal budget: de kassiersrol van het regionaal budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>',
+                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel4,
                        id: :v39,
                        hidden: true,
                        type: :range,
@@ -502,15 +514,17 @@ evaluatie.content = [{
                        hidden: true,
                        type: :range,
                        title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (4) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel klein', 'Heel groot']
+                       labels: ['Heel klein', 'Heel groot'],
+                       tooltip: maatregel4
                      }, {
                        id: :v43,
                        hidden: true,
                        type: :range,
                        title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (4) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel negatief', 'Heel positief']
+                       labels: ['Heel negatief', 'Heel positief'],
+                       tooltip: maatregel4
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>',
+                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel5,
                        id: :v44,
                        hidden: true,
                        type: :range,
@@ -547,13 +561,15 @@ evaluatie.content = [{
                        hidden: true,
                        type: :range,
                        title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (5) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel klein', 'Heel groot']
+                       labels: ['Heel klein', 'Heel groot'],
+                       tooltip: maatregel5
                      }, {
                        id: :v48,
                        hidden: true,
                        type: :range,
                        title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (5) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel negatief', 'Heel positief']
+                       labels: ['Heel negatief', 'Heel positief'],
+                       tooltip: maatregel5
                      }, {
                        id: :v49,
                        hidden: true,
@@ -581,7 +597,7 @@ evaluatie.content = [{
                        title: '',
                        labels: ['Veel minder', 'Veel meer']
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>',
+                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel6,
                        id: :v51,
                        hidden: true,
                        type: :range,
@@ -618,13 +634,15 @@ evaluatie.content = [{
                        hidden: true,
                        type: :range,
                        title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (6) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel klein', 'Heel groot']
+                       labels: ['Heel klein', 'Heel groot'],
+                       tooltip: maatregel6
                      }, {
                        id: :v55,
                        hidden: true,
                        type: :range,
                        title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (6) voor uw dagelijkse werkzaamheden?',
-                       labels: ['Heel negatief', 'Heel positief']
+                       labels: ['Heel negatief', 'Heel positief'],
+                       tooltip: maatregel6
                      }, {
                        id: :v56,
                        hidden: true,
@@ -808,7 +826,7 @@ evaluatie.content = [{
                      }, {
                        id: :v67,
                        type: :range,
-                       title: '<strong>In welke mate</strong> heeft u de afgelopen twee jaar samengewerkt met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
+                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
                        labels: ['Helemaal niet', 'Heel veel'],
                      }, {
                        id: :v67_1,
@@ -818,7 +836,7 @@ evaluatie.content = [{
                      }, {
                        id: :v68,
                        type: :range,
-                       title: '<strong>Hoe ervaart u</strong> de samenwerking met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
+                       title: 'Hoe ervaart u de samenwerking met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
                        labels: ['Heel negatief', 'Heel positief'],
                      }, {
                        id: :v69,
@@ -853,7 +871,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de afdelingen ‘dienst werk en inkomen’ van gemeenten in uw regio?',
+                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de afdeling ‘dienst werk en inkomen’ van gemeenten in uw regio?',
                        options: [{ title: 'Niet van toepassing', hides_questions: %i[v72_1] }],
                        tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. sociaal domein, participatie: het gaat hier om de afdeling verantwoordelijk voor onder andere arbeidsparticipatie.'
                      }, {

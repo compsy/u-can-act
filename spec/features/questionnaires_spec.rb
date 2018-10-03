@@ -2158,7 +2158,8 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to_not have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content(content.first[:title])
-      materialize_select('Selecteer een dag', 'dinsdag')
+      page.select 'dinsdag'
+      # materialize_select('Selecteer een dag', 'dinsdag')
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload

@@ -18,7 +18,8 @@ class QuestionTypeGenerator < Generator
     tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
     content_tag(:a,
                 tooltip_body,
-                onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}', displayLength: #{tooltip_duration(tooltip_content)}})")
+                onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'," \
+                         " displayLength: #{tooltip_duration(tooltip_content)}})")
   end
 
   def tooltip_duration(tooltip_content)

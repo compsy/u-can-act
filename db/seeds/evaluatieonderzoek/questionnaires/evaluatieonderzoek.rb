@@ -576,7 +576,8 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel (5)?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v49_1] }]
+                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v49_1] }],
+                       tooltip: maatregel5
                      }, {
                        id: :v49_1,
                        hidden: true,
@@ -589,7 +590,8 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel (5)?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v50_1] }]
+                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v50_1] }],
+                       tooltip: maatregel5
                      }, {
                        id: :v50_1,
                        hidden: true,
@@ -648,8 +650,9 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel (5)?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v56_1] }]
+                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel (6)?',
+                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v56_1] }],
+                       tooltip: maatregel6
                      }, {
                        id: :v56_1,
                        hidden: true,
@@ -661,8 +664,9 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel (5)?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v57_1] }]
+                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel (6)?',
+                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v57_1] }],
+                       tooltip: maatregel6
                      }, {
                        id: :v57_1,
                        hidden: true,

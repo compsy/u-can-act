@@ -143,22 +143,41 @@ form .likert-scale {
   left: 0;
 }
 
+// Always make a divider have more room, not just when it's in a section of its own.
+// This way, we can just stick a divider in a raw and let it have the same effect as
+// a section_start.
 .divider {
   margin-top: 4rem;
   margin-bottom: 6rem;
 }
 
+// Move questions without titles but that have the title element defined closer to
+// their previous element so they appear together (because that's how we use them).
 .no-title {
   margin-bottom: -2rem;
   position: relative;
   top: -4rem;
 }
 
+// Fix balloons sticking on mobile
 .range-field {
   .thumb {
     display: none;
     &.active {
       display: block;
     }
+  }
+}
+
+// Fix i'tjes being on a new line
+p.radio-label {
+  padding-left: 35px;
+}
+[type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
+  display: inline;
+  padding-left: 0;
+  &:before, &:after {
+    top: -0.2rem;
+    left: -35px;
   }
 }

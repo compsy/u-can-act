@@ -88,7 +88,11 @@ class QuestionTypeGenerator < Generator
       ]
     )
 
-    content_tag(:p, option_body)
+    if question[:type] == :radio
+      content_tag(:p, option_body, class: 'radio-label')
+    else
+      content_tag(:p, option_body)
+    end
   end
 
   # Move next functions to specific super for radio and check?

@@ -885,14 +885,14 @@ evaluatie.content = [{
                        id: :v76,
                        hidden: true,
                        type: :radio,
-                       title: 'Momenteel wordt een deel van het regiobudget in de vorm van een specifieke uitkering (geoormerkt geld) uitgekeerd.<br>Is het volgens u mogelijk om deze specifieke uitkering van het regiobudget om te zetten in een decentralisatie-uitkering (niet geoormerkt)?',
+                       title: 'Momenteel wordt een deel van het regionaal budget in de vorm van een specifieke uitkering (geoormerkt geld) uitgekeerd.<br>Is het volgens u mogelijk om deze specifieke uitkering van het regionaal budget om te zetten in een decentralisatie-uitkering (niet geoormerkt)?',
                        options: [
                          { title: 'Ja' },
                          { title: 'Nee' },
                          { title: 'Weet ik niet' }
                        ],
                        show_otherwise: false,
-                       tooltip: 'Een deel van het regionaal budget voor VSV en kwetsbare jongeren komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen \'op de grote hoop\', via het Gemeentefonds.'
+                       tooltip: 'Een deel van het regionaal budget voor VSV en kwetsbare jongeren komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen ‘op de grote hoop’, via het Gemeentefonds.'
                      }, {
                        id: :v77,
                        hidden: true,

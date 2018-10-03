@@ -33,7 +33,7 @@ evaluatie.content = [{
                        type: :dropdown,
                        label: 'RMC-regio',
                        title: 'Bij welke RMC-regio hoort uw school?',
-                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img width="90%" src="/evaluatieonderzoek/rmcregios.png">',
+                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/rmcregios.png">',
                        options: [
                          '1. Oost-Groningen',
                          '2. Noord-Groningen-Eemsmond',
@@ -81,7 +81,7 @@ evaluatie.content = [{
                        type: :dropdown,
                        label: 'RMC-regio',
                        title: 'Bij welke RMC-regio hoort uw gemeente?',
-                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img width="90%" src="/evaluatieonderzoek/rmcregios.png">',
+                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/rmcregios.png">',
                        options: [
                          '1. Oost-Groningen',
                          '2. Noord-Groningen-Eemsmond',
@@ -129,7 +129,7 @@ evaluatie.content = [{
                        type: :dropdown,
                        label: 'arbeidsmarktregio',
                        title: 'Bij welke arbeidsmarktregio hoort uw gemeente?<br><em>N.B.: Indien u contactpersoon bent voor meerdere regio’s kunt u eerst de vragen invullen voor één regio, later krijgt u de optie om vragen in te vullen voor een andere regio.</em>',
-                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img width="90%" src="/evaluatieonderzoek/arbeidsmarktregios.png">',
+                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/arbeidsmarktregios.png">',
                        options: [
                          '1. Groningen',
                          '2. Friesland',

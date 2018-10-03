@@ -153,3 +153,12 @@ form .likert-scale {
   position: relative;
   top: -4rem;
 }
+
+.range-field {
+  .thumb {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+}

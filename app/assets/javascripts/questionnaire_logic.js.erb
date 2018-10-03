@@ -219,4 +219,7 @@ $(function () {
     if (keyboardDoms.has(document.activeElement.nodeName) && !keyboardDoms.has(e.target.nodeName))
       document.activeElement.blur();
   });
+  $(document).on('touchend', 'body', function (e) {
+    $('.thumb').removeClass('active');
+  });
 });

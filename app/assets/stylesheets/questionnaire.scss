@@ -170,10 +170,10 @@ form .likert-scale {
 }
 
 // Fix i'tjes being on a new line
-p.radio-label {
+p.option-label {
   padding-left: 35px;
 }
-[type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
+[type="checkbox"] + span:not(.lever), [type="checkbox"]:not(.filled-in) + span:not(.lever), [type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
   display: inline;
   padding-left: 0;
   &:before, &:after {

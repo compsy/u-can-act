@@ -88,8 +88,8 @@ class QuestionTypeGenerator < Generator
       ]
     )
 
-    if question[:type] == :radio
-      content_tag(:p, option_body, class: 'radio-label')
+    if question[:type] == :radio || question[:type] == :checkbox
+      content_tag(:p, option_body, class: 'option-label')
     else
       content_tag(:p, option_body)
     end

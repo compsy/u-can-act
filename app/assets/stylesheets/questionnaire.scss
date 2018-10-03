@@ -181,3 +181,13 @@ p.option-label, div.otherwise-textfield {
     left: -35px;
   }
 }
+[type="checkbox"]:checked + span:not(.lever):before {
+  top: -0.5rem;
+  left: -40px;
+}
+
+// Make labels more clickable
+label {
+  padding-bottom: 8px;
+  cursor: pointer;
+}

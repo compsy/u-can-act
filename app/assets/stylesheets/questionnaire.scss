@@ -170,7 +170,7 @@ form .likert-scale {
 }
 
 // Fix i'tjes being on a new line
-p.option-label {
+p.option-label, div.otherwise-textfield {
   padding-left: 35px;
 }
 [type="checkbox"] + span:not(.lever), [type="checkbox"]:not(.filled-in) + span:not(.lever), [type="radio"]:not(:checked) + span, [type="radio"]:checked + span {

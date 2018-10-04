@@ -21,11 +21,7 @@ class NumberGenerator < QuestionTypeGenerator
   end
 
   def number_tag(question)
-    tag_options = { type: 'number',
-                    id: idify(question[:id]),
-                    name: answer_name(question[:id]),
-                    required: question[:required].present?,
-                    class: 'validate' }
+    tag_options = minimal_tag_options(question)
     if question[:maxlength].present?
       tag_options[:maxlength] = question[:maxlength]
       tag_options[:size] = question[:maxlength]
@@ -33,6 +29,14 @@ class NumberGenerator < QuestionTypeGenerator
     tag_options[:min] = question[:min] if question[:min].present?
     tag_options[:max] = question[:max] if question[:max].present?
     tag(:input, tag_options)
+  end
+
+  def minimal_tag_options(question)
+    { type: 'number',
+      id: idify(question[:id]),
+      name: answer_name(question[:id]),
+      required: question[:required].present?,
+      class: 'validate' }
   end
 
   def number_label(question)

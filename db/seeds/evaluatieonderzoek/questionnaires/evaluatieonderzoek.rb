@@ -937,7 +937,7 @@ evaluatie.content = [{
                        title: 'Wat voor gevolgen zou dat volgens u hebben voor de samenwerking met uw partners in de regio?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Evaluatie register vrijstellingen leerplichtwet</strong></p>',
+                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Evaluatie register vrijstellingen leerplichtwet</strong></p><p class="flow-text"><em>De volgende vragen gaan over de vrijstelling van jongeren van de leerplicht of kwalificatieplicht.</em></p>',
                        id: :v80,
                        hidden: true,
                        type: :range,

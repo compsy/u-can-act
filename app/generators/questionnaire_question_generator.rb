@@ -11,6 +11,7 @@ class QuestionnaireQuestionGenerator < Generator
       likert: LikertGenerator.new,
       textarea: TextareaGenerator.new,
       textfield: TextfieldGenerator.new,
+      number: NumberGenerator.new,
       raw: RawGenerator.new,
       unsubscribe: UnsubscribeGenerator.new,
       date: DateGenerator.new,

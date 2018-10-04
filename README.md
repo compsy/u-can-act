@@ -402,6 +402,38 @@ Required and allowed options (minimal example and maximal example):
 
 The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
+### Type: Number
+Type for integer(?) numbers. Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :number,
+  title: 'Wat is je postcode?'
+}, {
+  section_start: 'Tot slot',
+  hidden: true,
+  id: :v2,
+  type: :number,
+  title: 'Wat is je postcode?',
+  tooltip: 'some tooltip',
+  maxlength: 4,
+  placeholder: '1234',
+  min: 0,
+  max: 9999,
+  required: true,
+  section_end: true
+}]
+```
+
+Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known).
+
+The `required` property is also supported. The default is that numbers are not required.
+
+The `number` type does not support `pattern` or `hint` because these properties are not supported by the html 5 `number` input type.
+
+Also, the `placeholder` property is supported for numbers.
+
 ### Type: Expandable
 Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
 

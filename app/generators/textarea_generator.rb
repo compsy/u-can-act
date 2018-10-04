@@ -26,7 +26,7 @@ class TextareaGenerator < QuestionTypeGenerator
                 id: idify(question[:id]),
                 name: answer_name(question[:id]),
                 required: question[:required].present?,
-                class: 'materialize-textarea')
+                class: 'materialize-textarea validate')
   end
 
   def textarea_label(question)

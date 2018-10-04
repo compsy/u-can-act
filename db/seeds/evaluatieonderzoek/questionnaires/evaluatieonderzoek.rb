@@ -1,11 +1,11 @@
 ev_name = 'evaluatieonderzoek'
 evaluatie = Questionnaire.find_by_name(ev_name)
 evaluatie ||= Questionnaire.new(name: ev_name)
-maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs.</li></ul>'
+maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs.</li></ul>'
 maatregel1 = '<p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs.'
 maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren op te stellen en te realiseren.</p>'
 maatregel3 = '<p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor de totstandkoming van de regionale samenwerking.</p>'
-maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionaal budget: de kassiersrol van het regionaal budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
+maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionale budget: de kassiersrol van het regionale budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
 maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
 maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
 evaluatie.key = File.basename(__FILE__)[0...-3]
@@ -206,7 +206,7 @@ evaluatie.content = [{
                      }, {
                        section_start: '<div class="divider"></div><p class="flow-text"><strong>Werkwijze RMC</strong></p>',
                        type: :raw,
-                       content: '<p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van het vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionaal budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs</li></ul><p class="flow-text" style="margin-bottom:-40px;margin-top:100px;"><em>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</em></p>'
+                       content: '<p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs</li></ul><p class="flow-text" style="margin-bottom:-40px;margin-top:100px;"><em>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</em></p>'
                      }, {
                        id: :v8,
                        type: :range,
@@ -287,7 +287,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'In hoeverre is er binnen uw regio een sluitend vangnet voor jongeren in een kwetsbare positie?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v18_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v18_1] }]
                      }, {
                        id: :v18_1,
                        hidden: false,
@@ -299,7 +299,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van het vangnet voor kwetsbare jongeren?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v19_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v19_1] }]
                      }, {
                        id: :v19_1,
                        hidden: false,
@@ -325,7 +325,7 @@ evaluatie.content = [{
                        options: [
                          { title: 'Ja', shows_questions: %i[v23] },
                          { title: 'Nee', shows_questions: %i[v24] },
-                         { title: 'Ik weet het niet' }
+                         { title: 'Weet ik niet' }
                        ],
                        show_otherwise: false
                      }, {
@@ -353,7 +353,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'In hoeverre is er binnen uw RMC regio een vierjarig regionaal plan opgesteld?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v26_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v26_1] }]
                      }, {
                        id: :v26_1,
                        hidden: true,
@@ -366,7 +366,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van het regionale plan?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v27_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v27_1] }]
                      }, {
                        id: :v27_1,
                        hidden: true,
@@ -379,7 +379,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'In hoeverre is het regionale plan uitgevoerd?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v28_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v28_1] }]
                      }, {
                        id: :v28_1,
                        hidden: true,
@@ -392,7 +392,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van de uitvoering van het regionale plan?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v29_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v29_1] }]
                      }, {
                        id: :v29_1,
                        hidden: true,
@@ -426,7 +426,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'In hoeverre heeft de RMC contactgemeente het totstandkomen van een regionale samenwerking verzorgd?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v33_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v33_1] }]
                      }, {
                        id: :v33_1,
                        hidden: true,
@@ -439,7 +439,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van de regionale samenwerking?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v34_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v34_1] }]
                      }, {
                        id: :v34_1,
                        hidden: true,
@@ -481,15 +481,15 @@ evaluatie.content = [{
                        id: :v39,
                        hidden: true,
                        type: :range,
-                       title: 'Heeft u in de praktijk iets gemerkt van de verandering in de verantwoordelijkheid voor het regionaal budget?',
+                       title: 'Heeft u in de praktijk iets gemerkt van de verandering in de verantwoordelijkheid voor het regionale budget?',
                        labels: ['Helemaal niks gemerkt', 'Heel veel gemerkt']
                      }, {
                        id: :v40,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre nemen de RMC contactgemeente en de contactschool samen hun verantwoordelijkheid voor de besteding van het regionaal budget binnen uw regio?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v40_1] }]
+                       title: 'In hoeverre nemen de RMC contactgemeente en de contactschool samen hun verantwoordelijkheid voor de besteding van het regionale budget binnen uw regio?',
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v40_1] }]
                      }, {
                        id: :v40_1,
                        hidden: true,
@@ -501,8 +501,8 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Hoe ervaart u de kwaliteit van de besteding van het regionaal budget?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v41_1] }]
+                       title: 'Hoe ervaart u de kwaliteit van de besteding van het regionale budget?',
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v41_1] }]
                      }, {
                        id: :v41_1,
                        hidden: true,
@@ -536,7 +536,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'In hoeverre monitort de RMC gemeente jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO wat betreft hun deelname aan werk (incl. dagbesteding en beschut werk) of onderwijs?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v45_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v45_1] }]
                      }, {
                        id: :v45_1,
                        hidden: true,
@@ -549,7 +549,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van deze monitoring?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v46_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v46_1] }]
                      }, {
                        id: :v46_1,
                        hidden: true,
@@ -576,7 +576,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v49_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v49_1] }],
                        tooltip: maatregel5
                      }, {
                        id: :v49_1,
@@ -590,7 +590,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v50_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v50_1] }],
                        tooltip: maatregel5
                      }, {
                        id: :v50_1,
@@ -611,7 +611,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'In hoeverre monitort de RMC gemeente jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v52_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v52_1] }]
                      }, {
                        id: :v52_1,
                        hidden: true,
@@ -624,7 +624,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van deze monitoring?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v53_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v53_1] }]
                      }, {
                        id: :v53_1,
                        hidden: true,
@@ -651,7 +651,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v56_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v56_1] }],
                        tooltip: maatregel6
                      }, {
                        id: :v56_1,
@@ -665,7 +665,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v57_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v57_1] }],
                        tooltip: maatregel6
                      }, {
                        id: :v57_1,
@@ -692,7 +692,7 @@ evaluatie.content = [{
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Welk bedrag komt u ongeveer tekort voor de uitvoering van de taken?',
-                       options: [{ title: 'Ik weet het niet', hides_questions: %i[v59_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v59_1] }]
                      }, {
                        id: :v59_1,
                        hidden: true,
@@ -907,14 +907,14 @@ evaluatie.content = [{
                        id: :v76,
                        hidden: true,
                        type: :radio,
-                       title: 'Momenteel wordt een deel van het regionaal budget in de vorm van een specifieke uitkering (geoormerkt geld) uitgekeerd.<br>Is het volgens u mogelijk om deze specifieke uitkering van het regionaal budget om te zetten in een decentralisatie-uitkering (niet geoormerkt)?',
+                       title: 'Momenteel wordt een deel van het regionale budget in de vorm van een specifieke uitkering (geoormerkt geld) uitgekeerd.<br>Is het volgens u mogelijk om deze specifieke uitkering van het regionale budget om te zetten in een decentralisatie-uitkering (niet geoormerkt)?',
                        options: [
                          { title: 'Ja' },
                          { title: 'Nee' },
                          { title: 'Weet ik niet' }
                        ],
                        show_otherwise: false,
-                       tooltip: 'Een deel van het regionaal budget voor VSV en kwetsbare jongeren komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen ‘op de grote hoop’, via het Gemeentefonds.'
+                       tooltip: 'Een deel van het regionale budget voor VSV en kwetsbare jongeren komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen ‘op de grote hoop’, via het Gemeentefonds.'
                      }, {
                        id: :v77,
                        hidden: true,

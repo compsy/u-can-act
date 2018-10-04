@@ -184,7 +184,7 @@ $(function () {
       $(this).prev().click();
     }
   });
-  $('input[type=text]').keypress(function (event) {
+  $('input[type=text],input[type=number]').keypress(function (event) {
     if (event.keyCode === 13) {
       event.preventDefault();
       $(this).blur();

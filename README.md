@@ -395,12 +395,16 @@ Required and allowed options (minimal example and maximal example):
   type: :textfield,
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
   tooltip: 'some tooltip',
+  pattern: '[a-z]{1,10}',
+  hint: 'Must be a lowercase word between 1 and 10 characters in length',
   placeholder: 'Place holder',
   section_end: true
 }]
 ```
 
 The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+The property `pattern` is a regex that limits what the user can enter. The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
 
 ### Type: Number
 Type for integer(?) numbers. Required and allowed options (minimal example and maximal example):

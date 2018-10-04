@@ -196,3 +196,8 @@ label {
 .toast {
   font-weight: 400;
 }
+
+// Use themed colors for the focused select dropdown
+select:focus {
+  outline-color: $accent-color;
+}

@@ -698,7 +698,10 @@ evaluatie.content = [{
                        hidden: true,
                        type: :textfield,
                        title: '',
-                       placeholder: 'Vul een bedrag in'
+                       placeholder: 'Vul een bedrag in',
+                       pattern: '^(€ *)?[,.]?[0-9][0-9.,]{0,13}-{0,2}$',
+                       hint: 'Vul a.u.b. een bedrag in euros in. bv.: 300.000',
+                       required: true
                      }, {
                        id: :v60,
                        hidden: true,

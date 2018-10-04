@@ -15,7 +15,7 @@ class NumberGenerator < QuestionTypeGenerator
                        number_tag(question),
                        number_label(question)
                      ])
-    body = content_tag(:div, body, class: 'input-field col s6')
+    body = content_tag(:div, body, class: 'input-field col s12 m6')
     body = content_tag(:div, body, class: 'row')
     body
   end

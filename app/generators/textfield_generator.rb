@@ -44,6 +44,8 @@ class TextfieldGenerator < QuestionTypeGenerator
   end
 
   def textfield_helper(question)
+    return nil unless question[:hint].present?
+
     content_tag(:span,
                 '', # Don't show a hint by default and don't show one when value is correct.
                 data: { error: question[:hint], success: '' },

@@ -2,11 +2,11 @@
   %p
     = f.label :gender, name: 'gender'
     %br/
-    %p
-      = f.radio_button :gender, "male"
-      = f.label :gender, value: "male" do
-        Man
-    %p
-      = f.radio_button :gender, "female"
-      = f.label :gender, value: "female" do
-        Vrouw
+    %p.option-label
+      = f.label :gender, value: 'male' do
+        = f.radio_button :gender, 'male'
+        %span Man
+    %p.option-label
+      = f.label :gender, value: 'female' do
+        = f.radio_button :gender, 'female'
+        %span Vrouw

@@ -222,4 +222,10 @@ $(function () {
   $(document).on('touchend', 'body', function (e) {
     $('.thumb').removeClass('active');
   });
+
+  // Handle flash notices
+  $('.flash-notice').delay(10000).slideUp('slow');
+  $(document).on('click','.flash-notice', function() {
+    $(this).hide();
+  });
 });

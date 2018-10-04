@@ -21,7 +21,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
     protocol = find_protocol
     raise 'Person is nil' unless person.present?
 
-    start_date = Time.now.in_time_zone.beginning_of_day if start_date.blank?
+    start_date = Time.now.in_time_zone if start_date.blank?
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,
       person: person,

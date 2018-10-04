@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 
 OneTimeResponse.delete_all
-OneTimeResponse.create!(token: 'abc', protocol: Protocol.first)
+protocol = Protocol.find_by_name('evaluatieonderzoek')
+OneTimeResponse.create!(token: 'abc', protocol: protocol)

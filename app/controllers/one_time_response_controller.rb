@@ -12,7 +12,7 @@ class OneTimeResponseController < ApplicationController
   private
 
   def create_person
-		team_name = 'Controlegroep'
+		team_name = 'Evaluatieonderzoek'
 		@person = CreateAnonymousUser.run!(team_name: team_name)
   end
 
@@ -25,7 +25,6 @@ class OneTimeResponseController < ApplicationController
   end
 
   def get_redirect_url
-    byebug
     invitation_set = InvitationSet.create!(person_id: @person.id, 
                                            responses: @person.my_open_responses)
     invitation_token = invitation_set.invitation_tokens.create!

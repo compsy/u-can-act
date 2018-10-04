@@ -36,6 +36,11 @@ FactoryBot.define do
     role { FactoryBot.create(:role, group: Person::MENTOR, title: 'mentor Title') }
   end
 
+  factory :solo, class: 'Person', parent: :person do
+    email
+    role { FactoryBot.create(:role, group: Person::SOLO, title: 'solo Title') }
+  end
+
   factory :student, class: 'Person', parent: :person do
     role { FactoryBot.create(:role, group: Person::STUDENT, title: 'student Title') }
   end

@@ -207,7 +207,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_is_mentor
-    @use_mentor_layout = @response.protocol_subscription.person.mentor?
+    @use_mentor_layout = @response.protocol_subscription.person.mentor? || @response.protocol_subscription.person.solo?
   end
 
   def check_response(response)

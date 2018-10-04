@@ -20,8 +20,8 @@ evaluatie.content = [{
                          { title: 'Een gemeente, afdeling RMC',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. leerplicht, het gaat erom dat u verantwoordelijk bent voor onder andere onderwijsparticipatie.',
                            shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43 v44 v45 v45_1 v46 v46_1 v47 v48 v49 v49_1 v50 v50_1 v51 v52 v52_1 v53 v53_1 v54 v55 v56 v56_1 v57 v57_1 v72 v72_1 v76 v77 v78 v79 v80 v81] },
-                         { title: 'Een gemeente, afdeling dienst werk en inkomen',
-                           tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. sociaal domein, participatie, het gaat erom dat u verantwoordelijk bent voor onder andere arbeidsparticipatie.',
+                         { title: 'Een gemeente, afdeling werk en inkomen of ander arbeidsmarktdomein',
+                           tooltip: 'In elke gemeente wordt dit anders genoemd of is dit anders ingedeeld, bijv. als sociaal domein, participatie, of UWV, het gaat erom dat u verantwoordelijk bent voor onder andere arbeidsparticipatie bij jongeren.',
                            shows_questions: %i[v4 v15 v16 v71 v71_1] },
                          { title: 'Een school',
                            shows_questions: %i[v2 v5 v6 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43] }
@@ -128,7 +128,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :dropdown,
                        label: 'arbeidsmarktregio',
-                       title: 'Bij welke arbeidsmarktregio hoort uw gemeente?<br><em>N.B.: Indien u contactpersoon bent voor meerdere regio’s kunt u eerst de vragen invullen voor één regio, later krijgt u de optie om vragen in te vullen voor een andere regio.</em>',
+                       title: 'Bij welke arbeidsmarktregio hoort uw gemeente?<br><em>N.B.: Indien u contactpersoon bent voor meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
                        tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/arbeidsmarktregios.png">',
                        options: [
                          '1. Groningen',
@@ -309,13 +309,13 @@ evaluatie.content = [{
                      }, {
                        id: :v20,
                        type: :range,
-                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (1) voor uw dagelijkse werkzaamheden?',
+                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel1
                      }, {
                        id: :v21,
                        type: :range,
-                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (1) voor uw dagelijkse werkzaamheden?',
+                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel1
                      }, {
@@ -403,14 +403,14 @@ evaluatie.content = [{
                        id: :v30,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe groot is het gevolg van deze maatregel (2) voor uw dagelijkse werkzaamheden?',
+                       title: 'Hoe groot is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel2
                      }, {
                        id: :v31,
                        hidden: true,
                        type: :range,
-                       title: 'Wat vindt u van de gevolgen van deze maatregel (2) voor uw dagelijkse werkzaamheden?',
+                       title: 'Wat vindt u van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel2
                      }, {
@@ -450,14 +450,14 @@ evaluatie.content = [{
                        id: :v35,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe groot is het gevolg van deze maatregel (3) voor uw dagelijkse werkzaamheden?',
+                       title: 'Hoe groot is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel3
                      }, {
                        id: :v36,
                        hidden: true,
                        type: :range,
-                       title: 'Wat vindt u van de gevolgen van deze maatregel (3) voor uw dagelijkse werkzaamheden?',
+                       title: 'Wat vindt u van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel3
                      }, {
@@ -488,7 +488,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre nemen de RMC contactgemeente en de contactschool samen hun verantwoordelijkheid voor de besteding van het regionale budget binnen uw regio?',
+                       title: 'In hoeverre nemen de RMC contactgemeente en de contactschool samen hun verantwoordelijkheid voor de besteding van het regionaal budget binnen uw regio?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v40_1] }]
                      }, {
                        id: :v40_1,
@@ -501,7 +501,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Hoe ervaart u de kwaliteit van de besteding van het regionale budget?',
+                       title: 'Hoe ervaart u de kwaliteit van de besteding van het regionaal budget?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v41_1] }]
                      }, {
                        id: :v41_1,
@@ -513,14 +513,14 @@ evaluatie.content = [{
                        id: :v42,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (4) voor uw dagelijkse werkzaamheden?',
+                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel4
                      }, {
                        id: :v43,
                        hidden: true,
                        type: :range,
-                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (4) voor uw dagelijkse werkzaamheden?',
+                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel4
                      }, {
@@ -560,14 +560,14 @@ evaluatie.content = [{
                        id: :v47,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (5) voor uw dagelijkse werkzaamheden?',
+                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel5
                      }, {
                        id: :v48,
                        hidden: true,
                        type: :range,
-                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (5) voor uw dagelijkse werkzaamheden?',
+                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel5
                      }, {
@@ -575,7 +575,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel (5)?',
+                       title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v49_1] }],
                        tooltip: maatregel5
                      }, {
@@ -589,7 +589,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel (5)?',
+                       title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v50_1] }],
                        tooltip: maatregel5
                      }, {
@@ -635,14 +635,14 @@ evaluatie.content = [{
                        id: :v54,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel (6) voor uw dagelijkse werkzaamheden?',
+                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel6
                      }, {
                        id: :v55,
                        hidden: true,
                        type: :range,
-                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel (6) voor uw dagelijkse werkzaamheden?',
+                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel6
                      }, {
@@ -650,7 +650,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel (6)?',
+                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v56_1] }],
                        tooltip: maatregel6
                      }, {
@@ -664,7 +664,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel (6)?',
+                       title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel?',
                        options: [{ title: 'Ik weet het niet', hides_questions: %i[v57_1] }],
                        tooltip: maatregel6
                      }, {

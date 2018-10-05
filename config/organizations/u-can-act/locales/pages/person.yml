@@ -1,0 +1,23 @@
+nl:
+  pages:
+    person:
+      header: Hartelijk dank voor het invullen van de vragenlijst, uw antwoorden zijn opgeslagen.
+      body: >
+        <p class="flow-text">Als teken van waardering willen we u graag bedanken met een bol.com bon t.w.v. €10,-.
+        Als u dit wilt ontvangen, vul dan hieronder uw e-mailadres in.</p><p>De onderzoekers hebben dit
+        nodig voor het toesturen van de beloning, en gebruiken het alleen daarvoor. Als u op 'Aanmelden voor gift'
+        drukt wordt ook uw IP-adres versleuteld opgeslagen om eventueel misbruik te kunnen voorkomen.
+        Het opgeven van uw gegevens is geheel vrijwillig. Deze persoonsgegevens worden apart bewaard
+        van uw onderzoeksresultaten, in een beveiligde database, voor een maximale termijn van 6 maanden.
+        Onderzoeksresultaten en persoonsgegevens zijn voor de onderzoekers niet te koppelen. U kunt
+        er ook voor kiezen om uw persoonsgegevens niet in te vullen, dan kunnen wij de gift niet naar u sturen.
+        Indien u wilt afzien van de gift, dan kunt u deze pagina nu afsluiten, uw antwoorden op
+        de vragenlijst van het evaluatieonderzoek zijn opgeslagen maar uw e-mailadres en versleuteld
+        IP-adres worden niet opgeslagen.</p>
+        <div class="row"><div class="col s12"><div class="checkbox-group required">
+        <p class="flow-text"></p><p class="option-label"><label
+        for="v1_ik_verklaar_dat_bovenstaande_informatie_mij_duidelijk_is_en_ga_hiermee_akkoord" class="flow-text">
+        <input type="checkbox" id="v1_ik_verklaar_dat_bovenstaande_informatie_mij_duidelijk_is_en_ga_hiermee_akkoord"
+        value="true" /><span class="flow-text">Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het
+        bewaren van mijn e-mailadres en versleuteld IP-adres.</span></label></p></div></div></div>
+      submit: Aanmelden voor gift

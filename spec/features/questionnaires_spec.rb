@@ -2286,7 +2286,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content('Hoihoihoi')
       page.click_on 'Opslaan'
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content('translation missing: nl.pages.person.header')
     end
   end
 end

@@ -1,4 +1,8 @@
-%h5 Accountgegevens bewerken
+.row
+  .col.s12
+    %h4= I18n.t('pages.person.header')
+.row
+  .col.s12= I18n.t('pages.person.body').html_safe
 - if cannot? :update, Person, :iban
   = render partial: 'name_fields', locals: {f: f}
 = render partial: 'gender_fields', locals: {f: f}

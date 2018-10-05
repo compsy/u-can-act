@@ -5,7 +5,7 @@ nl:
         first_name: Voornaam
         last_name: Achternaam
         gender: Geslacht
-        email: Emailadres 
+        email: Emailadres
         mobile_phone: Mobiele telefoonnummer
         iban: Bankrekeningnummer (IBAN)
     models:

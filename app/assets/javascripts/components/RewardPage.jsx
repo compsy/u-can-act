@@ -44,9 +44,16 @@ class RewardPage extends React.Component {
 
   renderMentorRewardPage() {
     if (!this.isDone()) {
-      return (<div />);
+      return (<div/>);
     }
-    return (<MentorRewardPage />);
+    return (<MentorRewardPage person={this.state.person}/>);
+  }
+
+  renderSoloRewardPage() {
+    if (!this.isDone()) {
+      return (<div/>);
+    }
+    return (<SoloRewardPage/>);
   }
 
   renderStudentRewardPage() {
@@ -55,6 +62,7 @@ class RewardPage extends React.Component {
     if (this.isDone()) {
       return (<StudentFinalRewardPage earnedEuros={earnedEuros}
                                       iban={this.state.person.iban}
+                                      person={this.state.person}
                                       name={name}/>);
     }
 
@@ -62,18 +70,22 @@ class RewardPage extends React.Component {
     let maxStillAwardableEuros = this.state.result.max_still_awardable_euros / 100;
     return (
       <StudentInProgressRewardPage euroDelta={euroDelta}
-        earnedEuros={earnedEuros}
-        currentMultiplier={this.state.result.current_multiplier}
-        initialMultiplier={this.state.result.initial_multiplier}
-        awardable={maxStillAwardableEuros}
-        protocolCompletion={this.state.result.protocol_completion}
-        maxStreak={this.state.result.max_streak.threshold}/>
+                                   earnedEuros={earnedEuros}
+                                   currentMultiplier={this.state.result.current_multiplier}
+                                   initialMultiplier={this.state.result.initial_multiplier}
+                                   awardable={maxStillAwardableEuros}
+                                   protocolCompletion={this.state.result.protocol_completion}
+                                   maxStreak={this.state.result.max_streak.threshold}
+                                   person={this.state.person}/>
     );
   }
 
   getCorrectResultPage() {
     if (this.state.result.person_type === 'Mentor') {
       return this.renderMentorRewardPage();
+    }
+    if (this.state.result.person_type === 'Solo') {
+      return this.renderSoloRewardPage();
     }
     return this.renderStudentRewardPage();
   }
@@ -83,17 +95,11 @@ class RewardPage extends React.Component {
       return <div>Bezig...</div>
     }
 
-    result = this.getCorrectResultPage()
     return (
       <div className="col s12">
         <div className="row">
           <div className="col s12">
-            <h4>Bedankt voor het invullen van de vragenlijst!</h4>
-            {result}
-            <ul>
-              <li><a href='/disclaimer'>Disclaimer</a></li>
-              <li><EditPersonLink person={this.state.person}/></li>
-            </ul>
+            {this.getCorrectResultPage()}
           </div>
         </div>
       </div>

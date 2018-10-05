@@ -19,16 +19,24 @@ class SubscribeToProtocol < ActiveInteraction::Base
   # - start_date: the date when the subscription should start
   def execute
     protocol = find_protocol
+    the_start_date = find_start_date
     Rails.logger.warn("Protocol #{protocol.id} does not have any measurements")
 
-    start_date = Time.now.in_time_zone if start_date.blank?
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,
       person: person,
       state: ProtocolSubscription::ACTIVE_STATE,
-      start_date: start_date
+      start_date: the_start_date
     )
     prot_sub
+  end
+
+  def find_start_date
+    # Active interaction weirdness. For somereason if we do not first copy
+    # start_date into a different variable, it is nil and overridden by the if
+    # statement. When we first copy it to a different variable it does work.
+    the_start_date = start_date
+    the_start_date || Time.now.in_time_zone
   end
 
   def find_protocol

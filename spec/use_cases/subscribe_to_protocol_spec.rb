@@ -31,10 +31,10 @@ describe SubscribeToProtocol do
   end
 
   it 'should work with a timestring' do
-    start = 10.hours.ago
-    described_class.run!(protocol_name: protocol.name, person: person, start_date: start)
+    start_date = 10.hours.ago
+    described_class.run!(protocol_name: protocol.name, person: person, start_date: start_date)
     person.reload
-    expect(person.protocol_subscriptions.first.start_date).to be_within(1.seconds).of start
+    expect(person.protocol_subscriptions.first.start_date).to be_within(1.seconds).of start_date
   end
 
   it 'should raise if the provided protocol is not found' do

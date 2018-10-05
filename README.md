@@ -69,6 +69,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
   API_KEY: <the secret username that can be used to access the api>
   API_SECRET: <the secret password that can be used to access the api>
+
+  IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
 ```
 
 ### Development configuration

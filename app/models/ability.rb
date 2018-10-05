@@ -24,7 +24,7 @@ class Ability
     elsif person&.role&.group == Person::MENTOR
       can :update, Person, %i[first_name last_name gender email mobile_phone]
     elsif person&.role&.group == Person::SOLO
-      can :update, Person, :email
+      can :update, Person, %i[email ip_hash]
     end
   end
 end

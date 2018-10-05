@@ -38,7 +38,14 @@ class PeopleController < ApplicationController
   end
 
   def people_params
-    params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
+    base_params = params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
+    return base_params if cannot? :update, Person, :ip_hash
+
+    base_params.merge(ip_hash: calculate_ip_hash)
+  end
+
+  def calculate_ip_hash
+    HashGenerator.generate(request.remote_ip, salt: ENV['IP_HASH_SALT'])
   end
 
   def set_current_person

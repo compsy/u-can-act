@@ -177,6 +177,28 @@ RSpec.describe PeopleController, type: :controller do
       expect(person.mobile_phone).to eq person_attributes['mobile_phone']
     end
 
+    it 'should not store the iphash of the person if the person cant store it' do
+      person_attributes = { 'gender' => 'female' }
+      expect(person.ip_hash).to be_blank
+      put :update, params: { person: person_attributes }
+      person.reload
+      expect(person.gender).to eq person_attributes['gender']
+      expect(person.ip_hash).to be_blank
+    end
+
+    it 'should store the iphash of the person if the person can store it' do
+      person = FactoryBot.create(:solo)
+      cookie_auth(person)
+      person_attributes = { 'gender' => 'female' }
+      expect(person.gender).to_not eq person_attributes['gender']
+      expect(person.ip_hash).to be_blank
+      put :update, params: { person: person_attributes }
+      person.reload
+      expect(person.gender).to eq person_attributes['gender']
+      expect(person.ip_hash).to_not be_blank
+      expect(person.ip_hash).to eq HashGenerator.generate(request.remote_ip, salt: ENV['IP_HASH_SALT'])
+    end
+
     it 'should redirect to the klaar page' do
       person_attributes = person.attributes.slice('email', 'first_name', 'last_name', 'email', 'mobile_phone')
       put :update, params: { person: person_attributes }

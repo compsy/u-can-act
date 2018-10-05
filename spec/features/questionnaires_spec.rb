@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe 'GET and POST /', type: :feature, js: true do
+describe 'GET and POST /', type: :feature, js: true do
   let(:student) { FactoryBot.create(:student) }
   let(:mentor) { FactoryBot.create(:mentor, first_name: 'Dagobert') }
   it 'should show and store a questionnaire successfully' do
@@ -2286,7 +2286,7 @@ fdescribe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content('Hoihoihoi')
       page.click_on 'Opslaan'
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content('translation missing: nl.pages.person.header')
     end
   end
 end

@@ -1,16 +1,18 @@
 = render partial: 'menu'
-.admin-interface
-  .col.s12
-    %h1 Dashboard
-  .col.s12
-    .section
-      %h4 Reward Money
-      %p= "Total earned so far: #{print_as_money(Reward.total_earned_euros)}"
-      %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
-  .col.s12
-    .section
-      = react_component('Statistics')
-  .col.s12
-    .section
-      %h4 Elaborate functionality
-      = react_component('AdminRouter')
+.container
+  .row
+    .admin-interface
+      .col.s12
+        %h1 Dashboard
+      .col.s12
+        .section
+          %h4 Reward Money
+          %p= "Total earned so far: #{print_as_money(Reward.total_earned_euros)}"
+          %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
+      .col.s12
+        .section
+          = react_component('Statistics')
+      .col.s12
+        .section
+          %h4 Elaborate functionality
+          = react_component('AdminRouter')

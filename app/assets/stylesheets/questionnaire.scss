@@ -12,6 +12,7 @@
   background: image-url("close.png") 99% 8px / 16px 16px no-repeat padding-box border-box scroll $u-can-act-grey;
   word-break: normal;
   cursor: pointer;
+  display: block;
 }
 
 .erroneous {
@@ -32,7 +33,7 @@
   top: 16px;
 }
 
-.extra-spacing.row {
+.extra-spacing.row, .extra-spacing.actions {
   padding-top: 3rem;
   margin-bottom: -2rem;
 }
@@ -140,4 +141,63 @@ form .likert-scale {
 }
 .input-field.col.no-padding label {
   left: 0;
+}
+
+// Always make a divider have more room, not just when it's in a section of its own.
+// This way, we can just stick a divider in a raw and let it have the same effect as
+// a section_start.
+.divider {
+  margin-top: 4rem;
+  margin-bottom: 6rem;
+}
+
+// Move questions without titles but that have the title element defined closer to
+// their previous element so they appear together (because that's how we use them).
+.no-title {
+  margin-bottom: -2rem;
+  position: relative;
+  top: -4rem;
+}
+
+// Fix balloons sticking on mobile
+.range-field {
+  .thumb {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+}
+
+// Fix i'tjes being on a new line
+p.option-label, div.otherwise-textfield {
+  padding-left: 35px;
+}
+[type="checkbox"] + span:not(.lever), [type="checkbox"]:not(.filled-in) + span:not(.lever), [type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
+  display: inline;
+  padding-left: 0;
+  &:before, &:after {
+    top: -0.2rem;
+    left: -35px;
+  }
+}
+[type="checkbox"]:checked + span:not(.lever):before {
+  top: -0.5rem;
+  left: -40px;
+}
+
+// Make labels more clickable
+label {
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+
+// Make toasts more readable
+.toast {
+  font-weight: 400;
+}
+
+// Use themed colors for the focused select dropdown
+select:focus {
+  outline-color: $accent-color;
 }

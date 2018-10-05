@@ -1,4 +1,6 @@
 - if can? :update, Person, :email
-  .input-field
-    = f.label :email
-    = f.email_field :email, required: false, title: "email"
+  .row
+    .col.s6
+      .input-field
+        = f.email_field :email, required: false, title: 'email'
+        = f.label :email

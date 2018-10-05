@@ -34,7 +34,7 @@ class PeopleController < ApplicationController
   private
 
   def set_layout
-    @use_mentor_layout = @person.mentor?
+    @use_mentor_layout = @person.mentor? || @person.solo?
   end
 
   def people_params

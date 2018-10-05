@@ -24,6 +24,14 @@ $(function() {
   // Enable materialize textfields
   M.updateTextFields();
 
+  // Fix textareas causing a horizontal scrollbar
+  $(window).resize(function() {
+    var hiddenDiv = $('.hiddendiv').first();
+    if (hiddenDiv.length) {
+      hiddenDiv.css('width', window.innerWidth / 2 + 'px');
+    }
+  });
+
   // Enable datepickers
   $('.datepicker').datepicker({
     minDate: $(this).data('min'),

@@ -1,4 +1,6 @@
 - if can? :update, Person, :mobile_phone
-  .input-field
-    = f.label :mobile_phone
-    = f.telephone_field :mobile_phone, autofocus: true, maxlength: 10, required: true, pattern: "[0-9]{10}", title: "Vul de tien getallen in zonder streepje."
+  .row
+    .col.s6
+      .input-field
+        = f.telephone_field :mobile_phone, autofocus: true, maxlength: 10, required: true, pattern: '[0-9]{10}', title: 'Vul de tien getallen in zonder streepje.'
+        = f.label :mobile_phone

@@ -6,6 +6,9 @@ var id_c = null;
 var timestamp_c = null;
 var rails_env = '<%= Rails.env.to_s %>';
 
+// This is really a const but we are not ES6 quite yet
+var ENTER_KEY = 13;
+
 function toggle_otherwise_field() {
   if ($(this).closest('.row').hasClass('hidden')) return;
   if ($(this).closest('.row').find("input[type=text].otherwise").length === 0) return;
@@ -21,10 +24,10 @@ function toggle_otherwise_field() {
 function show_hide_entry(entry, show) {
   var klass = '.' + entry + '_toggle';
   if (show) {
-    $(klass).removeClass('hidden').find('input:visible,textarea:visible,input[type=hidden]').prop('disabled', false);
+    $(klass).removeClass('hidden').find('input:visible,textarea:visible,select:visible,input[type=hidden]').prop('disabled', false);
     $('.otherwise-option').each(toggle_otherwise_field);
   } else {
-    $(klass).addClass('hidden').find('input,textarea').prop('disabled', true);
+    $(klass).addClass('hidden').find('input,textarea,select').prop('disabled', true);
   }
 }
 
@@ -130,7 +133,7 @@ function expandExpandable() {
 
   // Find the first element that is hidden and expandable so we can unhide it
   var elem = $('.expandable_wrapper.hidden' + '.' + questionnaireId).first();
-  elem.removeClass('hidden').find('input,textarea').prop('disabled', false);
+  elem.removeClass('hidden').find('input,textarea,select').prop('disabled', false);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
 }
@@ -140,14 +143,14 @@ function collapseExpandable() {
 
   // Find the last element that is not hidden and expandable so we can hide it
   var elem = $('.expandable_wrapper:not(.hidden)' + '.' + questionnaireId).last();
-  elem.addClass('hidden').find('input,textarea').prop('disabled', true);
+  elem.addClass('hidden').find('input,textarea,select').prop('disabled', true);
   $('.otherwise-option').each(toggle_otherwise_field);
   updateExpandableButtons();
 }
 
 function disableHiddenInputs() {
   $('.hidden').each(function(index) {
-    $(this).find('input,textarea').each(function(sub_index){
+    $(this).find('input,textarea,select').each(function(sub_index){
       $(this).prop('disabled', true);
     });
   });
@@ -176,15 +179,16 @@ $(function () {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
-  $('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);
+  // The line below breaks stuff, just assume that the questionnaire visibilities are correct by default
+  //$('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);
   $('.otherwise-option').each(toggle_otherwise_field);
   $('label + div.input-field.inline').click(function () {
     if ($(this).find('input[type=text][disabled]').length) {
       $(this).prev().click();
     }
   });
-  $('textarea,input[type=text]').keypress(function (event) {
-    if (event.keyCode === 13) {
+  $('input[type=text],input[type=number]').keypress(function (event) {
+    if (event.keyCode === ENTER_KEY) {
       event.preventDefault();
       $(this).blur();
     }
@@ -217,5 +221,14 @@ $(function () {
     var keyboardDoms = new Set(["INPUT", "TEXTAREA", "SELECT"]);
     if (keyboardDoms.has(document.activeElement.nodeName) && !keyboardDoms.has(e.target.nodeName))
       document.activeElement.blur();
+  });
+  $(document).on('touchend', 'body', function (e) {
+    $('.thumb').removeClass('active');
+  });
+
+  // Handle flash notices
+  $('.flash-notice').delay(10000).slideUp('slow');
+  $(document).on('click','.flash-notice', function() {
+    $(this).hide();
   });
 });

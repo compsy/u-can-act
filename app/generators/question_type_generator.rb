@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class QuestionTypeGenerator < Generator
-  TOOLTIP_DURATION = 6000
+  TOOLTIP_MIN_DURATION = 3000
+  MILLISEC_PER_CHARACTER = 70
   OTHERWISE_TEXT = 'Anders, namelijk:'
   OTHERWISE_PLACEHOLDER = 'Vul iets in'
 
@@ -17,7 +18,12 @@ class QuestionTypeGenerator < Generator
     tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
     content_tag(:a,
                 tooltip_body,
-                onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'}, #{TOOLTIP_DURATION})")
+                onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'," \
+                         " displayLength: #{tooltip_duration(tooltip_content)}})")
+  end
+
+  def tooltip_duration(tooltip_content)
+    TOOLTIP_MIN_DURATION + tooltip_content.length * MILLISEC_PER_CHARACTER
   end
 
   def placeholder(question, default_placeholder)
@@ -88,7 +94,15 @@ class QuestionTypeGenerator < Generator
       ]
     )
 
-    content_tag(:p, option_body)
+    wrap_option_body(option_body, question[:type])
+  end
+
+  def wrap_option_body(option_body, question_type)
+    if %i[radio checkbox].include? question_type
+      content_tag(:p, option_body, class: 'option-label')
+    else
+      content_tag(:p, option_body)
+    end
   end
 
   # Move next functions to specific super for radio and check?

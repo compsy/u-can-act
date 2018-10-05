@@ -208,7 +208,7 @@ RSpec.describe PeopleController, type: :controller do
         pre = ENV['IP_HASH_SALT']
         ENV['IP_HASH_SALT'] = nil
         person_attributes = { 'gender' => 'female' }
-        expect {put :update, params: { person: person_attributes }}
+        expect { put :update, params: { person: person_attributes } }
           .to raise_error KeyError, 'key not found: "IP_HASH_SALT"'
         ENV['IP_HASH_SALT'] = pre
       end

@@ -45,7 +45,7 @@ class PeopleController < ApplicationController
   end
 
   def calculate_ip_hash
-    HashGenerator.generate(request.remote_ip, salt: ENV.fetch( 'IP_HASH_SALT' ))
+    HashGenerator.generate(request.remote_ip, salt: ENV.fetch('IP_HASH_SALT'))
   end
 
   def set_current_person

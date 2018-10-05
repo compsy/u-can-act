@@ -12,13 +12,12 @@ class OneTimeResponseController < ApplicationController
   private
 
   def create_person
-		team_name = 'Evaluatieonderzoek'
-		@person = CreateAnonymousUser.run!(team_name: team_name)
+    @person = CreateAnonymousUser.run!(
+      team_name: Rails.application.config.settings.default_team_name
+    )
   end
 
   def subscribe_person
-    Rails.logger.info @one_time_response.protocol	
-    Rails.logger.info @person.inspect	
     SubscribeToProtocol.run!(protocol: @one_time_response.protocol, 
                              person: @person,
                              start_date: 10.minutes.ago.in_time_zone)
@@ -33,7 +32,7 @@ class OneTimeResponseController < ApplicationController
 
 
   def load_one_time_response
-    token = one_time_response_params[:tok]
+    token = one_time_response_params[:t]
     @one_time_response = OneTimeResponse.find_by_token(token)
     return @one_time_response if @one_time_response.present?
 
@@ -41,6 +40,6 @@ class OneTimeResponseController < ApplicationController
   end
 
   def one_time_response_params
-    params.permit(:tok)
+    params.permit(:t)
   end
 end

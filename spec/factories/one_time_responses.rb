@@ -1,8 +1,7 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :one_time_response do
-    token { "MyString" }
-    string { "MyString" }
-    protocol { "MyString" }
-    references { "MyString" }
+    protocol 
   end
 end

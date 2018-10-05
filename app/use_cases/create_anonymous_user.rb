@@ -8,9 +8,9 @@ class CreateAnonymousUser < ActiveInteraction::Base
   # - team_name: the name of the team to create the person with
   def execute
     Person.create!(first_name: 'Anonymous',
-                  last_name: '',
-                  gender: nil,
-                  role: find_role)
+                   last_name: '',
+                   gender: nil,
+                   role: find_role)
   end
 
   private

@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20180928100152) do
   end
 
   create_table "one_time_responses", force: :cascade do |t|
-    t.string   "token"
+    t.string   "token",       null: false
     t.integer  "protocol_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

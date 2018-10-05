@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   get 'otr', to: 'one_time_response#show', as: 'one_time_response'
-  resource :one_time_response, only: %i[show], param: :tok
+  resource :one_time_response, only: %i[show], param: :t
 
   # Admin panel
   scope path: :admin do

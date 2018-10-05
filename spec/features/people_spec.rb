@@ -34,7 +34,7 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).to have_content('Voornaam')
       expect(page).to have_content('Achternaam')
       expect(page).to have_content('Geslacht')
-      expect(page).to have_content('Emailadres')
+      expect(page).to have_content('E-mailadres')
       expect(page).to have_content('Mobiele telefoonnummer')
       expect(page).to_not have_content('Bankrekeningnummer (IBAN)')
     end
@@ -122,7 +122,7 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).not_to have_content('Voornaam')
       expect(page).not_to have_content('Achternaam')
       expect(page).not_to have_content('Geslacht')
-      expect(page).to have_content('Emailadres')
+      expect(page).to have_content('E-mailadres')
       expect(page).not_to have_content('Mobiele telefoonnummer')
       expect(page).to_not have_content('Bankrekeningnummer (IBAN)')
       expect(page).to_not have_content('Disclaimer')
@@ -221,7 +221,7 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).to have_content('Voornaam')
       expect(page).to have_content('Achternaam')
       expect(page).to have_content('Geslacht')
-      expect(page).to_not have_content('Emailadres')
+      expect(page).to_not have_content('E-mailadres')
       expect(page).to have_content('Mobiele telefoonnummer')
       expect(page).to have_content('Bankrekeningnummer (IBAN)')
     end

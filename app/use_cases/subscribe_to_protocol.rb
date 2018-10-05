@@ -20,7 +20,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
   def execute
     the_protocol = find_protocol
     the_start_date = find_start_date
-    Rails.logger.warn("Protocol #{protocol.id} does not have any measurements") if protocol.measurements.blank?
+    Rails.logger.warn("Protocol #{the_protocol.id} does not have any measurements") if the_protocol.measurements.blank?
 
     prot_sub = ProtocolSubscription.create!(
       protocol: the_protocol,

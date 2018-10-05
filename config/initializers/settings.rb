@@ -11,5 +11,6 @@ Rails.application.configure do
                                                'locales',
                                                '**',
                                                '*.{rb,yml}').to_s] if config.settings.application_name.present? &&
-    Dir.exist?(Rails.root.join('config', 'organizations', config.settings.application_name, 'locales'))
+    Dir.exist?(Rails.root.join('config', 'organizations', config.settings.application_name, 'locales')) &&
+    !Rails.env.test?
 end

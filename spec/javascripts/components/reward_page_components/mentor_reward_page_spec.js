@@ -9,7 +9,7 @@ describe("MentorRewardPage", function() {
   });
   
   it("it should return the correct text", function() {
-    var elems = ReactDOM.findDOMNode(this.rendered).children[0].children;
+    var elems = ReactDOM.findDOMNode(this.rendered).children[1].children;
     var expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!';
     var result = elems[0].innerText;
     expect(result).toEqual(expected);

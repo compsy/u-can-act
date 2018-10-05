@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 describe 'GET /edit', type: :feature, js: true do
+  let(:person_header) { 'translation missing: nl.pages.person.header' }
   describe 'Mentor' do
     let!(:mentor) { FactoryBot.create(:mentor, gender: 'female') }
 
@@ -30,7 +31,7 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should list the correct labels / fields' do
       visit edit_person_path
       expect(page).to_not have_content('Bankgegevens')
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content(person_header)
       expect(page).to have_content('Voornaam')
       expect(page).to have_content('Achternaam')
       expect(page).to have_content('Geslacht')
@@ -42,7 +43,7 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should store data after clicking the update button' do
       visit edit_person_path
       expect(page).to_not have_content('Bankgegevens')
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content(person_header)
       page.fill_in('person_first_name', with: 'new_first')
       page.fill_in('person_last_name', with: 'new_last')
       page.fill_in('person_mobile_phone', with: '0698417313')
@@ -70,7 +71,7 @@ describe 'GET /edit', type: :feature, js: true do
       pre_iban = mentor.iban
 
       expect(page).to_not have_content('Bankgegevens')
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content(person_header)
       page.fill_in('person_first_name', with: 'new_first')
       page.fill_in('person_last_name', with: 'new_last')
       page.fill_in('person_mobile_phone', with: '0698417313')
@@ -115,10 +116,8 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should list the correct labels / fields' do
       visit edit_person_path
       expect(page).to_not have_content('Bankgegevens')
-      expect(page).not_to have_content('Accountgegevens bewerken')
-      expect(page).to have_content('Hartelijk dank voor het invullen van de vragenlijst, ' \
-                                   'uw antwoorden zijn opgeslagen.')
-      expect(page).to have_content('Als teken van waardering')
+      expect(page).to have_content('translation missing: nl.pages.person.header')
+      expect(page).to have_content('translation missing: nl.pages.person.body')
       expect(page).not_to have_content('Voornaam')
       expect(page).not_to have_content('Achternaam')
       expect(page).not_to have_content('Geslacht')
@@ -131,8 +130,6 @@ describe 'GET /edit', type: :feature, js: true do
 
     it 'should store data after clicking the update button' do
       visit edit_person_path
-      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
-                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
       page.fill_in('person_email', with: 'anew@email.com')
 
       all('button[type="submit"]').first.click
@@ -146,8 +143,6 @@ describe 'GET /edit', type: :feature, js: true do
 
       visit edit_person_path
 
-      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
-                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
 
@@ -158,8 +153,6 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should redirect to the correct page' do
       visit edit_person_path
       responseobj.complete!
-      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
-                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
       expect(page).to have_content('Uw gegevens zijn opgeslagen. ' \
@@ -169,17 +162,6 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).to_not have_content('Gegevens aanpassen')
     end
     it 'should require a valid email' do
-      visit edit_person_path
-      responseobj.complete!
-      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
-                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
-      page.fill_in('person_email', with: 'anewemail.com')
-      all('button[type="submit"]').first.click
-      expect(page).to_not have_content('Uw gegevens zijn opgeslagen. ' \
-                                   'Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
-      expect(page).to_not have_content('Gegevens opgeslagen')
-    end
-    it 'should require the checkbox to be checked' do
       visit edit_person_path
       responseobj.complete!
       page.fill_in('person_email', with: 'anewemail.com')
@@ -217,7 +199,7 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should list the correct labels / fields' do
       visit edit_person_path
       expect(page).to have_content('Bankgegevens')
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content(person_header)
       expect(page).to have_content('Voornaam')
       expect(page).to have_content('Achternaam')
       expect(page).to have_content('Geslacht')
@@ -229,7 +211,7 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should store data after clicking the update button' do
       visit edit_person_path
       expect(page).to have_content('Bankgegevens')
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content(person_header)
       page.fill_in('person_first_name', with: 'new_first')
       page.fill_in('person_last_name', with: 'new_last')
       page.fill_in('person_mobile_phone', with: '0698417312')
@@ -256,7 +238,7 @@ describe 'GET /edit', type: :feature, js: true do
       visit edit_person_path
       pre_email = student.email
       expect(page).to have_content('Bankgegevens')
-      expect(page).to have_content('Accountgegevens bewerken')
+      expect(page).to have_content(person_header)
       page.fill_in('person_first_name', with: 'new_first')
       page.fill_in('person_last_name', with: 'new_last')
       page.fill_in('person_mobile_phone', with: '0698417312')

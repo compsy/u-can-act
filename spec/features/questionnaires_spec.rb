@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'GET and POST /', type: :feature, js: true do
+fdescribe 'GET and POST /', type: :feature, js: true do
   let(:student) { FactoryBot.create(:student) }
   let(:mentor) { FactoryBot.create(:mentor, first_name: 'Dagobert') }
   it 'should show and store a questionnaire successfully' do

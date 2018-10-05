@@ -2,6 +2,7 @@ class MentorRewardPage extends React.Component {
   render() {
     return (
       <div>
+        <h4>Bedankt voor het invullen van de vragenlijst!</h4>
         <div className='section'>
           <p className='flow-text'>
             Heel erg bedankt voor je inzet voor dit onderzoek!

@@ -35,8 +35,6 @@ class RescheduleResponses < ActiveInteraction::Base
   end
 
   def in_future?(time)
-    Rails.logger.info time
-    Rails.logger.info future
     time > future
   end
 

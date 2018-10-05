@@ -3,8 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe OneTimeResponseController, type: :controller do
-  let(:one_time_response) { FactoryBot.create(:one_time_response) }
+  let(:protocol) { FactoryBot.create(:protocol, :with_measurements) }
+  let(:one_time_response) { FactoryBot.create(:one_time_response, protocol: protocol) }
   let!(:team) { FactoryBot.create(:team, :with_roles, name: Rails.application.config.settings.default_team_name) }
+
   describe 'SHOW /' do
     it 'should head 404 if the provided token is not found' do
       get :show, params: { t: '123' }
@@ -34,7 +36,16 @@ RSpec.describe OneTimeResponseController, type: :controller do
 
     it 'should redirect to token authentication controller' do
       get :show, params: { t: one_time_response.token }
+      expect(response.status).to eq 302
       expect(response.location).to start_with "#{ENV['HOST_URL']}/?q="
+    end
+
+
+    it 'should schedule the correct responses' do
+      protocol.measurements.first.update_attributes!(open_from_offset: 0) 
+      get :show, params: { t: one_time_response.token }
+      expect(response.status).to eq 302
+      expect(Person.last.my_open_responses.length).to eq 1
     end
   end
 end

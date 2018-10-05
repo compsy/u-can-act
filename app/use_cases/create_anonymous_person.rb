@@ -1,16 +1,20 @@
 # frozen_string_literal: true
 
-class CreateAnonymousUser < ActiveInteraction::Base
+class CreateAnonymousPerson < ActiveInteraction::Base
   string :team_name, default: nil
+  DEFAULT_FIRST_NAME = 'Anonymous'
+
   # Creates an anonymous user
   #
   # Params:
   # - team_name: the name of the team to create the person with
   def execute
-    Person.create!(first_name: 'Anonymous',
-                   last_name: '',
-                   gender: nil,
-                   role: find_role)
+    Person.create!(
+      first_name: DEFAULT_FIRST_NAME,
+      last_name: '',
+      gender: nil,
+      role: find_role
+    )
   end
 
   private

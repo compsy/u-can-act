@@ -19,7 +19,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
   # - start_date: the date when the subscription should start
   def execute
     protocol = find_protocol
-    raise 'Person is nil' unless person.present?
+    Rails.logger.warn("Protocol #{protocol.id} does not have any measurements")
 
     start_date = Time.now.in_time_zone if start_date.blank?
     prot_sub = ProtocolSubscription.create!(

@@ -81,14 +81,6 @@ ActiveRecord::Schema.define(version: 20181005132606) do
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end
 
-  create_table "one_time_responses", force: :cascade do |t|
-    t.string   "token",       null: false
-    t.integer  "protocol_id", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["protocol_id"], name: "index_one_time_responses_on_protocol_id", using: :btree
-  end
-
   create_table "organizations", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at", null: false

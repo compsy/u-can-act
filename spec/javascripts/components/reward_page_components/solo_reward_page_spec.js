@@ -6,7 +6,7 @@ describe("SoloRewardPage", function() {
   
   it("it should return the correct text", function() {
     var elems = ReactDOM.findDOMNode(this.rendered).children;
-    var expected = 'Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!';
+    var expected = '[missing "nl.pages.klaar.header" translation]';
     var result = elems[0].innerText;
     expect(result).toEqual(expected);
   });

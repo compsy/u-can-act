@@ -19,7 +19,7 @@ describe("StudentFinalRewardPage", function () {
   describe("render", function () {
     it("it should return the correct text", function () {
       var elems = ReactDOM.findDOMNode(this.rendered).children[0].children;
-      var expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!'
+      var expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!';
       var result = elems[0].innerText;
       expect(result).toEqual(expected);
 
@@ -34,7 +34,7 @@ describe("StudentFinalRewardPage", function () {
       var result = elems[2].innerText;
       expect(result).toEqual(expected);
 
-      var expected = 'Je kan deze pagina veilig sluiten.'
+      var expected = 'Je kan deze pagina veilig sluiten.';
       var result = elems[3].innerText;
       expect(result).toEqual(expected);
     });

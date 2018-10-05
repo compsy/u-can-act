@@ -44,6 +44,12 @@ RSpec.describe OneTimeResponse, type: :model do
       otr = FactoryBot.build(:one_time_response, token: mytoken)
       expect(otr.token).to eq mytoken
     end
+
+    it 'should be unique' do
+      otr = FactoryBot.create(:one_time_response)
+      otr = FactoryBot.build(:one_time_response, token: otr.token)
+      expect(otr).to_not be_valid
+    end
   end
 
   describe 'database validations' do
@@ -61,6 +67,15 @@ RSpec.describe OneTimeResponse, type: :model do
       expect { otr.save(validate: false) }.to raise_error(
         ActiveRecord::StatementInvalid,
         /PG::NotNullViolation: ERROR:  null value in column "token"/
+      )
+    end
+
+    it 'should not allow a duplicate tokens' do
+      otr = FactoryBot.create(:one_time_response)
+      otr = FactoryBot.build(:one_time_response, token: otr.token)
+      expect { otr.save(validate: false) }.to raise_error(
+        ActiveRecord::StatementInvalid,
+        /PG::UniqueViolation: ERROR:  duplicate key value violates unique/
       )
     end
   end

@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20180928100152) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["protocol_id"], name: "index_one_time_responses_on_protocol_id", using: :btree
+    t.index ["token"], name: "one_time_response_token", unique: true, using: :btree
   end
 
   create_table "organizations", force: :cascade do |t|

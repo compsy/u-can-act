@@ -32,7 +32,7 @@ class OneTimeResponseController < ApplicationController
   end
 
   def load_one_time_response
-    token = one_time_response_params[:t]
+    token = one_time_response_params[:q]
     @one_time_response = OneTimeResponse.find_by_token(token)
     return @one_time_response if @one_time_response.present?
 
@@ -40,6 +40,6 @@ class OneTimeResponseController < ApplicationController
   end
 
   def one_time_response_params
-    params.permit(:t)
+    params.permit(:q)
   end
 end

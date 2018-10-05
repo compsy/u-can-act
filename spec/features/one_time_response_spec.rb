@@ -26,7 +26,7 @@ describe 'SHOW /otr', type: :feature, js: true do
     )
     otr = OneTimeResponse.create(protocol: protocol)
 
-    visit one_time_response_path(t: otr.token)
+    visit one_time_response_path(q: otr.token)
     responseobj = Person.last.my_open_responses.first
     expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
     responseobj.reload

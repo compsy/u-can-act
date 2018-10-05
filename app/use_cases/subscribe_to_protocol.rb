@@ -18,12 +18,12 @@ class SubscribeToProtocol < ActiveInteraction::Base
   # - person: the person to start the protocol for
   # - start_date: the date when the subscription should start
   def execute
-    protocol = find_protocol
+    the_protocol = find_protocol
     the_start_date = find_start_date
-    Rails.logger.warn("Protocol #{protocol.id} does not have any measurements")
+    Rails.logger.warn("Protocol #{protocol.id} does not have any measurements") if protocol.measurements.blank?
 
     prot_sub = ProtocolSubscription.create!(
-      protocol: protocol,
+      protocol: the_protocol,
       person: person,
       state: ProtocolSubscription::ACTIVE_STATE,
       start_date: the_start_date
@@ -40,10 +40,10 @@ class SubscribeToProtocol < ActiveInteraction::Base
   end
 
   def find_protocol
-    return protocol if protocol.present?
+    return Protocol.find_by_id(protocol.id) if protocol&.id.present?
 
-    protocol = Protocol.find_by_name(protocol_name)
-    return protocol if protocol.present?
+    the_protocol = Protocol.find_by_name(protocol_name)
+    return the_protocol if the_protocol.present?
 
     raise 'Protocol not found'
   end

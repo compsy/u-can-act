@@ -6,6 +6,14 @@ describe SubscribeToProtocol do
   let(:protocol) { FactoryBot.create(:protocol) }
   let(:person) { FactoryBot.create(:person) }
 
+  it 'should not warn if the protocol has measurements' do
+    FactoryBot.create(:measurement, protocol: protocol)
+    expect(Rails.logger)
+      .to_not receive(:warn)
+      .with("Protocol #{protocol.id} does not have any measurements")
+    described_class.run!(protocol: protocol, person: person)
+  end
+
   it 'should warn if the protocol does not have measurements' do
     expect(Rails.logger)
       .to receive(:warn)

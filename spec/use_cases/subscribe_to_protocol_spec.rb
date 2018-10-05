@@ -32,14 +32,13 @@ describe SubscribeToProtocol do
 
   it 'should work with a timestring' do
     start = 10.hours.ago
-    start = TimeTools.increase_by_duration(Time.zone.now, 1.week)
     described_class.run!(protocol_name: protocol.name, person: person, start_date: start)
     person.reload
     expect(person.protocol_subscriptions.first.start_date).to be_within(1.seconds).of start
   end
 
   it 'should raise if the provided protocol is not found' do
-    expect {described_class.run!(protocol_name: 'test', person: person)}
+    expect { described_class.run!(protocol_name: 'test', person: person) }
       .to raise_error(RuntimeError, 'Protocol not found')
   end
 end

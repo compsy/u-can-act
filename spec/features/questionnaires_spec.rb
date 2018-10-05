@@ -7,35 +7,35 @@ describe 'GET and POST /', type: :feature, js: true do
   let(:mentor) { FactoryBot.create(:mentor, first_name: 'Dagobert') }
   it 'should show and store a questionnaire successfully' do
     protocol_subscription = FactoryBot.create(:protocol_subscription, person: student,
-                                              start_date: 1.week.ago.at_beginning_of_day)
+                                                                      start_date: 1.week.ago.at_beginning_of_day)
 
     questionnaire = FactoryBot.create(:questionnaire, content: [{
-                                                                  section_start: 'Algemeen',
-                                                                  id: :v1,
-                                                                  type: :radio,
-                                                                  title: 'Hoe voelt u zich vandaag?',
-                                                                  options: %w[slecht goed],
-                                                                  otherwise_label: 'Anders nog wat:'
-                                                                }, {
-                                                                  id: :v2,
-                                                                  type: :checkbox,
-                                                                  title: 'Wat heeft u vandaag gegeten?',
-                                                                  options: ['brood', 'kaas en ham', 'pizza'],
-                                                                  otherwise_label: 'Hier ook iets:'
-                                                                }, {
-                                                                  id: :v3,
-                                                                  type: :range,
-                                                                  title: 'Hoe gaat het met u?',
-                                                                  labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
-                                                                }, {
-                                                                  id: :v4,
-                                                                  type: :time,
-                                                                  title: 'Hoeveel tijd deed u over het eten?',
-                                                                  hours_from: 1,
-                                                                  hours_to: 10,
-                                                                  hours_step: 1,
-                                                                  section_end: true
-                                                                }])
+                                        section_start: 'Algemeen',
+                                        id: :v1,
+                                        type: :radio,
+                                        title: 'Hoe voelt u zich vandaag?',
+                                        options: %w[slecht goed],
+                                        otherwise_label: 'Anders nog wat:'
+                                      }, {
+                                        id: :v2,
+                                        type: :checkbox,
+                                        title: 'Wat heeft u vandaag gegeten?',
+                                        options: ['brood', 'kaas en ham', 'pizza'],
+                                        otherwise_label: 'Hier ook iets:'
+                                      }, {
+                                        id: :v3,
+                                        type: :range,
+                                        title: 'Hoe gaat het met u?',
+                                        labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+                                      }, {
+                                        id: :v4,
+                                        type: :time,
+                                        title: 'Hoeveel tijd deed u over het eten?',
+                                        hours_from: 1,
+                                        hours_to: 10,
+                                        hours_step: 1,
+                                        section_end: true
+                                      }])
     measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
     responseobj = FactoryBot.create(:response, :invited,
                                     protocol_subscription: protocol_subscription,
@@ -97,18 +97,18 @@ describe 'GET and POST /', type: :feature, js: true do
 
   it 'should respect the required attribute for a group of checkboxes' do
     content = [{
-                 id: :v1,
-                 type: :checkbox,
-                 required: true,
-                 title: 'Wat heeft u vandaag gegeten?',
-                 options: %w[brood pizza]
-               }, {
-                 id: :v2,
-                 type: :checkbox,
-                 required: false,
-                 title: 'Hoe oud ben jij?',
-                 options: %w[12 13]
-               }]
+      id: :v1,
+      type: :checkbox,
+      required: true,
+      title: 'Wat heeft u vandaag gegeten?',
+      options: %w[brood pizza]
+    }, {
+      id: :v2,
+      type: :checkbox,
+      required: false,
+      title: 'Hoe oud ben jij?',
+      options: %w[12 13]
+    }]
     protocol = FactoryBot.create(:protocol)
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               start_date: 1.week.ago.at_beginning_of_day,
@@ -511,40 +511,40 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'shows and hides checkbox questions' do
     let(:content) do
       [{
-         id: :v1,
-         type: :radio,
-         title: 'Hoe voelt u zich vandaag?',
-         options: %w[slecht goed]
-       }, {
-         id: :v2,
-         type: :checkbox,
-         title: 'Wat heeft u vandaag gegeten?',
-         options: [
-           { title: 'brood', hides_questions: %i[v3] },
-           'kaas en ham',
-           { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
-         ]
-       }, {
-         section_start: 'My hidden question',
-         id: :v3,
-         hidden: false,
-         type: :range,
-         title: 'Zie je mij of niet?',
-         labels: ['helemaal niet', 'helemaal wel']
-       }, {
-         id: :v4,
-         hidden: true,
-         type: :checkbox,
-         title: 'Ben ik ook onzichtbaar?',
-         options: ['antwoord a', 'antwoord b']
-       }, {
-         id: :v5,
-         hidden: true,
-         type: :radio,
-         title: 'Zie je mij?',
-         options: %w[Hihaho hahaha],
-         section_end: true
-       }]
+        id: :v1,
+        type: :radio,
+        title: 'Hoe voelt u zich vandaag?',
+        options: %w[slecht goed]
+      }, {
+        id: :v2,
+        type: :checkbox,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', hides_questions: %i[v3] },
+          'kaas en ham',
+          { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v3,
+        hidden: false,
+        type: :range,
+        title: 'Zie je mij of niet?',
+        labels: ['helemaal niet', 'helemaal wel']
+      }, {
+        id: :v4,
+        hidden: true,
+        type: :checkbox,
+        title: 'Ben ik ook onzichtbaar?',
+        options: ['antwoord a', 'antwoord b']
+      }, {
+        id: :v5,
+        hidden: true,
+        type: :radio,
+        title: 'Zie je mij?',
+        options: %w[Hihaho hahaha],
+        section_end: true
+      }]
     end
 
     it 'shows and hides questions' do
@@ -730,14 +730,14 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should unsubscribe when the stop_subscription option is selected for students' do
       content = [{
-                   id: :v1,
-                   type: :checkbox,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -767,14 +767,14 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not unsubscribe when the stop_subscription option is not selected for students' do
       content = [{
-                   id: :v1,
-                   type: :checkbox,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -802,14 +802,14 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should unsubscribe when the stop_subscription option is selected for mentors' do
       content = [{
-                   id: :v1,
-                   type: :checkbox,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 :mentor,
@@ -842,14 +842,14 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not unsubscribe when the stop_subscription option is not selected for mentors' do
       content = [{
-                   id: :v1,
-                   type: :checkbox,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :checkbox,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 :mentor,
@@ -885,40 +885,40 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'shows and hides radio questions' do
     let(:content) do
       [{
-         id: :v1,
-         type: :checkbox,
-         title: 'Hoe voelt u zich vandaag?',
-         options: %w[slecht goed]
-       }, {
-         id: :v2,
-         type: :radio,
-         title: 'Wat heeft u vandaag gegeten?',
-         options: [
-           { title: 'brood', hides_questions: %i[v3] },
-           'kaas en ham',
-           { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
-         ]
-       }, {
-         section_start: 'My hidden question',
-         id: :v3,
-         hidden: false,
-         type: :range,
-         title: 'Zie je mij of niet?',
-         labels: ['helemaal niet', 'helemaal wel']
-       }, {
-         id: :v4,
-         hidden: true,
-         type: :checkbox,
-         title: 'Ben ik ook onzichtbaar?',
-         options: ['antwoord a', 'antwoord b']
-       }, {
-         id: :v5,
-         hidden: true,
-         type: :radio,
-         title: 'Zie je mij?',
-         options: %w[Hihaho hahaha],
-         section_end: true
-       }]
+        id: :v1,
+        type: :checkbox,
+        title: 'Hoe voelt u zich vandaag?',
+        options: %w[slecht goed]
+      }, {
+        id: :v2,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', hides_questions: %i[v3] },
+          'kaas en ham',
+          { title: 'pizza', shows_questions: %i[v4 v5], tooltip: 'some text' }
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v3,
+        hidden: false,
+        type: :range,
+        title: 'Zie je mij of niet?',
+        labels: ['helemaal niet', 'helemaal wel']
+      }, {
+        id: :v4,
+        hidden: true,
+        type: :checkbox,
+        title: 'Ben ik ook onzichtbaar?',
+        options: ['antwoord a', 'antwoord b']
+      }, {
+        id: :v5,
+        hidden: true,
+        type: :radio,
+        title: 'Zie je mij?',
+        options: %w[Hihaho hahaha],
+        section_end: true
+      }]
     end
 
     it 'shows and hides questions' do
@@ -1104,14 +1104,14 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should unsubscribe when the stop_subscription option is selected for students' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1141,14 +1141,14 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not unsubscribe when the stop_subscription option is not selected for students' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1179,14 +1179,14 @@ describe 'GET and POST /', type: :feature, js: true do
 
     it 'should unsubscribe when the stop_subscription option is selected for mentors' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 :mentor,
@@ -1219,14 +1219,14 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not unsubscribe when the stop_subscription option is not selected for mentors' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Stop je ermee?',
-                   options: [
-                     { title: 'Ja', stop_subscription: true },
-                     'Nee'
-                   ]
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Stop je ermee?',
+        options: [
+          { title: 'Ja', stop_subscription: true },
+          'Nee'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 :mentor,
@@ -1262,25 +1262,25 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'textarea' do
     let(:content) do
       [{
-         id: :v1,
-         type: :radio,
-         title: 'Wat heeft u vandaag gegeten?',
-         options: [
-           { title: 'brood', shows_questions: %i[v2] },
-           'pizza'
-         ]
-       }, {
-         section_start: 'My hidden question',
-         id: :v2,
-         hidden: true,
-         type: :textarea,
-         title: 'Zie je mij of niet?',
-         section_end: true
-       }, {
-         id: :v3,
-         type: :textarea,
-         title: 'Dit is je tekstruimte'
-       }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        title: 'Dit is je tekstruimte'
+      }]
     end
 
     it 'should store the results from a textarea' do
@@ -1315,27 +1315,27 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should require required textareas to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textarea,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textarea,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1384,27 +1384,27 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not require hidden required textareas to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textarea,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textarea,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textarea,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textarea,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1480,25 +1480,25 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'textfield' do
     let(:content) do
       [{
-         id: :v1,
-         type: :radio,
-         title: 'Wat heeft u vandaag gegeten?',
-         options: [
-           { title: 'brood', shows_questions: %i[v2] },
-           'pizza'
-         ]
-       }, {
-         section_start: 'My hidden question',
-         id: :v2,
-         hidden: true,
-         type: :textfield,
-         title: 'Zie je mij of niet?',
-         section_end: true
-       }, {
-         id: :v3,
-         type: :textfield,
-         title: 'Dit is je tekstruimte'
-       }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        title: 'Dit is je tekstruimte'
+      }]
     end
 
     it 'should store the results from a textfield' do
@@ -1533,27 +1533,27 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should require required textfields to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textfield,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textfield,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1602,27 +1602,27 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not require hidden required textfields to be filled out' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }, {
-                   section_start: 'My hidden question',
-                   id: :v2,
-                   hidden: true,
-                   required: true,
-                   type: :textfield,
-                   title: 'Zie je mij of niet?',
-                   section_end: true
-                 }, {
-                   id: :v3,
-                   type: :textfield,
-                   required: true,
-                   title: 'Dit is je tekstruimte'
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1714,27 +1714,27 @@ describe 'GET and POST /', type: :feature, js: true do
   describe 'multiple available questionnaires' do
     let(:content) do
       [{
-         id: :v1,
-         type: :radio,
-         title: 'Wat heeft u vandaag gegeten?',
-         options: [
-           { title: 'brood', shows_questions: %i[v2] },
-           'pizza'
-         ]
-       }, {
-         section_start: 'My hidden question',
-         id: :v2,
-         hidden: true,
-         required: true,
-         type: :textfield,
-         title: 'Zie je mij of niet?',
-         section_end: true
-       }, {
-         id: :v3,
-         type: :textfield,
-         required: true,
-         title: 'Dit is je tekstruimte'
-       }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }, {
+        section_start: 'My hidden question',
+        id: :v2,
+        hidden: true,
+        required: true,
+        type: :textfield,
+        title: 'Zie je mij of niet?',
+        section_end: true
+      }, {
+        id: :v3,
+        type: :textfield,
+        required: true,
+        title: 'Dit is je tekstruimte'
+      }]
     end
     let(:number_of_available_questionnaires) { 3 }
     it 'should open the second questionnaire after the first one if it is open' do
@@ -1784,10 +1784,10 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'show_after' do
     it 'should show items that have a show after duration that is past' do
       content = [{
-                   type: :raw,
-                   content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
-                   show_after: 1.day
-                 }]
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 1.day
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1805,10 +1805,10 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not show items that have a show after duration that is future' do
       content = [{
-                   type: :raw,
-                   content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
-                   show_after: 2.weeks
-                 }]
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 2.weeks
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1826,10 +1826,10 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should show items that have a show after absolute time that is past' do
       content = [{
-                   type: :raw,
-                   content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
-                   show_after: 5.minutes.ago
-                 }]
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 5.minutes.ago
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1847,10 +1847,10 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should not show items that have a show after absolute time that is future' do
       content = [{
-                   type: :raw,
-                   content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
-                   show_after: 2.days.from_now
-                 }]
+        type: :raw,
+        content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
+        show_after: 2.days.from_now
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1870,8 +1870,8 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'unsubscribe' do
     it 'should work without specifying title, content, and button text' do
       content = [{
-                   type: :unsubscribe
-                 }]
+        type: :unsubscribe
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1889,11 +1889,11 @@ describe 'GET and POST /', type: :feature, js: true do
     end
     it 'should work when specifying title, content, and button text' do
       content = [{
-                   type: :unsubscribe,
-                   title: 'Creativity Inc',
-                   content: 'Overcoming the unseen forces that stand in the way of true inspiration',
-                   button_text: 'Edwin Catmull'
-                 }]
+        type: :unsubscribe,
+        title: 'Creativity Inc',
+        content: 'Overcoming the unseen forces that stand in the way of true inspiration',
+        button_text: 'Edwin Catmull'
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1914,11 +1914,11 @@ describe 'GET and POST /', type: :feature, js: true do
 
     it 'should redirect to the stop_measurement if one is available' do
       content = [{
-                   type: :unsubscribe,
-                   title: 'Creativity Inc',
-                   content: 'Overcoming the unseen forces that stand in the way of true inspiration',
-                   button_text: 'Unsubscribe'
-                 }]
+        type: :unsubscribe,
+        title: 'Creativity Inc',
+        content: 'Overcoming the unseen forces that stand in the way of true inspiration',
+        button_text: 'Unsubscribe'
+      }]
 
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -1928,11 +1928,11 @@ describe 'GET and POST /', type: :feature, js: true do
 
       questionnaire_unsub = FactoryBot.create(:questionnaire, content: content)
       post_questionnaire = FactoryBot.create(:questionnaire, content: [{
-                                                                         id: :v3,
-                                                                         type: :range,
-                                                                         title: 'Hoe gaat het met u?',
-                                                                         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
-                                                                       }])
+                                               id: :v3,
+                                               type: :range,
+                                               title: 'Hoe gaat het met u?',
+                                               labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
+                                             }])
 
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire_unsub, protocol: protocol)
       stop_measurement = FactoryBot.create(:measurement, :stop_measurement,
@@ -1944,7 +1944,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                       open_from: 1.hour.ago)
 
       FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                        measurement: stop_measurement)
+                                   measurement: stop_measurement)
       # open_from: 1.hour.ago)
 
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
@@ -1965,11 +1965,11 @@ describe 'GET and POST /', type: :feature, js: true do
 
     it 'should redirect to the destroy page if no stop_measurement is available' do
       content = [{
-                   type: :unsubscribe,
-                   title: 'Creativity Inc',
-                   content: 'Overcoming the unseen forces that stand in the way of true inspiration',
-                   button_text: 'Unsubscribe'
-                 }]
+        type: :unsubscribe,
+        title: 'Creativity Inc',
+        content: 'Overcoming the unseen forces that stand in the way of true inspiration',
+        button_text: 'Unsubscribe'
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1993,14 +1993,14 @@ describe 'GET and POST /', type: :feature, js: true do
     let(:redirect_url) { '/api/v1/statistics' }
     it 'should redirect to the redirect url of a provided measurement if it has one' do
       content = [{
-                   id: :v1,
-                   type: :radio,
-                   title: 'Wat heeft u vandaag gegeten?',
-                   options: [
-                     { title: 'brood', shows_questions: %i[v2] },
-                     'pizza'
-                   ]
-                 }]
+        id: :v1,
+        type: :radio,
+        title: 'Wat heeft u vandaag gegeten?',
+        options: [
+          { title: 'brood', shows_questions: %i[v2] },
+          'pizza'
+        ]
+      }]
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2008,7 +2008,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                                 person: student)
       questionnaire = FactoryBot.create(:questionnaire, content: content)
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol,
-                                      redirect_url: redirect_url)
+                                                    redirect_url: redirect_url)
       responseobj = FactoryBot.create(:response, :invited,
                                       protocol_subscription: protocol_subscription,
                                       measurement: measurement,
@@ -2031,10 +2031,10 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'date' do
     let(:content) do
       [{
-         id: :v1,
-         type: :date,
-         title: 'Welke dag is het vandaag?'
-       }]
+        id: :v1,
+        type: :date,
+        title: 'Welke dag is het vandaag?'
+      }]
     end
 
     it 'should store the results from a date' do
@@ -2071,11 +2071,11 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'likert' do
     let(:content) do
       [{
-         id: :v1,
-         type: :likert,
-         title: 'Welke dag is het vandaag?',
-         options: %w[maandag dinsdag woensdag]
-       }]
+        id: :v1,
+        type: :likert,
+        title: 'Welke dag is het vandaag?',
+        options: %w[maandag dinsdag woensdag]
+      }]
     end
 
     it 'should store the results from a likert scale' do
@@ -2131,13 +2131,13 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'dropdown' do
     let(:content) do
       [{
-         id: :v1,
-         type: :dropdown,
-         title: 'Welke dag is het vandaag?',
-         options: %w[maandag dinsdag woensdag],
-         label: 'Dag van de week',
-         placeholder: 'Selecteer een dag'
-       }]
+        id: :v1,
+        type: :dropdown,
+        title: 'Welke dag is het vandaag?',
+        options: %w[maandag dinsdag woensdag],
+        label: 'Dag van de week',
+        placeholder: 'Selecteer een dag'
+      }]
     end
 
     it 'should store the results from a dropdown' do
@@ -2194,15 +2194,15 @@ describe 'GET and POST /', type: :feature, js: true do
   context 'number' do
     let(:content) do
       [{
-         id: :v1,
-         type: :number,
-         title: 'Noem een getal tussen 0 en 9999!',
-         maxlength: 4,
-         placeholder: '1234',
-         required: true,
-         min: 0,
-         max: 9999
-       }]
+        id: :v1,
+        type: :number,
+        title: 'Noem een getal tussen 0 en 9999!',
+        maxlength: 4,
+        placeholder: '1234',
+        required: true,
+        min: 0,
+        max: 9999
+      }]
     end
 
     it 'should store the results from a number' do

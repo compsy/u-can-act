@@ -42,7 +42,7 @@ informed_consent1.content = [{
                                required: true,
                                title: '',
                                options: [
-                                 'Ik verklaar dat bovenstaande informatie mij duidelijk is, ik ga hiermee akkoord.'
+                                 'Ik verklaar dat bovenstaande informatie mij duidelijk is en ga hiermee akkoord.'
                                ],
                                show_otherwise: false
                              }]

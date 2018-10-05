@@ -9,7 +9,7 @@ ic_content = <<~'END'
   <ol class="flow-text">
     <li>Het doel van dit onderzoek is om de in 2016 gemaakte beleidsafspraken te evalueren over de aanpak van voortijdig schoolverlaten en jongeren in een kwetsbare positie.
     </li>
-    <li>Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen in opdracht van het Ministerie van Onderwijs, Cultuur en Wetenschap en is goedgekeurd door de Ethische Commissie Psychologie van de RuG.
+    <li>Dit onderzoek wordt uitgevoerd door onderzoekers van de Rijksuniversiteit Groningen in opdracht van het Ministerie van Onderwijs, Cultuur en Wetenschap en is goedgekeurd door de Ethische Commissie Psychologie van de Rijksuniversiteit Groningen.
     </li>
     <li>Deelname aan dit onderzoek betekent het volgende:
       <ol>
@@ -27,7 +27,7 @@ ic_content = <<~'END'
         </li>
       </ol>
     </li>
-    <li>Voor vragen over het onderzoek kan er contact opgenomen worden met het algemene informatie e-mailadres van het u-can-act projectteam van de RuG (<a href="mailto:info@u-can-act.nl">info@u-can-act.nl</a>).
+    <li>Voor vragen over het onderzoek kan er contact opgenomen worden met het algemene informatie e-mailadres van het u-can-act projectteam van de Rijksuniversiteit Groningen (<a href="mailto:info@u-can-act.nl">info@u-can-act.nl</a>).
     </li>
     <li>Klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor meer informatie over het onderzoek. Op deze manier download u een PDF bestand met alle informatie over het onderzoek op uw telefoon, tablet of computer, zodat u deze informatie ten allen tijde kunt raadplegen.
     </li>

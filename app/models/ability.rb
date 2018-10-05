@@ -19,7 +19,6 @@ class Ability
     #
     #   can :update, Article, :published => true
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-    # can :update, Person, %i[first_name last_name gender]
     if person&.role&.group == Person::STUDENT
       can :update, Person, %i[first_name last_name gender iban mobile_phone]
     elsif person&.role&.group == Person::MENTOR

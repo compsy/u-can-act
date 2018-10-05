@@ -9,7 +9,7 @@ class QuestionnaireController < ApplicationController
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]
-  before_action :set_is_mentor, only: [:show]
+  before_action :set_layout, only: [:show]
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
   before_action :set_create_response, only: %i[create create_informed_consent]
@@ -206,7 +206,7 @@ class QuestionnaireController < ApplicationController
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
   end
 
-  def set_is_mentor
+  def set_layout
     @use_mentor_layout = @response.protocol_subscription.person.mentor? || @response.protocol_subscription.person.solo?
   end
 

@@ -131,6 +131,8 @@ describe 'GET /edit', type: :feature, js: true do
 
     it 'should store data after clicking the update button' do
       visit edit_person_path
+      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
+                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
       page.fill_in('person_email', with: 'anew@email.com')
 
       all('button[type="submit"]').first.click
@@ -144,6 +146,8 @@ describe 'GET /edit', type: :feature, js: true do
 
       visit edit_person_path
 
+      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
+                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
 
@@ -154,7 +158,8 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should redirect to the correct page' do
       visit edit_person_path
       responseobj.complete!
-
+      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
+                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
       expect(page).to have_content('Uw gegevens zijn opgeslagen. ' \
@@ -162,6 +167,26 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).to have_content('Gegevens opgeslagen')
       expect(page).to_not have_content('Disclaimer')
       expect(page).to_not have_content('Gegevens aanpassen')
+    end
+    it 'should require a valid email' do
+      visit edit_person_path
+      responseobj.complete!
+      page.check('Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het ' \
+                 'bewaren van mijn e-mailadres en versleuteld IP-adres.', allow_label_click: true)
+      page.fill_in('person_email', with: 'anewemail.com')
+      all('button[type="submit"]').first.click
+      expect(page).to_not have_content('Uw gegevens zijn opgeslagen. ' \
+                                   'Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
+      expect(page).to_not have_content('Gegevens opgeslagen')
+    end
+    it 'should require the checkbox to be checked' do
+      visit edit_person_path
+      responseobj.complete!
+      page.fill_in('person_email', with: 'anewemail.com')
+      all('button[type="submit"]').first.click
+      expect(page).to_not have_content('Uw gegevens zijn opgeslagen. ' \
+                                   'Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
+      expect(page).to_not have_content('Gegevens opgeslagen')
     end
   end
 

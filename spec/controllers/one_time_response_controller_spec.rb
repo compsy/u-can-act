@@ -37,7 +37,7 @@ RSpec.describe OneTimeResponseController, type: :controller do
     it 'should redirect to token authentication controller' do
       get :show, params: { t: one_time_response.token }
       expect(response.status).to eq 302
-      expect(response.location).to start_with "#{ENV['HOST_URL']}/?q="
+      expect(response.location).to start_with "http://test.host?q="
     end
 
     it 'should schedule the correct responses' do

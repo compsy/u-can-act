@@ -273,6 +273,21 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'solo?' do
+    it 'should be true when the current person is a solo' do
+      person = FactoryBot.create(:solo)
+      expect(person.solo?).to be_truthy
+      expect(person.mentor?).to be_falsey
+    end
+
+    it 'should be false when the current person is not a solo' do
+      person = FactoryBot.create(:student)
+      expect(person.solo?).to be_falsey
+      person = FactoryBot.create(:mentor)
+      expect(person.solo?).to be_falsey
+    end
+  end
+
   describe 'timestamps' do
     it 'should have timestamps for created objects' do
       person = FactoryBot.create(:person)

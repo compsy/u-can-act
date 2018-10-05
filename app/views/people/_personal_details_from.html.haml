@@ -4,5 +4,5 @@
 = render partial: 'gender_fields', locals: {f: f}
 = render partial: 'email_fields', locals: {f: f}
 = render partial: 'mobile_phone_fields', locals: {f: f}
-.actions
-  = f.submit "Opslaan", class: "btn waves-effect waves-light"
+.actions.extra-spacing
+  = render 'submit_button', f: f, text: 'Opslaan'

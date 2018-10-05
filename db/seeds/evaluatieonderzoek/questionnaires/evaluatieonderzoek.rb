@@ -1,6 +1,8 @@
 ev_name = 'evaluatieonderzoek'
 evaluatie = Questionnaire.find_by_name(ev_name)
 evaluatie ||= Questionnaire.new(name: ev_name)
+
+
 maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs.</li></ul>'
 maatregel1 = '<p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs.'
 maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren op te stellen en te realiseren.</p>'
@@ -8,6 +10,49 @@ maatregel3 = '<p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactg
 maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionale budget: de kassiersrol van het regionale budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
 maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
 maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
+rmcregioitje = '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/rmcregios.png">'
+rmcregioarray = [
+  '1. Oost-Groningen',
+  '2. Noord-Groningen-Eemsmond',
+  '3. Centraal en Westelijk Groningen',
+  '4. Friesland Noord',
+  '5. Zuid-West Friesland',
+  '6. De Friese Wouden',
+  '7. Noord- en Midden Drenthe',
+  '8. Zuid-Oost Drenthe',
+  '9. Zuid-West Drenthe',
+  '10. IJssel-Vecht',
+  '11. Stedendriehoek',
+  '12. Twente',
+  '13. Achterhoek',
+  '14. Arnhem/Nijmegen',
+  '15. Rivierenland',
+  '16. Eem en Vallei',
+  '17. Noordwest-Veluwe',
+  '18. Flevoland',
+  '19. Utrecht',
+  '20. Gooi en Vechtstreek',
+  '21. Agglomeratie Amsterdam',
+  '22. West-Friesland',
+  '23. Kop van Noord-Holland',
+  '24. Noord-Kennemerland',
+  '25. West-Kennemerland',
+  '26. Zuid-Holland-Noord',
+  '27. Zuid-Holland-Oost',
+  '28. Haaglanden',
+  '29. Rijnmond',
+  '30. Zuid-Holland-Zuid',
+  '31. Oosterschelde regio',
+  '32. Walcheren',
+  '33. Zeeuwsch-Vlaanderen',
+  '34. West-Brabant',
+  '35. Midden-Brabant',
+  '36. Noord-Oost-Brabant',
+  '37. Zuidoost-Brabant',
+  '38. Gewest Limburg-Noord',
+  '39. Gewest Zuid-Limburg'
+]
+maatregel_text = '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>'
 evaluatie.key = File.basename(__FILE__)[0...-3]
 evaluatie.content = [{
                        type: :raw,
@@ -33,96 +78,16 @@ evaluatie.content = [{
                        type: :dropdown,
                        label: 'RMC-regio',
                        title: 'Bij welke RMC-regio hoort uw school?',
-                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/rmcregios.png">',
-                       options: [
-                         '1. Oost-Groningen',
-                         '2. Noord-Groningen-Eemsmond',
-                         '3. Centraal en Westelijk Groningen',
-                         '4. Friesland Noord',
-                         '5. Zuid-West Friesland',
-                         '6. De Friese Wouden',
-                         '7. Noord- en Midden Drenthe',
-                         '8. Zuid-Oost Drenthe',
-                         '9. Zuid-West Drenthe',
-                         '10. IJssel-Vecht',
-                         '11. Stedendriehoek',
-                         '12. Twente',
-                         '13. Achterhoek',
-                         '14. Arnhem/Nijmegen',
-                         '15. Rivierenland',
-                         '16. Eem en Vallei',
-                         '17. Noordwest-Veluwe',
-                         '18. Flevoland',
-                         '19. Utrecht',
-                         '20. Gooi en Vechtstreek',
-                         '21. Agglomeratie Amsterdam',
-                         '22. West-Friesland',
-                         '23. Kop van Noord-Holland',
-                         '24. Noord-Kennemerland',
-                         '25. West-Kennemerland',
-                         '26. Zuid-Holland-Noord',
-                         '27. Zuid-Holland-Oost',
-                         '28. Haaglanden',
-                         '29. Rijnmond',
-                         '30. Zuid-Holland-Zuid',
-                         '31. Oosterschelde regio',
-                         '32. Walcheren',
-                         '33. Zeeuwsch-Vlaanderen',
-                         '34. West-Brabant',
-                         '35. Midden-Brabant',
-                         '36. Noord-Oost-Brabant',
-                         '37. Zuidoost-Brabant',
-                         '38. Gewest Limburg-Noord',
-                         '39. Gewest Zuid-Limburg'
-                       ]
+                       tooltip: rmcregioitje,
+                       options: rmcregioarray
                      }, {
                        id: :v3,
                        hidden: true,
                        type: :dropdown,
                        label: 'RMC-regio',
                        title: 'Bij welke RMC-regio hoort uw gemeente?',
-                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/rmcregios.png">',
-                       options: [
-                         '1. Oost-Groningen',
-                         '2. Noord-Groningen-Eemsmond',
-                         '3. Centraal en Westelijk Groningen',
-                         '4. Friesland Noord',
-                         '5. Zuid-West Friesland',
-                         '6. De Friese Wouden',
-                         '7. Noord- en Midden Drenthe',
-                         '8. Zuid-Oost Drenthe',
-                         '9. Zuid-West Drenthe',
-                         '10. IJssel-Vecht',
-                         '11. Stedendriehoek',
-                         '12. Twente',
-                         '13. Achterhoek',
-                         '14. Arnhem/Nijmegen',
-                         '15. Rivierenland',
-                         '16. Eem en Vallei',
-                         '17. Noordwest-Veluwe',
-                         '18. Flevoland',
-                         '19. Utrecht',
-                         '20. Gooi en Vechtstreek',
-                         '21. Agglomeratie Amsterdam',
-                         '22. West-Friesland',
-                         '23. Kop van Noord-Holland',
-                         '24. Noord-Kennemerland',
-                         '25. West-Kennemerland',
-                         '26. Zuid-Holland-Noord',
-                         '27. Zuid-Holland-Oost',
-                         '28. Haaglanden',
-                         '29. Rijnmond',
-                         '30. Zuid-Holland-Zuid',
-                         '31. Oosterschelde regio',
-                         '32. Walcheren',
-                         '33. Zeeuwsch-Vlaanderen',
-                         '34. West-Brabant',
-                         '35. Midden-Brabant',
-                         '36. Noord-Oost-Brabant',
-                         '37. Zuidoost-Brabant',
-                         '38. Gewest Limburg-Noord',
-                         '39. Gewest Zuid-Limburg'
-                       ]
+                       tooltip: rmcregioitje,
+                       options: rmcregioarray
                      }, {
                        id: :v4,
                        hidden: true,
@@ -341,7 +306,7 @@ evaluatie.content = [{
                        title: 'Waarom zijn er geen nieuwe partijen toegevoegd aan de (bestuurlijke) samenwerking?',
                        placeholder: 'Vul hier uw antwoord in',
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel2,
+                       section_start: maatregel_text + maatregel2,
                        id: :v25,
                        hidden: true,
                        type: :range,
@@ -414,7 +379,7 @@ evaluatie.content = [{
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel2
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel3,
+                       section_start: maatregel_text + maatregel3,
                        id: :v32,
                        hidden: true,
                        type: :range,
@@ -477,7 +442,7 @@ evaluatie.content = [{
                        title: 'Wat is er veranderd sinds de RMC contactgemeente hiervoor verantwoordelijk is?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel4,
+                       section_start: maatregel_text + maatregel4,
                        id: :v39,
                        hidden: true,
                        type: :range,
@@ -524,7 +489,7 @@ evaluatie.content = [{
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel4
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel5,
+                       section_start: maatregel_text + maatregel5,
                        id: :v44,
                        hidden: true,
                        type: :range,
@@ -599,7 +564,7 @@ evaluatie.content = [{
                        title: '',
                        labels: ['Veel minder', 'Veel meer']
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>' + maatregel6,
+                       section_start: maatregel_text + maatregel6,
                        id: :v51,
                        hidden: true,
                        type: :range,

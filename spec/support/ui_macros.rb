@@ -8,6 +8,7 @@ module UiMacros
   end
 
   def materialize_select(prompt, option, superelement = nil)
+    sleep(1)
     base = 'div.select-wrapper'
     base = superelement + base if superelement.present?
 

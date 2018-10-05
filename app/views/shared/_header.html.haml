@@ -3,7 +3,7 @@
     window.onbeforeunload = function() { return true };
 .row
   .col.s12
-    - if Rails.application.config.settings.use_company_logo
+    - if Rails.application.config.settings.logo.company_logo.present?
       = image_tag Rails.application.config.settings.logo.company_logo, style: 'width: 20%; display: inline; vertical-align: middle'
       = image_tag logo_image, style: 'width: 15%; display: inline; vertical-align: middle; margin-left:63.5%'
     - else

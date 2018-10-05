@@ -6,7 +6,6 @@ default: &default
     student_logo: 'U_can_act_logo_CMYK_GROEN.png'
     fallback_logo: 'U_can_act_logo_ZWART.png'
     company_logo: 'rug_logo.png'
-  use_company_logo: true
 development:
   <<: *default
 production:

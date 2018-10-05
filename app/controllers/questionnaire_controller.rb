@@ -96,7 +96,7 @@ class QuestionnaireController < ApplicationController
       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
                          'is gestopt.'
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
-      'Bedankt voor het invullen van de vragenlijst!'
+      'Hartelijk dank voor het invullen van de vragenlijst, uw antwoorden zijn opgeslagen.'
     else
       'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
     end

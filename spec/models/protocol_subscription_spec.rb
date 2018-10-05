@@ -284,13 +284,6 @@ describe ProtocolSubscription do
       expect(protocol_subscription.errors.messages).to have_key :start_date
       expect(protocol_subscription.errors.messages[:start_date]).to include('moet opgegeven zijn')
     end
-    it 'should be the beginning of a day' do
-      not_midnight = Time.new(2017, 4, 10, 12, 0, 0).in_time_zone
-      protocol_subscription = FactoryBot.build(:protocol_subscription, start_date: not_midnight)
-      expect(protocol_subscription.valid?).to be_falsey
-      expect(protocol_subscription.errors.messages).to have_key :start_date
-      expect(protocol_subscription.errors.messages[:start_date]).to include('mag alleen middernacht zijn')
-    end
   end
 
   describe 'for_myself?' do

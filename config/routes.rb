@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     get 'unsubscribe'
   end
 
+  get 'o', to: 'one_time_response#show', as: 'one_time_response'
+
   # Admin panel
   scope path: :admin do
     get '/', to: 'admin#index', as: 'admin'

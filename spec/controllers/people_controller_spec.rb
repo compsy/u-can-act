@@ -233,8 +233,8 @@ RSpec.describe PeopleController, type: :controller do
     it 'should render edit when updated attributes are missing' do
       old_person = person
       person_attributes = person.attributes.slice('email', 'first_name', 'last_name', 'email', 'mobile_phone')
-      person_attributes['mobile_phone'] = ''
-      person_attributes['first_name'] = 'somethingrandom'
+      person_attributes['mobile_phone'] = '0612341234'
+      person_attributes['first_name'] = ''
       put :update, params: { person: person_attributes }
 
       expect(response.status).to eq 200

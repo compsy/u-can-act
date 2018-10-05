@@ -1,11 +1,15 @@
 describe("MentorRewardPage", function() {
   beforeEach(function() {
-    var component = React.createElement(MentorRewardPage, {});
+    var component = React.createElement(MentorRewardPage, {person: {
+      earnedEuros: this.earnedEuros,
+      iban: this.iban,
+      name: this.name
+    }});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
   
   it("it should return the correct text", function() {
-    var elems = ReactDOM.findDOMNode(this.rendered).children;
+    var elems = ReactDOM.findDOMNode(this.rendered).children[1].children;
     var expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!';
     var result = elems[0].innerText;
     expect(result).toEqual(expected);
@@ -19,4 +23,3 @@ describe("MentorRewardPage", function() {
     expect(result).toEqual(expected);
   });
 });
-

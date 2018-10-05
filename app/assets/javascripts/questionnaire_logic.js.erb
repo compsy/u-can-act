@@ -6,6 +6,9 @@ var id_c = null;
 var timestamp_c = null;
 var rails_env = '<%= Rails.env.to_s %>';
 
+// This is really a const but we are not ES6 quite yet
+var ENTER_KEY = 13;
+
 function toggle_otherwise_field() {
   if ($(this).closest('.row').hasClass('hidden')) return;
   if ($(this).closest('.row').find("input[type=text].otherwise").length === 0) return;
@@ -185,7 +188,7 @@ $(function () {
     }
   });
   $('input[type=text],input[type=number]').keypress(function (event) {
-    if (event.keyCode === 13) {
+    if (event.keyCode === ENTER_KEY) {
       event.preventDefault();
       $(this).blur();
     }

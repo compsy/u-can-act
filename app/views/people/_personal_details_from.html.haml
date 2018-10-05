@@ -5,4 +5,4 @@
 = render partial: 'email_fields', locals: {f: f}
 = render partial: 'mobile_phone_fields', locals: {f: f}
 .actions.extra-spacing
-  = f.button 'Opslaan', class: 'btn waves-effect waves-light', data: { disable_with: 'Bezig...' }
+  = render 'submit_button', f: f, text: 'Opslaan'

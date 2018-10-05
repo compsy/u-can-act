@@ -14,4 +14,4 @@
     = f.label :iban
   = render partial: 'name_fields', locals: {f: f} 
   .actions
-    = f.button 'Opslaan', class: 'btn waves-effect waves-light', data: { disable_with: 'Bezig...' }
+    = render 'submit_button', f: f, text: 'Opslaan'

@@ -19,8 +19,7 @@ class OneTimeResponseController < ApplicationController
 
   def subscribe_person
     SubscribeToProtocol.run!(protocol: @one_time_response.protocol,
-                             person: @person,
-                             start_date: 10.minutes.ago.in_time_zone)
+                             person: @person)
   end
 
   def redirect_url

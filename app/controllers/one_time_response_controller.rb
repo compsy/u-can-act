@@ -5,8 +5,8 @@ class OneTimeResponseController < ApplicationController
   before_action :create_person, only: :show
   before_action :subscribe_person, only: :show
 
-  def show 
-    redirect_to get_redirect_url
+  def show
+    redirect_to redirect_url
   end
 
   private
@@ -18,18 +18,17 @@ class OneTimeResponseController < ApplicationController
   end
 
   def subscribe_person
-    SubscribeToProtocol.run!(protocol: @one_time_response.protocol, 
+    SubscribeToProtocol.run!(protocol: @one_time_response.protocol,
                              person: @person,
                              start_date: 10.minutes.ago.in_time_zone)
   end
 
-  def get_redirect_url
-    invitation_set = InvitationSet.create!(person_id: @person.id, 
+  def redirect_url
+    invitation_set = InvitationSet.create!(person_id: @person.id,
                                            responses: @person.my_open_responses)
     invitation_token = invitation_set.invitation_tokens.create!
     invitation_set.invitation_url(invitation_token.token_plain)
   end
-
 
   def load_one_time_response
     token = one_time_response_params[:t]

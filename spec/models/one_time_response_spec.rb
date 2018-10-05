@@ -36,7 +36,7 @@ RSpec.describe OneTimeResponse, type: :model do
     it 'should initialize the token with an alpha numeric string of the correct size' do
       otr = FactoryBot.build(:one_time_response)
       expect(otr.token.length).to eq described_class::TOKEN_LENGTH
-      expect(otr.token).to match /[a-z0-9]*/
+      expect(otr.token).to match(/[a-z0-9]*/)
     end
 
     it 'should not override a user provided token' do

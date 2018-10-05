@@ -13,7 +13,7 @@ class MentorRewardPage extends React.Component {
             Je kan deze pagina veilig sluiten.
           </p>
         </div>
-        <RewardFooter person={this.state.person}/>
+        <RewardFooter person={this.props.person}/>
       </div>
     )
   }

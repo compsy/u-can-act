@@ -41,7 +41,7 @@ class StudentInProgressRewardPage extends React.Component {
                         awardableEuro={this.props.awardable}
                         totalAvailable={this.totalAvailable}/>
         </div>
-        <RewardFooter person={this.state.person}/>
+        <RewardFooter person={this.props.person}/>
       </div>
     );
   }

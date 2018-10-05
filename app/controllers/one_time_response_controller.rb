@@ -18,15 +18,17 @@ class OneTimeResponseController < ApplicationController
   end
 
   def subscribe_person
-    SubscribeToProtocol.run!(protocol: @one_time_response.protocol,
-                             person: @person)
+    protocol_subscription = SubscribeToProtocol.run!(protocol: @one_time_response.protocol,
+                                                     person: @person)
+    RescheduleResponses.run!(protocol_subscription: protocol_subscription,
+                             future: 10.minutes.ago)
   end
 
   def redirect_url
     invitation_set = InvitationSet.create!(person_id: @person.id,
                                            responses: @person.my_open_responses)
     invitation_token = invitation_set.invitation_tokens.create!
-    invitation_set.invitation_url(invitation_token.token_plain)
+    invitation_set.invitation_url(invitation_token.token_plain, false)
   end
 
   def load_one_time_response

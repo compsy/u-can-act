@@ -156,9 +156,17 @@ function disableHiddenInputs() {
   });
 }
 
-function check_required_checkboxes(event) {
+function check_required_controls(event) {
   var returnval = true;
   var firstelem = null;
+  $('div.radio-group.required:visible').each(function(sub_index){
+    if ($(this).find(':radio:checked').length == 0) {
+      event.preventDefault();
+      $(this).addClass('erroneous');
+      if (firstelem == null) firstelem = this;
+      returnval = false;
+    }
+  });
   $('div.checkbox-group.required:visible').each(function(sub_index){
     if ($(this).find(':checkbox:checked').length == 0) {
       event.preventDefault();
@@ -195,7 +203,7 @@ $(function () {
   });
   $('input,textarea,select').change(time_element);
   $('textarea').focusin(time_element);
-  $('button[type=submit]').click(time_element).click(check_required_checkboxes);
+  $('button[type=submit]').click(time_element).click(check_required_controls);
 
   $('.expand_expandable').on('click', expandExpandable);
   $('.collapse_expandable').on('click', collapseExpandable);

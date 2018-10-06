@@ -51,9 +51,9 @@ class QuestionnaireExpander
 
         key = item.to_sym
         first_key = "#{item}_first_response".to_sym
-        initial_value = content[first_key] || content[key]
+        initial_value = content[first_key]
         previous = PreviousResponseFinder.find(response)
-        content[key] = initial_value if previous.blank?
+        content[key] = initial_value if previous.blank? && initial_value.present?
         content.delete first_key
       end
       expand_content(content, response)

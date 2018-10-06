@@ -91,7 +91,6 @@ class QuestionnaireController < ApplicationController
       "person #{@response.protocol_subscription.person_id}."
   end
 
-
   def stop_protocol_subscription_notice
     if @response.protocol_subscription.mentor?
       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \

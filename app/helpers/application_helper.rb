@@ -16,7 +16,6 @@ module ApplicationHelper
   end
 
   def logo_image
-    # TODO: Remove once we have divided this into two repos
     return nil if Rails.application.config.settings.hide_logo
     return Rails.application.config.settings.logo.fallback_logo if @use_mentor_layout.nil?
 

@@ -8,6 +8,7 @@ class PreviousResponseFinder
 
       completed_responses = response.protocol_subscription.responses.completed
       return nil if completed_responses.blank?
+
       completed_responses.last
     end
 

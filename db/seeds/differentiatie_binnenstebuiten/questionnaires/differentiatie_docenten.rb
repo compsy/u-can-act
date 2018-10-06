@@ -60,42 +60,20 @@ dagboek_content = [{
                      content_first_response: '<p class="flow-text">Je hebt aangegeven (enigszins) bereid te zijn waar nodig aanpassingen te doen of extra ondersteuning te bieden om tegemoet te komen aan de individuele behoeften van de leerlingen.</p>',
                      uses: {
                        previous: :v14,
-                       default: 'the default',
+                       default: '(geen antwoord gegeven)',
                      },
                    },
                    {
                      id: :v13,
-                     type: :textfield,
+                     type: :textarea,
                      title_first_response: 'Welke ondersteuning / aanpassingen heb je volgens jou tijdens deze les geboden?',
                      title: 'Heb je dit gedaan zoals je het van plan was? Zo nee, waardoor kwam dit?'
                    },
                    {
                      id: :v14,
-                     type: :textfield,
+                     type: :textarea,
                      title: 'Welke ondersteuning / aanpassingen ga je tijdens de volgende les bieden?'
                    }]
-
-# {
-# section_start: "Tijdens de afgelopen les…",
-# id: :v4,
-# uses: {
-# previous: :v4,
-# default: 'De vorige meting'
-# },
-# title: "Je hebt de vorige keer aangegeven het eens te zijn met de volgende stelling: \n {{previous_v4}} \n gedaan?",
-# type: :likert,
-# options: ['1<br>helemaal niet waar', '2', '3', '4', '5<br>helemaal waar']
-# }, {
-# section_start: "Tijdens de afgelopen les…",
-# id: :v5,
-# uses: {
-# previous: :v5,
-# default: 'De vorige meting'
-# },
-# title: "Je hebt de vorige keer aangegeven het eens te zijn met de volgende stelling: \n {{previous_v4}} \n gedaan?",
-# type: :likert,
-# options: ['1<br>helemaal niet waar', '2', '3', '4', '5<br>helemaal waar']
-# },
 
 dagboek1.content = dagboek_content
 dagboek1.title = db_title

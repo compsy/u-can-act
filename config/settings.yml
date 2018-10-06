@@ -1,7 +1,10 @@
 # Beware! This file is public by definition
 default: &default
-  application_name: 'u-can-act'
+  application_name: 'Differentiatie Binnenstebuiten'
+
   default_team_name: 'Evaluatieonderzoek'
+  hide_logo: true
+  hide_edit_iban: true
   logo:
     mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'
     student_logo: 'U_can_act_logo_CMYK_GROEN.png'

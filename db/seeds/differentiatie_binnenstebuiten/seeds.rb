@@ -24,7 +24,8 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   students = [
     { first_name: 'Differentiatie', last_name: 'Student',             gender: 'female', role: scholier },
     { first_name: 'Differentiatie', last_name: 'Docent',              gender: nil,      role: docent },
-    { first_name: 'Differentiatie', last_name: 'Docent vorige vraag', gender: nil,      role: docent }
+    { first_name: 'Differentiatie', last_name: 'Docent vorige vraag', gender: nil,      role: docent },
+    { first_name: 'Differentiatie', last_name: 'Docent vorige vraag maar leeg', gender: nil,      role: docent }
   ]
 
   students.each do |student_hash|
@@ -54,8 +55,8 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   invitation_set = InvitationSet.create!(person: person)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
-  puts "differentiatie meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
   puts ''
+  puts "differentiatie meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie docent
   person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Docenten')
@@ -98,4 +99,27 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie docent meting met eerdere vragenlijst: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
+  # Differentiatie docent met responses maar leeg
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Docenten')
+               .first
+               .people
+               .where(first_name: 'Differentiatie', last_name: 'Docent vorige vraag maar leeg').first
+  person.protocol_subscriptions.create(
+    protocol: Protocol.find_by_name('differentiatie_docenten'),
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: 2.weeks.ago.beginning_of_week,
+    informed_consent_given_at: 10.minutes.ago
+  )
+
+  responseobj = person.protocol_subscriptions.first.responses.first
+  response_content = ResponseContent.create!(content: {})
+  responseobj.content = response_content.id
+  responseobj.complete!
+  responseobj.save
+
+  responseobj = person.protocol_subscriptions.first.responses.second
+  invitation_set = InvitationSet.create!(person: person)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "differentiatie docent meting met eerdere vragenlijst maar geen antwoord: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 end

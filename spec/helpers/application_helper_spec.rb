@@ -55,12 +55,14 @@ describe ApplicationHelper do
   describe 'logo_image' do
     describe 'with SETTING_DONT_SHOW_LOGO' do
       before :each do
-        @pre = ENV['SETTING_DONT_SHOW_LOGO']
-        ENV['SETTING_DONT_SHOW_LOGO'] = 'true'
+        @initial_value = Rails.application.config.settings.hide_logo
+        Rails.application.config.settings.hide_logo = true
       end
+
       after :each do
-        ENV['SETTING_DONT_SHOW_LOGO'] = @pre
+        Rails.application.config.settings.hide_logo = @initial_value
       end
+
       it 'should return no logo when the env var is set' do
         instance_variable_set(:@use_mentor_layout, false)
         result = logo_image
@@ -70,12 +72,14 @@ describe ApplicationHelper do
 
     describe 'without SETTING_DONT_SHOW_LOGO' do
       before :each do
-        @pre = ENV['SETTING_DONT_SHOW_LOGO']
-        ENV['SETTING_DONT_SHOW_LOGO'] = nil
+        @initial_value = Rails.application.config.settings.hide_logo
+        Rails.application.config.settings.hide_logo = false
       end
+
       after :each do
-        ENV['SETTING_DONT_SHOW_LOGO'] = @pre
+        Rails.application.config.settings.hide_logo = @initial_value
       end
+
       it 'should return the black logo if no is mentor is set' do
         instance_variable_set(:@use_mentor_layout, nil)
         result = logo_image

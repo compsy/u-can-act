@@ -5,6 +5,7 @@ class QuestionnaireExpander
     def expand_content(content, response)
       if content.is_a?(Hash)
         return process_foreach(content, response) if content[:foreach].present?
+        return process_first_response(content, response) if content[:title_first_response].present? || content[:content_first_response].present?
         return process_uses(content, response) if content[:uses].present?
       end
 
@@ -30,10 +31,24 @@ class QuestionnaireExpander
       end
     end
 
+    def process_first_response(content, response)
+      items = %w[title content]
+      items.each do |item|
+        key = item.to_sym
+        first_key = "#{item}_first_response".to_sym
+        initial_value = content[first_key] || content[key]
+        previous = PreviousResponseFinder.find(response)
+        content[key] = initial_value unless previous.present?
+        content.delete first_key
+      end
+      expand_content(content, response)
+    end
+
     def process_uses_previous(content, response)
       question_id = content[:uses][:previous]
       default_value = content[:uses][:default] || ''
       previous_value = PreviousResponseFinder.find_value(response, question_id)
+
       subs_hash = VariableSubstitutor.substitute_variables(response)
       subs_hash["previous_#{question_id}"] = previous_value || default_value
       [VariableEvaluator.evaluate_obj(content, subs_hash)]

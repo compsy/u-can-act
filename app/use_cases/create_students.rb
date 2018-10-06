@@ -37,6 +37,7 @@ class CreateStudents < ActiveInteraction::Base
     amount = 0
     students.each do |student|
       next if Person.find_by_mobile_phone(student[:mobile_phone])
+
       studentobj = Person.create!(first_name: student[:first_name],
                                   last_name: student[:last_name],
                                   gender: student[:gender],

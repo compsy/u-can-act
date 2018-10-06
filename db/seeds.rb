@@ -21,6 +21,13 @@ end
   end
 end
 
+# Load only top level seeds file from evaluatieonderzoek
+%w[evaluatieonderzoek].each do |seed_directory|
+  Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '*.rb')].each do |file|
+    require file
+  end
+end
+
 # Load seeds from the seeds directory.
 Dir[File.join(File.dirname(__FILE__), 'seeds', '*.rb')].each do |file|
   require file

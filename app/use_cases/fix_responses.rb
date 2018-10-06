@@ -116,6 +116,7 @@ class FixResponses < ActiveInteraction::Base
     @atleastonereplaced = false
     new_hsh = calculate_new_hash(response_content.content)
     return unless @atleastonereplaced
+
     @total_replaced += 1
     response_content.content = new_hsh
     response_content.save!
@@ -132,6 +133,7 @@ class FixResponses < ActiveInteraction::Base
           varregex = "#{varregex}_timing" if timing
           varregex = /\A#{varregex}\z/
           next unless key =~ varregex
+
           new_key = timing ? "#{variable}_timing" : variable
           @atleastonereplaced = true if new_key != key # only count it if we actually change the key
           replaced = true

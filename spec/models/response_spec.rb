@@ -150,6 +150,16 @@ describe Response do
       end
     end
 
+    describe 'unsubscribe_url' do
+      it 'should generate an usubscribe url on the uuid' do
+        result = subject.unsubscribe_url
+        expected = Rails.application.routes.url_helpers.questionnaire_path(subject.uuid)
+        expect(result).to start_with('/questionnaire/')
+        expect(result).to end_with(subject.uuid)
+        expect(result).to eq expected
+      end
+    end
+
     describe 'in_week' do
       it 'should find all responses in the current week and year by default' do
         expected_response = FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)

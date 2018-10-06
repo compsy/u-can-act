@@ -12,7 +12,7 @@ class ProtocolSubscription < ApplicationRecord
   belongs_to :protocol
   validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
-  validates :start_date, presence: true, start_of_day: true
+  validates :start_date, presence: true
   validates :end_date, presence: true
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy
   after_create :schedule_responses
@@ -28,6 +28,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def transfer!(transfer_to)
     raise('The person you transfer to should not be the same as the original person!') if transfer_to == person
+
     protocol_transfers << ProtocolTransfer.new(from: person, to: transfer_to, protocol_subscription_id: id)
     self.filling_out_for = transfer_to if for_myself?
     self.person = transfer_to
@@ -109,6 +110,7 @@ class ProtocolSubscription < ApplicationRecord
   def latest_streak_value_index
     completion_index = completion.find_index { |entry| entry[:future] }
     return -1 if completion_index.nil?
+
     completion_index - 1
   end
 
@@ -116,6 +118,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def determine_streak(streak, current_response_completed, current_response_in_future)
     return streak + 1 if current_response_completed || current_response_in_future
+
     0
   end
 

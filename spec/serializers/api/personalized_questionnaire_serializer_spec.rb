@@ -25,7 +25,7 @@ describe Api::PersonalizedQuestionnaireSerializer do
   end
 
   it 'should cache the questionnaire after calling it' do
-    expect(QuestionnaireGenerator)
+    expect_any_instance_of(QuestionnaireGenerator)
       .to receive(:generate_hash_questionnaire)
       .once
       .and_call_original

@@ -12,6 +12,7 @@ class SendInvitations
         next if response.expired?
         next unless response.measurement.should_invite?
         next unless response.protocol_subscription.active?
+
         person_id = response.protocol_subscription.person_id
         response_sets[person_id] += [response]
       end

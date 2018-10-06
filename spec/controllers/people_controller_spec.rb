@@ -177,6 +177,43 @@ RSpec.describe PeopleController, type: :controller do
       expect(person.mobile_phone).to eq person_attributes['mobile_phone']
     end
 
+    it 'should not store the iphash of the person if the person cant store it' do
+      person_attributes = { 'gender' => 'female' }
+      expect(person.ip_hash).to be_blank
+      put :update, params: { person: person_attributes }
+      person.reload
+      expect(person.gender).to eq person_attributes['gender']
+      expect(person.ip_hash).to be_blank
+    end
+
+    describe 'with a person that can store ips' do
+      let(:person) { FactoryBot.create(:solo) }
+
+      before :each do
+        cookie_auth(person)
+      end
+
+      it 'should store the iphash of the person if the person can store it' do
+        person_attributes = { 'gender' => 'female' }
+        expect(person.gender).to_not eq person_attributes['gender']
+        expect(person.ip_hash).to be_blank
+        put :update, params: { person: person_attributes }
+        person.reload
+        expect(person.gender).to eq person_attributes['gender']
+        expect(person.ip_hash).to_not be_blank
+        expect(person.ip_hash).to eq HashGenerator.generate(request.remote_ip, salt: ENV['IP_HASH_SALT'])
+      end
+
+      it 'should crash if the salt is not set in the ENV' do
+        pre = ENV['IP_HASH_SALT']
+        ENV['IP_HASH_SALT'] = nil
+        person_attributes = { 'gender' => 'female' }
+        expect { put :update, params: { person: person_attributes } }
+          .to raise_error KeyError, 'key not found: "IP_HASH_SALT"'
+        ENV['IP_HASH_SALT'] = pre
+      end
+    end
+
     it 'should redirect to the klaar page' do
       person_attributes = person.attributes.slice('email', 'first_name', 'last_name', 'email', 'mobile_phone')
       put :update, params: { person: person_attributes }
@@ -196,8 +233,8 @@ RSpec.describe PeopleController, type: :controller do
     it 'should render edit when updated attributes are missing' do
       old_person = person
       person_attributes = person.attributes.slice('email', 'first_name', 'last_name', 'email', 'mobile_phone')
-      person_attributes['mobile_phone'] = ''
-      person_attributes['first_name'] = 'somethingrandom'
+      person_attributes['mobile_phone'] = '0612341234'
+      person_attributes['first_name'] = ''
       put :update, params: { person: person_attributes }
 
       expect(response.status).to eq 200

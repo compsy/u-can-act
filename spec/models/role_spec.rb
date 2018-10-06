@@ -37,6 +37,11 @@ describe Role, type: :model do
         role2 = FactoryBot.build(:role, group: Person::MENTOR)
         expect(role2).to be_valid
       end
+
+      it 'should accept SOLO as a valid group' do
+        role = FactoryBot.create(:role, group: Person::SOLO)
+        expect(role).to be_valid
+      end
     end
 
     describe 'title' do

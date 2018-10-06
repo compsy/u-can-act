@@ -37,6 +37,7 @@ class Questionnaire < ApplicationRecord
     result = ids.detect { |entry| ids.count(entry) > 1 }
 
     return if result.blank?
+
     errors.add(:content, 'can only have a series of unique ids')
   end
 end

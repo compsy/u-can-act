@@ -1,6 +1,8 @@
 class ProgressBar extends React.Component {
   constructor(props) {
     super(props);
+    this.totalAvailableColor = '#079975';
+    this.valueEuroColor = '#243a76';
     this.state = {
       timer: null,
       showStreakDetails: false,
@@ -12,13 +14,13 @@ class ProgressBar extends React.Component {
     let timer = setInterval(this.performTimerEvent.bind(this), 1500);
     let radial = this.renderGraph(
       this.calculateInitialValue(this.props.valueEuro,
-                                 this.props.euroDelta, 
-                                 this.props.initialMultiplier,
-                                 this.props.currentMultiplier ),
+        this.props.euroDelta,
+        this.props.initialMultiplier,
+        this.props.currentMultiplier),
       this.props.percentageStreak,
       this.props.awardableEuro,
       this.props.totalAvailable
-    )
+    );
 
     this.setState({
       timer: timer,
@@ -31,10 +33,12 @@ class ProgressBar extends React.Component {
   }
 
   calculateInitialValue(initialValue, delta, initialMultiplier, currentMultiplier) {
-    if (currentMultiplier <= 0) { return initialValue; }
+    if (currentMultiplier <= 0) {
+      return initialValue;
+    }
 
     var multiplier = (delta / currentMultiplier) * initialMultiplier;
-    return initialValue - delta +  multiplier;
+    return initialValue - delta + multiplier;
   }
 
   performTimerEvent() {
@@ -50,7 +54,11 @@ class ProgressBar extends React.Component {
     if (this.state.radial) {
       radial = this.state.radial;
       radial.update({
-        series: [{value: percentageStreak}, {value: valueEuro}]
+        series: [{
+          value: percentageStreak
+        }, {
+          value: valueEuro
+        }]
       });
     } else {
       radial = new RadialProgressChart('.progressRadial', {
@@ -60,18 +68,20 @@ class ProgressBar extends React.Component {
         series: [{
           labelStart: '\u2605',
           value: percentageStreak,
-          color: '#079975'
+          color: this.totalAvailableColor
         }, {
           labelStart: '\u2714',
           //labelStart: '€',
           value: valueEuro,
-          color: '#243a76'
-        }, ],
+          color: this.valueEuroColor
+        }],
         center: {
           content: ['Je hebt nu',
             function(value, _unused, series) {
               // Only update the label when the euro value is being displayed
-              if (series.index == 1) { return printAsMoney(value) }
+              if (series.index == 1) {
+                return printAsMoney(value)
+              }
               return printAsMoney(valueEuro)
             }, 'je kunt nog ' + printAsMoney(awardable) + ' verdienen!'
           ],
@@ -85,8 +95,8 @@ class ProgressBar extends React.Component {
   createStreakText() {
     if (this.state.showStreakDetails && this.props.currentMultiplier > 1) {
       let value = (this.props.euroDelta / this.props.currentMultiplier);
-      let defaultValue = value * this.props.initialMultiplier ;
-      let currentBonus = this.props.euroDelta - defaultValue ;
+      let defaultValue = value * this.props.initialMultiplier;
+      let currentBonus = this.props.euroDelta - defaultValue;
       let text = "Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ";
       text += printAsMoney(currentBonus);
       text += " extra verdiend!";

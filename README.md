@@ -69,7 +69,12 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
   API_KEY: <the secret username that can be used to access the api>
   API_SECRET: <the secret password that can be used to access the api>
+
+  IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
 ```
+
+### Organization-specific settings
+Organization specific settings can be found in `config/settings.yml`. One of the variables defined here is `application_name`, which is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `config/organization/my_organization/` are used if `application_name` is `my_organization`).
 
 ### Development configuration
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:
@@ -352,7 +357,6 @@ Required and allowed options (minimal example and maximal example):
   content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/omgeving.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>'
 }, {
   section_start: 'De hoofddoelen',
-  hidden: true,
   type: :raw,
   content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/omgeving.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>',
   section_end: true
@@ -396,12 +400,48 @@ Required and allowed options (minimal example and maximal example):
   type: :textfield,
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
   tooltip: 'some tooltip',
+  pattern: '[a-z]{1,10}',
+  hint: 'Must be a lowercase word between 1 and 10 characters in length',
   placeholder: 'Place holder',
   section_end: true
 }]
 ```
 
 The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+The property `pattern` is a regex that limits what the user can enter. The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
+
+### Type: Number
+Type for integer(?) numbers. Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :number,
+  title: 'Wat is je postcode?'
+}, {
+  section_start: 'Tot slot',
+  hidden: true,
+  id: :v2,
+  type: :number,
+  title: 'Wat is je postcode?',
+  tooltip: 'some tooltip',
+  maxlength: 4,
+  placeholder: '1234',
+  min: 0,
+  max: 9999,
+  required: true,
+  section_end: true
+}]
+```
+
+Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known).
+
+The `required` property is also supported. The default is that numbers are not required.
+
+The `number` type does not support `pattern` or `hint` because these properties are not supported by the html 5 `number` input type.
+
+Also, the `placeholder` property is supported for numbers.
 
 ### Type: Expandable
 Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
@@ -521,6 +561,43 @@ Usable properties for an unsubscribe `question` type are `title`, `content`, `bu
 
 The default `data_method` is `delete`. The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
+
+
+### Type: Dropdown
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :dropdown,
+  title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken?',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  id: :v2,
+  type: :dropdown,
+  title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  label: 'RMC regio',
+  tooltip: 'some tooltip',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis'],
+  section_end: true
+}]
+```
+
+The options array must contain of strings. Currently, there is no support for `shows_questions` or `hides_questions` triggers based on selected options in a dropdown.
+
+The dropdown does not support a `show_otherwise` option.
+
+Dropdowns are always required.
+
+A dropdown can have a `placeholder` property which is the text used when no option is selected. If no `placeholder` is specified, a default text is used.
+
+A dropdown can have a `label` property which is a small text that is always visible and is printed directly above the dropdown.
+
+ The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

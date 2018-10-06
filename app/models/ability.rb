@@ -19,11 +19,12 @@ class Ability
     #
     #   can :update, Article, :published => true
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-    can :update, Person, %i[first_name last_name gender mobile_phone]
     if person&.role&.group == Person::STUDENT
-      can :update, Person, :iban
+      can :update, Person, %i[first_name last_name gender iban mobile_phone]
     elsif person&.role&.group == Person::MENTOR
-      can :update, Person, :email
+      can :update, Person, %i[first_name last_name gender email mobile_phone]
+    elsif person&.role&.group == Person::SOLO
+      can :update, Person, %i[email ip_hash]
     end
   end
 end

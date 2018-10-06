@@ -21,7 +21,7 @@
           %strong Let op:
           Je browser heeft momenteel JavaScript uitstaan. Daardoor werkt deze app niet goed.
     - flash.each do |name, msg|
-      .row
+      .row.flash-notice
         .col.s12
           .card-panel.green{class: name}
             %span.white-text= msg

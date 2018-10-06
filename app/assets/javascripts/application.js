@@ -32,6 +32,8 @@
 //= require radial-progess-chart
 //= require study_progress_bar
 //= require components
+//= require i18n/translations
+//= require i18n_initializer
 //= require_tree .
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})
@@ -66,4 +68,3 @@ printAsMoney = function(euroValue) {
   }
   return euroValue + sign;
 }
-

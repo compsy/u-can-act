@@ -31,7 +31,7 @@ class RewardPage extends React.Component {
   }
 
   loadRewardData(protocolSubscriptionId) {
-    var self = this
+    var self = this;
 
     // Only update if the subscription id has changed
     let url = '/api/v1/protocol_subscriptions/' + protocolSubscriptionId;
@@ -42,20 +42,28 @@ class RewardPage extends React.Component {
     });
   }
 
-  getCorrectResultPage() {
-    if (this.state.result.person_type === 'Mentor') {
-      if (!this.isDone()) {
-        return <div />
-      }
-      return (<MentorRewardPage />)
+  renderMentorRewardPage() {
+    if (!this.isDone()) {
+      return (<div/>);
     }
+    return (<MentorRewardPage person={this.state.person}/>);
+  }
 
+  renderSoloRewardPage() {
+    if (!this.isDone()) {
+      return (<div/>);
+    }
+    return (<SoloRewardPage/>);
+  }
+
+  renderStudentRewardPage() {
     let earnedEuros = this.state.result.earned_euros;
     let name = this.state.person.first_name + ' ' + this.state.person.last_name;
     if (this.isDone()) {
       return (<StudentFinalRewardPage earnedEuros={earnedEuros}
                                       iban={this.state.person.iban}
-                                      name={name}/>)
+                                      person={this.state.person}
+                                      name={name}/>);
     }
 
     let euroDelta = this.state.result.euro_delta / 100;
@@ -70,13 +78,24 @@ class RewardPage extends React.Component {
 
     return (
       <StudentInProgressRewardPage euroDelta={euroDelta}
-        earnedEuros={earnedEuros}
-        currentMultiplier={this.state.result.current_multiplier}
-        initialMultiplier={this.state.result.initial_multiplier}
-        awardable={maxStillAwardableEuros}
-        protocolCompletion={this.state.result.protocol_completion}
-        maxStreak={this.state.result.max_streak.threshold}/>
-    )
+                                   earnedEuros={earnedEuros}
+                                   currentMultiplier={this.state.result.current_multiplier}
+                                   initialMultiplier={this.state.result.initial_multiplier}
+                                   awardable={maxStillAwardableEuros}
+                                   protocolCompletion={this.state.result.protocol_completion}
+                                   maxStreak={this.state.result.max_streak.threshold}
+                                   person={this.state.person}/>
+    );
+  }
+
+  getCorrectResultPage() {
+    if (this.state.result.person_type === 'Mentor') {
+      return this.renderMentorRewardPage();
+    }
+    if (this.state.result.person_type === 'Solo') {
+      return this.renderSoloRewardPage();
+    }
+    return this.renderStudentRewardPage();
   }
 
   render() {
@@ -84,17 +103,11 @@ class RewardPage extends React.Component {
       return <div>Bezig...</div>
     }
 
-    result = this.getCorrectResultPage()
     return (
       <div className="col s12">
         <div className="row">
           <div className="col s12">
-            <h4>Bedankt voor het invullen van de vragenlijst!</h4>
-            {result}
-            <ul>
-              <li><a href='/disclaimer'>Disclaimer</a></li>
-              <li><EditPersonLink person={this.state.person}/></li>
-            </ul>
+            {this.getCorrectResultPage()}
           </div>
         </div>
       </div>

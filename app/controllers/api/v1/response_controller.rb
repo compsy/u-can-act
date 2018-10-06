@@ -35,16 +35,19 @@ module Api
       def set_response
         @response = Response.find_by_uuid(response_params[:uuid])
         return if @response.present?
+
         render(status: 404, json: 'Response met dat uuid niet gevonden')
       end
 
       def check_empty_response
         return if @response.content.blank?
+
         render(status: 400, json: 'Response met dat uuid heeft al content')
       end
 
       def response_content
         return {} if response_params[:content].nil?
+
         response_params[:content].to_unsafe_h
       end
 

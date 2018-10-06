@@ -51,8 +51,10 @@ describe 'GET /klaar', type: :feature, js: true do
       protocol_subscription.reload
       expect(Reward.total_earned_euros(bust_cache: true)).to eq 2.0
       expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 1.0
-      expect(page).to have_content('Je hebt hiermee €1,- verdiend.')
-      expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
+      expect(page).to have_content('Je hebt hiermee')
+      expect(page).to have_content('1')
+      expect(page).to have_content(' verdiend.')
+      expect(page).not_to have_content('Het onderzoek is voor 67% voltooid. Er zijn nog €1,- te verdienen.')
       expect(page).not_to have_content('Heel erg bedankt voor je inzet voor dit onderzoek!')
       expect(page).not_to have_content('IBAN')
       expect(page).not_to have_content('aan te passen')
@@ -76,7 +78,8 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(Reward.total_earned_euros(bust_cache: true)).to eq 3.0
       expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.0
       expect(page).to have_content('Heel erg bedankt voor je inzet voor dit onderzoek!')
-      expect(page).to have_content('€0,03 verdiend.')
+      expect(page).to have_content('3')
+      expect(page).to have_content('verdiend.')
       expect(page).to have_content('IBAN')
       expect(page).to have_content('aan te passen')
     end
@@ -114,7 +117,9 @@ describe 'GET /klaar', type: :feature, js: true do
       protocol_subscription.reload
       expect(Reward.total_earned_euros(bust_cache: true)).to eq 2.0
       expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 1.0
-      expect(page).to have_content('Je hebt hiermee €1,- verdiend.')
+      expect(page).to have_content('Je hebt hiermee ')
+      expect(page).to have_content('1')
+      expect(page).to have_content(' verdiend.')
       expect(page).to_not have_content('Het onderzoek is voor 67% voltooid. Er is nog €1,- te verdienen.')
     end
   end

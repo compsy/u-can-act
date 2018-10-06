@@ -172,7 +172,7 @@ describe QuestionnaireExpander do
                       { title: 'pizza' }
                     ] }
         expect { described_class.expand_content(content, response) }
-          .to raise_error(RuntimeError, "Only :previous uses type is allowed, not 'mentor: abc'")
+          .to raise_error(RuntimeError, "Only :previous uses type is allowed, not '{:mentor=>\"abc\"}'")
       end
 
       it 'should return an array' do

@@ -77,7 +77,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :dropdown,
                        label: 'RMC-regio',
-                       title: 'Bij welke RMC-regio hoort uw school?',
+                       title: 'Bij welke RMC-regio hoort uw school?<br><em>N.B.: Indien u betrokken bent bij meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
                        tooltip: rmcregioitje,
                        options: rmcregioarray
                      }, {
@@ -85,7 +85,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :dropdown,
                        label: 'RMC-regio',
-                       title: 'Bij welke RMC-regio hoort uw gemeente?',
+                       title: 'Bij welke RMC-regio hoort uw gemeente?<br><em>N.B.: Indien u betrokken bent bij meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
                        tooltip: rmcregioitje,
                        options: rmcregioarray
                      }, {

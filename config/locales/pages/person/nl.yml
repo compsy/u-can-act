@@ -1,0 +1,7 @@
+nl:
+  pages:
+    person:
+      header: Accountgegevens bewerken
+      body: >
+        <p class="flow-text">Pas hier uw persoonsgegevens aan</p>
+      submit: Opslaan

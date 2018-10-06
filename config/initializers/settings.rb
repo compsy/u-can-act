@@ -5,6 +5,7 @@ Rails.application.configure do
   # Convert the settings to a nested openstruct, which allows us to do
   # Rails.application.config.settings.nested_something.nested_array
   config.settings = JSON.parse(settings.to_json, object_class: OpenStruct)
+
   config.i18n.load_path += Dir[Rails.root.join('config',
                                                'organizations',
                                                config.settings.application_name,

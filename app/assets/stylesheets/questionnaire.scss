@@ -1,11 +1,13 @@
 // Limit the maximum size increase of flow-text
 // This line is at the top of the file so e.g., tooltip can override it
-.flow-text{
+.flow-text {
   $i: 8;
+
   @while $i <= $intervals {
-    @media only screen and (min-width : 360 + ($i * $interval-size)) {
+    @media only screen and (min-width: 360 + $i * $interval-size) {
       font-size: 1.392rem;
     }
+
     $i: $i + 1;
   }
 }
@@ -112,45 +114,11 @@ form .likert-scale {
   padding: 0 0 0 0;
 }
 
-.likert-item {
-  text-align: center;
-  vertical-align: center;
-  display: block;
-
-  label {
-    span {
-      padding: 2px !important;
-
-      &:before, &:after {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 2px 2px 2px 2px;
-      }
-
-      &:before {
-        position: relative;
-      }
-
-      &:after {
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-      }
-
-      width: 100%;
-      text-align: center;
-      vertical-align: center;
-      display: inline-block;
-    }
-  }
-}
-
 .input-field.col.no-padding {
   padding-left: 0;
   padding-right: 0;
 }
+
 .input-field.col.no-padding label {
   left: 0;
 }
@@ -175,6 +143,7 @@ form .likert-scale {
 .range-field {
   .thumb {
     display: none;
+
     &.active {
       display: block;
     }
@@ -185,14 +154,19 @@ form .likert-scale {
 p.option-label, div.otherwise-textfield {
   padding-left: 35px;
 }
+
 [type="checkbox"] + span:not(.lever), [type="checkbox"]:not(.filled-in) + span:not(.lever), [type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
   display: inline;
   padding-left: 0;
+
   &:before, &:after {
-    top: -0.2rem;
-    left: -35px;
+    // Uncommenting this screws up the likert scale. Do we really need this?
+    //top: -0.2rem;
+    //left: -35px;
+ 
   }
 }
+
 [type="checkbox"]:checked + span:not(.lever):before {
   top: -0.5rem;
   left: -40px;
@@ -218,4 +192,39 @@ select:focus {
 // the bottom toolbar
 button[type="submit"] {
   margin-bottom: 2rem;
+}
+
+.likert-item {
+  text-align: center;
+  vertical-align: center;
+  display: block;
+
+  label {
+    span {
+      display: block !important;
+      padding: 2px !important;
+
+      &:before, &:after {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 2px 2px 2px 2px;
+      }
+
+      &:before {
+        position: relative;
+      }
+
+      &:after {
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+      }
+
+      width: 100%;
+      text-align: center;
+      vertical-align: center;
+    }
+  }
 }

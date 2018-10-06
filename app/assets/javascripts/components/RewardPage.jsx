@@ -53,7 +53,7 @@ class RewardPage extends React.Component {
     if (!this.isDone()) {
       return (<div/>);
     }
-    return (<SoloRewardPage/>);
+    return (<DefaultRewardPage/>);
   }
 
   renderStudentRewardPage() {
@@ -69,10 +69,8 @@ class RewardPage extends React.Component {
     let euroDelta = this.state.result.euro_delta / 100;
     let maxStillAwardableEuros = this.state.result.max_still_awardable_euros / 100;
     if (this.state.result.max_streak === null) {
-      // Fallback if something went wrong
-      return (<div>
-        <p>Hiermee help je ons enorm.</p>
-        </div>)
+      // Fallback if the student does not have rewards
+      return (<DefaultRewardPage/>);
     }
 
 

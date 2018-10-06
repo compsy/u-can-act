@@ -2,10 +2,10 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
-    %meta{name: "application-name", content: ENV['PROJECT_NAME']}
+    %meta{name: "application-name", content: Rails.application.config.settings.application_name}
     = render 'shared/favicon'
 
-    %title #{ENV['PROJECT_NAME']}
+    %title #{Rails.application.config.settings.application_name}
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'

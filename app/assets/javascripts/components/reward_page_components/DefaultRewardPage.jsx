@@ -1,4 +1,4 @@
-class SoloRewardPage extends React.Component {
+class DefaultRewardPage extends React.Component {
   render() {
     return (
       <div className='section'>

@@ -5,7 +5,7 @@ describe("RewardMessage", function() {
   });
   
   it("should render the correct reward text", function() {
-    var expected = "Je hebt hiermee €123,- verdiend."
+    var expected = "Je hebt hiermee "+printAsMoney(123)+" verdiend."
     var result = ReactDOM.findDOMNode(this.rendered).children[0].innerText
     expect(result).toEqual(expected);
   });

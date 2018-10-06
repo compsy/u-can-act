@@ -134,7 +134,7 @@ describe("MentorRewardPage", function() {
       expect(callArguments[1].value).toEqual(valueEuro)
     });
 
-    it("it should return a new radialprograsschart if it has not yet been created", function() {
+    it("it should return a new radialprogresschart if it has not yet been created", function() {
       var percentage_streak = 123;
       var totalAvailable = 4;
       var valueEuro = 321;
@@ -156,7 +156,8 @@ describe("MentorRewardPage", function() {
       expect(result.options.series[0].labelStart).toEqual('★');
       expect(result.options.series[0].value).toEqual(percentage_streak);
 
-      expect(result.options.series[1].labelStart).toEqual('€');
+      var label = result.options.series[1].labelStart
+      expect(label === '€' || label === '✔')
       expect(result.options.series[1].value).toEqual(valueEuro);
       
     });
@@ -236,8 +237,9 @@ describe("MentorRewardPage", function() {
       var current_rendered = TestUtils.renderIntoDocument(component);
       current_rendered.setState({showStreakDetails: true});
       var result = current_rendered.createStreakText();
+      var expected = 'Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je '+printAsMoney(euroDelta))+' extra verdiend!';
       expect(result).not.toEqual(undefined);
-      expect(result.props.children[1]).toEqual('Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je €'+euroDelta+',- extra verdiend!');
+      expect(result.props.children[1]).toEqual(expected);
     });
   });
 });

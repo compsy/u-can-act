@@ -12,7 +12,7 @@ class ProgressText extends React.Component {
     return (
       <div className='row'>
         <div className='col s12'>
-          Het onderzoek is voor {percentageCompleted}% voltooid. Er is nog {printAsMoney(this.props.awardable)} te verdienen.
+          Het onderzoek is voor {percentageCompleted}% voltooid. Er zijn nog {printAsMoney(this.props.awardable)} te verdienen.
         </div>
       </div>
     )

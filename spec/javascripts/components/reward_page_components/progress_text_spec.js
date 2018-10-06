@@ -70,7 +70,7 @@ describe("ProgressText", function() {
   describe("render", function() {
     it("it should display a rendered message", function() {
       var elems = ReactDOM.findDOMNode(this.rendered).children;
-      var expected = 'Het onderzoek is voor 60% voltooid. Er is nog €'+this.awardable+',- te verdienen.';
+      var expected = 'Het onderzoek is voor 60% voltooid. Er zijn nog '+printAsMoney(this.awardable)+' te verdienen.';
       var result = elems[0].innerText;
       expect(result).toEqual(expected);
     });

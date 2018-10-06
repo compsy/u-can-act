@@ -18,7 +18,7 @@ describe("StudentFinalRewardPage", function() {
       var result = elems[0].innerText;
       expect(result).toEqual(expected);
 
-      var expected = 'In totaal heb je €' + this.earnedEuros + ',- verdiend. '+
+      var expected = 'In totaal heb je ' + printAsMoney(this.earnedEuros) + ' verdiend. '+
           'We zullen dit bedrag overmaken op IBAN:\n' +
           this.iban + ' t.n.v. ' + this.name+'.\n'+
           'Klopt dit nummer niet? Klik hier om het aan te passen.';

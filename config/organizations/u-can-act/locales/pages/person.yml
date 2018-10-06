@@ -16,8 +16,8 @@ nl:
         IP-adres worden niet opgeslagen.</p>
         <div class="row"><div class="col s12"><div class="checkbox-group required">
         <p class="flow-text"></p><p class="option-label"><label
-        for="v1_ik_verklaar_dat_bovenstaande_informatie_mij_duidelijk_is_en_ga_hiermee_akkoord" class="flow-text">
+        for="v1_ik_verklaar_dat_bovenstaande_informatie_mij_duidelijk_is_en_ga_hiermee_akkoord">
         <input type="checkbox" id="v1_ik_verklaar_dat_bovenstaande_informatie_mij_duidelijk_is_en_ga_hiermee_akkoord"
-        value="true" /><span class="flow-text">Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het
+        value="true" /><span>Ik ga akkoord met bovenstaande voorwaarden en geef toestemming voor het
         bewaren van mijn e-mailadres en versleuteld IP-adres.</span></label></p></div></div></div>
       submit: Aanmelden voor gift

@@ -201,3 +201,9 @@ label {
 select:focus {
   outline-color: $accent-color;
 }
+
+// Make buttons at the bottom of a page clickable on iPhone X without bringing up
+// the bottom toolbar
+button[type="submit"] {
+  margin-bottom: 2rem;
+}

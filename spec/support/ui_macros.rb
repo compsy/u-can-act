@@ -15,9 +15,11 @@ module UiMacros
     # 2. Go to the parent ul
     # 3. Go to the parent div
     # 4. Click on it to open the dropdown
+    sleep(1)
     find_all("#{base}>ul>li", text: prompt).first.find(:xpath, '..').find(:xpath, '..').click
     # Add some delay because the thing folds out slowly
     sleep(1)
     find("#{base} li", text: option).click # select the option wanted
+    sleep(1)
   end
 end

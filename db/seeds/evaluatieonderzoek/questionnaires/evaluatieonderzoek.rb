@@ -10,7 +10,7 @@ maatregel3 = '<p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactg
 maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionale budget: de kassiersrol van het regionale budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
 maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
 maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
-rmcregioitje = '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/rmcregios.png">'
+rmcregioitje = '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img class="auto-resize" data-ratio="1.2" src="/evaluatieonderzoek/rmcregios.png">'
 rmcregioarray = [
   '1. Oost-Groningen',
   '2. Noord-Groningen-Eemsmond',
@@ -77,7 +77,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :dropdown,
                        label: 'RMC-regio',
-                       title: 'Bij welke RMC-regio hoort uw school?',
+                       title: 'Bij welke RMC-regio hoort uw school?<br><em>N.B.: Indien u betrokken bent bij meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
                        tooltip: rmcregioitje,
                        options: rmcregioarray
                      }, {
@@ -85,7 +85,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :dropdown,
                        label: 'RMC-regio',
-                       title: 'Bij welke RMC-regio hoort uw gemeente?',
+                       title: 'Bij welke RMC-regio hoort uw gemeente?<br><em>N.B.: Indien u betrokken bent bij meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
                        tooltip: rmcregioitje,
                        options: rmcregioarray
                      }, {
@@ -94,7 +94,7 @@ evaluatie.content = [{
                        type: :dropdown,
                        label: 'arbeidsmarktregio',
                        title: 'Bij welke arbeidsmarktregio hoort uw gemeente?<br><em>N.B.: Indien u contactpersoon bent voor meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
-                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img height="640" src="/evaluatieonderzoek/arbeidsmarktregios.png">',
+                       tooltip: '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img class="auto-resize" data-ratio="1.2" src="/evaluatieonderzoek/arbeidsmarktregios.png">',
                        options: [
                          '1. Groningen',
                          '2. Friesland',
@@ -241,7 +241,7 @@ evaluatie.content = [{
                      }, {
                        section_start: '',
                        type: :raw,
-                       content: '<div class="divider"></div><p class="flow-text"><em>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</em></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="M.toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Dienst Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;, displayLength: 19380})"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>',
+                       content: '<div class="divider"></div><p class="flow-text"><em>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</em></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="M.toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Dienst Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;, displayLength: 19380});autoResizeImages();"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>',
                      }, {
                        id: :v17,
                        type: :range,

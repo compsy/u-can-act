@@ -4,15 +4,27 @@ class QuestionnaireExpander
   class << self
     def expand_content(content, response)
       if content.is_a?(Hash)
-        return process_foreach(content, response) if content[:foreach].present?
-        return process_first_response(content, response) if content[:title_first_response].present? || content[:content_first_response].present?
-        return process_uses(content, response) if content[:uses].present?
+        return process_first_response(content, response) if process_first_response? content
+        return process_foreach(content, response) if process_foreach? content
+        return process_uses(content, response) if process_uses? content
       end
 
       process_normal(content, response)
     end
 
     private
+
+    def process_foreach?(content)
+      content[:foreach].present?
+    end
+
+    def process_uses?(content)
+      content[:uses].present?
+    end
+
+    def process_first_response?(content)
+      content[:title_first_response].present? || content[:content_first_response].present?
+    end
 
     def process_normal(content, response)
       subs_hash = VariableSubstitutor.substitute_variables(response)
@@ -34,11 +46,14 @@ class QuestionnaireExpander
     def process_first_response(content, response)
       items = %w[title content]
       items.each do |item|
+        # Just quit searching if we do not have any more tags to replace.
+        break unless process_first_response? content
+
         key = item.to_sym
         first_key = "#{item}_first_response".to_sym
         initial_value = content[first_key] || content[key]
         previous = PreviousResponseFinder.find(response)
-        content[key] = initial_value unless previous.present?
+        content[key] = initial_value if previous.blank?
         content.delete first_key
       end
       expand_content(content, response)

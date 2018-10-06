@@ -30,6 +30,72 @@ describe QuestionnaireExpander do
       expect(result).to eq [content]
     end
 
+    fdescribe 'first_response' do
+      let(:other_response) { FactoryBot.create(:response) }
+
+      describe 'titles' do
+        let(:content) do
+          { id: :v2,
+            type: :checkbox,
+            title: 'Wat heeft u vandaag gegeten?',
+            title_first_response: 'Heeft u ooit gegeten?',
+            options: [
+              { title: 'brood', tooltip: 'Bijvoorbeeld met hagelslag' },
+              { title: 'kaas en ham' },
+              { title: 'pizza' }
+            ] }
+        end
+
+        it 'should not replace the title if the current response is not the first response' do
+          expect(PreviousResponseFinder).to receive(:find)
+            .with(response)
+            .and_return(nil)
+
+          result = described_class.expand_content(content.dup, response)
+          expect(result.first[:title]).to eq(content[:title_first_response])
+        end
+
+        it 'should replace the title with the first response title if this is the first response' do
+          expect(PreviousResponseFinder).to receive(:find)
+            .with(response)
+            .and_return(other_response)
+
+          result = described_class.expand_content(content.dup, response)
+          expect(result.first[:title]).to eq(content[:title])
+          content.delete(:title_first_response)
+          expect(result).to eq([content])
+        end
+      end
+
+      describe 'content' do
+        let(:content) do
+          { type: :raw,
+            content: 'Wat heeft u vandaag gegeten?',
+            content_first_response: 'Heeft u ooit gegeten?' }
+        end
+
+        it 'should not replace the content if the current response is not the first response' do
+          allow(PreviousResponseFinder).to receive(:find)
+            .with(response)
+            .and_return(other_response)
+
+          result = described_class.expand_content(content.dup, response)
+          expect(result.first[:content]).to eq(content[:content])
+          content.delete(:content_first_response)
+          expect(result).to eq([content])
+        end
+
+        it 'should replace the content with the first response content if this is the first response' do
+          allow(PreviousResponseFinder).to receive(:find)
+            .with(response)
+            .and_return(nil)
+
+          result = described_class.expand_content(content.dup, response)
+          expect(result.first[:content]).to eq(content[:content_first_response])
+        end
+      end
+    end
+
     describe 'foreach' do
       it 'should raise if the provided foreach is not defined' do
         content = { id: :v2,

@@ -30,7 +30,7 @@ describe QuestionnaireExpander do
       expect(result).to eq [content]
     end
 
-    fdescribe 'first_response' do
+    describe 'first_response' do
       let(:other_response) { FactoryBot.create(:response) }
 
       describe 'titles' do

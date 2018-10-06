@@ -98,7 +98,8 @@ class QuestionnaireController < ApplicationController
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
       'Hartelijk dank voor het invullen van de vragenlijst, uw antwoorden zijn opgeslagen.'
     else
-      "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek. Bedankt voor je inzet!"
+      "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek."\
+        ' Bedankt voor je inzet!'
     end
   end
 

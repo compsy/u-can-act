@@ -69,4 +69,13 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Evaluatieonderzoek informed consent: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  puts 'Generating onetime response'
+  OneTimeResponse.destroy_all
+  protocol = Protocol.find_by_name('evaluatieonderzoek')
+  token = 'abc'
+  OneTimeResponse.create!(token: token, protocol: protocol)
+
+  puts Rails.application.routes.url_helpers.one_time_response_url(t: token)
+  puts 'Generated onetime response'
 end

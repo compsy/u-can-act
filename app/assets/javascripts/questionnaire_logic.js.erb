@@ -34,10 +34,10 @@ function show_hide_entry(entry, show) {
 function sort_inputs_by_checked(inputs) {
   var result = [];
 
-  inputs.each(function(index) {
+  inputs.each(function (index) {
     if ($(this).is(':checked')) {
       return result.push(inputs[index]);
-    } 
+    }
     result.unshift(inputs[index]);
   })
 
@@ -55,7 +55,7 @@ function toggle_shown_questions() {
   // This means that checked questions get priority
   var sorted_inputs = sort_inputs_by_checked(inputs);
 
-  for(var i = 0; i < sorted_inputs.length; i++){
+  for (var i = 0; i < sorted_inputs.length; i++) {
     var elem = $(sorted_inputs[i]);
     var this_is_checked = elem.is(':checked');
     elem.data('shows-questions').forEach(function (entry) {
@@ -91,8 +91,8 @@ function time_element() {
           console.debug('send', 'timing', 'Time to answer question', id_b, duration);
       }
       var timingfield = id_b + '_timing';
-      if ($('#'+timingfield).length > 0) {
-        $('#'+timingfield).val(duration);
+      if ($('#' + timingfield).length > 0) {
+        $('#' + timingfield).val(duration);
       } else {
         $('form').append('<input type="hidden" id="' + timingfield +
           '" name="content[' + timingfield + ']" value="' + duration + '" />');
@@ -107,12 +107,12 @@ function addRemoveDisabledClass(buttons, element_class) {
   var currentButton;
   var questionnaireId;
   var elem;
-  buttons.each(function(button) {
+  buttons.each(function (button) {
     // $(this) is the button
     currentButton = $(this);
     questionnaireId = currentButton.attr('data-belongsto');
     elem = $(element_class + "." + questionnaireId).first();
-    if(elem.length <= 0) {
+    if (elem.length <= 0) {
       currentButton.addClass('disabled');
     } else {
       currentButton.removeClass('disabled');
@@ -149,17 +149,25 @@ function collapseExpandable() {
 }
 
 function disableHiddenInputs() {
-  $('.hidden').each(function(index) {
-    $(this).find('input,textarea,select').each(function(sub_index){
+  $('.hidden').each(function (index) {
+    $(this).find('input,textarea,select').each(function (sub_index) {
       $(this).prop('disabled', true);
     });
   });
 }
 
-function check_required_checkboxes(event) {
+function check_required_controls(event) {
   var returnval = true;
   var firstelem = null;
-  $('div.checkbox-group.required:visible').each(function(sub_index){
+  $('div.radio-group.required:visible').each(function (sub_index) {
+    if ($(this).find(':radio:checked').length == 0) {
+      event.preventDefault();
+      $(this).addClass('erroneous');
+      if (firstelem == null) firstelem = this;
+      returnval = false;
+    }
+  });
+  $('div.checkbox-group.required:visible').each(function (sub_index) {
     if ($(this).find(':checkbox:checked').length == 0) {
       event.preventDefault();
       $(this).addClass('erroneous');
@@ -173,6 +181,23 @@ function check_required_checkboxes(event) {
     }, 200);
   }
   return returnval;
+}
+
+function autoResizeImages() {
+  var ffactor = 0.8; // percentage of screen to be filled
+  var browserwidth = $(window).width();
+  var browserheight = $(window).height();
+  $("img.auto-resize").each(function () {
+    ratio = parseFloat($(this).data('ratio'));
+    if (!ratio) return true; // next
+    if ((browserheight / browserwidth) > ratio) {
+      $(this).width(ffactor * browserwidth);
+      $(this).height(ffactor * browserwidth * ratio);
+    } else {
+      $(this).height(ffactor * browserheight);
+      $(this).width(ffactor * browserheight / ratio);
+    }
+  });
 }
 
 $(function () {
@@ -195,7 +220,7 @@ $(function () {
   });
   $('input,textarea,select').change(time_element);
   $('textarea').focusin(time_element);
-  $('button[type=submit]').click(time_element).click(check_required_checkboxes);
+  $('button[type=submit]').click(time_element).click(check_required_controls);
 
   $('.expand_expandable').on('click', expandExpandable);
   $('.collapse_expandable').on('click', collapseExpandable);
@@ -203,17 +228,17 @@ $(function () {
   disableHiddenInputs();
 
   // Needed to disable the warning when leaving a page, when actually submitting it
-  $(document).on("submit", "form", function(event) {
+  $(document).on("submit", "form", function (event) {
     window.onbeforeunload = null;
   });
   $(document).on("click", ".navigate-away-allowed", function (event) {
     window.onbeforeunload = null;
   });
   // Hide toasts on click
-  $(document).on('click','.toast', function(){
+  $(document).on('click', '.toast', function () {
     $(this).hide();
   });
-  $(document).on('click','.erroneous', function(){
+  $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');
   });
   $(document).on('touchstart', 'body', function (e) {
@@ -228,7 +253,13 @@ $(function () {
 
   // Handle flash notices
   $('.flash-notice').delay(10000).slideUp('slow');
-  $(document).on('click','.flash-notice', function() {
+  $(document).on('click', '.flash-notice', function () {
     $(this).hide();
+  });
+
+  // Automatically rescale images in toasts
+  autoResizeImages();
+  $(window).resize(function () {
+    autoResizeImages();
   });
 });

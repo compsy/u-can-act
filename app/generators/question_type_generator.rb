@@ -19,7 +19,7 @@ class QuestionTypeGenerator < Generator
     content_tag(:a,
                 tooltip_body,
                 onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'," \
-                         " displayLength: #{tooltip_duration(tooltip_content)}})")
+                         " displayLength: #{tooltip_duration(tooltip_content)}});autoResizeImages();")
   end
 
   def tooltip_duration(tooltip_content)
@@ -123,15 +123,13 @@ class QuestionTypeGenerator < Generator
                               option_body,
                               content_tag(
                                 :span,
-                                label,
-                                class: 'flow-text'
+                                label
                               )
                             ])
 
     content_tag(:label,
                 option_body,
-                for: for_question,
-                class: 'flow-text')
+                for: for_question)
   end
 
   def add_otherwise_label(question)

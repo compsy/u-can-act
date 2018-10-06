@@ -1,3 +1,15 @@
+// Limit the maximum size increase of flow-text
+// This line is at the top of the file so e.g., tooltip can override it
+.flow-text{
+  $i: 8;
+  @while $i <= $intervals {
+    @media only screen and (min-width : 360 + ($i * $interval-size)) {
+      font-size: 1.392rem;
+    }
+    $i: $i + 1;
+  }
+}
+
 .tooltip {
   color: $u-can-act-grey;
   font-size: 175%;
@@ -200,4 +212,10 @@ label {
 // Use themed colors for the focused select dropdown
 select:focus {
   outline-color: $accent-color;
+}
+
+// Make buttons at the bottom of a page clickable on iPhone X without bringing up
+// the bottom toolbar
+button[type="submit"] {
+  margin-bottom: 2rem;
 }

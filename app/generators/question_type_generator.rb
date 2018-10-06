@@ -19,7 +19,7 @@ class QuestionTypeGenerator < Generator
     content_tag(:a,
                 tooltip_body,
                 onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'," \
-                         " displayLength: #{tooltip_duration(tooltip_content)}})")
+                         " displayLength: #{tooltip_duration(tooltip_content)}});autoResizeImages();")
   end
 
   def tooltip_duration(tooltip_content)

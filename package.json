@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@rails/webpacker": "https://github.com/rails/webpacker"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.1.9"
+  }
+}

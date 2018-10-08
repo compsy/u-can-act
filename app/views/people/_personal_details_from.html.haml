@@ -1,8 +1,12 @@
-%h5 Accountgegevens bewerken
+.row
+  .col.s12
+    %h4= I18n.t('pages.person.header')
+.row
+  .col.s12= I18n.t('pages.person.body').html_safe
 - if cannot? :update, Person, :iban
   = render partial: 'name_fields', locals: {f: f}
 = render partial: 'gender_fields', locals: {f: f}
 = render partial: 'email_fields', locals: {f: f}
 = render partial: 'mobile_phone_fields', locals: {f: f}
-.actions
-  = f.submit "Opslaan", class: "btn waves-effect waves-light"
+.actions.extra-spacing
+  = render 'submit_button', f: f, text: I18n.t('pages.person.submit')

@@ -29,6 +29,8 @@ module Vsv
     config.autoload_paths += %W(#{config.root}/app/exporters)
     config.autoload_paths += %W(#{config.root}/app/middleware)
 
+    config.middleware.use I18n::JS::Middleware
+
     config.active_job.queue_adapter = :delayed_job
 
     # Enable react addons

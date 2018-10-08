@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709070445) do
+ActiveRecord::Schema.define(version: 20181005132606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,15 @@ ActiveRecord::Schema.define(version: 20180709070445) do
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id", using: :btree
   end
 
+  create_table "one_time_responses", force: :cascade do |t|
+    t.string   "token",       null: false
+    t.integer  "protocol_id", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["protocol_id"], name: "index_one_time_responses_on_protocol_id", using: :btree
+    t.index ["token"], name: "one_time_response_token", unique: true, using: :btree
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at", null: false
@@ -89,7 +98,7 @@ ActiveRecord::Schema.define(version: 20180709070445) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.string   "mobile_phone",        null: false
+    t.string   "mobile_phone"
     t.string   "first_name",          null: false
     t.string   "last_name"
     t.datetime "created_at",          null: false
@@ -99,6 +108,7 @@ ActiveRecord::Schema.define(version: 20180709070445) do
     t.integer  "role_id",             null: false
     t.string   "external_identifier", null: false
     t.string   "iban"
+    t.string   "ip_hash"
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true, using: :btree
   end
 
@@ -204,6 +214,7 @@ ActiveRecord::Schema.define(version: 20180709070445) do
   add_foreign_key "invitations", "invitation_sets"
   add_foreign_key "measurements", "protocols"
   add_foreign_key "measurements", "questionnaires"
+  add_foreign_key "one_time_responses", "protocols"
   add_foreign_key "protocol_subscriptions", "people"
   add_foreign_key "protocol_subscriptions", "protocols"
   add_foreign_key "protocol_transfers", "people", column: "from_id"

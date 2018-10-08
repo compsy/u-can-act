@@ -13,7 +13,7 @@ class YearDropdownMenu extends React.Component {
   render() {
     var years = this.generateYears();
     return(
-      <Select value={this.props.value} options={years} label='Jaar' onChange={this.props.onChange} />
+      <Select value={this.props.value} options={years} label='Year' onChange={this.props.onChange} />
     )
   }
 }

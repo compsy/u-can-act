@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -17,9 +18,11 @@
  */
 //@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
+
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
-@import "materialize/components/color";
+@import "materialize/components/color-variables";
+
 $primary-color: color("blue", "lighten-2");
 $input-border-color: color("grey", "darken-2");
 
@@ -27,14 +30,29 @@ $input-border-color: color("grey", "darken-2");
 $range-height: 35px;
 $range-width: 35px;
 
-$u-can-act-blue: #243a76;   // #1B2962; buenaparte blue
-$u-can-act-green: #009a74;  // #128B61; buenaparte green
-$u-can-act-yellow:   #edb800; // if blue is 2316a5
+$u-can-act-blue: #243a76;
+
+// #1B2962; buenaparte blue
+$u-can-act-green: #009a74;
+
+// #128B61; buenaparte green
+$u-can-act-yellow: #edb800;
+
+// if blue is 2316a5
 //$u-can-act-yellow: #edb900; // if blue is 2516a5
-$u-can-act-orange: #ed5800; // if green is 009a73
+$u-can-act-orange: #ed5800;
+
+// if green is 009a73
 $u-can-act-grey: #99b5cd;
 $u-can-act-light-grey: #f6f6f6;
 
+.accent-color-text {
+  color: $u-can-act-green;
+}
+
+.accent-color {
+  background-color: $u-can-act-green;
+}
 
 .mentor {
   $accent-color: $u-can-act-blue;
@@ -52,7 +70,8 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/icons-material-design";
   @import "materialize/components/grid";
   @import "materialize/components/navbar";
-  @import "materialize/components/roboto";
+
+  //@import "materialize/components/roboto";
   @import "materialize/components/typography";
   @import "materialize/components/transitions";
   @import "materialize/components/cards";
@@ -68,15 +87,13 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/materialbox";
   @import "materialize/components/forms/forms";
   @import "materialize/components/table_of_contents";
-  @import "materialize/components/sideNav";
   @import "materialize/components/preloader";
   @import "materialize/components/slider";
   @import "materialize/components/carousel";
   @import "materialize/components/tapTarget";
   @import "materialize/components/pulse";
-  @import "materialize/components/date_picker/default";
-  @import "materialize/components/date_picker/default.date";
-  @import "materialize/components/date_picker/default.time";
+  @import "materialize/components/datepicker";
+  @import "materialize/components/timepicker";
 
   @import "reward_page";
   @import "questionnaire";
@@ -99,7 +116,8 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/icons-material-design";
   @import "materialize/components/grid";
   @import "materialize/components/navbar";
-  @import "materialize/components/roboto";
+
+  //@import "materialize/components/roboto";
   @import "materialize/components/typography";
   @import "materialize/components/transitions";
   @import "materialize/components/cards";
@@ -115,15 +133,13 @@ $u-can-act-light-grey: #f6f6f6;
   @import "materialize/components/materialbox";
   @import "materialize/components/forms/forms";
   @import "materialize/components/table_of_contents";
-  @import "materialize/components/sideNav";
   @import "materialize/components/preloader";
   @import "materialize/components/slider";
   @import "materialize/components/carousel";
   @import "materialize/components/tapTarget";
   @import "materialize/components/pulse";
-  @import "materialize/components/date_picker/default";
-  @import "materialize/components/date_picker/default.date";
-  @import "materialize/components/date_picker/default.time";
+  @import "materialize/components/datepicker";
+  @import "materialize/components/timepicker";
 
   @import "questionnaire";
   @import "reward_page";
@@ -143,9 +159,9 @@ $u-can-act-light-grey: #f6f6f6;
 .feedback-button {
   height: 40px;
   cursor: pointer;
-  border: solid 1px rgba(255,255,255,0);
-  box-shadow: -2px 0 5px 0 rgba(0,0,0,0.3);
-  background: rgba(0,0,0,0.7) !important;
+  border: solid 1px rgba(255, 255, 255, 0);
+  box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.7) !important;
   width: 100px;
   box-sizing: border-box;
   padding-bottom: 5px;
@@ -170,3 +186,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.success {
+  background-color: $u-can-act-green !important;
+}
+
+.success-text {
+  color: $u-can-act-green !important;
+}
+
+.warning {
+  background-color: $u-can-act-orange !important;
+}
+
+.warning-text {
+  color: $u-can-act-orange !important;
+}

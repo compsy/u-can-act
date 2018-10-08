@@ -10,8 +10,10 @@ class InvitationSet < ApplicationRecord
 
   def invitation_url(plain_text_token, full = true)
     raise 'Cannot generate invitation_url for historical invitation tokens!' if plain_text_token.blank?
+
     concatenated_token = "#{person.external_identifier}#{plain_text_token}"
     return "?q=#{concatenated_token}" unless full
+
     "#{ENV['HOST_URL']}/?q=#{concatenated_token}"
   end
 end

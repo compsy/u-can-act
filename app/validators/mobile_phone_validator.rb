@@ -5,6 +5,7 @@ class MobilePhoneValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     return if value.blank? || starts_with_allowed?(value)
+
     record.errors.add attribute, I18n.t('validators.only_dutch_number')
   end
 

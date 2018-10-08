@@ -18,10 +18,30 @@ describe 'GET /admin', type: :feature, js: true do
       expect(page).to have_content('HTTP Basic: Access denied.')
     end
 
-    describe 'should be able to download questionnaires correctly' do
+    describe 'should have the correct menu items' do
       before :each do
         basic_auth 'admin', 'admin', '/admin'
         visit '/admin'
+      end
+      it 'should have a dashboard entry' do
+        expect(page).to have_link('Dashboard', href: '/admin')
+      end
+      it 'should have an export entry' do
+        expect(page).to have_link('Exports', href: '/admin/export')
+      end
+      it 'should have a preview entry' do
+        expect(page).to have_link('Preview questionnaires', href: '/admin/preview_overview')
+      end
+      it 'should have an organization overview entry' do
+        expect(page).to have_link('Organization overview', href: '/admin/organization_overview')
+      end
+    end
+
+    describe 'Exports' do
+      before :each do
+        basic_auth 'admin', 'admin', '/admin'
+        visit '/admin'
+        page.click_on 'Exports'
         find('ul.collapsible>li:first-child>.collapsible-header').click # fold out the first collapsible thing
       end
 
@@ -121,21 +141,27 @@ describe 'GET /admin', type: :feature, js: true do
     end
   end
 
-  describe 'questionnaire previews' do
-    it 'should have working preview of questionnaires' do
+  describe 'Preview questionnaires' do
+    let!(:questionnaire) do
       FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
                                         content: [{ type: :raw, content: 'questionnaire' }])
+    end
+    before :each do
       basic_auth 'admin', 'admin', '/admin'
       visit '/admin'
+      page.click_on 'Preview questionnaires'
+    end
+
+    it 'should have working preview of questionnaires' do
       materialize_select('Selecteer een vragenlijst...', 'myquestionnairename')
       page.click_on 'Preview questionnaire'
       expect(page).to have_content 'some title'
       page.click_on 'Opslaan'
-      expect(page).to have_content 'Admin Interface'
+      expect(page).to have_content 'Preview questionnaires'
     end
   end
 
-  describe 'team overviews' do
+  describe 'Organization overview' do
     let(:admin) { FactoryBot.create(:admin) }
     let(:payload) { { sub: admin.auth0_id_string } }
 
@@ -191,12 +217,17 @@ describe 'GET /admin', type: :feature, js: true do
 
     before :each do
       basic_auth 'admin', 'admin', '/admin'
+      visit '/admin'
     end
 
     describe 'when not loggedin' do
       it 'should show a login button when not logged in' do
-        visit '/admin'
         expect(page).to have_content 'Log In'
+      end
+
+      it 'should show a message when not logged in' do
+        page.click_on 'Organization overview'
+        expect(page).to have_content 'You need to authenticate first.'
       end
 
       it 'should not list the correct teams with an incorrect session' do
@@ -207,7 +238,7 @@ describe 'GET /admin', type: :feature, js: true do
         page.execute_script("localStorage.setItem('id_token', 'incorrect')")
         page.execute_script("localStorage.setItem('access_token', 'incorrect')")
         page.execute_script("localStorage.setItem('expires_at', '9999999999999')")
-        visit '/admin'
+        page.click_on 'Organization overview'
 
         expect(page).to_not have_content 'Team overview'
         expect(page).to_not have_content org1.name
@@ -215,8 +246,6 @@ describe 'GET /admin', type: :feature, js: true do
         expect(page).to_not have_content 'Completed'
         expect(page).to_not have_content 'Completed percentage'
         expect(page).to_not have_content '70% completed questionnaires'
-        expect(page).to_not have_content Person::STUDENT
-        expect(page).to_not have_content Person::MENTOR
       end
     end
 
@@ -228,11 +257,10 @@ describe 'GET /admin', type: :feature, js: true do
         page.execute_script("localStorage.setItem('id_token', '#{token}')")
         page.execute_script("localStorage.setItem('access_token', '#{token}')")
         page.execute_script("localStorage.setItem('expires_at', '9999999999999')")
-        visit '/admin'
+        page.click_on 'Organization overview'
       end
 
       it 'should show a log out button when logged in' do
-        basic_auth 'admin', 'admin', '/admin'
         visit '/admin'
         expect(page).to have_content 'Log Out'
       end
@@ -241,8 +269,7 @@ describe 'GET /admin', type: :feature, js: true do
         Team.overview(bust_cache: true)
         FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
                                           content: [{ type: :raw, content: 'questionnaire' }])
-        basic_auth 'admin', 'admin', '/admin'
-        visit '/admin'
+        page.click_on 'Organization overview'
         expect(page).to have_content 'Team overview'
         expect(page).to have_content org1.name
         expect(page).to have_content 'Team'

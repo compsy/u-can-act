@@ -27,6 +27,7 @@ class EchoPeople < ActiveInteraction::Base
     CSV.foreach(file_name, col_sep: ';') do |row|
       cnt += 1
       next if cnt == 1 # Skip header row
+
       people << process_row(row)
       puts "people << #{people.last.inspect};nil"
     end
@@ -35,6 +36,7 @@ class EchoPeople < ActiveInteraction::Base
   def process_row(origrow)
     row = origrow.map(&:strip)
     return create_student_hash(row) if row[0].strip == Person::STUDENT
+
     create_mentor_hash(row)
   end
 

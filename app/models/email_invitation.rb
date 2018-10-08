@@ -3,6 +3,7 @@
 class EmailInvitation < Invitation
   def send_invite(plain_text_token)
     return unless invitation_set.person.email.present?
+
     send_invite_email(plain_text_token)
   end
 

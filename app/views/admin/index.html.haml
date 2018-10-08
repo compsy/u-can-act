@@ -1,106 +1,18 @@
-.col.s12
-  %h1 Admin Interface
-.col.s6
-  .section
-    %h4 Test Questionnaires
-    = form_tag('/admin/preview', method: 'post') do
-      = select_tag(:id, options_for_select(questionnaire_select_options(@used_questionnaires.sort_by{|x|x.name}), disabled: '', selected: ''), required: true)
-      = button_tag('Preview questionnaire', type: 'submit', class: 'btn waves-effect waves-light')
-.col.s6
-  .section
-    %h4 Reward Money
-    %p= "Total earned so far: #{print_as_money(Reward.total_earned_euros)}"
-    %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
-.col.s12
-  .section
-  = react_component('AdminRouter')
-.col.s12
-  .section
-    %h4 Export Data
-    %ul.collapsible
-      %li
-        .collapsible-header
-          %i.material-icons event_note
-          Current Study
-        .collapsible-body
-          %ul.collection
-            %li.collection-item.avatar{:style => "min-height:65px"}
-              %i.large.material-icons.circle.blue.lighten-2 description
-              %span.title People
-              %p
-                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
-                  admin_person_export_path(format: 'csv'),
-                  class: 'waves-effect waves-light btn download-button')
-
-            %li.collection-item.avatar{:style => "min-height:65px"}
-              %i.large.material-icons.circle.blue.lighten-2 description
-              %span.title ProtocolSubscriptions
-              %p
-                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
-                  admin_protocol_subscription_export_path(format: 'csv'),
-                  class: 'waves-effect waves-light btn download-button')
-
-            %li.collection-item.avatar{:style => "min-height:65px"}
-              %i.large.material-icons.circle.blue.lighten-2 description
-              %span.title InvitationSets
-              %p
-                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
-                  admin_invitation_set_export_path(format: 'csv'),
-                  class: 'waves-effect waves-light btn download-button')
-
-            %li.collection-item.avatar{:style => "min-height:65px"}
-              %i.large.material-icons.circle.blue.lighten-2 description
-              %span.title ProtocolTransfers
-              %p
-                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
-                  admin_protocol_transfer_export_path(format: 'csv'),
-                  class: 'waves-effect waves-light btn download-button')
-
-            %li.collection-item.avatar{:style => "min-height:65px"}
-              %i.large.material-icons.circle.blue.lighten-2 description
-              %span.title Rewards
-              %p
-                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
-                  admin_reward_export_path(format: 'csv'),
-                  class: 'waves-effect waves-light btn download-button')
-
-            %li.collection-item.avatar{:style => "min-height:65px"}
-              %i.large.material-icons.circle.blue.lighten-2 description
-              %span.title Proof of participation
-              %p
-                = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Download',
-                  admin_proof_of_participation_export_path(format: 'csv'),
-                  class: 'waves-effect waves-light btn download-button')
-
-            - @pilot_questionnaires = Questionnaire.pilot
-            - @rest_questionnaires = Questionnaire.all - @pilot_questionnaires
-            - @rest_questionnaires.each do |questionnaire|
-              %li.collection-item.avatar{:style => "min-height:65px"}
-                %i.large.material-icons.circle.blue.lighten-2 description
-                %span.title
-                  Questionnaire: #{questionnaire.name}
-                %p
-                  = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Definition',
-                    admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'),
-                    class: 'waves-effect waves-light btn download-button')
-                  = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Responses',
-                    admin_response_export_path(id: questionnaire.name, format: 'csv'),
-                    class: 'waves-effect waves-light btn download-button')
-      %li
-        .collapsible-header
-          %i.material-icons event_note
-          Pilot Data
-        .collapsible-body
-          %ul.collection
-            - @pilot_questionnaires.each do |questionnaire|
-              %li.collection-item.avatar{:style => "min-height:65px"}
-                %i.large.material-icons.circle.blue.lighten-2 description
-                %span.title
-                  Questionnaire: #{questionnaire.name}
-                %p
-                  = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Definition',
-                    admin_questionnaire_export_path(id: questionnaire.name, format: 'csv'),
-                    class: 'waves-effect waves-light btn download-button')
-                  = link_to(content_tag(:i, 'system_update_alt', class: 'material-icons left') + 'Responses',
-                    admin_response_export_path(id: questionnaire.name, format: 'csv'),
-                    class: 'waves-effect waves-light btn download-button')
+= render partial: 'menu'
+.container
+  .row
+    .admin-interface
+      .col.s12
+        %h1 Dashboard
+      .col.s12
+        .section
+          %h4 Reward Money
+          %p= "Total earned so far: #{print_as_money(Reward.total_earned_euros)}"
+          %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
+      .col.s12
+        .section
+          = react_component('Statistics')
+      .col.s12
+        .section
+          %h4 Elaborate functionality
+          = react_component('AdminRouter')

@@ -11,9 +11,15 @@ Rails.application.routes.draw do
     get 'unsubscribe'
   end
 
+  get 'o', to: 'one_time_response#show', as: 'one_time_response'
+
   # Admin panel
   scope path: :admin do
     get '/', to: 'admin#index', as: 'admin'
+    get 'export', to: 'admin#export', as: 'admin_export'
+    get 'preview_overview', to: 'admin#preview_overview', as: 'admin_preview_overview'
+    get 'organization_overview', to: 'admin#organization_overview', as: 'admin_organization_overview'
+
     get 'person_export', to: 'admin#person_export', as: 'admin_person_export'
     get 'protocol_subscription_export', to: 'admin#protocol_subscription_export', as: 'admin_protocol_subscription_export'
     get 'invitation_set_export', to: 'admin#invitation_set_export', as: 'admin_invitation_set_export'
@@ -24,6 +30,7 @@ Rails.application.routes.draw do
     get 'proof_of_participation_export', to: 'admin#proof_of_participation_export', as: 'admin_proof_of_participation_export'
 
     post 'preview', to: 'admin#preview', as: 'admin_preview'
+    get 'preview', to: 'admin#preview', as: 'admin_preview_get'
     post 'preview_done', to: 'admin#preview_done', as: 'admin_preview_done'
     get '*path', to: 'admin#index'
   end
@@ -43,8 +50,9 @@ Rails.application.routes.draw do
           get :me
         end
       end
-      get 'statistics', to: 'statistics#index'
-      get 'protocol_subscriptions/:id', to: 'protocol_subscriptions#show'
+      resources :statistics, only: [:index]
+      resources :settings, only: [:index]
+      resources :protocol_subscriptions, only: [:show]
       namespace :admin do
         resources :team, only: [:show], param: :group
         resources :organization, only: [:show], param: :group

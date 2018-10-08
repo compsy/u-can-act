@@ -14,6 +14,7 @@ module Api
       def set_questionnaire
         @questionnaire = Questionnaire.find_by_key(params[:key])
         return if @questionnaire.present?
+
         render(status: 404, json: 'Vragenlijst met die key niet gevonden')
       end
     end

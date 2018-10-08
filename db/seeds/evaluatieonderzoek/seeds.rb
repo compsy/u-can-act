@@ -76,6 +76,6 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   token = 'abc'
   OneTimeResponse.create!(token: token, protocol: protocol)
 
-  puts Rails.application.routes.url_helpers.one_time_response_url(t: token)
+  puts Rails.application.routes.url_helpers.one_time_response_url(q: token)
   puts 'Generated onetime response'
 end

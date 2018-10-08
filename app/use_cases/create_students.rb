@@ -31,6 +31,7 @@ class CreateStudents < ActiveInteraction::Base
         role_id: plain_text_parser.parse_role_title(student[:team_name], role_title(student))
       }
       student_hash[:end_date] = plain_text_parser.parse_end_date(student[:end_date]) if student[:end_date].present?
+      student_hash[:email] = student[:email]
       student_hash
     end
   end
@@ -48,6 +49,7 @@ class CreateStudents < ActiveInteraction::Base
       studentobj = Person.create!(first_name: student[:first_name],
                                   last_name: student[:last_name],
                                   gender: student[:gender],
+                                  email: student[:email],
                                   mobile_phone: student[:mobile_phone],
                                   role_id: student[:role_id])
       ProtocolSubscription.create!(person: studentobj,

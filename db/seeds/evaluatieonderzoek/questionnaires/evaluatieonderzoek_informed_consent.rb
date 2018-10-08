@@ -17,7 +17,7 @@ ic_content = <<~'END'
         </li>
         <li>Ik vul eenmalig een online vragenlijst in en het invullen van deze vragenlijst duurt ongeveer 15 minuten.
         </li>
-        <li>Ik stem er vrijwillig mee in dat mijn gegevens worden gebruikt voor de doeleinden die zijn vermeld staan op deze webpagina.
+        <li>Ik stem er vrijwillig mee in dat mijn gegevens worden gebruikt voor de doeleinden die zijn vermeld op deze webpagina.
         </li>
         <li>Ik snap dat ik mijn medewerking op elk tijdstip kan stopzetten zonder dat ik hier een reden voor hoef te geven. 
         </li>

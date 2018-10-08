@@ -66,7 +66,7 @@ evaluatie.content = [{
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. leerplicht, het gaat erom dat u verantwoordelijk bent voor onder andere onderwijsparticipatie.',
                            shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43 v44 v45 v45_1 v46 v46_1 v47 v48 v49 v49_1 v50 v50_1 v51 v52 v52_1 v53 v53_1 v54 v55 v56 v56_1 v57 v57_1 v72 v72_1 v76 v77 v78 v79 v80 v81] },
                          { title: 'Een gemeente, afdeling werk en inkomen of ander arbeidsmarktdomein',
-                           tooltip: 'In elke gemeente wordt dit anders genoemd of is dit anders ingedeeld, bijv. als sociaal domein, participatie, of UWV, het gaat erom dat u verantwoordelijk bent voor onder andere arbeidsparticipatie bij jongeren.',
+                           tooltip: 'In sommige gemeenten wordt dit anders genoemd of is dit anders ingedeeld, bijv. als sociaal domein, participatie, of UWV, het gaat erom dat u verantwoordelijk bent voor onder andere arbeidsparticipatie bij jongeren.',
                            shows_questions: %i[v4 v15 v16 v71 v71_1] },
                          { title: 'Een school',
                            shows_questions: %i[v2 v5 v6 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43] }

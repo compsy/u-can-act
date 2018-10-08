@@ -4,7 +4,7 @@ informed_consent1 ||= Questionnaire.new(name: ic_name1)
 informed_consent1.key = File.basename(__FILE__)[0...-3]
 ic_content = <<~'END'
   <p class="flow-text"><em>Beste onderzoeksdeelnemer,</em></p>
-  <p class="flow-text">Hartelijk dank voor je deelname aan dit <strong>evaluatieonderzoek naar de aanpak van voortijdig schoolverlaten en kwetsbare jongeren</strong>. In 2016 zijn er nieuwe beleidsafspraken gemaakt over de aanpak van voortijdig schoolverlaten en jongeren in een kwetsbare positie. Deze vervolgaanpak kenmerkt zich door een aantal veranderingen ten opzichte van de jaren ervoor en treedt formeel per 1-1-2019 in werking. Vooruitlopend hierop zijn echter een aantal beleidsafspraken reeds in werking gesteld en deze afspraken worden in het huidige onderzoek geëvalueerd.</p>
+  <p class="flow-text">Hartelijk dank voor uw deelname aan dit <strong>evaluatieonderzoek naar de aanpak van voortijdig schoolverlaten en kwetsbare jongeren</strong>. In 2016 zijn er nieuwe beleidsafspraken gemaakt over de aanpak van voortijdig schoolverlaten en jongeren in een kwetsbare positie. Deze vervolgaanpak kenmerkt zich door een aantal veranderingen ten opzichte van de jaren ervoor en treedt formeel per 1-1-2019 in werking. Vooruitlopend hierop zijn echter een aantal beleidsafspraken reeds in werking gesteld en deze afspraken worden in het huidige onderzoek geëvalueerd.</p>
   <p class="flow-text">Deelname aan dit onderzoek is mogelijk als de volgende punten voor u duidelijk zijn:</p>
   <ol class="flow-text">
     <li>Het doel van dit onderzoek is om de in 2016 gemaakte beleidsafspraken te evalueren over de aanpak van voortijdig schoolverlaten en jongeren in een kwetsbare positie.

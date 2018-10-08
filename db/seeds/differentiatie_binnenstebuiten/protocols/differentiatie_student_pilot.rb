@@ -7,7 +7,7 @@ default_reward_points = 100
 ## studenten ##
 ###############
 
-pr_name = 'differentiatie_studenten'
+pr_name = 'differentiatie_studenten_pilot'
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration

@@ -454,14 +454,14 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Worden de budgetten daadwerkelijk verdeeld tussen de school én de RMC contactgemeente?',
+                       title: 'In hoeverre worden de budgetten daadwerkelijk verdeeld tussen de school én de RMC contactgemeente?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v40_1] }]
                      }, {
                        id: :v40_1,
                        hidden: true,
                        type: :range,
                        title: '',
-                       labels: ['Nee, budgetten worden helemaal samengevoegd', 'Ja, budgetten worden helemaal verdeeld']
+                       labels: ['Helemaal samengevoegd', 'Helemaal verdeeld']
                      }, {
                        id: :v41,
                        hidden: true,
@@ -705,7 +705,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de verdeling van de gelden over contactgemeente en contactschool?',
-                       labels: ['Heel oneerlijk', 'Heel eerlijk']
+                       labels: ['Heel negatief', 'Heel positief']
                      }, {
                        section_start: '',
                        type: :raw,
@@ -729,7 +729,7 @@ evaluatie.content = [{
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling RMC</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_gem_rmc,
                        hidden: true,
@@ -743,7 +743,7 @@ evaluatie.content = [{
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling dienst werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_gem_dwi,
                        hidden: true,
@@ -757,7 +757,7 @@ evaluatie.content = [{
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Scholen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_scholen,
                        hidden: true,
@@ -771,7 +771,7 @@ evaluatie.content = [{
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>(Jeugd)zorg</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_zorg,
                        hidden: true,
@@ -785,7 +785,7 @@ evaluatie.content = [{
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_werkgvr,
                        hidden: true,
@@ -799,7 +799,7 @@ evaluatie.content = [{
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_minist,
                        hidden: true,
@@ -810,7 +810,7 @@ evaluatie.content = [{
                      }, {
                        id: :v68,
                        type: :range,
-                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio om voortijdig schoolverlaten te verminderen?',
+                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio met het doel om voortijdig schoolverlaten te verminderen?',
                        labels: ['Helemaal niet', 'Heel veel'],
                      }, {
                        id: :v68_1,
@@ -825,7 +825,7 @@ evaluatie.content = [{
                      }, {
                        id: :v70,
                        type: :range,
-                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
+                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio met het doel om een vangnet te creëren voor jongeren van het PrO en VSO?',
                        labels: ['Helemaal niet', 'Heel veel'],
                      }, {
                        id: :v70_1,
@@ -870,9 +870,9 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de afdeling ‘dienst werk en inkomen’ van gemeenten in uw regio?',
+                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de afdeling werk en inkomen of andere arbeidsmarktdomeinen van gemeenten in uw regio?',
                        options: [{ title: 'Niet van toepassing', hides_questions: %i[v75_1] }],
-                       tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. sociaal domein, participatie: het gaat hier om de afdeling verantwoordelijk voor onder andere arbeidsparticipatie.'
+                       tooltip: 'In sommige gemeenten wordt dit anders genoemd of is dit anders ingedeeld, bijv. als sociaal domein, participatie, of UWV, het gaat hier om gemeentelijke afdelingen verantwoordelijk voor onder andere arbeidsparticipatie bij jongeren.'
                      }, {
                        id: :v75_1,
                        hidden: true,
@@ -929,12 +929,12 @@ evaluatie.content = [{
                        title: 'Wat voor gevolgen zou dat volgens u hebben voor de samenwerking met uw partners in de regio?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Evaluatie register vrijstellingen leerplichtwet</strong></p><p class="flow-text"><em>De volgende vragen gaan over de vrijstelling van jongeren van de leerplicht of kwalificatieplicht.</em></p>',
+                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Evaluatie register vrijstellingen leerplichtwet</strong></p><p class="flow-text"><em>De volgende vragen gaan over de vrijstelling van jongeren van de leerplicht (op grond van de leerplichtwet artikel 3, 5 en 15).</em></p>',
                        id: :v83,
                        hidden: true,
                        type: :range,
                        title: 'In hoeverre heeft het registreren van vrijstellingen eraan bijgedragen dat de betreffende jongeren niet meer onterecht als VSV-er werden benaderd?',
-                       labels: ['Geen bijdrage', 'Heel veel bijdrage']
+                       labels: ['Helemaal geen bijdrage', 'Heel veel bijdrage']
                      }, {
                        id: :v84,
                        hidden: true,
@@ -950,6 +950,12 @@ evaluatie.content = [{
                        hidden: true,
                        type: :textarea,
                        title: 'Kunt u dit toelichten?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       section_start: '<div class="divider"></div>',
+                       id: :v86,
+                       type: :textarea,
+                       title: 'Zijn er nog andere punten die u niet kwijt kon in de vragenlijst en die u wilt meegeven?',
                        placeholder: 'Vul hier uw antwoord in'
                      }]
 evaluatie.title = 'De huidige aanpak van voortijdig schoolverlaten en jongeren in kwetsbare posities: een evaluatie van het nationale beleid'

@@ -9,7 +9,7 @@ maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactg
 maatregel3 = '<p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor de totstandkoming van de regionale samenwerking.</p>'
 maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionale budget: de kassiersrol van het regionale budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
 maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs (incl. dagbesteding en beschut werk).</p>'
-maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk  of onderwijs (incl. dagbesteding en beschut werk).</p>'
+maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs (incl. dagbesteding en beschut werk).</p>'
 rmcregioitje = '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img class="auto-resize" data-ratio="1.2" src="/evaluatieonderzoek/rmcregios.png">'
 rmcregioarray = [
   '1. Oost-Groningen',

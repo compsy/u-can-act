@@ -478,7 +478,8 @@ evaluatie.content = [{
                      }, {
                        id: :v42,
                        hidden: true,
-                       type: :range,
+                       type: :checkbox,
+                       show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van de besteding van het regionale budget?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v42_1] }]
                      }, {

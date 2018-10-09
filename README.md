@@ -322,6 +322,29 @@ Note that the `shows_questions`, `hides_questions`, and `stop_subscription` opti
 
 Radios are always required.
 
+### Type: Likert
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :likert,
+  title: 'Wat vind u van deze stelling?',
+  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens']
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  id: :v2,
+  type: :likert,
+  title: 'Wat vind u van deze stelling?',
+  tooltip: 'some tooltip',
+  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens'],
+  section_end: true
+}]
+```
+
+The options array can currently only contain strings. The strings in the array are used as answer options. Likert questions are always required.
+
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
 

@@ -3,13 +3,13 @@ evaluatie = Questionnaire.find_by_name(ev_name)
 evaluatie ||= Questionnaire.new(name: ev_name)
 
 
-maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs.</li></ul>'
+maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en jongeren in een kwetsbare positie, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk, dagbesteding of onderwijs.</li></ul>'
 maatregel1 = '<p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs.'
-maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren op te stellen en te realiseren.</p>'
+maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en jongeren in een kwetsbare positie op te stellen en te realiseren.</p>'
 maatregel3 = '<p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor de totstandkoming van de regionale samenwerking.</p>'
 maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionale budget: de kassiersrol van het regionale budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
-maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
-maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs.</p>'
+maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs (incl. dagbesteding en beschut werk).</p>'
+maatregel6 = '<p class="flow-text"><strong>Maatregel 6</strong>: De RMC afdeling van de gemeenten krijgt een taak duidelijker belegd: het monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs (incl. dagbesteding en beschut werk).</p>'
 rmcregioitje = '<p>Als u het niet zeker weet, kunt u op dit kaartje kijken:</p><img class="auto-resize" data-ratio="1.2" src="/evaluatieonderzoek/rmcregios.png">'
 rmcregioarray = [
   '1. Oost-Groningen',
@@ -64,12 +64,12 @@ evaluatie.content = [{
                        options: [
                          { title: 'Een gemeente, afdeling RMC',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. leerplicht, het gaat erom dat u verantwoordelijk bent voor onder andere onderwijsparticipatie.',
-                           shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43 v44 v45 v45_1 v46 v46_1 v47 v48 v49 v49_1 v50 v50_1 v51 v52 v52_1 v53 v53_1 v54 v55 v56 v56_1 v57 v57_1 v72 v72_1 v76 v77 v78 v79 v80 v81] },
+                           shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v42_1 v43 v44 v45 v46 v47 v48 v48_1 v49 v49_1 v50 v51 v52 v52_1 v53 v53_1 v54 v55 v55_1 v56 v56_1 v57 v58 v59 v59_1 v60 v60_1 v75 v75_1 v79 v80 v81 v82 v83 v84] },
                          { title: 'Een gemeente, afdeling werk en inkomen of ander arbeidsmarktdomein',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd of is dit anders ingedeeld, bijv. als sociaal domein, participatie, of UWV, het gaat erom dat u verantwoordelijk bent voor onder andere arbeidsparticipatie bij jongeren.',
-                           shows_questions: %i[v4 v15 v16 v71 v71_1] },
+                           shows_questions: %i[v4 v15 v16 v74 v74_1] },
                          { title: 'Een school',
-                           shows_questions: %i[v2 v5 v6 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v43] }
+                           shows_questions: %i[v2 v5 v6 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v42_1 v43 v44 v45 v46] }
                        ],
                        show_otherwise: false
                      }, {
@@ -85,7 +85,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :dropdown,
                        label: 'RMC-regio',
-                       title: 'Bij welke RMC-regio hoort uw gemeente?<br><em>N.B.: Indien u betrokken bent bij meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
+                       title: 'Bij welke RMC-regio bent u werkzaam?<br><em>N.B.: Indien u betrokken bent bij meerdere regio’s mag u zelf kiezen voor welke regio u de vragen invult, bijvoorbeeld de regio waar het meeste speelt wat betreft voortijdig schoolverlaten of jongeren in kwetsbare posities. Alle vragen die volgen hebben betrekking op de regio die u hier kiest.</em>',
                        tooltip: rmcregioitje,
                        options: rmcregioarray
                      }, {
@@ -160,8 +160,8 @@ evaluatie.content = [{
                        id: :v7,
                        hidden: true,
                        type: :radio,
-                       title: 'Is uw gemeente een contactgemeente?',
-                       tooltip: 'Binnen elke RMC-regio is er één gemeente aangewezen als ‘contactgemeente’ voor het terugdringen van voortijdig schoolverlaten en monitoren van kwetsbare jongeren. Zij coördineren de melding en registratie van voortijdig schoolverlaters door scholen in de regio en organiseren de samenwerking met diverse partijen op het gebied van werk, zorg en onderwijs om een passend traject voor individuele jongeren aan te bieden.',
+                       title: 'Is uw gemeente een contactgemeente voor de RMC-regio?',
+                       tooltip: 'Binnen elke RMC-regio is er één gemeente aangewezen als ‘contactgemeente’ voor het terugdringen van voortijdig schoolverlaten en monitoren van jongeren in een kwetsbare positie. Zij coördineren de melding en registratie van voortijdig schoolverlaters door scholen in de regio en organiseren de samenwerking met diverse partijen op het gebied van werk, zorg en onderwijs om een passend traject voor individuele jongeren aan te bieden.',
                        options: [
                          { title: 'Contactgemeente', shows_questions: %i[v61] },
                          'Geen contactgemeente',
@@ -171,7 +171,7 @@ evaluatie.content = [{
                      }, {
                        section_start: '<div class="divider"></div><p class="flow-text"><strong>Werkwijze RMC</strong></p>',
                        type: :raw,
-                       content: '<p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk of onderwijs</li></ul><p class="flow-text" style="margin-bottom:-40px;margin-top:100px;"><em>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</em></p>'
+                       content: '<p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en jongeren in een kwetsbare positie, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk, dagbesteding of onderwijs</li></ul><p class="flow-text" style="margin-bottom:-40px;margin-top:100px;"><em>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</em></p>'
                      }, {
                        id: :v8,
                        type: :range,
@@ -263,7 +263,7 @@ evaluatie.content = [{
                        id: :v19,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Hoe ervaart u de kwaliteit van het vangnet voor kwetsbare jongeren?',
+                       title: 'Hoe ervaart u de kwaliteit van het vangnet voor jongeren in een kwetsbare positie?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v19_1] }]
                      }, {
                        id: :v19_1,
@@ -317,8 +317,9 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre is er binnen uw RMC regio een vierjarig regionaal plan opgesteld?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v26_1] }]
+                       title: 'In hoeverre is er binnen uw RMC regio een regionaal plan opgesteld?',
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v26_1] }],
+                       tooltip: 'Dit zijn meestal vierjarige plannen, maar in sommige regio\'s zijn dit ook eenjarige of tweejarige deelplannen.'
                      }, {
                        id: :v26_1,
                        hidden: true,
@@ -330,7 +331,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Hoe ervaart u de kwaliteit van het regionale plan?',
+                       title: 'Hoe ervaart u de kwaliteit van de inhoud van het regionale plan?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v27_1] }]
                      }, {
                        id: :v27_1,
@@ -453,187 +454,214 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre nemen de RMC contactgemeente en de contactschool samen hun verantwoordelijkheid voor de besteding van het regionale budget binnen uw regio?',
+                       title: 'In hoeverre worden de budgetten daadwerkelijk verdeeld tussen de school én de RMC contactgemeente?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v40_1] }]
                      }, {
                        id: :v40_1,
                        hidden: true,
                        type: :range,
                        title: '',
-                       labels: ['Helemaal niet', 'Helemaal wel']
+                       labels: ['Helemaal samengevoegd', 'Helemaal verdeeld']
                      }, {
                        id: :v41,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Hoe ervaart u de kwaliteit van de besteding van het regionale budget?',
+                       title: 'In hoeverre ervaart u door het verdelen van het regionale budget een verandering in verantwoordelijkheid?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v41_1] }]
                      }, {
                        id: :v41_1,
                        hidden: true,
                        type: :range,
                        title: '',
-                       labels: ['Heel lage kwaliteit', 'Heel hoge kwaliteit']
+                       labels: ['Veel minder verantwoordelijkheid', 'Veel meer verantwoordelijkheid']
                      }, {
                        id: :v42,
+                       hidden: true,
+                       type: :checkbox,
+                       show_otherwise: false,
+                       title: 'Hoe ervaart u de kwaliteit van de besteding van het regionale budget?',
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v42_1] }]
+                     }, {
+                       id: :v42_1,
+                       hidden: true,
+                       type: :range,
+                       title: '',
+                       labels: ['Heel lage kwaliteit', 'Heel hoge kwaliteit'],
+                     }, {
+                       id: :v43,
                        hidden: true,
                        type: :range,
                        title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel4
                      }, {
-                       id: :v43,
+                       id: :v44,
                        hidden: true,
                        type: :range,
                        title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel4
                      }, {
+                       id: :v45,
+                       hidden: true,
+                       type: :range,
+                       title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor de samenwerking in de regio?',
+                       labels: ['Heel klein', 'Heel groot'],
+                       tooltip: maatregel4
+                     }, {
+                       id: :v46,
+                       hidden: true,
+                       type: :range,
+                       title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor de samenwerking in de regio?',
+                       labels: ['Heel negatief', 'Heel positief'],
+                       tooltip: maatregel4
+                     }, {
                        section_start: maatregel_text + maatregel5,
-                       id: :v44,
+                       id: :v47,
                        hidden: true,
                        type: :range,
                        title: 'Heeft u in de praktijk iets gemerkt van de toegevoegde taak om jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO te monitoren?',
                        labels: ['Helemaal niks gemerkt', 'Heel veel gemerkt']
                      }, {
-                       id: :v45,
+                       id: :v48,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre monitort de RMC gemeente jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO wat betreft hun deelname aan werk (incl. dagbesteding en beschut werk) of onderwijs?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v45_1] }]
+                       title: 'In hoeverre monitort de RMC gemeente jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs (incl. dagbesteding en beschut werk)?',
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v48_1] }]
                      }, {
-                       id: :v45_1,
+                       id: :v48_1,
                        hidden: true,
                        type: :range,
                        title: '',
                        labels: ['Helemaal niet', 'Helemaal wel']
                      }, {
-                       id: :v46,
+                       id: :v49,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van deze monitoring?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v46_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v49_1] }]
                      }, {
-                       id: :v46_1,
+                       id: :v49_1,
                        hidden: true,
                        type: :range,
                        title: '',
                        labels: ['Heel lage kwaliteit', 'Heel hoge kwaliteit']
                      }, {
-                       id: :v47,
+                       id: :v50,
                        hidden: true,
                        type: :range,
                        title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel5
                      }, {
-                       id: :v48,
+                       id: :v51,
                        hidden: true,
                        type: :range,
                        title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel5
                      }, {
-                       id: :v49,
+                       id: :v52,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v49_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v52_1] }],
                        tooltip: maatregel5
                      }, {
-                       id: :v49_1,
+                       id: :v52_1,
                        hidden: true,
                        type: :range,
                        title: '',
                        labels: ['Veel minder', 'Veel meer']
                      }, {
-                       id: :v50,
+                       id: :v53,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 16 en 17 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v50_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v53_1] }],
                        tooltip: maatregel5
                      }, {
-                       id: :v50_1,
+                       id: :v53_1,
                        hidden: true,
                        type: :range,
                        title: '',
                        labels: ['Veel minder', 'Veel meer']
                      }, {
                        section_start: maatregel_text + maatregel6,
-                       id: :v51,
+                       id: :v54,
                        hidden: true,
                        type: :range,
                        title: 'Heeft u in de praktijk iets gemerkt van de duidelijker belegde taak om jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO te monitoren?',
                        labels: ['Helemaal niks gemerkt', 'Heel veel gemerkt']
                      }, {
-                       id: :v52,
+                       id: :v55,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre monitort de RMC gemeente jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v52_1] }]
+                       title: 'In hoeverre monitort de RMC gemeente jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs (incl. dagbesteding en beschut werk)?',
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v55_1] }]
                      }, {
-                       id: :v52_1,
+                       id: :v55_1,
                        hidden: true,
                        type: :range,
                        title: '',
                        labels: ['Helemaal niet', 'Helemaal wel']
                      }, {
-                       id: :v53,
+                       id: :v56,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Hoe ervaart u de kwaliteit van deze monitoring?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v53_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v56_1] }]
                      }, {
-                       id: :v53_1,
+                       id: :v56_1,
                        hidden: true,
                        type: :range,
                        title: '',
                        labels: ['Heel lage kwaliteit', 'Heel hoge kwaliteit']
                      }, {
-                       id: :v54,
+                       id: :v57,
                        hidden: true,
                        type: :range,
                        title: 'Hoe <strong>groot</strong> is het gevolg van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel klein', 'Heel groot'],
                        tooltip: maatregel6
                      }, {
-                       id: :v55,
+                       id: :v58,
                        hidden: true,
                        type: :range,
                        title: '<strong>Wat vindt u</strong> van de gevolgen van deze maatregel voor uw dagelijkse werkzaamheden?',
                        labels: ['Heel negatief', 'Heel positief'],
                        tooltip: maatregel6
                      }, {
-                       id: :v56,
+                       id: :v59,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>onderwijs</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v56_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v59_1] }],
                        tooltip: maatregel6
                      }, {
-                       id: :v56_1,
+                       id: :v59_1,
                        hidden: true,
                        type: :range,
                        title: '',
                        labels: ['Veel minder', 'Veel meer']
                      }, {
-                       id: :v57,
+                       id: :v60,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Zijn er volgens u meer of minder jongeren van 18 tot 23 jaar en afkomstig uit PrO en VSO succesvol naar <strong>werk</strong> begeleid sinds de invoering van deze maatregel?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v57_1] }],
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v60_1] }],
                        tooltip: maatregel6
                      }, {
-                       id: :v57_1,
+                       id: :v60_1,
                        hidden: true,
                        type: :range,
                        title: '',
@@ -643,23 +671,23 @@ evaluatie.content = [{
                        type: :raw,
                        content: '<div class="divider"></div><p class="flow-text"><strong>Financiële situatie</strong></p>',
                      }, {
-                       id: :v58,
+                       id: :v61,
                        type: :radio,
                        title: 'Zijn de huidige financiële middelen voor het voorkomen van VSV en het begeleiden van jongeren in een kwetsbare positie toereikend voor de uitvoering van uw taken?',
                        options: [
                          { title: 'Ja' },
-                         { title: 'Nee', shows_questions: %i[v59 v59_1 v60] }
+                         { title: 'Nee', shows_questions: %i[v62 v62_1 v63] }
                        ],
                        show_otherwise: false
                      }, {
-                       id: :v59,
+                       id: :v62,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Welk bedrag komt u ongeveer tekort voor de uitvoering van de taken?',
-                       options: [{ title: 'Weet ik niet', hides_questions: %i[v59_1] }]
+                       options: [{ title: 'Weet ik niet', hides_questions: %i[v62_1] }]
                      }, {
-                       id: :v59_1,
+                       id: :v62_1,
                        hidden: true,
                        type: :textfield,
                        title: '',
@@ -668,186 +696,186 @@ evaluatie.content = [{
                        hint: 'Vul a.u.b. een bedrag in euros in. bv.: 300.000',
                        required: true
                      }, {
-                       id: :v60,
+                       id: :v63,
                        hidden: true,
                        type: :textarea,
                        title: 'Welke taken kunt u niet of moeilijk uitvoeren door de ontoereikende financiële situatie?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       id: :v61,
+                       id: :v64,
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de verdeling van de gelden over contactgemeente en contactschool?',
-                       labels: ['Heel oneerlijk', 'Heel eerlijk']
+                       labels: ['Heel negatief', 'Heel positief']
                      }, {
                        section_start: '',
                        type: :raw,
                        content: '<div class="divider"></div><p class="flow-text"><strong>Samenwerking</strong></p>',
                      }, {
-                       id: :v62,
+                       id: :v65,
                        type: :checkbox,
                        show_otherwise: true,
-                       title: 'Met wie heeft u in de afgelopen twee jaar samengewerkt in de aanpak van VSV en het begeleiden van kwetsbare jongeren?',
+                       title: 'Met wie heeft u in de afgelopen twee jaar samengewerkt in de aanpak van VSV en het begeleiden van jongeren in een kwetsbare positie?',
                        options: [
-                         { title: 'Gemeente, afdeling RMC', shows_questions: %i[v63_gem_rmc v64_gem_rmc] },
-                         { title: 'Gemeente, afdeling dienst werk en inkomen', shows_questions: %i[v63_gem_dwi v64_gem_dwi] },
-                         { title: 'Scholen', shows_questions: %i[v63_scholen v64_scholen] },
-                         { title: '(Jeugd)zorg', shows_questions: %i[v63_zorg v64_zorg] },
-                         { title: 'Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)', shows_questions: %i[v63_werkgvr v64_werkgvr] },
-                         { title: 'Ministerie van Onderwijs Cultuur en wetenschap', shows_questions: %i[v63_minist v64_minist] }
+                         { title: 'Gemeente, afdeling RMC', shows_questions: %i[v66_gem_rmc v67_gem_rmc] },
+                         { title: 'Gemeente, afdeling dienst werk en inkomen', shows_questions: %i[v66_gem_dwi v67_gem_dwi] },
+                         { title: 'Scholen', shows_questions: %i[v66_scholen v67_scholen] },
+                         { title: '(Jeugd)zorg', shows_questions: %i[v66_zorg v67_zorg] },
+                         { title: 'Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)', shows_questions: %i[v66_werkgvr v67_werkgvr] },
+                         { title: 'Ministerie van Onderwijs, Cultuur en Wetenschap', shows_questions: %i[v66_minist v67_minist] }
                        ]
                      }, {
-                       id: :v63_gem_rmc,
+                       id: :v66_gem_rmc,
                        hidden: true,
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling RMC</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
-                       id: :v64_gem_rmc,
+                       id: :v67_gem_rmc,
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Gemeente, afdeling RMC</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
-                       id: :v63_gem_dwi,
+                       id: :v66_gem_dwi,
                        hidden: true,
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling dienst werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
-                       id: :v64_gem_dwi,
+                       id: :v67_gem_dwi,
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Gemeente, afdeling dienst werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
-                       id: :v63_scholen,
+                       id: :v66_scholen,
                        hidden: true,
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Scholen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
-                       id: :v64_scholen,
+                       id: :v67_scholen,
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Scholen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
-                       id: :v63_zorg,
+                       id: :v66_zorg,
                        hidden: true,
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>(Jeugd)zorg</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
-                       id: :v64_zorg,
+                       id: :v67_zorg,
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>(Jeugd)zorg</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
-                       id: :v63_werkgvr,
+                       id: :v66_werkgvr,
                        hidden: true,
                        type: :range,
                        title: 'Hoe intensief heeft u samengewerkt met <strong>Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
-                       id: :v64_werkgvr,
+                       id: :v67_werkgvr,
                        hidden: true,
                        type: :range,
                        title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
-                       id: :v63_minist,
+                       id: :v66_minist,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs, Cultuur en Wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
-                       labels: ['Niet samengewerkt', 'Heel intensief samengewerkt']
+                       labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
-                       id: :v64_minist,
+                       id: :v67_minist,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met het <strong>Ministerie van Onderwijs, Cultuur en Wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
-                       id: :v65,
+                       id: :v68,
                        type: :range,
-                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio om voortijdig schoolverlaten te verminderen?',
+                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio met het doel om voortijdig schoolverlaten te verminderen?',
                        labels: ['Helemaal niet', 'Heel veel'],
                      }, {
-                       id: :v65_1,
+                       id: :v68_1,
                        type: :textarea,
                        title: 'Eventuele toelichting (bij bovenstaand antwoord)',
                        placeholder: 'Vul hier een eventuele toelichting in'
                      }, {
-                       id: :v66,
+                       id: :v69,
                        type: :range,
                        title: 'Hoe ervaart u de samenwerking met partners in de regio om voortijdig schoolverlaten te verminderen?',
                        labels: ['Heel negatief', 'Heel positief'],
                      }, {
-                       id: :v67,
+                       id: :v70,
                        type: :range,
-                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
+                       title: 'In welke mate heeft u de afgelopen twee jaar samengewerkt met partners in de regio met het doel om een vangnet te creëren voor jongeren van het PrO en VSO?',
                        labels: ['Helemaal niet', 'Heel veel'],
                      }, {
-                       id: :v67_1,
+                       id: :v70_1,
                        type: :textarea,
                        title: 'Eventuele toelichting (bij bovenstaand antwoord)',
                        placeholder: 'Vul hier een eventuele toelichting in'
                      }, {
-                       id: :v68,
+                       id: :v71,
                        type: :range,
                        title: 'Hoe ervaart u de samenwerking met partners in de regio om een vangnet te creëren voor jongeren van het PrO en VSO?',
                        labels: ['Heel negatief', 'Heel positief'],
                      }, {
-                       id: :v69,
+                       id: :v72,
                        type: :radio,
                        title: 'Zijn er voor zover u weet sinds de invoering van de beleidsmaatregelen in 2016 nieuwe samenwerkingspartners bij gekomen?',
                        options: [
-                         { title: 'Ja', shows_questions: %i[v70] },
+                         { title: 'Ja', shows_questions: %i[v73] },
                          { title: 'Nee' }
                        ],
                        show_otherwise: false
                      }, {
-                       id: :v70,
+                       id: :v73,
                        hidden: true,
                        type: :textarea,
                        title: 'Kunt u kort omschrijven wie dit zijn en waarin u samenwerkt?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       id: :v71,
+                       id: :v74,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
                        title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de RMC afdelingen van gemeenten in uw regio?',
-                       options: [{ title: 'Niet van toepassing', hides_questions: %i[v71_1] }]
+                       options: [{ title: 'Niet van toepassing', hides_questions: %i[v74_1] }]
                      }, {
-                       id: :v71_1,
+                       id: :v74_1,
                        hidden: true,
                        type: :textarea,
                        title: '',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       id: :v72,
+                       id: :v75,
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de afdeling ‘dienst werk en inkomen’ van gemeenten in uw regio?',
-                       options: [{ title: 'Niet van toepassing', hides_questions: %i[v72_1] }],
-                       tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. sociaal domein, participatie: het gaat hier om de afdeling verantwoordelijk voor onder andere arbeidsparticipatie.'
+                       title: 'Kunt u kort de belangrijkste taken noemen die u uitvoert in samenwerking met de afdeling werk en inkomen of andere arbeidsmarktdomeinen van gemeenten in uw regio?',
+                       options: [{ title: 'Niet van toepassing', hides_questions: %i[v75_1] }],
+                       tooltip: 'In sommige gemeenten wordt dit anders genoemd of is dit anders ingedeeld, bijv. als sociaal domein, participatie, of UWV, het gaat hier om gemeentelijke afdelingen verantwoordelijk voor onder andere arbeidsparticipatie bij jongeren.'
                      }, {
-                       id: :v72_1,
+                       id: :v75_1,
                        hidden: true,
                        type: :textarea,
                        title: '',
@@ -857,22 +885,22 @@ evaluatie.content = [{
                        type: :raw,
                        content: '<div class="divider"></div><p class="flow-text"><strong>Vooruitblik en Decentralisatie-uitkering</strong></p>',
                      }, {
-                       id: :v73,
+                       id: :v76,
                        type: :textarea,
                        title: 'Heeft u nog advies of opmerkingen voor landelijk beleid om uw <strong>dagelijkse werkzaamheden</strong> te ondersteunen?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       id: :v74,
+                       id: :v77,
                        type: :textarea,
                        title: 'Heeft u nog advies of opmerkingen voor landelijk beleid om de <strong>samenwerking in uw regio</strong> verder te verbeteren?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       id: :v75,
+                       id: :v78,
                        type: :textarea,
                        title: 'Heeft u nog advies of opmerkingen voor landelijk beleid wat betreft de <strong>verdeling van financiële middelen</strong>?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       id: :v76,
+                       id: :v79,
                        hidden: true,
                        type: :radio,
                        title: 'Momenteel wordt een deel van het regionale budget in de vorm van een specifieke uitkering (geoormerkt geld) uitgekeerd.<br>Is het volgens u mogelijk om deze specifieke uitkering van het regionale budget om te zetten in een decentralisatie-uitkering (niet geoormerkt)?',
@@ -882,47 +910,53 @@ evaluatie.content = [{
                          { title: 'Weet ik niet' }
                        ],
                        show_otherwise: false,
-                       tooltip: 'Een deel van het regionale budget voor VSV en kwetsbare jongeren komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen ‘op de grote hoop’, via het Gemeentefonds.'
+                       tooltip: 'Een deel van het regionale budget voor VSV en jongeren in een kwetsbare positie komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen ‘op de grote hoop’, via het Gemeentefonds.'
                      }, {
-                       id: :v77,
+                       id: :v80,
                        hidden: true,
                        type: :range,
                        title: 'In hoeverre is een decentralisatie-uitkering wenselijk?',
                        labels: ['Helemaal niet wenselijk', 'Heel wenselijk'],
                      }, {
-                       id: :v78,
+                       id: :v81,
                        hidden: true,
                        type: :textarea,
                        title: 'Wat voor gevolgen zou dat hebben voor uw werkzaamheden als RMC-coördinator?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       id: :v79,
+                       id: :v82,
                        hidden: true,
                        type: :textarea,
                        title: 'Wat voor gevolgen zou dat volgens u hebben voor de samenwerking met uw partners in de regio?',
                        placeholder: 'Vul hier uw antwoord in'
                      }, {
-                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Evaluatie register vrijstellingen leerplichtwet</strong></p><p class="flow-text"><em>De volgende vragen gaan over de vrijstelling van jongeren van de leerplicht of kwalificatieplicht.</em></p>',
-                       id: :v80,
+                       section_start: '<div class="divider"></div><p class="flow-text"><strong>Evaluatie register vrijstellingen leerplichtwet</strong></p><p class="flow-text"><em>De volgende vragen gaan over de vrijstelling van jongeren van de leerplicht (op grond van de leerplichtwet artikel 3, 5 en 15).</em></p>',
+                       id: :v83,
                        hidden: true,
                        type: :range,
                        title: 'In hoeverre heeft het registreren van vrijstellingen eraan bijgedragen dat de betreffende jongeren niet meer onterecht als VSV-er werden benaderd?',
-                       labels: ['Geen bijdrage', 'Heel veel bijdrage']
+                       labels: ['Helemaal geen bijdrage', 'Heel veel bijdrage']
                      }, {
-                       id: :v81,
+                       id: :v84,
                        hidden: true,
                        type: :radio,
                        title: 'Komt u nog steeds jongeren tegen die een vrijstelling hebben, maar toch als VSV-er worden geteld?',
                        options: [
-                         { title: 'Ja', shows_questions: %i[v82] },
+                         { title: 'Ja', shows_questions: %i[v85] },
                          { title: 'Nee' }
                        ],
                        show_otherwise: false
                      }, {
-                       id: :v82,
+                       id: :v85,
                        hidden: true,
                        type: :textarea,
                        title: 'Kunt u dit toelichten?',
+                       placeholder: 'Vul hier uw antwoord in'
+                     }, {
+                       section_start: '<div class="divider"></div>',
+                       id: :v86,
+                       type: :textarea,
+                       title: 'Zijn er nog andere punten die u niet kwijt kon in de vragenlijst en die u wilt meegeven?',
                        placeholder: 'Vul hier uw antwoord in'
                      }]
 evaluatie.title = 'De huidige aanpak van voortijdig schoolverlaten en jongeren in kwetsbare posities: een evaluatie van het nationale beleid'

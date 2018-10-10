@@ -3,9 +3,9 @@ evaluatie = Questionnaire.find_by_name(ev_name)
 evaluatie ||= Questionnaire.new(name: ev_name)
 
 
-maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk, dagbesteding of onderwijs.</li></ul>'
+maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en jongeren in een kwetsbare positie, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk, dagbesteding of onderwijs.</li></ul>'
 maatregel1 = '<p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs.'
-maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren op te stellen en te realiseren.</p>'
+maatregel2 = '<p class="flow-text"><strong>Maatregel 2</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen om een vierjarig regionaal plan met maatregelen voor VSV en jongeren in een kwetsbare positie op te stellen en te realiseren.</p>'
 maatregel3 = '<p class="flow-text"><strong>Maatregel 3</strong>: De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor de totstandkoming van de regionale samenwerking.</p>'
 maatregel4 = '<p class="flow-text"><strong>Maatregel 4</strong>: De RMC contactgemeente heeft de verantwoordelijkheid voor een deel van het regionale budget: de kassiersrol van het regionale budget wordt nu gedeeld door de school én door de RMC contactgemeente.</p>'
 maatregel5 = '<p class="flow-text"><strong>Maatregel 5</strong>: De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs (incl. dagbesteding en beschut werk).</p>'
@@ -161,7 +161,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :radio,
                        title: 'Is uw gemeente een contactgemeente voor de RMC-regio?',
-                       tooltip: 'Binnen elke RMC-regio is er één gemeente aangewezen als ‘contactgemeente’ voor het terugdringen van voortijdig schoolverlaten en monitoren van kwetsbare jongeren. Zij coördineren de melding en registratie van voortijdig schoolverlaters door scholen in de regio en organiseren de samenwerking met diverse partijen op het gebied van werk, zorg en onderwijs om een passend traject voor individuele jongeren aan te bieden.',
+                       tooltip: 'Binnen elke RMC-regio is er één gemeente aangewezen als ‘contactgemeente’ voor het terugdringen van voortijdig schoolverlaten en monitoren van jongeren in een kwetsbare positie. Zij coördineren de melding en registratie van voortijdig schoolverlaters door scholen in de regio en organiseren de samenwerking met diverse partijen op het gebied van werk, zorg en onderwijs om een passend traject voor individuele jongeren aan te bieden.',
                        options: [
                          { title: 'Contactgemeente', shows_questions: %i[v61] },
                          'Geen contactgemeente',
@@ -171,7 +171,7 @@ evaluatie.content = [{
                      }, {
                        section_start: '<div class="divider"></div><p class="flow-text"><strong>Werkwijze RMC</strong></p>',
                        type: :raw,
-                       content: '<p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en kwetsbare jongeren, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk, dagbesteding of onderwijs</li></ul><p class="flow-text" style="margin-bottom:-40px;margin-top:100px;"><em>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</em></p>'
+                       content: '<p class="flow-text">Onderstaande vragen gaan over wat er veranderd is in de afgelopen twee jaar – de periode nadat er nieuwe beleidsafspraken zijn gemaakt over voortijdig schoolverlaten (VSV) en jongeren in kwetsbare posities. Deze beleidsafspraken zijn gemaakt in 2016 zijn en kunnen als volgt worden samengevat (klik <a href="/evaluatieonderzoek/Onderzoeksinformatie.pdf" target="_blank" rel="noopener noreferrer">hier</a> voor een uitgebreidere beschrijving):</p><ul class="flow-text browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, praktijkonderwijs (PrO) en voorgezet speciaal onderwijs (VSO)).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en jongeren in een kwetsbare positie, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk, dagbesteding of onderwijs</li></ul><p class="flow-text" style="margin-bottom:-40px;margin-top:100px;"><em>Wilt u middels de onderstaande vragen de invloed van de beleidsafspraken van 2016 evalueren?</em></p>'
                      }, {
                        id: :v8,
                        type: :range,
@@ -263,7 +263,7 @@ evaluatie.content = [{
                        id: :v19,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'Hoe ervaart u de kwaliteit van het vangnet voor kwetsbare jongeren?',
+                       title: 'Hoe ervaart u de kwaliteit van het vangnet voor jongeren in een kwetsbare positie?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v19_1] }]
                      }, {
                        id: :v19_1,
@@ -715,14 +715,14 @@ evaluatie.content = [{
                        id: :v65,
                        type: :checkbox,
                        show_otherwise: true,
-                       title: 'Met wie heeft u in de afgelopen twee jaar samengewerkt in de aanpak van VSV en het begeleiden van kwetsbare jongeren?',
+                       title: 'Met wie heeft u in de afgelopen twee jaar samengewerkt in de aanpak van VSV en het begeleiden van jongeren in een kwetsbare positie?',
                        options: [
                          { title: 'Gemeente, afdeling RMC', shows_questions: %i[v66_gem_rmc v67_gem_rmc] },
                          { title: 'Gemeente, afdeling dienst werk en inkomen', shows_questions: %i[v66_gem_dwi v67_gem_dwi] },
                          { title: 'Scholen', shows_questions: %i[v66_scholen v67_scholen] },
                          { title: '(Jeugd)zorg', shows_questions: %i[v66_zorg v67_zorg] },
                          { title: 'Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)', shows_questions: %i[v66_werkgvr v67_werkgvr] },
-                         { title: 'Ministerie van Onderwijs Cultuur en wetenschap', shows_questions: %i[v66_minist v67_minist] }
+                         { title: 'Ministerie van Onderwijs, Cultuur en Wetenschap', shows_questions: %i[v66_minist v67_minist] }
                        ]
                      }, {
                        id: :v66_gem_rmc,
@@ -798,14 +798,14 @@ evaluatie.content = [{
                        id: :v66_minist,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs, Cultuur en Wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_minist,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met het <strong>Ministerie van Onderwijs, Cultuur en Wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
@@ -910,7 +910,7 @@ evaluatie.content = [{
                          { title: 'Weet ik niet' }
                        ],
                        show_otherwise: false,
-                       tooltip: 'Een deel van het regionale budget voor VSV en kwetsbare jongeren komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen ‘op de grote hoop’, via het Gemeentefonds.'
+                       tooltip: 'Een deel van het regionale budget voor VSV en jongeren in een kwetsbare positie komt via de contactgemeente naar de regio in de vorm van een specifieke uitkering met een specifiek doel (geoormerkt). Bij een decentralisatie-uitkering komt het bij de contactgemeente binnen ‘op de grote hoop’, via het Gemeentefonds.'
                      }, {
                        id: :v80,
                        hidden: true,

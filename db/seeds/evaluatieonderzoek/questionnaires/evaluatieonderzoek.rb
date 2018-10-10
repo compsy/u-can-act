@@ -722,7 +722,7 @@ evaluatie.content = [{
                          { title: 'Scholen', shows_questions: %i[v66_scholen v67_scholen] },
                          { title: '(Jeugd)zorg', shows_questions: %i[v66_zorg v67_zorg] },
                          { title: 'Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)', shows_questions: %i[v66_werkgvr v67_werkgvr] },
-                         { title: 'Ministerie van Onderwijs Cultuur en wetenschap', shows_questions: %i[v66_minist v67_minist] }
+                         { title: 'Ministerie van Onderwijs, Cultuur en Wetenschap', shows_questions: %i[v66_minist v67_minist] }
                        ]
                      }, {
                        id: :v66_gem_rmc,
@@ -798,14 +798,14 @@ evaluatie.content = [{
                        id: :v66_minist,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe intensief heeft u samengewerkt met het <strong>Ministerie van Onderwijs, Cultuur en Wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_minist,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met het <strong>Ministerie van Onderwijs Cultuur en wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met het <strong>Ministerie van Onderwijs, Cultuur en Wetenschap</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {

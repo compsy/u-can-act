@@ -62,8 +62,8 @@ evaluatie.content = [{
                        type: :radio,
                        title: 'Bij wat voor organisatie bent u werkzaam?',
                        options: [
-                         { title: 'Een gemeente, afdeling RMC',
-                           tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. leerplicht, het gaat erom dat u verantwoordelijk bent voor onder andere onderwijsparticipatie.',
+                         { title: 'Een gemeente, afdeling RMC of aanverwant',
+                           tooltip: 'In sommige gemeenten wordt dit anders genoemd, bijv. leerplicht, het gaat erom dat u verantwoordelijk bent voor onder andere onderwijsparticipatie bij jongeren.',
                            shows_questions: %i[v3 v7 v15 v16 v25 v26 v26_1 v27 v27_1 v28 v28_1 v29 v29_1 v30 v31 v32 v33 v33_1 v34 v34_1 v35 v36 v37 v39 v40 v40_1 v41 v41_1 v42 v42_1 v43 v44 v45 v46 v47 v48 v48_1 v49 v49_1 v50 v51 v52 v52_1 v53 v53_1 v54 v55 v55_1 v56 v56_1 v57 v58 v59 v59_1 v60 v60_1 v75 v75_1 v79 v80 v81 v82 v83 v84] },
                          { title: 'Een gemeente, afdeling werk en inkomen of ander arbeidsmarktdomein',
                            tooltip: 'In sommige gemeenten wordt dit anders genoemd of is dit anders ingedeeld, bijv. als sociaal domein, participatie, of UWV, het gaat erom dat u verantwoordelijk bent voor onder andere arbeidsparticipatie bij jongeren.',
@@ -201,7 +201,7 @@ evaluatie.content = [{
                        type: :range,
                        title: 'Hoe groot vindt u de impact van de nieuwe, structurele borging van verantwoordelijkheden i.p.v. tijdelijke VSV convenanten?',
                        labels: ['Heel klein', 'Heel groot'],
-                       tooltip: 'Er is een wettelijke basis gecreëerd voor een aantal taken die eerder op basis van de convenanten werden uitgevoerd, om er voor te zorgen dat deze taken structureel worden uitgevoerd. Bijvoorbeeld scholen en gemeenten zijn nu verplicht om samen te komen tot regionale afspraken over de aanpak van VSV en de begeleiding van jongeren in een kwetsbare positie, in samenwerking met het arbeidsmarktdomein (bijv. dienst werk en inkomen) en partijen uit de zorg, en er is een duidelijke basis voor de financiering van de afgesproken regionale maatregelen.'
+                       tooltip: 'Er is een wettelijke basis gecreëerd voor een aantal taken die eerder op basis van de convenanten werden uitgevoerd, om er voor te zorgen dat deze taken structureel worden uitgevoerd. Bijvoorbeeld scholen en gemeenten zijn nu verplicht om samen te komen tot regionale afspraken over de aanpak van VSV en de begeleiding van jongeren in een kwetsbare positie, in samenwerking met het arbeidsmarktdomein (bijv. afdeling werk en inkomen) en partijen uit de zorg, en er is een duidelijke basis voor de financiering van de afgesproken regionale maatregelen.'
                      }, {
                        id: :v13,
                        type: :range,
@@ -241,7 +241,7 @@ evaluatie.content = [{
                      }, {
                        section_start: '',
                        type: :raw,
-                       content: '<div class="divider"></div><p class="flow-text"><em>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</em></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="M.toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Dienst Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;, displayLength: 19380});autoResizeImages();"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>',
+                       content: '<div class="divider"></div><p class="flow-text"><em>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</em></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="M.toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Afdeling Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;, displayLength: 19380});autoResizeImages();"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>',
                      }, {
                        id: :v17,
                        type: :range,
@@ -454,7 +454,7 @@ evaluatie.content = [{
                        hidden: true,
                        type: :checkbox,
                        show_otherwise: false,
-                       title: 'In hoeverre worden de budgetten daadwerkelijk verdeeld tussen de school én de RMC contactgemeente?',
+                       title: 'In hoeverre worden de budgetten verdeeld tussen de school én de RMC contactgemeente (i.p.v. samengevoegd)?',
                        options: [{ title: 'Weet ik niet', hides_questions: %i[v40_1] }]
                      }, {
                        id: :v40_1,
@@ -718,7 +718,7 @@ evaluatie.content = [{
                        title: 'Met wie heeft u in de afgelopen twee jaar samengewerkt in de aanpak van VSV en het begeleiden van jongeren in een kwetsbare positie?',
                        options: [
                          { title: 'Gemeente, afdeling RMC', shows_questions: %i[v66_gem_rmc v67_gem_rmc] },
-                         { title: 'Gemeente, afdeling dienst werk en inkomen', shows_questions: %i[v66_gem_dwi v67_gem_dwi] },
+                         { title: 'Gemeente, afdeling werk en inkomen', shows_questions: %i[v66_gem_dwi v67_gem_dwi] },
                          { title: 'Scholen', shows_questions: %i[v66_scholen v67_scholen] },
                          { title: '(Jeugd)zorg', shows_questions: %i[v66_zorg v67_zorg] },
                          { title: 'Werkgevers / Arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid)', shows_questions: %i[v66_werkgvr v67_werkgvr] },
@@ -742,14 +742,14 @@ evaluatie.content = [{
                        id: :v66_gem_dwi,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling dienst werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe intensief heeft u samengewerkt met <strong>Gemeente, afdeling werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Helemaal niet samengewerkt', 'Heel intensief samengewerkt']
                      }, {
                        id: :v67_gem_dwi,
                        hidden: true,
                        type: :range,
-                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Gemeente, afdeling dienst werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
+                       title: 'Hoe ervaart u de kwaliteit van de samenwerking met <strong>Gemeente, afdeling werk en inkomen</strong>, sinds de invoering van de beleidsmaatregelen in 2016?',
                        tooltip: maatregelitje,
                        labels: ['Heel negatief', 'Heel positief']
                      }, {
@@ -956,7 +956,7 @@ evaluatie.content = [{
                        section_start: '<div class="divider"></div>',
                        id: :v86,
                        type: :textarea,
-                       title: 'Zijn er nog andere punten die u niet kwijt kon in de vragenlijst en die u wilt meegeven?',
+                       title: 'Indien u nog aanvullende op- of aanmerkingen heeft over de aanpak van voortijdig schoolverlaten en jongeren in een kwetsbare positie dan kunt u die hier benoemen.',
                        placeholder: 'Vul hier uw antwoord in'
                      }]
 evaluatie.title = 'De huidige aanpak van voortijdig schoolverlaten en jongeren in kwetsbare posities: een evaluatie van het nationale beleid'

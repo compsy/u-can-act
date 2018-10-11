@@ -1,4 +1,5 @@
-class ProgressText extends React.Component {
+import React from 'react'
+export default class ProgressText extends React.Component {
 
   calculateProgess(protocolCompletion) {
     let completion = protocolCompletion.reduce((sum, value) => {

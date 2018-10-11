@@ -1,4 +1,5 @@
-class Callback extends React.Component {
+import React from 'react'
+export default class Callback extends React.Component {
   render() {
     return (
       <div>

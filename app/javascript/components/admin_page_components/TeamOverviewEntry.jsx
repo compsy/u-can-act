@@ -1,4 +1,6 @@
-class TeamOverviewEntry extends React.Component {
+import React from 'react'
+
+export default class TeamOverviewEntry extends React.Component {
   generateOverviewRows(overview, overviewName) {
     var rows = [];
     var cols = [];

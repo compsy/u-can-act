@@ -1,4 +1,5 @@
-class Select extends React.Component {
+import React from 'react'
+export default class Select extends React.Component {
   constructor(props) {
     super(props);
     this._uuid = this.uuid();

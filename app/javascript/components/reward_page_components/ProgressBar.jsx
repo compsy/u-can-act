@@ -1,4 +1,7 @@
-class ProgressBar extends React.Component {
+import React from 'react'
+import Pyro from './Pyro'
+
+export default class ProgressBar extends React.Component {
 
   constructor(props) {
     super(props);

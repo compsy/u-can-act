@@ -1,4 +1,7 @@
-class StudentFinalRewardPage extends React.Component {
+import React from 'react'
+import RewardFooter from './RewardFooter'
+
+export default class StudentFinalRewardPage extends React.Component {
   render() {
     return (
       <div>

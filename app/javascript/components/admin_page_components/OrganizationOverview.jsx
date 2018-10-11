@@ -1,4 +1,7 @@
-class OrganizationOverview extends React.Component {
+import React from 'react'
+import TeamOverview from './TeamOverview'
+
+export default class OrganizationOverview extends React.Component {
   render() {
     if (!this.props.auth.isAuthenticated()) {
       return (

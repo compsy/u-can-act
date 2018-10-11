@@ -1,4 +1,6 @@
-class EditPersonLink extends React.Component {
+import React from 'react'
+
+export default class EditPersonLink extends React.Component {
   constructor(props) {
     super(props);
     this.timer = null;

@@ -1,4 +1,5 @@
-class SoloRewardPage extends React.Component {
+import React from 'react'
+export default class SoloRewardPage extends React.Component {
   render() {
     return (
       <div className='section'>

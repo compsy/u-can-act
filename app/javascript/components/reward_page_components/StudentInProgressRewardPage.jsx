@@ -1,4 +1,9 @@
-class StudentInProgressRewardPage extends React.Component {
+import React from 'react'
+import RewardFooter from './RewardFooter'
+import RewardMessage from './RewardMessage'
+import ProgressBar from './ProgressBar'
+
+export default class StudentInProgressRewardPage extends React.Component {
   constructor(props) {
     super(props);
 

@@ -1,4 +1,7 @@
-class WeekDropdownMenu extends React.Component {
+import React from 'react'
+import Select from './Select'
+
+export default class WeekDropdownMenu extends React.Component {
   /* For a given date, get the ISO week number
    * FROM https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
    * Based on information at:

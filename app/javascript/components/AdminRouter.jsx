@@ -1,4 +1,12 @@
-class AdminRouter extends React.Component {
+import React from 'react'
+import { Route } from 'react-router'
+import { BrowserRouter} from 'react-router-dom'
+
+import AdminPage from './AdminPage'
+import OrganizationOverview from './admin_page_components/OrganizationOverview'
+import Callback from './Callback'
+
+export default class AdminRouter extends React.Component {
   constructor(props) {
     super(props);
     this.auth = new Auth()
@@ -14,11 +22,8 @@ class AdminRouter extends React.Component {
   }
 
   render() {
-    var Route = ReactRouter.Route;
-    var Router = ReactRouterDOM.BrowserRouter;
-
     return (
-      <Router>
+      <BrowserRouter>
         <div>
           <Route exact path="/admin" render={(props) => {
             return <AdminPage auth={this.auth} {...props} /> 
@@ -31,7 +36,7 @@ class AdminRouter extends React.Component {
             return <Callback {...props} /> 
           }}/>
         </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }

@@ -1,4 +1,10 @@
-class RewardPage extends React.Component {
+import React from 'react'
+import MentorRewardPage from './reward_page_components/MentorRewardPage'
+import SoloRewardPage from './reward_page_components/SoloRewardPage'
+import StudentFinalRewardPage from './reward_page_components/StudentFinalRewardPage'
+import StudentInProgressRewardPage from './reward_page_components/StudentInProgressRewardPage'
+
+export default class RewardPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

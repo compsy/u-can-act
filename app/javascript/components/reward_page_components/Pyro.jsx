@@ -1,4 +1,5 @@
-class Pyro extends React.Component {
+import React from 'react'
+export default class Pyro extends React.Component {
   render() {
     return ( 
       <div className="fireworks_component">

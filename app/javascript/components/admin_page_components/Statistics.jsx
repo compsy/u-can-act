@@ -1,4 +1,7 @@
-class Statistics extends React.Component {
+import React from 'react'
+import StatisticsEntry from './StatisticEntry'
+
+export default class Statistics extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -43,7 +46,7 @@ class Statistics extends React.Component {
 		}
 
 		return (
-			<div class='general-statistics'>
+			<div className='general-statistics'>
 				<h4>General statistics</h4>
 				<StatisticsEntry icon='school' title='Students' value={this.state.result.number_of_students} subtext='At-risk and control' />
 				<StatisticsEntry icon='people' title='Mentors' value={this.state.result.number_of_mentors} subtext='Across all agencies' />

@@ -3,6 +3,7 @@ require 'listen/record/symlink_detector'
 module Listen
   class Record
     class SymlinkDetector
+      private
       def _fail(_, _)
         fail Error, "Don't watch locally-symlinked directory twice"
       end

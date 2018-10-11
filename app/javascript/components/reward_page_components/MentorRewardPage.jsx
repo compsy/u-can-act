@@ -1,4 +1,7 @@
-class MentorRewardPage extends React.Component {
+import React from 'react'
+import RewardFooter from './RewardFooter'
+
+export default class MentorRewardPage extends React.Component {
   render() {
     return (
       <div>

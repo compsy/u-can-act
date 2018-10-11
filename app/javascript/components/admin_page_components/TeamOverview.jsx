@@ -1,10 +1,15 @@
-class TeamOverview extends React.Component {
+import React from 'react'
+import WeekDropdownMenu from './WeekDropdownMenu'
+import TeamOverviewEntry from './TeamOverviewEntry'
+import YearDropdownMenu from './YearDropdownMenu'
+
+export default class TeamOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Mentor: undefined,
       Student: undefined,
-      groups: ['<%= Person::MENTOR %>', '<%= Person::STUDENT %>'],
+      groups: ['Mentor', 'Student'],
       year: new Date().getFullYear(),
       week_number: undefined
     };

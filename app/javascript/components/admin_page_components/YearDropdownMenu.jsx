@@ -1,4 +1,7 @@
-class YearDropdownMenu extends React.Component {
+import React from 'react'
+import Select from './Select'
+
+export default class YearDropdownMenu extends React.Component {
   generateYears() {
 
     start = 2017;

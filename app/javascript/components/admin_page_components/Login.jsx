@@ -1,4 +1,5 @@
-class Login extends React.Component {
+import React from 'react'
+export default class Login extends React.Component {
   login() {
     this.props.auth.login();
   }

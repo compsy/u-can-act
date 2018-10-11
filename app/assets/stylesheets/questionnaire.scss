@@ -1,9 +1,9 @@
 // Limit the maximum size increase of flow-text
 // This line is at the top of the file so e.g., tooltip can override it
-.flow-text{
+.flow-text {
   $i: 8;
   @while $i <= $intervals {
-    @media only screen and (min-width : 360 + ($i * $interval-size)) {
+    @media only screen and (min-width: 360 + ($i * $interval-size)) {
       font-size: 1.392rem;
     }
     $i: $i + 1;
@@ -41,7 +41,7 @@
 
 .input-field.inline {
   margin-top: -21px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   top: 16px;
 }
 
@@ -54,8 +54,23 @@ input[type=range] {
   margin-top: 26px;
 }
 
+// Note: It doesn't work in Chrome (and possibly other browsers)
+// when we nest the thumb thingies under input[type=range] together.
 input[type=range]::-webkit-slider-thumb {
   margin-top: -16px;
+}
+
+// Fix "the flattening" of input controls in IE.
+input[type=range]::-ms-track {
+  background: transparent;
+  border-color: transparent;
+  border-width: 35px 0;
+  color: transparent;
+}
+
+// Fix that it cuts off the top and bottom when dragging the scroll thumb in Firefox.
+input[type=range]:-moz-focusring {
+  outline: none;
 }
 
 input[disabled].otherwise {
@@ -151,6 +166,7 @@ form .likert-scale {
   padding-left: 0;
   padding-right: 0;
 }
+
 .input-field.col.no-padding label {
   left: 0;
 }
@@ -185,6 +201,7 @@ form .likert-scale {
 p.option-label, div.otherwise-textfield {
   padding-left: 35px;
 }
+
 [type="checkbox"] + span:not(.lever), [type="checkbox"]:not(.filled-in) + span:not(.lever), [type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
   display: inline;
   padding-left: 0;
@@ -193,6 +210,7 @@ p.option-label, div.otherwise-textfield {
     left: -35px;
   }
 }
+
 [type="checkbox"]:checked + span:not(.lever):before {
   top: -0.5rem;
   left: -40px;

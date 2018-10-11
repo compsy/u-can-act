@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: circleci/ruby:2.4.3-browsers
+    - image: circleci/ruby:2.4.3-node-browsers
     - image: circleci/redis
       command: redis-server --requirepass redispassword
       environment:
@@ -57,6 +57,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: yarn install
       - run: bundle --path vendor/bundle
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
@@ -129,9 +130,9 @@ workflows:
       - test_rubocop:
           requires:
             - build
-      - test_teaspoon:
-          requires:
-            - test_rubocop
+#      - test_teaspoon:
+#          requires:
+#            - test_rubocop
       - test_rspec:
           requires:
             - build

@@ -25,6 +25,7 @@ Initialize the database
 The VSV application has the following dependencies:
 - PostgreSQL
 - Redis
+- Yarn (on macOS: `brew install yarn`)
 
 ## Configuration
 The .env.local file is used for storing all ENV variables. Below is a list of all required ENV variables.

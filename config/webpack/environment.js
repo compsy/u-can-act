@@ -7,4 +7,6 @@ const { environment } = require('@rails/webpacker')
 // Delete a property
 // environment.config.delete('output.chunkFilename')
 
+// TODO: find a way to load ENV variables for the organization here and find out how they can be referenced from js.
+
 module.exports = environment

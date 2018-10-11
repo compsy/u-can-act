@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: circleci/ruby:2.4.3-browsers
+    - image: circleci/ruby:2.4.3-node-browsers
     - image: circleci/redis
       command: redis-server --requirepass redispassword
       environment:

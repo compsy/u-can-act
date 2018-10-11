@@ -7,7 +7,7 @@ export default class Auth {
 
     // Copy the correct auth0 env vars here.
     this.auth0 = new auth0.WebAuth({
-      domain: "<%= ENV['AUTH0_DOMAIN'] %>",
+      domain: "<%= ENV['AUTH0_DOMAIN'] %>", // TODO: fixme
       clientID: "<%=ENV['AUTH0_CLIENT_ID']%>",
       redirectUri: "<%= ENV['AUTH0_REDIRECT_URL'] %>",
       audience: "<%=ENV['AUTH0_AUDIENCE'] %>",

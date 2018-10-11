@@ -5,6 +5,7 @@ import { BrowserRouter} from 'react-router-dom'
 import AdminPage from './AdminPage'
 import OrganizationOverview from './admin_page_components/OrganizationOverview'
 import Callback from './Callback'
+import Auth from './Auth'
 
 export default class AdminRouter extends React.Component {
   constructor(props) {

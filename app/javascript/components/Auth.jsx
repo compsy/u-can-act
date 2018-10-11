@@ -1,4 +1,4 @@
-class Auth {
+export default class Auth {
   constructor() {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);

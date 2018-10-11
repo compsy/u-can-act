@@ -7,6 +7,7 @@
   <!--[if gt IE 9]><!--> <html> <!--<![endif]-->
 %head
   %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+  %meta{:content => "IE=edge,chrome=1", "http-equiv" => "X-UA-Compatible"}
   %meta{name: "application-name", content: "u-can-act"}
   = render 'shared/favicon'
 
@@ -30,7 +31,7 @@
     .notices
       .card-panel.alert.red.lighten-2
         %strong Let op:
-        Uw browser is Internet Explorer versie &lt 10. Daardoor werkt deze app niet. Gebruik a.u.b. een recentere browser.
+        Uw browser is Internet Explorer versie &lt; 10. Daardoor werkt deze webpagina niet. Gebruik a.u.b. een recentere browser.
   - flash.each do |name, msg|
     .row.flash-notice
       .col.s12

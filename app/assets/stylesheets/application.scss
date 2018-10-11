@@ -21,6 +21,19 @@
 
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
+// Internet Explorer stuff
+#noscript {
+  display: none;
+}
+.lt-ie10 {
+  #noscript {
+    display: block;
+  }
+  .container {
+    display: none !important;
+  }
+}
+
 @import "materialize/components/color-variables";
 
 $primary-color: color("blue", "lighten-2");
@@ -200,18 +213,4 @@ body {
 
 .warning-text {
   color: $u-can-act-orange !important;
-}
-
-
-// Internet Explorer stuff
-#noscript {
-  display: none;
-}
-.lt-ie10 {
-  #noscript {
-    display: block;
-  }
-  .container {
-    display: none;
-  }
 }

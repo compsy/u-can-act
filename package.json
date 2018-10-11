@@ -2,6 +2,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
     "@rails/webpacker": "https://github.com/rails/webpacker",
+    "babel-polyfill": "^6.26.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",

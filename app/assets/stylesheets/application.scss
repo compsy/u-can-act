@@ -201,3 +201,17 @@ body {
 .warning-text {
   color: $u-can-act-orange !important;
 }
+
+
+// Internet Explorer stuff
+#noscript {
+  display: none;
+}
+.lt-ie10 {
+  #noscript {
+    display: block;
+  }
+  .container {
+    display: none;
+  }
+}

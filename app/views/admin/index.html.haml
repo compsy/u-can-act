@@ -19,7 +19,7 @@
             %p= "Aantal keren emailadres & ip opgegeven: #{Person.where('email IS NOT NULL AND ip_hash IS NOT NULL').count}"
       .col.s12
         .section
-          = react_component('Statistics')
+          = react_component('admin_page_components/Statistics')
       .col.s12
         .section
           %h4 Elaborate functionality

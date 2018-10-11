@@ -129,9 +129,9 @@ workflows:
       - test_rubocop:
           requires:
             - build
-      - test_teaspoon:
-          requires:
-            - test_rubocop
+#      - test_teaspoon:
+#          requires:
+#            - test_rubocop
       - test_rspec:
           requires:
             - build

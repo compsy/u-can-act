@@ -57,6 +57,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: yarn install
       - run: bundle --path vendor/bundle
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image

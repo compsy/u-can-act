@@ -1,6 +1,5 @@
 # Beware! This file is public by definition
 default: &default
-  application_name: 'u-can-act'
   logo:
     mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'
     student_logo: 'U_can_act_logo_CMYK_GROEN.png'

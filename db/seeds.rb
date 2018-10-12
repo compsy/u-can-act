@@ -9,6 +9,7 @@ end
 
 # Load only top level seeds file from evaluatieonderzoek and demo
 seed_directory = ENV['PROJECT_NAME']
+raise 'Seeds directory cannot be nil!' unless ENV['PROJECT_NAME']
 puts "Loading seeds for #{seed_directory}"
 Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '*.rb')].each do |file|
   require file

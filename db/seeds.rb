@@ -8,10 +8,10 @@ if Rails.env.development?
 end
 
 # Load only top level seeds file from evaluatieonderzoek and demo
-%w[demo].each do |seed_directory|
-  Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '*.rb')].each do |file|
-    require file
-  end
+seed_directory = ENV['PROJECT_NAME']
+puts "Loading seeds for #{seed_directory}"
+Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '*.rb')].each do |file|
+  require file
 end
 
 # Remember to use create!/save! instead of create/save everywhere in seeds

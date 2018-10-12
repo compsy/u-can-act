@@ -20,7 +20,7 @@ mentors.csv
 pickle-email-*.html
 
 # dotenv
-.env
+.env.local
 
 ## Environment normalization:
 /.bundle

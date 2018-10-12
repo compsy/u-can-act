@@ -1,7 +1,7 @@
 # Beware! This file is public by definition
 default: &default
-  application_name: <%=ENV['PROJECT_NAME'] || 'demo'%>
-  default_team_name: ''
+  application_name: 'u-can-act'
+  default_team_name: 'Demo-team'
   logo:
     mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'
     student_logo: 'U_can_act_logo_CMYK_GROEN.png'

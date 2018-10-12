@@ -1,0 +1,11 @@
+# Beware! This file is public by definition
+default: &default
+  default_team_name: 'Demo-team'
+development:
+  <<: *default
+production:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default

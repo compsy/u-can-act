@@ -42,7 +42,6 @@ class PlainTextParser
   end
 
   def parse_end_date(end_date)
-    byebug
     parsed_end_date = Time.zone.parse(end_date)
     raise "End date is not in the correct format: #{end_date}" unless parsed_end_date.present?
     raise "End date lies in the past: #{end_date}" unless parsed_end_date > Time.zone.now

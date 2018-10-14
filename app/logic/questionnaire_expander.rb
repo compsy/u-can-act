@@ -23,7 +23,7 @@ class QuestionnaireExpander
     end
 
     def process_first_response?(content)
-      content[:title_first_response].present? || content[:content_first_response].present?
+      content[:title].is_a?(Hash) || content[:content].is_a?(Hash)
     end
 
     def process_normal(content, response)
@@ -44,17 +44,21 @@ class QuestionnaireExpander
     end
 
     def process_first_response(content, response)
-      items = %w[title content]
-      items.each do |item|
+      items = %i[title content]
+      items.each do |key|
         # Just quit searching if we do not have any more tags to replace.
         break unless process_first_response? content
 
-        key = item.to_sym
-        first_key = "#{item}_first_response".to_sym
-        initial_value = content[first_key]
+        next unless content[key].is_a? Hash
+
         previous = PreviousResponseFinder.find(response)
-        content[key] = initial_value if previous.blank? && initial_value.present?
-        content.delete first_key
+
+        initial_value = content[key][:first]
+        content[key] = if previous.blank? && initial_value.present?
+                         initial_value
+                       else
+                         content[key][:normal]
+                       end
       end
       expand_content(content, response)
     end

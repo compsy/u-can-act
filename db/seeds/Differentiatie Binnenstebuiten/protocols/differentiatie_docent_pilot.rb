@@ -1,5 +1,5 @@
-default_protocol_duration = 35.weeks # evt eerder dynamisch afbreken
-default_open_duration = 30.hours     # "tot de volgende dag 6 uur"
+default_protocol_duration = 15.hours + 30.minutes
+default_open_duration = 55.minutes
 default_posttest_open_duration = nil
 default_reward_points = 100
 
@@ -7,23 +7,29 @@ default_reward_points = 100
 ## docenten ##
 ###############
 
-pr_name = 'differentiatie_docenten'
+pr_name = 'differentiatie_docenten_pilot'
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
 protocol.invitation_text ='Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 protocol.save!
 
+protocol.rewards.destroy_all
+reward = protocol.rewards.create!(threshold: 1, reward_points: 1)
+reward.save!
+reward = protocol.rewards.create!(threshold: 3, reward_points: 2)
+reward.save!
+
 # Add dagboekmetingen
-db_name = 'differentiatie docenten'
-of_offset = 3.days + 12.hours # Thursday noon
+db_name = 'Differentiatie Binnenstebuiten Docenten'
+of_offset = 13.hours # 9 o'clock on monday morning
 dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
 raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
                                              open_from_offset: of_offset).first
 db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
 db_measurement.open_from_offset = of_offset
-db_measurement.period = 1.week
+db_measurement.period = 1.hour
 db_measurement.open_duration = default_open_duration
 db_measurement.reward_points = default_reward_points
 db_measurement.stop_measurement = false

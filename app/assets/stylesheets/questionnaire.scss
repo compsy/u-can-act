@@ -107,10 +107,13 @@ input[type="checkbox"] + label {
 }
 
 form .likert-scale {
+  p:first {
+    display:block;
+  }
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin: 0;
+  margin: 0 0 1.25rem 0;
   padding: 0 0 0 0;
 }
 
@@ -160,10 +163,8 @@ p.option-label, div.otherwise-textfield {
   padding-left: 0;
 
   &:before, &:after {
-    // Uncommenting this screws up the likert scale. Do we really need this?
-    //top: -0.2rem;
-    //left: -35px;
- 
+    top: -0.2rem;
+    left: -35px;
   }
 }
 
@@ -205,6 +206,8 @@ button[type="submit"] {
       padding: 2px !important;
 
       &:before, &:after {
+        top: 0!important;
+        left: 0!important;
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -216,8 +219,6 @@ button[type="submit"] {
       }
 
       &:after {
-        top: 0px;
-        left: 0px;
         bottom: 0px;
         right: 0px;
       }

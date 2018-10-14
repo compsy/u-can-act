@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 db_title = '' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
-db_name1 = 'differentiatie studenten range'
+db_name1 = 'Differentiatie Binnenstebuiten Scholieren Nederlands'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [{
-  section_start: 'Dagboek',
+  section_start: 'Dagboek Nederlands',
   type: :raw,
   content: '<p class="flow-text section-explanation">Hoi! Fijn dat je het dagboek weer invult &#x263a; Denk bij het invullen aan afgelopen les. Geef voor elke uitspraak aan in welke mate de uitspraak waar is voor jou. Je kunt kiezen uit een score van 0 tot 100.</p>'
 }, {

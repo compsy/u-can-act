@@ -15,7 +15,7 @@ end
 end
 
 # Load only top level seeds file from differentiatie_binnenstebuiten
-%w[differentiatie_binnenstebuiten].each do |seed_directory|
+['Differentiatie Binnenstebuiten'].each do |seed_directory|
   Dir[File.join(File.dirname(__FILE__), 'seeds', seed_directory, '*.rb')].each do |file|
     require file
   end

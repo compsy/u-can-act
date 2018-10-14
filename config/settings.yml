@@ -1,15 +1,15 @@
 # Beware! This file is public by definition
 default: &default
   application_name: 'Differentiatie Binnenstebuiten'
-
-  default_team_name: 'Evaluatieonderzoek'
-  hide_logo: true
+  default_team_name: 'Differentiatie Binnenstebuiten'
   hide_edit_iban: true
+  show_mobile_images: false
   logo:
-    mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'
-    student_logo: 'U_can_act_logo_CMYK_GROEN.png'
-    fallback_logo: 'U_can_act_logo_ZWART.png'
-    company_logo: 'rug_logo.png'
+    favicon: 'projects/Differentiatie Binnenstebuiten/favicon.ico'
+    mentor_logo: 'rug_logo.png'
+    student_logo: 'rug_logo.png'
+    fallback_logo: 'rug_logo.png'
+    company_logo: null
 development:
   <<: *default
 production:

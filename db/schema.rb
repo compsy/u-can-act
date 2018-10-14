@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181008050627) do
+ActiveRecord::Schema.define(version: 20181014175621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,12 +138,13 @@ ActiveRecord::Schema.define(version: 20181008050627) do
   end
 
   create_table "protocols", force: :cascade do |t|
-    t.string   "name",                              null: false
-    t.integer  "duration",                          null: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.string   "name",                                              null: false
+    t.integer  "duration",                                          null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.integer  "informed_consent_questionnaire_id"
     t.string   "invitation_text"
+    t.integer  "reminder_delay",                    default: 28800
     t.index ["informed_consent_questionnaire_id"], name: "index_protocols_on_informed_consent_questionnaire_id", using: :btree
     t.index ["name"], name: "index_protocols_on_name", unique: true, using: :btree
   end

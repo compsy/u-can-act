@@ -90,6 +90,8 @@ Rails.application.configure do
   # Setup mailgun mailing
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
+    api_host: ENV['MAILGUN_API_HOST'],
+    mailgun_host: ENV['MAILGUN_MAILGUN_HOST'],
     api_key: ENV['MAILGUN_API_KEY'],
     domain: ENV['MAILGUN_DOMAIN'],
   }

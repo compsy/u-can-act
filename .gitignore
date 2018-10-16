@@ -1,3 +1,4 @@
+*.csv
 /.idea
 *.rbc
 capybara-*.html

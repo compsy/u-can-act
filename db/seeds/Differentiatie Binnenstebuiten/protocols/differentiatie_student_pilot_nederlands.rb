@@ -3,17 +3,20 @@ default_open_duration = 13.hours
 default_posttest_open_duration = nil
 default_reward_points = 100
 
-##############
-## Docenten ##
-##############
+##########################
+## studenten nederlands ##
+##########################
 
-pr_name = 'differentiatie_docenten_pilot'
-db_name = 'Differentiatie Binnenstebuiten Docenten'
+pr_name = 'differentiatie_studenten_pilot_nederlands'
+db_name = 'Differentiatie Binnenstebuiten Scholieren Nederlands'
+ic_name = 'informed consent scholieren'
 invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration.days
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name(ic_name)
+raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 protocol.invitation_text = invitation_text
 protocol.save!
 
@@ -29,7 +32,7 @@ dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
 raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 
 (1..default_protocol_duration).each do |number_of_days|
-  of_offset = number_of_days.days + 11.hours # Tuesday, Wednesday, Thursday, Friday at noon
+  of_offset = number_of_days.days + 13.hours # Tuesday, Wednesday, Thursday, Friday at noon
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
                                               open_from_offset: of_offset).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)

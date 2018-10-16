@@ -19,7 +19,7 @@ class InvitationSet < ApplicationRecord
 
   def reminder_delay
     responses.map do |response|
-      response.protocol_subscription.protocol.reminder_delay
+      response.measurement.reminder_delay
     end.compact.min
   end
 end

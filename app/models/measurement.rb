@@ -17,6 +17,8 @@ class Measurement < ApplicationRecord
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  validates :reminder_delay, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
+
   validate :either_open_from_or_offset_till_end
 
   has_many :responses, dependent: :destroy

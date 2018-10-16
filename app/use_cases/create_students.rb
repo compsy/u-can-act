@@ -38,7 +38,7 @@ class CreateStudents < ActiveInteraction::Base
   # rubocop:enable Metrics/AbcSize
 
   def role_title(student)
-    student[:role_name] || Person::STUDENT
+    student[:role_title] || Person::STUDENT
   end
 
   def create_students(students)

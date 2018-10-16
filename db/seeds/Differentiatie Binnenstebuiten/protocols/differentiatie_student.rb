@@ -11,7 +11,7 @@ pr_name = 'differentiatie_studenten'
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
-protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent studenten december 2017')
+protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent scholieren')
 protocol.invitation_text ='Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 protocol.save!

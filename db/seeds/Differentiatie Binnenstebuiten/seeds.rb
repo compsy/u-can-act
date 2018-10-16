@@ -23,6 +23,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
 
   students = [
     { first_name: 'Differentiatie', last_name: 'Student',             gender: 'female', role: scholier },
+    { first_name: 'Differentiatie', last_name: 'Student IC',             gender: 'female', role: scholier },
     { first_name: 'Differentiatie', last_name: 'Docent',              gender: nil,      role: docent },
     { first_name: 'Differentiatie', last_name: 'Docent vorige vraag', gender: nil,      role: docent },
     { first_name: 'Differentiatie', last_name: 'Docent vorige vraag maar leeg', gender: nil,      role: docent }
@@ -56,7 +57,25 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts ''
-  puts "differentiatie meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+  puts "differentiatie student meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  # Differentiatie person
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Scholieren')
+               .first
+               .people
+               .where(first_name: 'Differentiatie', last_name: 'Student IC').first
+
+  person.protocol_subscriptions.create(
+    protocol: Protocol.find_by_name('differentiatie_studenten'),
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week
+  )
+  responseobj = person.protocol_subscriptions.first.responses.first
+
+  invitation_set = InvitationSet.create!(person: person)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "differentiatie student meting IC: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie docent
   person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Docenten')

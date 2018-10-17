@@ -38,6 +38,7 @@
     "transform": {
       "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest"
-    }
+    },
+    "setupTestFrameworkScriptFile": "./spec/javascript/setupTests.js"
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import printAsMoney from '../printAsMoney'
 export default class ProgressText extends React.Component {
 
   calculateProgess(protocolCompletion) {

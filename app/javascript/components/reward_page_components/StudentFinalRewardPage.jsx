@@ -1,5 +1,6 @@
 import React from 'react'
 import RewardFooter from './RewardFooter'
+import printAsMoney from '../printAsMoney'
 
 export default class StudentFinalRewardPage extends React.Component {
   render() {

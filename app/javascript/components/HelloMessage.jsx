@@ -1,4 +1,6 @@
 import React from 'react'
+import printAsMoney from './printAsMoney'
+
 export default class HelloMessage extends React.Component {
   render() {
     return (

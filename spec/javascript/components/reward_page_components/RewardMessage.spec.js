@@ -2,9 +2,9 @@ import React from 'react'
 import {render} from 'enzyme'
 import RewardMessage from 'components/reward_page_components/RewardMessage'
 
-let wrapper = null;
-
 describe('RewardMessage', () => {
+  let wrapper;
+
   beforeEach(() => {
     wrapper = render(<RewardMessage euroDelta='123'/>);
   });

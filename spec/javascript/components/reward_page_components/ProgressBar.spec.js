@@ -3,9 +3,9 @@ import {shallow} from 'enzyme'
 import sinon from 'sinon'
 import ProgressBar from 'components/reward_page_components/ProgressBar'
 
-let wrapper = null;
-
 describe('ProgressBar', () => {
+  let wrapper;
+
   beforeEach(() => {
     wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={0} initialMultiplier={0}
                                    percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)

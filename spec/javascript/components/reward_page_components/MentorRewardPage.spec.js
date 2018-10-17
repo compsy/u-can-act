@@ -2,9 +2,9 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import MentorRewardPage from 'components/reward_page_components/MentorRewardPage'
 
-let wrapper = null;
-
 describe('MentorRewardPage', () => {
+  let wrapper;
+
   beforeEach(() => {
     wrapper = shallow(<MentorRewardPage person={{earnedEuros: 1, iban: 'iban', name: 'name'}} />)
   });

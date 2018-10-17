@@ -2,9 +2,9 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import StudentFinalRewardPage from 'components/reward_page_components/StudentFinalRewardPage'
 
-let wrapper = null;
-
 describe('StudentFinalRewardPage', () => {
+  let wrapper;
+
   beforeEach(() => {
     wrapper = shallow(<StudentFinalRewardPage earnedEuros='123' iban='NL01RABO012341234' name='A.B. Cornelissen'
                                               person={{

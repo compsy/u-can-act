@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require modernizr
 //= require materialize
-//= require d3
 //= require history
 //= require auth0
 //= require highcharts

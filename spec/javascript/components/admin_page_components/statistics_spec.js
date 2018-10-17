@@ -1,11 +1,11 @@
-describe("Statistics", function() {
-  beforeEach(function() {
+describe("Statistics", () => {
+  beforeEach(() => {
     const component = React.createElement(Statistics, {});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("constructor", function() {
-    it("it should set the default state", function() {
+  describe("constructor", () => {
+    it("it should set the default state", () => {
       const expectedState = {
         result: undefined,
       };
@@ -13,8 +13,8 @@ describe("Statistics", function() {
     });
   });
 
-  describe("setHeader", function() {
-    it("it should set the correct header on the xhr request", function() {
+  describe("setHeader", () => {
+    it("it should set the correct header on the xhr request", () => {
       xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
       const id_token = '1234abc';
       localStorage.setItem('id_token', id_token)
@@ -24,14 +24,14 @@ describe("Statistics", function() {
     });
   });
 
-  describe("updateStatistics", function() {
+  describe("updateStatistics", () => {
     const year = new Date().getFullYear();
     let expectedUrl = `/api/v1/statistics`
     const theFakeResponse = {
       'text': 'this a a fake response'
     }
 
-    it("it should include the correct attributes in a call", function() {
+    it("it should include the correct attributes in a call", () => {
       spyOn($, 'ajax').and.callFake(function(e) {
         expect(e.type).toEqual('GET');
         expect(e.dataType).toEqual('json');
@@ -40,7 +40,7 @@ describe("Statistics", function() {
       this.rendered.updateStatistics()
     });
 
-    it("it should get the json ajax function with the correct route", function() {
+    it("it should get the json ajax function with the correct route", () => {
       spyOn($, 'ajax').and.callFake(function(e) {
         expect(e.url).toEqual(expectedUrl);
         return $.Deferred().resolve(theFakeResponse).promise();
@@ -51,7 +51,7 @@ describe("Statistics", function() {
       expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse);
     });
 
-    it("it should include the correct headers", function() {
+    it("it should include the correct headers", () => {
       spyOn($, 'ajax').and.callFake(function(e) {
         expect(e.beforeSend).toEqual(Statistics.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
@@ -60,8 +60,8 @@ describe("Statistics", function() {
     });
   });
 
-  describe("handleSuccess", function() {
-    it("should update the state", function() {
+  describe("handleSuccess", () => {
+    it("should update the state", () => {
       const response = 'the response'
       const pre_state = this.rendered.state;
       expect(pre_state.result).not.toEqual(response);
@@ -74,8 +74,8 @@ describe("Statistics", function() {
   });
 
 
-  describe("render", function() {
-    it("it should render when there is data to render", function() {
+  describe("render", () => {
+    it("it should render when there is data to render", () => {
       const component = React.createElement(Statistics, {});
       const rendered = TestUtils.renderIntoDocument(component)
       rendered.setState({
@@ -96,7 +96,7 @@ describe("Statistics", function() {
       console.log(nodes)
     });
 
-    it("it should not render when there is no data", function() {
+    it("it should not render when there is no data", () => {
       const component = React.createElement(Statistics, {});
       const rendered = TestUtils.renderIntoDocument(component)
       rendered.setState({

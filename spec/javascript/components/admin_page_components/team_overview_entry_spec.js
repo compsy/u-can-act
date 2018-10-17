@@ -1,5 +1,5 @@
-describe("TeamOverviewEntry", function() {
-  beforeEach(function() {
+describe("TeamOverviewEntry", () => {
+  beforeEach(() => {
     this.overview = [{
       'name': 'School naam',
       'completed': 10,
@@ -24,18 +24,18 @@ describe("TeamOverviewEntry", function() {
     this.rendered = TestUtils.renderIntoDocument(component);
   });
 
-  describe("generateOverviewRows", function() {
-    beforeEach(function() {
+  describe("generateOverviewRows", () => {
+    beforeEach(() => {
       this.result = this.rendered.generateOverviewRows(this.overview, this.overviewName);
     });
 
 
-    it("it should return an array", function() {
+    it("it should return an array", () => {
       expect(this.result).toEqual(jasmine.any(Array))
       expect(this.result.length).toEqual(2)
     });
 
-    it("it should contain a table row with the correct elements and their keys and values", function() {
+    it("it should contain a table row with the correct elements and their keys and values", () => {
       var j = 0;
       for (var i = 0, len = this.overview.length; i < len; i++) {
         expect(this.result[i].type).toEqual('tr');
@@ -70,17 +70,17 @@ describe("TeamOverviewEntry", function() {
 
   });
 
-  describe("generateTable", function() {
-    beforeEach(function() {
+  describe("generateTable", () => {
+    beforeEach(() => {
       this.rows = this.rendered.generateOverviewRows(this.overview, this.overviewName);
       this.result = this.rendered.generateTable(this.rows);
     });
 
-    it("it should return a table", function() {
+    it("it should return a table", () => {
       expect(this.result.type).toEqual('table');
     });
 
-    it("it should return a table with the correct headers", function() {
+    it("it should return a table with the correct headers", () => {
       expect(this.result.props.children[0].type).toEqual('thead');
       var header = this.result.props.children[0].props.children
       expect(header.type).toEqual('tr');
@@ -106,30 +106,30 @@ describe("TeamOverviewEntry", function() {
       expect(header.props.children[j].props.children).toEqual(' % of mentors with ≥ 70% completed questionnaires');
     });
 
-    it("it should return a table with the correct body", function() {
+    it("it should return a table with the correct body", () => {
       expect(this.result.props.children[1].type).toEqual('tbody');
       var body = this.result.props.children[1].props.children
       expect(body).toEqual(this.rows);
     });
   });
 
-  describe("render", function() {
-    beforeEach(function() {
+  describe("render", () => {
+    beforeEach(() => {
       this.rows = this.rendered.generateOverviewRows(this.overview, this.overviewName);
       this.result = ReactDOM.findDOMNode(this.rendered)
     });
 
-    it("it should return a div with the correct class", function() {
+    it("it should return a div with the correct class", () => {
       expect(this.result.nodeName).toEqual('DIV');
       expect(this.result.attributes.class.nodeValue).toEqual('team-overview-entry col m12');
     });
 
-    it("it should return the correct title", function() {
+    it("it should return the correct title", () => {
       expect(this.result.children[0].nodeName).toEqual('H4')
       expect(this.result.children[0].innerText).toEqual(this.overviewName)
     });
 
-    it("it should return the correct table", function() {
+    it("it should return the correct table", () => {
       expect(this.result.children[1].nodeName).toEqual('TABLE')
     });
   });

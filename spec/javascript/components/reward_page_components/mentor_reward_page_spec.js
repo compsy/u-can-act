@@ -1,5 +1,5 @@
-describe("MentorRewardPage", function() {
-  beforeEach(function() {
+describe("MentorRewardPage", () => {
+  beforeEach(() => {
     var component = React.createElement(MentorRewardPage, {person: {
       earnedEuros: this.earnedEuros,
       iban: this.iban,
@@ -8,7 +8,7 @@ describe("MentorRewardPage", function() {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
   
-  it("it should return the correct text", function() {
+  it("it should return the correct text", () => {
     var elems = ReactDOM.findDOMNode(this.rendered).children[1].children;
     var expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!';
     var result = elems[0].innerText;

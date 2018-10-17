@@ -1,16 +1,16 @@
-describe("Pyro", function() {
-  beforeEach(function() {
+describe("Pyro", () => {
+  beforeEach(() => {
     component = React.createElement(Pyro, {});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
   
-  it("it should provide a scafold for the pyro css", function() {
+  it("it should provide a scafold for the pyro css", () => {
     var elem = ReactDOM.findDOMNode(this.rendered).children[0]
     result = elem.getAttribute('class')
     expect(result).toEqual('pyro');
   });
 
-  it("it should provide a scafold for the pyro css with the correct before and after divs", function() {
+  it("it should provide a scafold for the pyro css with the correct before and after divs", () => {
     var elems = ReactDOM.findDOMNode(this.rendered).children[0].children
     result = elems[0].getAttribute('class')
     expect(result).toEqual('before');

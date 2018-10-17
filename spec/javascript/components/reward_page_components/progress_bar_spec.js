@@ -1,5 +1,5 @@
-describe("MentorRewardPage", function() {
-  beforeEach(function() {
+describe("MentorRewardPage", () => {
+  beforeEach(() => {
     this.inMaxStreak = 0;
     this.euroDelta = 0;
     this.currentMultiplier = 0;
@@ -23,29 +23,29 @@ describe("MentorRewardPage", function() {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("constructor", function() {
-    it("it should should initialize a timer", function() {
+  describe("constructor", () => {
+    it("it should should initialize a timer", () => {
       expect(this.rendered.state.timer).not.toBe(null);
     });
 
-    it("it should initialize the state without streakdetails", function() {
+    it("it should initialize the state without streakdetails", () => {
       expect(this.rendered.state.showStreakDetails).toBeFalsy();
     });
 
-    it("it should should initialize a radial state", function() {
+    it("it should should initialize a radial state", () => {
       expect(this.rendered.state.radial).toBeDefined();
     });
   });
 
-  describe("componentDidUnmount", function() {
-    it("it should set the timer", function() {
+  describe("componentDidUnmount", () => {
+    it("it should set the timer", () => {
       spyOn(window, 'setInterval');
       this.rendered.componentDidMount();
       expect(window.setInterval).toHaveBeenCalled()
       expect(window.setInterval.calls.count()).toEqual(1)
     });
 
-    it("it should render the radial graph", function() {
+    it("it should render the radial graph", () => {
       spyOn(ProgressBar.prototype, 'renderGraph');
       this.rendered.componentDidMount();
       expect(ProgressBar.prototype.renderGraph).toHaveBeenCalled()
@@ -53,8 +53,8 @@ describe("MentorRewardPage", function() {
     });
   });
 
-  describe("componentWillUnmount", function() {
-    it("it should clear the timer", function() {
+  describe("componentWillUnmount", () => {
+    it("it should clear the timer", () => {
       spyOn(window, 'clearInterval')
       this.rendered.componentWillUnmount();
       expect(window.clearInterval).toHaveBeenCalled()
@@ -62,8 +62,8 @@ describe("MentorRewardPage", function() {
     });
   });
 
-  describe("calculateInitialValue", function() {
-    it("it should calculate the initial value", function() {
+  describe("calculateInitialValue", () => {
+    it("it should calculate the initial value", () => {
       var initialValue = 110,
         delta = 10,
         initialMultiplier = 1,
@@ -72,7 +72,7 @@ describe("MentorRewardPage", function() {
       expect(result).toEqual(initialValue - delta + initialMultiplier)
     });
 
-    it("it should return the initial value if there is no multiplier", function() {
+    it("it should return the initial value if there is no multiplier", () => {
       var initialValue = 123,
         delta = 0,
         initialMultiplier = 0,
@@ -82,8 +82,8 @@ describe("MentorRewardPage", function() {
     });
   });
 
-  describe("performTimerEvent", function() {
-    it("it should enable the streak details when in maxstreak is true", function() {
+  describe("performTimerEvent", () => {
+    it("it should enable the streak details when in maxstreak is true", () => {
       component = React.createElement(ProgressBar, {
         inMaxStreak: true,
         euroDelta: this.euroDelta,
@@ -100,7 +100,7 @@ describe("MentorRewardPage", function() {
       expect(rendered.state.showStreakDetails).toBeTruthy();
     });
 
-    it("it should not enable the streak details when in maxstreak is false", function() {
+    it("it should not enable the streak details when in maxstreak is false", () => {
       component = React.createElement(ProgressBar, {
         inMaxStreak: false,
         euroDelta: this.euroDelta,
@@ -118,8 +118,8 @@ describe("MentorRewardPage", function() {
     });
   });
 
-  describe("renderGraph", function() {
-    it("it should update the radial whenever it is set", function() {
+  describe("renderGraph", () => {
+    it("it should update the radial whenever it is set", () => {
       var percentage_streak = 123;
       var valueEuro = 321;
       var dummy = jasmine.createSpyObj('rad', ['update'])
@@ -134,7 +134,7 @@ describe("MentorRewardPage", function() {
       expect(callArguments[1].value).toEqual(valueEuro)
     });
 
-    it("it should return a new radialprograsschart if it has not yet been created", function() {
+    it("it should return a new radialprograsschart if it has not yet been created", () => {
       var percentage_streak = 123;
       var totalAvailable = 4;
       var valueEuro = 321;
@@ -162,8 +162,8 @@ describe("MentorRewardPage", function() {
     });
   });
 
-  describe("createStreakText", function() {
-    it("it should not return anything if the showStreakDetails is false", function() {
+  describe("createStreakText", () => {
+    it("it should not return anything if the showStreakDetails is false", () => {
       component = React.createElement(ProgressBar, {
         inMaxStreak: this.inMaxStreak,
         euroDelta: this.euroDelta,
@@ -182,7 +182,7 @@ describe("MentorRewardPage", function() {
       expect(result).toEqual(undefined);
     });
 
-    it("it should not show anything if there is no multiplier larger than 1", function() {
+    it("it should not show anything if there is no multiplier larger than 1", () => {
       component = React.createElement(ProgressBar, {
         inMaxStreak: this.inMaxStreak,
         euroDelta: this.euroDelta,
@@ -200,7 +200,7 @@ describe("MentorRewardPage", function() {
       expect(result).toEqual(undefined);
     });
 
-    it("it should return a div with the correct class if there are streak details to be shown and there is a multiplier", function() {
+    it("it should return a div with the correct class if there are streak details to be shown and there is a multiplier", () => {
       component = React.createElement(ProgressBar, {
         inMaxStreak: this.inMaxStreak,
         euroDelta: this.euroDelta,
@@ -220,7 +220,7 @@ describe("MentorRewardPage", function() {
       expect(result.props.className).toEqual('animated pulse');
     });
 
-    it("it should return a div with the correct text", function() {
+    it("it should return a div with the correct text", () => {
       var euroDelta = 10;
       component = React.createElement(ProgressBar, {
         inMaxStreak: this.inMaxStreak,

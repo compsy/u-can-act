@@ -1,5 +1,5 @@
-describe("ProgressText", function() {
-  beforeEach(function() {
+describe("ProgressText", () => {
+  beforeEach(() => {
   this.awardable= 10;
   this.protocolCompletion = [{
     "completed": true,
@@ -41,14 +41,14 @@ describe("ProgressText", function() {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("calculateProgess", function() {
-    it("it should should return the rounded total percentage of non-future entries", function() {
+  describe("calculateProgess", () => {
+    it("it should should return the rounded total percentage of non-future entries", () => {
       var result = this.rendered.calculateProgess(this.protocolCompletion);
       // (3/5*100)
       expect(result).toEqual(Math.round(3 / 5 * 100));
     });
 
-    it("it should return 0 if there are only future measurements", function() {
+    it("it should return 0 if there are only future measurements", () => {
       var protocolCompletion = [{
         "future": true
       }, {
@@ -67,8 +67,8 @@ describe("ProgressText", function() {
     });
   });
 
-  describe("render", function() {
-    it("it should display a rendered message", function() {
+  describe("render", () => {
+    it("it should display a rendered message", () => {
       var elems = ReactDOM.findDOMNode(this.rendered).children;
       var expected = 'Het onderzoek is voor 60% voltooid. Er is nog €'+this.awardable+',- te verdienen.';
       var result = elems[0].innerText;

@@ -1,5 +1,5 @@
-describe("Login", function() {
-  beforeEach(function() {
+describe("Login", () => {
+  beforeEach(() => {
     this.dummy_auth = jasmine.createSpyObj('auth', ['login', 'isAuthenticated', 'logout']);
 
     component = React.createElement(Login, {
@@ -9,24 +9,24 @@ describe("Login", function() {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("login", function() {
-    it("it should call the login function of the provided auth attribute", function() {
+  describe("login", () => {
+    it("it should call the login function of the provided auth attribute", () => {
       expect(this.dummy_auth.login).not.toHaveBeenCalled()
       this.rendered.login();
       expect(this.dummy_auth.login).toHaveBeenCalled()
     });
   });
 
-  describe("logout", function() {
-    it("it should call the logout function of the provided auth attribute", function() {
+  describe("logout", () => {
+    it("it should call the logout function of the provided auth attribute", () => {
       expect(this.dummy_auth.logout).not.toHaveBeenCalled()
       this.rendered.logout();
       expect(this.dummy_auth.logout).toHaveBeenCalled()
     });
   });
 
-  describe("loginLogoutButton", function() {
-    it("it should return a logout button of the person is currently logged in", function() {
+  describe("loginLogoutButton", () => {
+    it("it should return a logout button of the person is currently logged in", () => {
       var logged_in = true;
       var result = this.rendered.loginLogoutButton(logged_in);
       expect(result.type).toEqual('a');
@@ -35,7 +35,7 @@ describe("Login", function() {
       expect(result.props.onClick.name.endsWith('logout')).toBeTruthy();
     });
 
-    it("it should return a login button if the person is currently logged out", function() {
+    it("it should return a login button if the person is currently logged out", () => {
       var logged_in = false;
       var result = this.rendered.loginLogoutButton(logged_in);
       expect(result.type).toEqual('a');
@@ -45,13 +45,13 @@ describe("Login", function() {
     });
   });
 
-  describe("render", function() {
-    it("it should call the loginLogoutButton with true when the person is authenticated", function() {
+  describe("render", () => {
+    it("it should call the loginLogoutButton with true when the person is authenticated", () => {
       spyOn(Login.prototype, 'loginLogoutButton');
 
       component = React.createElement(Login, {
         auth: {
-          isAuthenticated: function() {
+          isAuthenticated: () => {
             return true;
           }
         }
@@ -62,12 +62,12 @@ describe("Login", function() {
       expect(Login.prototype.loginLogoutButton.calls.count()).toEqual(1)
 
     });
-    it("it should call the loginLogoutButton with false when the person is not authenticated", function() {
+    it("it should call the loginLogoutButton with false when the person is not authenticated", () => {
       spyOn(Login.prototype, 'loginLogoutButton');
 
       component = React.createElement(Login, {
         auth: {
-          isAuthenticated: function() {
+          isAuthenticated: () => {
             return false;
           }
         }

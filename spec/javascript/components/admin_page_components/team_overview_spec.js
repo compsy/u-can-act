@@ -1,11 +1,11 @@
-describe("TeamOverview", function() {
-  beforeEach(function() {
+describe("TeamOverview", () => {
+  beforeEach(() => {
     const component = React.createElement(TeamOverview, {});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("constructor", function() {
-    it("it should set the default state", function() {
+  describe("constructor", () => {
+    it("it should set the default state", () => {
       const expectedState = {
         Mentor: undefined,
         Student: undefined,
@@ -17,8 +17,8 @@ describe("TeamOverview", function() {
     });
   });
 
-  describe("updateTeamDetails", function() {
-    it("it should call the loadTeamData function for each group", function() {
+  describe("updateTeamDetails", () => {
+    it("it should call the loadTeamData function for each group", () => {
       spyOn(TeamOverview.prototype, 'loadTeamData')
       const component = React.createElement(TeamOverview, {});
       const rendered = TestUtils.renderIntoDocument(component);
@@ -37,8 +37,8 @@ describe("TeamOverview", function() {
     });
   });
 
-  describe("componentDidMount", function() {
-    it("it should call the updateTeamDetails function", function() {
+  describe("componentDidMount", () => {
+    it("it should call the updateTeamDetails function", () => {
       spyOn(TeamOverview.prototype, 'updateTeamDetails')
       const component = React.createElement(TeamOverview, {});
       const rendered = TestUtils.renderIntoDocument(component);
@@ -46,8 +46,8 @@ describe("TeamOverview", function() {
     });
   });
 
-  describe("isDone", function() {
-    it("it should return true if there are no more future measurements", function() {
+  describe("isDone", () => {
+    it("it should return true if there are no more future measurements", () => {
       this.rendered.setState({
         result: {
           protocol_completion: [{
@@ -63,7 +63,7 @@ describe("TeamOverview", function() {
       expect(result).toBeTruthy();
     });
 
-    it("it should return false if there are future measurements", function() {
+    it("it should return false if there are future measurements", () => {
       this.rendered.setState({
         result: {
           protocol_completion: [{
@@ -80,15 +80,15 @@ describe("TeamOverview", function() {
     });
   });
 
-  describe("setHeader", function() {
-    it("it should dest the xhr request header for authorization", function() {
+  describe("setHeader", () => {
+    it("it should dest the xhr request header for authorization", () => {
       localStorage.removeItem('id_token')
       const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
       this.rendered.setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", "Bearer null");
     });
 
-    it("it should use the authorization token from the  ", function() {
+    it("it should use the authorization token from the  ", () => {
       const id_token = '1234abc';
       localStorage.setItem('id_token', id_token)
       const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
@@ -97,7 +97,7 @@ describe("TeamOverview", function() {
     });
   });
 
-  describe('loadTeamData', function() {
+  describe('loadTeamData', () => {
     const group = 'Mentor';
     const year = new Date().getFullYear();
     let expectedUrl = `/api/v1/admin/team/${group}?year=${year}&percentage_threshold=70`
@@ -105,7 +105,7 @@ describe("TeamOverview", function() {
       'text': 'this a a fake response'
     }
 
-    it("it should include the correct attributes in a call", function() {
+    it("it should include the correct attributes in a call", () => {
       spyOn($, 'ajax').and.callFake(function(e) {
         expect(e.type).toEqual('GET');
         expect(e.dataType).toEqual('json');
@@ -114,7 +114,7 @@ describe("TeamOverview", function() {
       this.rendered.loadTeamData(group)
     });
 
-    it("it should get the json ajax function with the correct route", function() {
+    it("it should get the json ajax function with the correct route", () => {
       spyOn($, 'ajax').and.callFake(function(e) {
         expect(e.url).toEqual(expectedUrl);
         return $.Deferred().resolve(theFakeResponse).promise();
@@ -125,7 +125,7 @@ describe("TeamOverview", function() {
       expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
     });
 
-    it("it should call ajax function with the correct route with the correct week", function() {
+    it("it should call ajax function with the correct route with the correct week", () => {
       let week_number = 42
       this.rendered.setState({
         week_number: week_number
@@ -141,7 +141,7 @@ describe("TeamOverview", function() {
       expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
     });
 
-    it("it should include the correct headers", function() {
+    it("it should include the correct headers", () => {
       spyOn($, 'ajax').and.callFake(function(e) {
         expect(e.beforeSend).toEqual(TeamOverview.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
@@ -150,8 +150,8 @@ describe("TeamOverview", function() {
     });
   });
 
-  describe("handleYearChange", function() {
-    it("should call the update team details function", function() {
+  describe("handleYearChange", () => {
+    it("should call the update team details function", () => {
       spyOn(TeamOverview.prototype, 'updateTeamDetails')
 
       const component = React.createElement(TeamOverview, {});
@@ -161,14 +161,14 @@ describe("TeamOverview", function() {
       expect(TeamOverview.prototype.updateTeamDetails.calls.count()).toEqual(2);
     });
 
-    it("should update the state with the new week", function() {
+    it("should update the state with the new week", () => {
       this.rendered.handleYearChange('the-year');
       expect(this.rendered.state.year).toEqual('the-year');
     });
   });
 
-  describe("handleWeekChange", function() {
-    it("should call the update team details function", function() {
+  describe("handleWeekChange", () => {
+    it("should call the update team details function", () => {
       spyOn(TeamOverview.prototype, 'updateTeamDetails')
 
       const component = React.createElement(TeamOverview, {});
@@ -179,14 +179,14 @@ describe("TeamOverview", function() {
       expect(TeamOverview.prototype.updateTeamDetails.calls.count()).toEqual(2);
     });
 
-    it("should update the state with the new week", function() {
+    it("should update the state with the new week", () => {
       this.rendered.handleWeekChange('the-week');
       expect(this.rendered.state.week_number).toEqual('the-week');
     });
   });
 
-  describe("render", function() {
-    it("it should render when there is data to render", function() {
+  describe("render", () => {
+    it("it should render when there is data to render", () => {
       const component = React.createElement(TeamOverview, {});
       const rendered = TestUtils.renderIntoDocument(component)
       rendered.setState({
@@ -204,7 +204,7 @@ describe("TeamOverview", function() {
       expect(nodes).not.toBe(undefined)
       expect(nodes.length).toBe(2)
     });
-    it("it should not render when there is no data", function() {
+    it("it should not render when there is no data", () => {
       const component = React.createElement(TeamOverview, {});
       const rendered = TestUtils.renderIntoDocument(component)
 

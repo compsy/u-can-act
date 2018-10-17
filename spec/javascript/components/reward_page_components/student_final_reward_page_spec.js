@@ -1,5 +1,5 @@
-describe("StudentFinalRewardPage", function () {
-  beforeEach(function () {
+describe("StudentFinalRewardPage", () => {
+  beforeEach(() => {
     this.earnedEuros = 123;
     this.iban = 'NL01RABO012341234';
     this.name = 'A.B. Cornelissen';
@@ -16,8 +16,8 @@ describe("StudentFinalRewardPage", function () {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("render", function () {
-    it("it should return the correct text", function () {
+  describe("render", () => {
+    it("it should return the correct text", () => {
       var elems = ReactDOM.findDOMNode(this.rendered).children[1].children;
       var expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!';
       var result = elems[0].innerText;
@@ -39,7 +39,7 @@ describe("StudentFinalRewardPage", function () {
       expect(result).toEqual(expected);
     });
 
-    it("it should include a link to the edit person page", function () {
+    it("it should include a link to the edit person page", () => {
       var elems = ReactDOM.findDOMNode(this.rendered).children;
       var expected = '/person/edit';
       var result = elems[1].innerHTML;

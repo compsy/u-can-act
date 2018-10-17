@@ -1,5 +1,5 @@
-describe("StatisticsEntry", function() {
-  beforeEach(function() {
+describe("StatisticsEntry", () => {
+  beforeEach(() => {
     this.title = 'students';
     this.icon = 'iconicon';
     this.value = '40';
@@ -15,18 +15,18 @@ describe("StatisticsEntry", function() {
     this.rendered = TestUtils.renderIntoDocument(component);
   });
 
-  //describe("generateOverviewRows", function() {
-    //beforeEach(function() {
+  //describe("generateOverviewRows", () => {
+    //beforeEach(() => {
       //this.result = this.rendered.generateOverviewRows(this.overview, this.overviewName);
     //});
 
 
-    //it("it should return an array", function() {
+    //it("it should return an array", () => {
       //expect(this.result).toEqual(jasmine.any(Array))
       //expect(this.result.length).toEqual(2)
     //});
 
-    //it("it should contain a table row with the correct elements and their keys and values", function() {
+    //it("it should contain a table row with the correct elements and their keys and values", () => {
       //var j = 0;
       //for (var i = 0, len = this.overview.length; i < len; i++) {
         //expect(this.result[i].type).toEqual('tr');
@@ -61,17 +61,17 @@ describe("StatisticsEntry", function() {
 
   //});
 
-  //describe("generateTable", function() {
-    //beforeEach(function() {
+  //describe("generateTable", () => {
+    //beforeEach(() => {
       //this.rows = this.rendered.generateOverviewRows(this.overview, this.overviewName);
       //this.result = this.rendered.generateTable(this.rows);
     //});
 
-    //it("it should return a table", function() {
+    //it("it should return a table", () => {
       //expect(this.result.type).toEqual('table');
     //});
 
-    //it("it should return a table with the correct headers", function() {
+    //it("it should return a table with the correct headers", () => {
       //expect(this.result.props.children[0].type).toEqual('thead');
       //var header = this.result.props.children[0].props.children
       //expect(header.type).toEqual('tr');
@@ -97,47 +97,47 @@ describe("StatisticsEntry", function() {
       //expect(header.props.children[j].props.children).toEqual(' % of mentors with ≥ 70% completed questionnaires');
     //});
 
-    //it("it should return a table with the correct body", function() {
+    //it("it should return a table with the correct body", () => {
       //expect(this.result.props.children[1].type).toEqual('tbody');
       //var body = this.result.props.children[1].props.children
       //expect(body).toEqual(this.rows);
     //});
   //});
 
-  describe("render", function() {
-    beforeEach(function() {
+  describe("render", () => {
+    beforeEach(() => {
       this.result = ReactDOM.findDOMNode(this.rendered)
     });
 
-    it("it should return a div with the correct class", function() {
+    it("it should return a div with the correct class", () => {
       expect(this.result.nodeName).toEqual('DIV');
       expect(this.result.attributes.class.nodeValue).toEqual('statistics-entry col s6 m6 l6 xl3');
     });
 
-    it("it should return the correct title", function() {
+    it("it should return the correct title", () => {
       const node = this.result.children[0].children[0].children[0]
       expect(node.nodeName).toEqual('P')
       expect(node.innerText).toContain(this.title)
     });
 
-    it("it should return the correct icon", function() {
+    it("it should return the correct icon", () => {
       const node = this.result.children[0].children[0].children[0].children[0];
       expect(node.nodeName).toEqual('I')
       expect(node.innerText).toEqual(this.icon)
     });
 
-    it("it should return the correct value", function() {
+    it("it should return the correct value", () => {
       const node = this.result.children[0].children[0].children[1]
       expect(node.nodeName).toEqual('H4')
       expect(node.innerText).toEqual(this.value)
     });
-    it("it should return the correct value", function() {
+    it("it should return the correct value", () => {
       const node = this.result.children[0].children[0].children[2].children[0]
       expect(node.nodeName).toEqual('SPAN')
       expect(node.innerText).toEqual(this.subtext)
     });
 
-    //it("it should return the correct table", function() {
+    //it("it should return the correct table", () => {
       //expect(this.result.children[1].nodeName).toEqual('TABLE')
     //});
   });

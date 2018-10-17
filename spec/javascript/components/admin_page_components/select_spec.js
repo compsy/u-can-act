@@ -1,5 +1,5 @@
-describe("Select", function() {
-  beforeEach(function() {
+describe("Select", () => {
+  beforeEach(() => {
     this.options = ['a', '1', '2', '3', '4', '5', 'all'];
     this.value = 1
     this.label = 'The label'
@@ -12,14 +12,14 @@ describe("Select", function() {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("constructor", function() {
-    it("it should create a uuid for itself", function() {
+  describe("constructor", () => {
+    it("it should create a uuid for itself", () => {
       expect(this.rendered._uuid).not.toBe(undefined);
     });
   });
 
-  describe("generateSelectOptions", function() {
-    it("it should add the correct label", function() {
+  describe("generateSelectOptions", () => {
+    it("it should add the correct label", () => {
       var result = this.rendered.generateSelectOptions(this.options);
       var entry = result[0]
       expect(entry.key).toEqual('def')
@@ -27,7 +27,7 @@ describe("Select", function() {
       expect(entry.props.children).toEqual('Selecteer')
     });
 
-    it("it should generate the select options using the options provided to it", function() {
+    it("it should generate the select options using the options provided to it", () => {
       var result = this.rendered.generateSelectOptions(this.options);
 
       // +1 for the label
@@ -41,25 +41,25 @@ describe("Select", function() {
     });
   });
 
-  describe("uuid", function() {
-    it("it should generate a random uuid", function() {
+  describe("uuid", () => {
+    it("it should generate a random uuid", () => {
       result = this.rendered.uuid()
       result2 = this.rendered.uuid()
       expect(result).not.toEqual(result2);
     });
 
-    it("it should generate a uuid with the correct pattern", function() {
+    it("it should generate a uuid with the correct pattern", () => {
       result = this.rendered.uuid()
       expect(result.length).toEqual(36);
       expect(result).toMatch(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);
     });
   });
 
-  describe("redraw", function() {
+  describe("redraw", () => {
   });
 
-  describe("componentDidUpdate", function() {
-    it("it should call the redraw function", function() {
+  describe("componentDidUpdate", () => {
+    it("it should call the redraw function", () => {
       spyOn(Select.prototype, 'redraw');
       expect(Select.prototype.redraw).not.toHaveBeenCalled()
       this.rendered.componentDidUpdate();
@@ -68,8 +68,8 @@ describe("Select", function() {
     });
   });
 
-  describe("componentDidMount", function() {
-    it("it should call the redraw function", function() {
+  describe("componentDidMount", () => {
+    it("it should call the redraw function", () => {
       spyOn(Select.prototype, 'redraw');
       expect(Select.prototype.redraw).not.toHaveBeenCalled()
       this.rendered.componentDidMount();
@@ -78,13 +78,13 @@ describe("Select", function() {
     });
   });
 
-  describe("_onChange", function() {
-    it("it should call the callback function", function() {
+  describe("_onChange", () => {
+    it("it should call the callback function", () => {
       var called = false;
       spyOn(Select.prototype, 'getSelectedOption');
       expect(Select.prototype.getSelectedOption).not.toHaveBeenCalled()
 
-      this.onChange = function() {
+      this.onChange = () => {
         called = true;
       }
 

@@ -1,5 +1,5 @@
-describe("StudentInProgressRewardPage", function() {
-  beforeEach(function() {
+describe("StudentInProgressRewardPage", () => {
+  beforeEach(() => {
   this.protocolCompletion = [{
     "completed": true,
     "periodical": false,
@@ -55,8 +55,8 @@ describe("StudentInProgressRewardPage", function() {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("findCurrentStreak", function() {
-    it("it should return 0 if there are only future measurements", function() {
+  describe("findCurrentStreak", () => {
+    it("it should return 0 if there are only future measurements", () => {
       var protocolCompletion = [{
         "future": true,
         "streak": 1
@@ -78,7 +78,7 @@ describe("StudentInProgressRewardPage", function() {
       expect(result).toEqual(0);
     });
 
-    it("it should the streak of the first elem before a future one", function() {
+    it("it should the streak of the first elem before a future one", () => {
       var protocolCompletion = [{
         "future": false,
         "streak": 1
@@ -100,7 +100,7 @@ describe("StudentInProgressRewardPage", function() {
       expect(result).toEqual(protocolCompletion[1].streak);
     });
 
-    it("it should return a value that should never exceed the max possible value", function() {
+    it("it should return a value that should never exceed the max possible value", () => {
       var protocolCompletion = [{
         "future": false,
         "streak": 1000
@@ -122,7 +122,7 @@ describe("StudentInProgressRewardPage", function() {
       expect(result).toEqual(this.maxStreak);
     });
     
-    it("it should never return a value < 0", function() {
+    it("it should never return a value < 0", () => {
       var protocolCompletion = [{
         "future": false,
         "streak": -1000

@@ -66,10 +66,8 @@ gem 'coveralls', '>= 0.8.21', require: false
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
 
-# D3 visualization
-# Version is fixed because the radial progress plot does not yet support newer versions
+# Used to scroll to top
 gem 'animate-rails', github: 'camelmasa/animate-rails'
-gem 'd3-rails', '~> 3.5.16'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'

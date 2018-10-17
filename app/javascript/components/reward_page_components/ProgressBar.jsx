@@ -1,7 +1,7 @@
 import React from 'react'
 import Pyro from './Pyro'
 import printAsMoney from '../printAsMoney'
-import RadialProgressChart from '../../vendor/radial-progess-chart'
+import RadialProgressChart from 'radial-progress-chart'
 
 export default class ProgressBar extends React.Component {
 

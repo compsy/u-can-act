@@ -24,7 +24,6 @@
 //= require highcharts/modules/data
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
-//= require radial-progess-chart
 //= require study_progress_bar
 //= require i18n/translations
 //= require i18n_initializer

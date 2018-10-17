@@ -2,6 +2,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
     "@rails/webpacker": "https://github.com/rails/webpacker",
+    "babel-core": "7.0.0-bridge.0",
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
@@ -11,6 +12,28 @@
     "react_ujs": "^2.4.4"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "jest": "^23.6.0",
     "webpack-dev-server": "^3.1.9"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "roots": [
+      "spec/javascript"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
+    ],
+    "transform": {
+      "^.+\\.jsx$": "babel-jest",
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }

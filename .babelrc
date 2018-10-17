@@ -40,8 +40,16 @@
     [
       "@babel/plugin-proposal-class-properties",
       {
-        "loose": true
+        "loose": true,
+        "spec": true
       }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["@babel/env", { "modules": "commonjs" }] // CommonJS imports only in test env because Jest runs in Node, and thus requires ES modules to be transpiled to CommonJS modules.
+      ]
+    }
+  }
 }

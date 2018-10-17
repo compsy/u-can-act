@@ -17,13 +17,24 @@ defaults: &defaults
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
     RACK_ENV: test
+    NODE_ENV: test
+  working_directory: ~/test
+
+build_defaults: &build_defaults
+  docker:
+    - image: circleci/ruby:2.4.3-node-browsers
+  environment:
+    TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+    RAILS_ENV: test
+    RACK_ENV: test
+    NODE_ENV: test
   working_directory: ~/test
 
 version: 2.0
 
 jobs:
   checkout_code:
-    <<: *defaults
+    <<: *build_defaults
     steps:
       - checkout
       - save_cache:
@@ -31,8 +42,8 @@ jobs:
           paths:
             - ~/test
 
-  build:
-    <<: *defaults
+  build_gems:
+    <<: *build_defaults
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -43,6 +54,22 @@ jobs:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
           paths:
             - ~/test/vendor/bundle
+
+  build_javascript:
+    <<: *build_defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
   test_rspec:
     <<: *defaults
@@ -57,8 +84,12 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: yarn install
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
       - run: bundle --path vendor/bundle
+      - run: yarn install
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
       - run: ./bin/chromedriver_install # maybe we can do this in a base image
       - run:
@@ -87,20 +118,22 @@ jobs:
           paths:
             - build_num
 
-  test_teaspoon:
-    <<: *defaults
+  test_javascript:
+    <<: *build_defaults
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: bundle --path vendor/bundle
-      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
-      - run: ./bin/chromedriver_install # maybe we can do this in a base image
-      - run: bundle exec teaspoon
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - run: yarn test
 
   test_rubocop:
-    <<: *defaults
+    <<: *build_defaults
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -110,7 +143,7 @@ jobs:
       - run: bundle exec rubocop
 
   coverage_report:
-    <<: *defaults
+    <<: *build_defaults
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -124,18 +157,22 @@ workflows:
   commit:
     jobs:
       - checkout_code
-      - build:
+      - build_gems:
+          requires:
+            - checkout_code
+      - build_javascript:
           requires:
             - checkout_code
       - test_rubocop:
           requires:
-            - build
-#      - test_teaspoon:
-#          requires:
-#            - test_rubocop
+            - build_gems
+      - test_javascript:
+          requires:
+            - build_javascript
       - test_rspec:
           requires:
-            - build
+            - build_gems
+            - build_javascript
       - coverage_report:
           requires:
             - test_rspec

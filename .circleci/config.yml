@@ -55,7 +55,7 @@ jobs:
           paths:
             - ~/test/vendor/bundle
 
-  build_javascript:
+  build_js:
     <<: *build_defaults
     steps:
       - restore_cache:
@@ -90,8 +90,8 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: bundle --path vendor/bundle
       - run: yarn install
-      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts # maybe we can do this in a base image
-      - run: ./bin/chromedriver_install # maybe we can do this in a base image
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts
+      - run: ./bin/chromedriver_install
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:27017 -wait tcp://localhost:6379 -timeout 1m # Waits for mongo / postgres / redis docker container to be available
@@ -118,13 +118,11 @@ jobs:
           paths:
             - build_num
 
-  test_javascript:
+  test_js:
     <<: *build_defaults
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -160,19 +158,19 @@ workflows:
       - build_gems:
           requires:
             - checkout_code
-      - build_javascript:
+      - build_js:
           requires:
             - checkout_code
       - test_rubocop:
           requires:
             - build_gems
-      - test_javascript:
+      - test_js:
           requires:
-            - build_javascript
+            - build_js
       - test_rspec:
           requires:
             - build_gems
-            - build_javascript
+            - build_js
       - coverage_report:
           requires:
             - test_rspec

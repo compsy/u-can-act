@@ -167,6 +167,7 @@ workflows:
       - test_js:
           requires:
             - build_js
+            - test_rubocop # By waiting until test_rubocop is complete, the bottleneck (test_rspec) can start sooner.
       - test_rspec:
           requires:
             - build_gems

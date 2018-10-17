@@ -1,4 +1,4 @@
-describe("Login", () => {
+describe('Login', () => {
   beforeEach(() => {
     this.dummy_auth = jasmine.createSpyObj('auth', ['login', 'isAuthenticated', 'logout']);
 
@@ -9,7 +9,7 @@ describe("Login", () => {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("login", () => {
+  describe('login', () => {
     it("it should call the login function of the provided auth attribute", () => {
       expect(this.dummy_auth.login).not.toHaveBeenCalled()
       this.rendered.login();
@@ -17,7 +17,7 @@ describe("Login", () => {
     });
   });
 
-  describe("logout", () => {
+  describe('logout', () => {
     it("it should call the logout function of the provided auth attribute", () => {
       expect(this.dummy_auth.logout).not.toHaveBeenCalled()
       this.rendered.logout();
@@ -25,7 +25,7 @@ describe("Login", () => {
     });
   });
 
-  describe("loginLogoutButton", () => {
+  describe('loginLogoutButton', () => {
     it("it should return a logout button of the person is currently logged in", () => {
       var logged_in = true;
       var result = this.rendered.loginLogoutButton(logged_in);
@@ -45,7 +45,7 @@ describe("Login", () => {
     });
   });
 
-  describe("render", () => {
+  describe('render', () => {
     it("it should call the loginLogoutButton with true when the person is authenticated", () => {
       spyOn(Login.prototype, 'loginLogoutButton');
 

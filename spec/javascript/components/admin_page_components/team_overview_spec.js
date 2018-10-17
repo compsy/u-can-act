@@ -1,10 +1,10 @@
-describe("TeamOverview", () => {
+describe('TeamOverview', () => {
   beforeEach(() => {
     const component = React.createElement(TeamOverview, {});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("constructor", () => {
+  describe('constructor', () => {
     it("it should set the default state", () => {
       const expectedState = {
         Mentor: undefined,
@@ -17,7 +17,7 @@ describe("TeamOverview", () => {
     });
   });
 
-  describe("updateTeamDetails", () => {
+  describe('updateTeamDetails', () => {
     it("it should call the loadTeamData function for each group", () => {
       spyOn(TeamOverview.prototype, 'loadTeamData')
       const component = React.createElement(TeamOverview, {});
@@ -37,7 +37,7 @@ describe("TeamOverview", () => {
     });
   });
 
-  describe("componentDidMount", () => {
+  describe('componentDidMount', () => {
     it("it should call the updateTeamDetails function", () => {
       spyOn(TeamOverview.prototype, 'updateTeamDetails')
       const component = React.createElement(TeamOverview, {});
@@ -46,7 +46,7 @@ describe("TeamOverview", () => {
     });
   });
 
-  describe("isDone", () => {
+  describe('isDone', () => {
     it("it should return true if there are no more future measurements", () => {
       this.rendered.setState({
         result: {
@@ -80,7 +80,7 @@ describe("TeamOverview", () => {
     });
   });
 
-  describe("setHeader", () => {
+  describe('setHeader', () => {
     it("it should dest the xhr request header for authorization", () => {
       localStorage.removeItem('id_token')
       const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
@@ -150,7 +150,7 @@ describe("TeamOverview", () => {
     });
   });
 
-  describe("handleYearChange", () => {
+  describe('handleYearChange', () => {
     it("should call the update team details function", () => {
       spyOn(TeamOverview.prototype, 'updateTeamDetails')
 
@@ -167,7 +167,7 @@ describe("TeamOverview", () => {
     });
   });
 
-  describe("handleWeekChange", () => {
+  describe('handleWeekChange', () => {
     it("should call the update team details function", () => {
       spyOn(TeamOverview.prototype, 'updateTeamDetails')
 
@@ -185,7 +185,7 @@ describe("TeamOverview", () => {
     });
   });
 
-  describe("render", () => {
+  describe('render', () => {
     it("it should render when there is data to render", () => {
       const component = React.createElement(TeamOverview, {});
       const rendered = TestUtils.renderIntoDocument(component)

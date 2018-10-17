@@ -1,4 +1,4 @@
-describe("TeamOverviewEntry", () => {
+describe('TeamOverviewEntry', () => {
   beforeEach(() => {
     this.overview = [{
       'name': 'School naam',
@@ -24,7 +24,7 @@ describe("TeamOverviewEntry", () => {
     this.rendered = TestUtils.renderIntoDocument(component);
   });
 
-  describe("generateOverviewRows", () => {
+  describe('generateOverviewRows', () => {
     beforeEach(() => {
       this.result = this.rendered.generateOverviewRows(this.overview, this.overviewName);
     });
@@ -70,7 +70,7 @@ describe("TeamOverviewEntry", () => {
 
   });
 
-  describe("generateTable", () => {
+  describe('generateTable', () => {
     beforeEach(() => {
       this.rows = this.rendered.generateOverviewRows(this.overview, this.overviewName);
       this.result = this.rendered.generateTable(this.rows);
@@ -113,7 +113,7 @@ describe("TeamOverviewEntry", () => {
     });
   });
 
-  describe("render", () => {
+  describe('render', () => {
     beforeEach(() => {
       this.rows = this.rendered.generateOverviewRows(this.overview, this.overviewName);
       this.result = ReactDOM.findDOMNode(this.rendered)

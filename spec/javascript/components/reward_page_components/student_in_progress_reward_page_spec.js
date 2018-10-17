@@ -1,4 +1,4 @@
-describe("StudentInProgressRewardPage", () => {
+describe('StudentInProgressRewardPage', () => {
   beforeEach(() => {
   this.protocolCompletion = [{
     "completed": true,
@@ -55,7 +55,7 @@ describe("StudentInProgressRewardPage", () => {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("findCurrentStreak", () => {
+  describe('findCurrentStreak', () => {
     it("it should return 0 if there are only future measurements", () => {
       var protocolCompletion = [{
         "future": true,

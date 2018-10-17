@@ -1,4 +1,4 @@
-describe("Pyro", () => {
+describe('Pyro', () => {
   beforeEach(() => {
     component = React.createElement(Pyro, {});
     this.rendered = TestUtils.renderIntoDocument(component)

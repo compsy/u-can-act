@@ -1,4 +1,4 @@
-describe("Select", () => {
+describe('Select', () => {
   beforeEach(() => {
     this.options = ['a', '1', '2', '3', '4', '5', 'all'];
     this.value = 1
@@ -12,13 +12,13 @@ describe("Select", () => {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("constructor", () => {
+  describe('constructor', () => {
     it("it should create a uuid for itself", () => {
       expect(this.rendered._uuid).not.toBe(undefined);
     });
   });
 
-  describe("generateSelectOptions", () => {
+  describe('generateSelectOptions', () => {
     it("it should add the correct label", () => {
       var result = this.rendered.generateSelectOptions(this.options);
       var entry = result[0]
@@ -41,7 +41,7 @@ describe("Select", () => {
     });
   });
 
-  describe("uuid", () => {
+  describe('uuid', () => {
     it("it should generate a random uuid", () => {
       result = this.rendered.uuid()
       result2 = this.rendered.uuid()
@@ -55,10 +55,10 @@ describe("Select", () => {
     });
   });
 
-  describe("redraw", () => {
+  describe('redraw', () => {
   });
 
-  describe("componentDidUpdate", () => {
+  describe('componentDidUpdate', () => {
     it("it should call the redraw function", () => {
       spyOn(Select.prototype, 'redraw');
       expect(Select.prototype.redraw).not.toHaveBeenCalled()
@@ -68,7 +68,7 @@ describe("Select", () => {
     });
   });
 
-  describe("componentDidMount", () => {
+  describe('componentDidMount', () => {
     it("it should call the redraw function", () => {
       spyOn(Select.prototype, 'redraw');
       expect(Select.prototype.redraw).not.toHaveBeenCalled()
@@ -78,7 +78,7 @@ describe("Select", () => {
     });
   });
 
-  describe("_onChange", () => {
+  describe('_onChange', () => {
     it("it should call the callback function", () => {
       var called = false;
       spyOn(Select.prototype, 'getSelectedOption');

@@ -1,10 +1,10 @@
-describe("Statistics", () => {
+describe('Statistics', () => {
   beforeEach(() => {
     const component = React.createElement(Statistics, {});
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("constructor", () => {
+  describe('constructor', () => {
     it("it should set the default state", () => {
       const expectedState = {
         result: undefined,
@@ -13,7 +13,7 @@ describe("Statistics", () => {
     });
   });
 
-  describe("setHeader", () => {
+  describe('setHeader', () => {
     it("it should set the correct header on the xhr request", () => {
       xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
       const id_token = '1234abc';
@@ -24,7 +24,7 @@ describe("Statistics", () => {
     });
   });
 
-  describe("updateStatistics", () => {
+  describe('updateStatistics', () => {
     const year = new Date().getFullYear();
     let expectedUrl = `/api/v1/statistics`
     const theFakeResponse = {
@@ -60,7 +60,7 @@ describe("Statistics", () => {
     });
   });
 
-  describe("handleSuccess", () => {
+  describe('handleSuccess', () => {
     it("should update the state", () => {
       const response = 'the response'
       const pre_state = this.rendered.state;
@@ -74,7 +74,7 @@ describe("Statistics", () => {
   });
 
 
-  describe("render", () => {
+  describe('render', () => {
     it("it should render when there is data to render", () => {
       const component = React.createElement(Statistics, {});
       const rendered = TestUtils.renderIntoDocument(component)

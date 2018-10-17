@@ -1,4 +1,4 @@
-describe("ProgressText", () => {
+describe('ProgressText', () => {
   beforeEach(() => {
   this.awardable= 10;
   this.protocolCompletion = [{
@@ -41,7 +41,7 @@ describe("ProgressText", () => {
     this.rendered = TestUtils.renderIntoDocument(component)
   });
 
-  describe("calculateProgess", () => {
+  describe('calculateProgess', () => {
     it("it should should return the rounded total percentage of non-future entries", () => {
       var result = this.rendered.calculateProgess(this.protocolCompletion);
       // (3/5*100)
@@ -67,7 +67,7 @@ describe("ProgressText", () => {
     });
   });
 
-  describe("render", () => {
+  describe('render', () => {
     it("it should display a rendered message", () => {
       var elems = ReactDOM.findDOMNode(this.rendered).children;
       var expected = 'Het onderzoek is voor 60% voltooid. Er is nog €'+this.awardable+',- te verdienen.';

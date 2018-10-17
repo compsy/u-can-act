@@ -1,4 +1,4 @@
-describe("SoloRewardPage", () => {
+describe('SoloRewardPage', () => {
   beforeEach(() => {
     var component = React.createElement(SoloRewardPage, {});
     this.rendered = TestUtils.renderIntoDocument(component)

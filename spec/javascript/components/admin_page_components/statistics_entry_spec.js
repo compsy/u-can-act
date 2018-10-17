@@ -1,4 +1,4 @@
-describe("StatisticsEntry", () => {
+describe('StatisticsEntry', () => {
   beforeEach(() => {
     this.title = 'students';
     this.icon = 'iconicon';
@@ -15,7 +15,7 @@ describe("StatisticsEntry", () => {
     this.rendered = TestUtils.renderIntoDocument(component);
   });
 
-  //describe("generateOverviewRows", () => {
+  //describe('generateOverviewRows', () => {
     //beforeEach(() => {
       //this.result = this.rendered.generateOverviewRows(this.overview, this.overviewName);
     //});
@@ -61,7 +61,7 @@ describe("StatisticsEntry", () => {
 
   //});
 
-  //describe("generateTable", () => {
+  //describe('generateTable', () => {
     //beforeEach(() => {
       //this.rows = this.rendered.generateOverviewRows(this.overview, this.overviewName);
       //this.result = this.rendered.generateTable(this.rows);
@@ -104,7 +104,7 @@ describe("StatisticsEntry", () => {
     //});
   //});
 
-  describe("render", () => {
+  describe('render', () => {
     beforeEach(() => {
       this.result = ReactDOM.findDOMNode(this.rendered)
     });

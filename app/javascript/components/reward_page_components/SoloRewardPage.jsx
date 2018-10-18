@@ -1,5 +1,5 @@
 import React from 'react'
-require('../../../public/javascripts/i18n') // THIS GOES WRONG
+import I18n from 'i18n'
 
 export default class SoloRewardPage extends React.Component {
   render() {

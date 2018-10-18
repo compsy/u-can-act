@@ -10,6 +10,7 @@ describe('SoloRewardPage', () => {
   });
   
   it("it should return the correct text", () => {
+    const expected = '[missing "nl.pages.klaar.header" translation]'
     expect(wrapper.childAt(0).text()).toEqual(expected)
   });
 });

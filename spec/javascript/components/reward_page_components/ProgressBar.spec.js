@@ -8,7 +8,7 @@ describe('ProgressBar', () => {
 
   beforeEach(() => {
     wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={0} initialMultiplier={0}
-                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)
+                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
   });
 
   describe('constructor', () => {
@@ -73,14 +73,14 @@ describe('ProgressBar', () => {
   describe('performTimerEvent', () => {
     it("it should enable the streak details when in maxstreak is true", () => {
       wrapper = shallow(<ProgressBar inMaxStreak={true} euroDelta={0} currentMultiplier={0} initialMultiplier={0}
-                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)
+                                     percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.instance().performTimerEvent()
       expect(wrapper.state('showStreakDetails')).toBeTruthy();
     });
 
     it("it should not enable the streak details when in maxstreak is false", () => {
       wrapper = shallow(<ProgressBar inMaxStreak={false} euroDelta={0} currentMultiplier={0} initialMultiplier={0}
-                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)
+                                     percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.instance().performTimerEvent()
       expect(wrapper.state('showStreakDetails')).toBeFalsy();
     });
@@ -131,7 +131,7 @@ describe('ProgressBar', () => {
   describe('createStreakText', () => {
     it("it should not return anything if the showStreakDetails is false", () => {
       wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={10} initialMultiplier={0}
-                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)
+                                     percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.setState({showStreakDetails: false})
       const result = wrapper.instance().createStreakText()
       expect(result).toBeUndefined()
@@ -139,7 +139,7 @@ describe('ProgressBar', () => {
 
     it("it should not show anything if there is no multiplier larger than 1", () => {
       wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={1} initialMultiplier={0}
-                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)
+                                     percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.setState({showStreakDetails: true})
       const result = wrapper.instance().createStreakText()
       expect(result).toBeUndefined()
@@ -147,7 +147,7 @@ describe('ProgressBar', () => {
 
     it("it should return a div with the correct class if there are streak details to be shown and there is a multiplier", () => {
       wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={10} initialMultiplier={0}
-                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)
+                                     percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.setState({showStreakDetails: true})
       const result = wrapper.instance().createStreakText()
       expect(result).not.toBeUndefined()
@@ -157,13 +157,13 @@ describe('ProgressBar', () => {
 
     it("it should return a div with the correct text", () => {
       const euroDelta = 10;
-wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={euroDelta} currentMultiplier={2} initialMultiplier={0}
-                                   percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0} />)
+      wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={euroDelta} currentMultiplier={2} initialMultiplier={0}
+                                     percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
 
       wrapper.setState({showStreakDetails: true})
       const result = wrapper.instance().createStreakText()
       expect(result).not.toBeUndefined()
-      expect(result.props.children[1]).toEqual('Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je €'+euroDelta+',- extra verdiend!')
+      expect(result.props.children[1]).toEqual('Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je €' + euroDelta + ',- extra verdiend!')
     });
   });
 });

@@ -398,8 +398,6 @@ GEM
       activesupport (>= 4.2)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
-    spring-commands-teaspoon (0.0.2)
-      spring (>= 0.9.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
@@ -410,10 +408,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    teaspoon (1.1.5)
-      railties (>= 3.2.5, < 6)
-    teaspoon-jasmine (2.3.4)
-      teaspoon (>= 1.0.0)
     temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
@@ -507,9 +501,7 @@ DEPENDENCIES
   snitcher
   spring
   spring-commands-rspec
-  spring-commands-teaspoon
   spring-watcher-listen
-  teaspoon-jasmine
   timecop
   tzinfo-data
   uglifier

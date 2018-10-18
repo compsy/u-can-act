@@ -24,8 +24,6 @@
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
 //= require study_progress_bar
-//= require i18n/translations
-//= require i18n_initializer
 //= require_tree .
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})

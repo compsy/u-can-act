@@ -1,5 +1,6 @@
 import React from 'react'
 import printAsMoney from '../printAsMoney'
+
 export default class RewardMessage extends React.Component {
   render() {
     return (

@@ -167,7 +167,7 @@ gem 'webpacker', '>= 4.0.x'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
-gem 'i18n-js'
+gem 'i18n-js' # We still need this gem because it generates translations.js for us.
 gem 'rails-i18n'
 
 gem 'lograge'

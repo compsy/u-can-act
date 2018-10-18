@@ -1,4 +1,6 @@
 import React from 'react'
+require('../../../public/javascripts/i18n') // THIS GOES WRONG
+
 export default class SoloRewardPage extends React.Component {
   render() {
     return (

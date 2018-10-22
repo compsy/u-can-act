@@ -1,6 +1,5 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import sinon from 'sinon'
 import ProgressBar from 'components/reward_page_components/ProgressBar'
 
 describe('ProgressBar', () => {
@@ -27,26 +26,29 @@ describe('ProgressBar', () => {
 
   describe('componentDidUnmount', () => {
     it("it should set the timer", () => {
-      spyOn(window, 'setInterval');
+      const spy = jest.spyOn(window, 'setInterval');
       wrapper.instance().componentDidMount();
       expect(window.setInterval).toHaveBeenCalled()
-      expect(window.setInterval.calls.count()).toEqual(1)
+      expect(window.setInterval).toHaveBeenCalledTimes(1)
+      spy.mockRestore();
     });
 
     it("it should render the radial graph", () => {
-      spyOn(ProgressBar.prototype, 'renderGraph');
+      const spy = jest.spyOn(ProgressBar.prototype, 'renderGraph');
       wrapper.instance().componentDidMount();
       expect(ProgressBar.prototype.renderGraph).toHaveBeenCalled()
-      expect(ProgressBar.prototype.renderGraph.calls.count()).toEqual(1)
+      expect(ProgressBar.prototype.renderGraph).toHaveBeenCalledTimes(1)
+      spy.mockRestore();
     });
   });
 
   describe('componentWillUnmount', () => {
     it("it should clear the timer", () => {
-      spyOn(window, 'clearInterval')
+      const spy = jest.spyOn(window, 'clearInterval')
       wrapper.instance().componentWillUnmount();
       expect(window.clearInterval).toHaveBeenCalled()
-      expect(window.clearInterval.calls.count()).toEqual(1)
+      expect(window.clearInterval).toHaveBeenCalledTimes(1)
+      spy.mockRestore();
     });
   });
 
@@ -90,16 +92,13 @@ describe('ProgressBar', () => {
     it("it should update the radial whenever it is set", () => {
       const percentage_streak = 123;
       const valueEuro = 321;
-      const dummy = sinon.spy();
+      const dummy = jest.fn();
       wrapper.setState({radial: {update: dummy}})
       const result = wrapper.instance().renderGraph(valueEuro, percentage_streak, 3, 4)
-      expect(dummy.callCount).toEqual(1)
+      expect(dummy).toHaveBeenCalledTimes(1)
       expect(result).not.toEqual(undefined)
-
-      const callArguments = dummy.firstCall.args[0].series
-      expect(callArguments.length).toEqual(2)
-      expect(callArguments[0].value).toEqual(percentage_streak)
-      expect(callArguments[1].value).toEqual(valueEuro)
+      const callargs = {"series": [{"value":123}, {"value": 321}]}
+      expect(dummy).toHaveBeenLastCalledWith(callargs)
     });
 
     it("it should return a new radialprograsschart if it has not yet been created", () => {

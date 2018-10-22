@@ -24,7 +24,6 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "jest": "^23.6.0",
-    "sinon": "^7.0.0",
     "webpack-dev-server": "^3.1.9"
   },
   "scripts": {

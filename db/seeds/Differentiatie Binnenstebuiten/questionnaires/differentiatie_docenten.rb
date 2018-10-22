@@ -68,6 +68,7 @@ question(:v12, '4. Ik kon storend gedrag in de klas in de hand houden.'),
 {
   id: :v13,
   type: :textarea,
+  required: true,
   title: {
     first: 'Welke ondersteuning / aanpassingen heb je volgens jou tijdens deze les geboden?',
     normal: 'Heb je dit gedaan zoals je het van plan was? Zo nee, waardoor kwam dit?'
@@ -76,6 +77,7 @@ question(:v12, '4. Ik kon storend gedrag in de klas in de hand houden.'),
 {
   id: :v14,
   type: :textarea,
+  required: true,
   title: 'Welke ondersteuning / aanpassingen ga je tijdens de volgende les bieden?'
 }]
 

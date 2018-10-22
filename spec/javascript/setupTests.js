@@ -3,6 +3,14 @@ import EnzymeAdapter from 'enzyme-adapter-react-16'
 
 Enzyme.configure({ adapter: new EnzymeAdapter() })
 
+// Make jquery available
+import $ from 'jquery';
+global.$ = global.jQuery = $;
+
+// Make the M function and other materialize javascript functions availablee
+require('materialize-css');
+
+// I18n stuff
 import I18n from 'i18n'
 I18n.defaultLocale = 'nl'
 I18n.locale = 'nl'

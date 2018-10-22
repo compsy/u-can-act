@@ -11,8 +11,12 @@
 import "babel-polyfill";
 
 // Make jquery available
-import {} from 'jquery'
+import $ from 'jquery';
+global.$ = global.jQuery = $;
 import {} from 'jquery-ujs'
+
+// Make the M function and other materialize javascript functions available
+require('materialize-css');
 
 // I18n stuff
 import I18n from 'i18n'

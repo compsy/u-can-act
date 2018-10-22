@@ -155,7 +155,6 @@ end
 gem 'silencer'
 
 # JS / CSS Frameworks
-# gem 'highcharts-rails'
 gem 'materialize-sass', '>= 1.0.0'
 gem 'modernizr-rails'
 

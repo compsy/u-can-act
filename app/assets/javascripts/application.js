@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require modernizr
-//= require materialize
 //= require history
 //= require auth0
 //= require highcharts

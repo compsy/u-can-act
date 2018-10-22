@@ -14,7 +14,7 @@ describe('Select', () => {
 
   describe('constructor', () => {
     it("it should create a uuid for itself", () => {
-      expect(wrapper.instance()._uuid()).not.toBeUndefined();
+      expect(wrapper.instance()._uuid).not.toBeUndefined();
     });
   });
 

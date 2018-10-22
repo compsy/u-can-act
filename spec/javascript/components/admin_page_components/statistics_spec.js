@@ -32,7 +32,7 @@ describe('Statistics', () => {
     }
 
     it("it should include the correct attributes in a call", () => {
-      spyOn($, 'ajax').and.callFake(function(e) {
+      jest.spyOn($, 'ajax').mockImplementation(function(e) {
         expect(e.type).toEqual('GET');
         expect(e.dataType).toEqual('json');
         return $.Deferred().resolve(theFakeResponse).promise();
@@ -41,18 +41,18 @@ describe('Statistics', () => {
     });
 
     it("it should get the json ajax function with the correct route", () => {
-      spyOn($, 'ajax').and.callFake(function(e) {
+      jest.spyOn($, 'ajax').mockImplementation(function(e) {
         expect(e.url).toEqual(expectedUrl);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
 
-      spyOn(this.rendered, 'handleSuccess').and.callThrough();
+      jest.spyOn(this.rendered, 'handleSuccess');
       this.rendered.updateStatistics()
       expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse);
     });
 
     it("it should include the correct headers", () => {
-      spyOn($, 'ajax').and.callFake(function(e) {
+      jest.spyOn($, 'ajax').mockImplementation(function(e) {
         expect(e.beforeSend).toEqual(Statistics.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
       });

@@ -49,7 +49,7 @@ describe('Login', () => {
 
   describe('render', () => {
     it("it should call the loginLogoutButton with true when the person is authenticated", () => {
-      spyOn(Login.prototype, 'loginLogoutButton');
+      jest.spyOn(Login.prototype, 'loginLogoutButton').mockImplementation(() => {});
 
       component = React.createElement(Login, {
         auth: {
@@ -61,11 +61,11 @@ describe('Login', () => {
 
       this.rendered = TestUtils.renderIntoDocument(component)
       expect(Login.prototype.loginLogoutButton).toHaveBeenCalledWith(true)
-      expect(Login.prototype.loginLogoutButton.calls.count()).toEqual(1)
+      expect(Login.prototype.loginLogoutButton.mock.calls.length).toEqual(1)
 
     });
     it("it should call the loginLogoutButton with false when the person is not authenticated", () => {
-      spyOn(Login.prototype, 'loginLogoutButton');
+      jest.spyOn(Login.prototype, 'loginLogoutButton').mockImplementation(() => {});
 
       component = React.createElement(Login, {
         auth: {
@@ -77,7 +77,7 @@ describe('Login', () => {
 
       this.rendered = TestUtils.renderIntoDocument(component)
       expect(Login.prototype.loginLogoutButton).toHaveBeenCalledWith(false)
-      expect(Login.prototype.loginLogoutButton.calls.count()).toEqual(1)
+      expect(Login.prototype.loginLogoutButton.mock.calls.length).toEqual(1)
     });
   });
 

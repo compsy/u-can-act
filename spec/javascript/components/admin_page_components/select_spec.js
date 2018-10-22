@@ -60,28 +60,28 @@ describe('Select', () => {
 
   describe('componentDidUpdate', () => {
     it("it should call the redraw function", () => {
-      spyOn(Select.prototype, 'redraw');
+      jest.spyOn(Select.prototype, 'redraw').mockImplementation(() => {});
       expect(Select.prototype.redraw).not.toHaveBeenCalled()
       this.rendered.componentDidUpdate();
       expect(Select.prototype.redraw).toHaveBeenCalled()
-      expect(Select.prototype.redraw.calls.count()).toEqual(1)
+      expect(Select.prototype.redraw.mock.calls.length).toEqual(1)
     });
   });
 
   describe('componentDidMount', () => {
     it("it should call the redraw function", () => {
-      spyOn(Select.prototype, 'redraw');
+      jest.spyOn(Select.prototype, 'redraw').mockImplementation(() => {});
       expect(Select.prototype.redraw).not.toHaveBeenCalled()
       this.rendered.componentDidMount();
       expect(Select.prototype.redraw).toHaveBeenCalled()
-      expect(Select.prototype.redraw.calls.count()).toEqual(1)
+      expect(Select.prototype.redraw.mock.calls.length).toEqual(1)
     });
   });
 
   describe('_onChange', () => {
     it("it should call the callback function", () => {
       var called = false;
-      spyOn(Select.prototype, 'getSelectedOption');
+      jest.spyOn(Select.prototype, 'getSelectedOption').mockImplementation(() => {});
       expect(Select.prototype.getSelectedOption).not.toHaveBeenCalled()
 
       this.onChange = () => {
@@ -99,7 +99,7 @@ describe('Select', () => {
       rendered._onChange();
 
       expect(Select.prototype.getSelectedOption).toHaveBeenCalled()
-      expect(Select.prototype.getSelectedOption.calls.count()).toEqual(1)
+      expect(Select.prototype.getSelectedOption.mock.calls.length).toEqual(1)
       expect(called).toBeTruthy();
     });
   });

@@ -1,18 +1,16 @@
+import React from 'react'
+import {shallow} from 'enzyme'
+import StatisticsEntry from 'components/admin_page_components/StatisticEntry';
+
 describe('StatisticsEntry', () => {
+  let title, icon, value, subtext, wrapper;
+
   beforeEach(() => {
-    this.title = 'students';
-    this.icon = 'iconicon';
-    this.value = '40';
-    this.subtext = 'subsub text';
-
-    var component = React.createElement(StatisticsEntry, {
-      icon: this.icon,
-      title: this.title,
-      value: this.value,
-      subtext: this.subtext
-    });
-
-    this.rendered = TestUtils.renderIntoDocument(component);
+    title = 'students';
+    icon = 'iconicon';
+    value = '40';
+    subtext = 'subsub text';
+    wrapper = shallow(<StatisticsEntry icon={icon} title={title} value={value} subtext={subtext}/>)
   });
 
   //describe('generateOverviewRows', () => {
@@ -105,40 +103,37 @@ describe('StatisticsEntry', () => {
   //});
 
   describe('render', () => {
-    beforeEach(() => {
-      this.result = ReactDOM.findDOMNode(this.rendered)
-    });
-
     it("it should return a div with the correct class", () => {
-      expect(this.result.nodeName).toEqual('DIV');
-      expect(this.result.attributes.class.nodeValue).toEqual('statistics-entry col s6 m6 l6 xl3');
+      expect(wrapper.name()).toEqual('div')
+      expect(wrapper.is('.statistics-entry.col.s6.m6.l6.xl3')).toBeTruthy()
     });
 
     it("it should return the correct title", () => {
-      const node = this.result.children[0].children[0].children[0]
-      expect(node.nodeName).toEqual('P')
-      expect(node.innerText).toContain(this.title)
+      const node = wrapper.childAt(0).childAt(0).childAt(0)
+      expect(node.name()).toEqual('p')
+      expect(node.text()).toContain(title)
     });
 
     it("it should return the correct icon", () => {
-      const node = this.result.children[0].children[0].children[0].children[0];
-      expect(node.nodeName).toEqual('I')
-      expect(node.innerText).toEqual(this.icon)
+      const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0)
+      expect(node.name()).toEqual('i')
+      expect(node.text()).toEqual(icon)
     });
 
     it("it should return the correct value", () => {
-      const node = this.result.children[0].children[0].children[1]
-      expect(node.nodeName).toEqual('H4')
-      expect(node.innerText).toEqual(this.value)
+      const node = wrapper.childAt(0).childAt(0).childAt(1)
+      expect(node.name()).toEqual('h4')
+      expect(node.text()).toEqual(value)
     });
     it("it should return the correct value", () => {
-      const node = this.result.children[0].children[0].children[2].children[0]
-      expect(node.nodeName).toEqual('SPAN')
-      expect(node.innerText).toEqual(this.subtext)
+      const node =  wrapper.childAt(0).childAt(0).childAt(2).childAt(0)
+      expect(node.name()).toEqual('span')
+      expect(node.text()).toEqual(subtext)
     });
 
     //it("it should return the correct table", () => {
       //expect(this.result.children[1].nodeName).toEqual('TABLE')
     //});
+
   });
 });

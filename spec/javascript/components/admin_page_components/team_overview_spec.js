@@ -13,7 +13,7 @@ describe('TeamOverview', () => {
         year: new Date().getFullYear(),
         week_number: undefined
       };
-      expect(this.rendered.state).toEqual(expectedState);
+      expect(wrapper.instance().state).toEqual(expectedState);
     });
   });
 
@@ -28,7 +28,7 @@ describe('TeamOverview', () => {
       expect(TeamOverview.prototype.loadTeamData.mock.calls.length).toEqual(rendered.state.groups.length);
 
       const groups = ['1', '2', '3', '4'];
-      this.rendered.setState({
+      wrapper.instance().setState({
         groups: groups
       });
 
@@ -48,7 +48,7 @@ describe('TeamOverview', () => {
 
   describe('isDone', () => {
     it("it should return true if there are no more future measurements", () => {
-      this.rendered.setState({
+      wrapper.instance().setState({
         result: {
           protocol_completion: [{
             future: false
@@ -59,12 +59,12 @@ describe('TeamOverview', () => {
           }]
         }
       });
-      result = this.rendered.isDone()
+      result = wrapper.instance().isDone()
       expect(result).toBeTruthy();
     });
 
     it("it should return false if there are future measurements", () => {
-      this.rendered.setState({
+      wrapper.instance().setState({
         result: {
           protocol_completion: [{
             future: false
@@ -75,7 +75,7 @@ describe('TeamOverview', () => {
           }]
         }
       });
-      result = this.rendered.isDone()
+      result = wrapper.instance().isDone()
       expect(result).toBeFalsy();
     });
   });
@@ -84,7 +84,7 @@ describe('TeamOverview', () => {
     it("it should dest the xhr request header for authorization", () => {
       localStorage.removeItem('id_token')
       const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
-      this.rendered.setHeader(xhr);
+      wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", "Bearer null");
     });
 
@@ -92,7 +92,7 @@ describe('TeamOverview', () => {
       const id_token = '1234abc';
       localStorage.setItem('id_token', id_token)
       const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
-      this.rendered.setHeader(xhr);
+      wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
     });
   });
@@ -111,7 +111,7 @@ describe('TeamOverview', () => {
         expect(e.dataType).toEqual('json');
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      this.rendered.loadTeamData(group)
+      wrapper.instance().loadTeamData(group)
     });
 
     it("it should get the json ajax function with the correct route", () => {
@@ -121,13 +121,13 @@ describe('TeamOverview', () => {
       });
 
       jest.spyOn(this.rendered, 'handleSuccess');
-      this.rendered.loadTeamData(group)
-      expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
+      wrapper.instance().loadTeamData(group)
+      expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
     });
 
     it("it should call ajax function with the correct route with the correct week", () => {
       let week_number = 42
-      this.rendered.setState({
+      wrapper.instance().setState({
         week_number: week_number
       });
       expectedUrl = `/api/v1/admin/team/${group}?year=${year}&week_number=${week_number}&percentage_threshold=70`
@@ -137,8 +137,8 @@ describe('TeamOverview', () => {
       });
 
       jest.spyOn(this.rendered, 'handleSuccess');
-      this.rendered.loadTeamData(group)
-      expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
+      wrapper.instance().loadTeamData(group)
+      expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
     });
 
     it("it should include the correct headers", () => {
@@ -146,7 +146,7 @@ describe('TeamOverview', () => {
         expect(e.beforeSend).toEqual(TeamOverview.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      this.rendered.loadTeamData(group)
+      wrapper.instance().loadTeamData(group)
     });
   });
 
@@ -162,8 +162,8 @@ describe('TeamOverview', () => {
     });
 
     it("should update the state with the new week", () => {
-      this.rendered.handleYearChange('the-year');
-      expect(this.rendered.state.year).toEqual('the-year');
+      wrapper.instance().handleYearChange('the-year');
+      expect(wrapper.instance().state.year).toEqual('the-year');
     });
   });
 
@@ -180,8 +180,8 @@ describe('TeamOverview', () => {
     });
 
     it("should update the state with the new week", () => {
-      this.rendered.handleWeekChange('the-week');
-      expect(this.rendered.state.week_number).toEqual('the-week');
+      wrapper.instance().handleWeekChange('the-week');
+      expect(wrapper.instance().state.week_number).toEqual('the-week');
     });
   });
 

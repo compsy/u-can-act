@@ -1,4 +1,5 @@
 import React from 'react'
+
 export default class Login extends React.Component {
   login() {
     this.props.auth.login();
@@ -24,7 +25,7 @@ export default class Login extends React.Component {
   }
 
   render() {
-    var isAuthenticated = this.props.auth.isAuthenticated();
+    const isAuthenticated = this.props.auth.isAuthenticated();
 
     return (
       <div>

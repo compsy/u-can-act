@@ -9,7 +9,7 @@ describe('Statistics', () => {
       const expectedState = {
         result: undefined,
       };
-      expect(this.rendered.state).toEqual(expectedState);
+      expect(wrapper.instance().state).toEqual(expectedState);
     });
   });
 
@@ -18,7 +18,7 @@ describe('Statistics', () => {
       xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
       const id_token = '1234abc';
       localStorage.setItem('id_token', id_token)
-      this.rendered.setHeader(xhr)
+      wrapper.instance().setHeader(xhr)
       expect(xhr.setRequestHeader).toHaveBeenCalled();
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
     });
@@ -37,7 +37,7 @@ describe('Statistics', () => {
         expect(e.dataType).toEqual('json');
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      this.rendered.updateStatistics()
+      wrapper.instance().updateStatistics()
     });
 
     it("it should get the json ajax function with the correct route", () => {
@@ -47,8 +47,8 @@ describe('Statistics', () => {
       });
 
       jest.spyOn(this.rendered, 'handleSuccess');
-      this.rendered.updateStatistics()
-      expect(this.rendered.handleSuccess).toHaveBeenCalledWith(theFakeResponse);
+      wrapper.instance().updateStatistics()
+      expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse);
     });
 
     it("it should include the correct headers", () => {
@@ -56,19 +56,19 @@ describe('Statistics', () => {
         expect(e.beforeSend).toEqual(Statistics.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      this.rendered.updateStatistics()
+      wrapper.instance().updateStatistics()
     });
   });
 
   describe('handleSuccess', () => {
     it("should update the state", () => {
       const response = 'the response'
-      const pre_state = this.rendered.state;
+      const pre_state = wrapper.instance().state;
       expect(pre_state.result).not.toEqual(response);
 
-      this.rendered.handleSuccess(response);
+      wrapper.instance().handleSuccess(response);
 
-      const post_state = this.rendered.state;
+      const post_state = wrapper.instance().state;
       expect(post_state.result).toEqual(response);
     });
   });

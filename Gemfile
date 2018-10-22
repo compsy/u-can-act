@@ -30,9 +30,6 @@ gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-
 # Use React for the UI
 gem 'react-rails', '= 1.6.2'
 gem 'react-source'

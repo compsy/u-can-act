@@ -1,4 +1,6 @@
 import React from 'react'
+import $ from 'jquery'
+
 export default class Select extends React.Component {
   constructor(props) {
     super(props);
@@ -18,13 +20,13 @@ export default class Select extends React.Component {
 
   uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
 
   redraw() {
-    var select = $('#' + this._uuid);
+    const select = $('#' + this._uuid);
     select.formSelect().change(this._onChange.bind(this));
   }
 
@@ -45,7 +47,7 @@ export default class Select extends React.Component {
   }
 
   render() {
-    var options = this.generateSelectOptions(this.props.options);
+    const options = this.generateSelectOptions(this.props.options);
     return(
       <div className="input-field">
         <select id={this._uuid} defaultValue={this.props.value} >

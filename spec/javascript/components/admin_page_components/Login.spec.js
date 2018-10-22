@@ -7,7 +7,6 @@ describe('Login', () => {
   let dummy_auth;
 
   beforeEach(() => {
-    // dummy_auth = jasmine.createSpyObj('auth', ['login', 'isAuthenticated', 'logout']);
     dummy_auth = {login: jest.fn(), isAuthenticated: jest.fn(), logout: jest.fn()}
     wrapper = shallow(<Login auth={dummy_auth}/>)
   });

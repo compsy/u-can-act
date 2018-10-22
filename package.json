@@ -6,6 +6,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-polyfill": "^6.26.0",
     "d3": "^5.7.0",
+    "jquery-ujs": "^1.2.2",
     "prop-types": "^15.6.2",
     "radial-progress-chart": "^0.0.4",
     "react": "^16.5.2",

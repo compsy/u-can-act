@@ -17,7 +17,7 @@ describe('StatisticsEntry', () => {
 
   //describe('generateOverviewRows', () => {
     //beforeEach(() => {
-      //this.result = this.rendered.generateOverviewRows(this.overview, this.overviewName);
+      //this.result = wrapper.instance().generateOverviewRows(this.overview, this.overviewName);
     //});
 
 
@@ -63,8 +63,8 @@ describe('StatisticsEntry', () => {
 
   //describe('generateTable', () => {
     //beforeEach(() => {
-      //this.rows = this.rendered.generateOverviewRows(this.overview, this.overviewName);
-      //this.result = this.rendered.generateTable(this.rows);
+      //this.rows = wrapper.instance().generateOverviewRows(this.overview, this.overviewName);
+      //this.result = wrapper.instance().generateTable(this.rows);
     //});
 
     //it("it should return a table", () => {

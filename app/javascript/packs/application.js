@@ -8,8 +8,11 @@
 // layout file, like app/views/layouts/application.html.erb
 
 // console.log('Hello World from Webpacker')
-
 import "babel-polyfill";
+
+// Make jquery available
+import {} from 'jquery'
+import {} from 'jquery-ujs'
 
 // I18n stuff
 import I18n from 'i18n'

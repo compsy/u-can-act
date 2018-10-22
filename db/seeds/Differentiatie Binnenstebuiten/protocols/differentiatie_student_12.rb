@@ -1,5 +1,4 @@
-default_protocol_duration = 2
-default_posttest_open_duration = nil
+default_protocol_duration = (Date.new(2019,4,18) - Date.new(2018,10,29)).to_i
 default_reward_points = 100
 
 #############################

@@ -7,8 +7,17 @@ ic_content = <<~'END'
   <p class="flow-text">Ja, ik doe mee aan het onderzoek 'Differentiatie binnenstebuiten'. Ik weet dat mijn antwoorden en de opnames van de lessen geheim blijven en alleen voor onderzoek gebruikt worden. Ik weet ook dat ik altijd om hulp kan vragen wanneer ik vragen lastig vind om te beantwoorden, of wanneer er vragen zijn die ik niet prettig vind om te beantwoorden.</p>
 END
 informed_consent.content = [{
-                              type: :raw,
-                              content: ic_content
-                            }]
+  type: :raw,
+  content: ic_content
+}, {
+  id: :v1,
+  type: :checkbox,
+  required: true,
+  title: '',
+  options: [
+    'Ja, ik geef toestemming'
+  ],
+  show_otherwise: false
+}]
 informed_consent.title = 'Differentiatie Binnenstebuiten'
 informed_consent.save!

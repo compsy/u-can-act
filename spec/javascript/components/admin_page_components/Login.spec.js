@@ -1,19 +1,21 @@
+import React from 'react'
+import {shallow} from 'enzyme'
+import Login from 'components/admin_page_components/Login'
+
 describe('Login', () => {
+  let wrapper;
+  let dummy_auth;
+
   beforeEach(() => {
-    this.dummy_auth = jasmine.createSpyObj('auth', ['login', 'isAuthenticated', 'logout']);
-
-    component = React.createElement(Login, {
-      auth: this.dummy_auth
-    });
-
-    this.rendered = TestUtils.renderIntoDocument(component)
+    dummy_auth = jasmine.createSpyObj('auth', ['login', 'isAuthenticated', 'logout']);
+    wrapper = shallow(<Login auth={dummy_auth}/>)
   });
 
   describe('login', () => {
     it("it should call the login function of the provided auth attribute", () => {
-      expect(this.dummy_auth.login).not.toHaveBeenCalled()
+      expect(dummy_auth.login).not.toHaveBeenCalled()
       this.rendered.login();
-      expect(this.dummy_auth.login).toHaveBeenCalled()
+      expect(dummy_auth.login).toHaveBeenCalled()
     });
   });
 

@@ -1,7 +1,12 @@
+import React from 'react'
+import {shallow, mount} from 'enzyme'
+import Statistics from 'components/admin_page_components/Statistics';
+
 describe('Statistics', () => {
+  let wrapper;
+
   beforeEach(() => {
-    const component = React.createElement(Statistics, {});
-    this.rendered = TestUtils.renderIntoDocument(component)
+    wrapper = shallow(<Statistics/>)
   });
 
   describe('constructor', () => {
@@ -15,7 +20,7 @@ describe('Statistics', () => {
 
   describe('setHeader', () => {
     it("it should set the correct header on the xhr request", () => {
-      xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
+      const xhr = {setRequestHeader: jest.fn()};
       const id_token = '1234abc';
       localStorage.setItem('id_token', id_token)
       wrapper.instance().setHeader(xhr)
@@ -32,31 +37,33 @@ describe('Statistics', () => {
     }
 
     it("it should include the correct attributes in a call", () => {
-      jest.spyOn($, 'ajax').mockImplementation(function(e) {
+      jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.type).toEqual('GET');
         expect(e.dataType).toEqual('json');
         return $.Deferred().resolve(theFakeResponse).promise();
       });
       wrapper.instance().updateStatistics()
+      expect($.ajax).toHaveBeenCalled()
     });
 
     it("it should get the json ajax function with the correct route", () => {
-      jest.spyOn($, 'ajax').mockImplementation(function(e) {
+      jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.url).toEqual(expectedUrl);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-
-      jest.spyOn(this.rendered, 'handleSuccess');
+      jest.spyOn(wrapper.instance(), 'handleSuccess');
       wrapper.instance().updateStatistics()
       expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse);
+      expect($.ajax).toHaveBeenCalled()
     });
 
     it("it should include the correct headers", () => {
-      jest.spyOn($, 'ajax').mockImplementation(function(e) {
+      jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.beforeSend).toEqual(Statistics.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
       wrapper.instance().updateStatistics()
+      expect($.ajax).toHaveBeenCalled()
     });
   });
 
@@ -73,12 +80,10 @@ describe('Statistics', () => {
     });
   });
 
-
   describe('render', () => {
     it("it should render when there is data to render", () => {
-      const component = React.createElement(Statistics, {});
-      const rendered = TestUtils.renderIntoDocument(component)
-      rendered.setState({
+      wrapper = mount(<Statistics/>)
+      wrapper.instance().setState({
         result: {
           number_of_students: 12,
           number_of_mentors: 3,
@@ -87,28 +92,23 @@ describe('Statistics', () => {
         }
       });
 
-      const nodes = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'statistics-entry')
-
-      expect(nodes).not.toBe(undefined)
+      const nodes = wrapper.find('.statistics-entry')
+      expect(nodes.exists()).toBeTruthy()
 
       // 4 because students, mentors, timeline and questionnaires
-      expect(nodes.length).toBe(4)
-      console.log(nodes)
+      expect(nodes).toHaveLength(4)
     });
 
     it("it should not render when there is no data", () => {
-      const component = React.createElement(Statistics, {});
-      const rendered = TestUtils.renderIntoDocument(component)
-      rendered.setState({
+      wrapper.instance().setState({
         result: undefined
       });
+      wrapper.update()
+      const nodes = wrapper.find('.progress')
 
-      const nodes = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'progress')
-
-      expect(nodes).not.toBe(undefined)
-      expect(nodes.length).toBe(1)
-      expect(nodes[0].getAttribute('class')).toEqual('progress')
+      expect(nodes.exists()).toBeTruthy()
+      expect(nodes).toHaveLength(1)
+      expect(nodes.first().hasClass('progress')).toBeTruthy()
     });
-
   });
 });

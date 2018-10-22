@@ -94,6 +94,7 @@ describe('ProgressBar', () => {
       const valueEuro = 321;
       const dummy = jest.fn();
       wrapper.setState({radial: {update: dummy}})
+      wrapper.update();
       const result = wrapper.instance().renderGraph(valueEuro, percentage_streak, 3, 4)
       expect(dummy).toHaveBeenCalledTimes(1)
       expect(result).not.toEqual(undefined)
@@ -106,6 +107,7 @@ describe('ProgressBar', () => {
       const totalAvailable = 4;
       const valueEuro = 321;
       wrapper.setState({radial: undefined});
+      wrapper.update();
 
       expect(wrapper.state('radial')).toBeUndefined();
       const result = wrapper.instance().renderGraph(valueEuro, percentage_streak, 3, totalAvailable);
@@ -132,6 +134,7 @@ describe('ProgressBar', () => {
       wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={10} initialMultiplier={0}
                                      percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.setState({showStreakDetails: false})
+      wrapper.update();
       const result = wrapper.instance().createStreakText()
       expect(result).toBeUndefined()
     });
@@ -140,6 +143,7 @@ describe('ProgressBar', () => {
       wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={1} initialMultiplier={0}
                                      percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.setState({showStreakDetails: true})
+      wrapper.update();
       const result = wrapper.instance().createStreakText()
       expect(result).toBeUndefined()
     });
@@ -148,6 +152,7 @@ describe('ProgressBar', () => {
       wrapper = shallow(<ProgressBar inMaxStreak={0} euroDelta={0} currentMultiplier={10} initialMultiplier={0}
                                      percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
       wrapper.setState({showStreakDetails: true})
+      wrapper.update();
       const result = wrapper.instance().createStreakText()
       expect(result).not.toBeUndefined()
       expect(result.type).toEqual('div')
@@ -160,6 +165,7 @@ describe('ProgressBar', () => {
                                      percentageStreak={0} valueEuro={0} awardable={0} totalAvailable={0}/>)
 
       wrapper.setState({showStreakDetails: true})
+      wrapper.update();
       const result = wrapper.instance().createStreakText()
       expect(result).not.toBeUndefined()
       expect(result.props.children[1]).toEqual('Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je €' + euroDelta + ',- extra verdiend!')

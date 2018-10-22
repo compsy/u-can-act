@@ -9,7 +9,7 @@ describe('Select', () => {
     options = ['a', '1', '2', '3', '4', '5', 'all']
     value = 1
     label = 'The label'
-    wrapper = shallow(<Select options={options} value={value} label={label} />)
+    wrapper = shallow(<Select options={options} value={value} label={label}/>)
   });
 
   describe('constructor', () => {
@@ -88,7 +88,7 @@ describe('Select', () => {
       const onChange = () => {
         called = true;
       }
-      wrapper = shallow(<Select onChange={onChange} options={options} value={value} label={label} />)
+      wrapper = shallow(<Select onChange={onChange} options={options} value={value} label={label}/>)
       wrapper.instance()._onChange();
       expect(Select.prototype.getSelectedOption).toHaveBeenCalled()
       expect(Select.prototype.getSelectedOption).toHaveBeenCalledTimes(1)

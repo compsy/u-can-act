@@ -31,6 +31,7 @@ describe('TeamOverview', () => {
       wrapper.instance().setState({
         groups: groups
       });
+      wrapper.update();
 
       rendered.updateTeamDetails()
       expect(TeamOverview.prototype.loadTeamData.mock.calls.length).toEqual(groups.length);
@@ -59,6 +60,7 @@ describe('TeamOverview', () => {
           }]
         }
       });
+      wrapper.update();
       result = wrapper.instance().isDone()
       expect(result).toBeTruthy();
     });
@@ -75,6 +77,7 @@ describe('TeamOverview', () => {
           }]
         }
       });
+      wrapper.update();
       result = wrapper.instance().isDone()
       expect(result).toBeFalsy();
     });
@@ -130,6 +133,7 @@ describe('TeamOverview', () => {
       wrapper.instance().setState({
         week_number: week_number
       });
+      wrapper.update();
       expectedUrl = `/api/v1/admin/team/${group}?year=${year}&week_number=${week_number}&percentage_threshold=70`
       jest.spyOn($, 'ajax').mockImplementation(function(e) {
         expect(e.url).toEqual(expectedUrl);
@@ -189,7 +193,7 @@ describe('TeamOverview', () => {
     it("it should render when there is data to render", () => {
       const component = React.createElement(TeamOverview, {});
       const rendered = TestUtils.renderIntoDocument(component)
-      rendered.setState({
+      wrapper.instance().setState({
         Mentor: {
           overview: []
         },
@@ -197,7 +201,7 @@ describe('TeamOverview', () => {
           overview: []
         }
       });
-
+      wrapper.update();
       const nodes = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'team-overview-entry')
 
       // One for mentors, one for students

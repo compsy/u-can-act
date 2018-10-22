@@ -1,4 +1,5 @@
 import React from 'react'
+
 export default class StatisticsEntry extends React.Component {
   render() {
     return (

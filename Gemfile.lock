@@ -72,7 +72,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    appsignal (2.7.1)
+    appsignal (2.7.2)
       rack
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
@@ -96,7 +96,7 @@ GEM
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       xpath (~> 3.1)
-    capybara-screenshot (1.0.21)
+    capybara-screenshot (1.0.22)
       capybara (>= 1.0, < 4)
       launchy
     capybara-selenium (0.0.6)
@@ -231,8 +231,8 @@ GEM
     lumberjack (1.0.13)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
-    mailgun-ruby (1.1.10)
-      rest-client (~> 2.0)
+    mailgun-ruby (1.1.11)
+      rest-client (~> 2.0.2)
     materialize-sass (1.0.0)
       autoprefixer-rails (>= 6.0.3)
     messagebird-rest (1.4.1)
@@ -278,6 +278,8 @@ GEM
     puma (3.12.0)
     rack (2.0.5)
     rack-cors (1.0.2)
+    rack-proxy (0.6.5)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.7)
@@ -424,7 +426,7 @@ GEM
     tins (1.16.3)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2018.5)
+    tzinfo-data (1.2018.6)
       tzinfo (>= 1.0.0)
     uglifier (4.1.19)
       execjs (>= 0.3.0, < 3)
@@ -437,10 +439,14 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webpacker (4.0.0.pre.3)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
-    xpath (3.1.0)
+    xpath (3.2.0)
       nokogiri (~> 1.8)
 
 PLATFORMS
@@ -511,6 +517,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   web-console
+  webpacker (>= 4.0.x)
   workless!
 
 RUBY VERSION

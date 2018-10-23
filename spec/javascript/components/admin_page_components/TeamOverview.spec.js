@@ -6,7 +6,7 @@ describe('TeamOverview', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<TeamOverview/>)
+    wrapper = shallow(<TeamOverview/>);
   });
 
   describe('constructor', () => {
@@ -24,8 +24,8 @@ describe('TeamOverview', () => {
 
   describe('updateTeamDetails', () => {
     it("it should call the loadTeamData function for each group", () => {
-      const spy = jest.spyOn(TeamOverview.prototype, 'loadTeamData')
-      wrapper = shallow(<TeamOverview/>)
+      const spy = jest.spyOn(TeamOverview.prototype, 'loadTeamData');
+      wrapper = shallow(<TeamOverview/>);
 
       // Note that we do not have to call the update team details ourselves. It gets called in 
       // the component did mount function, which is tested elsewhere
@@ -38,7 +38,7 @@ describe('TeamOverview', () => {
       });
       wrapper.update();
 
-      wrapper.instance().updateTeamDetails()
+      wrapper.instance().updateTeamDetails();
       expect(TeamOverview.prototype.loadTeamData).toHaveBeenCalledTimes(expected_count);
       spy.mockRestore();
     });
@@ -46,8 +46,8 @@ describe('TeamOverview', () => {
 
   describe('componentDidMount', () => {
     it("it should call the updateTeamDetails function", () => {
-      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails')
-      wrapper = shallow(<TeamOverview/>)
+      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails');
+      wrapper = shallow(<TeamOverview/>);
       expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalled();
       spy.mockRestore();
     });
@@ -67,7 +67,7 @@ describe('TeamOverview', () => {
         }
       });
       wrapper.update();
-      const result = wrapper.instance().isDone()
+      const result = wrapper.instance().isDone();
       expect(result).toBeTruthy();
     });
 
@@ -84,14 +84,14 @@ describe('TeamOverview', () => {
         }
       });
       wrapper.update();
-      const result = wrapper.instance().isDone()
+      const result = wrapper.instance().isDone();
       expect(result).toBeFalsy();
     });
   });
 
   describe('setHeader', () => {
     it("it should dest the xhr request header for authorization", () => {
-      localStorage.removeItem('id_token')
+      localStorage.removeItem('id_token');
       const xhr = {setRequestHeader: jest.fn()};
       wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", "Bearer null");
@@ -99,7 +99,7 @@ describe('TeamOverview', () => {
 
     it("it should use the authorization token from the  ", () => {
       const id_token = '1234abc';
-      localStorage.setItem('id_token', id_token)
+      localStorage.setItem('id_token', id_token);
       const xhr = {setRequestHeader: jest.fn()};
       wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
@@ -109,7 +109,7 @@ describe('TeamOverview', () => {
   describe('loadTeamData', () => {
     const group = 'Mentor';
     const year = new Date().getFullYear();
-    let expectedUrl = `/api/v1/admin/team/${group}?year=${year}&percentage_threshold=70`
+    let expectedUrl = `/api/v1/admin/team/${group}?year=${year}&percentage_threshold=70`;
     const theFakeResponse = {
       'text': 'this a a fake response'
     };
@@ -140,21 +140,21 @@ describe('TeamOverview', () => {
     });
 
     it("it should call ajax function with the correct route with the correct week", () => {
-      let week_number = 42
+      let week_number = 42;
       wrapper.instance().setState({
         week_number: week_number
       });
       wrapper.update();
-      expectedUrl = `/api/v1/admin/team/${group}?year=${year}&week_number=${week_number}&percentage_threshold=70`
+      expectedUrl = `/api/v1/admin/team/${group}?year=${year}&week_number=${week_number}&percentage_threshold=70`;
       const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.url).toEqual(expectedUrl);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
 
       const spy2 = jest.spyOn(wrapper.instance(), 'handleSuccess');
-      wrapper.instance().loadTeamData(group)
+      wrapper.instance().loadTeamData(group);
       expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
-      expect($.ajax).toHaveBeenCalled()
+      expect($.ajax).toHaveBeenCalled();
       spy.mockRestore();
       spy2.mockRestore();
     });
@@ -164,20 +164,20 @@ describe('TeamOverview', () => {
         expect(e.beforeSend).toEqual(TeamOverview.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      wrapper.instance().loadTeamData(group)
-      expect($.ajax).toHaveBeenCalled()
-      spy.mockRestore()
+      wrapper.instance().loadTeamData(group);
+      expect($.ajax).toHaveBeenCalled();
+      spy.mockRestore();
     });
   });
 
   describe('handleYearChange', () => {
     it("should call the update team details function", () => {
-      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails')
-      wrapper = shallow(<TeamOverview/>)
-      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(1)
+      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails');
+      wrapper = shallow(<TeamOverview/>);
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(1);
       wrapper.instance().handleYearChange('the-year');
-      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(2)
-      spy.mockRestore()
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(2);
+      spy.mockRestore();
     });
 
     it("should update the state with the new week", () => {
@@ -188,12 +188,12 @@ describe('TeamOverview', () => {
 
   describe('handleWeekChange', () => {
     it("should call the update team details function", () => {
-      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails')
-      wrapper = shallow(<TeamOverview/>)
-      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(1)
+      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails');
+      wrapper = shallow(<TeamOverview/>);
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(1);
       wrapper.instance().handleWeekChange('week_number');
-      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(2)
-      spy.mockRestore()
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(2);
+      spy.mockRestore();
     });
 
     it("should update the state with the new week", () => {
@@ -204,7 +204,7 @@ describe('TeamOverview', () => {
 
   describe('render', () => {
     it("it should render when there is data to render", () => {
-      wrapper = mount(<TeamOverview/>)
+      wrapper = mount(<TeamOverview/>);
       wrapper.instance().setState({
         Mentor: {
           overview: []
@@ -214,18 +214,18 @@ describe('TeamOverview', () => {
         }
       });
       wrapper.update();
-      const nodes = wrapper.find('.team-overview-entry')
+      const nodes = wrapper.find('.team-overview-entry');
 
       // One for mentors, one for students
-      expect(nodes).not.toBeUndefined()
-      expect(nodes).toHaveLength(2)
+      expect(nodes).not.toBeUndefined();
+      expect(nodes).toHaveLength(2);
     });
     it("it should not render when there is no data", () => {
-      wrapper = mount(<TeamOverview/>)
+      wrapper = mount(<TeamOverview/>);
       wrapper.update();
 
-      const nodes = wrapper.find('.team-overview-entry')
-      expect(nodes).toHaveLength(0)
+      const nodes = wrapper.find('.team-overview-entry');
+      expect(nodes).toHaveLength(0);
     });
   });
 });

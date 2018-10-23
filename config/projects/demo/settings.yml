@@ -3,6 +3,10 @@ default: &default
   default_team_name: 'Demo-team'
   # This settings is included only for the specs. Don't remove
   test_setting: 'test123' 
+  logo:
+    mentor_logo: 'logo.png'
+    student_logo: 'logo.png'
+    fallback_logo: 'logo.png'
 development:
   <<: *default
 production:

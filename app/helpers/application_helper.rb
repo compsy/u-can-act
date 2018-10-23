@@ -21,6 +21,11 @@ module ApplicationHelper
     mentor_or_student_logo
   end
 
+  def scoped_image_tag(source, options = {})
+    scoped_source = "#{Rails.application.config.settings.application_name}/#{source}"
+    image_tag(scoped_source, options)
+  end
+
   private
 
   def mentor_or_student_logo

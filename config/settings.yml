@@ -3,10 +3,10 @@ default: &default
   application_name: <%=ENV['PROJECT_NAME']%>
   default_team_name: 'Controlegroep'
   logo:
-    mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'
-    student_logo: 'U_can_act_logo_CMYK_GROEN.png'
-    fallback_logo: 'U_can_act_logo_ZWART.png'
-    company_logo: 'rug_logo.png'
+    mentor_logo: null
+    student_logo: null
+    fallback_logo: null
+    company_logo: null
 development:
   <<: *default
 production:

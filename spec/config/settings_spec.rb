@@ -32,5 +32,12 @@ describe Rails do
       expect(Rails.application.config.settings.application_name)
         .to eq ENV['PROJECT_NAME']
     end
+
+    it 'should merge the settings from the project specific settings' do
+      expect(ENV['PROJECT_NAME']).to eq 'demo'
+      expect(Rails.application.config.settings.test_setting).to_not be_blank
+      expect(Rails.application.config.settings.test_setting)
+        .to eq 'test123'
+    end
   end
 end

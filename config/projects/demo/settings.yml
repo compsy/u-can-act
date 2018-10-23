@@ -1,6 +1,8 @@
 # Beware! This file is public by definition
 default: &default
   default_team_name: 'Demo-team'
+  # This settings is included only for the specs. Don't remove
+  test_setting: 'test123' 
 development:
   <<: *default
 production:

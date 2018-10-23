@@ -179,6 +179,7 @@ gem 'i18n-js'
 gem 'rails-i18n'
 
 gem 'lograge'
+gem 'prometheus-client'
 
 gem 'appsignal'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?

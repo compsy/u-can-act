@@ -27,10 +27,10 @@ describe Rails do
         .to eq settings[Rails.env]['logo']['fallback_logo']
     end
 
-    it 'should have application-name settings' do
+    it 'should have application-name settings when the ENV defines this' do
       expect(Rails.application.config.settings.application_name).to_not be_blank
       expect(Rails.application.config.settings.application_name)
-        .to eq settings[Rails.env]['application_name']
+        .to eq ENV['PROJECT_NAME']
     end
   end
 end

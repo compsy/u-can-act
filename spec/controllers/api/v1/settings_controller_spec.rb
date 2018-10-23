@@ -31,6 +31,8 @@ describe Api::V1::SettingsController, type: :controller do
         yaml.keys.each do |key|
           cur = hash[key]
           cur_yaml = yaml[key]
+          cur_yaml = ENV['PROJECT_NAME'] if key == 'application_name'
+
           expect(cur).to_not be_blank
           expect(cur).to eq cur_yaml
           result_keys.delete(key)

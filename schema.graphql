@@ -1,0 +1,18 @@
+type Mutation {
+  # An example field added by the generator
+  testField: String!
+}
+
+# The query root of this schema
+type Query {
+  # Find a questionnaire by key
+  questionnaire(key: String!): Questionnaire
+}
+
+# A Questionnaire
+type Questionnaire {
+  id: ID!
+  key: String!
+  name: String!
+  title: String
+}

@@ -155,6 +155,10 @@ GEM
     formatador (0.2.5)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    graphiql-rails (1.4.11)
+      railties
+      sprockets-rails
+    graphql (1.8.11)
     guard (2.14.2)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -472,6 +476,8 @@ DEPENDENCIES
   delayed_job_active_record
   dotenv-rails
   factory_bot_rails
+  graphiql-rails
+  graphql
   guard-rspec
   haml-rails
   highcharts-rails
@@ -524,4 +530,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.5
+   1.16.6

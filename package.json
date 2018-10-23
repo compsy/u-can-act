@@ -1,16 +1,29 @@
 {
   "dependencies": {
-    "@babel/preset-react": "^7.0.0",
-    "@rails/webpacker": "https://github.com/rails/webpacker",
-    "babel-polyfill": "^6.26.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-relay": "^1.6.2",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react_ujs": "^2.4.4"
+    "react_ujs": "^2.4.4",
+    "relay-runtime": "^1.6.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-react": "^7.0.0",
+    "@rails/webpacker": "https://github.com/rails/webpacker",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-relay": "^1.6.2",
+    "babel-polyfill": "^6.26.0",
+    "graphql": "^0.13.0",
+    "relay-compiler": "^1.6.2",
+    "watchman": "^1.0.0",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"
+  },
+  "scripts": {
+    "relay": "relay-compiler --src ./app/javascript/components --schema ./schema.graphql --extensions js jsx"
   }
 }

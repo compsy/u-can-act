@@ -178,7 +178,11 @@ gem 'tzinfo-data'
 gem 'i18n-js'
 gem 'rails-i18n'
 
+gem 'graphql'
+
 gem 'lograge'
 
 gem 'appsignal'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+
+gem 'graphiql-rails', group: :development

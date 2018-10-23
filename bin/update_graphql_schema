@@ -1,0 +1,6 @@
+#!/usr/bin/env rails runner
+require 'rake'
+require 'graphql/rake_task'
+GraphQL::RakeTask.new(schema_name: "VsvSchema")
+Rake::Task["graphql:schema:dump"].invoke
+system('yarn relay')

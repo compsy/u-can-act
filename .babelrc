@@ -16,6 +16,12 @@
     ]
   ],
   "plugins": [
+    [
+      "relay",
+      {
+        "schema": "./schema.json"
+      }
+    ],
     "@babel/plugin-transform-destructuring",
     "@babel/plugin-syntax-dynamic-import",
     [

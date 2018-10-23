@@ -1,7 +1,12 @@
+import React from 'react'
+import {shallow, mount} from 'enzyme'
+import TeamOverview from 'components/admin_page_components/TeamOverview';
+
 describe('TeamOverview', () => {
+  let wrapper;
+
   beforeEach(() => {
-    const component = React.createElement(TeamOverview, {});
-    this.rendered = TestUtils.renderIntoDocument(component)
+    wrapper = shallow(<TeamOverview/>)
   });
 
   describe('constructor', () => {
@@ -19,31 +24,32 @@ describe('TeamOverview', () => {
 
   describe('updateTeamDetails', () => {
     it("it should call the loadTeamData function for each group", () => {
-      jest.spyOn(TeamOverview.prototype, 'loadTeamData').mockImplementation(() => {})
-      const component = React.createElement(TeamOverview, {});
-      const rendered = TestUtils.renderIntoDocument(component);
+      const spy = jest.spyOn(TeamOverview.prototype, 'loadTeamData')
+      wrapper = shallow(<TeamOverview/>)
 
       // Note that we do not have to call the update team details ourselves. It gets called in 
       // the component did mount function, which is tested elsewhere
-      expect(TeamOverview.prototype.loadTeamData.mock.calls.length).toEqual(rendered.state.groups.length);
+      expect(TeamOverview.prototype.loadTeamData).toHaveBeenCalledTimes(wrapper.instance().state.groups.length);
 
       const groups = ['1', '2', '3', '4'];
+      const expected_count = groups.length + wrapper.instance().state.groups.length;
       wrapper.instance().setState({
         groups: groups
       });
       wrapper.update();
 
-      rendered.updateTeamDetails()
-      expect(TeamOverview.prototype.loadTeamData.mock.calls.length).toEqual(groups.length);
+      wrapper.instance().updateTeamDetails()
+      expect(TeamOverview.prototype.loadTeamData).toHaveBeenCalledTimes(expected_count);
+      spy.mockRestore();
     });
   });
 
   describe('componentDidMount', () => {
     it("it should call the updateTeamDetails function", () => {
-      jest.spyOn(TeamOverview.prototype, 'updateTeamDetails').mockImplementation(() => {})
-      const component = React.createElement(TeamOverview, {});
-      const rendered = TestUtils.renderIntoDocument(component);
+      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails')
+      wrapper = shallow(<TeamOverview/>)
       expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalled();
+      spy.mockRestore();
     });
   });
 
@@ -61,7 +67,7 @@ describe('TeamOverview', () => {
         }
       });
       wrapper.update();
-      result = wrapper.instance().isDone()
+      const result = wrapper.instance().isDone()
       expect(result).toBeTruthy();
     });
 
@@ -78,7 +84,7 @@ describe('TeamOverview', () => {
         }
       });
       wrapper.update();
-      result = wrapper.instance().isDone()
+      const result = wrapper.instance().isDone()
       expect(result).toBeFalsy();
     });
   });
@@ -86,7 +92,7 @@ describe('TeamOverview', () => {
   describe('setHeader', () => {
     it("it should dest the xhr request header for authorization", () => {
       localStorage.removeItem('id_token')
-      const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
+      const xhr = {setRequestHeader: jest.fn()};
       wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", "Bearer null");
     });
@@ -94,7 +100,7 @@ describe('TeamOverview', () => {
     it("it should use the authorization token from the  ", () => {
       const id_token = '1234abc';
       localStorage.setItem('id_token', id_token)
-      const xhr = jasmine.createSpyObj('xhr', ['setRequestHeader']);
+      const xhr = {setRequestHeader: jest.fn()};
       wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
     });
@@ -109,23 +115,28 @@ describe('TeamOverview', () => {
     }
 
     it("it should include the correct attributes in a call", () => {
-      jest.spyOn($, 'ajax').mockImplementation(function(e) {
+      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.type).toEqual('GET');
         expect(e.dataType).toEqual('json');
         return $.Deferred().resolve(theFakeResponse).promise();
       });
       wrapper.instance().loadTeamData(group)
+      expect($.ajax).toHaveBeenCalled()
+      spy.mockRestore()
     });
 
     it("it should get the json ajax function with the correct route", () => {
-      jest.spyOn($, 'ajax').mockImplementation(function(e) {
+      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.url).toEqual(expectedUrl);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
 
-      jest.spyOn(this.rendered, 'handleSuccess');
+      const spy2 = jest.spyOn(wrapper.instance(), 'handleSuccess');
       wrapper.instance().loadTeamData(group)
       expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
+      expect($.ajax).toHaveBeenCalled()
+      spy.mockRestore();
+      spy2.mockRestore();
     });
 
     it("it should call ajax function with the correct route with the correct week", () => {
@@ -135,34 +146,38 @@ describe('TeamOverview', () => {
       });
       wrapper.update();
       expectedUrl = `/api/v1/admin/team/${group}?year=${year}&week_number=${week_number}&percentage_threshold=70`
-      jest.spyOn($, 'ajax').mockImplementation(function(e) {
+      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.url).toEqual(expectedUrl);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
 
-      jest.spyOn(this.rendered, 'handleSuccess');
+      const spy2 = jest.spyOn(wrapper.instance(), 'handleSuccess');
       wrapper.instance().loadTeamData(group)
       expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
+      expect($.ajax).toHaveBeenCalled()
+      spy.mockRestore();
+      spy2.mockRestore();
     });
 
     it("it should include the correct headers", () => {
-      jest.spyOn($, 'ajax').mockImplementation(function(e) {
+      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
         expect(e.beforeSend).toEqual(TeamOverview.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
       wrapper.instance().loadTeamData(group)
+      expect($.ajax).toHaveBeenCalled()
+      spy.mockRestore()
     });
   });
 
   describe('handleYearChange', () => {
     it("should call the update team details function", () => {
-      jest.spyOn(TeamOverview.prototype, 'updateTeamDetails').mockImplementation(() => {})
-
-      const component = React.createElement(TeamOverview, {});
-      const rendered = TestUtils.renderIntoDocument(component);
-      expect(TeamOverview.prototype.updateTeamDetails.mock.calls.length).toEqual(1);
-      rendered.handleYearChange('the-year');
-      expect(TeamOverview.prototype.updateTeamDetails.mock.calls.length).toEqual(2);
+      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails')
+      wrapper = shallow(<TeamOverview/>)
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(1)
+      wrapper.instance().handleYearChange('the-year');
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(2)
+      spy.mockRestore()
     });
 
     it("should update the state with the new week", () => {
@@ -173,14 +188,12 @@ describe('TeamOverview', () => {
 
   describe('handleWeekChange', () => {
     it("should call the update team details function", () => {
-      jest.spyOn(TeamOverview.prototype, 'updateTeamDetails').mockImplementation(() => {})
-
-      const component = React.createElement(TeamOverview, {});
-      const rendered = TestUtils.renderIntoDocument(component);
-
-      expect(TeamOverview.prototype.updateTeamDetails.mock.calls.length).toEqual(1);
-      rendered.handleWeekChange('week_number');
-      expect(TeamOverview.prototype.updateTeamDetails.mock.calls.length).toEqual(2);
+      const spy = jest.spyOn(TeamOverview.prototype, 'updateTeamDetails')
+      wrapper = shallow(<TeamOverview/>)
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(1)
+      wrapper.instance().handleWeekChange('week_number');
+      expect(TeamOverview.prototype.updateTeamDetails).toHaveBeenCalledTimes(2)
+      spy.mockRestore()
     });
 
     it("should update the state with the new week", () => {
@@ -191,8 +204,7 @@ describe('TeamOverview', () => {
 
   describe('render', () => {
     it("it should render when there is data to render", () => {
-      const component = React.createElement(TeamOverview, {});
-      const rendered = TestUtils.renderIntoDocument(component)
+      wrapper = mount(<TeamOverview/>)
       wrapper.instance().setState({
         Mentor: {
           overview: []
@@ -202,23 +214,18 @@ describe('TeamOverview', () => {
         }
       });
       wrapper.update();
-      const nodes = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'team-overview-entry')
+      const nodes = wrapper.find('.team-overview-entry')
 
       // One for mentors, one for students
-      expect(nodes).not.toBe(undefined)
-      expect(nodes.length).toBe(2)
+      expect(nodes).not.toBeUndefined()
+      expect(nodes).toHaveLength(2)
     });
     it("it should not render when there is no data", () => {
-      const component = React.createElement(TeamOverview, {});
-      const rendered = TestUtils.renderIntoDocument(component)
+      wrapper = mount(<TeamOverview/>)
+      wrapper.update();
 
-      // Helper to find all elements in a page, can be useful for reference:
-      //const node = TestUtils.findAllInRenderedTree(rendered, function(a) {return true})
-      const nodes = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'team-overview-entry')
-
-      expect(nodes).toEqual(jasmine.any(Array));
-      expect(nodes.length).toBe(0)
+      const nodes = wrapper.find('.team-overview-entry')
+      expect(nodes).toHaveLength(0)
     });
-
   });
 });

@@ -25,8 +25,8 @@ describe('StatisticsEntry', () => {
     //});
 
     //it("it should contain a table row with the correct elements and their keys and values", () => {
-      //var j = 0;
-      //for (var i = 0, len = this.overview.length; i < len; i++) {
+      //let j = 0;
+      //for (let i = 0, len = this.overview.length; i < len; i++) {
         //expect(this.result[i].type).toEqual('tr');
         //expect(this.result[i].key).toEqual(this.overview[i].name + '_' + this.overviewName);
 
@@ -71,10 +71,10 @@ describe('StatisticsEntry', () => {
 
     //it("it should return a table with the correct headers", () => {
       //expect(this.result.props.children[0].type).toEqual('thead');
-      //var header = this.result.props.children[0].props.children
+      //const header = this.result.props.children[0].props.children
       //expect(header.type).toEqual('tr');
 
-      //var j = 0;
+      //let j = 0;
       //expect(header.props.children[j].type).toEqual('th');
       //expect(header.props.children[j].props.children).toEqual(' Team');
 
@@ -97,7 +97,7 @@ describe('StatisticsEntry', () => {
 
     //it("it should return a table with the correct body", () => {
       //expect(this.result.props.children[1].type).toEqual('tbody');
-      //var body = this.result.props.children[1].props.children
+      //const body = this.result.props.children[1].props.children
       //expect(body).toEqual(this.rows);
     //});
   //});

@@ -25,6 +25,6 @@ I18n.locale = 'nl'; // TODO: should be: I18n.locale = "<%= I18n.locale %>";
 require('translations')
 
 // Support component names relative to this directory:
-var componentRequireContext = require.context("components", true)
-var ReactRailsUJS = require("react_ujs")
+const componentRequireContext = require.context("components", true)
+const ReactRailsUJS = require("react_ujs")
 ReactRailsUJS.useContext(componentRequireContext)

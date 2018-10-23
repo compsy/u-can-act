@@ -43,7 +43,7 @@ export default class ProgressBar extends React.Component {
       return initialValue;
     }
 
-    var multiplier = (delta / currentMultiplier) * initialMultiplier;
+    const multiplier = (delta / currentMultiplier) * initialMultiplier;
     return initialValue - delta + multiplier;
   }
 
@@ -56,7 +56,7 @@ export default class ProgressBar extends React.Component {
   }
 
   renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
-    var radial;
+    let radial;
     if (this.state.radial) {
       radial = this.state.radial;
       radial.update({

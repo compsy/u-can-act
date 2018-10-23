@@ -37,7 +37,7 @@ export default class TeamOverview extends React.Component {
   }
 
   loadTeamData(group) {
-    var self = this
+    const self = this
 
     // Only update if the subscription id has changed
     let year = '?year=' + this.state.year
@@ -50,7 +50,7 @@ export default class TeamOverview extends React.Component {
       url: url,
       type: 'GET',
       dataType: 'json',
-      error: function() {
+      error: function () {
         console.log('Error, call failed!');
       },
       beforeSend: self.setHeader
@@ -80,20 +80,25 @@ export default class TeamOverview extends React.Component {
   }
 
   render() {
-    var ready = true;
+    let ready = true;
     this.state.groups.forEach((group) => {
       if (!this.state[group]) {
         ready = false;
       }
     })
-    if (!ready) return (<div><div className="progress"><div className="indeterminate"></div></div></div>)
+    if (!ready) return (<div>
+      <div className="progress">
+        <div className="indeterminate"></div>
+      </div>
+    </div>)
     return (
       <div>
         <div className="container">
           <h3> Team overview </h3>
           <div className="col s12">
             <div className="col s4">
-              <WeekDropdownMenu value={this.state.week_number} year={this.state.year} onChange={this.handleWeekChange.bind(this)}/>
+              <WeekDropdownMenu value={this.state.week_number} year={this.state.year}
+                                onChange={this.handleWeekChange.bind(this)}/>
             </div>
             <div className="col s8">
               <YearDropdownMenu value={this.state.year} onChange={this.handleYearChange.bind(this)}/>
@@ -102,8 +107,8 @@ export default class TeamOverview extends React.Component {
           <div className="col s12">
             <div className="row">
               <div className="col s12">
-                <TeamOverviewEntry overview={this.state.Mentor.overview} name='Mentors' />
-                <TeamOverviewEntry overview={this.state.Student.overview} name='Students' />
+                <TeamOverviewEntry overview={this.state.Mentor.overview} name='Mentors'/>
+                <TeamOverviewEntry overview={this.state.Student.overview} name='Students'/>
               </div>
             </div>
           </div>

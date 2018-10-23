@@ -25,7 +25,7 @@ export default class RewardPage extends React.Component {
   }
 
   loadCurrentPerson() {
-    var self = this
+    const self = this
 
     // Only update if the subscription id has changed
     let url = '/api/v1/person/me';
@@ -37,7 +37,7 @@ export default class RewardPage extends React.Component {
   }
 
   loadRewardData(protocolSubscriptionId) {
-    var self = this;
+    const self = this;
 
     // Only update if the subscription id has changed
     let url = '/api/v1/protocol_subscriptions/' + protocolSubscriptionId;

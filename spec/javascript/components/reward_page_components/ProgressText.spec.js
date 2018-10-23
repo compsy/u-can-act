@@ -71,8 +71,8 @@ describe('ProgressText', () => {
 
   describe('render', () => {
     it("it should display a rendered message", () => {
-      var expected = 'Het onderzoek is voor 60% voltooid. Er is nog €' + awardable + ',- te verdienen.';
-      var result = wrapper.childAt(0).text()
+      const expected = 'Het onderzoek is voor 60% voltooid. Er is nog €' + awardable + ',- te verdienen.';
+      const result = wrapper.childAt(0).text()
       expect(result).toEqual(expected);
     });
   });

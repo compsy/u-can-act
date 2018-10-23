@@ -112,7 +112,7 @@ describe('TeamOverview', () => {
     let expectedUrl = `/api/v1/admin/team/${group}?year=${year}&percentage_threshold=70`
     const theFakeResponse = {
       'text': 'this a a fake response'
-    }
+    };
 
     it("it should include the correct attributes in a call", () => {
       const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
@@ -120,9 +120,9 @@ describe('TeamOverview', () => {
         expect(e.dataType).toEqual('json');
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      wrapper.instance().loadTeamData(group)
-      expect($.ajax).toHaveBeenCalled()
-      spy.mockRestore()
+      wrapper.instance().loadTeamData(group);
+      expect($.ajax).toHaveBeenCalled();
+      spy.mockRestore();
     });
 
     it("it should get the json ajax function with the correct route", () => {
@@ -132,9 +132,9 @@ describe('TeamOverview', () => {
       });
 
       const spy2 = jest.spyOn(wrapper.instance(), 'handleSuccess');
-      wrapper.instance().loadTeamData(group)
+      wrapper.instance().loadTeamData(group);
       expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
-      expect($.ajax).toHaveBeenCalled()
+      expect($.ajax).toHaveBeenCalled();
       spy.mockRestore();
       spy2.mockRestore();
     });

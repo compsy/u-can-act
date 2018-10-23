@@ -22,9 +22,9 @@ require('materialize-css');
 import I18n from 'i18n'
 I18n.defaultLocale = 'nl'; // TODO: should be: I18n.defaultLocale = "<%= I18n.default_locale %>";
 I18n.locale = 'nl'; // TODO: should be: I18n.locale = "<%= I18n.locale %>";
-require('translations')
+require('translations');
 
 // Support component names relative to this directory:
-const componentRequireContext = require.context("components", true)
-const ReactRailsUJS = require("react_ujs")
-ReactRailsUJS.useContext(componentRequireContext)
+const componentRequireContext = require.context("components", true);
+const ReactRailsUJS = require("react_ujs");
+ReactRailsUJS.useContext(componentRequireContext);

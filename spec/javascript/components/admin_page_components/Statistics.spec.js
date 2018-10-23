@@ -6,7 +6,7 @@ describe('Statistics', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Statistics/>)
+    wrapper = shallow(<Statistics/>);
   });
 
   describe('constructor', () => {
@@ -22,19 +22,18 @@ describe('Statistics', () => {
     it("it should set the correct header on the xhr request", () => {
       const xhr = {setRequestHeader: jest.fn()};
       const id_token = '1234abc';
-      localStorage.setItem('id_token', id_token)
-      wrapper.instance().setHeader(xhr)
+      localStorage.setItem('id_token', id_token);
+      wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalled();
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
     });
   });
 
   describe('updateStatistics', () => {
-    const year = new Date().getFullYear();
-    let expectedUrl = `/api/v1/statistics`
+    let expectedUrl = `/api/v1/statistics`;
     const theFakeResponse = {
       'text': 'this a a fake response'
-    }
+    };
 
     it("it should include the correct attributes in a call", () => {
       jest.spyOn($, 'ajax').mockImplementation(function (e) {
@@ -42,8 +41,8 @@ describe('Statistics', () => {
         expect(e.dataType).toEqual('json');
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      wrapper.instance().updateStatistics()
-      expect($.ajax).toHaveBeenCalled()
+      wrapper.instance().updateStatistics();
+      expect($.ajax).toHaveBeenCalled();
     });
 
     it("it should get the json ajax function with the correct route", () => {
@@ -52,9 +51,9 @@ describe('Statistics', () => {
         return $.Deferred().resolve(theFakeResponse).promise();
       });
       jest.spyOn(wrapper.instance(), 'handleSuccess');
-      wrapper.instance().updateStatistics()
+      wrapper.instance().updateStatistics();
       expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse);
-      expect($.ajax).toHaveBeenCalled()
+      expect($.ajax).toHaveBeenCalled();
     });
 
     it("it should include the correct headers", () => {
@@ -62,14 +61,14 @@ describe('Statistics', () => {
         expect(e.beforeSend).toEqual(Statistics.prototype.setHeader);
         return $.Deferred().resolve(theFakeResponse).promise();
       });
-      wrapper.instance().updateStatistics()
-      expect($.ajax).toHaveBeenCalled()
+      wrapper.instance().updateStatistics();
+      expect($.ajax).toHaveBeenCalled();
     });
   });
 
   describe('handleSuccess', () => {
     it("should update the state", () => {
-      const response = 'the response'
+      const response = 'the response';
       const pre_state = wrapper.instance().state;
       expect(pre_state.result).not.toEqual(response);
 
@@ -82,7 +81,7 @@ describe('Statistics', () => {
 
   describe('render', () => {
     it("it should render when there is data to render", () => {
-      wrapper = mount(<Statistics/>)
+      wrapper = mount(<Statistics/>);
       wrapper.instance().setState({
         result: {
           number_of_students: 12,
@@ -92,23 +91,23 @@ describe('Statistics', () => {
         }
       });
 
-      const nodes = wrapper.find('.statistics-entry')
-      expect(nodes.exists()).toBeTruthy()
+      const nodes = wrapper.find('.statistics-entry');
+      expect(nodes.exists()).toBeTruthy();
 
       // 4 because students, mentors, timeline and questionnaires
-      expect(nodes).toHaveLength(4)
+      expect(nodes).toHaveLength(4);
     });
 
     it("it should not render when there is no data", () => {
       wrapper.instance().setState({
         result: undefined
       });
-      wrapper.update()
-      const nodes = wrapper.find('.progress')
+      wrapper.update();
+      const nodes = wrapper.find('.progress');
 
-      expect(nodes.exists()).toBeTruthy()
-      expect(nodes).toHaveLength(1)
-      expect(nodes.first().hasClass('progress')).toBeTruthy()
+      expect(nodes.exists()).toBeTruthy();
+      expect(nodes).toHaveLength(1);
+      expect(nodes.first().hasClass('progress')).toBeTruthy();
     });
   });
 });

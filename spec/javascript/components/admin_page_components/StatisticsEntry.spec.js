@@ -10,7 +10,7 @@ describe('StatisticsEntry', () => {
     icon = 'iconicon';
     value = '40';
     subtext = 'subsub text';
-    wrapper = shallow(<StatisticsEntry icon={icon} title={title} value={value} subtext={subtext}/>)
+    wrapper = shallow(<StatisticsEntry icon={icon} title={title} value={value} subtext={subtext}/>);
   });
 
   //describe('generateOverviewRows', () => {
@@ -104,35 +104,35 @@ describe('StatisticsEntry', () => {
 
   describe('render', () => {
     it("it should return a div with the correct class", () => {
-      expect(wrapper.name()).toEqual('div')
-      expect(wrapper.is('.statistics-entry.col.s6.m6.l6.xl3')).toBeTruthy()
+      expect(wrapper.name()).toEqual('div');
+      expect(wrapper.is('.statistics-entry.col.s6.m6.l6.xl3')).toBeTruthy();
     });
 
     it("it should return the correct title", () => {
-      const node = wrapper.childAt(0).childAt(0).childAt(0)
-      expect(node.name()).toEqual('p')
-      expect(node.text()).toContain(title)
+      const node = wrapper.childAt(0).childAt(0).childAt(0);
+      expect(node.name()).toEqual('p');
+      expect(node.text()).toContain(title);
     });
 
     it("it should return the correct icon", () => {
-      const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0)
-      expect(node.name()).toEqual('i')
-      expect(node.text()).toEqual(icon)
+      const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0);
+      expect(node.name()).toEqual('i');
+      expect(node.text()).toEqual(icon);
     });
 
     it("it should return the correct value", () => {
-      const node = wrapper.childAt(0).childAt(0).childAt(1)
-      expect(node.name()).toEqual('h4')
-      expect(node.text()).toEqual(value)
+      const node = wrapper.childAt(0).childAt(0).childAt(1);
+      expect(node.name()).toEqual('h4');
+      expect(node.text()).toEqual(value);
     });
     it("it should return the correct value", () => {
-      const node =  wrapper.childAt(0).childAt(0).childAt(2).childAt(0)
-      expect(node.name()).toEqual('span')
-      expect(node.text()).toEqual(subtext)
+      const node =  wrapper.childAt(0).childAt(0).childAt(2).childAt(0);
+      expect(node.name()).toEqual('span');
+      expect(node.text()).toEqual(subtext);
     });
 
     //it("it should return the correct table", () => {
-      //expect(this.result.children[1].nodeName).toEqual('TABLE')
+      //expect(this.result.children[1].nodeName).toEqual('TABLE');
     //});
 
   });

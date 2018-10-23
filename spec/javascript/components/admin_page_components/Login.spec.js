@@ -7,23 +7,23 @@ describe('Login', () => {
   let dummy_auth;
 
   beforeEach(() => {
-    dummy_auth = {login: jest.fn(), isAuthenticated: jest.fn(), logout: jest.fn()}
-    wrapper = shallow(<Login auth={dummy_auth}/>)
+    dummy_auth = {login: jest.fn(), isAuthenticated: jest.fn(), logout: jest.fn()};
+    wrapper = shallow(<Login auth={dummy_auth}/>);
   });
 
   describe('login', () => {
     it("it should call the login function of the provided auth attribute", () => {
-      expect(dummy_auth.login).not.toHaveBeenCalled()
+      expect(dummy_auth.login).not.toHaveBeenCalled();
       wrapper.instance().login();
-      expect(dummy_auth.login).toHaveBeenCalled()
+      expect(dummy_auth.login).toHaveBeenCalled();
     });
   });
 
   describe('logout', () => {
     it("it should call the logout function of the provided auth attribute", () => {
-      expect(dummy_auth.logout).not.toHaveBeenCalled()
+      expect(dummy_auth.logout).not.toHaveBeenCalled();
       wrapper.instance().logout();
-      expect(dummy_auth.logout).toHaveBeenCalled()
+      expect(dummy_auth.logout).toHaveBeenCalled();
     });
   });
 
@@ -49,21 +49,21 @@ describe('Login', () => {
 
   describe('render', () => {
     it("it should call the loginLogoutButton with true when the person is authenticated", () => {
-      const spy = jest.spyOn(Login.prototype, 'loginLogoutButton')
+      const spy = jest.spyOn(Login.prototype, 'loginLogoutButton');
       wrapper = shallow(<Login auth={{
         isAuthenticated: () => true
-      }}/>)
-      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledWith(true)
-      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledTimes(1)
+      }}/>);
+      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledWith(true);
+      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledTimes(1);
       spy.mockRestore();
     });
     it("it should call the loginLogoutButton with false when the person is not authenticated", () => {
-      const spy = jest.spyOn(Login.prototype, 'loginLogoutButton')
+      const spy = jest.spyOn(Login.prototype, 'loginLogoutButton');
       wrapper = shallow(<Login auth={{
         isAuthenticated: () => false
-      }}/>)
-      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledWith(false)
-      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledTimes(1)
+      }}/>);
+      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledWith(false);
+      expect(Login.prototype.loginLogoutButton).toHaveBeenCalledTimes(1);
       spy.mockRestore();
     });
   });

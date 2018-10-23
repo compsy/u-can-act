@@ -16,11 +16,11 @@ describe Rails do
 
       expect(Rails.application.config.settings.logo.mentor_logo).to_not be_blank
       expect(Rails.application.config.settings.logo.mentor_logo)
-        .to eq 'logo.png'
+        .to eq 'logo_mentor.png'
 
       expect(Rails.application.config.settings.logo.student_logo).to_not be_blank
       expect(Rails.application.config.settings.logo.student_logo)
-        .to eq 'logo.png'
+        .to eq 'logo_student.png'
 
       expect(Rails.application.config.settings.logo.fallback_logo).to_not be_blank
       expect(Rails.application.config.settings.logo.fallback_logo)

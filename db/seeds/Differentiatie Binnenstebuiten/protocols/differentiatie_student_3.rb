@@ -8,7 +8,7 @@ default_reward_points = 100
 pr_name = 'differentiatie_studenten_3'
 db_name = 'Differentiatie Binnenstebuiten Scholieren Nederlands'
 ic_name = 'informed consent scholieren'
-invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
+invitation_text = 'Er staat een nieuw dagboek van Nederlands voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
@@ -35,7 +35,7 @@ open_durations = []
 
 offsets << 2.days + 8.hours + 50.minutes # Wednesdays at 8:50
 reminder_delays << nil  # No reminder
-open_durations <<  3.hours + 35.minutes # Open until 12:25 (because of the next questionnaire)
+open_durations <<  3.hours + 30.minutes # Open until 12:20 (because of the next questionnaire)
 
 offsets << 2.days + 12.hours + 30.minutes # Wednesdays at 12:30
 reminder_delays << 4.hours + 30.minutes # Wednesdays at 17:00

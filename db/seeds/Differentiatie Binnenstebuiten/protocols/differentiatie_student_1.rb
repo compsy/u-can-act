@@ -8,7 +8,7 @@ default_reward_points = 100
 pr_name = 'differentiatie_studenten_1'
 db_name = 'Differentiatie Binnenstebuiten Scholieren Engels'
 ic_name = 'informed consent scholieren'
-invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
+invitation_text = 'Er staat een nieuw dagboek van Engels voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 
 protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
@@ -33,9 +33,17 @@ offsets = []
 reminder_delays = []
 open_durations = []
 
-#############
-## Nothing ##
-#############
+offsets << 2.day + 10.hours + 30.minutes # Wednesdays at 10:30
+reminder_delays << nil  # No reminder
+open_durations <<  5.hours + 20.minutes # Wednesdays at 15:50 (10 minutes before next questionnaire)
+
+offsets << 2.days + 16.hours + 00.minutes # Wednesdays at 16:00
+reminder_delays << 1.hour # 
+open_durations << 7.hours 
+
+offsets << 4.days + 9.hours + 40.minutes # Fridays at 9:40
+reminder_delays << 7.hours + 20.minutes # Fridays at 17:00
+open_durations << 13.hours + 20.minutes 
 
 offsets.each_with_index do |of_offset, idx|
   reminder_delay = reminder_delays[idx]

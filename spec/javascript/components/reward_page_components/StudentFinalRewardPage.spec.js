@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import StudentFinalRewardPage from 'components/reward_page_components/StudentFinalRewardPage'
+import StudentFinalRewardPage from 'reward_page_components/StudentFinalRewardPage'
 
 describe('StudentFinalRewardPage', () => {
   let wrapper;

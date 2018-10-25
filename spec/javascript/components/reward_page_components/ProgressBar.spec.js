@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import ProgressBar from 'components/reward_page_components/ProgressBar'
+import ProgressBar from 'reward_page_components/ProgressBar'
 
 describe('ProgressBar', () => {
   let wrapper;

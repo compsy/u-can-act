@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import MentorRewardPage from 'components/reward_page_components/MentorRewardPage'
+import MentorRewardPage from 'reward_page_components/MentorRewardPage'
 
 describe('MentorRewardPage', () => {
   let wrapper;

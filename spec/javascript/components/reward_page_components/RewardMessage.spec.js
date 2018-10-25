@@ -1,6 +1,6 @@
 import React from 'react'
 import {render} from 'enzyme'
-import RewardMessage from 'components/reward_page_components/RewardMessage'
+import RewardMessage from 'reward_page_components/RewardMessage'
 
 describe('RewardMessage', () => {
   let wrapper;

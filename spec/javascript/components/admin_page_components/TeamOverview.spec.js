@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow, mount} from 'enzyme'
-import TeamOverview from 'components/admin_page_components/TeamOverview';
+import TeamOverview from 'admin_page_components/TeamOverview';
 
 describe('TeamOverview', () => {
   let wrapper;

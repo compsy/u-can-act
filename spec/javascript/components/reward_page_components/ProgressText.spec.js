@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import ProgressText from 'components/reward_page_components/ProgressText'
+import ProgressText from 'reward_page_components/ProgressText'
 
 describe('ProgressText', () => {
   let wrapper;

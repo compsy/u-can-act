@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow, mount} from 'enzyme'
-import Statistics from 'components/admin_page_components/Statistics';
+import Statistics from 'admin_page_components/Statistics';
 
 describe('Statistics', () => {
   let wrapper;

@@ -34,11 +34,11 @@
   },
   "jest": {
     "roots": [
-      "spec/javascript"
+      "spec/javascript/components"
     ],
     "moduleDirectories": [
       "node_modules",
-      "app/javascript",
+      "app/javascript/components",
       "public/javascripts"
     ],
     "transform": {

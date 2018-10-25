@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import SoloRewardPage from 'components/reward_page_components/SoloRewardPage'
+import SoloRewardPage from 'reward_page_components/SoloRewardPage'
 
 describe('SoloRewardPage', () => {
   let wrapper;

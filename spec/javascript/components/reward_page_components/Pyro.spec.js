@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import Pyro from 'components/reward_page_components/Pyro'
+import Pyro from 'reward_page_components/Pyro'
 
 describe('Pyro', () => {
   let wrapper;

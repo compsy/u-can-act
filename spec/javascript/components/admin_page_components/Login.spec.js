@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import Login from 'components/admin_page_components/Login'
+import Login from 'admin_page_components/Login'
 
 describe('Login', () => {
   let wrapper;

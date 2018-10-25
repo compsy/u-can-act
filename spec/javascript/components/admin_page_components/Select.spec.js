@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import Select from 'components/admin_page_components/Select'
+import Select from 'admin_page_components/Select'
 
 describe('Select', () => {
   let options, value, label, wrapper;

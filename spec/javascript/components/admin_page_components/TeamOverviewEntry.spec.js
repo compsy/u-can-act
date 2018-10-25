@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import TeamOverviewEntry from 'components/admin_page_components/TeamOverviewEntry';
+import TeamOverviewEntry from 'admin_page_components/TeamOverviewEntry';
 
 describe('TeamOverviewEntry', () => {
   let overview, overviewName, wrapper;

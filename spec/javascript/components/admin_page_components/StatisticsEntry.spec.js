@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import StatisticsEntry from 'components/admin_page_components/StatisticsEntry';
+import StatisticsEntry from 'admin_page_components/StatisticsEntry';
 
 describe('StatisticsEntry', () => {
   let title, icon, value, subtext, wrapper;

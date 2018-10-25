@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {mount, shallow} from 'enzyme'
 import WeekDropdownMenu from 'admin_page_components/WeekDropdownMenu';
 
 describe('WeekDropdownMenu', () => {
@@ -10,30 +10,52 @@ describe('WeekDropdownMenu', () => {
   });
 
   describe('getMaxWeekNumber', () => {
-    it("it should set the correct header on the xhr request", () => {
-
+    it("it should correctly return the maximum week for certain dates", () => {
+      const result = wrapper.instance().getMaxWeekNumber(new Date(2017, 11, 31));
+      expect(result).toEqual([52]);
     });
   });
 
   describe('generateWeeks', () => {
-    it("it should set the correct header on the xhr request", () => {
-      const xhr = {setRequestHeader: jest.fn()};
-      const id_token = '1234abc';
-      localStorage.setItem('id_token', id_token);
-      wrapper.instance().setHeader(xhr);
-      expect(xhr.setRequestHeader).toHaveBeenCalled();
-      expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
+    it("it should return an array of weeks from one to the maximum returned by getMaxWeekNumber", () => {
+      const spy = jest.spyOn(wrapper.instance(), 'getMaxWeekNumber').mockImplementation(function (e) {
+        return 6;
+      });
+      expect(wrapper.instance().generateWeeks(2017)).toEqual([1, 2, 3, 4, 5, 6]);
+      spy.mockRestore();
     });
   });
 
   describe('render', () => {
-    it("it should set the correct header on the xhr request", () => {
-      const xhr = {setRequestHeader: jest.fn()};
-      const id_token = '1234abc';
-      localStorage.setItem('id_token', id_token);
-      wrapper.instance().setHeader(xhr);
-      expect(xhr.setRequestHeader).toHaveBeenCalled();
-      expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);
+    beforeEach(() => {
+      wrapper = mount(<WeekDropdownMenu year={2017}/>);
+    });
+
+    it("renders the correct react component", () => {
+      expect(wrapper.name()).toEqual('WeekDropdownMenu');
+    });
+
+    it("passes the correct class", () => {
+      const node = wrapper.childAt(0);
+      expect(node.name()).toEqual('Select');
+      expect(node.is('.dropdown')).toBeTruthy();
+    });
+
+    it("returns the correct title", () => {
+      const node = wrapper.childAt(0).childAt(0).childAt(0);
+      expect(node.name()).toEqual('select');
+    });
+
+    it("displays the correct label", () => {
+      const node = wrapper.childAt(0).childAt(0).childAt(1);
+      expect(node.name()).toEqual('label');
+      expect(node.text()).toEqual('Weeknumber');
+    });
+
+    it("displays the correct number of weeks", () => {
+      const nodes = wrapper.find('option');
+      expect(nodes.exists()).toBeTruthy();
+      expect(nodes).toHaveLength(52 + 1); // Add one for the default disabled option labeled "Selecteer..."
     });
   });
 });

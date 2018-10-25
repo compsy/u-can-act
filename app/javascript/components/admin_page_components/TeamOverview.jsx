@@ -97,7 +97,7 @@ export default class TeamOverview extends React.Component {
           <h3> Team overview </h3>
           <div className="col s12">
             <div className="col s4">
-              <WeekDropdownMenu value={this.state.week_number} year={this.state.year}
+              <WeekDropdownMenu year={this.state.year}
                                 onChange={this.handleWeekChange.bind(this)}/>
             </div>
             <div className="col s8">

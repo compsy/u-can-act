@@ -8,7 +8,7 @@ export default class WeekDropdownMenu extends React.Component {
    *
    *    http://www.merlyn.demon.co.uk/weekcalc.htm#WNR
    *
-   * Algorithm is to find nearest thursday, it's year
+   * Algorithm is to find nearest thursday, its year
    * is the year of the week number. Then get weeks
    * between that date and the first day of that year.
    *

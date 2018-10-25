@@ -6,7 +6,7 @@ describe('MentorRewardPage', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<MentorRewardPage person={{earnedEuros: 1, iban: 'iban', name: 'name'}} />)
+    wrapper = shallow(<MentorRewardPage person={{earnedEuros: 1, iban: 'iban', name: 'name'}} />);
   });
   
   it("it should return the correct text", () => {

@@ -40,7 +40,7 @@ describe('ProgressText', () => {
       "future": true,
       "streak": 1
     }];
-    wrapper = shallow(<ProgressText protocolCompletion={protocolCompletion} awardable={awardable}/>)
+    wrapper = shallow(<ProgressText protocolCompletion={protocolCompletion} awardable={awardable}/>);
   });
 
   describe('calculateProgess', () => {
@@ -72,7 +72,7 @@ describe('ProgressText', () => {
   describe('render', () => {
     it("it should display a rendered message", () => {
       const expected = 'Het onderzoek is voor 60% voltooid. Er is nog €' + awardable + ',- te verdienen.';
-      const result = wrapper.childAt(0).text()
+      const result = wrapper.childAt(0).text();
       expect(result).toEqual(expected);
     });
   });

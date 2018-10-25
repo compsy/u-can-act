@@ -14,6 +14,6 @@ export default class StatisticsEntry extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

@@ -20,19 +20,19 @@ export default class RewardPage extends React.Component {
 
   isDone() {
     return !this.state.result.protocol_completion.some((entry) => {
-      return entry.future
-    })
+      return entry.future;
+    });
   }
 
   loadCurrentPerson() {
-    const self = this
+    const self = this;
 
     // Only update if the subscription id has changed
     let url = '/api/v1/person/me';
     $.getJSON(url, (response) => {
       self.setState({
         person: response
-      })
+      });
     });
   }
 
@@ -44,7 +44,7 @@ export default class RewardPage extends React.Component {
     $.getJSON(url, (response) => {
       self.setState({
         result: response
-      })
+      });
     });
   }
 
@@ -98,7 +98,7 @@ export default class RewardPage extends React.Component {
 
   render() {
     if (!this.state.result || !this.state.person) {
-      return <div>Bezig...</div>
+      return(<div>Bezig...</div>);
     }
 
     return (
@@ -109,6 +109,6 @@ export default class RewardPage extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

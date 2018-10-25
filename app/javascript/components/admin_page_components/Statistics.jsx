@@ -18,8 +18,8 @@ export default class Statistics extends React.Component {
   }
 
   updateStatistics() {
-    const self = this
-    let url = '/api/v1/statistics'
+    const self = this;
+    let url = '/api/v1/statistics';
 
     $.ajax({
       url: url,
@@ -30,14 +30,14 @@ export default class Statistics extends React.Component {
       },
       beforeSend: self.setHeader
     }).done((response) => {
-      self.handleSuccess(response)
+      self.handleSuccess(response);
     });
   }
 
   handleSuccess(response) {
     this.setState({
       result: response
-    })
+    });
   }
 
   render() {
@@ -46,7 +46,7 @@ export default class Statistics extends React.Component {
         <div className="progress">
           <div className="indeterminate"></div>
         </div>
-      </div>)
+      </div>);
     }
 
     return (
@@ -61,6 +61,6 @@ export default class Statistics extends React.Component {
         <StatisticsEntry icon='assignment' title='Questionnaires'
                          value={this.state.result.number_of_completed_questionnaires} subtext='Completed'/>
       </div>
-    )
+    );
   }
 }

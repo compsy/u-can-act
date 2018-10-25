@@ -15,13 +15,13 @@ export default class Login extends React.Component {
         <a className="waves-effect waves-light btn login-button" onClick={this.login.bind(this)} >
           Log In 
         </a>
-      )
+      );
     } 
     return (
       <a className="waves-effect waves-light btn login-button" onClick={this.logout.bind(this)} >
         Log Out
       </a>
-    )
+    );
   }
 
   render() {

@@ -11,7 +11,7 @@ describe('StudentFinalRewardPage', () => {
                                                 earnedEuros: 123,
                                                 iban: 'NL01RABO012341234',
                                                 name: 'A.B. Cornelissen'
-                                              }}/>)
+                                              }}/>);
   });
 
   describe('render', () => {

@@ -21,7 +21,7 @@ export default class StudentFinalRewardPage extends React.Component {
         </div>
         <RewardFooter person={this.props.person}/>
       </div>
-    )
+    );
   }
   render_reward() {
     if (this.props.earnedEuros > 0) {
@@ -33,7 +33,7 @@ export default class StudentFinalRewardPage extends React.Component {
           Klopt dit nummer niet?
           Klik <a href="/person/edit">hier</a> om het aan te passen.
         </p>
-      )
+      );
     }
   }
 }

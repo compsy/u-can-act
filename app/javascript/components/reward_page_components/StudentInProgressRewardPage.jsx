@@ -38,14 +38,14 @@ export default class StudentInProgressRewardPage extends React.Component {
         <h4>Bedankt voor het invullen van de vragenlijst!</h4>
         <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
         <div className='section'>
-          <ProgressBar  inMaxStreak={this.inMaxStreak}
-                        euroDelta={this.props.euroDelta}
-                        valueEuro={this.props.earnedEuros}
-                        currentMultiplier={this.props.currentMultiplier}
-                        initialMultiplier={this.props.initialMultiplier}
-                        percentageStreak={this.percentageStreak}
-                        awardableEuro={this.props.awardable}
-                        totalAvailable={this.totalAvailable}/>
+          <ProgressBar inMaxStreak={this.inMaxStreak}
+                       euroDelta={this.props.euroDelta}
+                       valueEuro={this.props.earnedEuros}
+                       currentMultiplier={this.props.currentMultiplier}
+                       initialMultiplier={this.props.initialMultiplier}
+                       percentageStreak={this.percentageStreak}
+                       awardableEuro={this.props.awardable}
+                       totalAvailable={this.totalAvailable}/>
         </div>
         <RewardFooter person={this.props.person}/>
       </div>

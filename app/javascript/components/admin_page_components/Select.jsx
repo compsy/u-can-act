@@ -10,16 +10,16 @@ export default class Select extends React.Component {
     let selectorOptions = items.map((option) => {
       return (
         <option key={option}>{option}</option>
-      )
-    })
-    selectorOptions.unshift(<option key="def" value="def" disabled>Selecteer</option>)
+      );
+    });
+    selectorOptions.unshift(<option key="def" value="def" disabled>Selecteer</option>);
 
-    return (selectorOptions)
+    return (selectorOptions);
   }
 
   uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
@@ -54,6 +54,6 @@ export default class Select extends React.Component {
         </select>
         <label>{this.props.label}</label>
       </div>
-    )
+    );
   }
 }

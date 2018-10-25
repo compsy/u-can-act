@@ -18,9 +18,9 @@ describe('TeamOverviewEntry', () => {
       'percentage_completed': 51,
       'met_threshold_completion': 21,
       'percentage_above_threshold': 31
-    }]
-    overviewName = 'the_overview_name'
-    wrapper = shallow(<TeamOverviewEntry overview={overview} name={overviewName}/>)
+    }];
+    overviewName = 'the_overview_name';
+    wrapper = shallow(<TeamOverviewEntry overview={overview} name={overviewName}/>);
   });
 
   describe('generateOverviewRows', () => {
@@ -31,8 +31,8 @@ describe('TeamOverviewEntry', () => {
     });
 
     it("it should return an array", () => {
-      expect(result instanceof Array).toBeTruthy()
-      expect(result).toHaveLength(2)
+      expect(result instanceof Array).toBeTruthy();
+      expect(result).toHaveLength(2);
     });
 
     it("it should contain a table row with the correct elements and their keys and values", () => {
@@ -84,7 +84,7 @@ describe('TeamOverviewEntry', () => {
 
     it("it should return a table with the correct headers", () => {
       expect(result.props.children[0].type).toEqual('thead');
-      const header = result.props.children[0].props.children
+      const header = result.props.children[0].props.children;
       expect(header.type).toEqual('tr');
 
       let j = 0;
@@ -110,7 +110,7 @@ describe('TeamOverviewEntry', () => {
 
     it("it should return a table with the correct body", () => {
       expect(result.props.children[1].type).toEqual('tbody');
-      const body = result.props.children[1].props.children
+      const body = result.props.children[1].props.children;
       expect(body).toEqual(rows);
     });
   });
@@ -123,12 +123,12 @@ describe('TeamOverviewEntry', () => {
     });
 
     it("it should return the correct title", () => {
-      expect(wrapper.childAt(0).name()).toEqual('h4')
-      expect(wrapper.childAt(0).text()).toEqual(overviewName)
+      expect(wrapper.childAt(0).name()).toEqual('h4');
+      expect(wrapper.childAt(0).text()).toEqual(overviewName);
     });
 
     it("it should return the correct table", () => {
-      expect(wrapper.childAt(1).name()).toEqual('table')
+      expect(wrapper.childAt(1).name()).toEqual('table');
     });
   });
 });

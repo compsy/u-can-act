@@ -20,8 +20,8 @@ export default class WeekDropdownMenu extends React.Component {
    */
   getMaxWeekNumber(d) {
     // Copy date so don't modify original
-    const current_date = new Date()
-    if (d.getFullYear() == current_date.getFullYear()) {
+    const current_date = new Date();
+    if (d.getFullYear() === current_date.getFullYear()) {
       d = new Date(Date.UTC(current_date.getFullYear(), current_date.getMonth(), current_date.getDate()));
     } else {
       d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -44,7 +44,7 @@ export default class WeekDropdownMenu extends React.Component {
     for (let i = 1; i <= endd; i++) {
       weeks.push(i);
     }
-    return (weeks)
+    return (weeks);
   }
 
   render() {
@@ -52,6 +52,6 @@ export default class WeekDropdownMenu extends React.Component {
     const selected = weeks[0];
     return (
       <Select value={selected} options={weeks} className='dropdown' label='Weeknumber' onChange={this.props.onChange}/>
-    )
+    );
   }
 }

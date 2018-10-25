@@ -42,7 +42,7 @@ describe('StudentInProgressRewardPage', () => {
     wrapper = shallow(<StudentInProgressRewardPage earnedEuros={0} awardable={0} maxStreak={10}
                                                    protocolCompletion={protocolCompletion}
                                                    initialMultiplier={0} currentMultiplier={0}
-                                                   euroDelta={0}/>)
+                                                   euroDelta={0}/>);
   });
 
   describe('findCurrentStreak', () => {

@@ -32,7 +32,7 @@ export default class TeamOverviewEntry extends React.Component {
         </thead>
         <tbody>{rows}</tbody>
       </table>
-    )
+    );
   }
 
   render() {
@@ -42,6 +42,6 @@ export default class TeamOverviewEntry extends React.Component {
         <h4>{this.props.name}</h4>
         {this.generateTable(rows)}
       </div>
-    )
+    );
   }
 }

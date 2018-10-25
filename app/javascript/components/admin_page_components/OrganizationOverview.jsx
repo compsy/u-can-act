@@ -8,12 +8,12 @@ export default class OrganizationOverview extends React.Component {
         <div>
           <p>You need to authenticate first.</p>
         </div>
-      )
+      );
     }
     return (
       <div>
         <TeamOverview />
       </div>
-    )
+    );
   }
 }

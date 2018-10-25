@@ -9,6 +9,6 @@ export default class SoloRewardPage extends React.Component {
           {I18n.t('pages.klaar.header')}
         </p>
       </div>
-    )
+    );
   }
 }

@@ -18,7 +18,7 @@ export default class TeamOverview extends React.Component {
   updateTeamDetails() {
     this.state.groups.forEach((x) => {
       this.loadTeamData(x);
-    })
+    });
   }
 
   componentDidMount() {
@@ -28,8 +28,8 @@ export default class TeamOverview extends React.Component {
 
   isDone() {
     return !this.state.result.protocol_completion.some((entry) => {
-      return entry.future
-    })
+      return entry.future;
+    });
   }
 
   setHeader(xhr) {
@@ -37,14 +37,14 @@ export default class TeamOverview extends React.Component {
   }
 
   loadTeamData(group) {
-    const self = this
+    const self = this;
 
     // Only update if the subscription id has changed
-    let year = '?year=' + this.state.year
-    let week_number = this.state.week_number === undefined ? '' : '&week_number=' + this.state.week_number
-    let percentage_threshold = '&percentage_threshold=70'
+    let year = '?year=' + this.state.year;
+    let week_number = this.state.week_number === undefined ? '' : '&week_number=' + this.state.week_number;
+    let percentage_threshold = '&percentage_threshold=70';
 
-    let url = '/api/v1/admin/team/' + group + year + week_number + percentage_threshold
+    let url = '/api/v1/admin/team/' + group + year + week_number + percentage_threshold;
 
     $.ajax({
       url: url,
@@ -55,27 +55,27 @@ export default class TeamOverview extends React.Component {
       },
       beforeSend: self.setHeader
     }).done((response) => {
-      self.handleSuccess(response, group)
+      self.handleSuccess(response, group);
     });
   }
 
   handleSuccess(response, group) {
     this.setState({
       [group]: response
-    })
+    });
   }
 
   handleYearChange(option) {
     this.setState({
       year: option
-    })
+    });
     this.updateTeamDetails();
   }
 
   handleWeekChange(option) {
     this.setState({
       week_number: option
-    })
+    });
     this.updateTeamDetails();
   }
 
@@ -85,12 +85,12 @@ export default class TeamOverview extends React.Component {
       if (!this.state[group]) {
         ready = false;
       }
-    })
+    });
     if (!ready) return (<div>
       <div className="progress">
         <div className="indeterminate"></div>
       </div>
-    </div>)
+    </div>);
     return (
       <div>
         <div className="container">
@@ -114,6 +114,6 @@ export default class TeamOverview extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

@@ -8,6 +8,6 @@ export default class Pyro extends React.Component {
           <div className="after"></div>
         </div>
       </div>
-    )
+    );
   }
 }

@@ -55,9 +55,6 @@ describe('Select', () => {
     });
   });
 
-  describe('redraw', () => {
-  });
-
   describe('componentDidUpdate', () => {
     it("it should call the redraw function", () => {
       const spy = jest.spyOn(Select.prototype, 'redraw');

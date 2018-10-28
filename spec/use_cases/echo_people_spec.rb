@@ -52,7 +52,7 @@ describe EchoPeople do
                       '0612345671',  'protname', dateinfuture, enddateinfuture])
       end
 
-      fit 'should return an array with all people (except the header)' do
+      it 'should return an array with all people (except the header)' do
         expected_output = "people = [];nil\n"
         expected_output += 'people << {:team_name=>"mijnschool", :role_title=>"x", :first_name=>"a", '\
                           ':last_name=>"e", :gender=>"male", :mobile_phone=>"0612345679", ' \

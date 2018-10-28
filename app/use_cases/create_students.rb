@@ -28,10 +28,10 @@ class CreateStudents < ActiveInteraction::Base
         mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
         protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
         start_date: plain_text_parser.parse_start_date(student[:start_date]),
-        role_id: plain_text_parser.parse_role_title(student[:team_name], role_title(student))
+        role_id: plain_text_parser.parse_role_title(student[:team_name], role_title(student)),
+        email: student[:email]
       }
       student_hash[:end_date] = plain_text_parser.parse_end_date(student[:end_date]) if student[:end_date].present?
-      student_hash[:email] = student[:email]
       student_hash
     end
   end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Measurement < ApplicationRecord
+  DEFAULT_REMINDER_DELAY = 8.hours
+
   belongs_to :questionnaire
   validates :questionnaire_id, presence: true
   belongs_to :protocol # , autosave: true, validate: true

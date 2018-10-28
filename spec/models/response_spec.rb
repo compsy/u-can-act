@@ -83,24 +83,25 @@ describe Response do
       end
       it 'should be able to retrieve multiple responses' do
         FactoryBot.create(:response, :invited,
-                          open_from: (SendInvitations::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 90.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
         FactoryBot.create(:response, :invited,
-                          open_from: (SendInvitations::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 60.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
         FactoryBot.create(:response, :completed,
-                          open_from: (SendInvitations::REMINDER_DELAY + 50.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 50.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
         FactoryBot.create(:response, :invited,
-                          open_from: (SendInvitations::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 45.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
-        FactoryBot.create(:response, open_from: (SendInvitations::REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
-                                     measurement: measurement,
-                                     protocol_subscription: protocol_subscription)
+        FactoryBot.create(:response,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
+                          measurement: measurement,
+                          protocol_subscription: protocol_subscription)
         expect(described_class.opened_and_not_expired.count).to eq 3
       end
     end

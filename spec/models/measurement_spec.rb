@@ -8,6 +8,14 @@ describe Measurement do
     expect(measurement.valid?).to be_truthy
   end
 
+  describe 'reminder_delay' do
+    it 'should have a default reminder delay of 8.hours' do
+      measurement = FactoryBot.build(:measurement)
+      expect(measurement.reminder_delay).to eq described_class::DEFAULT_REMINDER_DELAY
+      expect(Measurement::DEFAULT_REMINDER_DELAY).to eq 8.hours
+    end
+  end
+
   describe 'questionnaire_id' do
     it 'should have one' do
       measurement = FactoryBot.build(:measurement, questionnaire_id: nil)

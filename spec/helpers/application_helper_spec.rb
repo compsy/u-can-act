@@ -53,7 +53,7 @@ describe ApplicationHelper do
   end
 
   describe 'logo_image' do
-    describe 'with SETTING_DONT_SHOW_LOGO' do
+    describe 'with Rails.application.config.settings.hide_logo' do
       before :each do
         @initial_value = Rails.application.config.settings.hide_logo
         Rails.application.config.settings.hide_logo = true
@@ -70,7 +70,7 @@ describe ApplicationHelper do
       end
     end
 
-    describe 'without SETTING_DONT_SHOW_LOGO' do
+    describe 'without Rails.application.config.settings.hide_logo' do
       before :each do
         @initial_value = Rails.application.config.settings.hide_logo
         Rails.application.config.settings.hide_logo = false
@@ -83,21 +83,24 @@ describe ApplicationHelper do
       it 'should return the black logo if no is mentor is set' do
         instance_variable_set(:@use_mentor_layout, nil)
         result = logo_image
-        expected = 'U_can_act_logo_ZWART.png'
+        expected = Rails.application.config.settings.logo.fallback_logo
+        expect(Rails.application.config.settings.logo.fallback_logo).to_not be_blank
         expect(result).to eq(expected)
       end
 
       it 'should return the green logo if is mentor is false' do
         instance_variable_set(:@use_mentor_layout, false)
         result = logo_image
-        expected = 'U_can_act_logo_CMYK_GROEN.png'
+        expect(Rails.application.config.settings.logo.student_logo).to_not be_blank
+        expected = Rails.application.config.settings.logo.student_logo
         expect(result).to eq(expected)
       end
 
       it 'should return the blue logo if is mentor true' do
         instance_variable_set(:@use_mentor_layout, true)
         result = logo_image
-        expected = 'U_can_act_logo_CMYK_BLAUW.png'
+        expect(Rails.application.config.settings.logo.mentor_logo).to_not be_blank
+        expected = Rails.application.config.settings.logo.mentor_logo
         expect(result).to eq(expected)
       end
     end

@@ -37,8 +37,10 @@ describe QuestionnaireExpander do
         let(:content) do
           { id: :v2,
             type: :checkbox,
-            title: 'Wat heeft u vandaag gegeten?',
-            title_first_response: 'Heeft u ooit gegeten?',
+            title: {
+              normal: 'Wat heeft u vandaag gegeten?',
+              first: 'Heeft u ooit gegeten?'
+            },
             options: [
               { title: 'brood', tooltip: 'Bijvoorbeeld met hagelslag' },
               { title: 'kaas en ham' },
@@ -46,23 +48,25 @@ describe QuestionnaireExpander do
             ] }
         end
 
-        it 'should not replace the title if the current response is not the first response' do
+        it 'should replace the title with the first response title if this is the first response' do
           expect(PreviousResponseFinder).to receive(:find)
             .with(response)
             .and_return(nil)
 
           result = described_class.expand_content(content.dup, response)
-          expect(result.first[:title]).to eq(content[:title_first_response])
+          expect(result.first[:title]).to eq(content[:title][:first])
+          content[:title] = content[:title][:first]
+          expect(result).to eq([content])
         end
 
-        it 'should replace the title with the first response title if this is the first response' do
+        it 'should not replace the title if the current response is not the first response' do
           expect(PreviousResponseFinder).to receive(:find)
             .with(response)
             .and_return(other_response)
 
           result = described_class.expand_content(content.dup, response)
-          expect(result.first[:title]).to eq(content[:title])
-          content.delete(:title_first_response)
+          expect(result.first[:title]).to eq(content[:title][:normal])
+          content[:title] = content[:title][:normal]
           expect(result).to eq([content])
         end
       end
@@ -70,8 +74,10 @@ describe QuestionnaireExpander do
       describe 'content' do
         let(:content) do
           { type: :raw,
-            content: 'Wat heeft u vandaag gegeten?',
-            content_first_response: 'Heeft u ooit gegeten?' }
+            content: {
+              normal: 'Wat heeft u vandaag gegeten?',
+              first: 'Heeft u ooit gegeten?'
+            } }
         end
 
         it 'should not replace the content if the current response is not the first response' do
@@ -80,8 +86,8 @@ describe QuestionnaireExpander do
             .and_return(other_response)
 
           result = described_class.expand_content(content.dup, response)
-          expect(result.first[:content]).to eq(content[:content])
-          content.delete(:content_first_response)
+          expect(result.first[:content]).to eq(content[:content][:normal])
+          content[:content] = content[:content][:normal]
           expect(result).to eq([content])
         end
 
@@ -91,7 +97,9 @@ describe QuestionnaireExpander do
             .and_return(nil)
 
           result = described_class.expand_content(content.dup, response)
-          expect(result.first[:content]).to eq(content[:content_first_response])
+          expect(result.first[:content]).to eq(content[:content][:first])
+          content[:content] = content[:content][:first]
+          expect(result).to eq([content])
         end
       end
     end

@@ -2,7 +2,7 @@
 ## Nederlands 11 - Docent ##
 ############################
 
-def create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminider_delays, open_durations)
+def create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminder_delays, open_durations)
   default_protocol_duration = (Date.new(2019,4,18) - Date.new(2018,10,29)).to_i
   default_reward_points = 100
 
@@ -44,6 +44,7 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminid
 end
 
 db_name = 'Differentiatie Binnenstebuiten Docenten'
+ic_name = nil
 
 offsets = []
 reminder_delays = []
@@ -59,7 +60,7 @@ open_durations << 7.hours + 15.minutes
 
 pr_name = 'differentiatie_docenten_11a'
 invitation_text = 'Er staat een nieuw dagboek voor klas 2b voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
-create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminider_delays, open_durations)
+create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminder_delays, open_durations)
 
 
 offsets = []
@@ -80,5 +81,5 @@ open_durations << 9.hours
 
 pr_name = 'differentiatie_docenten_11b'
 invitation_text = 'Er staat een nieuw dagboek voor klas 2c voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
-create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminider_delays, open_durations)
+create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminder_delays, open_durations)
 

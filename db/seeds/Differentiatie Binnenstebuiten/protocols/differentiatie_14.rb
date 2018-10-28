@@ -34,7 +34,7 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text)
   reminder_delays = []
   open_durations = []
 
-  offsets << 11.hours + 55.minutes # Mondays at 11:40
+  offsets << 11.hours + 55.minutes # Mondays at 11:55
   reminder_delays << 5.hours + 5.minutes  # Mondays at 17:00
   open_durations <<  11.hours + 5.minutes
 

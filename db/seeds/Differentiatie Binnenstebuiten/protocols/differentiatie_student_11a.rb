@@ -35,9 +35,9 @@ offsets = []
 reminder_delays = []
 open_durations = []
 
-offsets << 1.day + 9.hours + 30.minutes # Tuesdays at 9:30
-reminder_delays << 7.hours + 30.minutes # Tuesdays at 17:00
-open_durations << 13.hours + 30.minutes 
+offsets << 1.day + 14.hours + 45.minutes # Tuesdays at 14:45
+reminder_delays << 2.hours + 15.minutes # Tuesdays at 17:00
+open_durations << 8.hours + 15.minutes 
 
 offsets << 2.day + 15.hours + 45.minutes # Wednesdays at 15:45
 reminder_delays << 1.hours + 15.minutes # Wednesdays at 17:00

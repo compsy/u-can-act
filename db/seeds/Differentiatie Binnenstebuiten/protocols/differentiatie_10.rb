@@ -40,7 +40,7 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text)
 
   offsets << 4.days + 10.hours + 30.minutes # Fridays at 10:30
   reminder_delays << nil # No reminder
-  open_durations << 1.hour + 40.minutes # Fridays at 12:20 because of next questionnaire
+  open_durations << 1.hour + 50.minutes # Fridays at 12:20 because of next questionnaire
 
   offsets << 4.days + 12.hours + 30.minutes # Fridays at 12:30
   reminder_delays << 4.hours + 30.minutes # Fridays at 17:00

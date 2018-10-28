@@ -18,8 +18,17 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
 
   organization = Organization.find_by_name(team_name)
   team = organization.teams.find_by_name(team_name)
-  docent = team.roles.where(title: 'Docenten').first
-  scholier = team.roles.where(title: 'Scholieren').first
+  team ||= Team.create!(name: team_name, organization: organization)
+
+  docenten_title = 'Docenten'
+  docent = team.roles.where(title: docenten_title).first
+  docent ||= team.roles.create!(group: Person::STUDENT, title: docenten_title)
+
+  scholieren_title = 'Scholieren'
+  scholier = team.roles.where(title: scholieren_title).first
+  scholier ||= team.roles.create!(group: Person::STUDENT, title: scholieren_title)
+
+  scholier = team.roles.where(title: scholieren_title).first
 
   students = [
     { first_name: 'Differentiatie', last_name: 'Student',             gender: 'female', role: scholier },
@@ -40,7 +49,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts 'Generating people - Finished'
 
   # Differentiatie person
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Scholieren')
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Student').first
@@ -60,7 +69,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts "differentiatie student meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie person
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Scholieren')
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Student IC').first
@@ -78,7 +87,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts "differentiatie student meting IC: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie docent
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Docenten')
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: docenten_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Docent').first
@@ -95,7 +104,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts "differentiatie 1e docent meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie docent met responses
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Docenten')
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: docenten_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Docent vorige vraag').first
@@ -119,7 +128,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts "differentiatie docent meting met eerdere vragenlijst: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie docent met responses maar leeg
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: 'Docenten')
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: docenten_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Docent vorige vraag maar leeg').first

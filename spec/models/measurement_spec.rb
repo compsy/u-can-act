@@ -14,6 +14,26 @@ describe Measurement do
       expect(measurement.reminder_delay).to eq described_class::DEFAULT_REMINDER_DELAY
       expect(Measurement::DEFAULT_REMINDER_DELAY).to eq 8.hours
     end
+
+    it 'should be an integer' do
+      measurement = FactoryBot.build(:measurement)
+      measurement.reminder_delay = 5
+      expect(measurement.valid?).to be_truthy
+      measurement.reminder_delay = -3
+      expect(measurement.valid?).to be_falsey
+      measurement.reminder_delay = 0
+      expect(measurement.valid?).to be_truthy
+      measurement.reminder_delay = 1.5
+      expect(measurement.valid?).to be_falsey
+      expect(measurement.errors.messages).to have_key :reminder_delay
+      expect(measurement.errors.messages[:reminder_delay]).to include('moet een geheel getal zijn')
+    end
+
+    it 'can be nil' do
+      measurement = FactoryBot.build(:measurement)
+      measurement.reminder_delay = nil
+      expect(measurement.valid?).to be_truthy
+    end
   end
 
   describe 'questionnaire_id' do

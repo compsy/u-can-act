@@ -156,8 +156,8 @@ In this case:
 ### The Student CSV
 For the Student data this should be:
 
-|type | team_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date | end_date |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Type | team_name | role_title | first_name | last_name | gender | mobile_phone | e-mail | protocol_name | start_date | end_date |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Student`

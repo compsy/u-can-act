@@ -33,6 +33,13 @@ describe PlainTextParser do
       result = subject.parse_mobile_phone(mobile_phone)
       expect(result).to eq mobile_phone
     end
+
+    it 'should return nil a phone number is blank' do
+      ['', nil].each do |phone_number|
+        result = subject.parse_mobile_phone(phone_number)
+        expect(result).to be_nil
+      end
+    end
   end
 
   describe 'parse_protocol_name' do

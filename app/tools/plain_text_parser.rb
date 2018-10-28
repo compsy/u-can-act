@@ -2,6 +2,7 @@
 
 class PlainTextParser
   def parse_mobile_phone(mobile_phone)
+    return nil if mobile_phone.blank?
     parsed_mobile_phone = mobile_phone.gsub(/[^0-9]+/, '')
     raise "Phone number is not 10 characters long: #{mobile_phone}" unless parsed_mobile_phone.size == 10
     raise "Phone number does not start with 06: #{mobile_phone}" unless parsed_mobile_phone.index('06')&.zero?

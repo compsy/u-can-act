@@ -8,7 +8,7 @@ class AdminController < ApplicationController
   before_action :load_questionnaires, only: %i[export preview_overview]
 
   def preview
-    @use_mentor_layout = @questionnaire.name.match?(/mentor|evaluatieonderzoek/)
+    @use_mentor_layout = @questionnaire.name.match?(/mentor|evaluatieonderzoek|telefonische interviews/)
   end
 
   def preview_done

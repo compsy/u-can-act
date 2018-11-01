@@ -2066,6 +2066,37 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.content).to_not be_nil
       expect(responseobj.values).to include('v1' => Date.today.to_formatted_s(:db))
     end
+    it 'supports the today property, which sets the default value to today' do
+      # Don't test min and max right now because they are bugged
+      content = [{
+        id: :v1,
+        type: :date,
+        today: true,
+        title: 'Welke dag is het vandaag?'
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => Date.today.to_formatted_s(:db))
+    end
   end
 
   context 'likert' do

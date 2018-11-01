@@ -9,11 +9,11 @@ describe VariableSubstitutor do
     let(:mentor_role) { FactoryBot.create(:role, team: team, group: Person::MENTOR, title: 'MentorTitle') }
     let(:student) do
       FactoryBot.create(:student, role: student_role, first_name: 'Emma', last_name: 'Bergsma',
-                        gender: Person::FEMALE)
+                                  gender: Person::FEMALE)
     end
     let(:mentor) do
       FactoryBot.create(:mentor, role: mentor_role, first_name: 'Pieter', last_name: 'Takens',
-                        gender: Person::MALE)
+                                 gender: Person::MALE)
     end
 
     describe 'substitute_variables' do

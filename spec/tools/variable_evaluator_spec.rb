@@ -73,11 +73,12 @@ describe VariableEvaluator do
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
     it 'should replace with default values when values are missing' do
-      given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} en '\
+      given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} '\
+              '{{achternaam_student}} en '\
               '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
               '{{Hij_zij_student}} al wel. {{Je_begeleidingsinitiatief}} en {{naam_begeleider}} '\
               '{{achternaam_begeleider}}.'
-      expected = 'Heeft je begeleider al zijn/haar vragenlijsten ingevuld voor deze student en zijn/haar vrienden? '\
+      expected = 'Heeft je begeleider al zijn/haar vragenlijsten ingevuld voor deze student  en zijn/haar vrienden? '\
                  'Of heeft hij/zij daar nog geen tijd voor gehad? Hij/zij al wel. Je begeleidingsinitiatief '\
                   'en je begeleider .'
       expect(described_class.evaluate_obj(given, {})).to eq expected

@@ -1531,6 +1531,39 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(responseobj.values).to include('v1' => 'pizza',
                                             'v3' => 'of niet soms')
     end
+    it 'supports the default_value property' do
+      content = [{
+        id: :v1,
+        type: :textfield,
+        title: 'Dit is je tekstruimte',
+        required: true,
+        default_value: 'ga zo door en nog een woord'
+      }]
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
+      expect(page).to_not have_current_path(mentor_overview_index_path)
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      page.click_on 'Opslaan'
+      # expect(page).to have_http_status(200)
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+      expect(responseobj.content).to_not be_nil
+      expect(responseobj.values).to include('v1' => 'ga zo door en nog een woord')
+    end
     it 'should require required textfields to be filled out' do
       content = [{
         id: :v1,
@@ -2071,6 +2104,7 @@ describe 'GET and POST /', type: :feature, js: true do
       content = [{
         id: :v1,
         type: :date,
+        required: true,
         today: true,
         title: 'Welke dag is het vandaag?'
       }]

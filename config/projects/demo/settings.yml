@@ -7,6 +7,7 @@ default: &default
     mentor_logo: 'logo_mentor.png'
     student_logo: 'logo_student.png'
     fallback_logo: 'logo.png'
+    company_logo: 'logo.png'
 development:
   <<: *default
 production:

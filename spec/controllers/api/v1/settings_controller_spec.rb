@@ -12,6 +12,11 @@ describe Api::V1::SettingsController, type: :controller do
     end
 
     let(:settings) { YAML.load_file(File.join(Rails.root, 'config', 'settings.yml')) }
+    let(:specific_settings) do
+      YAML.load_file(File.join(Rails.root, 'config', 'projects', 'demo', 'settings.yml'))
+    end
+
+    let(:current_settings) { settings[Rails.env].deep_merge(specific_settings[Rails.env]) }
     let(:result_keys) { flat_hash(@json_response).keys.flatten }
 
     before do
@@ -19,7 +24,7 @@ describe Api::V1::SettingsController, type: :controller do
       @json_response = JSON.parse(response.body)
     end
     it 'should render a json file with the correct entries' do
-      expected = settings[Rails.env].keys
+      expected = current_settings.keys
 
       expect(@json_response.keys.length).to eq expected.length
       expect(@json_response.keys).to match_array(expected)
@@ -39,7 +44,7 @@ describe Api::V1::SettingsController, type: :controller do
           recursive_check(cur, cur_yaml) if cur_yaml.is_a? Hash
         end
       end
-      recursive_check(@json_response, settings[Rails.env])
+      recursive_check(@json_response, current_settings)
 
       # Test if we actually checked every element
       expect(result_keys).to be_blank

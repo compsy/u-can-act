@@ -42,10 +42,11 @@ describe TimeTools do
       expect(described_class.a_time?(time)).to be_truthy
     end
     it 'should see a datetime as a time' do
+      # rubocop:disable Style/DateTime
       time = DateTime.new(2012, 8, 29, 22, 35, 0)
+      # rubocop:enable
       expect(described_class.a_time?(time)).to be_truthy
     end
-
     it 'should not see anything else as a time' do
       expect(described_class.a_time?('ando')).to be_falsey
       expect(described_class.a_time?(42)).to be_falsey

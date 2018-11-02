@@ -44,7 +44,7 @@ describe TimeTools do
     it 'should see a datetime as a time' do
       # rubocop:disable Style/DateTime
       time = DateTime.new(2012, 8, 29, 22, 35, 0)
-      # rubocop:enable
+      # rubocop:enable Style/DateTime
       expect(described_class.a_time?(time)).to be_truthy
     end
     it 'should not see anything else as a time' do
@@ -75,7 +75,9 @@ describe TimeTools do
       expect(described_class.an_offset?(Time.zone.now)).to be_falsey
       expect(described_class.an_offset?(Date.new(2002, 2, 3))).to be_falsey
       expect(described_class.an_offset?(Time.new(2002))).to be_falsey
+      # rubocop:disable Style/DateTime
       expect(described_class.an_offset?(DateTime.new(2012, 8, 29, 22, 35, 0))).to be_falsey
+      # rubocop:enable Style/DateTime
     end
   end
 end

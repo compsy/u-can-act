@@ -84,7 +84,7 @@ describe RescheduleResponses do
                                         offset_till_end: 2.days + 12.hours,
                                         period: nil,
                                         open_duration: nil,
-                                        reward_points:  0,
+                                        reward_points: 0,
                                         stop_measurement: true,
                                         should_invite: true,
                                         redirect_url: '/person/edit')
@@ -148,7 +148,7 @@ describe RescheduleResponses do
         measurement = FactoryBot.create(:measurement, :periodical,
                                         protocol: protocol,
                                         open_duration: 10.weeks,
-                                        reward_points:  0,
+                                        reward_points: 0,
                                         should_invite: true,
                                         redirect_url: '/person/edit')
         Response.destroy_all

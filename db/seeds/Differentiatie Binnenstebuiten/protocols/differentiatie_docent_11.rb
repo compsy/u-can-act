@@ -54,9 +54,9 @@ offsets << 1.day + 14.hours + 45.minutes # Tuesdays at 14:45
 reminder_delays << 2.hours + 15.minutes # Tuesdays at 17:00
 open_durations << 8.hours + 15.minutes 
 
-offsets << 2.day + 15.hours + 45.minutes # Wednesdays at 15:45
-reminder_delays << 1.hours + 15.minutes # Wednesdays at 17:00
-open_durations << 7.hours + 15.minutes 
+offsets << 2.day + 15.hours  # Wednesdays at 15:00
+reminder_delays << 2.hours  # Wednesdays at 17:00
+open_durations << 8.hours
 
 pr_name = 'differentiatie_docenten_11a'
 invitation_text = 'Er staat een nieuw dagboek voor klas 2b voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
@@ -73,7 +73,7 @@ open_durations << 2.hours + 5.minutes # Tuesdays at 14:35, because of other meas
 
 offsets << 2.days + 13.hours + 15.minutes # Wednesdays at 13:15
 reminder_delays << nil # No reminder because of the other measurement.
-open_durations << 2.hours + 20.minutes # Wednesdays at 15:35, because of other measurement
+open_durations << 1.hours + 35.minutes # Wednesdays at 14:50, because of other measurement
 
 offsets << 4.days + 14.hours # Fridays at 14:00
 reminder_delays << 3.hours # Fridays at 17:00

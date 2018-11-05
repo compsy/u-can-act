@@ -58,7 +58,7 @@ informed_consent1.content = [{
                              }, {
                                id: :v2,
                                type: :checkbox,
-                               required: true,
+                               required: false,
                                title: '',
                                options: [
                                  'Ik begrijp bovenstaande informatie en geef toestemming voor het opnemen van het interview.'

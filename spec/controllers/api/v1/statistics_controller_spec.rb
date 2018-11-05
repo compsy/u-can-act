@@ -96,41 +96,35 @@ describe Api::V1::StatisticsController, type: :controller do
 
     describe 'duration_of_project_in_weeks' do
       it 'should return the correct duration of the project' do
-        cached_start = ENV['PROJECT_START_DATE']
-        cached_end = ENV['PROJECT_END_DATE']
-        ENV['PROJECT_START_DATE'] = '2017-03-17'
-        ENV['PROJECT_END_DATE'] = '2018-08-06'
+        expect(Rails.application.config.settings).to receive(:project_start_date)
+          .exactly(1).times.and_return('2017-03-17')
+        expect(Rails.application.config.settings).to receive(:project_end_date)
+          .exactly(1).times.and_return('2018-08-06')
         get :index
         json_response = JSON.parse(response.body)
         expected = 7 + 1 # we also count the active week
         expect(json_response['duration_of_project_in_weeks']).to eq expected
-        ENV['PROJECT_START_DATE'] = cached_start
-        ENV['PROJECT_END_DATE'] = cached_end
       end
 
       it 'should return the correct duration of the project if we are past the end date' do
-        cached_start = ENV['PROJECT_START_DATE']
-        cached_end = ENV['PROJECT_END_DATE']
-        ENV['PROJECT_START_DATE'] = '2017-03-17'
-        ENV['PROJECT_END_DATE'] = '2017-03-27'
+        expect(Rails.application.config.settings).to receive(:project_start_date)
+          .exactly(1).times.and_return('2017-03-17')
+        expect(Rails.application.config.settings).to receive(:project_end_date)
+          .exactly(1).times.and_return('2017-03-27')
         get :index
         json_response = JSON.parse(response.body)
         expected = 2 # we also count the active week
         expect(json_response['duration_of_project_in_weeks']).to eq expected
-        ENV['PROJECT_START_DATE'] = cached_start
-        ENV['PROJECT_END_DATE'] = cached_end
       end
 
       it 'should return zero if the start date is after the end date' do
-        cached_start = ENV['PROJECT_START_DATE']
-        cached_end = ENV['PROJECT_END_DATE']
-        ENV['PROJECT_START_DATE'] = '2017-03-27'
-        ENV['PROJECT_END_DATE'] = '2017-03-17'
+        expect(Rails.application.config.settings).to receive(:project_start_date)
+          .exactly(1).times.and_return('2017-03-27')
+        expect(Rails.application.config.settings).to receive(:project_end_date)
+          .exactly(1).times.and_return('2017-03-17')
         get :index
         json_response = JSON.parse(response.body)
         expect(json_response['duration_of_project_in_weeks']).to eq 0
-        ENV['PROJECT_START_DATE'] = cached_start
-        ENV['PROJECT_END_DATE'] = cached_end
       end
     end
 

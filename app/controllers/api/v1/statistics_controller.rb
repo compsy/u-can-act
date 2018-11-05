@@ -25,11 +25,16 @@ module Api
       end
 
       def duration_of_project_in_weeks
-        start = Date.parse(ENV['PROJECT_START_DATE'])
-        endd = [Date.parse(ENV['PROJECT_END_DATE']), Date.today].min
+        start, endd = project_start_and_end_dates
         return 0 if endd <= start
 
         start.step(endd, 7).count
+      end
+
+      def project_start_and_end_dates
+        start = Date.parse(Rails.application.config.settings.project_start_date)
+        endd = [Date.parse(Rails.application.config.settings.project_end_date), Date.today].min
+        [start, endd]
       end
 
       def number_of_completed_questionnaires

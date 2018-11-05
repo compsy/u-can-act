@@ -41,8 +41,8 @@ $(function() {
     $(self).datepicker({
       minDate: $(self).data('min'),
       maxDate: $(self).data('max'),
-      defaultDate: default_date,
-      setDefaultDate: $(self).data('set-default-date'),
+      defaultDate: default_date,                         // This is so we can set a default date already filled out,
+      setDefaultDate: $(self).data('set-default-date'),  // allowing the user to skip the input
       format: 'yyyy-mm-dd',
       i18n: {
         months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],

@@ -18,7 +18,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   students =[
     { first_name: 'Jan',       last_name: 'Jansen',      gender: 'male',   role: student},
     { first_name: 'Klaziena',  last_name: 'Kramer',      gender: 'female', role: student},
-    { first_name: 'Aaltje',    last_name: 'Hoendersma',  gender: 'female', role: student},
+    { first_name: 'Aaltje',    last_name: 'Hoendersma',  gender: 'female', role: student}
   ]
 
   students.each do |student_hash|

@@ -33,9 +33,9 @@ describe Api::V1::StatisticsController, type: :controller do
 
     it 'should list the correct number of students' do
       protocol_names = double('protocol_names')
-      expect(protocol_names).to receive(:student).exactly(2).times.and_return(%w[protocol_one protocol_two])
-      expect(protocol_names).to receive(:mentor).exactly(2).times.and_return(%w[protocol_three])
-      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(4).times.and_return(protocol_names)
+      expect(protocol_names).to receive(:student).exactly(1).times.and_return(%w[protocol_one protocol_two])
+      expect(protocol_names).to receive(:mentor).exactly(1).times.and_return(%w[protocol_three])
+      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(2).times.and_return(protocol_names)
       protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
       studs1.each do |student|
@@ -56,9 +56,8 @@ describe Api::V1::StatisticsController, type: :controller do
                           informed_consent_given_at: Time.zone.now)
       end
       # It should not count loose responses, it should not count protocol subscriptions without
-      # an informed consent given, and it should not count protocol subscriptions that do have
-      # informed consent given but aren't in the list of student protocols.
-      expected = studs2.count
+      # an informed consent given.
+      expected = studs1.count + studs2.count
       get :index
       json_response = JSON.parse(response.body)
       expect(json_response['number_of_students']).to eq expected
@@ -66,9 +65,9 @@ describe Api::V1::StatisticsController, type: :controller do
 
     it 'should list the correct number of mentors' do
       protocol_names = double('protocol_names')
-      expect(protocol_names).to receive(:student).exactly(2).times.and_return(%w[protocol_one protocol_two])
-      expect(protocol_names).to receive(:mentor).exactly(2).times.and_return(%w[protocol_three])
-      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(4).times.and_return(protocol_names)
+      expect(protocol_names).to receive(:student).exactly(1).times.and_return(%w[protocol_one protocol_two])
+      expect(protocol_names).to receive(:mentor).exactly(1).times.and_return(%w[protocol_three])
+      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(2).times.and_return(protocol_names)
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
       mentors1.each do |mentor|
         FactoryBot.create(:protocol_subscription,
@@ -88,9 +87,8 @@ describe Api::V1::StatisticsController, type: :controller do
                           informed_consent_given_at: Time.zone.now)
       end
       # It should not count loose responses, it should not count protocol subscriptions without
-      # an informed consent given, and it should not count protocol subscriptions that do have
-      # informed consent given but aren't in the list of mentor protocols.
-      expected = mentors1.count
+      # an informed consent given.
+      expected = mentors1.count + mentors2.count
       get :index
       json_response = JSON.parse(response.body)
       expect(json_response['number_of_mentors']).to eq expected
@@ -138,9 +136,9 @@ describe Api::V1::StatisticsController, type: :controller do
 
     it 'should return the correct number of completed questionnaires' do
       protocol_names = double('protocol_names')
-      expect(protocol_names).to receive(:student).exactly(2).times.and_return(%w[protocol_one protocol_two])
-      expect(protocol_names).to receive(:mentor).exactly(2).times.and_return(%w[protocol_three])
-      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(4).times.and_return(protocol_names)
+      expect(protocol_names).to receive(:student).exactly(1).times.and_return(%w[protocol_one protocol_two])
+      expect(protocol_names).to receive(:mentor).exactly(1).times.and_return(%w[protocol_three])
+      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(2).times.and_return(protocol_names)
       protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
       protocol2 = FactoryBot.create(:protocol, name: 'protocol_two')
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
@@ -157,34 +155,6 @@ describe Api::V1::StatisticsController, type: :controller do
       get :index
       json_response = JSON.parse(response.body)
       expect(json_response['number_of_completed_questionnaires']).to eq expected
-    end
-
-    it 'should not give an error when there are no student or mentor protocol names defined' do
-      protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
-      protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
-      studs1.each do |student|
-        FactoryBot.create(:protocol_subscription,
-                          person: student,
-                          protocol: protocol1,
-                          informed_consent_given_at: nil)
-        FactoryBot.create(:protocol_subscription,
-                          person: student,
-                          protocol: protocol3,
-                          informed_consent_given_at: Time.zone.now)
-      end
-      protocol2 = FactoryBot.create(:protocol, name: 'protocol_two')
-      studs2.each do |student|
-        FactoryBot.create(:protocol_subscription,
-                          person: student,
-                          protocol: protocol2,
-                          informed_consent_given_at: Time.zone.now)
-      end
-      get :index
-      json_response = JSON.parse(response.body)
-      # We expect zero because there are is no default protocol_names setting in Rails.application.config
-      expect(json_response['number_of_students']).to eq 0
-      expect(json_response['number_of_mentors']).to eq 0
-      expect(json_response['number_of_completed_questionnaires']).to eq 0
     end
   end
 end

@@ -17,11 +17,11 @@ module Api
       private
 
       def number_of_students
-        number_of_informed_consents_given(Rails.application.config.settings.protocol_names&.student)
+        number_of_informed_consents_given(Person::STUDENT)
       end
 
       def number_of_mentors
-        number_of_informed_consents_given(Rails.application.config.settings.protocol_names&.mentor)
+        number_of_informed_consents_given(Person::MENTOR)
       end
 
       def duration_of_project_in_weeks

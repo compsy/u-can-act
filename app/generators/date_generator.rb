@@ -15,7 +15,7 @@ class DateGenerator < QuestionTypeGenerator
                        mydate_tag(question),
                        mydate_label(question)
                      ])
-    body = content_tag(:div, body, class: 'input-field col s12')
+    body = content_tag(:div, body, class: 'input-field col s12 m6')
     body = content_tag(:div, body, class: 'row')
     body
   end
@@ -27,7 +27,16 @@ class DateGenerator < QuestionTypeGenerator
         name: answer_name(question[:id]),
         required: question[:required].present?,
         class: 'datepicker',
-        data: { min: question[:min], max: question[:max] })
+        data: mydate_data(question))
+  end
+
+  def mydate_data(question)
+    data = { min: question[:min], max: question[:max], 'set-default-date': false }
+    if question[:today].present?
+      data[:'default-date'] = Date.today
+      data[:'set-default-date'] = true
+    end
+    data
   end
 
   def mydate_label(question)

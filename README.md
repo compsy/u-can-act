@@ -75,6 +75,12 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 ### Organization-specific settings
 Organization specific settings can be found in `config/settings.yml`. One of the variables defined here is `application_name`, which is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `config/organization/my_organization/` are used if `application_name` is `my_organization`).
 
+The file structure of the `my_organization` directory should be as follows:
+
+```
+
+```
+
 ### Development configuration
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:
 ```

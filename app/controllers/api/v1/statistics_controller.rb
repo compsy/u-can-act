@@ -4,12 +4,13 @@ module Api
   module V1
     class StatisticsController < ApiController
       include StatisticsHelper
+
       def index
         data = {
           number_of_students: number_of_students,
           number_of_mentors: number_of_mentors,
           duration_of_project_in_weeks: duration_of_project_in_weeks,
-          number_of_completed_questionnaires: number_of_completed_questionnaires
+          number_of_completed_questionnaires: number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR])
         }
         render json: data
       end
@@ -35,20 +36,6 @@ module Api
         start = Date.parse(Rails.application.config.settings.project_start_date)
         endd = [Date.parse(Rails.application.config.settings.project_end_date), Date.today].min
         [start, endd]
-      end
-
-      def number_of_completed_questionnaires
-        measurement_ids = student_and_mentor_protocol_names.map do |protocol_name|
-          Protocol.find_by_name(protocol_name)&.measurements&.map(&:id)
-        end.flatten.uniq.compact
-        return 0 if measurement_ids.blank?
-
-        Response.completed.where(measurement_id: measurement_ids).count
-      end
-
-      def student_and_mentor_protocol_names
-        (Rails.application.config.settings.protocol_names&.student || []) +
-          (Rails.application.config.settings.protocol_names&.mentor || [])
       end
     end
   end

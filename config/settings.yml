@@ -9,13 +9,6 @@ default: &default
     student_logo: 'U_can_act_logo_CMYK_GROEN.png'
     fallback_logo: 'U_can_act_logo_ZWART.png'
     company_logo: 'rug_logo.png'
-  protocol_names:
-    student:
-      - 'studenten_control'
-      - 'studenten'
-    mentor:
-      - 'mentoren voormeting/nameting'
-      - 'mentoren dagboek'
 
 development:
   <<: *default

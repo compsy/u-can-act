@@ -32,10 +32,6 @@ describe Api::V1::StatisticsController, type: :controller do
     end
 
     it 'should list the correct number of students' do
-      protocol_names = double('protocol_names')
-      expect(protocol_names).to receive(:student).exactly(1).times.and_return(%w[protocol_one protocol_two])
-      expect(protocol_names).to receive(:mentor).exactly(1).times.and_return(%w[protocol_three])
-      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(2).times.and_return(protocol_names)
       protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
       studs1.each do |student|
@@ -64,10 +60,6 @@ describe Api::V1::StatisticsController, type: :controller do
     end
 
     it 'should list the correct number of mentors' do
-      protocol_names = double('protocol_names')
-      expect(protocol_names).to receive(:student).exactly(1).times.and_return(%w[protocol_one protocol_two])
-      expect(protocol_names).to receive(:mentor).exactly(1).times.and_return(%w[protocol_three])
-      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(2).times.and_return(protocol_names)
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
       mentors1.each do |mentor|
         FactoryBot.create(:protocol_subscription,
@@ -129,23 +121,16 @@ describe Api::V1::StatisticsController, type: :controller do
     end
 
     it 'should return the correct number of completed questionnaires' do
-      protocol_names = double('protocol_names')
-      expect(protocol_names).to receive(:student).exactly(1).times.and_return(%w[protocol_one protocol_two])
-      expect(protocol_names).to receive(:mentor).exactly(1).times.and_return(%w[protocol_three])
-      expect(Rails.application.config.settings).to receive(:protocol_names).exactly(2).times.and_return(protocol_names)
       protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
       protocol2 = FactoryBot.create(:protocol, name: 'protocol_two')
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
-      protocol4 = FactoryBot.create(:protocol, name: 'protocol_four')
       counted_measurement1 = FactoryBot.create(:measurement, protocol: protocol1)
       counted_measurement2 = FactoryBot.create(:measurement, protocol: protocol2)
       counted_measurement3 = FactoryBot.create(:measurement, protocol: protocol3)
-      uncounted_measurement = FactoryBot.create(:measurement, protocol: protocol4)
       counted_responses = FactoryBot.create_list(:response, 7, :completed, measurement: counted_measurement1)
       counted_responses += FactoryBot.create_list(:response, 11, :completed, measurement: counted_measurement2)
       counted_responses += FactoryBot.create_list(:response, 13, :completed, measurement: counted_measurement3)
-      FactoryBot.create_list(:response, 17, :completed, measurement: uncounted_measurement)
-      expected = counted_responses.count
+      expected = responses.count + counted_responses.count
       get :index
       json_response = JSON.parse(response.body)
       expect(json_response['number_of_completed_questionnaires']).to eq expected

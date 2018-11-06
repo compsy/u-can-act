@@ -8,7 +8,8 @@ class AdminController < ApplicationController
   before_action :load_questionnaires, only: %i[export preview_overview]
 
   def preview
-    @use_mentor_layout = @questionnaire.name.match?(/mentor|evaluatieonderzoek/)
+    # TODO: Add a migration to read the layout from the questionnaire database model.
+    @use_mentor_layout = @questionnaire.name.match?(/mentor|evaluatieonderzoek|telefonische interviews/)
   end
 
   def preview_done

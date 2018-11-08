@@ -89,8 +89,8 @@ In `settings.yml`, the following settings are required:
 ```yaml
 application_name:   <Name of the application>
 default_team_name:  <Name of the default team>
-project_start_date: <Date that the project started, e.g., '2017-10-01'>
-project_end_date:   <Date that the project ended, e.g., '2018-08-06'>
+project_start_date: <Date that the project started in the format yyyy-mm-dd, e.g., '2017-10-01'>
+project_end_date:   <Date that the project ended in the format yyyy-mm-dd, e.g., '2018-08-06'>
 logo:
   mentor_logo: <Filename of the mentor logo, e.g., 'mentor_logo.png'>
   student_logo: <Filename of the student logo, e.g., 'student_logo.png'>

@@ -172,11 +172,11 @@ In this case:
  - `end_date`: the end date of the protocol subscription
 
 
-## Variables that can be used in texts:
+## Variables that can be used in texts (case-sensitive!):
 
 ```
-        VARIABLE                    DEFAULT VALUE           EXAMPLE
-        =======================================================================
+        VARIABLE                    DEFAULT VALUE               EXAMPLE
+        ========================================================================
         begeleider                  begeleider                  s-team captain
         Begeleider                  Begeleider                  S-team captain
         zijn_haar_begeleider        zijn/haar                   haar
@@ -187,16 +187,25 @@ In this case:
         Hem_haar_begeleider         Hem/haar                    Haar
         naam_begeleider             je begeleider               Elsa
         Naam_begeleider             Je begeleider               Elsa
+        achternaam_begeleider                                   Groen
+        Achternaam_begeleider                                   Groen
+
         je_begeleidingsinitiatief   je begeleidingsinitiatief   De Hondsrug
         Je_begeleidingsinitiatief   Je begeleidingsinitiatief   De Hondsrug
+
         deze_student                deze student                Rik
         Deze_student                Deze student                Rik
+        achternaam_student                                      De Vries
+        Achternaam_student                                      De Vries
         zijn_haar_student           zijn/haar                   zijn
         Zijn_haar_student           Zijn/haar                   Zijn
         hij_zij_student             hij/zij                     hij
         Hij_zij_student             Hij/zij                     Hij
         hem_haar_student            hem/haar                    hem
         Hem_haar_student            Hem/haar                    Hem
+
+        datum                       <vandaag>                   01-11-2018
+        datum_lang                  <vandaag>                    1 november 2018
 ```
 So you can write a sentence as follows:
 ```
@@ -214,7 +223,7 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 
 
 ## Questionnaire Syntax
-The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`.
+The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`.
 
 
 For all questions, it is allowed to use HTML tags in the texts. Also, you may use any of the special variables defined in the previous section.
@@ -401,6 +410,7 @@ Required and allowed options (minimal example and maximal example):
   type: :textfield,
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
   tooltip: 'some tooltip',
+  default_value: 'Niks',
   pattern: '[a-z]{1,10}',
   hint: 'Must be a lowercase word between 1 and 10 characters in length',
   placeholder: 'Place holder',
@@ -411,6 +421,8 @@ Required and allowed options (minimal example and maximal example):
 The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 The property `pattern` is a regex that limits what the user can enter. The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
+
+Textfields also support a `default_value` property, which is a default value used to fill out the text field. This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
 
 ### Type: Number
 Type for integer(?) numbers. Required and allowed options (minimal example and maximal example):
@@ -525,6 +537,7 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :date,
+  today: true,
   title: 'Wanneer ben je gestopt?',
   required: true,
   tooltip: 'some tooltip',
@@ -538,6 +551,8 @@ Required and allowed options (minimal example and maximal example):
 The `min` and `max` properties can be either two arrays as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
 
 Please note that there is currently a bug in the date picker when you specify dates as arrays. So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
+
+If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
 
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.

@@ -14,8 +14,10 @@ class VariableSubstitutor
         mentor_title: mentor&.role&.title,
         mentor_gender: mentor&.gender,
         mentor_name: mentor&.first_name,
+        mentor_last_name: mentor&.last_name,
         organization: student.role.team.organization.name,
         student_name: student.first_name,
+        student_last_name: student.last_name,
         student_gender: student.gender
       }
     end

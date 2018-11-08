@@ -12,6 +12,7 @@ describe TextfieldGenerator do
       title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
       tooltip: 'some tooltip',
       pattern: '[a-z]{1,10}',
+      default_value: true,
       hint: 'Must be a lowercase word between 1 and 10 characters in length',
       placeholder: 'Place holder',
       section_end: true

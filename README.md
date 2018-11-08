@@ -78,8 +78,26 @@ Organization specific settings can be found in `config/settings.yml`. One of the
 The file structure of the `my_organization` directory should be as follows:
 
 ```
-
+|
+|- settings.yml
+|- locales/
+|- asssets/
 ```
+Support for organization-specific `settings.yml` and `assets/` will be added soon.
+
+In `settings.yml`, the following settings are required:
+```yaml
+application_name:   <Name of the application>
+default_team_name:  <Name of the default team>
+project_start_date: <Date that the project started, e.g., '2017-10-01'>
+project_end_date:   <Date that the project ended, e.g., '2018-08-06'>
+logo:
+  mentor_logo: <Filename of the mentor logo, e.g., 'mentor_logo.png'>
+  student_logo: <Filename of the student logo, e.g., 'student_logo.png'>
+  fallback_logo: <Default logo when there is no student or mentor, e.g., 'logo.png'>
+  company_logo: <OPTIONAL. Filename of a company logo. If missing, the header uses only one logo>
+```
+The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
 
 ### Development configuration
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:

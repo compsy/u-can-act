@@ -34,9 +34,13 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text)
   reminder_delays = []
   open_durations = []
 
-  #############
-  ## Nothing ##
-  #############
+  offsets << 13.hours + 50.minutes # Mondays at 13:50
+  reminder_delays << 3.hours + 10.minutes  # Mondays at 17:00
+  open_durations <<  9.hours + 10.minutes
+
+  offsets << 1.day + 13.hours + 50.minutes # Tuesdays at 13:50
+  reminder_delays << 3.hours + 10.minutes  # Tuesdays at 17:00
+  open_durations <<  9.hours + 10.minutes
 
   offsets.each_with_index do |of_offset, idx|
     reminder_delay = reminder_delays[idx]
@@ -53,6 +57,12 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text)
     db_measurement.stop_measurement = false
     db_measurement.should_invite = true
     db_measurement.save!
+  end
+
+  if protocol.measurements.length != offsets
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    puts "Too many measurements defined for this protocol (#{protocol.id} #{protocol.name})"
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   end
 end
 

@@ -1,91 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>sketch.js &raquo; Basic Example</title>
-        <link rel="stylesheet" href="css/example.css">
-        <style type="text/css">
-            html, body {
-                background: #F51E50;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="container"></div>
-        <header class="info">
-            <hgroup class="about">
-                <h1>sketch.js &rsaquo; basic</h1>
-                <h2>A minimal example of how to use sketch.js</h2>
-                <h3>Start drawing!</h3>
-            </hgroup>
-            <nav class="more">
-                <a href="https://github.com/soulwire/sketch.js/archive/master.zip" target="_blank">Download</a>
-                <a href="https://github.com/soulwire/sketch.js" target="_blank">View on Github</a>
-            </nav>
-        </header>
-        <script src="https://soulwire.github.io/sketch.js/js/sketch.js"></script>
-        <script>
+<head>
+  <title>Bodymap</title>
+  <style type="text/css">
+    html, body {
+      background-color: #f3f3f3;
+    }
 
-        var COLOURS = [ '#E3EB64', '#A7EBCA', '#FFFFFF', '#D8EBA7', '#868E80' ];
-        var radius = 10;
-        var drawing = [ false, false, false, false, false ];
+    .container {
+      background-image: url('bodymap.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      background-color: #cccccc;
+      width: 160px;
+      height: 536px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 100px;
+      display: inline-block;
+      cursor: crosshair;
+    }
 
-        Sketch.create({
+    .log {
+      width: 500px;
+      height: 500px;
+      overflow-y: scroll;
+      display: inline-block;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+<div id="container" class="container"></div>
+<div id="log" class="log"></div>
+<script src="sketch.js"></script>
+<script>
 
-            container: document.getElementById( 'container' ),
-            autoclear: false,
-            retina: 'auto',
+  var COLOURS = ['#AC92EB80', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
+  var radius = 10;
+  var drawing = [false, false, false, false, false];
 
-            setup: function() {
-                console.log( 'setup' );
-            },
+  Sketch.create({
+    container: document.getElementById('container'),
+    fullscreen: false,
+    width: 160,
+    height: 536,
+    autoclear: false,
+    retina: 'auto',
 
-            update: function() {
-                //radius = 2 + abs( sin( this.millis * 0.003 ) * 50 );
-            },
+    setup: function() {
+      console.log('setup');
+    },
 
-            // Event handlers
+    update: function() {
+      //radius = 2 + abs( sin( this.millis * 0.003 ) * 50 );
+    },
 
-            keydown: function() {
-                if ( this.keys.C ) this.clear();
-            },
+    // Event handlers
 
-            touchend: function() {
-                drawing[0] = false;
-                //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
-                //  drawing[i % drawing.length] = false;
-                //}
-            },
+    keydown: function() {
+      if (this.keys.C) this.clear();
+    },
 
-            touchstart: function() {
-                drawing[0] = true;
-                //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
-                //  drawing[i % drawing.length] = true;
-                //}
-            },
+    touchend: function() {
+      drawing[0] = false;
+      //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
+      //  drawing[i % drawing.length] = false;
+      //}
+      this.stroke();
+    },
+
+    mouseout: function() {
+      drawing[0] = false;
+      //this.stroke();
+    },
+
+    touchstart: function() {
+      drawing[0] = true;
+      //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
+      //  drawing[i % drawing.length] = true;
+      //}
+      //this.beginPath();
+      //this.lineCap = 'round';
+      //this.lineJoin = 'round';
+      //this.fillStyle = this.strokeStyle = COLOURS[ i % COLOURS.length ];
+      //this.lineWidth = radius;
+
+    },
 
 
-            // Mouse & touch events are merged, so handling touch events by default
-            // and powering sketches using the touches array is recommended for easy
-            // scalability. If you only need to handle the mouse / desktop browsers,
-            // use the 0th touch element and you get wider device support for free.
-            touchmove: function() {
-                for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
-                    if (!drawing[i % drawing.length]) continue;
-                    touch = this.touches[i];
+    // Mouse & touch events are merged, so handling touch events by default
+    // and powering sketches using the touches array is recommended for easy
+    // scalability. If you only need to handle the mouse / desktop browsers,
+    // use the 0th touch element and you get wider device support for free.
+    touchmove: function() {
+      for (var i = this.touches.length - 1, touch; i >= 0; i--) {
+        if (!drawing[i % drawing.length]) continue;
+        touch = this.touches[i];
 
-                    this.lineCap = 'round';
-                    this.lineJoin = 'round';
-                    this.fillStyle = this.strokeStyle = COLOURS[ i % COLOURS.length ];
-                    this.lineWidth = radius;
+        this.lineCap = 'round';
+        this.lineJoin = 'round';
+        this.fillStyle = this.strokeStyle = COLOURS[i % COLOURS.length];
+        this.lineWidth = radius;
+        if ((touch.ox / this.width).toFixed(2) !== (touch.x / this.width).toFixed(2) || (touch.oy / this.height).toFixed(2) !== (touch.y / this.height).toFixed(2)) {
+          this.beginPath();
+          this.moveTo(touch.ox, touch.oy);
+          this.lineTo(touch.x, touch.y);
+          this.stroke();
+          document.getElementById('log').innerHTML += `(${(touch.ox / this.width).toFixed(2)},
+                                                                  ${(touch.oy / this.height).toFixed(2)}) ->
+                                                                  (${(touch.x / this.width).toFixed(2)},
+                                                                  ${(touch.y / this.height).toFixed(2)})<br>`;
+          var objDiv = document.getElementById("log");
+          objDiv.scrollTop = objDiv.scrollHeight;
+        }
+      }
+    }
+  });
 
-                    this.beginPath();
-                    this.moveTo( touch.ox, touch.oy );
-                    this.lineTo( touch.x, touch.y );
-                    this.stroke();
-                }
-            }
-        });
-        
-        </script>
-    </body>
+</script>
+</body>
 </html>

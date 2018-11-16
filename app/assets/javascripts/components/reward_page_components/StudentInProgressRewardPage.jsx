@@ -30,7 +30,7 @@ class StudentInProgressRewardPage extends React.Component {
   render() {
     return (
       <div>
-        <h4>Bedankt voor het invullen van de vragenlijst!</h4>
+        <h4>{I18n.t('pages.student_in_progress_reward_page.header')}</h4>
         <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
         <div className='section'>
           <ProgressBar  inMaxStreak={this.inMaxStreak}
@@ -42,6 +42,7 @@ class StudentInProgressRewardPage extends React.Component {
                         awardableEuro={this.props.awardable}
                         totalAvailable={this.totalAvailable}/>
         </div>
+        <I18nRaw t='pages.student_in_progress_reward_page.body.bottom' />
         <RewardFooter person={this.props.person}/>
       </div>
     );

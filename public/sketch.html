@@ -37,9 +37,10 @@
 <script src="sketch.js"></script>
 <script>
 
-  var COLOURS = ['#AC92EB80', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
-  var radius = 10;
-  var drawing = [false, false, false, false, false];
+  const COLOURS = ['#AC92EB80', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
+  const radius = 10;
+  let drawing = [false, false, false, false, false];
+  let currentpoints = [];
 
   Sketch.create({
     container: document.getElementById('container'),
@@ -53,7 +54,27 @@
       console.log('setup');
     },
 
+    drawCurrentPoints: function() {
+      this.beginPath();
+      this.lineCap = 'round';
+      this.lineJoin = 'round';
+      this.fillStyle = this.strokeStyle = COLOURS[ 0 % COLOURS.length ];
+      this.lineWidth = radius;
+      for (let [ox, oy, x, y] of currentpoints) {
+        if (ox === -1 && oy == -1 && x === -1 && y === -1) {
+          this.stroke();
+          this.beginPath();
+        }
+        this.moveTo(ox, oy);
+        this.lineTo(x, y);
+      }
+      this.stroke();
+    },
+
     update: function() {
+      // console.log('update')
+      //if (drawing[0])
+      //  currentpoints.push([-1, -1, -1, -1]);
       //radius = 2 + abs( sin( this.millis * 0.003 ) * 50 );
     },
 
@@ -65,15 +86,21 @@
 
     touchend: function() {
       drawing[0] = false;
+
+      currentpoints.push([-1, -1, -1, -1]);
+      this.clear()
+      this.drawCurrentPoints();
       //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
       //  drawing[i % drawing.length] = false;
       //}
-      this.stroke();
+      //this.stroke();
     },
 
     mouseout: function() {
-      drawing[0] = false;
+      //drawing[0] = false;
+      //this.drawCurrentPoints();
       //this.stroke();
+
     },
 
     touchstart: function() {
@@ -81,11 +108,8 @@
       //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
       //  drawing[i % drawing.length] = true;
       //}
-      //this.beginPath();
-      //this.lineCap = 'round';
-      //this.lineJoin = 'round';
-      //this.fillStyle = this.strokeStyle = COLOURS[ i % COLOURS.length ];
-      //this.lineWidth = radius;
+      //currentpoints = [];
+
 
     },
 
@@ -98,24 +122,28 @@
       for (var i = this.touches.length - 1, touch; i >= 0; i--) {
         if (!drawing[i % drawing.length]) continue;
         touch = this.touches[i];
-
+        currentpoints.push([touch.ox, touch.oy, touch.x, touch.y]);
         this.lineCap = 'round';
         this.lineJoin = 'round';
-        this.fillStyle = this.strokeStyle = COLOURS[i % COLOURS.length];
+        this.fillStyle = this.strokeStyle = COLOURS[2 % COLOURS.length];
         this.lineWidth = radius;
-        if ((touch.ox / this.width).toFixed(2) !== (touch.x / this.width).toFixed(2) || (touch.oy / this.height).toFixed(2) !== (touch.y / this.height).toFixed(2)) {
-          this.beginPath();
-          this.moveTo(touch.ox, touch.oy);
-          this.lineTo(touch.x, touch.y);
-          this.stroke();
-          document.getElementById('log').innerHTML += `(${(touch.ox / this.width).toFixed(2)},
+        //if ((touch.ox / this.width).toFixed(2) !== (touch.x / this.width).toFixed(2) || (touch.oy / this.height).toFixed(2) !== (touch.y / this.height).toFixed(2)) {
+         // if (Math.abs(touch.x - touch.ox) > radius || Math.abs(touch.y - touch.oy) > radius) {
+            this.beginPath();
+            //const vector = [touch.x - touch.ox, touch.y - touch.oy];
+            this.moveTo(touch.ox, touch.oy);
+            this.lineTo(touch.x, touch.y);
+            //this.lineTo(touch.x - radius, touch.y - radius * Math.sign(touch.y - touch.oy));
+            this.stroke();
+            document.getElementById('log').innerHTML += `(${(touch.ox / this.width).toFixed(2)},
                                                                   ${(touch.oy / this.height).toFixed(2)}) ->
                                                                   (${(touch.x / this.width).toFixed(2)},
                                                                   ${(touch.y / this.height).toFixed(2)})<br>`;
-          var objDiv = document.getElementById("log");
-          objDiv.scrollTop = objDiv.scrollHeight;
-        }
-      }
+            var objDiv = document.getElementById("log");
+            objDiv.scrollTop = objDiv.scrollHeight;
+          }
+        //}
+      //}
     }
   });
 

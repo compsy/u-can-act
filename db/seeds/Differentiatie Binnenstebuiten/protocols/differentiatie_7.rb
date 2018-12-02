@@ -69,7 +69,7 @@ end
 pr_name = 'differentiatie_studenten_7'
 db_name = 'Differentiatie Binnenstebuiten Scholieren Engels'
 ic_name = 'informed consent scholieren'
-invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
+invitation_text = 'Er staat een nieuw dagboek van Engels voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 create_protocol(pr_name, db_name, ic_name, invitation_text)
 
 pr_name = 'differentiatie_docenten_7'

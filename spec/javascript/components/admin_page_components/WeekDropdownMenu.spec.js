@@ -49,7 +49,7 @@ describe('WeekDropdownMenu', () => {
     it("displays the correct label", () => {
       const node = wrapper.childAt(0).childAt(0).childAt(1);
       expect(node.name()).toEqual('label');
-      expect(node.text()).toEqual('Weeknumber');
+      expect(node.text()).toEqual('Week');
     });
 
     it("displays the correct number of weeks", () => {

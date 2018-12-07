@@ -7,7 +7,7 @@ Rails.application.configure do
   project_name = settings['application_name']
 
   if project_name.present? 
-    project_base = Rails.root.join('config', 'projects', project_name)
+    project_base = Rails.root.join('projects', project_name, 'config')
     settings_file = Rails.root.join(project_base, 'settings.yml')
     locales_dir = Rails.root.join(project_base, 'locales')
 

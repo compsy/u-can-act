@@ -21,12 +21,6 @@ module ApplicationHelper
     mentor_or_student_logo
   end
 
-  def scoped_image_tag(source, options = {})
-    Rails.logger.info	Rails.application.assets.each_file { |pathname| puts pathname}
-    #source = File.join('images', source)
-    image_tag(source, options)
-  end
-
   private
 
   def mentor_or_student_logo

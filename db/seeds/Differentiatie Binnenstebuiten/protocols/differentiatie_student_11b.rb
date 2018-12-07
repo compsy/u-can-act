@@ -43,9 +43,9 @@ offsets << 2.days + 13.hours + 15.minutes # Wednesdays at 13:15
 reminder_delays << 3.hours + 45.minutes  # Wednesdays at 17:00
 open_durations << 9.hours + 45.minutes
 
-offsets << 4.days + 14.hours # Fridays at 14:00
-reminder_delays << 3.hours # Fridays at 17:00
-open_durations << 9.hours 
+offsets << 4.days + 14.hours + 45.minutes # Fridays at 14:45
+reminder_delays << 2.hours + 15.minutes # Fridays at 17:00
+open_durations << 8.hours + 15.minutes 
 
 offsets.each_with_index do |of_offset, idx|
   reminder_delay = reminder_delays[idx]
@@ -62,4 +62,10 @@ offsets.each_with_index do |of_offset, idx|
   db_measurement.stop_measurement = false
   db_measurement.should_invite = true
   db_measurement.save!
+end
+
+if protocol.measurements.length != offsets.length
+  puts "!!!!!!!!!!!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  puts "Too many measurements defined for this protocol (#{protocol.id} #{protocol.name})"
+  puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 end

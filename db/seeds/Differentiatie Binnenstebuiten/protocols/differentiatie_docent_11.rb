@@ -41,6 +41,12 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminde
     db_measurement.should_invite = true
     db_measurement.save!
   end
+
+  if protocol.measurements.length != offsets.length
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    puts "Too many measurements defined for this protocol (#{protocol.id} #{protocol.name})"
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  end
 end
 
 db_name = 'Differentiatie Binnenstebuiten Docenten'
@@ -75,9 +81,9 @@ offsets << 2.days + 13.hours + 15.minutes # Wednesdays at 13:15
 reminder_delays << nil # No reminder because of the other measurement.
 open_durations << 1.hours + 35.minutes # Wednesdays at 14:50, because of other measurement
 
-offsets << 4.days + 14.hours # Fridays at 14:00
-reminder_delays << 3.hours # Fridays at 17:00
-open_durations << 9.hours 
+offsets << 4.days + 14.hours + 45.minutes # Fridays at 14:45
+reminder_delays << 2.hours + 15.minutes # Fridays at 17:00
+open_durations << 8.hours + 15.minutes 
 
 pr_name = 'differentiatie_docenten_11b'
 invitation_text = 'Er staat een nieuw dagboek voor klas 2c voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'

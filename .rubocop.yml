@@ -5,6 +5,7 @@ AllCops:
   Exclude:
     - 'config/**/*'
     - 'db/**/*'
+    - 'projects/*/seeds/**/*'
     - 'script/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'

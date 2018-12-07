@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 team_name = 'Het ROC FRIESE POORT'
 titles = ['Teamcaptain', 'S-Teamer']
 

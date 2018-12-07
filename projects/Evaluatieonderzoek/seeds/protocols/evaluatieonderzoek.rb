@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Evaluatieonderzoek
 
 pr_name = 'evaluatieonderzoek'
@@ -6,12 +8,14 @@ ev_protocol ||= Protocol.new(name: pr_name)
 ev_protocol.duration = 1.day
 ev_protocol.informed_consent_questionnaire = Questionnaire.find_by_name('evaluatieonderzoek informed consent')
 raise 'informed consent questionnaire not found' unless ev_protocol.informed_consent_questionnaire
+
 ev_protocol.save!
 
 # Add evaluatie
 ev_name = 'evaluatieonderzoek'
 ev_id = Questionnaire.find_by_name(ev_name)&.id
 raise "Cannot find questionnaire: #{ev_name}" unless ev_id
+
 ev_measurement = ev_protocol.measurements.find_by_questionnaire_id(ev_id)
 ev_measurement ||= ev_protocol.measurements.build(questionnaire_id: ev_id)
 ev_measurement.open_from_offset = 0 # open right away

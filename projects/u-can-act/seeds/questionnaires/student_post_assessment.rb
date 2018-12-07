@@ -11,14 +11,14 @@ nameting1.content = [{
   options: [
     { title: 'Ja, ik ben gestopt met mijn opleiding zonder dat ik mijn diploma heb gehaald.', shows_questions: %i[v2 v3 v4] },
     { title: 'Ja, ik ben gestopt nadat ik mijn diploma had gehaald.', shows_questions: %i[v2 v4] },
-    { title: 'Nee, ik volg nog steeds dezelfde opleiding.', shows_questions: %i[v5] },
+    { title: 'Nee, ik volg nog steeds dezelfde opleiding.', shows_questions: %i[v5] }
   ],
   show_otherwise: false
 }, {
   id: :v2,
   hidden: true,
   type: :date,
-  max: [2018, 11, 01],
+  max: [2018, 11, 0o1],
   required: true,
   title: 'Wanneer ben je ongeveer gestopt? Als je het niet precies meer weet, vul dan iets in dat zo goed mogelijk in de buurt komt.'
 }, {
@@ -76,7 +76,7 @@ nameting1.content = [{
   id: :v7,
   type: :range,
   title: 'Vind je dat de begeleiding die jij krijgt van {{je_begeleidingsinitiatief}} bij de school hoort, of juist los staat van de school?',
-  labels: ['hoort helemaal bij de school', 'staat helemaal los van de school'],
+  labels: ['hoort helemaal bij de school', 'staat helemaal los van de school']
 }, {
   id: :v8,
   type: :textfield,
@@ -90,9 +90,9 @@ nameting1.content = [{
   id: :v10,
   type: :radio,
   title: 'Wil je je ingevulde vragenlijsten delen met {{naam_begeleider}}, zodat hij/zij ervan kan leren? Als je nee aanvinkt krijgt {{naam_begeleider}} jouw ingevulde vragenlijsten niet te zien.',
-  options: [
-    'Ja',
-    'Nee'
+  options: %w[
+    Ja
+    Nee
   ],
   show_otherwise: false
 }, {
@@ -121,6 +121,6 @@ nameting1.content = [{
   section_start: '',
   type: :raw,
   content: '<p class="flow-text section-explanation">Klik op opslaan om je beloning te ontvangen.</p>'
-} ]
+}]
 nameting1.title = 'Eindmeting'
 nameting1.save!

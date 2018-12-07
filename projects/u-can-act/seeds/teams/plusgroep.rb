@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 team_name = 'De Plusgroep'
-titles = ['Pluscoach', 'Plusmaatje']
+titles = %w[Pluscoach Plusmaatje]
 
 organization_name = 'De Plusgroep'
 organization = Organization.find_by_name(organization_name)
@@ -16,4 +18,3 @@ titles.each do |title|
   entry = team.roles.where(group: Person::MENTOR, title: title).first
   entry ||= team.roles.create!(group: Person::MENTOR, title: title)
 end
-

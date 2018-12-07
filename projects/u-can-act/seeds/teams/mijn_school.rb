@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 team_name = 'Mijn school'
-titles = ['PRO', 'Stagebegeleider']
+titles = %w[PRO Stagebegeleider]
 
 organization_name = 'Mijn school'
 organization = Organization.find_by_name(organization_name)

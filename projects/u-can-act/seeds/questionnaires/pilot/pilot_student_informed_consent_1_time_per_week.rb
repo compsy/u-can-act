@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ic_name = 'informed consent studenten 1x per week'
 informed_consent = Questionnaire.find_by_name(ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
@@ -49,8 +51,8 @@ ic_content = <<~'END'
   </ol>
 END
 informed_consent.content = [{
-                              type: :raw,
-                              content: ic_content
-                            }]
+  type: :raw,
+  content: ic_content
+}]
 informed_consent.title = 'Informed consent pilot onderzoek naar ontwikkeling en begeleiding'
 informed_consent.save!

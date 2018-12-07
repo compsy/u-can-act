@@ -107,7 +107,8 @@ dagboek_content = [
     type: :dropdown,
     title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken?',
     options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
-  }]
+  }
+]
 dagboek1.content = dagboek_content
 dagboek1.title = db_title
 dagboek1.save!

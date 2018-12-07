@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 team_name = 'Het Nordwin College Niveau 1-2'
 titles = ['Teamcaptain', 'S-Teamer']
 
@@ -16,6 +18,3 @@ titles.each do |title|
   entry = team.roles.where(group: Person::MENTOR, title: title).first
   entry ||= team.roles.create!(group: Person::MENTOR, title: title)
 end
-
-
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # These seeds need to be loaded first, and in order.
 %w[questionnaires protocols organizations teams].each do |seed_directory|
   Dir[File.join(File.dirname(__FILE__), seed_directory, '**', '*.rb')].each do |file|
@@ -7,7 +9,7 @@ end
 
 if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   def generate_phone
-    "06#{rand(10 ** 8).to_s.rjust(8,'0')}"
+    "06#{rand(10**8).to_s.rjust(8, '0')}"
   end
   puts 'Generating people - Started'
 
@@ -15,16 +17,14 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   team = organization.teams.find_by_name('Evaluatieonderzoek')
   student = team.roles.where(title: 'Evalueerder').first
 
-  students =[
-    { first_name: 'Jan',       last_name: 'Jansen',      gender: 'male',   role: student},
-    { first_name: 'Klaziena',  last_name: 'Kramer',      gender: 'female', role: student},
+  students = [
+    { first_name: 'Jan',       last_name: 'Jansen',      gender: 'male',   role: student },
+    { first_name: 'Klaziena',  last_name: 'Kramer',      gender: 'female', role: student }
   ]
 
   students.each do |student_hash|
     phone = generate_phone
-    while Person.find_by_mobile_phone(phone).present?
-      phone = generate_phone
-    end
+    phone = generate_phone while Person.find_by_mobile_phone(phone).present?
     Person.create!(first_name: student_hash[:first_name],
                    last_name: student_hash[:last_name],
                    gender: student_hash[:gender],

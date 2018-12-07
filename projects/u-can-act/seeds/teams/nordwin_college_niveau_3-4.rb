@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 team_name = 'Het Nordwin College Niveau 3-4'
 titles = ['Teamcaptain', 'S-Teamer']
 

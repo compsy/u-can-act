@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ic_name1 = 'evaluatieonderzoek informed consent'
 informed_consent1 = Questionnaire.find_by_name(ic_name1)
 informed_consent1 ||= Questionnaire.new(name: ic_name1)
@@ -19,7 +21,7 @@ ic_content = <<~'END'
         </li>
         <li>Ik stem er vrijwillig mee in dat mijn gegevens worden gebruikt voor de doeleinden die zijn vermeld op deze webpagina.
         </li>
-        <li>Ik snap dat ik mijn medewerking op elk tijdstip kan stopzetten zonder dat ik hier een reden voor hoef te geven. 
+        <li>Ik snap dat ik mijn medewerking op elk tijdstip kan stopzetten zonder dat ik hier een reden voor hoef te geven.
         </li>
         <li>Alle onderzoeksgegevens worden naar strikte ethische richtlijnen en met grote voorzichtigheid behandeld. Al mijn antwoorden op de vragen worden anoniem opgeslagen en zijn niet tot mijn persoon te herleiden. De onderzoekers gebruiken cookies bij de online vragenlijst om te zien hoeveel mensen op de website van de vragenlijst komen en hoe zij de vragenlijst gebruiken. Deze cookies bevatten geen persoonsgegevens, en volgen me niet naar andere websites.
         </li>
@@ -34,17 +36,17 @@ ic_content = <<~'END'
   </ol>
 END
 informed_consent1.content = [{
-                               type: :raw,
-                               content: ic_content
-                             }, {
-                               id: :v1,
-                               type: :checkbox,
-                               required: true,
-                               title: '',
-                               options: [
-                                 'Ik verklaar dat bovenstaande informatie mij duidelijk is en ga hiermee akkoord.'
-                               ],
-                               show_otherwise: false
-                             }]
+  type: :raw,
+  content: ic_content
+}, {
+  id: :v1,
+  type: :checkbox,
+  required: true,
+  title: '',
+  options: [
+    'Ik verklaar dat bovenstaande informatie mij duidelijk is en ga hiermee akkoord.'
+  ],
+  show_otherwise: false
+}]
 informed_consent1.title = ''
 informed_consent1.save!

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 db_title = '' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'dagboek mentoren'
@@ -54,17 +55,17 @@ dagboek_content = [{
     required: true,
     title: 'In welke categorie(ën) past de zojuist beschreven actie(reeks) volgens jou het beste?',
     options: [
-      {title: 'Laagdrempelig contact leggen', tooltip: 'bijv. whatsappen of samen tafeltennissen, wandelen of roken.'},
-      {title: 'Visuele oefeningen uitvoeren', tooltip: 'bijv. een netwerkschema op papier uittekenen of in Powerpoint gedragsschema’s met {{deze_student}} uitwerken.'},
-      {title: 'Verbale oefeningen uitvoeren', tooltip: 'bijv. een rollenspel spelen of {{deze_student}} laten presenteren.'},
-      {title: 'Motiveren', tooltip: 'bijv. vertrouwen naar {{deze_student}} uitspreken dat {{hij_zij_student}} {{zijn_haar_student}} tentamen kan halen, {{deze_student}} aansporen tot het maken van een presentatie of {{deze_student}} aanmoedigen tijdens een sportevent.'},
-      {title: 'Confronteren', tooltip: 'bijv. {{deze_student}} een spreekwoordelijke spiegel voorhouden, aanspreken op onhandig gedrag of provocatief coachen.'},
-      {title: 'Uitleg geven', tooltip: 'bijv. {{deze_student}} informeren over middelengebruik of over de kenmerken van ADHD.'},
-      {title: 'Ondersteunen van schoolwerk', tooltip: 'bijv. {{deze_student}} helpen met plannen of samen met {{deze_student}} {{zijn_haar_student}} leerstof doornemen.'},
-      {title: 'Emotionele steun bieden', tooltip: 'bijv. empathisch reageren op een nare ervaring van {{deze_student}}, of {{deze_student}} een luisterend oor bieden.'},
-      {title: 'De omgeving van {{deze_student}} betrekken bij de begeleiding', tooltip: 'bijv. ouders, vrienden, leraren of hulpverleners uitleg geven over {{deze_student}} {{zijn_haar_student}} gedrag of vragen om mee te helpen in de begeleiding van {{deze_student}}.'},
-      {title: 'Hulp vragen aan/overleggen met collega’s of andere professionals', tooltip: 'bijv. hulp vragen aan een psycholoog of maatschappelijk werker om mee te helpen/denken in de begeleiding van {{deze_student}}.'},
-      {title: 'Observaties doen', tooltip: 'bijv. een voetbalwedstrijd bekijken of {{deze_student}} observeren tijdens pauzes of lessen.'}
+      { title: 'Laagdrempelig contact leggen', tooltip: 'bijv. whatsappen of samen tafeltennissen, wandelen of roken.' },
+      { title: 'Visuele oefeningen uitvoeren', tooltip: 'bijv. een netwerkschema op papier uittekenen of in Powerpoint gedragsschema’s met {{deze_student}} uitwerken.' },
+      { title: 'Verbale oefeningen uitvoeren', tooltip: 'bijv. een rollenspel spelen of {{deze_student}} laten presenteren.' },
+      { title: 'Motiveren', tooltip: 'bijv. vertrouwen naar {{deze_student}} uitspreken dat {{hij_zij_student}} {{zijn_haar_student}} tentamen kan halen, {{deze_student}} aansporen tot het maken van een presentatie of {{deze_student}} aanmoedigen tijdens een sportevent.' },
+      { title: 'Confronteren', tooltip: 'bijv. {{deze_student}} een spreekwoordelijke spiegel voorhouden, aanspreken op onhandig gedrag of provocatief coachen.' },
+      { title: 'Uitleg geven', tooltip: 'bijv. {{deze_student}} informeren over middelengebruik of over de kenmerken van ADHD.' },
+      { title: 'Ondersteunen van schoolwerk', tooltip: 'bijv. {{deze_student}} helpen met plannen of samen met {{deze_student}} {{zijn_haar_student}} leerstof doornemen.' },
+      { title: 'Emotionele steun bieden', tooltip: 'bijv. empathisch reageren op een nare ervaring van {{deze_student}}, of {{deze_student}} een luisterend oor bieden.' },
+      { title: 'De omgeving van {{deze_student}} betrekken bij de begeleiding', tooltip: 'bijv. ouders, vrienden, leraren of hulpverleners uitleg geven over {{deze_student}} {{zijn_haar_student}} gedrag of vragen om mee te helpen in de begeleiding van {{deze_student}}.' },
+      { title: 'Hulp vragen aan/overleggen met collega’s of andere professionals', tooltip: 'bijv. hulp vragen aan een psycholoog of maatschappelijk werker om mee te helpen/denken in de begeleiding van {{deze_student}}.' },
+      { title: 'Observaties doen', tooltip: 'bijv. een voetbalwedstrijd bekijken of {{deze_student}} observeren tijdens pauzes of lessen.' }
     ],
     otherwise_tooltip: 'kies dit cluster alleen wanneer de door jouw gekozen actie niet bij andere clusters past.'
   }, {
@@ -73,13 +74,13 @@ dagboek_content = [{
     required: true,
     title: 'Aan welke doelen heb jij gewerkt door deze actie(s) uit te voeren?',
     options: [
-      {title: 'De relatie met {{deze_student}} verbeteren en/of onderhouden', tooltip: 'bijv. de band met {{deze_student}} proberen te verbeteren of laten weten dat je er voor {{deze_student}} bent.'},
-      {title: 'Emotioneel welzijn van {{deze_student}} ontwikkelen', tooltip: 'bijv. {{deze_student}} leren om {{zijn_haar_student}} emoties beter onder controle te krijgen of om {{zijn_haar_student}} emotie(s) beter aan te laten sluiten op situatie(s).'},
-      {title: 'Vaardigheden van {{deze_student}} ontwikkelen', tooltip: 'bijv. sociale of schoolse vaardigheden trainen, zoals plannen. Of {{deze_student}} trainen hoe {{hij_zij_student}} beter met probleemsituaties om kan gaan.'},
-      {title: '{{Deze_student}} zelfinzicht geven', tooltip: 'bijv. {{deze_student}} inzicht geven in {{zijn_haar_student}} eigen gedrag, emoties, gedachten of relaties met anderen.'},
-      {title: 'Inzicht krijgen in de belevingswereld van {{deze_student}}', tooltip: 'bijv. proberen te achterhalen hoe {{deze_student}} denkt, of hoe {{hij_zij_student}} zich voelt en waarom {{hij_zij_student}} zo denkt of voelt.'},
-      {title: 'Inzicht krijgen in de omgeving van {{deze_student}}', tooltip: 'bijv. verdiepen in wat {{hij_zij_student}} zoal meemaakt op school of tijdens {{zijn_haar_student}} hobby(\'s), verdiepen in {{deze_student}} {{zijn_haar_student}} familiedynamiek of achterhalen met wie {{hij_zij_student}} zoal omgaat.'},
-      {title: 'De omgeving van {{deze_student}} veranderen', tooltip: 'bijv. kennis vergroten bij ouders, vrienden en leraren van {{deze_student}}, of hen overtuigen om {{deze_student}} hulp te bieden.'}
+      { title: 'De relatie met {{deze_student}} verbeteren en/of onderhouden', tooltip: 'bijv. de band met {{deze_student}} proberen te verbeteren of laten weten dat je er voor {{deze_student}} bent.' },
+      { title: 'Emotioneel welzijn van {{deze_student}} ontwikkelen', tooltip: 'bijv. {{deze_student}} leren om {{zijn_haar_student}} emoties beter onder controle te krijgen of om {{zijn_haar_student}} emotie(s) beter aan te laten sluiten op situatie(s).' },
+      { title: 'Vaardigheden van {{deze_student}} ontwikkelen', tooltip: 'bijv. sociale of schoolse vaardigheden trainen, zoals plannen. Of {{deze_student}} trainen hoe {{hij_zij_student}} beter met probleemsituaties om kan gaan.' },
+      { title: '{{Deze_student}} zelfinzicht geven', tooltip: 'bijv. {{deze_student}} inzicht geven in {{zijn_haar_student}} eigen gedrag, emoties, gedachten of relaties met anderen.' },
+      { title: 'Inzicht krijgen in de belevingswereld van {{deze_student}}', tooltip: 'bijv. proberen te achterhalen hoe {{deze_student}} denkt, of hoe {{hij_zij_student}} zich voelt en waarom {{hij_zij_student}} zo denkt of voelt.' },
+      { title: 'Inzicht krijgen in de omgeving van {{deze_student}}', tooltip: 'bijv. verdiepen in wat {{hij_zij_student}} zoal meemaakt op school of tijdens {{zijn_haar_student}} hobby(\'s), verdiepen in {{deze_student}} {{zijn_haar_student}} familiedynamiek of achterhalen met wie {{hij_zij_student}} zoal omgaat.' },
+      { title: 'De omgeving van {{deze_student}} veranderen', tooltip: 'bijv. kennis vergroten bij ouders, vrienden en leraren van {{deze_student}}, of hen overtuigen om {{deze_student}} hulp te bieden.' }
     ],
     otherwise_tooltip: 'kies dit cluster alleen wanneer het door jouw gekozen doel niet bij andere clusters past.'
   }, {
@@ -94,7 +95,7 @@ dagboek_content = [{
     title: 'Hoe tevreden ben je met de interactie tussen jou en {{deze_student}}?',
     options: [
       { title: 'Niet van toepassing', hides_questions: %i[v3_5] }
-             ]
+    ]
   }, {
     id: :v3_5,
     hidden: false,
@@ -172,7 +173,7 @@ dagboek_content = [{
   id: :v14,
   hidden: true,
   type: :textarea,
-  title: 'Waarom ben je gestopt met de begeleiding van {{deze_student}}?',
+  title: 'Waarom ben je gestopt met de begeleiding van {{deze_student}}?'
 }, {
   id: :v15,
   hidden: true,
@@ -183,7 +184,7 @@ dagboek_content = [{
   id: :v16,
   hidden: true,
   type: :textarea,
-  title: 'Waarom is {{deze_student}} gestopt met {{zijn_haar_student}} opleiding?',
+  title: 'Waarom is {{deze_student}} gestopt met {{zijn_haar_student}} opleiding?'
 }, {
   id: :v17,
   hidden: true,

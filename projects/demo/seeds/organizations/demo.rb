@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 organization_name = 'Demo-organization'
 puts "Running seeds for organization #{organization_name}"
 organization = Organization.find_by_name(organization_name)

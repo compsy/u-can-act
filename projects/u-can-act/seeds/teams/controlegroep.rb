@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 team_name = 'Controlegroep'
 
 organization_name = 'De Controlegroep'

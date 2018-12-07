@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 team_name = 'Demo-team'
 
 organization_name = 'Demo-organization'

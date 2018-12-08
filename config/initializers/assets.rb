@@ -18,13 +18,14 @@ end
 asset_directories = %w(images)
 asset_directories.each do |folder|
   directory = Rails.root.join('projects', ENV['PROJECT_NAME'], 'assets', folder)
-  Rails.application.config.assets.paths << directory
   files = Dir.entries(directory)
+  next if files.nil?
 
   # Dir.entries also adds the . and .. folders. Delete them here.
   files.delete('.')
   files.delete('..')
 
+  Rails.application.config.assets.paths << directory
   Rails.application.config.assets.precompile += files
 end
 

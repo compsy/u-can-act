@@ -23,6 +23,7 @@ describe Api::V1::SettingsController, type: :controller do
       get :index
       @json_response = JSON.parse(response.body)
     end
+
     it 'should render a json file with the correct entries' do
       expected = current_settings.keys
 

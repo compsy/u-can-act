@@ -25,5 +25,4 @@ Rails.application.configure do
   # Convert the settings to a nested openstruct, which allows us to do
   # Rails.application.config.settings.nested_something.nested_array
   config.settings = JSON.parse settings.to_json, object_class: OpenStruct
-  config.settings.base_folder = Rails.root.join('projects', project_name)
 end

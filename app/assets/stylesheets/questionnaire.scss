@@ -3,7 +3,7 @@
 .flow-text {
   $i: 8;
   @while $i <= $intervals {
-    @media only screen and (min-width: 360 + ($i * $interval-size)) {
+    @media only screen and (min-width: 360 + $i * $interval-size) {
       font-size: 1.392rem;
     }
     $i: $i + 1;
@@ -120,46 +120,14 @@ input[type="checkbox"] + label {
 }
 
 form .likert-scale {
+  p:first {
+    display:block;
+  }
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin: 0;
+  margin: 0 0 1.25rem 0;
   padding: 0 0 0 0;
-}
-
-.likert-item {
-  text-align: center;
-  vertical-align: center;
-  display: block;
-
-  label {
-    span {
-      padding: 2px !important;
-
-      &:before, &:after {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 2px 2px 2px 2px;
-      }
-
-      &:before {
-        position: relative;
-      }
-
-      &:after {
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-      }
-
-      width: 100%;
-      text-align: center;
-      vertical-align: center;
-      display: inline-block;
-    }
-  }
 }
 
 .input-field.col.no-padding {
@@ -242,4 +210,34 @@ button[type="submit"] {
 .otherwise-textfield > .input-field > label:not(.label-icon).active {
   -webkit-transform: translateY(-3px) scale(0.8);
   transform: translateY(-3px) scale(0.8);
+}
+
+.likert-item {
+  text-align: center;
+  vertical-align: center;
+  display: block;
+   label {
+    span {
+      display: block !important;
+      padding: 2px !important;
+       &:before, &:after {
+        top: 0!important;
+        left: 0!important;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 2px 2px 2px 2px;
+      }
+       &:before {
+        position: relative;
+      }
+       &:after {
+        bottom: 0px;
+        right: 0px;
+      }
+       width: 100%;
+      text-align: center;
+      vertical-align: center;
+    }
+  }
 }

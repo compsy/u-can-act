@@ -3,7 +3,7 @@ import {mount, shallow} from 'enzyme'
 import RewardPage from 'RewardPage';
 
 describe('RewardPage', () => {
-  let wrapper;
+  let wrapper, spy;
 
   beforeEach(() => {
     // Fix a year to use in specs
@@ -16,7 +16,14 @@ describe('RewardPage', () => {
       }
     };
 
+    spy = jest.spyOn($, 'getJSON').mockImplementation(function(e, ff) {
+      return ff(undefined);
+    });
     wrapper = shallow(<RewardPage protocolSubscriptionId={5}/>);
+  });
+
+  afterEach(() => {
+    spy.mockRestore();
   });
 
   describe('isDone', () => {
@@ -49,36 +56,34 @@ describe('RewardPage', () => {
   });
 
   describe('loadCurrentPerson', () => {
-    const theFakeResponse = {
-      'text': 'this a a fake response'
-    };
-
     it("it should include the correct attributes in a call", () => {
-      const spy = jest.spyOn($, 'getJSON').mockImplementation(function(e, ff) {
+      const theFakeResponse = {
+        'text': 'this a a fake response'
+      };
+      let spy2 = jest.spyOn($, 'getJSON').mockImplementation(function(e, ff) {
         return ff(theFakeResponse);
       });
       wrapper.instance().loadCurrentPerson();
-      expect($.getJSON).toHaveBeenCalledTimes(1);
+      expect($.getJSON).toHaveBeenCalledTimes(3);
       expect($.getJSON).toHaveBeenCalledWith('/api/v1/person/me', expect.anything());
       expect(wrapper.state().person).toEqual(theFakeResponse);
-      spy.mockRestore();
+      spy2.mockRestore();
     });
   });
 
   describe('loadRewardData', () => {
-    const theFakeResponse = {
-      'text': 'this a a fake response'
-    };
-
     it("it should include the correct attributes in a call", () => {
-      const spy = jest.spyOn($, 'getJSON').mockImplementation(function(e, ff) {
+      const theFakeResponse = {
+        'text': 'this a a fake response'
+      };
+      let spy2 = jest.spyOn($, 'getJSON').mockImplementation(function(e, ff) {
         return ff(theFakeResponse);
       });
       wrapper.instance().loadRewardData(5);
-      expect($.getJSON).toHaveBeenCalledTimes(1);
+      expect($.getJSON).toHaveBeenCalledTimes(3);
       expect($.getJSON).toHaveBeenCalledWith('/api/v1/protocol_subscriptions/5', expect.anything());
       expect(wrapper.state().result).toEqual(theFakeResponse);
-      spy.mockRestore();
+      spy2.mockRestore();
     });
   });
 

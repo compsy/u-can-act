@@ -1,7 +1,6 @@
 import React from 'react'
 import {mount, shallow} from 'enzyme'
 import RewardPage from 'RewardPage';
-import TeamOverview from "../../../app/javascript/components/admin_page_components/TeamOverview";
 
 describe('RewardPage', () => {
   let wrapper;
@@ -20,121 +19,167 @@ describe('RewardPage', () => {
     wrapper = shallow(<RewardPage protocolSubscriptionId={5}/>);
   });
 
-  /*
-  describe('getCorrectResulPage', () => {
-    it("it should return an array of years from 2017 to the current year", () => {
-
-      expect(wrapper.instance().generateYears()).toEqual([2017, 2018]);
+  describe('isDone', () => {
+    it("returns true when there are no future entries", () => {
+      wrapper.instance().setState({
+        result: {
+          protocol_completion: [{future: false}],
+          max_streak: {
+            threshold: 3
+          }
+        },
+        person: jest.fn(),
+      });
+      wrapper.update();
+      expect(wrapper.instance().isDone()).toBeTruthy();
+    });
+    it("returns false when there are future entries", () => {
+      wrapper.instance().setState({
+        result: {
+          protocol_completion: [{future: false}, {future: true}],
+          max_streak: {
+            threshold: 3
+          }
+        },
+        person: jest.fn(),
+      });
+      wrapper.update();
+      expect(wrapper.instance().isDone()).toBeFalsy();
     });
   });
-  */
 
-  /*
-  describe('loadRewardData', () => {
-    const group = 'Mentor';
-    const year = new Date().getFullYear();
-    let expectedUrl = `/api/v1/admin/team/${group}?year=${year}&percentage_threshold=70`;
+  describe('loadCurrentPerson', () => {
     const theFakeResponse = {
       'text': 'this a a fake response'
     };
 
     it("it should include the correct attributes in a call", () => {
-      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
-        expect(e.type).toEqual('GET');
-        expect(e.dataType).toEqual('json');
-        return $.Deferred().resolve(theFakeResponse).promise();
+      const spy = jest.spyOn($, 'getJSON').mockImplementation(function(e, ff) {
+        return ff(theFakeResponse);
       });
-      wrapper.instance().loadTeamData(group);
-      expect($.ajax).toHaveBeenCalled();
-      spy.mockRestore();
-    });
-
-    it("it should get the json ajax function with the correct route", () => {
-      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
-        expect(e.url).toEqual(expectedUrl);
-        return $.Deferred().resolve(theFakeResponse).promise();
-      });
-
-      const spy2 = jest.spyOn(wrapper.instance(), 'handleSuccess');
-      wrapper.instance().loadTeamData(group);
-      expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
-      expect($.ajax).toHaveBeenCalled();
-      spy.mockRestore();
-      spy2.mockRestore();
-    });
-
-    it("it should call ajax function with the correct route with the correct week", () => {
-      let week_number = 42;
-      wrapper.instance().setState({
-        week_number: week_number
-      });
-      wrapper.update();
-      expectedUrl = `/api/v1/admin/team/${group}?year=${year}&week_number=${week_number}&percentage_threshold=70`;
-      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
-        expect(e.url).toEqual(expectedUrl);
-        return $.Deferred().resolve(theFakeResponse).promise();
-      });
-
-      const spy2 = jest.spyOn(wrapper.instance(), 'handleSuccess');
-      wrapper.instance().loadTeamData(group);
-      expect(wrapper.instance().handleSuccess).toHaveBeenCalledWith(theFakeResponse, group);
-      expect($.ajax).toHaveBeenCalled();
-      spy.mockRestore();
-      spy2.mockRestore();
-    });
-
-    it("it should include the correct headers", () => {
-      const spy = jest.spyOn($, 'ajax').mockImplementation(function (e) {
-        expect(e.beforeSend).toEqual(TeamOverview.prototype.setHeader);
-        return $.Deferred().resolve(theFakeResponse).promise();
-      });
-      wrapper.instance().loadTeamData(group);
-      expect($.ajax).toHaveBeenCalled();
+      wrapper.instance().loadCurrentPerson();
+      expect($.getJSON).toHaveBeenCalledTimes(1);
+      expect($.getJSON).toHaveBeenCalledWith('/api/v1/person/me', expect.anything());
+      expect(wrapper.state().person).toEqual(theFakeResponse);
       spy.mockRestore();
     });
   });
-  */
+
+  describe('loadRewardData', () => {
+    const theFakeResponse = {
+      'text': 'this a a fake response'
+    };
+
+    it("it should include the correct attributes in a call", () => {
+      const spy = jest.spyOn($, 'getJSON').mockImplementation(function(e, ff) {
+        return ff(theFakeResponse);
+      });
+      wrapper.instance().loadRewardData(5);
+      expect($.getJSON).toHaveBeenCalledTimes(1);
+      expect($.getJSON).toHaveBeenCalledWith('/api/v1/protocol_subscriptions/5', expect.anything());
+      expect(wrapper.state().result).toEqual(theFakeResponse);
+      spy.mockRestore();
+    });
+  });
 
   describe('render', () => {
     beforeEach(() => {
       wrapper = mount(<RewardPage protocolSubscriptionId={5}/>);
+      wrapper.instance().setState({
+        result: {
+          protocol_completion: [{future: true}],
+          max_streak: {
+            threshold: 3
+          }
+        },
+        person: jest.fn(),
+      });
+      wrapper.update();
     });
 
     it("should render bezig if there is no state", () => {
-      wrapper.instance().setState({
-        Mentor: {
-          overview: []
-        },
-        Student: {
-          overview: []
-        }
-      });
-      wrapper.update();
+      wrapper = mount(<RewardPage protocolSubscriptionId={5}/>);
       expect(wrapper.name()).toEqual('RewardPage');
       expect(wrapper.text()).toEqual('Bezig...');
     });
-/*
+
     it("passes the correct class", () => {
       const node = wrapper.childAt(0);
-      expect(node.name()).toEqual('Select');
+      expect(node.name()).toEqual('div');
+      expect(node.props().className).toEqual('col s12');
     });
 
-    it("returns the correct title", () => {
+    it("returns the correct wrappers", () => {
+      const node = wrapper.childAt(0).childAt(0);
+      expect(node.name()).toEqual('div');
+      expect(node.props().className).toEqual('row');
+    });
+
+    it("returns the correct nested wrappers", () => {
       const node = wrapper.childAt(0).childAt(0).childAt(0);
-      expect(node.name()).toEqual('select');
+      expect(node.name()).toEqual('div');
+      expect(node.props().className).toEqual('col s12');
     });
 
-    it("displays the correct label", () => {
-      const node = wrapper.childAt(0).childAt(0).childAt(1);
-      expect(node.name()).toEqual('label');
-      expect(node.text()).toEqual('Year');
+    it("renders a MentorRewardPage for mentors", () => {
+      wrapper.instance().setState({
+        result: {
+          protocol_completion: [{future: false}],
+          max_streak: {
+            threshold: 3
+          },
+          person_type: 'Mentor'
+        },
+        person: jest.fn(),
+      });
+      wrapper.update();
+      const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0);
+      expect(node.name()).toEqual('MentorRewardPage');
     });
-
-    it("displays the correct number of years", () => {
-      const nodes = wrapper.find('option');
-      expect(nodes.exists()).toBeTruthy();
-      expect(nodes).toHaveLength(2 + 1); // Add one for the default disabled option labeled "Selecteer..."
+    it("renders a StudentInProgressRewardPage for students in progress", () => {
+      wrapper.instance().setState({
+        result: {
+          protocol_completion: [{future: true}],
+          max_streak: {
+            threshold: 3
+          },
+          person_type: 'Student'
+        },
+        person: jest.fn(),
+      });
+      wrapper.update();
+      const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0);
+      expect(node.name()).toEqual('StudentInProgressRewardPage');
     });
-    */
+    it("renders a StudentFinalRewardPage for finished students", () => {
+      wrapper.instance().setState({
+        result: {
+          protocol_completion: [{future: false}],
+          max_streak: {
+            threshold: 3
+          },
+          person_type: 'Student'
+        },
+        person: jest.fn(),
+      });
+      wrapper.update();
+      const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0);
+      expect(node.name()).toEqual('StudentFinalRewardPage');
+    });
+    it("renders a SoloRewardPage for solo people", () => {
+      wrapper.instance().setState({
+        result: {
+          protocol_completion: [{future: false}],
+          max_streak: {
+            threshold: 3
+          },
+          person_type: 'Solo'
+        },
+        person: jest.fn(),
+      });
+      wrapper.update();
+      const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0);
+      expect(node.name()).toEqual('SoloRewardPage');
+    });
   });
 });

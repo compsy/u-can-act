@@ -248,7 +248,8 @@
         if ( is2D ) {
 
           if ( context.retina ) {
-
+            // my ratio hack here
+            ratio = $(window).outerWidth()/ win.innerWidth;
             context.save();
             context.scale( ratio, ratio );
           }
@@ -273,6 +274,8 @@
     }
 
     function resize() {
+      // My ratio hack here
+      ratio = $(window).outerWidth()/ win.innerWidth;
 
       target = isDiv ? context.style : context.canvas;
       suffix = isDiv ? 'px' : '';

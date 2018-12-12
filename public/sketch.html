@@ -2,12 +2,14 @@
 <html>
 <head>
   <title>Bodymap</title>
+  <link rel="stylesheet" media="all"
+        href="/assets/application.self-dfecf4ae15056bd80901f16b4ef4115733af81c47e1f5f20dec5be3ddb60b909.css?body=1"/>
   <style type="text/css">
     html, body {
       background-color: #f3f3f3;
     }
 
-    .container {
+    .sketch-container {
       background-image: url('bodymap.png');
       background-repeat: no-repeat;
       background-position: center;
@@ -17,136 +19,190 @@
       height: 536px;
       margin-left: auto;
       margin-right: auto;
-      margin-top: 100px;
       display: inline-block;
       cursor: crosshair;
     }
 
     .log {
-      width: 500px;
-      height: 500px;
+      width: 100%;
+      height: 536px;
       overflow-y: scroll;
       display: inline-block;
       background-color: #fff;
     }
   </style>
+  <script src="/assets/jquery.self-bd7ddd393353a8d2480a622e80342adf488fb6006d667e8b42e4c0073393abee.js?body=1"></script>
+  <script
+    src="/assets/jquery_ujs.self-784a997f6726036b1993eb2217c9cb558e1cbb801c6da88105588c56f13b466a.js?body=1"></script>
+  <script
+    src="/assets/materialize.self-ec1b6893541bd6fb5718fa6fbf8ef7b44e10a287214766f5c0d6f7e925693982.js?body=1"></script>
+  <script
+    src="/assets/materialize_loader.self-5e806e857a519f9cd1440d434c88156e737d969e512fe9b8a89c288e1de2aa2b.js?body=1"></script>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport'>
 </head>
 <body>
-<div id="container" class="container"></div>
-<div id="log" class="log"></div>
+<div class="container">
+  <div class="row section">
+    <div class="col s12">
+      <button class="btn waves-effect waves-light" id="clear">Clear</button>
+      <button class="btn" id="ok">Ok</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s6">
+      <div id="sketch-container" class="sketch-container"></div>
+    </div>
+    <div class="col s6">
+      <div id="log" class="log"></div>
+    </div>
+  </div>
+</div>
 <script src="sketch.js"></script>
 <script>
 
-  const COLOURS = ['#AC92EB80', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
-  const radius = 10;
-  let drawing = [false, false, false, false, false];
-  let currentpoints = [];
+  const COLOURS = ['#AC92EBA0', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
+  const LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Unlocked";
+  const UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Locked";
 
-  Sketch.create({
-    container: document.getElementById('container'),
+  let mydrawing = Sketch.create({
+    container: document.getElementById('sketch-container'),
     fullscreen: false,
     width: 160,
     height: 536,
+    radius: 10,
+    currentpoints: [],
     autoclear: false,
+    locked: false,
+    drawing: false,
     retina: 'auto',
 
     setup: function() {
-      console.log('setup');
+      // console.log('setup');
+    },
+
+    setLineStyleAndColor: function(color) {
+      this.lineCap = 'round';
+      this.lineJoin = 'round';
+      this.fillStyle = this.strokeStyle = color;
+      this.lineWidth = this.radius;
+    },
+
+    clearDrawing: function() {
+      this.currentpoints = [];
+      this.drawing = false;
+      $('#log').empty();
+      this.clear();
+    },
+
+    lockDrawing: function() {
+      this.stop();
+      this.locked = true;
+      this.drawing = false;
+    },
+
+    unlockDrawing: function() {
+      this.start();
+      this.locked = false;
     },
 
     drawCurrentPoints: function() {
       this.beginPath();
-      this.lineCap = 'round';
-      this.lineJoin = 'round';
-      this.fillStyle = this.strokeStyle = COLOURS[ 0 % COLOURS.length ];
-      this.lineWidth = radius;
-      for (let [ox, oy, x, y] of currentpoints) {
-        if (ox === -1 && oy == -1 && x === -1 && y === -1) {
+      this.setLineStyleAndColor(COLOURS[0 % COLOURS.length]);
+      for (let [ox, oy, x, y] of this.currentpoints) {
+        if (ox === -1 && oy === -1 && x === -1 && y === -1) {
           this.stroke();
           this.beginPath();
+        } else {
+          this.moveTo(ox, oy);
+          this.lineTo(x, y);
         }
-        this.moveTo(ox, oy);
-        this.lineTo(x, y);
       }
       this.stroke();
     },
 
     update: function() {
-      // console.log('update')
-      //if (drawing[0])
-      //  currentpoints.push([-1, -1, -1, -1]);
-      //radius = 2 + abs( sin( this.millis * 0.003 ) * 50 );
     },
 
     // Event handlers
 
     keydown: function() {
-      if (this.keys.C) this.clear();
+      if (this.keys.C) {
+        this.clearDrawing();
+      }
+    },
+
+    logPoints: function(ox, oy, x, y) {
+      this.currentpoints.push([ox, oy, x, y]);
+      if (ox === -1 && oy === -1 && x === -1 && y === -1) {
+        document.getElementById('log').innerHTML += '-- LINE END --<br>';
+      } else {
+        document.getElementById('log').innerHTML += `(${(ox / this.width).toFixed(2)},
+                                                      ${(oy / this.height).toFixed(2)}) ->
+                                                     (${(x / this.width).toFixed(2)},
+                                                      ${(y / this.height).toFixed(2)})<br>`;
+      }
+      const objDiv = document.getElementById("log");
+      objDiv.scrollTop = objDiv.scrollHeight;
+    },
+
+    insertBreak: function() {
+      this.logPoints(-1, -1, -1, -1);
     },
 
     touchend: function() {
-      drawing[0] = false;
-
-      currentpoints.push([-1, -1, -1, -1]);
+      if (this.locked) return;
+      this.drawing = false;
+      this.insertBreak();
       this.clear();
       this.drawCurrentPoints();
-      //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
-      //  drawing[i % drawing.length] = false;
-      //}
-      //this.stroke();
     },
 
     mouseout: function() {
-      //drawing[0] = false;
-      //this.drawCurrentPoints();
-      //this.stroke();
 
     },
 
     touchstart: function() {
-      drawing[0] = true;
-      //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
-      //  drawing[i % drawing.length] = true;
-      //}
-      //currentpoints = [];
-
-
+      if (this.locked) return;
+      this.drawing = true;
     },
-
 
     // Mouse & touch events are merged, so handling touch events by default
     // and powering sketches using the touches array is recommended for easy
     // scalability. If you only need to handle the mouse / desktop browsers,
     // use the 0th touch element and you get wider device support for free.
     touchmove: function() {
-      for (var i = this.touches.length - 1, touch; i >= 0; i--) {
-        if (!drawing[i % drawing.length]) continue;
-        touch = this.touches[i];
-        currentpoints.push([touch.ox, touch.oy, touch.x, touch.y]);
-        this.lineCap = 'round';
-        this.lineJoin = 'round';
-        this.fillStyle = this.strokeStyle = COLOURS[1 % COLOURS.length];
-        this.lineWidth = radius;
-        //if ((touch.ox / this.width).toFixed(2) !== (touch.x / this.width).toFixed(2) || (touch.oy / this.height).toFixed(2) !== (touch.y / this.height).toFixed(2)) {
-         // if (Math.abs(touch.x - touch.ox) > radius || Math.abs(touch.y - touch.oy) > radius) {
-            this.beginPath();
-            //const vector = [touch.x - touch.ox, touch.y - touch.oy];
-            this.moveTo(touch.ox, touch.oy);
-            this.lineTo(touch.x, touch.y);
-            //this.lineTo(touch.x - radius, touch.y - radius * Math.sign(touch.y - touch.oy));
-            this.stroke();
-            document.getElementById('log').innerHTML += `(${(touch.ox / this.width).toFixed(2)},
-                                                                  ${(touch.oy / this.height).toFixed(2)}) ->
-                                                                  (${(touch.x / this.width).toFixed(2)},
-                                                                  ${(touch.y / this.height).toFixed(2)})<br>`;
-            var objDiv = document.getElementById("log");
-            objDiv.scrollTop = objDiv.scrollHeight;
-          }
-        //}
-      //}
+      if (this.locked) return;
+      if (!this.drawing) return;
+      const touch = this.touches[0]; // only support drawing with one finger
+      this.setLineStyleAndColor(COLOURS[1 % COLOURS.length]);
+      this.beginPath();
+      this.moveTo(touch.ox, touch.oy);
+      this.lineTo(touch.x, touch.y);
+      this.stroke();
+      this.logPoints(touch.ox, touch.oy, touch.x, touch.y);
     }
   });
 
+  $(function() {
+    $('#clear').click(function() {
+      mydrawing.clearDrawing();
+    });
+    $('#ok').click(function() {
+      if ($(this).html() === LOCK_TEXT) {
+        $(this).html(UNLOCK_TEXT);
+        $('#clear').prop("disabled", true);
+        mydrawing.lockDrawing();
+      } else {
+        $(this).html(LOCK_TEXT);
+        $('#clear').prop("disabled", false);
+        mydrawing.unlockDrawing();
+      }
+    }).html(LOCK_TEXT);
+    $(window).resize(function() {
+      mydrawing.clear();
+      mydrawing.drawCurrentPoints();
+    });
+  });
 </script>
 </body>
 </html>

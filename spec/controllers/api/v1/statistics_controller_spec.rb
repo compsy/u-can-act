@@ -20,45 +20,120 @@ describe Api::V1::StatisticsController, type: :controller do
   let!(:responses) { FactoryBot.create_list(:response, 7, :completed) }
 
   describe 'index' do
-    before do
-      get :index
-      @json_response = JSON.parse(response.body)
-    end
     it 'should render a json file with the correct entries' do
       expected = %w[number_of_students
                     number_of_mentors
                     duration_of_project_in_weeks
                     number_of_completed_questionnaires]
-
-      expect(@json_response.keys.length).to eq 4
-      expect(@json_response.keys).to match_array(expected)
+      get :index
+      json_response = JSON.parse(response.body)
+      expect(json_response.keys.length).to eq 4
+      expect(json_response.keys).to match_array(expected)
     end
 
     it 'should list the correct number of students' do
-      # + responses.length because that one also creates students
-      expected = studs1.length + studs2.length + responses.length
-      expect(@json_response['number_of_students']).to eq expected
+      protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
+      protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
+      studs1.each do |student|
+        FactoryBot.create(:protocol_subscription,
+                          person: student,
+                          protocol: protocol1,
+                          informed_consent_given_at: nil)
+        FactoryBot.create(:protocol_subscription,
+                          person: student,
+                          protocol: protocol3,
+                          informed_consent_given_at: Time.zone.now)
+      end
+      protocol2 = FactoryBot.create(:protocol, name: 'protocol_two')
+      studs2.each do |student|
+        FactoryBot.create(:protocol_subscription,
+                          person: student,
+                          protocol: protocol2,
+                          informed_consent_given_at: Time.zone.now)
+      end
+      # It should not count loose responses, it should not count protocol subscriptions without
+      # an informed consent given.
+      expected = studs1.count + studs2.count
+      get :index
+      json_response = JSON.parse(response.body)
+      expect(json_response['number_of_students']).to eq expected
     end
 
     it 'should list the correct number of mentors' do
-      expected = mentors1.length + mentors2.length
-      expect(@json_response['number_of_mentors']).to eq expected
+      protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
+      mentors1.each do |mentor|
+        FactoryBot.create(:protocol_subscription,
+                          person: mentor,
+                          protocol: protocol3,
+                          informed_consent_given_at: nil)
+        FactoryBot.create(:protocol_subscription,
+                          person: mentor,
+                          protocol: protocol3,
+                          informed_consent_given_at: Time.zone.now)
+      end
+      protocol2 = FactoryBot.create(:protocol, name: 'protocol_two')
+      mentors2.each do |mentor|
+        FactoryBot.create(:protocol_subscription,
+                          person: mentor,
+                          protocol: protocol2,
+                          informed_consent_given_at: Time.zone.now)
+      end
+      # It should not count loose responses, it should not count protocol subscriptions without
+      # an informed consent given.
+      expected = mentors1.count + mentors2.count
+      get :index
+      json_response = JSON.parse(response.body)
+      expect(json_response['number_of_mentors']).to eq expected
     end
 
-    it 'should return the correct duration of the project' do
-      cached_start = ENV['PROJECT_START_DATE']
-      ENV['PROJECT_START_DATE'] = '2017-03-17'
-      get :index
-      @json_response = JSON.parse(response.body)
+    describe 'duration_of_project_in_weeks' do
+      it 'should return the correct duration of the project' do
+        expect(Rails.application.config.settings).to receive(:project_start_date)
+          .exactly(1).times.and_return('2017-03-17')
+        expect(Rails.application.config.settings).to receive(:project_end_date)
+          .exactly(1).times.and_return('2018-08-06')
+        get :index
+        json_response = JSON.parse(response.body)
+        expected = 7 + 1 # we also count the active week
+        expect(json_response['duration_of_project_in_weeks']).to eq expected
+      end
 
-      expected = 7 + 1 # we also count the active week
-      expect(@json_response['duration_of_project_in_weeks']).to eq expected
-      ENV['PROJECT_START_DATE'] = cached_start
+      it 'should return the correct duration of the project if we are past the end date' do
+        expect(Rails.application.config.settings).to receive(:project_start_date)
+          .exactly(1).times.and_return('2017-03-17')
+        expect(Rails.application.config.settings).to receive(:project_end_date)
+          .exactly(1).times.and_return('2017-03-27')
+        get :index
+        json_response = JSON.parse(response.body)
+        expected = 2 # we also count the active week
+        expect(json_response['duration_of_project_in_weeks']).to eq expected
+      end
+
+      it 'should return zero if the start date is after the end date' do
+        expect(Rails.application.config.settings).to receive(:project_start_date)
+          .exactly(1).times.and_return('2017-03-27')
+        expect(Rails.application.config.settings).to receive(:project_end_date)
+          .exactly(1).times.and_return('2017-03-17')
+        get :index
+        json_response = JSON.parse(response.body)
+        expect(json_response['duration_of_project_in_weeks']).to eq 0
+      end
     end
 
     it 'should return the correct number of completed questionnaires' do
-      expected = responses.length
-      expect(@json_response['number_of_completed_questionnaires']).to eq expected
+      protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
+      protocol2 = FactoryBot.create(:protocol, name: 'protocol_two')
+      protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
+      counted_measurement1 = FactoryBot.create(:measurement, protocol: protocol1)
+      counted_measurement2 = FactoryBot.create(:measurement, protocol: protocol2)
+      counted_measurement3 = FactoryBot.create(:measurement, protocol: protocol3)
+      counted_responses = FactoryBot.create_list(:response, 7, :completed, measurement: counted_measurement1)
+      counted_responses += FactoryBot.create_list(:response, 11, :completed, measurement: counted_measurement2)
+      counted_responses += FactoryBot.create_list(:response, 13, :completed, measurement: counted_measurement3)
+      expected = responses.count + counted_responses.count
+      get :index
+      json_response = JSON.parse(response.body)
+      expect(json_response['number_of_completed_questionnaires']).to eq expected
     end
   end
 end

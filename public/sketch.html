@@ -37,7 +37,7 @@
 <script src="sketch.js"></script>
 <script>
 
-  const COLOURS = ['#AC92EB80', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
+  const COLOURS = ['#AC92EB80', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
   const radius = 10;
   let drawing = [false, false, false, false, false];
   let currentpoints = [];
@@ -88,7 +88,7 @@
       drawing[0] = false;
 
       currentpoints.push([-1, -1, -1, -1]);
-      this.clear()
+      this.clear();
       this.drawCurrentPoints();
       //for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
       //  drawing[i % drawing.length] = false;
@@ -125,7 +125,7 @@
         currentpoints.push([touch.ox, touch.oy, touch.x, touch.y]);
         this.lineCap = 'round';
         this.lineJoin = 'round';
-        this.fillStyle = this.strokeStyle = COLOURS[2 % COLOURS.length];
+        this.fillStyle = this.strokeStyle = COLOURS[1 % COLOURS.length];
         this.lineWidth = radius;
         //if ((touch.ox / this.width).toFixed(2) !== (touch.x / this.width).toFixed(2) || (touch.oy / this.height).toFixed(2) !== (touch.y / this.height).toFixed(2)) {
          // if (Math.abs(touch.x - touch.ox) > radius || Math.abs(touch.y - touch.oy) > radius) {

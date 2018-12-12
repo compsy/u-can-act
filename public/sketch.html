@@ -65,7 +65,14 @@ Alternative paint apps:
 - https://konvajs.github.io/docs/sandbox/Free_Drawing.html
    */
 
-  const COLOURS = ['#AC92EBA0', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
+  // spray alternative
+
+
+  function getRandomFloat(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  const COLOURS = ['#AC92EB', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
   const LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Unlocked";
   const UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Locked";
 
@@ -74,11 +81,15 @@ Alternative paint apps:
     fullscreen: false,
     width: 160,
     height: 536,
-    radius: 10,
+    radius: 15,
+    density: 40,
     currentpoints: [],
     autoclear: false,
     locked: false,
     drawing: false,
+    timeout: null,
+    clientX: null,
+    clientY: null,
     retina: 'auto',
 
     setup: function() {
@@ -111,21 +122,13 @@ Alternative paint apps:
     },
 
     drawCurrentPoints: function() {
-      this.beginPath();
       this.setLineStyleAndColor(COLOURS[0 % COLOURS.length]);
-      for (let [ox, oy, x, y] of this.currentpoints) {
-        if (ox === -1 && oy === -1 && x === -1 && y === -1) {
-          this.stroke();
-          this.beginPath();
-        } else {
-          this.moveTo(ox, oy);
-          this.lineTo(x, y);
-        }
-      }
-      this.stroke();
+      for (let [x, y] of this.currentpoints)
+        this.drawPoint(x, y);
     },
 
     update: function() {
+
     },
 
     // Event handlers
@@ -136,39 +139,53 @@ Alternative paint apps:
       }
     },
 
-    logPoints: function(ox, oy, x, y) {
-      this.currentpoints.push([ox, oy, x, y]);
-      if (ox === -1 && oy === -1 && x === -1 && y === -1) {
-        document.getElementById('log').innerHTML += '-- LINE END --<br>';
-      } else {
-        document.getElementById('log').innerHTML += `(${(ox / this.width).toFixed(2)},
-                                                      ${(oy / this.height).toFixed(2)}) ->
-                                                     (${(x / this.width).toFixed(2)},
-                                                      ${(y / this.height).toFixed(2)})<br>`;
-      }
+    logPoint: function(x, y) {
+      // TODO: FIX THAT WE STORE AND RESTORE THE COORDS IN SCALED FORM
+      this.currentpoints.push([x, y]);
+      document.getElementById('log').innerHTML += `(${(x / this.width).toFixed(2)},
+                                                     ${(y / this.height).toFixed(2)})<br>`;
       const objDiv = document.getElementById("log");
       objDiv.scrollTop = objDiv.scrollHeight;
-    },
-
-    insertBreak: function() {
-      this.logPoints(-1, -1, -1, -1);
     },
 
     touchend: function() {
       if (this.locked) return;
       this.drawing = false;
-      this.insertBreak();
-      this.clear();
-      this.drawCurrentPoints();
+      this.clientX = null;
+      this.clientY = null;
+      clearTimeout(this.timeout);
     },
 
     mouseout: function() {
 
     },
 
+    drawPoint: function(x, y) {
+      for (let i = this.density; i--;) {
+        const angle = getRandomFloat(0, Math.PI * 2);
+        const radius = getRandomFloat(0, this.radius);
+        this.fillRect(
+          x + radius * Math.cos(angle),
+          y + radius * Math.sin(angle),
+          1, 1);
+      }
+    },
+
     touchstart: function() {
       if (this.locked) return;
       this.drawing = true;
+      this.setLineStyleAndColor(COLOURS[0 % COLOURS.length]);
+      // TODO: FIX THAT WE SET CLIENT.X AND CLIENT.Y here somehow
+
+      let self = this;
+      this.timeout = setTimeout(function draw() {
+        if (self.clientX !== null && self.clientY !== null) {
+          self.logPoint(self.clientX, self.clientY);
+          self.drawPoint(self.clientX, self.clientY);
+        }
+        if (!self.timeout) return;
+        self.timeout = setTimeout(draw, 50);
+      }, 50);
     },
 
     // Mouse & touch events are merged, so handling touch events by default
@@ -179,12 +196,8 @@ Alternative paint apps:
       if (this.locked) return;
       if (!this.drawing) return;
       const touch = this.touches[0]; // only support drawing with one finger
-      this.setLineStyleAndColor(COLOURS[1 % COLOURS.length]);
-      this.beginPath();
-      this.moveTo(touch.ox, touch.oy);
-      this.lineTo(touch.x, touch.y);
-      this.stroke();
-      this.logPoints(touch.ox, touch.oy, touch.x, touch.y);
+      this.clientX = touch.x;
+      this.clientY = touch.y;
     }
   });
 

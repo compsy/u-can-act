@@ -138,7 +138,7 @@ jobs:
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - run: bundle --path vendor/bundle
-      - run: bin/check_translations.sh
+      - run: RAILS_ENV=development bin/check_translations.sh
 
   test_rubocop:
     <<: *build_defaults

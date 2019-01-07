@@ -137,7 +137,12 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
       - run: bundle --path vendor/bundle
+      - run: yarn install
       - run: RAILS_ENV=development bin/check_translations.sh
 
   test_rubocop:
@@ -176,10 +181,10 @@ workflows:
             - build_gems
       - test_translations:
           requires:
+            - build_js
             - test_rubocop # By waiting until test_rubocop is complete, the bottleneck (test_rspec) can start sooner.
       - test_js:
           requires:
-            - build_js
             - test_translations # By waiting until test_translations is complete, the bottleneck (test_rspec) can start sooner.
       - test_rspec:
           requires:

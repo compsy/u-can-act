@@ -72,7 +72,7 @@ Alternative paint apps:
     return Math.random() * (max - min) + min;
   }
 
-  const COLOURS = ['#AC92EB', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
+  const COLOURS = ['#AC92EB80', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
   const LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Unlocked";
   const UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Locked";
 
@@ -143,7 +143,8 @@ Alternative paint apps:
       // TODO: FIX THAT WE STORE AND RESTORE THE COORDS IN SCALED FORM
       this.currentpoints.push([x, y]);
       document.getElementById('log').innerHTML += `(${(x / this.width).toFixed(2)},
-                                                     ${(y / this.height).toFixed(2)})<br>`;
+                                                     ${(y / this.height).toFixed
+      (2)})<br>`;
       const objDiv = document.getElementById("log");
       objDiv.scrollTop = objDiv.scrollHeight;
     },
@@ -175,7 +176,9 @@ Alternative paint apps:
       if (this.locked) return;
       this.drawing = true;
       this.setLineStyleAndColor(COLOURS[0 % COLOURS.length]);
-      // TODO: FIX THAT WE SET CLIENT.X AND CLIENT.Y here somehow
+      const touch = this.touches[0]; // only support drawing with one finger
+      this.clientX = touch.x;
+      this.clientY = touch.y;
 
       let self = this;
       this.timeout = setTimeout(function draw() {
@@ -184,8 +187,8 @@ Alternative paint apps:
           self.drawPoint(self.clientX, self.clientY);
         }
         if (!self.timeout) return;
-        self.timeout = setTimeout(draw, 50);
-      }, 50);
+        self.timeout = setTimeout(draw, 25);
+      }, 25);
     },
 
     // Mouse & touch events are merged, so handling touch events by default

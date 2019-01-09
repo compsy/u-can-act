@@ -4,6 +4,8 @@ default: &default
   default_team_name: 'Differentiatie Binnenstebuiten'
   hide_edit_iban: true
   show_mobile_images: false
+  feature_toggles:
+    allow_identifier_export: true
   logo:
     favicon: 'projects/Differentiatie Binnenstebuiten/favicon.ico'
     mentor_logo: 'rug_logo.png'

@@ -19,34 +19,87 @@ describe AdminController, type: :controller do
          protocol_transfer_export]
     end
 
-    it 'should require basic http auth' do
-      routes_list.each do |route|
+    def call_routes_and_expect_unauthorized(my_routes)
+      my_routes.each do |route|
         get route
         expect(response).to be_unauthorized
       end
+    end
+
+    def call_routes_and_expect_ok(my_routes)
+      my_routes.each do |route|
+        get route
+        expect(response).to be_ok
+      end
+    end
+
+    it 'should require basic http auth' do
+      call_routes_and_expect_unauthorized(routes_list)
     end
 
     it 'should require the correct username' do
       basic_auth 'otherusername', 'admin'
-      routes_list.each do |route|
-        get route
-        expect(response).to be_unauthorized
-      end
+      call_routes_and_expect_unauthorized(routes_list)
     end
 
     it 'should require correct password' do
       basic_auth 'admin', 'otherpassword'
-      routes_list.each do |route|
-        get route
-        expect(response).to be_unauthorized
-      end
+      call_routes_and_expect_unauthorized(routes_list)
     end
 
     it 'response should be ok if authorized' do
       basic_auth 'admin', 'admin'
-      routes_list.each do |route|
-        get route
-        expect(response).to be_ok
+      call_routes_and_expect_ok(routes_list)
+    end
+
+    context 'toggleable routes' do
+      let(:routes_list) do
+        [
+          {
+            route: :identifier_export,
+            toggle: :allow_identifier_export
+          }
+        ]
+      end
+
+      it 'should require basic http auth' do
+        call_routes_and_expect_unauthorized(routes_list.map { |entry| entry[:route] })
+      end
+
+      it 'should require the correct username' do
+        basic_auth 'otherusername', 'admin'
+        call_routes_and_expect_unauthorized(routes_list.map { |entry| entry[:route] })
+      end
+
+      it 'should require correct password' do
+        basic_auth 'admin', 'otherpassword'
+        call_routes_and_expect_unauthorized(routes_list.map { |entry| entry[:route] })
+      end
+
+      context 'with an allowed action' do
+        it 'response should not be ok if authorized' do
+          basic_auth 'admin', 'admin'
+          routes_list.each do |route|
+            expect(Rails.application.config.settings.feature_toggles)
+              .to_receive(routes_list[:toggle])
+              .and_return(true)
+            get route[:route]
+            expect(response).to be_ok
+          end
+        end
+      end
+
+      context 'with a disallowed action' do
+        it 'response should not be ok if authorized' do
+          basic_auth 'admin', 'admin'
+          routes_list.each do |route|
+            expect(Rails.application.config.settings.feature_toggles)
+              .to receive(route[:toggle])
+              .and_return(false)
+            expect { get route[:route] }
+              .to raise_error(RuntimeError, /Exporting [a-z]* is currently not allowed\./)
+          end
+        end
       end
     end
 

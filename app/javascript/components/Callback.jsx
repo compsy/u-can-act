@@ -4,7 +4,7 @@ export default class Callback extends React.Component {
     return (
       <div>
         Loading...
-        <div className='progress '>
+        <div className='progress'>
           <div className='indeterminate' />
         </div>
       </div>

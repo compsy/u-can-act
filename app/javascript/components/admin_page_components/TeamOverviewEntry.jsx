@@ -2,10 +2,10 @@ import React from 'react'
 
 export default class TeamOverviewEntry extends React.Component {
   generateOverviewRows(overview, overviewName) {
-    var rows = [];
-    var cols = [];
-    var entry;
-    for (var i = 0, len = overview.length; i < len; i++) {
+    let rows = [];
+    let cols = [];
+    let entry;
+    for (let i = 0, len = overview.length; i < len; i++) {
       cols = [];
       entry = overview[i];
       cols.push(<td key={entry.name + '_name'}>{entry.name}</td>);
@@ -22,26 +22,26 @@ export default class TeamOverviewEntry extends React.Component {
     return (
       <table>
         <thead>
-          <tr>
-            <th> Team</th>
-            <th> Completed</th>
-            <th> Completed percentage</th>
-            <th> &ge; 70% completed questionnaires</th>
-            <th> % of mentors with &ge; 70% completed questionnaires</th>
-          </tr>
+        <tr>
+          <th>Team</th>
+          <th>Completed</th>
+          <th>Completed percentage</th>
+          <th>&ge; 70% completed questionnaires</th>
+          <th>% of mentors with &ge; 70% completed questionnaires</th>
+        </tr>
         </thead>
         <tbody>{rows}</tbody>
       </table>
-    )
+    );
   }
 
   render() {
-    var rows = this.generateOverviewRows(this.props.overview);
+    const rows = this.generateOverviewRows(this.props.overview, this.props.name);
     return (
       <div className='team-overview-entry col m12'>
         <h4>{this.props.name}</h4>
         {this.generateTable(rows)}
       </div>
-    )
+    );
   }
 }

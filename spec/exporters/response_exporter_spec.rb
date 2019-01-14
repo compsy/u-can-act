@@ -17,6 +17,25 @@ describe ResponseExporter do
   end
 
   context 'with valid questionnaire' do
+    before :each do
+      allow(RedisCachedCall).to receive(:cache).with(any_args) do |&block|
+        block.call
+      end
+    end
+
+    describe 'export_headers' do
+      it 'works correctly' do
+        # create a response that should be filtered out
+        person = FactoryBot.create(:student, :with_test_phone_number)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
+        FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: responseobj.measurement)
+        export = described_class.export_headers(responseobj.measurement.questionnaire)
+        expect(export).to eq(%w[response_id filled_out_by_id filled_out_for_id protocol_subscription_id] +
+                             %w[measurement_id invitation_set_id open_from opened_at completed_at created_at] +
+                             %w[updated_at v1 v3 v23_2a13_brood]) # Test the sorting of keys
+      end
+    end
+
     it 'works with responses' do
       # create a response that should be filtered out
       person = FactoryBot.create(:student, :with_test_phone_number)

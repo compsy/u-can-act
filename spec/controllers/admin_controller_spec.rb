@@ -79,11 +79,11 @@ describe AdminController, type: :controller do
       context 'with an allowed action' do
         it 'response should not be ok if authorized' do
           basic_auth 'admin', 'admin'
-          routes_list.each do |route|
+          routes_list.each do |current_route|
             expect(Rails.application.config.settings.feature_toggles)
-              .to_receive(routes_list[:toggle])
+              .to receive(current_route[:toggle])
               .and_return(true)
-            get route[:route]
+            get current_route[:route]
             expect(response).to be_ok
           end
         end

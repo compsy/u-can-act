@@ -26,7 +26,7 @@ class ResponseExporter
       RedisCachedCall.cache("#{QUESTIONNAIRE_HEADERS_KEY}_#{questionnaire.key}", bust_cache) do
         headers = {}
         silence_logger do
-          questionnaire.responses.completed(questionnaire).find_each do |response|
+          questionnaire.responses.completed.find_each do |response|
             next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
 
             # Response has a .values function, which we are using here (i.e., it is not a hash from which we get the

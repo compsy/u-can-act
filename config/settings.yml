@@ -7,7 +7,7 @@ default: &default
   feature_toggles:
     allow_identifier_export: false
   logo:
-    favicon: null
+    favicon: 'favicon.ico'
     mentor_logo: null
     student_logo: null
     fallback_logo: null

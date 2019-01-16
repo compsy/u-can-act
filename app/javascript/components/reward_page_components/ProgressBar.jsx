@@ -82,15 +82,15 @@ export default class ProgressBar extends React.Component {
         }],
         center: {
           content: ['Je hebt nu',
-            function(value, _unused, series) {
+            (value, _unused, series) => {
               // Only update the label when the euro value is being displayed
               if (series.index === 1) {
                 return printAsMoney(value);
               }
               return printAsMoney(valueEuro);
-            }, 'je kunt nog ' + printAsMoney(awardable) + ' verdienen!'
+            }
           ],
-          y: -50
+          y: -30
         }
       });
     }

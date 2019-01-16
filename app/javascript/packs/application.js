@@ -10,6 +10,7 @@
 // console.log('Hello World from Webpacker')
 import "babel-polyfill";
 
+
 // Make jquery available
 import $ from 'jquery';
 global.$ = global.jQuery = $;
@@ -24,7 +25,10 @@ I18n.defaultLocale = 'nl'; // TODO: should be: I18n.defaultLocale = "<%= I18n.de
 I18n.locale = 'nl'; // TODO: should be: I18n.locale = "<%= I18n.locale %>";
 require('translations');
 
+
+
 // Support component names relative to this directory:
 const componentRequireContext = require.context("components", true);
 const ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
+

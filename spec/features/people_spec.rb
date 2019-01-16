@@ -155,7 +155,8 @@ describe 'GET /edit', type: :feature, js: true do
       responseobj.complete!
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
-      expect(page).to have_content('[missing "nl.pages.klaar.header" translation]')
+      expect(page)
+        .to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
       expect(page).to have_content('Gegevens opgeslagen')
       expect(page).to_not have_content('Disclaimer')
       expect(page).to_not have_content('Gegevens aanpassen')
@@ -165,7 +166,8 @@ describe 'GET /edit', type: :feature, js: true do
       responseobj.complete!
       page.fill_in('person_email', with: 'anewemail.com')
       all('button[type="submit"]').first.click
-      expect(page).to_not have_content('[missing "nl.pages.klaar.header" translation]')
+      expect(page)
+        .to_not have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
       expect(page).to_not have_content('Gegevens opgeslagen')
     end
   end

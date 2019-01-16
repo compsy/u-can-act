@@ -80,7 +80,7 @@ describe ApplicationHelper do
         Rails.application.config.settings.hide_logo = @initial_value
       end
 
-      it 'should return the black logo if no is mentor is set' do
+      it 'should return the fallback logo if no is mentor is set' do
         instance_variable_set(:@use_mentor_layout, nil)
         result = logo_image
         expected = Rails.application.config.settings.logo.fallback_logo
@@ -88,7 +88,7 @@ describe ApplicationHelper do
         expect(result).to eq(expected)
       end
 
-      it 'should return the green logo if is mentor is false' do
+      it 'should return the student logo if is mentor is false' do
         instance_variable_set(:@use_mentor_layout, false)
         result = logo_image
         expect(Rails.application.config.settings.logo.student_logo).to_not be_blank
@@ -96,7 +96,7 @@ describe ApplicationHelper do
         expect(result).to eq(expected)
       end
 
-      it 'should return the blue logo if is mentor true' do
+      it 'should return the mentor logo if is mentor true' do
         instance_variable_set(:@use_mentor_layout, true)
         result = logo_image
         expect(Rails.application.config.settings.logo.mentor_logo).to_not be_blank

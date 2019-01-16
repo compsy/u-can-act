@@ -30,9 +30,6 @@ gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-
 # Use React for the UI
 gem 'react-rails', '= 1.6.2'
 gem 'react-source'
@@ -66,10 +63,8 @@ gem 'coveralls', '>= 0.8.21', require: false
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
 
-# D3 visualization
-# Version is fixed because the radial progress plot does not yet support newer versions
+# Used to scroll to top
 gem 'animate-rails', github: 'camelmasa/animate-rails'
-gem 'd3-rails', '~> 3.5.16'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'
@@ -102,7 +97,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
-  gem 'teaspoon-jasmine'
 end
 
 group :test do
@@ -143,10 +137,6 @@ group :production, :staging do
 
   # Required by Delayed Job
   gem 'daemons'
-
-  # Gem for cheaper worker nodes on Heroku
-  # gem 'workless' # disable until this is fixed: https://github.com/lostboy/workless/issues/106#issuecomment-356636649
-  # This is quoted as a possible fix: https://github.com/lostboy/workless/pull/107
 end
 
 gem 'workless', git: 'https://github.com/patricklindsay/workless.git', branch: 'fixes'
@@ -158,7 +148,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'spring-commands-teaspoon'
   gem 'spring-watcher-listen'
 end
 
@@ -166,14 +155,15 @@ end
 gem 'silencer'
 
 # JS / CSS Frameworks
-# gem 'highcharts-rails'
 gem 'materialize-sass', '>= 1.0.0'
 gem 'modernizr-rails'
+
+gem 'webpacker', '>= 4.0.x'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
-gem 'i18n-js'
+gem 'i18n-js' # We still need this gem because it generates translations.js for us.
 gem 'rails-i18n'
 
 gem 'lograge'

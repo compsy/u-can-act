@@ -59,8 +59,10 @@ class VariableEvaluator
         mentor_title: 'begeleider',
         mentor_gender: nil,
         mentor_name: 'je begeleider',
+        mentor_last_name: '',
         organization: 'je begeleidingsinitiatief',
         student_name: 'deze student', # incl. "deze" want naam ipv titel
+        student_last_name: '',
         student_gender: nil
       }
     end
@@ -74,8 +76,12 @@ class VariableEvaluator
         'hij_zij_begeleider' => personal_pronoun(subs_hash[:mentor_gender]),
         'hem_haar_begeleider' => personal_pronoun_dativus(subs_hash[:mentor_gender]),
         'naam_begeleider' => subs_hash[:mentor_name],
+        'achternaam_begeleider' => subs_hash[:mentor_last_name],
         'je_begeleidingsinitiatief' => subs_hash[:organization],
         'deze_student' => subs_hash[:student_name],
+        'achternaam_student' => subs_hash[:student_last_name],
+        'datum_lang' => I18n.l(Date.today, format: :long),
+        'datum' => I18n.l(Date.today),
         'zijn_haar_student' => possessive_determiner(subs_hash[:student_gender]),
         'hij_zij_student' => personal_pronoun(subs_hash[:student_gender]),
         'hem_haar_student' => personal_pronoun_dativus(subs_hash[:student_gender])

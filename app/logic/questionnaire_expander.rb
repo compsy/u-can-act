@@ -15,7 +15,7 @@ class QuestionnaireExpander
     private
 
     def process_foreach?(content)
-      content[:foreach].present?
+      content[:foreach].present? && response.present?
     end
 
     def process_uses?(content)

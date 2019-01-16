@@ -1,0 +1,15 @@
+# Beware! This file is public by definition
+default: &default
+  logo:
+    mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'
+    student_logo: 'U_can_act_logo_CMYK_GROEN.png'
+    fallback_logo: 'U_can_act_logo_ZWART.png'
+    company_logo: 'rug_logo.png'
+development:
+  <<: *default
+production:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default

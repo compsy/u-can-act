@@ -1,16 +1,16 @@
 # Beware! This file is public by definition
 default: &default
-  application_name: 'Differentiatie Binnenstebuiten'
-  default_team_name: 'Differentiatie Binnenstebuiten'
-  hide_edit_iban: true
-  show_mobile_images: false
+  application_name: <%=ENV['PROJECT_NAME']%>
+  default_team_name: 'Controlegroep'
+  hide_edit_iban: false
+  show_mobile_images: true
   feature_toggles:
-    allow_identifier_export: true
+    allow_identifier_export: false
   logo:
-    favicon: 'projects/Differentiatie Binnenstebuiten/favicon.ico'
-    mentor_logo: 'rug_logo.png'
-    student_logo: 'rug_logo.png'
-    fallback_logo: 'rug_logo.png'
+    favicon: null
+    mentor_logo: null
+    student_logo: null
+    fallback_logo: null
     company_logo: null
 development:
   <<: *default

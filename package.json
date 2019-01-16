@@ -1,0 +1,52 @@
+{
+  "dependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-react": "^7.0.0",
+    "@rails/webpacker": "https://github.com/rails/webpacker",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-polyfill": "^6.26.0",
+    "d3": "^5.7.0",
+    "dotenv": "^6.1.0",
+    "jquery-ujs": "^1.2.2",
+    "materialize": "^1.0.0",
+    "materialize-css": "^1.0.0",
+    "prop-types": "^15.6.2",
+    "radial-progress-chart": "^0.0.4",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react_ujs": "^2.4.4",
+    "typescript": "^3.2.2",
+    "webpack": "^4.20.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "jest": "^23.6.0",
+    "webpack-dev-server": "^3.1.9"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "roots": [
+      "spec/javascript/components"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript/components",
+      "public/javascripts"
+    ],
+    "transform": {
+      "^.+\\.jsx$": "babel-jest",
+      "^.+\\.js$": "babel-jest"
+    },
+    "setupTestFrameworkScriptFile": "./spec/javascript/setupTests.js"
+  }
+}

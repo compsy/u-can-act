@@ -1,0 +1,70 @@
+export default class Auth {
+  constructor() {
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+    this.handleAuthentication = this.handleAuthentication.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
+
+    // Copy the correct auth0 env vars here.
+    this.auth0 = new auth0.WebAuth({
+      domain: process.env.AUTH0_DOMAIN,
+      clientID: process.env.AUTH0_CLIENT_ID,
+      redirectUri: process.env.AUTH0_REDIRECT_URL,
+      audience: process.env.AUTH0_AUDIENCE,
+      responseType: 'token id_token',
+      scope: 'openid'
+    });
+    this.history = History.createBrowserHistory();
+  }
+
+
+  login() {
+    this.auth0.authorize();
+  }
+
+  handleAuthentication() {
+    this.auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        this.setSession(authResult);
+      } else if (err) {
+        console.log(err);
+      }
+
+      // navigate back to the admin route
+      this.history.replace('/admin');
+      location.reload();
+    });
+  }
+
+  setSession(authResult) {
+    // Set the time that the access token will expire at
+    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
+
+  }
+
+  logout() {
+    // Clear access token and ID token from local storage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+
+    // navigate back to the admin route
+    this.history.replace('/admin');
+    location.reload();
+  }
+
+  isAuthenticated() {
+    // Check whether the current time is past the 
+    // access token's expiry time
+    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+
+    let dateValid = new Date().getTime() < expiresAt;
+    let idTokenValid = (localStorage.getItem("id_token") !== null);
+    let accessTokenValid = (localStorage.getItem("access_token") !== null);
+
+    return dateValid && idTokenValid && accessTokenValid;
+  }
+}

@@ -5,12 +5,15 @@ AllCops:
   Exclude:
     - 'config/**/*'
     - 'db/**/*'
+    - 'node_modules/**/*'
+    - 'projects/*/seeds/**/*'
     - 'script/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
     - 'spec/questionnaires/*.rb'
     - 'Guardfile'
     - 'bin/*'
+    - 'node_modules/**/*'
 
 # Use UTF-8 as the source file encoding.
 Encoding:

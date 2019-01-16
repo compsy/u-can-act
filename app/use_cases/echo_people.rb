@@ -44,16 +44,16 @@ class EchoPeople < ActiveInteraction::Base
     # Student format:
     # type;team_name;role_title;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;end_date
     {
-      team_name:         row[1],
-      role_title:        row[2],
-      first_name:        row[3],
-      last_name:         row[4],
-      gender:            row[5],
-      mobile_phone:      row[6],
-      email:             row[7],
-      protocol_name:     row[8],
-      start_date:        row[9],
-      end_date:          row[10]
+      team_name: row[1],
+      role_title: row[2],
+      first_name: row[3],
+      last_name: row[4],
+      gender: row[5],
+      mobile_phone: row[6],
+      email: row[7],
+      protocol_name: row[8],
+      start_date: row[9],
+      end_date: row[10]
     }
   end
 
@@ -62,18 +62,18 @@ class EchoPeople < ActiveInteraction::Base
     # type;team_name;role_title;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;
     # filling_out_for;filling_out_for_protocol;end_date
     {
-      team_name:                row[1],
-      role_title:               row[2],
-      first_name:               row[3],
-      last_name:                row[4],
-      gender:                   row[5],
-      mobile_phone:             row[6],
-      email:                    row[7],
-      protocol_name:            row[8],
-      start_date:               row[9],
-      filling_out_for:          row[10],
+      team_name: row[1],
+      role_title: row[2],
+      first_name: row[3],
+      last_name: row[4],
+      gender: row[5],
+      mobile_phone: row[6],
+      email: row[7],
+      protocol_name: row[8],
+      start_date: row[9],
+      filling_out_for: row[10],
       filling_out_for_protocol: row[11],
-      end_date:                 row[12]
+      end_date: row[12]
     }
   end
 end

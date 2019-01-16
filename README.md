@@ -73,21 +73,21 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 ```
 
 ### Organization-specific settings
-Organization specific settings can be found in `config/settings.yml`. One of the variables defined here is `application_name`, which is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `config/organization/my_organization/` are used if `application_name` is `my_organization`).
+Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
 
-The file structure of the `my_organization` directory should be as follows:
+The file structure of the `my_organization` directory in the `projects` directory should be as follows:
 
 ```
 |
-|- settings.yml
-|- locales/
+|- config/
+   |- settings.yml
+   |- locales/
+|- seeds/
 |- asssets/
 ```
-Support for organization-specific `settings.yml` and `assets/` will be added soon.
 
-In `settings.yml`, the following settings are required:
+In the project specific `settings.yml`, the following settings are required:
 ```yaml
-application_name:   <Name of the application>
 default_team_name:  <Name of the default team>
 project_start_date: <Date that the project started in the format yyyy-mm-dd, e.g., '2017-10-01'>
 project_end_date:   <Date that the project ended in the format yyyy-mm-dd, e.g., '2018-08-06'>

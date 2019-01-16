@@ -138,6 +138,11 @@ Daily (e.g., at 3:30am), the following rake task should run:
 rake scheduler:rescheduling
 ```
 
+Daily (e.g., at 4am), the following rake task should run:
+```
+rake scheduler:generate_questionnaire_headers
+```
+
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 

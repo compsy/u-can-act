@@ -9,6 +9,7 @@ class Questionnaire < ApplicationRecord
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
                                         foreign_key: 'informed_consent_questionnaire_id'
+  has_many :responses, through: :measurements
 
   scope :pilot, (lambda {
     where('name = :name1 OR name = :name2 OR name = :name3 OR name = :name4 OR ' \

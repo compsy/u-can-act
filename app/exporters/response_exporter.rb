@@ -26,12 +26,12 @@ class ResponseExporter
       RedisCachedCall.cache("#{QUESTIONNAIRE_HEADERS_KEY}_#{questionnaire.key}", bust_cache) do
         headers = {}
         silence_logger do
-          filled_out_questionnaire_responses(questionnaire).find_each do |response|
+          questionnaire.responses.completed(questionnaire).find_each do |response|
             next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
 
             # Response has a .values function, which we are using here (i.e., it is not a hash from which we get the
             # values)
-            response.values.each do |key, _value|
+            response.values&.each do |key, _value|
               headers[key] = ''
             end
           end
@@ -41,12 +41,6 @@ class ResponseExporter
     end
 
     private
-
-    def filled_out_questionnaire_responses(questionnaire)
-      Response.includes(:measurement)
-              .where(measurements: { questionnaire_id: questionnaire.id })
-              .where.not(content: nil)
-    end
 
     def export(questionnaire, headers, &_block)
       silence_logger do

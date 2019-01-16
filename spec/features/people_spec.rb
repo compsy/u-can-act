@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 describe 'GET /edit', type: :feature, js: true do
-  let(:person_header) { 'translation missing: nl.pages.person.header' }
+  let(:person_header) { 'Accountgegevens bewerken' }
+  let(:person_body) { 'Pas hier uw persoonsgegevens aan' }
   describe 'Mentor' do
     let!(:mentor) { FactoryBot.create(:mentor, gender: 'female') }
 
@@ -116,8 +117,8 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should list the correct labels / fields' do
       visit edit_person_path
       expect(page).to_not have_content('Bankgegevens')
-      expect(page).to have_content('translation missing: nl.pages.person.header')
-      expect(page).to have_content('translation missing: nl.pages.person.body')
+      expect(page).to have_content(person_header)
+      expect(page).to have_content(person_body)
       expect(page).not_to have_content('Voornaam')
       expect(page).not_to have_content('Achternaam')
       expect(page).not_to have_content('Geslacht')
@@ -156,7 +157,7 @@ describe 'GET /edit', type: :feature, js: true do
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
       expect(page)
-        .to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
+        .to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.')
       expect(page).to have_content('Gegevens opgeslagen')
       expect(page).to_not have_content('Disclaimer')
       expect(page).to_not have_content('Gegevens aanpassen')
@@ -167,7 +168,7 @@ describe 'GET /edit', type: :feature, js: true do
       page.fill_in('person_email', with: 'anewemail.com')
       all('button[type="submit"]').first.click
       expect(page)
-        .to_not have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
+        .to_not have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.')
       expect(page).to_not have_content('Gegevens opgeslagen')
     end
   end

@@ -40,9 +40,9 @@ describe 'rake maintenance:fix_responses', type: :task do
 end
 
 describe 'rake maintenance:scramble', type: :task do
-  let(:persons) { FactoryBot.create_list(:person, 10) }
-  let(:students) { FactoryBot.create_list(:student, 10) }
-  let(:mentors) { FactoryBot.create_list(:mentor, 10) }
+  let!(:persons) { FactoryBot.create_list(:person, 10) }
+  let!(:students) { FactoryBot.create_list(:student, 10) }
+  let!(:mentors) { FactoryBot.create_list(:mentor, 10) }
 
   it 'should preload the Rails environment' do
     expect(task.prerequisites).to include 'environment'
@@ -56,8 +56,8 @@ describe 'rake maintenance:scramble', type: :task do
   end
 
   describe 'should scramble' do
-    let(:ids) { Person.all.map(&:id) }
-    let(:pre_people) { Person.all.map(&:dup) }
+    let!(:ids) { Person.all.map(&:id) }
+    let!(:pre_people) { Person.all.map(&:dup) }
     it 'names' do
       task.execute
       pre_people.each_with_index do |person, idx|

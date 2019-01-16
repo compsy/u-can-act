@@ -17,6 +17,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react_ujs": "^2.4.4",
+    "typescript": "^3.2.2",
     "webpack": "^4.20.2"
   },
   "devDependencies": {

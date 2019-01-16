@@ -13,6 +13,9 @@
     },
     "FROM_EMAIL_ADDRESS": {
       "required": true
+    },
+    "PROJECT_NAME": {
+      "required": true
     }
   },
   "formation": {

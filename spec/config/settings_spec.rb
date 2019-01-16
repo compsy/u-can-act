@@ -16,21 +16,28 @@ describe Rails do
 
       expect(Rails.application.config.settings.logo.mentor_logo).to_not be_blank
       expect(Rails.application.config.settings.logo.mentor_logo)
-        .to eq settings[Rails.env]['logo']['mentor_logo']
+        .to eq 'logo_mentor.png'
 
       expect(Rails.application.config.settings.logo.student_logo).to_not be_blank
       expect(Rails.application.config.settings.logo.student_logo)
-        .to eq settings[Rails.env]['logo']['student_logo']
+        .to eq 'logo_student.png'
 
       expect(Rails.application.config.settings.logo.fallback_logo).to_not be_blank
       expect(Rails.application.config.settings.logo.fallback_logo)
-        .to eq settings[Rails.env]['logo']['fallback_logo']
+        .to eq 'logo.png'
     end
 
-    it 'should have application-name settings' do
+    it 'should have application-name settings when the ENV defines this' do
       expect(Rails.application.config.settings.application_name).to_not be_blank
       expect(Rails.application.config.settings.application_name)
-        .to eq settings[Rails.env]['application_name']
+        .to eq ENV['PROJECT_NAME']
+    end
+
+    it 'should merge the settings from the project specific settings' do
+      expect(ENV['PROJECT_NAME']).to eq 'demo'
+      expect(Rails.application.config.settings.test_setting).to_not be_blank
+      expect(Rails.application.config.settings.test_setting)
+        .to eq 'test123'
     end
   end
 end

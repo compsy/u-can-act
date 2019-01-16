@@ -73,21 +73,21 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 ```
 
 ### Organization-specific settings
-Organization specific settings can be found in `config/settings.yml`. One of the variables defined here is `application_name`, which is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `config/organization/my_organization/` are used if `application_name` is `my_organization`).
+Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
 
-The file structure of the `my_organization` directory should be as follows:
+The file structure of the `my_organization` directory in the `projects` directory should be as follows:
 
 ```
 |
-|- settings.yml
-|- locales/
+|- config/
+   |- settings.yml
+   |- locales/
+|- seeds/
 |- asssets/
 ```
-Support for organization-specific `settings.yml` and `assets/` will be added soon.
 
-In `settings.yml`, the following settings are required:
+In the project specific `settings.yml`, the following settings are required:
 ```yaml
-application_name:   <Name of the application>
 default_team_name:  <Name of the default team>
 project_start_date: <Date that the project started in the format yyyy-mm-dd, e.g., '2017-10-01'>
 project_end_date:   <Date that the project ended in the format yyyy-mm-dd, e.g., '2018-08-06'>
@@ -163,7 +163,7 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 ### The Mentor CSV)
 For the Mentor data this should be:
 
-| type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | | end_date |
+| type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | end_date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
@@ -358,6 +358,29 @@ The options array can contain either hashes or strings. If it is just a string, 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
 Radios are always required.
+
+### Type: Likert
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :likert,
+  title: 'Wat vind u van deze stelling?',
+  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens']
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  id: :v2,
+  type: :likert,
+  title: 'Wat vind u van deze stelling?',
+  tooltip: 'some tooltip',
+  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens'],
+  section_end: true
+}]
+```
+
+The options array can currently only contain strings. The strings in the array are used as answer options. Likert questions are always required.
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):

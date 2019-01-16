@@ -14,6 +14,21 @@ describe QuestionnaireExpander do
       expect(result).to eq [mockresult]
     end
 
+    it 'should not give an error if the response is nil' do
+      # the nil response is used in the admin preview
+      content = { id: :v2,
+                  type: :checkbox,
+                  title: 'Wat heeft u vandaag gegeten?',
+                  foreach: :student,
+                  options: [
+                    { title: 'brood', tooltip: 'Bijvoorbeeld met hagelslag' },
+                    { title: 'kaas en ham' },
+                    { title: 'pizza' }
+                  ] }
+      result = described_class.expand_content(content, nil)
+      expect(result).to eq [content]
+    end
+
     it 'should call the variable substitutor for a regular question and return an array' do
       content = { id: :v2,
                   type: :checkbox,

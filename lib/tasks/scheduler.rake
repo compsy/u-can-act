@@ -44,4 +44,11 @@ namespace :scheduler do
     ReschedulingJob.perform_later
     puts 'Rescheduling - done'
   end
+
+  desc 'Regenerate questionnaire headers'
+  task generate_questionnaire_headers: :environment do
+    puts 'Generating questionnaire headers - started'
+    QuestionnaireHeadersJob.perform_later
+    puts 'Generating questionnaire headers - done'
+  end
 end

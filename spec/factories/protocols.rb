@@ -8,7 +8,6 @@ FactoryBot.define do
     trait :with_informed_consent_questionnaire do
       association :informed_consent_questionnaire,
                   factory: :questionnaire,
-                  name: 'Informed Consent',
                   title: 'Informed Consent',
                   content: [{
                     type: :raw,

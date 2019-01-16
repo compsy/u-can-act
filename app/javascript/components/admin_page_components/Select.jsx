@@ -1,4 +1,5 @@
 import React from 'react'
+
 export default class Select extends React.Component {
   constructor(props) {
     super(props);
@@ -9,22 +10,22 @@ export default class Select extends React.Component {
     let selectorOptions = items.map((option) => {
       return (
         <option key={option}>{option}</option>
-      )
-    })
-    selectorOptions.unshift(<option key="def" value="def" disabled>Selecteer</option>)
+      );
+    });
+    selectorOptions.unshift(<option key="def" value="def" disabled>Selecteer</option>);
 
-    return (selectorOptions)
+    return (selectorOptions);
   }
 
   uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
 
   redraw() {
-    var select = $('#' + this._uuid);
+    const select = $('#' + this._uuid);
     select.formSelect().change(this._onChange.bind(this));
   }
 
@@ -45,7 +46,7 @@ export default class Select extends React.Component {
   }
 
   render() {
-    var options = this.generateSelectOptions(this.props.options);
+    const options = this.generateSelectOptions(this.props.options);
     return(
       <div className="input-field">
         <select id={this._uuid} defaultValue={this.props.value} >
@@ -53,6 +54,6 @@ export default class Select extends React.Component {
         </select>
         <label>{this.props.label}</label>
       </div>
-    )
+    );
   }
 }

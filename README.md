@@ -59,8 +59,6 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   AUTH0_AUDIENCE: <The auth0 audience>
   AUTH0_SIGNING_CERTIFICATE: <the BASE64 encoded certificate>
 
-  PROJECT_START_DATE: <the start date of the project, in the forat yyyy-mm-dd>
-
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>
   REDIS_PASSWORD: <the password of the redis host>
@@ -76,6 +74,30 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
 ### Organization-specific settings
 Organization specific settings can be found in `config/settings.yml`. One of the variables defined here is `application_name`, which is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `config/organization/my_organization/` are used if `application_name` is `my_organization`).
+
+The file structure of the `my_organization` directory should be as follows:
+
+```
+|
+|- settings.yml
+|- locales/
+|- asssets/
+```
+Support for organization-specific `settings.yml` and `assets/` will be added soon.
+
+In `settings.yml`, the following settings are required:
+```yaml
+application_name:   <Name of the application>
+default_team_name:  <Name of the default team>
+project_start_date: <Date that the project started in the format yyyy-mm-dd, e.g., '2017-10-01'>
+project_end_date:   <Date that the project ended in the format yyyy-mm-dd, e.g., '2018-08-06'>
+logo:
+  mentor_logo: <Filename of the mentor logo, e.g., 'mentor_logo.png'>
+  student_logo: <Filename of the student logo, e.g., 'student_logo.png'>
+  fallback_logo: <Default logo when there is no student or mentor, e.g., 'logo.png'>
+  company_logo: <OPTIONAL. Filename of a company logo. If missing, the header uses only one logo>
+```
+The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
 
 ### Development configuration
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:
@@ -114,6 +136,11 @@ rake scheduler:monitoring
 Daily (e.g., at 3:30am), the following rake task should run:
 ```
 rake scheduler:rescheduling
+```
+
+Daily (e.g., at 4am), the following rake task should run:
+```
+rake scheduler:generate_questionnaire_headers
 ```
 
 
@@ -223,7 +250,7 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 
 
 ## Questionnaire Syntax
-The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`.
+The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`.
 
 
 For all questions, it is allowed to use HTML tags in the texts. Also, you may use any of the special variables defined in the previous section.

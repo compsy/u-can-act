@@ -10,11 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
 //= require modernizr
-//= require materialize
-//= require d3
 //= require history
 //= require auth0
 //= require highcharts
@@ -24,10 +20,7 @@
 //= require highcharts/modules/data
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
-//= require radial-progess-chart
 //= require study_progress_bar
-//= require i18n/translations
-//= require i18n_initializer
 //= require_tree .
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})

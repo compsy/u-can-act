@@ -63,6 +63,20 @@ describe Questionnaire do
     end
   end
 
+  describe 'responses' do
+    it 'should count all the responses that it is used for' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      measurement1 = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      measurement2 = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      measurement3 = FactoryBot.create(:measurement)
+      FactoryBot.create_list(:response, 5, measurement: measurement1)
+      FactoryBot.create_list(:response, 7, :completed, measurement: measurement2)
+      FactoryBot.create_list(:response, 27, measurement: measurement3)
+      expect(questionnaire.responses.count).to eq 12
+      expect(questionnaire.responses.completed.count).to eq 7
+    end
+  end
+
   describe 'name' do
     it 'should not allow two questionnaires with the same name' do
       questionnaireone = FactoryBot.create(:questionnaire, name: 'myquestionnaire')

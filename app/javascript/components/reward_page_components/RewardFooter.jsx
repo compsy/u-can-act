@@ -8,6 +8,6 @@ export default class RewardFooter extends React.Component {
         <li><a href='/disclaimer'>Disclaimer</a></li>
         <li><EditPersonLink person={this.props.person}/></li>
       </ul>
-    )
+    );
   }
 }

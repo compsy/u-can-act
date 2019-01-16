@@ -19,6 +19,6 @@ export default class MentorRewardPage extends React.Component {
         </div>
         <RewardFooter person={this.props.person}/>
       </div>
-    )
+    );
   }
 }

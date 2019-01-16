@@ -1,5 +1,7 @@
 import React from 'react'
 import Pyro from './Pyro'
+import printAsMoney from '../printAsMoney'
+import RadialProgressChart from 'radial-progress-chart'
 
 export default class ProgressBar extends React.Component {
 
@@ -41,7 +43,7 @@ export default class ProgressBar extends React.Component {
       return initialValue;
     }
 
-    var multiplier = (delta / currentMultiplier) * initialMultiplier;
+    const multiplier = (delta / currentMultiplier) * initialMultiplier;
     return initialValue - delta + multiplier;
   }
 
@@ -49,12 +51,12 @@ export default class ProgressBar extends React.Component {
     this.setState({
       radial: this.renderGraph(this.props.valueEuro, this.props.percentageStreak),
       showStreakDetails: this.props.inMaxStreak,
-    })
+    });
     clearInterval(this.state.timer);
   }
 
   renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
-    var radial;
+    let radial;
     if (this.state.radial) {
       radial = this.state.radial;
       radial.update({
@@ -82,17 +84,17 @@ export default class ProgressBar extends React.Component {
           content: ['Je hebt nu',
             function(value, _unused, series) {
               // Only update the label when the euro value is being displayed
-              if (series.index == 1) {
-                return printAsMoney(value)
+              if (series.index === 1) {
+                return printAsMoney(value);
               }
-              return printAsMoney(valueEuro)
+              return printAsMoney(valueEuro);
             }, 'je kunt nog ' + printAsMoney(awardable) + ' verdienen!'
           ],
           y: -50
         }
       });
     }
-    return (radial)
+    return (radial);
   }
 
   createStreakText() {
@@ -103,7 +105,7 @@ export default class ProgressBar extends React.Component {
       let text = "Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ";
       text += printAsMoney(currentBonus);
       text += " extra verdiend!";
-      return (<div className="animated pulse"> {text} </div>)
+      return (<div className="animated pulse"> {text} </div>);
     }
   }
 
@@ -118,7 +120,7 @@ export default class ProgressBar extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

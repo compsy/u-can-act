@@ -33,19 +33,27 @@ $(function() {
   });
 
   // Enable datepickers
-  $('.datepicker').datepicker({
-    minDate: $(this).data('min'),
-    maxDate: $(this).data('max'),
-    format: 'yyyy-mm-dd',
-    i18n: {
-      months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-      monthsShort: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
-      weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-      weekdaysShort: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
-      weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
-      clear: 'Wissen',
-      cancel: 'Annuleren',
-      close: 'Ok'
-    }
+  $('.datepicker').each(function() {
+    var self = this;
+    var default_date = null;
+    if ($(self).data('default-date'))
+      default_date = new Date(Date.parse($(self).data('default-date')));
+    $(self).datepicker({
+      minDate: $(self).data('min'),
+      maxDate: $(self).data('max'),
+      defaultDate: default_date,                         // This is so we can set a default date already filled out,
+      setDefaultDate: $(self).data('set-default-date'),  // allowing the user to skip the input
+      format: 'yyyy-mm-dd',
+      i18n: {
+        months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+        monthsShort: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+        weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+        weekdaysShort: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+        weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
+        clear: 'Wissen',
+        cancel: 'Annuleren',
+        close: 'Ok'
+      }
+    });
   });
 });

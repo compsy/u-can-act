@@ -19,6 +19,7 @@ module Vsv
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :nl
+    config.i18n.available_locales = [:nl, :en]
 
     config.autoload_paths += %W(#{config.root}/app/validators)
     config.autoload_paths += %W(#{config.root}/app/background_tasks)

@@ -13,6 +13,7 @@ AllCops:
     - 'spec/questionnaires/*.rb'
     - 'Guardfile'
     - 'bin/*'
+    - 'node_modules/**/*'
 
 # Use UTF-8 as the source file encoding.
 Encoding:

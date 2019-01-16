@@ -18,7 +18,7 @@ export default class StudentInProgressRewardPage extends React.Component {
   findCurrentStreak(protocolCompletion, maxStreak) {
     // Find the last non future index.
     // Note that findIndex could return -1 if the value is not found.
-    var percentageStreakIdx = protocolCompletion.findIndex(elem => (elem.future));
+    let percentageStreakIdx = protocolCompletion.findIndex(elem => (elem.future));
     percentageStreakIdx = percentageStreakIdx === -1 ? protocolCompletion.length : percentageStreakIdx;
     percentageStreakIdx -= 1;
 
@@ -38,14 +38,14 @@ export default class StudentInProgressRewardPage extends React.Component {
         <h4>Bedankt voor het invullen van de vragenlijst!</h4>
         <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
         <div className='section'>
-          <ProgressBar  inMaxStreak={this.inMaxStreak}
-                        euroDelta={this.props.euroDelta}
-                        valueEuro={this.props.earnedEuros}
-                        currentMultiplier={this.props.currentMultiplier}
-                        initialMultiplier={this.props.initialMultiplier}
-                        percentageStreak={this.percentageStreak}
-                        awardableEuro={this.props.awardable}
-                        totalAvailable={this.totalAvailable}/>
+          <ProgressBar inMaxStreak={this.inMaxStreak}
+                       euroDelta={this.props.euroDelta}
+                       valueEuro={this.props.earnedEuros}
+                       currentMultiplier={this.props.currentMultiplier}
+                       initialMultiplier={this.props.initialMultiplier}
+                       percentageStreak={this.percentageStreak}
+                       awardableEuro={this.props.awardable}
+                       totalAvailable={this.totalAvailable}/>
         </div>
         <RewardFooter person={this.props.person}/>
       </div>

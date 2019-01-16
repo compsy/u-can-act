@@ -1,4 +1,7 @@
-class DefaultRewardPage extends React.Component {
+import React from 'react';
+import I18n from 'i18n';
+
+export default class DefaultRewardPage extends React.Component {
   render() {
     return (
       <div className='section'>
@@ -6,6 +9,6 @@ class DefaultRewardPage extends React.Component {
           {I18n.t('pages.klaar.header')}
         </p>
       </div>
-    )
+    );
   }
 }

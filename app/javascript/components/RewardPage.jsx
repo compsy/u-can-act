@@ -1,8 +1,8 @@
-import React from 'react'
-import MentorRewardPage from './reward_page_components/MentorRewardPage'
-import SoloRewardPage from './reward_page_components/SoloRewardPage'
-import StudentFinalRewardPage from './reward_page_components/StudentFinalRewardPage'
-import StudentInProgressRewardPage from './reward_page_components/StudentInProgressRewardPage'
+import React from 'react';
+import MentorRewardPage from './reward_page_components/MentorRewardPage';
+import DefaultRewardPage from './reward_page_components/DefaultRewardPage';
+import StudentFinalRewardPage from './reward_page_components/StudentFinalRewardPage';
+import StudentInProgressRewardPage from './reward_page_components/StudentInProgressRewardPage';
 
 export default class RewardPage extends React.Component {
   constructor(props) {

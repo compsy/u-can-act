@@ -94,28 +94,29 @@ export default class ProgressBar extends React.Component {
         }
       });
     }
-    return (radial);
+    return radial;
   }
 
   createStreakText() {
     if (this.state.showStreakDetails && this.props.currentMultiplier > 1) {
-      let value = (this.props.euroDelta / this.props.currentMultiplier);
+      let value = this.props.euroDelta / this.props.currentMultiplier;
       let defaultValue = value * this.props.initialMultiplier;
       let currentBonus = this.props.euroDelta - defaultValue;
-      let text = "Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ";
-      text += printAsMoney(currentBonus);
-      text += " extra verdiend!";
-      return (<div className="animated pulse"> {text} </div>);
+      let text = 'Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ';
+      text = `${text} ${printAsMoney(currentBonus)}`;
+      text = `${text} extra verdiend!`;
+      return <div className='animated pulse'> {text} </div>;
     }
+    return <div />;
   }
 
   render() {
     return (
       <div>
-        {this.state.showStreakDetails ? <Pyro /> : <div/>}
+        {this.state.showStreakDetails ? <Pyro /> : <div />}
         <div className='row'>
           <div className='col l6 push-l3 m8 push-m2 s12'>
-            <div className="progressRadial" />
+            <div className='progressRadial' />
             {this.createStreakText()}
           </div>
         </div>

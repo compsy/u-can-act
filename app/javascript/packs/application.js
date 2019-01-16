@@ -19,7 +19,7 @@ import {} from 'jquery-ujs'
 require('materialize-css');
 
 // I18n stuff
-import I18n from 'i18n'
+import I18n from 'i18n';
 I18n.defaultLocale = 'nl'; // TODO: should be: I18n.defaultLocale = "<%= I18n.default_locale %>";
 I18n.locale = 'nl'; // TODO: should be: I18n.locale = "<%= I18n.locale %>";
 require('translations');

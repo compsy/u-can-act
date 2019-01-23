@@ -1,5 +1,5 @@
-import React from 'react'
-import printAsMoney from '../printAsMoney'
+import React from 'react';
+import printAsMoney from '../printAsMoney';
 
 // NOTE: This class is not used anywhere in the code right now.
 export default class ProgressText extends React.Component {
@@ -7,7 +7,7 @@ export default class ProgressText extends React.Component {
   calculateProgess(protocolCompletion) {
     let completion = protocolCompletion.reduce((sum, value) => {
       return sum += value.future ? 0 : 1;
-    },0);
+    }, 0);
     return Math.round((completion / protocolCompletion.length) * 100);
   }
 

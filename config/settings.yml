@@ -4,6 +4,7 @@ default: &default
   default_team_name: 'Controlegroep'
   hide_edit_iban: false
   show_mobile_images: true
+  hide_logo: false
   feature_toggles:
     allow_identifier_export: false
   logo:

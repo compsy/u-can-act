@@ -1,5 +1,5 @@
-import React from 'react'
-import StatisticsEntry from './StatisticsEntry'
+import React from 'react';
+import StatisticsEntry from './StatisticsEntry';
 
 export default class Statistics extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class Statistics extends React.Component {
   }
 
   setHeader(xhr) {
-    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('id_token'));
+    xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
   }
 
   updateStatistics() {
@@ -25,7 +25,7 @@ export default class Statistics extends React.Component {
       url: url,
       type: 'GET',
       dataType: 'json',
-      error: function () {
+      error: (_err) => {
         console.log('Error, call failed!');
       },
       beforeSend: self.setHeader
@@ -42,24 +42,24 @@ export default class Statistics extends React.Component {
 
   render() {
     if (!this.state.result) {
-      return (<div>
-        <div className="progress">
-          <div className="indeterminate"></div>
+      return <div>
+        <div className='progress'>
+          <div className='indeterminate' />
         </div>
-      </div>);
+      </div>;
     }
 
     return (
       <div className='general-statistics'>
         <h4>General statistics</h4>
         <StatisticsEntry icon='school' title='Students' value={this.state.result.number_of_students}
-                         subtext='At-risk and control'/>
+          subtext='At-risk and control' />
         <StatisticsEntry icon='people' title='Mentors' value={this.state.result.number_of_mentors}
-                         subtext='Across all agencies'/>
+          subtext='Across all agencies' />
         <StatisticsEntry icon='timelapse' title='Timeline' value={this.state.result.duration_of_project_in_weeks}
-                         subtext='Weeks'/>
+          subtext='Weeks' />
         <StatisticsEntry icon='assignment' title='Questionnaires'
-                         value={this.state.result.number_of_completed_questionnaires} subtext='Completed'/>
+          value={this.state.result.number_of_completed_questionnaires} subtext='Completed' />
       </div>
     );
   }

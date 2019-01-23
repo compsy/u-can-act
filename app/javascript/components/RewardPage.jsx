@@ -40,7 +40,7 @@ export default class RewardPage extends React.Component {
     const self = this;
 
     // Only update if the subscription id has changed
-    let url = '/api/v1/protocol_subscriptions/' + protocolSubscriptionId;
+    let url = `/api/v1/protocol_subscriptions/${protocolSubscriptionId}`;
     $.getJSON(url, (response) => {
       self.setState({
         result: response
@@ -64,7 +64,7 @@ export default class RewardPage extends React.Component {
 
   renderStudentRewardPage() {
     let earnedEuros = this.state.result.earned_euros;
-    let name = this.state.person.first_name + ' ' + this.state.person.last_name;
+    let name = `${this.state.person.first_name} ${this.state.person.last_name}`;
     if (this.isDone()) {
       return <StudentFinalRewardPage earnedEuros={earnedEuros}
         iban={this.state.person.iban}
@@ -104,13 +104,13 @@ export default class RewardPage extends React.Component {
 
   render() {
     if (!this.state.result || !this.state.person) {
-      return (<div>Bezig...</div>);
+      return <div>Bezig...</div>;
     }
 
     return (
-      <div className="col s12">
-        <div className="row">
-          <div className="col s12">
+      <div className='col s12'>
+        <div className='row'>
+          <div className='col s12'>
             {this.getCorrectResultPage()}
           </div>
         </div>

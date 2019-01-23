@@ -16,7 +16,8 @@ export default class ProgressBar extends React.Component {
   }
 
   componentDidMount() {
-    let timer = setInterval(this.performTimerEvent.bind(this), 1500);
+    const delay = 1500
+    let timer = setInterval(this.performTimerEvent.bind(this), delay);
     let radial = this.renderGraph(
       this.calculateInitialValue(this.props.valueEuro,
         this.props.euroDelta,
@@ -38,7 +39,8 @@ export default class ProgressBar extends React.Component {
   }
 
   calculateInitialValue(initialValue, delta, initialMultiplier, currentMultiplier) {
-    if (currentMultiplier <= 0) {
+    const nothing = 0;
+    if (currentMultiplier <= nothing) {
       return initialValue;
     }
 
@@ -55,36 +57,40 @@ export default class ProgressBar extends React.Component {
   }
 
   renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
-    let radial;
+    let radial = {};
+    const firstElement = 1;
     if (this.state.radial) {
       radial = this.state.radial;
       radial.update({
-        series: [{
-          value: percentageStreak
-        }, {
-          value: valueEuro
-        }]
+        series: [
+          {
+            value: percentageStreak
+          }, {
+            value: valueEuro
+          }
+        ]
       });
     } else {
       radial = new RadialProgressChart('.progressRadial', {
         diameter: 250,
         max: totalAvailable,
         round: true,
-        series: [{
+        series: [ {
           labelStart: '\u2605',
           value: percentageStreak,
           color: this.totalAvailableColor
         }, {
           labelStart: '\u2714',
-          //labelStart: '€',
+
+          // labelStart: '€',
           value: valueEuro,
           color: this.valueEuroColor
-        }],
+        } ],
         center: {
-          content: ['Je hebt nu',
+          content: [ 'Je hebt nu',
             (value, _unused, series) => {
               // Only update the label when the euro value is being displayed
-              if (series.index === 1) {
+              if (series.index === firstElement) {
                 return printAsMoney(value);
               }
               return printAsMoney(valueEuro);
@@ -98,7 +104,8 @@ export default class ProgressBar extends React.Component {
   }
 
   createStreakText() {
-    if (this.state.showStreakDetails && this.props.currentMultiplier > 1) {
+    const minimalNumberOfMultipliers = 1;
+    if (this.state.showStreakDetails && this.props.currentMultiplier > minimalNumberOfMultipliers) {
       let value = this.props.euroDelta / this.props.currentMultiplier;
       let defaultValue = value * this.props.initialMultiplier;
       let currentBonus = this.props.euroDelta - defaultValue;

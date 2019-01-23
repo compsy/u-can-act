@@ -42,7 +42,6 @@ export default class Auth {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-
   }
 
   logout() {
@@ -57,13 +56,13 @@ export default class Auth {
   }
 
   isAuthenticated() {
-    // Check whether the current time is past the 
+    // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
 
     let dateValid = new Date().getTime() < expiresAt;
-    let idTokenValid = (localStorage.getItem("id_token") !== null);
-    let accessTokenValid = (localStorage.getItem("access_token") !== null);
+    let idTokenValid = (localStorage.getItem('id_token') !== null);
+    let accessTokenValid = (localStorage.getItem('access_token') !== null);
 
     return dateValid && idTokenValid && accessTokenValid;
   }

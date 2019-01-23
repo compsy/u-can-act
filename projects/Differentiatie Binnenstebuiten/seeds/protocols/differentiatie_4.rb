@@ -42,9 +42,9 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text)
   reminder_delays << 1.hours + 50.minutes # Wednesdays at 17:00
   open_durations <<  7.hours + 50.minutes
 
-  offsets << 3.days + 9.hours + 40.minutes # Thursdays at 9:40
-  reminder_delays << 7.hours + 20.minutes # Thursdays at 17:00
-  open_durations <<  13.hours + 20.minutes
+  offsets << 3.days + 11.hours + 40.minutes # Thursdays at 11:40
+  reminder_delays << 5.hours + 20.minutes # Thursdays at 17:00
+  open_durations <<  11.hours + 20.minutes
 
   offsets.each_with_index do |of_offset, idx|
     reminder_delay = reminder_delays[idx]

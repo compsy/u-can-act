@@ -56,18 +56,21 @@ offsets = []
 reminder_delays = []
 open_durations = []
 
-offsets << 1.day + 14.hours + 45.minutes # Tuesdays at 14:45
-reminder_delays << 2.hours + 15.minutes # Tuesdays at 17:00
-open_durations << 8.hours + 15.minutes 
+offsets << 1.day + 14.hours # Tuesdays at 14:00
+reminder_delays << 3.hours # Tuesdays at 17:00
+open_durations << 9.hours
 
 offsets << 2.day + 15.hours  # Wednesdays at 15:00
 reminder_delays << 2.hours  # Wednesdays at 17:00
 open_durations << 8.hours
 
+offsets << 4.days + 14.hours # Fridays at 14:00
+reminder_delays << nil # No reminder because of the other measurement.
+open_durations << 35.minutes 
+
 pr_name = 'differentiatie_docenten_11a'
 invitation_text = 'Er staat een nieuw dagboek voor klas 2b voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminder_delays, open_durations)
-
 
 offsets = []
 reminder_delays = []

@@ -1,8 +1,18 @@
 import React from 'react';
+
 import {
   shallow
 } from 'enzyme';
 import DefaultRewardPage from 'reward_page_components/DefaultRewardPage';
+
+
+jest.mock('i18n', () => {
+  return {
+    t: (val) => {
+      return val;
+    }
+  };
+});
 
 describe('DefaultRewardPage', () => {
   let wrapper = {};
@@ -12,7 +22,6 @@ describe('DefaultRewardPage', () => {
   });
 
   it('it should return the correct text', () => {
-    const expected = 'Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.';
-    expect(wrapper.childAt(0).text()).toEqual(expected);
+    expect(wrapper.childAt(0).text()).toEqual('pages.klaar.header');
   });
 });

@@ -2,8 +2,19 @@ import React from 'react';
 import {
   shallow
 } from 'enzyme';
-import { printAsMoney } from 'Helpers';
+
+import {
+  printAsMoney
+} from 'Helpers';
 import StudentFinalRewardPage from 'reward_page_components/StudentFinalRewardPage';
+
+jest.mock('i18n', () => {
+  return {
+    t: (val) => {
+      return val;
+    }
+  };
+});
 
 describe('StudentFinalRewardPage', () => {
   let wrapper = {};
@@ -19,40 +30,41 @@ describe('StudentFinalRewardPage', () => {
 
   describe('render', () => {
     it('should return the correct text', () => {
-      const elems = wrapper.childAt(0);
-      let expected = 'Bedankt voor het invullen van de vragenlijst!';
-      let result = elems.childAt(0).text();
+      let idx = 0;
+      const earnedEuros = 123;
+      const elems = wrapper.childAt(idx);
+      let expected = 'pages.student_final_reward_page.header';
+      let result = elems.childAt(idx).text();
       expect(result).toEqual(expected);
 
+      idx++;
       expected = '<I18nRaw />';
-      result = wrapper.childAt(1).text();
+      result = elems.childAt(idx).text();
       expect(result).toEqual(expected);
-      expected = '<div><div class=\'section\'><p class=\'flow-text\'> Heel erg bedankt voor je inzet voor dit onderzoek!  </p> </div></div>'
-      result = wrapper.childAt(1).html()
-      result = result.replace(/\n/g, '');
-      result = result.replace(/>[\s]*</g, '><');
-      result = result.replace(/\s\s+/g, ' ');
+      expected = '<div>pages.student_final_reward_page.body.top</div>';
+      result = elems.childAt(idx).html();
       expect(result).toEqual(expected);
 
-      expected = `In totaal heb je ${printAsMoney(123)} verdiend.`
-      result = wrapper.childAt(2).text();
+      idx++;
+      expected = `In totaal heb je ${printAsMoney(earnedEuros)} verdiend.`;
+      result = elems.childAt(idx).text();
       expect(result).toEqual(expected);
 
+      idx++;
       expected = '<I18nRaw />';
-      result = wrapper.childAt(3).text();
+      result = elems.childAt(idx).text();
       expect(result).toEqual(expected);
-      expected = '<div><div class=\'section\'> <p class=\'flow-text\'> Je kan deze pagina veilig sluiten.  </p> </div></div>';
-      result = wrapper.childAt(3).html()
-      result = result.replace(/\n/g, '');
-      result = result.replace(/>[\s]*</g, '><');
-      result = result.replace(/\s\s+/g, ' ');
+      expected = '<div>pages.student_final_reward_page.body.bottom</div>';
+      result = elems.childAt(idx).html();
       expect(result).toEqual(expected);
     });
 
     it('it should include a link to the edit person page', () => {
-      const elems = wrapper.childAt(1);
+      const secondChild = 1;
+      const firstElement = 0;
+      const elems = wrapper.childAt(secondChild);
       let expected = '/person/edit';
-      let result = elems.childAt(1).html();
+      let result = elems.childAt(firstElement).html();
       expect(result).toContain(expected);
     });
   });

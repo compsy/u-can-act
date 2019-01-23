@@ -7,14 +7,14 @@ import I18n from 'i18n';
 import I18nRaw from '../I18nRaw';
 
 export default class StudentFinalRewardPage extends React.Component {
-    render() {
-      return (
+  render() {
+    return (
+      <div>
         <div>
-          <div>
-            <h4>{I18n.t('pages.student_final_reward_page.header')}</h4>
-            <I18nRaw t='pages.student_final_reward_page.body.top' />
-            {this.renderReward()}
-            <I18nRaw t='pages.student_final_reward_page.body.bottom' />
+          <h4>{I18n.t('pages.student_final_reward_page.header')}</h4>
+          <I18nRaw t='pages.student_final_reward_page.body.top' />
+          {this.renderReward()}
+          <I18nRaw t='pages.student_final_reward_page.body.bottom' />
         </div>
         <div>
           <RewardFooter person={this.props.person} />

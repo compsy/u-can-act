@@ -3,6 +3,8 @@ default: &default
   default_team_name: 'Differentiatie Binnenstebuiten'
   hide_edit_iban: true
   show_mobile_images: false
+  project_start_date: '2018-10-01'
+  project_end_date: '2019-10-01'
   feature_toggles:
     allow_identifier_export: true
   logo:

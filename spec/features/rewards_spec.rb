@@ -60,29 +60,37 @@ describe 'GET /klaar', type: :feature, js: true do
       expect(page).not_to have_content('aan te passen')
     end
 
-    it 'should show the earned page when done with the research' do
-      FactoryBot.create(:response, :completed,
+    describe 'when done with the research' do
+      let!(:prot_sub1) {FactoryBot.create(:response, :completed,
                         :periodical, protocol_subscription: protocol_subscription,
-                                     open_from: 1.day.ago)
-      FactoryBot.create(:response, :completed,
+                                     open_from: 1.day.ago)}
+      let!(:prot_sub2) {FactoryBot.create(:response, :completed,
                         :periodical, protocol_subscription: protocol_subscription,
-                                     open_from: 2.days.ago)
-      expect(Reward.total_earned_euros(bust_cache: true)).to eq 2.0
-      expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 1.0
-      visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
-      # expect(page).to have_http_status(200)
-      fill_out_questionnaire
-      # expect(page).to have_http_status(200)
-      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
-      protocol_subscription.reload
-      expect(Reward.total_earned_euros(bust_cache: true)).to eq 3.0
-      expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.0
-      expect(page).to have_content('Heel erg bedankt voor je inzet voor dit onderzoek!')
-      expect(page).to have_content('3')
-      expect(page).to have_content('verdiend.')
-      expect(page).to have_content('IBAN')
-      expect(page).to have_content('aan te passen')
+                                     open_from: 2.days.ago)}
+
+      it 'should show the earned page without iban when disabled' do
+        expect(Reward.total_earned_euros(bust_cache: true)).to eq 2.0
+        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 1.0
+        visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
+        # expect(page).to have_http_status(200)
+        fill_out_questionnaire
+        # expect(page).to have_http_status(200)
+        expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+        protocol_subscription.reload
+        expect(Reward.total_earned_euros(bust_cache: true)).to eq 3.0
+        expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.0
+        expect(page).to have_content('Heel erg bedankt voor je inzet voor dit onderzoek!')
+        expect(page).to have_content('3')
+        expect(page).to have_content('verdiend.')
+
+        # For now we don't want to show the IBAN number. If we would like to show this, we somehow need to be able
+        # to access the settings file
+        expect(page).to_not have_content('IBAN')
+        expect(page).to have_content('aan te passen')
+      end
     end
+
+
 
     it 'should show the disclaimer link on the reward page' do
       FactoryBot.create(:response, :completed,

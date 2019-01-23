@@ -45,25 +45,28 @@ describe EchoPeople do
           .and_yield(%w[type team_name role_title firstname lastname gender
                         mobile_phone protocol_name start_date end_date])
           .and_yield([Person::STUDENT, 'mijnschool', 'x', '   a   ', ' e', Person::MALE,
-                      '0612345679',  'protname', dateinfuture, enddateinfuture])
+                      '0612345679', 'email1@email.com', 'protname', dateinfuture, enddateinfuture])
           .and_yield([Person::STUDENT, 'mijnschool', 'y',  'b', 'f   ', Person::FEMALE,
-                      '06-12345670', 'protname', dateinfuture, enddateinfuture])
+                      '06-12345670', 'email2@email.com','protname', dateinfuture, enddateinfuture])
           .and_yield([Person::STUDENT, 'mijnschool', 'z',  'c  ', '  g  ', Person::MALE,
-                      '0612345671',  'protname', dateinfuture, enddateinfuture])
+                      '0612345671', 'email3@email.com', 'protname', dateinfuture, enddateinfuture])
       end
 
       it 'should return an array with all people (except the header)' do
         expected_output = "people = [];nil\n"
         expected_output += 'people << {:team_name=>"mijnschool", :role_title=>"x", :first_name=>"a", '\
                           ':last_name=>"e", :gender=>"male", :mobile_phone=>"0612345679", ' \
+                          ':email=>"email1@email.com", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
         expected_output += 'people << {:team_name=>"mijnschool", :role_title=>"y", :first_name=>"b", ' \
                           ':last_name=>"f", :gender=>"female", :mobile_phone=>"06-12345670", ' \
+                          ':email=>"email2@email.com", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
         expected_output += 'people << {:team_name=>"mijnschool", :role_title=>"z", :first_name=>"c", ' \
                           ':last_name=>"g", :gender=>"male", :mobile_phone=>"0612345671", ' \
+                          ':email=>"email3@email.com", ' \
                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
         expect { subject.send(:echo_people, 'test.csv') }.to output(expected_output).to_stdout

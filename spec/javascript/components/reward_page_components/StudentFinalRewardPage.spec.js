@@ -32,7 +32,7 @@ describe('StudentFinalRewardPage', () => {
       result = result.replace(/\n/g, '');
       result = result.replace(/>[\s]*</g, '><');
       result = result.replace(/\s\s+/g, ' ');
-      //expect(result).toEqual(expected);
+      expect(result).toEqual(expected);
 
       expected = `In totaal heb je ${printAsMoney(123)} verdiend.`
       result = wrapper.childAt(2).text();

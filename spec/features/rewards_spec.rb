@@ -61,12 +61,16 @@ describe 'GET /klaar', type: :feature, js: true do
     end
 
     describe 'when done with the research' do
-      let!(:prot_sub1) {FactoryBot.create(:response, :completed,
-                        :periodical, protocol_subscription: protocol_subscription,
-                                     open_from: 1.day.ago)}
-      let!(:prot_sub2) {FactoryBot.create(:response, :completed,
-                        :periodical, protocol_subscription: protocol_subscription,
-                                     open_from: 2.days.ago)}
+      let!(:prot_sub1) do
+        FactoryBot.create(:response, :completed,
+                          :periodical, protocol_subscription: protocol_subscription,
+                                       open_from: 1.day.ago)
+      end
+      let!(:prot_sub2) do
+        FactoryBot.create(:response, :completed,
+                          :periodical, protocol_subscription: protocol_subscription,
+                                       open_from: 2.days.ago)
+      end
 
       it 'should show the earned page without iban when disabled' do
         expect(Reward.total_earned_euros(bust_cache: true)).to eq 2.0
@@ -86,11 +90,9 @@ describe 'GET /klaar', type: :feature, js: true do
         # For now we don't want to show the IBAN number. If we would like to show this, we somehow need to be able
         # to access the settings file
         expect(page).to_not have_content('IBAN')
-        expect(page).to have_content('aan te passen')
+        expect(page).to_not have_content('aan te passen')
       end
     end
-
-
 
     it 'should show the disclaimer link on the reward page' do
       FactoryBot.create(:response, :completed,

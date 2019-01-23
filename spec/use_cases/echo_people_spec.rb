@@ -47,7 +47,7 @@ describe EchoPeople do
           .and_yield([Person::STUDENT, 'mijnschool', 'x', '   a   ', ' e', Person::MALE,
                       '0612345679', 'email1@email.com', 'protname', dateinfuture, enddateinfuture])
           .and_yield([Person::STUDENT, 'mijnschool', 'y',  'b', 'f   ', Person::FEMALE,
-                      '06-12345670', 'email2@email.com','protname', dateinfuture, enddateinfuture])
+                      '06-12345670', 'email2@email.com', 'protname', dateinfuture, enddateinfuture])
           .and_yield([Person::STUDENT, 'mijnschool', 'z',  'c  ', '  g  ', Person::MALE,
                       '0612345671', 'email3@email.com', 'protname', dateinfuture, enddateinfuture])
       end

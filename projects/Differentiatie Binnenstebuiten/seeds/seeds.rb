@@ -65,7 +65,6 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   invitation_set = InvitationSet.create!(person: person)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
-  puts ''
   puts "differentiatie student meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie person
@@ -85,6 +84,27 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie student meting IC: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  # Differentiatie person bijna klaar
+  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
+               .first
+               .people
+               .where(first_name: 'Differentiatie', last_name: 'Student').first
+
+  person.protocol_subscriptions.create(
+    protocol: Protocol.find_by_name('differentiatie_studenten'),
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: 34.weeks.ago.beginning_of_week,
+    informed_consent_given_at: 10.minutes.ago
+  )
+  responseobj = person.protocol_subscriptions.first.responses.last
+
+  invitation_set = InvitationSet.create!(person: person)
+  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "differentiatie student meting bijna klaar: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  puts ''
 
   # Differentiatie docent
   person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: docenten_title)

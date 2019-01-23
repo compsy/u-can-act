@@ -1,4 +1,4 @@
-export default function printAsMoney(euroValue) {
+export function printAsMoney(euroValue) {
   const REWARD_IS_MONEY = false;
   const SIGN = ' punten';
   const SIGN_SINGULAR = ' punt';

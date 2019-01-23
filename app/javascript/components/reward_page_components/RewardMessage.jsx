@@ -1,5 +1,5 @@
 import React from 'react';
-import printAsMoney from '../printAsMoney';
+import { printAsMoney } from '../Helpers';
 
 export default class RewardMessage extends React.Component {
   render() {

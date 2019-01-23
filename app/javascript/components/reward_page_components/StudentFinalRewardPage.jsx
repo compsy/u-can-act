@@ -1,6 +1,6 @@
 import React from 'react';
 import RewardFooter from './RewardFooter';
-import printAsMoney from '../printAsMoney';
+import { printAsMoney } from '../Helpers';
 import I18n from 'i18n';
 import I18nRaw from '../I18nRaw';
 

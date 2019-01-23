@@ -1,5 +1,5 @@
 import React from 'react';
-import printAsMoney from '../printAsMoney';
+import { printAsMoney } from '../Helpers';
 
 // NOTE: This class is not used anywhere in the code right now.
 export default class ProgressText extends React.Component {

@@ -11,7 +11,7 @@ export default class TeamOverview extends React.Component {
       Student: undefined,
       groups: [ 'Mentor', 'Student' ],
       year: new Date().getFullYear(),
-      weekNumber: undefined
+      week_number: undefined
     };
   }
 
@@ -41,10 +41,10 @@ export default class TeamOverview extends React.Component {
 
     // Only update if the subscription id has changed
     let year = `?year=${this.state.year}`;
-    let weekNumber = this.state.weekNumber === undefined ? '' : `&week_number=${this.state.weekNumber}`;
+    let week_number = this.state.week_number === undefined ? '' : `&week_number=${this.state.week_number}`;
     let percentageThreshold = '&percentage_threshold=70';
 
-    let url = `/api/v1/admin/team/${group}${year}${weekNumber}${percentageThreshold}`;
+    let url = `/api/v1/admin/team/${group}${year}${week_number}${percentageThreshold}`;
 
     $.ajax({
       url: url,
@@ -74,7 +74,7 @@ export default class TeamOverview extends React.Component {
 
   handleWeekChange(option) {
     this.setState({
-      weekNumber: option
+      week_number: option
     });
     this.updateTeamDetails();
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Pyro from './Pyro';
-import printAsMoney from '../printAsMoney';
+import { printAsMoney } from '../Helpers';
 import RadialProgressChart from 'radial-progress-chart';
 
 export default class ProgressBar extends React.Component {
@@ -109,7 +109,7 @@ export default class ProgressBar extends React.Component {
       let value = this.props.euroDelta / this.props.currentMultiplier;
       let defaultValue = value * this.props.initialMultiplier;
       let currentBonus = this.props.euroDelta - defaultValue;
-      let text = 'Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je ';
+      let text = 'Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je';
       text = `${text} ${printAsMoney(currentBonus)}`;
       text = `${text} extra verdiend!`;
       return <div className='animated pulse'> {text} </div>;

@@ -122,11 +122,11 @@ jobs:
     <<: *build_defaults
     steps:
       - restore_cache:
-          key: v1-repo-{{ .environment.ciRCLE_SHA1 }}
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - restore_cache:
-          name: restore yarn package cache
+          name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: bundle --path vendor/bundle

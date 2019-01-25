@@ -219,6 +219,7 @@ workflows:
       - test_js:
           requires:
             - test_translations # By waiting until test_translations is complete, the bottleneck (test_rspec) can start sooner.
+            - build_js
       - test_rspec:
           requires:
             - build_gems

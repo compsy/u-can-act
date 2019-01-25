@@ -211,6 +211,7 @@ workflows:
       - test_api:
           requires:
             - build_gems
+            - build_js
       - test_translations:
           requires:
             - build_js

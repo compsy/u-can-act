@@ -203,6 +203,9 @@ workflows:
       - test_rubocop:
           requires:
             - build_gems
+      - test_api:
+          requires:
+            - build_gems
       - test_translations:
           requires:
             - build_js

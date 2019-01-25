@@ -3,7 +3,7 @@ hookfiles: null
 language: ''
 require: null
 server: bundle exec rails server
-server-wait: 3
+server-wait: 10
 init: false
 custom: {}
 names: false

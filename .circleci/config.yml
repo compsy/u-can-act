@@ -119,7 +119,7 @@ jobs:
             - build_num
 
   test_api:
-    <<: *build_defaults
+    <<: *defaults
     environment:
       TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
       RAILS_ENV: test

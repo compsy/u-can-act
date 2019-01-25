@@ -4,10 +4,11 @@ FORMAT: 1A
 The statistics api returns several statistics collected in the application.
 
 ## Get an overview of statistics [GET]
-+ Request
++ Request (application/json)
 
 + Response 200 (application/json; charset=utf-8)
     + Body
+
             {
               "number_of_students": 17,
               "number_of_mentors": 43,
@@ -16,6 +17,7 @@ The statistics api returns several statistics collected in the application.
             }
 
     + Schema
+
             {
                 "type": "object",
                 "properties": {

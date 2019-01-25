@@ -2,8 +2,8 @@ dry-run: null
 hookfiles: null
 language: ''
 require: null
-server: bundle exec rails server
-server-wait: 10
+server: bundle exec rails server -p 3000
+server-wait: 60
 init: false
 custom: {}
 names: false

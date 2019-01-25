@@ -127,6 +127,9 @@ group :test do
   gem 'capybara-selenium'
   gem 'chromedriver-helper'
   gem 'selenium-webdriver'
+
+  # Dredd api testing
+  gem 'dredd_hooks'
 end
 
 group :production, :staging do

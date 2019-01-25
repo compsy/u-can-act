@@ -118,13 +118,37 @@ jobs:
           paths:
             - build_num
 
+  test_api:
+    <<: *build_defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .environment.ciRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          name: restore yarn package cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: bundle --path vendor/bundle
+      - run: yarn install
+      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:27017 -wait tcp://localhost:6379 -timeout 1m # Waits for mongo / postgres / redis docker container to be available
+      - run: bundle exec rake db:create db:schema:load
+      - run: mkdir -p /tmp/workspace
+      - run: echo $CIRCLE_BUILD_NUM | tee /tmp/workspace/build_num
+      - run:
+          name: run tests
+          command: dredd
+
   test_js:
     <<: *build_defaults
     steps:
       - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-repo-{{ .environment.CIRCLE_SHA1 }}
       - restore_cache:
-          name: Restore Yarn Package Cache
+          name: restore yarn package cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: yarn install

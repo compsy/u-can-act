@@ -1,0 +1,35 @@
+FORMAT: 1A
+
+# Statistics [/api/v1/statistics]
+The statistics api returns several statistics collected in the application.
+
+## Get an overview of statistics [GET]
++ Request
+
++ Response 200 (application/json; charset=utf-8)
+    + Body
+            {
+              "number_of_students": 17,
+              "number_of_mentors": 43,
+              "duration_of_project_in_weeks": 45,
+              "number_of_completed_questionnaires": 7013
+            }
+
+    + Schema
+            {
+                "type": "object",
+                "properties": {
+                    "number_of_students": {
+                        "type": "integer"
+                    },
+                    "number_of_mentors": {
+                        "type": "integer"
+                    },
+                    "duration_of_project_in_weeks": {
+                        "type": "integer"
+                    },
+                    "number_of_completed_questionnaires": {
+                        "type": "integer"
+                    }
+                }
+            }

@@ -145,9 +145,7 @@ jobs:
       - run: echo $CIRCLE_BUILD_NUM | tee /tmp/workspace/build_num
       - run:
           name: run tests
-          command: |
-            ls node_modules
-            dredd
+          command: node_modules/dredd/bin/dredd
 
   test_js:
     <<: *build_defaults

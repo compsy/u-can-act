@@ -120,6 +120,11 @@ jobs:
 
   test_api:
     <<: *build_defaults
+    environment:
+      TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+      RAILS_ENV: test
+      PROJECT_NAME: demo
+      RACK_ENV: test
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}

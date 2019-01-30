@@ -62,6 +62,12 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text)
     db_measurement.should_invite = true
     db_measurement.save!
   end
+
+  if protocol.measurements.length != offsets.length
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    puts "Too many measurements defined for this protocol (#{protocol.id} #{protocol.name})"
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  end
 end
 
 pr_name = 'differentiatie_studenten_12'

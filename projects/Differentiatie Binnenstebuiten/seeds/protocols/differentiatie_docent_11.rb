@@ -60,13 +60,13 @@ offsets << 1.day + 14.hours # Tuesdays at 14:00
 reminder_delays << 3.hours # Tuesdays at 17:00
 open_durations << 9.hours
 
-offsets << 2.day + 15.hours  # Wednesdays at 15:00
-reminder_delays << 2.hours  # Wednesdays at 17:00
-open_durations << 8.hours
+offsets << 2.days + 14.hours # Wednesdays at 14:00
+reminder_delays << 3.hours  # Wednesdays at 17:00
+open_durations << 9.hours
 
 offsets << 4.days + 14.hours # Fridays at 14:00
-reminder_delays << nil # No reminder because of the other measurement.
-open_durations << 35.minutes 
+reminder_delays << 3.hours  # Fridays at 17:00
+open_durations << 9.hours
 
 pr_name = 'differentiatie_docenten_11a'
 invitation_text = 'Er staat een nieuw dagboek voor klas 2b voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
@@ -76,17 +76,17 @@ offsets = []
 reminder_delays = []
 open_durations = []
 
-offsets << 1.day + 12.hours + 30.minutes # Tuesdays at 12:30
+offsets << 1.day + 11.hours + 15.minutes # Tuesdays at 11:15
 reminder_delays << nil # No reminder because of the other measurement
-open_durations << 2.hours + 5.minutes # Tuesdays at 14:35, because of other measurement
+open_durations << 2.hours + 35.minutes # Tuesdays at 13:50, because of other measurement (prot 11a)
 
 offsets << 2.days + 13.hours + 15.minutes # Wednesdays at 13:15
 reminder_delays << nil # No reminder because of the other measurement.
-open_durations << 1.hours + 35.minutes # Wednesdays at 14:50, because of other measurement
+open_durations << 35.minutes # Wednesdays at 13:50, because of other measurement
 
-offsets << 4.days + 14.hours + 45.minutes # Fridays at 14:45
-reminder_delays << 2.hours + 15.minutes # Fridays at 17:00
-open_durations << 8.hours + 15.minutes 
+offsets << 4.days + 13.hours + 15.minutes # Fridays at 13:15
+reminder_delays << nil # No reminder because of the other measurement.
+open_durations << 35.minutes 
 
 pr_name = 'differentiatie_docenten_11b'
 invitation_text = 'Er staat een nieuw dagboek voor klas 2c voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'

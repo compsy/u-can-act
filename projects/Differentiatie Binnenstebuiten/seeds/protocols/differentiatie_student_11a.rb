@@ -39,9 +39,9 @@ offsets << 1.day + 14.hours # Tuesdays at 14:00
 reminder_delays << 3.hours # Tuesdays at 17:00
 open_durations << 9.hours
 
-offsets << 2.days + 15.hours # Wednesdays at 15:00
-reminder_delays << 2.hours  # Wednesdays at 17:00
-open_durations << 8.hours
+offsets << 2.days + 14.hours # Wednesdays at 14:00
+reminder_delays << 3.hours  # Wednesdays at 17:00
+open_durations << 9.hours
 
 offsets << 4.days + 14.hours # Fridays at 14:00
 reminder_delays << 3.hours  # Fridays at 17:00

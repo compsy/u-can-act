@@ -35,17 +35,17 @@ offsets = []
 reminder_delays = []
 open_durations = []
 
-offsets << 1.day + 12.hours + 30.minutes # Tuesdays at 12:30
-reminder_delays << 4.hours + 30.minutes # Tuesdays at 17:00
-open_durations << 10.hours + 30.minutes 
+offsets << 1.day + 11.hours + 15.minutes # Tuesdays at 11:15
+reminder_delays << 5.hours + 45.minutes # Tuesdays at 17:00
+open_durations << 11.hours + 45.minutes 
 
 offsets << 2.days + 13.hours + 15.minutes # Wednesdays at 13:15
 reminder_delays << 3.hours + 45.minutes  # Wednesdays at 17:00
 open_durations << 9.hours + 45.minutes
 
-offsets << 4.days + 14.hours + 45.minutes # Fridays at 14:45
-reminder_delays << 2.hours + 15.minutes # Fridays at 17:00
-open_durations << 8.hours + 15.minutes 
+offsets << 4.days + 13.hours + 15.minutes # Fridays at 13:15
+reminder_delays << 3.hours + 45.minutes # Fridays at 17:00
+open_durations << 9.hours + 45.minutes 
 
 offsets.each_with_index do |of_offset, idx|
   reminder_delay = reminder_delays[idx]

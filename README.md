@@ -8,6 +8,11 @@ Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 ## Reference
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). U-can-act Web-app (Version 1.0) [Web application software]. Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
 
+## Funding
+This application has been made possible by funding from The Netherlands Initiative for Education Research (NRO) under projectnumber 405-16-401.
+
+![NRO](https://u-can-act.nl/wp-content/uploads/2018/01/NRO-2.png)
+
 ## Installation
 Create checkout and install dependencies
 ```bash

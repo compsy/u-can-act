@@ -25,7 +25,16 @@ questionnaires = [
   'KCT Q-NEO',
   'KCT Q-OPT',
   'KCT Q-RES',
-  'KCT Q-SE'
+  'KCT Q-SE',
+  'KCT Q-CAP-1 (FUP)',
+  'KCT Q-CAP-2 (FUP)',
+  'KCT Q-COM (FUP)',
+  'KCT Q-COP (FUP)',
+  'KCT Q-MTQ (FUP)',
+  'KCT Q-NEO (FUP)',
+  'KCT Q-OPT (FUP)',
+  'KCT Q-RES (FUP)',
+  'KCT Q-SE (FUP)'
 ]
 
 questionnaires.each do |name|

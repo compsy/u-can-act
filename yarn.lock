@@ -719,8 +719,8 @@
 
 "@rails/webpacker@https://github.com/rails/webpacker":
   version "4.0.2"
-  uid f29703a6fd47090d238eae238e3c504fbf1dd745
-  resolved "https://github.com/rails/webpacker#f29703a6fd47090d238eae238e3c504fbf1dd745"
+  uid c5065217284e4540c07fefc35fe27d33fc531082
+  resolved "https://github.com/rails/webpacker#c5065217284e4540c07fefc35fe27d33fc531082"
   dependencies:
     "@babel/core" "^7.3.4"
     "@babel/plugin-proposal-class-properties" "^7.3.4"

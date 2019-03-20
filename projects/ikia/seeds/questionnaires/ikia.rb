@@ -8,106 +8,248 @@ dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
-    type: :raw,
-    content: '<p class="flow-text">Hier staat een demo vragenlijst voor u klaar. Dit staat in een RAW tag</p>'
-  }, {
-    id: :v1, # 1
-    type: :radio,
-    show_otherwise: false,
-    title: 'Voorbeeld van een radio',
-    options: [
-      { title: 'Ja', shows_questions: %i[v2] },
-      { title: 'Nee', shows_questions: %i[v2] }
-    ]
+    section_start: '<strong>De volgende vragen gaan over hoe je je op dit moment voelt.</strong>',
+    id: :v1,
+    type: :textfield,
+    title: 'Ik voel me op dit moment...'
   }, {
     id: :v2,
-    hidden: true,
-    type: :range,
-    title: 'Voorbeeld met een range',
-    labels: ['heel weinig', 'heel veel']
+    type: :radio,
+    show_otherwise: false,
+    title: 'Merk je dit gevoel ook in je lichaam?',
+    options: [
+      { title: 'Ja', shows_questions: %i[v3 v4] },
+      { title: 'Nee' }
+    ]
   }, {
     id: :v3,
-    type: :time,
-    hours_from: 0,
-    hours_to: 11,
-    hours_step: 1,
-    title: 'Voorbeeld van een time vraag',
-    section_start: 'Overige vragen'
+    hidden: true,
+    type: :textfield,
+    title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
   }, {
     id: :v4,
-    type: :date,
-    title: 'Voorbeeld van een date vraag',
-    labels: ['helemaal intuïtief ', 'helemaal gepland']
+    hidden: true,
+    type: :textfield,
+    title: 'Kleur de plekken in je lichaam waar je merkt dat het slapper wordt',
   }, {
     id: :v5,
-    type: :textarea,
-    placeholder: 'Hier staat standaard tekst',
-    title: 'Voorbeeld van een textarea'
+    type: :range,
+    title: 'Boos',
+    labels: ['Helemaal niet', 'Heel erg']
   }, {
     id: :v6,
-    type: :textfield,
-    placeholder: 'Hier staat standaard tekst',
-    title: 'Voorbeeld van een textfield'
+    type: :range,
+    title: 'Tevreden',
+    labels: ['Helemaal niet', 'Heel erg']
   }, {
     id: :v7,
-    type: :checkbox,
-    required: true,
-    title: 'Voorbeeld van een checkbox vraag',
-    options: [
-      { title: 'Antwoord 1', tooltip: 'Tooltip 1' },
-      { title: 'Antwoord 2', tooltip: 'Tooltip 2' },
-      { title: 'Antwoord 3', tooltip: 'Tooltip 3' }
-    ]
+    type: :range,
+    title: 'Schuldig',
+    labels: ['Helemaal niet', 'Heel erg']
   }, {
     id: :v8,
-    type: :likert,
-    title: 'Voorbeeld van een likertschaal',
-    tooltip: 'some tooltip',
-    options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens']
+    type: :range,
+    title: 'Energiek',
+    labels: ['Helemaal niet', 'Heel erg']
   }, {
     id: :v9,
-    type: :number,
-    title: 'Voorbeeld van een numeriek veld',
-    tooltip: 'some tooltip',
-    maxlength: 4,
-    placeholder: '1234',
-    min: 0,
-    max: 9999,
-    required: true
+    type: :range,
+    title: 'Vrolijk',
+    labels: ['Helemaal niet', 'Heel erg']
   }, {
     id: :v10,
-    type: :textfield,
-    placeholder: 'Hier staat standaard tekst',
-    title: 'Voorbeeld van een klein vrij textveld'
+    type: :range,
+    title: 'Verdrietig',
+    labels: ['Helemaal niet', 'Heel erg']
   }, {
     id: :v11,
-    title: 'Voorbeeld van een expandable',
-    remove_button_label: 'Verwijder',
-    add_button_label: 'Voeg toe',
-    type: :expandable,
-    default_expansions: 1,
-    max_expansions: 10,
-    content: [
-      {
-        id: :v11_1,
-        type: :checkbox,
-        title: 'Met een checkbox vraag',
-        options: [
-          'Antwoord A',
-          'Antwoord B',
-          'Antwoord C',
-          'Antwoord D',
-          'Antwoord E',
-          'Antwoord F'
-        ]
-      }
-    ]
+    type: :range,
+    title: 'Bang',
+    labels: ['Helemaal niet', 'Heel erg']
   }, {
     id: :v12,
-    type: :dropdown,
-    title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken?',
-    options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
-  }
+    type: :range,
+    title: 'Overstuur',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v13,
+    type: :range,
+    title: 'Eenzaam',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v14,
+    type: :range,
+    title: 'Nerveus',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v15,
+    type: :range,
+    title: 'Gelukkig',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v16,
+    type: :range,
+    title: 'Dankbaar',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v17,
+    type: :range,
+    title: 'Ik weet precies wat ik op dit moment voel',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v18,
+    type: :range,
+    title: 'Ik ben in de war over hoe ik me voel',
+    labels: ['Helemaal niet', 'Heel erg'],
+    section_end: true
+  }, {
+    section_start: 'De volgende vragen gaan over hoe je dag was',
+    id: :v19,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Is er vandaag iets leuks of plezierigs gebeurd?',
+    options: [
+      { title: 'Ja', shows_questions: %i[v20 v21 v22] },
+      { title: 'Nee' }
+    ]
+  }, {
+    id: :v20,
+    hidden: true,
+    type: :range,
+    title: 'Hoe leuk of plezierig was deze gebeurenis?',
+    labels: ['Een klein beetje leuk', 'Heel erg leuk']
+  }, {
+    id: :v21,
+    hidden: true,
+    type: :checkbox,
+    required: true,
+    title: 'Waar had deze gebeurtenis mee te maken?',
+    options: [
+      'Met mijzelf',
+      'Met mijn ouders/familie/thuis',
+      'Met mijn vrienden',
+      'Met mijn klasgenoten',
+      'Met school',
+      'Met onbekenden',
+      'Met iets wat ik op het nieuws/ internet/ de krant las of zag'
+    ],
+    show_otherwise: true,
+    otherwise_label: 'Met iets anders, namelijk'
+  }, {
+    id: :v22,
+    hidden: true,
+    type: :checkbox,
+    required: true,
+    title: 'Heb je hier met iemand over gepraat?',
+    options: [
+      'Nee, met niemand',
+      'Ja, met mijn vader/moeder',
+      'Ja, met een vriend(in)'
+    ],
+    show_otherwise: true,
+    otherwise_label: 'Ja, met iemand anders, namelijk'
+  }, {
+    id: :v23,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Is er vandaag iets vervelends of naars gebeurd?',
+    options: [
+      { title: 'Ja', shows_questions: %i[v24 v25 v26 v27 v28] },
+      { title: 'Nee' }
+    ]
+  }, {
+    id: :v24,
+    hidden: true,
+    type: :range,
+    title: 'Hoe vervelend of naar was deze gebeurtenis?',
+    labels: ['Een klein beetje vervelend', 'Heel erg vervelend']
+  }, {
+    id: :v25,
+    hidden: true,
+    type: :checkbox,
+    required: true,
+    title: 'Waar had deze gebeurtenis mee te maken?',
+    options: [
+      'Met mijzelf',
+      'Met mijn ouders/familie/thuis',
+      'Met mijn vrienden',
+      'Met mijn klasgenoten',
+      'Met school',
+      'Met onbekenden',
+      'Met iets wat ik op het nieuws/ internet/ de krant las of zag'
+    ],
+    show_otherwise: true,
+    otherwise_label: 'Met iets anders, namelijk'
+  }, {
+    id: :v26,
+    hidden: true,
+    type: :range,
+    title: 'Heb je over deze gebeurtenis lopen piekeren?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v27,
+    hidden: true,
+    type: :range,
+    title: 'Heb je geprobeerd niet aan deze gebeurtenis te denken?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v28,
+    hidden: true,
+    type: :checkbox,
+    required: true,
+    title: 'Heb je hier met iemand over gepraat?',
+    options: [
+      'Nee, met niemand',
+      'Ja, met mijn vader/moeder',
+      'Ja, met een vriend(in)'
+    ],
+    show_otherwise: true,
+    otherwise_label: 'Ja, met iemand anders, namelijk'
+  }, {
+    id: :v29,
+    type: :range,
+    title: 'Heb je vandaag gelachen?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v30,
+    type: :range,
+    title: 'Ben je vandaag buiten geweest?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v31,
+    type: :range,
+    title: 'Ben je vandaag actief geweest?',
+    tooltip: 'Sporten, wandelen, fietsen',
+    labels: ['Helemaal niet', 'Heel erg'],
+    section_end: true
+  }, {
+    section_start: 'De volgende vragen gaan over hoe het vandaag tussen jou en je moeder/ vader was.',
+    id: :v32,
+    type: :range,
+    title: 'Heb je vandaag plezier gehad met je vader/moeder?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v33,
+    type: :range,
+    title: 'Heb je vandaag ruzie gemaakt met je vader/moeder?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v34,
+    type: :range,
+    title: 'Heb je vandaag geknuffeld met je vader/moeder?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v35,
+    type: :range,
+    title: 'Was je vader/moeder vandaag boos op jou?',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v36,
+    type: :range,
+    title: 'Hoe leuk of fijn vond je het om bij je vader/moeder te zijn?',
+    labels: ['Helemaal niet', 'Heel erg'],
+    section_end: true
+  },
 ]
 
 dagboek1.content = dagboek_content

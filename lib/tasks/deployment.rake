@@ -9,8 +9,8 @@ namespace :deployment do
     puts "Creating project '#{@args[:project_name]}' - started"
 
     def create_env_local_file
-      puts "creating .env.local file..."
-      open(File.join(Rails.root, '.env.local'), 'w') do |f|
+      puts 'creating .env.local file...'
+      File.open(File.join(Rails.root, '.env.local'), 'w') do |f|
         f.puts "PROJECT_NAME:      #{@args[:project_name]}"
         f.puts "POSTGRES_DATABASE: #{@args[:project_name]}"
         f.puts "MONGO_DATABASE:    #{@args[:project_name]}"
@@ -25,7 +25,7 @@ namespace :deployment do
     end
 
     if @args[:project_name].blank?
-      puts "ERROR: syntax: bundle exec rake \"deployment:create_project[project_name]\""
+      puts 'ERROR: syntax: bundle exec rake "deployment:create_project[project_name]"'
       exit(1)
     end
 

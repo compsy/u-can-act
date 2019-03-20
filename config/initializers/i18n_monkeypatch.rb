@@ -16,6 +16,8 @@ end
 module I18n
   module JS
     module Formatters
+      class Base
+      end
       class JS < Base
         protected
         def header

@@ -12,3 +12,16 @@ module I18n
     end
   end
 end
+
+module I18n
+  module JS
+    module Formatters
+      class JS < Base
+        protected
+        def header
+          %(import I18n from './i18n'\n#{@namespace}.translations || (#{@namespace}.translations = {});\n)
+        end
+      end
+    end
+  end
+end

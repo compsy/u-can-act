@@ -33,6 +33,6 @@ namespace :deployment do
     create_project_directory
 
     puts "Creating project '#{@args[:project_name]}' - done"
-    puts "You should now type:\nbundle exec rake db:setup"
+    puts "\nYou should now type:\nbundle exec rake db:setup"
   end
 end

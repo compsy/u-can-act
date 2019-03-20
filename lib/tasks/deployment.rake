@@ -9,6 +9,7 @@ namespace :deployment do
     puts "Creating project '#{@args[:project_name]}' - started"
 
     def create_env_local_file
+      puts "creating .env.local file..."
       open(File.join(Rails.root, '.env.local'), 'w') do |f|
         f.puts "PROJECT_NAME:      #{@args[:project_name]}"
         f.puts "POSTGRES_DATABASE: #{@args[:project_name]}"
@@ -17,6 +18,7 @@ namespace :deployment do
     end
 
     def create_project_directory
+      puts "creating projects/#{@args[:project_name]} directory..."
       source_dir = File.join(Rails.root, 'projects', 'new')
       target_dir = File.join(Rails.root, 'projects', @args[:project_name])
       FileUtils.copy_entry source_dir, target_dir
@@ -31,6 +33,6 @@ namespace :deployment do
     create_project_directory
 
     puts "Creating project '#{@args[:project_name]}' - done"
-    puts "You should now type: bundle exec rake db:setup"
+    puts "You should now type:\nbundle exec rake db:setup"
   end
 end

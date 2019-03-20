@@ -22,7 +22,7 @@ namespace :deployment do
     end
 
     if args[:project_name].blank?
-      puts "ERROR: syntax: be rake \"deployment:create_project[project_name]\""
+      puts "ERROR: syntax: bundle exec rake \"deployment:create_project[project_name]\""
       exit(1)
     end
 
@@ -30,5 +30,6 @@ namespace :deployment do
     create_project_directory
 
     puts "Creating project '#{args[:project_name]}' - done"
+    puts "You should now type: bundle exec rake db:setup"
   end
 end

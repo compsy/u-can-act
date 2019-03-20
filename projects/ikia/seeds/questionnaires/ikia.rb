@@ -103,7 +103,7 @@ dagboek_content = [
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over hoe je dag was',
+    section_start: '<strong>De volgende vragen gaan over hoe je dag was</strong>',
     id: :v19,
     type: :radio,
     show_otherwise: false,
@@ -223,7 +223,7 @@ dagboek_content = [
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over hoe het vandaag tussen jou en je moeder/ vader was.',
+    section_start: '<strong>De volgende vragen gaan over hoe het vandaag tussen jou en je moeder/ vader was.</strong>',
     id: :v32,
     type: :range,
     title: 'Heb je vandaag plezier gehad met je vader/moeder?',

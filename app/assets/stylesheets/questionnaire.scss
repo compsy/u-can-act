@@ -241,3 +241,30 @@ button[type="submit"] {
     }
   }
 }
+
+// sketch
+.sketch-container {
+  background-image: image-url('bodymap.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #cccccc;
+  width: 240px;
+  height: 536px;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  cursor: crosshair;
+}
+
+.hideme {
+  display: none;
+}
+
+.log {
+  width: 100%;
+  height: 536px;
+  overflow-y: scroll;
+  display: inline-block;
+  background-color: #fff;
+}

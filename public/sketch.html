@@ -2,8 +2,7 @@
 <html>
 <head>
   <title>Bodymap</title>
-  <link rel="stylesheet" media="all"
-        href="/assets/application.self-dfecf4ae15056bd80901f16b4ef4115733af81c47e1f5f20dec5be3ddb60b909.css?body=1"/>
+  <link rel="stylesheet" media="all" href="/assets/application.self-abe3b6f59fbfb85de9a620255f8eb19c3dc936c3fd4bbe52c9045a09d8519333.css?body=1" />
   <style type="text/css">
     html, body {
       background-color: #f3f3f3;
@@ -15,12 +14,16 @@
       background-position: center;
       background-size: cover;
       background-color: #cccccc;
-      width: 160px;
+      width: 240px;
       height: 536px;
       margin-left: auto;
       margin-right: auto;
       display: inline-block;
       cursor: crosshair;
+    }
+
+    .hideme {
+      display: none;
     }
 
     .log {
@@ -31,13 +34,10 @@
       background-color: #fff;
     }
   </style>
-  <script src="/assets/jquery.self-bd7ddd393353a8d2480a622e80342adf488fb6006d667e8b42e4c0073393abee.js?body=1"></script>
-  <script
-    src="/assets/jquery_ujs.self-784a997f6726036b1993eb2217c9cb558e1cbb801c6da88105588c56f13b466a.js?body=1"></script>
-  <script
-    src="/assets/materialize.self-ec1b6893541bd6fb5718fa6fbf8ef7b44e10a287214766f5c0d6f7e925693982.js?body=1"></script>
-  <script
-    src="/assets/materialize_loader.self-5e806e857a519f9cd1440d434c88156e737d969e512fe9b8a89c288e1de2aa2b.js?body=1"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+  <script src="/assets/materialize_loader.self-5e806e857a519f9cd1440d434c88156e737d969e512fe9b8a89c288e1de2aa2b.js?body=1"></script>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport'>
 </head>
 <body>
@@ -49,15 +49,15 @@
     </div>
   </div>
   <div class="row">
-    <div class="col s6">
+    <div class="col s12 m6">
       <div id="sketch-container" class="sketch-container"></div>
     </div>
-    <div class="col s6">
+    <div class="col s12 m6 hideme">
       <div id="log" class="log"></div>
     </div>
   </div>
 </div>
-<script src="sketch.js"></script>
+<script src="/sketch.js"></script>
 <script>
   /*
 Alternative paint apps:
@@ -72,14 +72,14 @@ Alternative paint apps:
     return Math.random() * (max - min) + min;
   }
 
-  const COLOURS = ['#AC92EB80', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
+  const COLOURS = ['#e57373', '#AC92EB80', '#AC92EB', '#4FC1E8', '#A0D568', '#FFCE54', '#ED5564'];
   const LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Unlocked";
   const UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Locked";
 
   let mydrawing = Sketch.create({
     container: document.getElementById('sketch-container'),
     fullscreen: false,
-    width: 160,
+    width: 240,
     height: 536,
     radius: 15,
     density: 40,

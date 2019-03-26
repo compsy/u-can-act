@@ -22,15 +22,47 @@ dagboek_content = [
       { title: 'Nee' }
     ]
   }, {
-    id: :v3,
-    hidden: true,
-    type: :textfield,
-    title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+    type: :raw,
+    content: <<ENDL
+<div class="v3_toggle hidden">
+  <p class="flow-text">Kleur de plekken in je lichaam waar je merkt dat het sterker wordt</p>
+  <div class="row">
+    <div class="col s12 m6">
+      <div id="sketch-container" class="sketch-container"></div>
+    </div>
+    <div class="col s12 m6 hideme">
+      <div id="log" class="log"></div>
+    </div>
+  </div>
+  <div class="row section">
+    <div class="col s12">
+      <button class="btn waves-effect waves-light" id="clear">Wissen</button>
+      <button class="btn" id="ok">Ok</button>
+    </div>
+  </div>
+</div>
+ENDL
   }, {
-    id: :v4,
-    hidden: true,
-    type: :textfield,
-    title: 'Kleur de plekken in je lichaam waar je merkt dat het slapper wordt',
+    type: :raw,
+    content: <<ENDL
+<div class="v4_toggle hidden">
+  <p class="flow-text">Kleur de plekken in je lichaam waar je merkt dat het slapper wordt</p>
+  <div class="row">
+    <div class="col s12 m6">
+      <div id="sketch-container1" class="sketch-container"></div>
+    </div>
+    <div class="col s12 m6 hideme">
+      <div id="log1" class="log"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <button class="btn waves-effect waves-light" id="clear1">Wissen</button>
+      <button class="btn" id="ok1">Ok</button>
+    </div>
+  </div>
+</div>
+ENDL
   }, {
     type: :raw,
     content: '<p class="flow-text">Geef bij elk gevoel aan hoe sterk je dit nu voelt:</p>'

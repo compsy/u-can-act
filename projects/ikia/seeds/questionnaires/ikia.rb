@@ -32,6 +32,9 @@ dagboek_content = [
     type: :textfield,
     title: 'Kleur de plekken in je lichaam waar je merkt dat het slapper wordt',
   }, {
+    type: :raw,
+    content: '<p class="flow-text">Geef bij elk gevoel aan hoe sterk je dit nu voelt:</p>'
+  }, {
     id: :v5,
     type: :range,
     title: 'Boos',

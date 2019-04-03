@@ -116,7 +116,7 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should list the correct labels / fields' do
       visit edit_person_path
       expect(page).to_not have_content('Bankgegevens')
-      expect(page).to have_content('translation missing: nl.pages.person.header')
+      expect(page).to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!')
       expect(page).to have_content('translation missing: nl.pages.person.body')
       expect(page).not_to have_content('Voornaam')
       expect(page).not_to have_content('Achternaam')

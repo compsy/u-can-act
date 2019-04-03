@@ -10,7 +10,7 @@ describe('SoloRewardPage', () => {
   });
   
   it("it should return the correct text", () => {
-    const expected = 'Bedankt voor uw inschrijving! We sturen u een e-mail ter bevestiging.';
+    const expected = 'Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!';
     expect(wrapper.childAt(0).text()).toEqual(expected);
   });
 });

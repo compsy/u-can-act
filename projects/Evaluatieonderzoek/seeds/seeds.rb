@@ -97,4 +97,10 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   token = 'abc'
   OneTimeResponse.create!(token: token, protocol: protocol)
   puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+
+  puts ''
+  protocol = Protocol.find_by_name('symposium')
+  token = 'symposium'
+  OneTimeResponse.create!(token: token, protocol: protocol)
+  puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
 end

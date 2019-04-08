@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe QuestionnaireExpander do
+describe QuestionnaireExpander do
   let(:response) { FactoryBot.create(:response) }
   describe 'expand_content' do
     it 'should call the variable substitutor for a title and return an array' do

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'GET /edit', type: :feature, js: true do
-  let(:person_header) { 'translation missing: nl.pages.person.header' }
+  let(:person_header) { 'Uw gegevens zijn opgeslagen.' }
   describe 'Mentor' do
     let!(:mentor) { FactoryBot.create(:mentor, gender: 'female') }
 
@@ -116,7 +116,7 @@ describe 'GET /edit', type: :feature, js: true do
     it 'should list the correct labels / fields' do
       visit edit_person_path
       expect(page).to_not have_content('Bankgegevens')
-      expect(page).to have_content('translation missing: nl.pages.person.header')
+      expect(page).to have_content('Uw gegevens zijn opgeslagen.')
       expect(page).to have_content('translation missing: nl.pages.person.body')
       expect(page).not_to have_content('Voornaam')
       expect(page).not_to have_content('Achternaam')
@@ -155,7 +155,8 @@ describe 'GET /edit', type: :feature, js: true do
       responseobj.complete!
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
-      expect(page).to have_content('[missing "nl.pages.klaar.header" translation]')
+      expect(page)
+        .to have_content('Uw gegevens zijn opgeslagen.')
       expect(page).to have_content('Gegevens opgeslagen')
       expect(page).to_not have_content('Disclaimer')
       expect(page).to_not have_content('Gegevens aanpassen')
@@ -165,7 +166,6 @@ describe 'GET /edit', type: :feature, js: true do
       responseobj.complete!
       page.fill_in('person_email', with: 'anewemail.com')
       all('button[type="submit"]').first.click
-      expect(page).to_not have_content('[missing "nl.pages.klaar.header" translation]')
       expect(page).to_not have_content('Gegevens opgeslagen')
     end
   end

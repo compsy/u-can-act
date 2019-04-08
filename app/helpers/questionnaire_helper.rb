@@ -7,7 +7,7 @@ module QuestionnaireHelper
     registration = get_registration_hash(@response.values)
     message = <<~ENDL
       <p>Beste #{registration[:first_name]},<br>
-      Bedankt voor je aanmelding.</p>
+      Bedankt voor je aanmelding voor het u-can-act symposium op donderdag 16 mei 2019.</p>
       <p><strong>Naam:</strong> #{registration[:name]}</p>
       <p><strong>Functie:</strong> #{registration[:function]}</p>
       <p><strong>Affiliatie:</strong> #{registration[:affiliation]}</p>

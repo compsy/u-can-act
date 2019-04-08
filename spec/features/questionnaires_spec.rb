@@ -1945,13 +1945,13 @@ describe 'GET and POST /', type: :feature, js: true do
       questionnaire = FactoryBot.create(:questionnaire, content: content)
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
       FactoryBot.create(:response, :invited,
-                                      protocol_subscription: protocol_subscription,
-                                      measurement: measurement,
-                                      open_from: 21.hours.ago)
-      responseobj = FactoryBot.create(:response, :invited,
                         protocol_subscription: protocol_subscription,
                         measurement: measurement,
-                        open_from: 1.hour.ago)
+                        open_from: 21.hours.ago)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_content('Wie is de mol?')

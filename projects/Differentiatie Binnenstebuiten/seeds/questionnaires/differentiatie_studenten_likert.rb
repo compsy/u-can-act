@@ -143,6 +143,40 @@ dagboek_content = [{
   title: "… had ik het gevoel dat de docent er voor mij was.",
   type: :likert,
   options: ['1<br>helemaal niet waar', '2', '3', '4', '5<br>helemaal waar']
+},
+{
+  section_start: 'Laatste dagboek',
+  type: :raw,
+  content: '<p class="flow-text section-explanation">De laatste vragen gaan niet over de afgelopen les, maar over de lessen op school in het algemeen.  Geef voor elke uitspraak aan in welke mate de uitspraak waar is voor jou.</p>',
+  show_after: :only_on_final_questionnaire
+},
+{
+  section_start: "Ik vind het belangrijk dat…",
+  id: :v23,
+  title: "… ik het gevoel heb dat ik de dingen op school goed kan.",
+  type: :range,
+  labels: ['helemaal niet waar', 'helemaal waar'],
+  show_after: :only_on_final_questionnaire
+}, 
+{
+  id: :v24,
+  title: "… ik keuze en vrijheid heb ik de dingen die ik op school doe.",
+  type: :range,
+  labels: ['helemaal niet waar', 'helemaal waar'],
+  show_after: :only_on_final_questionnaire
+},
+{
+  id: :v25,
+  title: "… ik goed met de docent op kan schieten.",
+  type: :range,
+  labels: ['helemaal niet waar', 'helemaal waar'],
+  show_after: :only_on_final_questionnaire
+}, {
+  id: :v26,
+  title: "… ik goed met mijn klasgenoten op kan schieten.",
+  type: :range,
+  labels: ['helemaal niet waar', 'helemaal waar'],
+  show_after: :only_on_final_questionnaire
 }]
 dagboek1.content = dagboek_content
 dagboek1.title = db_title

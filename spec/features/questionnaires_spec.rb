@@ -1947,7 +1947,7 @@ describe 'GET and POST /', type: :feature, js: true do
       FactoryBot.create(:response, :invited,
                         protocol_subscription: protocol_subscription,
                         measurement: measurement,
-                        open_from: 21.hours.ago)
+                        open_from: 7.days.ago)
       responseobj = FactoryBot.create(:response, :invited,
                                       protocol_subscription: protocol_subscription,
                                       measurement: measurement,

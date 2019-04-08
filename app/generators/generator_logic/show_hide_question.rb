@@ -51,7 +51,7 @@ module GeneratorLogic
       end
 
       def only_final?(show_after)
-        show_after == :finalizing_study
+        show_after == :only_on_final_questionnaire
       end
 
       def a_time?(value)

@@ -102,7 +102,7 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   invitation_set = InvitationSet.create!(person: person)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
-  puts "differentiatie student meting bijna klaar: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+  puts "differentiatie student meting laatste: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   puts ''
 

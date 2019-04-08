@@ -79,14 +79,6 @@ class QuestionnaireGenerator
     body
   end
 
-  def a_time?(value)
-    TimeTools.a_time?(value)
-  end
-
-  def an_offset?(value)
-    TimeTools.an_offset?(value)
-  end
-
   def submit_button(submit_text)
     submit_body = content_tag(:button,
                               submit_text,

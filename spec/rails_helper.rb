@@ -9,7 +9,7 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'dotenv'
 require 'capybara/rspec'
-require 'selenium/webdriver'
+require 'capybara/poltergeist'
 require 'capybara-screenshot/rspec' unless ENV['CI']
 Selenium::WebDriver::Chrome.driver_path = '/usr/local/bin/chromedriver' if Selenium::WebDriver::Platform.mac? &&
                                                                            File.exist?('/usr/local/bin/chromedriver')
@@ -51,7 +51,7 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :poltergeist
 Capybara.default_driver = :rack_test
 
 RSpec.configure do |config|

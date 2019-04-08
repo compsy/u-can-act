@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   database: <%= ENV['POSTGRES_DATABASE'] || 'vsv' %>_development
-  username: <%= ENV['POSTGRES_USERNAME'] || 'root' || ENV['USER'] %>
+  username: <%= ENV['POSTGRES_USERNAME'] || ENV['USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   encoding: utf8
   port: 5433
@@ -13,7 +13,7 @@ development:
 test:
   adapter: postgresql
   database: <%= ENV['POSTGRES_DATABASE'] || 'vsv' %>_test<%= ENV['TEST_ENV_NUMBER'] %>
-  username: <%= ENV['POSTGRES_USERNAME'] || 'root' || ENV['USER'] %>
+  username: <%= ENV['POSTGRES_USERNAME'] || ENV['USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   encoding: utf8
   min_messages: warning

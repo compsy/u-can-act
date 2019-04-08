@@ -1,7 +1,7 @@
 # Beware! This file is public by definition
 default: &default
-  project_start_date: '2019-04-07'
-  project_end_date: '2019-05-16'
+  project_start_date: '2017-11-08'
+  project_end_date: '2018-07-12'
   default_team_name: 'Evaluatieonderzoek'
   logo:
     mentor_logo: 'U_can_act_logo_CMYK_BLAUW.png'

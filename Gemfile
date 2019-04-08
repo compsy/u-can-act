@@ -125,8 +125,8 @@ group :test do
 
   # selenium for js testing
   gem 'capybara-selenium'
-  gem 'poltergeist'
   gem 'chromedriver-helper'
+  gem 'poltergeist'
   gem 'selenium-webdriver'
 end
 

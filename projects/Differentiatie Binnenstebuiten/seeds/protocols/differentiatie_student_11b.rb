@@ -7,7 +7,7 @@ db_name = 'Differentiatie Binnenstebuiten Scholieren Nederlands'
 ic_name = 'informed consent scholieren'
 invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 
-default_protocol_duration = (Date.new(2019,4,18) - Date.new(2018,10,29)).to_i
+default_protocol_duration = (Date.new(2019,4,17) - Date.new(2018,10,29)).to_i
 default_reward_points = 100
 
 protocol = Protocol.find_by_name(pr_name)

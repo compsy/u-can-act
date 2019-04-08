@@ -3,7 +3,7 @@
 ################
 
 def create_protocol(pr_name, db_name, ic_name, invitation_text)
-  default_protocol_duration = (Date.new(2019,4,18) - Date.new(2018,10,29)).to_i
+  default_protocol_duration = (Date.new(2019,4,17) - Date.new(2018,10,29)).to_i
   default_reward_points = 100
 
   protocol = Protocol.find_by_name(pr_name)

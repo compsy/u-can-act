@@ -73,47 +73,10 @@ class QuestionnaireGenerator
       new_question = question.deep_dup
       new_question = substitute_variables(response, new_question)
       new_question.each do |quest|
-        (body << yield(quest, idx)) if should_show?(quest, response&.id)
+        (body << yield(quest, idx)) if ShowHideQuestion.should_show?(quest, response&.id)
       end
     end
     body
-  end
-
-  def should_show?(question, response_id)
-    return true unless question.key?(:show_after)
-
-    show_after_hash = ensure_show_after_hash(question[:show_after])
-    if show_after_hash.key?(:offset)
-      show_after_hash[:date] = convert_offset_to_date(show_after_hash[:offset],
-                                                      response_id)
-    end
-    ensure_date_validity(show_after_hash[:date])
-    show_after = show_after_hash[:date].in_time_zone
-    show_after < Time.zone.now
-  end
-
-  def ensure_show_after_hash(show_after)
-    show_after_hash = if an_offset?(show_after)
-                        { offset: show_after }
-                      elsif a_time?(show_after)
-                        { date: show_after }
-                      else
-                        raise "Unknown show_after type: #{show_after}"
-                      end
-    show_after_hash
-  end
-
-  def ensure_date_validity(date)
-    raise "Unknown show_after date type: #{date}" unless a_time?(date)
-  end
-
-  def convert_offset_to_date(offset, response_id)
-    raise "Unknown show_after offset type: #{offset}" unless an_offset?(offset)
-
-    response = Response.find_by_id(response_id)
-    return 2.seconds.ago if response.blank? # If we don't have a response, just show it
-
-    TimeTools.increase_by_duration(response.protocol_subscription.start_date, offset)
   end
 
   def a_time?(value)

@@ -14,6 +14,9 @@ class ProtocolSubscription < ApplicationRecord
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true
   validates :end_date, presence: true
+
+  # Note: this ordering is important for a number of reasons. E.g.:
+  # - Response.last? uses it to determine if this is the last in the set.
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for

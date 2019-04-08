@@ -4,7 +4,9 @@ class QuestionnaireExpander
   class << self
     def expand_content(content, response)
       if content.is_a?(Hash)
-        return process_first_response(content, response) if process_first_response? content
+        if QuestionnaireExpanders::FirstAndLastExpander.needs_expansion? content
+          return QuestionnaireExpanders::FirstAndLastExpander.expand!(content, response)
+        end
         return process_foreach(content, response) if process_foreach? content, response
         return process_uses(content, response) if process_uses? content
       end
@@ -22,10 +24,6 @@ class QuestionnaireExpander
       content[:uses].present?
     end
 
-    def process_first_response?(content)
-      content[:title].is_a?(Hash) || content[:content].is_a?(Hash)
-    end
-
     def process_normal(content, response)
       subs_hash = VariableSubstitutor.substitute_variables(response)
       result = VariableEvaluator.evaluate_obj(content, subs_hash)
@@ -41,26 +39,6 @@ class QuestionnaireExpander
       else
         raise "Only :previous uses type is allowed, not '#{content[:uses]}'"
       end
-    end
-
-    def process_first_response(content, response)
-      items = %i[title content]
-      items.each do |key|
-        # Just quit searching if we do not have any more tags to replace.
-        break unless process_first_response? content
-
-        next unless content[key].is_a? Hash
-
-        previous = PreviousResponseFinder.find(response)
-
-        initial_value = content[key][:first]
-        content[key] = if previous.blank? && initial_value.present?
-                         initial_value
-                       else
-                         content[key][:normal]
-                       end
-      end
-      expand_content(content, response)
     end
 
     def process_uses_previous(content, response)

@@ -219,6 +219,29 @@ describe Response do
     end
   end
 
+  describe 'last?' do
+    it 'should return true if this response is the last in the series and false if not' do
+      protocol = FactoryBot.create(:protocol, duration: 2.weeks)
+      measurement = FactoryBot.create(:measurement, open_duration: 6.hours, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      responses = (1..10).map do |idx|
+        FactoryBot.create(
+          :response,
+          measurement: measurement,
+          open_from: TimeTools.increase_by_duration(protocol_subscription.start_date,
+                                                    idx.day + 12.hours),
+          protocol_subscription: protocol_subscription
+        )
+      end
+
+      responses.each_with_index do |response, idx|
+        result = response.last?
+        expected = (idx == responses.length - 1)
+        expect(result).to eq expected
+      end
+    end
+  end
+
   describe 'remote_content' do
     it 'should work when there is content' do
       responseobj = FactoryBot.create(:response, :completed)

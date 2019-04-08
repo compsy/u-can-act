@@ -86,6 +86,10 @@ class Response < ApplicationRecord
     Rails.application.routes.url_helpers.questionnaire_path(uuid: uuid)
   end
 
+  def last?
+    protocol_subscription.responses.last == self
+  end
+
   def future?
     open_from > Time.zone.now
   end

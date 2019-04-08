@@ -53,6 +53,14 @@ module GeneratorLogic
       def only_final?(show_after)
         show_after == :finalizing_study
       end
+
+      def a_time?(value)
+        TimeTools.a_time?(value)
+      end
+
+      def an_offset?(value)
+        TimeTools.an_offset?(value)
+      end
     end
   end
 end

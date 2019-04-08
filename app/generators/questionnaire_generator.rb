@@ -73,7 +73,7 @@ class QuestionnaireGenerator
       new_question = question.deep_dup
       new_question = substitute_variables(response, new_question)
       new_question.each do |quest|
-        (body << yield(quest, idx)) if ShowHideQuestion.should_show?(quest, response&.id)
+        (body << yield(quest, idx)) if GeneratorLogic::ShowHideQuestion.should_show?(quest, response&.id)
       end
     end
     body

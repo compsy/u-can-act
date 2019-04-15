@@ -11,9 +11,7 @@ module Api
 
       def create
         raw_questionnaire_content = JSON.parse(params[:content])
-        raw_questionnaire_content = raw_questionnaire_content.map{|entry| entry.with_indifferent_access}
-        Rails.logger.info raw_questionnaire_content	
-        questionnaire = Questionnaire.all.first
+        raw_questionnaire_content = raw_questionnaire_content.map(&:with_indifferent_access)
         @content = QuestionnaireGenerator.new.generate_questionnaire(
           response_id: nil,
           content: raw_questionnaire_content,

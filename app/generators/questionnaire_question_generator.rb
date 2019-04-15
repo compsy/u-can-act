@@ -35,6 +35,7 @@ class QuestionnaireQuestionGenerator < Generator
   private
 
   def find_generator(type, only_questions: true)
+    type = type.to_sym if type.is_a? String
     generator = @generators[type]
     check_question_type_available(type, generator)
     check_question_type_allowed(type, generator, only_questions)

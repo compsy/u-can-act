@@ -5,7 +5,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      before_action :verify_current_user
+      before_action :verify_current_user, except: :interactive
     end
 
     private

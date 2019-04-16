@@ -20,6 +20,10 @@ class QuestionnaireController < ApplicationController
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
+  def interactive
+    @default_content = Questionnaire.all.sample&.content&.to_json
+  end
+
   def show
     @response.update_attributes!(opened_at: Time.zone.now)
   end

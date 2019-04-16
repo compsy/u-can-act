@@ -1,0 +1,22 @@
+:javascript
+  $(document).ready( function() {
+    $( "#questionnaire_content" ).submit(function( event ) {
+      event.preventDefault();
+
+      var data = {'content': $('#content').val()};
+      $.post( "/api/v1/questionnaire", data, function( data ) {
+        $( ".result" ).html( data );
+        $(".example-title").show()
+      });
+    });
+  });
+.row
+  %form.col.s12#questionnaire_content
+    .row
+      .input-field.col.s12
+        %textarea#content.materialize-textarea #{@default_content}
+        %label{for: "content"} Questionnaire JSON 
+    .row
+      %button.btn.waves-effect.waves-light{:name => "action", :type => "submit"}  Submit
+%h3.example-title{style: "display: none;"} Example questionnaire
+.result

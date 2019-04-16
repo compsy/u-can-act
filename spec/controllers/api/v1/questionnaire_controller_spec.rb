@@ -17,19 +17,24 @@ describe Api::V1::QuestionnaireController, type: :controller do
       end
 
       it 'should head 200' do
-        post :create, params: { content: questionnaire }
+        post :create, params: { content: content }
         expect(response.status).to eq 200
       end
 
       it 'should return a HTML version of the passed-in json' do
         expected = '<div class="row section"><div class="col s12">content here!</div></div>'
-        post :create, params: { content: questionnaire }
+        post :create, params: { content: content }
         expect(response.body).to include expected
       end
     end
 
-    context 'wront request' do
+    context 'wrong request' do
       let(:content) { 'notjson' }
+      it 'should head 400 if the content is not an array' do
+        post :create, params: { content: { a: 1 }.to_json }
+        expect(response.status).to eq 400
+      end
+
       it 'should head 400' do
         post :create, params: { content: content }
         expect(response.status).to eq 400

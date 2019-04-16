@@ -22,6 +22,8 @@ module Api
         )
 
         render 'questionnaire/show'
+      rescue JSON::ParserError => e
+        render status: 400, json: { error: e.message }
       end
 
       private

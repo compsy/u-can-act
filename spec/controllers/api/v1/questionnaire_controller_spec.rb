@@ -7,6 +7,41 @@ describe Api::V1::QuestionnaireController, type: :controller do
   let(:questionnaire) { FactoryBot.create(:questionnaire) }
   let(:other_response) { FactoryBot.create(:response) }
 
+  describe 'create', focus: true do
+    context 'correct request' do
+      let(:content) do
+        [{
+          type: :raw,
+          content: 'content here!'
+        }].to_json
+      end
+
+      it 'should head 200' do
+        post :create, params: { content: questionnaire }
+        expect(response.status).to eq 200
+      end
+
+      it 'should return a HTML version of the passed-in json' do
+        expected = '<div class="row section"><div class="col s12">content here!</div></div>'
+        post :create, params: { content: questionnaire }
+        expect(response.body).to include expected
+      end
+    end
+
+    context 'wront request' do
+      let(:content) { 'notjson' }
+      it 'should head 400' do
+        post :create, params: { content: content }
+        expect(response.status).to eq 400
+      end
+
+      it 'should return some error message' do
+        post :create, params: { content: content }
+        expect(response.body).to eq({ error: "765: unexpected token at 'notjson'" }.to_json)
+      end
+    end
+  end
+
   describe 'show' do
     it 'should set the correct env vars if the questionnaire is available' do
       get :show, params: { key: questionnaire.key }

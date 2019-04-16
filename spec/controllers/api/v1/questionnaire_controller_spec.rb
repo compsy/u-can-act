@@ -7,7 +7,7 @@ describe Api::V1::QuestionnaireController, type: :controller do
   let(:questionnaire) { FactoryBot.create(:questionnaire) }
   let(:other_response) { FactoryBot.create(:response) }
 
-  describe 'create', focus: true do
+  describe 'create' do
     context 'correct request' do
       let(:content) do
         [{

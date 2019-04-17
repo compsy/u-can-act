@@ -26,7 +26,7 @@ module GeneratorLogic
       end
 
       def deal_with_type(show_after_hash, response_id)
-        Response.find_by_id(response_id).last? if show_after_hash[:type] == :only_on_final_questionnaire
+        Response.find_by_id(response_id)&.last? if show_after_hash[:type] == :only_on_final_questionnaire
       end
 
       def ensure_show_after_hash(show_after)

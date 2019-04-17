@@ -24,7 +24,7 @@ module QuestionnaireExpanders
 
       def process_final_value(key, content, response)
         final_value = content[key][:last]
-        return false unless response.last? && final_value.present?
+        return false unless response&.last? && final_value.present?
 
         content[key] = final_value
         true

@@ -40,6 +40,16 @@ describe Api::V1::QuestionnaireController, type: :controller do
         expect(response.status).to eq 400
       end
 
+      it 'should head 400 if the json is nil' do
+        post :create, params: {}
+        expect(response.status).to eq 400
+        expect(response.body).to eq 'Please supply a json file'
+
+        post :create, params: {content: []}
+        expect(response.status).to eq 400
+        expect(response.body).to eq 'Please supply a json file'
+      end
+
       it 'should return some error message' do
         post :create, params: { content: content }
         expect(response.body).to eq({ error: "765: unexpected token at 'notjson'" }.to_json)

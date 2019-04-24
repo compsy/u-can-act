@@ -41,13 +41,11 @@ describe Api::V1::QuestionnaireController, type: :controller do
       end
 
       it 'should head 400 if the json is nil' do
-        post :create, params: {}
-        expect(response.status).to eq 400
-        expect(response.body).to eq 'Please supply a json file'
-
-        post :create, params: {content: []}
-        expect(response.status).to eq 400
-        expect(response.body).to eq 'Please supply a json file'
+        [{}, { content: [] }].each do |params|
+          post :create, params: params
+          expect(response.status).to eq 400
+          expect(response.body).to eq 'Please supply a json file in the content field.'
+        end
       end
 
       it 'should return some error message' do

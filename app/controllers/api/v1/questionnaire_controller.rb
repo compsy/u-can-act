@@ -28,7 +28,9 @@ module Api
       private
 
       def check_questionnaire_content
-        render(status: 400, json: 'Please supply a json file in the content field.') if params.blank? || params[:content].blank?
+        return unless params.blank? || params[:content].blank?
+
+        render(status: 400, json: 'Please supply a json file in the content field.')
       end
 
       def set_questionnaire_content

@@ -143,6 +143,7 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: bundle --path vendor/bundle
       - run: yarn install
+      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
       - run: RAILS_ENV=development bin/check_translations.sh
 
   test_rubocop:

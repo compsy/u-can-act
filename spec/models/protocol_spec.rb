@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Protocol do
   it 'should have valid default properties' do
-    protocol = FactoryBot.build(:protocol)
+    protocol = FactoryBot.create(:protocol)
     expect(protocol.valid?).to be_truthy
   end
 
@@ -12,19 +12,22 @@ describe Protocol do
     it 'should not allow two protocols with the same name' do
       protocolone = FactoryBot.create(:protocol, name: 'myprotocol')
       expect(protocolone.valid?).to be_truthy
-      protocoltwo = FactoryBot.build(:protocol, name: 'myprotocol')
+      protocoltwo = FactoryBot.create(:protocol)
+      protocoltwo.name = 'myprotocol'
       expect(protocoltwo.valid?).to be_falsey
       expect(protocoltwo.errors.messages).to have_key :name
       expect(protocoltwo.errors.messages[:name]).to include('is al in gebruik')
     end
     it 'should not accept a nil name' do
-      protocol = FactoryBot.build(:protocol, name: nil)
+      protocol = FactoryBot.create(:protocol)
+      protocol.name = nil
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :name
       expect(protocol.errors.messages[:name]).to include('moet opgegeven zijn')
     end
     it 'should not accept a blank name' do
-      protocol = FactoryBot.build(:protocol, name: '')
+      protocol = FactoryBot.create(:protocol)
+      protocol.name = ''
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :name
       expect(protocol.errors.messages[:name]).to include('moet opgegeven zijn')
@@ -33,7 +36,7 @@ describe Protocol do
 
   describe 'duration' do
     it 'should be a zero or positive integer' do
-      protocol = FactoryBot.build(:protocol)
+      protocol = FactoryBot.create(:protocol)
       protocol.duration = 0
       expect(protocol.valid?).to be_truthy
       protocol.duration = 1.5
@@ -45,7 +48,8 @@ describe Protocol do
     end
 
     it 'should not be nil' do
-      protocol = FactoryBot.build(:protocol, duration: nil)
+      protocol = FactoryBot.create(:protocol)
+      protocol.duration = nil
       expect(protocol.valid?).to be_falsey
       expect(protocol.errors.messages).to have_key :duration
       expect(protocol.errors.messages[:duration]).to include('is geen getal')
@@ -172,14 +176,14 @@ describe Protocol do
       expect { protocol.save! }.to_not raise_error
     end
     it 'should have a factory with an invitation text' do
-      protocol = FactoryBot.build(:protocol)
+      protocol = FactoryBot.create(:protocol)
       expect(protocol.invitation_text).to be_nil
-      protocol = FactoryBot.build(:protocol, :with_invitation_text)
+      protocol = FactoryBot.create(:protocol, :with_invitation_text)
       expect(protocol.invitation_text).to_not be_nil
     end
 
     it 'should be valid without an invitation text' do
-      protocol = FactoryBot.build(:protocol)
+      protocol = FactoryBot.create(:protocol)
       expect(protocol.invitation_text).to be_nil
       expect(protocol).to be_valid
     end

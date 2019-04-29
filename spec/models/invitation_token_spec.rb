@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe InvitationToken do
   it 'should have valid default properties' do
-    invitation_token = FactoryBot.build(:invitation_token)
+    invitation_token = FactoryBot.create(:invitation_token)
     expect(invitation_token.valid?).to be_truthy
   end
 
@@ -109,7 +109,7 @@ describe InvitationToken do
       expect(invitation_tokenone.token).to_not be_empty
       expect(invitation_tokenone.token.to_s).to_not eq tok
       expect(invitation_tokenone.valid?).to be_truthy
-      invitation_tokentwo = FactoryBot.build(:invitation_token, token: tok)
+      invitation_tokentwo = FactoryBot.create(:invitation_token, token: tok)
       expect(invitation_tokentwo.token_plain).to eq tok
       expect(invitation_tokentwo.token).to_not be_empty
       expect(invitation_tokenone.token.to_s).to_not eq tok
@@ -117,14 +117,14 @@ describe InvitationToken do
       expect(invitation_tokentwo.token.to_s).to_not eq invitation_tokenone.token.to_s
     end
     it 'should not accept a nil token_hash' do
-      invitation_token = FactoryBot.build(:invitation_token)
+      invitation_token = FactoryBot.create(:invitation_token)
       invitation_token.token_hash = nil
       expect(invitation_token.valid?).to be_falsey
       expect(invitation_token.errors.messages).to have_key :token_hash
       expect(invitation_token.errors.messages[:token_hash]).to include('moet opgegeven zijn')
     end
     it 'should not accept a blank token_hash' do
-      invitation_token = FactoryBot.build(:invitation_token)
+      invitation_token = FactoryBot.create(:invitation_token)
       invitation_token.token_hash = ''
       expect(invitation_token.valid?).to be_falsey
       expect(invitation_token.errors.messages).to have_key :token_hash
@@ -159,7 +159,8 @@ describe InvitationToken do
 
   describe 'invitation_set_id' do
     it 'should have one' do
-      invitation_token = FactoryBot.build(:invitation_token, invitation_set_id: nil)
+      invitation_token = FactoryBot.create(:invitation_token)
+      invitation_token.invitation_set_id = nil
       expect(invitation_token.valid?).to be_falsey
       expect(invitation_token.errors.messages).to have_key :invitation_set_id
       expect(invitation_token.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
@@ -172,7 +173,7 @@ describe InvitationToken do
 
   describe 'expires_at' do
     it 'should not be able to be nil' do
-      invitation_token = FactoryBot.build(:invitation_token, expires_at: nil)
+      invitation_token = FactoryBot.create(:invitation_token, expires_at: nil)
       expect(invitation_token.expires_at).to_not be_nil
     end
     it 'should be able to set it to a value' do

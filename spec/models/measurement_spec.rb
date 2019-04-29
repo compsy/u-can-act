@@ -4,13 +4,14 @@ require 'rails_helper'
 
 describe Measurement do
   it 'should have valid default properties' do
-    measurement = FactoryBot.build(:measurement)
+    measurement = FactoryBot.create(:measurement)
     expect(measurement.valid?).to be_truthy
   end
 
   describe 'questionnaire_id' do
     it 'should have one' do
-      measurement = FactoryBot.build(:measurement, questionnaire_id: nil)
+      measurement = FactoryBot.create(:measurement)
+      measurement.questionnaire_id = nil
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :questionnaire_id
       expect(measurement.errors.messages[:questionnaire_id]).to include('moet opgegeven zijn')
@@ -23,7 +24,8 @@ describe Measurement do
 
   describe 'protocol_id' do
     it 'should have one' do
-      measurement = FactoryBot.build(:measurement, protocol_id: nil)
+      measurement = FactoryBot.create(:measurement)
+      measurement.protocol_id = nil
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :protocol_id
       expect(measurement.errors.messages[:protocol_id]).to include('moet opgegeven zijn')
@@ -36,7 +38,7 @@ describe Measurement do
 
   describe 'open_from_offset' do
     it 'should be an integer' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.open_from_offset = 5
       expect(measurement.valid?).to be_truthy
       measurement.open_from_offset = -3
@@ -49,9 +51,10 @@ describe Measurement do
       expect(measurement.errors.messages[:open_from_offset]).to include('moet een geheel getal zijn')
     end
     it 'should be able to be nil as long as offset_till_end is set' do
-      measurement = FactoryBot.build(:measurement, open_from_offset: nil)
+      measurement = FactoryBot.create(:measurement)
+      measurement.open_from_offset = nil
       expect(measurement).to_not be_valid
-      measurement = FactoryBot.build(:measurement, open_from_offset: nil, offset_till_end: 1.week)
+      measurement = FactoryBot.create(:measurement, open_from_offset: nil, offset_till_end: 1.week)
       expect(measurement).to be_valid
     end
   end
@@ -62,7 +65,7 @@ describe Measurement do
       expect(measurement.stop_measurement?).to be_falsey
     end
     it 'should be present and boolean' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.stop_measurement = nil
       expect(measurement).to_not be_valid
 
@@ -72,7 +75,8 @@ describe Measurement do
       expect(measurement).to be_valid
     end
     it 'should set the correct error messages' do
-      measurement = FactoryBot.build(:measurement, stop_measurement: nil)
+      measurement = FactoryBot.create(:measurement)
+      measurement.stop_measurement = nil
       expect(measurement).to_not be_valid
       expect(measurement.errors.messages).to have_key :stop_measurement
       expect(measurement.errors.messages[:stop_measurement]).to include('is niet in de lijst opgenomen')
@@ -83,7 +87,7 @@ describe Measurement do
       protocol = FactoryBot.create(:protocol)
       measurement = FactoryBot.create(:measurement, stop_measurement: true, protocol: protocol)
       expect(measurement).to be_valid
-      measurement = FactoryBot.build(:measurement, stop_measurement: true, protocol: protocol)
+      measurement = FactoryBot.create(:measurement, stop_measurement: true, protocol: protocol)
       expect(measurement).to_not be_valid
       expect(measurement.errors.messages.keys).to include(:protocol)
       expect(measurement.errors.messages[:protocol]).to include('can only have a single stop_measurement')
@@ -109,7 +113,7 @@ describe Measurement do
       expect(measurement.should_invite?).to be_truthy
     end
     it 'should be present and boolean' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.should_invite = nil
       expect(measurement).to_not be_valid
 
@@ -119,7 +123,8 @@ describe Measurement do
       expect(measurement).to be_valid
     end
     it 'should set the correct error messages' do
-      measurement = FactoryBot.build(:measurement, should_invite: nil)
+      measurement = FactoryBot.create(:measurement)
+      measurement.should_invite = nil
       expect(measurement).to_not be_valid
       expect(measurement.errors.messages).to have_key :should_invite
       expect(measurement.errors.messages[:should_invite]).to include('is niet in de lijst opgenomen')
@@ -128,7 +133,7 @@ describe Measurement do
 
   describe 'period' do
     it 'should be a positive integer' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.period = 2
       expect(measurement.valid?).to be_truthy
       measurement.period = 0
@@ -141,14 +146,14 @@ describe Measurement do
       expect(measurement.errors.messages[:period]).to include('moet groter zijn dan 0')
     end
     it 'should accept nil values' do
-      measurement = FactoryBot.build(:measurement, period: nil)
+      measurement = FactoryBot.create(:measurement, period: nil)
       expect(measurement.valid?).to be_truthy
     end
   end
 
   describe 'open_duration' do
     it 'should be a zero or positive integer' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.open_duration = 0
       expect(measurement.valid?).to be_truthy
       measurement.open_duration = 1.5
@@ -159,14 +164,14 @@ describe Measurement do
       expect(measurement.errors.messages[:open_duration]).to include('moet groter dan of gelijk zijn aan 0')
     end
     it 'should accept nil values' do
-      measurement = FactoryBot.build(:measurement, open_duration: nil)
+      measurement = FactoryBot.create(:measurement, open_duration: nil)
       expect(measurement.valid?).to be_truthy
     end
   end
 
   describe 'offset_till_end' do
     it 'should be a zero or positive integer' do
-      measurement = FactoryBot.build(:measurement, open_from_offset: nil)
+      measurement = FactoryBot.create(:measurement, open_from_offset: nil)
       measurement.offset_till_end = 0
       expect(measurement).to be_valid
       measurement.offset_till_end = 1.5
@@ -177,14 +182,14 @@ describe Measurement do
       expect(measurement.errors.messages[:offset_till_end]).to include('moet groter dan of gelijk zijn aan 0')
     end
     it 'should accept nil values' do
-      measurement = FactoryBot.build(:measurement, open_duration: nil)
+      measurement = FactoryBot.create(:measurement, open_duration: nil)
       expect(measurement.valid?).to be_truthy
     end
   end
 
   describe 'reward_points' do
     it 'should be a zero or positive integer' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.reward_points = 0
       expect(measurement.valid?).to be_truthy
       measurement.reward_points = 1.5
@@ -195,7 +200,8 @@ describe Measurement do
       expect(measurement.errors.messages[:reward_points]).to include('moet groter dan of gelijk zijn aan 0')
     end
     it 'should not be nil' do
-      measurement = FactoryBot.build(:measurement, reward_points: nil)
+      measurement = FactoryBot.create(:measurement)
+      measurement.reward_points = nil
       expect(measurement.valid?).to be_falsey
       expect(measurement.errors.messages).to have_key :reward_points
       expect(measurement.errors.messages[:reward_points]).to include('is geen getal')
@@ -277,7 +283,8 @@ describe Measurement do
     context 'either_open_from_or_offset_till_end' do
       describe 'periodical measurements' do
         it 'should not work without an open_from_offset' do
-          measurement = FactoryBot.build(:measurement, :periodical, open_from_offset: nil)
+          measurement = FactoryBot.create(:measurement, :periodical)
+          measurement.open_from_offset = nil
           expect(measurement).to_not be_valid
           expect(measurement.errors.messages).to have_key :open_from_offset
           expect(measurement.errors.messages[:open_from_offset]).to include('cannot be blank')
@@ -285,15 +292,17 @@ describe Measurement do
       end
       describe 'nonperiodical measurements' do
         it 'should work with only open_from_offset' do
-          measurement = FactoryBot.build(:measurement, open_from_offset: 1.week, offset_till_end: nil)
+          measurement = FactoryBot.create(:measurement, open_from_offset: 1.week, offset_till_end: nil)
           expect(measurement).to be_valid
         end
         it 'should work with only offset_till_end' do
-          measurement = FactoryBot.build(:measurement, offset_till_end: 1.week, open_from_offset: nil)
+          measurement = FactoryBot.create(:measurement, offset_till_end: 1.week, open_from_offset: nil)
           expect(measurement).to be_valid
         end
         it 'should fail validation with both open_from_offset and open_till_end' do
-          measurement = FactoryBot.build(:measurement, offset_till_end: 1.week, open_from_offset: 1.week)
+          measurement = FactoryBot.create(:measurement)
+          measurement.offset_till_end = 1.week
+          measurement.open_from_offset = 1.week
           expect(measurement).to_not be_valid
           expect(measurement.errors.messages).to have_key :open_from_offset
           expect(measurement.errors.messages[:open_from_offset])
@@ -303,7 +312,9 @@ describe Measurement do
             .to include('cannot be present if open_from_offset is present')
         end
         it 'should fail validation with neither open_from_offset or open_till_end' do
-          measurement = FactoryBot.build(:measurement, offset_till_end: nil, open_from_offset: nil)
+          measurement = FactoryBot.create(:measurement)
+          measurement.offset_till_end = nil
+          measurement.open_from_offset = nil
           expect(measurement).to_not be_valid
           expect(measurement.errors.messages).to have_key :open_from_offset
           expect(measurement.errors.messages[:open_from_offset])

@@ -10,7 +10,7 @@ shared_examples_for 'a person object' do
   end
 
   it 'should have valid default properties' do
-    person = FactoryBot.build(:person)
+    person = FactoryBot.create(:person)
     expect(person.valid?).to be_truthy
   end
 
@@ -103,7 +103,8 @@ shared_examples_for 'a person object' do
     it 'should have a uniqueness constraint on phone numbers' do
       student = FactoryBot.create(:student, mobile_phone: '0611111111')
       expect(student.valid?).to be_truthy
-      mentor = FactoryBot.build(:mentor, mobile_phone: '0611111111')
+      mentor = FactoryBot.create(:mentor)
+      mentor.mobile_phone = '0611111111'
       expect(mentor.valid?).to be_falsey
       expect(mentor.errors.messages).to have_key :mobile_phone
       expect(mentor.errors.messages[:mobile_phone]).to include('is al in gebruik')
@@ -128,7 +129,8 @@ shared_examples_for 'a person object' do
     end
 
     it 'should not accept a double period' do
-      person = FactoryBot.build(:person, email: 'mentor..hoi@test.com')
+      person = FactoryBot.create(:person)
+      person.email = 'mentor..hoi@test.com'
       expect(person).to_not be_valid
       expect(person.errors.messages).to have_key :email
       expect(person.errors.messages[:email]).to include('is ongeldig')
@@ -137,7 +139,8 @@ shared_examples_for 'a person object' do
     it 'should not accept general invalid emails' do
       invalid_emails = %w[mentor..hoi@test.com mentor-hoi@ @test.com]
       invalid_emails.each do |email|
-        person = FactoryBot.build(:person, email: email)
+        person = FactoryBot.create(:person)
+        person.email = email
         expect(person).to_not be_valid
         expect(person.errors.messages).to have_key :email
         expect(person.errors.messages[:email]).to include('is ongeldig')
@@ -147,7 +150,7 @@ shared_examples_for 'a person object' do
     it 'should accept general valid emails' do
       valid_emails = %w[mentor.hoi@test.com mentor-hoi@test.com b@a.com mentor+test@test.com]
       valid_emails.each do |email|
-        person = FactoryBot.build(:person, email: email)
+        person = FactoryBot.create(:person, email: email)
         expect(person).to be_valid
       end
     end
@@ -155,7 +158,8 @@ shared_examples_for 'a person object' do
 
   describe 'role_id' do
     it 'should have one' do
-      person = FactoryBot.build(:person, role_id: nil)
+      person = FactoryBot.create(:person)
+      person.role_id = nil
       expect(person).to_not be_valid
       expect(person.errors.messages).to have_key :role_id
       expect(person.errors.messages[:role_id]).to include('moet opgegeven zijn')
@@ -168,25 +172,27 @@ shared_examples_for 'a person object' do
 
   describe 'gender' do
     it 'should be one of the predefined genders' do
-      person = FactoryBot.build(:person)
+      person = FactoryBot.create(:person)
       person.gender = Person::MALE
       expect(person.valid?).to be_truthy
-      person = FactoryBot.build(:person)
+      person = FactoryBot.create(:person)
       person.gender = Person::FEMALE
       expect(person.valid?).to be_truthy
     end
     it 'should accept nil' do
-      person = FactoryBot.build(:person, gender: nil)
+      person = FactoryBot.create(:person, gender: nil)
       expect(person.valid?).to be_truthy
     end
     it 'should not be empty' do
-      person = FactoryBot.build(:person, gender: '')
+      person = FactoryBot.create(:person)
+      person.gender = ''
       expect(person.valid?).to be_falsey
       expect(person.errors.messages).to have_key :gender
       expect(person.errors.messages[:gender]).to include('is niet in de lijst opgenomen')
     end
     it 'cannot be just any string' do
-      person = FactoryBot.build(:person, gender: 'somestring')
+      person = FactoryBot.create(:person)
+      person.gender = 'somestring'
       expect(person.valid?).to be_falsey
       expect(person.errors.messages).to have_key :gender
       expect(person.errors.messages[:gender]).to include('is niet in de lijst opgenomen')
@@ -298,7 +304,7 @@ shared_examples_for 'a person object' do
 
   describe 'external_identifier' do
     it 'should validate the alpha numeric of size IDENTIFIER_LENGTH format' do
-      person = FactoryBot.build(:person)
+      person = FactoryBot.create(:person)
       test_string = SecureRandom.hex(32)
       #
       # Too short
@@ -322,7 +328,7 @@ shared_examples_for 'a person object' do
     end
 
     it 'should not allow empty external identifiers' do
-      person = FactoryBot.build(:person)
+      person = FactoryBot.create(:person)
       person.external_identifier = nil
       expect(person).to_not be_valid
 
@@ -331,14 +337,15 @@ shared_examples_for 'a person object' do
     end
 
     it 'should create an external_identifier on initialization' do
-      person = FactoryBot.build(:person)
+      person = FactoryBot.create(:person)
       expect(person.external_identifier).to_not be_blank
       expect(person.external_identifier.length).to eq described_class::IDENTIFIER_LENGTH
     end
 
     it 'should not allow non-unique identifiers' do
       person = FactoryBot.create(:person)
-      person2 = FactoryBot.build(:person, external_identifier: person.external_identifier)
+      person2 = FactoryBot.create(:person)
+      person2.external_identifier = person.external_identifier
       expect(person2).to_not be_valid
       expect(person2.errors.messages).to have_key :external_identifier
       expect(person2.errors.messages[:external_identifier]).to include('is al in gebruik')
@@ -347,22 +354,20 @@ shared_examples_for 'a person object' do
 
   describe 'Student' do
     it 'should have working factory defaults' do
-      student = FactoryBot.build(:student)
       pcountb = Person.count
+      student = FactoryBot.create(:student)
       expect(student.valid?).to be_truthy
       expect(student.role.group).to eq Person::STUDENT
-      student.save
       expect(Person.count).to eq(pcountb + 1)
     end
   end
 
   describe 'Mentor' do
     it 'should have working factory defaults' do
-      mentor = FactoryBot.build(:mentor)
       pcountb = Person.count
+      mentor = FactoryBot.create(:mentor)
       expect(mentor.valid?).to be_truthy
       expect(mentor.role.group).to eq Person::MENTOR
-      mentor.save
       expect(Person.count).to eq(pcountb + 1)
     end
   end

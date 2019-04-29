@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ProtocolTransfer, type: :model do
   describe 'validations' do
-    let(:transfer) { FactoryBot.build(:protocol_transfer) }
+    let(:transfer) { FactoryBot.create(:protocol_transfer) }
     it 'should have a valid factory' do
       expect(transfer).to be_valid
     end

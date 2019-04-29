@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe IbanValidator do
-  let(:person) { FactoryBot.build(:person) }
+  let(:person) { FactoryBot.create(:person) }
 
   it 'should return errors if the iban is incorrect' do
     incorrect_ibans = [

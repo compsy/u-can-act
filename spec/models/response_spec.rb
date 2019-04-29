@@ -4,18 +4,18 @@ require 'rails_helper'
 
 describe Response do
   it 'should have valid default properties' do
-    responseobj = FactoryBot.build(:response)
+    responseobj = FactoryBot.create(:response)
     expect(responseobj).to be_valid
   end
 
   it 'should have valid default completed properties' do
-    responseobj = FactoryBot.build(:response, :completed)
+    responseobj = FactoryBot.create(:response, :completed)
     expect(responseobj).to be_valid
   end
 
   describe 'person' do
     it 'should have a person through the protocol subscription' do
-      response = FactoryBot.build(:response, :completed)
+      response = FactoryBot.create(:response, :completed)
       result = response.person
       expect(result).to_not be_blank
       expect(result).to eq response.protocol_subscription.person
@@ -232,7 +232,7 @@ describe Response do
 
   describe 'uuid' do
     it 'should not allow empty external identifiers' do
-      responseobj = FactoryBot.build(:response)
+      responseobj = FactoryBot.create(:response)
       responseobj.uuid = nil
       expect(responseobj).to_not be_valid
 
@@ -241,14 +241,15 @@ describe Response do
     end
 
     it 'should create an uuid on initialization' do
-      responseobj = FactoryBot.build(:response)
+      responseobj = FactoryBot.create(:response)
       expect(responseobj.uuid).to_not be_blank
       expect(responseobj.uuid.length).to eq 36
     end
 
     it 'should not allow non-unique identifiers' do
       responseobj = FactoryBot.create(:response)
-      response2 = FactoryBot.build(:response, uuid: responseobj.uuid)
+      response2 = FactoryBot.create(:response)
+      response2.uuid = responseobj.uuid
       expect(response2).to_not be_valid
       expect(response2.errors.messages).to have_key :uuid
       expect(response2.errors.messages[:uuid]).to include('is al in gebruik')
@@ -400,7 +401,8 @@ describe Response do
 
   describe 'protocol_subscription_id' do
     it 'should have one' do
-      responseobj = FactoryBot.build(:response, protocol_subscription_id: nil)
+      responseobj = FactoryBot.create(:response)
+      responseobj.protocol_subscription_id = nil
       expect(responseobj.valid?).to be_falsey
       expect(responseobj.errors.messages).to have_key :protocol_subscription_id
       expect(responseobj.errors.messages[:protocol_subscription_id]).to include('moet opgegeven zijn')
@@ -413,7 +415,8 @@ describe Response do
 
   describe 'measurement_id' do
     it 'should have one' do
-      responseobj = FactoryBot.build(:response, measurement_id: nil)
+      responseobj = FactoryBot.create(:response)
+      responseobj.measurement_id = nil
       expect(responseobj.valid?).to be_falsey
       expect(responseobj.errors.messages).to have_key :measurement_id
       expect(responseobj.errors.messages[:measurement_id]).to include('moet opgegeven zijn')
@@ -433,11 +436,11 @@ describe Response do
 
   describe 'content' do
     it 'should accept nil' do
-      responseobj = FactoryBot.build(:response, content: nil)
+      responseobj = FactoryBot.create(:response, content: nil)
       expect(responseobj.valid?).to be_truthy
     end
     it 'should accept an empty string' do
-      responseobj = FactoryBot.build(:response, content: '')
+      responseobj = FactoryBot.create(:response, content: '')
       expect(responseobj.valid?).to be_truthy
     end
     it 'should accept a string' do
@@ -460,7 +463,8 @@ describe Response do
 
   describe 'open_from' do
     it 'should not be nil' do
-      responseobj = FactoryBot.build(:response, open_from: nil)
+      responseobj = FactoryBot.create(:response)
+      responseobj.open_from = nil
       expect(responseobj.valid?).to be_falsey
       expect(responseobj.errors.messages).to have_key :open_from
       expect(responseobj.errors.messages[:open_from]).to include('moet opgegeven zijn')

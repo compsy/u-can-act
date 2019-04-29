@@ -87,11 +87,12 @@ describe Measurement do
       protocol = FactoryBot.create(:protocol)
       measurement = FactoryBot.create(:measurement, stop_measurement: true, protocol: protocol)
       expect(measurement).to be_valid
-      measurement = FactoryBot.create(:measurement, stop_measurement: true, protocol: protocol)
-      expect(measurement).to_not be_valid
-      expect(measurement.errors.messages.keys).to include(:protocol)
-      expect(measurement.errors.messages[:protocol]).to include('can only have a single stop_measurement')
-      expect(Measurement.count).to eq 1
+      measurement2 = FactoryBot.create(:measurement, protocol: protocol)
+      measurement2.stop_measurement = true
+      expect(measurement2).to_not be_valid
+      expect(measurement2.errors.messages.keys).to include(:protocol)
+      expect(measurement2.errors.messages[:protocol]).to include('can only have a single stop_measurement')
+      expect(Measurement.count).to eq 2 # the original it created was valid
     end
 
     it 'should not be allowed to have multiple measurements in one prototcol' do
@@ -171,7 +172,8 @@ describe Measurement do
 
   describe 'offset_till_end' do
     it 'should be a zero or positive integer' do
-      measurement = FactoryBot.create(:measurement, open_from_offset: nil)
+      measurement = FactoryBot.create(:measurement)
+      measurement.open_from_offset = nil
       measurement.offset_till_end = 0
       expect(measurement).to be_valid
       measurement.offset_till_end = 1.5

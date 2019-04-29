@@ -11,8 +11,8 @@ require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'capybara-screenshot/rspec' unless ENV['CI']
-Selenium::WebDriver::Chrome::Service.driver_path= '/usr/local/bin/chromedriver' if Selenium::WebDriver::Platform.mac? &&
-                                                                           File.exist?('/usr/local/bin/chromedriver')
+Selenium::WebDriver::Chrome::Service.driver_path = '/usr/local/bin/chromedriver' if
+  Selenium::WebDriver::Platform.mac? && File.exist?('/usr/local/bin/chromedriver')
 
 # Start coverage report on CircleCI
 if ENV['CI']

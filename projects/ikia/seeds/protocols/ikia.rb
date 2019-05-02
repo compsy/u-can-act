@@ -10,7 +10,7 @@ demo_solo_protocol.duration = 1.day
 demo_solo_protocol.save!
 
 # Add solo
-questionnaire_name = 'demo'
+questionnaire_name = 'ikia'
 questionnaire_id = Questionnaire.find_by_name(questionnaire_name)&.id
 raise "Cannot find questionnaire: #{questionnaire_name}" unless questionnaire_id
 

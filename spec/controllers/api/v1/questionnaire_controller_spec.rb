@@ -50,7 +50,7 @@ describe Api::V1::QuestionnaireController, type: :controller do
 
       it 'should return some error message' do
         post :create, params: { content: content }
-        expect(response.body).to eq({ error: "765: unexpected token at 'notjson'" }.to_json)
+        expect(response.body).to eq({ error: "785: unexpected token at 'notjson'" }.to_json)
       end
     end
   end

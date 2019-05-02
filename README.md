@@ -633,7 +633,6 @@ Usable properties for an unsubscribe `question` type are `title`, `content`, `bu
 The default `data_method` is `delete`. The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
 
-
 ### Type: Dropdown
 Required and allowed options (minimal example and maximal example):
 
@@ -669,6 +668,43 @@ A dropdown can have a `label` property which is a small text that is always visi
  The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
+
+
+### Type: Drawing
+Let's a user draw on an image. Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :drawing,
+  title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+  width: 240,
+  height: 536,
+  image: 'bodymap.png',
+  color: '#e57373',
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  tooltip: 'some tooltip',
+  id: :v2,
+  type: :drawing,
+  title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+  width: 240,
+  height: 536,
+  image: '/a_directory_under_public/somedir/bodymap.png',
+  color: '#64b5f6',
+  radius: 15,
+  density: 40,
+  section_end: true
+}]
+```
+
+Height and width should be specified as integers, without any postfix such as `px`.
+
+Image can be the URL of an image, or the filename of an image that exists in the asset pipeline.
+
+The only optional parameters are `radius` and `density`. They default to 15 and 40, respectively.
+
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

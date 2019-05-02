@@ -16,6 +16,7 @@ class QuestionnaireQuestionGenerator < Generator
       unsubscribe: UnsubscribeGenerator.new,
       date: DateGenerator.new,
       dropdown: DropdownGenerator.new,
+      drawing: DrawingGenerator.new,
       expandable: ExpandableGenerator.new,
       section_start: SectionStartGenerator.new,
       section_end: SectionEndGenerator.new,

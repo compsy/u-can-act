@@ -9,11 +9,19 @@ namespace :deployment do
     puts "Creating project '#{@args[:project_name]}' - started"
 
     def create_env_local_file
-      puts 'creating .env.local file...'
+      if File.file?(File.join(Rails.root, '.env.local'))
+        puts 'File .env.local already exists'
+        return
+      end
+      puts 'Creating .env.local file...'
       File.open(File.join(Rails.root, '.env.local'), 'w') do |f|
         f.puts "PROJECT_NAME:      #{@args[:project_name]}"
         f.puts "POSTGRES_DATABASE: #{@args[:project_name]}"
         f.puts "MONGO_DATABASE:    #{@args[:project_name]}"
+        f.puts ""
+        f.puts "HOST_URL:          http://#{@args[:project_name]}.io"
+        f.puts "HOST_DOMAIN:       #{@args[:project_name]}.io"
+        f.puts "INFO_EMAIL:        info@#{@args[:project_name]}.io"
       end
     end
 
@@ -23,11 +31,14 @@ namespace :deployment do
          .map { |file| file.sub(File.expand_path(directory), '') }
     end
 
-    def copy_only_non_existing_files(source_dir, target_dir)
+    def copy_only_nonexisting_files(source_dir, target_dir)
       get_relative_filenames(source_dir).each do |filepath|
         target_file = File.join(target_dir, filepath)
-        next if File.file?(target_file)
-
+        if File.file?(target_file)
+          puts "File #{target_file} already exists"
+          next
+        end
+        puts "Creating #{target_file} file..."
         FileUtils.mkdir_p(File.dirname(target_file))
         FileUtils.cp(File.join(source_dir, filepath), target_file)
       end

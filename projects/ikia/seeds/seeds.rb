@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-# These seeds need to be loaded first, and in order.
-%w[questionnaires protocols organizations teams].each do |seed_directory|
-  Dir[File.join(File.dirname(__FILE__), seed_directory, '**', '*.rb')].each do |file|
-    require file
-  end
-end
-
 if Rails.env.development? || Rails.env.staging?
   if OneTimeResponse.count.zero?
     solo_protocol = 'demo-solo-protocol'

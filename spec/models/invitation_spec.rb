@@ -4,17 +4,18 @@ require 'rails_helper'
 
 describe Invitation do
   it 'should have valid default properties' do
-    invitation = FactoryBot.build(:sms_invitation)
+    invitation = FactoryBot.create(:sms_invitation)
     expect(invitation.valid?).to be_truthy
   end
   it 'should have valid default properties for email type' do
-    invitation = FactoryBot.build(:email_invitation)
+    invitation = FactoryBot.create(:email_invitation)
     expect(invitation.valid?).to be_truthy
   end
 
   describe 'invitation_set' do
     it 'should have one' do
-      invitation = FactoryBot.build(:sms_invitation, invitation_set_id: nil)
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invitation_set_id = nil
       expect(invitation.valid?).to be_falsey
       expect(invitation.errors.messages).to have_key :invitation_set_id
       expect(invitation.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
@@ -27,7 +28,8 @@ describe Invitation do
 
   describe 'type' do
     it 'cannot be set to nil' do
-      invitation = FactoryBot.build(:invitation, type: nil)
+      invitation = FactoryBot.create(:invitation, type: 'SmsInvitation')
+      invitation.type = nil
       expect(invitation.valid?).to be_falsey
     end
     it 'does not throw errors with sms' do
@@ -58,30 +60,33 @@ describe Invitation do
 
   describe 'invited_state' do
     it 'should be one of the predefined states' do
-      invitation = FactoryBot.build(:sms_invitation)
+      invitation = FactoryBot.create(:sms_invitation)
       invitation.invited_state = Invitation::NOT_SENT_STATE
       expect(invitation.valid?).to be_truthy
-      invitation = FactoryBot.build(:sms_invitation)
+      invitation = FactoryBot.create(:sms_invitation)
       invitation.invited_state = Invitation::SENDING_STATE
       expect(invitation.valid?).to be_truthy
-      invitation = FactoryBot.build(:sms_invitation)
+      invitation = FactoryBot.create(:sms_invitation)
       invitation.invited_state = Invitation::SENT_STATE
       expect(invitation.valid?).to be_truthy
     end
     it 'should not be nil' do
-      invitation = FactoryBot.build(:sms_invitation, invited_state: nil)
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invited_state = nil
       expect(invitation.valid?).to be_falsey
       expect(invitation.errors.messages).to have_key :invited_state
       expect(invitation.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
     end
     it 'should not be empty' do
-      invitation = FactoryBot.build(:sms_invitation, invited_state: '')
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invited_state = ''
       expect(invitation.valid?).to be_falsey
       expect(invitation.errors.messages).to have_key :invited_state
       expect(invitation.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
     end
     it 'cannot be just any string' do
-      invitation = FactoryBot.build(:sms_invitation, invited_state: 'somestring')
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invited_state = 'somestring'
       expect(invitation.valid?).to be_falsey
       expect(invitation.errors.messages).to have_key :invited_state
       expect(invitation.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')

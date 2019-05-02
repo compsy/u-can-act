@@ -7,7 +7,7 @@ RSpec.describe Admin, type: :model do
   let!(:admin2) { FactoryBot.create(:admin) }
   describe 'validations' do
     it 'should have a valid factory' do
-      expect(FactoryBot.build(:admin)).to be_valid
+      expect(FactoryBot.create(:admin)).to be_valid
     end
     describe 'auth0_id_string' do
       it 'should validate the uniqueness of the auth0_id_string' do

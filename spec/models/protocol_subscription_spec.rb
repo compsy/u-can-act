@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ProtocolSubscription do
   it 'should have valid default properties' do
-    protocol_subscription = FactoryBot.build(:protocol_subscription)
+    protocol_subscription = FactoryBot.create(:protocol_subscription)
     expect(protocol_subscription.valid?).to be_truthy
   end
 
@@ -22,7 +22,8 @@ describe ProtocolSubscription do
 
   describe 'person_id' do
     it 'should have one' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription, person_id: nil)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      protocol_subscription.person_id = nil
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :person_id
       expect(protocol_subscription.errors.messages[:person_id]).to include('moet opgegeven zijn')
@@ -35,7 +36,7 @@ describe ProtocolSubscription do
 
   describe 'filling_out_for_id' do
     it 'should have one' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.filling_out_for_id = nil
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :filling_out_for_id
@@ -53,7 +54,7 @@ describe ProtocolSubscription do
 
   describe 'end_date' do
     it 'should have one' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.end_date = nil
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :end_date
@@ -79,7 +80,8 @@ describe ProtocolSubscription do
 
   describe 'protocol_id' do
     it 'should have one' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription, protocol_id: nil)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      protocol_subscription.protocol_id = nil
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :protocol_id
       expect(protocol_subscription.errors.messages[:protocol_id]).to include('moet opgegeven zijn')
@@ -97,9 +99,9 @@ describe ProtocolSubscription do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
                                                         person: mentor,
                                                         filling_out_for: student)
-      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
-                                                       person: prot1.person,
-                                                       filling_out_for_id: prot1.filling_out_for_id)
+      prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                        person: prot1.person)
+      prot2.filling_out_for_id = prot1.filling_out_for_id
       expect(prot2).to_not be_valid
       expect(prot2.errors.messages).to have_key :filling_out_for_id
       expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
@@ -110,9 +112,9 @@ describe ProtocolSubscription do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::COMPLETED_STATE,
                                                         person: mentor,
                                                         filling_out_for: student)
-      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
-                                                       person: prot1.person,
-                                                       filling_out_for_id: prot1.filling_out_for_id)
+      prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
       expect { prot2.save! }.to_not raise_error
     end
@@ -120,9 +122,9 @@ describe ProtocolSubscription do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
                                                         person: mentor,
                                                         filling_out_for: student)
-      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::COMPLETED_STATE,
-                                                       person: prot1.person,
-                                                       filling_out_for_id: prot1.filling_out_for_id)
+      prot2 = FactoryBot.create(:protocol_subscription, state: described_class::COMPLETED_STATE,
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
       expect { prot2.save! }.to_not raise_error
     end
@@ -130,18 +132,18 @@ describe ProtocolSubscription do
       states = [described_class::CANCELED_STATE, described_class::COMPLETED_STATE]
       states.each do |state|
         prot1 = FactoryBot.create(:protocol_subscription, state: state, person: mentor, filling_out_for: student)
-        prot2 = FactoryBot.build(:protocol_subscription, state: state,
-                                                         person: prot1.person,
-                                                         filling_out_for_id: prot1.filling_out_for_id)
+        prot2 = FactoryBot.create(:protocol_subscription, state: state,
+                                                          person: prot1.person,
+                                                          filling_out_for_id: prot1.filling_out_for_id)
         expect(prot2).to be_valid
         expect { prot2.save! }.to_not raise_error
       end
     end
     it 'should allow a student filling out for him/herself to have two active subscriptions' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
-      prot2 = FactoryBot.build(:protocol_subscription, state: described_class::ACTIVE_STATE,
-                                                       person: prot1.person,
-                                                       filling_out_for_id: prot1.filling_out_for_id)
+      prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+                                                        person: prot1.person,
+                                                        filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
       expect { prot2.save! }.to_not raise_error
     end
@@ -149,30 +151,33 @@ describe ProtocolSubscription do
 
   describe 'state' do
     it 'should be one of the predefined states' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.state = ProtocolSubscription::ACTIVE_STATE
       expect(protocol_subscription).to be_valid
-      protocol_subscription = FactoryBot.build(:protocol_subscription)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.state = ProtocolSubscription::CANCELED_STATE
       expect(protocol_subscription).to be_valid
-      protocol_subscription = FactoryBot.build(:protocol_subscription)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.state = ProtocolSubscription::COMPLETED_STATE
       expect(protocol_subscription).to be_valid
     end
     it 'should not be nil' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription, state: nil)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      protocol_subscription.state = nil
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :state
       expect(protocol_subscription.errors.messages[:state]).to include('is niet in de lijst opgenomen')
     end
     it 'should not be empty' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription, state: '')
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      protocol_subscription.state = ''
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :state
       expect(protocol_subscription.errors.messages[:state]).to include('is niet in de lijst opgenomen')
     end
     it 'cannot be just any string' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription, state: 'somestring')
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      protocol_subscription.state = 'somestring'
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :state
       expect(protocol_subscription.errors.messages[:state]).to include('is niet in de lijst opgenomen')
@@ -279,7 +284,8 @@ describe ProtocolSubscription do
 
   describe 'start_date' do
     it 'should not be nil' do
-      protocol_subscription = FactoryBot.build(:protocol_subscription, start_date: nil)
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      protocol_subscription.start_date = nil
       expect(protocol_subscription.valid?).to be_falsey
       expect(protocol_subscription.errors.messages).to have_key :start_date
       expect(protocol_subscription.errors.messages[:start_date]).to include('moet opgegeven zijn')
@@ -288,50 +294,50 @@ describe ProtocolSubscription do
 
   describe 'for_myself?' do
     it 'should return false if it is for someone else' do
-      mentor = FactoryBot.build(:mentor)
-      student = FactoryBot.build(:student)
-      protocol_subscription = FactoryBot.build(:protocol_subscription,
-                                               person: mentor,
-                                               filling_out_for: student)
+      mentor = FactoryBot.create(:mentor)
+      student = FactoryBot.create(:student)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: student)
       expect(protocol_subscription.for_myself?).to be_falsey
     end
 
     it 'should return true if it is for myself' do
-      mentor = FactoryBot.build(:mentor)
-      protocol_subscription = FactoryBot.build(:protocol_subscription,
-                                               person: mentor,
-                                               filling_out_for: mentor)
+      mentor = FactoryBot.create(:mentor)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: mentor)
       expect(protocol_subscription.for_myself?).to be_truthy
     end
     it 'should fill out for myself by default' do
-      mentor = FactoryBot.build(:mentor)
-      protocol_subscription = FactoryBot.build(:protocol_subscription,
-                                               person: mentor)
+      mentor = FactoryBot.create(:mentor)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor)
       expect(protocol_subscription.for_myself?).to be_truthy
     end
   end
 
   describe 'mentor?' do
     it 'should return true if it is for someone else' do
-      mentor = FactoryBot.build(:mentor)
-      student = FactoryBot.build(:student)
-      protocol_subscription = FactoryBot.build(:protocol_subscription,
-                                               person: mentor,
-                                               filling_out_for: student)
+      mentor = FactoryBot.create(:mentor)
+      student = FactoryBot.create(:student)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: student)
       expect(protocol_subscription.mentor?).to be_truthy
     end
 
     it 'should return false if it is for myself' do
-      mentor = FactoryBot.build(:mentor)
-      protocol_subscription = FactoryBot.build(:protocol_subscription,
-                                               person: mentor,
-                                               filling_out_for: mentor)
+      mentor = FactoryBot.create(:mentor)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor,
+                                                filling_out_for: mentor)
       expect(protocol_subscription.mentor?).to be_falsey
     end
     it 'should be false by default' do
-      mentor = FactoryBot.build(:mentor)
-      protocol_subscription = FactoryBot.build(:protocol_subscription,
-                                               person: mentor)
+      mentor = FactoryBot.create(:mentor)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                person: mentor)
       expect(protocol_subscription.mentor?).to be_falsey
     end
   end

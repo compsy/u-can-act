@@ -11,15 +11,17 @@ RSpec.describe Organization, type: :model do
 
     describe 'name' do
       it 'should be invalid when not present' do
-        organization = FactoryBot.build(:organization, name: nil)
+        organization = FactoryBot.create(:organization)
+        organization.name = nil
         expect(organization).to_not be_valid
-        organization = FactoryBot.build(:organization, name: 'test name')
+        organization = FactoryBot.create(:organization, name: 'test name')
         expect(organization).to be_valid
       end
 
       it 'should be invalid when not unique' do
         FactoryBot.create(:organization, name: 'test')
-        organization2 = FactoryBot.build(:organization, name: 'test')
+        organization2 = FactoryBot.create(:organization)
+        organization2.name = 'test'
         expect(organization2).to_not be_valid
       end
     end

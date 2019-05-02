@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionnaireController < ApplicationController
+  include QuestionnaireHelper
   MAX_ANSWER_LENGTH = 2048
   include Concerns::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
@@ -17,6 +18,10 @@ class QuestionnaireController < ApplicationController
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
+  end
+
+  def interactive
+    @default_content = Questionnaire.all.sample&.content&.to_json
   end
 
   def show
@@ -86,6 +91,7 @@ class QuestionnaireController < ApplicationController
 
   def stop_protocol_subscription
     @response.protocol_subscription.cancel!
+    check_to_send_confirmation_email if ENV['PROJECT_NAME'] == 'Evaluatieonderzoek'
     flash[:notice] = stop_protocol_subscription_notice
     Rails.logger.info "[Info] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."
@@ -96,7 +102,7 @@ class QuestionnaireController < ApplicationController
       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
                          'is gestopt.'
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
-      'Hartelijk dank voor het invullen van de vragenlijst, uw antwoorden zijn opgeslagen.'
+      I18n.t('pages.klaar.header')
     else
       'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
     end

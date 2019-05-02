@@ -11,22 +11,25 @@ describe Team, type: :model do
 
     context 'name' do
       it 'should be invalid when not present' do
-        team = FactoryBot.build(:team, name: nil)
+        team = FactoryBot.create(:team)
+        team.name = nil
         expect(team).to_not be_valid
-        team = FactoryBot.build(:team, name: 'test name')
+        team = FactoryBot.create(:team, name: 'test name')
         expect(team).to be_valid
       end
 
       it 'should be invalid when not unique' do
         FactoryBot.create(:team, name: 'test')
-        team2 = FactoryBot.build(:team, name: 'test')
+        team2 = FactoryBot.create(:team)
+        team2.name = 'test'
         expect(team2).to_not be_valid
       end
     end
 
     context 'organization' do
       it 'require an organization' do
-        team = FactoryBot.build(:team, organization: nil)
+        team = FactoryBot.create(:team)
+        team.organization = nil
         expect(team).to_not be_valid
         team.organization = FactoryBot.create(:organization)
         expect(team).to be_valid

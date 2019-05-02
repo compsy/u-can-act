@@ -17,11 +17,27 @@ namespace :deployment do
       end
     end
 
+    def get_relative_filenames(directory)
+      Dir.glob(File.join(File.expand_path(directory), '**', '*'))
+         .select { |file| File.file?(file) }
+         .map { |file| file.sub(File.expand_path(directory), '') }
+    end
+
+    def copy_only_non_existing_files(source_dir, target_dir)
+      get_relative_filenames(source_dir).each do |filepath|
+        target_file = File.join(target_dir, filepath)
+        next if File.file?(target_file)
+
+        FileUtils.mkdir_p(File.dirname(target_file))
+        FileUtils.cp(File.join(source_dir, filepath), target_file)
+      end
+    end
+
     def create_project_directory
       puts "creating projects/#{@args[:project_name]} directory..."
       source_dir = File.join(Rails.root, 'projects', 'new')
       target_dir = File.join(Rails.root, 'projects', @args[:project_name])
-      FileUtils.copy_entry source_dir, target_dir
+      copy_only_nonexisting_files(source_dir, target_dir)
     end
 
     if @args[:project_name].blank?

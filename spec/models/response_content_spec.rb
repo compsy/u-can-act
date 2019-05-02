@@ -4,17 +4,17 @@ require 'rails_helper'
 
 describe ResponseContent do
   it 'should have valid default properties' do
-    responsecontent = FactoryBot.build(:response_content)
+    responsecontent = FactoryBot.create(:response_content)
     expect(responsecontent.valid?).to be_truthy
   end
 
   describe 'content' do
     it 'should accept nil' do
-      responsecontent = FactoryBot.build(:response_content, content: nil)
+      responsecontent = FactoryBot.create(:response_content, content: nil)
       expect(responsecontent.valid?).to be_truthy
     end
     it 'should accept an empty hash' do
-      responsecontent = FactoryBot.build(:response_content, content: {})
+      responsecontent = FactoryBot.create(:response_content, content: {})
       expect(responsecontent.valid?).to be_truthy
     end
     it 'should accept a hash' do

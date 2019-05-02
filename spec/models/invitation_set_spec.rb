@@ -4,13 +4,14 @@ require 'rails_helper'
 
 describe InvitationSet do
   it 'should have valid default properties' do
-    invitation_set = FactoryBot.build(:invitation_set)
+    invitation_set = FactoryBot.create(:invitation_set)
     expect(invitation_set.valid?).to be_truthy
   end
 
   describe 'person' do
     it 'should have one' do
-      invitation_set = FactoryBot.build(:invitation_set, person_id: nil)
+      invitation_set = FactoryBot.create(:invitation_set)
+      invitation_set.person_id = nil
       expect(invitation_set.valid?).to be_falsey
       expect(invitation_set.errors.messages).to have_key :person_id
       expect(invitation_set.errors.messages[:person_id]).to include('moet opgegeven zijn')
@@ -23,7 +24,8 @@ describe InvitationSet do
 
   describe 'invitation_text' do
     it 'can be set to nil' do
-      invitation_set = FactoryBot.build(:invitation_set, invitation_text: nil)
+      invitation_set = FactoryBot.create(:invitation_set)
+      invitation_set.invitation_text = nil
       expect(invitation_set.valid?).to be_truthy
     end
     it 'can be set to a string' do

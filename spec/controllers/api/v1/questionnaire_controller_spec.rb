@@ -7,6 +7,54 @@ describe Api::V1::QuestionnaireController, type: :controller do
   let(:questionnaire) { FactoryBot.create(:questionnaire) }
   let(:other_response) { FactoryBot.create(:response) }
 
+  describe 'create' do
+    context 'correct request' do
+      let(:content) do
+        [{
+          type: :raw,
+          content: 'content here!'
+        }].to_json
+      end
+
+      it 'should head 200' do
+        post :create, params: { content: content }
+        expect(response.status).to eq 200
+      end
+
+      it 'should return a HTML version of the passed-in json' do
+        expected = '<div class="row section"><div class="col s12">content here!</div></div>'
+        post :create, params: { content: content }
+        expect(response.body).to include expected
+      end
+    end
+
+    context 'wrong request' do
+      let(:content) { 'notjson' }
+      it 'should head 400 if the content is not an array' do
+        post :create, params: { content: { a: 1 }.to_json }
+        expect(response.status).to eq 400
+      end
+
+      it 'should head 400' do
+        post :create, params: { content: content }
+        expect(response.status).to eq 400
+      end
+
+      it 'should head 400 if the json is nil' do
+        [{}, { content: [] }].each do |params|
+          post :create, params: params
+          expect(response.status).to eq 400
+          expect(response.body).to eq 'Please supply a json file in the content field.'
+        end
+      end
+
+      it 'should return some error message' do
+        post :create, params: { content: content }
+        expect(response.body).to eq({ error: "765: unexpected token at 'notjson'" }.to_json)
+      end
+    end
+  end
+
   describe 'show' do
     it 'should set the correct env vars if the questionnaire is available' do
       get :show, params: { key: questionnaire.key }

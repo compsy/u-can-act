@@ -2351,7 +2351,9 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content('Hoihoihoi')
       page.click_on 'Opslaan'
-      expect(page).to have_content('translation missing: nl.pages.person.header')
+      expect(page).to have_content(
+        'Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!'
+      )
     end
   end
 end

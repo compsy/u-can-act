@@ -164,6 +164,7 @@ function initializeDrawing(elem, idx) {
   $(clearelem).click(function(e) {
     e.preventDefault();
     mydrawing.clearDrawing();
+    $(this).blur();
   });
   $(okelem).click(function(e) {
     e.preventDefault();

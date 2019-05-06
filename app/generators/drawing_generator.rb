@@ -26,8 +26,29 @@ class DrawingGenerator < QuestionTypeGenerator
   end
 
   def drawing_canvas(question)
-    body = content_tag(:div, nil, class: 'drawing-container', id: idify(question[:id], 'drawing_container'))
+    body = content_tag(:div, nil,
+                       class: 'drawing-container',
+                       id: idify(question[:id], 'drawing_container'),
+                       data: drawing_data_attributes(question))
     content_tag(:div, body, class: 'col s12 m6')
+  end
+
+  def drawing_data_attributes(question)
+    {
+      width: question[:width],
+      height: question[:height],
+      image: drawing_data_image(question),
+      color: question[:color],
+      radius: question[:radius].present? ? question[:radius] : 15,
+      density: question[:density].present? ? question[:density] : 40
+    }
+  end
+
+  def drawing_data_image(question)
+    return "/assets/#{Rails.application.assets[question[:image]].digest_path}" if
+      Rails.application.assets[question[:image]].present?
+
+    question[:image]
   end
 
   def drawing_log(question)

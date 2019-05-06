@@ -54,6 +54,7 @@ class DrawingGenerator < QuestionTypeGenerator
   def drawing_log(question)
     body = content_tag(:textarea, nil,
                        class: 'drawing-log',
+                       readonly: true,
                        id: idify(question[:id]),
                        name: answer_name(idify(question[:id])))
     content_tag(:div, body, class: 'col s12 m6 hideme')

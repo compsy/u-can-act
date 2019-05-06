@@ -257,7 +257,7 @@ button[type="submit"] {
   }
 
   .hideme {
-    display: none;
+    opacity: 0;
   }
 
   .drawing-clear {
@@ -266,6 +266,7 @@ button[type="submit"] {
 
   .drawing-log {
     width: 100%;
+    cursor: default;
     overflow-y: scroll;
     display: inline-block;
     background-color: #fff;

@@ -41,4 +41,8 @@ class Questionnaire < ApplicationRecord
 
     errors.add(:content, 'can only have a series of unique ids')
   end
+
+  def drawing_ids
+    content.select { |question| question[:type] == :drawing }.map { |question| question[:id] }
+  end
 end

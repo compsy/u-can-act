@@ -93,17 +93,15 @@ function initializeDrawing(elem, idx) {
 
     keydown: function() {
       if (this.keys.C) {
-        this.clearDrawing();
+        // Don't use this because it clear all drawings
+        // this.clearDrawing();
       }
     },
 
     logPoint: function(x, y) {
-      // TODO: FIX THAT WE STORE AND RESTORE THE COORDS IN SCALED FORM
       this.currentpoints.push([x, y]);
-      this.logelem.innerHTML += `(${(x / this.width).toFixed(2)},
-                                  ${(y / this.height).toFixed(2)})<br>`;
-      const objDiv = this.logelem;
-      objDiv.scrollTop = objDiv.scrollHeight;
+      this.logelem.innerHTML += `[${(x / this.width).toFixed(3).slice(1)},${(y / this.height).toFixed(3).slice(1)}],`;
+      this.logelem.scrollTop = this.logelem.scrollHeight;
     },
 
     touchend: function() {
@@ -115,7 +113,11 @@ function initializeDrawing(elem, idx) {
     },
 
     mouseout: function() {
-
+      if (this.locked) return;
+      this.drawing = false;
+      this.clientX = null;
+      this.clientY = null;
+      clearTimeout(this.timeout);
     },
 
     drawPoint: function(x, y) {

@@ -86,7 +86,7 @@ boek1_content = [
     title: '',
     options: ['Ik geef hierbij toestemming om  mijn gegevens te gebruiken voor het toesturen van het boek. Mijn gegevens worden alleen hiervoor gebruikt en verwijderd na toezending van het boek.'],
     show_otherwise: false
-  },
+  }
 ]
 boek1.content = boek1_content
 boek1.title = db_title

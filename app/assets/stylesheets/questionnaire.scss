@@ -152,7 +152,12 @@ form .likert-scale {
 .no-title {
   margin-bottom: -2rem;
   position: relative;
-  top: -4rem;
+  top: -3.3rem;
+  padding-top: 0;
+  &>.col>p.flow-text:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 // Fix balloons sticking on mobile

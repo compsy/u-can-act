@@ -37,12 +37,15 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
 ### General settings
 ```
+  PROJECT_NAME:      <name of the project (e.g., vsv)>
+  POSTGRES_DATABASE: <prefix for the database used in development (e.g., vsv)>
+  MONGO_DATABASE:    <prefix for the database used in development (e.g., vsv)>
+
   SECRET_KEY_BASE: <base used for the tokens>
   HOST_URL: <the url where the application is hosted (e.g. http://myapp.io)>
   HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.io)>
   INFO_EMAIL: <email address to use as sender for user account emails>
   FEEDBACK_EMAIL: <email address used by the feedback button>
-  PROJECT_NAME: <name of the project (e.g. Vsv)>
 
   MESSAGEBIRD_ACCESS_KEY: <access key for messagebird>
   MESSAGEBIRD_SEND_FROM: <sender name shown for SMS>
@@ -76,6 +79,25 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
   IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
 ```
+
+### Development settings
+For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development. However, a `.env.local` file is **not** included in the repository, and should be created by the developer. Since this file determines which project of Vsv will run, it should at minimum have the following settings:
+
+`.env.local` minimum settings:
+```
+  PROJECT_NAME:      myproject
+  POSTGRES_DATABASE: myproject
+  MONGO_DATABASE:    myproject
+
+  HOST_URL:          http://myproject.io
+  HOST_DOMAIN:       myproject.io
+  INFO_EMAIL:        info@myproject.io
+```
+
+So after cloning the repo, be sure to create an `.env.local` file with at least the variables above.
+
+When using the rake task to generate a new project (`bundle exec rake "deployment:create_project[myproject]"`), a `.env.local` file is automatically generated for you. But when switching to one of the existing projects in the repo, you need to set the above variables in `.env.local`.
+
 
 ### Organization-specific settings
 Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).

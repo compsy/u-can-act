@@ -21,7 +21,8 @@ class QuestionnaireExporter
     private
 
     def export_questionnaire(questionnaire_content, &block)
-      fields = %w[type hidden section_start section_end title placeholder content labels options otherwise_label min max]
+      fields = %w[type hidden section_start section_end title placeholder content] +
+               %w[labels options otherwise_label min max]
       headers = %w[question_id question_position type hidden section_start section_end] +
                 %w[title placeholder content labels options otherwise_label min max]
       yield format_headers(headers)

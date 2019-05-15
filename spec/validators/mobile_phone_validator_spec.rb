@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe MobilePhoneValidator do
-  let(:student) { FactoryBot.build(:student) }
+  let(:student) { FactoryBot.create(:student) }
 
   it 'should return errors if the number does not start with a recognized prependation' do
     student.mobile_phone = '0812341234'

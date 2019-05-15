@@ -10,7 +10,7 @@ describe('SoloRewardPage', () => {
   });
   
   it("it should return the correct text", () => {
-    const expected = 'Bedankt voor uw inschrijving! We sturen u een e-mail ter bevestiging.';
-    expect(wrapper.childAt(0).text()).toEqual(expected);
+    const expected = 'geregistreerd';
+    expect(wrapper.childAt(0).text()).toMatch(expected);
   });
 });

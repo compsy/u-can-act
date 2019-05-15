@@ -1,5 +1,8 @@
 // Drawing logic
 
+// This can't use "let" or other ECMA-whatever syntax because it is not transpiled
+// and the test specs fail on it otherwise.
+
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -30,7 +33,7 @@ function initializeDrawing(elem, idx) {
   $(elem).css('height', height + 'px');
   $(logelem).css('height', height + 'px');
 
-  let mydrawing = Sketch.create({
+  var mydrawing = Sketch.create({
     container: domelem,
     fullscreen: false,
     width: width,
@@ -81,8 +84,11 @@ function initializeDrawing(elem, idx) {
 
     drawCurrentPoints: function() {
       this.setLineStyleAndColor(this.color);
-      for (let [x, y] of this.currentpoints)
+      for (var i = 0; i < this.currentpoints.length; i++) {
+        var x = this.currentpoints[i][0];
+        var y = this.currentpoints[i][1];
         this.drawPoint(x, y);
+      }
     },
 
     update: function() {
@@ -90,7 +96,6 @@ function initializeDrawing(elem, idx) {
     },
 
     // Event handlers
-
     keydown: function() {
       if (this.keys.C) {
         // Don't use this because it clear all drawings
@@ -100,7 +105,8 @@ function initializeDrawing(elem, idx) {
 
     logPoint: function(x, y) {
       this.currentpoints.push([x, y]);
-      this.logelem.innerHTML += `[${(x / this.width).toFixed(3).slice(1)},${(y / this.height).toFixed(3).slice(1)}],`;
+      // this.logelem.innerHTML += `[${(x / this.width).toFixed(3).slice(1)},${(y / this.height).toFixed(3).slice(1)}],`;
+      this.logelem.innerHTML += "[" + (x / this.width).toFixed(3).slice(1) + "," + (y / this.height).toFixed(3).slice(1) + "],";
       this.logelem.scrollTop = this.logelem.scrollHeight;
     },
 
@@ -121,9 +127,9 @@ function initializeDrawing(elem, idx) {
     },
 
     drawPoint: function(x, y) {
-      for (let i = this.density; i--;) {
-        const angle = getRandomFloat(0, Math.PI * 2);
-        const radius = getRandomFloat(0, this.radius);
+      for (var i = this.density; i--;) {
+        var angle = getRandomFloat(0, Math.PI * 2);
+        var radius = getRandomFloat(0, this.radius);
         this.fillRect(
           x + radius * Math.cos(angle),
           y + radius * Math.sin(angle),
@@ -135,11 +141,11 @@ function initializeDrawing(elem, idx) {
       if (this.locked) return;
       this.drawing = true;
       this.setLineStyleAndColor(this.color);
-      const touch = this.touches[0]; // only support drawing with one finger
+      var touch = this.touches[0]; // only support drawing with one finger
       this.clientX = touch.x;
       this.clientY = touch.y;
 
-      let self = this;
+      var self = this;
       this.timeout = setTimeout(function draw() {
         if (self.clientX !== null && self.clientY !== null) {
           self.logPoint(self.clientX, self.clientY);
@@ -157,12 +163,11 @@ function initializeDrawing(elem, idx) {
     touchmove: function() {
       if (this.locked) return;
       if (!this.drawing) return;
-      const touch = this.touches[0]; // only support drawing with one finger
+      var touch = this.touches[0]; // only support drawing with one finger
       this.clientX = touch.x;
       this.clientY = touch.y;
     }
   });
-
   $(clearelem).click(function(e) {
     e.preventDefault();
     mydrawing.clearDrawing();

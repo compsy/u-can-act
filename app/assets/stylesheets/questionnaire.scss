@@ -150,9 +150,14 @@ form .likert-scale {
 // Move questions without titles but that have the title element defined closer to
 // their previous element so they appear together (because that's how we use them).
 .no-title {
-  margin-bottom: -2rem;
+  margin-bottom: -0.55rem;
   position: relative;
-  top: -4rem;
+  top: -2.61rem;
+  padding-top: 0;
+  &>.col>p.flow-text:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 // Fix balloons sticking on mobile

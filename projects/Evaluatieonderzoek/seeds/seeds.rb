@@ -84,8 +84,9 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts "Telefonische interviews: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # One time responses
-  puts ''
   OneTimeResponse.destroy_all
+
+  puts ''
   protocol = Protocol.find_by_name('evaluatieonderzoek')
   token = 'abc'
   OneTimeResponse.create!(token: token, protocol: protocol)
@@ -94,6 +95,12 @@ if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
   puts ''
   protocol = Protocol.find_by_name('symposium')
   token = 'symposium'
+  OneTimeResponse.create!(token: token, protocol: protocol)
+  puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+
+  puts ''
+  protocol = Protocol.find_by_name('boek')
+  token = 'boek'
   OneTimeResponse.create!(token: token, protocol: protocol)
   puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
 end

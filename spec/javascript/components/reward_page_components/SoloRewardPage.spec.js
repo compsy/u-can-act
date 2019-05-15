@@ -10,7 +10,7 @@ describe('SoloRewardPage', () => {
   });
   
   it("it should return the correct text", () => {
-    const expected = 'dank';
+    const expected = 'geregistreerd';
     expect(wrapper.childAt(0).text()).toMatch(expected);
   });
 });

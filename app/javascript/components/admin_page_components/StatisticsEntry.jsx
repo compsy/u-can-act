@@ -2,7 +2,7 @@ import React from 'react'
 
 export default class StatisticsEntry extends React.Component {
   render() {
-    if (this.props.optional && this.props.value === 0) return;
+    if (this.props.optional && this.props.value === 0) return(null);
     return (
       <div className="statistics-entry col s12 m6 l6 xl5">
         <div className="card">

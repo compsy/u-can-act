@@ -142,7 +142,7 @@ describe Api::V1::StatisticsController, type: :controller do
       questionnaire = FactoryBot.create(:questionnaire, name: 'boek')
       measurement = FactoryBot.create(:measurement, protocol: protocol, questionnaire: questionnaire)
       responses = FactoryBot.create_list(:response, 7, :completed, measurement: measurement)
-      responses = FactoryBot.create_list(:response, 5, measurement: measurement)
+      FactoryBot.create_list(:response, 5, measurement: measurement)
       expected = responses.count
       get :index
       json_response = JSON.parse(response.body)

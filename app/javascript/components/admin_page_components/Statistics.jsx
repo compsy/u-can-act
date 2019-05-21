@@ -60,6 +60,8 @@ export default class Statistics extends React.Component {
                          subtext='Weeks'/>
         <StatisticsEntry icon='assignment' title='Questionnaires'
                          value={this.state.result.number_of_completed_questionnaires} subtext='Completed'/>
+        <StatisticsEntry icon='book' title='Book signups' optional={true}
+                         value={this.state.result.number_of_book_signups} subtext='Registered'/>
       </div>
     );
   }

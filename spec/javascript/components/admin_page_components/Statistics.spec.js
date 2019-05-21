@@ -87,15 +87,16 @@ describe('Statistics', () => {
           number_of_students: 12,
           number_of_mentors: 3,
           duration_of_project_in_weeks: 43,
-          number_of_completed_questionnaires: 4
+          number_of_completed_questionnaires: 4,
+          number_of_book_signups: 3
         }
       });
 
       const nodes = wrapper.find('.statistics-entry');
       expect(nodes.exists()).toBeTruthy();
 
-      // 4 because students, mentors, timeline and questionnaires
-      expect(nodes).toHaveLength(4);
+      // 5 because students, mentors, timeline, questionnaires, and book signups
+      expect(nodes).toHaveLength(5);
     });
 
     it("it should not render when there is no data", () => {

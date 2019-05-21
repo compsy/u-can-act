@@ -10,7 +10,8 @@ module Api
           number_of_students: number_of_students,
           number_of_mentors: number_of_mentors,
           duration_of_project_in_weeks: duration_of_project_in_weeks,
-          number_of_completed_questionnaires: number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR])
+          number_of_completed_questionnaires: number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR]),
+          number_of_book_signups: number_of_book_signups
         }
         render json: data
       end
@@ -23,6 +24,10 @@ module Api
 
       def number_of_mentors
         number_of_informed_consents_given(Person::MENTOR)
+      end
+
+      def number_of_book_signups
+        number_of_completed_responses('boek')
       end
 
       def duration_of_project_in_weeks

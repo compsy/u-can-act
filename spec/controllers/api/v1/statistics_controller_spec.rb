@@ -24,10 +24,11 @@ describe Api::V1::StatisticsController, type: :controller do
       expected = %w[number_of_students
                     number_of_mentors
                     duration_of_project_in_weeks
-                    number_of_completed_questionnaires]
+                    number_of_completed_questionnaires
+                    number_of_book_signups]
       get :index
       json_response = JSON.parse(response.body)
-      expect(json_response.keys.length).to eq 4
+      expect(json_response.keys.length).to eq 5
       expect(json_response.keys).to match_array(expected)
     end
 
@@ -134,6 +135,18 @@ describe Api::V1::StatisticsController, type: :controller do
       get :index
       json_response = JSON.parse(response.body)
       expect(json_response['number_of_completed_questionnaires']).to eq expected
+    end
+
+    it 'should return the correct number of book signups' do
+      protocol = FactoryBot.create(:protocol, name: 'boek')
+      questionnaire = FactoryBot.create(:questionnaire, name: 'boek')
+      measurement = FactoryBot.create(:measurement, protocol: protocol, questionnaire: questionnaire)
+      responses = FactoryBot.create_list(:response, 7, :completed, measurement: measurement)
+      responses = FactoryBot.create_list(:response, 5, measurement: measurement)
+      expected = responses.count
+      get :index
+      json_response = JSON.parse(response.body)
+      expect(json_response['number_of_book_signups']).to eq expected
     end
   end
 end

@@ -15,7 +15,7 @@ if ENV['PROJECT_NAME'].nil?
   "
 end
 
-asset_directories = %w(images)
+asset_directories = %w(images stylesheets)
 asset_directories.each do |folder|
   directory = Rails.root.join('projects', ENV['PROJECT_NAME'], 'assets', folder)
   files = Dir.entries(directory)
@@ -25,7 +25,7 @@ asset_directories.each do |folder|
   files.delete('.')
   files.delete('..')
 
-  Rails.application.config.assets.paths << directory
+  Rails.application.config.assets.paths << directory.to_s
   Rails.application.config.assets.precompile += files
 end
 

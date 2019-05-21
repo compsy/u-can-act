@@ -74,8 +74,6 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     appsignal (2.9.6)
       rack
-    archive-zip (0.12.0)
-      io-like (~> 0.3.0)
     arel (7.1.4)
     ast (2.4.0)
     autoprefixer-rails (9.4.4)
@@ -100,16 +98,10 @@ GEM
     capybara-screenshot (1.0.22)
       capybara (>= 1.0, < 4)
       launchy
-    capybara-selenium (0.0.6)
-      capybara
-      selenium-webdriver
     case_transform (0.2)
       activesupport
     childprocess (1.0.1)
       rake (< 13.0)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -196,7 +188,6 @@ GEM
     i18n-js (3.2.2)
       i18n (>= 0.6.6)
     iban-tools (1.1.0)
-    io-like (0.3.0)
     jaro_winkler (1.5.2)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
@@ -428,6 +419,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webdrivers (3.9.2)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (~> 3.0)
     webpacker (4.0.2)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
@@ -451,8 +446,6 @@ DEPENDENCIES
   cancancan!
   capybara
   capybara-screenshot
-  capybara-selenium
-  chromedriver-helper
   coffee-rails
   coveralls (>= 0.8.21)
   daemons
@@ -503,6 +496,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   web-console
+  webdrivers
   webpacker (>= 4.0.x)
   workless!
 

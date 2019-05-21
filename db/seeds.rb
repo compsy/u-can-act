@@ -12,6 +12,14 @@ seed_directory = ENV['PROJECT_NAME']
 raise 'Seeds directory cannot be nil!' unless ENV['PROJECT_NAME']
 
 puts "Loading seeds for #{seed_directory}"
+
+# These seeds need to be loaded first, and in order.
+%w[questionnaires protocols organizations teams].each do |seed_subdir|
+  Dir[File.join(Rails.root, 'projects', seed_directory, 'seeds', seed_subdir, '**', '*.rb')].each do |file|
+    require file
+  end
+end
+
 Dir[File.join(Rails.root, 'projects', seed_directory, 'seeds', '*.rb')].each do |file|
   require file
 end

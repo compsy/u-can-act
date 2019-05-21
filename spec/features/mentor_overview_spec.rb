@@ -78,7 +78,7 @@ describe 'GET and POST /', type: :feature, js: true do
     end
   end
 
-  it 'should be possible to fillout a questionnaire for each of the mentors students' do
+  it 'should be possible to fill out a questionnaire for each of the mentors students' do
     inv_tok = invitation_tokens.first
     url = "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     visit url
@@ -92,7 +92,9 @@ describe 'GET and POST /', type: :feature, js: true do
 
       # This is the informed consent
       page.click_on 'Opslaan'
+      sleep(1)
       page.choose('slecht', allow_label_click: true)
+      sleep(1)
       page.check('brood', allow_label_click: true)
       page.check('kaas en ham', allow_label_click: true)
       range_select('v3', '57')
@@ -111,7 +113,9 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_current_path(questionnaire_path(uuid: uuid))
 
     page.click_on 'Opslaan'
+    sleep(1)
     page.choose('slecht', allow_label_click: true)
+    sleep(1)
     page.check('brood', allow_label_click: true)
     page.check('kaas en ham', allow_label_click: true)
     range_select('v3', '57')

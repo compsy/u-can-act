@@ -21,6 +21,7 @@
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
 //= require study_progress_bar
+//= require sketch
 //= require_tree .
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})
@@ -33,4 +34,4 @@ printAsMoney = function(euroValue) {
   euroValue = euroValue.replace(',00',',-');
   euroValue = '€' + euroValue;
   return(euroValue);
-}
+};

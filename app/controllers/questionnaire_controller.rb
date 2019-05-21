@@ -3,6 +3,7 @@
 class QuestionnaireController < ApplicationController
   include QuestionnaireHelper
   MAX_ANSWER_LENGTH = 2048
+  MAX_DRAWING_LENGTH = 65_536
   include Concerns::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
   before_action :log_csrf_error, only: %i[create]
@@ -109,8 +110,11 @@ class QuestionnaireController < ApplicationController
   end
 
   def check_content_hash
-    questionnaire_content.each do |k, v|
-      next unless k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
+    drawing_ids = @response.measurement.questionnaire.drawing_ids
+    questionnaire_content.each do |key, value|
+      next if answer_within_limits?(key, value)
+
+      next if drawing_within_limits?(key, value, drawing_ids)
 
       render(status: 400, html: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
              layout: 'application')
@@ -246,5 +250,13 @@ class QuestionnaireController < ApplicationController
   def record_warning_in_rails_logger
     Rails.logger.warn "[Attention] CSRF error for user #{current_user&.id} at " \
                       "#{request.fullpath} with params: #{params.pretty_inspect}"
+  end
+
+  def drawing_within_limits?(key, value, drawing_ids)
+    key.to_s.size <= MAX_ANSWER_LENGTH && drawing_ids.include?(key.to_sym) && value.to_s.size <= MAX_DRAWING_LENGTH
+  end
+
+  def answer_within_limits?(key, value)
+    key.to_s.size <= MAX_ANSWER_LENGTH && value.to_s.size <= MAX_ANSWER_LENGTH
   end
 end

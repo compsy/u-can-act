@@ -37,12 +37,15 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
 ### General settings
 ```
+  PROJECT_NAME:      <name of the project (e.g., vsv)>
+  POSTGRES_DATABASE: <prefix for the database used in development (e.g., vsv)>
+  MONGO_DATABASE:    <prefix for the database used in development (e.g., vsv)>
+
   SECRET_KEY_BASE: <base used for the tokens>
   HOST_URL: <the url where the application is hosted (e.g. http://myapp.io)>
   HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.io)>
   INFO_EMAIL: <email address to use as sender for user account emails>
   FEEDBACK_EMAIL: <email address used by the feedback button>
-  PROJECT_NAME: <name of the project (e.g. Vsv)>
 
   MESSAGEBIRD_ACCESS_KEY: <access key for messagebird>
   MESSAGEBIRD_SEND_FROM: <sender name shown for SMS>
@@ -76,6 +79,25 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
   IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
 ```
+
+### Development settings
+For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development. However, a `.env.local` file is **not** included in the repository, and should be created by the developer. Since this file determines which project of Vsv will run, it should at minimum have the following settings:
+
+`.env.local` minimum settings:
+```
+  PROJECT_NAME:      myproject
+  POSTGRES_DATABASE: myproject
+  MONGO_DATABASE:    myproject
+
+  HOST_URL:          http://myproject.io
+  HOST_DOMAIN:       myproject.io
+  INFO_EMAIL:        info@myproject.io
+```
+
+So after cloning the repo, be sure to create an `.env.local` file with at least the variables above.
+
+When using the rake task to generate a new project (`bundle exec rake "deployment:create_project[myproject]"`), a `.env.local` file is automatically generated for you. But when switching to one of the existing projects in the repo, you need to set the above variables in `.env.local`.
+
 
 ### Organization-specific settings
 Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
@@ -633,7 +655,6 @@ Usable properties for an unsubscribe `question` type are `title`, `content`, `bu
 The default `data_method` is `delete`. The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
 
-
 ### Type: Dropdown
 Required and allowed options (minimal example and maximal example):
 
@@ -669,6 +690,43 @@ A dropdown can have a `label` property which is a small text that is always visi
  The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
+
+
+### Type: Drawing
+Let's a user draw on an image. Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :drawing,
+  title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+  width: 240,
+  height: 536,
+  image: 'bodymap.png',
+  color: '#e57373',
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  tooltip: 'some tooltip',
+  id: :v2,
+  type: :drawing,
+  title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+  width: 240,
+  height: 536,
+  image: '/a_directory_under_public/somedir/bodymap.png',
+  color: '#64b5f6',
+  radius: 15,
+  density: 40,
+  section_end: true
+}]
+```
+
+Height and width should be specified as integers, without any postfix such as `px`.
+
+Image can be the URL of an image, or the filename of an image that exists in the asset pipeline.
+
+The only optional parameters are `radius` and `density`. They default to 15 and 40, respectively.
+
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

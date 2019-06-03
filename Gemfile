@@ -31,7 +31,7 @@ gem 'uglifier'
 gem 'coffee-rails'
 
 # Use React for the UI
-gem 'react-rails', '= 1.6.2'
+gem 'react-rails'
 gem 'react-source'
 
 # Use highcharts

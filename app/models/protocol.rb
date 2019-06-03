@@ -6,7 +6,7 @@ class Protocol < ApplicationRecord
   has_many :measurements, dependent: :destroy
   validate :at_most_one_stop_measurement
   has_many :protocol_subscriptions, dependent: :destroy
-  belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire' # can be nil
+  belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire', optional: true # can be nil
   has_many :rewards, -> { order threshold: :asc }, dependent: :destroy
 
   def calculate_reward(measurement_completion, check_future = false)

@@ -75,21 +75,21 @@ describe CreateMentors do
   end
 
   describe 'execute' do
-    it 'should accept an array as arguments' do
+    it 'accepts an array as arguments' do
       expect do
         described_class.run!(mentors: [])
-      end.to_not raise_error
+      end.not_to raise_error
     end
   end
 
   describe 'parse_mentors' do
-    it 'should return an array with all mentors' do
+    it 'returns an array with all mentors' do
       result = subject.send(:parse_mentors, mentors, plain_text_parser)
       expect(result).to be_a(Array)
       expect(result.length).to eq mentors.length
     end
 
-    it 'should set the correct keys' do
+    it 'sets the correct keys' do
       result = subject.send(:parse_mentors, mentors, plain_text_parser)
       expect(result.map(&:keys).uniq.flatten).to match_array(%i[first_name
                                                                 last_name
@@ -104,7 +104,7 @@ describe CreateMentors do
                                                                 end_date])
     end
 
-    it 'should set the correct data' do
+    it 'sets the correct data' do
       result = subject.send(:parse_mentors, mentors, plain_text_parser)
       timedateinfuture = Time.zone.parse(dateinfuture)
       endtimedateinfuture = Time.zone.parse(enddateinfuture)
@@ -230,16 +230,16 @@ describe CreateMentors do
       ]
     end
 
-    it 'should create mentors for all hashes in the array supplied' do
+    it 'creates mentors for all hashes in the array supplied' do
       mentor_pre = Person.count
       subject.send(:create_mentors, parsed_mentors)
       expect(Person.count).to eq parsed_mentors.map { |x| x[:mobile_phone] }.uniq.count + mentor_pre
     end
 
-    it 'should create the correct mentors' do
+    it 'creates the correct mentors' do
       subject.send(:create_mentors, parsed_mentors)
       parsed_mentors.each do |hash|
-        act = Person.find_by_mobile_phone(hash[:mobile_phone])
+        act = Person.find_by(mobile_phone: hash[:mobile_phone])
         expect(act.first_name).to eq hash[:first_name]
         expect(act.last_name).to eq hash[:last_name]
         expect(act.email).to eq hash[:email]
@@ -249,11 +249,11 @@ describe CreateMentors do
       end
     end
 
-    it 'should assign the correct protocol subscriptions to a mentor' do
+    it 'assigns the correct protocol subscriptions to a mentor' do
       subject.send(:create_mentors, parsed_mentors)
       (0..1).each do |idx|
         hash = parsed_mentors[idx]
-        act = Person.find_by_mobile_phone(hash[:mobile_phone])
+        act = Person.find_by(mobile_phone: hash[:mobile_phone])
         expect(act.protocol_subscriptions.count).to eq 2
         expect(act.protocol_subscriptions.first.protocol.id).to eq protocol_for_students.id
         expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)
@@ -266,7 +266,7 @@ describe CreateMentors do
       end
 
       hash = parsed_mentors.third
-      act = Person.find_by_mobile_phone(hash[:mobile_phone])
+      act = Person.find_by(mobile_phone: hash[:mobile_phone])
       expect(act.protocol_subscriptions.count).to eq 4
       expect(act.protocol_subscriptions.first.protocol.id).to eq protocol_for_students.id
       expect(act.protocol_subscriptions.first.start_date).to be_within(1.minute).of(timedateinfuture)

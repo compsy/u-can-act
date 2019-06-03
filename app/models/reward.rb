@@ -4,7 +4,7 @@ class Reward < ApplicationRecord
   validates :threshold, numericality: { only_integer: true, greater_than: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than: 0 }
   validates :protocol, presence: true
-  validates_uniqueness_of :threshold, scope: :protocol_id
+  validates :threshold, uniqueness: { scope: :protocol_id }
   belongs_to :protocol
   TOTAL_EARNED_SO_FAR = 'total_earned_so_far'
   CAN_STILL_BE_EARNED = 'can_still_be_earned'

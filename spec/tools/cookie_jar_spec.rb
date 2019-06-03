@@ -2,8 +2,9 @@
 
 describe CookieJar do
   let(:jar) { {} }
+
   describe 'set_or_update_cookie' do
-    it 'should return true if all provided params are valid' do
+    it 'returns true if all provided params are valid' do
       current_cookie = {
         response_id: '123',
         token: 'whatever'
@@ -14,7 +15,7 @@ describe CookieJar do
       expect(result).to be_truthy
     end
 
-    it 'should return false if any provided param is invalid' do
+    it 'returns false if any provided param is invalid' do
       current_cookie = {
         response_id: '123',
         token: 'whatever'
@@ -27,27 +28,27 @@ describe CookieJar do
   end
 
   describe 'cookies_set?' do
-    it 'should return false if no cookies are set' do
-      expect(described_class.cookies_set?(jar)).to be_falsey
+    it 'returns false if no cookies are set' do
+      expect(described_class).not_to be_cookies_set(jar)
     end
 
-    it 'should return true if cookies are set' do
+    it 'returns true if cookies are set' do
       cookie_hash = { response_id: '123', token: 'othertoken' }
       described_class.set_or_update_cookie(jar, cookie_hash)
-      expect(described_class.cookies_set?(jar)).to be_truthy
+      expect(described_class).to be_cookies_set(jar)
     end
   end
 
   describe 'verify_param' do
-    it 'should set a cookie when it is not yet set' do
+    it 'sets a cookie when it is not yet set' do
       cookie_hash = { response_id: '123', token: 'othertoken' }
       described_class.set_or_update_cookie(jar, cookie_hash)
-      expect(jar).to_not be_blank
+      expect(jar).not_to be_blank
       expect(jar.keys).to include(described_class::COOKIE_LOCATION)
       expect(jar[described_class::COOKIE_LOCATION]).to eq cookie_hash.to_json
     end
 
-    it 'should update a cookie if it was set before' do
+    it 'updates a cookie if it was set before' do
       current_cookie = {
         response_id: '123',
         token: 'this-should-stay-the-same',

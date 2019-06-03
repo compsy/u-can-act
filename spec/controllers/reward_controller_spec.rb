@@ -4,29 +4,29 @@ require 'rails_helper'
 
 RSpec.describe RewardController, type: :controller do
   render_views
-  it_should_behave_like 'an is_logged_in concern', :index
+  it_behaves_like 'an is_logged_in concern', :index
   describe 'GET /klaar' do
     let(:student) { FactoryBot.create(:student) }
 
     describe 'with logged in student' do
-      before :each do
+      before do
         cookie_auth(student)
       end
 
-      it 'should require a questionnaire to be filled out id' do
+      it 'requires a questionnaire to be filled out id' do
         get :index
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
       end
 
-      it 'should require a completed response and thus not work with a not-completed response' do
+      it 'requires a completed response and thus not work with a not-completed response' do
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   start_date: 1.week.ago.at_beginning_of_day,
                                                   person: student)
         FactoryBot.create(:response, protocol_subscription: protocol_subscription)
 
         get :index
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.')
       end
 
@@ -37,10 +37,10 @@ RSpec.describe RewardController, type: :controller do
         FactoryBot.create(:response, :completed, protocol_subscription: protocol_subscription)
 
         get :index
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'should load the last completed response for displaying the reward' do
+      it 'loads the last completed response for displaying the reward' do
         responseobj = FactoryBot.create(:response, :completed)
         expect_any_instance_of(Person).to receive(:last_completed_response).and_return(responseobj)
 

@@ -14,7 +14,7 @@ module Concerns
       return current_user unless current_user.nil?
 
       log_cookie
-      render(status: 401, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
+      render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
     end
   end
 end

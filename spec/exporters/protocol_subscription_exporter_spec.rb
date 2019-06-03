@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ProtocolSubscriptionExporter do
-  it_should_behave_like 'an object_exporter object'
+  it_behaves_like 'an object_exporter object'
 
   context 'without protocol subscriptions' do
     it 'works without protocol subscriptions' do
@@ -29,7 +29,7 @@ describe ProtocolSubscriptionExporter do
       # External ids
       ids = Person.all.map { |p| p.external_identifier unless Exporters.test_phone_number? p.mobile_phone }
       id_col = export.last.split(';', -1).second
-      expect(ids.any? { |id| id_col.include? id }).to be_truthy
+      expect(ids).to be_any { |id| id_col.include? id }
       expect(id_col).to match(/\A"[a-z0-9]{4}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end

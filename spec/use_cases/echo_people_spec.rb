@@ -4,30 +4,31 @@ require 'rails_helper'
 
 describe EchoPeople do
   let(:filename) { 'some_file.csv' }
+
   describe 'execute' do
-    it 'should accept a file_name as string' do
+    it 'accepts a file_name as string' do
       expect_any_instance_of(described_class).to receive(:execute).and_return true
       expect do
         described_class.run!(file_name: filename)
-      end.to_not raise_error
+      end.not_to raise_error
     end
 
-    it 'should test whether a file exists' do
+    it 'tests whether a file exists' do
       expect_any_instance_of(described_class).to receive(:assert_file_existence).with(filename).and_return true
       expect_any_instance_of(described_class).to receive(:echo_people).with(filename)
       expect do
         described_class.run!(file_name: filename)
-      end.to_not raise_error
+      end.not_to raise_error
     end
   end
 
   describe 'assert_file_existence' do
-    it 'should not raise if the file does exist' do
+    it 'does not raise if the file does exist' do
       expect(File).to receive(:file?).and_return(true)
-      expect { subject.send(:assert_file_existence, 'existing.csv') }.to_not raise_error
+      expect { subject.send(:assert_file_existence, 'existing.csv') }.not_to raise_error
     end
 
-    it 'should raise RuntimeError when the file does not exist' do
+    it 'raises RuntimeError when the file does not exist' do
       expect do
         subject.send(:assert_file_existence, 'some_file.csv')
       end.to raise_error(RuntimeError, /does not exist/)
@@ -52,7 +53,7 @@ describe EchoPeople do
                       '0612345671',  'protname', dateinfuture, enddateinfuture])
       end
 
-      it 'should return an array with all people (except the header)' do
+      it 'returns an array with all people (except the header)' do
         expected_output = "people = [];nil\n"
         expected_output += 'people << {:team_name=>"mijnschool", :first_name=>"a", :last_name=>"e", ' \
                           ':gender=>"male", :mobile_phone=>"0612345679", ' \
@@ -93,7 +94,7 @@ describe EchoPeople do
                       'protname', dateinfuture, '0676543227', 'pilot', enddateinfuture])
       end
 
-      it 'should return an array with all mentors (except the header)' do
+      it 'returns an array with all mentors (except the header)' do
         expected_output = "people = [];nil\n"
         expected_output += 'people << {:team_name=>"jouwschool", ' \
                            ':role_title=>"Mentor", :first_name=>"a", :last_name=>"e", ' \

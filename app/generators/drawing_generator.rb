@@ -39,8 +39,8 @@ class DrawingGenerator < QuestionTypeGenerator
       height: question[:height],
       image: drawing_data_image(question),
       color: question[:color],
-      radius: question[:radius].present? ? question[:radius] : 15,
-      density: question[:density].present? ? question[:density] : 40
+      radius: question[:radius].presence || 15,
+      density: question[:density].presence || 40
     }
   end
 

@@ -94,7 +94,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before(:each) do
+  config.before do
     Timecop.return
     DatabaseCleaner.clean
     ActionMailer::Base.deliveries.clear
@@ -117,7 +117,7 @@ RSpec.configure do |config|
     Rails.application.config.action_dispatch.show_exceptions = false
   end
 
-  config.append_after(:each) do
+  config.append_after do
     Capybara.reset_sessions!
     DatabaseCleaner.clean
     # Logout / devise stuff

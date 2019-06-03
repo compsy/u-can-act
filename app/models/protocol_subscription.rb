@@ -20,10 +20,10 @@ class ProtocolSubscription < ApplicationRecord
   after_initialize :initialize_end_date
   has_many :protocol_transfers
 
-  validates_uniqueness_of :filling_out_for_id,
-                          scope: %i[person_id state],
+  validates :filling_out_for_id,
+            uniqueness: { scope: %i[person_id state],
                           conditions: -> { where(state: ACTIVE_STATE) },
-                          if: ->(sub) { sub.person_id != sub.filling_out_for_id }
+                          if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def transfer!(transfer_to)
@@ -46,7 +46,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def cancel!
-    update_attributes!(state: CANCELED_STATE, end_date: Time.zone.now)
+    update!(state: CANCELED_STATE, end_date: Time.zone.now)
     responses.future.destroy_all
   end
 

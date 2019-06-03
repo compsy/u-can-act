@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 describe Api::OrganizationOverviewSerializer do
-  before :each do
+  subject(:json) { described_class.new(overview, group: group).as_json.with_indifferent_access }
+
+  before do
     Timecop.freeze(2017, 7, 1)
   end
 
@@ -24,10 +26,9 @@ describe Api::OrganizationOverviewSerializer do
         data: {} }
     ]
   end
-  subject(:json) { described_class.new(overview, group: group).as_json.with_indifferent_access }
 
   describe 'renders the correct json' do
-    it 'should contain the correct variables' do
+    it 'contains the correct variables' do
       expect(json.keys).to eq(%w[overview])
     end
   end
@@ -98,7 +99,7 @@ describe Api::OrganizationOverviewSerializer do
       ]
     end
 
-    it 'should gracefully return an empty array if the overview var is not set' do
+    it 'gracefullies return an empty array if the overview var is not set' do
       result = described_class.new([], group: Person::STUDENT).as_json.with_indifferent_access
       expect(result).to be_a Hash
       expect(result.keys).to include 'overview'
@@ -106,7 +107,7 @@ describe Api::OrganizationOverviewSerializer do
       expect(result['overview']).to be_blank
     end
 
-    it 'should gracefully return when an team has no mentors' do
+    it 'gracefullies return when an team has no mentors' do
       [Person::STUDENT, Person::MENTOR].each do |group|
         result = described_class.new(overview_no_mentors, group: group).as_json.with_indifferent_access
         result = result['overview']
@@ -130,7 +131,7 @@ describe Api::OrganizationOverviewSerializer do
       end
     end
 
-    it 'should return a hash with the correct attributes' do
+    it 'returns a hash with the correct attributes' do
       [Person::STUDENT, Person::MENTOR].each do |group|
         result = described_class.new(instance_var, group: group).as_json.with_indifferent_access
         expect(result.keys).to include 'overview'
@@ -144,7 +145,7 @@ describe Api::OrganizationOverviewSerializer do
       end
     end
 
-    it 'should return a hash with the correct stats for a specified group' do
+    it 'returns a hash with the correct stats for a specified group' do
       [Person::STUDENT, Person::MENTOR].each do |group|
         result = described_class.new(instance_var, group: group).as_json.with_indifferent_access
         result = result['overview']
@@ -159,18 +160,18 @@ describe Api::OrganizationOverviewSerializer do
       end
     end
 
-    it 'should not add entries for teams without any data' do
-      expect(names_in_json).to_not include(overview.last[:name])
+    it 'does not add entries for teams without any data' do
+      expect(names_in_json).not_to include(overview.last[:name])
     end
 
-    it 'should add an instance for all teams with data' do
+    it 'adds an instance for all teams with data' do
       expect(names_in_json.length).to eq(3)
       expect(names_in_json).to include(overview.first[:name])
       expect(names_in_json).to include(overview.second[:name])
       expect(names_in_json).to include(overview.third[:name])
     end
 
-    it 'should include the completed rate for each team' do
+    it 'includes the completed rate for each team' do
       json['overview'].each_with_index do |entry, index|
         expect(entry['name']).to eq(overview[index][:name])
         expect(entry['completed']).to eq(overview[index][:data][group][:completed])
@@ -184,7 +185,7 @@ describe Api::OrganizationOverviewSerializer do
       end
     end
 
-    it 'should include the met_threshold rate for each team' do
+    it 'includes the met_threshold rate for each team' do
       json['overview'].each_with_index do |entry, index|
         expect(entry['name']).to eq(overview[index][:name])
         expect(entry['met_threshold_completion']).to eq(overview[index][:data][group][:met_threshold_completion])

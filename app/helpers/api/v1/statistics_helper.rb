@@ -21,8 +21,8 @@ module Api
       end
 
       def number_of_completed_responses(questionnaire)
-        questionnaire = Questionnaire.find_by_name(questionnaire)
-        return 0 unless questionnaire.present?
+        questionnaire = Questionnaire.find_by(name: questionnaire)
+        return 0 if questionnaire.blank?
 
         measurement_ids = Measurement.where(questionnaire: questionnaire).pluck(:id)
         Response.completed.where(measurement_id: measurement_ids).count

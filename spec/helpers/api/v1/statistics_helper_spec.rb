@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V1::StatisticsHelper do
   describe 'number_of_informed_consents_given' do
-    it 'should return the number of filled out informed consents' do
+    it 'returns the number of filled out informed consents' do
       protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire, name: 'my_protocol')
       protocol2 = FactoryBot.create(:protocol, :with_informed_consent_questionnaire, name: 'hihaho')
       protocol3 = FactoryBot.create(:protocol, :with_informed_consent_questionnaire, name: 'noinformed')
@@ -25,11 +25,11 @@ describe Api::V1::StatisticsHelper do
       expect(helper.number_of_informed_consents_given(Person::STUDENT)).to eq(3)
     end
 
-    it 'should not give an error if no protocol subscriptions were found' do
+    it 'does not give an error if no protocol subscriptions were found' do
       expect(helper.number_of_informed_consents_given(Person::STUDENT)).to eq(0)
     end
 
-    it 'should not count people twice' do
+    it 'does not count people twice' do
       protocol2 = FactoryBot.create(:protocol, :with_informed_consent_questionnaire, name: 'hihaho')
       person = FactoryBot.create(:student)
       FactoryBot.create(:protocol_subscription, protocol: protocol2, person: person,
@@ -41,7 +41,7 @@ describe Api::V1::StatisticsHelper do
   end
 
   describe 'number_of_completed_questionnaires' do
-    it 'should return the correct number of completed questionnaires' do
+    it 'returns the correct number of completed questionnaires' do
       student = FactoryBot.create(:student)
       protocol_subscription = FactoryBot.create(:protocol_subscription, person: student)
       FactoryBot.create_list(:response, 7, :completed, protocol_subscription: protocol_subscription)
@@ -56,10 +56,10 @@ describe Api::V1::StatisticsHelper do
       FactoryBot.create_list(:response, 2, protocol_subscription: protocol_subscription)
       expect(helper.number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR])).to eq 16
     end
-    it 'should work when there are no filled out questionnaires' do
+    it 'works when there are no filled out questionnaires' do
       expect(helper.number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR])).to be_zero
     end
-    it 'should work for an empty array of groups' do
+    it 'works for an empty array of groups' do
       expect(helper.number_of_completed_questionnaires([])).to be_zero
     end
   end

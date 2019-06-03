@@ -95,7 +95,7 @@ class FixResponses < ActiveInteraction::Base
   def execute
     @total_seen = 0
     @total_replaced = 0
-    questionnaire = Questionnaire.find_by_name('dagboek mentoren')
+    questionnaire = Questionnaire.find_by(name: 'dagboek mentoren')
     if questionnaire.blank?
       puts 'Error: questionnaire not found'
       return

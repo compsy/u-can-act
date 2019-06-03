@@ -20,15 +20,15 @@ describe MentorInvitationTexts do
   let(:response) { FactoryBot.create(:response, protocol_subscription: protocol_subscription) }
 
   describe 'In the anouncement week' do
-    before :each do
+    before do
       Timecop.freeze(2018, 8, 2)
     end
 
-    after :each do
+    after do
       Timecop.return
     end
 
-    it 'should send the correct message if the response ois a post_assessment' do
+    it 'sends the correct message if the response ois a post_assessment' do
       response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                               completed_at: nil,
                                               measurement: measurement3,
@@ -39,7 +39,7 @@ describe MentorInvitationTexts do
       expect(result).to eq(expected)
     end
 
-    it 'should send the correct message if the response is not a post_assessment' do
+    it 'sends the correct message if the response is not a post_assessment' do
       response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                               completed_at: nil,
                                               measurement: measurement1,
@@ -54,14 +54,15 @@ describe MentorInvitationTexts do
   end
 
   describe 'Not in announcement week' do
-    before :each do
+    before do
       Timecop.freeze(2018, 7, 10)
     end
 
-    after :each do
+    after do
       Timecop.return
     end
-    it 'should return the correct text when there are open voormeting questionnaires and completed some' do
+
+    it 'returns the correct text when there are open voormeting questionnaires and completed some' do
       FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                    completed_at: 10.days.ago,
                                    open_from: 11.days.ago)
@@ -77,7 +78,7 @@ describe MentorInvitationTexts do
                            'ingevuld. Na het invullen hiervan kom je weer bij de wekelijkse vragenlijst.'
     end
 
-    it 'should return the correct text when there are open voormeting questionnaires and not completed some' do
+    it 'returns the correct text when there are open voormeting questionnaires and not completed some' do
       response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                               completed_at: nil,
                                               measurement: measurement1,
@@ -89,7 +90,7 @@ describe MentorInvitationTexts do
                            'Morgen start de eerste wekelijkse vragenlijst. Succes!'
     end
 
-    it 'should return the correct text when the the voormeting is in a different protocol subscription' do
+    it 'returns the correct text when the the voormeting is in a different protocol subscription' do
       response = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
                                                         open_from: 1.minute.ago)
       result = described_class.message(response)
@@ -97,7 +98,7 @@ describe MentorInvitationTexts do
    'Vul nu de eerste wekelijkse vragenlijst in.'
     end
 
-    it 'should return the default text otherwise' do
+    it 'returns the default text otherwise' do
       result = described_class.message(response)
       expect(result).to eq "Hoi #{mentor.first_name}, je wekelijkse vragenlijsten staan weer voor je klaar!"
     end

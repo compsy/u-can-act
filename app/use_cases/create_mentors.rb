@@ -41,7 +41,7 @@ class CreateMentors < ActiveInteraction::Base
   def create_mentors(mentors)
     number_of_mentors = 0
     mentors.each do |mentor|
-      mentor_obj = Person.find_by_mobile_phone(mentor[:mobile_phone])
+      mentor_obj = Person.find_by(mobile_phone: mentor[:mobile_phone])
       mentor_obj = initialize_mentor(mentor) if mentor_obj.nil?
 
       ProtocolSubscription.create!(person: mentor_obj,

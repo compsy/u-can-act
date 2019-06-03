@@ -7,7 +7,7 @@ module Api
 
       # Called from the middleware!
       def raise_bad_request
-        render plain: "Error while parsing json parameters: #{request.env['RAW_POST_DATA']}", status: 400
+        render plain: "Error while parsing json parameters: #{request.env['RAW_POST_DATA']}", status: :bad_request
       end
 
       def check_access_allowed(protocol_subscription)

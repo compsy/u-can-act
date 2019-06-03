@@ -57,7 +57,7 @@ class Response < ApplicationRecord
 
   # rubocop:disable Metrics/AbcSize
   def self.in_week(options = {})
-    raise('Only :week_number and :year are valid options!') unless (options.keys - %i[week_number year]).blank?
+    raise('Only :week_number and :year are valid options!') if (options.keys - %i[week_number year]).present?
 
     # According to
     # https://stackoverflow.com/questions/13075617/rails-3-2-8-how-do-i-get-the-week-number-from-rails,
@@ -103,9 +103,9 @@ class Response < ApplicationRecord
   end
 
   def complete!
-    update_attributes!(completed_at: Time.zone.now,
-                       filled_out_by: protocol_subscription.person,
-                       filled_out_for: protocol_subscription.filling_out_for)
+    update!(completed_at: Time.zone.now,
+            filled_out_by: protocol_subscription.person,
+            filled_out_for: protocol_subscription.filling_out_for)
   end
 
   def remote_content

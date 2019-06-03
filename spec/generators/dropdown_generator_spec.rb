@@ -14,5 +14,5 @@ describe DropdownGenerator do
     }
   end
 
-  it_should_behave_like 'a generator'
+  it_behaves_like 'a generator'
 end

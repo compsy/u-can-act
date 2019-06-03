@@ -5,7 +5,7 @@ require 'rails_helper'
 describe GenerateInvitationText do
   describe 'run' do
     describe 'protocol with invitation text' do
-      it 'should return the text of a protocol if one is set' do
+      it 'returns the text of a protocol if one is set' do
         protocol = FactoryBot.create(:protocol, :with_invitation_text)
         protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
@@ -15,7 +15,7 @@ describe GenerateInvitationText do
         expect(result).to eq protocol.invitation_text
       end
 
-      it 'should evaluate the values in the the text of a protocol' do
+      it 'evaluates the values in the the text of a protocol' do
         protocol = FactoryBot.create(:protocol, :with_invitation_text)
         protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
@@ -44,7 +44,7 @@ describe GenerateInvitationText do
         end
         let(:response) { FactoryBot.create(:response, protocol_subscription: protocol_subscription) }
 
-        it 'should call the student invitation texts generator' do
+        it 'calls the student invitation texts generator' do
           expected = 'test'
           expect(StudentInvitationTexts).to receive(:message)
             .with(response)
@@ -69,7 +69,7 @@ describe GenerateInvitationText do
         end
         let(:response) { FactoryBot.create(:response, protocol_subscription: protocol_subscription) }
 
-        it 'should call the mentor invitation texts generator' do
+        it 'calls the mentor invitation texts generator' do
           expected = 'test'
           expect(MentorInvitationTexts).to receive(:message)
             .with(response)

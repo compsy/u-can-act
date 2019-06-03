@@ -10,7 +10,7 @@ describe ResponseExporter do
   end
 
   context 'invalid questionnaire' do
-    it 'should raise an error' do
+    it 'raises an error' do
       expect { described_class.export_lines('not-a-questionnaire') }.to raise_error(RuntimeError,
                                                                                     'Questionnaire not found')
     end
@@ -24,9 +24,7 @@ describe ResponseExporter do
         protocol_subscription = FactoryBot.create(:protocol_subscription, person: person)
         FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: responseobj.measurement)
         questionnaire_key = responseobj.measurement.questionnaire.key
-        expect(RedisCachedCall).to receive(:cache).with("questionnaire_headers_#{questionnaire_key}", false) do |&block|
-          block.call
-        end
+        expect(RedisCachedCall).to receive(:cache).with("questionnaire_headers_#{questionnaire_key}", false).and_yield
         export = described_class.export_headers(responseobj.measurement.questionnaire)
         expect(export).to eq(%w[response_id filled_out_by_id filled_out_for_id protocol_subscription_id] +
                              %w[measurement_id invitation_set_id open_from opened_at completed_at created_at] +
@@ -36,10 +34,8 @@ describe ResponseExporter do
   end
 
   context 'with valid questionnaire' do
-    before :each do
-      allow(RedisCachedCall).to receive(:cache).with(any_args) do |&block|
-        block.call
-      end
+    before do
+      allow(RedisCachedCall).to receive(:cache).with(any_args).and_yield
     end
 
     it 'works with responses' do
@@ -56,7 +52,7 @@ describe ResponseExporter do
       # External ids
       ids = Person.all.map { |p| p.external_identifier unless Exporters.test_phone_number? p.mobile_phone }
       id_col = export.last.split(';', -1).second
-      expect(ids.any? { |id| id_col.include? id }).to be_truthy
+      expect(ids).to be_any { |id| id_col.include? id }
       expect(id_col).to match(/\A"[a-z0-9]{4}"\z/)
       expect(export.last.split(';', -1).size).to eq export.first.split(';', -1).size
     end

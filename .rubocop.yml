@@ -1,7 +1,7 @@
 inherit_from: rubocop-todo.yml
-require: rubocop-performance
-require: rubocop-rails
-require: rubocop-rspec
+require:
+  - rubocop-performance
+  - rubocop-rails
 
 AllCops:
   TargetRubyVersion: 2.6

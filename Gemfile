@@ -8,10 +8,10 @@ git_source(:github) do |repo_name|
 end
 
 # Specify ruby version for heroku
-ruby '2.4.3'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.1.7'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 0.20.0'
@@ -91,7 +91,7 @@ gem 'iban-tools'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
@@ -103,6 +103,7 @@ group :test do
   # Code quality monitoring
   gem 'rubocop'
   gem 'rubocop-performance'
+  gem 'rubocop-rails'
   gem 'rubocop-rspec'
 
   # Allows jumping back and forth in time
@@ -143,7 +144,7 @@ gem 'workless', git: 'https://github.com/patricklindsay/workless.git', branch: '
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'listen'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -161,7 +162,7 @@ gem 'modernizr-rails'
 gem 'webpacker', '>= 4.0.x'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data'
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'i18n-js' # We still need this gem because it generates translations.js for us.
 gem 'rails-i18n'

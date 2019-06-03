@@ -734,9 +734,9 @@
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
 "@rails/webpacker@https://github.com/rails/webpacker":
-  version "4.0.5"
-  uid cc5a1b3bde67c2475b2f51abcf43b6e3f7c9396b
-  resolved "https://github.com/rails/webpacker#cc5a1b3bde67c2475b2f51abcf43b6e3f7c9396b"
+  version "4.0.6"
+  uid "6cb399bc5599ee60f6a5f2e7788aaba20bd87248"
+  resolved "https://github.com/rails/webpacker#6cb399bc5599ee60f6a5f2e7788aaba20bd87248"
   dependencies:
     "@babel/core" "^7.4.5"
     "@babel/plugin-proposal-class-properties" "^7.4.4"

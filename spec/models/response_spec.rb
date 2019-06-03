@@ -212,10 +212,10 @@ describe Response do
 
   describe 'after_date' do
     it 'returns responses with a open_from that is in the future' do
-      FactoryBot.create(:response, open_from: Time.zone.new(2018, 10, 9))
-      FactoryBot.create(:response, open_from: Time.zone.new(2018, 10, 10))
-      expected = FactoryBot.create(:response, open_from: Time.zone.new(2018, 10, 11))
-      thedate = Time.zone.new(2018, 10, 10)
+      FactoryBot.create(:response, open_from: Time.zone.local(2018, 10, 9))
+      FactoryBot.create(:response, open_from: Time.zone.local(2018, 10, 10))
+      expected = FactoryBot.create(:response, open_from: Time.zone.local(2018, 10, 11))
+      thedate = Time.zone.local(2018, 10, 10)
       expect(described_class.after_date(thedate).count).to eq 1
       expect(described_class.after_date(thedate).to_a).to eq [expected]
     end

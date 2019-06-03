@@ -34,7 +34,7 @@ class Person < ApplicationRecord
   belongs_to :role
   validates :role_id, presence: true
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
-  has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy
+  has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy, inverse_of: :person
   has_many :responses, through: :protocol_subscriptions
   has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy # invitation_sets.first is
   # Not used right now:                                                           the last one created.

@@ -15,7 +15,7 @@ describe InvitationToken do
     end
 
     it 'initializes with the correct OPEN_FROM_INVITATION' do
-      date = Time.zone.new(2017, 11, 0o2, 0, 0)
+      date = Time.zone.local(2017, 11, 0o2, 0, 0)
       Timecop.freeze(date)
       invitation_token = FactoryBot.create(:invitation_token)
       expect(invitation_token.expires_at)

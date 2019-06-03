@@ -14,11 +14,11 @@ class ProtocolSubscription < ApplicationRecord
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true
   validates :end_date, presence: true
-  has_many :responses, -> { order open_from: :asc }, dependent: :destroy
+  has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
   after_initialize :initialize_end_date
-  has_many :protocol_transfers
+  has_many :protocol_transfers, dependent: :destroy
 
   validates :filling_out_for_id,
             uniqueness: { scope: %i[person_id state],

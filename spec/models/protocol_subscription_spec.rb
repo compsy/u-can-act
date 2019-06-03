@@ -345,7 +345,7 @@ describe ProtocolSubscription do
 
   describe 'responses' do
     before do
-      Timecop.freeze(Time.zone.new(2017, 3, 19, 0, 0, 0))
+      Timecop.freeze(Time.zone.local(2017, 3, 19, 0, 0, 0))
     end
 
     after do

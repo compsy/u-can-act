@@ -24,7 +24,7 @@ describe RescheduleResponses do
         FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                      open_from: future)
         FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                     open_from: future + 1.day, completed_at: Time.zone.new(2018, 10, 10))
+                                     open_from: future + 1.day, completed_at: Time.zone.local(2018, 10, 10))
         described_class.run!(protocol_subscription: protocol_subscription)
         responses.zip(Response.all).each do |local_response, other_response|
           expect(local_response).to eq other_response
@@ -67,8 +67,8 @@ describe RescheduleResponses do
                                                 protocol: protocol,
                                                 start_date: 1.week.ago.at_beginning_of_day)
       Response.destroy_all
-      future = Time.zone.new(2017, 10, 11)
-      times = [Time.zone.new(2017, 10, 10), Time.zone.new(2017, 10, 11), Time.zone.new(2017, 10, 12), Time.zone.new(2017, 10, 13)]
+      future = Time.zone.local(2017, 10, 11)
+      times = [Time.zone.local(2017, 10, 10), Time.zone.local(2017, 10, 11), Time.zone.local(2017, 10, 12), Time.zone.local(2017, 10, 13)]
       expect_any_instance_of(Measurement).to receive(:response_times).with(protocol_subscription.start_date,
                                                                            protocol_subscription.end_date)
                                                                      .and_return(times)

@@ -42,7 +42,7 @@ describe TimeTools do
       expect(described_class).to be_a_time(time)
     end
     it 'sees a datetime as a time' do
-      time = DateTime.zone.new(2012, 8, 29, 22, 35, 0)
+      time = DateTime.new(2012, 8, 29, 22, 35, 0).in_time_zone
       expect(described_class).to be_a_time(time)
     end
     it 'does not see anything else as a time' do
@@ -73,7 +73,7 @@ describe TimeTools do
       expect(described_class).not_to be_an_offset(Time.zone.now)
       expect(described_class).not_to be_an_offset(Date.new(2002, 2, 3))
       expect(described_class).not_to be_an_offset(Time.zone.local(2002))
-      expect(described_class).not_to be_an_offset(DateTime.zone.new(2012, 8, 29, 22, 35, 0))
+      expect(described_class).not_to be_an_offset(DateTime.new(2012, 8, 29, 22, 35, 0).in_time_zone)
     end
   end
 end

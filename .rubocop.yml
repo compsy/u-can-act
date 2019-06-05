@@ -46,6 +46,10 @@ Rails/Output:
   Exclude:
     - 'app/use_cases/**/*'
 
+# The generators are designed to evaluate questionnaire contents as HTML.
+Rails/OutputSafety:
+  Exclude:
+    - 'app/generators/**/*'
 
 # Describe specs fail this test
 # Namespaces in rake tasks do too

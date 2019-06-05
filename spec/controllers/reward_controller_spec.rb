@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe RewardController, type: :controller do
+describe RewardController, type: :controller do
   render_views
-  it_behaves_like 'an is_logged_in concern', :index
+  it_behaves_like 'an is_logged_in concern', :index, {}
   describe 'GET /klaar' do
     let(:student) { FactoryBot.create(:student) }
 

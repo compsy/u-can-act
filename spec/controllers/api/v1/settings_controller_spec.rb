@@ -11,9 +11,9 @@ describe Api::V1::SettingsController, type: :controller do
       res
     end
 
-    let(:settings) { YAML.load_file(File.join(Rails.root, 'config', 'settings.yml')) }
+    let(:settings) { YAML.load_file(Rails.root.join('config', 'settings.yml')) }
     let(:specific_settings) do
-      YAML.load_file(File.join(Rails.root, 'projects', 'demo', 'config', 'settings.yml'))
+      YAML.load_file(Rails.root.join('projects', 'demo', 'config', 'settings.yml'))
     end
 
     let(:current_settings) { settings[Rails.env].deep_merge(specific_settings[Rails.env]) }

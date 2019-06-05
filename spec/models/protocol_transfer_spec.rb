@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ProtocolTransfer, type: :model do
+describe ProtocolTransfer, type: :model do
   describe 'validations' do
     let(:transfer) { FactoryBot.create(:protocol_transfer) }
 
@@ -12,7 +12,7 @@ RSpec.describe ProtocolTransfer, type: :model do
 
     it 'validates the presence of a protocol_subscription' do
       transfer.protocol_subscription = nil
-      expected_error = { protocol_subscription: ['moet opgegeven zijn'] }
+      expected_error = { protocol_subscription: ['moet bestaan'] }
       expect(transfer).not_to be_valid
       expect(transfer.errors).not_to be_blank
       expect(transfer.errors.messages).to eq expected_error
@@ -20,7 +20,7 @@ RSpec.describe ProtocolTransfer, type: :model do
 
     it 'validates the presence of a from person' do
       transfer.from = nil
-      expected_error = { from: ['moet opgegeven zijn'] }
+      expected_error = { from: ['moet bestaan'] }
       expect(transfer).not_to be_valid
       expect(transfer.errors).not_to be_blank
       expect(transfer.errors.messages).to eq expected_error
@@ -28,7 +28,7 @@ RSpec.describe ProtocolTransfer, type: :model do
 
     it 'validates the presence of a to person' do
       transfer.to = nil
-      expected_error = { to: ['moet opgegeven zijn'] }
+      expected_error = { to: ['moet bestaan'] }
       expect(transfer).not_to be_valid
       expect(transfer.errors).not_to be_blank
       expect(transfer.errors.messages).to eq expected_error

@@ -41,6 +41,12 @@ Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*'
 
+# We call use cases from the console so we want to see output
+Rails/Output:
+  Exclude:
+    - 'app/use_cases/**/*'
+
+
 # Describe specs fail this test
 # Namespaces in rake tasks do too
 Metrics/BlockLength:

@@ -554,7 +554,7 @@ describe ProtocolSubscription do
                                                 start_date: Time.new(2017, 4, 1, 0, 0, 0).in_time_zone)
 
       # Jump to the end of the protocol
-      Timecop.freeze(Date.today + protocol_duration)
+      Timecop.freeze(Time.zone.today + protocol_duration)
       protocol_subscription.responses.each_with_index do |responseobj, index|
         next if index == 0 # Pretend the first response is missing
 

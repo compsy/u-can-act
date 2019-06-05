@@ -51,6 +51,12 @@ Rails/OutputSafety:
   Exclude:
     - 'app/generators/**/*'
 
+# We think it's okay to use instance variables in helper classes. We may choose to refactor these
+# and remove this assertion at a later date.
+Rails/HelperInstanceVariable:
+  Exclude:
+    - 'app/helpers/**/*'
+
 # Describe specs fail this test
 # Namespaces in rake tasks do too
 Metrics/BlockLength:

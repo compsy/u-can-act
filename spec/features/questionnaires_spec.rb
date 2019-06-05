@@ -2102,7 +2102,7 @@ describe 'GET and POST /', type: :feature, js: true do
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
-      expect(responseobj.values).to include('v1' => Date.today.to_formatted_s(:db))
+      expect(responseobj.values).to include('v1' => Time.zone.today.to_formatted_s(:db))
     end
     it 'supports the today property, which sets the default value to today' do
       # Don't test min and max right now because they are bugged
@@ -2134,7 +2134,7 @@ describe 'GET and POST /', type: :feature, js: true do
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
-      expect(responseobj.values).to include('v1' => Date.today.to_formatted_s(:db))
+      expect(responseobj.values).to include('v1' => Time.zone.today.to_formatted_s(:db))
     end
   end
 

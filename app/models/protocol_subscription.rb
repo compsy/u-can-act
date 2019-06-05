@@ -6,7 +6,7 @@ class ProtocolSubscription < ApplicationRecord
   CANCELED_STATE = 'canceled'
   COMPLETED_STATE = 'completed'
   belongs_to :person
-  belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id'
+  belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id', inverse_of: false
   validates :person_id, presence: true # The person who receives the SMS (Mentor)
   validates :filling_out_for_id, presence: true # Student ID
   belongs_to :protocol
@@ -38,7 +38,7 @@ class ProtocolSubscription < ApplicationRecord
   def stop_response
     # We can be sure there is always at most one stop response as this is forced / validated in the
     # protocol class.
-    responses.joins(:measurement).where(measurements: { stop_measurement: true }).first
+    responses.joins(:measurement).find_by(measurements: { stop_measurement: true })
   end
 
   def active?

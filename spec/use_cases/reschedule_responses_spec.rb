@@ -68,7 +68,10 @@ describe RescheduleResponses do
                                                 start_date: 1.week.ago.at_beginning_of_day)
       Response.destroy_all
       future = Time.zone.local(2017, 10, 11)
-      times = [Time.zone.local(2017, 10, 10), Time.zone.local(2017, 10, 11), Time.zone.local(2017, 10, 12), Time.zone.local(2017, 10, 13)]
+      times = [Time.zone.local(2017, 10, 10),
+               Time.zone.local(2017, 10, 11),
+               Time.zone.local(2017, 10, 12),
+               Time.zone.local(2017, 10, 13)]
       expect_any_instance_of(Measurement).to receive(:response_times).with(protocol_subscription.start_date,
                                                                            protocol_subscription.end_date)
                                                                      .and_return(times)

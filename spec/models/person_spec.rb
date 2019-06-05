@@ -8,7 +8,7 @@ describe Person do
   describe 'last_completed_response' do
     it 'returns nil if no response has been completed so far' do
       person = FactoryBot.create(:person, :with_protocol_subscriptions)
-      expect(person.protocol_subscriptions.first.responses).not_to be_any(&:completed?)
+      expect(person.protocol_subscriptions.first.responses).not_to(be_any(&:completed?))
       expect(person.last_completed_response).to be_nil
     end
 

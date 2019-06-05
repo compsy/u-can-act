@@ -77,7 +77,7 @@ describe QuestionnaireGenerator do
 
     it 'provides the content of the questionnaire as a hash' do
       expect(@result[:content]).to be_a Array
-      expect(@result[:content]).to be_all { |quest| quest.is_a? Hash }
+      expect(@result[:content]).to(be_all { |quest| quest.is_a? Hash })
     end
 
     it 'replaces names in the json' do

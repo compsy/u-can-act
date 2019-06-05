@@ -4,9 +4,11 @@ module Concerns
   module IsLoggedIn
     extend ActiveSupport::Concern
 
+    # rubocop:disable Rails/LexicallyScopedActionFilter
     included do
       before_action :verify_current_user, except: :interactive
     end
+    # rubocop:enable Rails/LexicallyScopedActionFilter
 
     private
 

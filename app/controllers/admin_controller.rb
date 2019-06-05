@@ -16,6 +16,10 @@ class AdminController < ApplicationController
     redirect_to '/admin/preview_overview'
   end
 
+  def preview_overview; end
+
+  def export; end
+
   def response_export
     questionnaire_filename = idify('responses', @questionnaire.name)
     export_class(questionnaire_filename, 'Questionnaire responses', ResponseExporter, @questionnaire.name)

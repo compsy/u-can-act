@@ -6,30 +6,30 @@ describe Api::V1::PersonController, type: :controller do
   let(:person) { FactoryBot.create(:person, :with_iban, email: 'test@test2.com') }
 
   describe 'it requires a person to be logged in' do
-    it 'should not show' do
+    it 'does not show' do
       get :me
       expect(response.status).to eq 401
     end
   end
 
   describe 'show' do
-    before :each do
+    before do
       cookie_auth(person)
     end
 
-    it 'should call the correct serializer' do
+    it 'calls the correct serializer' do
       allow(controller).to receive(:render)
         .with(json: person, serializer: Api::PersonSerializer)
         .and_call_original
       get :me
     end
 
-    it 'should render the correct json' do
+    it 'renders the correct json' do
       get :me
       expect(response.status).to eq 200
       expect(response.header['Content-Type']).to include 'application/json'
       json = JSON.parse(response.body)
-      expect(json).to_not be_nil
+      expect(json).not_to be_nil
       expect(json['first_name']).to eq person.first_name
       expect(json['last_name']).to eq person.last_name
       expect(json['mobile_phone']).to eq person.mobile_phone

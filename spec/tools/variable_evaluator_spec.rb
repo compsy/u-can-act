@@ -25,27 +25,27 @@ describe VariableEvaluator do
   end
 
   describe 'evaluate_obj' do
-    it 'should work with a string' do
+    it 'works with a string' do
       given = '{{begeleider}}'
       expected = mentor_title
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
-    it 'should work with an array' do
+    it 'works with an array' do
       given = ['{{begeleider}}', 'hoi {{deze_student}} {{achternaam_student}}']
       expected = ['stamhoofd', 'hoi William Sealy Gosset']
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
-    it 'should work with the values of a hash' do
+    it 'works with the values of a hash' do
       given = { something: '{{begeleider}}', other: 'hallo {{deze_student}} {{achternaam_student}}' }
       expected = { something: 'stamhoofd', other: 'hallo William Sealy Gosset' }
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
-    it 'should not change other values' do
+    it 'does not change other values' do
       given = { a: %w[hallo doei] }
       expected = given
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
-    it 'should work with arbitrarily nested data structures' do
+    it 'works with arbitrarily nested data structures' do
       given = [{ section_start: 'Hoi {{begeleider}}',
                  options: [['one', 'two', '{{deze_student}}']] },
                '{{zijn_haar_begeleider}}']
@@ -54,7 +54,7 @@ describe VariableEvaluator do
                   'haar']
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
-    it 'should replace all the words correctly' do
+    it 'replaces all the words correctly' do
       given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}}::'\
               '{{achternaam_student}} en '\
               '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
@@ -63,7 +63,7 @@ describe VariableEvaluator do
                  'Of heeft zij daar nog geen tijd voor gehad? hij al wel voor hem.'
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
-    it 'should work with capitalization' do
+    it 'works with capitalization' do
       given = 'Heeft je {{Begeleider}} al {{Zijn_haar_begeleider}} vragenlijsten ingevuld voor {{Deze_student}} en '\
               '{{Zijn_haar_student}} vrienden? Of heeft {{Hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
               '{{Hij_zij_student}} al wel. {{Je_begeleidingsinitiatief}} en {{naam_begeleider}}::'\
@@ -72,7 +72,7 @@ describe VariableEvaluator do
                  'Of heeft Zij daar nog geen tijd voor gehad? Hij al wel. De Hondsrug en Elsa::Minnertsma.'
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
-    it 'should replace with default values when values are missing' do
+    it 'replaces with default values when values are missing' do
       given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} '\
               '{{achternaam_student}} en '\
               '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
@@ -83,7 +83,7 @@ describe VariableEvaluator do
                   'en je begeleider .'
       expect(described_class.evaluate_obj(given, {})).to eq expected
     end
-    it 'should not make any changes when there are no variables' do
+    it 'does not make any changes when there are no variables' do
       given = 'Dit is een tekst {{zonder}} variabelen.'
       expected = given
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected

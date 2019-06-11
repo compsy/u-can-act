@@ -33,10 +33,10 @@ class OneTimeResponseController < ApplicationController
 
   def load_one_time_response
     token = one_time_response_params[:q]
-    @one_time_response = OneTimeResponse.find_by_token(token)
+    @one_time_response = OneTimeResponse.find_by(token: token)
     return @one_time_response if @one_time_response.present?
 
-    render(status: 404, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
+    render(status: :not_found, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
   end
 
   def one_time_response_params

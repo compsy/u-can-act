@@ -26,19 +26,19 @@ class QuestionnaireController < ApplicationController
   end
 
   def show
-    @response.update_attributes!(opened_at: Time.zone.now)
+    @response.update!(opened_at: Time.zone.now)
   end
 
   def create_informed_consent
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
-    @response.update_attributes!(opened_at: Time.zone.now)
+    @response.update!(opened_at: Time.zone.now)
     redirect_to questionnaire_path(uuid: @response.uuid)
   end
 
   def create
     response_content = ResponseContent.create!(content: questionnaire_content)
-    @response.update_attributes!(content: response_content.id)
+    @response.update!(content: response_content.id)
     @response.complete!
     check_stop_subscription
     redirect_to questionnaire_create_params[:callback_url] || NextPageFinder.get_next_page(current_user: current_user,
@@ -116,7 +116,7 @@ class QuestionnaireController < ApplicationController
 
       next if drawing_within_limits?(key, value, drawing_ids)
 
-      render(status: 400, html: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
+      render(status: :bad_request, html: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
              layout: 'application')
       break
     end
@@ -129,22 +129,22 @@ class QuestionnaireController < ApplicationController
   def verify_cookie
     signed_in_person_id = current_user&.id
     response_cookie_person_id = person_for_response_cookie
-    params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
+    params_person_id = Response.find_by(id: questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
     return if response_cookie_person_id && signed_in_person_id &&
               signed_in_person_id == params_person_id &&
               signed_in_person_id == response_cookie_person_id
 
     log_cookie
-    render(status: 401, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
+    render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
   end
 
   def person_for_response_cookie
     response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
-    Response.find_by_id(response_id)&.protocol_subscription&.person_id
+    Response.find_by(id: response_id)&.protocol_subscription&.person_id
   end
 
   def set_response
-    the_response = Response.find_by_uuid(questionnaire_params[:uuid])
+    the_response = Response.find_by(uuid: questionnaire_params[:uuid])
     check_response(the_response)
     return if performed?
 
@@ -153,7 +153,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_create_response
-    @response = Response.find_by_id(questionnaire_create_params[:response_id])
+    @response = Response.find_by(id: questionnaire_create_params[:response_id])
     check_response(@response)
     return if performed?
 
@@ -222,7 +222,7 @@ class QuestionnaireController < ApplicationController
 
   def check_response(response)
     unless response
-      render(status: 404, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
+      render(status: :not_found, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
       return
     end
 

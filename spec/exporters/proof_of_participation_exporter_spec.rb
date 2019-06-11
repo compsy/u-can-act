@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ProofOfParticipationExporter do
-  it_should_behave_like 'an object_exporter object'
+  it_behaves_like 'an object_exporter object'
 
   describe 'without participants' do
     it 'works without protocol subscriptions' do
@@ -23,7 +23,7 @@ describe ProofOfParticipationExporter do
     end
     let!(:mentors) { FactoryBot.create_list(:mentor, number_of_mentors, :with_protocol_subscriptions) }
 
-    it 'should create a CSV with the correct fields' do
+    it 'creates a CSV with the correct fields' do
       export = described_class.export_lines.to_a.join.split("\n")
       header = export.first.delete('"').split(';')
       expected = described_class.formatted_fields + described_class.default_fields
@@ -31,7 +31,7 @@ describe ProofOfParticipationExporter do
       expect(header).to match_array expected
     end
 
-    it 'should export the students and mentors' do
+    it 'exports the students and mentors' do
       export = described_class.export_lines.to_a.join.split("\n")
       # -1 for the header
       # Note that it should not export the mentors
@@ -39,7 +39,7 @@ describe ProofOfParticipationExporter do
       expect(export.size - 1).to eq ProtocolSubscription.count - number_of_mentors
     end
 
-    it 'should create the correct export' do
+    it 'creates the correct export' do
       completed = 2
       ProtocolSubscription.all.each do |protocol_subscription|
         (1..completed).map do |day|
@@ -69,7 +69,7 @@ describe ProofOfParticipationExporter do
       end
     end
 
-    it 'should not export the test accounts' do
+    it 'does not export the test accounts' do
       pre_export = described_class.export_lines.to_a.join.split("\n")
 
       # create a response that should be filtered out

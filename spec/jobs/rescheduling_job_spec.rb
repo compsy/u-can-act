@@ -13,7 +13,7 @@ describe ReschedulingJob do
   end
 
   describe 'perform' do
-    it 'should call the reschedule responses use case with the correct parameters' do
+    it 'calls the reschedule responses use case with the correct parameters' do
       FactoryBot.create(:protocol_subscription, :canceled)
       protsub = FactoryBot.create(:protocol_subscription)
       expect(RescheduleResponses).to receive(:run!).with(protocol_subscription: protsub)
@@ -22,13 +22,13 @@ describe ReschedulingJob do
   end
 
   describe 'max_attempts' do
-    it 'should be two' do
+    it 'is two' do
       expect(subject.max_attempts).to eq 2
     end
   end
 
   describe 'reschedule_at' do
-    it 'should be in one hour' do
+    it 'is in one hour' do
       time_now = Time.zone.now
       expect(subject.reschedule_at(time_now, 1)).to be_within(1.minute)
         .of(TimeTools.increase_by_duration(time_now, 5.minutes))

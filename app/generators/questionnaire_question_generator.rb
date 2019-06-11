@@ -52,7 +52,7 @@ class QuestionnaireQuestionGenerator < Generator
   end
 
   def check_question_type_available(type, generator)
-    raise "Unknown question type #{type}" unless generator.present?
+    raise "Unknown question type #{type}" if generator.blank?
   end
 
   def check_question_type_allowed(type, generator, only_questions)

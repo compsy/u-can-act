@@ -4,46 +4,46 @@ require 'rails_helper'
 
 RSpec.describe Reward, type: :model do
   describe 'validations' do
-    it 'should have valid default properties' do
+    it 'has valid default properties' do
       reward = FactoryBot.create(:reward)
-      expect(reward.valid?).to be_truthy
+      expect(reward).to be_valid
     end
 
     describe 'threshold' do
-      it 'should be integer' do
+      it 'is integer' do
         reward = FactoryBot.create(:reward)
         reward.reward_points = 100
         reward.threshold = 2.1
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward = FactoryBot.create(:reward, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
       end
 
-      it 'should be positive' do
+      it 'is positive' do
         reward = FactoryBot.create(:reward)
         reward.reward_points = 100
         reward.threshold = -1
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward = FactoryBot.create(:reward, reward_points: 100)
         reward.threshold = 0
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward = FactoryBot.create(:reward, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
       end
 
-      it 'should be unique within a protocol' do
+      it 'is unique within a protocol' do
         protocol = FactoryBot.create(:protocol)
         different_protocol = FactoryBot.create(:protocol)
         reward = FactoryBot.create(:reward, protocol: protocol, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
         reward = FactoryBot.create(:reward, reward_points: 100, threshold: 1)
         reward.protocol = protocol
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward = FactoryBot.create(:reward, protocol: different_protocol, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
       end
 
-      it 'should be able to create multiple rewards for one protocol' do
+      it 'is able to create multiple rewards for one protocol' do
         protocol = FactoryBot.create(:protocol)
         reward = FactoryBot.create(:reward, protocol: protocol, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
@@ -54,39 +54,39 @@ RSpec.describe Reward, type: :model do
     end
 
     describe 'protocol' do
-      it 'should be present' do
+      it 'is present' do
         reward = FactoryBot.create(:reward)
         reward.protocol = nil
         protocol = FactoryBot.create(:protocol)
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward.protocol = protocol
         expect(reward).to be_valid
       end
     end
 
     describe 'reward_points' do
-      it 'should be integer' do
+      it 'is integer' do
         reward = FactoryBot.create(:reward, threshold: 1)
         reward.reward_points = 5.1
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward = FactoryBot.create(:reward, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
       end
 
-      it 'should be positive' do
+      it 'is positive' do
         reward = FactoryBot.create(:reward, threshold: 1)
         reward.reward_points = -100
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward = FactoryBot.create(:reward, threshold: 1)
         reward.reward_points = 0
-        expect(reward).to_not be_valid
+        expect(reward).not_to be_valid
         reward = FactoryBot.create(:reward, reward_points: 100, threshold: 1)
         expect(reward).to be_valid
       end
     end
 
     describe 'max_still_earnable_euros' do
-      it 'should work with one person' do
+      it 'works with one person' do
         protocol = FactoryBot.create(:protocol)
         FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
         FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -97,7 +97,7 @@ RSpec.describe Reward, type: :model do
                           start_date: Time.zone.now.beginning_of_day)
         expect(Reward.max_still_earnable_euros(bust_cache: true)).to eq 0.08
       end
-      it 'should work with multiple people' do
+      it 'works with multiple people' do
         protocol = FactoryBot.create(:protocol)
         FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
         FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -114,7 +114,7 @@ RSpec.describe Reward, type: :model do
     end
 
     describe 'total_earned_euros' do
-      it 'should work with one person' do
+      it 'works with one person' do
         protocol = FactoryBot.create(:protocol)
         FactoryBot.create(:measurement, protocol: protocol, open_from_offset: 0)
         FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -128,7 +128,7 @@ RSpec.describe Reward, type: :model do
           expect(Reward.total_earned_euros(bust_cache: true)).to eq 0.02
         end
       end
-      it 'should work with multiple people' do
+      it 'works with multiple people' do
         protocol = FactoryBot.create(:protocol)
         FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
         FactoryBot.create(:measurement, :periodical, protocol: protocol)

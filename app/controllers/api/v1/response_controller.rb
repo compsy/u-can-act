@@ -18,7 +18,7 @@ module Api
 
       def create
         content = ResponseContent.create!(content: response_content)
-        @response.update_attributes!(content: content.id)
+        @response.update!(content: content.id)
         @response.complete!
         head 201
       end
@@ -27,22 +27,22 @@ module Api
 
       def set_responses
         # TODO: This will be replaced with current user once we have correct authentication
-        person = Person.find_by_external_identifier(response_params[:external_identifier])
+        person = Person.find_by(external_identifier: response_params[:external_identifier])
         (@responses = person.my_open_responses) && return if person.present?
-        render(status: 404, json: 'Persoon met die external_identifier niet gevonden')
+        render(status: :not_found, json: 'Persoon met die external_identifier niet gevonden')
       end
 
       def set_response
-        @response = Response.find_by_uuid(response_params[:uuid])
+        @response = Response.find_by(uuid: response_params[:uuid])
         return if @response.present?
 
-        render(status: 404, json: 'Response met dat uuid niet gevonden')
+        render(status: :not_found, json: 'Response met dat uuid niet gevonden')
       end
 
       def check_empty_response
         return if @response.content.blank?
 
-        render(status: 400, json: 'Response met dat uuid heeft al content')
+        render(status: :bad_request, json: 'Response met dat uuid heeft al content')
       end
 
       def response_content

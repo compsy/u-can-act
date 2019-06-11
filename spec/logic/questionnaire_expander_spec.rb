@@ -4,8 +4,9 @@ require 'rails_helper'
 
 describe QuestionnaireExpander do
   let(:response) { FactoryBot.create(:response) }
+
   describe 'expand_content' do
-    it 'should call the variable substitutor for a title and return an array' do
+    it 'calls the variable substitutor for a title and return an array' do
       content = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
       mockresult = 'the result'
       expect(VariableSubstitutor).to receive(:substitute_variables).with(response).and_return({})
@@ -14,7 +15,7 @@ describe QuestionnaireExpander do
       expect(result).to eq [mockresult]
     end
 
-    it 'should not give an error if the response is nil' do
+    it 'does not give an error if the response is nil' do
       # the nil response is used in the admin preview
       content = { id: :v2,
                   type: :checkbox,
@@ -29,7 +30,7 @@ describe QuestionnaireExpander do
       expect(result).to eq [content]
     end
 
-    it 'should call the variable substitutor for a regular question and return an array' do
+    it 'calls the variable substitutor for a regular question and return an array' do
       content = { id: :v2,
                   type: :checkbox,
                   title: 'Wat heeft u vandaag gegeten?',
@@ -45,7 +46,7 @@ describe QuestionnaireExpander do
       expect(result).to eq [content]
     end
 
-    it 'should raise if the provided foreach is not defined' do
+    it 'raises if the provided foreach is not defined' do
       content = { id: :v2,
                   type: :checkbox,
                   foreach: :mentor,
@@ -58,7 +59,7 @@ describe QuestionnaireExpander do
       expect { described_class.expand_content(content, response) }
         .to raise_error(RuntimeError, 'Only :student foreach type is allowed, not mentor')
     end
-    it 'should call the variable substitutor multiple times for a foreach question' do
+    it 'calls the variable substitutor multiple times for a foreach question' do
       team = FactoryBot.create(:team)
       student_role = FactoryBot.create(:role, team: team, group: Person::STUDENT, title: Person::STUDENT)
       mentor_role = FactoryBot.create(:role, team: team, group: Person::MENTOR, title: 'MentorTitle')

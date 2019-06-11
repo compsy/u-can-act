@@ -3,75 +3,75 @@
 require 'rails_helper'
 
 describe ProtocolSubscription do
-  it 'should have valid default properties' do
+  it 'has valid default properties' do
     protocol_subscription = FactoryBot.create(:protocol_subscription)
-    expect(protocol_subscription.valid?).to be_truthy
+    expect(protocol_subscription).to be_valid
   end
 
   context 'scopes' do
     describe 'active' do
-      it 'should return protocol_subscriptions that were not completed' do
+      it 'returns protocol_subscriptions that were not completed' do
         actives = FactoryBot.create_list(:protocol_subscription, 10, state: ProtocolSubscription::ACTIVE_STATE)
         FactoryBot.create_list(:protocol_subscription, 15, state: ProtocolSubscription::CANCELED_STATE)
         FactoryBot.create_list(:protocol_subscription, 20, state: ProtocolSubscription::COMPLETED_STATE)
-        expect(ProtocolSubscription.active.count).to eq 10
-        expect(ProtocolSubscription.active).to eq actives
+        expect(described_class.active.count).to eq 10
+        expect(described_class.active).to eq actives
       end
     end
   end
 
   describe 'person_id' do
-    it 'should have one' do
+    it 'has one' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.person_id = nil
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :person_id
       expect(protocol_subscription.errors.messages[:person_id]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve a Person' do
+    it 'works to retrieve a Person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.person).to be_a(Person)
     end
   end
 
   describe 'filling_out_for_id' do
-    it 'should have one' do
+    it 'has one' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.filling_out_for_id = nil
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :filling_out_for_id
       expect(protocol_subscription.errors.messages[:filling_out_for_id]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve a Person' do
+    it 'works to retrieve a Person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.filling_out_for).to be_a(Person)
     end
-    it 'should set the provided person by default as a filling_out_for_person' do
+    it 'sets the provided person by default as a filling_out_for_person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.filling_out_for).to eq protocol_subscription.person
     end
   end
 
   describe 'end_date' do
-    it 'should have one' do
+    it 'has one' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.end_date = nil
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :end_date
       expect(protocol_subscription.errors.messages[:end_date]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve a Time object' do
+    it 'works to retrieve a Time object' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.end_date).to be_a(Time)
     end
-    it 'should calculate the default end_date if none is provided' do
+    it 'calculates the default end_date if none is provided' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.end_date).to(
         eq(TimeTools.increase_by_duration(protocol_subscription.start_date,
                                           protocol_subscription.protocol.duration))
       )
     end
-    it 'should not overwrite a given end_date' do
+    it 'does not overwrite a given end_date' do
       end_date = TimeTools.increase_by_duration(Time.new(2017, 4, 10, 0, 0, 0).in_time_zone, 3.days)
       protocol_subscription = FactoryBot.create(:protocol_subscription, end_date: end_date)
       expect(protocol_subscription.end_date).to eq end_date
@@ -79,14 +79,14 @@ describe ProtocolSubscription do
   end
 
   describe 'protocol_id' do
-    it 'should have one' do
+    it 'has one' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.protocol_id = nil
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :protocol_id
       expect(protocol_subscription.errors.messages[:protocol_id]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve a Protocol' do
+    it 'works to retrieve a Protocol' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.protocol).to be_a(Protocol)
     end
@@ -95,20 +95,21 @@ describe ProtocolSubscription do
   describe 'validates uniqueness of students per mentor' do
     let(:mentor) { FactoryBot.create(:mentor) }
     let(:student) { FactoryBot.create(:student) }
-    it 'should not allow two protocol subscriptions with the same state and filling_out_for_id' do
+
+    it 'does not allow two protocol subscriptions with the same state and filling_out_for_id' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
                                                         person: mentor,
                                                         filling_out_for: student)
       prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
                                                         person: prot1.person)
       prot2.filling_out_for_id = prot1.filling_out_for_id
-      expect(prot2).to_not be_valid
+      expect(prot2).not_to be_valid
       expect(prot2.errors.messages).to have_key :filling_out_for_id
       expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
       expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
                                             'Validatie mislukt: Filling out for is al in gebruik')
     end
-    it 'should allow two subscriptions with the same filling_out_for_id and different states if one is completed' do
+    it 'allows two subscriptions with the same filling_out_for_id and different states if one is completed' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::COMPLETED_STATE,
                                                         person: mentor,
                                                         filling_out_for: student)
@@ -116,9 +117,9 @@ describe ProtocolSubscription do
                                                         person: prot1.person,
                                                         filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
-      expect { prot2.save! }.to_not raise_error
+      expect { prot2.save! }.not_to raise_error
     end
-    it 'should allow two subscriptions with the same filling_out_for_id and different states if one is still active' do
+    it 'allows two subscriptions with the same filling_out_for_id and different states if one is still active' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
                                                         person: mentor,
                                                         filling_out_for: student)
@@ -126,9 +127,9 @@ describe ProtocolSubscription do
                                                         person: prot1.person,
                                                         filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
-      expect { prot2.save! }.to_not raise_error
+      expect { prot2.save! }.not_to raise_error
     end
-    it 'should allow two protocol subscriptions with the same state as long as they are not active' do
+    it 'allows two protocol subscriptions with the same state as long as they are not active' do
       states = [described_class::CANCELED_STATE, described_class::COMPLETED_STATE]
       states.each do |state|
         prot1 = FactoryBot.create(:protocol_subscription, state: state, person: mentor, filling_out_for: student)
@@ -136,21 +137,21 @@ describe ProtocolSubscription do
                                                           person: prot1.person,
                                                           filling_out_for_id: prot1.filling_out_for_id)
         expect(prot2).to be_valid
-        expect { prot2.save! }.to_not raise_error
+        expect { prot2.save! }.not_to raise_error
       end
     end
-    it 'should allow a student filling out for him/herself to have two active subscriptions' do
+    it 'allows a student filling out for him/herself to have two active subscriptions' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
       prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
                                                         person: prot1.person,
                                                         filling_out_for_id: prot1.filling_out_for_id)
       expect(prot2).to be_valid
-      expect { prot2.save! }.to_not raise_error
+      expect { prot2.save! }.not_to raise_error
     end
   end
 
   describe 'state' do
-    it 'should be one of the predefined states' do
+    it 'is one of the predefined states' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.state = ProtocolSubscription::ACTIVE_STATE
       expect(protocol_subscription).to be_valid
@@ -161,24 +162,24 @@ describe ProtocolSubscription do
       protocol_subscription.state = ProtocolSubscription::COMPLETED_STATE
       expect(protocol_subscription).to be_valid
     end
-    it 'should not be nil' do
+    it 'is not nil' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.state = nil
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :state
       expect(protocol_subscription.errors.messages[:state]).to include('is niet in de lijst opgenomen')
     end
-    it 'should not be empty' do
+    it 'is not empty' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.state = ''
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :state
       expect(protocol_subscription.errors.messages[:state]).to include('is niet in de lijst opgenomen')
     end
     it 'cannot be just any string' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.state = 'somestring'
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :state
       expect(protocol_subscription.errors.messages[:state]).to include('is niet in de lijst opgenomen')
     end
@@ -189,10 +190,10 @@ describe ProtocolSubscription do
     let!(:new_mentor) { FactoryBot.create(:mentor, email: 'mentor2@gmail.com') }
     let!(:protocol_subscription) { FactoryBot.create(:protocol_subscription, person: original_mentor) }
 
-    it 'it should create a new protocol transfer object with the correct properties' do
+    it 'creates a new protocol transfer object with the correct properties' do
       expect(protocol_subscription.protocol_transfers).to be_blank
       protocol_subscription.transfer!(new_mentor)
-      expect(protocol_subscription.protocol_transfers).to_not be_blank
+      expect(protocol_subscription.protocol_transfers).not_to be_blank
       expect(protocol_subscription.protocol_transfers.length).to eq 1
       transfer = protocol_subscription.protocol_transfers.first
 
@@ -201,15 +202,15 @@ describe ProtocolSubscription do
       expect(transfer.protocol_subscription).to eq protocol_subscription
     end
 
-    it 'should transfer the protocol subscription to the provided transfer_to person' do
+    it 'transfers the protocol subscription to the provided transfer_to person' do
       expect(protocol_subscription.person).to eq original_mentor
       protocol_subscription.transfer!(new_mentor)
       protocol_subscription.reload
-      expect(protocol_subscription.person).to_not eq original_mentor
+      expect(protocol_subscription.person).not_to eq original_mentor
       expect(protocol_subscription.person).to eq new_mentor
     end
 
-    it 'should raise if the person transfered to is the same as the original person' do
+    it 'raises if the person transfered to is the same as the original person' do
       expect(protocol_subscription.person).to eq original_mentor
       expect { protocol_subscription.transfer!(original_mentor) }
         .to raise_error(RuntimeError,
@@ -218,41 +219,41 @@ describe ProtocolSubscription do
       expect(protocol_subscription.person).to eq original_mentor
     end
 
-    it 'should also change the filling_out_for if this is the same as the person' do
+    it 'alsoes change the filling_out_for if this is the same as the person' do
       protocol_subscription.filling_out_for = original_mentor
       expect(protocol_subscription.person).to eq protocol_subscription.filling_out_for
 
       protocol_subscription.transfer!(new_mentor)
       protocol_subscription.reload
-      expect(protocol_subscription.person).to_not eq original_mentor
-      expect(protocol_subscription.filling_out_for).to_not eq original_mentor
+      expect(protocol_subscription.person).not_to eq original_mentor
+      expect(protocol_subscription.filling_out_for).not_to eq original_mentor
       expect(protocol_subscription.person).to eq new_mentor
       expect(protocol_subscription.filling_out_for).to eq new_mentor
     end
   end
 
   describe 'active?' do
-    it 'should be active when the state is active' do
+    it 'is active when the state is active' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
-      expect(protocol_subscription.active?).to be_truthy
+      expect(protocol_subscription).to be_active
     end
-    it 'should be active when the state is not active' do
+    it 'is active when the state is not active' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::CANCELED_STATE)
-      expect(protocol_subscription.active?).to be_falsey
+      expect(protocol_subscription).not_to be_active
       protocol_subscription.state = described_class::COMPLETED_STATE
       protocol_subscription.save!
-      expect(protocol_subscription.active?).to be_falsey
+      expect(protocol_subscription).not_to be_active
     end
   end
 
   describe 'cancel!' do
-    it 'should cancel the protocol subscription' do
+    it 'cancels the protocol subscription' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
       protocol_subscription.cancel!
       expect(protocol_subscription.state).to eq described_class::CANCELED_STATE
       expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
     end
-    it 'should destroy future responses' do
+    it 'destroys future responses' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
       FactoryBot.create_list(:response, 3, protocol_subscription: protocol_subscription)
       FactoryBot.create_list(:response, 5, :completed, protocol_subscription: protocol_subscription)
@@ -267,97 +268,97 @@ describe ProtocolSubscription do
   end
 
   describe 'ended?' do
-    it 'should be ended after the duration of the protocol' do
+    it 'is ended after the duration of the protocol' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 5.weeks.ago.at_beginning_of_day)
-      expect(protocol_subscription.ended?).to be_truthy
+      expect(protocol_subscription).to be_ended
     end
-    it 'should not be ended when the protocol_subscription is still running' do
+    it 'is not ended when the protocol_subscription is still running' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-      expect(protocol_subscription.ended?).to be_falsey
+      expect(protocol_subscription).not_to be_ended
     end
-    it 'should not be ended when the protocol_subscription has not yet started' do
+    it 'is not ended when the protocol_subscription has not yet started' do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 2.weeks.from_now.at_beginning_of_day)
-      expect(protocol_subscription.ended?).to be_falsey
+      expect(protocol_subscription).not_to be_ended
     end
   end
 
   describe 'start_date' do
-    it 'should not be nil' do
+    it 'is not nil' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.start_date = nil
-      expect(protocol_subscription.valid?).to be_falsey
+      expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :start_date
       expect(protocol_subscription.errors.messages[:start_date]).to include('moet opgegeven zijn')
     end
   end
 
   describe 'for_myself?' do
-    it 'should return false if it is for someone else' do
+    it 'returns false if it is for someone else' do
       mentor = FactoryBot.create(:mentor)
       student = FactoryBot.create(:student)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
                                                 filling_out_for: student)
-      expect(protocol_subscription.for_myself?).to be_falsey
+      expect(protocol_subscription).not_to be_for_myself
     end
 
-    it 'should return true if it is for myself' do
+    it 'returns true if it is for myself' do
       mentor = FactoryBot.create(:mentor)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
                                                 filling_out_for: mentor)
-      expect(protocol_subscription.for_myself?).to be_truthy
+      expect(protocol_subscription).to be_for_myself
     end
-    it 'should fill out for myself by default' do
+    it 'fills out for myself by default' do
       mentor = FactoryBot.create(:mentor)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor)
-      expect(protocol_subscription.for_myself?).to be_truthy
+      expect(protocol_subscription).to be_for_myself
     end
   end
 
   describe 'mentor?' do
-    it 'should return true if it is for someone else' do
+    it 'returns true if it is for someone else' do
       mentor = FactoryBot.create(:mentor)
       student = FactoryBot.create(:student)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
                                                 filling_out_for: student)
-      expect(protocol_subscription.mentor?).to be_truthy
+      expect(protocol_subscription).to be_mentor
     end
 
-    it 'should return false if it is for myself' do
+    it 'returns false if it is for myself' do
       mentor = FactoryBot.create(:mentor)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
                                                 filling_out_for: mentor)
-      expect(protocol_subscription.mentor?).to be_falsey
+      expect(protocol_subscription).not_to be_mentor
     end
-    it 'should be false by default' do
+    it 'is false by default' do
       mentor = FactoryBot.create(:mentor)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor)
-      expect(protocol_subscription.mentor?).to be_falsey
+      expect(protocol_subscription).not_to be_mentor
     end
   end
 
   describe 'responses' do
-    before :each do
-      Timecop.freeze(Time.new(2017, 3, 19, 0, 0, 0))
+    before do
+      Timecop.freeze(Time.zone.local(2017, 3, 19, 0, 0, 0))
     end
 
-    after :each do
+    after do
       Timecop.return
     end
 
-    it 'should create responses when you create a protocol subscription' do
+    it 'creates responses when you create a protocol subscription' do
       protocol = FactoryBot.create(:protocol)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(3)
     end
-    it 'should create responses up to the specified offset_till_end' do
+    it 'creates responses up to the specified offset_till_end' do
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 2.weeks)
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
@@ -383,7 +384,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       expect(protocol_subscription.responses.count).to eq(4)
     end
-    it 'should delete the responses when destroying the protocol subscription' do
+    it 'deletes the responses when destroying the protocol subscription' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       FactoryBot.create(:response, protocol_subscription: protocol_subscription)
       expect(protocol_subscription.responses.first).to be_a(Response)
@@ -391,7 +392,7 @@ describe ProtocolSubscription do
       protocol_subscription.destroy
       expect(Response.count).to eq(responsecountbefore - 1)
     end
-    it 'should create responses with a nonvarying open_from' do
+    it 'creates responses with a nonvarying open_from' do
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -441,7 +442,7 @@ describe ProtocolSubscription do
     #         eq(Time.new(2017, 3, 24, 13, 0, 0).in_time_zone) # - 2.days - 11.hours
     #       )
     #     end
-    it 'should not change the open_from time when changing from winter time to summer time' do
+    it 'does not change the open_from time when changing from winter time to summer time' do
       # changes at 2AM Sunday, March 26 2017
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -454,7 +455,7 @@ describe ProtocolSubscription do
       expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 4, 13, 0, 0).in_time_zone)
       expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 4, 11, 13, 0, 0).in_time_zone)
     end
-    it 'should not change the open_from time when changing from summer time to winter time' do
+    it 'does not change the open_from time when changing from summer time to winter time' do
       # changes at 3AM Sunday, October 29 2017
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -470,20 +471,20 @@ describe ProtocolSubscription do
   end
 
   describe 'informed_consent_given_at' do
-    it 'should be nil by default' do
+    it 'is nil by default' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
-      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription).to be_valid
       expect(protocol_subscription.informed_consent_given_at).to be_nil
     end
-    it 'should be able to be true' do
+    it 'is able to be true' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, informed_consent_given_at: Time.zone.now)
-      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription).to be_valid
       expect(protocol_subscription.informed_consent_given_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
 
   describe 'timestamps' do
-    it 'should have timestamps for created objects' do
+    it 'has timestamps for created objects' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(protocol_subscription.updated_at).to be_within(1.minute).of(Time.zone.now)
@@ -491,7 +492,7 @@ describe ProtocolSubscription do
   end
 
   describe 'max_still_earnable_reward_points' do
-    it 'should be correct for the first three measurements' do
+    it 'is correct for the first three measurements' do
       protocol = FactoryBot.create(:protocol)
       FactoryBot.create(:measurement, protocol: protocol, open_from_offset: (1.day + 11.hours).to_i)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -505,7 +506,7 @@ describe ProtocolSubscription do
   end
 
   describe 'latest_streak_value_index' do
-    it 'should be correct' do
+    it 'is correct' do
       pc = [{ completed: false, periodical: false, reward_points: 1, future: false, streak: -1 },
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 1 },
             { completed: false, periodical: true,  reward_points: 1, future: true, streak: 2 },
@@ -514,7 +515,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.latest_streak_value_index).to eq 1
     end
-    it 'should work when there is no future measurement' do
+    it 'works when there is no future measurement' do
       pc = [{ completed: false, periodical: false, reward_points: 1, future: false, streak: -1 },
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 1 },
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 2 },
@@ -523,7 +524,7 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       expect(protocol_subscription.latest_streak_value_index).to eq(-1)
     end
-    it 'should work when the first measurement is in the future' do
+    it 'works when the first measurement is in the future' do
       pc = [{ completed: false, periodical: false, reward_points: 1, future: true, streak: -1 },
             { completed: false, periodical: true,  reward_points: 1, future: false, streak: 1 },
             { completed: false, periodical: true,  reward_points: 1, future: true, streak: 2 },
@@ -543,7 +544,7 @@ describe ProtocolSubscription do
       Timecop.return
     end
 
-    it 'should calculate the correct streak' do
+    it 'calculates the correct streak' do
       Timecop.freeze(2017, 3, 30, 0, 0, 0)
       protocol_duration = 5.weeks
       protocol = FactoryBot.create(:protocol, duration: protocol_duration)
@@ -553,7 +554,7 @@ describe ProtocolSubscription do
                                                 start_date: Time.new(2017, 4, 1, 0, 0, 0).in_time_zone)
 
       # Jump to the end of the protocol
-      Timecop.freeze(Date.today + protocol_duration)
+      Timecop.freeze(Time.zone.today + protocol_duration)
       protocol_subscription.responses.each_with_index do |responseobj, index|
         next if index == 0 # Pretend the first response is missing
 
@@ -574,7 +575,7 @@ describe ProtocolSubscription do
       Timecop.return
     end
 
-    it 'should calculate the correct streak if there are multiple measurements open' do
+    it 'calculates the correct streak if there are multiple measurements open' do
       # Measurements start at 9am with an open_duration of 36 hours. So at 12pm (noon), on the third day,
       # the first measurement has expired (since it has been 51 hours since the measurement opened),
       # the second measurement is still open (since it has been 27 hours since the measurement opened),
@@ -605,7 +606,7 @@ describe ProtocolSubscription do
       Timecop.return
     end
 
-    it 'should return -1s if there are no measurements' do
+    it 'returns -1s if there are no measurements' do
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -621,7 +622,7 @@ describe ProtocolSubscription do
       expect(result).to eq expected
     end
 
-    it 'should return 0 if a measurement was missed' do
+    it 'returns 0 if a measurement was missed' do
       Timecop.freeze(2017, 3, 26, 0, 0, 0)
 
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
@@ -650,28 +651,28 @@ describe ProtocolSubscription do
   end
 
   describe 'needs_informed_consent?' do
-    it 'should return true if the informed consent is not yet provided for a protocol' do
+    it 'returns true if the informed consent is not yet provided for a protocol' do
       protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol)
 
       expect(protocol_subscription.informed_consent_given_at).to be_nil
-      expect(protocol_subscription.needs_informed_consent?).to be_truthy
+      expect(protocol_subscription).to be_needs_informed_consent
     end
 
-    it 'should return false if the protocol does not require informed consent' do
+    it 'returns false if the protocol does not require informed consent' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol)
-      expect(protocol_subscription.needs_informed_consent?).to be_falsey
+      expect(protocol_subscription).not_to be_needs_informed_consent
     end
 
-    it 'should return false if informed consent was given' do
+    it 'returns false if informed consent was given' do
       protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 informed_consent_given_at: 10.days.ago)
-      expect(protocol_subscription.needs_informed_consent?).to be_falsey
+      expect(protocol_subscription).not_to be_needs_informed_consent
     end
   end
 end

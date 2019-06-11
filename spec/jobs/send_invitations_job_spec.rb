@@ -25,11 +25,12 @@ describe SendInvitationsJob do
   describe 'perform' do
     describe 'when a student is filling out' do
       let(:questionnaire) { FactoryBot.create(:questionnaire, name: 'de voormeting vragenlijst') }
-      before :each do
-        responseobj.protocol_subscription.update_attributes!(person: student)
+
+      before do
+        responseobj.protocol_subscription.update!(person: student)
       end
 
-      it 'should schedule an invitation sms' do
+      it 'schedules an invitation sms' do
         Timecop.freeze(2018, 5, 19) do
           responseobj.measurement = FactoryBot.create(:measurement,
                                                       questionnaire: questionnaire,
@@ -62,7 +63,7 @@ describe SendInvitationsJob do
         end
       end
 
-      it 'should send reminders with the same text' do
+      it 'sends reminders with the same text' do
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
         FactoryBot.create(:sms_invitation,
@@ -71,7 +72,7 @@ describe SendInvitationsJob do
         FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
 
         smstext = 'dont change me'
-        responseobj.invitation_set.update_attributes!(invitation_text: smstext)
+        responseobj.invitation_set.update!(invitation_text: smstext)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to eq smstext
         invcountbefore = Invitation.count
@@ -89,7 +90,7 @@ describe SendInvitationsJob do
         expect(responseobj.invitation_set.invitation_text).to eq smstext
       end
 
-      it 'should not send a reminder if there are no open responses' do
+      it 'does not send a reminder if there are no open responses' do
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
         FactoryBot.create(:sms_invitation,
@@ -98,7 +99,7 @@ describe SendInvitationsJob do
         FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
 
         smstext = 'dont change me'
-        responseobj.invitation_set.update_attributes!(invitation_text: smstext)
+        responseobj.invitation_set.update!(invitation_text: smstext)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to eq smstext
         responseobj.complete!
@@ -109,7 +110,7 @@ describe SendInvitationsJob do
         ActiveJob::Base.queue_adapter = :test
         expect do
           subject.perform(responseobj.invitation_set)
-        end.to_not have_enqueued_job(SendInvitationJob)
+        end.not_to have_enqueued_job(SendInvitationJob)
         responseobj.reload
         expect(Invitation.count).to eq invcountbefore
         expect(InvitationToken.count).to eq(invtokcountbefore)
@@ -118,14 +119,14 @@ describe SendInvitationsJob do
         expect(responseobj.invitation_set.invitation_text).to eq smstext
       end
 
-      it 'should not send an invitation if the response was completed' do
+      it 'does not send an invitation if the response was completed' do
         responseobj.completed_at = 5.minutes.ago
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
         FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
-        expect(GenerateInvitationText).to_not receive(:run!)
+        expect(GenerateInvitationText).not_to receive(:run!)
 
         invcountbefore = Invitation.count
         invtokcountbefore = InvitationToken.count
@@ -133,7 +134,7 @@ describe SendInvitationsJob do
         ActiveJob::Base.queue_adapter = :test
         expect do
           subject.perform(responseobj.invitation_set)
-        end.to_not have_enqueued_job(SendInvitationJob)
+        end.not_to have_enqueued_job(SendInvitationJob)
         responseobj.reload
         expect(Invitation.count).to eq invcountbefore
         expect(InvitationToken.count).to eq invtokcountbefore
@@ -142,13 +143,13 @@ describe SendInvitationsJob do
         expect(responseobj.invitation_set.invitation_text).to be_nil
       end
 
-      it 'should not send an invitation if the response was expired' do
+      it 'does not send an invitation if the response was expired' do
         responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
         responseobj.save!
         FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
-        expect(GenerateInvitationText).to_not receive(:run!)
+        expect(GenerateInvitationText).not_to receive(:run!)
 
         invcountbefore = Invitation.count
         invtokcountbefore = InvitationToken.count
@@ -157,7 +158,7 @@ describe SendInvitationsJob do
         expect_any_instance_of(Response).to receive(:expired?).and_return(true)
         expect do
           subject.perform(responseobj.invitation_set)
-        end.to_not have_enqueued_job(SendInvitationJob)
+        end.not_to have_enqueued_job(SendInvitationJob)
         responseobj.reload
         expect(Invitation.count).to eq invcountbefore
         expect(InvitationToken.count).to eq invtokcountbefore
@@ -168,13 +169,13 @@ describe SendInvitationsJob do
     end
 
     describe 'when a mentor is filling out' do
-      before :each do
-        responseobj.protocol_subscription.update_attributes!(person: mentor)
+      before do
+        responseobj.protocol_subscription.update!(person: mentor)
         # To ensure that it uses the voormeting text (which is check that it is for themselves)
-        responseobj.protocol_subscription.update_attributes!(filling_out_for_id: mentor.id)
+        responseobj.protocol_subscription.update!(filling_out_for_id: mentor.id)
       end
 
-      it 'should queue two jobs if there are email_invitations' do
+      it 'queues two jobs if there are email_invitations' do
         questionnaire = FactoryBot.create(:questionnaire, name: 'voormeting mentoren')
         responseobj.measurement = FactoryBot.create(:measurement,
                                                     questionnaire: questionnaire,
@@ -210,13 +211,13 @@ describe SendInvitationsJob do
   end
 
   describe 'max_attempts' do
-    it 'should be two' do
+    it 'is two' do
       expect(subject.max_attempts).to eq 2
     end
   end
 
   describe 'reschedule_at' do
-    it 'should be in one hour' do
+    it 'is in one hour' do
       time_now = Time.zone.now
       expect(subject.reschedule_at(time_now, 1)).to be_within(1.minute)
         .of(TimeTools.increase_by_duration(time_now, 1.hour))

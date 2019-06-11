@@ -4,9 +4,11 @@ module Concerns
   module IsLoggedIn
     extend ActiveSupport::Concern
 
+    # rubocop:disable Rails/LexicallyScopedActionFilter
     included do
       before_action :verify_current_user, except: :interactive
     end
+    # rubocop:enable Rails/LexicallyScopedActionFilter
 
     private
 
@@ -14,7 +16,7 @@ module Concerns
       return current_user unless current_user.nil?
 
       log_cookie
-      render(status: 401, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
+      render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
     end
   end
 end

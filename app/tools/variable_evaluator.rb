@@ -21,7 +21,7 @@ class VariableEvaluator
 
     def evaluate(text, subs_hash)
       full_subs_hash = default_subs_hash.dup.merge(subs_hash.dup) do |_, oldval, newval|
-        newval.blank? ? oldval : newval
+        newval.presence || oldval
       end
       substitutions_hash = substitutions(full_subs_hash)
       substitutions_hash.each do |variable, expansion|
@@ -63,8 +63,8 @@ class VariableEvaluator
         'je_begeleidingsinitiatief' => subs_hash[:organization],
         'deze_student' => subs_hash[:student_name],
         'achternaam_student' => subs_hash[:student_last_name],
-        'datum_lang' => I18n.l(Date.today, format: :long),
-        'datum' => I18n.l(Date.today),
+        'datum_lang' => I18n.l(Time.zone.today, format: :long),
+        'datum' => I18n.l(Time.zone.today),
         'zijn_haar_student' => possessive_determiner(subs_hash[:student_gender]),
         'hij_zij_student' => personal_pronoun(subs_hash[:student_gender]),
         'hem_haar_student' => personal_pronoun_dativus(subs_hash[:student_gender])

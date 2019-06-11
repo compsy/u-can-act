@@ -4,25 +4,25 @@ require 'rails_helper'
 
 describe Team, type: :model do
   describe 'validations' do
-    it 'should be valid by default' do
+    it 'is valid by default' do
       team = FactoryBot.create(:team)
       expect(team).to be_valid
     end
 
     context 'name' do
-      it 'should be invalid when not present' do
+      it 'is invalid when not present' do
         team = FactoryBot.create(:team)
         team.name = nil
-        expect(team).to_not be_valid
+        expect(team).not_to be_valid
         team = FactoryBot.create(:team, name: 'test name')
         expect(team).to be_valid
       end
 
-      it 'should be invalid when not unique' do
+      it 'is invalid when not unique' do
         FactoryBot.create(:team, name: 'test')
         team2 = FactoryBot.create(:team)
         team2.name = 'test'
-        expect(team2).to_not be_valid
+        expect(team2).not_to be_valid
       end
     end
 
@@ -30,14 +30,14 @@ describe Team, type: :model do
       it 'require an organization' do
         team = FactoryBot.create(:team)
         team.organization = nil
-        expect(team).to_not be_valid
+        expect(team).not_to be_valid
         team.organization = FactoryBot.create(:organization)
         expect(team).to be_valid
       end
     end
   end
 
-  it 'should be able to retrieve roles' do
+  it 'is able to retrieve roles' do
     team = FactoryBot.create(:team, :with_roles)
     expect(team.roles.to_a).to be_a(Array)
     team.roles.each do |role|
@@ -46,11 +46,11 @@ describe Team, type: :model do
   end
 
   describe 'overview_key' do
-    before :each do
+    before do
       Timecop.freeze(2017, 5, 5)
     end
 
-    it 'should return a key based on the current week and year if no week or year is provided' do
+    it 'returns a key based on the current week and year if no week or year is provided' do
       result = described_class.overview_key
       year = 2017
       week_number = 18
@@ -58,7 +58,7 @@ describe Team, type: :model do
       expect(result).to eq expected
     end
 
-    it 'should return a key with the provided week and year' do
+    it 'returns a key with the provided week and year' do
       year = 2013
       week_number = 10
       result = described_class.overview_key(week_number, year)
@@ -73,7 +73,7 @@ describe Team, type: :model do
         key = described_class.overview_key
         bust_cache = true
         expect(RedisCachedCall).to receive(:cache).with(key, bust_cache) do |&block|
-          expect(block).to_not be_nil
+          expect(block).not_to be_nil
         end
         described_class.overview(bust_cache: bust_cache)
       end
@@ -81,38 +81,37 @@ describe Team, type: :model do
         key = described_class.overview_key
         bust_cache = false
         expect(RedisCachedCall).to receive(:cache).with(key, bust_cache) do |&block|
-          expect(block).to_not be_nil
+          expect(block).not_to be_nil
         end
         described_class.overview
       end
     end
+
     describe 'without caching' do
-      before :each do
+      before do
         Timecop.freeze(2017, 5, 5)
-        allow(RedisCachedCall).to receive(:cache).with(any_args) do |&block|
-          block.call
-        end
+        allow(RedisCachedCall).to receive(:cache).with(any_args).and_yield
       end
 
-      after :each do
+      after do
         Timecop.return
       end
 
       context 'without subscriptions and people' do
-        it 'should return an empty array if no teams exist' do
+        it 'returns an empty array if no teams exist' do
           overview = described_class.overview
-          expect(overview).to_not be_nil
+          expect(overview).not_to be_nil
           expect(overview).to be_a Array
           expect(overview).to eq []
           expect(overview.length).to eq 0
         end
 
-        it 'should return empty hashes if only teams exist' do
+        it 'returns empty hashes if only teams exist' do
           org1 = FactoryBot.create(:team, name: 'org1')
           org2 = FactoryBot.create(:team, name: 'org2')
 
           overview = described_class.overview
-          expect(overview).to_not be_nil
+          expect(overview).not_to be_nil
           expect(overview).to be_a Array
           expect(overview.length).to eq 2
           expect(overview.first[:name]).to eq org1.name
@@ -124,7 +123,7 @@ describe Team, type: :model do
           expect(overview.second[:data]).to be_blank
         end
 
-        it 'should return the correct entries for the roles, even if they are empty' do
+        it 'returns the correct entries for the roles, even if they are empty' do
           org1 = FactoryBot.create(:team, name: 'org1')
           FactoryBot.create(:role, team: org1, group: Person::STUDENT, title: 'Student')
           FactoryBot.create(:role, team: org1, group: Person::MENTOR, title: 'Mentor')
@@ -136,7 +135,7 @@ describe Team, type: :model do
           # They should only contain 0 entries
           %w[Student Mentor].each do |group|
             expect(overview.first[:data][group]).to be_a Hash
-            expect(overview.first[:data][group]).to_not be_blank
+            expect(overview.first[:data][group]).not_to be_blank
             overview.first[:data][group].each_value do |val|
               expect(val).to eq 0
             end
@@ -229,22 +228,23 @@ describe Team, type: :model do
         end
 
         let(:overview) { described_class.overview }
-        it 'should generate an overview for all teams in the db' do
-          expect(overview).to_not be_nil
+
+        it 'generates an overview for all teams in the db' do
+          expect(overview).not_to be_nil
           expect(overview).to be_a Array
           expect(overview.length).to eq 2
           expect(overview.first[:name]).to eq org1.name
           expect(overview.second[:name]).to eq org2.name
         end
 
-        it 'should list all role groups' do
+        it 'lists all role groups' do
           result = overview.first[:data]
           expect(result).to be_a Hash
           expect(result.length).to eq 2
           expect(result.keys).to match_array [Person::STUDENT, Person::MENTOR]
         end
 
-        it 'should list the completed measurements and total measurements for mentors' do
+        it 'lists the completed measurements and total measurements for mentors' do
           result = overview.first[:data][Person::MENTOR]
           expect(result).to be_a Hash
           expect(result.length).to eq 4
@@ -255,7 +255,7 @@ describe Team, type: :model do
           expect(result[:percentage_above_threshold]).to eq 0
         end
 
-        it 'should correctly combine the correct roles for the mentors (it should sum the mentor group)' do
+        it 'correctlies combine the correct roles for the mentors (it should sum the mentor group)' do
           result = overview.second[:data][Person::MENTOR]
           expect(result).to be_a Hash
           expect(result.length).to eq 4
@@ -266,7 +266,7 @@ describe Team, type: :model do
           expect(result[:percentage_above_threshold]).to eq 0
         end
 
-        it 'should list the correct threshold completion based on the provided threshold' do
+        it 'lists the correct threshold completion based on the provided threshold' do
           mentor4 = FactoryBot.create(:person, :with_protocol_subscriptions, role: role5)
           FactoryBot.create(:response, :completed,
                             open_from: Time.zone.now - 10.minutes,
@@ -304,7 +304,7 @@ describe Team, type: :model do
           expect(result[:percentage_above_threshold]).to eq expected
         end
 
-        it 'should list the correct threshold completion based on the default threshold' do
+        it 'lists the correct threshold completion based on the default threshold' do
           FactoryBot.create(:response, :completed,
                             open_from: Time.zone.now - 10.minutes,
                             protocol_subscription: mentor3.protocol_subscriptions.first)
@@ -313,7 +313,7 @@ describe Team, type: :model do
                             open_from: Time.zone.now - 10.minutes,
                             protocol_subscription: mentor3.protocol_subscriptions.first)
 
-          expect(Person::DEFAULT_PERCENTAGE).to_not be_nil
+          expect(Person::DEFAULT_PERCENTAGE).not_to be_nil
           expect(Person::DEFAULT_PERCENTAGE).to be > 0
           result = described_class.overview.second[:data][Person::MENTOR]
           result_with_params = described_class.overview(week_number: nil,
@@ -327,7 +327,7 @@ describe Team, type: :model do
           expect(result[:percentage_above_threshold]).to eq 1.0 / 2.0 * 100
         end
 
-        it 'should list the completed measurements and total measurements for students' do
+        it 'lists the completed measurements and total measurements for students' do
           result = overview.first[:data][Person::STUDENT]
           expect(result).to be_a Hash
           expect(result.length).to eq 4

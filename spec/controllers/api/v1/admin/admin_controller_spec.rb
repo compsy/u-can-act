@@ -13,5 +13,5 @@ describe Api::V1::Admin::AdminApiController, type: :controller do
     routes.draw { get 'dummy' => 'api/v1/admin/admin_api#dummy' }
   end
 
-  it_should_behave_like 'a jwt authenticated route', :dummy, {}
+  it_behaves_like 'a jwt authenticated route', :dummy, {}
 end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe AdminHelper do
   describe 'file_headers' do
-    it 'should set the correct file headers' do
+    it 'sets the correct file headers' do
       myheaders = double('headers')
       expect(myheaders).to receive(:[]=).with('Content-Type', 'text/csv')
       expect(myheaders).to receive(:[]=).with('Content-Disposition', 'attachment; filename="hello.csv"')
@@ -14,7 +14,7 @@ describe AdminHelper do
   end
 
   describe 'streaming_headers' do
-    it 'should set the correct streaming headers' do
+    it 'sets the correct streaming headers' do
       myheaders = double('headers')
       expect(myheaders).to receive(:[]=).with('X-Accel-Buffering', 'no')
       expect(myheaders).to receive(:[]).with('Cache-Control')
@@ -26,13 +26,13 @@ describe AdminHelper do
   end
 
   describe 'date_string' do
-    it 'should return today\'s date' do
+    it 'returns today\'s date' do
       expect(helper.date_string).to eq Time.zone.now.to_date.to_s
     end
   end
 
   describe 'idify' do
-    it 'should work with a single parameter' do
+    it 'works with a single parameter' do
       expect(helper.idify('hello')).to eq 'hello'
       expect(helper.idify('Hello ')).to eq 'hello'
       expect(helper.idify('hel lo')).to eq 'hel_lo'
@@ -41,14 +41,14 @@ describe AdminHelper do
       expect(helper.idify('hel:lo')).to eq 'hel_lo'
       expect(helper.idify('ProtSub')).to eq 'protsub'
     end
-    it 'should work with multiple parameters' do
+    it 'works with multiple parameters' do
       expect(helper.idify('hello', 'goodbye')).to eq 'hello_goodbye'
       expect(helper.idify('Hello', ' goodBye')).to eq 'hello_goodbye'
     end
   end
 
   describe 'questionnaire_select_options' do
-    it 'should return the names of questionnaires' do
+    it 'returns the names of questionnaires' do
       questionnaires = [
         FactoryBot.create(:questionnaire, name: 'firstname'),
         FactoryBot.create(:questionnaire, name: 'secondname')
@@ -56,7 +56,7 @@ describe AdminHelper do
       expected = [['Selecteer een vragenlijst...', ''], %w[firstname firstname], %w[secondname secondname]]
       expect(helper.questionnaire_select_options(questionnaires)).to eq expected
     end
-    it 'should work with an empty list' do
+    it 'works with an empty list' do
       expect(helper.questionnaire_select_options([])).to eq [['Selecteer een vragenlijst...', '']]
     end
   end

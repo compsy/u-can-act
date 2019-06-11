@@ -11,9 +11,11 @@ class TimeTools
     def a_time?(value)
       value.is_a?(ActiveSupport::TimeWithZone) || value.is_a?(Time) || value.is_a?(Date) || value.is_a?(DateTime)
     end
+    alias time? a_time?
 
     def an_offset?(value)
       value.is_a?(ActiveSupport::Duration) || value.is_a?(Integer)
     end
+    alias offset? an_offset?
   end
 end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ApplicationController, type: :controller do
   describe 'options' do
-    it 'should head okay' do
+    it 'heads okay' do
       get :options
       expect(response).to be_ok
       expect(response.body).to eq ''
@@ -14,7 +14,7 @@ describe ApplicationController, type: :controller do
   describe 'options route' do
     let(:constraints) { %i[post put patch delete] }
 
-    it 'should be okay' do
+    it 'is okay' do
       constraints.each do |constraint|
         send(constraint, :options)
         expect(response).to be_ok
@@ -23,14 +23,14 @@ describe ApplicationController, type: :controller do
   end
 
   describe 'log_cookie' do
-    it 'should log an info message with the correct text when cookies enabled' do
+    it 'logs an info message with the correct text when cookies enabled' do
       controller.store_verification_cookie
       expect(Rails.logger)
         .to receive(:info)
         .with('Cookies are enabled')
       controller.log_cookie
     end
-    it 'should log an info message with the correct text when cookies disabled' do
+    it 'logs an info message with the correct text when cookies disabled' do
       expect(Rails.logger)
         .to receive(:info)
         .with('Cookies are NOT enabled for this user!')
@@ -46,7 +46,7 @@ describe ApplicationController, type: :controller do
       end
     end
 
-    it 'should store the verification cookie' do
+    it 'stores the verification cookie' do
       expected = { described_class::TEST_COOKIE => described_class::TEST_COOKIE_ENTRY }
       expect(CookieJar)
         .to receive(:set_or_update_cookie)

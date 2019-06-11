@@ -40,9 +40,9 @@ class SubscribeToProtocol < ActiveInteraction::Base
   end
 
   def find_protocol
-    return Protocol.find_by_id(protocol.id) if protocol&.id.present?
+    return Protocol.find_by(id: protocol.id) if protocol&.id.present?
 
-    the_protocol = Protocol.find_by_name(protocol_name)
+    the_protocol = Protocol.find_by(name: protocol_name)
     return the_protocol if the_protocol.present?
 
     raise 'Protocol not found'

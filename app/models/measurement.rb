@@ -84,7 +84,7 @@ class Measurement < ApplicationRecord
   end
 
   def open_from_offset_cannot_be_blank
-    return unless open_from_offset.blank?
+    return if open_from_offset.present?
 
     errors.add(:open_from_offset, 'cannot be blank')
   end

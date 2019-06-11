@@ -8,7 +8,7 @@ class PeopleController < ApplicationController
   def edit; end
 
   def update
-    if @person.update_attributes(people_params)
+    if @person.update(people_params)
       redirect_to NextPageFinder.get_next_page(current_user: current_user), flash: { notice: 'Gegevens opgeslagen.' }
     else
       render :edit

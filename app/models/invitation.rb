@@ -22,7 +22,7 @@ class Invitation < ApplicationRecord
                         else
                           SENDING_REMINDER_STATE
                         end
-    update_attributes!(invited_state: new_invited_state)
+    update!(invited_state: new_invited_state)
   end
 
   def sent!
@@ -31,7 +31,7 @@ class Invitation < ApplicationRecord
                         else
                           REMINDER_SENT_STATE
                         end
-    update_attributes!(invited_state: new_invited_state)
+    update!(invited_state: new_invited_state)
   end
 
   def send_invite(_plain_text_token)

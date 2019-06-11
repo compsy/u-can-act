@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 describe Api::ProtocolSubscriptionSerializer do
-  before :each do
+  subject(:json) { described_class.new(protocol_subscription).as_json.with_indifferent_access }
+
+  before do
     Timecop.freeze(2017, 2, 1)
   end
 
@@ -33,15 +35,13 @@ describe Api::ProtocolSubscriptionSerializer do
     end
   end
 
-  subject(:json) { described_class.new(protocol_subscription).as_json.with_indifferent_access }
-
-  it 'should have the correct initialization' do
+  it 'has the correct initialization' do
     protocol_subscription.reload
     expect(protocol_subscription.responses.length).to eq(6 + 6 + 2)
   end
 
   describe 'renders the correct json' do
-    it 'should contain the correct variables' do
+    it 'contains the correct variables' do
       # Mock the actual calculation
       expect_any_instance_of(Protocol).to receive(:calculate_reward)
         .with(protocol_subscription.protocol_completion, false)
@@ -71,17 +71,17 @@ describe Api::ProtocolSubscriptionSerializer do
     end
 
     describe 'max_streak' do
-      it 'should contain a hash with the max achievable streak if there is one' do
-        expect(json[:max_streak]).to_not be_nil
+      it 'contains a hash with the max achievable streak if there is one' do
+        expect(json[:max_streak]).not_to be_nil
 
-        expect(json[:max_streak][:threshold]).to_not be_nil
+        expect(json[:max_streak][:threshold]).not_to be_nil
         expect(json[:max_streak][:threshold]).to eq(protocol_subscription.protocol.max_streak.threshold)
 
-        expect(json[:max_streak][:reward_points]).to_not be_nil
+        expect(json[:max_streak][:reward_points]).not_to be_nil
         expect(json[:max_streak][:reward_points]).to eq(protocol_subscription.protocol.max_streak.reward_points)
       end
 
-      it 'should return nil if there are no streaks' do
+      it 'returns nil if there are no streaks' do
         protocol_without_rewards = FactoryBot.create(:protocol)
         protocol_subscription_without_rewards = FactoryBot.create(:protocol_subscription,
                                                                   protocol: protocol_without_rewards)
@@ -90,13 +90,13 @@ describe Api::ProtocolSubscriptionSerializer do
       end
     end
 
-    it 'should contain the correct max_still_awardable_euros' do
+    it 'contains the correct max_still_awardable_euros' do
       expected = protocol_subscription.protocol_completion[-5..-1]
       expected = protocol.calculate_reward(expected, true)
       expect(json[:max_still_awardable_euros]).to eq expected
     end
 
-    it 'should contain the correct euro_delta' do
+    it 'contains the correct euro_delta' do
       remove_indices = (future_responses.length + 1) * -1
       expected = protocol_subscription.protocol_completion[remove_indices]
       expected = protocol.calculate_reward([expected])
@@ -105,14 +105,15 @@ describe Api::ProtocolSubscriptionSerializer do
 
     describe 'should contain the correct initial multiplier' do
       let(:current_protocol) { FactoryBot.create(:protocol) }
-      it 'should be 1 if there are no multipliers' do
+
+      it 'is 1 if there are no multipliers' do
         current_protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: current_protocol)
         result = described_class.new(current_protocol_subscription).as_json.with_indifferent_access
         expected = 1
         expect(result[:initial_multiplier]).to eq expected
       end
 
-      it 'should be the multiplier of the first reward if there are multiple rewards' do
+      it 'is the multiplier of the first reward if there are multiple rewards' do
         reward = FactoryBot.create(:reward, threshold: 1, reward_points: 42, protocol: current_protocol)
         FactoryBot.create(:reward, threshold: 2, reward_points: 150, protocol: current_protocol)
         current_protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: current_protocol)
@@ -122,7 +123,7 @@ describe Api::ProtocolSubscriptionSerializer do
       end
     end
 
-    it 'should contain the correct earned_euros' do
+    it 'contains the correct earned_euros' do
       expected = protocol_subscription.protocol_completion
       expected = protocol.calculate_reward(expected) / 100.0
       expect(json[:earned_euros]).to eq expected

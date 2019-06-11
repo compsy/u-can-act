@@ -10,12 +10,12 @@ namespace :deployment do
 
     # rubocop:disable Metrics/AbcSize
     def create_env_local_file
-      if File.file?(File.join(Rails.root, '.env.local'))
+      if File.file?(Rails.root.join('.env.local'))
         puts 'File .env.local already exists'
         return
       end
       puts 'Creating .env.local file...'
-      File.open(File.join(Rails.root, '.env.local'), 'w') do |f|
+      File.open(Rails.root.join('.env.local'), 'w') do |f|
         f.puts "PROJECT_NAME:      #{@args[:project_name]}"
         f.puts "POSTGRES_DATABASE: #{@args[:project_name]}"
         f.puts "MONGO_DATABASE:    #{@args[:project_name]}"
@@ -48,8 +48,8 @@ namespace :deployment do
 
     def create_project_directory
       puts "creating projects/#{@args[:project_name]} directory..."
-      source_dir = File.join(Rails.root, 'projects', 'new')
-      target_dir = File.join(Rails.root, 'projects', @args[:project_name])
+      source_dir = Rails.root.join('projects', 'new')
+      target_dir = Rails.root.join('projects', @args[:project_name])
       copy_only_nonexisting_files(source_dir, target_dir)
     end
 

@@ -13,21 +13,21 @@ describe SnitchJob do
   end
 
   describe 'perform' do
-    it 'should call the snitch function with the correct parameters' do
-      expect(ENV['SNITCH_KEY']).to_not be_blank
+    it 'calls the snitch function with the correct parameters' do
+      expect(ENV['SNITCH_KEY']).not_to be_blank
       expect(Snitcher).to receive(:snitch).with(ENV['SNITCH_KEY'])
       described_class.perform_now
     end
   end
 
   describe 'max_attempts' do
-    it 'should be two' do
+    it 'is two' do
       expect(subject.max_attempts).to eq 2
     end
   end
 
   describe 'reschedule_at' do
-    it 'should be in one hour' do
+    it 'is in one hour' do
       time_now = Time.zone.now
       expect(subject.reschedule_at(time_now, 1)).to be_within(1.minute)
         .of(TimeTools.increase_by_duration(time_now, 5.minutes))

@@ -4,8 +4,9 @@ require 'rails_helper'
 
 describe QuestionnaireExporter do
   let!(:questionnaire) { FactoryBot.create(:questionnaire) }
+
   context 'invalid questionnaire' do
-    it 'should raise an error' do
+    it 'raises an error' do
       expect { described_class.export_lines('not-a-questionnaire') }.to raise_error(RuntimeError,
                                                                                     'Questionnaire not found')
     end

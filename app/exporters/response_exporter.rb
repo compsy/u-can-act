@@ -8,7 +8,7 @@ class ResponseExporter
 
   class << self
     def export_lines(questionnaire_name)
-      questionnaire = Questionnaire.find_by_name(questionnaire_name)
+      questionnaire = Questionnaire.find_by(name: questionnaire_name)
       raise 'Questionnaire not found' unless questionnaire
 
       Enumerator.new do |enum|

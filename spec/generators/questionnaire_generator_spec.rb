@@ -4,8 +4,9 @@ require 'rails_helper'
 
 describe QuestionnaireGenerator do
   let(:responseobj) { FactoryBot.create(:response) }
+
   describe 'generate_questionnaire' do # This is the only public method
-    it 'should generate a questionnaire' do
+    it 'generates a questionnaire' do
       result = subject
                .generate_questionnaire(
                  response_id: responseobj.id,
@@ -28,7 +29,7 @@ describe QuestionnaireGenerator do
       expect(result).to include('<form')
       expect(result).to include('Jane')
     end
-    it 'should raise an error when given a question of unknown type' do
+    it 'raises an error when given a question of unknown type' do
       questionnaire_content = [{
         section_start: 'Algemeen',
         id: :v1,
@@ -41,7 +42,7 @@ describe QuestionnaireGenerator do
                      questionnaire_content, nil, questionnaire_content, nil)
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
-    it 'should raise an error when given an unknown show_after type' do
+    it 'raises an error when given an unknown show_after type' do
       questionnaire_content = [{
         id: :v1,
         type: :raw,
@@ -54,8 +55,9 @@ describe QuestionnaireGenerator do
       end.to raise_error(RuntimeError, 'Unknown show_after type: hoi en doei')
     end
   end
+
   describe 'generate_json_questionnaire' do
-    before :each do
+    before do
       questionnaire_content = [{
         section_start: 'Algemeen',
         id: :v1,
@@ -67,24 +69,25 @@ describe QuestionnaireGenerator do
                                                     questionnaire_content,
                                                     'Dit is een titel {{deze_student}}')
     end
-    it 'should return a hash with the title and content' do
+
+    it 'returns a hash with the title and content' do
       expect(@result).to be_a Hash
       expect(@result.keys).to match_array %i[title content]
     end
 
-    it 'should provide the content of the questionnaire as a hash' do
+    it 'provides the content of the questionnaire as a hash' do
       expect(@result[:content]).to be_a Array
-      expect(@result[:content].all? { |quest| quest.is_a? Hash }).to be_truthy
+      expect(@result[:content]).to(be_all { |quest| quest.is_a? Hash })
     end
 
-    it 'should replace names in the json' do
+    it 'replaces names in the json' do
       expect(@result[:content].first[:title]).to include('Jane')
-      expect(@result[:content].first[:title]).to_not include('deze_student')
+      expect(@result[:content].first[:title]).not_to include('deze_student')
     end
 
-    it 'should replace names in the title' do
+    it 'replaces names in the title' do
       expect(@result[:title]).to include('Jane')
-      expect(@result[:title]).to_not include('deze_student')
+      expect(@result[:title]).not_to include('deze_student')
     end
   end
 end

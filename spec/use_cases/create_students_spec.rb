@@ -37,21 +37,21 @@ describe CreateStudents do
   end
 
   describe 'execute' do
-    it 'should accept an array as arguments' do
+    it 'accepts an array as arguments' do
       expect do
         described_class.run!(students: [])
-      end.to_not raise_error
+      end.not_to raise_error
     end
   end
 
   describe 'parse_students' do
-    it 'should return an array with all students' do
+    it 'returns an array with all students' do
       result = subject.send(:parse_students, students, plain_text_parser)
       expect(result).to be_a(Array)
       expect(result.length).to eq 3
     end
 
-    it 'should set the correct keys' do
+    it 'sets the correct keys' do
       result = subject.send(:parse_students, students, plain_text_parser)
       expect(result.map(&:keys).uniq.flatten).to match_array(%i[first_name
                                                                 last_name
@@ -63,7 +63,7 @@ describe CreateStudents do
                                                                 end_date])
     end
 
-    it 'should set the correct data' do
+    it 'sets the correct data' do
       result = subject.send(:parse_students, students, plain_text_parser)
       timedateinfuture = Time.zone.parse(dateinfuture)
       endtimedateinfuture = Time.zone.parse(enddateinfuture)
@@ -116,16 +116,16 @@ describe CreateStudents do
          end_date: endtimedateinfuture }]
     end
 
-    it 'should create students for all hashes in the array supplied' do
+    it 'creates students for all hashes in the array supplied' do
       expect(Person.count).to eq 0
       subject.send(:create_students, parsed_students)
       expect(Person.count).to eq parsed_students.length
     end
 
-    it 'should create the correct students' do
+    it 'creates the correct students' do
       subject.send(:create_students, parsed_students)
       parsed_students.each do |hash|
-        act = Person.find_by_mobile_phone(hash[:mobile_phone])
+        act = Person.find_by(mobile_phone: hash[:mobile_phone])
         expect(act.first_name).to eq hash[:first_name]
         expect(act.last_name).to eq hash[:last_name]
         expect(act.gender).to eq hash[:gender]
@@ -137,7 +137,7 @@ describe CreateStudents do
       end
     end
 
-    it 'should just skip if a person with that phone number already exists' do
+    it 'justs skip if a person with that phone number already exists' do
       parsed_students << { first_name: 'x',
                            last_name: 'z',
                            gender: Person::FEMALE,

@@ -30,24 +30,24 @@ module Api
       def check_questionnaire_content
         return unless params.blank? || params[:content].blank?
 
-        render(status: 400, json: 'Please supply a json file in the content field.')
+        render(status: :bad_request, json: 'Please supply a json file in the content field.')
       end
 
       def set_questionnaire_content
         @raw_questionnaire_content = JSON.parse(params[:content])
         if @raw_questionnaire_content.blank? || !(@raw_questionnaire_content.is_a? Array)
-          render status: 400, json: { error: 'At least one question should be provided, in an array' }
+          render status: :bad_request, json: { error: 'At least one question should be provided, in an array' }
           return
         end
       rescue JSON::ParserError => e
-        render status: 400, json: { error: e.message }
+        render status: :bad_request, json: { error: e.message }
       end
 
       def set_questionnaire
-        @questionnaire = Questionnaire.find_by_key(params[:key])
+        @questionnaire = Questionnaire.find_by(key: params[:key])
         return if @questionnaire.present?
 
-        render(status: 404, json: 'Vragenlijst met die key niet gevonden')
+        render(status: :not_found, json: 'Vragenlijst met die key niet gevonden')
       end
     end
   end

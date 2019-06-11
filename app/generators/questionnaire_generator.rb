@@ -10,7 +10,7 @@ class QuestionnaireGenerator
   # rubocop:disable Metrics/ParameterLists
   def generate_questionnaire(response_id:, content:, title:, submit_text:, action:, unsubscribe_url:, params: {})
     params[:response_id] = response_id
-    response = Response.find_by_id(response_id) # allow nil response id for preview
+    response = Response.find_by(id: response_id) # allow nil response id for preview
     raw_content = content.deep_dup
     title = substitute_variables(response, title).first
     body = safe_join([
@@ -25,7 +25,7 @@ class QuestionnaireGenerator
   # rubocop:enable Metrics/ParameterLists
 
   def generate_hash_questionnaire(response_id, content, title)
-    response = Response.find_by_id(response_id) # allow nil response id for preview
+    response = Response.find_by(id: response_id) # allow nil response id for preview
     title = substitute_variables(response, title).first
     content = questionnaire_questions(content, response) { |quest| quest }
     { title: title, content: content }
@@ -110,7 +110,7 @@ class QuestionnaireGenerator
   def convert_offset_to_date(offset, response_id)
     raise "Unknown show_after offset type: #{offset}" unless an_offset?(offset)
 
-    response = Response.find_by_id(response_id)
+    response = Response.find_by(id: response_id)
     return 2.seconds.ago if response.blank? # If we don't have a response, just show it
 
     TimeTools.increase_by_duration(response.protocol_subscription.start_date, offset)

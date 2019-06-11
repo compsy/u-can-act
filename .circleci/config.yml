@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: circleci/ruby:2.4.3-node-browsers
+    - image: circleci/ruby:2.6.3-node-browsers
     - image: circleci/redis
       command: redis-server --requirepass redispassword
       environment:
@@ -22,7 +22,7 @@ defaults: &defaults
 
 build_defaults: &build_defaults
   docker:
-    - image: circleci/ruby:2.4.3-node-browsers
+    - image: circleci/ruby:2.6.3-node-browsers
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
@@ -49,6 +49,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
@@ -88,6 +89,7 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: gem install bundler
       - run: bundle --path vendor/bundle
       - run: yarn install
       - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts
@@ -141,6 +143,7 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: gem install bundler
       - run: bundle --path vendor/bundle
       - run: yarn install
       - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
@@ -153,6 +156,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler
       - run: bundle --path vendor/bundle
       - run: bundle exec rubocop
 

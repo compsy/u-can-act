@@ -12,7 +12,7 @@ module ApplicationHelper
     return @current_user if @current_user.present?
 
     person_external_identifier = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::PERSON_ID_COOKIE)
-    @current_user = Person.find_by_external_identifier(person_external_identifier)
+    @current_user = Person.find_by(external_identifier: person_external_identifier)
   end
 
   def logo_image

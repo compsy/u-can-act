@@ -11,17 +11,18 @@ describe StudentInvitationTexts do
   let(:measurement1) { FactoryBot.create(:measurement, questionnaire: voormeting) }
   let(:measurement2) { FactoryBot.create(:measurement) }
   let(:measurement3) { FactoryBot.create(:measurement, questionnaire: nameting) }
+
   describe 'message' do
     describe 'in announcement week' do
-      before :each do
+      before do
         Timecop.freeze(2018, 8, 2)
       end
 
-      after :each do
+      after do
         Timecop.return
       end
 
-      it 'should return correct text' do
+      it 'returns correct text' do
         expected = 'Hoi {{deze_student}}, je hebt geld verdiend met je deelname'\
         ' aan u-can-act: dit is je laatste kans om te innen! Vul de laatste'\
         ' vragenlijst en IBAN in, alleen dan kunnen we je beloning overmaken.'
@@ -35,14 +36,15 @@ describe StudentInvitationTexts do
     end
 
     describe 'not in announcement week' do
-      before :each do
+      before do
         Timecop.freeze(2018, 7, 10)
       end
-      after :each do
+
+      after do
         Timecop.return
       end
 
-      it 'should call and return the pooled message' do
+      it 'calls and return the pooled message' do
         expected = 'expected message'
         protocol_completion = [
           { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 }
@@ -64,7 +66,7 @@ describe StudentInvitationTexts do
   end
 
   describe 'pooled message' do
-    it 'should send the kick off message for the voormeting' do
+    it 'sends the kick off message for the voormeting' do
       protocol_completion = [
         { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 }
       ]
@@ -74,7 +76,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message when the voormeting is not yet filled out' do
+    it 'sends a special message when the voormeting is not yet filled out' do
       Timecop.freeze(2018, 5, 19) do
         protocol_completion = [
           { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 },
@@ -88,7 +90,7 @@ describe StudentInvitationTexts do
       end
     end
 
-    it 'should send a special message for the first weekly questionnaire' do
+    it 'sends a special message for the first weekly questionnaire' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 1 }
@@ -97,7 +99,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message when about to be on a streak' do
+    it 'sends a special message when about to be on a streak' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -109,7 +111,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message when on a streak' do
+    it 'sends a special message when on a streak' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -121,10 +123,10 @@ describe StudentInvitationTexts do
       expected_set = described_class.on_streak_pool
       expect(expected_set).to be_an Array
       expect(expected_set.size).to be > 5
-      expect(expected_set.member?(described_class.pooled_message(protocol, protocol_completion))).to be_truthy
+      expect(expected_set).to be_member(described_class.pooled_message(protocol, protocol_completion))
     end
 
-    it 'should send a special message when passing a reward threshold' do
+    it 'sends a special message when passing a reward threshold' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -161,7 +163,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message when the first two responses were missed' do
+    it 'sends a special message when the first two responses were missed' do
       protocol_completion = [
         { completed: false, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: false, periodical: true, reward_points: 100, future: false, streak: 0 },
@@ -172,7 +174,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message after one response was missed but the one before that was completed' do
+    it 'sends a special message after one response was missed but the one before that was completed' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -184,7 +186,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message after one response was missed but was on a streak before that' do
+    it 'sends a special message after one response was missed but was on a streak before that' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -198,7 +200,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message after more than one response was missed but there are completed responses' do
+    it 'sends a special message after more than one response was missed but there are completed responses' do
       protocol_completion = [
         { completed: false, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -211,7 +213,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message when all periodical responses were missed' do
+    it 'sends a special message when all periodical responses were missed' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: false, periodical: true, reward_points: 100, future: false, streak: 0 },
@@ -224,7 +226,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message when rejoining after a single missed measurement' do
+    it 'sends a special message when rejoining after a single missed measurement' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -236,7 +238,7 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
-    it 'should send a special message when rejoining after a single missed measurement' do
+    it 'sends a special message when rejoining after a single missed measurement' do
       protocol_completion = [
         { completed: true, periodical: false, reward_points: 0, future: false, streak: -1 },
         { completed: true, periodical: true, reward_points: 100, future: false, streak: 1 },
@@ -250,90 +252,95 @@ describe StudentInvitationTexts do
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
   end
+
   describe 'first_response_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.first_response_pool
       end.not_to raise_error
     end
   end
+
   describe 'repeated_first_response_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.repeated_first_response_pool
       end.not_to raise_error
     end
   end
+
   describe 'second_response_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.second_response_pool
       end.not_to raise_error
     end
   end
+
   describe 'rewards_threshold_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.rewards_threshold_pool(1)
       end.not_to raise_error
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(1000))
         .to eq ['Whoop! Na deze vragenlijst heb je €10,- verdiend. Ga zo door!']
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(2000))
         .to eq ['Je gaat hard {{deze_student}}! Na deze vragenlijst heb je al €20,- gespaard.']
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(3000))
         .to eq ['De teller blijft lopen! Na deze vragenlijst passeer jij de €30,- 😃']
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(4000))
         .to eq ['Hé {{deze_student}}. Door jouw goede inzet heb je bijna €40,- verdiend!']
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(5000))
         .to eq ['Geweldig, na deze vragenlijst heb je al €50,- verdiend!']
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(6000))
         .to eq ['Door jouw fantastische hulp heb jij al bijna €60,- verdiend!']
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(7000))
         .to eq ['Weet jij al wat je gaat doen met de €70,- die jij na deze vragenlijst hebt verdiend?']
     end
-    it 'should have a message for 10 euro' do
+    it 'has a message for 10 euro' do
       expect(described_class.rewards_threshold_pool(8000))
         .to eq ['Wat heb jij je al ontzettend goed ingezet {{deze_student}}! Inmiddels heb je bijna €80,- verdiend.']
     end
-    it 'should return an empty array otherwise' do
+    it 'returns an empty array otherwise' do
       expect(described_class.rewards_threshold_pool(10_000)).to eq []
     end
   end
+
   describe 'default_pool' do
-    it 'should not raise an error with nil' do
+    it 'does not raise an error with nil' do
       expect do
         described_class.default_pool(nil)
       end.not_to raise_error
     end
 
-    it 'should never include the begeleider specific texts if the protocol has the name studenten_control' do
+    it 'nevers include the begeleider specific texts if the protocol has the name studenten_control' do
       protocol = FactoryBot.create(:protocol, name: 'studenten_control')
       result = described_class.default_pool(protocol)
-      expect(result).to_not include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
+      expect(result).not_to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
                                     'beter te kunnen doen en vul deze vragenlijst in 😃.')
-      expect(result).to_not include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
+      expect(result).not_to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
                         '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
 
       # Check if the begeleider at all is in the text. Note that je_begeleidingsinitiatief and begeleiding are allowed.
       result = result.join
-      expect(result).to_not match('begeleider')
+      expect(result).not_to match('begeleider')
     end
 
-    it 'should include the begeleider specific texts for other protocol names' do
+    it 'includes the begeleider specific texts for other protocol names' do
       protocol = FactoryBot.create(:protocol, name: 'other_protocol')
       result = described_class.default_pool(protocol)
       expect(result).to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
@@ -346,57 +353,65 @@ describe StudentInvitationTexts do
       expect(result).to match('begeleider')
     end
   end
+
   describe 'about_to_be_on_streak_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.about_to_be_on_streak_pool
       end.not_to raise_error
     end
   end
+
   describe 'on_streak_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.on_streak_pool
       end.not_to raise_error
     end
   end
+
   describe 'first_responses_missed_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.first_responses_missed_pool
       end.not_to raise_error
     end
   end
+
   describe 'missed_last_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.missed_last_pool
       end.not_to raise_error
     end
   end
+
   describe 'missed_more_than_one_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.missed_more_than_one_pool
       end.not_to raise_error
     end
   end
+
   describe 'missed_everything_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.missed_everything_pool
       end.not_to raise_error
     end
   end
+
   describe 'rejoined_after_missing_one_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.rejoined_after_missing_one_pool
       end.not_to raise_error
     end
   end
+
   describe 'rejoined_after_missing_multiple_pool' do
-    it 'should not raise an error' do
+    it 'does not raise an error' do
       expect do
         described_class.rejoined_after_missing_multiple_pool
       end.not_to raise_error

@@ -33,7 +33,7 @@ class DateGenerator < QuestionTypeGenerator
   def mydate_data(question)
     data = { min: question[:min], max: question[:max], 'set-default-date': false }
     if question[:today].present?
-      data[:'default-date'] = Date.today
+      data[:'default-date'] = Time.zone.today
       data[:'set-default-date'] = true
     end
     data

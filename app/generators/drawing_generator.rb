@@ -62,7 +62,7 @@ class DrawingGenerator < QuestionTypeGenerator
 
   def drawing_buttons(question)
     body = []
-    body << content_tag(:button, 'Wissen',
+    body << content_tag(:button, 'Opnieuw',
                         class: 'btn waves-effect waves-light drawing-clear',
                         id: idify(question[:id], 'clear'))
     body << content_tag(:button, 'Ok', class: 'btn drawing-ok', id: idify(question[:id], 'ok'))

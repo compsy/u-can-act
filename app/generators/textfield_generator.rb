@@ -45,7 +45,7 @@ class TextfieldGenerator < QuestionTypeGenerator
   end
 
   def textfield_helper(question)
-    return nil unless question[:hint].present?
+    return nil if question[:hint].blank?
 
     content_tag(:span,
                 '', # Don't show a hint by default and don't show one when value is correct.

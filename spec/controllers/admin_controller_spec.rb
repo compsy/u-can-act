@@ -5,7 +5,7 @@ require 'rails_helper'
 describe AdminController, type: :controller do
   render_views
   describe "GET 'index'" do
-    it 'should initiate an team overview' do
+    it 'initiates an team overview' do
       basic_auth 'admin', 'admin'
       get :index
     end
@@ -19,14 +19,14 @@ describe AdminController, type: :controller do
          protocol_transfer_export]
     end
 
-    it 'should require basic http auth' do
+    it 'requires basic http auth' do
       routes_list.each do |route|
         get route
         expect(response).to be_unauthorized
       end
     end
 
-    it 'should require the correct username' do
+    it 'requires the correct username' do
       basic_auth 'otherusername', 'admin'
       routes_list.each do |route|
         get route
@@ -34,7 +34,7 @@ describe AdminController, type: :controller do
       end
     end
 
-    it 'should require correct password' do
+    it 'requires correct password' do
       basic_auth 'admin', 'otherpassword'
       routes_list.each do |route|
         get route
@@ -54,7 +54,7 @@ describe AdminController, type: :controller do
       let(:routes_list) { %i[questionnaire_export response_export] }
       let!(:questionnaire) { FactoryBot.create(:questionnaire, name: 'my-questionnaire') }
 
-      it 'should render an error when the questionnaire cannot be found' do
+      it 'renders an error when the questionnaire cannot be found' do
         basic_auth 'admin', 'admin'
         routes_list.each do |route|
           get route, params: { id: 'some_questionnaire' }
@@ -64,7 +64,7 @@ describe AdminController, type: :controller do
         end
       end
 
-      it 'should be okay when the questionnaire is found' do
+      it 'is okay when the questionnaire is found' do
         basic_auth 'admin', 'admin'
         routes_list.each do |route|
           get route, params: { id: 'my-questionnaire' }

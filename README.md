@@ -1,6 +1,7 @@
 # VSV
 Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
+[![DOI][zenodo-image]][zenodo-url]
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![Dependabot Status][dependabot-image]](dependabot-url)
@@ -727,6 +728,8 @@ Image can be the URL of an image, or the filename of an image that exists in the
 
 The only optional parameters are `radius` and `density`. They default to 15 and 40, respectively.
 
+[zenodo-image]: https://zenodo.org/badge/84442919.svg
+[zenodo-url]: https://zenodo.org/badge/latestdoi/84442919
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

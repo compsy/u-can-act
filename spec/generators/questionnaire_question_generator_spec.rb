@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe QuestionnaireQuestionGenerator do
   describe 'generate' do
-    it 'should throw an unknown question type error whenever the question does not exist' do
+    it 'throws an unknown question type error whenever the question does not exist' do
       question = {
         id: :v1,
         type: :weird_question_type
@@ -12,7 +12,7 @@ describe QuestionnaireQuestionGenerator do
       expect { subject.generate(question) }.to raise_error RuntimeError, 'Unknown question type weird_question_type'
     end
 
-    it 'should throw an unknown question type error whenever the question is not allowed' do
+    it 'throws an unknown question type error whenever the question is not allowed' do
       question = {
         id: :v1,
         type: :klasses

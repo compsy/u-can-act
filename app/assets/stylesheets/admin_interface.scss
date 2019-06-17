@@ -1,0 +1,27 @@
+.admin-interface {
+  .general-statistics {
+    .statistics-entry {
+      min-width: 180px;
+      i.material-icons {
+        position: relative;
+        top: 6px;
+      }
+      .card {
+        background-color: #f5f5f5;
+        font-weight: 300;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .admin-interface {
+    padding-left: 50px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .admin-interface {
+    padding-left: 0;
+  }
+}

@@ -204,18 +204,18 @@ describe FixResponses do
     v3_9_3_vaardigheden_van_deze_student_ontwikkelen_timing
   ].freeze
   describe 'execute' do
-    it 'should not raise an error when there is no mentor questionnaire' do
+    it 'does not raise an error when there is no mentor questionnaire' do
       expect do
         described_class.run!
-      end.to_not raise_error
+      end.not_to raise_error
     end
-    it 'should not raise an error when there is a mentor questionnaire' do
+    it 'does not raise an error when there is a mentor questionnaire' do
       FactoryBot.create(:questionnaire, name: 'dagboek mentoren')
       expect do
         described_class.run!
-      end.to_not raise_error
+      end.not_to raise_error
     end
-    it 'should fix answers from the mentor diary questionnaire' do
+    it 'fixes answers from the mentor diary questionnaire' do
       questionnaire = FactoryBot.create(:questionnaire, name: 'dagboek mentoren')
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
       old_hsh = {}

@@ -11,9 +11,9 @@ describe Api::V1::SettingsController, type: :controller do
       res
     end
 
-    let(:settings) { YAML.load_file(File.join(Rails.root, 'config', 'settings.yml')) }
+    let(:settings) { YAML.load_file(Rails.root.join('config', 'settings.yml')) }
     let(:specific_settings) do
-      YAML.load_file(File.join(Rails.root, 'projects', 'demo', 'config', 'settings.yml'))
+      YAML.load_file(Rails.root.join('projects', 'demo', 'config', 'settings.yml'))
     end
 
     let(:current_settings) { settings[Rails.env].deep_merge(specific_settings[Rails.env]) }
@@ -24,22 +24,22 @@ describe Api::V1::SettingsController, type: :controller do
       @json_response = JSON.parse(response.body)
     end
 
-    it 'should render a json file with the correct entries' do
+    it 'renders a json file with the correct entries' do
       expected = current_settings.keys
 
       expect(@json_response.keys.length).to eq expected.length
       expect(@json_response.keys).to match_array(expected)
     end
 
-    it 'should contain all elements in the yaml' do
-      expect(result_keys).to_not be_blank
+    it 'contains all elements in the yaml' do
+      expect(result_keys).not_to be_blank
       def recursive_check(hash, yaml)
         yaml.keys.each do |key|
           cur = hash[key]
           cur_yaml = yaml[key]
           cur_yaml = ENV['PROJECT_NAME'] if %w[application_name project_title].include?(key)
 
-          expect(cur).to_not be_blank
+          expect(cur).not_to be_blank
           expect(cur).to eq cur_yaml
           result_keys.delete(key)
           recursive_check(cur, cur_yaml) if cur_yaml.is_a? Hash
@@ -52,12 +52,12 @@ describe Api::V1::SettingsController, type: :controller do
     end
 
     describe 'unwanted variables' do
-      it 'should not contain table variables' do
-        expect(result_keys).to_not include 'table'
+      it 'does not contain table variables' do
+        expect(result_keys).not_to include 'table'
       end
 
-      it 'should not contain modifiable variables' do
-        expect(result_keys).to_not include 'modifiable'
+      it 'does not contain modifiable variables' do
+        expect(result_keys).not_to include 'modifiable'
       end
     end
   end

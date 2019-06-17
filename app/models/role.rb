@@ -3,7 +3,7 @@
 class Role < ApplicationRecord
   validates :group, inclusion: [Person::STUDENT, Person::MENTOR, Person::SOLO]
   validates :title, presence: true
-  validates_uniqueness_of :title, scope: :team_id
+  validates :title, uniqueness: { scope: :team_id }
   belongs_to :team
   has_many :people, dependent: :destroy
   validates :team_id, presence: true

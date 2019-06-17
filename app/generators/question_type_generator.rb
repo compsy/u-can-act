@@ -27,7 +27,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def placeholder(question, default_placeholder)
-    question[:placeholder].present? ? question[:placeholder] : default_placeholder
+    question[:placeholder].presence || default_placeholder
   end
 
   def answer_name(name)

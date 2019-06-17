@@ -17,7 +17,7 @@ class CookieJar
     end
 
     def cookies_set?(jar)
-      !jar[COOKIE_LOCATION].blank?
+      jar[COOKIE_LOCATION].present?
     end
 
     def read_entry(jar, entry)
@@ -31,7 +31,7 @@ class CookieJar
     def set_or_update_cookie(jar, cookie_hash)
       Rails.logger.debug cookie_hash
       current_cookie = jar[COOKIE_LOCATION]
-      unless current_cookie.blank?
+      if current_cookie.present?
         current_cookie = JSON.parse(current_cookie)
         current_cookie = {} unless current_cookie.is_a?(Hash)
         cookie_hash = current_cookie.merge(cookie_hash)

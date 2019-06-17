@@ -8,7 +8,8 @@ class Questionnaire < ApplicationRecord
   validate :all_content_ids_unique
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
-                                        foreign_key: 'informed_consent_questionnaire_id'
+                                        foreign_key: 'informed_consent_questionnaire_id',
+                                        inverse_of: :informed_consent_questionnaire
   has_many :responses, through: :measurements
 
   scope :pilot, (lambda {

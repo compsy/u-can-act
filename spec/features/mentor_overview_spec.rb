@@ -26,7 +26,7 @@ describe 'GET and POST /', type: :feature, js: true do
     end
   end
 
-  it 'should redirect to the mentor overview page given any of the provided invitation tokens' do
+  it 'redirects to the mentor overview page given any of the provided invitation tokens' do
     response_objects.each do |responseobj|
       expect(responseobj.completed_at).to be_nil
       expect(responseobj.content).to be_nil
@@ -38,24 +38,24 @@ describe 'GET and POST /', type: :feature, js: true do
       visit inv_tok.invitation_set.invitation_url(inv_tok.token_plain, false)
 
       # Check whether the correct redirect was performed
-      expect(page).to_not have_current_path(questionnaire_path(uuid: inv_tok.invitation_set.responses.first.uuid))
+      expect(page).not_to have_current_path(questionnaire_path(uuid: inv_tok.invitation_set.responses.first.uuid))
       expect(page).to have_current_path(mentor_overview_index_path)
     end
   end
 
-  it 'should show the disclaimer link on the mentor overview page' do
+  it 'shows the disclaimer link on the mentor overview page' do
     inv_tok = invitation_tokens.first
     visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Disclaimer', href: '/disclaimer')
   end
 
-  it 'should not show the Gegevens aanpassen link on the mentor overview page' do
+  it 'does not show the Gegevens aanpassen link on the mentor overview page' do
     inv_tok = invitation_tokens.first
     visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
-    expect(page).to_not have_link('Gegevens aanpassen', href: '/person/edit')
+    expect(page).not_to have_link('Gegevens aanpassen', href: '/person/edit')
   end
 
-  it 'should list the students of the current mentor on the page with the corresponding questionnaire links' do
+  it 'lists the students of the current mentor on the page with the corresponding questionnaire links' do
     inv_tok = invitation_tokens.first
     visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)
@@ -69,16 +69,16 @@ describe 'GET and POST /', type: :feature, js: true do
                     .first.responses.first.invitation_set.invitation_tokens.first.token
 
       expect(page).to have_link(href: questionnaire_path(uuid: uuid))
-      expect(page).to_not have_content(token)
+      expect(page).not_to have_content(token)
     end
 
     other_students.each do |student|
-      expect(page).to_not have_content(student.first_name)
-      expect(page).to_not have_content(student.last_name)
+      expect(page).not_to have_content(student.first_name)
+      expect(page).not_to have_content(student.last_name)
     end
   end
 
-  it 'should be possible to fill out a questionnaire for each of the mentors students' do
+  it 'is possible to fill out a questionnaire for each of the mentors students' do
     inv_tok = invitation_tokens.first
     url = "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     visit url
@@ -100,10 +100,10 @@ describe 'GET and POST /', type: :feature, js: true do
       range_select('v3', '57')
       page.click_on 'Opslaan'
     end
-    expect(page).to_not have_link('Vragenlijst invullen voor deze student')
+    expect(page).not_to have_link('Vragenlijst invullen voor deze student')
   end
 
-  it 'should be able to follow the initial link if one questionnaire has been filled out ' do
+  it 'is able to follow the initial link if one questionnaire has been filled out' do
     inv_tok = invitation_tokens.first
     visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
     expect(page).to have_link('Vragenlijst invullen voor deze student', count: students.length)

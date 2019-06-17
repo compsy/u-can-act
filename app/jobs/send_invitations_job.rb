@@ -12,7 +12,7 @@ class SendInvitationsJob < ApplicationJob
 
     if invitation_set.invitation_text.blank?
       invitation_text = create_invitation_text(open_responses)
-      invitation_set.update_attributes!(invitation_text: invitation_text)
+      invitation_set.update!(invitation_text: invitation_text)
     end
 
     finalize_and_schedule_invitation_set(invitation_set)

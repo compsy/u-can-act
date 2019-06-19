@@ -109,7 +109,7 @@ dagboek_content = [
     id: :v18,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er vandaag iets leuks of plezierigs gebeurd?',
+    title: 'Is er vandaag iets leuks gebeurd?',
     options: [
       { title: 'Ja', shows_questions: %i[v19 v20 v21] },
       { title: 'Nee' }
@@ -118,7 +118,7 @@ dagboek_content = [
     id: :v19,
     hidden: true,
     type: :range,
-    title: 'Hoe leuk of plezierig was deze gebeurenis?',
+    title: 'Hoe leuk was deze gebeurtenis?',
     labels: ['Een klein beetje leuk', 'Heel erg leuk']
   }, {
     id: :v20,
@@ -154,7 +154,7 @@ dagboek_content = [
     id: :v22,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er vandaag iets vervelends of naars gebeurd?',
+    title: 'Is er vandaag iets vervelends gebeurd?',
     options: [
       { title: 'Ja', shows_questions: %i[v23 v24 v25 v26 v27] },
       { title: 'Nee' }
@@ -163,7 +163,7 @@ dagboek_content = [
     id: :v23,
     hidden: true,
     type: :range,
-    title: 'Hoe vervelend of naar was deze gebeurtenis?',
+    title: 'Hoe vervelend was deze gebeurtenis?',
     labels: ['Een klein beetje vervelend', 'Heel erg vervelend']
   }, {
     id: :v24,

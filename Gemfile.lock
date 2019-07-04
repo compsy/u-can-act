@@ -221,7 +221,7 @@ GEM
       rest-client (~> 2.0.2)
     materialize-sass (1.0.0)
       autoprefixer-rails (>= 6.0.3)
-    messagebird-rest (1.4.1)
+    messagebird-rest (1.4.2)
     method_source (0.9.2)
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)

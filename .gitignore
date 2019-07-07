@@ -20,7 +20,7 @@ mentors.csv
 pickle-email-*.html
 
 # dotenv
-.env
+.env.local
 
 ## Environment normalization:
 /.bundle
@@ -45,3 +45,9 @@ bower.json
 
 # Windows ignores:
 tmp/pids
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

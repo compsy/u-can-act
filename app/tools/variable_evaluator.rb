@@ -4,6 +4,7 @@ class VariableEvaluator
   class << self
     def evaluate_obj(obj, subs_hash)
       return evaluate(obj, subs_hash) if obj.is_a?(String)
+
       if obj.is_a?(Hash)
         obj.each do |k, v|
           obj[k] = evaluate_obj(v, subs_hash)
@@ -20,7 +21,7 @@ class VariableEvaluator
 
     def evaluate(text, subs_hash)
       full_subs_hash = default_subs_hash.dup.merge(subs_hash.dup) do |_, oldval, newval|
-        newval.blank? ? oldval : newval
+        newval.presence || oldval
       end
       substitutions_hash = substitutions(full_subs_hash)
       substitutions_hash.each do |variable, expansion|
@@ -41,8 +42,10 @@ class VariableEvaluator
         mentor_title: 'begeleider',
         mentor_gender: nil,
         mentor_name: 'je begeleider',
+        mentor_last_name: '',
         organization: 'je begeleidingsinitiatief',
         student_name: 'deze student', # incl. "deze" want naam ipv titel
+        student_last_name: '',
         student_gender: nil
       }
     end
@@ -56,8 +59,12 @@ class VariableEvaluator
         'hij_zij_begeleider' => personal_pronoun(subs_hash[:mentor_gender]),
         'hem_haar_begeleider' => personal_pronoun_dativus(subs_hash[:mentor_gender]),
         'naam_begeleider' => subs_hash[:mentor_name],
+        'achternaam_begeleider' => subs_hash[:mentor_last_name],
         'je_begeleidingsinitiatief' => subs_hash[:organization],
         'deze_student' => subs_hash[:student_name],
+        'achternaam_student' => subs_hash[:student_last_name],
+        'datum_lang' => I18n.l(Time.zone.today, format: :long),
+        'datum' => I18n.l(Time.zone.today),
         'zijn_haar_student' => possessive_determiner(subs_hash[:student_gender]),
         'hij_zij_student' => personal_pronoun(subs_hash[:student_gender]),
         'hem_haar_student' => personal_pronoun_dativus(subs_hash[:student_gender])

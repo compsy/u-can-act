@@ -8,6 +8,7 @@ module Api
       group = @instance_options[:group]
       object.map do |team|
         next if team[:data].blank?
+
         create_team_overview_hash(team, group)
       end.compact
     end
@@ -16,6 +17,7 @@ module Api
 
     def create_team_overview_hash(team, group)
       return create_serializable_hash(team[:name]) unless team[:data].key?(group)
+
       create_hash_for_team_with_data(team, group)
     end
 
@@ -42,6 +44,7 @@ module Api
 
     def calculate_completion_percentage(completed, total)
       return 0.0 if total.nil? || completed.nil? || (total <= 0)
+
       (100 * completed.to_d / total.to_d).round
     end
   end

@@ -3,7 +3,8 @@
 class QuestionnaireExpander
   class << self
     def expand_content(content, response)
-      return process_foreach(content, response) if content.is_a?(Hash) && content[:foreach].present?
+      return process_foreach(content, response) if content.is_a?(Hash) &&
+                                                   content[:foreach].present? && response.present?
 
       process_normal(content, response)
     end

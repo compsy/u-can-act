@@ -19,7 +19,7 @@ class InvitationToken < ApplicationRecord
       invitation_token.expires_at = TimeTools.increase_by_duration(Time.zone.now, OPEN_TIME_FOR_INVITATION)
     end
 
-    if invitation_token.id.nil? && !@token_plain.present?
+    if invitation_token.id.nil? && @token_plain.blank?
       token = RandomAlphaNumericStringGenerator.generate(InvitationToken::TOKEN_LENGTH)
       invitation_token.token = token
       @token_plain = token
@@ -37,7 +37,7 @@ class InvitationToken < ApplicationRecord
   end
 
   def self.test_identifier_token_combination(identifier, token)
-    person = Person.find_by_external_identifier(identifier)
+    person = Person.find_by(external_identifier: identifier)
     return nil unless person
 
     # This is reasonably fast since the invitation_sets of a person
@@ -69,6 +69,7 @@ class InvitationToken < ApplicationRecord
     expiresat = [Time.zone.now, TimeTools.increase_by_duration(created_at, OPEN_TIME_FOR_INVITATION)].max
     invitation_set.responses.each do |response|
       next if response.completed?
+
       expiresat = [expiresat, response.expires_at].max
     end
     expiresat

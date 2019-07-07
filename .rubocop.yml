@@ -1,16 +1,22 @@
 inherit_from: rubocop-todo.yml
+require:
+  - rubocop-performance
+  - rubocop-rails
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.6
   Exclude:
     - 'config/**/*'
     - 'db/**/*'
+    - 'node_modules/**/*'
+    - 'projects/*/seeds/**/*'
     - 'script/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
     - 'spec/questionnaires/*.rb'
     - 'Guardfile'
     - 'bin/*'
+    - 'node_modules/**/*'
 
 # Use UTF-8 as the source file encoding.
 Encoding:
@@ -34,6 +40,22 @@ Metrics/ModuleLength:
   Max: 768
   Exclude:
     - 'spec/**/*'
+
+# We call use cases from the console so we want to see output
+Rails/Output:
+  Exclude:
+    - 'app/use_cases/**/*'
+
+# The generators are designed to evaluate questionnaire contents as HTML.
+Rails/OutputSafety:
+  Exclude:
+    - 'app/generators/**/*'
+
+# We think it's okay to use instance variables in helper classes. We may choose to refactor these
+# and remove this assertion at a later date.
+Rails/HelperInstanceVariable:
+  Exclude:
+    - 'app/helpers/**/*'
 
 # Describe specs fail this test
 # Namespaces in rake tasks do too

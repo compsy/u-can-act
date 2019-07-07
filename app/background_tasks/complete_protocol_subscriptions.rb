@@ -6,7 +6,8 @@ class CompleteProtocolSubscriptions
     # find_each isn't needed, since the scope should always be sufficiently small.
     ProtocolSubscription.active.each do |protocol_subscription|
       next unless protocol_subscription.ended?
-      protocol_subscription.update_attributes!(state: ProtocolSubscription::COMPLETED_STATE)
+
+      protocol_subscription.update!(state: ProtocolSubscription::COMPLETED_STATE)
     end
   end
 end

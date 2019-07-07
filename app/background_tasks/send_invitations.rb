@@ -12,6 +12,7 @@ class SendInvitations
         next if response.expired?
         next unless response.measurement.should_invite?
         next unless response.protocol_subscription.active?
+
         person_id = response.protocol_subscription.person_id
         response_sets[person_id] += [response]
       end
@@ -30,7 +31,7 @@ class SendInvitations
     end
 
     def create_invitations(invitation_set)
-      invitation_set.invitations.create!(type: 'EmailInvitation') unless invitation_set.person.email.blank?
+      invitation_set.invitations.create!(type: 'EmailInvitation') if invitation_set.person.email.present?
       invitation_set.invitations.create!(type: 'SmsInvitation')
     end
   end

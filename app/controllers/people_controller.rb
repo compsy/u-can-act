@@ -8,8 +8,8 @@ class PeopleController < ApplicationController
   def edit; end
 
   def update
-    if @person.update_attributes(people_params)
-      redirect_to NextPageFinder.get_next_page(current_user: current_user), flash: { notice: 'Gegevens geüpdatet' }
+    if @person.update(people_params)
+      redirect_to NextPageFinder.get_next_page(current_user: current_user), flash: { notice: 'Gegevens opgeslagen.' }
     else
       render :edit
     end
@@ -34,11 +34,18 @@ class PeopleController < ApplicationController
   private
 
   def set_layout
-    @use_mentor_layout = @person.mentor?
+    @use_mentor_layout = @person.mentor? || @person.solo?
   end
 
   def people_params
-    params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
+    base_params = params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
+    return base_params if cannot? :update, Person, :ip_hash
+
+    base_params.merge(ip_hash: calculate_ip_hash)
+  end
+
+  def calculate_ip_hash
+    HashGenerator.generate(request.remote_ip, salt: ENV.fetch('IP_HASH_SALT'))
   end
 
   def set_current_person
@@ -47,7 +54,12 @@ class PeopleController < ApplicationController
 
   def unsubscribed
     return if performed?
-    flash[:notice] = "Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!"
+
+    flash[:notice] = if @person.role.group == Person::SOLO
+                       'Bedankt voor het invullen van de vragenlijst!'
+                     else
+                       'Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!'
+                     end
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 end

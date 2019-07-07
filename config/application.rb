@@ -2,6 +2,21 @@ require_relative 'boot'
 
 require 'rails/all'
 
+# This defines a Rails constant, so that this line doesn't throw an error on Circleci:
+# In: ~/.rvm/gems/ruby-2.6.3/gems/rubocop-rails-2.0.1/lib/rubocop/cop/rails_cops.rb
+# module RuboCop
+#   # RuboCop included the Rails cops directly before version 1.0.0.
+#   # We can remove them to avoid warnings about redefining constants.
+#   module Cop
+#     remove_const('Rails') if const_defined?('Rails')
+#   end
+# end
+module RuboCop
+  module Cop
+    Rails = 5
+  end
+end
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -9,6 +24,8 @@ Mongo::Logger.logger.level = ::Logger::INFO
 
 module Vsv
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -19,6 +36,7 @@ module Vsv
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :nl
+    config.i18n.available_locales = [:nl, :en]
 
     config.autoload_paths += %W(#{config.root}/app/validators)
     config.autoload_paths += %W(#{config.root}/app/background_tasks)
@@ -28,6 +46,8 @@ module Vsv
     config.autoload_paths += %W(#{config.root}/app/generators)
     config.autoload_paths += %W(#{config.root}/app/exporters)
     config.autoload_paths += %W(#{config.root}/app/middleware)
+
+    config.middleware.use I18n::JS::Middleware
 
     config.active_job.queue_adapter = :delayed_job
 

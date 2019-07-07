@@ -11,14 +11,14 @@ describe MobilePhoneValidator do
 
   let(:record) { Validatable.new }
 
-  it 'should return errors if the number does not start with a recognized prependation' do
+  it 'returns errors if the number does not start with a recognized prependation' do
     record.mobile_phone = '0812341234'
     expect(record).not_to be_valid
     expect(record.errors.messages).to have_key :mobile_phone
     expect(record.errors.messages[:mobile_phone]).to include('mag alleen een Nederlands nummer zijn')
   end
 
-  it 'should not return errors if the number is correct and dutch' do
+  it 'does not return errors if the number is correct and dutch' do
     record.mobile_phone = '0612341234'
     expect(record).to be_valid
   end

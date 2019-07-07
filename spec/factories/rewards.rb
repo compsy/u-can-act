@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :reward do
-    threshold 1
-    reward_points 1
+    threshold { 1 }
+    reward_points { 1 }
     protocol
   end
 end

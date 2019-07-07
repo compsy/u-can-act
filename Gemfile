@@ -8,10 +8,10 @@ git_source(:github) do |repo_name|
 end
 
 # Specify ruby version for heroku
-ruby '2.4.3'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.1.7'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 0.20.0'
@@ -29,14 +29,9 @@ gem 'haml-rails'
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
 
 # Use React for the UI
-gem 'react-rails', '= 1.6.2'
+gem 'react-rails'
 gem 'react-source'
 
 # Use highcharts
@@ -68,10 +63,8 @@ gem 'coveralls', '>= 0.8.21', require: false
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
 
-# D3 visualization
-# Version is fixed because the radial progress plot does not yet support newer versions
+# Used to scroll to top
 gem 'animate-rails', github: 'camelmasa/animate-rails'
-gem 'd3-rails', '~> 3.5.16'
 
 # Messagebird SMS
 gem 'messagebird-rest', require: 'messagebird'
@@ -98,18 +91,20 @@ gem 'iban-tools'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
-  gem 'teaspoon-jasmine'
 end
 
 group :test do
   # Code quality monitoring
   gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 
   # Allows jumping back and forth in time
   gem 'timecop'
@@ -131,33 +126,29 @@ group :test do
   gem 'capybara-screenshot'
 
   # selenium for js testing
-  gem 'capybara-selenium'
-  gem 'chromedriver-helper'
   gem 'selenium-webdriver'
+  gem 'webdrivers'
 end
 
 group :production, :staging do
   # JavaScript runtime
-  gem 'therubyracer'
+  # gem 'therubyracer'
+  # ExecJS::RubyRacerRuntime is not supported. Please replace therubyracer with mini_racer in your Gemfile.
+  gem 'mini_racer'
 
   # Required by Delayed Job
   gem 'daemons'
-
-  # Gem for cheaper worker nodes on Heroku
-  # gem 'workless' # disable until this is fixed: https://github.com/lostboy/workless/issues/106#issuecomment-356636649
-  # This is quoted as a possible fix: https://github.com/lostboy/workless/pull/107
 end
 
 gem 'workless', git: 'https://github.com/patricklindsay/workless.git', branch: 'fixes'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'listen'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'spring-commands-teaspoon'
   gem 'spring-watcher-listen'
 end
 
@@ -165,13 +156,15 @@ end
 gem 'silencer'
 
 # JS / CSS Frameworks
-# gem 'highcharts-rails'
-gem 'materialize-sass'
+gem 'materialize-sass', '>= 1.0.0'
 gem 'modernizr-rails'
+
+gem 'webpacker', '>= 4.0.x'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
+gem 'i18n-js' # We still need this gem because it generates translations.js for us.
 gem 'rails-i18n'
 
 gem 'lograge'

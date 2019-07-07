@@ -11,13 +11,13 @@ shared_examples_for 'a jwt authenticated route' do |method, route|
     post route, params: params if method == 'post'
   end
 
-  it 'should return a 401 when not authenticated' do
+  it 'returns a 401 when not authenticated' do
     call_url(method, route)
     expect(response.status).to eq 401
     expect(response.body).to include 'Unauthorized request'
   end
 
-  it 'should return a 2xx if the route is authenticated' do
+  it 'returns a 2xx if the route is authenticated' do
     auth_user = nil
     payload = {}
 

@@ -19,6 +19,7 @@ class GenerateInvitationText < ActiveInteraction::Base
     invitation_text = response.protocol_subscription.protocol.invitation_text
     return invitation_text if invitation_text.present?
     return mentor_texts(response) if response.protocol_subscription.person.mentor?
+
     student_texts(response)
   end
 

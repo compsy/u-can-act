@@ -10,7 +10,7 @@ describe IbanValidator do
   end
 
   let(:record) { Validatable.new }
-  it 'should return errors if the iban is incorrect' do
+  it 'returns errors if the iban is incorrect' do
     incorrect_ibans = [
       '0812341234',
       'NL36RABO 0123412341',
@@ -29,17 +29,17 @@ describe IbanValidator do
   end
 
   describe 'with a correct iban' do
-    it 'should not return errors' do
+    it 'does not return errors' do
       record.iban = 'NL91ABNA0417164300'
       expect(record).to be_valid
     end
-    it 'should not return errors with spaces in the iban' do
+    it 'does not return errors with spaces in the iban' do
       record.iban = 'NL 91 ABNA 0 4171 64 300'
       expect(record).to be_valid
     end
   end
 
-  it 'should not return errors if the iban is nil' do
+  it 'does not return errors if the iban is nil' do
     record.iban = nil
     expect(record).to be_valid
   end

@@ -3,7 +3,7 @@
 FactoryBot.define do
   sequence(:title) { |n| "title-#{n}" }
   factory :role do
-    group 'Student'
+    group { Person::STUDENT }
     title
     team
   end

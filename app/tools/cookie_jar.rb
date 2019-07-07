@@ -6,6 +6,7 @@ class CookieJar
     def verify_param(jar, response_hash)
       cookie = jar[COOKIE_LOCATION]
       return false if response_hash.nil? || cookie.nil?
+
       cookie = JSON.parse(cookie)
       response_hash.each do |key, value|
         valid_cookie = cookie[key.to_s] == value
@@ -16,12 +17,13 @@ class CookieJar
     end
 
     def cookies_set?(jar)
-      !jar[COOKIE_LOCATION].blank?
+      jar[COOKIE_LOCATION].present?
     end
 
     def read_entry(jar, entry)
       cookie = jar[COOKIE_LOCATION]
       return false if entry.nil? || cookie.nil?
+
       cookie = JSON.parse(cookie)
       cookie[entry.to_s]
     end
@@ -29,7 +31,7 @@ class CookieJar
     def set_or_update_cookie(jar, cookie_hash)
       Rails.logger.debug cookie_hash
       current_cookie = jar[COOKIE_LOCATION]
-      unless current_cookie.blank?
+      if current_cookie.present?
         current_cookie = JSON.parse(current_cookie)
         current_cookie = {} unless current_cookie.is_a?(Hash)
         cookie_hash = current_cookie.merge(cookie_hash)

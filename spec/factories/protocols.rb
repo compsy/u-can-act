@@ -4,11 +4,10 @@ FactoryBot.define do
   sequence(:protocol_name) { |n| "dagboekstudie-studenten-#{n}" }
   factory :protocol do
     name { generate(:protocol_name) }
-    duration 3.weeks
+    duration { 3.weeks }
     trait :with_informed_consent_questionnaire do
       association :informed_consent_questionnaire,
                   factory: :questionnaire,
-                  name: 'Informed Consent',
                   title: 'Informed Consent',
                   content: [{
                     type: :raw,
@@ -18,7 +17,7 @@ FactoryBot.define do
   end
 
   trait :with_invitation_text do
-    invitation_text 'Welcome to the u-can-act research project'
+    invitation_text { 'Welcome to the u-can-act research project' }
   end
 
   trait :with_measurements do

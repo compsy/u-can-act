@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe RewardExporter do
-  it_should_behave_like 'an object_exporter object'
+  it_behaves_like 'an object_exporter object'
 
   describe 'without participants' do
     it 'works without protocol subscriptions' do
@@ -20,11 +20,12 @@ describe RewardExporter do
                              :with_random_name,
                              :with_protocol_subscriptions, :with_iban)
     end
+
     before do
       FactoryBot.create(:mentor, :with_protocol_subscriptions)
     end
 
-    it 'should create a CSV with the correct fields' do
+    it 'creates a CSV with the correct fields' do
       export = described_class.export_lines.to_a.join.split("\n")
       header = export.first.delete('"').split(';')
       expected = described_class.formatted_fields + described_class.default_fields
@@ -32,13 +33,13 @@ describe RewardExporter do
       expect(header).to match_array expected
     end
 
-    it 'should only export the students' do
+    it 'onlies export the students' do
       export = described_class.export_lines.to_a.join.split("\n")
       # -1 for the header
       expect(export.size - 1).to eq number_of_students
     end
 
-    it 'should create the correct export' do
+    it 'creates the correct export' do
       reward = 0
       students.each do |student|
         expect(CalculateEarnedEurosByPerson)
@@ -59,7 +60,7 @@ describe RewardExporter do
       end
     end
 
-    it 'should not export the test accounts' do
+    it 'does not export the test accounts' do
       pre_export = described_class.export_lines.to_a.join.split("\n")
 
       # create a response that should be filtered out

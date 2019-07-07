@@ -5,7 +5,8 @@ require 'rails_helper'
 describe RescheduleResponses do
   describe 'execute' do
     let!(:protocol_subscription) { FactoryBot.create(:protocol_subscription) }
-    it 'should run everything inside a transaction' do
+
+    it 'runs everything inside a transaction' do
       expect(ActiveRecord::Base).to receive(:transaction) do |_options, &block|
         block.call # cannot set isolation level in nested transaction.
       end
@@ -23,7 +24,7 @@ describe RescheduleResponses do
         FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                      open_from: future)
         FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                     open_from: future + 1.day, completed_at: Time.new(2018, 10, 10))
+                                     open_from: future + 1.day, completed_at: Time.zone.local(2018, 10, 10))
         described_class.run!(protocol_subscription: protocol_subscription)
         responses.zip(Response.all).each do |local_response, other_response|
           expect(local_response).to eq other_response
@@ -54,20 +55,23 @@ describe RescheduleResponses do
         expect(responses.first).to eq Response.first
 
         responses.last(3).zip(Response.last(3)).each do |local_response, other_response|
-          expect(local_response).to_not eq other_response
+          expect(local_response).not_to eq other_response
         end
       end
     end
 
-    it 'should reschedule future responses ' do
+    it 'reschedules future responses' do
       protocol = FactoryBot.create(:protocol, duration: 5.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
                                                 start_date: 1.week.ago.at_beginning_of_day)
       Response.destroy_all
-      future = Time.new(2017, 10, 11)
-      times = [Time.new(2017, 10, 10), Time.new(2017, 10, 11), Time.new(2017, 10, 12), Time.new(2017, 10, 13)]
+      future = Time.zone.local(2017, 10, 11)
+      times = [Time.zone.local(2017, 10, 10),
+               Time.zone.local(2017, 10, 11),
+               Time.zone.local(2017, 10, 12),
+               Time.zone.local(2017, 10, 13)]
       expect_any_instance_of(Measurement).to receive(:response_times).with(protocol_subscription.start_date,
                                                                            protocol_subscription.end_date)
                                                                      .and_return(times)
@@ -84,7 +88,7 @@ describe RescheduleResponses do
                                         offset_till_end: 2.days + 12.hours,
                                         period: nil,
                                         open_duration: nil,
-                                        reward_points:  0,
+                                        reward_points: 0,
                                         stop_measurement: true,
                                         should_invite: true,
                                         redirect_url: '/person/edit')
@@ -96,15 +100,16 @@ describe RescheduleResponses do
                           start_date: 1.week.ago.at_beginning_of_day,
                           end_date: 3.days.from_now)
       end
-      before :each do
+
+      before do
         Timecop.freeze(2018, 7, 26)
       end
 
-      after :each do
+      after do
         Timecop.return
       end
 
-      it 'should reschedule not future responses for non periodical measurements if they is one completed ' do
+      it 'reschedules not future responses for non periodical measurements if they is one completed' do
         protocol.reload
         # Using the student nameting as an example
         Response.destroy_all
@@ -126,7 +131,7 @@ describe RescheduleResponses do
         expect(Response.all.first).to eq finished_response
       end
 
-      it 'should reschedule future responses for non periodical measurements if there are none completed ' do
+      it 'reschedules future responses for non periodical measurements if there are none completed' do
         Response.destroy_all
         protocol.reload
 
@@ -142,13 +147,13 @@ describe RescheduleResponses do
         expect(Response.all.first.protocol_subscription).to eq protocol_subscription
       end
 
-      it 'should reschedule not future responses for non periodical measurements if they is one completed ' do
+      it 'reschedules not future responses for non periodical measurements if they is one completed' do
         protocol.reload
         protocol.measurements.destroy_all
         measurement = FactoryBot.create(:measurement, :periodical,
                                         protocol: protocol,
                                         open_duration: 10.weeks,
-                                        reward_points:  0,
+                                        reward_points: 0,
                                         should_invite: true,
                                         redirect_url: '/person/edit')
         Response.destroy_all

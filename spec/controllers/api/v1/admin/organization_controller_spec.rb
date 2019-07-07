@@ -7,12 +7,12 @@ describe Api::V1::Admin::OrganizationController, type: :controller do
 
   describe 'for students' do
     let!(:the_params) { { group: Person::STUDENT } }
-    it_should_behave_like 'a jwt authenticated route', 'get', :show
+    it_behaves_like 'a jwt authenticated route', 'get', :show
   end
 
   describe 'for mentors' do
     let!(:the_params) { { group: Person::MENTOR } }
-    it_should_behave_like 'a jwt authenticated route', 'get', :show
+    it_behaves_like 'a jwt authenticated route', 'get', :show
   end
 
   describe '#show' do
@@ -23,12 +23,12 @@ describe Api::V1::Admin::OrganizationController, type: :controller do
     let!(:organizations) { FactoryBot.create(:organization, :with_teams) }
     let(:overview) { Organization.overview bust_cache: true }
 
-    before :each do
+    before do
       payload = { sub: the_auth_user.auth0_id_string }
       jwt_auth payload
     end
 
-    it 'should call the render function with the correct parameters' do
+    it 'calls the render function with the correct parameters' do
       expect(Organization).to receive(:overview)
         .with(week_number: week_number, year: year, threshold_percentage: percentage_threshold)
         .and_return(overview)
@@ -45,12 +45,12 @@ describe Api::V1::Admin::OrganizationController, type: :controller do
                            percentage_threshold: percentage_threshold }
     end
 
-    it 'should also work without the year and week_number parameters' do
+    it 'also works without the year and week_number parameters' do
       get :show, params: { group: Person::STUDENT }
       expect(response.status).to eq(200)
     end
 
-    it 'should call the overview generator function and store it ' do
+    it 'calls the overview generator function and store it' do
       expect(Organization).to receive(:overview)
         .with(week_number: week_number,
               year: year,

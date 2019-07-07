@@ -28,6 +28,7 @@ class Measurement < ApplicationRecord
   def response_times(start_date, end_date)
     unless periodical?
       return [open_till(end_date)] if offset_till_end.present?
+
       return [open_from(start_date)]
     end
     response_times = []
@@ -45,10 +46,12 @@ class Measurement < ApplicationRecord
 
   def at_most_one_stop_measurement_per_protocol
     return unless stop_measurement && protocol_id.present?
+
     protocol.reload
     stop_measurement_already_available = protocol_has_other_stop_measurement?
     protocol.measurements.reset
     return unless stop_measurement_already_available
+
     errors.add(:protocol, 'can only have a single stop_measurement')
   end
 
@@ -82,18 +85,21 @@ class Measurement < ApplicationRecord
   end
 
   def open_from_offset_cannot_be_blank
-    return unless open_from_offset.blank?
+    return if open_from_offset.present?
+
     errors.add(:open_from_offset, 'cannot be blank')
   end
 
   def offsets_cannot_both_be_blank
     return unless open_from_offset.blank? && offset_till_end.blank?
+
     errors.add(:open_from_offset, 'cannot be blank if offset_till_end is blank')
     errors.add(:offset_till_end, 'cannot be blank if open_from_offset is blank')
   end
 
   def offsets_cannot_both_be_present
     return unless open_from_offset.present? && offset_till_end.present?
+
     errors.add(:open_from_offset, 'cannot be present if offset_till_end is present')
     errors.add(:offset_till_end, 'cannot be present if open_from_offset is present')
   end

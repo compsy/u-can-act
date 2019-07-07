@@ -258,7 +258,7 @@ class InvitationTexts
     # rubocop:enable Metrics/AbcSize
 
     def streak_size
-      Protocol.find_by_name('studenten')&.rewards&.second&.threshold || 3
+      Protocol.find_by(name: 'studenten')&.rewards&.second&.threshold || 3
     end
   end
 end

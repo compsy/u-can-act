@@ -35,7 +35,7 @@ describe 'sending invitations', type: :feature do
   let!(:responses) { [some_response, another_response, third_response] }
 
   describe 'without delayed_jobs' do
-    it 'should send sms messages for open responses' do
+    it 'sends sms messages for open responses' do
       MessageBirdAdapter.deliveries.clear
       Delayed::Worker.delay_jobs = false
       cntinvs = Invitation.count
@@ -50,7 +50,7 @@ describe 'sending invitations', type: :feature do
         end.first
         responseobj.reload
         expect(msg[:to]).to eq(responseobj.protocol_subscription.person.mobile_phone)
-        expect(msg[:body]).to_not be_blank
+        expect(msg[:body]).not_to be_blank
         expect(msg[:body]).to include('http')
         expect(msg[:body]).to include("?q=#{responseobj.protocol_subscription.person.external_identifier}" \
                                       "#{responseobj.invitation_set.invitation_tokens.first.token_plain}")
@@ -61,12 +61,12 @@ describe 'sending invitations', type: :feature do
     end
 
     describe 'without active protocol_subscriptions' do
-      it 'should not do anything when the protocol_subscriptions are not active' do
+      it 'does not do anything when the protocol_subscriptions are not active' do
         MessageBirdAdapter.deliveries.clear
         Delayed::Worker.delay_jobs = false
 
         responses.each do |resp|
-          resp.protocol_subscription.update_attributes!(state: ProtocolSubscription::CANCELED_STATE)
+          resp.protocol_subscription.update!(state: ProtocolSubscription::CANCELED_STATE)
         end
         MessageBirdAdapter.deliveries.clear
         SendInvitations.run
@@ -78,11 +78,11 @@ describe 'sending invitations', type: :feature do
   end
 
   describe 'with delayed jobs' do
-    before :each do
+    before do
       expect(Delayed::Worker.delay_jobs).to be_truthy
     end
 
-    it 'should not schedule the sms if the delayed jobs are enabled' do
+    it 'does not schedule the sms if the delayed jobs are enabled' do
       MessageBirdAdapter.deliveries.clear
       expect(Delayed::Worker.delay_jobs).to be_truthy
       cntinvs = Invitation.count

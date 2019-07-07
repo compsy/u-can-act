@@ -16,13 +16,14 @@ module Api
 
       def verify_access
         allowed = check_access_allowed(@protocol_subscription)
-        render(status: 403, json: 'U heeft geen toegang tot deze protocolsubscriptie') unless allowed
+        render(status: :forbidden, json: 'U heeft geen toegang tot deze protocolsubscriptie') unless allowed
       end
 
       def set_protocol_subscription
-        @protocol_subscription = ProtocolSubscription.find_by_id(params[:id])
+        @protocol_subscription = ProtocolSubscription.find_by(id: params[:id])
         return if @protocol_subscription.present?
-        render(status: 404, html: 'Protocol subscription met dat ID niet gevonden', layout: 'application')
+
+        render(status: :not_found, html: 'Protocol subscription met dat ID niet gevonden', layout: 'application')
       end
     end
   end

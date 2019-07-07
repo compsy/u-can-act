@@ -4,18 +4,39 @@ require 'csv'
 
 class ResponseExporter
   extend Exporters
+  QUESTIONNAIRE_HEADERS_KEY = 'questionnaire_headers'
+
   class << self
     def export_lines(questionnaire_name)
-      questionnaire = Questionnaire.find_by_name(questionnaire_name)
+      questionnaire = Questionnaire.find_by(name: questionnaire_name)
       raise 'Questionnaire not found' unless questionnaire
+
       Enumerator.new do |enum|
         enum << '"' # output a character to the stream right away
-        csv_headers = export_headers(questionnaire)
+        csv_headers = export_headers(questionnaire, bust_cache: false)
         formatted_headers = format_headers(csv_headers)[1..-1] # strip first char
         enum << formatted_headers + "\n"
         export(questionnaire, csv_headers) do |line|
           enum << line + "\n"
         end
+      end
+    end
+
+    def export_headers(questionnaire, bust_cache: false)
+      RedisCachedCall.cache("#{QUESTIONNAIRE_HEADERS_KEY}_#{questionnaire.key}", bust_cache) do
+        headers = {}
+        silence_logger do
+          questionnaire.responses.completed.find_each do |response|
+            next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
+
+            # Response has a .values function, which we are using here (i.e., it is not a hash from which we get the
+            # values)
+            response.values&.each do |key, _value|
+              headers[key] = ''
+            end
+          end
+        end
+        sort_and_add_default_header_fields(headers)
       end
     end
 
@@ -25,6 +46,7 @@ class ResponseExporter
       silence_logger do
         response_query(questionnaire).each do |response|
           next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
+
           vals = response_hash(response)
           response_values = response.values
           vals.merge!(response_values) if response_values.present?
@@ -36,22 +58,6 @@ class ResponseExporter
     def response_query(questionnaire)
       Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
               .order(open_from: :asc)
-    end
-
-    def export_headers(questionnaire)
-      headers = {}
-      silence_logger do
-        Response.includes(:measurement).where(measurements: { questionnaire_id: questionnaire.id })
-                .where.not(content: nil).find_each do |response|
-          next if Exporters.test_phone_number?(response.protocol_subscription.person.mobile_phone)
-          # Response has a .values function, which we are using here (i.e., it is not a hash from which we get the
-          # values)
-          response.values.each do |key, _value|
-            headers[key] = ''
-          end
-        end
-      end
-      sort_and_add_default_header_fields(headers)
     end
 
     def sort_and_add_default_header_fields(headers)
@@ -107,6 +113,7 @@ class ResponseExporter
       # first, last are the start and end positions of the first and last digits of the first number
       # in the string key. (A number is a substring consisting of consecutive digits only.)
       return key if first == -1
+
       t = prefix_number(key, first) # find stuff before the number
       len = 4 - (1 + last - first)
       len.times do

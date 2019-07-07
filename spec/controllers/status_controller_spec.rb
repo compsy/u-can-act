@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe StatusController, type: :controller do
   describe 'GET /status' do
-    it 'should have status code 200' do
+    it 'has status code 200' do
       get :show
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
-    it 'should return OK' do
+    it 'returns OK' do
       get :show
       expect(response.body).to eq('OK')
     end

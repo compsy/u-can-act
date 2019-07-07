@@ -19,7 +19,7 @@ module Api
 
       def create
         content = ResponseContent.create!(content: response_content)
-        @response.update_attributes!(content: content.id)
+        @response.update!(content: content.id)
         @response.complete!
         head 201
       end
@@ -35,31 +35,32 @@ module Api
         @person = current_auth_user&.person
         return if @person.present?
         result = { result: current_auth_user.to_json }
-        render(status: 404, json: result)
+        render(status: :not_found, json: result)
       end
 
       def set_responses
         @responses = @person.my_open_responses
         return if @responses.present?
         result = { result: 'Geen responses voor deze persoon gevonden' }
-        render(status: 404, json: result)
+        render(status: :not_found, json: result)
       end
 
       def set_response
-        @response = current_auth_user.person.responses.find_by_uuid(response_params[:uuid])
+        @response = current_auth_user.person.responses.find_by(uuid: response_params[:uuid])
         return if @response.present?
         result = { result: 'Response met dat uuid niet gevonden' }
-        render(status: 404, json: result)
+        render(status: :not_found, json: result)
       end
 
       def check_empty_response
         return if @response.content.blank?
         result = { result: 'Response met dat uuid heeft al content' }
-        render(status: 400, json: result)
+        render(status: :bad_request, json: result)
       end
 
       def response_content
         return {} if response_params[:content].nil?
+
         response_params[:content].to_unsafe_h
       end
 

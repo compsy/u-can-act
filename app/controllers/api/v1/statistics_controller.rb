@@ -3,12 +3,15 @@
 module Api
   module V1
     class StatisticsController < ApiController
+      include StatisticsHelper
+
       def index
         data = {
           number_of_students: number_of_students,
           number_of_mentors: number_of_mentors,
           duration_of_project_in_weeks: duration_of_project_in_weeks,
-          number_of_completed_questionnaires: number_of_completed_questionnaires
+          number_of_completed_questionnaires: number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR]),
+          number_of_book_signups: number_of_book_signups
         }
         render json: data
       end
@@ -16,24 +19,28 @@ module Api
       private
 
       def number_of_students
-        # The same as:
-        # Role.where(group: Person::STUDENT).map{|x| x.people ? x.people : nil}.flatten.compact.count,
-        Role.joins(:people).where(group: Person::STUDENT).count
+        number_of_informed_consents_given(Person::STUDENT)
       end
 
       def number_of_mentors
-        # The same as:
-        # Role.where(group: Person::MENTOR).map{|x| x.people ? x.people : nil}.flatten.compact.count
-        Role.joins(:people).where(group: Person::MENTOR).count
+        number_of_informed_consents_given(Person::MENTOR)
+      end
+
+      def number_of_book_signups
+        number_of_completed_responses('boek')
       end
 
       def duration_of_project_in_weeks
-        start = ENV['PROJECT_START_DATE']
-        Date.parse(start).step(Date.today, 7).count
+        start, endd = project_start_and_end_dates
+        return 0 if endd <= start
+
+        start.step(endd, 7).count
       end
 
-      def number_of_completed_questionnaires
-        Response.completed.count
+      def project_start_and_end_dates
+        start = Date.parse(Rails.application.config.settings.project_start_date)
+        endd = [Date.parse(Rails.application.config.settings.project_end_date), Time.zone.today].min
+        [start, endd]
       end
     end
   end

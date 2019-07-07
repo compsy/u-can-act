@@ -1,0 +1,18 @@
+# Beware! This file is public by definition
+default: &default
+  application_name: <%=ENV['PROJECT_NAME']%>
+  project_title: <%=ENV['PROJECT_NAME']%>
+  default_team_name: 'Controlegroep'
+  logo:
+    mentor_logo: null
+    student_logo: null
+    fallback_logo: null
+    company_logo: null
+development:
+  <<: *default
+production:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default

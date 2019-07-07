@@ -1,41 +1,55 @@
 !!!
-%html
-  %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
-    %meta{name: "application-name", content: ENV['PROJECT_NAME']}
-    = render 'shared/favicon'
+:plain
+  <!--[if lt IE 7]> <html class="lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+  <!--[if IE 7]>    <html class="lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+  <!--[if IE 8]>    <html class="lt-ie10 lt-ie9"> <![endif]-->
+  <!--[if IE 9]>    <html class="lt-ie10"> <![endif]-->
+  <!--[if gt IE 9]><!--> <html> <!--<![endif]-->
+%head
+  %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+  %meta{:content => "IE=edge,chrome=1", "http-equiv" => "X-UA-Compatible"}
+  %meta{name: "application-name", content: "u-can-act"}
+  = render 'shared/favicon'
 
-    %title #{ENV['PROJECT_NAME']}
-    = csrf_meta_tags
-    = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application'
-    %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
-  %body{class: student_mentor_class}
-    .cookie-warning{style: 'display: none;'}
+  %title= Rails.application.config.settings.project_title
+  = csrf_meta_tags
+  = stylesheet_link_tag    'application', media: 'all'
+  = javascript_pack_tag 'application'
+  = javascript_include_tag 'application'
+  %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
+%body{class: student_mentor_class}
+  .cookie-warning{style: 'display: none;'}
+    .card-panel.alert.red.lighten-2
+      %strong Let op:
+      Uw browser staat momenteel geen cookies toe. Daardoor werkt deze app niet goed.
+  %noscript
+    .notices
       .card-panel.alert.red.lighten-2
         %strong Let op:
-        Je browser staat momenteel geen cookies toe. Daardoor werkt deze app niet goed.
-    %noscript
-      .notices
-        .card-panel.alert.red.lighten-2
-          %strong Let op:
-          Je browser heeft momenteel JavaScript uitstaan. Daardoor werkt deze app niet goed.
-    - flash.each do |name, msg|
-      .row
-        .col.s12
-          .card-panel.green{class: name}
-            %span.white-text= msg
-    .container
-      .row
-        = yield
-    :javascript
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-100060757-1', 'auto');
-      ga('set', 'anonymizeIp', true);
-      ga('set', 'forceSSL', true);
-      if (#{Rails.env.production?}) {
-        ga('send', 'pageview');
-      }
+        Uw browser heeft momenteel JavaScript uitstaan. Daardoor werkt deze app niet goed.
+  #noscript
+    .notices
+      .card-panel.alert.red.lighten-2
+        %strong Let op:
+        Uw browser is Internet Explorer versie &lt; 10. Daardoor werkt deze webpagina niet. Gebruik a.u.b. een recentere browser.
+  - flash.each do |name, msg|
+    .row.flash-notice
+      .col.s12
+        .card-panel.green{class: name}
+          %span.white-text= msg
+  .container
+    .row
+      = yield
+  :javascript
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-100060757-1', 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('set', 'forceSSL', true);
+    if (#{Rails.env.production?}) {
+      ga('send', 'pageview');
+    }
+:plain
+  </html>

@@ -10,16 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require ./auth/Auth
-//= require jquery
-//= require jquery_ujs
 //= require modernizr
-//= require materialize
-//= require d3
-//= require react
-//= require react_ujs
-//= require react-router
-//= require react-router-dom
 //= require history
 //= require auth0
 //= require highcharts
@@ -29,9 +20,8 @@
 //= require highcharts/modules/data
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
-//= require radial-progess-chart
 //= require study_progress_bar
-//= require components
+//= require sketch
 //= require_tree .
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})
@@ -44,5 +34,4 @@ printAsMoney = function(euroValue) {
   euroValue = euroValue.replace(',00',',-');
   euroValue = '€' + euroValue;
   return(euroValue);
-}
-
+};

@@ -27,6 +27,7 @@ class EchoPeople < ActiveInteraction::Base
     CSV.foreach(file_name, col_sep: ';') do |row|
       cnt += 1
       next if cnt == 1 # Skip header row
+
       people << process_row(row)
       puts "people << #{people.last.inspect};nil"
     end
@@ -35,6 +36,7 @@ class EchoPeople < ActiveInteraction::Base
   def process_row(origrow)
     row = origrow.map(&:strip)
     return create_student_hash(row) if row[0].strip == Person::STUDENT
+
     create_mentor_hash(row)
   end
 
@@ -42,14 +44,14 @@ class EchoPeople < ActiveInteraction::Base
     # Student format:
     # type;team_name;first_name;last_name;gender;mobile_phone;protocol_name;start_date;end_date
     {
-      team_name:         row[1],
-      first_name:        row[2],
-      last_name:         row[3],
-      gender:            row[4],
-      mobile_phone:      row[5],
-      protocol_name:     row[6],
-      start_date:        row[7],
-      end_date:          row[8]
+      team_name: row[1],
+      first_name: row[2],
+      last_name: row[3],
+      gender: row[4],
+      mobile_phone: row[5],
+      protocol_name: row[6],
+      start_date: row[7],
+      end_date: row[8]
     }
   end
 
@@ -58,18 +60,18 @@ class EchoPeople < ActiveInteraction::Base
     # type;team_name;role_title;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;
     # filling_out_for;filling_out_for_protocol;end_date
     {
-      team_name:                row[1],
-      role_title:               row[2],
-      first_name:               row[3],
-      last_name:                row[4],
-      gender:                   row[5],
-      mobile_phone:             row[6],
-      email:                    row[7],
-      protocol_name:            row[8],
-      start_date:               row[9],
-      filling_out_for:          row[10],
+      team_name: row[1],
+      role_title: row[2],
+      first_name: row[3],
+      last_name: row[4],
+      gender: row[5],
+      mobile_phone: row[6],
+      email: row[7],
+      protocol_name: row[8],
+      start_date: row[9],
+      filling_out_for: row[10],
       filling_out_for_protocol: row[11],
-      end_date:                 row[12]
+      end_date: row[12]
     }
   end
 end

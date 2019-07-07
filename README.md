@@ -1,12 +1,18 @@
 # VSV
 Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
 
+[![DOI][zenodo-image]][zenodo-url]
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![Dependabot Status][dependabot-image]](dependabot-url)
 
 ## Reference
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). U-can-act Web-app (Version 1.0) [Web application software]. Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
+
+## Funding
+This application has been made possible by funding from The Netherlands Initiative for Education Research (NRO) under projectnumber 405-16-401.
+
+![NRO](https://u-can-act.nl/wp-content/uploads/2018/01/NRO-2.png)
 
 ## Installation
 Create checkout and install dependencies
@@ -25,18 +31,22 @@ Initialize the database
 The VSV application has the following dependencies:
 - PostgreSQL
 - Redis
+- Yarn (on macOS: `brew install yarn`)
 
 ## Configuration
 The .env.local file is used for storing all ENV variables. Below is a list of all required ENV variables.
 
 ### General settings
 ```
+  PROJECT_NAME:      <name of the project (e.g., vsv)>
+  POSTGRES_DATABASE: <prefix for the database used in development (e.g., vsv)>
+  MONGO_DATABASE:    <prefix for the database used in development (e.g., vsv)>
+
   SECRET_KEY_BASE: <base used for the tokens>
   HOST_URL: <the url where the application is hosted (e.g. http://myapp.io)>
   HOST_DOMAIN: <just the domain part of HOST_URL (e.g. myapp.io)>
   INFO_EMAIL: <email address to use as sender for user account emails>
   FEEDBACK_EMAIL: <email address used by the feedback button>
-  PROJECT_NAME: <name of the project (e.g. Vsv)>
 
   MESSAGEBIRD_ACCESS_KEY: <access key for messagebird>
   MESSAGEBIRD_SEND_FROM: <sender name shown for SMS>
@@ -58,8 +68,6 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   AUTH0_AUDIENCE: <The auth0 audience>
   AUTH0_SIGNING_CERTIFICATE: <the BASE64 encoded certificate>
 
-  PROJECT_START_DATE: <the start date of the project, in the forat yyyy-mm-dd>
-
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>
   REDIS_PASSWORD: <the password of the redis host>
@@ -69,7 +77,55 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
 
   API_KEY: <the secret username that can be used to access the api>
   API_SECRET: <the secret password that can be used to access the api>
+
+  IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
 ```
+
+### Development settings
+For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development. However, a `.env.local` file is **not** included in the repository, and should be created by the developer. Since this file determines which project of Vsv will run, it should at minimum have the following settings:
+
+`.env.local` minimum settings:
+```
+  PROJECT_NAME:      myproject
+  POSTGRES_DATABASE: myproject
+  MONGO_DATABASE:    myproject
+
+  HOST_URL:          http://myproject.io
+  HOST_DOMAIN:       myproject.io
+  INFO_EMAIL:        info@myproject.io
+```
+
+So after cloning the repo, be sure to create an `.env.local` file with at least the variables above.
+
+When using the rake task to generate a new project (`bundle exec rake "deployment:create_project[myproject]"`), a `.env.local` file is automatically generated for you. But when switching to one of the existing projects in the repo, you need to set the above variables in `.env.local`.
+
+
+### Organization-specific settings
+Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
+
+The file structure of the `my_organization` directory in the `projects` directory should be as follows:
+
+```
+|
+|- config/
+   |- settings.yml
+   |- locales/
+|- seeds/
+|- asssets/
+```
+
+In the project specific `settings.yml`, the following settings are required:
+```yaml
+default_team_name:  <Name of the default team>
+project_start_date: <Date that the project started in the format yyyy-mm-dd, e.g., '2017-10-01'>
+project_end_date:   <Date that the project ended in the format yyyy-mm-dd, e.g., '2018-08-06'>
+logo:
+  mentor_logo: <Filename of the mentor logo, e.g., 'mentor_logo.png'>
+  student_logo: <Filename of the student logo, e.g., 'student_logo.png'>
+  fallback_logo: <Default logo when there is no student or mentor, e.g., 'logo.png'>
+  company_logo: <OPTIONAL. Filename of a company logo. If missing, the header uses only one logo>
+```
+The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
 
 ### Development configuration
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:
@@ -110,6 +166,11 @@ Daily (e.g., at 3:30am), the following rake task should run:
 rake scheduler:rescheduling
 ```
 
+Daily (e.g., at 4am), the following rake task should run:
+```
+rake scheduler:generate_questionnaire_headers
+```
+
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 
@@ -130,7 +191,7 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 ### The Mentor CSV)
 For the Mentor data this should be:
 
-| type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | | end_date |
+| type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | end_date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
@@ -166,11 +227,11 @@ In this case:
  - `end_date`: the end date of the protocol subscription
 
 
-## Variables that can be used in texts:
+## Variables that can be used in texts (case-sensitive!):
 
 ```
-        VARIABLE                    DEFAULT VALUE           EXAMPLE
-        =======================================================================
+        VARIABLE                    DEFAULT VALUE               EXAMPLE
+        ========================================================================
         begeleider                  begeleider                  s-team captain
         Begeleider                  Begeleider                  S-team captain
         zijn_haar_begeleider        zijn/haar                   haar
@@ -181,16 +242,25 @@ In this case:
         Hem_haar_begeleider         Hem/haar                    Haar
         naam_begeleider             je begeleider               Elsa
         Naam_begeleider             Je begeleider               Elsa
+        achternaam_begeleider                                   Groen
+        Achternaam_begeleider                                   Groen
+
         je_begeleidingsinitiatief   je begeleidingsinitiatief   De Hondsrug
         Je_begeleidingsinitiatief   Je begeleidingsinitiatief   De Hondsrug
+
         deze_student                deze student                Rik
         Deze_student                Deze student                Rik
+        achternaam_student                                      De Vries
+        Achternaam_student                                      De Vries
         zijn_haar_student           zijn/haar                   zijn
         Zijn_haar_student           Zijn/haar                   Zijn
         hij_zij_student             hij/zij                     hij
         Hij_zij_student             Hij/zij                     Hij
         hem_haar_student            hem/haar                    hem
         Hem_haar_student            Hem/haar                    Hem
+
+        datum                       <vandaag>                   01-11-2018
+        datum_lang                  <vandaag>                    1 november 2018
 ```
 So you can write a sentence as follows:
 ```
@@ -208,7 +278,7 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 
 
 ## Questionnaire Syntax
-The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`.
+The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`.
 
 
 For all questions, it is allowed to use HTML tags in the texts. Also, you may use any of the special variables defined in the previous section.
@@ -317,6 +387,29 @@ Note that the `shows_questions`, `hides_questions`, and `stop_subscription` opti
 
 Radios are always required.
 
+### Type: Likert
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :likert,
+  title: 'Wat vind u van deze stelling?',
+  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens']
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  id: :v2,
+  type: :likert,
+  title: 'Wat vind u van deze stelling?',
+  tooltip: 'some tooltip',
+  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens'],
+  section_end: true
+}]
+```
+
+The options array can currently only contain strings. The strings in the array are used as answer options. Likert questions are always required.
+
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
 
@@ -352,7 +445,6 @@ Required and allowed options (minimal example and maximal example):
   content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/omgeving.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>'
 }, {
   section_start: 'De hoofddoelen',
-  hidden: true,
   type: :raw,
   content: '<p class="flow-text">Zie het voorbeeld hieronder:</p><img src="/images/begeleiders/omgeving.png" class="questionnaire-image" /><p class="flow-text">Geef voor de volgende antwoordopties aan of ze moeilijk of makkelijk te begrijpen waren.</p>',
   section_end: true
@@ -396,12 +488,51 @@ Required and allowed options (minimal example and maximal example):
   type: :textfield,
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
   tooltip: 'some tooltip',
+  default_value: 'Niks',
+  pattern: '[a-z]{1,10}',
+  hint: 'Must be a lowercase word between 1 and 10 characters in length',
   placeholder: 'Place holder',
   section_end: true
 }]
 ```
 
 The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+The property `pattern` is a regex that limits what the user can enter. The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
+
+Textfields also support a `default_value` property, which is a default value used to fill out the text field. This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
+
+### Type: Number
+Type for integer(?) numbers. Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :number,
+  title: 'Wat is je postcode?'
+}, {
+  section_start: 'Tot slot',
+  hidden: true,
+  id: :v2,
+  type: :number,
+  title: 'Wat is je postcode?',
+  tooltip: 'some tooltip',
+  maxlength: 4,
+  placeholder: '1234',
+  min: 0,
+  max: 9999,
+  required: true,
+  section_end: true
+}]
+```
+
+Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known).
+
+The `required` property is also supported. The default is that numbers are not required.
+
+The `number` type does not support `pattern` or `hint` because these properties are not supported by the html 5 `number` input type.
+
+Also, the `placeholder` property is supported for numbers.
 
 ### Type: Expandable
 Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
@@ -484,6 +615,7 @@ Required and allowed options (minimal example and maximal example):
   hidden: true,
   id: :v2,
   type: :date,
+  today: true,
   title: 'Wanneer ben je gestopt?',
   required: true,
   tooltip: 'some tooltip',
@@ -497,6 +629,8 @@ Required and allowed options (minimal example and maximal example):
 The `min` and `max` properties can be either two arrays as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
 
 Please note that there is currently a bug in the date picker when you specify dates as arrays. So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
+
+If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
 
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.
@@ -521,6 +655,81 @@ Usable properties for an unsubscribe `question` type are `title`, `content`, `bu
 
 The default `data_method` is `delete`. The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
+
+### Type: Dropdown
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :dropdown,
+  title: 'Waar hadden de belangrijkste gebeurtenissen mee te maken?',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  id: :v2,
+  type: :dropdown,
+  title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
+  label: 'RMC regio',
+  tooltip: 'some tooltip',
+  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis'],
+  section_end: true
+}]
+```
+
+The options array must contain of strings. Currently, there is no support for `shows_questions` or `hides_questions` triggers based on selected options in a dropdown.
+
+The dropdown does not support a `show_otherwise` option.
+
+Dropdowns are always required.
+
+A dropdown can have a `placeholder` property which is the text used when no option is selected. If no `placeholder` is specified, a default text is used.
+
+A dropdown can have a `label` property which is a small text that is always visible and is printed directly above the dropdown.
+
+ The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
+
+
+### Type: Drawing
+Let's a user draw on an image. Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :drawing,
+  title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+  width: 240,
+  height: 536,
+  image: 'bodymap.png',
+  color: '#e57373',
+}, {
+  section_start: 'De hoofddoelen',
+  hidden: true,
+  tooltip: 'some tooltip',
+  id: :v2,
+  type: :drawing,
+  title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+  width: 240,
+  height: 536,
+  image: '/a_directory_under_public/somedir/bodymap.png',
+  color: '#64b5f6',
+  radius: 15,
+  density: 40,
+  section_end: true
+}]
+```
+
+Height and width should be specified as integers, without any postfix such as `px`.
+
+Image can be the URL of an image, or the filename of an image that exists in the asset pipeline.
+
+The only optional parameters are `radius` and `density`. They default to 15 and 40, respectively.
+
+[zenodo-image]: https://zenodo.org/badge/84442919.svg
+[zenodo-url]: https://zenodo.org/badge/latestdoi/84442919
 
 [circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
 [circleci-url]: https://circleci.com/gh/compsy/vsv

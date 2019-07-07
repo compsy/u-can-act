@@ -92,11 +92,11 @@ For developers, many of the above settings have default values specified in the 
   POSTGRES_DATABASE: myproject
   MONGO_DATABASE:    myproject
 
-  HOST_URL:          https://myproject.io
+  HOST_URL:          http://myproject.io
   HOST_DOMAIN:       myproject.io
   INFO_EMAIL:        info@myproject.io
 
-  SITE_LOCATION:     https://myproject.io
+  SITE_LOCATION:     http://myproject.io
 ```
 
 So after cloning the repo, be sure to create an `.env.local` file with at least the variables above.

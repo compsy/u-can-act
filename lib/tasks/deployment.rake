@@ -23,6 +23,8 @@ namespace :deployment do
         f.puts "HOST_URL:          http://#{@args[:project_name]}.io"
         f.puts "HOST_DOMAIN:       #{@args[:project_name]}.io"
         f.puts "INFO_EMAIL:        info@#{@args[:project_name]}.io"
+        f.puts ''
+        f.puts "SITE_LOCATION:     http://#{@args[:project_name]}.io"
       end
     end
     # rubocop:enable Metrics/AbcSize

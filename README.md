@@ -34,7 +34,7 @@ The VSV application has the following dependencies:
 - Yarn (on macOS: `brew install yarn`)
 
 ## Configuration
-The .env.local file is used for storing all ENV variables. Below is a list of all required ENV variables.
+The `.env` file is used for storing all ENV variables. Below is a list of all required ENV variables.
 
 ### General settings
 ```
@@ -79,6 +79,8 @@ The .env.local file is used for storing all ENV variables. Below is a list of al
   API_SECRET: <the secret password that can be used to access the api>
 
   IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
+
+  INFO_SITE_URL: <site for more information about the u-can-act project, typically https://u-can-act.nl>
 ```
 
 ### Development settings
@@ -90,9 +92,11 @@ For developers, many of the above settings have default values specified in the 
   POSTGRES_DATABASE: myproject
   MONGO_DATABASE:    myproject
 
-  HOST_URL:          http://myproject.io
+  HOST_URL:          https://myproject.io
   HOST_DOMAIN:       myproject.io
   INFO_EMAIL:        info@myproject.io
+
+  SITE_LOCATION:     https://myproject.io
 ```
 
 So after cloning the repo, be sure to create an `.env.local` file with at least the variables above.

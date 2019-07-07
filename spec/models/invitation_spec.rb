@@ -162,7 +162,7 @@ describe Invitation do
       end.not_to raise_error
     end
 
-    it 'alsoes send the invitation via email' do
+    it 'also sends the invitation via email' do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
                                                 filling_out_for: student,

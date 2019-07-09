@@ -21,6 +21,7 @@ pickle-email-*.html
 
 # dotenv
 .env.local
+.env.test.local
 
 ## Environment normalization:
 /.bundle

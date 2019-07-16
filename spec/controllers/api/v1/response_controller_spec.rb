@@ -7,18 +7,20 @@ describe Api::V1::ResponseController, type: :controller do
   # Create a the_auth_user here, so the spec won't create it for us
   let!(:the_auth_user) { person.auth_user }
 
+  let!(:response1) { FactoryBot.create(:response, :not_expired, open_from: 11.minutes.ago) }
+  let!(:response2) { FactoryBot.create(:response, :not_expired, open_from: 10.minutes.ago) }
+  let!(:response3) { FactoryBot.create(:response, :future) }
+  let!(:response4) { FactoryBot.create(:response, :completed) }
+
   # the_payload automatically gets used by the shared example
+  let(:team) { FactoryBot.create(:team, :with_roles) }
   let!(:the_payload) do
     { ENV['SITE_LOCATION'] => {
       'roles' => ['user'],
-      'team' => person.role.team.name,
+      'team' => team.name,
       'protocol' => response1.protocol_subscription.protocol.name
     } }
   end
-  let!(:response1) { FactoryBot.create(:response, :not_expired, open_from: 10.minutes.ago) }
-  let!(:response2) { FactoryBot.create(:response, :not_expired, open_from: 8.minutes.ago) }
-  let!(:response3) { FactoryBot.create(:response, :future) }
-  let!(:response4) { FactoryBot.create(:response, :completed) }
 
   before do
     response1.protocol_subscription.update!(
@@ -126,12 +128,12 @@ describe Api::V1::ResponseController, type: :controller do
         get :index, params: { external_identifier: person.external_identifier }
       end
 
-      it 'renders a 404 if the requested person is not found' do
-        jwt_auth(sub: FactoryBot.create(:auth_user).auth0_id_string)
+      it 'renders a 404 if there are no responses for the person' do
+        Response.destroy_all
         get :index
         expect(response.status).to eq 404
         expect(response.body).not_to be_nil
-        expected = { result: 'Deelnemer niet gevonden' }.to_json
+        expected = { result: 'Geen responses voor deze persoon gevonden' }.to_json
         expect(response.body).to eq expected
       end
 

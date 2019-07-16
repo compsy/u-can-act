@@ -25,7 +25,7 @@ describe Api::V1::Admin::AdminApiController, type: :controller do
 
   it_behaves_like 'a jwt authenticated route', 'get', :dummy
 
-  fit 'raises 403 if we are not an admin user' do
+  it 'raises 403 if we are not an admin user' do
     the_payload[:sub] = FactoryBot.create(:auth_user).auth0_id_string
     jwt_auth the_payload
     get :dummy

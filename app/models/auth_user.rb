@@ -3,7 +3,7 @@
 class AuthUser < ApplicationRecord
   has_secure_password
   validates :auth0_id_string, presence: true, uniqueness: true
-  belongs_to :person, dependent: :destroy
+  belongs_to :person, dependent: :destroy, optional: true
   AUTH0_KEY_LOCATION = 'sub'
 
   ADMIN_ROLE = 'admin'

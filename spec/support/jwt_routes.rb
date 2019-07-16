@@ -4,7 +4,7 @@ require 'rails_helper'
 
 shared_examples_for 'a jwt authenticated route' do |method, route|
   def call_url(method, route)
-    params = nil
+    params = {}
     params = the_params if defined? the_params
 
     return get route, params: params if method == 'get'

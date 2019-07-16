@@ -2,8 +2,17 @@
 
 require 'rails_helper'
 
-fdescribe Api::V1::Admin::AdminApiController, type: :controller do
+describe Api::V1::Admin::AdminApiController, type: :controller do
   let!(:the_auth_user) { FactoryBot.create(:auth_user, :admin) }
+  let(:protocol) { FactoryBot.create(:protocol) }
+  let(:team) { FactoryBot.create(:team, :with_roles) }
+  let!(:the_payload) do
+        { ENV['SITE_LOCATION'] => {
+          'roles' => ['user'],
+          'team' => team.name,
+          'protocol' => protocol.name
+        } }
+      end
   controller do
     def dummy
       render plain: 'dummy called'
@@ -16,8 +25,9 @@ fdescribe Api::V1::Admin::AdminApiController, type: :controller do
 
   it_behaves_like 'a jwt authenticated route', 'get', :dummy
 
-  it 'raises 403 if we are not an admin user' do
-    jwt_auth(sub: FactoryBot.create(:auth_user).auth0_id_string)
+  fit 'raises 403 if we are not an admin user' do
+    the_payload[:sub] = FactoryBot.create(:auth_user).auth0_id_string
+    jwt_auth the_payload
     get :dummy
     expect(response.status).to eq 403
     expect(response.body).to_not be_nil

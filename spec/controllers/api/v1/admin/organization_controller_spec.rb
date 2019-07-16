@@ -4,6 +4,15 @@ require 'rails_helper'
 
 describe Api::V1::Admin::OrganizationController, type: :controller do
   let!(:the_auth_user) { FactoryBot.create(:auth_user, :admin) }
+  let(:protocol) { FactoryBot.create(:protocol) }
+  let(:team) { FactoryBot.create(:team, :with_roles) }
+  let!(:the_payload) do
+        { ENV['SITE_LOCATION'] => {
+          'roles' => ['user'],
+          'team' => team.name,
+          'protocol' => protocol.name
+        } }
+      end
 
   describe 'for students' do
     let!(:the_params) { { group: Person::STUDENT } }
@@ -24,8 +33,8 @@ describe Api::V1::Admin::OrganizationController, type: :controller do
     let(:overview) { Organization.overview bust_cache: true }
 
     before do
-      payload = { sub: the_auth_user.auth0_id_string }
-      jwt_auth payload
+      the_payload[:sub] = the_auth_user.auth0_id_string
+      jwt_auth the_payload
     end
 
     it 'calls the render function with the correct parameters' do

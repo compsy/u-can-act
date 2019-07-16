@@ -6,66 +6,28 @@ describe Api::V1::QuestionnaireController, type: :controller do
   let(:questionnaire) { FactoryBot.create(:questionnaire) }
   let(:other_response) { FactoryBot.create(:response) }
 
-  describe 'interactive' do
-    context 'correct request' do
-      let(:content) do
-        [{
-          type: :raw,
-          content: 'content here!'
-        }].to_json
-      end
-
-      it 'heads 200' do
-        post :interactive, params: { content: content }
-        expect(response.status).to eq 200
-      end
-
-      it 'returns a HTML version of the passed-in json' do
-        expected = '<div class="row section"><div class="col s12">content here!</div></div>'
-        post :interactive, params: { content: content }
-        expect(response.body).to include expected
-      end
-    end
-
-    context 'wrong request' do
-      let(:content) { 'notjson' }
-
-      it 'heads 400 if the content is not an array' do
-        post :interactive, params: { content: { a: 1 }.to_json }
-        expect(response.status).to eq 400
-      end
-
-      it 'heads 400' do
-        post :interactive, params: { content: content }
-        expect(response.status).to eq 400
-      end
-
-      it 'heads 400 if the json is nil' do
-        [{}, { content: [] }].each do |params|
-          post :interactive, params: params
-          expect(response.status).to eq 400
-          expect(response.body).to eq 'Please supply a json file in the content field.'
-        end
-      end
-
-      it 'returns some error message' do
-        post :interactive, params: { content: content }
-        expect(response.body).to eq({ error: "785: unexpected token at 'notjson'" }.to_json)
-      end
-    end
-  end
-
   describe 'show' do
+    let!(:the_auth_user) { FactoryBot.create(:auth_user) }
+    let(:protocol) { FactoryBot.create(:protocol) }
+    let(:team) { FactoryBot.create(:team, :with_roles) }
+    let!(:the_payload) do
+      { ENV['SITE_LOCATION'] => {
+        'roles' => ['user'],
+        'team' => team.name,
+        'protocol' => protocol.name
+      } }
+    end
+
     describe 'general' do
-      let!(:the_auth_user) { FactoryBot.create(:auth_user) }
       let!(:questionnaire) { FactoryBot.create(:questionnaire) }
       let!(:the_params) { { key: questionnaire.key } }
-      it_should_behave_like 'a jwt authenticated route', 'get', :show
+      it_behaves_like 'a jwt authenticated route', 'get', :show
     end
 
     describe 'specific' do
-      before :each do
-        jwt_auth(sub: FactoryBot.create(:auth_user).auth0_id_string)
+      before do
+        the_payload[:sub] = the_auth_user.auth0_id_string
+        jwt_auth the_payload
       end
 
       it 'sets the correct env vars if the questionnaire is available' do
@@ -103,11 +65,22 @@ describe Api::V1::QuestionnaireController, type: :controller do
   end
 
   describe 'create' do
+    let!(:the_auth_user) { FactoryBot.create(:auth_user) }
+    let(:protocol) { FactoryBot.create(:protocol) }
+    let(:team) { FactoryBot.create(:team, :with_roles) }
+    let!(:the_payload) do
+      { ENV['SITE_LOCATION'] => {
+        'roles' => ['user'],
+        'team' => team.name,
+        'protocol' => protocol.name
+      } }
+    end
+
     describe 'general' do
       let!(:the_auth_user) { FactoryBot.create(:auth_user, :admin) }
       let!(:questionnaire) { FactoryBot.build(:questionnaire) }
       let!(:the_params) { { questionnaire: questionnaire.attributes } }
-      it_should_behave_like 'a jwt authenticated route', 'post', :create
+      it_behaves_like 'a jwt authenticated route', 'post', :create
     end
 
     describe 'specific' do
@@ -115,14 +88,16 @@ describe Api::V1::QuestionnaireController, type: :controller do
       let!(:the_params) { { questionnaire: questionnaire.attributes } }
 
       it 'should head 201 if the questionnaire was created' do
-        jwt_auth(sub: FactoryBot.create(:auth_user, :admin).auth0_id_string)
+        the_payload[:sub] = FactoryBot.create(:auth_user, :admin).auth0_id_string
+        jwt_auth the_payload
 
         post :create, params: the_params
         expect(response.status).to eq 201
       end
 
       it 'should render a 400 if the provided questionnaire is incorrect' do
-        jwt_auth(sub: FactoryBot.create(:auth_user, :admin).auth0_id_string)
+        the_payload[:sub] = FactoryBot.create(:auth_user, :admin).auth0_id_string
+        jwt_auth the_payload
 
         post :create, params: { questionnaire: { test: 'nothing' } }
         expect(response.status).to eq 400
@@ -137,7 +112,8 @@ describe Api::V1::QuestionnaireController, type: :controller do
       end
 
       it 'should throw a 403 if person is not an admin' do
-        jwt_auth(sub: FactoryBot.create(:auth_user).auth0_id_string)
+        the_payload[:sub] = the_auth_user.auth0_id_string
+        jwt_auth the_payload
 
         post :create, params: the_params
         expect(response.status).to eq 403

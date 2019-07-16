@@ -6,7 +6,7 @@ module Concerns
 
     # rubocop:disable Rails/LexicallyScopedActionFilter
     included do
-      before_action :verify_current_user, except: :interactive
+      before_action :verify_current_user, except: %i[interactive interactive_render]
     end
     # rubocop:enable Rails/LexicallyScopedActionFilter
 

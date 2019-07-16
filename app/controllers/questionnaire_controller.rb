@@ -16,6 +16,8 @@ class QuestionnaireController < ApplicationController
   before_action :set_questionnaire_content, only: [:show]
   before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_content_hash, only: [:create]
+  before_action :check_interactive_content, only: %i[interactive_render]
+  before_action :set_interactive_content, only: %i[interactive_render]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
@@ -23,6 +25,20 @@ class QuestionnaireController < ApplicationController
 
   def interactive
     @default_content = Questionnaire.all.sample&.content&.to_json
+  end
+
+  def interactive_render
+    @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
+      response_id: nil,
+      content: @raw_questionnaire_content,
+      title: 'Test questionnaire',
+      submit_text: 'Opslaan',
+      action: '/api/v1/questionnaire/from_json',
+      unsubscribe_url: nil
+    )
+
+    render 'questionnaire/show'
   end
 
   def show
@@ -60,6 +76,22 @@ class QuestionnaireController < ApplicationController
   end
 
   private
+
+  def check_interactive_content
+    return unless params.blank? || params[:content].blank?
+
+    render(status: :bad_request, json: 'Please supply a json file in the content field.')
+  end
+
+  def set_interactive_content
+    @raw_questionnaire_content = JSON.parse(params[:content])
+    if @raw_questionnaire_content.blank? || !(@raw_questionnaire_content.is_a? Array)
+      render status: :bad_request, json: { error: 'At least one question should be provided, in an array' }
+      return
+    end
+  rescue JSON::ParserError => e
+    render status: :bad_request, json: { error: e.message }
+  end
 
   def check_stop_subscription
     # We assume that if a stop measurement is submitted, it is always the last

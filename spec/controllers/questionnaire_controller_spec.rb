@@ -343,4 +343,53 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
     end
   end
+
+  describe 'interactive_render' do
+    context 'correct request' do
+      let(:content) do
+        [{
+          type: :raw,
+          content: 'content here!'
+        }].to_json
+      end
+
+      it 'heads 200' do
+        post :interactive_render, params: { content: content }
+        expect(response.status).to eq 200
+      end
+
+      it 'returns a HTML version of the passed-in json' do
+        expected = '<div class="row section"><div class="col s12">content here!</div></div>'
+        post :interactive_render, params: { content: content }
+        expect(response.body).to include expected
+      end
+    end
+
+    context 'wrong request' do
+      let(:content) { 'notjson' }
+
+      it 'heads 400 if the content is not an array' do
+        post :interactive_render, params: { content: { a: 1 }.to_json }
+        expect(response.status).to eq 400
+      end
+
+      it 'heads 400' do
+        post :interactive_render, params: { content: content }
+        expect(response.status).to eq 400
+      end
+
+      it 'heads 400 if the json is nil' do
+        [{}, { content: [] }].each do |params|
+          post :interactive_render, params: params
+          expect(response.status).to eq 400
+          expect(response.body).to eq 'Please supply a json file in the content field.'
+        end
+      end
+
+      it 'returns some error message' do
+        post :interactive_render, params: { content: content }
+        expect(response.body).to eq({ error: "785: unexpected token at 'notjson'" }.to_json)
+      end
+    end
+  end
 end

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :questionnaire, only: %i[index show create destroy], param: :uuid do
     collection do
       get :interactive
+      post :interactive_render
     end
   end
   resource :person, only: %i[edit update] do
@@ -47,11 +48,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :questionnaire, only: [:show, :create], param: :key do
-        collection do
-          post :interactive
-        end
-      end
+      resources :questionnaire, only: [:show, :create], param: :key
       resources :response, only: [:show, :index, :create], param: :uuid
       resources :people, only: [:create], param: :external_identifier
       resources :auth_user, only: [:create]

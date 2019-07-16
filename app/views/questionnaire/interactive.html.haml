@@ -4,7 +4,7 @@
       event.preventDefault();
 
       var data = {'content': $('#content').val()};
-      $.post( "/api/v1/questionnaire", data, function( data ) {
+      $.post( "/questionnaire/interactive_render", data, function( data ) {
         $( ".result" ).html( data );
         $(".example-title").show();
       });

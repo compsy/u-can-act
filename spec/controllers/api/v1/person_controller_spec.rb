@@ -6,7 +6,7 @@ describe Api::V1::PersonController, type: :controller do
   let(:person) { FactoryBot.create(:person, :with_iban, email: 'test@test2.com') }
 
   describe 'unauthorized' do
-    it_behaves_like 'an is_logged_in concern', :me
+    it_behaves_like 'an is_logged_in concern', :me, {}
   end
 
   describe 'authorized' do

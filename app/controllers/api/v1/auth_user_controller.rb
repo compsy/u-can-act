@@ -12,8 +12,9 @@ module Api
 
       def set_person
         return if current_auth_user&.person.present?
+
         result = { result: current_auth_user.to_json }
-        render(status: 404, json: result)
+        render(status: :not_found, json: result)
       end
     end
   end

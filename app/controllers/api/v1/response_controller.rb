@@ -34,6 +34,7 @@ module Api
 
         @person = current_auth_user&.person
         return if @person.present?
+
         result = { result: current_auth_user.to_json }
         render(status: :not_found, json: result)
       end
@@ -41,6 +42,7 @@ module Api
       def set_responses
         @responses = @person.my_open_responses
         return if @responses.present?
+
         result = { result: 'Geen responses voor deze persoon gevonden' }
         render(status: :not_found, json: result)
       end
@@ -48,12 +50,14 @@ module Api
       def set_response
         @response = current_auth_user.person.responses.find_by(uuid: response_params[:uuid])
         return if @response.present?
+
         result = { result: 'Response met dat uuid niet gevonden' }
         render(status: :not_found, json: result)
       end
 
       def check_empty_response
         return if @response.content.blank?
+
         result = { result: 'Response met dat uuid heeft al content' }
         render(status: :bad_request, json: result)
       end

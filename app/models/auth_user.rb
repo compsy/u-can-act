@@ -33,6 +33,7 @@ class AuthUser < ApplicationRecord
 
       # A person can only be subscribed to the same protocol once
       return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == metadata['protocol'] }
+
       SubscribeToProtocol.run!(protocol_name: metadata['protocol'], person: person)
     end
   end

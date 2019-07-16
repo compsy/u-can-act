@@ -18,8 +18,9 @@ class CreateAnonymousUser < ActiveInteraction::Base
   private
 
   def create_or_find_auth_user(auth0_id_string)
-    auth_user = AuthUser.find_by_auth0_id_string(auth0_id_string)
+    auth_user = AuthUser.find_by(auth0_id_string: auth0_id_string)
     return auth_user if auth_user.present?
+
     AuthUser.create(
       auth0_id_string: auth0_id_string,
       password_digest: SecureRandom.hex(10)
@@ -28,6 +29,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
 
   def create_or_find_person(auth_user)
     return auth_user if auth_user.person.present?
+
     auth_user.person = Person.create(first_name: auth_user.auth0_id_string,
                                      last_name: auth_user.auth0_id_string,
                                      gender: nil,
@@ -38,7 +40,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
   end
 
   def find_role
-    team = Team.find_by_name(team_name)
+    team = Team.find_by(name: team_name)
     role = team&.roles&.first
     return role if role.present?
 

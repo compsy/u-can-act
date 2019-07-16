@@ -34,7 +34,7 @@ module Api
           head 201
         else
           result = { result: questionnaire.errors }
-          render(status: 400, json: result)
+          render(status: :bad_request, json: result)
         end
       end
 
@@ -58,9 +58,10 @@ module Api
 
       def check_admin_authenticated
         return if current_auth_user.role == AuthUser::ADMIN_ROLE
+
         result = { result: 'User is not an admin' }
 
-        render(status: 403, json: result)
+        render(status: :forbidden, json: result)
       end
 
       def set_questionnaire

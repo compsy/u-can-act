@@ -8,6 +8,7 @@ shared_examples_for 'a jwt authenticated route' do |method, route|
     params = the_params if defined? the_params
 
     return get route, params: params if method == 'get'
+
     post route, params: params if method == 'post'
   end
 

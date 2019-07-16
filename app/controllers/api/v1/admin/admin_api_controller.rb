@@ -9,9 +9,10 @@ module Api
 
         def check_admin_authenticated
           return if current_auth_user.role == AuthUser::ADMIN_ROLE
+
           result = { result: 'User is not an admin' }
 
-          render(status: 403, json: result)
+          render(status: :forbidden, json: result)
         end
       end
     end

@@ -46,7 +46,7 @@ describe Api::V1::AuthUserController, type: :controller do
         post :create
         post_count = Person.count
         expect(post_count).to eq pre_count + 1
-        user = AuthUser.find_by_auth0_id_string(auth0_id_string)
+        user = AuthUser.find_by(auth0_id_string: auth0_id_string)
         expect(user.person).to_not be_nil
         expect(user.person.role).to_not be_nil
         expect(user.person.role).to eq team.roles.first

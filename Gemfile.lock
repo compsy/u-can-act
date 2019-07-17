@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://github.com/compsy/workless.git
-  revision: d3d1e6de6af8a334d389691cd85bcda9bf9e3a8f
+  revision: 57290dfa51880fca8979b7b82dc45458aa504984
   branch: fixes
   specs:
     workless (2.2.0)

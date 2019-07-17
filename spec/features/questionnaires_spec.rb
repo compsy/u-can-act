@@ -757,7 +757,7 @@ describe 'GET and POST /', type: :feature, js: true do
       page.check('Ja', allow_label_click: true)
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
-      expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+      expect(page).to have_content("Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!")
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
@@ -793,7 +793,7 @@ describe 'GET and POST /', type: :feature, js: true do
       # v1
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
-      expect(page).not_to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+      expect(page).not_to have_content("Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!")
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
@@ -1131,7 +1131,7 @@ describe 'GET and POST /', type: :feature, js: true do
       page.choose('Ja', allow_label_click: true)
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
-      expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+      expect(page).to have_content("Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!")
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
@@ -1168,7 +1168,7 @@ describe 'GET and POST /', type: :feature, js: true do
       page.choose('Nee', allow_label_click: true)
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
-      expect(page).not_to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+      expect(page).not_to have_content("Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!")
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
@@ -1980,8 +1980,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                       open_from: 1.hour.ago)
 
       FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                   measurement: stop_measurement)
-      # open_from: 1.hour.ago)
+                                   measurement: stop_measurement, open_from: 10.minutes.ago)
 
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)

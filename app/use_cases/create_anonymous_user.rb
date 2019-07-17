@@ -30,12 +30,12 @@ class CreateAnonymousUser < ActiveInteraction::Base
   def create_or_find_person(auth_user)
     return auth_user if auth_user.person.present?
 
-    auth_user.person = Person.create(first_name: auth_user.auth0_id_string,
-                                     last_name: auth_user.auth0_id_string,
-                                     gender: nil,
-                                     mobile_phone: generate_fake_phonenumber,
-                                     role: find_role,
-                                     auth_user: auth_user)
+    auth_user.person = Person.create!(first_name: auth_user.auth0_id_string,
+                                      last_name: auth_user.auth0_id_string,
+                                      gender: nil,
+                                      mobile_phone: generate_fake_phonenumber,
+                                      role: find_role,
+                                      auth_user: auth_user)
     auth_user
   end
 

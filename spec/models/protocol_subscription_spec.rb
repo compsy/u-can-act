@@ -293,7 +293,7 @@ describe ProtocolSubscription do
     end
     it 'does not have to be the beginning of a day' do
       not_midnight = Time.new(2017, 4, 10, 12, 0, 0).in_time_zone
-      protocol_subscription = FactoryBot.build(:protocol_subscription, start_date: not_midnight)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: not_midnight)
       expect(protocol_subscription.valid?).to be_truthy
       expect(protocol_subscription.errors.messages).to_not have_key :start_date
     end

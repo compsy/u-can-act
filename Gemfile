@@ -140,7 +140,7 @@ group :production, :staging do
   gem 'daemons'
 end
 
-gem 'workless', git: 'https://github.com/patricklindsay/workless.git', branch: 'fixes'
+gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.

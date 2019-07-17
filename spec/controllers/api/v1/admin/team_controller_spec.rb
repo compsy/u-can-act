@@ -7,12 +7,12 @@ describe Api::V1::Admin::TeamController, type: :controller do
   let(:protocol) { FactoryBot.create(:protocol) }
   let(:team) { FactoryBot.create(:team, :with_roles) }
   let!(:the_payload) do
-        { ENV['SITE_LOCATION'] => {
-          'roles' => ['user'],
-          'team' => team.name,
-          'protocol' => protocol.name
-        } }
-      end
+    { ENV['SITE_LOCATION'] => {
+      'roles' => ['user'],
+      'team' => team.name,
+      'protocol' => protocol.name
+    } }
+  end
 
   describe 'for students' do
     let!(:the_params) { { group: Person::STUDENT } }

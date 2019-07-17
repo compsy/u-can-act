@@ -7,12 +7,12 @@ describe Api::V1::Admin::AdminApiController, type: :controller do
   let(:protocol) { FactoryBot.create(:protocol) }
   let(:team) { FactoryBot.create(:team, :with_roles) }
   let!(:the_payload) do
-        { ENV['SITE_LOCATION'] => {
-          'roles' => ['user'],
-          'team' => team.name,
-          'protocol' => protocol.name
-        } }
-      end
+    { ENV['SITE_LOCATION'] => {
+      'roles' => ['user'],
+      'team' => team.name,
+      'protocol' => protocol.name
+    } }
+  end
   controller do
     def dummy
       render plain: 'dummy called'

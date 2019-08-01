@@ -4,6 +4,7 @@ module.exports = {
       "@babel/preset-env",
       {
         "modules": false,
+        "corejs": "3.0.0",
         "forceAllTransforms": true,
         "useBuiltIns": "entry"
       }
@@ -47,6 +48,16 @@ module.exports = {
   ],
   "env": {
     "test": {
+      "presets": [
+        ["@babel/env", { "modules": "commonjs" }] // CommonJS imports only in test env because Jest runs in Node, and thus requires ES modules to be transpiled to CommonJS modules.
+      ]
+    },
+    "dev": {
+      "presets": [
+        ["@babel/env", { "modules": "commonjs" }] // CommonJS imports only in test env because Jest runs in Node, and thus requires ES modules to be transpiled to CommonJS modules.
+      ]
+    },
+    "development": {
       "presets": [
         ["@babel/env", { "modules": "commonjs" }] // CommonJS imports only in test env because Jest runs in Node, and thus requires ES modules to be transpiled to CommonJS modules.
       ]

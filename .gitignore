@@ -1,4 +1,3 @@
-/.idea
 *.rbc
 capybara-*.html
 /log
@@ -7,6 +6,7 @@ capybara-*.html
 /tmp/data
 /tmp/restart.txt
 /tmp/rspec_guard_result
+/tmp/db
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /coverage/
@@ -52,3 +52,14 @@ tmp/pids
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Rubymine excludes
+/.idea/workspace.xml
+/.idea/.generators
+/.idea/.rakeTasks
+coverage
+
+/.idea/base-platform.iml
+
+# Let the translations file be generated
+/public/javascripts/translations.js

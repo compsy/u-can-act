@@ -59,7 +59,7 @@ yarn-debug.log*
 /.idea/.rakeTasks
 coverage
 
-/.idea/base-platform.iml
+/.idea/vsv.iml
 
 # Let the translations file be generated (can't yet because heroku probably won't allow creation of this file)
 #/public/javascripts/translations.js

@@ -9,6 +9,10 @@ module Api
       private
 
       def unauthorized_entity(entity_name)
+        Rails.logger.info("="*5)
+        Rails.logger.info("Hey we are here!")
+        Rails.logger.info(request.env['RAW_POST_DATA'])
+        Rails.logger.info("="*5)
         render json: { error: "#{entity_name} Unauthorized request" },
                status: :unauthorized
       end

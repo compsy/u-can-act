@@ -4,6 +4,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
   string :auth0_id_string
   string :team_name, default: nil
   string :role
+  # TODO: this file doesn't have specs
 
   # Creates an anonymous user
   #

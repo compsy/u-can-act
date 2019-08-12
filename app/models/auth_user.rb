@@ -19,9 +19,10 @@ class AuthUser < ApplicationRecord
       id = payload[AUTH0_KEY_LOCATION]
       raise "Invalid payload #{payload} - no sub key" unless payload.key?(AUTH0_KEY_LOCATION)
 
-      # TODO: Actually use the correct person parameters here!
       team = metadata['team']
-      auth_user = CreateAnonymousUser.run!(auth0_id_string: id, team_name: team)
+      role = USER_ROLE
+      role = ADMIN_ROLE if metadata['roles'].include?(ADMIN_ROLE)
+      auth_user = CreateAnonymousUser.run!(auth0_id_string: id, team_name: team, role: role)
       subscribe_to_protocol_if_needed(auth_user.person, metadata)
       auth_user
     end

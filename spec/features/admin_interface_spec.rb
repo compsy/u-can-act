@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe 'GET /admin', type: :feature, js: true do
+describe 'GET /admin', type: :feature, js: true do
   context 'exporter' do
     before do
       @questionnaire_names = ['my_name',

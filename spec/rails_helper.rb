@@ -44,10 +44,10 @@ Webdrivers.cache_time = 86_400
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   [
+    'no-sandbox',
     'headless',
     'disable-gpu',
     'disable-dev-shm-usage',
-    'no-sandbox',
     # We need to specify the window size, otherwise it is to small and
     # collapses everything in the admin panel.
     'window-size=1280x1280'

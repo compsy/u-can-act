@@ -60,6 +60,18 @@ yarn-debug.log*
 coverage
 
 /.idea/vsv.iml
+/.idea/ikia.iml
+/.idea/encodings.xml
+/.idea/codeStyleSettings.xml
+/.idea/codeStyles/*
+/.idea/dataSources.local.xml
+/.idea/dataSources.xml
+/.idea/dataSources/*
+/.idea/runConfigurations/*
+/.idea/webResources.xml
 
 # Let the translations file be generated (can't yet because heroku probably won't allow creation of this file)
 #/public/javascripts/translations.js
+
+privatekey.pem
+certificate.pem

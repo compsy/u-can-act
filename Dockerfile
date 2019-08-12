@@ -20,6 +20,7 @@ WORKDIR /app
 
 RUN gem install bundler
 
+COPY . /app
 
 COPY package.json *yarn* ./
 RUN yarn install --check-files
@@ -30,8 +31,6 @@ RUN bundle config --global frozen 1 \
   && bundle install \
   && rm -rf /usr/local/bundle/bundler/gems/*/.git \
     /usr/local/bundle/cache/
-
-COPY . /app
 
 RUN bundle exec rake i18n:js:export && ls /app/public/javascripts/translations.js
 

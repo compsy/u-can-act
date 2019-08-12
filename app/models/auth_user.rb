@@ -15,10 +15,6 @@ class AuthUser < ApplicationRecord
     # that if we raise from here, the authorization process stops and it might
     # be hard to debug.
     def from_token_payload(payload)
-      Rails.logger.info("\n"*5)
-      Rails.logger.info("we're here!")
-      Rails.logger.info(payload)
-      Rails.logger.info("\n"*5)
       metadata = payload[ENV['SITE_LOCATION']] || {}
       id = payload[AUTH0_KEY_LOCATION]
       raise "Invalid payload #{payload} - no sub key" unless payload.key?(AUTH0_KEY_LOCATION)

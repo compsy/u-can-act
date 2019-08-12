@@ -9,14 +9,6 @@ module Api
       private
 
       def unauthorized_entity(entity_name)
-        Rails.logger.info('=' * 5)
-        Rails.logger.info('Hey we are here!')
-        # Rails.logger.info(request.env['RAW_POST_DATA'])
-        # Rails.logger.info("="*5)
-        token = request.headers['Authorization'].split.last
-        Rails.logger.warn("token: #{token}")
-        # Rails.logger.warn Knock::AuthToken.new(token: token)
-        # Rails.logger.warn current_auth_user.person.inspect
         render json: { error: "#{entity_name} Unauthorized request" },
                status: :unauthorized
       end

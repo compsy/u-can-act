@@ -47,6 +47,8 @@ Capybara.register_driver :selenium_chrome_headless do |app|
     'no-sandbox',
     'headless',
     'disable-gpu',
+    'disable-infobars',
+    'disable-extensions',
     'disable-dev-shm-usage',
     # We need to specify the window size, otherwise it is to small and
     # collapses everything in the admin panel.

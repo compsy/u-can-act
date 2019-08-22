@@ -3,13 +3,15 @@
 class CreateAnonymousUser < ActiveInteraction::Base
   string :auth0_id_string
   string :team_name, default: nil
+  string :role
+  # TODO: this file doesn't have specs
 
   # Creates an anonymous user
   #
   # Params:
   # - auth0_id_string: the id retrieved from auth0
   def execute
-    auth_user = create_or_find_auth_user(auth0_id_string)
+    auth_user = create_or_find_auth_user(auth0_id_string, role)
     auth_user = create_or_find_person(auth_user)
     Rails.logger.info auth_user
     auth_user
@@ -17,13 +19,14 @@ class CreateAnonymousUser < ActiveInteraction::Base
 
   private
 
-  def create_or_find_auth_user(auth0_id_string)
+  def create_or_find_auth_user(auth0_id_string, role)
     auth_user = AuthUser.find_by(auth0_id_string: auth0_id_string)
     return auth_user if auth_user.present?
 
     AuthUser.create(
       auth0_id_string: auth0_id_string,
-      password_digest: SecureRandom.hex(10)
+      password_digest: SecureRandom.hex(10),
+      role: role
     )
   end
 

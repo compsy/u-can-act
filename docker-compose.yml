@@ -30,10 +30,14 @@ services:
       - frontend
     depends_on:
       - db
+      - redis
       - mongo
+    links:
       - web
   web:
     image: vsv
+    tty: true
+    stdin_open: true
     build:
       context: .
       args:

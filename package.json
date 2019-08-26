@@ -2,11 +2,11 @@
   "dependencies": {
     "@babel/core": "^7.1.2",
     "@babel/preset-react": "^7.0.0",
-    "@rails/webpacker": "https://github.com/rails/webpacker",
+    "@rails/webpacker": "git+https://github.com/rails/webpacker.git",
     "babel-core": "7.0.0-bridge.0",
     "babel-polyfill": "^6.26.0",
     "d3": "^5.7.0",
-    "dotenv": "^6.1.0",
+    "dotenv": "^6.2.0",
     "jquery-ujs": "^1.2.2",
     "materialize": "^1.0.0",
     "materialize-css": "^1.0.0",
@@ -18,7 +18,8 @@
     "react-router-dom": "^4.3.1",
     "react_ujs": "^2.4.4",
     "typescript": "^3.2.2",
-    "webpack": "^4.20.2"
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",

@@ -2,6 +2,7 @@ team_name = 'KCT'
 
 organization_name = 'Cross-sectional'
 organization = Organization.find_by_name(organization_name)
+organization ||= Organization.create!(name: organization_name)
 
 puts "Running seeds for #{team_name}"
 team = Team.find_by_name(team_name)

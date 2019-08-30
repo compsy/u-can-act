@@ -103,7 +103,7 @@ content = [
     type: :textfield,
     required: true,
     title: 'Hoeveel jaar ben je werkzaam bij het KCT?',
-    placeholder: '... uur'
+    placeholder: '... jaar'
   }, {
     id: :v12,
     type: :textfield,

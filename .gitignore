@@ -11,13 +11,17 @@ capybara-*.html
 /db/*.sqlite3-journal
 /coverage/
 /spec/tmp
-**.orig
+# Next line is invalid according to Ripgrep
+# **.orig
 rerun.txt
 routes.txt
 people.csv
 students.csv
 mentors.csv
 pickle-email-*.html
+
+# RH: We do not need development db in git I suppose?
+/tmp/db
 
 # dotenv
 .env.local

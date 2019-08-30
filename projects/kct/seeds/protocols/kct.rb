@@ -1,5 +1,5 @@
 default_protocol_duration = 30.years  # evt eerder dynamisch afbreken
-default_open_duration = 30.years 
+default_open_duration = 30.years
 default_posttest_open_duration = nil
 default_reward_points = 100
 
@@ -34,7 +34,10 @@ questionnaires = [
   'KCT Q-NEO (FUP)',
   'KCT Q-OPT (FUP)',
   'KCT Q-RES (FUP)',
-  'KCT Q-SE (FUP)'
+  'KCT Q-SE (FUP)',
+  'KCT IRS-2',
+  # Informed consent
+  'KCT Q-IC'
 ]
 
 questionnaires.each do |name|

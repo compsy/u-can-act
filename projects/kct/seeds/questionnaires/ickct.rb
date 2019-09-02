@@ -23,7 +23,7 @@ In verschillende blokken deze week wordt mij gevraagd om vragenlijsten online in
 </li>
 
 <li>
-Op een later moment wordt mij gevraagd om de online modules opnieuw te doen.
+Op een later moment kan mij worden gevraagd om de online modules opnieuw te doen.
 Deze meting kan plaatsvinden aan het eind van de ECO of eerder.
 Over de concrete datum en het tijdstip word ik geïnformeerd door het KCT.
 </li>

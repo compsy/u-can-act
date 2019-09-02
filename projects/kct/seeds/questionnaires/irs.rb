@@ -23,7 +23,7 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-			Dit is de INSPIRE Resilience Scale.
+      Dit is de INSPIRE Resilience Scale 2017, versie 2.0.
 			De IRS is een vragenlijst waarin een aantal uitspraken gedaan wordt waar mensen vaak verschillend over denken.
 			Het is de bedoeling dat u voor elke uitspraak aangeeft in hoeverre u het met de uitspraak eens bent.
 			De IRS bestaat uit vijf onderdelen.
@@ -35,9 +35,6 @@ content = [
 			Wel is het belangrijk dat u bij het invullen steeds afgaat op uw eerste indruk en dat u hiervoor niet teveel tijd neemt.
 			Er zijn geen goede of foute antwoorden.
 			Het gaat hier namelijk om uw persoonlijke reactie op bepaalde situaties.
-			Wel is het belangrijk om bij elke uitspraak slechts één antwoord te geven en geen uitspraken over te slaan.
-De scoremogelijkheden lopen van "helemaal niet van toepassing" tot "helemaal van toepassing".
-Neutraal wil zeggen onbeslist (net zo vaak niet van toepassing als wel van toepassing).
     </p>
     <ul class="collection">
       <li class="collection-item">Klik <strong>HO</strong> aan als u het helemaal oneens bent met de uitspraak, of als u de uitspraak absoluut onwaar vindt.</li>
@@ -47,7 +44,29 @@ Neutraal wil zeggen onbeslist (net zo vaak niet van toepassing als wel van toepa
       <li class="collection-item">Klik <strong>HE</strong> aan als u het helemaal eens bent met de uitspraak, of als u de uitspraak absoluut waar vindt.</li>
     </ul>'
   },
-  create_question(:v1, 'Ik doe iets zodat ik er minder aan denk, zoals sporten, slapen of naar muziek luisteren'),
+  {
+    type: :raw,
+    content: '
+<p class="flow-text section-explanation">
+In het eerste deel van de IRS vragen we u om een of meer lastige situaties en gebeurtenissen in gedachten te nemen bij het beantwoorden van onderstaande uitspraken.
+Iedereen maakt wel eens lastige situaties mee.
+Te denken valt aan spanningen thuis, moeilijkheden op school, tijdens de opleiding of op het werk en problemen met de gezondheid.
+Iedereen heeft zo zijn of haar eigen manier om met dit soort lastige situaties om te gaan.
+</p>
+
+<p class="flow-text section-explanation">
+Selecteer in hoeverre onderstaande reacties kenmerkend zijn voor u in een probleemsituatie.
+</p>
+'
+  },
+  {
+    section_start: 'Hoe gaat u in het algemeen om met lastige situaties?',
+    id: :v1,
+    type: :likert,
+    title: 'Ik doe iets zodat ik er minder aan denk, zoals sporten, slapen of naar muziek luisteren',
+    show_otherwise: false,
+    options: %w[HO O N E HE]
+  },
 	create_question(:v2, 'Ik maak een actieplan'),
 	create_question(:v3, 'Ik denk erover na hoe ik het probleem het beste kan aanpakken'),
 	create_question(:v4, 'Ik ga met iemand praten om de situatie beter te begrijpen'),
@@ -86,8 +105,31 @@ Neutraal wil zeggen onbeslist (net zo vaak niet van toepassing als wel van toepa
 	create_question(:v37, 'Ik kan geen grappen maken als ik problemen heb'),
 	create_question(:v38, 'Het is moeilijk voor mij om het probleem te accepteren'),
 	create_question(:v39, 'Ik vind het moeilijk om te lachen om mijn problemen'),
-	create_question(:v40, 'Ik zie bij tegenslag vooral de slechte kanten'),
-	create_question(:v41, 'Ik bespreek bijna nooit mijn problemen met anderen'),
+  {
+    id: :v40,
+    type: :likert,
+    title: 'Ik zie bij tegenslag vooral de slechte kanten',
+    show_otherwise: false,
+    options: %w[HO O N E HE],
+    section_end: true
+  },
+  {
+    type: :raw,
+    content: '
+<p class="flow-text section-explanation">
+In het tweede onderdeel van de IRS wordt een aantal uitspraken gedaan over hoe u in het algemeen in het leven staat.
+Het kan daarbij gaan over angstwekkende, stressvolle en/of emotionele gebeurtenissen of bijvoorbeeld het omgaan met andere mensen.
+</p>
+'
+  },
+  {
+    section_start: 'Hoe staat u over het algemeen in het leven?',
+    id: :v41,
+    type: :likert,
+    title: 'Ik bespreek bijna nooit mijn problemen met anderen',
+    show_otherwise: false,
+    options: %w[HO O N E HE]
+  },
 	create_question(:v42, 'Als iemand die ik ken zich ongelukkig voelt, voel ik zelf bijna zijn of haar pijn'),
 	create_question(:v43, 'Ik voel tranen opkomen als ik anderen zie huilen'),
 	create_question(:v44, 'Zelfs in crisissituaties blijf ik rustig'),
@@ -109,7 +151,7 @@ Neutraal wil zeggen onbeslist (net zo vaak niet van toepassing als wel van toepa
 	create_question(:v60, 'Ik vind het makkelijk om nieuwe mensen te ontmoeten'),
 	create_question(:v61, 'Ik ben optimistisch over mijn toekomst'),
 	create_question(:v62, 'Ik vind het makkelijk om met mensen uit andere culturen om te gaan'),
-	create_question(:v63, 'Over het algmeen reken ik erop dat meer goede dan slechte dingen zullen overkomen'),
+	create_question(:v63, 'Over het algemeen reken ik erop dat mij meer goede dan slechte dingen zullen overkomen'),
 	create_question(:v64, 'Als ik problemen heb met het uitvoeren van mijn werk, vraag ik iemand me te helpen'),
 	create_question(:v65, 'Ik maak makkelijk nieuwe vrienden'),
 	create_question(:v66, 'Ik vind het prettig om met anderen samen te zijn'),
@@ -129,10 +171,33 @@ Neutraal wil zeggen onbeslist (net zo vaak niet van toepassing als wel van toepa
 	create_question(:v80, 'Ik denk dat ik in een crisissituatie mijn werk naar behoren kan uitvoeren'),
 	create_question(:v81, 'Ik kan goed omgaan met vervelende gevoelens'),
 	create_question(:v82, 'Ik vind het makkelijk mijn leven weer op te pakken als er iets vervelends gebeurd is'),
-	create_question(:v83, 'Ik heb de vaardigheden die nodig zijn om mijn taken adequaat uit te voeren'),
-	create_question(:v84, 'Van nadenken over mijn gedachten raak ik alleen maar meer in de war'),
-	# Simplified special character in geinteresseerd to be sure
-	create_question(:v85, 'Ik ben er niet echt in geinteresseerd om mijn gedrag volledig te analyseren'),
+  {
+    id: :v83,
+    type: :likert,
+    title: 'Ik heb de vaardigheden die nodig zijn om mijn taken adequaat uit te voeren',
+    show_otherwise: false,
+    options: %w[HO O N E HE],
+    section_end: true
+  },
+  {
+    type: :raw,
+    content: '
+<p class="flow-text section-explanation">
+In het derde onderdeel van de IRS wordt een aantal eigenschappen en/of gedragingen gegeven.
+Het kan daarbij bijvoorbeeld gaan over hoe u over u zelf denkt.
+Selecteer bij elke uitspraak in welke mate u vindt dat de uitspraken op u van toepassing zijn.
+</p>
+'
+  },
+  {
+    section_start: 'Hoe denkt u na over uzelf?',
+    id: :v84,
+    type: :likert,
+    title: 'Van nadenken over mijn gedachten raak ik alleen maar meer in de war',
+    show_otherwise: false,
+    options: %w[HO O N E HE]
+  },
+	create_question(:v85, 'Ik ben er niet echt in geïnteresseerd om mijn gedrag volledig te analyseren'),
 	create_question(:v86, 'Ik merk vaak bij mijzelf dat ik een bepaald gevoel heb, maar waar het vandaan komt weet ik meestal niet'),
 	create_question(:v87, 'Ik ben vaak in de war over wat ik echt van dingen vind'),
 	create_question(:v88, 'Ik denk vaak na over hoe ik tegen zaken aankijk'),
@@ -150,7 +215,25 @@ Neutraal wil zeggen onbeslist (net zo vaak niet van toepassing als wel van toepa
 	create_question(:v100, 'Ik verbaas mezelf vaak over hoe ik mij gedraag'),
 	create_question(:v101, 'Ik vind het belangrijk om de dingen die ik doe te evalueren'),
 	create_question(:v102, 'Het is belangrijk voor mij om te proberen te begrijpen wat mijn gevoelens betekenen'),
-	create_question(:v103, 'Ik sta regelmatig stil bij mijn gevoelens')
+  {
+    id: :v103,
+    type: :likert,
+    title: 'Ik sta regelmatig stil bij mijn gevoelens',
+    show_otherwise: false,
+    options: %w[HO O N E HE],
+    section_end: true
+  },
+  {
+    type: :raw,
+    content: '
+<p class="flow-text section-explanation">
+U bent klaar met het invullen van de vragenlijst.
+</p>
+<p class="flow-text section-explanation">
+Hartelijk dank!
+</p>
+'
+  }
 ]
 
 questionnaire.content = content

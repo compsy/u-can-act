@@ -26,18 +26,9 @@ questionnaires = [
   'KCT Q-OPT',
   'KCT Q-RES',
   'KCT Q-SE',
-  'KCT Q-CAP-1 (FUP)',
-  'KCT Q-CAP-2 (FUP)',
-  'KCT Q-COM (FUP)',
-  'KCT Q-COP (FUP)',
-  'KCT Q-MTQ (FUP)',
-  'KCT Q-NEO (FUP)',
-  'KCT Q-OPT (FUP)',
-  'KCT Q-RES (FUP)',
-  'KCT Q-SE (FUP)',
   'KCT IRS-2',
-  # Informed consent
-  'KCT Q-IC'
+  'KCT Q-IC',
+  'KCT Mindsets'
 ]
 
 questionnaires.each do |name|

@@ -2,6 +2,7 @@
 
 module Api
   class OrganizationOverviewSerializer < ActiveModel::Serializer
+    type 'organization_overview'
     attributes :overview
 
     def overview

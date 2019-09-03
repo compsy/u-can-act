@@ -2,6 +2,7 @@
 
 module Api
   class ProtocolSubscriptionSerializer < ActiveModel::Serializer
+    type 'protocol_subscriptions'
     attributes :person_type,
                :protocol_completion,
                :earned_euros,

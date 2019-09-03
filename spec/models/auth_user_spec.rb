@@ -47,7 +47,8 @@ describe AuthUser, type: :model do
       expect(CreateAnonymousUser)
         .to receive(:run!)
         .with(auth0_id_string: correct_payload[described_class::AUTH0_KEY_LOCATION],
-              team_name: correct_payload[ENV['SITE_LOCATION']]['team'])
+              team_name: correct_payload[ENV['SITE_LOCATION']]['team'],
+              role: AuthUser::ADMIN_ROLE)
         .and_raise('stop_execution')
 
       expect { described_class.from_token_payload(correct_payload) }.to raise_error 'stop_execution'

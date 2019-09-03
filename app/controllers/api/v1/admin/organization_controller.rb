@@ -10,7 +10,8 @@ module Api
                                                          threshold_percentage: percentage_threshold)
           render json: @organization_overview,
                  serializer: Api::OrganizationOverviewSerializer,
-                 group: group
+                 group: group,
+                 root: 'organization_overview'
         end
 
         private

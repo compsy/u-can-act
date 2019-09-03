@@ -2,6 +2,7 @@
 
 module Api
   class PersonalizedQuestionnaireSerializer < ActiveModel::Serializer
+    type 'responses'
     attributes :uuid
     attributes :questionnaire_title
     attributes :questionnaire_content

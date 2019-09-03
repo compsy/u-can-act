@@ -28,7 +28,8 @@ questionnaires = [
   'KCT Q-SE',
   'KCT IRS-2',
   'KCT Q-IC',
-  'KCT Mindsets'
+  'KCT Mindsets',
+  'KCT Drijfveren'
 ]
 
 questionnaires.each do |name|

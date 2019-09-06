@@ -3,7 +3,8 @@
 module Api
   module V1
     class ResponseController < ApiController
-      include ::Concerns::IsBasicAuthenticated
+      include ::Concerns::IsJwtAuthenticated
+      before_action :set_person, only: %i[show index]
       before_action :set_response, only: %i[show create]
       before_action :set_responses, only: %i[index]
       before_action :check_empty_response, only: %i[create]
@@ -25,24 +26,40 @@ module Api
 
       private
 
+      def set_person
+        # Debugging
+        # token = request.headers['Authorization'].split.last
+        # Rails.logger.warn Knock::AuthToken.new(token: token)
+        # Rails.logger.warn current_auth_user.person.inspect
+
+        @person = current_auth_user&.person
+        return if @person.present?
+
+        result = { result: current_auth_user.to_json }
+        render(status: :not_found, json: result)
+      end
+
       def set_responses
-        # TODO: This will be replaced with current user once we have correct authentication
-        person = Person.find_by(external_identifier: response_params[:external_identifier])
-        (@responses = person.my_open_responses) && return if person.present?
-        render(status: :not_found, json: 'Persoon met die external_identifier niet gevonden')
+        @responses = @person.my_open_responses
+        return if @responses.present?
+
+        result = { result: 'Geen responses voor deze persoon gevonden' }
+        render(status: :not_found, json: result)
       end
 
       def set_response
-        @response = Response.find_by(uuid: response_params[:uuid])
+        @response = current_auth_user.person.responses.find_by(uuid: response_params[:uuid])
         return if @response.present?
 
-        render(status: :not_found, json: 'Response met dat uuid niet gevonden')
+        result = { result: 'Response met dat uuid niet gevonden' }
+        render(status: :not_found, json: result)
       end
 
       def check_empty_response
         return if @response.content.blank?
 
-        render(status: :bad_request, json: 'Response met dat uuid heeft al content')
+        result = { result: 'Response met dat uuid heeft al content' }
+        render(status: :bad_request, json: result)
       end
 
       def response_content

@@ -1,0 +1,65 @@
+version: '3.0'
+services:
+  db:
+    image: 'postgres'
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    networks:
+      - backend
+  redis:
+    image: "redis:alpine"
+    command: redis-server --requirepass redispassword
+    networks:
+      - backend
+  mongo:
+    image: "mongo:latest"
+    networks:
+      - backend
+  webpack:
+    image: vsv
+    entrypoint: []
+    command: ["bundle","exec","bin/webpack-dev-server"]
+    volumes:
+      - .:/app
+      # don't mount tmp directory
+      - /app/tmp
+    ports:
+      - "3036:3036"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - db
+      - redis
+      - mongo
+    links:
+      - web
+  web:
+    image: vsv
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      args:
+        precompileassets: 'not'
+    entrypoint: ["/app/lib/docker-entrypoint.sh"]
+    command: ["rails","server","-b","0.0.0.0","-p","3000"]
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - RESET_DB_ON_FAIL=true
+    volumes:
+      - .:/app
+      - /app/tmp
+    ports:
+      - "3002:3000"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - db
+      - redis
+      - mongo
+networks:
+  frontend:
+  backend:

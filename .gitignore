@@ -1,4 +1,3 @@
-/.idea
 *.rbc
 capybara-*.html
 /log
@@ -7,6 +6,7 @@ capybara-*.html
 /tmp/data
 /tmp/restart.txt
 /tmp/rspec_guard_result
+/tmp/db
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /coverage/
@@ -21,6 +21,7 @@ pickle-email-*.html
 
 # dotenv
 .env.local
+.env.test.local
 
 ## Environment normalization:
 /.bundle
@@ -51,3 +52,26 @@ tmp/pids
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Rubymine excludes
+/.idea/workspace.xml
+/.idea/.generators
+/.idea/.rakeTasks
+coverage
+
+/.idea/vsv.iml
+/.idea/ikia.iml
+/.idea/encodings.xml
+/.idea/codeStyleSettings.xml
+/.idea/codeStyles/*
+/.idea/dataSources.local.xml
+/.idea/dataSources.xml
+/.idea/dataSources/*
+/.idea/runConfigurations/*
+/.idea/webResources.xml
+
+# Let the translations file be generated (can't yet because heroku probably won't allow creation of this file)
+#/public/javascripts/translations.js
+
+privatekey.pem
+certificate.pem

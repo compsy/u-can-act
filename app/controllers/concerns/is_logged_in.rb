@@ -6,7 +6,7 @@ module Concerns
 
     # rubocop:disable Rails/LexicallyScopedActionFilter
     included do
-      before_action :verify_current_user, except: :interactive
+      before_action :verify_current_user, except: %i[interactive interactive_render]
     end
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -16,7 +16,7 @@ module Concerns
       return current_user unless current_user.nil?
 
       log_cookie
-      render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
+      render(status: :unauthorized, html: 'Je bent niet ingelogd.', layout: 'application')
     end
   end
 end

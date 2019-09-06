@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = '' # Dagboekvragenlijst moet geen titel hebben alleen een logo
+db_title = 'IKIA dagboekvragenlijst' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'ikia'
 dagboek1 = Questionnaire.find_by_name(db_name1)

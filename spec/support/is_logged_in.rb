@@ -8,6 +8,6 @@ shared_examples_for 'an is_logged_in concern' do |route, params|
     get route, params: params
     expect(response).to have_http_status(:unauthorized)
     expect(response).to render_template(layout: 'application')
-    expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')
+    expect(response.body).to include('Je bent niet ingelogd.')
   end
 end

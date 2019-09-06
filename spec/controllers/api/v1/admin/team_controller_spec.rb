@@ -3,19 +3,37 @@
 require 'rails_helper'
 
 describe Api::V1::Admin::TeamController, type: :controller do
-  it_behaves_like 'a jwt authenticated route', :show, group: Person::STUDENT
-  it_behaves_like 'a jwt authenticated route', :show, group: Person::MENTOR
+  let!(:the_auth_user) { FactoryBot.create(:auth_user, :admin) }
+  let(:protocol) { FactoryBot.create(:protocol) }
+  let(:team) { FactoryBot.create(:team, :with_roles) }
+  let!(:the_payload) do
+    { ENV['SITE_LOCATION'] => {
+      'roles' => ['user'],
+      'team' => team.name,
+      'protocol' => protocol.name
+    } }
+  end
+
+  describe 'for students' do
+    let!(:the_params) { { group: Person::STUDENT } }
+    it_behaves_like 'a jwt authenticated route', 'get', :show
+  end
+
+  describe 'for mentors' do
+    let!(:the_params) { { group: Person::MENTOR } }
+    it_behaves_like 'a jwt authenticated route', 'get', :show
+  end
+
   describe '#show' do
     let(:week_number) { '1' }
     let(:year) { '2018' }
     let(:percentage_threshold) { '70' }
     let(:group) { Person::STUDENT }
     let(:overview) { Team.overview }
-    let(:admin) { FactoryBot.create(:admin) }
 
     before do
-      payload = { sub: admin.auth0_id_string }
-      jwt_auth payload
+      the_payload[:sub] = the_auth_user.auth0_id_string
+      jwt_auth the_payload
     end
 
     it 'calls the render function with the correct parameters' do
@@ -35,12 +53,12 @@ describe Api::V1::Admin::TeamController, type: :controller do
                            percentage_threshold: percentage_threshold }
     end
 
-    it 'alsoes work without the year and week_number parameters' do
+    it 'also works without the year and week_number parameters' do
       get :show, params: { group: Person::STUDENT }
       expect(response.status).to eq(200)
     end
 
-    it 'calls the overview generator function and store it' do
+    it 'calls the overview generator function and stores it' do
       expect(Team).to receive(:overview)
         .with(week_number: week_number, year: year, threshold_percentage: percentage_threshold)
         .and_return(overview)

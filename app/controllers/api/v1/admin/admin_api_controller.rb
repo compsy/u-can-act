@@ -4,13 +4,15 @@ module Api
   module V1
     module Admin
       class AdminApiController < ApiController
-        include Knock::Authenticable
-        before_action :authenticate_admin
+        include ::Concerns::IsJwtAuthenticated
+        before_action :check_admin_authenticated
 
-        private
+        def check_admin_authenticated
+          return if current_auth_user.role == AuthUser::ADMIN_ROLE
 
-        def unauthorized_entity(_entity_name)
-          render json: { error: 'Unauthorized request' }, status: :unauthorized
+          result = { result: 'User is not an admin' }
+
+          render(status: :forbidden, json: result)
         end
       end
     end

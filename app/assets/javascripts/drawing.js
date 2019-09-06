@@ -7,8 +7,8 @@ function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-const LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Vastleggen";
-const UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Aanpassen";
+var LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Vastleggen";
+var UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Aanpassen";
 
 function readDataProperty(elem, property) {
   // abstracted in its own version so we can more easily factor out jQuery later

@@ -21,6 +21,12 @@ FactoryBot.define do
         FactoryBot.create(:protocol_subscription, person: person)
       end
     end
+
+    trait :with_auth_user do
+      after(:create) do |person|
+        FactoryBot.create(:auth_user, person: person)
+      end
+    end
   end
 
   trait :with_iban do

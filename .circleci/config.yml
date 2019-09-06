@@ -92,7 +92,7 @@ jobs:
       - run: gem install bundler
       - run: bundle --path vendor/bundle
       - run: yarn install
-      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts
+      - run: echo 127.0.0.1 docker.io db redis mongo | sudo tee -a /etc/hosts
       - run: ./bin/chromedriver_install
       - run:
           name: Wait for db

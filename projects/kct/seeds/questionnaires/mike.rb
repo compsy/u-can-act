@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Q-IRS-2-KCT'
+title = 'Mike'
 
-name = 'KCT IRS-2'
+name = 'KCT Mike'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -31,7 +31,6 @@ Voor elk onderdeel wordt een aparte instructie gegeven.
 </p>
 
 <p class="flow-text section-explanation">
-De totale IRS bestaat uit 121 uitspraken en het invullen duurt ongeveer 20 minuten.
 Op het invullen van de IRS staat geen tijdslimiet.
 Wel is het belangrijk dat u bij het invullen steeds afgaat op uw eerste indruk en dat u hiervoor niet teveel tijd neemt.
 Er zijn geen goede of foute antwoorden.

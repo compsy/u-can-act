@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Q-IC-KCT '
+title = 'Alfa'
 
-name = 'KCT Q-IC'
+name = 'KCT Alfa'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -13,7 +13,7 @@ content = [
     content: '
   <p class="flow-text"><em>Geïnformeerde toestemming</em></p>
   <p class="flow-text">
-Ik stem toe mee te doen aan een onderzoek, dat uitgevoerd wordt door Lkol M. Baatenburg de Jong en ir. T.H. Huijzer, onder begeleiding van dr. R. J. R. den Hartigh, dr. F.J. Blaauw en Prof. dr. de Jonge.
+Ik stem toe mee te doen aan een onderzoek, dat uitgevoerd wordt door Lkol M. Baatenburg de Jong, MSc en ir. T.H. Huijzer, onder begeleiding van dr. R. J. R. den Hartigh, dr. F.J. Blaauw en Prof. dr. de Jonge.
 De procedure is getoetst en goed bevonden door de ethische commissie van de Afdeling Psychologie, Rijksuniversiteit Groningen.
   </p>
 

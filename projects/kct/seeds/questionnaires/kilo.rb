@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'FUP-Q-OPT-KCT'
+title = 'Kilo'
 
-name = 'KCT Q-OPT (FUP)'
+name = 'KCT Kilo'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -30,7 +30,7 @@ end
 content = [
   {
     type: :raw,
-    content: '<p class="flow-text section-explanation"> 
+    content: '<p class="flow-text section-explanation">
       Er volgen 10 vragen met uitspraken over persoonlijke doelen en ervaringen.
       Geef bij elke uitspraak aan in welke mate deze in het algemeen op u van toepassing is.
     </p>

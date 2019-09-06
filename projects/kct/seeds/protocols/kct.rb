@@ -16,18 +16,30 @@ protocol.save!
 
 # Add dagboekmetingen
 questionnaires = [
-  'KCT Q-CAP-1',
-  'KCT Q-CAP-2',
-  'KCT Q-COM',
-  'KCT Q-COP',
-  'KCT Q-DEM',
-  'KCT Q-MTQ',
-  'KCT Q-NEO',
-  'KCT Q-OPT',
-  'KCT Q-RES',
-  'KCT Q-SE',
-  'KCT IRS-2',
-  'KCT Q-IC',
+  # CAP1
+  'KCT Foxtrot',
+  # CAP2
+  'KCT Golf',
+  # COM
+  'KCT Delta',
+  # COP
+  'KCT Julliet',
+  # Demographics
+  'KCT Bravo',
+  # MTQ
+  'KCT India',
+  # NEO
+  'KCT Lima',
+  # OPT
+  'KCT Kilo',
+  # RES
+  'KCT Charlie',
+  # SE
+  'KCT Echo',
+  # IRS
+  'KCT Mike',
+  # IC
+  'KCT Alfa',
   'KCT Mindsets',
   'KCT Drijfveren',
   'KCT Type motivatie',

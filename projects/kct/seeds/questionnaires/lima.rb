@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'FUP-Q-NEO-KCT'
+title = 'Lima'
 
-name = 'KCT Q-NEO (FUP)'
+name = 'KCT Lima'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]

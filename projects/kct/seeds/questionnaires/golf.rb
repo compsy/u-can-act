@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-title = 'FUP-Q-CAP-2-KCT' 
-name = 'KCT Q-CAP-2 (FUP)'
+title = 'Golf'
+name = 'KCT Golf'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -37,7 +37,7 @@ content = [
     type: :raw,
     title: 'Figuren draaien',
     content: '
-    <p class="flow-text section-explanation"> 
+    <p class="flow-text section-explanation">
       Op deze pagina staan 24 kubussen. Dit is het laatste onderdeel; het kost
       u nog ongeveer 30 minuten. De onderstaande kubussen hebben op iedere zijkant
       een andere afbeelding.<br><br>Kunt u bij de onderstaande opdrachten aangeven

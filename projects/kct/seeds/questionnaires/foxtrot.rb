@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Q-CAP-1-KCT' 
+title = 'Foxtrot'
 
-name = 'KCT Q-CAP-1'
+name = 'KCT Foxtrot'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -20,7 +20,7 @@ def create_question(id, title, image,options, section_end)
 end
 
 def create_block_question(id, title, image, section_end: false)
-  create_question(id, title, image, 
+  create_question(id, title, image,
     [
       "A",
       "B",
@@ -37,7 +37,7 @@ content = [
   {
     type: :raw,
     content: '
-    <p class="flow-text section-explanation"> 
+    <p class="flow-text section-explanation">
       Met de intelligentievragenlijst kunt u testen hoe goed u bent in logisch
       denken en hoe goed u in gedachten figuren kunt keren en draaien. Deze eerste
       pagina bevat 11 verschillende figuren. We schatten dat het u ongeveer 15

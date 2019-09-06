@@ -40,11 +40,8 @@ questionnaires = [
   'KCT Mike',
   # IC
   'KCT Alfa',
-  'KCT Mindsets',
-  'KCT Drijfveren',
-  'KCT Type motivatie',
-  'KCT Temperament',
-  'KCT Faalangst'
+  # Vragenlijsten Nico
+  'KCT Hotel',
 ]
 
 questionnaires.each do |name|

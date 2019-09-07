@@ -47,7 +47,7 @@ content = [
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-Selecteer voor iedere vraag het getal dat het best UW MENING weergeeft.
+Selecteer voor iedere vraag het getal dat het best JOUW MENING weergeeft.
 <ul class="flow-text section-explanation">
 
 <li>
@@ -161,7 +161,7 @@ Selecteer voor iedere vraag het getal dat het best UW MENING weergeeft.
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-Wilt u hieronder aangeven in hoeverre u het met de volgende stellingen eens bent?
+Wilt je hieronder aangeven in hoeverre je het met de volgende stellingen eens bent?
 <ul class="flow-text section-explanation">
 
 <li>
@@ -204,7 +204,7 @@ Wilt u hieronder aangeven in hoeverre u het met de volgende stellingen eens bent
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-Waarom vol je de ECO?
+Waarom volg je de ECO?
 <ul class="flow-text section-explanation">
 
 <li>

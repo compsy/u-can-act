@@ -38,9 +38,9 @@ content = [
     title: 'Figuren draaien',
     content: '
     <p class="flow-text section-explanation">
-      Op deze pagina staan 24 kubussen. Dit is het laatste onderdeel; het kost
-      u nog ongeveer 30 minuten. De onderstaande kubussen hebben op iedere zijkant
-      een andere afbeelding.<br><br>Kunt u bij de onderstaande opdrachten aangeven
+      Op deze pagina staan 24 kubussen. Dit is het tweede onderdeel van de IQ test; het kost
+      je nog ongeveer 30 minuten. De onderstaande kubussen hebben op iedere zijkant
+      een andere afbeelding.<br><br>Kun je bij de onderstaande opdrachten aangeven
       welke kubus (A, B, C, D, E, F) een gekantelde versie zou kunnen zijn van de
       linker kubus (de kubus waar een X onder staat).
     </p>'

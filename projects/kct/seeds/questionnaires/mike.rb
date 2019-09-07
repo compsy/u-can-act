@@ -23,18 +23,16 @@ content = [
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-Dit is de INSPIRE Resilience Scale 2017, versie 2.0.
-De IRS is een vragenlijst waarin een aantal uitspraken gedaan wordt waar mensen vaak verschillend over denken.
-Het is de bedoeling dat u voor elke uitspraak aangeeft in hoeverre u het met de uitspraak eens bent.
-De IRS bestaat uit vijf onderdelen.
+In deze vragenlijst worden een aantal uitspraken gedaan wordt waar mensen vaak verschillend over denken.
+Het is de bedoeling dat je voor elke uitspraak aangeeft in hoeverre je het met de uitspraak eens bent.
+De vragenlijst bestaat uit vijf onderdelen.
 Voor elk onderdeel wordt een aparte instructie gegeven.
 </p>
 
 <p class="flow-text section-explanation">
-Op het invullen van de IRS staat geen tijdslimiet.
-Wel is het belangrijk dat u bij het invullen steeds afgaat op uw eerste indruk en dat u hiervoor niet teveel tijd neemt.
+Het is belangrijk dat je bij het invullen steeds afgaat op je eerste indruk en dat je hiervoor niet teveel tijd neemt.
 Er zijn geen goede of foute antwoorden.
-Het gaat hier namelijk om uw persoonlijke reactie op bepaalde situaties.
+Het gaat hier namelijk om je persoonlijke reactie op bepaalde situaties.
 </p>
 '
   },
@@ -42,14 +40,14 @@ Het gaat hier namelijk om uw persoonlijke reactie op bepaalde situaties.
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-In het eerste deel van de IRS vragen we u om een of meer lastige situaties en gebeurtenissen in gedachten te nemen bij het beantwoorden van onderstaande uitspraken.
+In het eerste deel van de vragenlijst vragen we je om één of meer lastige situaties en gebeurtenissen in gedachten te nemen bij het beantwoorden van onderstaande uitspraken.
 Iedereen maakt wel eens lastige situaties mee.
 Te denken valt aan spanningen thuis, moeilijkheden op school, tijdens de opleiding of op het werk en problemen met de gezondheid.
 Iedereen heeft zo zijn of haar eigen manier om met dit soort lastige situaties om te gaan.
 </p>
 
 <p class="flow-text section-explanation">
-Selecteer in hoeverre onderstaande reacties kenmerkend zijn voor u in een probleemsituatie, de betekenis van de cijfers 1 tot en met 5 is als volgt:
+Selecteer in hoeverre onderstaande reacties kenmerkend zijn voor je in een probleemsituatie, de betekenis van de cijfers 1 tot en met 5 is als volgt:
 <ul class="flow-text section-explanation">
 
 <li>
@@ -77,7 +75,7 @@ Selecteer in hoeverre onderstaande reacties kenmerkend zijn voor u in een proble
 '
   },
   {
-    section_start: 'Hoe gaat u in het algemeen om met lastige situaties?',
+    section_start: 'Hoe gaat je in het algemeen om met lastige situaties?',
     id: :v1,
     type: :likert,
     title: 'Ik doe iets zodat ik er minder aan denk, zoals sporten, slapen of naar muziek luisteren',
@@ -134,10 +132,10 @@ Selecteer in hoeverre onderstaande reacties kenmerkend zijn voor u in een proble
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-In het tweede onderdeel van de IRS wordt een aantal uitspraken gedaan over hoe u in het algemeen in het leven staat.
+In het tweede onderdeel van de vragenlijst wordt een aantal uitspraken gedaan over hoe je in het algemeen in het leven staat.
 Het kan daarbij gaan over angstwekkende, stressvolle en/of emotionele gebeurtenissen of bijvoorbeeld het omgaan met andere mensen.<br><br>
 
-Selecteer bij elke uitspraak in hoeverre u het eens of oneens bent met de onderstaande uitspraken, de betekenis van de cijfers 1 tot en met 5 is als volgt:
+Selecteer bij elke uitspraak in hoeverre je het eens of oneens bent met de onderstaande uitspraken, de betekenis van de cijfers 1 tot en met 5 is als volgt:
 
 <ul class="flow-text section-explanation">
 
@@ -166,7 +164,7 @@ Selecteer bij elke uitspraak in hoeverre u het eens of oneens bent met de onders
 '
   },
   {
-    section_start: 'Hoe staat u over het algemeen in het leven?',
+    section_start: 'Hoe sta je over het algemeen in het leven?',
     id: :v41,
     type: :likert,
     title: 'Ik bespreek bijna nooit mijn problemen met anderen',
@@ -226,9 +224,9 @@ Selecteer bij elke uitspraak in hoeverre u het eens of oneens bent met de onders
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-In het derde onderdeel van de IRS wordt een aantal eigenschappen en/of gedragingen gegeven.
-Het kan daarbij bijvoorbeeld gaan over hoe u over u zelf denkt.
-Selecteer bij elke uitspraak in welke mate u vindt dat de uitspraken op u van toepassing zijn, de betekenis van de cijfers 1 tot en met 5 is als volgt:
+In het derde onderdeel van de vragenlijst wordt een aantal eigenschappen en/of gedragingen gegeven.
+Het kan daarbij bijvoorbeeld gaan over hoe je over jezelf denkt.
+Selecteer bij elke uitspraak in welke mate je vindt dat de uitspraken op je van toepassing zijn, de betekenis van de cijfers 1 tot en met 5 is als volgt:
 
 <ul class="flow-text section-explanation">
 
@@ -257,7 +255,7 @@ Selecteer bij elke uitspraak in welke mate u vindt dat de uitspraken op u van to
 '
   },
   {
-    section_start: 'Hoe denkt u na over uzelf?',
+    section_start: 'Hoe denkt je na over jezelf?',
     id: :v84,
     type: :likert,
     title: 'Van nadenken over mijn gedachten raak ik alleen maar meer in de war',
@@ -294,7 +292,7 @@ Selecteer bij elke uitspraak in welke mate u vindt dat de uitspraken op u van to
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-U bent klaar met het invullen van de vragenlijst.
+Je bent klaar met het invullen van de vragenlijst.
 </p>
 <p class="flow-text section-explanation">
 Hartelijk dank!

@@ -32,7 +32,7 @@ content = [
     type: :raw,
     content: '<p class="flow-text section-explanation">
       Er volgen 10 vragen met uitspraken over persoonlijke doelen en ervaringen.
-      Geef bij elke uitspraak aan in welke mate deze in het algemeen op u van toepassing is.
+      Geef bij elke uitspraak aan in welke mate deze in het algemeen op je van toepassing is.
     </p>
     '
   },

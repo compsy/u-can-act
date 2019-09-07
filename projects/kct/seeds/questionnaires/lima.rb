@@ -25,14 +25,14 @@ content = [
     content: '
     <p class="flow-text section-explanation">
       Deze vragenlijst bevat 240 uitspraken. Lees elke uitspraak zorgvuldig. Klik vervolgens aan welke
-      uitspraak uw mening het beste weergeeft. Let er op dat u geen uitspraken overslaat.
+      uitspraak jouw mening het beste weergeeft. Let er op dat je geen uitspraken overslaat.
     </p>
     <ul class="collection">
-      <li class="collection-item">Klik <strong>HO</strong> aan als u het helemaal oneens bent met de uitspraak, of als u de uitspraak absoluut onwaar vindt.</li>
-      <li class="collection-item">Klik <strong>O</strong> aan als u het oneens bent met de uitspraak, of als u de uitspraak grotendeels onwaar vindt.</li>
-      <li class="collection-item">Klik <strong>N</strong> aan als u neutraal bent, niet kunt beslissen, of als u de uitspraak ongeveer even waar als onwaar vindt.</li>
-      <li class="collection-item">Klik <strong>E</strong> aan als u het eens bent met de uitspraak, of als u de uitspraak grotendeels waar vindt.</li>
-      <li class="collection-item">Klik <strong>HE</strong> aan als u het helemaal eens bent met de uitspraak, of als u de uitspraak absoluut waar vindt.</li>
+      <li class="collection-item">Klik <strong>HO</strong> aan als je het helemaal oneens bent met de uitspraak, of als je de uitspraak absoluut onwaar vindt.</li>
+      <li class="collection-item">Klik <strong>O</strong> aan als je het oneens bent met de uitspraak, of als je de uitspraak grotendeels onwaar vindt.</li>
+      <li class="collection-item">Klik <strong>N</strong> aan als je neutraal bent, niet kunt beslissen, of als je de uitspraak ongeveer even waar als onwaar vindt.</li>
+      <li class="collection-item">Klik <strong>E</strong> aan als je het eens bent met de uitspraak, of als je de uitspraak grotendeels waar vindt.</li>
+      <li class="collection-item">Klik <strong>HE</strong> aan als je het helemaal eens bent met de uitspraak, of als je de uitspraak absoluut waar vindt.</li>
     </ul>'
   },
   create_question(:v1, 'Ik ben geen tobber.', false),

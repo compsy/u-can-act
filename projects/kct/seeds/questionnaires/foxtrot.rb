@@ -38,9 +38,9 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-      Met de intelligentievragenlijst kunt u testen hoe goed u bent in logisch
-      denken en hoe goed u in gedachten figuren kunt keren en draaien. Deze eerste
-      pagina bevat 11 verschillende figuren. We schatten dat het u ongeveer 15
+      Met de intelligentievragenlijst kun je testen hoe goed je bent in logisch
+      denken en hoe goed je in gedachten figuren kunt keren en draaien. Deze eerste
+      pagina bevat 11 verschillende figuren. We schatten dat het je ongeveer 15
       minuten zal kosten. Het is een vrij intensieve vragenlijst, maar de resultaten
       zijn de moeite waard. De totale tijd die deelnemers met het
       intelligentieonderdeel bezig zijn kan per persoon flink verschillen. Vrijwel
@@ -48,7 +48,7 @@ content = [
       erg, probeer dan vooral de volgende figuur.
     </p>
     <p class="flow-text section-explanation">
-      Kunt u bij de onderstaande opdrachten aangeven welk figuur (A, B, C, D, E, F) op de plaats van het vraagteken hoort?
+      Kun je bij de onderstaande opdrachten aangeven welk figuur (A, B, C, D, E, F) op de plaats van het vraagteken hoort?
     </p>'
   },
   create_block_question(:v1, "1.", 'mr_43.jpg'),

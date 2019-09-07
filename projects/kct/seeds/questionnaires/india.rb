@@ -33,7 +33,7 @@ content = [
         vragen door één van de antwoorden aan te klikken.
     </p>
     <p class="flow-text section-explanation">Geef nauwkeurig antwoord en overweeg
-        hoe u over het algemeen op de betreffende stelling reageert. Besteed niet
+        hoe je over het algemeen op de betreffende stelling reageert. Besteed niet
         teveel tijd per vraag. De vragenlijst helemaal invullen duurt ongeveer 7
         minuten.
     </p>'

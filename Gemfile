@@ -126,8 +126,8 @@ group :test do
   gem 'capybara-screenshot'
 
   # selenium for js testing
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
+  gem 'selenium-webdriver', '>= 3.142.4'
+  gem 'webdrivers', '>= 4.1.2'
 end
 
 group :production, :staging do

@@ -20,7 +20,7 @@ students.csv
 mentors.csv
 pickle-email-*.html
 
-# RH: We do not need development db in git I suppose?
+# development database
 /tmp/db
 
 # dotenv

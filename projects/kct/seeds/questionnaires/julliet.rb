@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Q-COP-KCT'
+title = 'Julliet'
 
-name = 'KCT Q-COP'
+name = 'KCT Julliet'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]

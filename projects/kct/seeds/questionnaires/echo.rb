@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Q-SE-KCT '
+title = 'Echo'
 
-name = 'KCT Q-SE'
+name = 'KCT Echo'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -32,7 +32,7 @@ content = [
     <p class="flow-text section-explanation">
       Vul onderstaande vragen eerlijk in.
     </p>
-    <p class="flow-text section-explanation"> 
+    <p class="flow-text section-explanation">
       Hoe zeker ben je ervan dat je in staat bent om:
     </p>'
   },

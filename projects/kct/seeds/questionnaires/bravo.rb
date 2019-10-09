@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Q-DEM-KCT'
+title = 'Bravo'
 
-name = 'KCT Q-DEM'
+name = 'KCT Bravo'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -103,7 +103,7 @@ content = [
     type: :textfield,
     required: true,
     title: 'Hoeveel jaar ben je werkzaam bij het KCT?',
-    placeholder: '... uur'
+    placeholder: '... jaar'
   }, {
     id: :v12,
     type: :textfield,

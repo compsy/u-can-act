@@ -1,5 +1,5 @@
 default_protocol_duration = 30.years  # evt eerder dynamisch afbreken
-default_open_duration = 30.years 
+default_open_duration = 30.years
 default_posttest_open_duration = nil
 default_reward_points = 100
 
@@ -16,25 +16,32 @@ protocol.save!
 
 # Add dagboekmetingen
 questionnaires = [
-  'KCT Q-CAP-1',
-  'KCT Q-CAP-2',
-  'KCT Q-COM',
-  'KCT Q-COP',
-  'KCT Q-DEM',
-  'KCT Q-MTQ',
-  'KCT Q-NEO',
-  'KCT Q-OPT',
-  'KCT Q-RES',
-  'KCT Q-SE',
-  'KCT Q-CAP-1 (FUP)',
-  'KCT Q-CAP-2 (FUP)',
-  'KCT Q-COM (FUP)',
-  'KCT Q-COP (FUP)',
-  'KCT Q-MTQ (FUP)',
-  'KCT Q-NEO (FUP)',
-  'KCT Q-OPT (FUP)',
-  'KCT Q-RES (FUP)',
-  'KCT Q-SE (FUP)'
+  # CAP1
+  'KCT Foxtrot',
+  # CAP2
+  'KCT Golf',
+  # COM
+  'KCT Delta',
+  # COP
+  'KCT Julliet',
+  # Demographics
+  'KCT Bravo',
+  # MTQ
+  'KCT India',
+  # NEO
+  'KCT Lima',
+  # OPT
+  'KCT Kilo',
+  # RES
+  'KCT Charlie',
+  # SE
+  'KCT Echo',
+  # IRS
+  'KCT Mike',
+  # IC
+  'KCT Alfa',
+  # Vragenlijsten Nico
+  'KCT Hotel',
 ]
 
 questionnaires.each do |name|

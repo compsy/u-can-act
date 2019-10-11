@@ -39,28 +39,23 @@ content = [
     type: :radio,
     required: true,
     title: 'Hoe inspannend was deze week voor jou?',
-    options: %w[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    options: %w[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    show_otherwise: false,
   },
   {
     id: :v2,
     type: :radio,
     title: 'Hoe vermoeid voel je je op dit moment?',
-    options: %w['Helemaal niet vermoeid' 2 3 4 5 6 'Heel erg vermoeid'],
+    options: ['Helemaal niet vermoeid' '2' '3' '4' '5' '6' 'Heel erg vermoeid'],
+    show_otherwise: false,
   },
   {
     id: :v3,
     type: :radio,
     title: 'Hoe heb je de afgelopen nachten geslapen?',
-    options: %w['Heel erg slecht' 2 3 4 5 6 'Heel erg goed'],
+    options: ['Heel erg slecht' '2' '3' '4' '5' '6' 'Heel erg goed'],
+    show_otherwise: false,
   },
-  {
-    id: :v99,
-    type: :radio,
-    required: true,
-    title: 'Hoe inspannend was deze week voor jou?',
-    options: %w[6, 8, 10, 12, 14, 16, 18, 20]
-  },
-
 ]
 questionnaire.content = content
 questionnaire.title = title

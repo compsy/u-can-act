@@ -33,7 +33,8 @@ content = [
     </table>
 
     </p>'
-  }, {
+  },
+  {
     id: :v1,
     type: :radio,
     required: true,
@@ -51,6 +52,13 @@ content = [
     type: :radio,
     title: 'Hoe heb je de afgelopen nachten geslapen?',
     options: %w['Heel erg slecht' 2 3 4 5 6 'Heel erg goed'],
+  },
+  {
+    id: :v99,
+    type: :radio,
+    required: true,
+    title: 'Hoe inspannend was deze week voor jou?',
+    options: [6, 8, 10, 12, 14, 16, 18, 20]
   },
 
 ]

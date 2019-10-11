@@ -46,14 +46,14 @@ content = [
     id: :v2,
     type: :radio,
     title: 'Hoe vermoeid voel je je op dit moment?',
-    options: ['Helemaal niet vermoeid' '2' '3' '4' '5' '6' 'Heel erg vermoeid'],
+    options: ['Helemaal niet vermoeid', '2', '3', '4', '5', '6', 'Heel erg vermoeid'],
     show_otherwise: false,
   },
   {
     id: :v3,
     type: :radio,
     title: 'Hoe heb je de afgelopen nachten geslapen?',
-    options: ['Heel erg slecht' '2' '3' '4' '5' '6' 'Heel erg goed'],
+    options: ['Heel erg slecht', '2', '3', '4', '5', '6', 'Heel erg goed'],
     show_otherwise: false,
   },
 ]

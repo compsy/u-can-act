@@ -39,7 +39,7 @@ content = [
     type: :radio,
     required: true,
     title: 'Hoe inspannend was deze week voor jou?',
-    options: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    options: %w[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
   },
   {
     id: :v2,
@@ -58,7 +58,7 @@ content = [
     type: :radio,
     required: true,
     title: 'Hoe inspannend was deze week voor jou?',
-    options: [6, 8, 10, 12, 14, 16, 18, 20]
+    options: %w[6, 8, 10, 12, 14, 16, 18, 20]
   },
 
 ]

@@ -1,5 +1,6 @@
-default_protocol_duration = 30.years  # evt eerder dynamisch afbreken
-default_open_duration = 30.years
+# ECO is 8 weeks, so we do 10 to be sure.
+default_protocol_duration = 10.weeks  # evt eerder dynamisch afbreken
+default_open_duration = 10.weeks
 default_posttest_open_duration = nil
 default_reward_points = 100
 
@@ -25,7 +26,8 @@ questionnaires.each do |name|
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
-  db_measurement.period = 1.days
+  # Goal is invisible after filling in, and ALWAYS visible after a week.
+  db_measurement.period = 5.days
   db_measurement.open_duration = default_open_duration
   db_measurement.open_from_offset = 0
   db_measurement.reward_points = default_reward_points

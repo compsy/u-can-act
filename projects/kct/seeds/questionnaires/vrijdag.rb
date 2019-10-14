@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Bravo'
+title = 'Vrijdag'
 
-name = 'KCT Bravo'
+name = 'KCT Vrijdag'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -12,105 +12,123 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-    Onderstaande informatie is bedoeld als achtergrondkennis voor de
-    onderzoekers. Het is van belang om informatie te hebben over het soort
-    deelnemers van het onderzoek (hierbij blijven
-    identificeerbare gegevens, zoals namen, volledig anoniem).
-    </p>'
-  }, {
+    Wil je hieronder zo eerlijk en nauwkeurig mogelijk aangeven hoe jij je op dit moment voelt?
+    '
+  },
+  {
     id: :v1,
-    type: :textfield,
+    type: :radio,
     required: true,
-    title: 'Leeftijd',
-    placeholder: '... jaar'
-  }, {
+    title: 'Hoe inspannend was deze week voor jou?',
+    options: [
+      '6',
+      '7 (heel, heel licht inspannend)',
+      '8',
+      '9 (heel licht inspannend)',
+      '10',
+      '11 (licht inspannend)',
+      '12',
+      '13 (redelijk inspannend)',
+      '14',
+      '15 (inspannend)',
+      '16',
+      '17 (heel inspannend)',
+      '18',
+      '19 (heel, heel inspannend)',
+      '20'
+    ],
+    show_otherwise: false,
+  },
+  {
     id: :v2,
     type: :radio,
-    title: 'Geslacht',
-    options: %w[Man
-                Vrouw],
-    show_otherwise: false
-  }, {
+    title: 'Hoe vermoeid voel je je op dit moment?',
+    options: [
+      '1 (helemaal niet vermoeid)',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7 (heel erg vermoeid)'
+    ],
+    show_otherwise: false,
+  },
+  {
     id: :v3,
-    type: :textfield,
-    required: true,
-    title: 'Lengte',
-    placeholder: '... meter'
-  }, {
+    type: :radio,
+    title: 'Hoe heb je de afgelopen nachten geslapen?',
+    options: [
+      '1 (heel erg slecht)',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7 (heel erg goed)'
+    ],
+    show_otherwise: false,
+  },
+  {
     id: :v4,
-    type: :textfield,
-    required: true,
-    title: 'Gewicht',
-    placeholder: '... kilogram'
-  }, {
+    type: :radio,
+    title: 'Hoeveel spierpijn heb je op dit moment?',
+    options: [
+      '1 (helemaal geen spierpijn)',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7 (heel veel spierpijn)'
+    ],
+    show_otherwise: false,
+  },
+  {
     id: :v5,
     type: :radio,
-    title: 'Wat is de hoogst gevolgde opleiding die je hebt voltooid of momenteel volgt?',
-    options: %w[WO HBO MBO VWO HAVO VMBO]
-  }, {
+    title: 'Hoe gestrest voel je je op dit moment?',
+    options: [
+      '1 (helemaal niet gestrest)',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7 (heel erg gestrest)'
+    ],
+    show_otherwise: false,
+  },
+  {
     id: :v6,
-    type: :textfield,
-    required: true,
-    title: 'Hoeveel uur per week besteed je gemiddeld aan sportbeoefening?',
-    placeholder: '... uur'
-  }, {
+    type: :radio,
+    title: 'Hoe positief is je stemming op dit moment?',
+    options: [
+      '1 (helemaal niet positief)',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7 (heel erg positief)'
+    ],
+    show_otherwise: false,
+  },
+  {
     id: :v7,
     type: :radio,
-    title: 'Welke rang heb je momenteel?',
+    title: 'Hoe negatief is je stemming op dit moment?',
     options: [
-      'Sld',
-      'Kpl',
-      'Kpl 1',
-      'Sgt',
-      'Sgt 1',
-      'Sergeant majoor',
-      'Adjudant',
-      'Luitenant',
-      'Kapitein',
-      'Majoor',
-      'Luitenant kolonel',
-      'Kolonel'
-    ]
-  }, {
-    id: :v8,
-    type: :radio,
-    title: 'Ik ben op dit moment in opleiding als:',
-    options: [
-      'VO / ECO',
-      'VCO'
-    ]
-  }, {
-    id: :v9,
-    type: :radio,
-    title: 'Ik ben werkzaam bij:',
-    options: [
-      'de staf',
-      '102 COTRCIE',
-      '103 COTRCIE',
-      '104 COTRCIE',
-      '105 COTRCIE',
-      '108 COTRCIE',
-      'OTCSO'
-    ]
-  }, {
-    id: :v10,
-    type: :textfield,
-    required: true,
-    title: 'Hoeveel jaar ben je in totaal werkzaam bij Defensie?',
-    placeholder: '... jaar'
-  }, {
-    id: :v11,
-    type: :textfield,
-    required: true,
-    title: 'Hoeveel jaar ben je werkzaam bij het KCT?',
-    placeholder: '... jaar'
-  }, {
-    id: :v12,
-    type: :textfield,
-    required: true,
-    title: 'Hoeveel uitzendingen heb je inmiddels gedaan?',
-    placeholder: ''
-  }
+      '1 (helemaal niet negatief)',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7 (heel erg negatief)'
+    ],
+    show_otherwise: false,
+  },
 ]
 questionnaire.content = content
 questionnaire.title = title

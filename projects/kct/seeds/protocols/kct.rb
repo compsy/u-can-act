@@ -17,7 +17,8 @@ protocol.save!
 
 # Add dagboekmetingen
 questionnaires = [
-  'KCT Maandag'
+  'KCT Maandag',
+  'KCT Vrijdag'
 ]
 
 questionnaires.each do |name|

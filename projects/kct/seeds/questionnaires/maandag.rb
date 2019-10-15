@@ -47,7 +47,7 @@ content = [
       '1 (helemaal niet vermoeid)',
       '2',
       '3',
-      '4',
+      '4 (neutraal)',
       '5',
       '6',
       '7 (heel erg vermoeid)'
@@ -62,7 +62,7 @@ content = [
       '1 (heel erg slecht)',
       '2',
       '3',
-      '4',
+      '4 (niet slecht en niet goed)',
       '5',
       '6',
       '7 (heel erg goed)'
@@ -77,7 +77,7 @@ content = [
       '1 (helemaal geen spierpijn)',
       '2',
       '3',
-      '4',
+      '4 (neutraal)',
       '5',
       '6',
       '7 (heel veel spierpijn)'
@@ -92,7 +92,7 @@ content = [
       '1 (helemaal niet gestrest)',
       '2',
       '3',
-      '4',
+      '4 (neutraal)',
       '5',
       '6',
       '7 (heel erg gestrest)'
@@ -107,7 +107,7 @@ content = [
       '1 (helemaal niet positief)',
       '2',
       '3',
-      '4',
+      '4 (neutraal)',
       '5',
       '6',
       '7 (heel erg positief)'
@@ -122,7 +122,7 @@ content = [
       '1 (helemaal niet negatief)',
       '2',
       '3',
-      '4',
+      '4 (neutraal)',
       '5',
       '6',
       '7 (heel erg negatief)'

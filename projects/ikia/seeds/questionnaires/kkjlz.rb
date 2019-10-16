@@ -6,8 +6,8 @@ dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
-  {type: :raw,
-   content: '<p class="flow-text">Welkom bij de vragenlijst <b> klachten</b>. Er volgt nu een lijst met vragen over jongens en meisjes. Alle vragen gaan over hoe je nu bent of in de afgelopen zes maanden bent geweest. Geef bij elke vraag aan in hoeverre deze bij jou past. Beantwoord de vragen zoals jij de dingen ziet, ook al zijn anderen het daar misschien niet mee eens.</p>'
+  { type: :raw,
+    content: '<p class="flow-text">Welkom bij de vragenlijst <b> klachten</b>. Er volgt nu een lijst met vragen over jongens en meisjes. Alle vragen gaan over hoe je nu bent of in de afgelopen zes maanden bent geweest. Geef bij elke vraag aan in hoeverre deze bij jou past. Beantwoord de vragen zoals jij de dingen ziet, ook al zijn anderen het daar misschien niet mee eens.</p>'
   }, {
     id: :v1,
     type: :likert,
@@ -340,12 +340,12 @@ dagboek_content = [
     title: 'Buikpijn',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v56_6a,
+    id: :v56_7,
     type: :likert,
     title: 'Overgeven',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v56_7,
+    id: :v56_8,
     type: :textfield,
     title: 'Heb je nog andere lichamelijke problemen?',
     section_end: true
@@ -464,7 +464,7 @@ dagboek_content = [
   }, {
     id: :v77_1,
     type: :likert,
-    title: 'Ik slaap overdag en/of ‘s nachts meer dan de meeste jongens en meisjes',
+    title: 'Ik slaap overdag en/of \'s nachts meer dan de meeste jongens en meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v77_2,

@@ -342,12 +342,12 @@ dagboek_content = [
     title: 'Buikpijn',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v56_6a,
+    id: :v56_7,
     type: :likert,
     title: 'Overgeven',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v56_7,
+    id: :v56_8,
     type: :textfield,
     title: 'Heeft uw kind nog andere lichamelijke problemen?',
     section_end: true
@@ -446,7 +446,7 @@ dagboek_content = [
   }, {
     id: :v73_1,
     type: :likert,
-    title: 'hoi',
+    title: 'Seksuele problemen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v73_2,
@@ -470,7 +470,7 @@ dagboek_content = [
   }, {
     id: :v77_1,
     type: :likert,
-    title: 'Slaap overdag en/of ‘s nachts meer dan de meeste jongens en meisjes',
+    title: 'Slaap overdag en/of \'s nachts meer dan de meeste jongens en meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v77_2,
@@ -688,9 +688,10 @@ dagboek_content = [
     remove_button_label: 'Verwijderen',
     add_button_label: 'Toevoegen',
     content: [
-      {id: :v113_1,
-       type: :textfield,
-       title: 'Probleem'}]}]
+      { id: :v113_1,
+        type: :textfield,
+        title: 'Probleem' }] }]
+
 dagboek1.content = dagboek_content
 dagboek1.title = db_title
 dagboek1.save!

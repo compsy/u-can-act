@@ -2,7 +2,7 @@
 
 class LikertGenerator < QuestionTypeGenerator
   def generate(question)
-    Rails.logger.info question unless question[:title].present?
+    Rails.logger.info question if question[:title].blank?
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     question = add_otherwise_label(question)
     safe_join([

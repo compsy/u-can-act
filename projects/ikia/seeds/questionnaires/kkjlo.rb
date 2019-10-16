@@ -470,7 +470,7 @@ dagboek_content = [
   }, {
     id: :v77_1,
     type: :likert,
-    title: 'Slaap overdag en/of Ôs nachts meer dan de meeste jongens en meisjes',
+    title: 'Slaap overdag en/of \'s nachts meer dan de meeste jongens en meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v77_2,

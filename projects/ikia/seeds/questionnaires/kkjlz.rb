@@ -345,7 +345,7 @@ dagboek_content = [
     title: 'Overgeven',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v56_7,
+    id: :v56_8,
     type: :textfield,
     title: 'Heb je nog andere lichamelijke problemen?',
     section_end: true
@@ -464,7 +464,7 @@ dagboek_content = [
   }, {
     id: :v77_1,
     type: :likert,
-    title: 'Ik slaap overdag en/of Ôs nachts meer dan de meeste jongens en meisjes',
+    title: 'Ik slaap overdag en/of \'s nachts meer dan de meeste jongens en meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v77_2,

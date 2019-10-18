@@ -58,8 +58,8 @@ Make sure that Docker Compose is installed, it will allow you to run the applica
 
 Clone the codebase and step into the directory.
 ```bash
-  git clone https://github.com/compsy/u-can-act
-  cd u-can-act
+  git clone git@github.com:compsy/vsv.git
+  cd vsv
 ```
 Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 ```
@@ -207,7 +207,7 @@ Daily (e.g., at 3:30am), the following rake task should run:
 rake scheduler:rescheduling
 ```
 
-Daily (e.g., at 4am), the following rake task should run to 
+Daily (e.g., at 4am), the following rake task should run:
 ```
 rake scheduler:generate_questionnaire_headers
 ```
@@ -218,7 +218,13 @@ When using Heroku these can be scheduled via the *Heroku Scheduler*.
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 
 ## Protocols and Measurements
-There are two types of Measurements. 
+In the system a _Questionnaire_ denotes the definition of a questionnaire.
+A _Protocol_ is the overarching type which contains questionnaires.
+To obtain data from people filling in the questionnaires, each questionnaire should contain _Measurements_. 
+The measurements define when the user should (be nudged to) fill in the questionnaire. 
+The filled in questionnaires are stored as _Responses_.
+
+There are two types of measurements. 
 Periodical and one-time measurements. 
 Periodical measurements are measurements that have a `period` that is not nil. 
 Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
@@ -230,10 +236,10 @@ The protocol specification contains multiple variables for some protocol `p` and
 Variable | Description
 --- | ---
 `p.duration` | Duration of protocol. After _protocol start date_ + _protocol duration_ the protocol will be closed.
-`q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty measurement is stored in the database.
+`q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.
 `q.period` | Time between measurements.
-`q.open_from_offset` | What offset to apply before opening the protocol. When set to zero the start is typically the moment when the user logs in for the first time. See `SubscribeToProtocol.run` in the codebase for details.
-`q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`.
+`q.open_from_offset` | What offset to apply before opening the protocol. 
+`q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
 ## Importing new students and mentors
 New mentors and students can be imported using the `echo_people` use case. 

@@ -21,6 +21,7 @@ services:
     command: ["bundle","exec","bin/webpack-dev-server"]
     volumes:
       - .:/app
+      - node_modules:/app/node_modules
       # don't mount tmp directory
       - /app/tmp
     ports:
@@ -50,6 +51,7 @@ services:
       - RESET_DB_ON_FAIL=true
     volumes:
       - .:/app
+      - node_modules:/app/node_modules
       - /app/tmp
     ports:
       - "3002:3000"
@@ -63,3 +65,5 @@ services:
 networks:
   frontend:
   backend:
+volumes:
+  node_modules:

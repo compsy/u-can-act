@@ -61,7 +61,7 @@ Clone the codebase and step into the directory.
   git clone https://github.com/compsy/u-can-act
   cd u-can-act
 ```
-Then fill in the `.env` or `.env.local` files and run the back end with
+Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 ```
   docker-compose up
 ```

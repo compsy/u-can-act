@@ -1,13 +1,52 @@
-# VSV
-Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek
+# u-can-act
+Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
+Ook in gebruik als _back end_ voor <https://iederkindisanders.nl/> en <https://yourspecialforces.nl>.
 
 [![DOI][zenodo-image]][zenodo-url]
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![Dependabot Status][dependabot-image]](dependabot-url)
 
+Table of Contents
+=================
+
+   * [u-can-act](#u-can-act)
+      * [Reference](#reference)
+      * [Funding](#funding)
+      * [Installation](#installation)
+      * [Configuration](#configuration)
+         * [General settings](#general-settings)
+         * [(Local) development settings](#local-development-settings)
+         * [Organization-specific settings](#organization-specific-settings)
+         * [Development configuration](#development-configuration)
+      * [Background jobs](#background-jobs)
+      * [Protocols and Measurements](#protocols-and-measurements)
+      * [Importing new students and mentors](#importing-new-students-and-mentors)
+         * [The Mentor CSV](#the-mentor-csv)
+         * [The Student CSV](#the-student-csv)
+      * [Variables that can be used in texts (case-sensitive!):](#variables-that-can-be-used-in-texts-case-sensitive)
+      * [Questionnaire Syntax](#questionnaire-syntax)
+         * [Type: Checkbox](#type-checkbox)
+         * [Type: Radio](#type-radio)
+         * [Type: Likert](#type-likert)
+         * [Type: Range](#type-range)
+         * [Type: Raw](#type-raw)
+         * [Type: Textarea](#type-textarea)
+         * [Type: Textfield](#type-textfield)
+         * [Type: Number](#type-number)
+         * [Type: Expandable](#type-expandable)
+         * [Type: Time](#type-time)
+         * [Type: Date](#type-date)
+         * [Type: Unsubscribe](#type-unsubscribe)
+         * [Type: Dropdown](#type-dropdown)
+         * [Type: Drawing](#type-drawing)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc).
+
 ## Reference
-Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). U-can-act Web-app (Version 1.0) [Web application software]. Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
+Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). 
+U-can-act Web-app (Version 1.0) [Web application software]. 
+Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
 
 ## Funding
 This application has been made possible by funding from The Netherlands Initiative for Education Research (NRO) under projectnumber 405-16-401.
@@ -15,26 +54,21 @@ This application has been made possible by funding from The Netherlands Initiati
 ![NRO](https://u-can-act.nl/wp-content/uploads/2018/01/NRO-2.png)
 
 ## Installation
-Create checkout and install dependencies
+Make sure that Docker Compose is installed, it will allow you to run the application with Postgress, Redis and MongoDB.
+
+Clone the codebase and step into the directory.
 ```bash
   git clone git@github.com:compsy/vsv.git
   cd vsv
-  bundle
 ```
-
-Initialize the database
-``` ruby
-  bundle exec rake db:setup
+Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 ```
-
-## Dependencies
-The VSV application has the following dependencies:
-- PostgreSQL
-- Redis
-- Yarn (on macOS: `brew install yarn`)
+  docker-compose up
+```
 
 ## Configuration
-The `.env` file is used for storing all ENV variables. Below is a list of all required ENV variables.
+The `.env` file is used for storing all ENV variables. 
+Below is a list of all required ENV variables for production servers.
 
 ### General settings
 ```
@@ -83,8 +117,10 @@ The `.env` file is used for storing all ENV variables. Below is a list of all re
   INFO_SITE_URL: <site for more information about the u-can-act project, typically https://u-can-act.nl>
 ```
 
-### Development settings
-For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development. However, a `.env.local` file is **not** included in the repository, and should be created by the developer. Since this file determines which project of Vsv will run, it should at minimum have the following settings:
+### (Local) development settings
+For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development. 
+However, a `.env.local` file is **not** included in the repository, and should be created by the developer. 
+Since this file determines which project will run, it should at minimum have the following settings:
 
 `.env.local` minimum settings:
 ```
@@ -99,13 +135,14 @@ For developers, many of the above settings have default values specified in the 
   SITE_LOCATION:     http://myproject.io
 ```
 
-So after cloning the repo, be sure to create an `.env.local` file with at least the variables above.
+After cloning the repo, be sure to create an `.env.local` file with at least the variables above.
 
 When using the rake task to generate a new project (`bundle exec rake "deployment:create_project[myproject]"`), a `.env.local` file is automatically generated for you. But when switching to one of the existing projects in the repo, you need to set the above variables in `.env.local`.
 
-
 ### Organization-specific settings
-Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
+Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. 
+One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. 
+This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
 
 The file structure of the `my_organization` directory in the `projects` directory should be as follows:
 
@@ -175,13 +212,34 @@ Daily (e.g., at 4am), the following rake task should run:
 rake scheduler:generate_questionnaire_headers
 ```
 
+When using Heroku these can be scheduled via the *Heroku Scheduler*.
+
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 
-## Creating Protocols and Measurements
-There are two types of Measurements. Periodical and one-time measurements. Periodical measurements are measurements that have a `period` that is not nil. Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
+## Protocols and Measurements
+In the system a _Questionnaire_ denotes the definition of a questionnaire.
+A _Protocol_ is the overarching type which contains questionnaires.
+To obtain data from people filling in the questionnaires, each questionnaire should contain _Measurements_. 
+The measurements define when the user should (be nudged to) fill in the questionnaire. 
+The filled in questionnaires are stored as _Responses_.
+
+There are two types of measurements. 
+Periodical and one-time measurements. 
+Periodical measurements are measurements that have a `period` that is not nil. 
+Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
 
 For non-periodical measurements, the `offset_until_end` is ignored.
+
+The protocol specification contains multiple variables for some protocol `p` and questionnaire `q`.
+
+Variable | Description
+--- | ---
+`p.duration` | Duration of protocol. After _protocol start date_ + _protocol duration_ the protocol will be closed.
+`q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.
+`q.period` | Time between measurements.
+`q.open_from_offset` | What offset to apply before opening the protocol. 
+`q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
 ## Importing new students and mentors
 New mentors and students can be imported using the `echo_people` use case. 
@@ -190,9 +248,10 @@ New mentors and students can be imported using the `echo_people` use case.
   be rake "maintenance:echo_people[CSV_NAME]"
 ```
 
-in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data. It is important that the format of the CSV is ordered as follows. 
+in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data. 
+It is important that the format of the CSV is ordered as follows. 
 
-### The Mentor CSV)
+### The Mentor CSV
 For the Mentor data this should be:
 
 | type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | end_date |
@@ -229,7 +288,6 @@ In this case:
  - `protocol_name`: the name of the protocol the person will participate in (for students this is `studenten`)
  - `start_date`: the date at which the person should start
  - `end_date`: the end date of the protocol subscription
-
 
 ## Variables that can be used in texts (case-sensitive!):
 
@@ -280,12 +338,11 @@ Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
 
 Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{begeleider}}` or `jouw {{begeleider}}`.
 
-
 ## Questionnaire Syntax
 The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`.
 
-
-For all questions, it is allowed to use HTML tags in the texts. Also, you may use any of the special variables defined in the previous section.
+For all questions, it is allowed to use HTML tags in the texts. 
+Also, you may use any of the special variables defined in the previous section.
 
 ### Type: Checkbox
 Required and allowed options (minimal example and maximal example):
@@ -320,7 +377,11 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element. The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip` field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+The options array can contain either hashes or strings. 
+If it is just a string, it is used as the `title` element. 
+The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. 
+The `tooltip` field is also optional. 
+When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
 
@@ -385,7 +446,11 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can contain either hashes or strings. If it is just a string, it is used as the `title` element.  The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. The `tooltip' field is also optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+The options array can contain either hashes or strings. 
+If it is just a string, it is used as the `title` element.
+The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. 
+The `tooltip' field is also optional. 
+When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
@@ -412,7 +477,9 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can currently only contain strings. The strings in the array are used as answer options. Likert questions are always required.
+The options array can currently only contain strings. 
+The strings in the array are used as answer options. 
+Likert questions are always required.
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
@@ -437,7 +504,8 @@ Required and allowed options (minimal example and maximal example):
   section_end: true
 }]
 ```
-The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. 
+It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**
@@ -475,7 +543,8 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+The `tooltip' field is optional. 
+When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 ### Type: Textfield
 Required and allowed options (minimal example and maximal example):
@@ -500,14 +569,18 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+The `tooltip' field is optional. 
+When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
-The property `pattern` is a regex that limits what the user can enter. The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
+The property `pattern` is a regex that limits what the user can enter. 
+The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
 
-Textfields also support a `default_value` property, which is a default value used to fill out the text field. This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
+Textfields also support a `default_value` property, which is a default value used to fill out the text field. 
+This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
 
 ### Type: Number
-Type for integer(?) numbers. Required and allowed options (minimal example and maximal example):
+Type for integer(?) numbers. 
+Required and allowed options (minimal example and maximal example):
 
 ```ruby
 [{
@@ -532,14 +605,16 @@ Type for integer(?) numbers. Required and allowed options (minimal example and m
 
 Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known).
 
-The `required` property is also supported. The default is that numbers are not required.
+The `required` property is also supported. 
+The default is that numbers are not required.
 
 The `number` type does not support `pattern` or `hint` because these properties are not supported by the html 5 `number` input type.
 
 Also, the `placeholder` property is supported for numbers.
 
 ### Type: Expandable
-Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
+Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. 
+They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
 
 ```ruby
 [{
@@ -589,7 +664,9 @@ Expandable questionnaire questions are essentially mini questionnaires within ea
   }]
 }]
 ```
-If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
+If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. 
+(E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). 
+Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
 
 ### Type: Time
 Required and allowed options (minimal example):
@@ -632,14 +709,19 @@ Required and allowed options (minimal example and maximal example):
 
 The `min` and `max` properties can be either two arrays as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
 
-Please note that there is currently a bug in the date picker when you specify dates as arrays. So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
+Please note that there is currently a bug in the date picker when you specify dates as arrays. 
+So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
 
 If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
 
 ### Type: Unsubscribe
-Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. You may want to control its visibility by specifying a `show_after` property.
+Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. 
+Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. 
+You may want to control its visibility by specifying a `show_after` property.
 
-Including an unsubscribe type "question" in a questionnaire will show a card with a button. Clicking this button will redirect the user to the unsubscribe route for the protocol subscription to which the current questionnaire belongs. If the protocol has a stop measurement, the user is first redirected to fill out this questionnaire, after which they will be unsubscribed from the protocol.
+Including an unsubscribe type "question" in a questionnaire will show a card with a button. 
+Clicking this button will redirect the user to the unsubscribe route for the protocol subscription to which the current questionnaire belongs. 
+If the protocol has a stop measurement, the user is first redirected to fill out this questionnaire, after which they will be unsubscribed from the protocol.
 
 Required and allowed options (minimal example):
 
@@ -657,8 +739,9 @@ Unsubscribe questions do not need an `id`.
 
 Usable properties for an unsubscribe `question` type are `title`, `content`, `button_text`, and `data_method` (all are optional).
 
-The default `data_method` is `delete`. The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
-
+The default `data_method` is `delete`. 
+The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. 
+Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
 ### Type: Dropdown
 Required and allowed options (minimal example and maximal example):
@@ -682,23 +765,26 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array must contain of strings. Currently, there is no support for `shows_questions` or `hides_questions` triggers based on selected options in a dropdown.
+The options array must contain of strings. 
+Currently, there is no support for `shows_questions` or `hides_questions` triggers based on selected options in a dropdown.
 
 The dropdown does not support a `show_otherwise` option.
 
 Dropdowns are always required.
 
-A dropdown can have a `placeholder` property which is the text used when no option is selected. If no `placeholder` is specified, a default text is used.
+A dropdown can have a `placeholder` property which is the text used when no option is selected. 
+If no `placeholder` is specified, a default text is used.
 
 A dropdown can have a `label` property which is a small text that is always visible and is printed directly above the dropdown.
 
- The `tooltip' field is optional. When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+The `tooltip' field is optional. 
+When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
-
 ### Type: Drawing
-Let's a user draw on an image. Required and allowed options (minimal example and maximal example):
+Let's a user draw on an image. 
+Required and allowed options (minimal example and maximal example):
 
 ```ruby
 [{

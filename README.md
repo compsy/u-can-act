@@ -7,6 +7,42 @@ Ook in gebruik als _back end_ voor <https://iederkindisanders.nl/> en <https://y
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![Dependabot Status][dependabot-image]](dependabot-url)
 
+Table of Contents
+=================
+
+   * [u-can-act](#u-can-act)
+      * [Reference](#reference)
+      * [Funding](#funding)
+      * [Installation](#installation)
+      * [Configuration](#configuration)
+         * [General settings](#general-settings)
+         * [(Local) development settings](#local-development-settings)
+         * [Organization-specific settings](#organization-specific-settings)
+         * [Development configuration](#development-configuration)
+      * [Background jobs](#background-jobs)
+      * [Protocols and Measurements](#protocols-and-measurements)
+      * [Importing new students and mentors](#importing-new-students-and-mentors)
+         * [The Mentor CSV)](#the-mentor-csv)
+         * [The Student CSV](#the-student-csv)
+      * [Variables that can be used in texts (case-sensitive!):](#variables-that-can-be-used-in-texts-case-sensitive)
+      * [Questionnaire Syntax](#questionnaire-syntax)
+         * [Type: Checkbox](#type-checkbox)
+         * [Type: Radio](#type-radio)
+         * [Type: Likert](#type-likert)
+         * [Type: Range](#type-range)
+         * [Type: Raw](#type-raw)
+         * [Type: Textarea](#type-textarea)
+         * [Type: Textfield](#type-textfield)
+         * [Type: Number](#type-number)
+         * [Type: Expandable](#type-expandable)
+         * [Type: Time](#type-time)
+         * [Type: Date](#type-date)
+         * [Type: Unsubscribe](#type-unsubscribe)
+         * [Type: Dropdown](#type-dropdown)
+         * [Type: Drawing](#type-drawing)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc).
+
 ## Reference
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). 
 U-can-act Web-app (Version 1.0) [Web application software]. 
@@ -17,17 +53,6 @@ This application has been made possible by funding from The Netherlands Initiati
 
 ![NRO](https://u-can-act.nl/wp-content/uploads/2018/01/NRO-2.png)
 
-## Contents
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [General settings](#general-settings)
-- [Background jobs](#background-jobs)
-- [Protocols and measurements](#protocols-and-measurements")
-- [Importing students and mentors](#importing-students-and-mentors)
-- [Variables that can be used in texts](#vars-that-can-be-used-in-texts)
-- [Questionnaire syntax](#questionnaire-syntax)
-
-<a name="installation"/>
 ## Installation
 Make sure that Docker Compose is installed, it will allow you to run the application with Postgress, Redis and MongoDB.
 
@@ -37,12 +62,10 @@ Clone the codebase and step into the directory.
   cd u-can-act
 ```
 
-<a name="configuration"/>
 ## Configuration
 The `.env` file is used for storing all ENV variables. 
 Below is a list of all required ENV variables for production servers.
 
-<a name="general-settings"/>
 ### General settings
 ```
   PROJECT_NAME:      <name of the project (e.g., vsv)>
@@ -147,7 +170,6 @@ In order to run the Capybara specs of the VSV project, you need to install the c
   brew install chromedriver
 ```
 
-<a name="background-jobs"/>
 ## Background jobs
 The workings of the app rely on the following background jobs:
 
@@ -191,7 +213,6 @@ When using Heroku these can be scheduled via the *Heroku Scheduler*.
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 
-<a name="protocols-and-measurements"/>
 ## Protocols and Measurements
 There are two types of Measurements. 
 Periodical and one-time measurements. 
@@ -209,7 +230,6 @@ Variable | Description
 `q.open_from_offset` | What offset to apply before opening the protocol. When set to zero the start is typically the moment when the user logs in for the first time. See `SubscribeToProtocol.run` in the codebase for details.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`.
 
-<a name="importing-students-and-mentors"/>
 ## Importing new students and mentors
 New mentors and students can be imported using the `echo_people` use case. 
 
@@ -258,7 +278,6 @@ In this case:
  - `start_date`: the date at which the person should start
  - `end_date`: the end date of the protocol subscription
 
-<a name="vars-that-can-be-used-in-texts"/>
 ## Variables that can be used in texts (case-sensitive!):
 
 ```
@@ -308,7 +327,6 @@ Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
 
 Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{begeleider}}` or `jouw {{begeleider}}`.
 
-<a name="questionnaire-syntax"/>
 ## Questionnaire Syntax
 The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`.
 

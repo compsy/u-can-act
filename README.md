@@ -22,7 +22,7 @@ Table of Contents
       * [Background jobs](#background-jobs)
       * [Protocols and Measurements](#protocols-and-measurements)
       * [Importing new students and mentors](#importing-new-students-and-mentors)
-         * [The Mentor CSV)](#the-mentor-csv)
+         * [The Mentor CSV](#the-mentor-csv)
          * [The Student CSV](#the-student-csv)
       * [Variables that can be used in texts (case-sensitive!):](#variables-that-can-be-used-in-texts-case-sensitive)
       * [Questionnaire Syntax](#questionnaire-syntax)
@@ -222,6 +222,7 @@ Periodical measurements are repeated each `period` from `protocol_subscription.s
 For non-periodical measurements, the `offset_until_end` is ignored.
 
 The protocol specification contains multiple variables for some protocol `p` and questionnaire `q`.
+
 Variable | Description
 --- | ---
 `p.duration` | Duration of protocol. After _protocol start date_ + _protocol duration_ it will be closed.
@@ -240,7 +241,7 @@ New mentors and students can be imported using the `echo_people` use case.
 in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data. 
 It is important that the format of the CSV is ordered as follows. 
 
-### The Mentor CSV)
+### The Mentor CSV
 For the Mentor data this should be:
 
 | type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | end_date |

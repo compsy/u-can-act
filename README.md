@@ -61,6 +61,10 @@ Clone the codebase and step into the directory.
   git clone https://github.com/compsy/u-can-act
   cd u-can-act
 ```
+Then fill in the `.env` or `.env.local` files and run the back end with
+```
+  docker-compose up
+```
 
 ## Configuration
 The `.env` file is used for storing all ENV variables. 
@@ -225,7 +229,7 @@ The protocol specification contains multiple variables for some protocol `p` and
 
 Variable | Description
 --- | ---
-`p.duration` | Duration of protocol. After _protocol start date_ + _protocol duration_ it will be closed.
+`p.duration` | Duration of protocol. After _protocol start date_ + _protocol duration_ the protocol will be closed.
 `q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty measurement is stored in the database.
 `q.period` | Time between measurements.
 `q.open_from_offset` | What offset to apply before opening the protocol. When set to zero the start is typically the moment when the user logs in for the first time. See `SubscribeToProtocol.run` in the codebase for details.

@@ -49,6 +49,6 @@
       "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest"
     },
-    "setupTestFrameworkScriptFile": "./spec/javascript/setupTests.js"
+    "setupFilesAfterEnv": ["./spec/javascript/setupTests.js"]
   }
 }

@@ -19,11 +19,11 @@ AllCops:
     - 'node_modules/**/*'
 
 # Use UTF-8 as the source file encoding.
-Encoding:
+Style/Encoding:
   Enabled: false
 
 # Limit lines to 80 characters.
-LineLength:
+Metrics/LineLength:
   Max: 120
 
 # Default is 5
@@ -31,7 +31,7 @@ Metrics/ParameterLists:
   Max: 6
 
 # Avoid methods longer than 10 lines of code
-MethodLength:
+Metrics/MethodLength:
   CountComments: false  # count full line comments?
   Max: 20
 
@@ -80,5 +80,5 @@ Metrics/AbcSize:
 # Forces the argument names of the block given to #reduce to be `a, e`. Only
 # applies on single-line blocks, but why would we want to force people to use
 # less descriptive names?
-Documentation:
+Style/Documentation:
   Enabled: false

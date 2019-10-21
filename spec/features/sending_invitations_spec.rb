@@ -45,9 +45,9 @@ describe 'sending invitations', type: :feature do
       expect(MessageBirdAdapter.deliveries.size).to eq(2 * responses.length) # reminder and original
 
       MessageBirdAdapter.deliveries.each_with_index do |msg, index|
-        responseobj = responses.select do |resp|
+        responseobj = responses.find do |resp|
           resp.protocol_subscription.person_id == InvitationSet.all[1 + (index / 2)].person_id
-        end.first
+        end
         responseobj.reload
         expect(msg[:to]).to eq(responseobj.protocol_subscription.person.mobile_phone)
         expect(msg[:body]).not_to be_blank

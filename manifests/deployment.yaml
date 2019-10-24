@@ -1,0 +1,206 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: svc-questionnaires
+  namespace: sdv-mvp
+  labels:
+    worker: "no"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc-questionnaires
+      tier: web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 100%
+  template:
+    metadata:
+      labels:
+        app: svc-questionnaires
+        track: stable
+        tier: web
+    spec:
+      imagePullSecrets:
+        - name: gitlab-auth
+      containers:
+        - name: svc-questionnaires
+          imagePullPolicy: Always
+          image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
+          env:
+          - name: RAILS_ENV
+            value: production
+          - name: RACK_ENV
+            value: production
+          - name: NODE_ENV
+            value: production
+          - name: PAPERTRAIL_PROGRAM
+            value: web
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___SECRET_KEY_BASE
+          - name: HOST_URL
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___HOST_URL
+          - name: HOST_DOMAIN
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___HOST_URL
+          - name: INFO_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___INFO_EMAIL
+          - name: FEEDBACK_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___FEEDBACK_EMAIL
+          - name: MESSAGEBIRD_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_ACCESS_KEY
+          - name: MESSAGEBIRD_SEND_FROM
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_SEND_FROM
+          - name: PERSON_SALT
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___PERSON_SALT
+          - name: STOP_SUBSCRIPTION_SALT
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___STOP_SUBSCRIPTION_SALT
+          - name: ADMIN_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___ADMIN_USERNAME
+          - name: ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___ADMIN_PASSWORD
+          - name: MAILGUN_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___MAILGUN_API_KEY
+          - name: MAILGUN_DOMAIN
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___MAILGUN_DOMAIN
+          - name: FROM_EMAIL_ADDRESS
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___FROM_EMAIL_ADDRESS
+          - name: AUTH0_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_ID
+          - name: AUTH0_DOMAIN
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___AUTH0_DOMAIN
+          - name: AUTH0_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_SECRET
+          - name: AUTH0_REDIRECT_URL
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___AUTH0_REDIRECT_URL
+          - name: AUTH0_AUDIENCE
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___AUTH0_AUDIENCE
+          - name: AUTH0_SIGNING_CERTIFICATE
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___AUTH0_SIGNING_CERTIFICATE
+          - name: REDIS_HOST
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___REDIS_HOST
+          - name: REDIS_PORT
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___REDIS_PORT
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___REDIS_PASSWORD
+          - name: TEST_PHONE_NUMBERS
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___TEST_PHONE_NUMBERS
+          - name: SNITCH_KEY
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___SNITCH_KEY
+          - name: API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___API_KEY
+          - name: API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___API_SECRET
+          - name: IP_HASH_SALT
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___IP_HASH_SALT
+          - name: INFO_SITE_URL
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 200
+            timeoutSeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 200
+            timeoutSeconds: 5
+            periodSeconds: 5
+
+

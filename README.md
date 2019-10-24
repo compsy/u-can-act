@@ -821,11 +821,11 @@ The only optional parameters are `radius` and `density`. They default to 15 and 
 [zenodo-image]: https://zenodo.org/badge/84442919.svg
 [zenodo-url]: https://zenodo.org/badge/latestdoi/84442919
 
-[circleci-image]: https://circleci.com/gh/compsy/vsv.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
-[circleci-url]: https://circleci.com/gh/compsy/vsv
+[circleci-image]: https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
+[circleci-url]: https://circleci.com/gh/compsy/u-can-act
 
-[coveralls-image]: https://coveralls.io/repos/github/compsy/vsv/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/compsy/vsv?branch=master
+[coveralls-image]: https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/compsy/u-can-act?branch=master
 
-[dependabot-image]: https://api.dependabot.com/badges/status?host=github&repo=compsy/vsv
+[dependabot-image]: https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act
 [dependabot-url]: https://dependabot.com

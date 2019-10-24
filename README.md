@@ -48,6 +48,9 @@ Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jon
 U-can-act Web-app (Version 1.0) [Web application software]. 
 Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
 
+Frank J. Blaauw, Mandy A. E. van der Gaag, Nick R. Snell, Ando C. Emerencia, E. Saskia Kunnen and Peter de Jonge (2018).
+The u-can-act Platform: A Tool to Study Intra-individual Processes of Early School Leaving and Its Prevention Using Multiple Informants. [Frontiers in Psychology](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.01808/full)
+
 ## Funding
 This application has been made possible by funding from The Netherlands Initiative for Education Research (NRO) under projectnumber 405-16-401.
 

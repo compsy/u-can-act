@@ -5,7 +5,7 @@ Ook in gebruik als _back end_ voor <https://iederkindisanders.nl/> en <https://y
 [![DOI][zenodo-image]][zenodo-url]
 [![Circle CI][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependabot Status][dependabot-image]](dependabot-url)
+[![Dependabot Status][dependabot-image]][dependabot-url]
 
 Table of Contents
 =================

@@ -55,7 +55,6 @@ Rails.application.routes.draw do
       resources :person, only: [:update] do
         collection do
           get :me
-          get :test
         end
       end
       resources :statistics, only: [:index]

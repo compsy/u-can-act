@@ -10,11 +10,35 @@ describe Api::V1::PersonController, type: :controller do
   end
 
   describe 'authorized' do
-    describe 'show' do
-      before do
-        cookie_auth(person)
+    before do
+      cookie_auth(person)
+    end
+    describe 'update' do
+      it 'renders the correct errors if something goes wrong' do
+        new_email = 'newtest.com'
+        put :person, params: { person: { email: new_email } }
+        expect(response.status).to eq 422
+        expect(response.header['Content-Type']).to include 'application/json'
+        json = JSON.parse(response.body)
+        expect(json['status']).to eq 'not ok'
+        expect(json['errors']).to include 'email'
+        expect(json['errors']['email']).to include 'is ongeldig'
       end
 
+      it 'updates the current user' do
+        new_email = 'new@test.com'
+        put :person, params: { person: { email: new_email } }
+        expect(response.status).to eq 200
+        expect(response.header['Content-Type']).to include 'application/json'
+        json = JSON.parse(response.body)
+        expect(json).not_to be_nil
+        expect(json['status']).to eq 'ok'
+        expect(person.email).to eq new_email
+      end
+     end
+    end
+
+    describe 'me' do
       it 'calls the correct serializer' do
         allow(controller).to receive(:render)
           .with(json: person, serializer: Api::PersonSerializer)

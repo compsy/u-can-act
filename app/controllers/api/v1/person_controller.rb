@@ -7,17 +7,17 @@ module Api
       # support cookie authentication.
       include ::Concerns::IsLoggedInWithAnyMethod
 
-      def test
-        AuthUser.destroy_all
-        render json: 'hoi'
-      end
-
       def me
         render json: current_user, serializer: Api::PersonSerializer
       end
 
       def update
-        current_user.update!(person_params)
+        res = current_user.update(person_params)
+        if res
+          render status: :ok, json: { status: 'ok' }
+        else
+          render status: :unprocessable_entity, json: { status: 'not ok', errors: current_user.errors }
+        end
       end
 
       private

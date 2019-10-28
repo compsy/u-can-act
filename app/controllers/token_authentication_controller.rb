@@ -5,7 +5,7 @@ class TokenAuthenticationController < ApplicationController
   before_action :check_invitation_token
 
   RESPONSE_ID_COOKIE = :response_id
-  JWT_TOKEN_COOKIE = :sessionToken
+  JWT_TOKEN_COOKIE = :jwt_token
   PERSON_ID_COOKIE = :person_id
 
   def show

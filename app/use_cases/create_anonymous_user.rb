@@ -13,7 +13,6 @@ class CreateAnonymousUser < ActiveInteraction::Base
   def execute
     auth_user = create_or_find_auth_user(auth0_id_string, role)
     auth_user = create_or_find_person(auth_user)
-    Rails.logger.info auth_user
     auth_user
   end
 
@@ -36,7 +35,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
     auth_user.person = Person.create!(first_name: auth_user.auth0_id_string,
                                       last_name: auth_user.auth0_id_string,
                                       gender: nil,
-                                      mobile_phone: generate_fake_phonenumber,
+                                      mobile_phone: nil,
                                       role: find_role,
                                       auth_user: auth_user)
     auth_user
@@ -54,7 +53,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
     raise(message)
   end
 
-  def generate_fake_phonenumber
-    "06#{Array.new(8) { rand(10) }.join}"
-  end
+  #def generate_fake_phonenumber
+    #"06#{Array.new(8) { rand(10) }.join}"
+  #end
 end

@@ -52,9 +52,10 @@ Rails.application.routes.draw do
       resources :response, only: [:show, :index, :create], param: :uuid
       resources :people, only: [:create], param: :external_identifier
       resources :auth_user, only: [:create]
-      resources :person do
+      resources :person, only: [:update] do
         collection do
           get :me
+          get :test
         end
       end
       resources :statistics, only: [:index]

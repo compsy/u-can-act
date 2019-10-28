@@ -59,10 +59,18 @@ Rails.application.routes.draw do
       end
       resources :statistics, only: [:index]
       resources :settings, only: [:index]
-      resources :protocol_subscriptions, only: [:show]
+      resources :protocol_subscriptions, only: [:create] do
+        collection do
+          get :mine
+        end
+      end
+      resources :protocol, only: [:index]
       namespace :admin do
         resources :team, only: [:show], param: :group
         resources :organization, only: [:show], param: :group
+      end
+      namespace :api_token do
+        resources :protocol_subscriptions, only: [:create]
       end
     end
   end

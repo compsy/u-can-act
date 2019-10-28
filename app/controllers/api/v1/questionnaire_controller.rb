@@ -3,7 +3,7 @@
 module Api
   module V1
     class QuestionnaireController < ApiController
-      before_action :authenticate_auth_user
+      include ::Concerns::IsJwtAuthenticated
       before_action :check_admin_authenticated, only: %i[create]
       before_action :set_questionnaire, only: %i[show]
 

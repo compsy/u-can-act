@@ -13,10 +13,10 @@ module Concerns
     private
 
     def verify
-      result = authenticate_auth_user
+      result = current_user
       return result if result.present?
 
-      result = current_user
+      result = authenticate_auth_user
       return result if result.present?
 
       render(status: :unauthorized, html: 'Je bent niet ingelogd.', layout: 'application')

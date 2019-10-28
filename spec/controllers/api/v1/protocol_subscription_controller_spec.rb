@@ -19,7 +19,7 @@ describe Api::V1::ProtocolSubscriptionsController, type: :controller do
         cookie_auth(protocol_subscription.person)
       end
 
-      fit 'returns all my protocol subscriptions' do
+      it 'returns all my protocol subscriptions' do
         get :mine
         expect(response.status).to eq 200
         expect(JSON.parse(response.body).length).to eq 4 + 1

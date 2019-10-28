@@ -10,7 +10,6 @@ class AuthUser < ApplicationRecord
   USER_ROLE = 'user'
 
   class << self
-
     # This function gets called automatically when authorizing a user. So note
     # that if we raise from here, the authorization process stops and it might
     # be hard to debug.

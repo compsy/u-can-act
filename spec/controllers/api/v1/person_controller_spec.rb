@@ -13,6 +13,7 @@ describe Api::V1::PersonController, type: :controller do
     before do
       cookie_auth(person)
     end
+
     describe 'update' do
       it 'renders the correct errors if something goes wrong' do
         new_email = 'newtest.com'
@@ -35,7 +36,6 @@ describe Api::V1::PersonController, type: :controller do
         expect(json['status']).to eq 'ok'
         expect(person.email).to eq new_email
       end
-     end
     end
 
     describe 'me' do

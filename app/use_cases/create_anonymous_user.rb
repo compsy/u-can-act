@@ -52,8 +52,4 @@ class CreateAnonymousUser < ActiveInteraction::Base
     Rails.logger.error message
     raise(message)
   end
-
-  #def generate_fake_phonenumber
-    #"06#{Array.new(8) { rand(10) }.join}"
-  #end
 end

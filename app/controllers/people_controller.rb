@@ -58,7 +58,7 @@ class PeopleController < ApplicationController
     flash[:notice] = if @person.role.group == Person::SOLO
                        'Bedankt voor het invullen van de vragenlijst!'
                      else
-                       'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
+                       "Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!"
                      end
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end

@@ -55,7 +55,7 @@ describe Questionnaire do
       it 'is not valid with duplicate keys' do
         expect(invalid_questionnaire).not_to be_valid
         expect(invalid_questionnaire.errors.messages).to have_key :content
-        expect(invalid_questionnaire.errors.messages[:content]).to include('can only have a series of unique ids')
+        expect(invalid_questionnaire.errors.messages[:content]).to include('can only have a series of unique ids: v1')
       end
 
       it 'is valid without duplicate keys' do

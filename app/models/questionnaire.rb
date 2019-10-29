@@ -40,7 +40,7 @@ class Questionnaire < ApplicationRecord
 
     return if result.blank?
 
-    errors.add(:content, 'can only have a series of unique ids')
+    errors.add(:content, "can only have a series of unique ids: #{result}")
   end
 
   def drawing_ids

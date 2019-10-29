@@ -38,6 +38,7 @@ class Measurement < ApplicationRecord
       response_times << temp_open_from
       temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
     end
+
     response_times
   end
 

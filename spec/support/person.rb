@@ -34,7 +34,7 @@ shared_examples_for 'a person object' do
       expect(result).to match_array students
     end
 
-    it 'alsoes iterate over inactive protocol subscriptions' do
+    it 'also iterates over inactive protocol subscriptions' do
       mentor = FactoryBot.create(:mentor)
       students = FactoryBot.create_list(:student, 10)
       students.each do |student|

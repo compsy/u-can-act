@@ -2,6 +2,7 @@
 
 module Api
   class TeamOverviewSerializer < ActiveModel::Serializer
+    type 'team_overview'
     attributes :overview
 
     def overview

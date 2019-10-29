@@ -132,7 +132,7 @@ class FixResponses < ActiveInteraction::Base
           varregex = variable.gsub('deze_student', '[a-z_]+?')
           varregex = "#{varregex}_timing" if timing
           varregex = /\A#{varregex}\z/
-          next unless key =~ varregex
+          next unless key&.match?(varregex)
 
           new_key = timing ? "#{variable}_timing" : variable
           @atleastonereplaced = true if new_key != key # only count it if we actually change the key

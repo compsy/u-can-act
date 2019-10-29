@@ -219,7 +219,7 @@ describe ProtocolSubscription do
       expect(protocol_subscription.person).to eq original_mentor
     end
 
-    it 'alsoes change the filling_out_for if this is the same as the person' do
+    it 'also changes the filling_out_for if this is the same as the person' do
       protocol_subscription.filling_out_for = original_mentor
       expect(protocol_subscription.person).to eq protocol_subscription.filling_out_for
 
@@ -290,6 +290,12 @@ describe ProtocolSubscription do
       expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :start_date
       expect(protocol_subscription.errors.messages[:start_date]).to include('moet opgegeven zijn')
+    end
+    it 'does not have to be the beginning of a day' do
+      not_midnight = Time.new(2017, 4, 10, 12, 0, 0).in_time_zone
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: not_midnight)
+      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription.errors.messages).to_not have_key :start_date
     end
   end
 

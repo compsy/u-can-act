@@ -58,4 +58,7 @@ Rails.application.configure do
     domain: 'vsv.io'
   }
 
+  # Don't complain that you can't access web console
+  config.web_console.whiny_requests = false
+
 end

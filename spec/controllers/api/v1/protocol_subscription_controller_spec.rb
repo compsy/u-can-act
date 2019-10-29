@@ -49,7 +49,7 @@ describe Api::V1::ProtocolSubscriptionsController, type: :controller do
         get :show, params: { id: protocol_subscription.id }
         expect(response.status).to eq 401
         expect(response).to render_template(layout: 'application')
-        expect(response.body).to include 'Je hebt geen toegang tot deze vragenlijst.'
+        expect(response.body).to include 'Je bent niet ingelogd.'
       end
     end
   end

@@ -16,6 +16,8 @@ class QuestionnaireController < ApplicationController
   before_action :set_questionnaire_content, only: [:show]
   before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_content_hash, only: [:create]
+  before_action :check_interactive_content, only: %i[interactive_render]
+  before_action :set_interactive_content, only: %i[interactive_render]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
@@ -23,6 +25,20 @@ class QuestionnaireController < ApplicationController
 
   def interactive
     @default_content = Questionnaire.all.sample&.content&.to_json
+  end
+
+  def interactive_render
+    @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
+      response_id: nil,
+      content: @raw_questionnaire_content,
+      title: 'Test questionnaire',
+      submit_text: 'Opslaan',
+      action: '/api/v1/questionnaire/from_json',
+      unsubscribe_url: nil
+    )
+
+    render 'questionnaire/show'
   end
 
   def show
@@ -60,6 +76,22 @@ class QuestionnaireController < ApplicationController
   end
 
   private
+
+  def check_interactive_content
+    return unless params.blank? || params[:content].blank?
+
+    render(status: :bad_request, json: 'Please supply a json file in the content field.')
+  end
+
+  def set_interactive_content
+    @raw_questionnaire_content = JSON.parse(params[:content])
+    if @raw_questionnaire_content.blank? || !(@raw_questionnaire_content.is_a? Array)
+      render status: :bad_request, json: { error: 'At least one question should be provided, in an array' }
+      return
+    end
+  rescue JSON::ParserError => e
+    render status: :bad_request, json: { error: e.message }
+  end
 
   def check_stop_subscription
     # We assume that if a stop measurement is submitted, it is always the last
@@ -105,7 +137,7 @@ class QuestionnaireController < ApplicationController
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
       I18n.t('pages.klaar.header')
     else
-      'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
+      "Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!"
     end
   end
 
@@ -127,24 +159,15 @@ class QuestionnaireController < ApplicationController
   end
 
   def verify_cookie
-    signed_in_person_id = current_user&.id
-    response_cookie_person_id = person_for_response_cookie
-    params_person_id = Response.find_by(id: questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
-    return if response_cookie_person_id && signed_in_person_id &&
-              signed_in_person_id == params_person_id &&
-              signed_in_person_id == response_cookie_person_id
+    # TODO: !!THIS HAS CHANGED A LOT!! NEEDS TO BE CHECKED VERY CAREFULLY!
+    return if AuthenticationVerifier.valid? questionnaire_create_params[:response_id], current_user
 
-    log_cookie
     render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
   end
 
-  def person_for_response_cookie
-    response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
-    Response.find_by(id: response_id)&.protocol_subscription&.person_id
-  end
-
   def set_response
-    the_response = Response.find_by(uuid: questionnaire_params[:uuid])
+    the_response = current_user.my_open_responses(nil)
+                               .find { |response| response.uuid == questionnaire_params[:uuid] }
     check_response(the_response)
     return if performed?
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class InvitationMailer < ActionMailer::Base
-  DEFAULT_INVITATION_SUBJECT = 'u-can-act'
+  DEFAULT_INVITATION_SUBJECT = ENV['PROJECT_NAME']
   layout 'mailer'
 
   default from: ENV['FROM_EMAIL_ADDRESS']

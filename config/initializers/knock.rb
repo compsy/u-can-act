@@ -31,7 +31,7 @@ Knock.setup do |config|
   ## -------------
   ##
   ## Configure the key used to sign tokens.
-  if ENV['TOKEN_SIGNATURE_ALGORITHM'] == 'RS256'
+  if config.token_signature_algorithm == 'RS256'
     config.token_secret_signature_key = -> {
       OpenSSL::PKey::RSA.new(
         OpenSSL::X509::Certificate.new(Base64.strict_decode64(Rails.application.secrets.signing_certificate))

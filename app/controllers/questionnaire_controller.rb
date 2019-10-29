@@ -94,15 +94,22 @@ class QuestionnaireController < ApplicationController
     render status: :bad_request, json: { error: e.message }
   end
 
+  # This cop changes the code to not work anymore:
+  # rubocop:disable Style/WhileUntilModifier
   def verify_interactive_content
-    key = (0...10).map { ('a'..'z').to_a[rand(26)] }.join
-    while Questionnaire.find_by(key: key) do
-      key = (0...10).map { ('a'..'z').to_a[rand(26)] }.join
+    key = random_string
+    while Questionnaire.find_by(key: key)
+      key = random_string
     end
     questionnaire = Questionnaire.new(name: key, key: key, content: @raw_questionnaire_content)
     return if questionnaire.valid?
 
     render status: :bad_request, json: { error: questionnaire.errors }
+  end
+  # rubocop:enable Style/WhileUntilModifier
+
+  def random_string
+    (0...10).map { ('a'..'z').to_a[rand(26)] }.join
   end
 
   def check_stop_subscription

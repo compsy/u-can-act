@@ -262,29 +262,29 @@ describe 'GET /admin', type: :feature, js: true do
         page.click_on 'Organization overview'
       end
 
-      xit 'shows a log out button when logged in' do # uncomment whn auth is fixed
-        visit '/admin'
-        expect(page).to have_content 'Log Out'
-      end
-
-      xit 'should list the correct teams' do # uncomment when Auth is fixed
-        Team.overview(bust_cache: true)
-        FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                          content: [{ type: :raw, content: 'questionnaire' }])
-        page.click_on 'Organization overview'
-        expect(page).to have_content 'Team overview'
-        expect(page).to have_content org1.name
-        expect(page).to have_content 'Team'
-        expect(page).to have_content 'Completed'
-        expect(page).to have_content 'Completed percentage'
-        expect(page).to have_content '≥ 70% completed questionnaires'
-
-        # It should not list org2, because it does not have any roles
-        expect(page).not_to have_content org2.name
-
-        expect(page).to have_content Person::STUDENT
-        expect(page).to have_content Person::MENTOR
-      end
+      # xit 'shows a log out button when logged in' do # uncomment whn auth is fixed
+      #   visit '/admin'
+      #   expect(page).to have_content 'Log Out'
+      # end
+      #
+      # xit 'should list the correct teams' do # uncomment when Auth is fixed
+      #   Team.overview(bust_cache: true)
+      #   FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
+      #                                     content: [{ type: :raw, content: 'questionnaire' }])
+      #   page.click_on 'Organization overview'
+      #   expect(page).to have_content 'Team overview'
+      #   expect(page).to have_content org1.name
+      #   expect(page).to have_content 'Team'
+      #   expect(page).to have_content 'Completed'
+      #   expect(page).to have_content 'Completed percentage'
+      #   expect(page).to have_content '70% completed questionnaires'
+      #
+      #   # It should not list org2, because it does not have any roles
+      #   expect(page).not_to have_content org2.name
+      #
+      #   expect(page).to have_content Person::STUDENT
+      #   expect(page).to have_content Person::MENTOR
+      # end
     end
   end
 end

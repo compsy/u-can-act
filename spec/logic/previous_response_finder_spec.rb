@@ -148,8 +148,8 @@ describe PreviousResponseFinder do
       measurement = FactoryBot.create(:measurement, period: 1.day)
 
       completed_response = FactoryBot.create(:response,
-                                             open_from: 1.days.ago,
-                                             completed_at: 1.days.ago,
+                                             open_from: 1.day.ago,
+                                             completed_at: 1.day.ago,
                                              protocol_subscription: protocol_subscription,
                                              measurement: measurement)
       current_response = FactoryBot.create(:response,

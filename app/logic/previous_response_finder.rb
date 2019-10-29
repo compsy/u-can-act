@@ -3,7 +3,7 @@
 class PreviousResponseFinder
   class << self
     def find(response)
-      return nil unless response.present?
+      return nil if response.blank?
       return nil unless response.measurement.periodical?
 
       completed_responses = response.protocol_subscription.responses.completed

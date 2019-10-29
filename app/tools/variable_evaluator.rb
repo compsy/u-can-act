@@ -41,7 +41,7 @@ class VariableEvaluator
 
     def merge(default, extra)
       default.dup.merge(extra.dup) do |_, oldval, newval|
-        newval.blank? ? oldval : newval
+        newval.presence || oldval
       end
     end
 

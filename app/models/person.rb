@@ -92,9 +92,9 @@ class Person < ApplicationRecord
   end
 
   def open_questionnaire?(questionnaire_name)
-    my_open_responses.select do |resp|
+    my_open_responses.count do |resp|
       resp.measurement.questionnaire.name == questionnaire_name
-    end.count.positive?
+    end.positive?
   end
 
   def mentor

@@ -18,17 +18,17 @@ class QuestionnaireController < ApplicationController
   before_action :check_content_hash, only: [:create]
   before_action :check_interactive_content, only: %i[interactive_render]
   before_action :set_interactive_content, only: %i[interactive_render]
+  before_action :verify_interactive_content, only: %i[interactive_render]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
   def interactive
-    @default_content = Questionnaire.all.sample&.content&.to_json
+    @default_content = ''
   end
 
   def interactive_render
-    @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
     @content = QuestionnaireGenerator.new.generate_questionnaire(
       response_id: nil,
       content: @raw_questionnaire_content,
@@ -80,7 +80,7 @@ class QuestionnaireController < ApplicationController
   def check_interactive_content
     return unless params.blank? || params[:content].blank?
 
-    render(status: :bad_request, json: 'Please supply a json file in the content field.')
+    render(status: :bad_request, json: { error: 'Please supply a json string in the content field.' })
   end
 
   def set_interactive_content
@@ -89,8 +89,27 @@ class QuestionnaireController < ApplicationController
       render status: :bad_request, json: { error: 'At least one question should be provided, in an array' }
       return
     end
+    @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
   rescue JSON::ParserError => e
     render status: :bad_request, json: { error: e.message }
+  end
+
+  # This cop changes the code to not work anymore:
+  # rubocop:disable Style/WhileUntilModifier
+  def verify_interactive_content
+    key = random_string
+    while Questionnaire.find_by(key: key)
+      key = random_string
+    end
+    questionnaire = Questionnaire.new(name: key, key: key, content: @raw_questionnaire_content)
+    return if questionnaire.valid?
+
+    render status: :bad_request, json: { error: questionnaire.errors }
+  end
+  # rubocop:enable Style/WhileUntilModifier
+
+  def random_string
+    (0...10).map { ('a'..'z').to_a[rand(26)] }.join
   end
 
   def check_stop_subscription

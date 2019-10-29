@@ -7,7 +7,7 @@ function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-var LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Vastleggen";
+var LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Klaar (volgende vraag)";
 var UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Aanpassen";
 
 function readDataProperty(elem, property) {

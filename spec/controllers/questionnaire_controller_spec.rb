@@ -382,7 +382,7 @@ RSpec.describe QuestionnaireController, type: :controller do
         [{}, { content: [] }].each do |params|
           post :interactive_render, params: params
           expect(response.status).to eq 400
-          expect(response.body).to eq 'Please supply a json file in the content field.'
+          expect(response.body).to eq({ error: 'Please supply a json string in the content field.' }.to_json)
         end
       end
 

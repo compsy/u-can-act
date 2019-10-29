@@ -75,7 +75,7 @@ GEM
       rack
     arel (8.0.0)
     ast (2.4.0)
-    autoprefixer-rails (9.6.5)
+    autoprefixer-rails (9.7.0)
       execjs
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
@@ -134,7 +134,7 @@ GEM
       railties (>= 3.2, < 6.1)
     erubi (1.9.0)
     erubis (2.7.0)
-    excon (0.67.0)
+    excon (0.68.0)
     execjs (2.7.0)
     factory_bot (5.1.1)
       activesupport (>= 4.2.0)
@@ -339,7 +339,7 @@ GEM
     rspec-support (3.9.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (0.75.1)
+    rubocop (0.76.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)

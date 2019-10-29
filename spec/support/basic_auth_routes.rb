@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 shared_examples_for 'a basic authenticated route' do |method, route|
-  # Disabling rubu, it currently only does this because of the params || {} line
+  # Disabling rubocop, it currently only does this because of the params || {} line
   # rubocop:disable Metrics/CyclomaticComplexity
   def call_url(method, route)
     case method

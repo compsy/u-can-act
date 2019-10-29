@@ -7,6 +7,9 @@
       $.post( "/questionnaire/interactive_render", data, function( data ) {
         $( ".result" ).html( data );
         $(".example-title").show();
+      }).fail(function(err) {
+        console.log(err);
+        $( ".result" ).html( err.responseText );
       });
     });
   });

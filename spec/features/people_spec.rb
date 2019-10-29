@@ -157,7 +157,7 @@ describe 'GET /edit', type: :feature, js: true do
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
       expect(page)
-        .to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.')
+        .to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
       expect(page).to have_content('Gegevens opgeslagen')
       expect(page).not_to have_content('Disclaimer')
       expect(page).not_to have_content('Gegevens aanpassen')
@@ -168,7 +168,7 @@ describe 'GET /edit', type: :feature, js: true do
       page.fill_in('person_email', with: 'anewemail.com')
       all('button[type="submit"]').first.click
       expect(page)
-        .not_to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.')
+        .not_to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
       expect(page).not_to have_content('Gegevens opgeslagen')
     end
   end

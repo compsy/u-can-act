@@ -16,7 +16,7 @@ describe Measurement do
     end
 
     it 'should be an integer' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.reminder_delay = 5
       expect(measurement.valid?).to be_truthy
       measurement.reminder_delay = -3
@@ -30,7 +30,7 @@ describe Measurement do
     end
 
     it 'can be nil' do
-      measurement = FactoryBot.build(:measurement)
+      measurement = FactoryBot.create(:measurement)
       measurement.reminder_delay = nil
       expect(measurement.valid?).to be_truthy
     end

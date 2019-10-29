@@ -152,9 +152,14 @@ form .likert-scale {
 // Move questions without titles but that have the title element defined closer to
 // their previous element so they appear together (because that's how we use them).
 .no-title {
-  margin-bottom: -2rem;
+  margin-bottom: -0.55rem;
   position: relative;
-  top: -4rem;
+  top: -2.61rem;
+  padding-top: 0;
+  &>.col>p.flow-text:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 // Fix balloons sticking on mobile
@@ -244,5 +249,36 @@ button[type="submit"] {
       text-align: center;
       vertical-align: center;
     }
+  }
+}
+
+// drawing
+.drawing {
+  .drawing-container {
+    background-image: image-url('pixel.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: #cccccc;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    cursor: crosshair;
+  }
+
+  .hideme {
+    opacity: 0;
+  }
+
+  .drawing-clear {
+    margin-right: 8px;
+  }
+
+  .drawing-log {
+    width: 100%;
+    cursor: default;
+    overflow-y: scroll;
+    display: inline-block;
+    background-color: #fff;
   }
 }

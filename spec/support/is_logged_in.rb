@@ -4,10 +4,10 @@ require 'rails_helper'
 
 shared_examples_for 'an is_logged_in concern' do |route, params|
   render_views
-  it 'should require a valid user' do
+  it 'requires a valid user' do
     get route, params: params
-    expect(response).to have_http_status(401)
+    expect(response).to have_http_status(:unauthorized)
     expect(response).to render_template(layout: 'application')
-    expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')
+    expect(response.body).to include('Je bent niet ingelogd.')
   end
 end

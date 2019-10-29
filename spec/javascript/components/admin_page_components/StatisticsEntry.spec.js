@@ -105,7 +105,7 @@ describe('StatisticsEntry', () => {
   describe('render', () => {
     it("it should return a div with the correct class", () => {
       expect(wrapper.name()).toEqual('div');
-      expect(wrapper.is('.statistics-entry.col.s6.m6.l6.xl3')).toBeTruthy();
+      expect(wrapper.is('.statistics-entry.col.s12.m6.l6.xl5')).toBeTruthy();
     });
 
     it("it should return the correct title", () => {

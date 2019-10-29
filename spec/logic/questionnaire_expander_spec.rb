@@ -4,8 +4,9 @@ require 'rails_helper'
 
 describe QuestionnaireExpander do
   let(:response) { FactoryBot.create(:response) }
+
   describe 'expand_content' do
-    it 'should call the variable substitutor for a title and return an array' do
+    it 'calls the variable substitutor for a title and return an array' do
       content = 'Hoi {{deze_student}} {{hij_zij_student}} {{naam_begeleider}} {{hem_haar_begeleider}}'
       mockresult = 'the result'
       expect(VariableSubstitutor).to receive(:substitute_variables).with(response).and_return({})
@@ -14,7 +15,7 @@ describe QuestionnaireExpander do
       expect(result).to eq [mockresult]
     end
 
-    it 'should call the variable substitutor for a regular question and return an array' do
+    it 'calls the variable substitutor for a regular question and return an array' do
       content = { id: :v2,
                   type: :checkbox,
                   title: 'Wat heeft u vandaag gegeten?',
@@ -48,7 +49,7 @@ describe QuestionnaireExpander do
             ] }
         end
 
-        it 'should replace the title with the first response title if this is the first response' do
+        it 'replaces the title with the first response title if this is the first response' do
           expect(PreviousResponseFinder).to receive(:find)
             .with(response)
             .and_return(nil)
@@ -59,7 +60,7 @@ describe QuestionnaireExpander do
           expect(result).to eq([content])
         end
 
-        it 'should not replace the title if the current response is not the first response' do
+        it 'does not replace the title if the current response is not the first response' do
           expect(PreviousResponseFinder).to receive(:find)
             .with(response)
             .and_return(other_response)
@@ -80,7 +81,7 @@ describe QuestionnaireExpander do
             } }
         end
 
-        it 'should not replace the content if the current response is not the first response' do
+        it 'does not replace the content if the current response is not the first response' do
           allow(PreviousResponseFinder).to receive(:find)
             .with(response)
             .and_return(other_response)
@@ -91,7 +92,7 @@ describe QuestionnaireExpander do
           expect(result).to eq([content])
         end
 
-        it 'should replace the content with the first response content if this is the first response' do
+        it 'replaces the content with the first response content if this is the first response' do
           allow(PreviousResponseFinder).to receive(:find)
             .with(response)
             .and_return(nil)
@@ -105,7 +106,7 @@ describe QuestionnaireExpander do
     end
 
     describe 'foreach' do
-      it 'should raise if the provided foreach is not defined' do
+      it 'raises if the provided foreach is not defined' do
         content = { id: :v2,
                     type: :checkbox,
                     foreach: :mentor,
@@ -119,7 +120,7 @@ describe QuestionnaireExpander do
           .to raise_error(RuntimeError, 'Only :student foreach type is allowed, not mentor')
       end
 
-      it 'should call the variable substitutor multiple times for a foreach question' do
+      it 'calls the variable substitutor multiple times for a foreach question' do
         team = FactoryBot.create(:team)
         student_role = FactoryBot.create(:role, team: team, group: Person::STUDENT, title: Person::STUDENT)
         mentor_role = FactoryBot.create(:role, team: team, group: Person::MENTOR, title: 'MentorTitle')
@@ -155,7 +156,7 @@ describe QuestionnaireExpander do
     end
 
     describe 'uses' do
-      it 'should raise if the provided uses is not defined' do
+      it 'raises if the provided uses is not defined' do
         content = { id: :v2,
                     type: :checkbox,
                     uses: :mentor,
@@ -169,7 +170,7 @@ describe QuestionnaireExpander do
           .to raise_error(RuntimeError, "Uses must be of hash type type, not 'mentor'")
       end
 
-      it 'should raise if the provided uses is not defined' do
+      it 'raises if the provided uses is not defined' do
         content = { id: :v2,
                     type: :checkbox,
                     uses: { mentor: 'abc' },
@@ -183,7 +184,7 @@ describe QuestionnaireExpander do
           .to raise_error(RuntimeError, "Only :previous uses type is allowed, not '{:mentor=>\"abc\"}'")
       end
 
-      it 'should return an array' do
+      it 'returns an array' do
         content = { id: :v2,
                     type: :checkbox,
                     uses: { previous: :v2 },
@@ -198,7 +199,7 @@ describe QuestionnaireExpander do
         expect(result).to be_an Array
       end
 
-      it 'should call the correct external functions with the right parameters' do
+      it 'calls the correct external functions with the right parameters' do
         other_response = FactoryBot.create(:response)
         result = { 'the': 'hash' }
         expected = 'the expected result'
@@ -228,7 +229,7 @@ describe QuestionnaireExpander do
         expect(result).to eq([expected])
       end
 
-      it 'should call the correct external functions with the right parameters and default value' do
+      it 'calls the correct external functions with the right parameters and default value' do
         result = { 'the': 'hash' }
         expected = 'the expected result'
         default = 'hallo!'

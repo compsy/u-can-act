@@ -42,6 +42,7 @@ class Measurement < ApplicationRecord
       response_times << temp_open_from
       temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
     end
+
     response_times
   end
 
@@ -88,7 +89,7 @@ class Measurement < ApplicationRecord
   end
 
   def open_from_offset_cannot_be_blank
-    return unless open_from_offset.blank?
+    return if open_from_offset.present?
 
     errors.add(:open_from_offset, 'cannot be blank')
   end

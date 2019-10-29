@@ -20,7 +20,7 @@ class CreateAnonymousPerson < ActiveInteraction::Base
   private
 
   def find_role
-    team = Team.find_by_name(team_name)
+    team = Team.find_by(name: team_name)
     role = team&.roles&.first
     return role if role.present?
 

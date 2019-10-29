@@ -20,18 +20,19 @@ describe Api::V1::StatisticsController, type: :controller do
   let!(:responses) { FactoryBot.create_list(:response, 7, :completed) }
 
   describe 'index' do
-    it 'should render a json file with the correct entries' do
+    it 'renders a json file with the correct entries' do
       expected = %w[number_of_students
                     number_of_mentors
                     duration_of_project_in_weeks
-                    number_of_completed_questionnaires]
+                    number_of_completed_questionnaires
+                    number_of_book_signups]
       get :index
       json_response = JSON.parse(response.body)
-      expect(json_response.keys.length).to eq 4
+      expect(json_response.keys.length).to eq 5
       expect(json_response.keys).to match_array(expected)
     end
 
-    it 'should list the correct number of students' do
+    it 'lists the correct number of students' do
       protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
       studs1.each do |student|
@@ -59,7 +60,7 @@ describe Api::V1::StatisticsController, type: :controller do
       expect(json_response['number_of_students']).to eq expected
     end
 
-    it 'should list the correct number of mentors' do
+    it 'lists the correct number of mentors' do
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
       mentors1.each do |mentor|
         FactoryBot.create(:protocol_subscription,
@@ -87,40 +88,40 @@ describe Api::V1::StatisticsController, type: :controller do
     end
 
     describe 'duration_of_project_in_weeks' do
-      it 'should return the correct duration of the project' do
+      it 'returns the correct duration of the project' do
         expect(Rails.application.config.settings).to receive(:project_start_date)
-          .exactly(1).times.and_return('2017-03-17')
+          .once.and_return('2017-03-17')
         expect(Rails.application.config.settings).to receive(:project_end_date)
-          .exactly(1).times.and_return('2018-08-06')
+          .once.and_return('2018-08-06')
         get :index
         json_response = JSON.parse(response.body)
         expected = 7 + 1 # we also count the active week
         expect(json_response['duration_of_project_in_weeks']).to eq expected
       end
 
-      it 'should return the correct duration of the project if we are past the end date' do
+      it 'returns the correct duration of the project if we are past the end date' do
         expect(Rails.application.config.settings).to receive(:project_start_date)
-          .exactly(1).times.and_return('2017-03-17')
+          .once.and_return('2017-03-17')
         expect(Rails.application.config.settings).to receive(:project_end_date)
-          .exactly(1).times.and_return('2017-03-27')
+          .once.and_return('2017-03-27')
         get :index
         json_response = JSON.parse(response.body)
         expected = 2 # we also count the active week
         expect(json_response['duration_of_project_in_weeks']).to eq expected
       end
 
-      it 'should return zero if the start date is after the end date' do
+      it 'returns zero if the start date is after the end date' do
         expect(Rails.application.config.settings).to receive(:project_start_date)
-          .exactly(1).times.and_return('2017-03-27')
+          .once.and_return('2017-03-27')
         expect(Rails.application.config.settings).to receive(:project_end_date)
-          .exactly(1).times.and_return('2017-03-17')
+          .once.and_return('2017-03-17')
         get :index
         json_response = JSON.parse(response.body)
         expect(json_response['duration_of_project_in_weeks']).to eq 0
       end
     end
 
-    it 'should return the correct number of completed questionnaires' do
+    it 'returns the correct number of completed questionnaires' do
       protocol1 = FactoryBot.create(:protocol, name: 'protocol_one')
       protocol2 = FactoryBot.create(:protocol, name: 'protocol_two')
       protocol3 = FactoryBot.create(:protocol, name: 'protocol_three')
@@ -134,6 +135,18 @@ describe Api::V1::StatisticsController, type: :controller do
       get :index
       json_response = JSON.parse(response.body)
       expect(json_response['number_of_completed_questionnaires']).to eq expected
+    end
+
+    it 'returns the correct number of book signups' do
+      protocol = FactoryBot.create(:protocol, name: 'boek')
+      questionnaire = FactoryBot.create(:questionnaire, name: 'boek')
+      measurement = FactoryBot.create(:measurement, protocol: protocol, questionnaire: questionnaire)
+      responses = FactoryBot.create_list(:response, 7, :completed, measurement: measurement)
+      FactoryBot.create_list(:response, 5, measurement: measurement)
+      expected = responses.count
+      get :index
+      json_response = JSON.parse(response.body)
+      expect(json_response['number_of_book_signups']).to eq expected
     end
   end
 end

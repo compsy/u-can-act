@@ -3,23 +3,24 @@
 require 'rails_helper'
 
 describe Invitation do
-  it 'should have valid default properties' do
-    invitation = FactoryBot.build(:sms_invitation)
-    expect(invitation.valid?).to be_truthy
+  it 'has valid default properties' do
+    invitation = FactoryBot.create(:sms_invitation)
+    expect(invitation).to be_valid
   end
-  it 'should have valid default properties for email type' do
-    invitation = FactoryBot.build(:email_invitation)
-    expect(invitation.valid?).to be_truthy
+  it 'has valid default properties for email type' do
+    invitation = FactoryBot.create(:email_invitation)
+    expect(invitation).to be_valid
   end
 
   describe 'invitation_set' do
-    it 'should have one' do
-      invitation = FactoryBot.build(:sms_invitation, invitation_set_id: nil)
-      expect(invitation.valid?).to be_falsey
+    it 'has one' do
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invitation_set_id = nil
+      expect(invitation).not_to be_valid
       expect(invitation.errors.messages).to have_key :invitation_set_id
       expect(invitation.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
     end
-    it 'should work to retrieve an InvitationSet' do
+    it 'works to retrieve an InvitationSet' do
       invitation = FactoryBot.create(:sms_invitation)
       expect(invitation.invitation_set).to be_an(InvitationSet)
     end
@@ -27,13 +28,14 @@ describe Invitation do
 
   describe 'type' do
     it 'cannot be set to nil' do
-      invitation = FactoryBot.build(:invitation, type: nil)
-      expect(invitation.valid?).to be_falsey
+      invitation = FactoryBot.create(:invitation, type: 'SmsInvitation')
+      invitation.type = nil
+      expect(invitation).not_to be_valid
     end
     it 'does not throw errors with sms' do
       invitation_set = FactoryBot.create(:invitation_set)
       expect do
-        Invitation.create!(invitation_set: invitation_set, type: 'SmsInvitation')
+        described_class.create!(invitation_set: invitation_set, type: 'SmsInvitation')
       end.not_to raise_error
       expect do
         SmsInvitation.create!(invitation_set: invitation_set)
@@ -42,7 +44,7 @@ describe Invitation do
     it 'does not throw errors with email' do
       invitation_set = FactoryBot.create(:invitation_set)
       expect do
-        Invitation.create!(invitation_set: invitation_set, type: 'EmailInvitation')
+        described_class.create!(invitation_set: invitation_set, type: 'EmailInvitation')
       end.not_to raise_error
       expect do
         EmailInvitation.create!(invitation_set: invitation_set)
@@ -51,45 +53,48 @@ describe Invitation do
     it 'does throw errors with other types' do
       invitation_set = FactoryBot.create(:invitation_set)
       expect do
-        Invitation.create!(invitation_set: invitation_set, type: 'SomeKlass')
+        described_class.create!(invitation_set: invitation_set, type: 'SomeKlass')
       end.to raise_error(ActiveRecord::SubclassNotFound)
     end
   end
 
   describe 'invited_state' do
-    it 'should be one of the predefined states' do
-      invitation = FactoryBot.build(:sms_invitation)
+    it 'is one of the predefined states' do
+      invitation = FactoryBot.create(:sms_invitation)
       invitation.invited_state = Invitation::NOT_SENT_STATE
-      expect(invitation.valid?).to be_truthy
-      invitation = FactoryBot.build(:sms_invitation)
+      expect(invitation).to be_valid
+      invitation = FactoryBot.create(:sms_invitation)
       invitation.invited_state = Invitation::SENDING_STATE
-      expect(invitation.valid?).to be_truthy
-      invitation = FactoryBot.build(:sms_invitation)
+      expect(invitation).to be_valid
+      invitation = FactoryBot.create(:sms_invitation)
       invitation.invited_state = Invitation::SENT_STATE
-      expect(invitation.valid?).to be_truthy
+      expect(invitation).to be_valid
     end
-    it 'should not be nil' do
-      invitation = FactoryBot.build(:sms_invitation, invited_state: nil)
-      expect(invitation.valid?).to be_falsey
+    it 'is not nil' do
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invited_state = nil
+      expect(invitation).not_to be_valid
       expect(invitation.errors.messages).to have_key :invited_state
       expect(invitation.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
     end
-    it 'should not be empty' do
-      invitation = FactoryBot.build(:sms_invitation, invited_state: '')
-      expect(invitation.valid?).to be_falsey
+    it 'is not empty' do
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invited_state = ''
+      expect(invitation).not_to be_valid
       expect(invitation.errors.messages).to have_key :invited_state
       expect(invitation.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
     end
     it 'cannot be just any string' do
-      invitation = FactoryBot.build(:sms_invitation, invited_state: 'somestring')
-      expect(invitation.valid?).to be_falsey
+      invitation = FactoryBot.create(:sms_invitation)
+      invitation.invited_state = 'somestring'
+      expect(invitation).not_to be_valid
       expect(invitation.errors.messages).to have_key :invited_state
       expect(invitation.errors.messages[:invited_state]).to include('is niet in de lijst opgenomen')
     end
   end
 
   describe 'timestamps' do
-    it 'should have timestamps for created objects' do
+    it 'has timestamps for created objects' do
       invitation = FactoryBot.create(:sms_invitation)
       expect(invitation.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(invitation.updated_at).to be_within(1.minute).of(Time.zone.now)
@@ -97,21 +102,21 @@ describe Invitation do
   end
 
   describe 'sending!' do
-    it 'should update the invited_state to sending if it is not_sent' do
+    it 'updates the invited_state to sending if it is not_sent' do
       invitation = FactoryBot.create(:sms_invitation)
       invitation.sending!
       expect(invitation.invited_state).to eq Invitation::SENDING_STATE
       invitation.reload
       expect(invitation.invited_state).to eq Invitation::SENDING_STATE
     end
-    it 'should update the invited_state to sending_reminder if it is sending' do
+    it 'updates the invited_state to sending_reminder if it is sending' do
       invitation = FactoryBot.create(:sms_invitation, invited_state: Invitation::SENDING_STATE)
       invitation.sending!
       expect(invitation.invited_state).to eq Invitation::SENDING_REMINDER_STATE
       invitation.reload
       expect(invitation.invited_state).to eq Invitation::SENDING_REMINDER_STATE
     end
-    it 'should update the invited_state to sending_reminder if it is sent' do
+    it 'updates the invited_state to sending_reminder if it is sent' do
       invitation = FactoryBot.create(:sms_invitation, invited_state: Invitation::SENT_STATE)
       invitation.sending!
       expect(invitation.invited_state).to eq Invitation::SENDING_REMINDER_STATE
@@ -121,14 +126,14 @@ describe Invitation do
   end
 
   describe 'sent!' do
-    it 'should update the invited_state to sent if it is sending' do
+    it 'updates the invited_state to sent if it is sending' do
       invitation = FactoryBot.create(:sms_invitation, invited_state: Invitation::SENDING_STATE)
       invitation.sent!
       expect(invitation.invited_state).to eq Invitation::SENT_STATE
       invitation.reload
       expect(invitation.invited_state).to eq Invitation::SENT_STATE
     end
-    it 'should update the invited_state to reminder_sent if it is sending_reminder' do
+    it 'updates the invited_state to reminder_sent if it is sending_reminder' do
       invitation = FactoryBot.create(:sms_invitation, invited_state: Invitation::SENDING_REMINDER_STATE)
       invitation.sent!
       expect(invitation.invited_state).to eq Invitation::REMINDER_SENT_STATE
@@ -141,7 +146,7 @@ describe Invitation do
     let(:mentor) { FactoryBot.create(:mentor) }
     let(:student) { FactoryBot.create(:student) }
 
-    it 'should send both sms and email invites' do
+    it 'sends both sms and email invites' do
       invitation_set = FactoryBot.create(:invitation_set, person: mentor)
       smsinvitation = FactoryBot.create(:sms_invitation, invitation_set: invitation_set)
       emailinvitation = FactoryBot.create(:email_invitation, invitation_set: invitation_set)
@@ -154,10 +159,10 @@ describe Invitation do
       expect do
         smsinvitation.send_invite(mytok)
         emailinvitation.send_invite(mytok)
-      end.to_not raise_error
+      end.not_to raise_error
     end
 
-    it 'should also send the invitation via email' do
+    it 'also sends the invitation via email' do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
                                                 filling_out_for: student,
@@ -171,7 +176,7 @@ describe Invitation do
       mytok = invitation_token.token_plain
       message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
               'Vul nu de eerste wekelijkse vragenlijst in.'
-      responseobj.invitation_set.update_attributes!(invitation_text: message)
+      responseobj.invitation_set.update!(invitation_text: message)
       invitation_url = "#{ENV['HOST_URL']}/?q=#{myid}#{mytok}"
       allow(SendSms).to receive(:run!).with(number: mentor.mobile_phone,
                                             text: "#{message} #{invitation_url}",
@@ -186,8 +191,8 @@ describe Invitation do
       expect(ActionMailer::Base.deliveries.last.to.first).to eq mentor.email
     end
 
-    it 'should not try to send an email if the mentor does not have an email address' do
-      mentor.update_attributes!(email: nil)
+    it 'does not try to send an email if the mentor does not have an email address' do
+      mentor.update!(email: nil)
       invitation_set = FactoryBot.create(:invitation_set, person: mentor)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
@@ -198,7 +203,7 @@ describe Invitation do
       FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
                                              measurement: measurement, invitation_set: invitation_set)
       expect(SendSms).to receive(:run!)
-      expect(InvitationMailer).to_not receive(:invitation_mail)
+      expect(InvitationMailer).not_to receive(:invitation_mail)
       smsinvitation = FactoryBot.create(:sms_invitation, invitation_set: invitation_set)
       emailinvitation = FactoryBot.create(:email_invitation, invitation_set: invitation_set)
       mytok = 'asdf'

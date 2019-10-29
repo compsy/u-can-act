@@ -5,13 +5,13 @@ require 'rails_helper'
 describe SendInvitations do
   describe 'run' do
     let(:default_delay) { Measurement::DEFAULT_REMINDER_DELAY }
-    it 'should call the recently_opened_and_not_sent scope' do
+    it 'calls the recently_opened_and_not_sent scope' do
       expect(Response).to receive(:recently_opened_and_not_invited).and_return []
       described_class.run
     end
 
     describe 'loops through responses' do
-      it 'should queue recent responses' do
+      it 'queues recent responses' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response, open_from: 1.hour.ago, protocol_subscription: protocol_subscription)
         invitationjob = double('sendinvitationsjob')
@@ -26,11 +26,11 @@ describe SendInvitations do
         responseobj.reload
         expect(Invitation.count).to eq(invitationscount + 1) # this person does not have an email
         expect(InvitationSet.count).to eq(invitationsetscount + 1)
-        expect(responseobj.invitation_set_id).to_not be_nil
+        expect(responseobj.invitation_set_id).not_to be_nil
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
       end
 
-      it 'should queue two invitations if a person has an email address' do
+      it 'queues two invitations if a person has an email address' do
         student = FactoryBot.create(:person, email: 'student@student.com')
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   start_date: 1.week.ago.at_beginning_of_day,
@@ -48,11 +48,11 @@ describe SendInvitations do
         responseobj.reload
         expect(Invitation.count).to eq(invitationscount + 2) # email and sms
         expect(InvitationSet.count).to eq(invitationsetscount + 1)
-        expect(responseobj.invitation_set_id).to_not be_nil
+        expect(responseobj.invitation_set_id).not_to be_nil
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
       end
 
-      it 'should not queue a response that is outside the recent window' do
+      it 'does not queue a response that is outside the recent window' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response,
                                         open_from: (Response::RECENT_PAST + 1.hour).ago,
@@ -68,7 +68,7 @@ describe SendInvitations do
         expect(Invitation.count).to eq invitationcount
       end
 
-      it 'should not queue a response from an inactive protocol subscription' do
+      it 'does not queue a response from an inactive protocol subscription' do
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   state: ProtocolSubscription::CANCELED_STATE,
                                                   start_date: 1.week.ago.at_beginning_of_day)
@@ -84,7 +84,7 @@ describe SendInvitations do
         expect(Invitation.count).to eq invitationcount
       end
 
-      it 'should create a single invitation_set for multiple responses for mentors' do
+      it 'creates a single invitation_set for multiple responses for mentors' do
         mentor = FactoryBot.create(:mentor)
         responses = Array.new(10) do |_i|
           student = FactoryBot.create(:student)
@@ -112,7 +112,7 @@ describe SendInvitations do
         end
       end
 
-      it 'should queue based on the measurement reminder delay time' do
+      it 'queues based on the measurement reminder delay time' do
         student = FactoryBot.create(:student)
         reminder_delay = 3.hours + 2.minutes + 1.second
         protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -137,11 +137,11 @@ describe SendInvitations do
         responseobj.reload
         expect(Invitation.count).to eq(invitationscount + 1)
         expect(InvitationSet.count).to eq(invitationsetscount + 1)
-        expect(responseobj.invitation_set_id).to_not be_nil
+        expect(responseobj.invitation_set_id).not_to be_nil
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
       end
 
-      it 'should create a single invitation_set for multiple responses for students' do
+      it 'creates a single invitation_set for multiple responses for students' do
         student = FactoryBot.create(:student)
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   start_date: 1.week.ago.at_beginning_of_day,
@@ -179,7 +179,7 @@ describe SendInvitations do
     end
 
     describe 'reminders' do
-      it 'should queue reminders for students' do
+      it 'queues reminders for students' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
         responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
@@ -202,7 +202,7 @@ describe SendInvitations do
         expect(InvitationSet.first.responses.count).to eq 1
       end
 
-      it 'should queue reminders for mentor responses' do
+      it 'queues reminders for mentor responses' do
         mentor = FactoryBot.create(:mentor)
         protocol_subscription = FactoryBot.create(:protocol_subscription, :mentor,
                                                   start_date: 1.week.ago.at_beginning_of_day,
@@ -229,7 +229,7 @@ describe SendInvitations do
       end
     end
 
-    it 'should not queue a response that is expired' do
+    it 'does not queue a response that is expired' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       measurement = FactoryBot.create(:measurement, open_duration: 30.minutes, protocol: protocol_subscription.protocol)
       responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
@@ -246,7 +246,7 @@ describe SendInvitations do
       expect(Invitation.count).to eq invitationcount
     end
 
-    it 'should not queue a response from an inactive protocol subscription' do
+    it 'does not queue a response from an inactive protocol subscription' do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
                                                 state: ProtocolSubscription::CANCELED_STATE)
@@ -265,7 +265,7 @@ describe SendInvitations do
       expect(Invitation.count).to eq invitationcount
     end
 
-    it 'should not queue responses that people were already invited for' do
+    it 'does not queue responses that people were already invited for' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol)
       invitation_set = FactoryBot.create(:invitation_set, person: protocol_subscription.person)
@@ -277,17 +277,17 @@ describe SendInvitations do
       expect(SendInvitationsJob).not_to receive(:set)
       invitationsetcount = InvitationSet.count
       invitationcount = Invitation.count
-      expect(responseobj.invitation_set_id).to_not be_nil
+      expect(responseobj.invitation_set_id).not_to be_nil
       invitationsetidbefore = responseobj.invitation_set_id
       described_class.run
       responseobj.reload
-      expect(responseobj.invitation_set_id).to_not be_nil
+      expect(responseobj.invitation_set_id).not_to be_nil
       expect(responseobj.invitation_set_id).to eq invitationsetidbefore
       expect(InvitationSet.count).to eq invitationsetcount
       expect(Invitation.count).to eq invitationcount
     end
 
-    it 'should not queue responses that have should_invite false measurements' do
+    it 'does not queue responses that have should_invite false measurements' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
       measurement = FactoryBot.create(:measurement, should_invite: false, open_duration: 1.day,
                                                     protocol: protocol_subscription.protocol)

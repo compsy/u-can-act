@@ -1,9 +1,9 @@
 development:
   clients:
     default:
-      database: vsv_development
+      database: <%= ENV['MONGO_DATABASE'] || 'vsv' %>_development
       hosts:
-        - docker.io:27017
+        - mongo:27017
       options:
         # Mongoid now supports the new read preferences that the core drivers provide. These include:
         #
@@ -37,9 +37,9 @@ development:
 test:
   clients:
     default:
-      database: vsv_test
+      database: <%= ENV['MONGO_DATABASE'] || 'vsv' %>_test
       hosts:
-        - docker.io:27017
+        - mongo:27017
 
 staging:
   clients:

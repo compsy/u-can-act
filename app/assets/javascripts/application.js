@@ -21,11 +21,17 @@
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
 //= require study_progress_bar
+//= require sketch
 //= require_tree .
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})
 });
 
-// TODO: We need some sort of webpack setup to automatically inject these
-// 'ENV' vars into the compiled javascript
-
+printAsMoney = function(euroValue) {
+  euroValue = parseFloat(Math.round(euroValue * 100) / 100).toFixed(2);
+  euroValue = euroValue.toString();
+  euroValue = euroValue.replace('.',',');
+  euroValue = euroValue.replace(',00',',-');
+  euroValue = '€' + euroValue;
+  return(euroValue);
+};

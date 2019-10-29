@@ -26,7 +26,7 @@ module GeneratorLogic
       end
 
       def deal_with_type(show_after_hash, response_id)
-        Response.find_by_id(response_id)&.last? if show_after_hash[:type] == :only_on_final_questionnaire
+        Response.find(response_id)&.last? if show_after_hash[:type] == :only_on_final_questionnaire
       end
 
       def ensure_show_after_hash(show_after)
@@ -44,7 +44,7 @@ module GeneratorLogic
       def convert_offset_to_date(offset, response_id)
         raise "Unknown show_after offset type: #{offset}" unless an_offset?(offset)
 
-        response = Response.find_by_id(response_id)
+        response = Response.find(response_id)
         return 2.seconds.ago if response.blank? # If we don't have a response, just show it
 
         TimeTools.increase_by_duration(response.protocol_subscription.start_date, offset)

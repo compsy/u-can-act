@@ -5,9 +5,6 @@ class ProtocolTransfer < ApplicationRecord
   belongs_to :from, class_name: 'Person'
   belongs_to :to, class_name: 'Person'
 
-  validates :protocol_subscription, presence: true
-  validates :from, presence: true
-  validates :to, presence: true
   validate :check_to_from_different
 
   private

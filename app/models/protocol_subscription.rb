@@ -6,7 +6,7 @@ class ProtocolSubscription < ApplicationRecord
   CANCELED_STATE = 'canceled'
   COMPLETED_STATE = 'completed'
   belongs_to :person
-  belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id'
+  belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id', inverse_of: false
   validates :person_id, presence: true # The person who receives the SMS (Mentor)
   validates :filling_out_for_id, presence: true # Student ID
   belongs_to :protocol
@@ -17,16 +17,16 @@ class ProtocolSubscription < ApplicationRecord
 
   # Note: this ordering is important for a number of reasons. E.g.:
   # - Response.last? uses it to determine if this is the last in the set.
-  has_many :responses, -> { order open_from: :asc }, dependent: :destroy
+  has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
   after_initialize :initialize_end_date
-  has_many :protocol_transfers
+  has_many :protocol_transfers, dependent: :destroy
 
-  validates_uniqueness_of :filling_out_for_id,
-                          scope: %i[person_id state],
+  validates :filling_out_for_id,
+            uniqueness: { scope: %i[person_id state],
                           conditions: -> { where(state: ACTIVE_STATE) },
-                          if: ->(sub) { sub.person_id != sub.filling_out_for_id }
+                          if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def transfer!(transfer_to)
@@ -41,7 +41,7 @@ class ProtocolSubscription < ApplicationRecord
   def stop_response
     # We can be sure there is always at most one stop response as this is forced / validated in the
     # protocol class.
-    responses.joins(:measurement).where(measurements: { stop_measurement: true }).first
+    responses.joins(:measurement).find_by(measurements: { stop_measurement: true })
   end
 
   def active?
@@ -49,7 +49,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def cancel!
-    update_attributes!(state: CANCELED_STATE, end_date: Time.zone.now)
+    update!(state: CANCELED_STATE, end_date: Time.zone.now)
     responses.future.destroy_all
   end
 
@@ -148,6 +148,6 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def schedule_responses
-    RescheduleResponses.run!(protocol_subscription: self, future: 1.second.ago)
+    RescheduleResponses.run!(protocol_subscription: self, future: 10.minutes.ago)
   end
 end

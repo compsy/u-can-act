@@ -1,0 +1,51 @@
+{
+    "description": "Vroegtijdig School Verlaten Dagboekonderzoek", 
+    "license": "MIT", 
+    "title": "the u-can-act Web-app", 
+    "version": "v1.0", 
+    "upload_type": "software", 
+    "publication_date": "2019-06-15", 
+    "creators": [
+        {
+            "affiliation": "University of Groningen", 
+            "name": "A. C. Emerencia"
+        }, 
+        {
+            "affiliation": "University of Groningen / Researchable", 
+            "name": "F. J. Blaauw"
+        }, 
+        {
+            "affiliation": "University of Groningen",
+            "name": "N.R. Snell"
+        },
+        {
+            "affiliation": "Umanise",
+            "name": "T. Blijlevens"
+        },
+        {
+            "affiliation": "University of Groningen",
+            "name": "E. S. Kunnen"
+        },
+        {
+            "affiliation": "University of Groningen",
+            "name": "P. de Jonge"
+        },
+        {
+            "affiliation": "University of Groningen",
+            "name": "Mandy van der Gaag"
+        }     
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/compsy/vsv/tree/v1.0", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.3246670", 
+            "relation": "isVersionOf"
+        }
+    ]
+}

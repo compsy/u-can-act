@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  sequence(:mobile_phone) { |n| "06#{format('%08d', n)}" }
+  sequence(:mobile_phone) { |n| "06#{format('%<number>08d', number: n)}" }
   sequence(:email) { |n| "email#{n}@email.com" }
   factory :person do
     initialize_with { new(attributes) } # This makes it so that after_initialize blocks in the model are called.
@@ -19,6 +19,12 @@ FactoryBot.define do
     trait :with_protocol_subscriptions do
       after(:create) do |person|
         FactoryBot.create(:protocol_subscription, person: person)
+      end
+    end
+
+    trait :with_auth_user do
+      after(:create) do |person|
+        FactoryBot.create(:auth_user, person: person)
       end
     end
   end

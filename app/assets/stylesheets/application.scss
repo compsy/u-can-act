@@ -15,6 +15,8 @@
  * require_tree .
  *= require_self
  *= require animate
+ *= require admin_interface
+ *= require project
  */
 //@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
@@ -213,4 +215,10 @@ body {
 
 .warning-text {
   color: $u-can-act-orange !important;
+}
+
+.logo-image {
+  width: 20%;
+  margin: auto;
+  display: block;
 }

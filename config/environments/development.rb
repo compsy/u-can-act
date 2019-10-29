@@ -18,7 +18,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => 'public, max-age=172800'
+      'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -57,5 +57,8 @@ Rails.application.configure do
     port: '1025',
     domain: 'vsv.io'
   }
+
+  # Don't complain that you can't access web console
+  config.web_console.whiny_requests = false
 
 end

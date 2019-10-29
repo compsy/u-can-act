@@ -24,26 +24,26 @@ describe 'GET /edit', type: :feature, js: true do
     end
     let!(:invtoken) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
 
-    before :each do
+    before do
       # Login
       visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
     end
 
-    it 'should list the correct labels / fields' do
+    it 'lists the correct labels / fields' do
       visit edit_person_path
-      expect(page).to_not have_content('Bankgegevens')
+      expect(page).not_to have_content('Bankgegevens')
       expect(page).to have_content(person_header)
       expect(page).to have_content('Voornaam')
       expect(page).to have_content('Achternaam')
       expect(page).to have_content('Geslacht')
       expect(page).to have_content('E-mailadres')
       expect(page).to have_content('Mobiele telefoonnummer')
-      expect(page).to_not have_content('Bankrekeningnummer (IBAN)')
+      expect(page).not_to have_content('Bankrekeningnummer (IBAN)')
     end
 
-    it 'should store data after clicking the update button' do
+    it 'stores data after clicking the update button' do
       visit edit_person_path
-      expect(page).to_not have_content('Bankgegevens')
+      expect(page).not_to have_content('Bankgegevens')
       expect(page).to have_content(person_header)
       page.fill_in('person_first_name', with: 'new_first')
       page.fill_in('person_last_name', with: 'new_last')
@@ -62,16 +62,16 @@ describe 'GET /edit', type: :feature, js: true do
       expect(find("[name='person[gender]'][checked]").value).to eq 'male'
     end
 
-    it 'should actually update the person object' do
-      expect(mentor.first_name).to_not eq 'new_first'
-      expect(mentor.last_name).to_not eq 'new_last'
-      expect(mentor.mobile_phone).to_not eq '0698417313'
-      expect(mentor.email).to_not eq 'anew@email.com'
+    it 'actuallies update the person object' do
+      expect(mentor.first_name).not_to eq 'new_first'
+      expect(mentor.last_name).not_to eq 'new_last'
+      expect(mentor.mobile_phone).not_to eq '0698417313'
+      expect(mentor.email).not_to eq 'anew@email.com'
 
       visit edit_person_path
       pre_iban = mentor.iban
 
-      expect(page).to_not have_content('Bankgegevens')
+      expect(page).not_to have_content('Bankgegevens')
       expect(page).to have_content(person_header)
       page.fill_in('person_first_name', with: 'new_first')
       page.fill_in('person_last_name', with: 'new_last')
@@ -109,14 +109,14 @@ describe 'GET /edit', type: :feature, js: true do
     end
     let!(:invtoken) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
 
-    before :each do
+    before do
       # Login
       visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
     end
 
-    it 'should list the correct labels / fields' do
+    it 'lists the correct labels / fields' do
       visit edit_person_path
-      expect(page).to_not have_content('Bankgegevens')
+      expect(page).not_to have_content('Bankgegevens')
       expect(page).to have_content(person_header)
       expect(page).to have_content(person_body)
       expect(page).not_to have_content('Voornaam')
@@ -124,12 +124,12 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).not_to have_content('Geslacht')
       expect(page).to have_content('E-mailadres')
       expect(page).not_to have_content('Mobiele telefoonnummer')
-      expect(page).to_not have_content('Bankrekeningnummer (IBAN)')
-      expect(page).to_not have_content('Disclaimer')
-      expect(page).to_not have_content('Gegevens aanpassen')
+      expect(page).not_to have_content('Bankrekeningnummer (IBAN)')
+      expect(page).not_to have_content('Disclaimer')
+      expect(page).not_to have_content('Gegevens aanpassen')
     end
 
-    it 'should store data after clicking the update button' do
+    it 'stores data after clicking the update button' do
       visit edit_person_path
       page.fill_in('person_email', with: 'anew@email.com')
 
@@ -139,8 +139,8 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).to have_selector("input[value='anew@email.com']")
     end
 
-    it 'should actually update the person object' do
-      expect(solo.email).to_not eq 'anew@email.com'
+    it 'actuallies update the person object' do
+      expect(solo.email).not_to eq 'anew@email.com'
 
       visit edit_person_path
 
@@ -151,7 +151,7 @@ describe 'GET /edit', type: :feature, js: true do
 
       expect(solo.email).to eq 'anew@email.com'
     end
-    it 'should redirect to the correct page' do
+    it 'redirects to the correct page' do
       visit edit_person_path
       responseobj.complete!
       page.fill_in('person_email', with: 'anew@email.com')
@@ -159,17 +159,17 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page)
         .to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.')
       expect(page).to have_content('Gegevens opgeslagen')
-      expect(page).to_not have_content('Disclaimer')
-      expect(page).to_not have_content('Gegevens aanpassen')
+      expect(page).not_to have_content('Disclaimer')
+      expect(page).not_to have_content('Gegevens aanpassen')
     end
-    it 'should require a valid email' do
+    it 'requires a valid email' do
       visit edit_person_path
       responseobj.complete!
       page.fill_in('person_email', with: 'anewemail.com')
       all('button[type="submit"]').first.click
       expect(page)
-        .to_not have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.')
-      expect(page).to_not have_content('Gegevens opgeslagen')
+        .not_to have_content('Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname.')
+      expect(page).not_to have_content('Gegevens opgeslagen')
     end
   end
 
@@ -192,7 +192,7 @@ describe 'GET /edit', type: :feature, js: true do
     end
     let!(:invtoken) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
 
-    before :each do
+    before do
       # Login
       visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
     end
@@ -207,7 +207,7 @@ describe 'GET /edit', type: :feature, js: true do
         Rails.application.config.settings.hide_edit_iban = @initial_value
       end
 
-      it 'should lisj the correct labels / fields' do
+      it 'lists the correct labels / fields' do
         visit edit_person_path
         expect(page).to have_content(person_header)
         expect(page).to have_content('Geslacht')
@@ -220,7 +220,7 @@ describe 'GET /edit', type: :feature, js: true do
         expect(page).to_not have_content('Bankrekeningnummer (IBAN)')
       end
 
-      it 'should store data after clicking the update button' do
+      it 'stores data after clicking the update button' do
         visit edit_person_path
         expect(page).to_not have_content('Bankgegevens')
         expect(page).to have_content(person_header)
@@ -235,7 +235,7 @@ describe 'GET /edit', type: :feature, js: true do
         expect(find("[name='person[gender]'][checked]").value).to eq 'male'
       end
 
-      it 'should actually update the person object' do
+      it 'actually updates the person object' do
         expect(student.mobile_phone).to_not eq '0698417312'
 
         visit edit_person_path
@@ -263,7 +263,7 @@ describe 'GET /edit', type: :feature, js: true do
         Rails.application.config.settings.hide_edit_iban = @initial_value
       end
 
-      it 'should list the correct labels / fields' do
+      it 'lists the correct labels / fields' do
         visit edit_person_path
         expect(page).to have_content('Bankgegevens')
         expect(page).to have_content(person_header)
@@ -275,7 +275,7 @@ describe 'GET /edit', type: :feature, js: true do
         expect(page).to have_content('Bankrekeningnummer (IBAN)')
       end
 
-      it 'should store data after clicking the update button' do
+      it 'stores data after clicking the update button' do
         visit edit_person_path
         expect(page).to have_content('Bankgegevens')
         expect(page).to have_content(person_header)
@@ -296,7 +296,7 @@ describe 'GET /edit', type: :feature, js: true do
         expect(find("[name='person[gender]'][checked]").value).to eq 'male'
       end
 
-      it 'should actually update the person object' do
+      it 'actually updates the person object' do
         expect(student.first_name).to_not eq 'new_first'
         expect(student.last_name).to_not eq 'new_last'
         expect(student.mobile_phone).to_not eq '0698417312'
@@ -346,49 +346,50 @@ describe 'GET /unsubscribe', type: :feature, js: true do
   end
   let!(:invtoken) { FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set) }
 
-  before :each do
+  before do
     # Login
     visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
   end
 
-  xit 'should unsubscribe when you click the unsubscribe button' do
-    expect(page).to have_content('Klaar met dit schooljaar?')
-    expect(person.protocol_subscriptions.active.count).to eq 1
-    page.click_on 'Onderzoek afronden'
-    expect(person.protocol_subscriptions.active.count).to eq 0
-    expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
-  end
-
-  xit 'should redirect to a stop questionnaire if there is one and then unsubscribe when click unsubscribe button' do
-    questionnaire = FactoryBot.create(:questionnaire, :minimal)
-    measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol, questionnaire: questionnaire)
-    FactoryBot.create(:response,
-                      measurement: measurement,
-                      protocol_subscription: protocol_subscription,
-                      open_from: 4.hours.from_now)
-    protocol2 = FactoryBot.create(:protocol)
-    protocol_subscription2 = FactoryBot.create(:protocol_subscription,
-                                               :mentor,
-                                               protocol: protocol,
-                                               person: person,
-                                               start_date: 1.week.ago.at_beginning_of_day)
-    measurement2 = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol2, questionnaire: questionnaire)
-    FactoryBot.create(:response,
-                      measurement: measurement2,
-                      protocol_subscription: protocol_subscription2,
-                      open_from: 5.hours.from_now)
-    expect(page).to have_content('Klaar met dit schooljaar?')
-    expect(person.protocol_subscriptions.active.count).to eq 2
-    page.click_on 'Onderzoek afronden'
-    expect(person.protocol_subscriptions.active.count).to eq 2
-    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-    expect(page).to have_content('Hoihoihoi')
-    page.click_on 'Opslaan'
-    expect(person.protocol_subscriptions.active.count).to eq 1
-    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-    expect(page).to have_content('Hoihoihoi')
-    page.click_on 'Opslaan'
-    expect(person.protocol_subscriptions.active.count).to eq 0
-    expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
-  end
+  # xit 'should unsubscribe when you click the unsubscribe button' do
+  #   expect(page).to have_content('Klaar met dit schooljaar?')
+  #   expect(person.protocol_subscriptions.active.count).to eq 1
+  #   page.click_on 'Onderzoek afronden'
+  #   expect(person.protocol_subscriptions.active.count).to eq 0
+  #   expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+  # end
+  #
+  # xit 'should redirect to a stop questionnaire if there is one and then unsubscribe when click unsubscribe button' do
+  #   questionnaire = FactoryBot.create(:questionnaire, :minimal)
+  #   measurement = FactoryBot.create(:measurement, :stop_measurement, protocol: protocol, questionnaire: questionnaire)
+  #   FactoryBot.create(:response,
+  #                     measurement: measurement,
+  #                     protocol_subscription: protocol_subscription,
+  #                     open_from: 4.hours.from_now)
+  #   protocol2 = FactoryBot.create(:protocol)
+  #   protocol_subscription2 = FactoryBot.create(:protocol_subscription,
+  #                                              :mentor,
+  #                                              protocol: protocol,
+  #                                              person: person,
+  #                                              start_date: 1.week.ago.at_beginning_of_day)
+  #   measurement2 = FactoryBot.create(:measurement, :stop_measurement,
+  #                                    protocol: protocol2, questionnaire: questionnaire)
+  #   FactoryBot.create(:response,
+  #                     measurement: measurement2,
+  #                     protocol_subscription: protocol_subscription2,
+  #                     open_from: 5.hours.from_now)
+  #   expect(page).to have_content('Klaar met dit schooljaar?')
+  #   expect(person.protocol_subscriptions.active.count).to eq 2
+  #   page.click_on 'Onderzoek afronden'
+  #   expect(person.protocol_subscriptions.active.count).to eq 2
+  #   expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+  #   expect(page).to have_content('Hoihoihoi')
+  #   page.click_on 'Opslaan'
+  #   expect(person.protocol_subscriptions.active.count).to eq 1
+  #   expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+  #   expect(page).to have_content('Hoihoihoi')
+  #   page.click_on 'Opslaan'
+  #   expect(person.protocol_subscriptions.active.count).to eq 0
+  #   expect(page).to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+  # end
 end

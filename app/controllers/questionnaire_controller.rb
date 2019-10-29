@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class QuestionnaireController < ApplicationController
+  include QuestionnaireHelper
   MAX_ANSWER_LENGTH = 2048
+  MAX_DRAWING_LENGTH = 65_536
   include Concerns::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
   before_action :log_csrf_error, only: %i[create]
@@ -14,25 +16,45 @@ class QuestionnaireController < ApplicationController
   before_action :set_questionnaire_content, only: [:show]
   before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_content_hash, only: [:create]
+  before_action :check_interactive_content, only: %i[interactive_render]
+  before_action :set_interactive_content, only: %i[interactive_render]
+  before_action :verify_interactive_content, only: %i[interactive_render]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
+  def interactive
+    @default_content = ''
+  end
+
+  def interactive_render
+    @content = QuestionnaireGenerator.new.generate_questionnaire(
+      response_id: nil,
+      content: @raw_questionnaire_content,
+      title: 'Test questionnaire',
+      submit_text: 'Opslaan',
+      action: '/api/v1/questionnaire/from_json',
+      unsubscribe_url: nil
+    )
+
+    render 'questionnaire/show'
+  end
+
   def show
-    @response.update_attributes!(opened_at: Time.zone.now)
+    @response.update!(opened_at: Time.zone.now)
   end
 
   def create_informed_consent
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
-    @response.update_attributes!(opened_at: Time.zone.now)
+    @response.update!(opened_at: Time.zone.now)
     redirect_to questionnaire_path(uuid: @response.uuid)
   end
 
   def create
     response_content = ResponseContent.create!(content: questionnaire_content)
-    @response.update_attributes!(content: response_content.id)
+    @response.update!(content: response_content.id)
     @response.complete!
     check_stop_subscription
     redirect_to questionnaire_create_params[:callback_url] || NextPageFinder.get_next_page(current_user: current_user,
@@ -54,6 +76,41 @@ class QuestionnaireController < ApplicationController
   end
 
   private
+
+  def check_interactive_content
+    return unless params.blank? || params[:content].blank?
+
+    render(status: :bad_request, json: { error: 'Please supply a json string in the content field.' })
+  end
+
+  def set_interactive_content
+    @raw_questionnaire_content = JSON.parse(params[:content])
+    if @raw_questionnaire_content.blank? || !(@raw_questionnaire_content.is_a? Array)
+      render status: :bad_request, json: { error: 'At least one question should be provided, in an array' }
+      return
+    end
+    @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
+  rescue JSON::ParserError => e
+    render status: :bad_request, json: { error: e.message }
+  end
+
+  # This cop changes the code to not work anymore:
+  # rubocop:disable Style/WhileUntilModifier
+  def verify_interactive_content
+    key = random_string
+    while Questionnaire.find_by(key: key)
+      key = random_string
+    end
+    questionnaire = Questionnaire.new(name: key, key: key, content: @raw_questionnaire_content)
+    return if questionnaire.valid?
+
+    render status: :bad_request, json: { error: questionnaire.errors }
+  end
+  # rubocop:enable Style/WhileUntilModifier
+
+  def random_string
+    (0...10).map { ('a'..'z').to_a[rand(26)] }.join
+  end
 
   def check_stop_subscription
     # We assume that if a stop measurement is submitted, it is always the last
@@ -86,6 +143,7 @@ class QuestionnaireController < ApplicationController
 
   def stop_protocol_subscription
     @response.protocol_subscription.cancel!
+    check_to_send_confirmation_email if ENV['PROJECT_NAME'] == 'Evaluatieonderzoek'
     flash[:notice] = stop_protocol_subscription_notice
     Rails.logger.info "[Info] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."
@@ -96,7 +154,7 @@ class QuestionnaireController < ApplicationController
       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
                          'is gestopt.'
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
-      'Hartelijk dank voor het invullen van de vragenlijst, uw antwoorden zijn opgeslagen.'
+      I18n.t('pages.klaar.header')
     else
       "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek."\
         ' Bedankt voor je inzet!'
@@ -104,10 +162,13 @@ class QuestionnaireController < ApplicationController
   end
 
   def check_content_hash
-    questionnaire_content.each do |k, v|
-      next unless k.to_s.size > MAX_ANSWER_LENGTH || v.to_s.size > MAX_ANSWER_LENGTH
+    drawing_ids = @response.measurement.questionnaire.drawing_ids
+    questionnaire_content.each do |key, value|
+      next if answer_within_limits?(key, value)
 
-      render(status: 400, html: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
+      next if drawing_within_limits?(key, value, drawing_ids)
+
+      render(status: :bad_request, html: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
              layout: 'application')
       break
     end
@@ -118,24 +179,15 @@ class QuestionnaireController < ApplicationController
   end
 
   def verify_cookie
-    signed_in_person_id = current_user&.id
-    response_cookie_person_id = person_for_response_cookie
-    params_person_id = Response.find_by_id(questionnaire_create_params[:response_id])&.protocol_subscription&.person_id
-    return if response_cookie_person_id && signed_in_person_id &&
-              signed_in_person_id == params_person_id &&
-              signed_in_person_id == response_cookie_person_id
+    # TODO: !!THIS HAS CHANGED A LOT!! NEEDS TO BE CHECKED VERY CAREFULLY!
+    return if AuthenticationVerifier.valid? questionnaire_create_params[:response_id], current_user
 
-    log_cookie
-    render(status: 401, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
-  end
-
-  def person_for_response_cookie
-    response_id = CookieJar.read_entry(cookies.signed, TokenAuthenticationController::RESPONSE_ID_COOKIE)
-    Response.find_by_id(response_id)&.protocol_subscription&.person_id
+    render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
   end
 
   def set_response
-    the_response = Response.find_by_uuid(questionnaire_params[:uuid])
+    the_response = current_user.my_open_responses(nil)
+                               .find { |response| response.uuid == questionnaire_params[:uuid] }
     check_response(the_response)
     return if performed?
 
@@ -144,7 +196,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_create_response
-    @response = Response.find_by_id(questionnaire_create_params[:response_id])
+    @response = Response.find_by(id: questionnaire_create_params[:response_id])
     check_response(@response)
     return if performed?
 
@@ -213,7 +265,7 @@ class QuestionnaireController < ApplicationController
 
   def check_response(response)
     unless response
-      render(status: 404, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
+      render(status: :not_found, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
       return
     end
 
@@ -241,5 +293,13 @@ class QuestionnaireController < ApplicationController
   def record_warning_in_rails_logger
     Rails.logger.warn "[Attention] CSRF error for user #{current_user&.id} at " \
                       "#{request.fullpath} with params: #{params.pretty_inspect}"
+  end
+
+  def drawing_within_limits?(key, value, drawing_ids)
+    key.to_s.size <= MAX_ANSWER_LENGTH && drawing_ids.include?(key.to_sym) && value.to_s.size <= MAX_DRAWING_LENGTH
+  end
+
+  def answer_within_limits?(key, value)
+    key.to_s.size <= MAX_ANSWER_LENGTH && value.to_s.size <= MAX_ANSWER_LENGTH
   end
 end

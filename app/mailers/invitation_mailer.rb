@@ -11,4 +11,9 @@ class InvitationMailer < ActionMailer::Base
     @message = message
     mail(subject: DEFAULT_INVITATION_SUBJECT, to: email_address)
   end
+
+  def confirmation_mail(email_address, subject, message)
+    @message = message
+    mail(subject: subject, to: email_address)
+  end
 end

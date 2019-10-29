@@ -6,7 +6,12 @@ Rails.application.routes.draw do
   post '/' => 'questionnaire#create'
   root to: 'token_authentication#show'
   resources :mentor_overview, only: [:index]
-  resources :questionnaire, only: %i[index show create destroy], param: :uuid
+  resources :questionnaire, only: %i[index show create destroy], param: :uuid do
+    collection do
+      get :interactive
+      post :interactive_render
+    end
+  end
   resource :person, only: %i[edit update] do
     get 'unsubscribe'
   end
@@ -44,8 +49,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :questionnaire, only: [:show], param: :key
+      resources :questionnaire, only: [:show, :create], param: :key
       resources :response, only: [:show, :index, :create], param: :uuid
+      resources :people, only: [:create], param: :external_identifier
+      resources :auth_user, only: [:create]
       resources :person do
         collection do
           get :me

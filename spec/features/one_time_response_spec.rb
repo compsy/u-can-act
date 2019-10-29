@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'SHOW /otr', type: :feature, js: true do
-  it 'should show and a questionnaire successfully' do
+  it 'shows and a questionnaire successfully' do
     protocol = FactoryBot.create(:protocol)
     FactoryBot.create(
       :team,

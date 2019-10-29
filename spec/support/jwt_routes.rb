@@ -2,18 +2,35 @@
 
 require 'rails_helper'
 
-shared_examples_for 'a jwt authenticated route' do |route, params|
-  it 'should return a 401 when not authenticated' do
-    get route, params: params
+shared_examples_for 'a jwt authenticated route' do |method, route|
+  def call_url(method, route)
+    params = {}
+    params = the_params if defined? the_params
+
+    return get route, params: params if method == 'get'
+
+    post route, params: params if method == 'post'
+  end
+
+  it 'returns a 401 when not authenticated' do
+    call_url(method, route)
     expect(response.status).to eq 401
     expect(response.body).to include 'Unauthorized request'
   end
 
-  it 'should return a 200 if the route is authenticated' do
-    admin = FactoryBot.create(:admin)
-    payload = { sub: admin.auth0_id_string }
+  it 'returns a 2xx if the route is authenticated' do
+    auth_user = nil
+    payload = {}
+
+    auth_user = the_auth_user if defined? the_auth_user
+    payload = the_payload if defined? the_payload
+
+    auth_user ||= FactoryBot.create(:auth_user)
+    payload[:sub] = auth_user.auth0_id_string
     jwt_auth payload
-    get route, params: params
-    expect(response.status).to eq 200
+    call_url(method, route)
+    puts response.body if response.status >= 300 || response.status < 200
+    expect(response.status).to be < 300
+    expect(response.status).to be >= 200
   end
 end

@@ -11,7 +11,7 @@
   %meta{name: "application-name", content: Rails.application.config.settings.application_name}
   = render 'shared/favicon'
 
-  %title #{Rails.application.config.settings.application_name}
+  %title= Rails.application.config.settings.project_title
   = csrf_meta_tags
   = stylesheet_link_tag    'application', media: 'all'
   = javascript_pack_tag 'application'

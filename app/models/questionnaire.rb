@@ -8,7 +8,8 @@ class Questionnaire < ApplicationRecord
   validate :all_content_ids_unique
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
-                                        foreign_key: 'informed_consent_questionnaire_id'
+                                        foreign_key: 'informed_consent_questionnaire_id',
+                                        inverse_of: :informed_consent_questionnaire
   has_many :responses, through: :measurements
 
   scope :pilot, (lambda {
@@ -39,6 +40,10 @@ class Questionnaire < ApplicationRecord
 
     return if result.blank?
 
-    errors.add(:content, 'can only have a series of unique ids')
+    errors.add(:content, "can only have a series of unique ids: #{result}")
+  end
+
+  def drawing_ids
+    content.select { |question| question[:type] == :drawing }.map { |question| question[:id] }
   end
 end

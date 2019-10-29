@@ -59,7 +59,9 @@ export default class Statistics extends React.Component {
         <StatisticsEntry icon='timelapse' title='Timeline' value={this.state.result.duration_of_project_in_weeks}
           subtext='Weeks' />
         <StatisticsEntry icon='assignment' title='Questionnaires'
-          value={this.state.result.number_of_completed_questionnaires} subtext='Completed' />
+                         value={this.state.result.number_of_completed_questionnaires} subtext='Completed' />
+        <StatisticsEntry icon='book' title='Book signups' optional={true}
+                         value={this.state.result.number_of_book_signups} subtext='Registered' />
       </div>
     );
   }

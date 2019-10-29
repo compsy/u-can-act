@@ -8,11 +8,11 @@ class Response < ApplicationRecord
   belongs_to :protocol_subscription
   has_one :person, through: :protocol_subscription
   validates :protocol_subscription_id, presence: true
-  belongs_to :filled_out_for, class_name: 'Person'
-  belongs_to :filled_out_by, class_name: 'Person'
+  belongs_to :filled_out_for, class_name: 'Person', optional: true
+  belongs_to :filled_out_by, class_name: 'Person', optional: true
   belongs_to :measurement
   validates :measurement_id, presence: true
-  belongs_to :invitation_set
+  belongs_to :invitation_set, optional: true
   validates :open_from, presence: true
   validates :uuid, presence: true, uniqueness: true
 
@@ -57,7 +57,7 @@ class Response < ApplicationRecord
 
   # rubocop:disable Metrics/AbcSize
   def self.in_week(options = {})
-    raise('Only :week_number and :year are valid options!') unless (options.keys - %i[week_number year]).blank?
+    raise('Only :week_number and :year are valid options!') if (options.keys - %i[week_number year]).present?
 
     # According to
     # https://stackoverflow.com/questions/13075617/rails-3-2-8-how-do-i-get-the-week-number-from-rails,
@@ -107,9 +107,9 @@ class Response < ApplicationRecord
   end
 
   def complete!
-    update_attributes!(completed_at: Time.zone.now,
-                       filled_out_by: protocol_subscription.person,
-                       filled_out_for: protocol_subscription.filling_out_for)
+    update!(completed_at: Time.zone.now,
+            filled_out_by: protocol_subscription.person,
+            filled_out_for: protocol_subscription.filling_out_for)
   end
 
   def remote_content

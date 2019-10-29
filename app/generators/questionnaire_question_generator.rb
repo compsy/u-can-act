@@ -16,6 +16,7 @@ class QuestionnaireQuestionGenerator < Generator
       unsubscribe: UnsubscribeGenerator.new,
       date: DateGenerator.new,
       dropdown: DropdownGenerator.new,
+      drawing: DrawingGenerator.new,
       expandable: ExpandableGenerator.new,
       section_start: SectionStartGenerator.new,
       section_end: SectionEndGenerator.new,
@@ -35,6 +36,7 @@ class QuestionnaireQuestionGenerator < Generator
   private
 
   def find_generator(type, only_questions: true)
+    type = type.to_sym if type.is_a? String
     generator = @generators[type]
     check_question_type_available(type, generator)
     check_question_type_allowed(type, generator, only_questions)
@@ -50,7 +52,7 @@ class QuestionnaireQuestionGenerator < Generator
   end
 
   def check_question_type_available(type, generator)
-    raise "Unknown question type #{type}" unless generator.present?
+    raise "Unknown question type #{type}" if generator.blank?
   end
 
   def check_question_type_allowed(type, generator, only_questions)

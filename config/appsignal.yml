@@ -1,6 +1,6 @@
 default: &defaults
   push_api_key: "a0c0b397-a5cb-46e6-b380-780e905cfe2f"
-  name: "Vsv"
+  name: <%= ENV["PROJECT_NAME"] %>
 
 development:
   <<: *defaults

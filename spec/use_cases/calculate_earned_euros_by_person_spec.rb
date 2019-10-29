@@ -5,7 +5,8 @@ require 'rails_helper'
 describe CalculateEarnedEurosByPerson do
   describe 'run!' do
     let(:person) { FactoryBot.create(:person) }
-    it 'should calculate the sum over all earned euros of all protocol subscriptions' do
+
+    it 'calculates the sum over all earned euros of all protocol subscriptions' do
       reward = 30
       number_of_subs = 3
       protocol = FactoryBot.create(:protocol)
@@ -24,7 +25,7 @@ describe CalculateEarnedEurosByPerson do
       expect(result).to eq number_of_subs * reward
     end
 
-    it 'should also take canceled subs into account' do
+    it 'also takes canceled subs into account' do
       protocol = FactoryBot.create(:protocol, :with_rewards)
       3.times do |_x|
         protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -46,7 +47,7 @@ describe CalculateEarnedEurosByPerson do
       expect(result - 0.21).to be < 0.0001
     end
 
-    it 'should only look at protocol subscriptions one fills out for him / herself ' do
+    it 'onlies look at protocol subscriptions one fills out for him / herself' do
       protocol = FactoryBot.create(:protocol, :with_rewards)
       other_person = FactoryBot.create(:person)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -67,7 +68,7 @@ describe CalculateEarnedEurosByPerson do
       expect(result).to be 0
     end
 
-    it 'should return 0 if there werent any protocol subscriptions' do
+    it 'returns 0 if there werent any protocol subscriptions' do
       result = described_class.run!(person: person)
       expect(person.protocol_subscriptions).to be_blank
       expect(result).to be 0

@@ -1,6 +1,6 @@
 %h1 #{I18n.t 'pages.disclaimer.title' }
-= I18n.t('pages.disclaimer.body', 
+= I18n.t('pages.disclaimer.body',
   application_name: Rails.application.config.settings.application_name,
-  project_site: ENV['PROJECT_SITE'],
+  project_site: ENV['INFO_SITE_URL'],
   info_email: ENV['INFO_EMAIL'],
   host_url: ENV['HOST_URL']).html_safe

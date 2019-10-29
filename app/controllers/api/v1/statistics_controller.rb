@@ -10,7 +10,8 @@ module Api
           number_of_students: number_of_students,
           number_of_mentors: number_of_mentors,
           duration_of_project_in_weeks: duration_of_project_in_weeks,
-          number_of_completed_questionnaires: number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR])
+          number_of_completed_questionnaires: number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR]),
+          number_of_book_signups: number_of_book_signups
         }
         render json: data
       end
@@ -25,6 +26,10 @@ module Api
         number_of_informed_consents_given(Person::MENTOR)
       end
 
+      def number_of_book_signups
+        number_of_completed_responses('boek')
+      end
+
       def duration_of_project_in_weeks
         start, endd = project_start_and_end_dates
         return 0 if endd <= start
@@ -34,7 +39,7 @@ module Api
 
       def project_start_and_end_dates
         start = Date.parse(Rails.application.config.settings.project_start_date)
-        endd = [Date.parse(Rails.application.config.settings.project_end_date), Date.today].min
+        endd = [Date.parse(Rails.application.config.settings.project_end_date), Time.zone.today].min
         [start, endd]
       end
     end

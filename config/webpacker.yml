@@ -4,12 +4,13 @@ default: &default
   source_path: app/javascript
   source_entry_path: packs
   public_output_path: packs
+  public_root_path: public
   cache_path: tmp/cache/webpacker
   check_yarn_integrity: false
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
-  resolved_paths: ['public/javascripts']
+  resolved_paths: ['public/javascripts', 'app/assets']
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false
@@ -34,14 +35,14 @@ development:
   compile: true
 
   # Verifies that versions and hashed value of the package contents in the project's package.json
-  check_yarn_integrity: true
+  check_yarn_integrity: false
 
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
     https: false
-    host: localhost
-    port: 3035
-    public: localhost:3035
+    host: webpack
+    port: 3036
+    public: 0.0.0.0:3036
     hmr: false
     # Inline should be set to true if using HMR
     inline: true

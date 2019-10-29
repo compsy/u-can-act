@@ -6,7 +6,8 @@ describe 'GET and POST /', type: :feature, js: true do
   let(:person_header) { 'Accountgegevens bewerken' }
   let(:student) { FactoryBot.create(:student) }
   let(:mentor) { FactoryBot.create(:mentor, first_name: 'Dagobert') }
-  it 'should show and store a questionnaire successfully' do
+
+  it 'shows and store a questionnaire successfully' do
     protocol_subscription = FactoryBot.create(:protocol_subscription, person: student,
                                                                       start_date: 1.week.ago.at_beginning_of_day)
 
@@ -51,7 +52,7 @@ describe 'GET and POST /', type: :feature, js: true do
 
     # Check whether the correct redirect was performed
     expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.invitation_set.responses.first.uuid))
-    expect(page).to_not have_current_path(mentor_overview_index_path)
+    expect(page).not_to have_current_path(mentor_overview_index_path)
     responseobj.reload
     expect(responseobj.opened_at).to be_within(1.minute).of(Time.zone.now)
     # expect(page).to have_http_status(200)
@@ -87,7 +88,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-    expect(responseobj.content).to_not be_nil
+    expect(responseobj.content).not_to be_nil
     expect(responseobj.values).to include('v1' => 'slecht',
                                           'v2_brood' => 'true',
                                           'v2_kaas_en_ham' => 'true',
@@ -96,7 +97,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                           'v4_minuten' => '15')
   end
 
-  it 'should respect the required attribute for a group of checkboxes' do
+  it 'respects the required attribute for a group of checkboxes' do
     content = [{
       id: :v1,
       type: :checkbox,
@@ -124,7 +125,7 @@ describe 'GET and POST /', type: :feature, js: true do
     invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
     visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
     expect(page).to have_current_path(questionnaire_path(uuid: invitation_token.invitation_set.responses.first.uuid))
-    expect(page).to_not have_current_path(mentor_overview_index_path)
+    expect(page).not_to have_current_path(mentor_overview_index_path)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     expect(page).to have_css('p', text: 'Wat heeft u vandaag gegeten?')
@@ -146,7 +147,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(responseobj.values.keys).not_to include('v2')
   end
 
-  it 'should store the results from the otherwise option for checkboxes and radios' do
+  it 'stores the results from the otherwise option for checkboxes and radios' do
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               person: student,
                                               start_date: 1.week.ago.at_beginning_of_day)
@@ -156,7 +157,7 @@ describe 'GET and POST /', type: :feature, js: true do
     invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
     visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
     expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-    expect(page).to_not have_current_path(mentor_overview_index_path)
+    expect(page).not_to have_current_path(mentor_overview_index_path)
     # expect(page).to have_http_status(200)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
     # v1
@@ -171,7 +172,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-    expect(responseobj.content).to_not be_nil
+    expect(responseobj.content).not_to be_nil
     expect(responseobj.values).to include('v1' => 'Anders, namelijk:',
                                           'v1_anders_namelijk_text' => 'of niet soms',
                                           'v2_anders_namelijk' => 'true',
@@ -180,7 +181,7 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   describe 'should store the results from the expandables' do
-    it 'should only store the one which is defaultly visible' do
+    it 'onlies store the one which is defaultly visible' do
       questionnaire = FactoryBot.create(:questionnaire, :one_expansion)
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -194,7 +195,7 @@ describe 'GET and POST /', type: :feature, js: true do
 
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
 
@@ -208,7 +209,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'slecht',
                                             'v2_brood' => 'true',
                                             'v3' => '50',
@@ -220,7 +221,7 @@ describe 'GET and POST /', type: :feature, js: true do
         (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
       end.flatten
 
-      expect(responseobj.values.values).to_not include(not_allowed_keys)
+      expect(responseobj.values.values).not_to include(not_allowed_keys)
     end
 
     describe 'should not store any V4s if none of them is visible' do
@@ -234,7 +235,7 @@ describe 'GET and POST /', type: :feature, js: true do
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
         expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-        expect(page).to_not have_current_path(mentor_overview_index_path)
+        expect(page).not_to have_current_path(mentor_overview_index_path)
         # expect(page).to have_http_status(200)
         expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
 
@@ -247,7 +248,7 @@ describe 'GET and POST /', type: :feature, js: true do
         expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
         responseobj.reload
         expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-        expect(responseobj.content).to_not be_nil
+        expect(responseobj.content).not_to be_nil
         expect(responseobj.values).to include('v1' => 'slecht',
                                               'v2_brood' => 'true',
                                               'v3' => '50')
@@ -256,7 +257,7 @@ describe 'GET and POST /', type: :feature, js: true do
           (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
         end.flatten
 
-        expect(responseobj.values.values).to_not include(not_allowed_keys)
+        expect(responseobj.values.values).not_to include(not_allowed_keys)
       end
 
       it 'after showing / hiding' do
@@ -269,7 +270,7 @@ describe 'GET and POST /', type: :feature, js: true do
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
         expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-        expect(page).to_not have_current_path(mentor_overview_index_path)
+        expect(page).not_to have_current_path(mentor_overview_index_path)
         # expect(page).to have_http_status(200)
         expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
 
@@ -287,7 +288,7 @@ describe 'GET and POST /', type: :feature, js: true do
         expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
         responseobj.reload
         expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-        expect(responseobj.content).to_not be_nil
+        expect(responseobj.content).not_to be_nil
         expect(responseobj.values).to include('v1' => 'slecht',
                                               'v2_brood' => 'true',
                                               'v3' => '50')
@@ -296,12 +297,12 @@ describe 'GET and POST /', type: :feature, js: true do
           (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
         end.flatten
 
-        expect(responseobj.values.values).to_not include(not_allowed_keys)
+        expect(responseobj.values.values).not_to include(not_allowed_keys)
       end
     end
   end
 
-  it 'should only have disabled questions (for the expandables) whenever the default expansion is 0' do
+  it 'onlies have disabled questions (for the expandables) whenever the default expansion is 0' do
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               person: student,
                                               start_date: 1.week.ago.at_beginning_of_day)
@@ -315,9 +316,9 @@ describe 'GET and POST /', type: :feature, js: true do
 
     # v4
     expect(page).to have_css('a', text: 'Voeg doel toe')
-    expect(page).to_not have_css('a', text: '+')
+    expect(page).not_to have_css('a', text: '+')
     expect(page).to have_css('a', text: 'Verwijder doel')
-    expect(page).to_not have_css('a', text: '-')
+    expect(page).not_to have_css('a', text: '-')
 
     # All hidden question options should be disabled
     (0..10).each do |q_id|
@@ -330,7 +331,7 @@ describe 'GET and POST /', type: :feature, js: true do
     end
   end
 
-  it 'should only have exactly 1 non-disabled question (for the expandables) whenever the default expansion is 1' do
+  it 'onlies have exactly 1 non-disabled question (for the expandables) whenever the default expansion is 1' do
     questionnaire = FactoryBot.create(:questionnaire, :one_expansion)
     measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
     protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -347,9 +348,9 @@ describe 'GET and POST /', type: :feature, js: true do
 
     # v4
     expect(page).to have_css('a', text: 'Voeg doel toe')
-    expect(page).to_not have_css('a', text: '+')
+    expect(page).not_to have_css('a', text: '+')
     expect(page).to have_css('a', text: 'Verwijder doel')
-    expect(page).to_not have_css('a', text: '-')
+    expect(page).not_to have_css('a', text: '-')
 
     # first questions should not be disabled
     question_id = 0
@@ -375,7 +376,7 @@ describe 'GET and POST /', type: :feature, js: true do
     end
   end
 
-  it 'should have the correct buttons for the expandables' do
+  it 'has the correct buttons for the expandables' do
     questionnaire = FactoryBot.create(:questionnaire, :one_expansion)
     measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
     protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -397,24 +398,24 @@ describe 'GET and POST /', type: :feature, js: true do
     add = page.find('a', text: 'Voeg doel toe')
     remove = page.find('a', text: 'Verwijder doel')
 
-    expect(add[:class].include?('disabled')).to be_falsey
-    expect(remove[:class].include?('disabled')).to be_falsey
+    expect(add[:class]).not_to include('disabled')
+    expect(remove[:class]).not_to include('disabled')
     remove.click
 
     remove = page.find('a', text: 'Verwijder doel')
     add = page.find('a', text: 'Voeg doel toe')
-    expect(add[:class].include?('disabled')).to be_falsey
-    expect(remove[:class].include?('disabled')).to be_truthy
+    expect(add[:class]).not_to include('disabled')
+    expect(remove[:class]).to include('disabled')
 
     10.times { |_x| add.click }
 
     remove = page.find('a', text: 'Verwijder doel')
     add = page.find('a', text: 'Voeg doel toe')
-    expect(add[:class].include?('disabled')).to be_truthy
-    expect(remove[:class].include?('disabled')).to be_falsey
+    expect(add[:class]).to include('disabled')
+    expect(remove[:class]).not_to include('disabled')
   end
 
-  it 'should require radio buttons to be filled out' do
+  it 'requires radio buttons to be filled out' do
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               start_date: 1.week.ago.at_beginning_of_day,
                                               person: student)
@@ -437,7 +438,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
   end
 
-  it 'should show an informed consent questionnaire' do
+  it 'shows an informed consent questionnaire' do
     protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
     expect(protocol.informed_consent_questionnaire).not_to be_nil
     expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
@@ -479,14 +480,14 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-    expect(responseobj.content).to_not be_nil
+    expect(responseobj.content).not_to be_nil
     expect(responseobj.values).to include('v1' => 'slecht',
                                           'v2_brood' => 'true',
                                           'v2_kaas_en_ham' => 'true',
                                           'v3' => '57')
   end
 
-  it 'should not accept strings longer than the max' do
+  it 'does not accept strings longer than the max' do
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               start_date: 1.week.ago.at_beginning_of_day,
                                               person: student)
@@ -655,14 +656,14 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'slecht',
                                             'v2_brood' => 'true',
                                             'v2_pizza' => 'true',
                                             'v4_antwoord_a' => 'true',
                                             'v5' => 'hahaha')
     end
-    it 'should not prevent from sending invisible answers' do
+    it 'does not prevent from sending invisible answers' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -689,10 +690,10 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'slecht')
     end
-    it 'should require invisible radios once they become visible' do
+    it 'requires invisible radios once they become visible' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -723,13 +724,13 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'slecht',
                                             'v2_pizza' => 'true',
                                             'v3' => '50',
                                             'v5' => 'Hihaho')
     end
-    it 'should unsubscribe when the stop_subscription option is selected for students' do
+    it 'unsubscribes when the stop_subscription option is selected for students' do
       content = [{
         id: :v1,
         type: :checkbox,
@@ -762,13 +763,13 @@ describe 'GET and POST /', type: :feature, js: true do
                                    ' onderzoek. Bedankt voor je inzet!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1_ja' => 'true')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
       expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
     end
-    it 'should not unsubscribe when the stop_subscription option is not selected for students' do
+    it 'does not unsubscribe when the stop_subscription option is not selected for students' do
       content = [{
         id: :v1,
         type: :checkbox,
@@ -800,12 +801,12 @@ describe 'GET and POST /', type: :feature, js: true do
                                        ' onderzoek. Bedankt voor je inzet!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
-      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
+      expect(protocol_subscription.end_date).not_to be_within(1.minute).of(Time.zone.now)
     end
-    it 'should unsubscribe when the stop_subscription option is selected for mentors' do
+    it 'unsubscribes when the stop_subscription option is selected for mentors' do
       content = [{
         id: :v1,
         type: :checkbox,
@@ -839,13 +840,13 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Succes: De begeleiding voor Jane is gestopt.')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1_ja' => 'true')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
       expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
     end
-    it 'should not unsubscribe when the stop_subscription option is not selected for mentors' do
+    it 'does not unsubscribe when the stop_subscription option is not selected for mentors' do
       content = [{
         id: :v1,
         type: :checkbox,
@@ -879,11 +880,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).not_to have_content('Succes: De begeleiding voor Jane is gestopt.')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1_nee' => 'true')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
-      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
+      expect(protocol_subscription.end_date).not_to be_within(1.minute).of(Time.zone.now)
     end
   end
 
@@ -1033,14 +1034,14 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1_slecht' => 'true',
                                             'v2' => 'pizza',
                                             'v3' => '64',
                                             'v4_antwoord_a' => 'true',
                                             'v5' => 'hahaha')
     end
-    it 'should not prevent from sending invisible answers' do
+    it 'does not prevent from sending invisible answers' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1067,11 +1068,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v2' => 'brood')
       expect(responseobj.values.keys).not_to include('v3')
     end
-    it 'should require invisible radios once they become visible' do
+    it 'requires invisible radios once they become visible' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1101,13 +1102,13 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1_goed' => 'true',
                                             'v2' => 'pizza',
                                             'v3' => '50',
                                             'v5' => 'Hihaho')
     end
-    it 'should unsubscribe when the stop_subscription option is selected for students' do
+    it 'unsubscribes when the stop_subscription option is selected for students' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1140,13 +1141,13 @@ describe 'GET and POST /', type: :feature, js: true do
                                    ' onderzoek. Bedankt voor je inzet!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'Ja')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
       expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
     end
-    it 'should not unsubscribe when the stop_subscription option is not selected for students' do
+    it 'does not unsubscribe when the stop_subscription option is not selected for students' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1174,17 +1175,19 @@ describe 'GET and POST /', type: :feature, js: true do
       page.choose('Nee', allow_label_click: true)
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
-      expect(page).not_to have_content('Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!')
+      expect(page).not_to have_content(
+        "Je hebt je uitgeschreven voor het #{ENV['PROJECT_NAME']} onderzoek. Bedankt voor je inzet!"
+      )
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'Nee')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
-      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
+      expect(protocol_subscription.end_date).not_to be_within(1.minute).of(Time.zone.now)
     end
 
-    it 'should unsubscribe when the stop_subscription option is selected for mentors' do
+    it 'unsubscribes when the stop_subscription option is selected for mentors' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1218,13 +1221,13 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Succes: De begeleiding voor Jane is gestopt.')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'Ja')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
       expect(protocol_subscription.end_date).to be_within(1.minute).of(Time.zone.now)
     end
-    it 'should not unsubscribe when the stop_subscription option is not selected for mentors' do
+    it 'does not unsubscribe when the stop_subscription option is not selected for mentors' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1258,11 +1261,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).not_to have_content('Succes: De begeleiding voor Jane is gestopt.')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'Nee')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
-      expect(protocol_subscription.end_date).to_not be_within(1.minute).of(Time.zone.now)
+      expect(protocol_subscription.end_date).not_to be_within(1.minute).of(Time.zone.now)
     end
   end
 
@@ -1290,7 +1293,7 @@ describe 'GET and POST /', type: :feature, js: true do
       }]
     end
 
-    it 'should store the results from a textarea' do
+    it 'stores the results from a textarea' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1305,7 +1308,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
@@ -1316,11 +1319,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'pizza',
                                             'v3' => 'of niet soms')
     end
-    it 'should require required textareas to be filled out' do
+    it 'requires required textareas to be filled out' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1357,7 +1360,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_css('label', text: 'Vul iets in', visible: false)
@@ -1389,7 +1392,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v2' => 'hoi',
                                             'v3' => 'of niet soms')
     end
-    it 'should not require hidden required textareas to be filled out' do
+    it 'does not require hidden required textareas to be filled out' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1426,7 +1429,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_css('label', text: 'Vul iets in', visible: false)
@@ -1447,7 +1450,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v3' => 'of niet soms')
       expect(responseobj.values.keys).not_to include('v2')
     end
-    it 'should not require textareas to be filled out if they are not required' do
+    it 'does not require textareas to be filled out if they are not required' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1462,7 +1465,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_css('label', text: 'Vul iets in', visible: false)
@@ -1478,7 +1481,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'brood',
                                             'v3' => 'of niet soms')
     end
@@ -1508,7 +1511,7 @@ describe 'GET and POST /', type: :feature, js: true do
       }]
     end
 
-    it 'should store the results from a textfield' do
+    it 'stores the results from a textfield' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1523,7 +1526,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
@@ -1534,7 +1537,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'pizza',
                                             'v3' => 'of niet soms')
     end
@@ -1560,7 +1563,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.click_on 'Opslaan'
@@ -1568,10 +1571,10 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'ga zo door en nog een woord')
     end
-    it 'should require required textfields to be filled out' do
+    it 'requires required textfields to be filled out' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1608,7 +1611,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_css('label', text: 'Vul iets in', visible: false)
@@ -1640,7 +1643,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v2' => 'hoi',
                                             'v3' => 'of niet soms')
     end
-    it 'should not require hidden required textfields to be filled out' do
+    it 'does not require hidden required textfields to be filled out' do
       content = [{
         id: :v1,
         type: :radio,
@@ -1677,7 +1680,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_css('label', text: 'Vul iets in', visible: false)
@@ -1698,7 +1701,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                             'v3' => 'of niet soms')
       expect(responseobj.values.keys).not_to include('v2')
     end
-    it 'should not require textfields to be filled out if they are not required' do
+    it 'does not require textfields to be filled out if they are not required' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1713,7 +1716,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       # expect(page).to have_http_status(200)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_css('label', text: 'Vul iets in', visible: false)
@@ -1729,13 +1732,13 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'brood',
                                             'v3' => 'of niet soms')
     end
   end
 
-  it 'should have tooltips, and show a toast when they are clicked' do
+  it 'has tooltips, and show a toast when they are clicked' do
     protocol_subscription = FactoryBot.create(:protocol_subscription,
                                               person: student,
                                               start_date: 1.week.ago.at_beginning_of_day)
@@ -1745,7 +1748,7 @@ describe 'GET and POST /', type: :feature, js: true do
     invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
     visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
     expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-    expect(page).to_not have_content('hagelslag')
+    expect(page).not_to have_content('hagelslag')
     # We can serch for all, because theres just one with a tooltip
     page.all('i').first.click
     expect(page).to have_content('hagelslag')
@@ -1777,7 +1780,8 @@ describe 'GET and POST /', type: :feature, js: true do
       }]
     end
     let(:number_of_available_questionnaires) { 3 }
-    it 'should open the second questionnaire after the first one if it is open' do
+
+    it 'opens the second questionnaire after the first one if it is open' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -1796,7 +1800,7 @@ describe 'GET and POST /', type: :feature, js: true do
 
       responses.each_with_index do |responseobj, idx|
         expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-        expect(page).to_not have_current_path(mentor_overview_index_path)
+        expect(page).not_to have_current_path(mentor_overview_index_path)
         # expect(page).to have_http_status(200)
         expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
         # v1
@@ -1805,7 +1809,7 @@ describe 'GET and POST /', type: :feature, js: true do
         page.click_on 'Opslaan'
         # expect(page).to have_http_status(200)
         unless number_of_available_questionnaires == idx + 1
-          expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+          expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
         end
       end
 
@@ -1814,7 +1818,7 @@ describe 'GET and POST /', type: :feature, js: true do
       responses.each do |responseobj|
         responseobj.reload
         expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-        expect(responseobj.content).to_not be_nil
+        expect(responseobj.content).not_to be_nil
         expect(responseobj.values).to include('v1' => 'pizza',
                                               'v3' => 'of niet soms')
       end
@@ -1822,7 +1826,7 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   context 'show_after' do
-    it 'should show items that have a show after duration that is past' do
+    it 'shows items that have a show after duration that is past' do
       content = [{
         type: :raw,
         content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
@@ -1843,7 +1847,7 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_content('Wie is de mol?')
     end
-    it 'should not show items that have a show after duration that is future' do
+    it 'does not show items that have a show after duration that is future' do
       content = [{
         type: :raw,
         content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
@@ -1862,9 +1866,9 @@ describe 'GET and POST /', type: :feature, js: true do
                                       open_from: 1.hour.ago)
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
-      expect(page).to_not have_content('Wie is de mol?')
+      expect(page).not_to have_content('Wie is de mol?')
     end
-    it 'should show items that have a show after absolute time that is past' do
+    it 'shows items that have a show after absolute time that is past' do
       content = [{
         type: :raw,
         content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
@@ -1885,7 +1889,7 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_content('Wie is de mol?')
     end
-    it 'should not show items that have a show after absolute time that is future' do
+    it 'does not show items that have a show after absolute time that is future' do
       content = [{
         type: :raw,
         content: '<p class="flow-text section-explanation">Wie is de mol?</p>',
@@ -1904,7 +1908,7 @@ describe 'GET and POST /', type: :feature, js: true do
                                       open_from: 1.hour.ago)
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
-      expect(page).to_not have_content('Wie is de mol?')
+      expect(page).not_to have_content('Wie is de mol?')
     end
     it 'should not show items that should only be visible on the final questionnaire' do
       content = [{
@@ -1957,8 +1961,9 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Wie is de mol?')
     end
   end
+
   context 'unsubscribe' do
-    it 'should work without specifying title, content, and button text' do
+    it 'works without specifying title, content, and button text' do
       content = [{
         type: :unsubscribe
       }]
@@ -1977,7 +1982,7 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_content('Uitschrijven')
     end
-    it 'should work when specifying title, content, and button text' do
+    it 'works when specifying title, content, and button text' do
       content = [{
         type: :unsubscribe,
         title: 'Creativity Inc',
@@ -2002,7 +2007,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Edwin Catmull')
     end
 
-    it 'should redirect to the stop_measurement if one is available' do
+    it 'redirects to the stop_measurement if one is available' do
       content = [{
         type: :unsubscribe,
         title: 'Creativity Inc',
@@ -2034,26 +2039,25 @@ describe 'GET and POST /', type: :feature, js: true do
                                       open_from: 1.hour.ago)
 
       FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                   measurement: stop_measurement)
-      # open_from: 1.hour.ago)
+                                   measurement: stop_measurement, open_from: 10.minutes.ago)
 
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       page.click_on 'Unsubscribe'
-      expect(page).to_not have_content('Bedankt voor je inzet!')
-      expect(page).to_not have_content(content.first[:content])
+      expect(page).not_to have_content('Bedankt voor je inzet!')
+      expect(page).not_to have_content(content.first[:content])
       expect(page).to have_content('Hoe gaat het met u?')
       expect(page).to have_content('Opslaan')
       protocol_subscription.reload
       expect(protocol_subscription).to be_active
       page.click_on 'Opslaan'
-      expect(page).to_not have_content('Hoe gaat het met u?')
+      expect(page).not_to have_content('Hoe gaat het met u?')
       expect(page).to have_content('Bedankt voor je inzet!')
       protocol_subscription.reload
       expect(protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
     end
 
-    it 'should redirect to the destroy page if no stop_measurement is available' do
+    it 'redirects to the destroy page if no stop_measurement is available' do
       content = [{
         type: :unsubscribe,
         title: 'Creativity Inc',
@@ -2079,9 +2083,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
     end
   end
+
   describe 'with redirect url' do
     let(:redirect_url) { '/api/v1/statistics' }
-    it 'should redirect to the redirect url of a provided measurement if it has one' do
+
+    it 'redirects to the redirect url of a provided measurement if it has one' do
       content = [{
         id: :v1,
         type: :radio,
@@ -2127,7 +2133,7 @@ describe 'GET and POST /', type: :feature, js: true do
       }]
     end
 
-    it 'should store the results from a date' do
+    it 'stores the results from a date' do
       # Don't test min and max right now because they are bugged
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -2143,7 +2149,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.find('#v1').click
       sleep(1)
@@ -2153,8 +2159,8 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
-      expect(responseobj.values).to include('v1' => Date.today.to_formatted_s(:db))
+      expect(responseobj.content).not_to be_nil
+      expect(responseobj.values).to include('v1' => Time.zone.today.to_formatted_s(:db))
     end
     it 'supports the today property, which sets the default value to today' do
       # Don't test min and max right now because they are bugged
@@ -2179,14 +2185,14 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
-      expect(responseobj.values).to include('v1' => Date.today.to_formatted_s(:db))
+      expect(responseobj.content).not_to be_nil
+      expect(responseobj.values).to include('v1' => Time.zone.today.to_formatted_s(:db))
     end
   end
 
@@ -2200,7 +2206,7 @@ describe 'GET and POST /', type: :feature, js: true do
       }]
     end
 
-    it 'should store the results from a likert scale' do
+    it 'stores the results from a likert scale' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2215,7 +2221,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content(content.first[:title])
       page.choose('v1_maandag', allow_label_click: true)
@@ -2223,11 +2229,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'maandag')
     end
 
-    it 'should make likert scales mandatory' do
+    it 'makes likert scales mandatory' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2243,10 +2249,70 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
       page.click_on 'Opslaan'
-      expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_blank
       expect(responseobj.values).to be_blank
+    end
+  end
+
+  context 'drawing' do
+    let(:content) do
+      [{
+        id: :v1,
+        type: :drawing,
+        title: 'Kleur de plekken in je lichaam waar je merkt dat het sterker wordt',
+        width: 240,
+        height: 536,
+        image: 'bodymap.png',
+        color: '#e57373'
+      }]
+    end
+
+    it 'stores the results from a drawing', js: true do
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
+      expect(page).not_to have_current_path(mentor_overview_index_path)
+      expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+      expect(page).to have_content(content.first[:title])
+      page.find(:css, 'canvas').click
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
+    end
+
+    it 'does not make drawings mandatory', js: true do
+      protocol = FactoryBot.create(:protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                protocol: protocol,
+                                                person: student)
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
+      page.click_on 'Opslaan'
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
+      responseobj.reload
+      expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
 
@@ -2262,7 +2328,7 @@ describe 'GET and POST /', type: :feature, js: true do
       }]
     end
 
-    it 'should store the results from a dropdown' do
+    it 'stores the results from a dropdown' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2277,7 +2343,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content(content.first[:title])
       page.select 'dinsdag'
@@ -2286,11 +2352,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => 'dinsdag')
     end
 
-    it 'should make dropdowns required' do
+    it 'makes dropdowns required' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2306,7 +2372,7 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
       page.click_on 'Opslaan'
-      expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_blank
       expect(responseobj.values).to be_blank
@@ -2327,7 +2393,7 @@ describe 'GET and POST /', type: :feature, js: true do
       }]
     end
 
-    it 'should store the results from a number' do
+    it 'stores the results from a number' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2342,7 +2408,7 @@ describe 'GET and POST /', type: :feature, js: true do
       invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content(content.first[:title])
       page.fill_in 'v1', with: '2345'
@@ -2350,11 +2416,11 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-      expect(responseobj.content).to_not be_nil
+      expect(responseobj.content).not_to be_nil
       expect(responseobj.values).to include('v1' => '2345')
     end
 
-    it 'should not accept incorrect input' do
+    it 'does not accept incorrect input' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2371,16 +2437,16 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
       page.fill_in 'v1', with: '-1'
       page.click_on 'Opslaan'
-      expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
       page.fill_in 'v1', with: '-234'
       page.click_on 'Opslaan'
-      expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
       page.fill_in 'v1', with: '10000'
       page.click_on 'Opslaan'
-      expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
       page.fill_in 'v1', with: 'asdf'
       page.click_on 'Opslaan'
-      expect(page).to_not have_content('Bedankt voor het invullen van de vragenlijst!')
+      expect(page).not_to have_content('Bedankt voor het invullen van de vragenlijst!')
       responseobj.reload
       expect(responseobj.values).to be_blank
       expect(responseobj.completed_at).to be_blank
@@ -2388,7 +2454,7 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   context 'callback_url' do
-    it 'should redirect after filling out a questionnaire if a callback_url is supplied' do
+    it 'redirects after filling out a questionnaire if a callback_url is supplied' do
       protocol = FactoryBot.create(:protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 start_date: 1.week.ago.at_beginning_of_day,
@@ -2404,7 +2470,7 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       visit "#{questionnaire_path(uuid: responseobj.uuid)}?callback_url=%2Fperson%2Fedit"
       expect(page).to have_current_path("#{questionnaire_path(uuid: responseobj.uuid)}?callback_url=%2Fperson%2Fedit")
-      expect(page).to_not have_current_path(mentor_overview_index_path)
+      expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content('Hoihoihoi')
       page.click_on 'Opslaan'

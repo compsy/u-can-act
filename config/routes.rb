@@ -49,7 +49,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :questionnaire, only: [:show, :create], param: :key
-      resources :response, only: [:show, :index, :create], param: :uuid
+      resources :response, only: [:show, :index, :create], param: :uuid do
+        collection do
+          get :completed
+        end
+      end
       resources :people, only: [:create], param: :external_identifier
       resources :auth_user, only: [:create]
       resources :person, only: [:update] do

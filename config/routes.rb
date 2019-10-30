@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       end
       resources :statistics, only: [:index]
       resources :settings, only: [:index]
-      resources :protocol_subscriptions, only: [:create] do
+      resources :protocol_subscriptions, only: [:create, :show] do
         collection do
           get :mine
         end

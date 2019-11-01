@@ -81,3 +81,5 @@ coverage
 
 privatekey.pem
 certificate.pem
+
+.DS_Store

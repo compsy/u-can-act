@@ -3,7 +3,8 @@
 if Rails.env.development? || Rails.env.staging?
   OneTimeResponse.destroy_all
   Protocol.destroy_all
-  puts "Questionnaire demo links:\n"
+  puts 'Questionnaire demo links:'
+  puts ''
 
   Dir[Rails.root.join('projects',
                       'ikia',
@@ -41,4 +42,5 @@ if Rails.env.development? || Rails.env.staging?
     OneTimeResponse.create!(token: token, protocol: protocol)
     puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
   end
+  puts ''
 end

@@ -2,25 +2,43 @@
 
 if Rails.env.development? || Rails.env.staging?
   OneTimeResponse.destroy_all
-  solo_protocol = 'demo-solo-protocol'
-  puts 'Generating onetime response'
-  OneTimeResponse.destroy_all
-  protocol = Protocol.find_by_name(solo_protocol)
-  token = 'demoikia'
-  OneTimeResponse.create!(token: token, protocol: protocol)
+  Protocol.destroy_all
+  puts "Questionnaire demo links:\n"
 
-  puts Rails.application.routes.url_helpers.one_time_response_url(q: token)
-  puts 'Generated onetime response'
+  Dir[Rails.root.join('projects',
+                      'ikia',
+                      'seeds',
+                      'questionnaires',
+                      '**',
+                      '*.rb')].map{|x|File.basename(x, '.rb')}.each do |questionnaire_key|
+    questionnaire = Questionnaire.find_by(key: questionnaire_key)
+    next unless questionnaire
 
-  puts ''
-  protocol = Protocol.find_by_name('kkjlo')
-  token = 'kkjlo'
-  OneTimeResponse.create!(token: token, protocol: protocol)
-  puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+    # Create the protocol for the questionnaire
 
-  puts ''
-  protocol = Protocol.find_by_name('kkjlz')
-  token = 'kkjlz'
-  OneTimeResponse.create!(token: token, protocol: protocol)
-  puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+    pr_name = questionnaire_key
+    boek_protocol = Protocol.find_by_name(pr_name)
+    boek_protocol ||= Protocol.new(name: pr_name)
+    boek_protocol.duration = 1.day
+
+    boek_protocol.save!
+
+    boek_id = questionnaire.id
+    boek_measurement = boek_protocol.measurements.find_by_questionnaire_id(boek_id)
+    boek_measurement ||= boek_protocol.measurements.build(questionnaire_id: boek_id)
+    boek_measurement.open_from_offset = 0 # open right away
+    boek_measurement.period = nil # one-off and not repeated
+    boek_measurement.open_duration = nil # always open
+    boek_measurement.reward_points = 0
+    boek_measurement.stop_measurement = true # unsubscribe immediately
+    boek_measurement.should_invite = false # don't send invitations
+    boek_measurement.redirect_url = '/klaar' # after filling out questionnaire, go to person edit page.
+    boek_measurement.save!
+
+    # Create one time response
+    protocol = Protocol.find_by_name(questionnaire_key)
+    token = questionnaire_key
+    OneTimeResponse.create!(token: token, protocol: protocol)
+    puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+  end
 end

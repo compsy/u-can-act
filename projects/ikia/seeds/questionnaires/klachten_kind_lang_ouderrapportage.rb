@@ -1,307 +1,309 @@
 #frozen_string_literal: true
 
-db_title = 'Klachten'
-db_name1 = 'Klachten_Kinderen_Jongeren_Lang_Zelfrapportage'
+db_title = 'Klachten van mijn kind'
+db_name1 = 'Klachten_Kinderen_Jongeren_Lang_Ouderrapportage'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
-  { type: :raw,
-    content: '<p class="flow-text">Welkom bij de vragenlijst <b> klachten</b>. Er volgt nu een lijst met vragen over jongens en meisjes. Alle vragen gaan over hoe je nu bent of in de afgelopen zes maanden bent geweest. Geef bij elke vraag aan in hoeverre deze bij jou past. Beantwoord de vragen zoals jij de dingen ziet, ook al zijn anderen het daar misschien niet mee eens.</p>'
+  {
+    type: :raw,
+    content: '<blockquote>Copyright T.M. Achenbach. Reproduced by permission under License Number 1060-0719.<br>Copyright vertaling F.C. Verhulst en J. van der Ende, Erasmus MC Rotterdam</blockquote><p class="flow-text">Er volgt nu een lijst met vragen over kinderen. Alle vragen gaan over hoe uw kind nu is of in de afgelopen zes maanden is geweest. Geef bij elke vraag aan in hoeverre deze bij uw kind past. Beantwoord alle vragen zo goed als u kunt, ook al lijken sommige vragen niet bij uw kind te passen.</p>'
   }, {
     id: :v1,
     type: :likert,
-    title: 'Ik doe te jong voor mijn leeftijd',
+    title: 'Doet te jong voor zijn/haar leeftijd',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak'],
     section_end: false
   }, {
     id: :v2_1,
     type: :likert,
-    title: 'Ik drink alcohol zonder dat mijn ouders dat goed vinden',
+    title: 'Drinkt alcohol zonder dat zijn/haar ouders dat goed vinden',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v2_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v3,
     type: :likert,
-    title: 'Ik maak veel ruzie',
+    title: 'Maakt veel ruzie',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v4,
     type: :likert,
-    title: 'Ik maak dingen waar ik aan begin niet af',
+    title: 'Maakt dingen waar hij/zij mee begint niet af',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v5,
     type: :likert,
-    title: 'Er is heel weinig wat ik leuk vind',
+    title: 'Er is heel weinig wat hij/zij leuk vindt',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v6,
     type: :likert,
-    title: 'Ik hou van dieren',
+    title: 'Doet ontlasting (poept) buiten de wc of in de broek',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v7,
     type: :likert,
-    title: 'Ik schep op',
+    title: 'Schept op, doet stoer',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v8,
     type: :likert,
-    title: 'Ik vind het moeilijk om me te concentreren of om mijn aandacht ergens bij houden',
+    title: 'Kan zich niet concentreren, kan niet lang de aandacht ergens bij houden',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v9_1,
     type: :likert,
-    title: 'Ik kan bepaalde gedachten niet uit mijn hoofd zetten',
+    title: 'Kan bepaalde gedachten niet uit zijn/haar hoofd zetten, obsessies',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v9_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v10,
     type: :likert,
-    title: 'Ik heb moeite met stilzitten',
+    title: 'Kan niet stilzitten, is onrustig of hyperactief',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v11,
     type: :likert,
-    title: 'Ik ben te afhankelijk van volwassenen',
+    title: 'Klampt zich vast aan volwassenen of is te afhankelijk',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v12,
     type: :likert,
-    title: 'Ik voel me eenzaam',
+    title: 'Klaagt over zich eenzaam voelen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v13,
     type: :likert,
-    title: 'Ik voel me in de war',
+    title: 'In de war of wazig denken',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v14,
     type: :likert,
-    title: 'Ik huil veel',
+    title: 'Huilt veel',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v15,
     type: :likert,
-    title: 'Ik ben best eerlijk',
+    title: 'Wreed tegen dieren',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v16,
     type: :likert,
-    title: 'Ik ben gemeen tegen anderen',
+    title: 'Wreed, pesterig of gemeen tegen anderen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v17,
     type: :likert,
-    title: 'Ik zit vaak overdag te dagdromen',
+    title: 'Dagdromen of gaat op in zijn/haar gedachten',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v18,
     type: :likert,
-    title: 'Ik probeer mijzelf met opzet te verwonden of te doden',
+    title: 'Verwondt zichzelf opzettelijk of doet zelfmoordpogingen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v19,
     type: :likert,
-    title: 'Ik probeer veel aandacht te krijgen',
+    title: 'Eist veel aandacht op',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v20,
     type: :likert,
-    title: 'Ik verniel mijn eigen spullen',
+    title: 'Vernielt eigen spullen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v21,
     type: :likert,
-    title: 'Ik verniel de spullen van anderen',
+    title: 'Vernielt spullen van gezinsleden of van anderen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v22,
     type: :likert,
-    title: 'Ik gehoorzaam mijn ouders niet',
+    title: 'Is thuis ongehoorzaam',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v23,
     type: :likert,
-    title: 'Ik ben ongehoorzaam op school',
+    title: 'Is ongehoorzaam op school',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v24,
     type: :likert,
-    title: 'Ik eet niet zo goed als zou moeten',
+    title: 'Eet niet goed',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v25,
     type: :likert,
-    title: 'Ik kan niet met andere jongens of meisjes opschieten',
+    title: 'Kan niet goed opschieten met andere jongens of meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v26,
     type: :likert,
-    title: 'Ik voel mij niet schuldig als ik iets gedaan heb wat ik niet had moeten doen',
+    title: 'Lijkt zich niet schuldig te voelen na zich misdragen te hebben',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v27,
     type: :likert,
-    title: 'Ik ben jaloers op anderen',
+    title: 'Snel jaloers',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
+    id: :v28,
     type: :likert,
-    title: 'Ik hou me niet aan de regels thuis, op school of ergens anders',
+    title: 'Houdt zich niet aan de regels thuis, op school of ergens anders',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v29_1,
     type: :likert,
-    title: 'Ik ben bang voor bepaalde dieren, situaties, of plaatsen anders dan school',
+    title: 'Is bang voor bepaalde dieren, situaties, of plaatsen anders dan school',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v29_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v30,
     type: :likert,
-    title: 'Ik ben bang om naar school te gaan',
+    title: 'Is bang om naar school te gaan',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v31,
     type: :likert,
-    title: 'Ik ben bang dat ik iets slechts zou kunnen doen of denken',
+    title: 'Is bang dat hij/zij iets slechts zou kunnen doen of denken',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v32,
     type: :likert,
-    title: 'Ik heb het gevoel dat ik perfect moet zijn',
+    title: 'Heeft het gevoel dat hij/zij perfect moet zijn',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v33,
     type: :likert,
-    title: 'Ik heb het gevoel dat niemand van mij houdt',
+    title: 'Heeft het gevoel of klaagt erover dat niemand van hem/haar houdt',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v34,
     type: :likert,
-    title: 'Ik heb het gevoel dat anderen mij te pakken willen nemen',
+    title: 'Heeft het gevoel dat anderen hem/haar te pakken willen nemen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v35,
     type: :likert,
-    title: 'Ik voel me waardeloos of minderwaardig',
+    title: 'Voelt zich waardeloos of minderwaardig',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v36,
     type: :likert,
-    title: 'Ik raak vaak per ongeluk gewond',
+    title: 'Bezeert zich vaak, krijgt vaak ongelukken',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v37,
     type: :likert,
-    title: 'Ik vecht veel',
+    title: 'Vecht veel',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v38,
     type: :likert,
-    title: 'Ik word veel gepest',
+    title: 'Wordt veel gepest',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v39,
     type: :likert,
-    title: 'Ik ga om met jongens of meisjes die in moeilijkheden raken',
+    title: 'Gaat om met jongens of meisjes die in moeilijkheden raken',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v40_1,
     type: :likert,
-    title: 'Ik hoor geluiden of stemmen die er niet zijn',
+    title: 'Hoort geluiden of stemmen die er niet zijn',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v40_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v41,
     type: :likert,
-    title: 'Ik doe dingen zonder er bij na te denken',
+    title: 'Impulsief of doet dingen zonder er bij na te denken',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v42,
     type: :likert,
-    title: 'Ik ben liever alleen dan met anderen',
+    title: 'Is liever alleen dan met anderen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v43,
     type: :likert,
-    title: 'Lieg of bedrieg',
+    title: 'Liegt of bedriegt',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v44,
     type: :likert,
-    title: 'Ik bijt nagels',
+    title: 'Bijt nagels',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v45,
     type: :likert,
-    title: 'Ik ben nerveus, zenuwachtig of gespannen',
+    title: 'Nerveus, zenuwachtig of gespannen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v46_1,
     type: :likert,
-    title: 'Ik heb zenuwachtige bewegingen of zenuwtrekken',
+    title: 'Zenuwachtige bewegingen of zenuwtrekken',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v46_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v47,
     type: :likert,
-    title: 'Ik heb nachtmerries',
+    title: 'Nachtmerries',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v48,
     type: :likert,
-    title: 'Andere jongens of meisjes mogen mij niet',
+    title: 'Andere jongens of meisjes mogen hem/haar niet',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v49,
     type: :likert,
-    title: 'Ik doe sommige dingen beter dan de meeste van anderen van mijn leeftijd',
+    title: 'Obstipatie, last van verstopping',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v50,
     type: :likert,
-    title: 'Ik ben te angstig of te bang',
+    title: 'Is te angstig of te bang',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v51,
     type: :likert,
-    title: 'Ik voel me duizelig of licht in mijn hoofd',
+    title: 'Voelt zich duizelig of licht in het hoofd',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v52,
     type: :likert,
-    title: 'Ik voel me erg schuldig',
+    title: 'Voelt zich erg schuldig',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v53,
     type: :likert,
-    title: 'Ik eet te veel',
+    title: 'Eet te veel',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v54,
     type: :likert,
-    title: 'Ik voel me erg moe zonder dat ik weet waarom',
+    title: 'Is erg moe zonder reden',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v55,
     type: :likert,
-    title: 'Ik ben te dik',
+    title: 'Te dik',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak'],
     section_end: true
   }, {
@@ -346,336 +348,354 @@ dagboek_content = [
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v56_8,
+    type: :likert,
+    title: 'Heeft uw kind nog andere lichamelijke problemen?',
+    options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
+  }, {
+    id: :v56_9,
     type: :textfield,
-    title: 'Heb je nog andere lichamelijke problemen?',
+    title: 'Zo ja, wat voor problemen?',
     section_end: true
   }, {
     id: :v57,
     type: :likert,
-    title: 'Ik val mensen lichamelijk aan',
+    title: 'Valt mensen lichamelijk aan',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v58_1,
     type: :likert,
-    title: 'Ik pulk aan mijn huid of aan iets anders van mijn lichaam',
+    title: 'Pulkt aan neus, huid of aan iets anders van het lichaam',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v58_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v59,
     type: :likert,
-    title: 'Ik kan best aardig zijn',
+    title: 'Speelt met eigen geslachtsdelen in het openbaar',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v60,
     type: :likert,
-    title: 'Ik vind het leuk om nieuwe dingen te proberen',
+    title: 'Speelt te veel met eigen geslachtsdelen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v61,
     type: :likert,
-    title: 'Mijn schoolwerk is slecht',
+    title: 'Schoolwerk is slecht',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v62,
     type: :likert,
-    title: 'Ik ben onhandig of stuntelig',
+    title: 'Onhandig of stuntelig',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v63,
     type: :likert,
-    title: 'Ik ga liever om met oudere jongens of meisjes dan met jongens of meisjes van mijn eigen leeftijd',
+    title: 'Gaat liever om met oudere jongens of meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v64,
     type: :likert,
-    title: 'Ik ga liever om met jongere jongens of meisjes dan met jongens of meisjes van mijn eigen leeftijd',
+    title: 'Gaat liever om met jongere jongens of meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v65,
     type: :likert,
-    title: 'Ik weiger om te praten',
+    title: 'Weigert om te praten',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v66_1,
     type: :likert,
-    title: 'Ik herhaal bepaalde handelingen steeds maar weer',
+    title: 'Herhaalt bepaalde handelingen steeds maar weer, dwanghandelingen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v66_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v67,
     type: :likert,
-    title: 'Ik loop weg van huis',
+    title: 'Loopt weg van huis',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v68,
     type: :likert,
-    title: 'Ik schreeuw veel',
+    title: 'Schreeuwt veel',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v69,
     type: :likert,
-    title: 'Ik ben gesloten of hou dingen voor mezelf',
+    title: 'Gesloten, houdt dingen voor zichzelf',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v70_1,
     type: :likert,
-    title: 'Ik zie dingen waarvan andere mensen denken dat ze er niet zijn',
+    title: 'Ziet dingen die er niet zijn',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v70_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v71,
     type: :likert,
-    title: 'Ik schaam me gauw of voel me niet op mijn gemak',
+    title: 'Schaamt zich gauw of voelt zich niet op zijn/haar gemak',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v72,
     type: :likert,
-    title: 'Ik sticht brandjes',
+    title: 'Sticht branden',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v73,
+    id: :v73_1,
     type: :likert,
-    title: 'Ik ben handig',
+    title: 'Seksuele problemen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
+  }, {
+    id: :v73_2,
+    type: :textfield,
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v74,
     type: :likert,
-    title: 'Ik sloof me uit of doe gek om op te vallen',
+    title: 'Slooft zich uit of doet gek om op te vallen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v75,
     type: :likert,
-    title: 'Ik ben te verlegen',
+    title: 'Te verlegen of timide',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v76,
     type: :likert,
-    title: 'Ik slaap minder dan de meeste jongens en meisjes',
+    title: 'Slaapt minder dan de meeste jongens en meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v77_1,
     type: :likert,
-    title: 'Ik slaap overdag en/of \'s nachts meer dan de meeste jongens en meisjes',
+    title: 'Slaap overdag en/of �s nachts meer dan de meeste jongens en meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v77_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v78,
     type: :likert,
-    title: 'Ik let niet goed op of ben snel afgeleid',
+    title: 'Let niet goed op of is snel afgeleid',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v79_1,
     type: :likert,
-    title: 'Ik heb een spraakprobleem',
+    title: 'Spraakprobleem',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v79_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v80,
     type: :likert,
-    title: 'Ik kom voor mijzelf op',
+    title: 'Kijkt met een lege blik',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v81,
     type: :likert,
-    title: 'Ik steel thuis',
+    title: 'Steelt van huis',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v82,
     type: :likert,
-    title: 'Ik steel buitenshuis',
+    title: 'Steelt buitenshuis',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v83_1,
     type: :likert,
-    title: 'Ik spaar te veel dingen op die ik niet nodig heb',
+    title: 'Spaart te veel dingen op die hij/zij niet nodig heeft',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v83_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v84_1,
     type: :likert,
-    title: 'Ik doe dingen die andere mensen vreemd vinden',
+    title: 'Vreemd gedrag',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v84_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v85_1,
     type: :likert,
-    title: 'Ik heb gedachten die andere mensen vreemd zouden vinden',
+    title: 'Vreemde gedachten',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v85_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v86,
     type: :likert,
-    title: 'Ik ben koppig',
+    title: 'Koppig, stuurs of prikkelbaar',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v87,
     type: :likert,
-    title: 'Mijn stemming of gevoelens veranderen plotseling',
+    title: 'Stemming en gevoelens veranderen plotseling',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v88,
     type: :likert,
-    title: 'Ik vind het leuk om bij mensen te zijn',
+    title: 'Mokt veel',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v89,
     type: :likert,
-    title: 'Ik ben achterdochtig',
+    title: 'Achterdochtig',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v90,
     type: :likert,
-    title: 'Ik vloek of gebruik vieze woorden',
+    title: 'Vloekt of gebruikt vieze woorden',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v91,
     type: :likert,
-    title: 'Ik denk erover mijzelf te doden',
+    title: 'Praat erover dat hij/zij zichzelf zou willen doden',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v92,
+    id: :v92_1,
     type: :likert,
-    title: 'Ik vind het leuk om anderen aan het lachen te maken',
+    title: 'Praat tijdens slaap of slaapwandelt',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
+  }, {
+    id: :v92_2,
+    type: :textfield,
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v93,
     type: :likert,
-    title: 'Ik praat te veel',
+    title: 'Praat te veel',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v94,
     type: :likert,
-    title: 'Ik pest anderen veel',
+    title: 'Pest veel',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v95,
     type: :likert,
-    title: 'Ik ben snel driftig',
+    title: 'Driftbuien of snel driftig',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v96,
     type: :likert,
-    title: 'Ik denk te veel aan seks',
+    title: 'Denkt te veel aan seks',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v97,
     type: :likert,
-    title: 'Ik dreig mensen om hen pijn te doen',
+    title: 'Bedreigt mensen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v98,
     type: :likert,
-    title: 'Ik vind het fijn om anderen te helpen',
+    title: 'Duimzuigen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v99,
     type: :likert,
-    title: 'Ik rook tabak',
+    title: 'Rookt tabak',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
-    id: :v100_1,
+    id: :v100,
     type: :likert,
-    title: 'Ik heb problemen met slapen',
+    title: 'Problemen met slapen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v100_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v101,
     type: :likert,
-    title: 'Ik sla lessen over of spijbel van school',
+    title: 'Spijbelt, blijft weg van school',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v102,
     type: :likert,
-    title: 'Ik heb niet veel energie',
+    title: 'Weinig actief, beweegt zich langzaam of te weinig energie',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v103,
     type: :likert,
-    title: 'Ik ben ongelukkig, verdrietig of depressief',
+    title: 'Ongelukkig, verdrietig of depressief',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v104,
     type: :likert,
-    title: 'Ik ben luidruchtiger dan andere jongens of meisjes',
+    title: 'Meer dan gewoon luidruchtig',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v105_1,
     type: :likert,
-    title: 'Ik gebruik drugs',
+    title: 'Gebruikt drugs',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v105_2,
     type: :textfield,
-    title: 'Leg je antwoord op de vorige vraag uit:'
+    title: 'Licht uw antwoord op de vorige vraag toe:'
   }, {
     id: :v106,
     type: :likert,
-    title: 'Ik probeer eerlijk te zijn tegen anderen',
+    title: 'Vandalisme',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v107,
     type: :likert,
-    title: 'Ik hou van een goede grap',
+    title: 'Plast overdag in zijn/haar broek',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v108,
     type: :likert,
-    title: 'Ik hou ervan om het rustig aan te doen',
+    title: 'Plast in bed',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v109,
     type: :likert,
-    title: 'Ik probeer andere mensen te helpen als ik dat kan',
+    title: 'Zeuren',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v110,
     type: :likert,
-    title: 'Ik wou dat ik van het andere geslacht was',
+    title: 'Wil dat hij/zij van het andere geslacht is',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v111,
     type: :likert,
-    title: 'Ik probeer met anderen weinig te maken te hebben',
+    title: 'Teruggetrokken, gaat niet met anderen om',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v112,
     type: :likert,
-    title: 'Ik maak me vaak zorgen',
+    title: 'Maakt zich zorgen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v113,
-    type: :textarea,
-    title: 'Schrijf hier alle andere dingen op die te maken hebben met je gevoelens, gedrag, manier van doen of belangstelling',
-    options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
-  }]
-
+    type: :expandable,
+    default_expansions: 3,
+    max_expansions: 10,
+    title: 'Schrijf hier ieder ander probleem op dat uw kind heeft en dat hierboven nog niet genoemd is:',
+    remove_button_label: 'Verwijderen',
+    add_button_label: 'Toevoegen',
+    content: [
+      {id: :v113_1,
+       type: :textfield,
+       title: 'Probleem'}]}]
 dagboek1.content = dagboek_content
 dagboek1.title = db_title
 dagboek1.save!

@@ -1,7 +1,7 @@
-import React from 'react'
-import I18n from 'i18n'
+import React from 'react';
+import I18n from 'i18n';
 
-export default class SoloRewardPage extends React.Component {
+export default class DefaultRewardPage extends React.Component {
   render() {
     return (
       <div className='section'>

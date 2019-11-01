@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20190709215838) do
     t.boolean "stop_measurement", default: false, null: false
     t.boolean "should_invite", default: true, null: false
     t.string "redirect_url"
+    t.integer "reminder_delay", default: 28800
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id"
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id"
   end

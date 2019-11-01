@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default class Select extends React.Component {
   constructor(props) {
@@ -12,9 +12,9 @@ export default class Select extends React.Component {
         <option key={option}>{option}</option>
       );
     });
-    selectorOptions.unshift(<option key="def" value="def" disabled>Selecteer</option>);
+    selectorOptions.unshift(<option key='def' value='def' disabled>Selecteer</option>);
 
-    return (selectorOptions);
+    return selectorOptions;
   }
 
   uuid() {
@@ -25,7 +25,7 @@ export default class Select extends React.Component {
   }
 
   redraw() {
-    const select = $('#' + this._uuid);
+    const select = $(`#${this._uuid}`);
     select.formSelect().change(this._onChange.bind(this));
   }
 
@@ -38,17 +38,17 @@ export default class Select extends React.Component {
   }
 
   getSelectedOption() {
-    return $('#' + this._uuid).find(":selected").text();
+    return $(`#${this._uuid}`).find(':selected').text();
   }
 
-  _onChange(e) {
+  _onChange(_e) {
     this.props.onChange(this.getSelectedOption());
   }
 
   render() {
     const options = this.generateSelectOptions(this.props.options);
-    return(
-      <div className="input-field">
+    return (
+      <div className='input-field'>
         <select id={this._uuid} defaultValue={this.props.value} >
           {options}
         </select>

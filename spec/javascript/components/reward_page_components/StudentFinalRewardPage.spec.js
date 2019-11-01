@@ -1,44 +1,70 @@
-import React from 'react'
-import {shallow} from 'enzyme'
-import StudentFinalRewardPage from 'reward_page_components/StudentFinalRewardPage'
+import React from 'react';
+import {
+  shallow
+} from 'enzyme';
+
+import {
+  printAsMoney
+} from 'Helpers';
+import StudentFinalRewardPage from 'reward_page_components/StudentFinalRewardPage';
+
+jest.mock('i18n', () => {
+  return {
+    t: (val) => {
+      return val;
+    }
+  };
+});
 
 describe('StudentFinalRewardPage', () => {
-  let wrapper;
+  let wrapper = {};
 
   beforeEach(() => {
     wrapper = shallow(<StudentFinalRewardPage earnedEuros='123' iban='NL01RABO012341234' name='A.B. Cornelissen'
-                                              person={{
-                                                earnedEuros: 123,
-                                                iban: 'NL01RABO012341234',
-                                                name: 'A.B. Cornelissen'
-                                              }}/>);
+      person={{
+        earnedeuros: 123,
+        iban: 'nl01rabo012341234',
+        name: 'a.b. cornelissen'
+      }} />);
   });
 
   describe('render', () => {
-    it("should return the correct text", () => {
-      const elems = wrapper.childAt(1);
-      let expected = 'Heel erg bedankt voor je inzet voor dit onderzoek!';
-      let result = elems.childAt(0).text();
+    it('should return the correct text', () => {
+      let idx = 0;
+      const earnedEuros = 123;
+      const elems = wrapper.childAt(idx);
+      let expected = 'pages.student_final_reward_page.header';
+      let result = elems.childAt(idx).text();
       expect(result).toEqual(expected);
 
-      expected = 'In totaal heb je €123,- verdiend. We zullen dit bedrag overmaken op IBAN:NL01RABO012341234 ' +
-                 't.n.v. A.B. Cornelissen.Klopt dit nummer niet? Klik hier om het aan te passen.';
-      result = elems.childAt(1).text();
+      idx++;
+      expected = '<I18nRaw />';
+      result = elems.childAt(idx).text();
+      expect(result).toEqual(expected);
+      expected = '<div>pages.student_final_reward_page.body.top</div>';
+      result = elems.childAt(idx).html();
       expect(result).toEqual(expected);
 
-      expected = 'Hartelijke groeten van het u-can-act team.';
-      result = elems.childAt(2).text();
+      idx++;
+      expected = `In totaal heb je ${printAsMoney(earnedEuros)} verdiend.`;
+      result = elems.childAt(idx).text();
       expect(result).toEqual(expected);
 
-      expected = 'Je kan deze pagina veilig sluiten.';
-      result = elems.childAt(3).text();
+      idx++;
+      expected = '<I18nRaw />';
+      result = elems.childAt(idx).text();
+      expect(result).toEqual(expected);
+      expected = '<div>pages.student_final_reward_page.body.bottom</div>';
+      result = elems.childAt(idx).html();
       expect(result).toEqual(expected);
     });
 
-    it("it should include a link to the edit person page", () => {
-      const elems = wrapper.childAt(1);
+    it('it should include a link to the edit person page', () => {
+      const secondChild = 1;
+      const firstElement = 0;
+      const elems = wrapper.childAt(secondChild);
       let expected = '/person/edit';
-      let result = elems.childAt(1).html();
+      let result = elems.childAt(firstElement).html();
       expect(result).toContain(expected);
     });
   });

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Measurement < ApplicationRecord
+  DEFAULT_REMINDER_DELAY = 8.hours
+
   belongs_to :questionnaire
   validates :questionnaire_id, presence: true
   belongs_to :protocol # , autosave: true, validate: true
@@ -16,6 +18,8 @@ class Measurement < ApplicationRecord
   validates :open_from_offset, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  validates :reminder_delay, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
 
   validate :either_open_from_or_offset_till_end
 

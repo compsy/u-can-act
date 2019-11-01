@@ -1,4 +1,6 @@
 *.rbc
+*.csv
+/.idea
 capybara-*.html
 /log
 /tmp/cache
@@ -7,6 +9,7 @@ capybara-*.html
 /tmp/restart.txt
 /tmp/rspec_guard_result
 /tmp/db
+/tmp/*
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /coverage/

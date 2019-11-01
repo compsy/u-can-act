@@ -1,5 +1,5 @@
-import React from 'react'
-import Login from './admin_page_components/Login'
+import React from 'react';
+import Login from './admin_page_components/Login';
 
 export default class AdminPage extends React.Component {
   render() {

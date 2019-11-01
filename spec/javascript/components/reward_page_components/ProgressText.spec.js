@@ -1,6 +1,7 @@
 import React from 'react'
 import {shallow} from 'enzyme'
 import ProgressText from 'reward_page_components/ProgressText'
+import { printAsMoney } from 'Helpers'
 
 describe('ProgressText', () => {
   let wrapper;
@@ -71,7 +72,7 @@ describe('ProgressText', () => {
 
   describe('render', () => {
     it("it should display a rendered message", () => {
-      const expected = 'Het onderzoek is voor 60% voltooid. Er is nog €' + awardable + ',- te verdienen.';
+      const expected = `Het onderzoek is voor 60% voltooid. Er zijn nog ${printAsMoney(awardable)} te verdienen.`;
       const result = wrapper.childAt(0).text();
       expect(result).toEqual(expected);
     });

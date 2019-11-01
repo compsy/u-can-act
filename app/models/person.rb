@@ -18,11 +18,13 @@ class Person < ApplicationRecord
             length: { minimum: 10, maximum: 10 },
             format: /\A\d{10}\z/,
             mobile_phone: true,
-            allow_blank: true
+            allow_blank: true,
+            uniqueness: true
 
   validates :email,
             format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
-            allow_blank: true
+            allow_blank: true,
+            uniqueness: true
 
   validates_with IbanValidator
 

@@ -35,10 +35,9 @@ describe PlainTextParser do
       expect(result).to eq mobile_phone
     end
 
-    it 'should return nil a phone number is blank' do
+    it 'should raise an error if a phone number is blank' do
       ['', nil].each do |phone_number|
-        result = subject.parse_mobile_phone(phone_number)
-        expect(result).to be_nil
+        expect { subject.parse_mobile_phone(phone_number) }.to raise_error(/Phone number is blank/)
       end
     end
   end

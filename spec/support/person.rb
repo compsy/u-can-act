@@ -101,11 +101,14 @@ shared_examples_for 'a person object' do
       expect(person.errors.messages[:mobile_phone]).to include('mag alleen een Nederlands nummer zijn')
     end
 
-    it 'does not have a uniqueness constraint on phone numbers' do
+    it 'has a uniqueness constraint on phone numbers' do
       student = FactoryBot.create(:student, mobile_phone: '0611111111')
-      expect(student.valid?).to be_truthy
-      mentor = FactoryBot.build(:mentor, mobile_phone: '0611111111')
-      expect(mentor.valid?).to be_truthy
+      expect(student).to be_valid
+      mentor = FactoryBot.create(:mentor)
+      mentor.mobile_phone = '0611111111'
+      expect(mentor).not_to be_valid
+      expect(mentor.errors.messages).to have_key :mobile_phone
+      expect(mentor.errors.messages[:mobile_phone]).to include('is al in gebruik')
     end
   end
 

@@ -141,7 +141,7 @@ describe CreateStudents do
       end
     end
 
-    it 'just adds a person twice if that phone number already exists' do
+    it 'just skips a person if that phone number already exists' do
       mobile_phone = parsed_students.sample[:mobile_phone]
       parsed_students << { first_name: 'x',
                            last_name: 'z',
@@ -152,7 +152,7 @@ describe CreateStudents do
                            start_date: timedateinfuture,
                            end_date: endtimedateinfuture }
       subject.send(:create_students, parsed_students)
-      expect(Person.count).to eq parsed_students.length
+      expect(Person.count).to eq parsed_students.length - 1
     end
   end
 end

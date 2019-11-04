@@ -1,0 +1,18 @@
+nl:
+  pages:
+    student_final_reward_page:
+      header: Bedankt voor het invullen van de vragenlijst!
+      body:
+        top: >
+          <div class='section'>
+            <p class='flow-text'>
+              Heel erg bedankt voor je inzet voor dit onderzoek!
+            </p>
+          </div>
+        bottom: >
+          <div class='section'>
+            <p class='flow-text'>
+              Je kan deze pagina veilig sluiten.
+            </p>
+          </div>
+

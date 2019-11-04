@@ -3,7 +3,13 @@ default: &default
   application_name: <%=ENV['PROJECT_NAME']%>
   project_title: <%=ENV['PROJECT_NAME']%>
   default_team_name: 'Controlegroep'
+  hide_edit_iban: false
+  show_mobile_images: true
+  hide_logo: false
+  feature_toggles:
+    allow_identifier_export: false
   logo:
+    favicon: 'favicon.ico'
     mentor_logo: null
     student_logo: null
     fallback_logo: null

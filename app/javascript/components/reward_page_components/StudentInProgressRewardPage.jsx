@@ -1,14 +1,16 @@
-import React from 'react'
-import RewardFooter from './RewardFooter'
-import RewardMessage from './RewardMessage'
-import ProgressBar from './ProgressBar'
+import React from 'react';
+import RewardFooter from './RewardFooter';
+import RewardMessage from './RewardMessage';
+import ProgressBar from './ProgressBar';
+import I18n from 'i18n';
+import I18nRaw from '../I18nRaw';
 
 export default class StudentInProgressRewardPage extends React.Component {
   constructor(props) {
     super(props);
 
     let currentStreak = this.findCurrentStreak(this.props.protocolCompletion, this.props.maxStreak);
-    this.inMaxStreak = (currentStreak === this.props.maxStreak);
+    this.inMaxStreak = currentStreak === this.props.maxStreak;
     this.totalAvailable = this.props.earnedEuros + this.props.awardable;
 
     // Rescale the percentage to the totalAvailable money.
@@ -35,19 +37,20 @@ export default class StudentInProgressRewardPage extends React.Component {
   render() {
     return (
       <div>
-        <h4>Bedankt voor het invullen van de vragenlijst!</h4>
-        <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} />
+        <h4>{I18n.t('pages.student_in_progress_reward_page.header')}</h4>
+        <RewardMessage euroDelta={this.props.euroDelta} earnedEuros={this.props.earnedEuros} awardable={this.props.awardable} />
         <div className='section'>
           <ProgressBar inMaxStreak={this.inMaxStreak}
-                       euroDelta={this.props.euroDelta}
-                       valueEuro={this.props.earnedEuros}
-                       currentMultiplier={this.props.currentMultiplier}
-                       initialMultiplier={this.props.initialMultiplier}
-                       percentageStreak={this.percentageStreak}
-                       awardableEuro={this.props.awardable}
-                       totalAvailable={this.totalAvailable}/>
+            euroDelta={this.props.euroDelta}
+            valueEuro={this.props.earnedEuros}
+            currentMultiplier={this.props.currentMultiplier}
+            initialMultiplier={this.props.initialMultiplier}
+            percentageStreak={this.percentageStreak}
+            awardableEuro={this.props.awardable}
+            totalAvailable={this.totalAvailable} />
         </div>
-        <RewardFooter person={this.props.person}/>
+        <I18nRaw t='pages.student_in_progress_reward_page.body.bottom' />
+        <RewardFooter person={this.props.person} />
       </div>
     );
   }

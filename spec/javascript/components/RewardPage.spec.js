@@ -1,5 +1,5 @@
-import React from 'react'
-import {mount, shallow} from 'enzyme'
+import React from 'react';
+import {mount, shallow} from 'enzyme';
 import RewardPage from 'RewardPage';
 
 describe('RewardPage', () => {
@@ -171,7 +171,7 @@ describe('RewardPage', () => {
       const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0);
       expect(node.name()).toEqual('StudentFinalRewardPage');
     });
-    it("renders a SoloRewardPage for solo people", () => {
+    it("renders a DefaultRewardPage for solo people", () => {
       wrapper.instance().setState({
         result: {
           protocol_completion: [{future: false}],
@@ -184,7 +184,7 @@ describe('RewardPage', () => {
       });
       wrapper.update();
       const node = wrapper.childAt(0).childAt(0).childAt(0).childAt(0);
-      expect(node.name()).toEqual('SoloRewardPage');
+      expect(node.name()).toEqual('DefaultRewardPage');
     });
   });
 });

@@ -34,7 +34,7 @@ class EchoPeople < ActiveInteraction::Base
   end
 
   def process_row(origrow)
-    row = origrow.map(&:strip)
+    row = origrow.map { |entry| entry.nil? ? entry : entry.strip }
     return create_student_hash(row) if row[0].strip == Person::STUDENT
 
     create_mentor_hash(row)
@@ -42,16 +42,18 @@ class EchoPeople < ActiveInteraction::Base
 
   def create_student_hash(row)
     # Student format:
-    # type;team_name;first_name;last_name;gender;mobile_phone;protocol_name;start_date;end_date
+    # type;team_name;role_title;first_name;last_name;gender;mobile_phone;email;protocol_name;start_date;end_date
     {
       team_name: row[1],
-      first_name: row[2],
-      last_name: row[3],
-      gender: row[4],
-      mobile_phone: row[5],
-      protocol_name: row[6],
-      start_date: row[7],
-      end_date: row[8]
+      role_title: row[2],
+      first_name: row[3],
+      last_name: row[4],
+      gender: row[5],
+      mobile_phone: row[6],
+      email: row[7],
+      protocol_name: row[8],
+      start_date: row[9],
+      end_date: row[10]
     }
   end
 

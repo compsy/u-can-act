@@ -54,25 +54,56 @@ describe ApplicationHelper do
   end
 
   describe 'logo_image' do
-    it 'returns the fallback logo if no is mentor is set' do
-      instance_variable_set(:@use_mentor_layout, nil)
-      result = logo_image
-      expected = 'logo.png'
-      expect(result).to eq(expected)
+    describe 'with Rails.application.config.settings.hide_logo' do
+      before :each do
+        @initial_value = Rails.application.config.settings.hide_logo
+        Rails.application.config.settings.hide_logo = true
+      end
+
+      after :each do
+        Rails.application.config.settings.hide_logo = @initial_value
+      end
+
+      it 'returns no logo when the env var is set' do
+        instance_variable_set(:@use_mentor_layout, false)
+        result = logo_image
+        expect(result).to be_nil
+      end
     end
 
-    it 'returns the student logo if is mentor is false' do
-      instance_variable_set(:@use_mentor_layout, false)
-      result = logo_image
-      expected = 'logo_student.png'
-      expect(result).to eq(expected)
-    end
+    describe 'without Rails.application.config.settings.hide_logo' do
+      before :each do
+        @initial_value = Rails.application.config.settings.hide_logo
+        Rails.application.config.settings.hide_logo = false
+      end
 
-    it 'returns the mentor logo if is mentor true' do
-      instance_variable_set(:@use_mentor_layout, true)
-      result = logo_image
-      expected = 'logo_mentor.png'
-      expect(result).to eq(expected)
+      after :each do
+        Rails.application.config.settings.hide_logo = @initial_value
+      end
+
+      it 'returns the fallback logo if no is mentor is set' do
+        instance_variable_set(:@use_mentor_layout, nil)
+        result = logo_image
+        expected = Rails.application.config.settings.logo.fallback_logo
+        expect(Rails.application.config.settings.logo.fallback_logo).to_not be_blank
+        expect(result).to eq(expected)
+      end
+
+      it 'returns the student logo if is mentor is false' do
+        instance_variable_set(:@use_mentor_layout, false)
+        result = logo_image
+        expect(Rails.application.config.settings.logo.student_logo).to_not be_blank
+        expected = Rails.application.config.settings.logo.student_logo
+        expect(result).to eq(expected)
+      end
+
+      it 'returns the mentor logo if is mentor true' do
+        instance_variable_set(:@use_mentor_layout, true)
+        result = logo_image
+        expect(Rails.application.config.settings.logo.mentor_logo).to_not be_blank
+        expected = Rails.application.config.settings.logo.mentor_logo
+        expect(result).to eq(expected)
+      end
     end
   end
 end

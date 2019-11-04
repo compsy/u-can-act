@@ -1,0 +1,18 @@
+nl:
+  pages:
+    student_final_reward_page:
+      header: Bedankt voor het invullen van de vragenlijst!
+      body:
+        top: >
+          <div class='section'>
+            <p class='flow-text'>
+              Fijn dat je zoveel vragenlijsten hebt ingevuld. Bedankt!
+            </p>
+          </div>
+        bottom: >
+          <div class='section'>
+            <p class='flow-text'>
+              Voor deze verdiende punten krijg je van ons een cadeaubon. Binnenkort hoor je van ons hoe je de verdiende punten kunt inwisselen voor een cadeaubon. Je kunt deze pagina veilig sluiten.
+            </p>
+          </div>
+

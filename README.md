@@ -278,8 +278,8 @@ In this case:
 ### The Student CSV
 For the Student data this should be:
 
-|type | team_name | first_name | last_name | gender | mobile_phone | protocol_name | start_date | end_date |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Type | team_name | role_title | first_name | last_name | gender | mobile_phone | e-mail | protocol_name | start_date | end_date |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 In this case: 
  - `type` should equal `Student`
@@ -397,6 +397,9 @@ Note that this (and all other question types) may have a `show_after` property. 
 
 # or alternatively, you may specify an absoute date:
 { show_after: Time.new(2018, 6, 5, 9, 0, 0).in_time_zone }
+
+# or you can specify that a question is only visible on the last questionnaire:
+{ show_after: :only_on_final_questionnaire }
 ```
 
 Note that the `shows_questions` and `hides_questions` option properties require the corresponding questions to have the `hidden: true` and `hidden: false` properties, respectively. For example:

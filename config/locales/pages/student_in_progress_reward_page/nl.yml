@@ -1,0 +1,12 @@
+nl:
+  pages:
+    student_in_progress_reward_page:
+      header: Bedankt voor het invullen van de vragenlijst!
+      body:
+        bottom: >
+          <div class='section'>
+          <p class='flow-text'>
+          De cirkel hierboven laat zien hoeveel je al verdiend hebt (de buitenste ring) en hoever je al op weg bent naar de bonus streak (de binnenste ring).
+          </p>
+          </div>
+

@@ -100,4 +100,52 @@ describe InvitationSet do
       end.to raise_error(RuntimeError, 'Cannot generate invitation_url for historical invitation tokens!')
     end
   end
+
+  describe 'reminder_delay' do
+    it 'should get the reminder delay of an associated response' do
+      measurement = FactoryBot.create(:measurement, reminder_delay: 3.hours + 2.minutes + 1.second)
+      responseobj = FactoryBot.create(:response, :invited, measurement: measurement)
+      expect(responseobj.invitation_set.reminder_delay).to_not be_blank
+      expect(responseobj.invitation_set.reminder_delay).to eq measurement.reminder_delay
+    end
+
+    it 'should pick the minimum reminder delay when there are multiple associated responses' do
+      measurement1 = FactoryBot.create(:measurement, reminder_delay: 3.hours + 2.minutes + 1.second)
+      responseobj1 = FactoryBot.create(:response, measurement: measurement1)
+
+      measurement2 = FactoryBot.create(:measurement, reminder_delay: 4.hours + 2.minutes + 1.second)
+      responseobj2 = FactoryBot.create(:response, measurement: measurement2)
+
+      measurement3 = FactoryBot.create(:measurement, reminder_delay: 5.hours + 2.minutes + 1.second)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3)
+
+      invitation_set = FactoryBot.create(:invitation_set, responses: [responseobj1, responseobj2, responseobj3])
+      expect(invitation_set.reminder_delay).to_not be_blank
+      expect(invitation_set.reminder_delay).to eq measurement1.reminder_delay
+    end
+
+    it 'should pick the minimum reminder delay even with nil values' do
+      measurement1 = FactoryBot.create(:measurement, reminder_delay: nil)
+      responseobj1 = FactoryBot.create(:response, measurement: measurement1)
+
+      measurement2 = FactoryBot.create(:measurement, reminder_delay: 4.hours + 2.minutes + 1.second)
+      responseobj2 = FactoryBot.create(:response, measurement: measurement2)
+
+      measurement3 = FactoryBot.create(:measurement, reminder_delay: 5.hours + 2.minutes + 1.second)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3)
+
+      invitation_set = FactoryBot.create(:invitation_set, responses: [responseobj1, responseobj2, responseobj3])
+      expect(invitation_set.reminder_delay).to_not be_blank
+      expect(invitation_set.reminder_delay).to eq measurement2.reminder_delay
+    end
+
+    it 'should return the default if there are no reminder delays present' do
+      measurement1 = FactoryBot.create(:measurement, reminder_delay: nil)
+      responseobj1 = FactoryBot.create(:response, measurement: measurement1)
+
+      invitation_set = FactoryBot.create(:invitation_set, responses: [responseobj1])
+      expect(invitation_set.reminder_delay).to_not be_blank
+      expect(invitation_set.reminder_delay).to eq Measurement::DEFAULT_REMINDER_DELAY
+    end
+  end
 end

@@ -60,6 +60,7 @@ describe CreateStudents do
                                                                 protocol_id
                                                                 start_date
                                                                 role_id
+                                                                email
                                                                 end_date])
     end
 
@@ -74,6 +75,7 @@ describe CreateStudents do
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
                                  role_id: role.id,
+                                 email: nil,
                                  end_date: endtimedateinfuture)
       expect(result.second).to eq(first_name: 'b',
                                   last_name: 'f',
@@ -82,6 +84,7 @@ describe CreateStudents do
                                   protocol_id: protocol.id,
                                   start_date: timedateinfuture,
                                   role_id: role.id,
+                                  email: nil,
                                   end_date: endtimedateinfuture)
       expect(result.third).to eq(first_name: 'c',
                                  last_name: 'g',
@@ -90,6 +93,7 @@ describe CreateStudents do
                                  protocol_id: protocol.id,
                                  start_date: timedateinfuture,
                                  role_id: role.id,
+                                 email: nil,
                                  end_date: endtimedateinfuture)
     end
   end
@@ -137,11 +141,12 @@ describe CreateStudents do
       end
     end
 
-    it 'justs skip if a person with that phone number already exists' do
+    it 'just skips a person if that phone number already exists' do
+      mobile_phone = parsed_students.sample[:mobile_phone]
       parsed_students << { first_name: 'x',
                            last_name: 'z',
                            gender: Person::FEMALE,
-                           mobile_phone: '0612345679',
+                           mobile_phone: mobile_phone,
                            protocol_id: protocol.id,
                            role_id: role.id,
                            start_date: timedateinfuture,

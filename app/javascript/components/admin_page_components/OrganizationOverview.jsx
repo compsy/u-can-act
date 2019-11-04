@@ -1,5 +1,5 @@
-import React from 'react'
-import TeamOverview from './TeamOverview'
+import React from 'react';
+import TeamOverview from './TeamOverview';
 
 export default class OrganizationOverview extends React.Component {
   render() {

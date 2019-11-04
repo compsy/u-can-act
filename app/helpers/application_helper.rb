@@ -17,6 +17,7 @@ module ApplicationHelper
   end
 
   def logo_image
+    return nil if Rails.application.config.settings.hide_logo
     return Rails.application.config.settings.logo.fallback_logo if @use_mentor_layout.nil?
 
     mentor_or_student_logo

@@ -39,7 +39,7 @@ describe Api::V1::SettingsController, type: :controller do
           cur_yaml = yaml[key]
           cur_yaml = ENV['PROJECT_NAME'] if %w[application_name project_title].include?(key)
 
-          expect(cur).not_to be_blank
+          expect(cur).not_to be_nil
           expect(cur).to eq cur_yaml
           result_keys.delete(key)
           recursive_check(cur, cur_yaml) if cur_yaml.is_a? Hash

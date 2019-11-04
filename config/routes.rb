@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get 'organization_overview', to: 'admin#organization_overview', as: 'admin_organization_overview'
 
     get 'person_export', to: 'admin#person_export', as: 'admin_person_export'
+    get 'identifier_export', to: 'admin#identifier_export', as: 'admin_identifier_export'
     get 'protocol_subscription_export', to: 'admin#protocol_subscription_export', as: 'admin_protocol_subscription_export'
     get 'invitation_set_export', to: 'admin#invitation_set_export', as: 'admin_invitation_set_export'
     get 'protocol_transfer_export', to: 'admin#protocol_transfer_export', as: 'admin_protocol_transfer_export'

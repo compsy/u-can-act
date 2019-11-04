@@ -1,5 +1,5 @@
-import React from 'react'
-import printAsMoney from '../printAsMoney'
+import React from 'react';
+import { printAsMoney } from '../Helpers';
 
 // NOTE: This class is not used anywhere in the code right now.
 export default class ProgressText extends React.Component {
@@ -7,7 +7,7 @@ export default class ProgressText extends React.Component {
   calculateProgess(protocolCompletion) {
     let completion = protocolCompletion.reduce((sum, value) => {
       return sum += value.future ? 0 : 1;
-    },0);
+    }, 0);
     return Math.round((completion / protocolCompletion.length) * 100);
   }
 
@@ -16,7 +16,7 @@ export default class ProgressText extends React.Component {
     return (
       <div className='row'>
         <div className='col s12'>
-          Het onderzoek is voor {percentageCompleted}% voltooid. Er is nog {printAsMoney(this.props.awardable)} te verdienen.
+          Het onderzoek is voor {percentageCompleted}% voltooid. Er zijn nog {printAsMoney(this.props.awardable)} te verdienen.
         </div>
       </div>
     );

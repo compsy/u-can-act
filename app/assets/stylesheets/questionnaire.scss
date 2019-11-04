@@ -2,10 +2,12 @@
 // This line is at the top of the file so e.g., tooltip can override it
 .flow-text {
   $i: 8;
+
   @while $i <= $intervals {
     @media only screen and (min-width: 360 + $i * $interval-size) {
       font-size: 1.392rem;
     }
+
     $i: $i + 1;
   }
 }
@@ -164,6 +166,7 @@ form .likert-scale {
 .range-field {
   .thumb {
     display: none;
+
     &.active {
       display: block;
     }
@@ -178,6 +181,7 @@ p.option-label, div.otherwise-textfield {
 [type="checkbox"] + span:not(.lever), [type="checkbox"]:not(.filled-in) + span:not(.lever), [type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
   display: inline;
   padding-left: 0;
+
   &:before, &:after {
     top: -0.2rem;
     left: -35px;
@@ -210,6 +214,7 @@ select:focus {
 button[type="submit"] {
   margin-bottom: 2rem;
 }
+
 
 // Don't have the "Vul iets in" label overlap with the "Anders namelijk" label
 .otherwise-textfield > .input-field > label:not(.label-icon).active {
@@ -276,4 +281,8 @@ button[type="submit"] {
     display: inline-block;
     background-color: #fff;
   }
+}
+
+blockquote {
+  color: #666;
 }

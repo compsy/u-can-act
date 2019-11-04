@@ -1,39 +1,37 @@
-import React from 'react'
-import RewardFooter from './RewardFooter'
-import printAsMoney from '../printAsMoney'
+import React from 'react';
+import RewardFooter from './RewardFooter';
+import {
+  printAsMoney
+} from '../Helpers';
+import I18n from 'i18n';
+import I18nRaw from '../I18nRaw';
 
 export default class StudentFinalRewardPage extends React.Component {
   render() {
     return (
       <div>
-        <h4>Bedankt voor het invullen van de vragenlijst!</h4>
-        <div className='section'>
-          <p className='flow-text'>
-            Heel erg bedankt voor je inzet voor dit onderzoek!
-          </p>
-          {this.render_reward()}
-          <p className='flow-text'>
-            Hartelijke groeten van het u-can-act team.
-          </p>
-          <p className='flow-text'>
-            Je kan deze pagina veilig sluiten.
-          </p>
+        <div>
+          <h4>{I18n.t('pages.student_final_reward_page.header')}</h4>
+          <I18nRaw t='pages.student_final_reward_page.body.top' />
+          {this.renderReward()}
+          <I18nRaw t='pages.student_final_reward_page.body.bottom' />
         </div>
-        <RewardFooter person={this.props.person}/>
+        <div>
+          <RewardFooter person={this.props.person} />
+        </div>
       </div>
     );
   }
-  render_reward() {
-    if (this.props.earnedEuros > 0) {
-      return(
-         <p className='flow-text'>
+
+  renderReward() {
+    const noEuros = 0;
+    if (this.props.earnedEuros > noEuros) {
+      return (
+        <p className='flow-text'>
           In totaal heb je {printAsMoney(this.props.earnedEuros)} verdiend.
-          We zullen dit bedrag overmaken op IBAN:<br/>
-          <strong>{this.props.iban}</strong> t.n.v. <strong>{this.props.name}.</strong><br/>
-          Klopt dit nummer niet?
-          Klik <a href="/person/edit">hier</a> om het aan te passen.
         </p>
       );
     }
+    return <p />;
   }
 }

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'GET /edit', type: :feature, js: true do
-  let(:person_header) { 'Uw gegevens zijn opgeslagen.' }
-
+  let(:person_header) { 'Accountgegevens bewerken' }
+  let(:person_body) { 'Pas hier uw persoonsgegevens aan' }
   describe 'Mentor' do
     let!(:mentor) { FactoryBot.create(:mentor, gender: 'female') }
 
@@ -117,8 +117,8 @@ describe 'GET /edit', type: :feature, js: true do
     it 'lists the correct labels / fields' do
       visit edit_person_path
       expect(page).not_to have_content('Bankgegevens')
-      expect(page).to have_content('Uw gegevens zijn opgeslagen.')
-      expect(page).to have_content('translation missing: nl.pages.person.body')
+      expect(page).to have_content(person_header)
+      expect(page).to have_content(person_body)
       expect(page).not_to have_content('Voornaam')
       expect(page).not_to have_content('Achternaam')
       expect(page).not_to have_content('Geslacht')
@@ -156,6 +156,8 @@ describe 'GET /edit', type: :feature, js: true do
       responseobj.complete!
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
+      expect(page)
+        .to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
       expect(page).to have_content('Gegevens opgeslagen')
       expect(page).not_to have_content('Disclaimer')
       expect(page).not_to have_content('Gegevens aanpassen')
@@ -165,6 +167,8 @@ describe 'GET /edit', type: :feature, js: true do
       responseobj.complete!
       page.fill_in('person_email', with: 'anewemail.com')
       all('button[type="submit"]').first.click
+      expect(page)
+        .not_to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
       expect(page).not_to have_content('Gegevens opgeslagen')
     end
   end
@@ -193,64 +197,131 @@ describe 'GET /edit', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invtoken.token_plain, false)
     end
 
-    it 'lists the correct labels / fields' do
-      visit edit_person_path
-      expect(page).to have_content('Bankgegevens')
-      expect(page).to have_content(person_header)
-      expect(page).to have_content('Voornaam')
-      expect(page).to have_content('Achternaam')
-      expect(page).to have_content('Geslacht')
-      expect(page).not_to have_content('E-mailadres')
-      expect(page).to have_content('Mobiele telefoonnummer')
-      expect(page).to have_content('Bankrekeningnummer (IBAN)')
+    describe 'without iban' do
+      before :each do
+        @initial_value = Rails.application.config.settings.hide_edit_iban
+        Rails.application.config.settings.hide_edit_iban = true
+      end
+
+      after :each do
+        Rails.application.config.settings.hide_edit_iban = @initial_value
+      end
+
+      it 'lists the correct labels / fields' do
+        visit edit_person_path
+        expect(page).to have_content(person_header)
+        expect(page).to have_content('Geslacht')
+        expect(page).to have_content('Mobiele telefoonnummer')
+
+        expect(page).to_not have_content('Bankgegevens')
+        expect(page).to_not have_content('Voornaam')
+        expect(page).to_not have_content('Achternaam')
+        expect(page).to_not have_content('E-mailadres')
+        expect(page).to_not have_content('Bankrekeningnummer (IBAN)')
+      end
+
+      it 'stores data after clicking the update button' do
+        visit edit_person_path
+        expect(page).to_not have_content('Bankgegevens')
+        expect(page).to have_content(person_header)
+        page.fill_in('person_mobile_phone', with: '0698417312')
+
+        page.choose('Man', allow_label_click: true)
+
+        all('button[type="submit"]').first.click
+        visit edit_person_path
+
+        expect(page).to have_selector("input[value='0698417312']")
+        expect(find("[name='person[gender]'][checked]").value).to eq 'male'
+      end
+
+      it 'actually updates the person object' do
+        expect(student.mobile_phone).to_not eq '0698417312'
+
+        visit edit_person_path
+        pre_email = student.email
+        expect(page).to_not have_content('Bankgegevens')
+        expect(page).to have_content(person_header)
+        page.fill_in('person_mobile_phone', with: '0698417312')
+        page.choose('Man', allow_label_click: true)
+        all('button[type="submit"]').first.click
+
+        student.reload
+
+        expect(student.mobile_phone).to eq '0698417312'
+        expect(student.email).to eq pre_email
+      end
     end
 
-    it 'stores data after clicking the update button' do
-      visit edit_person_path
-      expect(page).to have_content('Bankgegevens')
-      expect(page).to have_content(person_header)
-      page.fill_in('person_first_name', with: 'new_first')
-      page.fill_in('person_last_name', with: 'new_last')
-      page.fill_in('person_mobile_phone', with: '0698417312')
-      page.fill_in('person_iban', with: 'NL13RTEF0518590011')
+    describe 'with iban' do
+      before :each do
+        @initial_value = Rails.application.config.settings.hide_edit_iban
+        Rails.application.config.settings.hide_edit_iban = false
+      end
 
-      page.choose('Man', allow_label_click: true)
+      after :each do
+        Rails.application.config.settings.hide_edit_iban = @initial_value
+      end
 
-      all('button[type="submit"]').first.click
-      visit edit_person_path
+      it 'lists the correct labels / fields' do
+        visit edit_person_path
+        expect(page).to have_content('Bankgegevens')
+        expect(page).to have_content(person_header)
+        expect(page).to have_content('Voornaam')
+        expect(page).to have_content('Achternaam')
+        expect(page).to have_content('Geslacht')
+        expect(page).to_not have_content('E-mailadres')
+        expect(page).to have_content('Mobiele telefoonnummer')
+        expect(page).to have_content('Bankrekeningnummer (IBAN)')
+      end
 
-      expect(page).to have_selector("input[value='new_first']")
-      expect(page).to have_selector("input[value='new_last']")
-      expect(page).to have_selector("input[value='0698417312']")
-      expect(page).to have_selector("input[value='NL13RTEF0518590011']")
-      expect(find("[name='person[gender]'][checked]").value).to eq 'male'
-    end
+      it 'stores data after clicking the update button' do
+        visit edit_person_path
+        expect(page).to have_content('Bankgegevens')
+        expect(page).to have_content(person_header)
+        page.fill_in('person_first_name', with: 'new_first')
+        page.fill_in('person_last_name', with: 'new_last')
+        page.fill_in('person_mobile_phone', with: '0698417312')
+        page.fill_in('person_iban', with: 'NL13RTEF0518590011')
 
-    it 'actuallies update the person object' do
-      expect(student.first_name).not_to eq 'new_first'
-      expect(student.last_name).not_to eq 'new_last'
-      expect(student.mobile_phone).not_to eq '0698417312'
-      expect(student.iban).not_to eq('NL13RTEF0518590011')
+        page.choose('Man', allow_label_click: true)
 
-      visit edit_person_path
-      pre_email = student.email
-      expect(page).to have_content('Bankgegevens')
-      expect(page).to have_content(person_header)
-      page.fill_in('person_first_name', with: 'new_first')
-      page.fill_in('person_last_name', with: 'new_last')
-      page.fill_in('person_mobile_phone', with: '0698417312')
-      page.fill_in('person_iban', with: 'NL13RTEF0518590011')
-      page.choose('Man', allow_label_click: true)
-      all('button[type="submit"]').first.click
+        all('button[type="submit"]').first.click
+        visit edit_person_path
 
-      student.reload
+        expect(page).to have_selector("input[value='new_first']")
+        expect(page).to have_selector("input[value='new_last']")
+        expect(page).to have_selector("input[value='0698417312']")
+        expect(page).to have_selector("input[value='NL13RTEF0518590011']")
+        expect(find("[name='person[gender]'][checked]").value).to eq 'male'
+      end
 
-      expect(student.first_name).to eq 'new_first'
-      expect(student.last_name).to eq 'new_last'
-      expect(student.mobile_phone).to eq '0698417312'
-      expect(student.iban).to eq('NL13RTEF0518590011')
+      it 'actually updates the person object' do
+        expect(student.first_name).to_not eq 'new_first'
+        expect(student.last_name).to_not eq 'new_last'
+        expect(student.mobile_phone).to_not eq '0698417312'
+        expect(student.iban).to_not eq('NL13RTEF0518590011')
 
-      expect(student.email).to eq pre_email
+        visit edit_person_path
+        pre_email = student.email
+        expect(page).to have_content('Bankgegevens')
+        expect(page).to have_content(person_header)
+        page.fill_in('person_first_name', with: 'new_first')
+        page.fill_in('person_last_name', with: 'new_last')
+        page.fill_in('person_mobile_phone', with: '0698417312')
+        page.fill_in('person_iban', with: 'NL13RTEF0518590011')
+        page.choose('Man', allow_label_click: true)
+        all('button[type="submit"]').first.click
+
+        student.reload
+
+        expect(student.first_name).to eq 'new_first'
+        expect(student.last_name).to eq 'new_last'
+        expect(student.mobile_phone).to eq '0698417312'
+        expect(student.iban).to eq('NL13RTEF0518590011')
+
+        expect(student.email).to eq pre_email
+      end
     end
   end
 end

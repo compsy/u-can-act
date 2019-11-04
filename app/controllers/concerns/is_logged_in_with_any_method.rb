@@ -16,8 +16,12 @@ module Concerns
       result = current_user
       return result if result.present?
 
-      result = authenticate_auth_user
-      return result if result.present?
+      # Prevent Knock from rendering an auth error if we didn't specify an authorization header.
+      # Instead, we throw our own error.
+      if request.headers['Authorization'].present?
+        result = authenticate_auth_user
+        return result if result.present?
+      end
 
       render(status: :unauthorized, html: 'Je bent niet ingelogd.', layout: 'application')
     end

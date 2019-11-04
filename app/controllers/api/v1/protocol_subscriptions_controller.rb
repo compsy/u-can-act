@@ -28,7 +28,7 @@ module Api
         @protocol_subscription = ProtocolSubscription.find_by(id: params[:id])
         return if @protocol_subscription.present?
 
-        render(status: :not_found, html: 'Protocol subscription met dat ID niet gevonden', layout: 'application')
+        render(status: :not_found, json: 'Protocol subscription met dat ID niet gevonden')
       end
     end
   end

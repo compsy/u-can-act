@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe Api::V1::ApiToken::ProtocolSubscriptionsController, type: :controller do
-  let!(:params) { {} }
   let!(:auth_user) { FactoryBot.create(:auth_user, :with_person) }
   let!(:person) { auth_user.person }
   let!(:protocol) { FactoryBot.create(:protocol) }
+  let!(:params) { { protocol_name: protocol.name, auth0_id_string: auth_user.auth0_id_string } }
 
   it_behaves_like 'a basic authenticated route', 'post', :create
 

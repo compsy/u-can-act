@@ -55,11 +55,11 @@ Rails.application.routes.draw do
           get :completed
         end
       end
-      resources :people, only: [:create], param: :external_identifier
       resources :auth_user, only: [:create]
-      resources :person, only: [:update] do
+      resources :person do
         collection do
           get :me
+          put :update
         end
       end
       resources :statistics, only: [:index]

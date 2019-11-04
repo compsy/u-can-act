@@ -79,8 +79,8 @@ coverage
 /.idea/runConfigurations/*
 /.idea/webResources.xml
 
-# Let the translations file be generated (can't yet because heroku probably won't allow creation of this file)
-#/public/javascripts/translations.js
+# Let the translations file be generated
+/public/javascripts/translations.js
 
 privatekey.pem
 certificate.pem

@@ -92,6 +92,10 @@ class Person < ApplicationRecord
     active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end
 
+  def my_completed_responses
+    protocol_subscriptions.map { |prot| prot.responses.completed }.flatten.sort_by(&:open_from)
+  end
+
   def open_questionnaire?(questionnaire_name)
     my_open_responses.count do |resp|
       resp.measurement.questionnaire.name == questionnaire_name

@@ -56,7 +56,6 @@ describe Api::V1::ProtocolSubscriptionsController, type: :controller do
       it 'throws a 404 if the protocol subscription does not exist' do
         get :show, params: { id: 192_301 }
         expect(response.status).to eq 404
-        expect(response).to render_template(layout: 'application')
         expect(response.body).to include 'Protocol subscription met dat ID niet gevonden'
       end
     end

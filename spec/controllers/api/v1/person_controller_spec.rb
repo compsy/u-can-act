@@ -17,7 +17,7 @@ describe Api::V1::PersonController, type: :controller do
     describe 'update' do
       it 'renders the correct errors if something goes wrong' do
         new_email = 'newtest.com'
-        put :person, params: { person: { email: new_email } }
+        put :update, params: { person: { email: new_email } }
         expect(response.status).to eq 422
         expect(response.header['Content-Type']).to include 'application/json'
         json = JSON.parse(response.body)
@@ -28,12 +28,13 @@ describe Api::V1::PersonController, type: :controller do
 
       it 'updates the current user' do
         new_email = 'new@test.com'
-        put :person, params: { person: { email: new_email } }
+        put :update, params: { person: { email: new_email } }
         expect(response.status).to eq 200
         expect(response.header['Content-Type']).to include 'application/json'
         json = JSON.parse(response.body)
         expect(json).not_to be_nil
         expect(json['status']).to eq 'ok'
+        person.reload
         expect(person.email).to eq new_email
       end
     end

@@ -25,7 +25,7 @@ module Api
       private
 
       def check_admin_authenticated
-        return if current_auth_user.role == AuthUser::ADMIN_ROLE
+        return if current_auth_user.access_level == AuthUser::ADMIN_ACCESS_LEVEL
 
         result = { result: 'User is not an admin' }
 

@@ -19,11 +19,11 @@ module Api
 
         def set_person
           @auth_user ||= AuthUser.find_by(auth0_id_string: protocol_subscription_create_params[:auth0_id_string])
-          @person ||= @auth_user&.person
+          @person = @auth_user&.person
 
           return if @person.present?
 
-          render(status: :not_found, html: 'Person met dat ID niet gevonden', layout: 'application')
+          render(status: :not_found, json: 'Person met dat ID niet gevonden')
         end
 
         def protocol_subscription_create_params

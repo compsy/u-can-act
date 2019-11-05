@@ -3,7 +3,7 @@
 class CreateAnonymousUser < ActiveInteraction::Base
   string :auth0_id_string
   string :team_name, default: nil
-  string :role
+  string :access_level
   # TODO: this file doesn't have specs
 
   # Creates an anonymous user
@@ -11,21 +11,21 @@ class CreateAnonymousUser < ActiveInteraction::Base
   # Params:
   # - auth0_id_string: the id retrieved from auth0
   def execute
-    auth_user = create_or_find_auth_user(auth0_id_string, role)
+    auth_user = create_or_find_auth_user(auth0_id_string, access_level)
     auth_user = create_or_find_person(auth_user)
     auth_user
   end
 
   private
 
-  def create_or_find_auth_user(auth0_id_string, role)
+  def create_or_find_auth_user(auth0_id_string, access_level)
     auth_user = AuthUser.find_by(auth0_id_string: auth0_id_string)
     return auth_user if auth_user.present?
 
     AuthUser.create(
       auth0_id_string: auth0_id_string,
       password_digest: SecureRandom.hex(10),
-      role: role
+      access_level: access_level
     )
   end
 

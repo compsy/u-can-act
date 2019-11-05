@@ -3,7 +3,6 @@
 module Api
   module V1
     class ProtocolSubscriptionsController < ApiController
-      # include ::Concerns::IsLoggedIn
       include ::Concerns::IsLoggedInWithAnyMethod
 
       before_action :set_protocol_subscription, only: %i[show]

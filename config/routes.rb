@@ -56,6 +56,8 @@ Rails.application.routes.draw do
         end
       end
       resources :auth_user, only: [:create]
+
+      # TODO in V2 API, rename to people.
       resources :person do
         collection do
           get :me

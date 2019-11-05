@@ -6,8 +6,8 @@ class AuthUser < ApplicationRecord
   belongs_to :person, dependent: :destroy, optional: true
   AUTH0_KEY_LOCATION = 'sub'
 
-  ADMIN_ROLE = 'admin'
-  USER_ROLE = 'user'
+  ADMIN_ACCESS_LEVEL = 'admin'
+  USER_ACCESS_LEVEL = 'user'
 
   class << self
     # This function gets called automatically when authorizing a user. So note
@@ -15,17 +15,17 @@ class AuthUser < ApplicationRecord
     # be hard to debug.
     def from_token_payload(payload)
       id = id_from_payload(payload)
-      role = role_from_payload(payload)
+      access_level = access_level_from_payload(payload)
       team = team_from_payload(payload)
 
       auth_user = CreateAnonymousUser.run!(
         auth0_id_string: id,
         team_name: team,
-        role: role
+        access_level: access_level
       )
 
-      return auth_user if ENV['START_PROTOCOL_ON_SUBSCRIPTION'] == 'false'
-
+      # Note that we only subscribe the person if the protocol is provided in
+      # the metadata.
       subscribe_to_protocol_if_needed(auth_user.person, payload)
       auth_user
     end
@@ -41,10 +41,21 @@ class AuthUser < ApplicationRecord
       metadata_from_payload(payload)['team'] || Rails.application.config.settings.default_team_name
     end
 
-    def role_from_payload(payload)
-      return ADMIN_ROLE if metadata_from_payload(payload)['roles']&.include?(ADMIN_ROLE)
+    def access_level_from_payload(payload)
+      # Roles is also checked here for backwards compatibility
+      role_admin = metadata_from_payload(payload)['roles']&.include?(ADMIN_ACCESS_LEVEL)
+      access_level_admin = metadata_from_payload(payload)['access_levels']&.include?(ADMIN_ACCESS_LEVEL)
 
-      USER_ROLE
+      if role_admin
+        ActiveSupport::Deprecation
+          .warn('roles should not be used in the payload anymore. '\
+                'This was renamed to access_level. '\
+                'Please update the payload.')
+      end
+
+      return ADMIN_ACCESS_LEVEL if role_admin || access_level_admin
+
+      USER_ACCESS_LEVEL
     end
 
     def id_from_payload(payload)

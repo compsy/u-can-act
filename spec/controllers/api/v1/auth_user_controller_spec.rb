@@ -10,7 +10,7 @@ describe Api::V1::AuthUserController, type: :controller do
   describe 'unauthorized' do
     let!(:the_payload) do
       { ENV['SITE_LOCATION'] => {
-        'roles' => ['user'],
+        'access_level' => ['user'],
         'team' => team.name,
         'protocol' => protocol.name
       } }
@@ -23,7 +23,7 @@ describe Api::V1::AuthUserController, type: :controller do
     describe 'create' do
       let!(:the_payload) do
         { ENV['SITE_LOCATION'] => {
-          'roles' => ['user'],
+          'access_level' => ['user'],
           'team' => team.name,
           'protocol' => protocol.name
         } }

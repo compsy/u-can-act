@@ -31,6 +31,17 @@ describe AuthUser, type: :model do
       {
         described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0',
         ENV['SITE_LOCATION'] => {
+          'access_level' => ['admin'],
+          'team' => 'kct',
+          'protocol' => 'KCT'
+        }
+      }
+    end
+
+    let(:deprecated_payload) do
+      {
+        described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0',
+        ENV['SITE_LOCATION'] => {
           'roles' => ['admin'],
           'team' => 'kct',
           'protocol' => 'KCT'
@@ -43,12 +54,26 @@ describe AuthUser, type: :model do
         .to raise_error RuntimeError, "Invalid payload #{incorrect_payload} - no sub key"
     end
 
+    it 'should give a deprecation warning with the old payload' do
+      expect(CreateAnonymousUser)
+        .to receive(:run!)
+        .with(auth0_id_string: deprecated_payload[described_class::AUTH0_KEY_LOCATION],
+              team_name: deprecated_payload[ENV['SITE_LOCATION']]['team'],
+              access_level: AuthUser::ADMIN_ACCESS_LEVEL)
+        .and_raise('stop_execution')
+
+      expect(ActiveSupport::Deprecation)
+        .to receive(:warn)
+        .with(any_args)
+      expect { described_class.from_token_payload(deprecated_payload) }.to raise_error 'stop_execution'
+    end
+
     it 'should create an anonymous user with the correct id and team' do
       expect(CreateAnonymousUser)
         .to receive(:run!)
         .with(auth0_id_string: correct_payload[described_class::AUTH0_KEY_LOCATION],
               team_name: correct_payload[ENV['SITE_LOCATION']]['team'],
-              role: AuthUser::ADMIN_ROLE)
+              access_level: AuthUser::ADMIN_ACCESS_LEVEL)
         .and_raise('stop_execution')
 
       expect { described_class.from_token_payload(correct_payload) }.to raise_error 'stop_execution'
@@ -75,8 +100,6 @@ describe AuthUser, type: :model do
 
     describe 'creates protocol subscriptions' do
       it 'should create new protocol subscriptions if the user does not yet have some' do
-        old_value = ENV['START_PROTOCOL_ON_SUBSCRIPTION']
-        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = 'true'
         auth_user = FactoryBot.create(:auth_user, :with_person)
         expect(CreateAnonymousUser)
           .to receive(:run!)
@@ -88,7 +111,6 @@ describe AuthUser, type: :model do
           .and_raise('stop_execution')
         expect(auth_user.person.protocol_subscriptions).to be_blank
         expect { described_class.from_token_payload(correct_payload) }.to raise_error 'stop_execution'
-        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = old_value
       end
 
       it 'should not create new protocol subscriptions for users already subscribed to this protocol' do
@@ -109,8 +131,6 @@ describe AuthUser, type: :model do
       end
 
       it 'should not create new protocol subscriptions for users already subscribed to this protocol' do
-        old_value = ENV['START_PROTOCOL_ON_SUBSCRIPTION']
-        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = 'true'
         auth_user = FactoryBot.create(:auth_user, :with_person)
         protocol = FactoryBot.create(:protocol,
                                      name: 'something completely unrelated')
@@ -126,7 +146,6 @@ describe AuthUser, type: :model do
         expect(auth_user.person.protocol_subscriptions).to_not be_blank
         result = described_class.from_token_payload(correct_payload)
         expect(result).to equal(auth_user)
-        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = old_value
       end
     end
   end

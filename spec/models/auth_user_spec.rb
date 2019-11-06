@@ -42,7 +42,7 @@ describe AuthUser, type: :model do
       {
         described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0',
         ENV['SITE_LOCATION'] => {
-          'roles' => ['admin'],
+          'roles' => ['admin'], # The roles param is deprecated
           'team' => 'kct',
           'protocol' => 'KCT'
         }

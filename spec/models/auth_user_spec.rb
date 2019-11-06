@@ -31,7 +31,7 @@ describe AuthUser, type: :model do
       {
         described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0',
         ENV['SITE_LOCATION'] => {
-          'access_level' => ['admin'],
+          'access_levels' => ['admin'],
           'team' => 'kct',
           'protocol' => 'KCT'
         }
@@ -57,9 +57,7 @@ describe AuthUser, type: :model do
     it 'should give a deprecation warning with the old payload' do
       expect(CreateAnonymousUser)
         .to receive(:run!)
-        .with(auth0_id_string: deprecated_payload[described_class::AUTH0_KEY_LOCATION],
-              team_name: deprecated_payload[ENV['SITE_LOCATION']]['team'],
-              access_level: AuthUser::ADMIN_ACCESS_LEVEL)
+        .with(any_args)
         .and_raise('stop_execution')
 
       expect(ActiveSupport::Deprecation)
@@ -68,14 +66,13 @@ describe AuthUser, type: :model do
       expect { described_class.from_token_payload(deprecated_payload) }.to raise_error 'stop_execution'
     end
 
-    it 'should create an anonymous user with the correct id and team' do
+    fit 'should create an anonymous user with the correct id and team' do
       expect(CreateAnonymousUser)
         .to receive(:run!)
         .with(auth0_id_string: correct_payload[described_class::AUTH0_KEY_LOCATION],
               team_name: correct_payload[ENV['SITE_LOCATION']]['team'],
               access_level: AuthUser::ADMIN_ACCESS_LEVEL)
         .and_raise('stop_execution')
-
       expect { described_class.from_token_payload(correct_payload) }.to raise_error 'stop_execution'
     end
 

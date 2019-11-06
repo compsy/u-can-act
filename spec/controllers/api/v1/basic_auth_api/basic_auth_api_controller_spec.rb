@@ -10,7 +10,7 @@ describe Api::V1::BasicAuthApi::BasicAuthApiController, type: :controller do
   end
 
   before do
-    routes.draw { get 'dummy' => 'api/v1/api_token/api_token_api#dummy' }
+    routes.draw { get 'dummy' => 'api/v1/basic_auth_api/basic_auth_api#dummy' }
   end
 
   let!(:params) { {} }

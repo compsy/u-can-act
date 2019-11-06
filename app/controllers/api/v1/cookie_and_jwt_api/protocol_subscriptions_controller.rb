@@ -3,7 +3,7 @@
 module Api
   module V1
     module CookieAndJwtApi
-      class ProtocolSubscriptionController < CookieAndJwtApiController
+      class ProtocolSubscriptionsController < CookieAndJwtApiController
         before_action :set_protocol_subscription, only: %i[show]
         before_action :verify_access, only: %i[show]
 

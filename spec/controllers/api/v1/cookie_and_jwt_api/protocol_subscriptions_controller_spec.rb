@@ -17,14 +17,6 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
   end
 
   let(:other_response) { FactoryBot.create(:response) }
-  let(:team) { FactoryBot.create(:team, :with_roles) }
-
-  let!(:the_payload) do
-    { ENV['SITE_LOCATION'] => {
-      'access_level' => ['user'],
-      'team' => team.name
-    } }
-  end
 
   describe 'show' do
     describe 'without cookie' do

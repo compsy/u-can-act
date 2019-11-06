@@ -18,8 +18,9 @@ module Api
         private
 
         def verify_access
-          allowed = check_access_allowed(@protocol_subscription)
-          render(status: :forbidden, json: 'U heeft geen toegang tot deze protocolsubscriptie') unless allowed
+          return if check_access_allowed(@protocol_subscription)
+
+          render(status: :forbidden, json: 'U heeft geen toegang tot deze protocolsubscriptie')
         end
 
         def set_protocol_subscription

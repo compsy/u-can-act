@@ -4,19 +4,34 @@ require 'rails_helper'
 
 describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
   render_views
-  let(:test_response) { FactoryBot.create(:response, completed_at: 10.minutes.ago) }
-  let(:protocol_subscription) { test_response.protocol_subscription }
+  let(:the_auth_user) { FactoryBot.create(:auth_user, :with_person) }
+  let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, person: the_auth_user.person) }
+  let(:test_response) do
+    FactoryBot.create(:response,
+                      protocol_subscription: protocol_subscription,
+                      completed_at: 10.minutes.ago)
+  end
+
   let!(:protocol_subscriptions) do
     FactoryBot.create_list(:protocol_subscription, 4, person: protocol_subscription.person)
   end
-  let(:other_response) { FactoryBot.create(:response) }
 
-  it_behaves_like 'an is_logged_in concern', :show, id: 0
+  let(:other_response) { FactoryBot.create(:response) }
+  let(:team) { FactoryBot.create(:team, :with_roles) }
+
+  let!(:the_payload) do
+    { ENV['SITE_LOCATION'] => {
+      'access_level' => ['user'],
+      'team' => team.name
+    } }
+  end
+  it_behaves_like 'a jwt authenticated route', 'get', :mine
 
   describe 'mine' do
-    describe 'with cookie' do
+    describe 'with jwt token' do
       before do
-        cookie_auth(protocol_subscription.person)
+        the_payload[:sub] = the_auth_user.auth0_id_string
+        jwt_auth the_payload
       end
 
       it 'returns all my protocol subscriptions' do
@@ -28,9 +43,10 @@ describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
   end
 
   describe 'show' do
-    describe 'with cookie' do
+    describe 'with auth' do
       before do
-        cookie_auth(protocol_subscription.person)
+        the_payload[:sub] = the_auth_user.auth0_id_string
+        jwt_auth the_payload
       end
 
       it 'sets the correct env vars if the response is available' do
@@ -41,8 +57,10 @@ describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
 
       it 'renders the correct json object' do
         allow(controller).to receive(:render)
-          .with(json: protocol_subscription, serializer: Api::ProtocolSubscriptionSerializer)
+          .with(json: protocol_subscription,
+                serializer: Api::ProtocolSubscriptionSerializer)
           .and_call_original
+
         get :show, params: { id: protocol_subscription.id }
         expect(response.status).to eq 200
       end
@@ -60,12 +78,11 @@ describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
       end
     end
 
-    describe 'without cookie' do
+    describe 'without jwt token' do
       it 'returns 401 if no protocol_subscription is available' do
         get :show, params: { id: protocol_subscription.id }
         expect(response.status).to eq 401
-        expect(response).to render_template(layout: 'application')
-        expect(response.body).to include 'Je bent niet ingelogd.'
+        expect(response.body).to include 'Unauthorized request'
       end
     end
   end

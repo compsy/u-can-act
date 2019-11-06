@@ -4,6 +4,7 @@ class JwtAuthenticator
   class << self
     def auth(cookies, params)
       token = token_from_cookie_or_params(params, cookies)
+
       return if token.blank?
 
       # TODO: token opslaan in session ipv cookies

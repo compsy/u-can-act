@@ -31,12 +31,6 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
     end
 
     it 'should start the protocol subscription on the correct start time, from a string' do
-      expect(SubscribeToProtocol).to receive(:run!).with(
-        protocol_name: prot_name,
-        person: person,
-        start_date: time
-      ).and_return true
-
       post :create, params: { protocol_name: prot_name,
                               start_date: time.to_s,
                               auth0_id_string: auth_user.auth0_id_string }

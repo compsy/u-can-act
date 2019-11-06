@@ -11,6 +11,7 @@ module ApplicationHelper
   def current_user
     return @current_user if @current_user.present?
 
+    @current_user ||= current_user_from_header
     @current_user ||= TokenAuthenticator.auth(cookies.signed, params)
     @current_user ||= JwtAuthenticator.auth(cookies.signed, params)
     @current_user
@@ -24,6 +25,13 @@ module ApplicationHelper
   end
 
   private
+
+  def current_user_from_header
+    # current_auth_user is not defined if the including class does not
+    # include Knock::Authenticable. Hence we need to check if it is
+    # actually defined.
+    current_auth_user&.person if defined? current_auth_user
+  end
 
   def mentor_or_student_logo
     return Rails.application.config.settings.logo.mentor_logo if @use_mentor_layout

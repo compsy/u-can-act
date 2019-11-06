@@ -18,7 +18,9 @@ module Api
         private
 
         def start_date
-          Time.zone.parse(protocol_subscription_create_params[:start_date]) || Time.zone.now
+          return Time.zone.now if protocol_subscription_create_params[:start_date].blank?
+
+          Time.zone.parse(protocol_subscription_create_params[:start_date])
         end
 
         def set_person

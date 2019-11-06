@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::PersonController, type: :controller do
+describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
   let(:person) { FactoryBot.create(:person, :with_iban, email: 'test@test2.com') }
 
   describe 'unauthorized' do

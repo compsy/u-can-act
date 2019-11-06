@@ -66,7 +66,7 @@ describe AuthUser, type: :model do
       expect { described_class.from_token_payload(deprecated_payload) }.to raise_error 'stop_execution'
     end
 
-    fit 'should create an anonymous user with the correct id and team' do
+    it 'should create an anonymous user with the correct id and team' do
       expect(CreateAnonymousUser)
         .to receive(:run!)
         .with(auth0_id_string: correct_payload[described_class::AUTH0_KEY_LOCATION],

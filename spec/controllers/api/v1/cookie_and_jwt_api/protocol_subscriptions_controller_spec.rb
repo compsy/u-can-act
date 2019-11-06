@@ -27,10 +27,17 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
   end
 
   describe 'show' do
+    describe 'without cookie' do
+      it 'returns 401 if no protocol_subscription is available' do
+        get :show, params: { id: protocol_subscription.id }
+        expect(response.status).to eq 401
+        expect(response.body).to include 'niet ingelogd'
+      end
+    end
+
     describe 'with auth' do
       before do
-        the_payload[:sub] = the_auth_user.auth0_id_string
-        jwt_auth the_payload
+        cookie_auth(protocol_subscription.person)
       end
 
       it 'sets the correct env vars if the response is available' do
@@ -59,14 +66,6 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
         get :show, params: { id: 192_301 }
         expect(response.status).to eq 404
         expect(response.body).to include 'Protocol subscription met dat ID niet gevonden'
-      end
-    end
-
-    describe 'without jwt token' do
-      it 'returns 401 if no protocol_subscription is available' do
-        get :show, params: { id: protocol_subscription.id }
-        expect(response.status).to eq 401
-        expect(response.body).to include 'Unauthorized request'
       end
     end
   end

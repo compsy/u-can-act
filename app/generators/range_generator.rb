@@ -14,6 +14,9 @@ class RangeGenerator < QuestionTypeGenerator
 
   def range_slider(question)
     minmax = range_slider_minmax(question)
+    label_count = [question[:labels].size, 1].max
+    col_width = 100.0 / label_count
+    col_width -= 8 # hack to get around padding that is in rem and not percentages
     range_body = tag(:input,
                      type: 'range',
                      id: idify(question[:id]),
@@ -22,7 +25,7 @@ class RangeGenerator < QuestionTypeGenerator
                      max: minmax[:max].to_s,
                      step: question[:step] || 1,
                      required: true)
-    range_body = content_tag(:p, range_body, class: 'range-field')
+    range_body = content_tag(:p, range_body, class: 'range-field',                      style: "width:#{100 - col_width}%;margin-left:#{col_width/2.0}%;margin-right:#{col_width/2.0}%")
     range_body
   end
 
@@ -50,9 +53,9 @@ class RangeGenerator < QuestionTypeGenerator
   def label_div(label, idx, col_class, col_width, label_count)
     align_class = case idx
                   when 0
-                    'left-align'
+                    'center-align' # 'left-align'
                   when (label_count - 1)
-                    'right-align'
+                    'center-align' # 'right-align'
                   else
                     'center-align'
                   end

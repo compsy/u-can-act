@@ -20,7 +20,6 @@ dagboek_content = [
     min: 1,
     max: 5,
     step: 0.5,
-    #TODO: We have to see how well this will render
     labels: [
       'Totaal ontevreden',
       'Ontevreden',

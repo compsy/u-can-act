@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::ProtocolController, type: :controller do
+describe Api::V1::JwtApi::ProtocolController, type: :controller do
   let(:the_auth_user) { FactoryBot.create(:auth_user, :with_person) }
   let(:person) { the_auth_user.person }
   let!(:no_protocols) { 5 }

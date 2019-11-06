@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::QuestionnaireController, type: :controller do
+describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
   let(:questionnaire) { FactoryBot.create(:questionnaire) }
   let(:other_response) { FactoryBot.create(:response) }
 

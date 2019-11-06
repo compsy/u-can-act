@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::ProtocolSubscriptionsController, type: :controller do
+describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
   render_views
   let(:test_response) { FactoryBot.create(:response, completed_at: 10.minutes.ago) }
   let(:protocol_subscription) { test_response.protocol_subscription }

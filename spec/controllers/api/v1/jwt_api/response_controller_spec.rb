@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::ResponseController, type: :controller do
+describe Api::V1::JwtApi::ResponseController, type: :controller do
   let!(:person) { FactoryBot.create(:person, :with_auth_user) }
   # Create a the_auth_user here, so the spec won't create it for us
   let!(:the_auth_user) { person.auth_user }

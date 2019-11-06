@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::ApiToken::ProtocolSubscriptionsController, type: :controller do
+describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controller do
   let!(:auth_user) { FactoryBot.create(:auth_user, :with_person) }
   let!(:person) { auth_user.person }
   let!(:protocol) { FactoryBot.create(:protocol) }
@@ -28,6 +28,20 @@ describe Api::V1::ApiToken::ProtocolSubscriptionsController, type: :controller d
                               start_date: time,
                               auth0_id_string: auth_user.auth0_id_string }
       expect(response.status).to eq 200
+    end
+
+    it 'should start the protocol subscription on the correct start time, from a string' do
+      expect(SubscribeToProtocol).to receive(:run!).with(
+        protocol_name: prot_name,
+        person: person,
+        start_date: time
+      ).and_return true
+
+      post :create, params: { protocol_name: prot_name,
+                              start_date: time.to_s,
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 200
+      expect(ProtocolSubscription.last.start_date).to eq time
     end
 
     it 'should be possible to call the url without a time' do

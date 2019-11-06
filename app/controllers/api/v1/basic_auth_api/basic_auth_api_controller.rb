@@ -2,8 +2,8 @@
 
 module Api
   module V1
-    module ApiToken
-      class ApiTokenApiController < ApiController
+    module BasicAuthApi
+      class BasicAuthApiController < ApiController
         include ::Concerns::IsBasicAuthenticated
       end
     end

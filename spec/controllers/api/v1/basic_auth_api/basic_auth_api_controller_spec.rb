@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::ApiToken::ApiTokenApiController, type: :controller do
+describe Api::V1::BasicAuthApi::BasicAuthApiController, type: :controller do
   controller do
     def dummy
       render plain: 'dummy called'

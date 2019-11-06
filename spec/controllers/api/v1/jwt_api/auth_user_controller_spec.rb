@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::AuthUserController, type: :controller do
+describe Api::V1::JwtApi::AuthUserController, type: :controller do
   let(:the_auth_user) { FactoryBot.create(:auth_user) }
   let(:protocol) { FactoryBot.create(:protocol) }
   let(:team) { FactoryBot.create(:team, :with_roles) }

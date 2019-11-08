@@ -47,8 +47,11 @@ dagboek_content = [
     title: 'Heb je moeite ervaren met deelname aan training en competitie door blessure, ziekte of andere gezondheidsproblemen in de afgelopen week?',
     options: [
       { title: '0. Volledige deelname zonder gezondheidsproblemen.' },
+      { title: '0.5.' },
       { title: '1. Volledige deelname, maar met blessure/ziekte' },
+      { title: '1.5.' },
       { title: '2. Verminderde deelname door blessure/ziekte' },
+      { title: '2.5.' },
       { title: '3. Kan niet deelnemen door blessure/ziekte' }
     ]
   }, {
@@ -58,9 +61,13 @@ dagboek_content = [
     title: 'In welke mate heb je je training volume verminderd door blessure, ziekte of andere gezondheidsproblemen in de afgelopen week?',
     options: [
       { title: '0. Geen vermindering' },
+      { title: '0.5.' },
       { title: '1. In geringe mate' },
+      { title: '1.5.' },
       { title: '2. In gemiddelde mate' },
+      { title: '2.5.' },
       { title: '3. In grote mate' },
+      { title: '3.5.' },
       { title: '4. Kan helemaal niet deelnemen (aan training)' }
     ]
   }, {
@@ -70,9 +77,13 @@ dagboek_content = [
     title: 'In welke mate hebben blessure, ziekte of andere gezondheidsproblemen een negatieve invloed gehad op je prestatie in de afgelopen week?',
     options: [
       { title: '0. Geen vermindering' },
+      { title: '0.5.' },
       { title: '1. In geringe mate' },
+      { title: '1.5.' },
       { title: '2. In gemiddelde mate' },
+      { title: '2.5.' },
       { title: '3. In grote mate' },
+      { title: '3.5.' },
       { title: '4. Kan helemaal niet deelnemen (aan prestatie)' }
     ]
   }, {
@@ -82,8 +93,11 @@ dagboek_content = [
     title: 'In welke mate heb je symptomen of gezondheidsklachten ervaren in de afgelopen week?',
     options: [
       { title: '0. Geen symptomen of gezondheidsklachten' },
+      { title: '0.5.' },
       { title: '1. In geringe mate' },
+      { title: '1.5.' },
       { title: '2. In gemiddelde mate' },
+      { title: '2.5.' },
       { title: '3. In grote mate' }
     ]
   },

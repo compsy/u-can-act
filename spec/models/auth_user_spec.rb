@@ -75,6 +75,8 @@ describe AuthUser, type: :model do
 
     describe 'creates protocol subscriptions' do
       it 'should create new protocol subscriptions if the user does not yet have some' do
+        old_value = ENV['START_PROTOCOL_ON_SUBSCRIPTION']
+        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = 'true'
         auth_user = FactoryBot.create(:auth_user, :with_person)
         expect(CreateAnonymousUser)
           .to receive(:run!)
@@ -86,6 +88,7 @@ describe AuthUser, type: :model do
           .and_raise('stop_execution')
         expect(auth_user.person.protocol_subscriptions).to be_blank
         expect { described_class.from_token_payload(correct_payload) }.to raise_error 'stop_execution'
+        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = old_value
       end
 
       it 'should not create new protocol subscriptions for users already subscribed to this protocol' do
@@ -106,6 +109,8 @@ describe AuthUser, type: :model do
       end
 
       it 'should not create new protocol subscriptions for users already subscribed to this protocol' do
+        old_value = ENV['START_PROTOCOL_ON_SUBSCRIPTION']
+        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = 'true'
         auth_user = FactoryBot.create(:auth_user, :with_person)
         protocol = FactoryBot.create(:protocol,
                                      name: 'something completely unrelated')
@@ -121,6 +126,7 @@ describe AuthUser, type: :model do
         expect(auth_user.person.protocol_subscriptions).to_not be_blank
         result = described_class.from_token_payload(correct_payload)
         expect(result).to equal(auth_user)
+        ENV['START_PROTOCOL_ON_SUBSCRIPTION'] = old_value
       end
     end
   end

@@ -10,26 +10,52 @@ class AuthUser < ApplicationRecord
   USER_ROLE = 'user'
 
   class << self
-    ##
     # This function gets called automatically when authorizing a user. So note
     # that if we raise from here, the authorization process stops and it might
     # be hard to debug.
     def from_token_payload(payload)
-      metadata = payload[ENV['SITE_LOCATION']] || {}
-      id = payload[AUTH0_KEY_LOCATION]
-      raise "Invalid payload #{payload} - no sub key" unless payload.key?(AUTH0_KEY_LOCATION)
+      id = id_from_payload(payload)
+      role = role_from_payload(payload)
+      team = team_from_payload(payload)
 
-      team = metadata['team']
-      role = USER_ROLE
-      role = ADMIN_ROLE if metadata['roles'].include?(ADMIN_ROLE)
-      auth_user = CreateAnonymousUser.run!(auth0_id_string: id, team_name: team, role: role)
-      subscribe_to_protocol_if_needed(auth_user.person, metadata)
+      auth_user = CreateAnonymousUser.run!(
+        auth0_id_string: id,
+        team_name: team,
+        role: role
+      )
+
+      return auth_user if ENV['START_PROTOCOL_ON_SUBSCRIPTION'] == 'false'
+
+      subscribe_to_protocol_if_needed(auth_user.person, payload)
       auth_user
     end
 
     private
 
-    def subscribe_to_protocol_if_needed(person, metadata)
+    def metadata_from_payload(payload)
+      payload[ENV['SITE_LOCATION']] || {}
+    end
+
+    # Get the team from the provided payload, or use the default if nothing is found
+    def team_from_payload(payload)
+      metadata_from_payload(payload)['team'] || Rails.application.config.settings.default_team_name
+    end
+
+    def role_from_payload(payload)
+      return ADMIN_ROLE if metadata_from_payload(payload)['roles']&.include?(ADMIN_ROLE)
+
+      USER_ROLE
+    end
+
+    def id_from_payload(payload)
+      id = payload[AUTH0_KEY_LOCATION]
+      return id if id.present?
+
+      raise "Invalid payload #{payload} - no sub key" unless payload.key?(AUTH0_KEY_LOCATION)
+    end
+
+    def subscribe_to_protocol_if_needed(person, payload)
+      metadata = metadata_from_payload(payload)
       return if metadata['protocol'].nil?
 
       # A person can only be subscribed to the same protocol once

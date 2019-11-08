@@ -126,9 +126,14 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: gem install bundler
+      - run: bundle --path vendor/bundle
+      - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: yarn test
 

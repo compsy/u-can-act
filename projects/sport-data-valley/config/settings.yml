@@ -1,0 +1,20 @@
+# Beware! This file is public by definition
+default: &default
+  default_team_name: 'sdv-team'
+  # This settings is included only for the specs. Don't remove
+  test_setting: 'test123'
+  project_start_date: '2019-12-20'
+  project_end_date: '2032-12-21'
+  logo:
+    mentor_logo: 'logo_mentor.svg'
+    student_logo: 'logo_student.svg'
+    fallback_logo: 'logo.svg'
+    company_logo: NULL
+development:
+  <<: *default
+production:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default

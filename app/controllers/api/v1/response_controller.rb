@@ -4,9 +4,10 @@ module Api
   module V1
     class ResponseController < ApiController
       include ::Concerns::IsJwtAuthenticated
-      before_action :set_person, only: %i[show index]
+      before_action :set_person, only: %i[show index completed]
       before_action :set_response, only: %i[show create]
       before_action :set_responses, only: %i[index]
+      before_action :set_completed_responses, only: %i[completed]
       before_action :check_empty_response, only: %i[create]
 
       def show
@@ -24,6 +25,10 @@ module Api
         head 201
       end
 
+      def completed
+        render json: @responses, each_serializer: Api::ResponseSerializer
+      end
+
       private
 
       def set_person
@@ -36,6 +41,14 @@ module Api
         return if @person.present?
 
         result = { result: current_auth_user.to_json }
+        render(status: :not_found, json: result)
+      end
+
+      def set_completed_responses
+        @responses = @person.my_completed_responses
+        return if @responses.present?
+
+        result = { result: 'Geen completed responses voor deze persoon gevonden' }
         render(status: :not_found, json: result)
       end
 

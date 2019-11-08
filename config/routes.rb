@@ -50,20 +50,32 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :questionnaire, only: [:show, :create], param: :key
-      resources :response, only: [:show, :index, :create], param: :uuid
-      resources :people, only: [:create], param: :external_identifier
+      resources :response, only: [:show, :index, :create], param: :uuid do
+        collection do
+          get :completed
+        end
+      end
       resources :auth_user, only: [:create]
       resources :person do
         collection do
           get :me
+          put :update
         end
       end
       resources :statistics, only: [:index]
       resources :settings, only: [:index]
-      resources :protocol_subscriptions, only: [:show]
+      resources :protocol_subscriptions, only: [:create, :show] do
+        collection do
+          get :mine
+        end
+      end
+      resources :protocol, only: [:index]
       namespace :admin do
         resources :team, only: [:show], param: :group
         resources :organization, only: [:show], param: :group
+      end
+      namespace :api_token do
+        resources :protocol_subscriptions, only: [:create]
       end
     end
   end

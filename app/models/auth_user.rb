@@ -44,7 +44,7 @@ class AuthUser < ApplicationRecord
     def access_level_from_payload(payload)
       # Roles is also checked here for backwards compatibility
       role_admin = metadata_from_payload(payload)['roles']&.include?(ADMIN_ACCESS_LEVEL)
-      access_level_admin = metadata_from_payload(payload)['access_levels']&.include?(ADMIN_ACCESS_LEVEL)
+      access_level_admin = metadata_from_payload(payload)['access_level']&.include?(ADMIN_ACCESS_LEVEL)
 
       if role_admin
         ActiveSupport::Deprecation

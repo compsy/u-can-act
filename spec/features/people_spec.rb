@@ -152,8 +152,9 @@ describe 'GET /edit', type: :feature, js: true do
       expect(solo.email).to eq 'anew@email.com'
     end
     it 'redirects to the correct page' do
-      visit edit_person_path
       responseobj.complete!
+      sleep(1)
+      visit edit_person_path
       page.fill_in('person_email', with: 'anew@email.com')
       sleep(1)
       all('button[type="submit"]').first.click

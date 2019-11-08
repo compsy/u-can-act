@@ -116,6 +116,8 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+      - store_artifacts:
+          path: /home/circleci/test/tmp/capybara
       - persist_to_workspace:
           root: /tmp/workspace
           paths:

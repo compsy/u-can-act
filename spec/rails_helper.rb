@@ -69,7 +69,7 @@ RSpec.configure do |config|
     timestamp = "#{time_now.strftime('%Y-%m-%d-%H-%M-%S.')}#{format('%<time>03d', time: (time_now.usec / 1000).to_i)}"
 
     screenshot_name = "screenshot-#{filename}-#{line_number}-#{timestamp}.png"
-    screenshot_path = "/tmp/test-results/#{screenshot_name}"
+    screenshot_path = "/home/circleci/test/tmp/capybara/#{screenshot_name}"
 
     page.save_screenshot(screenshot_path)
 

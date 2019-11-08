@@ -118,6 +118,10 @@ jobs:
           destination: test-results
       - store_artifacts:
           path: /home/circleci/test/tmp/capybara
+      - store_artifacts:
+          path: /home/circleci/test/log/test.log
+      - store_artifacts:
+          path: /home/circleci/test/log/webdrivers.log
       - persist_to_workspace:
           root: /tmp/workspace
           paths:

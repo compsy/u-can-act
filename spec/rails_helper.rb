@@ -14,7 +14,7 @@ require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec' # unless ENV['CI']
 
 Webdrivers.logger.level = :DEBUG
-Webdrivers.logger.output = '/home/circleci/test/tmp/capybara/webdrivers.log'
+Webdrivers.logger.output = 'webdrivers.log'
 
 # Start coverage report on CircleCI
 if ENV['CI']

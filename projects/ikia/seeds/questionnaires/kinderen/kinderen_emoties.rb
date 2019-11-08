@@ -1,12 +1,14 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
 db_title = 'Gevoelens'
-db_name1 = 'Emoties_Kinderen_Jongeren'
+db_name1 = 'Emoties_Kinderen'
+dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
-  {type: :raw,
-   content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over gevoelens. In totaal zijn er 70 vragen. Hier ben je ongeveer X minuten mee bezig. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.'
+  {
+    type: :raw,
+    content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over gevoelens. In totaal zijn er 70 vragen. Hier ben je ongeveer X minuten mee bezig. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.'
   }, {
     section_start: 'Denk terug aan hoe je je de afgelopen twee weken voelde. Geef bij elk gevoel hieronder aan of je je zo gevoeld hebt. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
     id: :v1,
@@ -437,7 +439,8 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
     labels: ['Niet waar', 'Soms waar', 'Vaak waar'],
     required: true,
     section_end: true
-  }]
+  }
+]
 dagboek1.content = dagboek_content
 dagboek1.title = db_title
 dagboek1.save!

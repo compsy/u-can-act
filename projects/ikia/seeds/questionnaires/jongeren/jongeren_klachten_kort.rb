@@ -2,7 +2,7 @@
 
 db_title = 'Binnenwereld en buitenwereld'
 
-db_name1 = 'Klachten_Kort_Kinderen_11plus'
+db_name1 = 'Klachten_Kort_Jongeren'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]

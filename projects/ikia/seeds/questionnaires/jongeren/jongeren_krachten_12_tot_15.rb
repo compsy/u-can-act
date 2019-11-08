@@ -208,25 +208,25 @@ dagboek_content = [
     id: :v3_3,
     required: true,
     type: :range,
-    title: ' Ik houd mezelf bezig zodat ik mijn gedachten of gevoelens niet op merk.',
+    title: 'Ik houd mezelf bezig zodat ik mijn gedachten of gevoelens niet op merk.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v3_4,
     type: :range,
     required: true,
-    title: ' Ik zeg tegen mezelf dat ik me niet zo zou moeten voelen zoals ik me voel.',
+    title: 'Ik zeg tegen mezelf dat ik me niet zo zou moeten voelen zoals ik me voel.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v3_5,
     type: :range,
     required: true,
-    title: ' Ik druk gedachten weg die ik niet prettig vind.',
+    title: 'Ik druk gedachten weg die ik niet prettig vind.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v3_6,
-    type: range,
+    type: :range,
     required: true,
-    title: ' Het is moeilijk voor mij om mijn aandacht op één ding tegelijk te richten.',
+    title: 'Het is moeilijk voor mij om mijn aandacht op één ding tegelijk te richten.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v3_7,
@@ -238,19 +238,19 @@ dagboek_content = [
     id: :v3_8,
     type: :range,
     required: true,
-    title: ' Ik word boos op mezelf over het hebben van bepaalde gedachten.',
+    title: 'Ik word boos op mezelf over het hebben van bepaalde gedachten.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v3_9,
     type: :range,
     required: true,
-    title: ' Ik denk dat sommige van mijn gevoelens (bijvoorbeeld blij, boos, bang of verdrietig zijn) slecht zijn en dat ik ze niet zou moeten hebben.',
+    title: 'Ik denk dat sommige van mijn gevoelens (bijvoorbeeld blij, boos, bang of verdrietig zijn) slecht zijn en dat ik ze niet zou moeten hebben.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v3_10,
     type: :range,
     required: true,
-    title: ' Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
+    title: 'Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar'],
     section_end: true
   }

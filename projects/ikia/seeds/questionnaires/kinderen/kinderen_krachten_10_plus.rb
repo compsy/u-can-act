@@ -224,7 +224,7 @@ dagboek_content = [
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v3_6,
-    type: range,
+    type: :range,
     required: true,
     title: ' Het is moeilijk voor mij om mijn aandacht op één ding tegelijk te richten.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
@@ -251,7 +251,7 @@ dagboek_content = [
     type: :range,
     required: true,
     title: ' Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
-    labels: [' Nooit waar', 'Soms waar', 'Altijd waar'],
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar'],
     section_end: true
   }
 ]

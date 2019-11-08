@@ -91,6 +91,7 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: gem install bundler
       - run: bundle --path vendor/bundle
+      - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: echo 127.0.0.1 docker.io db redis mongo | sudo tee -a /etc/hosts
       - run: ./bin/chromedriver_install

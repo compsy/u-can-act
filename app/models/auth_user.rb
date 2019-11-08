@@ -33,7 +33,7 @@ class AuthUser < ApplicationRecord
     private
 
     def metadata_from_payload(payload)
-      payload[ENV['SITE_LOCATION']] || {}
+      payload[Rails.application.config.settings.metadata_field] || {}
     end
 
     # Get the team from the provided payload, or use the default if nothing is found

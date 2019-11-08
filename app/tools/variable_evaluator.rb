@@ -25,7 +25,6 @@ class VariableEvaluator
 
       substitutions_hash = merge_string_items(substitutions_hash, subs_hash)
 
-      Rails.logger.info substitutions_hash
       substitutions_hash.each do |variable, expansion|
         text = perform_static_substitution(text, variable, expansion)
       end

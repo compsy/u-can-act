@@ -11,7 +11,7 @@ require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
-require 'capybara-screenshot/rspec' unless ENV['CI']
+require 'capybara-screenshot/rspec' # unless ENV['CI']
 
 # Start coverage report on CircleCI
 if ENV['CI']
@@ -61,6 +61,28 @@ Capybara.javascript_driver = :selenium_chrome_headless
 Capybara.default_driver = :rack_test
 
 RSpec.configure do |config|
+
+  def save_timestamped_screenshot(page, meta)
+    filename = File.basename(meta[:file_path])
+    line_number = meta[:line_number]
+
+    time_now = Time.now
+    timestamp = "#{time_now.strftime('%Y-%m-%d-%H-%M-%S.')}#{'%03d' % (time_now.usec / 1000).to_i}"
+
+    screenshot_name = "screenshot-#{filename}-#{line_number}-#{timestamp}.png"
+    screenshot_path = "#{ENV.fetch('CIRCLE_ARTIFACTS', Rails.root.join('tmp', 'test-results'))}/#{screenshot_name}"
+
+    page.save_screenshot(screenshot_path)
+
+    puts "\n  Screenshot: #{screenshot_path}"
+  end
+
+  config.after(:each) do |example|
+    if example.metadata[:js]
+      save_timestamped_screenshot(Capybara.page, example.metadata) if example.exception
+    end
+  end
+
   config.color_mode = :off if ENV['CI']
   # Include controller helpers for Devise
   # config.include Devise::Test::ControllerHelpers, type: :controller

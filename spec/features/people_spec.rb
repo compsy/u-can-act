@@ -62,7 +62,7 @@ describe 'GET /edit', type: :feature, js: true do
       expect(find("[name='person[gender]'][checked]").value).to eq 'male'
     end
 
-    it 'actuallies update the person object' do
+    it 'actually updates the person object' do
       expect(mentor.first_name).not_to eq 'new_first'
       expect(mentor.last_name).not_to eq 'new_last'
       expect(mentor.mobile_phone).not_to eq '0698417313'
@@ -155,10 +155,10 @@ describe 'GET /edit', type: :feature, js: true do
       visit edit_person_path
       responseobj.complete!
       page.fill_in('person_email', with: 'anew@email.com')
+      sleep(1)
       all('button[type="submit"]').first.click
       sleep(10)
-      expect(page)
-        .to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
       expect(page).to have_content('Gegevens opgeslagen')
       expect(page).not_to have_content('Disclaimer')
       expect(page).not_to have_content('Gegevens aanpassen')

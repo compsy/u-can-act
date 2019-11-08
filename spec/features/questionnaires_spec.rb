@@ -83,10 +83,9 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).to have_content('Hoeveel tijd deed u over het eten?')
     materialize_select(1, 4, 'div.v4_uren>')
     materialize_select(0, 15, 'div.v4_minuten>')
-    sleep(1)
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)
-    sleep(5)
+    sleep(2)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
     responseobj.reload
     expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)

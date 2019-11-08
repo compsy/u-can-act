@@ -37,7 +37,7 @@ spec:
           - name: NODE_ENV
             value: production
           - name: PAPERTRAIL_PROGRAM
-            value: web
+            value: questionnaires
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:

@@ -10,7 +10,7 @@ class PreviousResponseFinder
 
       # Note that we only want responses of the same questionnaire. We should not check for
       # measurements here, as the questionnaire could span multiple measurements.
-      completed_responses = completed_responses .select do |resp|
+      completed_responses = completed_responses.select do |resp|
         resp.measurement.questionnaire_id == response.measurement.questionnaire_id
       end
 

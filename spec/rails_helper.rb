@@ -61,13 +61,12 @@ Capybara.javascript_driver = :selenium_chrome_headless
 Capybara.default_driver = :rack_test
 
 RSpec.configure do |config|
-
   def save_timestamped_screenshot(page, meta)
     filename = File.basename(meta[:file_path])
     line_number = meta[:line_number]
 
-    time_now = Time.now
-    timestamp = "#{time_now.strftime('%Y-%m-%d-%H-%M-%S.')}#{'%03d' % (time_now.usec / 1000).to_i}"
+    time_now = Time.zone.now
+    timestamp = "#{time_now.strftime('%Y-%m-%d-%H-%M-%S.')}#{format('%<time>03d', time: (time_now.usec / 1000).to_i)}"
 
     screenshot_name = "screenshot-#{filename}-#{line_number}-#{timestamp}.png"
     screenshot_path = "/tmp/test-results/#{screenshot_name}"

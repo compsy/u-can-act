@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-team_name = 'Schoolnaam'
+team_name = 'IKIA'
 
 organization_name = 'IKIA'
 organization = Organization.find_by_name(organization_name)
@@ -10,14 +10,14 @@ team = Team.find_by_name(team_name)
 team ||= Team.create!(name: team_name, organization: organization)
 team.update_attributes!(organization: organization)
 
-title = 'Demo-solo'
-entry = team.roles.where(group: Person::SOLO, title: title).first
-entry ||= team.roles.create!(group: Person::SOLO, title: title)
+student_titles = ['Kind', 'Jongere', 'Jongere 16+']
+student_titles.each do |title|
+  entry = team.roles.where(group: Person::STUDENT, title: title).first
+  entry ||= team.roles.create!(group: Person::STUDENT, title: title)
+end
 
-# title = 'Demo-student'
-# entry = team.roles.where(group: Person::STUDENT, title: title).first
-# entry ||= team.roles.create!(group: Person::STUDENT, title: title)
-#
-# title = 'Demo-mentor'
-# entry = team.roles.where(group: Person::MENTOR, title: title).first
-# entry ||= team.roles.create!(group: Person::MENTOR, title: title)
+mentor_titles = ['Ouder']
+mentor_titles.each do |title|
+  entry = team.roles.where(group: Person::MENTOR, title: title).first
+  entry ||= team.roles.create!(group: Person::MENTOR, title: title)
+end

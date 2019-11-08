@@ -2,6 +2,7 @@
 default: &default
   application_name: <%=ENV['PROJECT_NAME']%>
   project_title: <%=ENV['PROJECT_NAME']%>
+  metadata_field: <%=ENV['SITE_LOCATION']%>
   default_team_name: 'Controlegroep'
   hide_edit_iban: false
   show_mobile_images: true

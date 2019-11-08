@@ -31,7 +31,7 @@ describe AuthUser, type: :model do
       {
         described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0',
         ENV['SITE_LOCATION'] => {
-          'access_levels' => ['admin'],
+          'access_level' => ['admin'],
           'team' => 'kct',
           'protocol' => 'KCT'
         }

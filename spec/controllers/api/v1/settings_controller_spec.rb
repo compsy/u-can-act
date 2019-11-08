@@ -38,6 +38,7 @@ describe Api::V1::SettingsController, type: :controller do
           cur = hash[key]
           cur_yaml = yaml[key]
           cur_yaml = ENV['PROJECT_NAME'] if %w[application_name project_title].include?(key)
+          cur_yaml = ENV['SITE_LOCATION'] if %w[metadata_field].include?(key)
 
           expect(cur).not_to be_nil
           expect(cur).to eq cur_yaml

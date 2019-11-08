@@ -6,8 +6,8 @@ class RescheduleResponses < ActiveInteraction::Base
 
   # Reschedules future responses for a protocol subscription
   #
-  # Params:
-  # - protocol_subscription: the current protocol subscription
+  # @param protocol_subscription [ProtocolSubscription] the current protocol
+  #   subscription
   def execute
     ActiveRecord::Base.transaction do
       protocol_subscription.responses.after_date(future).destroy_all
@@ -25,7 +25,8 @@ class RescheduleResponses < ActiveInteraction::Base
 
   def schedule_responses_for_measurement(measurement)
     measurement.response_times(protocol_subscription.start_date, protocol_subscription.end_date).each do |time|
-      next unless in_future? time
+      # TODO: We can speed this up by not scheduling responses that are too far in the future
+      next if in_past? time
       next if measurement_response_completed_and_not_periodical? measurement
 
       Response.create!(protocol_subscription_id: protocol_subscription.id,
@@ -34,12 +35,20 @@ class RescheduleResponses < ActiveInteraction::Base
     end
   end
 
+  def in_past?(time)
+    !in_future? time
+  end
+
   def in_future?(time)
     time > future
   end
 
   def measurement_response_completed_and_not_periodical?(measurement)
-    protocol_subscription.responses.completed.where(measurement_id: measurement.id).present? &&
+    protocol_subscription
+      .responses
+      .completed
+      .where(measurement_id: measurement.id)
+      .present? &&
       !measurement.periodical?
   end
 end

@@ -156,7 +156,7 @@ describe 'GET /edit', type: :feature, js: true do
       responseobj.complete!
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
-      sleep(2)
+      sleep(10)
       expect(page)
         .to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
       expect(page).to have_content('Gegevens opgeslagen')

@@ -48,13 +48,13 @@ dagboek_content = [
     type: :number,
     required: true,
     title: 'Looptijd (min)',
-    maxlength: 3,
+    maxlength: 4,
     min: 0,
-    max: 400
+    max: 1440 # 24hrs
   },
   {
     id: :v5,
-    title: 'RPE score<br><img src="/images/rpe.jpg" class="questionnaire-image" />',
+    title: 'RPE score<br><img src="/assets/rpe.jpg" style="width:auto" class="questionnaire-image" />',
     type: :range,
     min: 0,
     max: 10,

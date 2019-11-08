@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-db_title = 'Dagelijkse vragenlijst'
-
-db_name1 = 'daily_questionnaire'
-questionnaire = Questionnaire.find_by(name: db_name1)
-questionnaire ||= Questionnaire.new(name: db_name1)
-questionnaire.key = File.basename(__FILE__)[0...-3]
-
 dagboek_content = [
   {
     type: :raw,
@@ -114,12 +107,14 @@ dagboek_content = [
     id: :v9,
     title: 'Ziek?',
     type: :radio,
+    show_otherwise: false,
     options: ['ja', 'nee']
   },
   {
     id: :v10,
     title: 'Geblesseerd?',
     type: :radio,
+    show_otherwise: false,
     options: ['ja', 'nee']
   },
   {
@@ -131,6 +126,16 @@ dagboek_content = [
 
 ]
 
-questionnaire.content = dagboek_content
-questionnaire.title = db_title
-questionnaire.save!
+days = %w(maandag dinsdag woensdag donderdag vrijdag zaterdag zondag)
+days.each do |day|
+  db_title = "Dagelijkse vragenlijst #{day}"
+
+  db_name1 = "daily_questionnaire_#{day}"
+  questionnaire = Questionnaire.find_by(name: db_name1)
+  questionnaire ||= Questionnaire.new(name: db_name1)
+  questionnaire.key = "#{File.basename(__FILE__)[0...-3]}_#{day}"
+
+  questionnaire.content = dagboek_content
+  questionnaire.title = db_title
+  questionnaire.save!
+end

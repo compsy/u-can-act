@@ -13,3 +13,7 @@ team.update_attributes!(organization: organization)
 title = 'Demo-solo'
 entry = team.roles.where(group: Person::SOLO, title: title).first
 entry ||= team.roles.create!(group: Person::SOLO, title: title)
+
+title = 'normal'
+entry = team.roles.where(group: Person::STUDENT, title: title).first
+entry ||= team.roles.create!(group: Person::STUDENT, title: title)

@@ -21,15 +21,16 @@ Deze antwoorden kan je kiezen:<br>
 <br>
 <br>
 Voorbeeld:<br>
-Wanneer ik verdrietig ben…<br>
-[INSERT VOORBEELD VRAAG “moet ik huilen” PNG]<br>
+Wanneer ik verdrietig ben…</p>
+<img src="https://u-can-act.nl/wp-content/uploads/2019/11/Feel-KJ-voorbeeldvraag-e1573307499276.png" width="179" class="questionnaire-image" /><p class="flow-text">
 <br>
 Als je bijvoorbeeld vaak moet huilen als je verdrietig bent, kies je vaak.<br>
 <br>
 <b>Er is geen goed of fout antwoord! Kies gewoon het antwoord dat het best beschrijft hoe jij zou reageren. </b><br>
 <br>
 <b>Als je niet weet wat je moet antwoorden</b><br>
-Ook al heb je misschien het gevoel dat een vraag niet helemaal op jou van toepassing is, geef dan toch het best passende antwoord.<br></p>'
+Ook al heb je misschien het gevoel dat een vraag niet helemaal op jou van toepassing is, geef dan toch het best passende antwoord.<br>
+</p>'
   }, {
     section_start: 'Wanneer ik boos ben…',
     id: :v1a,

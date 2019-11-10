@@ -78,7 +78,7 @@ dagboek_content = [
         id: :v4_5,
         type: :likert,
         title: 'Hoe voelt u zich bij deze persoon? Kies 1 van onderstaande plaatjes.',
-        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]
+        options: ['<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png" width="179" />', '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png" width="179" />', '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png" width="179" />', '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png" width="179" />']
       }],
     section_end: true
   }, {

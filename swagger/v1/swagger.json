@@ -157,7 +157,33 @@
         ],
         "responses": {
           "200": {
-            "description": "auth user created"
+            "description": "auth user created",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "datetime"
+                  },
+                  "duration": {
+                    "type": "integer"
+                  },
+                  "updated_at": {
+                    "type": "datetime"
+                  },
+                  "invitation_text": {
+                    "type": "string"
+                  },
+                  "informed_consent_questionnaire_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "not authenticated"

@@ -30,7 +30,11 @@ module ApplicationHelper
     # current_auth_user is not defined if the including class does not
     # include Knock::Authenticable. Hence we need to check if it is
     # actually defined.
-    current_auth_user&.person if defined? current_auth_user
+    # @note We need to call this function first, and then fail. We cannot just
+    #   check if it is defined, as it is generated automatically.
+    current_auth_user&.person
+  rescue StandardError => _e
+    nil
   end
 
   def mentor_or_student_logo

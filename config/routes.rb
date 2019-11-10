@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
+
   post '/informed_consent' => 'questionnaire#create_informed_consent'
   get '/klaar' => 'reward#index'
   post '/' => 'questionnaire#create'
@@ -50,18 +53,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
 
-      # JWT and Cookie apis
-      # TODO in V2 API, rename to people.
-      scope module: :cookie_and_jwt_api do
-        resources :protocol_subscriptions, only: [:create, :show]
-
-        resources :person, only: [] do
-          collection do
-            get :me
-            put :update
-          end
-        end
-      end
 
       # JWT APIs
       scope module: :jwt_api do
@@ -75,10 +66,24 @@ Rails.application.routes.draw do
 
         resources :protocol_subscriptions, only: [] do
           collection do
+            # @note Watch out! This can be interpreted as a show route later.
             get :mine
           end
         end
         resources :protocol, only: [:index]
+      end
+
+      # JWT and Cookie apis
+      # TODO in V2 API, rename to people.
+      scope module: :cookie_and_jwt_api do
+        resources :protocol_subscriptions, only: [:create, :show]
+
+        resources :person, only: [] do
+          collection do
+            get :me
+            put :update
+          end
+        end
       end
 
       # Basic auth APIs

@@ -10,6 +10,8 @@ module Api
           render json: current_auth_user, serializer: Api::AuthUserSerializer
         end
 
+        private
+
         def set_person
           return if current_auth_user&.person.present?
 

@@ -10,6 +10,8 @@ module Api
           render json: current_user, serializer: Api::PersonSerializer
         end
 
+        delegate :my_students, to: :current_user
+
         def update
           res = current_user.update(person_params)
           if res

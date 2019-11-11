@@ -68,6 +68,7 @@ Rails.application.routes.draw do
           collection do
             # @note Watch out! This can be interpreted as a show route later.
             get :mine
+            get :delegated_protocol_subscriptions
           end
         end
         resources :protocol, only: [:index]
@@ -81,6 +82,7 @@ Rails.application.routes.draw do
         resources :person, only: [] do
           collection do
             get :me
+            get :my_students
             put :update
           end
         end

@@ -4,6 +4,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
   string :protocol_name, default: nil
   object :protocol, default: nil
   object :person
+  object :mentor, default: nil
 
   # Watch out! IF you set a start date here (e.g. = Time.now.in_time_zone) it
   # will set it once, and reuse THAT time everytime. I.e., it will not update
@@ -25,6 +26,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
     prot_sub = ProtocolSubscription.create!(
       protocol: the_protocol,
       person: person,
+      filling_out_for: mentor,
       state: ProtocolSubscription::ACTIVE_STATE,
       start_date: the_start_date
     )

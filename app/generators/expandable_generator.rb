@@ -40,13 +40,13 @@ class ExpandableGenerator < QuestionTypeGenerator
     id = idify(question[:id])
     body << single_expandable_button(
       id,
-      question[:add_button_label] || '+',
+      safe_join([content_tag(:i, 'add', class: 'material-icons left'), question[:add_button_label] || '']),
       'expand_expandable success'
     )
 
     body << single_expandable_button(
       id,
-      question[:remove_button_label] || '-',
+      safe_join([content_tag(:i, 'remove', class: 'material-icons left'), question[:remove_button_label] || '']),
       'collapse_expandable warning'
     )
 

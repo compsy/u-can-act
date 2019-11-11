@@ -5,7 +5,7 @@ module Api
     module BasicAuthApi
       class ProtocolSubscriptionsController < BasicAuthApiController
         before_action :set_person, only: %i[create]
-        before_action :set_mentor, only: %i[show_for_mentor]
+        before_action :set_mentor
 
         def show_for_mentor
           @mentor.my_protocols(false)
@@ -16,9 +16,9 @@ module Api
             protocol_name: protocol_subscription_create_params[:protocol_name],
             person: @person,
             start_date: start_date,
-            mentor: mentor_id
+            mentor: @mentor
           )
-          render json: result
+          render status: :created, json: result
         end
 
         private
@@ -30,10 +30,7 @@ module Api
         end
 
         def set_mentor
-          @mentor ||= Person.find_by(protocol_subscription_create_params[:mentor_id])
-          return if @mentor.present?
-
-          render(status: :not_found, json: 'Person met dat ID niet gevonden')
+          @mentor ||= Person.find_by(id: protocol_subscription_create_params[:mentor_id])
         end
 
         def set_person

@@ -47,7 +47,6 @@ describe 'AuthUserApi' do
   # Creates an auth user
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :authorization 
   # @return [nil]
   describe 'auth_user_post test' do
     it "should work" do

@@ -91,6 +91,11 @@ Rails.application.routes.draw do
       # Basic auth APIs
       namespace :basic_auth_api do
         resources :protocol_subscriptions, only: [:create]
+        resources :person, only: [] do
+          collection do
+            get :show_list
+          end
+        end
       end
 
       # Admin APIs

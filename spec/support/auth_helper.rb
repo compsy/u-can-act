@@ -30,6 +30,10 @@ module AuthHelper
     id_token
   end
 
+  def basic_encode(user, password)
+    ActionController::HttpAuthentication::Basic.encode_credentials(user, password)
+  end
+
   class << self
     def capybara_basic_auth(user, password, page, url)
       # Commented out to improve test coverage. The other lines are never used.
@@ -46,6 +50,10 @@ module AuthHelper
     end
 
     def visit_with_basic_auth(user, password, page, url); end
+
+    def basic_encode(user, password)
+      ActionController::HttpAuthentication::Basic.encode_credentials(user, password)
+    end
 
     def controller_basic_auth(user, password, request)
       request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user, password)

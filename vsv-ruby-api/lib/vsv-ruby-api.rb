@@ -32,6 +32,8 @@ require 'vsv-ruby-api/models/inline_response_200'
 require 'vsv-ruby-api/models/inline_response_200_1'
 require 'vsv-ruby-api/models/inline_response_200_2'
 require 'vsv-ruby-api/models/person'
+require 'vsv-ruby-api/models/person_1'
+require 'vsv-ruby-api/models/protocol_subscription'
 
 # APIs
 require 'vsv-ruby-api/api/auth_user_api'

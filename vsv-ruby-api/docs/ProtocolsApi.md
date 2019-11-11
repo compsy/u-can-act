@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **protocol_get**
-> Array&lt;InlineResponse2001&gt; protocol_get(opts)
+> Array&lt;InlineResponse2001&gt; protocol_get
 
 Lists all protocols
 
@@ -16,16 +16,19 @@ Lists all protocols
 ```ruby
 # load the gem
 require 'vsv-ruby-api'
+# setup authorization
+VsvRubyApi.configure do |config|
+  # Configure API key authorization: JwtAuth
+  config.api_key['Authorization'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Authorization'] = 'Bearer'
+end
 
 api_instance = VsvRubyApi::ProtocolsApi.new
 
-opts = { 
-  authorization: "authorization_example" # String | 
-}
-
 begin
   #Lists all protocols
-  result = api_instance.protocol_get(opts)
+  result = api_instance.protocol_get
   p result
 rescue VsvRubyApi::ApiError => e
   puts "Exception when calling ProtocolsApi->protocol_get: #{e}"
@@ -33,10 +36,7 @@ end
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **authorization** | **String**|  | [optional] 
+This endpoint does not need any parameter.
 
 ### Return type
 
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[JwtAuth](../README.md#JwtAuth)
 
 ### HTTP request headers
 

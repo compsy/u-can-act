@@ -25,45 +25,25 @@ require 'date'
 
 module VsvRubyApi
 
-  class InlineResponse2002
-    attr_accessor :person_type
+  class Person1
+    attr_accessor :mobile_phone
 
-    attr_accessor :protocol_completion
-
-    attr_accessor :earned_euros
-
-    attr_accessor :max_still_awardable_euros
-
-    attr_accessor :euro_delta
-
-    attr_accessor :current_multiplier
-
-    attr_accessor :initial_multiplier
+    attr_accessor :email
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'person_type' => :'person_type',
-        :'protocol_completion' => :'protocol_completion',
-        :'earned_euros' => :'earned_euros',
-        :'max_still_awardable_euros' => :'max_still_awardable_euros',
-        :'euro_delta' => :'euro_delta',
-        :'current_multiplier' => :'current_multiplier',
-        :'initial_multiplier' => :'initial_multiplier'
+        :'mobile_phone' => :'mobile_phone',
+        :'email' => :'email'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'person_type' => :'String',
-        :'protocol_completion' => :'Array<null>',
-        :'earned_euros' => :'Float',
-        :'max_still_awardable_euros' => :'Float',
-        :'euro_delta' => :'Float',
-        :'current_multiplier' => :'Float',
-        :'initial_multiplier' => :'Float'
+        :'mobile_phone' => :'String',
+        :'email' => :'String'
       }
     end
 
@@ -75,34 +55,12 @@ module VsvRubyApi
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'person_type')
-        self.person_type = attributes[:'person_type']
+      if attributes.has_key?(:'mobile_phone')
+        self.mobile_phone = attributes[:'mobile_phone']
       end
 
-      if attributes.has_key?(:'protocol_completion')
-        if (value = attributes[:'protocol_completion']).is_a?(Array)
-          self.protocol_completion = value
-        end
-      end
-
-      if attributes.has_key?(:'earned_euros')
-        self.earned_euros = attributes[:'earned_euros']
-      end
-
-      if attributes.has_key?(:'max_still_awardable_euros')
-        self.max_still_awardable_euros = attributes[:'max_still_awardable_euros']
-      end
-
-      if attributes.has_key?(:'euro_delta')
-        self.euro_delta = attributes[:'euro_delta']
-      end
-
-      if attributes.has_key?(:'current_multiplier')
-        self.current_multiplier = attributes[:'current_multiplier']
-      end
-
-      if attributes.has_key?(:'initial_multiplier')
-        self.initial_multiplier = attributes[:'initial_multiplier']
+      if attributes.has_key?(:'email')
+        self.email = attributes[:'email']
       end
 
     end
@@ -125,13 +83,8 @@ module VsvRubyApi
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          person_type == o.person_type &&
-          protocol_completion == o.protocol_completion &&
-          earned_euros == o.earned_euros &&
-          max_still_awardable_euros == o.max_still_awardable_euros &&
-          euro_delta == o.euro_delta &&
-          current_multiplier == o.current_multiplier &&
-          initial_multiplier == o.initial_multiplier
+          mobile_phone == o.mobile_phone &&
+          email == o.email
     end
 
     # @see the `==` method
@@ -143,7 +96,7 @@ module VsvRubyApi
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [person_type, protocol_completion, earned_euros, max_still_awardable_euros, euro_delta, current_multiplier, initial_multiplier].hash
+      [mobile_phone, email].hash
     end
 
     # Builds the object from hash

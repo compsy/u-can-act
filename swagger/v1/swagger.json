@@ -6,6 +6,93 @@
   },
   "basePath": "/api/v1",
   "paths": {
+    "/basic_auth_api/person/show_list": {
+      "get": {
+        "summary": "Shows a list of persons",
+        "tags": [
+          "Person"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "person",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "person_auth0_ids": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "lists all people"
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/protocol_subscriptions": {
+      "post": {
+        "summary": "Creates a new protocol subscription",
+        "tags": [
+          "ProtocolSubscription"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "protocol_subscription",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "protocol_name": {
+                  "type": "string"
+                },
+                "auth0_id_string": {
+                  "type": "string"
+                },
+                "start_date": {
+                  "type": "string"
+                },
+                "mentor_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "creates a protocol subscription"
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
     "/person": {
       "put": {
         "summary": "Updates the current user",
@@ -30,11 +117,12 @@
                 }
               }
             }
-          },
+          }
+        ],
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "JwtAuth": {
+            }
           }
         ],
         "responses": {
@@ -76,11 +164,10 @@
         "consumes": [
           "application/json"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "JwtAuth": {
+            }
           }
         ],
         "responses": {
@@ -122,11 +209,10 @@
         "consumes": [
           "application/json"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "JwtAuth": {
+            }
           }
         ],
         "responses": {
@@ -148,11 +234,10 @@
         "consumes": [
           "application/json"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "JwtAuth": {
+            }
           }
         ],
         "responses": {
@@ -200,11 +285,10 @@
         "consumes": [
           "application/json"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "JwtAuth": {
+            }
           }
         ],
         "responses": {
@@ -219,25 +303,25 @@
                     "type": "string"
                   },
                   "protocol_completion": {
-                    "type": "integer"
+                    "type": "array"
                   },
                   "earned_euros": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "max_still_awardable_euros": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "euro_delta": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "current_multiplier": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "max_streak": {
-                    "type": "integer"
+                    "type": "null"
                   },
                   "initial_multiplier": {
-                    "type": "integer"
+                    "type": "number"
                   }
                 }
               }
@@ -248,6 +332,77 @@
           }
         }
       }
+    },
+    "/protocol_subscriptions/delegated_protocol_subscriptions": {
+      "get": {
+        "summary": "Lists all my students their protocolsubscriptions",
+        "tags": [
+          "ProtocolSubscription"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "JwtAuth": {
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "all my protocol subscriptions returned",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "person_type": {
+                    "type": "string"
+                  },
+                  "protocol_completion": {
+                    "type": "array"
+                  },
+                  "earned_euros": {
+                    "type": "number"
+                  },
+                  "max_still_awardable_euros": {
+                    "type": "number"
+                  },
+                  "euro_delta": {
+                    "type": "number"
+                  },
+                  "current_multiplier": {
+                    "type": "number"
+                  },
+                  "max_streak": {
+                    "type": "null"
+                  },
+                  "initial_multiplier": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "JwtAuth": {
+      "description": "The JWT token",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    },
+    "BasicAuth": {
+      "description": "The basic auth token",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     }
   }
 }

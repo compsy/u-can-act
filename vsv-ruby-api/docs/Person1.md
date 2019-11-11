@@ -1,8 +1,9 @@
-# VsvRubyApi::Person
+# VsvRubyApi::Person1
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**person_auth0_ids** | [**Array&lt;null&gt;**](.md) |  | [optional] 
+**mobile_phone** | **String** |  | [optional] 
+**email** | **String** |  | [optional] 
 
 

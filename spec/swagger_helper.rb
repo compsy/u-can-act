@@ -22,7 +22,21 @@ RSpec.configure do |config|
         version: 'v1'
       },
       basePath: '/api/v1',
-      paths: {}
+      paths: {},
+      securityDefinitions: {
+        JwtAuth: {
+          description: 'The JWT token',
+          type: :apiKey,
+          name: 'Authorization',
+          in: :header
+        },
+        BasicAuth: {
+          description: 'The basic auth token',
+          type: :apiKey,
+          name: 'Authorization',
+          in: :header
+        }
+      }
     }
   }
 end

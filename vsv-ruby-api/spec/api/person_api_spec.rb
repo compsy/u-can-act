@@ -43,11 +43,22 @@ describe 'PersonApi' do
     end
   end
 
+  # unit tests for basic_auth_api_person_show_list_get
+  # Shows a list of persons
+  # 
+  # @param [Hash] opts the optional parameters
+  # @option opts [Person] :person 
+  # @return [nil]
+  describe 'basic_auth_api_person_show_list_get test' do
+    it "should work" do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
   # unit tests for person_me_get
   # Gets the current person
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :authorization 
   # @return [InlineResponse200]
   describe 'person_me_get test' do
     it "should work" do
@@ -59,8 +70,7 @@ describe 'PersonApi' do
   # Updates the current user
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [Person] :person 
-  # @option opts [String] :authorization 
+  # @option opts [Person1] :person 
   # @return [InlineResponse200]
   describe 'person_put test' do
     it "should work" do

@@ -4,7 +4,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
   string :protocol_name, default: nil
   object :protocol, default: nil
   object :person
-  object :mentor, default: nil
+  object :mentor, default: nil, class: :person
 
   # Watch out! IF you set a start date here (e.g. = Time.now.in_time_zone) it
   # will set it once, and reuse THAT time everytime. I.e., it will not update

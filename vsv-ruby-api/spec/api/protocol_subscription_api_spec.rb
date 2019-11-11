@@ -43,11 +43,33 @@ describe 'ProtocolSubscriptionApi' do
     end
   end
 
+  # unit tests for basic_auth_api_protocol_subscriptions_post
+  # Creates a new protocol subscription
+  # 
+  # @param [Hash] opts the optional parameters
+  # @option opts [ProtocolSubscription] :protocol_subscription 
+  # @return [nil]
+  describe 'basic_auth_api_protocol_subscriptions_post test' do
+    it "should work" do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
+  # unit tests for protocol_subscriptions_delegated_protocol_subscriptions_get
+  # Lists all my students their protocolsubscriptions
+  # 
+  # @param [Hash] opts the optional parameters
+  # @return [Array<InlineResponse2002>]
+  describe 'protocol_subscriptions_delegated_protocol_subscriptions_get test' do
+    it "should work" do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
   # unit tests for protocol_subscriptions_mine_get
   # Lists all my protocolsubscriptions
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :authorization 
   # @return [Array<InlineResponse2002>]
   describe 'protocol_subscriptions_mine_get test' do
     it "should work" do

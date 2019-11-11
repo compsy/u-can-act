@@ -19,7 +19,7 @@ describe 'Protocol api' do
     get 'Lists all protocols' do
       tags 'Protocols'
       consumes 'application/json'
-      parameter name: 'Authorization', in: :header, type: :string
+      security [JwtAuth: {}]
 
       response '200', 'auth user created' do
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }

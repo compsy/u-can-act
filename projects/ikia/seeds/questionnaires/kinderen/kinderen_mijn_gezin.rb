@@ -6,16 +6,17 @@ db_name1 = 'Mijn_gezin_Kinderen'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
-betrokkenheid1 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png">'
-betrokkenheid2 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png">'
-betrokkenheid3 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png">'
-betrokkenheid4 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png">'
-betrokkenheid5 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png">'
-natuur1 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_1.png">'
-natuur2 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_2.png">'
-natuur3 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_3.png">'
-natuur4 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_4.png">'
-natuur5 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_6.png">'
+style = 'style="max-height: 200px; vertical-align: middle"'
+betrokkenheid1 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png\" #{style}>"
+betrokkenheid2 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png\" #{style}>"
+betrokkenheid3 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png\" #{style}>"
+betrokkenheid4 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png\" #{style}>"
+betrokkenheid5 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png\" #{style}>"
+natuur1 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_1.png\" #{style}>"
+natuur2 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_2.png\" #{style}>"
+natuur3 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_3.png\" #{style}>"
+natuur4 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_4.png\" #{style}>"
+natuur5 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_6.png\" #{style}>"
 dagboek_content = [
   {
     type: :raw,
@@ -104,11 +105,12 @@ Deze persoon is mijn:',
           {title: 'Anders'}]
       }, {
         id: :v4_5,
-        type: :likert,
+        type: :radio,
         title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
-        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]
+        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5],
+        show_otherwise: false
       }],
     section_end: true
   }, {
@@ -201,7 +203,8 @@ Deze persoon is mijn:',
                   {title: 'Anders'}]
               }, {
                 id: :v8_5,
-                type: :likert,
+                type: :radio,
+                show_otherwise: false,
                 title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
@@ -296,7 +299,8 @@ Deze persoon is mijn:',
                   {title: 'Anders'}]
               }, {
                 id: :v12_5,
-                type: :likert,
+                type: :radio,
+                show_otherwise: false,
                 title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
@@ -471,6 +475,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar']
   }, {
+    # TODO: plaatjes missing
     id: :v20_3,
     type: :likert,
     title: 'Op welke van deze plekken zou jij het liefste zijn?',
@@ -507,9 +512,10 @@ Kies 1 van de 5 plaatjes',
     required: true
   }, {
     id: :v20_9,
-    type: :likert,
+    type: :radio,
     title: 'Hoe erg hoort de natuur bij jou? Kies één van de plaatjes.',
     options: [natuur1, natuur2, natuur3, natuur4, natuur5],
+    show_otherwise: false,
     section_end: true
   }
 ]

@@ -6,16 +6,17 @@ db_name1 = 'Mijn_gezin_Jongeren'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
-betrokkenheid1 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png">'
-betrokkenheid2 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png">'
-betrokkenheid3 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png">'
-betrokkenheid4 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png">'
-betrokkenheid5 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png">'
-natuur1 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_1.png">'
-natuur2 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_2.png">'
-natuur3 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_3.png">'
-natuur4 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_4.png">'
-natuur5 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_6.png">'
+style = 'style="max-height: 200px; vertical-align: middle"'
+betrokkenheid1 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png\" #{style}>"
+betrokkenheid2 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png\" #{style}>"
+betrokkenheid3 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png\" #{style}>"
+betrokkenheid4 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png\" #{style}>"
+betrokkenheid5 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png\" #{style}>"
+natuur1 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_1.png\" #{style}>"
+natuur2 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_2.png\" #{style}>"
+natuur3 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_3.png\" #{style}>"
+natuur4 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_4.png\" #{style}>"
+natuur5 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_6.png\" #{style}>"
 dagboek_content = [
   {
     type: :raw,
@@ -104,7 +105,8 @@ Deze persoon is mijn:',
           {title: 'Anders'}]
       }, {
         id: :v4_5,
-        type: :likert,
+        type: :radio,
+        show_otherwise: false,
         title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
@@ -156,56 +158,60 @@ Kies 1 van de 5 plaatjes',
     type: :expandable,
     default_expansions: 1,
     max_expansions: 10,
-    content: [{
-                type: :raw,
-                content: '<p class="flow-text">Persoon</p>'
-              }, {
-                id: :v8_1,
-                type: :radio,
-                title: 'Wie is deze persoon? <br>
+    content: [
+      {
+        type: :raw,
+        content: '<p class="flow-text">Persoon</p>'
+      }, {
+        id: :v8_1,
+        type: :radio,
+        title: 'Wie is deze persoon? <br>
 <br>
 Deze persoon is mijn:',
-                options: [
-                  'Ouder',
-                  'Stiefouder',
-                  'Broer(tje) of zus(je)',
-                  'Opa of oma',
-                  'Oom of tante',
-                  'Pleegouder'],
-                show_otherwise: true,
-                otherwise_label: 'Anders, namelijk:'
-              }, {
-                id: :v8_2,
-                type: :number,
-                title: 'Hoe oud is deze persoon in jaren?',
-                tooltip: 'Bijvoorbeeld: als je moeder 33 jaar is vul je 33 in.',
-                maxlength: 2,
-                placeholder: 'Vul hier een getal in',
-                min: 0,
-                max: 99,
-                required: true
-              }, {
-                id: :v8_3,
-                type: :dropdown,
-                title: 'In welke maand is deze persoon jarig?',
-                options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december', 'weet ik niet']
-              }, {
-                id: :v8_4,
-                type: :radio,
-                required: true,
-                show_otherwise: false,
-                title: 'Is dit een jongen of een meisje?',
-                options: [
-                  {title: 'Jongen'},
-                  {title: 'Meisje'},
-                  {title: 'Anders'}]
-              }, {
-                id: :v8_5,
-                type: :likert,
-                title: 'Hoe voel je je bij deze persoon? <br>
+        options: [
+          'Ouder',
+          'Stiefouder',
+          'Broer(tje) of zus(je)',
+          'Opa of oma',
+          'Oom of tante',
+          'Pleegouder'],
+        show_otherwise: true,
+        otherwise_label: 'Anders, namelijk:'
+      }, {
+        id: :v8_2,
+        type: :number,
+        title: 'Hoe oud is deze persoon in jaren?',
+        tooltip: 'Bijvoorbeeld: als je moeder 33 jaar is vul je 33 in.',
+        maxlength: 2,
+        placeholder: 'Vul hier een getal in',
+        min: 0,
+        max: 99,
+        required: true
+      }, {
+        id: :v8_3,
+        type: :dropdown,
+        title: 'In welke maand is deze persoon jarig?',
+        options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december', 'weet ik niet']
+      }, {
+        id: :v8_4,
+        type: :radio,
+        required: true,
+        show_otherwise: false,
+        title: 'Is dit een jongen of een meisje?',
+        options: [
+          {title: 'Jongen'},
+          {title: 'Meisje'},
+          {title: 'Anders'}]
+      }, {
+        id: :v8_5,
+        type: :radio,
+        show_otherwise: false,
+        title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
-                options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]}],
+        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]
+      }
+    ],
     section_end: true
   }, {
     id: :v9,
@@ -471,6 +477,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar']
   }, {
+    # TODO: plaatjes missing
     id: :v20_3,
     type: :likert,
     title: 'Op welke van deze plekken zou jij het liefste zijn?',
@@ -507,9 +514,10 @@ Kies 1 van de 5 plaatjes',
     required: true
   }, {
     id: :v20_9,
-    type: :likert,
+    type: :radio,
     title: 'Hoe erg hoort de natuur bij jou? Kies één van de plaatjes.',
     options: [natuur1, natuur2, natuur3, natuur4, natuur5],
+    show_otherwise: false,
     section_end: true
   }
 ]

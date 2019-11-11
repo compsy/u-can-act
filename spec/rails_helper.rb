@@ -11,10 +11,7 @@ require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
-require 'capybara-screenshot/rspec' # unless ENV['CI']
-
-Webdrivers.logger.level = :DEBUG
-Webdrivers.logger.output = 'webdrivers.log'
+require 'capybara-screenshot/rspec'
 
 # Start coverage report on CircleCI
 if ENV['CI']

@@ -395,103 +395,103 @@ dagboek_content = [
     id: :v30,
     type: :range,
     title: 'Mijn leven zal pas goed zijn als ik me gelukkig voel.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v31,
     type: :range,
     title: 'Mijn gedachten en gevoelens verpesten mijn leven.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v32,
     type: :range,
     title: 'Als ik mij verdrietig of angstig voel, dan moet er iets mis zijn met mij.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v33,
     type: :range,
     title: 'De slechte dingen die ik over mezelf denk, moeten wel waar zijn.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v34,
     type: :range,
     title: 'Ik probeer geen nieuwe dingen uit, als ik bang ben dat ik het niet kan of goed doe.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v35,
     type: :range,
     title: 'Ik moet van mijn zorgen en angsten afkomen, zodat ik een goed leven kan hebben.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v36,
     type: :range,
     title: 'Als ik bij andere mensen ben, doe ik erg mijn best om niet dom over te komen.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v37,
     type: :range,
     title: 'Ik doe erg mijn best om pijnlijke herinneringen te vergeten.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v38,
     type: :range,
     title: 'Ik kan er niet tegen om pijn te voelen in mijn lichaam. ',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v39,
     type: :range,
     title: 'Als mijn hart snel klopt, dan moet er iets mis zijn met mij.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v40,
     type: :range,
     title: 'Gedachten en gevoelens die ik niet fijn vind, duw ik weg.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v41,
     type: :range,
     title: 'Als ik me slecht voel, stop ik met het doen van dingen die belangrijk voor me zijn. ',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v42,
     type: :range,
     title: 'Ik presteer slechter op school als ik gedachten heb die me verdrietig maken.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v43,
     type: :range,
     title: 'Ik zeg dingen zodat ik overkom als een ‘cool’ persoon.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v44,
     type: :range,
     title: 'Ik zou willen dat ik met een toverstok kon zwaaien om al mijn verdriet te laten verdwijnen.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v45,
     type: :range,
     title: 'Ik ben bang voor mijn gevoelens.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }, {
     id: :v46,
     type: :range,
     title: 'Ik kan geen goede vriend(in) zijn als ik van streek ben.',
-    labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
+    labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }
 ]

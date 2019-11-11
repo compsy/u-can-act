@@ -91,6 +91,7 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: gem install bundler
       - run: bundle --path vendor/bundle
+      - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: echo 127.0.0.1 docker.io db redis mongo | sudo tee -a /etc/hosts
       - run: ./bin/chromedriver_install
@@ -115,6 +116,10 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+      - store_artifacts:
+          path: /home/circleci/test/tmp/capybara
+      - store_artifacts:
+          path: /home/circleci/test/log/test.log
       - persist_to_workspace:
           root: /tmp/workspace
           paths:

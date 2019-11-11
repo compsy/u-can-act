@@ -29,7 +29,9 @@ describe 'GET /klaar', type: :feature, js: true do
       page.check('kaas en ham', allow_label_click: true)
       # v3
       range_select('v3', '57')
+      sleep(1)
       page.click_on 'Opslaan'
+      sleep(5)
     end
 
     it 'is redirected after a questionnaire to the rewards page' do

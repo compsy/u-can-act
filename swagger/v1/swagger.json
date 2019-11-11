@@ -1,0 +1,253 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "VSV V1",
+    "version": "v1"
+  },
+  "basePath": "/api/v1",
+  "paths": {
+    "/person": {
+      "put": {
+        "summary": "Updates the current user",
+        "tags": [
+          "Person"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "person",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mobile_phone": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "updates the current user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "mobile_phone": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/person/me": {
+      "get": {
+        "summary": "Gets the current person",
+        "tags": [
+          "Person"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns the current person",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "mobile_phone": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/auth_user": {
+      "post": {
+        "summary": "Creates an auth user",
+        "tags": [
+          "Auth user"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "auth user created"
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/protocol": {
+      "get": {
+        "summary": "Lists all protocols",
+        "tags": [
+          "Protocols"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "auth user created",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "datetime"
+                  },
+                  "duration": {
+                    "type": "integer"
+                  },
+                  "updated_at": {
+                    "type": "datetime"
+                  },
+                  "invitation_text": {
+                    "type": "string"
+                  },
+                  "informed_consent_questionnaire_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/protocol_subscriptions/mine": {
+      "get": {
+        "summary": "Lists all my protocolsubscriptions",
+        "tags": [
+          "ProtocolSubscription"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "all my protocol subscriptions returned",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "person_type": {
+                    "type": "string"
+                  },
+                  "protocol_completion": {
+                    "type": "integer"
+                  },
+                  "earned_euros": {
+                    "type": "integer"
+                  },
+                  "max_still_awardable_euros": {
+                    "type": "integer"
+                  },
+                  "euro_delta": {
+                    "type": "integer"
+                  },
+                  "current_multiplier": {
+                    "type": "integer"
+                  },
+                  "max_streak": {
+                    "type": "integer"
+                  },
+                  "initial_multiplier": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    }
+  }
+}

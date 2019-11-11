@@ -17,6 +17,7 @@ AllCops:
     - 'Guardfile'
     - 'bin/*'
     - 'node_modules/**/*'
+    - 'vsv-ruby-api/**/*'
 
 # Use UTF-8 as the source file encoding.
 Style/Encoding:

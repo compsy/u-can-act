@@ -1,0 +1,3 @@
+#!/bin/bash
+bin/be rake rswag:specs:swaggerize
+

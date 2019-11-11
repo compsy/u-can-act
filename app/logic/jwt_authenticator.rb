@@ -4,12 +4,15 @@ class JwtAuthenticator
   class << self
     def auth(cookies, params)
       token = token_from_cookie_or_params(params, cookies)
+
       return if token.blank?
 
       # TODO: token opslaan in session ipv cookies
-      store_token_in_cookie(token, cookies)
       auth_user = AuthUser.find_by(auth0_id_string: token.first['sub'])
-      return auth_user.person if auth_user.present?
+      return if auth_user.blank?
+
+      store_token_in_cookie(token, cookies)
+      auth_user.person
     end
 
     private

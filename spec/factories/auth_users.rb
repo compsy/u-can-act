@@ -5,14 +5,14 @@ FactoryBot.define do
   factory :auth_user do
     auth0_id_string
     password_digest { 'thepasswordwhicisrandom' }
-    role { AuthUser::USER_ROLE }
+    access_level { AuthUser::USER_ACCESS_LEVEL }
     person { nil }
 
     trait :with_person do
       person
     end
     trait :admin do
-      role { AuthUser::ADMIN_ROLE }
+      access_level { AuthUser::ADMIN_ACCESS_LEVEL }
     end
   end
 end

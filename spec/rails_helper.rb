@@ -11,7 +11,7 @@ require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
-require 'capybara-screenshot/rspec' unless ENV['CI']
+require 'capybara-screenshot/rspec'
 
 # Start coverage report on CircleCI
 if ENV['CI']

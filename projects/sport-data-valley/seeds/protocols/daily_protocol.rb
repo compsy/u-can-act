@@ -23,6 +23,7 @@ days.each_with_index do |day, offset|
   # Create the measurement for this specific questionnaire
   general_daily_measurement = protocol.measurements.find_by_questionnaire_id(questionnaire_id)
   general_daily_measurement ||= protocol.measurements.build(questionnaire_id: questionnaire_id)
+
   general_daily_measurement.open_from_offset = offset.days + start_time
   general_daily_measurement.period = 1.week # every day for each questionnaire
   general_daily_measurement.open_duration = 2.days # Open for two days
@@ -37,6 +38,7 @@ questionnaire_id = Questionnaire.find_by_name(sunday_questionnaire_name)&.id
 raise "Cannot find questionnaire: #{sunday_questionnaire_name}" unless questionnaire_id
 
 sunday_measurement = protocol.measurements.find_by_questionnaire_id(questionnaire_id)
+sunday_measurement ||= protocol.measurements.build(questionnaire_id: questionnaire_id)
 sunday_measurement.open_from_offset = 6.days + start_time # open on Sunday
 sunday_measurement.period = 1.week # every sunday
 sunday_measurement.open_duration = 2.days # Open for two days

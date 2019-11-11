@@ -19,8 +19,11 @@ module Api
       end
 
       def check_access_allowed(protocol_subscription)
+        return false if current_user.blank?
+
         current_user_has_access = protocol_subscription.person == current_user
         current_mentor_has_access = protocol_subscription.person.mentor == current_user
+
         current_mentor_has_access || current_user_has_access
       end
     end

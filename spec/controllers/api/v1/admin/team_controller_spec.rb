@@ -8,7 +8,7 @@ describe Api::V1::Admin::TeamController, type: :controller do
   let(:team) { FactoryBot.create(:team, :with_roles) }
   let!(:the_payload) do
     { ENV['SITE_LOCATION'] => {
-      'roles' => ['user'],
+      'access_level' => ['user'],
       'team' => team.name,
       'protocol' => protocol.name
     } }

@@ -24,7 +24,7 @@ spec:
       imagePullSecrets:
         - name: gitlab-auth
       containers:
-        - name: base-platform
+        - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
           command: ['rake', 'jobs:work']

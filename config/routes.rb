@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
+
   post '/informed_consent' => 'questionnaire#create_informed_consent'
   get '/klaar' => 'reward#index'
   post '/' => 'questionnaire#create'
@@ -49,34 +52,54 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :questionnaire, only: [:show, :create], param: :key
-      resources :response, only: [:show, :index, :create], param: :uuid do
-        collection do
-          get :completed
+
+
+      # JWT APIs
+      scope module: :jwt_api do
+        resources :questionnaire, only: [:show, :create], param: :key
+        resources :response, only: [:show, :index, :create], param: :uuid do
+          collection do
+            get :completed
+          end
+        end
+        resources :auth_user, only: [:create]
+
+        resources :protocol_subscriptions, only: [] do
+          collection do
+            # @note Watch out! This can be interpreted as a show route later.
+            get :mine
+          end
+        end
+        resources :protocol, only: [:index]
+      end
+
+      # JWT and Cookie apis
+      # TODO in V2 API, rename to people.
+      scope module: :cookie_and_jwt_api do
+        resources :protocol_subscriptions, only: [:create, :show]
+
+        resources :person, only: [] do
+          collection do
+            get :me
+            put :update
+          end
         end
       end
-      resources :auth_user, only: [:create]
-      resources :person do
-        collection do
-          get :me
-          put :update
-        end
+
+      # Basic auth APIs
+      namespace :basic_auth_api do
+        resources :protocol_subscriptions, only: [:create]
       end
-      resources :statistics, only: [:index]
-      resources :settings, only: [:index]
-      resources :protocol_subscriptions, only: [:create, :show] do
-        collection do
-          get :mine
-        end
-      end
-      resources :protocol, only: [:index]
+
+      # Admin APIs
       namespace :admin do
         resources :team, only: [:show], param: :group
         resources :organization, only: [:show], param: :group
       end
-      namespace :api_token do
-        resources :protocol_subscriptions, only: [:create]
-      end
+
+      # Public APIs
+      resources :statistics, only: [:index]
+      resources :settings, only: [:index]
     end
   end
   match '/',

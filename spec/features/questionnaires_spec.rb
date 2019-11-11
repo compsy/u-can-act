@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-module Api
-  module V1
-    module CookieAndJwtApi
-    end
-  end
-end
-
 require 'rails_helper'
 
 describe 'GET and POST /', type: :feature, js: true do

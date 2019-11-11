@@ -6,7 +6,7 @@ module Api
       class PersonController < BasicAuthApiController
         def show_list
           auth_users = AuthUser.where(auth0_id_string: person_params[:person_auth0_ids])
-          render status: :ok, json: auth_users.map{|x| x.person}
+          render status: :ok, json: auth_users.map(&:person)
         end
 
         private

@@ -5,10 +5,9 @@ module Api
     module BasicAuthApi
       class ProtocolSubscriptionsController < BasicAuthApiController
         before_action :set_person, only: %i[create]
-        before_action :set_mentor
 
         def show_for_mentor
-          @mentor.my_protocols(false)
+          mentor.my_protocols(false)
         end
 
         def create
@@ -16,7 +15,7 @@ module Api
             protocol_name: protocol_subscription_create_params[:protocol_name],
             person: @person,
             start_date: start_date,
-            mentor: @mentor
+            mentor: mentor
           )
           render status: :created, json: result
         end
@@ -29,7 +28,7 @@ module Api
           Time.zone.parse(protocol_subscription_create_params[:start_date])
         end
 
-        def set_mentor
+        def mentor
           @mentor ||= Person.find_by(id: protocol_subscription_create_params[:mentor_id])
         end
 

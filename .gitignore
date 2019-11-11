@@ -14,7 +14,6 @@ capybara-*.html
 /db/*.sqlite3-journal
 /coverage/
 /spec/tmp
-webdrivers.log
 # Next line is invalid according to Ripgrep
 # **.orig
 rerun.txt

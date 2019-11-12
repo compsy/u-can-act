@@ -2,7 +2,7 @@
 
 db_title = 'Omgaan met gevoelens (kind)'
 
-db_name1 = 'Emotieregulatie_Ouderrapportage'
+db_name1 = 'Emotieregulatie_Kinderen_Ouderrapportage_6plus'
 dagboek1 = Questionnaire.find_by_name(db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]

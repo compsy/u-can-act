@@ -3,9 +3,9 @@
 db_title = 'Mijn karakter'
 
 db_name1 = 'Persoonlijkheid_Kinderen10plus_zelf'
-dagboek1 = Questionnaire.find_by_name(db_name1)
-dagboek1 ||= Questionnaire.new(name: db_name1)
-dagboek1.key = File.basename(__FILE__)[0...-3]
+dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,

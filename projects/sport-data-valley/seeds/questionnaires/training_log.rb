@@ -45,15 +45,20 @@ dagboek_content = [
   },
   {
     id: :v4,
+    type: :time,
+    required: true
+  },
+  {
+    id: :v5,
     type: :number,
     required: true,
-    title: 'Looptijd (min)',
+    title: 'Tijdsduur (min)',
     maxlength: 4,
     min: 0,
     max: 1440 # 24hrs
   },
   {
-    id: :v5,
+    id: :v6,
     title: 'RPE score<br><img src="/assets/rpe.jpg" style="width:auto" class="questionnaire-image" />',
     type: :range,
     min: 0,
@@ -74,7 +79,7 @@ dagboek_content = [
     ]
   },
   {
-    id: :v6,
+    id: :v7,
     title: 'Tevredenheid over training',
     type: :range,
     min: 1,

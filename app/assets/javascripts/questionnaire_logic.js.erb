@@ -149,6 +149,20 @@ function collapseExpandable() {
   updateExpandableButtons();
 }
 
+function changeExpansions() {
+  var expandableId = $(this).parent().attr('data-expandable');
+  var newExpansions = parseInt($(this).val());
+  var curExpansions = $('.expandable_wrapper:not(.hidden)' + '.' + expandableId).length
+  while (newExpansions > curExpansions) {
+    $('#' + expandableId + '_expand').click();
+    curExpansions+= 1;
+  }
+  while (newExpansions < curExpansions) {
+    $('#' + expandableId + '_collapse').click();
+    curExpansions -= 1;
+  }
+}
+
 function disableHiddenInputs() {
   $('.hidden').each(function (index) {
     $(this).find('input,textarea,select').each(function (sub_index) {
@@ -239,6 +253,7 @@ $(function () {
   $(document).on('click', '.toast', function () {
     $(this).hide();
   });
+  $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');
   });

@@ -8,7 +8,7 @@ default: &default
   feature_toggles:
     allow_identifier_export: true
   logo:
-    favicon: 'projects/Differentiatie Binnenstebuiten/favicon.ico'
+    favicon: 'myfavicon.ico'
     mentor_logo: 'rug_logo.png'
     student_logo: 'rug_logo.png'
     fallback_logo: 'rug_logo.png'

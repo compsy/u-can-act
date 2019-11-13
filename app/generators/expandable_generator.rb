@@ -37,29 +37,37 @@ class ExpandableGenerator < QuestionTypeGenerator
 
   def expandable_buttons(question)
     body = []
-    id = idify(question[:id])
-    body << single_expandable_button(
-      id,
-      question[:add_button_label] || '+',
-      'expand_expandable success'
-    )
-
-    body << single_expandable_button(
-      id,
-      question[:remove_button_label] || '-',
-      'collapse_expandable warning'
-    )
-
+    body << add_button(question)
+    body << remove_button(question)
     body = safe_join(body)
+    body = content_tag(:div, body, class: 'row')
     body = content_tag(:div, body, class: 'col s12')
     body
   end
 
-  def single_expandable_button(id, label, klass)
+  def add_button(question)
+    single_expandable_button(
+      idify(question[:id]),
+      safe_join([content_tag(:i, 'add', class: 'material-icons left'), question[:add_button_label] || '']),
+      'expand_expandable success',
+      true
+    )
+  end
+
+  def remove_button(question)
+    single_expandable_button(
+      idify(question[:id]),
+      safe_join([content_tag(:i, 'remove', class: 'material-icons left'), question[:remove_button_label] || '']),
+      'collapse_expandable warning',
+      false
+    )
+  end
+
+  def single_expandable_button(id, label, klass, expand)
     content_tag(
       :a,
       label,
-      id: id + '_expand',
+      id: id + '_' + (expand ? 'expand' : 'collapse'),
       data: { belongsto: id },
       class: "btn expandable_button waves-effect waves-light #{klass}"
     )

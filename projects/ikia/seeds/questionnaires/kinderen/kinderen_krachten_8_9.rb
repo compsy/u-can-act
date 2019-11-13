@@ -2,9 +2,9 @@
 
 db_title = 'Krachten'
 db_name1 = 'Krachten_Kinderen_8en9jaar'
-dagboek1 = Questionnaire.find_by_name(db_name1)
-dagboek1 ||= Questionnaire.new(name: db_name1)
-dagboek1.key = File.basename(__FILE__)[0...-3]
+dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
@@ -267,110 +267,110 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     type: :range,
     required: true,
     title: 'Als mijn moeder blij is, word ik daar blij van.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar'],
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar'],
     section_end: false
   }, {
     id: :v2_2,
     type: :range,
     required: true,
     title: 'Ik begrijp dat een klasgenoot zich schaamt als hij iets verkeerds heeft gedaan.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_3,
     type: :range,
     required: true,
     title: 'Als een vriend(in) verdrietig is, wil ik graag troosten.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_4,
     type: :range,
     required: true,
     title: 'Ik voel me vervelend als twee mensen ruzie maken.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_5,
     type: :range,
     required: true,
     title: 'Als een vriend(in) boos is, weet ik meestal wel waarom.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_6,
     type: :range,
     required: true,
     title: 'Ik wil graag helpen als een klasgenootje boos is.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_7,
     type: :range,
     required: true,
     title: 'Als een vriend(in) verdrietig is, word ik ook verdrietig.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_8,
     type: :range,
     required: true,
     title: 'Ik begrijp dat een klasgenoot trots is als hij iets goeds heeft gedaan.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_9,
     type: :range,
     required: true,
     title: 'Als een vriend(in) ruzie heeft, probeer ik te helpen.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_10,
     type: :range,
     required: true,
     title: 'Als een vriend(in) plezier heeft, moet ik ook lachen. ',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_11,
     type: :range,
     required: true,
     title: 'Als een vriend(in) verdrietig is, begrijp ik vaak waarom.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_12,
     type: :range,
     required: true,
     title: 'Ik wil graag dat iedereen zich goed voelt.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_13,
     type: :range,
     required: true,
     title: 'Als een vriend(in) huilt, moet ik zelf ook huilen.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_14,
     type: :range,
     required: true,
     title: 'Als een klasgenootje moet huilen, begrijp ik vaak wat er is gebeurd.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_15,
     type: :range,
     required: true,
     title: 'Als een klasgenootje verdrietig is, wil ik graag iets doen om het beter te maken.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_16,
     type: :range,
     required: true,
     title: 'Als iemand in mijn familie verdrietig is, voel ik me erg naar.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_17,
     type: :range,
     required: true,
     title: 'Ik vind het leuk een vriend(in) een cadeautje te geven.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar']
   }, {
     id: :v2_18,
     type: :range,
     required: true,
     title: 'Als een vriend(in) kwaad is, word ik ook naar.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar'],
+    labels: ['Helemaal niet waar', 'Beetje waar', 'Waar'],
     section_end: true
   }]
 dagboek1.content = dagboek_content

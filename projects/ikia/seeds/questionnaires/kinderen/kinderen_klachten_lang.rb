@@ -2,9 +2,9 @@
 
 db_title = 'Klachten'
 db_name1 = 'Klachten_Lang_Kinderen_11plus'
-dagboek1 = Questionnaire.find_by_name(db_name1)
-dagboek1 ||= Questionnaire.new(name: db_name1)
-dagboek1.key = File.basename(__FILE__)[0...-3]
+dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+dagboek1.name = db_name1
 dagboek_content = [
   {type: :raw,
    content: '<p class="flow-text">Welkom bij de vragenlijst <b> klachten</b>. Er volgt nu een lijst met vragen over jongens en meisjes. Alle vragen gaan over hoe je nu bent of in de afgelopen zes maanden bent geweest. Geef bij elke vraag aan in hoeverre deze bij jou past. Beantwoord de vragen zoals jij de dingen ziet, ook al zijn anderen het daar misschien niet mee eens.</p>'

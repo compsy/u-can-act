@@ -2,14 +2,15 @@
 
 db_title = 'Mijn kind en gezin'
 db_name1 = 'Mijn_gezin_ouders'
-dagboek1 = Questionnaire.find_by_name(db_name1)
-dagboek1 ||= Questionnaire.new(name: db_name1)
-dagboek1.key = File.basename(__FILE__)[0...-3]
-betrokkenheid1 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png">'
-betrokkenheid2 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png">'
-betrokkenheid3 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png">'
-betrokkenheid4 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png">'
-betrokkenheid5 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png">'
+dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+dagboek1.name = db_name1
+style = 'style="max-height: 200px; vertical-align: middle"'
+betrokkenheid1 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png\" #{style}>"
+betrokkenheid2 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png\" #{style}>"
+betrokkenheid3 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png\" #{style}>"
+betrokkenheid4 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png\" #{style}>"
+betrokkenheid5 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png\" #{style}>"
 dagboek_content = [
   {
     type: :raw,
@@ -21,6 +22,7 @@ dagboek_content = [
     title: 'Uit hoeveel personen bestaat uw gezin? Reken uzelf <b>niet</b> mee.',
     maxlength: 2,
     placeholder: 'Bijvoorbeeld: 4',
+    links_to_expandable: :v2,
     min: 0,
     max: 20,
     required: true,
@@ -32,7 +34,7 @@ dagboek_content = [
     add_button_label: 'Voeg persoon toe',
     type: :expandable,
     default_expansions: 1,
-    max_expansions: 10,
+    max_expansions: 20,
     content: [
       {
         type: :raw,
@@ -76,9 +78,10 @@ dagboek_content = [
           {title: 'Anders'}]
       }, {
         id: :v4_5,
-        type: :likert,
+        type: :radio,
         title: 'Hoe voelt u zich bij deze persoon? Kies 1 van onderstaande plaatjes.',
-        options: ['<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png" width="179" />', '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png" width="179" />', '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png" width="179" />', '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png" width="179" />']
+        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5],
+        show_otherwise: false
       }],
     section_end: true
   }, {
@@ -87,7 +90,7 @@ dagboek_content = [
     title: 'Heeft u huisdieren?',
     options: [
       {title: 'Nee'},
-      {title: 'Ja', shows_questions: %i[v5_a ]}
+      {title: 'Ja', shows_questions: %i[v5_a]}
     ]
   }, {
     id: :v5_a,

@@ -9,6 +9,8 @@ if [ -f /app/tmp/pids/server.pid ]; then
 fi
 
 cd /app
+bundle install
+yarn install
 bundle exec rails i18n:js:export
 
 if [ "$RESET_DB_ON_FAIL" == "true" ]; then

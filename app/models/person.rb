@@ -103,8 +103,13 @@ class Person < ApplicationRecord
   end
 
   def mentor
+    # Introduce caching because otherwise it does a (cached) database query for every question in a questionnaire
+    return @mentor if @mentorcached
+
     warn_for_multiple_mentors
-    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).first&.person
+    @mentorcached = true
+    @mentor = ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).first&.person
+    @mentor
   end
 
   def stats(week_number, year, threshold_percentage)

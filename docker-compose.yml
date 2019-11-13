@@ -17,8 +17,8 @@ services:
       - backend
   webpack:
     image: vsv
-    entrypoint: []
-    command: ["bundle","exec","bin/webpack-dev-server"]
+    entrypoint: ["/app/lib/docker-entrypoint-webpack.sh"]
+    command: ["bin/webpack-dev-server"]
     volumes:
       - .:/app
       - node_modules_volume:/app/node_modules

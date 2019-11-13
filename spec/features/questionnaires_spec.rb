@@ -182,6 +182,58 @@ describe 'GET and POST /', type: :feature, js: true do
   end
 
   describe 'should store the results from the expandables' do
+    it 'works with links_to_expandable' do
+      content = [
+        {
+          id: :v1,
+          type: :number,
+          required: true,
+          links_to_expandable: :v3,
+          title: 'Hoeveel expansies?'
+        }, {
+          id: :v2,
+          type: :checkbox,
+          title: 'Of niet soms?',
+          options: %w[Ja Nee]
+        }, {
+          id: :v3,
+          title: 'Dit is expansies',
+          type: :expandable,
+          default_expansions: 0,
+          max_expansions: 10,
+          content: [
+            {
+              type: :raw,
+              content: 'Hihaho'
+            }
+          ]
+        }
+      ]
+      questionnaire = FactoryBot.create(:questionnaire, content: content)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 1.week.ago.at_beginning_of_day,
+                                                person: student)
+      responseobj = FactoryBot.create(:response, :invited,
+                                      protocol_subscription: protocol_subscription,
+                                      measurement: measurement,
+                                      open_from: 1.hour.ago)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+
+      visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
+      expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
+      # expect(page).to have_http_status(200)
+      expect(page.has_text?(:visible, 'Hihaho')).to be_falsey
+
+      # Required questions
+      page.fill_in('v1', with: '1')
+      page.check('Ja', allow_label_click: true)
+      expect(page.has_text?(:visible, 'Hihaho')).to be_truthy
+      page.fill_in('v1', with: '0')
+      page.check('Nee', allow_label_click: true)
+      expect(page.has_text?(:visible, 'Hihaho')).to be_falsey
+    end
+
     it 'onlies store the one which is defaultly visible' do
       questionnaire = FactoryBot.create(:questionnaire, :one_expansion)
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)

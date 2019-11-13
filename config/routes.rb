@@ -117,5 +117,5 @@ Rails.application.routes.draw do
         action: 'options',
         constraints: { method: %w[OPTIONS POST PUT PATCH DELETE] },
         via: %i[options post put patch delete]
-  match '*path', via: :all, to: redirect('/404.html')
+  match '*path', via: :all, to: 'application#page_not_found'
 end

@@ -4,7 +4,7 @@
 ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 
 if Rails.env.development?
-  Person.each do |person|
+  Person.all.each do |person|
     person.destroy unless person.auth_user
   end
 end

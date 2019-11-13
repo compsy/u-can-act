@@ -126,7 +126,6 @@ ActiveRecord::Schema.define(version: 20191113193939) do
     t.datetime "informed_consent_given_at"
     t.integer "filling_out_for_id", null: false
     t.datetime "end_date", null: false
-    t.index ["person_id", "filling_out_for_id"], name: "index_rs_on_person_id_and_filling_out_for_id", unique: true, where: "(((state)::text = 'active'::text) AND (person_id <> filling_out_for_id))"
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id"
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id"
   end

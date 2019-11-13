@@ -4,7 +4,9 @@
 ActiveRecord::Base.connection.reconnect! if Rails.env.development?
 
 if Rails.env.development?
-  Person.destroy_all
+  Person.each do |person|
+    person.destroy unless person.auth_user
+  end
 end
 
 # Load only top level seeds file from evaluatieonderzoek and demo

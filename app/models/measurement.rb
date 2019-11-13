@@ -30,11 +30,22 @@ class Measurement < ApplicationRecord
   end
 
   def response_times(start_date, end_date)
-    unless periodical?
-      return [open_till(end_date)] if offset_till_end.present?
+    # A periodical measurement is one which is recorded every now and then
+    # following some srt of protocol / procedure. These measurements need more
+    # responses.
+    return periodical_response_times(start_date, end_date) if periodical?
 
-      return [open_from(start_date)]
-    end
+    # If the offset_till_end is provided, we want the measurement to be open
+    # till a certain end date, instead of a start date. This only holds for non
+    # periodical questionnaires
+    return [open_till(end_date)] if offset_till_end.present?
+
+    [open_from(start_date)]
+  end
+
+  private
+
+  def periodical_response_times(start_date, end_date)
     response_times = []
     temp_open_from = open_from(start_date)
     temp_open_till = open_till(end_date)
@@ -45,8 +56,6 @@ class Measurement < ApplicationRecord
 
     response_times
   end
-
-  private
 
   def at_most_one_stop_measurement_per_protocol
     return unless stop_measurement && protocol_id.present?

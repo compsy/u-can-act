@@ -32,7 +32,7 @@ module Api
         end
 
         def set_mentor_role
-          @mentor_role = Organization.first&.teams&.first&.roles&.where(group: Person::MENTOR)
+          @mentor_role = Organization.first&.teams&.first&.roles&.where(group: Person::MENTOR).first
           return if @mentor_role
 
           render json: { error: 'Cannot assign mentor role: mentor role does not exist' }, status: :bad_request

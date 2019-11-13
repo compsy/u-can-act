@@ -22,7 +22,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
     auth_user = AuthUser.find_by(auth0_id_string: auth0_id_string)
     return auth_user if auth_user.present?
 
-    AuthUser.create(
+    AuthUser.create!(
       auth0_id_string: auth0_id_string,
       password_digest: SecureRandom.hex(10),
       access_level: access_level
@@ -38,6 +38,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
                                       mobile_phone: nil,
                                       role: find_role,
                                       auth_user: auth_user)
+    auth_user.save!
     auth_user
   end
 

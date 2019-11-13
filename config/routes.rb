@@ -95,6 +95,9 @@ Rails.application.routes.draw do
           collection do
             get :show_list
           end
+          member do
+            post :change_to_mentor
+          end
         end
       end
 

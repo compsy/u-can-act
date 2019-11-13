@@ -10,7 +10,7 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Feedback op de trainingssessie</p>'
+    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/assets/training_log_header.jpg" style="width:auto" class="questionnaire-image" />',
   },
   {
     id: :v1,
@@ -46,6 +46,10 @@ dagboek_content = [
   {
     id: :v4,
     type: :time,
+    title: '',
+    hours_from: 0,
+    hours_to: 24,
+    hours_step: 1,
     required: true
   },
   {

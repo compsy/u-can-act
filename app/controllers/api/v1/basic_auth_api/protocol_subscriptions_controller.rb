@@ -30,9 +30,9 @@ module Api
         end
 
         def end_date
-          return nil unless protocol_subscription_create_params[:start_date].present?
+          return nil unless protocol_subscription_create_params[:end_date].present?
 
-          Time.zone.parse(protocol_subscription_create_params[:start_date])
+          Time.zone.parse(protocol_subscription_create_params[:end_date])
         end
 
         def mentor
@@ -49,7 +49,7 @@ module Api
         end
 
         def protocol_subscription_create_params
-          params.permit(:protocol_name, :auth0_id_string, :start_date, :start_date :mentor_id)
+          params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id)
         end
       end
     end

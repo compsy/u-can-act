@@ -23,10 +23,11 @@ class ProtocolSubscription < ApplicationRecord
   after_initialize :initialize_end_date
   has_many :protocol_transfers, dependent: :destroy
 
-  validates :filling_out_for_id,
-            uniqueness: { scope: %i[person_id state],
-                          conditions: -> { where(state: ACTIVE_STATE) },
-                          if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
+  # Commented this to allow to start multiple mentor'ed diary studies for the SDV project.
+  # validates :filling_out_for_id,
+  #           uniqueness: { scope: %i[person_id state],
+  #                         conditions: -> { where(state: ACTIVE_STATE) },
+  #                         if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def transfer!(transfer_to)

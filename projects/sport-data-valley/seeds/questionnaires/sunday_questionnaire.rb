@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Zondagse vragenlijst'
+db_title = 'Wekelijkse vragenlijst'
 
 db_name1 = 'sunday_questionnaire'
 questionnaire = Questionnaire.find_by(name: db_name1)
@@ -10,16 +10,16 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Weekelijkse vragenlijst</p>'
+    content: '<p class="flow-text">Wanneer je terugkijkt op de afgelopen week, kun je dan feedback geven over hoe je deze week hebt ervaren.</p>'
   },
   {
     id: :v1,
-    title: 'Vermoeidheid (mentaal)',
+    title: 'Mentale vermoeidheid',
     type: :range,
     min: 1,
     max: 5,
     step: 0.5,
-    section_start: 'Wellness',
+    section_start: 'Welzijn',
     labels: ['Altijd vermoeid',
              'Meer vermoeid dan normaal',
              'Normaal',
@@ -28,7 +28,7 @@ dagboek_content = [
   },
   {
     id: :v2,
-    title: 'Vermoeidheid (fysiek)',
+    title: 'Fysieke vermoeidheid',
     type: :range,
     min: 1,
     max: 5,
@@ -43,7 +43,7 @@ dagboek_content = [
     id: :v3,
     type: :radio,
     show_otherwise: false,
-    section_start: 'Blessures (OSTRC) in de afgelopen week',
+    section_start: 'Blessures, ziekte en/of gezondheidsproblemen in de afgelopen week.',
     title: 'Heb je moeite ervaren met deelname aan training en competitie door blessure, ziekte of andere gezondheidsproblemen in de afgelopen week?',
     options: [
       { title: '0. Volledige deelname zonder gezondheidsproblemen.' },
@@ -104,7 +104,7 @@ dagboek_content = [
   {
     id: :v7,
     section_start: 'Feedback',
-    title: 'Hoe vond je afgelopen week?',
+    title: 'Hoe heb je afgelopen week ervaren?',
     type: :textarea
   }
 ]

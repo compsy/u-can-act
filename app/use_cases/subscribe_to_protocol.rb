@@ -10,6 +10,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
   # will set it once, and reuse THAT time everytime. I.e., it will not update
   # the time when time passes.
   time :start_date, default: nil
+  time :end_date, default: nil
 
   # Function to start a protocol subscription for a person
   #
@@ -28,7 +29,8 @@ class SubscribeToProtocol < ActiveInteraction::Base
       person: person,
       filling_out_for: mentor,
       state: ProtocolSubscription::ACTIVE_STATE,
-      start_date: the_start_date
+      start_date: the_start_date,
+      end_date: end_date
     )
     prot_sub
   end

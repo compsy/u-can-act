@@ -15,6 +15,7 @@ module Api
             protocol_name: protocol_subscription_create_params[:protocol_name],
             person: @person,
             start_date: start_date,
+            end_date: end_date,
             mentor: mentor
           )
           render status: :created, json: result
@@ -24,6 +25,12 @@ module Api
 
         def start_date
           return Time.zone.now if protocol_subscription_create_params[:start_date].blank?
+
+          Time.zone.parse(protocol_subscription_create_params[:start_date])
+        end
+
+        def end_date
+          return nil unless protocol_subscription_create_params[:start_date].present?
 
           Time.zone.parse(protocol_subscription_create_params[:start_date])
         end
@@ -42,7 +49,7 @@ module Api
         end
 
         def protocol_subscription_create_params
-          params.permit(:protocol_name, :auth0_id_string, :start_date, :mentor_id)
+          params.permit(:protocol_name, :auth0_id_string, :start_date, :start_date :mentor_id)
         end
       end
     end

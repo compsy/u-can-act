@@ -23,6 +23,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: mentor,
+        end_date: nil,
         start_date: time
       ).and_return true
 
@@ -61,6 +62,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: mentor,
+        end_date: nil,
         start_date: time
       ).and_return true
 

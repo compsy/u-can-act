@@ -3,19 +3,20 @@
 db_title = 'Mijn gezin'
 
 db_name1 = 'Mijn_gezin_Kinderen'
-dagboek1 = Questionnaire.find_by_name(db_name1)
-dagboek1 ||= Questionnaire.new(name: db_name1)
-dagboek1.key = File.basename(__FILE__)[0...-3]
-betrokkenheid1 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png">'
-betrokkenheid2 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png">'
-betrokkenheid3 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png">'
-betrokkenheid4 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png">'
-betrokkenheid5 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png">'
-natuur1 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_1.png">'
-natuur2 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_2.png">'
-natuur3 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_3.png">'
-natuur4 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_4.png">'
-natuur5 = '<img src="https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_6.png">'
+dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+dagboek1.name = db_name1
+style = 'style="max-height: 200px; vertical-align: middle"'
+betrokkenheid1 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid5.png\" #{style}>"
+betrokkenheid2 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid4.png\" #{style}>"
+betrokkenheid3 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid3.png\" #{style}>"
+betrokkenheid4 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid2.png\" #{style}>"
+betrokkenheid5 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Betrokkenheid1.png\" #{style}>"
+natuur1 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_1.png\" #{style}>"
+natuur2 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_2.png\" #{style}>"
+natuur3 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_3.png\" #{style}>"
+natuur4 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_4.png\" #{style}>"
+natuur5 = "<img src=\"https://u-can-act.nl/wp-content/uploads/2019/10/Closeness_Nature_6.png\" #{style}>"
 dagboek_content = [
   {
     type: :raw,
@@ -46,6 +47,7 @@ Sommige kinderen hebben meer dan 1 thuis.',
     type: :number,
     title: 'Met hoeveel <i>andere</i> mensen woon je samen in dit huis? Dit zijn personen die altijd of meestal in hetzelfde huis wonen als jij, zoals ouders, (half-) broers, (half-) zussen. Tel jezelf <i>niet</i> mee.',
     maxlength: 2,
+    links_to_expandable: :v4,
     placeholder: 'Bijvoorbeeld: 4',
     min: 0,
     max: 20,
@@ -58,7 +60,7 @@ Sommige kinderen hebben meer dan 1 thuis.',
     add_button_label: 'Voeg persoon toe',
     type: :expandable,
     default_expansions: 1,
-    max_expansions: 10,
+    max_expansions: 20,
     content: [
       {
         type: :raw,
@@ -104,11 +106,12 @@ Deze persoon is mijn:',
           {title: 'Anders'}]
       }, {
         id: :v4_5,
-        type: :likert,
+        type: :radio,
         title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
-        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]
+        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5],
+        show_otherwise: false
       }],
     section_end: true
   }, {
@@ -144,6 +147,7 @@ Kies 1 van de 5 plaatjes',
     title: 'Met hoeveel <i>andere</i> mensen woon je samen in dit huis? Dit zijn personen die altijd of meestal in hetzelfde huis wonen als jij, zoals ouders, (half-) broers, (half-) zussen. Tel jezelf <i>niet</i> mee.',
     maxlength: 2,
     placeholder: 'Bijvoorbeeld: 4',
+    links_to_expandable: :v8,
     min: 0,
     max: 20,
     required: true
@@ -155,7 +159,7 @@ Kies 1 van de 5 plaatjes',
     add_button_label: 'Voeg persoon toe',
     type: :expandable,
     default_expansions: 1,
-    max_expansions: 10,
+    max_expansions: 20,
     content: [{
                 type: :raw,
                 content: '<p class="flow-text">Persoon</p>'
@@ -201,7 +205,8 @@ Deze persoon is mijn:',
                   {title: 'Anders'}]
               }, {
                 id: :v8_5,
-                type: :likert,
+                type: :radio,
+                show_otherwise: false,
                 title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
@@ -240,6 +245,7 @@ Kies 1 van de 5 plaatjes',
     title: 'Met hoeveel <i>andere</i> mensen woon je samen in dit huis? Dit zijn personen die altijd of meestal in hetzelfde huis wonen als jij, zoals ouders, (half-) broers, (half-) zussen. Tel jezelf <i>niet</i> mee.',
     maxlength: 2,
     placeholder: 'Bijvoorbeeld: 4',
+    links_to_expandable: :v12,
     min: 0,
     max: 20,
     required: true
@@ -251,7 +257,7 @@ Kies 1 van de 5 plaatjes',
     add_button_label: 'Voeg persoon toe',
     type: :expandable,
     default_expansions: 1,
-    max_expansions: 10,
+    max_expansions: 20,
     content: [{
                 type: :raw,
                 content: '<p class="flow-text">Persoon</p>'
@@ -296,7 +302,8 @@ Deze persoon is mijn:',
                   {title: 'Anders'}]
               }, {
                 id: :v12_5,
-                type: :likert,
+                type: :radio,
+                show_otherwise: false,
                 title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
@@ -471,6 +478,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar']
   }, {
+    # TODO: plaatjes missing
     id: :v20_3,
     type: :likert,
     title: 'Op welke van deze plekken zou jij het liefste zijn?',
@@ -507,9 +515,10 @@ Kies 1 van de 5 plaatjes',
     required: true
   }, {
     id: :v20_9,
-    type: :likert,
+    type: :radio,
     title: 'Hoe erg hoort de natuur bij jou? Kies één van de plaatjes.',
     options: [natuur1, natuur2, natuur3, natuur4, natuur5],
+    show_otherwise: false,
     section_end: true
   }
 ]

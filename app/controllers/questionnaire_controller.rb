@@ -38,7 +38,7 @@ class QuestionnaireController < ApplicationController
       unsubscribe_url: nil
     )
 
-    render 'questionnaire/show'
+    render 'questionnaire/show', layout: nil
   end
 
   def show

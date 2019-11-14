@@ -215,7 +215,7 @@ function autoResizeImages() {
   });
 }
 
-$(function () {
+function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
@@ -278,4 +278,8 @@ $(function () {
   $(window).resize(function () {
     autoResizeImages();
   });
+}
+
+$(function () {
+  questionnaireLoaded();
 });

@@ -14,9 +14,7 @@ class AuthUser < ApplicationRecord
     # that if we raise from here, the authorization process stops and it might
     # be hard to debug.
     def from_token_payload(payload)
-      Rails.logger.info "\n"*5
       Rails.logger.info metadata_from_payload(payload)
-      Rails.logger.info "\n"*5
 
       id = id_from_payload(payload)
       access_level = access_level_from_payload(payload)
@@ -26,7 +24,7 @@ class AuthUser < ApplicationRecord
       auth_user = CreateAnonymousUser.run!(
         auth0_id_string: id,
         team_name: team,
-        role: role,
+        role_title: role,
         access_level: access_level
       )
 
@@ -49,6 +47,10 @@ class AuthUser < ApplicationRecord
 
     def role_from_payload(payload)
       metadata_from_payload(payload)['role']
+    end
+
+    def protocol_from_payload(payload)
+      metadata_from_payload(payload)['protocol']
     end
 
     def access_level_from_payload(payload)
@@ -76,13 +78,13 @@ class AuthUser < ApplicationRecord
     end
 
     def subscribe_to_protocol_if_needed(person, payload)
-      metadata = metadata_from_payload(payload)
-      return if metadata['protocol'].nil?
+      protocol = protocol_from_payload(payload)
+      return if protocol.blank?
 
       # A person can only be subscribed to the same protocol once
-      return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == metadata['protocol'] }
+      return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
 
-      SubscribeToProtocol.run!(protocol_name: metadata['protocol'], person: person)
+      SubscribeToProtocol.run!(protocol_name: protocol, person: person)
     end
   end
 end

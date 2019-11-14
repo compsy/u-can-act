@@ -110,7 +110,7 @@ describe ProtocolSubscription do
     # expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
     # 'Validatie mislukt: Filling out for is al in gebruik')
     # end
-  #
+    #
 
     it 'allows two subscriptions with the same filling_out_for_id and different states if one is completed' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::COMPLETED_STATE,

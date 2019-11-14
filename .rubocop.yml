@@ -9,6 +9,7 @@ AllCops:
     - 'config/**/*'
     - 'db/**/*'
     - 'node_modules/**/*'
+    - 'node_modules_volume/**/*'
     - 'projects/*/seeds/**/*'
     - 'script/**/*'
     - 'tmp/**/*'

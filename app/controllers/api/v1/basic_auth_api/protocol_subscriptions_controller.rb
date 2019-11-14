@@ -30,7 +30,7 @@ module Api
         end
 
         def end_date
-          return nil unless protocol_subscription_create_params[:end_date].present?
+          return nil if protocol_subscription_create_params[:end_date].blank?
 
           Time.zone.parse(protocol_subscription_create_params[:end_date])
         end

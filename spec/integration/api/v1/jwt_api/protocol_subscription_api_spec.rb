@@ -7,7 +7,7 @@ describe 'ProtocolSubscription api' do
   let(:auth0_id_string) { the_auth_user.auth0_id_string }
   let!(:protocol_subscriptions) { FactoryBot.create_list(:protocol_subscription, 3, person: the_auth_user.person) }
   let!(:protocol_subscriptions_other) do
-    FactoryBot.create_list(:protocol_subscription, 5, :mentor, person: the_auth_user.person)
+    FactoryBot.create_list(:protocol_subscription, 5, filling_out_for: the_auth_user.person)
   end
   let!(:team) { FactoryBot.create(:team, :with_roles, name: 'Demo-team') }
   let!(:the_payload) do
@@ -59,7 +59,7 @@ describe 'ProtocolSubscription api' do
       consumes 'application/json'
       security [JwtAuth: {}]
 
-      response '200', 'all my protocol subscriptions returned' do
+      response '200', 'all delegated protocol subscriptions returned' do
         schema type: :array,
                items: {
                  type: :object,

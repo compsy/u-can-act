@@ -96,19 +96,22 @@ describe ProtocolSubscription do
     let(:mentor) { FactoryBot.create(:mentor) }
     let(:student) { FactoryBot.create(:student) }
 
-    it 'does not allow two protocol subscriptions with the same state and filling_out_for_id' do
-      prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
-                                                        person: mentor,
-                                                        filling_out_for: student)
-      prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
-                                                        person: prot1.person)
-      prot2.filling_out_for_id = prot1.filling_out_for_id
-      expect(prot2).not_to be_valid
-      expect(prot2.errors.messages).to have_key :filling_out_for_id
-      expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
-      expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
-                                            'Validatie mislukt: Filling out for is al in gebruik')
-    end
+    # Commented this to allow to start multiple mentor'ed diary studies for the SDV project.
+    # it 'does not allow two protocol subscriptions with the same filling_out_for_id' do
+    # prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+    # person: mentor,
+    # filling_out_for: student)
+    # prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+    # person: prot1.person)
+    # prot2.filling_out_for_id = prot1.filling_out_for_id
+    # expect(prot2).not_to be_valid
+    # expect(prot2.errors.messages).to have_key :filling_out_for_id
+    # expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
+    # expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
+    # 'Validatie mislukt: Filling out for is al in gebruik')
+    # end
+  #
+
     it 'allows two subscriptions with the same filling_out_for_id and different states if one is completed' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::COMPLETED_STATE,
                                                         person: mentor,

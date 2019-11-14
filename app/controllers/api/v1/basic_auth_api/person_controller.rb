@@ -21,7 +21,7 @@ module Api
         private
 
         def person_params
-          params.permit(:person_auth0_ids)
+          params.permit(person_auth0_ids: [])
         end
 
         def set_person

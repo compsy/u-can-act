@@ -15,7 +15,14 @@ class NumberGenerator < QuestionTypeGenerator
                        number_tag(question),
                        number_label(question)
                      ])
-    body = content_tag(:div, body, class: 'input-field col s12 m6')
+    body = if question[:links_to_expandable].present?
+             content_tag(:div,
+                         body,
+                         data: { expandable: question[:links_to_expandable].to_s },
+                         class: 'input-field col s12 m6 links_to_expandable')
+           else
+             content_tag(:div, body, class: 'input-field col s12 m6')
+           end
     body = content_tag(:div, body, class: 'row')
     body
   end

@@ -62,55 +62,55 @@ dagboek_content = [
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over het huis waar je het grootste gedeelte van de tijd woont:',
-    id: :v9_a_1,
+    id: :v9_1,
     type: :range,
     title: 'Ik geniet ervan om thuis te zijn.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true,
     section_end: false
   }, {
-    id: :v9_a_2,
+    id: :v9_2,
     type: :range,
     title: 'We kunnen in dit huis goed met elkaar opschieten.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v9_a_3,
+    id: :v9_3,
     type: :range,
     title: 'We doen thuis leuke dingen samen.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v9_a_4,
+    id: :v9_4,
     type: :range,
     title: 'Ik kan kiezen wat ik in mijn vrije tijd doe.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v9_a_5,
+    id: :v9_5,
     type: :range,
     title: 'Ik word thuis eerlijk behandeld.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v9_a_6,
+    id: :v9_6,
     type: :range,
     title: 'Ik vind de wijk waar ik woon leuk.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
   }, {
-    id: :v9_a_7,
+    id: :v9_7,
     type: :range,
     title: 'Ik vind mijn buren leuk.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v9_a_8,
+    id: :v9_8,
     type: :range,
     title: 'Ik voel me veilig in de wijk waar ik woon.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v9_a_9,
+    id: :v9_9,
     type: :range,
     title: 'Er zijn leuke dingen te doen waar ik woon.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],

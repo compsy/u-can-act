@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 db_title = 'Leefplezier van mijn kind'
 db_name1 = 'Welbevinden_Kind_Ouderrapportage_6plus'
 dagboek1 = Questionnaire.find_by_name(db_name1)

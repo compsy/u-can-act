@@ -14,13 +14,19 @@ class AuthUser < ApplicationRecord
     # that if we raise from here, the authorization process stops and it might
     # be hard to debug.
     def from_token_payload(payload)
+      Rails.logger.info "\n"*5
+      Rails.logger.info metadata_from_payload(payload)
+      Rails.logger.info "\n"*5
+
       id = id_from_payload(payload)
       access_level = access_level_from_payload(payload)
       team = team_from_payload(payload)
+      role = role_from_payload(payload)
 
       auth_user = CreateAnonymousUser.run!(
         auth0_id_string: id,
         team_name: team,
+        role: role,
         access_level: access_level
       )
 
@@ -39,6 +45,10 @@ class AuthUser < ApplicationRecord
     # Get the team from the provided payload, or use the default if nothing is found
     def team_from_payload(payload)
       metadata_from_payload(payload)['team'] || Rails.application.config.settings.default_team_name
+    end
+
+    def role_from_payload(payload)
+      metadata_from_payload(payload)['role']
     end
 
     def access_level_from_payload(payload)

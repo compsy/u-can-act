@@ -30,9 +30,7 @@ class AdminController < ApplicationController
   end
 
   def identifier_export
-    unless SETTINGS.feature_toggles.allow_identifier_export
-      raise 'Exporting identifiers is currently not allowed.'
-    end
+    raise 'Exporting identifiers is currently not allowed.' unless SETTINGS.feature_toggles.allow_identifier_export
 
     export_class('identifiers', 'Person', IdentifierExporter)
   end

@@ -219,7 +219,6 @@ dagboek_content = [
     title: 'Belasten deze moeilijkheden u of het gezin als geheel?',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
-  }, {
     id: :v27,
     type: :likert,
     title: 'Denkt u dat uw kind moeilijkheden heeft met concentreren?',

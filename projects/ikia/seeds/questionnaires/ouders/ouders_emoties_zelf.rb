@@ -134,6 +134,7 @@ dagboek_content = [
   }, {
     section_start: 'De volgende vragen gaan over hoe u zich zou <i>willen</i> voelen. Stelt u zich het allerbeste en fijnste leven voor dat u kunt hebben. Geef aan in hoeverre u de volgende gevoelens zou willen hebben in dit allerbeste leven. Verplaats het bolletje naar het antwoord dat het beste bij u past.',
     id: :v21,
+    type: :range,
     title: 'Gelukkig',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true,

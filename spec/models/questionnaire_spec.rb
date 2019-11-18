@@ -63,6 +63,102 @@ describe Questionnaire do
         expect(valid_questionnaire.errors.messages).not_to have_key :content
       end
     end
+
+    describe 'all_questions_have_types' do
+      it 'is not valid with an empty question' do
+        content = [{}]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions are missing the required :type attribute: [nil]\n")
+        )
+      end
+
+      it 'is not valid with a question without type' do
+        content = [{ id: :v1, title: 'hoi' }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions are missing the required :type attribute: [:v1]\n")
+        )
+      end
+
+      it 'is valid with a question with a type' do
+        content = [{ id: :v1, title: 'hoi', type: :number }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_questions_have_titles' do
+      it 'is not valid with an empty question' do
+        content = [{}]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions are missing the required :title attribute: [nil]\n")
+        )
+      end
+
+      it 'is not valid with a question without title' do
+        content = [{ id: :v1, type: :number }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions are missing the required :title attribute: [:v1]\n")
+        )
+      end
+
+      it 'is valid with a question with a title' do
+        content = [{ id: :v1, title: 'hoi', type: :number }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is valid without a title if it is a raw' do
+        content = [{ type: :raw }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_questions_have_ids' do
+      it 'is not valid with an empty question' do
+        content = [{}]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions are missing the required :id attribute: [nil]\n")
+        )
+      end
+
+      it 'is not valid with a question without id' do
+        content = [{ title: 'hoi', type: :number }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions are missing the required :id attribute: [\"hoi\"]\n")
+        )
+      end
+
+      it 'is valid with a question with an id' do
+        content = [{ id: :v1, title: 'hoi', type: :number }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is valid without an id if it is a raw' do
+        content = [{ type: :raw }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
   end
 
   describe 'responses' do

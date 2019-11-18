@@ -158,6 +158,12 @@ describe Questionnaire do
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
+
+      it 'is valid without an id if it is an unsubscribe' do
+        content = [{ type: :unsubscribe }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
     end
   end
 

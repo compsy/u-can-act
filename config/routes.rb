@@ -68,6 +68,7 @@ Rails.application.routes.draw do
           collection do
             # @note Watch out! This can be interpreted as a show route later.
             get :mine
+            get :delegated_protocol_subscriptions
           end
         end
         resources :protocol, only: [:index]
@@ -81,6 +82,7 @@ Rails.application.routes.draw do
         resources :person, only: [] do
           collection do
             get :me
+            get :my_students
             put :update
           end
         end
@@ -89,6 +91,14 @@ Rails.application.routes.draw do
       # Basic auth APIs
       namespace :basic_auth_api do
         resources :protocol_subscriptions, only: [:create]
+        resources :person, only: [] do
+          collection do
+            get :show_list
+          end
+          member do
+            post :change_to_mentor
+          end
+        end
       end
 
       # Admin APIs
@@ -107,5 +117,5 @@ Rails.application.routes.draw do
         action: 'options',
         constraints: { method: %w[OPTIONS POST PUT PATCH DELETE] },
         via: %i[options post put patch delete]
-  match '*path', via: :all, to: redirect('/404.html')
+  match '*path', via: :all, to: 'application#page_not_found'
 end

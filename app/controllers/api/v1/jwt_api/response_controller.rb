@@ -4,7 +4,6 @@ module Api
   module V1
     module JwtApi
       class ResponseController < JwtApiController
-        before_action :set_person, only: %i[show index completed]
         before_action :set_response, only: %i[show create]
         before_action :set_responses, only: %i[index]
         before_action :set_completed_responses, only: %i[completed]
@@ -31,37 +30,22 @@ module Api
 
         private
 
-        def set_person
-          # Debugging
-          # token = request.headers['Authorization'].split.last
-          # Rails.logger.warn Knock::AuthToken.new(token: token)
-          # Rails.logger.warn current_auth_user.person.inspect
-
-          @person = current_auth_user&.person
-          return if @person.present?
-
-          result = { result: current_auth_user.to_json }
-          render(status: :not_found, json: result)
-        end
-
         def set_completed_responses
-          @responses = @person.my_completed_responses
+          @responses = current_user.my_completed_responses
           return if @responses.present?
 
-          result = { result: 'Geen completed responses voor deze persoon gevonden' }
-          render(status: :not_found, json: result)
+          render(status: :ok, json: [])
         end
 
         def set_responses
-          @responses = @person.my_open_responses
+          @responses = current_user.my_open_responses
           return if @responses.present?
 
-          result = { result: 'Geen responses voor deze persoon gevonden' }
-          render(status: :not_found, json: result)
+          render(status: :ok, json: [])
         end
 
         def set_response
-          @response = current_auth_user.person.responses.find_by(uuid: response_params[:uuid])
+          @response = current_user.responses.find_by(uuid: response_params[:uuid])
           return if @response.present?
 
           result = { result: 'Response met dat uuid niet gevonden' }

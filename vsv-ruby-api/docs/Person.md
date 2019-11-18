@@ -3,7 +3,6 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mobile_phone** | **String** |  | [optional] 
-**email** | **String** |  | [optional] 
+**person_auth0_ids** | [**Array&lt;null&gt;**](.md) |  | [optional] 
 
 

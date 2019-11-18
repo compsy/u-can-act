@@ -26,24 +26,20 @@ require 'date'
 module VsvRubyApi
 
   class Person
-    attr_accessor :mobile_phone
-
-    attr_accessor :email
+    attr_accessor :person_auth0_ids
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'mobile_phone' => :'mobile_phone',
-        :'email' => :'email'
+        :'person_auth0_ids' => :'person_auth0_ids'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'mobile_phone' => :'String',
-        :'email' => :'String'
+        :'person_auth0_ids' => :'Array<null>'
       }
     end
 
@@ -55,12 +51,10 @@ module VsvRubyApi
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'mobile_phone')
-        self.mobile_phone = attributes[:'mobile_phone']
-      end
-
-      if attributes.has_key?(:'email')
-        self.email = attributes[:'email']
+      if attributes.has_key?(:'person_auth0_ids')
+        if (value = attributes[:'person_auth0_ids']).is_a?(Array)
+          self.person_auth0_ids = value
+        end
       end
 
     end
@@ -83,8 +77,7 @@ module VsvRubyApi
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          mobile_phone == o.mobile_phone &&
-          email == o.email
+          person_auth0_ids == o.person_auth0_ids
     end
 
     # @see the `==` method
@@ -96,7 +89,7 @@ module VsvRubyApi
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [mobile_phone, email].hash
+      [person_auth0_ids].hash
     end
 
     # Builds the object from hash

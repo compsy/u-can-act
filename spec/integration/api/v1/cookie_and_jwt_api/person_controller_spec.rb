@@ -36,7 +36,7 @@ describe 'Person API' do
           email: { type: :string }
         }
       }
-      parameter name: 'Authorization', in: :header, type: :string
+      security [JwtAuth: {}]
 
       let(:person) { { email: 'test@example.com', content: '0612341234' } }
 
@@ -64,7 +64,7 @@ describe 'Person API' do
     get 'Gets the current person' do
       tags 'Person'
       consumes 'application/json'
-      parameter name: 'Authorization', in: :header, type: :string
+      security [JwtAuth: {}]
 
       response '200', 'returns the current person' do
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }

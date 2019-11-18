@@ -3,7 +3,7 @@
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Selecteer de optie die het beste aansluit bij uw huidige welbevinden. Wanneer u niet helemaal zeker bent van uw antwoord, probeer dan zo goed als mogelijk een antwoord te geven.</p>'
+    content: '<p class="flow-text">Selecteer de optie die het beste aansluit bij uw huidige welbevinden. Wanneer u niet helemaal zeker bent van uw antwoord, probeer dan zo goed als mogelijk een antwoord te geven.</p><br><img src="/assets/daily_log_header.jpg" style="width:auto" class="questionnaire-image" />',
   },
   {
     id: :v1,
@@ -12,6 +12,7 @@ dagboek_content = [
     min: 1,
     max: 5,
     step: 0.5,
+    section_start: 'Welzijn',
     labels: ['Slapeloosheid',
              'Onrustige slaap',
              'Moeite om in slaap te komen',
@@ -33,7 +34,6 @@ dagboek_content = [
     min: 1,
     max: 5,
     step: 0.5,
-    section_start: 'Wellness',
     labels: ['Altijd vermoeid',
              'Meer vermoeid dan normaal',
              'Normaal',
@@ -92,12 +92,12 @@ dagboek_content = [
       'Niet ready om te trainen',
       'Normaal',
       'Ready om te trainen',
-      'Very ready to train'
+      'Helemaal ready om te trainen'
     ]
   },
   {
     id: :v8,
-    title: 'Rust HR (bpm)',
+    title: 'Rusthartslag (slagen per minuut)',
     type: :number,
     maxlength: 3,
     min: 0,

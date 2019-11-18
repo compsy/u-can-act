@@ -10,6 +10,8 @@ module Api
           render json: current_user, serializer: Api::PersonSerializer
         end
 
+        delegate :my_students, to: :current_user
+
         def update
           res = current_user.update(person_params)
           if res
@@ -22,7 +24,7 @@ module Api
         private
 
         def person_params
-          params.require(:person).permit(:mobile_phone, :email)
+          params.require(:person).permit(:mobile_phone, :email, :account_active)
         end
       end
     end

@@ -38,8 +38,6 @@ module VsvRubyApi
 
     attr_accessor :current_multiplier
 
-    attr_accessor :max_streak
-
     attr_accessor :initial_multiplier
 
 
@@ -52,7 +50,6 @@ module VsvRubyApi
         :'max_still_awardable_euros' => :'max_still_awardable_euros',
         :'euro_delta' => :'euro_delta',
         :'current_multiplier' => :'current_multiplier',
-        :'max_streak' => :'max_streak',
         :'initial_multiplier' => :'initial_multiplier'
       }
     end
@@ -61,13 +58,12 @@ module VsvRubyApi
     def self.swagger_types
       {
         :'person_type' => :'String',
-        :'protocol_completion' => :'Integer',
-        :'earned_euros' => :'Integer',
-        :'max_still_awardable_euros' => :'Integer',
-        :'euro_delta' => :'Integer',
-        :'current_multiplier' => :'Integer',
-        :'max_streak' => :'Integer',
-        :'initial_multiplier' => :'Integer'
+        :'protocol_completion' => :'Array<null>',
+        :'earned_euros' => :'Float',
+        :'max_still_awardable_euros' => :'Float',
+        :'euro_delta' => :'Float',
+        :'current_multiplier' => :'Float',
+        :'initial_multiplier' => :'Float'
       }
     end
 
@@ -84,7 +80,9 @@ module VsvRubyApi
       end
 
       if attributes.has_key?(:'protocol_completion')
-        self.protocol_completion = attributes[:'protocol_completion']
+        if (value = attributes[:'protocol_completion']).is_a?(Array)
+          self.protocol_completion = value
+        end
       end
 
       if attributes.has_key?(:'earned_euros')
@@ -101,10 +99,6 @@ module VsvRubyApi
 
       if attributes.has_key?(:'current_multiplier')
         self.current_multiplier = attributes[:'current_multiplier']
-      end
-
-      if attributes.has_key?(:'max_streak')
-        self.max_streak = attributes[:'max_streak']
       end
 
       if attributes.has_key?(:'initial_multiplier')
@@ -137,7 +131,6 @@ module VsvRubyApi
           max_still_awardable_euros == o.max_still_awardable_euros &&
           euro_delta == o.euro_delta &&
           current_multiplier == o.current_multiplier &&
-          max_streak == o.max_streak &&
           initial_multiplier == o.initial_multiplier
     end
 
@@ -150,7 +143,7 @@ module VsvRubyApi
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [person_type, protocol_completion, earned_euros, max_still_awardable_euros, euro_delta, current_multiplier, max_streak, initial_multiplier].hash
+      [person_type, protocol_completion, earned_euros, max_still_awardable_euros, euro_delta, current_multiplier, initial_multiplier].hash
     end
 
     # Builds the object from hash

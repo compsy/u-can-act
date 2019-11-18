@@ -31,10 +31,63 @@ module VsvRubyApi
       @api_client = api_client
     end
 
+    # Shows a list of persons
+    # 
+    # @param [Hash] opts the optional parameters
+    # @option opts [Person] :person 
+    # @return [nil]
+    def basic_auth_api_person_show_list_get(opts = {})
+      basic_auth_api_person_show_list_get_with_http_info(opts)
+      return nil
+    end
+
+    # Shows a list of persons
+    # 
+    # @param [Hash] opts the optional parameters
+    # @option opts [Person] :person 
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def basic_auth_api_person_show_list_get_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PersonApi.basic_auth_api_person_show_list_get ..."
+      end
+      # resource path
+      local_var_path = "/basic_auth_api/person/show_list".sub('{format}','json')
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # HTTP header 'Accept' (if needed)
+      local_header_accept = []
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
+
+      # HTTP header 'Content-Type'
+      local_header_content_type = ['application/json']
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(opts[:'person'])
+      auth_names = ['BasicAuth']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PersonApi#basic_auth_api_person_show_list_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Gets the current person
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :authorization 
     # @return [InlineResponse200]
     def person_me_get(opts = {})
       data, _status_code, _headers = person_me_get_with_http_info(opts)
@@ -44,7 +97,6 @@ module VsvRubyApi
     # Gets the current person
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :authorization 
     # @return [Array<(InlineResponse200, Fixnum, Hash)>] InlineResponse200 data, response status code and response headers
     def person_me_get_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -66,14 +118,13 @@ module VsvRubyApi
       # HTTP header 'Content-Type'
       local_header_content_type = ['application/json']
       header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
-      header_params[:'Authorization'] = opts[:'authorization'] if !opts[:'authorization'].nil?
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      auth_names = []
+      auth_names = ['JwtAuth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -90,8 +141,7 @@ module VsvRubyApi
     # Updates the current user
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [Person] :person 
-    # @option opts [String] :authorization 
+    # @option opts [Person1] :person 
     # @return [InlineResponse200]
     def person_put(opts = {})
       data, _status_code, _headers = person_put_with_http_info(opts)
@@ -101,8 +151,7 @@ module VsvRubyApi
     # Updates the current user
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [Person] :person 
-    # @option opts [String] :authorization 
+    # @option opts [Person1] :person 
     # @return [Array<(InlineResponse200, Fixnum, Hash)>] InlineResponse200 data, response status code and response headers
     def person_put_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -124,14 +173,13 @@ module VsvRubyApi
       # HTTP header 'Content-Type'
       local_header_content_type = ['application/json']
       header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
-      header_params[:'Authorization'] = opts[:'authorization'] if !opts[:'authorization'].nil?
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'person'])
-      auth_names = []
+      auth_names = ['JwtAuth']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

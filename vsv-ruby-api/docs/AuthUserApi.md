@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **auth_user_post**
-> auth_user_post(opts)
+> auth_user_post
 
 Creates an auth user
 
@@ -16,26 +16,26 @@ Creates an auth user
 ```ruby
 # load the gem
 require 'vsv-ruby-api'
+# setup authorization
+VsvRubyApi.configure do |config|
+  # Configure API key authorization: JwtAuth
+  config.api_key['Authorization'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Authorization'] = 'Bearer'
+end
 
 api_instance = VsvRubyApi::AuthUserApi.new
 
-opts = { 
-  authorization: "authorization_example" # String | 
-}
-
 begin
   #Creates an auth user
-  api_instance.auth_user_post(opts)
+  api_instance.auth_user_post
 rescue VsvRubyApi::ApiError => e
   puts "Exception when calling AuthUserApi->auth_user_post: #{e}"
 end
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **authorization** | **String**|  | [optional] 
+This endpoint does not need any parameter.
 
 ### Return type
 
@@ -43,7 +43,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[JwtAuth](../README.md#JwtAuth)
 
 ### HTTP request headers
 

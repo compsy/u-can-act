@@ -47,7 +47,6 @@ describe 'ProtocolsApi' do
   # Lists all protocols
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :authorization 
   # @return [Array<InlineResponse2001>]
   describe 'protocol_get test' do
     it "should work" do

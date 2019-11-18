@@ -19,7 +19,7 @@ describe 'AuthUser API' do
     post 'Creates an auth user' do
       tags 'Auth user'
       consumes 'application/json'
-      parameter name: 'Authorization', in: :header, type: :string
+      security [JwtAuth: {}]
 
       response '200', 'auth user created' do
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }

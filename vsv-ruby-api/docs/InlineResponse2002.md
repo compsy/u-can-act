@@ -4,12 +4,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **person_type** | **String** |  | [optional] 
-**protocol_completion** | **Integer** |  | [optional] 
-**earned_euros** | **Integer** |  | [optional] 
-**max_still_awardable_euros** | **Integer** |  | [optional] 
-**euro_delta** | **Integer** |  | [optional] 
-**current_multiplier** | **Integer** |  | [optional] 
-**max_streak** | **Integer** |  | [optional] 
-**initial_multiplier** | **Integer** |  | [optional] 
+**protocol_completion** | [**Array&lt;null&gt;**](.md) |  | [optional] 
+**earned_euros** | **Float** |  | [optional] 
+**max_still_awardable_euros** | **Float** |  | [optional] 
+**euro_delta** | **Float** |  | [optional] 
+**current_multiplier** | **Float** |  | [optional] 
+**initial_multiplier** | **Float** |  | [optional] 
 
 

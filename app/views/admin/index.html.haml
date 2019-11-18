@@ -9,7 +9,7 @@
           %h4 Reward Money
           %p= "Total earned so far: #{print_as_money(Reward.total_earned_euros)}"
           %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
-      - if Rails.application.config.settings.application_name == 'u-can-act' # vieze hack
+      - if SETTINGS.application_name == 'u-can-act' # vieze hack
         .col.s12
           .section
             %h4 Evaluatieonderzoek

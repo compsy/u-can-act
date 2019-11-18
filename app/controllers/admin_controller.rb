@@ -30,7 +30,7 @@ class AdminController < ApplicationController
   end
 
   def identifier_export
-    unless Rails.application.config.settings.feature_toggles.allow_identifier_export
+    unless SETTINGS.feature_toggles.allow_identifier_export
       raise 'Exporting identifiers is currently not allowed.'
     end
 

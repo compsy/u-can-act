@@ -33,12 +33,12 @@ class AuthUser < ApplicationRecord
     private
 
     def metadata_from_payload(payload)
-      payload[Rails.application.config.settings.metadata_field] || {}
+      payload[SETTINGS.metadata_field] || {}
     end
 
     # Get the team from the provided payload, or use the default if nothing is found
     def team_from_payload(payload)
-      metadata_from_payload(payload)['team'] || Rails.application.config.settings.default_team_name
+      metadata_from_payload(payload)['team'] || SETTINGS.default_team_name
     end
 
     def access_level_from_payload(payload)

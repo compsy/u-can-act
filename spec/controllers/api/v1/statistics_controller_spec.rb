@@ -89,9 +89,9 @@ describe Api::V1::StatisticsController, type: :controller do
 
     describe 'duration_of_project_in_weeks' do
       it 'returns the correct duration of the project' do
-        expect(Rails.application.config.settings).to receive(:project_start_date)
+        expect(SETTINGS).to receive(:project_start_date)
           .once.and_return('2017-03-17')
-        expect(Rails.application.config.settings).to receive(:project_end_date)
+        expect(SETTINGS).to receive(:project_end_date)
           .once.and_return('2018-08-06')
         get :index
         json_response = JSON.parse(response.body)
@@ -100,9 +100,9 @@ describe Api::V1::StatisticsController, type: :controller do
       end
 
       it 'returns the correct duration of the project if we are past the end date' do
-        expect(Rails.application.config.settings).to receive(:project_start_date)
+        expect(SETTINGS).to receive(:project_start_date)
           .once.and_return('2017-03-17')
-        expect(Rails.application.config.settings).to receive(:project_end_date)
+        expect(SETTINGS).to receive(:project_end_date)
           .once.and_return('2017-03-27')
         get :index
         json_response = JSON.parse(response.body)
@@ -111,9 +111,9 @@ describe Api::V1::StatisticsController, type: :controller do
       end
 
       it 'returns zero if the start date is after the end date' do
-        expect(Rails.application.config.settings).to receive(:project_start_date)
+        expect(SETTINGS).to receive(:project_start_date)
           .once.and_return('2017-03-27')
-        expect(Rails.application.config.settings).to receive(:project_end_date)
+        expect(SETTINGS).to receive(:project_end_date)
           .once.and_return('2017-03-17')
         get :index
         json_response = JSON.parse(response.body)

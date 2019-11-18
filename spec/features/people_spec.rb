@@ -201,12 +201,12 @@ describe 'GET /edit', type: :feature, js: true do
 
     describe 'without iban' do
       before :each do
-        @initial_value = Rails.application.config.settings.hide_edit_iban
-        Rails.application.config.settings.hide_edit_iban = true
+        @initial_value = SETTINGS.hide_edit_iban
+        SETTINGS.hide_edit_iban = true
       end
 
       after :each do
-        Rails.application.config.settings.hide_edit_iban = @initial_value
+        SETTINGS.hide_edit_iban = @initial_value
       end
 
       it 'lists the correct labels / fields' do
@@ -257,12 +257,12 @@ describe 'GET /edit', type: :feature, js: true do
 
     describe 'with iban' do
       before :each do
-        @initial_value = Rails.application.config.settings.hide_edit_iban
-        Rails.application.config.settings.hide_edit_iban = false
+        @initial_value = SETTINGS.hide_edit_iban
+        SETTINGS.hide_edit_iban = false
       end
 
       after :each do
-        Rails.application.config.settings.hide_edit_iban = @initial_value
+        SETTINGS.hide_edit_iban = @initial_value
       end
 
       it 'lists the correct labels / fields' do

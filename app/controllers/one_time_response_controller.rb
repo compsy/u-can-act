@@ -13,7 +13,7 @@ class OneTimeResponseController < ApplicationController
 
   def create_person
     @person = CreateAnonymousPerson.run!(
-      team_name: Rails.application.config.settings.default_team_name
+      team_name: SETTINGS.default_team_name
     )
   end
 

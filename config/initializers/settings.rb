@@ -6,7 +6,7 @@ Rails.application.configure do
   settings = JSON.parse(settings.to_json)
   project_name = settings['application_name']
 
-  if project_name.present? 
+  if project_name.present?
     project_base = Rails.root.join('projects', project_name, 'config')
     settings_file = Rails.root.join(project_base, 'settings.yml')
     locales_dir = Rails.root.join(project_base, 'locales')
@@ -26,3 +26,11 @@ Rails.application.configure do
   # Rails.application.config.settings.nested_something.nested_array
   config.settings = JSON.parse settings.to_json, object_class: OpenStruct
 end
+
+class MySettings
+  def method_missing(name, *args, &block)
+    Rails.application.config.settings.send(name)
+  end
+end
+
+SETTINGS = MySettings.new

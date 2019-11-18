@@ -8,7 +8,7 @@ describe 'SHOW /otr', type: :feature, js: true do
     FactoryBot.create(
       :team,
       :with_roles,
-      name: Rails.application.config.settings.default_team_name
+      name: SETTINGS.default_team_name
     )
     questionnaire = FactoryBot.create(:questionnaire, content: [{
                                         section_start: 'Algemeen',

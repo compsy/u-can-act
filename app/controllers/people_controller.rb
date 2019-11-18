@@ -62,7 +62,7 @@ class PeopleController < ApplicationController
   def unsubscribe_notice
     return 'Bedankt voor het invullen van de vragenlijst!' if @person.role.group == Person::SOLO
 
-    "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek."\
+    "Je hebt je uitgeschreven voor het #{SETTINGS.application_name} onderzoek."\
       ' Bedankt voor je inzet!'
   end
 end

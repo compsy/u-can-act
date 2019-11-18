@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe OneTimeResponseController, type: :controller do
   let(:protocol) { FactoryBot.create(:protocol, :with_measurements) }
   let(:one_time_response) { FactoryBot.create(:one_time_response, protocol: protocol) }
-  let!(:team) { FactoryBot.create(:team, :with_roles, name: Rails.application.config.settings.default_team_name) }
+  let!(:team) { FactoryBot.create(:team, :with_roles, name: SETTINGS.default_team_name) }
 
   describe 'SHOW /' do
     it 'heads 404 if the provided token is not found' do

@@ -80,7 +80,7 @@ describe AdminController, type: :controller do
         it 'response should not be ok if authorized' do
           basic_auth 'admin', 'admin'
           routes_list.each do |current_route|
-            expect(Rails.application.config.settings.feature_toggles)
+            expect(SETTINGS.feature_toggles)
               .to receive(current_route[:toggle])
               .and_return(true)
             get current_route[:route]
@@ -93,7 +93,7 @@ describe AdminController, type: :controller do
         it 'response should not be ok if authorized' do
           basic_auth 'admin', 'admin'
           routes_list.each do |route|
-            expect(Rails.application.config.settings.feature_toggles)
+            expect(SETTINGS.feature_toggles)
               .to receive(route[:toggle])
               .and_return(false)
             expect { get route[:route] }

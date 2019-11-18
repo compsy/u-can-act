@@ -1,9 +1,9 @@
 %ul#slide-out.sidenav.sidenav-fixed
   %li
     .user-view
-      = image_tag Rails.application.config.settings.logo.fallback_logo, style: 'max-width: 100%; height: 64px'
+      = image_tag SETTINGS.logo.fallback_logo, style: 'max-width: 100%; height: 64px'
     = link_to(admin_path, class: 'waves-effect') do
-      %span.black-text Admin interface 
+      %span.black-text Admin interface
   %li
     = link_to(admin_path, class: 'waves-effect') do
       %i.material-icons> dashboard

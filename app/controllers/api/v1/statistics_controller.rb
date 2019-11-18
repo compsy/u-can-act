@@ -38,8 +38,8 @@ module Api
       end
 
       def project_start_and_end_dates
-        start = Date.parse(Rails.application.config.settings.project_start_date)
-        endd = [Date.parse(Rails.application.config.settings.project_end_date), Time.zone.today].min
+        start = Date.parse(SETTINGS.project_start_date)
+        endd = [Date.parse(SETTINGS.project_end_date), Time.zone.today].min
         [start, endd]
       end
     end

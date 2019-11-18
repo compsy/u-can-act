@@ -124,6 +124,12 @@ describe Questionnaire do
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
+
+      it 'is valid without a title if it is an unsubcribe' do
+        content = [{ type: :unsubscribe }]
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
     end
 
     describe 'all_questions_have_ids' do

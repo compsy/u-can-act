@@ -54,7 +54,7 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_questions_have_titles
-    result = content.reject { |question| %i[raw].include?(question[:type]&.to_sym) }
+    result = content.reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
                     .reject { |question| question.key?(:title) }
                     .map { |question| question[:id] }
     return if result.blank?

@@ -86,6 +86,10 @@ class Person < ApplicationRecord
     protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }
   end
 
+  def my_delegated_protocol_subscriptions
+    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id)
+  end
+
   def my_open_responses(for_myself = true)
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)

@@ -7,7 +7,7 @@
   end
 end
 
-if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
+if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.development? || Rails.env.staging?)
 
   team_name = 'Differentiatie Binnenstebuiten'
 

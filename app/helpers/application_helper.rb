@@ -33,7 +33,7 @@ module ApplicationHelper
     # @note We need to call this function first, and then fail. We cannot just
     #   check if it is defined, as it is generated automatically.
     current_auth_user&.person
-  rescue StandardError => _e
+  rescue NameError => _e
     nil
   end
 

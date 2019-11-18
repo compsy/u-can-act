@@ -34,7 +34,6 @@ module VsvRubyApi
     # Creates an auth user
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :authorization 
     # @return [nil]
     def auth_user_post(opts = {})
       auth_user_post_with_http_info(opts)
@@ -44,7 +43,6 @@ module VsvRubyApi
     # Creates an auth user
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :authorization 
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def auth_user_post_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -66,14 +64,13 @@ module VsvRubyApi
       # HTTP header 'Content-Type'
       local_header_content_type = ['application/json']
       header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
-      header_params[:'Authorization'] = opts[:'authorization'] if !opts[:'authorization'].nil?
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      auth_names = []
+      auth_names = ['JwtAuth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

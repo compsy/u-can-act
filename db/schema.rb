@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191105212838) do
+ActiveRecord::Schema.define(version: 20191114105242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "auth_users", id: :serial, force: :cascade do |t|
-    t.string "auth0_id_string"
+    t.string "auth0_id_string", null: false
     t.string "password_digest"
     t.string "access_level"
     t.integer "person_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["auth0_id_string"], name: "index_auth_users_on_auth0_id_string", unique: true
     t.index ["person_id"], name: "index_auth_users_on_person_id"
   end
 
@@ -112,6 +113,7 @@ ActiveRecord::Schema.define(version: 20191105212838) do
     t.string "external_identifier", null: false
     t.string "iban"
     t.string "ip_hash"
+    t.boolean "account_active", default: false, null: false
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true
   end
 
@@ -125,7 +127,6 @@ ActiveRecord::Schema.define(version: 20191105212838) do
     t.datetime "informed_consent_given_at"
     t.integer "filling_out_for_id", null: false
     t.datetime "end_date", null: false
-    t.index ["person_id", "filling_out_for_id"], name: "index_rs_on_person_id_and_filling_out_for_id", unique: true, where: "(((state)::text = 'active'::text) AND (person_id <> filling_out_for_id))"
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id"
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id"
   end

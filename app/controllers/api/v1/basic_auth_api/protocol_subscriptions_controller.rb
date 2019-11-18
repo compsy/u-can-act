@@ -6,13 +6,19 @@ module Api
       class ProtocolSubscriptionsController < BasicAuthApiController
         before_action :set_person, only: %i[create]
 
+        def show_for_mentor
+          mentor.my_protocols(false)
+        end
+
         def create
           result = SubscribeToProtocol.run!(
             protocol_name: protocol_subscription_create_params[:protocol_name],
             person: @person,
-            start_date: start_date
+            start_date: start_date,
+            end_date: end_date,
+            mentor: mentor
           )
-          render json: result
+          render status: :created, json: result
         end
 
         private
@@ -21,6 +27,16 @@ module Api
           return Time.zone.now if protocol_subscription_create_params[:start_date].blank?
 
           Time.zone.parse(protocol_subscription_create_params[:start_date])
+        end
+
+        def end_date
+          return nil if protocol_subscription_create_params[:end_date].blank?
+
+          Time.zone.parse(protocol_subscription_create_params[:end_date])
+        end
+
+        def mentor
+          @mentor ||= Person.find_by(id: protocol_subscription_create_params[:mentor_id])
         end
 
         def set_person
@@ -33,7 +49,7 @@ module Api
         end
 
         def protocol_subscription_create_params
-          params.permit(:protocol_name, :auth0_id_string, :start_date)
+          params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id)
         end
       end
     end

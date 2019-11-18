@@ -128,12 +128,12 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         get :index, params: { external_identifier: person.external_identifier }
       end
 
-      it 'renders a 404 if there are no responses for the person' do
+      it 'renders a 200 with an empty array if there are no responses for the person' do
         Response.destroy_all
         get :index
-        expect(response.status).to eq 404
+        expect(response.status).to eq 200
         expect(response.body).not_to be_nil
-        expected = { result: 'Geen responses voor deze persoon gevonden' }.to_json
+        expected = [].to_json
         expect(response.body).to eq expected
       end
 
@@ -208,12 +208,12 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         get :completed, params: { external_identifier: person.external_identifier }
       end
 
-      it 'renders a 404 if there are no responses for the person' do
+      it 'renders a 200 with an empty array if there are no responses for the person' do
         Response.destroy_all
         get :completed
-        expect(response.status).to eq 404
+        expect(response.status).to eq 200
         expect(response.body).not_to be_nil
-        expected = { result: 'Geen completed responses voor deze persoon gevonden' }.to_json
+        expected = [].to_json
         expect(response.body).to eq expected
       end
 

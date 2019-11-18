@@ -10,7 +10,7 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Feedback op de trainingssessie</p>'
+    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/assets/training_log_header.jpg" style="width:auto" class="questionnaire-image" />',
   },
   {
     id: :v1,
@@ -45,15 +45,24 @@ dagboek_content = [
   },
   {
     id: :v4,
+    type: :time,
+    title: '',
+    hours_from: 0,
+    hours_to: 24,
+    hours_step: 1,
+    required: true
+  },
+  {
+    id: :v5,
     type: :number,
     required: true,
-    title: 'Looptijd (min)',
+    title: 'Tijdsduur (min)',
     maxlength: 4,
     min: 0,
     max: 1440 # 24hrs
   },
   {
-    id: :v5,
+    id: :v6,
     title: 'RPE score<br><img src="/assets/rpe.jpg" style="width:auto" class="questionnaire-image" />',
     type: :range,
     min: 0,
@@ -74,7 +83,7 @@ dagboek_content = [
     ]
   },
   {
-    id: :v6,
+    id: :v7,
     title: 'Tevredenheid over training',
     type: :range,
     min: 1,

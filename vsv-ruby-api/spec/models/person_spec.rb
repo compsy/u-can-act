@@ -43,13 +43,7 @@ describe 'Person' do
       expect(@instance).to be_instance_of(VsvRubyApi::Person)
     end
   end
-  describe 'test attribute "mobile_phone"' do
-    it 'should work' do
-       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
-  describe 'test attribute "email"' do
+  describe 'test attribute "person_auth0_ids"' do
     it 'should work' do
        # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end

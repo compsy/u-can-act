@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if Person.count == 0 && (Rails.env.development? || Rails.env.staging?)
+if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.development? || Rails.env.staging?)
   demo_organization = 'sport-data-valley'
   demo_team = 'sdv-team'
   solo_role_title = 'Demo-solo'

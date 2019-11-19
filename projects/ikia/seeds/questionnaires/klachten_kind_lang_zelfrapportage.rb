@@ -154,6 +154,7 @@ dagboek_content = [
     title: 'Ik ben jaloers op anderen',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
+    id: :v28,
     type: :likert,
     title: 'Ik hou me niet aan de regels thuis, op school of ergens anders',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']

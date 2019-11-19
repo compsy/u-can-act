@@ -77,7 +77,9 @@ gem 'active_model_serializers'
 
 # Gem for JWT / Authentication
 gem 'jwt'
-gem 'knock'
+
+# current master, using this because the version on rubygems hasn't been updated
+gem 'knock', github: 'nsarno/knock', ref: '84d3e54b9a8f1e9701097207a8d3135d5a9e64c1'
 
 # Gem for authorization
 # Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474
@@ -181,4 +183,4 @@ gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
 # push subscriptions
 gem 'httparty'
-gem 'warden-jwt_auth'
+gem 'warden-jwt_auth', '>= 0.4.0'

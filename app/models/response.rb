@@ -157,9 +157,8 @@ class Response < ApplicationRecord
 
   def generate_token
     request_env = {}
-    auth0_id_string = person.auth_user.auth0_id_string
     Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
-                                    auth0_id_string,
+                                    person.auth_user,
                                     :user,
                                     request_env)
   end

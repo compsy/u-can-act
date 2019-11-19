@@ -14,8 +14,6 @@ class AuthUser < ApplicationRecord
     # that if we raise from here, the authorization process stops and it might
     # be hard to debug.
     def from_token_payload(payload)
-      Rails.logger.info metadata_from_payload(payload)
-
       id = id_from_payload(payload)
       access_level = access_level_from_payload(payload)
       team = team_from_payload(payload)

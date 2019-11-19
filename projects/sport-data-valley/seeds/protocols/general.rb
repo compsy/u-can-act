@@ -5,6 +5,13 @@ general_solo_protocol = Protocol.find_by_name(pr_name)
 general_solo_protocol ||= Protocol.new(name: pr_name)
 general_solo_protocol.duration = 1.day
 
+bp_name = 'base-platform-subscription'
+bp_push_subscription = general_solo_protocol.push_subscriptions.find_by(name: bp_name)
+bp_push_subscription ||= general_solo_protocol.push_subscriptions.build(name: bp_name)
+bp_push_subscription.method = 'POST'
+bp_push_subscription.url = ENV['PUSH_SUBSCRIPTION_URL']
+bp_push_subscription.save!
+
 general_solo_protocol.save!
 
 # Add questionnaires

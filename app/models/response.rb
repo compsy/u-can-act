@@ -107,9 +107,13 @@ class Response < ApplicationRecord
   end
 
   def complete!
+    first_complete = completed_at.blank?
     update!(completed_at: Time.zone.now,
             filled_out_by: protocol_subscription.person,
             filled_out_for: protocol_subscription.filling_out_for)
+    return unless first_complete && protocol_subscription.protocol.push_subscriptions.present?
+
+    PushSubscriptionsJob.perform_later(self)
   end
 
   def remote_content
@@ -149,5 +153,14 @@ class Response < ApplicationRecord
   def response_expired?
     measurement.open_duration.present? &&
       Time.zone.now > TimeTools.increase_by_duration(open_from, measurement.open_duration)
+  end
+
+  def generate_token
+    request_env = {}
+    auth0_id_string = person.auth_user.auth0_id_string
+    Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
+                                    auth0_id_string,
+                                    :user,
+                                    request_env)
   end
 end

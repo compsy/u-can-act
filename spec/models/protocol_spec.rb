@@ -101,6 +101,17 @@ describe Protocol do
     end
   end
 
+  describe 'push_subscriptions' do
+    it 'destroys the push_subscriptions when destroying the protocol' do
+      protocol = FactoryBot.create(:protocol)
+      FactoryBot.create(:push_subscription, protocol: protocol)
+      expect(protocol.push_subscriptions.first).to be_a(PushSubscription)
+      pushsubcountbef = PushSubscription.count
+      protocol.destroy
+      expect(PushSubscription.count).to eq(pushsubcountbef - 1)
+    end
+  end
+
   describe 'informed_consent_questionnaire' do
     it 'is able to set an informed consent questionnaire' do
       questionnaire = FactoryBot.create(:questionnaire)

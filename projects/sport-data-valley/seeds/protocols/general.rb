@@ -33,7 +33,7 @@ questionnaires.each_with_index do |questionnaire_name, idx|
   demo_measurement.open_duration = nil # always open
   demo_measurement.reward_points = 0
   demo_measurement.stop_measurement = (idx == questionnaires.length - 1) # unsubscribe immediately if it is the last questionnaire
-  demo_measurement.should_invite = false # don't send invitations
+  demo_measurement.should_invite = true # send e-mail invitations
   #demo_measurement.redirect_url = 'localhost:3000' # after filling out questionnaire, go to person edit page.
   demo_measurement.save!
 end

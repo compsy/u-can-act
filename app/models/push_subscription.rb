@@ -7,7 +7,6 @@ class PushSubscription < ApplicationRecord
   validates :method, inclusion: %w[GET POST PUT]
 
   def push_response(response)
-    # TODO: add metadata to the body
     HTTParty.send(method.downcase.to_sym,
                   url,
                   headers: { Authorization: "Bearer #{response.generate_token}" },

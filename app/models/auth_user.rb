@@ -11,7 +11,7 @@ class AuthUser < ApplicationRecord
 
   # Used when creating a jwt token for a user
   def jwt_subject
-    self.auth0_id_string
+    auth0_id_string
   end
 
   class << self

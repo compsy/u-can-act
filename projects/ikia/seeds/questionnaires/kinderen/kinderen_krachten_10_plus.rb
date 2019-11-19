@@ -71,7 +71,7 @@ dagboek_content = [
                 type: :textarea,
                 title: 'Wat kun je doen met een melkpak?',
                 tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}]
-   }, {
+  }, {
     section_start: 'In de volgende vragen zie je telkens drie woorden. Deze drie woorden hangen samen met één ander woord. De bedoeling is dat je bedenkt welk woord dit is. <br><br>
 Bijvoorbeeld: de woorden <i>tijd / hard / zand</i> kunnen met elkaar verbonden worden door het woord <i>steen: steentijd / hardsteen / zandsteen</i>. Het oplossingswoord is hier dus <i>steen</i>.<br><br>
 Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet weet, vul dan in "Weet ik niet".<br>',

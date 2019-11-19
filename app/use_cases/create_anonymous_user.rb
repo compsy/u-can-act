@@ -3,8 +3,8 @@
 class CreateAnonymousUser < ActiveInteraction::Base
   string :auth0_id_string
   string :team_name, default: nil
+  string :role_title, default: nil
   string :access_level
-  # TODO: this file doesn't have specs
 
   # Creates an anonymous user
   #
@@ -43,14 +43,32 @@ class CreateAnonymousUser < ActiveInteraction::Base
   end
 
   def find_role
-    team = Team.find_by(name: team_name)
-    role = team&.roles&.first
-    return role if role.present?
+    team = find_team
 
+    role = team.roles.first
+    if role_title
+      role = team.roles.find_by(title: role_title)
+      return rerr("Specified role '#{role_title}' not found in team #{team_name}") if role.blank?
+
+    end
+    return rerr("Team #{team_name} has no roles") if role.blank?
+
+    role
+  end
+
+  def find_team
+    return rerr('Required payload attribute team not specified') unless team_name
+
+    team = Team.find_by(name: team_name)
+    return rerr("Team #{team_name} not found ") if team.blank?
+
+    team
+  end
+
+  def rerr(msg)
     # Note the somewhat duplicate logging here. This is because the jwt package catches
     # our errors and only shows that authentication is unauthorized (which is hard to debug).
-    message = "Team #{team_name} not found or does not have roles!"
-    Rails.logger.error message
+    Rails.logger.error(msg)
     raise(message)
   end
 end

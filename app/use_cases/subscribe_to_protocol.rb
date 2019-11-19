@@ -36,7 +36,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
   end
 
   def find_start_date
-    # Active interaction weirdness. For somereason if we do not first copy
+    # Active interaction weirdness. For some reason if we do not first copy
     # start_date into a different variable, it is nil and overridden by the if
     # statement. When we first copy it to a different variable it does work.
     the_start_date = start_date

@@ -349,6 +349,7 @@ over de ontwikkeling of het gedrag van uw kind?',
     labels: ['Geen', 'Soms', 'Heel vaak'],
     required: true
   }, {
+    id: :v19,
     type: :range,
     title: 'Is er bij uw kind, in het algemeen, sprake van een achterstand of voorsprong op school?',
     labels: ['Grote achterstand', 'Geen achterstand/voorsprong', 'Grote voorsprong'],

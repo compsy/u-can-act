@@ -38,7 +38,7 @@ module Api
         end
 
         def set_responses
-          @responses = current_user.my_open_responses
+          @responses = current_user.my_responses
           return if @responses.present?
 
           render(status: :ok, json: [])

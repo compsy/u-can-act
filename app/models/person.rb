@@ -96,6 +96,10 @@ class Person < ApplicationRecord
     active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end
 
+  def my_responses
+    protocol_subscriptions.map { |prot| prot.responses }.flatten.sort_by(&:open_from)
+  end
+
   def my_completed_responses
     protocol_subscriptions.map { |prot| prot.responses.completed }.flatten.sort_by(&:open_from)
   end

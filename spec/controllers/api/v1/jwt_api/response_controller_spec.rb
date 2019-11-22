@@ -223,5 +223,50 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         expect(controller.instance_variable_get(:@responses)).to match_array [response4]
       end
     end
+
+    describe 'all' do
+      it 'heads a 200' do
+        get :all, params: { external_identifier: person.external_identifier }
+        expect(response.status).to eq 200
+      end
+
+      it 'lists all questionnairs that belong to the current user' do
+        get :all, params: { external_identifier: person.external_identifier }
+        expect(response.header['Content-Type']).to include 'application/json'
+
+        expect(response.body).not_to be_nil
+        json = JSON.parse(response.body)
+        expect(json.length).to eq 4
+        [response1, response2, response3, response4].each_with_index do |resp, index|
+          expect(json[index]['uuid']).to eq(resp.uuid)
+          expect(json[index]['questionnaire']['key']).to eq(resp.measurement.questionnaire.key)
+          expect(json[index]['questionnaire']['title']).to eq(resp.measurement.questionnaire.title)
+        end
+      end
+
+      it 'uses the ResponseSerializer for rendering' do
+        allow(controller).to receive(:render)
+          .with(json: [response1, response2, response3, response4], each_serializer: Api::ResponseSerializer)
+          .and_call_original
+        get :all, params: { external_identifier: person.external_identifier }
+      end
+
+      it 'renders a 200 with an empty array if there are no responses for the person' do
+        Response.destroy_all
+        get :all
+        expect(response.status).to eq 200
+        expect(response.body).not_to be_nil
+        expected = [].to_json
+        expect(response.body).to eq expected
+      end
+
+      it 'sets the correct instance variables' do
+        get :all, params: { external_identifier: person.external_identifier }
+        expect(controller.instance_variable_get(:@responses)).not_to be_nil
+        expect(controller.instance_variable_get(:@responses)).to match_array [response1, response2,
+                                                                              response3, response4]
+      end
+    end
+
   end
 end

@@ -7,6 +7,7 @@ module Api
         before_action :set_response, only: %i[show create]
         before_action :set_responses, only: %i[index]
         before_action :set_completed_responses, only: %i[completed]
+        before_action :set_all_responses, only: %i[all]
         before_action :check_empty_response, only: %i[create]
 
         def show
@@ -14,6 +15,10 @@ module Api
         end
 
         def index
+          render json: @responses, each_serializer: Api::ResponseSerializer
+        end
+
+        def all
           render json: @responses, each_serializer: Api::ResponseSerializer
         end
 
@@ -32,6 +37,13 @@ module Api
 
         def set_completed_responses
           @responses = current_user.my_completed_responses
+          return if @responses.present?
+
+          render(status: :ok, json: [])
+        end
+
+        def set_all_responses
+          @responses = current_user.my_responses
           return if @responses.present?
 
           render(status: :ok, json: [])

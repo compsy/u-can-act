@@ -237,7 +237,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         expect(response.body).not_to be_nil
         json = JSON.parse(response.body)
         expect(json.length).to eq 4
-        [response1, response2, response3, response4].each_with_index do |resp, index|
+        [response4, response1, response2, response3].each_with_index do |resp, index|
           expect(json[index]['uuid']).to eq(resp.uuid)
           expect(json[index]['questionnaire']['key']).to eq(resp.measurement.questionnaire.key)
           expect(json[index]['questionnaire']['title']).to eq(resp.measurement.questionnaire.title)
@@ -246,7 +246,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
 
       it 'uses the ResponseSerializer for rendering' do
         allow(controller).to receive(:render)
-          .with(json: [response1, response2, response3, response4], each_serializer: Api::ResponseSerializer)
+          .with(json: [response4, response1, response2, response3], each_serializer: Api::ResponseSerializer)
           .and_call_original
         get :all, params: { external_identifier: person.external_identifier }
       end
@@ -263,10 +263,9 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
       it 'sets the correct instance variables' do
         get :all, params: { external_identifier: person.external_identifier }
         expect(controller.instance_variable_get(:@responses)).not_to be_nil
-        expect(controller.instance_variable_get(:@responses)).to match_array [response1, response2,
-                                                                              response3, response4]
+        expect(controller.instance_variable_get(:@responses)).to match_array [response4, response1,
+                                                                              response2, response3]
       end
     end
-
   end
 end

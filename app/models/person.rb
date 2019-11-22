@@ -97,7 +97,7 @@ class Person < ApplicationRecord
   end
 
   def my_responses
-    protocol_subscriptions.map { |prot| prot.responses }.flatten.sort_by(&:open_from)
+    protocol_subscriptions.map(&:responses).flatten.sort_by(&:open_from)
   end
 
   def my_completed_responses

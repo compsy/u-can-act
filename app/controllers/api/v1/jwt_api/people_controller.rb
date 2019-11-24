@@ -25,7 +25,7 @@ module Api
         private
 
         def person_create_params
-          params.permit(:email, :team, :role)
+          params.permit(:email, :team, :role, :first_name)
         end
 
         def set_email

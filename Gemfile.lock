@@ -104,7 +104,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    capybara-screenshot (1.0.23)
+    capybara-screenshot (1.0.24)
       capybara (>= 1.0, < 4)
       launchy
     case_transform (0.2)
@@ -283,8 +283,8 @@ GEM
     puma (4.3.0)
       nio4r (~> 2.0)
     rack (2.0.7)
-    rack-cors (1.0.6)
-      rack (>= 1.6.0)
+    rack-cors (1.1.0)
+      rack (>= 2.0.0)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)

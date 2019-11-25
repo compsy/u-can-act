@@ -5,8 +5,9 @@ module Api
     module JwtApi
       class ResponseController < JwtApiController
         before_action :set_response, only: %i[show create]
-        before_action :set_responses, only: %i[index]
-        before_action :set_completed_responses, only: %i[completed]
+        before_action :set_my_open_responses, only: %i[index]
+        before_action :set_my_completed_responses, only: %i[completed]
+        before_action :set_my_responses, only: %i[all]
         before_action :check_empty_response, only: %i[create]
 
         def show
@@ -14,6 +15,10 @@ module Api
         end
 
         def index
+          render json: @responses, each_serializer: Api::ResponseSerializer
+        end
+
+        def all
           render json: @responses, each_serializer: Api::ResponseSerializer
         end
 
@@ -30,14 +35,21 @@ module Api
 
         private
 
-        def set_completed_responses
+        def set_my_completed_responses
           @responses = current_user.my_completed_responses
           return if @responses.present?
 
           render(status: :ok, json: [])
         end
 
-        def set_responses
+        def set_my_responses
+          @responses = current_user.my_responses
+          return if @responses.present?
+
+          render(status: :ok, json: [])
+        end
+
+        def set_my_open_responses
           @responses = current_user.my_open_responses
           return if @responses.present?
 

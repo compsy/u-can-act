@@ -54,6 +54,7 @@ development:
     headers:
       'Access-Control-Allow-Origin': '*'
     watch_options:
+      poll: 1000
       ignored: /node_modules/
 
 

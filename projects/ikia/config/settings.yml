@@ -15,7 +15,7 @@ default: &default
   registration:
     subject_line: Je bent door je ouders uitgenodigd om mee te doen aan het IKIA onderzoek!
     text: Klik op de knop hieronder om een account aan te maken bij Ieder Kind Is Anders.
-    url: 'http://aceli.nl:3001/registreren'
+    url: 'http://aceli.nl:3001/email-registratie'
 development:
   <<: *default
 production:

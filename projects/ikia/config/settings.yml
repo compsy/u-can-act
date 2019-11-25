@@ -12,6 +12,10 @@ default: &default
     mentor_logo: 'logo_mentor.png'
     student_logo: 'logo_student.png'
     fallback_logo: 'logo.png'
+  registration:
+    subject_line: Je bent door je ouders uitgenodigd om mee te doen aan het IKIA onderzoek!
+    text: Klik op de knop hieronder om een account aan te maken bij Ieder Kind is Anders.
+    url: 'http://aceli.nl:3001/registreren'
 development:
   <<: *default
 production:

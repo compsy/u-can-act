@@ -19,7 +19,8 @@ module Api
             first_name: @first_name,
             role_title: @role_title
           )
-          render json: { status: 'Person created' }, state: :ok
+          EmailRegistration.run!(person: @person)
+          render json: { status: 'Person created' }, status: :ok
         end
 
         private
@@ -32,42 +33,42 @@ module Api
           @email = person_create_params[:email]
           return if @email.present?
 
-          render json: { error: 'Email address for creating a person was not specified' }
+          render json: { error: 'Email address for creating a person was not specified' }, status: :bad_request
         end
 
         def check_email
           person = Person.find_by(email: @email)
           return if person.blank?
 
-          render json: { error: 'A person already exists with the specified email address' }
+          render json: { error: 'A person already exists with the specified email address' }, status: :bad_request
         end
 
         def set_parent
           @parent = current_auth_user.person
           return if @parent.present?
 
-          render json: { error: 'The logged-in parent user does not have a person object' }
+          render json: { error: 'The logged-in parent user does not have a person object' }, status: :bad_request
         end
 
         def set_team_name
           @team_name = person_create_params[:team]
           return if @team_name.present?
 
-          render json: { error: 'Team for creating a person was not specified' }
+          render json: { error: 'Team for creating a person was not specified' }, status: :bad_request
         end
 
         def set_role_title
           @role_title = person_create_params[:role]
           return if @role_title.present?
 
-          render json: { error: 'Role for creating a person was not specified' }
+          render json: { error: 'Role for creating a person was not specified' }, status: :bad_request
         end
 
         def set_first_name
           @first_name = person_create_params[:first_name]
           return if @first_name.present?
 
-          render json: { error: 'First name for creating a person was not specified' }
+          render json: { error: 'First name for creating a person was not specified' }, status: :bad_request
         end
       end
     end

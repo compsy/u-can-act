@@ -118,6 +118,8 @@ Below is a list of all required ENV variables for production servers.
   IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
 
   INFO_SITE_URL: <site for more information about the u-can-act project, typically https://u-can-act.nl>
+
+  SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
 ```
 
 ### (Local) development settings

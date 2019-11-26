@@ -30,6 +30,8 @@ class Measurement < ApplicationRecord
   end
 
   def response_times(start_date, end_date)
+    return [1.minute.ago.in_time_zone] if protocol.otr_protocol?
+
     # A periodical measurement is one which is recorded every now and then
     # following some srt of protocol / procedure. These measurements need more
     # responses.

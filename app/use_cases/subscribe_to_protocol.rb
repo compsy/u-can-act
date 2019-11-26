@@ -12,6 +12,8 @@ class SubscribeToProtocol < ActiveInteraction::Base
   time :start_date, default: nil
   time :end_date, default: nil
 
+  boolean :only_if_not_subscribed, default: false
+
   # Function to start a protocol subscription for a person
   #
   # Params:
@@ -24,7 +26,12 @@ class SubscribeToProtocol < ActiveInteraction::Base
     the_start_date = find_start_date
     Rails.logger.warn("Protocol #{the_protocol.id} does not have any measurements") if the_protocol.measurements.blank?
 
-    prot_sub = ProtocolSubscription.create!(
+    create_or_find_protocol_subscription(the_protocol, the_start_date)
+  end
+
+  def create_or_find_protocol_subscription(the_protocol, the_start_date)
+    prot_sub = person.protocol_subscriptions.active.where(protocol_id: the_protocol.id).first if only_if_not_subscribed
+    prot_sub || ProtocolSubscription.create!(
       protocol: the_protocol,
       person: person,
       filling_out_for: mentor,
@@ -32,7 +39,6 @@ class SubscribeToProtocol < ActiveInteraction::Base
       start_date: the_start_date,
       end_date: end_date
     )
-    prot_sub
   end
 
   def find_start_date

@@ -81,9 +81,10 @@ class Person < ApplicationRecord
 
   def my_protocols(for_myself = true)
     return [] if protocol_subscriptions.blank?
-    return protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id } if for_myself
 
-    protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }
+    prot_subs = protocol_subscriptions.active.reject { |prot_sub| prot_sub.protocol.otr_protocol? }
+
+    filter_for_myself(prot_subs, for_myself)
   end
 
   def my_delegated_protocol_subscriptions
@@ -94,6 +95,12 @@ class Person < ApplicationRecord
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)
     active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+  end
+
+  def my_one_time_responses(for_myself = true)
+    prot_subs = protocol_subscriptions.active.select { |prot_sub| prot_sub.protocol.otr_protocol? }
+    subscriptions = filter_for_myself(prot_subs, for_myself)
+    subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end
 
   def my_completed_responses
@@ -132,6 +139,14 @@ class Person < ApplicationRecord
   end
 
   private
+
+  def filter_for_myself(prot_subs, for_myself)
+    if for_myself
+      prot_subs.select { |prot_sub| prot_sub.filling_out_for_id == id }
+    else
+      prot_subs.reject { |prot_sub| prot_sub.filling_out_for_id == id }
+    end
+  end
 
   def check_threshold(completed, total, threshold_percentage)
     return 0 unless total.positive?

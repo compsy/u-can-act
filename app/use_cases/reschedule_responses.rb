@@ -29,7 +29,7 @@ class RescheduleResponses < ActiveInteraction::Base
       next if in_past? time
       next unless measurement_requires_scheduling? measurement
 
-      Response.create!(protocol_subscription_id: protocol_subscription.id,
+      Response.create(protocol_subscription_id: protocol_subscription.id,
                        measurement_id: measurement.id,
                        open_from: time)
     end
@@ -49,6 +49,7 @@ class RescheduleResponses < ActiveInteraction::Base
   # the new responses
   def measurement_requires_scheduling?(measurement)
     measurement.periodical? ||
+      measurement.protocol.otr_protocol? ||
       !measurement_response_completed?(measurement)
   end
 

@@ -8,6 +8,11 @@ class Protocol < ApplicationRecord
   has_many :protocol_subscriptions, dependent: :destroy
   belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire', optional: true # can be nil
   has_many :rewards, -> { order threshold: :asc }, dependent: :destroy, inverse_of: :protocol
+  has_many :one_time_responses, dependent: :destroy
+
+  def otr_protocol?
+    one_time_responses.present?
+  end
 
   def calculate_reward(measurement_completion, check_future = false)
     return 0 if measurement_completion.blank?
@@ -26,7 +31,7 @@ class Protocol < ApplicationRecord
     index = rewards_array.length - 1
     index -= 1 while index >= 0 && value < rewards_array[index].first
 
-    # If the index < 0, we did not find a multiplier. Fall back to the default multiplier of 1
+    # If the index < 0, w, -> { order threshold: :asc }, dependent: :destroy, inverse_of: :protocole did not find a multiplier. Fall back to the default multiplier of 1
     return 1 if index.negative?
 
     determine_single_reward(value, rewards_array[index].second)

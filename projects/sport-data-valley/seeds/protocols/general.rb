@@ -3,7 +3,7 @@
 pr_name = 'general-solo-protocol'
 general_solo_protocol = Protocol.find_by_name(pr_name)
 general_solo_protocol ||= Protocol.new(name: pr_name)
-general_solo_protocol.duration = 1.day
+general_solo_protocol.duration = 365.days
 
 general_solo_protocol.save!
 
@@ -25,7 +25,7 @@ questionnaires.each_with_index do |questionnaire_name, idx|
   demo_measurement.period = nil # one-off and not repeated
   demo_measurement.open_duration = nil # always open
   demo_measurement.reward_points = 0
-  demo_measurement.stop_measurement = (idx == questionnaires.length - 1) # unsubscribe immediately if it is the last questionnaire
+  demo_measurement.stop_measurement = false
   demo_measurement.should_invite = false # don't send invitations
   #demo_measurement.redirect_url = 'localhost:3000' # after filling out questionnaire, go to person edit page.
   demo_measurement.save!

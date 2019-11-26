@@ -250,7 +250,7 @@ GEM
     parallel (1.19.0)
     parser (2.6.5.0)
       ast (~> 2.4.0)
-    pg (0.20.0)
+    pg (1.1.4)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
       moneta (~> 1.0.0)
@@ -478,7 +478,7 @@ DEPENDENCIES
   mini_racer
   modernizr-rails
   mongoid
-  pg (= 0.20.0)
+  pg (= 1.1.4)
   pry-rails
   puma
   rack-cors

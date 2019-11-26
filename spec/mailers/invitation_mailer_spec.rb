@@ -51,7 +51,8 @@ describe InvitationMailer do
 
     it 'calls the mail function with the correct subject and to address' do
       allow(subject).to receive(:mail).with(
-        subject: Rails.application.config.settings.registration.subject_line, to: email_address)
+        subject: Rails.application.config.settings.registration.subject_line, to: email_address
+      )
       subject.registration_mail(email_address, message, registration_url)
     end
   end

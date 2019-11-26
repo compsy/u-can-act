@@ -5,7 +5,7 @@ class SendRegistrationEmailJob < ApplicationJob
 
   def perform(some_person)
     person = Person.find_by(id: some_person.id)
-    return unless person.present?
+    return if person.blank?
 
     EmailRegistration.run!(person: person)
   end

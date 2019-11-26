@@ -37,7 +37,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
       person = Person.find_by(email: email_address)
       if person.present? && person.auth_user.blank?
         ActiveRecord::Base.transaction do
-          person.update!(auth_user: auth_user, email: nil)
+          person.update!(auth_user: auth_user, email: nil, role: find_role)
           auth_user.person = person
           auth_user.save!
         end

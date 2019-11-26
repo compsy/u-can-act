@@ -18,7 +18,6 @@ default: &default
   registration:
     subject_line: Doe mee met het <%=ENV['PROJECT_NAME']%> onderzoek!
     text: Klik op de knop hieronder om een account aan te maken bij <%=ENV['PROJECT_NAME']%>.
-    url: <%=ENV['SITE_LOCATION']%>
 development:
   <<: *default
 production:

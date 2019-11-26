@@ -120,6 +120,7 @@ Below is a list of all required ENV variables for production servers.
   INFO_SITE_URL: <site for more information about the u-can-act project, typically https://u-can-act.nl>
 
   SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
+  REGISTRATION_URL: <url for sending invites to for person email registration>
 ```
 
 ### (Local) development settings

@@ -8,10 +8,7 @@ class EmailRegistration < ActiveInteraction::Base
   # Params:
   # - person: the person to send the email to
   def execute
-    target_audience = person.role.title
-    # TODO: URI decode or encode person email
-    # TODO: generate hmac with sha256 using SHARED_SECRET var (see ParameterHasher class)
-    registration_url = "#{Rails.application.config.settings.registration.url}?targetAudience=#{target_audience}&email=#{person.email}&hmac=#{generate_hmac}"
+    registration_url = "#{ENV['REGISTRATION_URL']}?#{query_params}"
     mailer = InvitationMailer.registration_mail(person.email,
                                                 Rails.application.config.settings.registration.text,
                                                 registration_url)
@@ -20,8 +17,12 @@ class EmailRegistration < ActiveInteraction::Base
 
   private
 
-  def generate_hmac
-    # TODO: send target
-    ''
+  def query_params
+    params_arr = %i[target_audience email]
+    shared_secret = ENV['SHARED_SECRET']
+    params_hsh = {target_audience: person.role.title, email: person.email}
+    uri = Addressable::URI.new
+    uri.query_values = ParameterHasher.generate_hmac_params(params_arr, params_hsh, shared_secret)
+    uri.query
   end
 end

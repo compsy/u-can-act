@@ -18,12 +18,14 @@ class AuthUser < ApplicationRecord
       access_level = access_level_from_payload(payload)
       team = team_from_payload(payload)
       role = role_from_payload(payload)
+      email = email_from_payload(payload)
 
       auth_user = CreateAnonymousUser.run!(
         auth0_id_string: id,
         team_name: team,
         role_title: role,
-        access_level: access_level
+        access_level: access_level,
+        email: email
       )
 
       # Note that we only subscribe the person if the protocol is provided in
@@ -45,6 +47,10 @@ class AuthUser < ApplicationRecord
 
     def role_from_payload(payload)
       metadata_from_payload(payload)['role']
+    end
+
+    def email_from_payload(payload)
+      metadata_from_payload(payload)['email']
     end
 
     def protocol_from_payload(payload)

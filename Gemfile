@@ -14,7 +14,7 @@ ruby '2.6.3'
 gem 'rails', '~> 5.1.7'
 
 # Use Postgres as the database for Active Record
-gem 'pg', '= 0.20.0'
+gem 'pg', '= 1.1.4'
 
 # Driver for Redis datastore
 gem 'redis'

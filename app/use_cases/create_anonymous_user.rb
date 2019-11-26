@@ -5,6 +5,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
   string :team_name, default: nil
   string :role_title, default: nil
   string :access_level
+  string :email, default: nil
 
   # Creates an anonymous user
   #
@@ -12,7 +13,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
   # - auth0_id_string: the id retrieved from auth0
   def execute
     auth_user = create_or_find_auth_user(auth0_id_string, access_level)
-    auth_user = create_or_find_person(auth_user)
+    auth_user = create_or_find_person(auth_user, email)
     auth_user
   end
 
@@ -29,16 +30,34 @@ class CreateAnonymousUser < ActiveInteraction::Base
     )
   end
 
-  def create_or_find_person(auth_user)
+  def create_or_find_person(auth_user, email_address)
     return auth_user if auth_user.person.present?
 
-    auth_user.person = Person.create!(first_name: auth_user.auth0_id_string,
-                                      last_name: auth_user.auth0_id_string,
-                                      gender: nil,
-                                      mobile_phone: nil,
-                                      role: find_role,
-                                      auth_user: auth_user)
-    auth_user.save!
+    if email_address.present?
+      person = Person.find_by(email: email_address)
+      if person.present? && person.auth_user.blank?
+        ActiveRecord::Base.transaction do
+          person.update!(auth_user: auth_user, email: nil)
+          auth_user.person = person
+          auth_user.save!
+        end
+        return auth_user
+      end
+    end
+
+    create_new_person(auth_user)
+  end
+
+  def create_new_person(auth_user)
+    ActiveRecord::Base.transaction do
+      auth_user.person = Person.create!(first_name: auth_user.auth0_id_string,
+                                        last_name: auth_user.auth0_id_string,
+                                        gender: nil,
+                                        mobile_phone: nil,
+                                        role: find_role,
+                                        auth_user: auth_user)
+      auth_user.save!
+    end
     auth_user
   end
 

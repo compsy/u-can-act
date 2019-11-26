@@ -7,7 +7,7 @@ module ParameterHasher
       plain_token << params_hsh[param]
     end
     plain_token = plain_token.join('|')
-    Digest::SHA1.hexdigest(plain_token)
+    Digest::SHA256.hexdigest(plain_token)
   end
 
   def self.generate_hmac_params(params_arr, params_hsh, shared_secret)

@@ -43,7 +43,7 @@ describe Api::V1::SettingsController, type: :controller do
           end
           # Company logo is an optional setting
           expect(cur).not_to be_nil unless %w[company_logo].include?(key)
-          expect(cur).to eq cur_yaml
+          expect(cur).to eq cur_yaml unless cur_yaml.is_a?(Hash) # We don't care about the intermediate nodes
           result_keys.delete(key)
           recursive_check(cur, cur_yaml) if cur_yaml.is_a? Hash
         end

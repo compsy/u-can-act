@@ -22,6 +22,16 @@ GIT
       platform-api
       rails
 
+GIT
+  remote: https://github.com/nsarno/knock.git
+  revision: 84d3e54b9a8f1e9701097207a8d3135d5a9e64c1
+  ref: 84d3e54b9a8f1e9701097207a8d3135d5a9e64c1
+  specs:
+    knock (2.2.0)
+      bcrypt (~> 3.1)
+      jwt (~> 2.2.1)
+      rails (>= 4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -75,7 +85,7 @@ GEM
       rack
     arel (8.0.0)
     ast (2.4.0)
-    autoprefixer-rails (9.7.0)
+    autoprefixer-rails (9.7.2)
       execjs
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
@@ -83,7 +93,7 @@ GEM
       execjs (~> 2.0)
     bcrypt (3.1.13)
     bindex (0.8.1)
-    bson (4.5.0)
+    bson (4.6.0)
     builder (3.2.3)
     byebug (11.0.1)
     capybara (3.29.0)
@@ -132,6 +142,16 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
+    dry-auto_inject (0.6.1)
+      dry-container (>= 0.3.4)
+    dry-configurable (0.9.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.4, >= 0.4.7)
+    dry-container (0.7.2)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.1, >= 0.1.3)
+    dry-core (0.4.9)
+      concurrent-ruby (~> 1.0)
     erubi (1.9.0)
     erubis (2.7.0)
     excon (0.68.0)
@@ -141,11 +161,11 @@ GEM
     factory_bot_rails (5.1.1)
       factory_bot (~> 5.1.0)
       railties (>= 4.2.0)
-    ffi (1.11.1)
+    ffi (1.11.2)
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    guard (2.15.1)
+    guard (2.16.1)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
       lumberjack (>= 1.0.12, < 2.0)
@@ -182,6 +202,9 @@ GEM
       ruby_parser (~> 3.5)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    httparty (0.17.1)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
     i18n-js (3.5.0)
@@ -194,11 +217,7 @@ GEM
     json-schema (2.8.1)
       addressable (>= 2.4)
     jsonapi-renderer (0.2.2)
-    jwt (1.5.6)
-    knock (2.1.1)
-      bcrypt (~> 3.1)
-      jwt (~> 1.5)
-      rails (>= 4.2)
+    jwt (2.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (7.3.492.27.1)
@@ -233,12 +252,13 @@ GEM
     minitest (5.13.0)
     modernizr-rails (2.7.1)
     moneta (1.0.0)
-    mongo (2.10.2)
-      bson (>= 4.4.2, < 5.0.0)
+    mongo (2.11.1)
+      bson (>= 4.6.0, < 5.0.0)
     mongoid (7.0.5)
       activemodel (>= 5.1, < 6.1)
       mongo (>= 2.5.1, < 3.0.0)
     multi_json (1.14.1)
+    multi_xml (0.6.0)
     nenv (0.3.0)
     netrc (0.11.0)
     nio4r (2.5.2)
@@ -367,7 +387,7 @@ GEM
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
-    ruby_parser (3.14.0)
+    ruby_parser (3.14.1)
       sexp_processor (~> 4.9)
     rubyzip (2.0.0)
     sass-rails (6.0.0)
@@ -412,7 +432,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    tins (1.21.1)
+    tins (1.22.2)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     tzinfo-data (1.2019.3)
@@ -423,6 +443,13 @@ GEM
       unf_ext
     unf_ext (0.0.7.6)
     unicode-display_width (1.6.0)
+    warden (1.2.8)
+      rack (>= 2.0.6)
+    warden-jwt_auth (0.4.0)
+      dry-auto_inject (~> 0.6)
+      dry-configurable (~> 0.8)
+      jwt (~> 2.1)
+      warden (~> 1.2)
     web-console (3.7.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -465,11 +492,12 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   highcharts-rails
+  httparty
   i18n-js
   iban-tools
   jbuilder
   jwt
-  knock
+  knock!
   listen (>= 3.0.5, < 3.2)
   lograge
   mailgun-ruby
@@ -508,6 +536,7 @@ DEPENDENCIES
   timecop
   tzinfo-data
   uglifier
+  warden-jwt_auth (>= 0.4.0)
   web-console
   webdrivers
   webpacker (>= 4.0.x)

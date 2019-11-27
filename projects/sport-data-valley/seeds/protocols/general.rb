@@ -5,6 +5,13 @@ general_solo_protocol = Protocol.find_by_name(pr_name)
 general_solo_protocol ||= Protocol.new(name: pr_name)
 general_solo_protocol.duration = 1.day
 
+bp_name = 'base-platform-subscription'
+bp_push_subscription = general_solo_protocol.push_subscriptions.find_by(name: bp_name)
+bp_push_subscription ||= general_solo_protocol.push_subscriptions.build(name: bp_name)
+bp_push_subscription.method = 'POST'
+bp_push_subscription.url = ENV['PUSH_SUBSCRIPTION_URL']
+bp_push_subscription.save!
+
 general_solo_protocol.save!
 
 # Add questionnaires
@@ -26,7 +33,7 @@ questionnaires.each_with_index do |questionnaire_name, idx|
   demo_measurement.open_duration = nil # always open
   demo_measurement.reward_points = 0
   demo_measurement.stop_measurement = (idx == questionnaires.length - 1) # unsubscribe immediately if it is the last questionnaire
-  demo_measurement.should_invite = false # don't send invitations
+  demo_measurement.should_invite = true # send e-mail invitations
   #demo_measurement.redirect_url = 'localhost:3000' # after filling out questionnaire, go to person edit page.
   demo_measurement.save!
 end

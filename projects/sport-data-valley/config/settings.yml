@@ -9,7 +9,7 @@ default: &default
     mentor_logo: 'logo_mentor.svg'
     student_logo: 'logo_student.svg'
     fallback_logo: 'logo.svg'
-    company_logo: NULL
+    company_logo: null
 development:
   <<: *default
 production:

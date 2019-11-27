@@ -154,12 +154,4 @@ class Response < ApplicationRecord
     measurement.open_duration.present? &&
       Time.zone.now > TimeTools.increase_by_duration(open_from, measurement.open_duration)
   end
-
-  def generate_token
-    request_env = {}
-    Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
-                                    person.auth_user,
-                                    :user,
-                                    request_env)
-  end
 end

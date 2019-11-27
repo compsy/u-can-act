@@ -9,7 +9,7 @@ class PushSubscription < ApplicationRecord
   def push_response(response)
     HTTParty.send(method.downcase.to_sym,
                   url,
-                  headers: { Authorization: "Bearer #{response.generate_token}" },
+                  headers: { Authorization: "Bearer #{response.person.auth_user.generate_token}" },
                   body: { 'serviceName' => 'u-can-act', 'data' => Api::ResponseSerializer.new(response).as_json })
   end
 end

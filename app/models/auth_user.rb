@@ -37,6 +37,14 @@ class AuthUser < ApplicationRecord
       auth_user
     end
 
+    def generate_token
+      request_env = {}
+      Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
+                                      self,
+                                      :user,
+                                      request_env)
+    end
+
     private
 
     def metadata_from_payload(payload)

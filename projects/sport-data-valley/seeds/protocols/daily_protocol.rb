@@ -44,4 +44,5 @@ sunday_measurement.period = 1.week # every sunday
 sunday_measurement.open_duration = 2.days # Open for two days
 sunday_measurement.reward_points = 0
 sunday_measurement.should_invite = true # send invitations
+sunday_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 sunday_measurement.save!

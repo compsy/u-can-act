@@ -20,4 +20,5 @@ db_measurement.open_from_offset = 0
 db_measurement.reward_points = 0
 db_measurement.stop_measurement = false
 db_measurement.should_invite = true
+db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 db_measurement.save!

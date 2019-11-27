@@ -12,6 +12,9 @@ class NextPageFinder
 
       return mentor_overview_index_path if current_user.mentor?
 
+      next_response = current_user.my_open_responses(false).first
+      return questionnaire_path(uuid: next_response.uuid, **params) if next_response.present?
+
       klaar_path
     end
   end

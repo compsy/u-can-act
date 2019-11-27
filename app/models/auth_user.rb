@@ -9,6 +9,11 @@ class AuthUser < ApplicationRecord
   ADMIN_ACCESS_LEVEL = 'admin'
   USER_ACCESS_LEVEL = 'user'
 
+  # Used when creating a jwt token for a user
+  def jwt_subject
+    auth0_id_string
+  end
+
   class << self
     # This function gets called automatically when authorizing a user. So note
     # that if we raise from here, the authorization process stops and it might
@@ -32,6 +37,14 @@ class AuthUser < ApplicationRecord
       # the metadata.
       subscribe_to_protocol_if_needed(auth_user.person, payload)
       auth_user
+    end
+
+    def generate_token
+      request_env = {}
+      Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
+                                      self,
+                                      :user,
+                                      request_env)
     end
 
     private

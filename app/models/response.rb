@@ -107,9 +107,13 @@ class Response < ApplicationRecord
   end
 
   def complete!
+    first_complete = completed_at.blank?
     update!(completed_at: Time.zone.now,
             filled_out_by: protocol_subscription.person,
             filled_out_for: protocol_subscription.filling_out_for)
+    return unless first_complete && protocol_subscription.protocol.push_subscriptions.present?
+
+    PushSubscriptionsJob.perform_later(self)
   end
 
   def remote_content

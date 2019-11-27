@@ -43,6 +43,7 @@ describe ParameterHasher do
       expect(result).to eq expected
     end
   end
+
   describe '#generate_hmac_params' do
     it 'should call generate_hmac with the given parameters' do
       params_hsh[:param_param] = 'hi there'
@@ -84,6 +85,7 @@ describe ParameterHasher do
       expect(result).to eq expected
     end
   end
+
   describe '#valid_hmac_params?' do
     it 'returns false when no hmac param is present' do
       result = described_class.valid_hmac_params?(params_arr, params_hsh, shared_secret)

@@ -6,7 +6,7 @@ services:
 # define pipline stages
 stages:
   - build
-  # - deploy
+  - deploy
 
 variables:
   KUBE_NAMESPACE: sdvmvp-questionaires

@@ -8,7 +8,7 @@ class PushSubscriptionsJob < ApplicationJob
     return unless response.present? && response.completed?
 
     response.protocol_subscription.protocol.push_subscriptions.each do |push_subscription|
-      push_subscription.push_resonse(response)
+      push_subscription.push_response(response)
     end
   end
 

@@ -6,6 +6,15 @@ protocol = Protocol.find_by_name(pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
 protocol.informed_consent_questionnaire = nil
+protocol.invitation_text = 'Je bent uitgenodigd door je coach om een vragenlijst in te vullen.'
+
+bp_name = 'base-platform-subscription-after-training'
+bp_push_subscription = protocol.push_subscriptions.find_by(name: bp_name)
+bp_push_subscription ||= protocol.push_subscriptions.build(name: bp_name)
+bp_push_subscription.method = 'POST'
+bp_push_subscription.url = ENV['PUSH_SUBSCRIPTION_URL']
+bp_push_subscription.save!
+
 protocol.save!
 
 name = 'training_log'

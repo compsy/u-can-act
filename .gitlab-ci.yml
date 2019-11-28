@@ -24,20 +24,20 @@ build_web_job:
   script:
     - docker build . -t ${IMAGE_REPO}:${CI_COMMIT_SHA}
 
-# deploy_web_job:
-#   stage:
-#     deploy
-#   image:
-#     name: lachlanevenson/k8s-kubectl:latest
-#     entrypoint: ["/bin/sh", "-c"]
-#   environment:
-#     name: develop
-#     url: https://sdvmvp.researchable.nl
-#   before_script:
-#     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-#   script:
-#     - echo "Deploying to namespace ${KUBE_NAMESPACE}"
-#     - kubectl version
-#     - cd manifests/
-#     - sed -i s/__CI_COMMIT_REF_NAME__/${__CI_COMMIT_REF_NAME__}
-#     - cat deployment.yml
+deploy_web_job:
+  stage:
+    deploy
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
+  environment:
+    name: develop
+    url: https://sdvmvp.researchable.nl
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - echo "Deploying to namespace ${KUBE_NAMESPACE}"
+    - kubectl version
+    - cd manifests/
+    - sed -i s/__CI_COMMIT_REF_NAME__/${__CI_COMMIT_REF_NAME__}
+    - cat deployment.yml

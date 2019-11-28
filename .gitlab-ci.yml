@@ -1,0 +1,10 @@
+# load docker image & start docker engine
+image: tmaier/docker-compose:latest
+services:
+  - docker:dind
+
+# define pipline stages
+stages:
+  - build
+  - deploy
+

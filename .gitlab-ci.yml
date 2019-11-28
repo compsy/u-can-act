@@ -15,6 +15,7 @@ variables:
   DOCKER_DRIVER: overlay2
   IMAGE_REPO: ${CI_REGISTRY}/${CI_PROJECT_PATH}
   DEPLOY_TAG: $CI_COMMIT_SHA
+  PROJECT_NAME: sport-data-valley
 
 build_web_job:
   stage:

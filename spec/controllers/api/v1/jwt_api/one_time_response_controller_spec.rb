@@ -54,7 +54,7 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
         person.reload
         expect(person.protocol_subscriptions).to_not be_blank
         expect(person.protocol_subscriptions.length).to eq 1
-        expect(person.protocol_subscriptions.protocol).to eq otr.protocol
+        expect(person.protocol_subscriptions.first.protocol).to eq otr.protocol
       end
     end
 

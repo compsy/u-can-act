@@ -8,7 +8,7 @@ class NextPageFinder
       return previous_response.measurement.redirect_url if previous_response&.measurement&.redirect_url
 
       # TODO: Check for protocol.otr_protocol? here?
-      next_response ||= current_user.my_one_time_responses.first
+      next_response ||= current_user.my_open_one_time_responses.first
       next_response ||= current_user.my_open_responses.first
 
       return questionnaire_path(uuid: next_response.uuid, **params) if next_response.present?

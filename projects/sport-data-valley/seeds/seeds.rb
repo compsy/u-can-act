@@ -19,23 +19,24 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
                 role: normal_role)
 
-  protocol = Protocol.find_by(name: 'after_training')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[0]
-  prot_sub = ProtocolSubscription.create!(
-    protocol: protocol,
-    person: person,
-    state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: Time.zone.now
-  )
+  #protocol = Protocol.find_by(name: 'training_log')
+  #person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[0]
 
-  invitation_set = InvitationSet.create!(person: person)
+  #prot_sub = ProtocolSubscription.create!(
+    #protocol: protocol,
+    #person: person,
+    #state: ProtocolSubscription::ACTIVE_STATE,
+    #start_date: Time.zone.now
+  #)
 
-  # Add the responses to the invitation set
-  responseobj = prot_sub.responses.first
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  #invitation_set = InvitationSet.create!(person: person)
 
-  invitation_token = invitation_set.invitation_tokens.create!
-  puts "After training protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+  ## Add the responses to the invitation set
+  #responseobj = prot_sub.responses.first
+  #responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+
+  #invitation_token = invitation_set.invitation_tokens.create!
+  #puts "After training protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   Person.create!(first_name: 'Janie',
                 last_name: 'Fictieva',
@@ -61,12 +62,11 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Daily protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
-
   puts 'Generating onetime response'
-  OneTimeResponse.destroy_all
   protocol = Protocol.find_by_name(solo_protocol)
   token = solo_protocol
-  OneTimeResponse.create!(token: token, protocol: protocol)
+  otr = OneTimeResponse.find_by(token: token)
+  ort ||= OneTimeResponse.create!(token: token, protocol: protocol)
 
   puts Rails.application.routes.url_helpers.one_time_response_url(q: token)
   puts 'Generated onetime response'

@@ -30,8 +30,8 @@ class RescheduleResponses < ActiveInteraction::Base
       next unless measurement_requires_scheduling? measurement
 
       Response.create(protocol_subscription_id: protocol_subscription.id,
-                       measurement_id: measurement.id,
-                       open_from: time)
+                      measurement_id: measurement.id,
+                      open_from: time)
     end
   end
 

@@ -31,7 +31,7 @@ class Protocol < ApplicationRecord
     index = rewards_array.length - 1
     index -= 1 while index >= 0 && value < rewards_array[index].first
 
-    # If the index < 0, w, -> { order threshold: :asc }, dependent: :destroy, inverse_of: :protocole did not find a multiplier. Fall back to the default multiplier of 1
+    # If the index < 0, we did not find a multiplier. Fall back to the default multiplier of 1
     return 1 if index.negative?
 
     determine_single_reward(value, rewards_array[index].second)

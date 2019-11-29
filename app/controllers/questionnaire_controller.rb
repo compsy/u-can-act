@@ -186,12 +186,8 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_response
-    Rails.logger.info '!'*1000
-    the_response = current_user.my_open_responses(nil)
+    the_response = current_user.all_my_open_responses(nil)
                                .find { |response| response.uuid == questionnaire_params[:uuid] }
-
-    the_response ||= current_user.my_one_time_responses(nil)
-                                 .find { |response| response.uuid == questionnaire_params[:uuid] }
 
     check_response(the_response)
     return if performed?

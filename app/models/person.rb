@@ -97,10 +97,14 @@ class Person < ApplicationRecord
     active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end
 
-  def my_one_time_responses(for_myself = true)
+  def my_open_one_time_responses(for_myself = true)
     prot_subs = protocol_subscriptions.active.select { |prot_sub| prot_sub.protocol.otr_protocol? }
     subscriptions = filter_for_myself(prot_subs, for_myself)
     subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+  end
+
+  def all_my_open_responses(for_myself = true)
+    my_open_responses(for_myself) + my_open_one_time_responses(for_myself)
   end
 
   def my_completed_responses

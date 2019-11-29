@@ -4,13 +4,12 @@ module Api
   module V1
     module JwtApi
       class JwtApiController < ApiController
-        #include ::Concerns::IsJwtAuthenticated
+        include ::Concerns::IsJwtAuthenticated
         before_action :set_person
 
         private
 
         def set_person
-          return Person.all.first
           # Debugging
           # token = request.headers['Authorization'].split.last
           # Rails.logger.warn Knock::AuthToken.new(token: token)

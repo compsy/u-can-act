@@ -8,7 +8,7 @@
         $( ".result" ).html( data );
         $('#action').removeClass('disabled').text('Submit');
         $('html,body').animate({scrollTop: $('#action').offset().top}, 500);
-        $(".example-title").show();
+        questionnaireLoaded();
       }).fail(function(err) {
         console.log(err);
         $( ".result" ).html( err.responseText );
@@ -24,5 +24,4 @@
         %label{for: "content"} Questionnaire JSON
     .row
       %button.btn.waves-effect.waves-light{name: 'action', id: 'action'} Submit
-%h3.example-title{style: "display: none;"} Example questionnaire
 .result.mentor

@@ -6,6 +6,9 @@ class Questionnaire < ApplicationRecord
   validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z]+[a-z_0-9]*\Z/ }
   serialize :content, Array
   validate :all_content_ids_unique
+  validate :all_questions_have_types
+  validate :all_questions_have_titles
+  validate :all_questions_have_ids
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
                                         foreign_key: 'informed_consent_questionnaire_id',
@@ -43,7 +46,32 @@ class Questionnaire < ApplicationRecord
     errors.add(:content, "can only have a series of unique ids: #{result}")
   end
 
+  def all_questions_have_types
+    result = content.select { |question| question[:type].blank? }.map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content, "the following questions are missing the required :type attribute: #{result.pretty_inspect}")
+  end
+
+  def all_questions_have_titles
+    result = content.reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
+                    .reject { |question| question.key?(:title) }
+                    .map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content, "the following questions are missing the required :title attribute: #{result.pretty_inspect}")
+  end
+
+  def all_questions_have_ids
+    result = content.reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
+                    .reject { |question| question.key?(:id) }
+                    .map { |question| question[:title] }
+    return if result.blank?
+
+    errors.add(:content, "the following questions are missing the required :id attribute: #{result.pretty_inspect}")
+  end
+
   def drawing_ids
-    content.select { |question| question[:type] == :drawing }.map { |question| question[:id] }
+    content.select { |question| question[:type]&.to_sym == :drawing }.map { |question| question[:id] }
   end
 end

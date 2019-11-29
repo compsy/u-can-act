@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191113193939) do
+ActiveRecord::Schema.define(version: 20191119145741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20191113193939) do
     t.string "external_identifier", null: false
     t.string "iban"
     t.string "ip_hash"
+    t.boolean "account_active", default: false, null: false
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true
   end
 
@@ -150,6 +151,17 @@ ActiveRecord::Schema.define(version: 20191113193939) do
     t.string "invitation_text"
     t.index ["informed_consent_questionnaire_id"], name: "index_protocols_on_informed_consent_questionnaire_id"
     t.index ["name"], name: "index_protocols_on_name", unique: true
+  end
+
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.bigint "protocol_id", null: false
+    t.string "url", null: false
+    t.string "name", null: false
+    t.string "method", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_push_subscriptions_on_name", unique: true
+    t.index ["protocol_id"], name: "index_push_subscriptions_on_protocol_id"
   end
 
   create_table "questionnaires", id: :serial, force: :cascade do |t|
@@ -225,6 +237,7 @@ ActiveRecord::Schema.define(version: 20191113193939) do
   add_foreign_key "protocol_transfers", "people", column: "to_id"
   add_foreign_key "protocol_transfers", "protocol_subscriptions"
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
+  add_foreign_key "push_subscriptions", "protocols"
   add_foreign_key "responses", "invitation_sets"
   add_foreign_key "responses", "measurements"
   add_foreign_key "responses", "people", column: "filled_out_by_id"

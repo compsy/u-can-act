@@ -8,6 +8,7 @@ class Protocol < ApplicationRecord
   has_many :protocol_subscriptions, dependent: :destroy
   belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire', optional: true # can be nil
   has_many :rewards, -> { order threshold: :asc }, dependent: :destroy, inverse_of: :protocol
+  has_many :push_subscriptions, dependent: :destroy
   has_many :one_time_responses, dependent: :destroy
 
   def otr_protocol?

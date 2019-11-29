@@ -2,7 +2,6 @@
 
 if Rails.env.development? || Rails.env.staging?
   OneTimeResponse.destroy_all
-  Protocol.destroy_all
   puts 'Questionnaire demo links:'
   puts ''
 

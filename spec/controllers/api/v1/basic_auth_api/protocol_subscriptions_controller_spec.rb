@@ -40,11 +40,12 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         person: person,
         mentor: nil,
         start_date: time,
-        end_date: nil
+        end_date: time
       ).and_return true
 
       post :create, params: { protocol_name: prot_name,
                               start_date: time,
+                              end_date: time,
                               auth0_id_string: auth_user.auth0_id_string }
       expect(response.status).to eq 201
     end

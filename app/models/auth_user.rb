@@ -9,6 +9,11 @@ class AuthUser < ApplicationRecord
   ADMIN_ACCESS_LEVEL = 'admin'
   USER_ACCESS_LEVEL = 'user'
 
+  # Used when creating a jwt token for a user
+  def jwt_subject
+    auth0_id_string
+  end
+
   class << self
     # This function gets called automatically when authorizing a user. So note
     # that if we raise from here, the authorization process stops and it might
@@ -17,10 +22,12 @@ class AuthUser < ApplicationRecord
       id = id_from_payload(payload)
       access_level = access_level_from_payload(payload)
       team = team_from_payload(payload)
+      role = role_from_payload(payload)
 
       auth_user = CreateAnonymousUser.run!(
         auth0_id_string: id,
         team_name: team,
+        role_title: role,
         access_level: access_level
       )
 
@@ -28,6 +35,14 @@ class AuthUser < ApplicationRecord
       # the metadata.
       subscribe_to_protocol_if_needed(auth_user.person, payload)
       auth_user
+    end
+
+    def generate_token
+      request_env = {}
+      Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
+                                      self,
+                                      :user,
+                                      request_env)
     end
 
     private
@@ -39,6 +54,14 @@ class AuthUser < ApplicationRecord
     # Get the team from the provided payload, or use the default if nothing is found
     def team_from_payload(payload)
       metadata_from_payload(payload)['team'] || Rails.application.config.settings.default_team_name
+    end
+
+    def role_from_payload(payload)
+      metadata_from_payload(payload)['role']
+    end
+
+    def protocol_from_payload(payload)
+      metadata_from_payload(payload)['protocol']
     end
 
     def access_level_from_payload(payload)
@@ -66,13 +89,13 @@ class AuthUser < ApplicationRecord
     end
 
     def subscribe_to_protocol_if_needed(person, payload)
-      metadata = metadata_from_payload(payload)
-      return if metadata['protocol'].nil?
+      protocol = protocol_from_payload(payload)
+      return if protocol.blank?
 
       # A person can only be subscribed to the same protocol once
-      return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == metadata['protocol'] }
+      return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
 
-      SubscribeToProtocol.run!(protocol_name: metadata['protocol'], person: person)
+      SubscribeToProtocol.run!(protocol_name: protocol, person: person)
     end
   end
 end

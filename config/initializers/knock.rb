@@ -37,7 +37,7 @@ Knock.setup do |config|
         OpenSSL::X509::Certificate.new(Base64.strict_decode64(Rails.application.secrets.signing_certificate))
       )
     }
-  elsif
+  else
     config.token_secret_signature_key = -> {
       Rails.application.secrets.signing_certificate
     }

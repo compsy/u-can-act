@@ -65,6 +65,7 @@ Rails.application.routes.draw do
         resources :response, only: [:show, :index, :create], param: :uuid do
           collection do
             get :completed
+            get :all
           end
         end
         resources :auth_user, only: [:create]

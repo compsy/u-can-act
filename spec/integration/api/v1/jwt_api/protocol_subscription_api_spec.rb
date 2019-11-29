@@ -61,7 +61,7 @@ describe 'ProtocolSubscription api' do
       consumes 'application/json'
       security [JwtAuth: {}]
 
-      response '200', 'all my protocol subscriptions returned' do
+      response '200', 'all delegated protocol subscriptions returned' do
         schema type: :array,
                items: {
                  type: :object,

@@ -21,7 +21,7 @@ module Api
         private
 
         def person_params
-          params.permit(:person_auth0_ids)
+          params.permit(person_auth0_ids: [])
         end
 
         def set_person
@@ -32,12 +32,7 @@ module Api
         end
 
         def set_mentor_role
-          @mentor_role = Organization.first
-                                     &.teams
-                                     &.first
-                                     &.roles
-                                     &.where(group: Person::MENTOR)
-                                     &.first
+          @mentor_role = Organization.first&.teams&.first&.roles&.where(group: Person::MENTOR)&.first
           return if @mentor_role
 
           render json: { error: 'Cannot assign mentor role: mentor role does not exist' }, status: :bad_request

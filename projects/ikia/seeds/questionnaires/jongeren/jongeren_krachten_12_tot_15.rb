@@ -70,13 +70,101 @@ dagboek_content = [
                 id: :v1_9_1,
                 type: :textarea,
                 title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}]
+                tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
+    section_end: true
   }, {
-    # TODO: fix plaatjes
-    id: :v1_10,
+    section_start: 'In de volgende vragen zie je telkens drie woorden. Deze drie woorden hangen samen met één ander woord. De bedoeling is dat je bedenkt welk woord dit is. <br><br>
+Bijvoorbeeld: de woorden <i>tijd / hard / zand</i> kunnen met elkaar verbonden worden door het woord <i>steen: steentijd / hardsteen / zandsteen</i>. Het oplossingswoord is hier dus <i>steen</i>.<br><br>
+Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet weet, vul dan in "Weet ik niet".<br>',
+    id: :v1_11,
     type: :textfield,
-    title: 'Wat past bij deze plaatjes? (Deurknop, Handschoen, Pen)',
-    tooltip: 'Eén woord verbindt alle plaatjes',
+    title: 'hond / druk / band',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true,
+    section_end: false
+  }, {
+    id: :v1_16,
+    type: :textfield,
+    title: 'controle / plaats / gewicht',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_17,
+    type: :textfield,
+    title: 'bar / jurk / glas',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_18,
+    type: :textfield,
+    title: 'kolen / land / schacht',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_19,
+    type: :textfield,
+    title: 'kaas / land / huis',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_20,
+    type: :textfield,
+    title: 'achter / kruk / mat',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_21,
+    type: :textfield,
+    title: 'schommel / klap / rol',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_22,
+    type: :textfield,
+    title: 'vlokken / ketting / pet',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_25,
+    type: :textfield,
+    title: 'vis / mijn / geel',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_26,
+    type: :textfield,
+    title: 'worm / kast / legger',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_30,
+    type: :textfield,
+    title: 'room / vloot / koek',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_31,
+    type: :textfield,
+    title: 'trommel / beleg /mes',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_33,
+    type: :textfield,
+    title: 'water / schoorsteen / lucht',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_34,
+    type: :textfield,
+    title: 'goot / kool / bak',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
+    required: true
+  }, {
+    id: :v1_38,
+    type: :textfield,
+    title: 'val / meloen / lelie',
+    tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true,
     section_end: true
   }, {

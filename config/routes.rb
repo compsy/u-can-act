@@ -56,7 +56,7 @@ Rails.application.routes.draw do
 
       # JWT APIs
       scope module: :jwt_api do
-        resources :one_time_response, only: [:index, :show], param: :token do
+        resources :one_time_response, only: [:index, :show], param: :otr do
           collection do
             get :test
           end

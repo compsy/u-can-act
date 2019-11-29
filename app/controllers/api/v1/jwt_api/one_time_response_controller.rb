@@ -4,12 +4,11 @@ module Api
   module V1
     module JwtApi
       class OneTimeResponseController < JwtApiController
-        before_action :set_person
         before_action :load_one_time_response, only: :show
         before_action :subscribe_person, only: :show
 
         def show
-          redirect_to @one_time_response.redirect_url(@person)
+          redirect_to @one_time_response.redirect_url(current_user)
         end
 
         def index
@@ -19,22 +18,15 @@ module Api
         private
 
         def subscribe_person
-          @one_time_response.subscribe_person(@person, mentor)
+          @one_time_response.subscribe_person(current_user, mentor)
         end
 
         def mentor
-          @mentor ||= Person.find_by(id: protocol_subscription_create_params[:mentor_id])
-        end
-
-        def set_person
-          @person = current_user
-          return if @person.present?
-
-          render(status: :not_found, json: 'De persoon kon niet gevonden worden.')
+          @mentor ||= Person.find_by(id: one_time_response_params[:mentor_id])
         end
 
         def load_one_time_response
-          token = one_time_response_params[:token]
+          token = one_time_response_params[:otr]
           @one_time_response = OneTimeResponse.find_by(token: token)
           return @one_time_response if @one_time_response.present?
 
@@ -42,7 +34,7 @@ module Api
         end
 
         def one_time_response_params
-          params.permit(:token)
+          params.permit(:otr, :mentor_id)
         end
       end
     end

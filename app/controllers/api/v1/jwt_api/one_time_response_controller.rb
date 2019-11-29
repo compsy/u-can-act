@@ -19,7 +19,7 @@ module Api
         private
 
         def subscribe_person
-          @one_time_response.subscribe_person(@person, nil) if @person.present?
+          @one_time_response.subscribe_person(@person, mentor)
         end
 
         def mentor

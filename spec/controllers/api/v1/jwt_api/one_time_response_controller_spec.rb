@@ -32,7 +32,6 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
       jwt_auth the_payload
     end
 
-
     describe 'GET /:token' do
       let(:thetoken) { 'theotrtoken' }
       let!(:otr) { FactoryBot.create(:one_time_response, token: thetoken) }
@@ -55,7 +54,7 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
         person.reload
         expect(person.protocol_subscriptions).to_not be_blank
         expect(person.protocol_subscriptions.length).to eq 1
-        expect(person.protocol_subscriptions.protocl).to eq otr.protocol
+        expect(person.protocol_subscriptions.protocol).to eq otr.protocol
       end
     end
 

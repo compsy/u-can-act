@@ -13,7 +13,7 @@ module Api
                status: :unauthorized
       end
 
-      # rubocop:disable BlockComments
+# rubocop:disable BlockComments
 =begin
       # This function can be enabled when debugging the authentication
       # currently it is implemented by know authenticable

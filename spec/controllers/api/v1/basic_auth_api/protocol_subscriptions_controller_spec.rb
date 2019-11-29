@@ -39,7 +39,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: nil,
-        start_date: time
+        start_date: time,
+        end_date: nil
       ).and_return true
 
       post :create, params: { protocol_name: prot_name,

@@ -4,15 +4,17 @@ require 'swagger_helper'
 
 describe 'ProtocolSubscription api' do
   let(:the_auth_user) { FactoryBot.create(:auth_user, :with_person) }
+  let(:other_person) { FactoryBot.create(:person) }
   let(:auth0_id_string) { the_auth_user.auth0_id_string }
   let!(:protocol_subscriptions) { FactoryBot.create_list(:protocol_subscription, 3, person: the_auth_user.person) }
   let!(:protocol_subscriptions_other) do
-    FactoryBot.create_list(:protocol_subscription, 5, :mentor, person: the_auth_user.person)
+    FactoryBot.create_list(:protocol_subscription, 5,
+                           filling_out_for_id: the_auth_user.person.id,
+                           person: other_person)
   end
-  let!(:team) { FactoryBot.create(:team, :with_roles, name: 'Demo-team') }
   let!(:the_payload) do
     {
-      'sub' => auth0_id_string,
+      'sub' => the_auth_user.auth0_id_string,
       ENV['SITE_LOCATION'] => {
         'access_level' => ['user']
       }

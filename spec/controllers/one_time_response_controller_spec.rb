@@ -40,7 +40,7 @@ RSpec.describe OneTimeResponseController, type: :controller do
       expect(response.location).to start_with 'http://test.host?q='
     end
 
-    fit 'schedules the correct responses' do
+    it 'schedules the correct responses' do
       protocol.measurements.first.update!(open_from_offset: 0)
       get :show, params: { q: one_time_response.token }
       expect(response.status).to eq 302

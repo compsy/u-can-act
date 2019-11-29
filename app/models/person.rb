@@ -149,6 +149,8 @@ class Person < ApplicationRecord
   private
 
   def filter_for_myself(prot_subs, for_myself)
+    return prot_subs if for_myself.blank?
+
     if for_myself
       prot_subs.select { |prot_sub| prot_sub.filling_out_for_id == id }
     else

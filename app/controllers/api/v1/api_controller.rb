@@ -13,7 +13,7 @@ module Api
                status: :unauthorized
       end
 
-# rubocop:disable BlockComments
+# rubocop:disable Style/BlockComments
 =begin
       # This function can be enabled when debugging the authentication
       # currently it is implemented by know authenticable
@@ -35,7 +35,7 @@ module Api
         end
       end
 =end
-      # rubocop:enable BlockComments
+      # rubocop:enable Style/BlockComments
 
       # Called from the middleware!
       def raise_bad_request

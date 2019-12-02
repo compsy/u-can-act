@@ -4,6 +4,7 @@ class NextPageFinder
   class << self
     include Rails.application.routes.url_helpers
 
+    # rubocop:disable Metrics/AbcSize
     def get_next_page(current_user:, previous_response: nil, next_response: nil, params: {})
       return previous_response.measurement.redirect_url if previous_response&.measurement&.redirect_url
 
@@ -17,5 +18,6 @@ class NextPageFinder
 
       klaar_path
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end

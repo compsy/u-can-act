@@ -30,7 +30,7 @@ class CreateChildPerson < ActiveInteraction::Base
 
   def find_team
     team = Team.find_by(name: team_name)
-    return rerr("Team #{team_name} not found ") if team.blank?
+    return rerr("Team '#{team_name}' not found") if team.blank?
 
     team
   end
@@ -39,6 +39,6 @@ class CreateChildPerson < ActiveInteraction::Base
     # Note the somewhat duplicate logging here. This is because the jwt package catches
     # our errors and only shows that authentication is unauthorized (which is hard to debug).
     Rails.logger.error(msg)
-    raise(message)
+    raise(msg)
   end
 end

@@ -61,11 +61,12 @@ class CreateAnonymousUser < ActiveInteraction::Base
     auth_user
   end
 
+  # rubocop:disable Metrics/AbcSize
   def find_role
     team = find_team
 
     role = team.roles.first
-    if role_title
+    if role_title.present?
       role = team.roles.find_by(title: role_title)
       return rerr("Specified role '#{role_title}' not found in team #{team_name}") if role.blank?
 
@@ -74,9 +75,10 @@ class CreateAnonymousUser < ActiveInteraction::Base
 
     role
   end
+  # rubocop:enable Metrics/AbcSize
 
   def find_team
-    return rerr('Required payload attribute team not specified') unless team_name
+    return rerr('Required payload attribute team not specified') if team_name.blank?
 
     team = Team.find_by(name: team_name)
     return rerr("Team '#{team_name}' not found") if team.blank?

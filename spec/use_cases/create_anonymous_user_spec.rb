@@ -30,6 +30,65 @@ describe CreateAnonymousUser do
       expect(auth_user.person.email).to be_blank
     end
 
+    it 'raises an error when the role was not found' do
+      pre_count = Person.count
+      pre_acount = AuthUser.count
+      expect do
+        described_class.run!(auth0_id_string: auth0_id_string,
+                             team_name: team.name,
+                             role_title: 'not-a-role',
+                             email: email,
+                             access_level: access_level)
+      end.to raise_error(RuntimeError, "Specified role 'not-a-role' not found in team #{team.name}")
+      expect(AuthUser.count).to eq(pre_acount + 1)
+      expect(Person.count).to eq(pre_count)
+    end
+
+    it 'raises an error when a team has no roles' do
+      pre_count = Person.count
+      pre_acount = AuthUser.count
+      team.roles.destroy_all
+      expect do
+        described_class.run!(auth0_id_string: auth0_id_string,
+                             team_name: team.name,
+                             role_title: nil,
+                             email: email,
+                             access_level: access_level)
+      end.to raise_error(RuntimeError, "Team '#{team.name}' has no roles")
+      expect(AuthUser.count).to eq(pre_acount + 1)
+      expect(Person.count).to eq(pre_count)
+    end
+
+    it 'raises an error when team name is not specified' do
+      pre_count = Person.count
+      pre_acount = AuthUser.count
+      team.roles.destroy_all
+      expect do
+        described_class.run!(auth0_id_string: auth0_id_string,
+                             team_name: '',
+                             role_title: role_title,
+                             email: email,
+                             access_level: access_level)
+      end.to raise_error(RuntimeError, 'Required payload attribute team not specified')
+      expect(AuthUser.count).to eq(pre_acount + 1)
+      expect(Person.count).to eq(pre_count)
+    end
+
+    it 'raises an error when the specified team was not found' do
+      pre_count = Person.count
+      pre_acount = AuthUser.count
+      team.roles.destroy_all
+      expect do
+        described_class.run!(auth0_id_string: auth0_id_string,
+                             team_name: 'not-a-team',
+                             role_title: role_title,
+                             email: email,
+                             access_level: access_level)
+      end.to raise_error(RuntimeError, "Team 'not-a-team' not found")
+      expect(AuthUser.count).to eq(pre_acount + 1)
+      expect(Person.count).to eq(pre_count)
+    end
+
     it 'reuses the existing auth_user and person if they exist' do
       role = team.roles.where(title: role_title).first
       person = FactoryBot.create(:person,

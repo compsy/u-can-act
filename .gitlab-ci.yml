@@ -26,7 +26,7 @@ build_web_job:
     - echo "PROJECT_NAME=${PROJECT_NAMEs}" > .env.local
     - export CI_COMMIT_REF_NAME_UP=`echo $CI_COMMIT_REF_NAME | awk '{ print toupper($0) }' | sed 's/-/_/g'`
     - env | grep K8S_SECRET_
-    - env | grep K8S_SECRET_ | sed "s/^K8S_SECRET_\(.*\)$/\1/g" | sed "s/^${CI_COMMIT_REF_NAME_UP}\(.*\)$/\1/g" > .env.local
+    - env | grep K8S_SECRET_ | sed "s/^K8S_SECRET_\(.*\)$/\1/g" | sed "s/^${CI_COMMIT_REF_NAME_UP}_\(.*\)$/\1/g" > .env.local
     - cat .env.local
     - docker build . -t ${IMAGE_REPO}:${CI_COMMIT_SHA}
 

@@ -19,7 +19,7 @@ class JwtAuthenticator
 
     def token_from_cookie_or_params(params, cookies)
       if token_from_params(params)
-        JWT.decode(token_from_params(params), Knock.token_public_key, true)
+        JWT.decode(token_from_params(params), Knock.token_public_key, true, algorithms: %w[RS256 HS256])
       else
         CookieJar.read_entry(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
       end

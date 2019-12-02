@@ -141,7 +141,7 @@ dagboek_content = [
     type: :number,
     title: 'Wat was de zwangerschapsduur in weken bij de geboorte?',
     maxlength: 2,
-    placeholder: 'Bijvoorbeeld: 38 weken',
+    placeholder: 'Bijvoorbeeld: 38',
     min: 20,
     max: 44,
     required: true,

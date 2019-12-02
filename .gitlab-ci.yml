@@ -23,7 +23,8 @@ build_web_job:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - echo "PROJECT_NAME=sport-data-valley" > .env.local
+    - echo "PROJECT_NAME=${PROJECT_NAME}" > .env.local
+    - printenv
     - docker build . -t ${IMAGE_REPO}:${CI_COMMIT_SHA}
 
 deploy_web_job:

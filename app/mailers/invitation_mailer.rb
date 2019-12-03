@@ -18,4 +18,10 @@ class InvitationMailer < ActionMailer::Base
     @message = message
     mail(subject: subject, to: email_address)
   end
+
+  def registration_mail(email_address, message, registration_url)
+    @registration_url = registration_url
+    @message = message
+    mail(subject: Rails.application.config.settings.registration.subject_line, to: email_address)
+  end
 end

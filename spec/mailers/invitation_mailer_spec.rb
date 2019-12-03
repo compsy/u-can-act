@@ -31,4 +31,29 @@ describe InvitationMailer do
       subject.invitation_mail(email_address, message, invitation_url)
     end
   end
+
+  describe 'registration_mail' do
+    let(:email_address) { 'email@email.com' }
+    let(:registration_url) { 'test.com' }
+    let(:message) { 'welcome at vsv' }
+
+    it 'sets the evaluation url in a instance variable' do
+      allow(subject).to receive(:mail).and_return(true)
+      expect(subject.instance_variable_get(:@registration_url)).to be_blank
+      expect(subject.instance_variable_get(:@message)).to be_blank
+      subject.registration_mail(email_address, message, registration_url)
+      expect(subject.instance_variable_get(:@registration_url)).not_to be_blank
+      expect(subject.instance_variable_get(:@registration_url)).to eq registration_url
+
+      expect(subject.instance_variable_get(:@message)).not_to be_blank
+      expect(subject.instance_variable_get(:@message)).to eq message
+    end
+
+    it 'calls the mail function with the correct subject and to address' do
+      allow(subject).to receive(:mail).with(
+        subject: Rails.application.config.settings.registration.subject_line, to: email_address
+      )
+      subject.registration_mail(email_address, message, registration_url)
+    end
+  end
 end

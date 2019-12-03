@@ -17,8 +17,6 @@ namespace :deployment do
       puts 'Creating .env.local file...'
       File.open(Rails.root.join('.env.local'), 'w') do |f|
         f.puts "PROJECT_NAME:      #{@args[:project_name]}"
-        f.puts "POSTGRES_DATABASE: #{@args[:project_name]}"
-        f.puts "MONGO_DATABASE:    #{@args[:project_name]}"
         f.puts ''
         f.puts "HOST_URL:          http://#{@args[:project_name]}.io"
         f.puts "HOST_DOMAIN:       #{@args[:project_name]}.io"

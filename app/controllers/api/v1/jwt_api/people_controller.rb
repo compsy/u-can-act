@@ -4,12 +4,13 @@ module Api
   module V1
     module JwtApi
       class PeopleController < JwtApiController
-        before_action :set_email
-        before_action :check_email
-        before_action :set_parent
-        before_action :set_team_name
-        before_action :set_first_name
-        before_action :set_role_title
+        before_action :set_email, only: %i[create]
+        before_action :check_email, only: %i[create]
+        before_action :set_parent, only: %i[create]
+        before_action :set_team_name, only: %i[create]
+        before_action :set_first_name, only: %i[create]
+        before_action :set_role_title, only: %i[create]
+        before_action :set_children, only: %i[list_children]
 
         def create
           @person = CreateChildPerson.run!(
@@ -23,7 +24,15 @@ module Api
           render json: { status: 'Person created' }, status: :ok
         end
 
+        def list_children
+          render json: @children, each_serializer: Api::ChildSerializer
+        end
+
         private
+
+        def set_children
+          @children = Person.where(parent: current_auth_user.person)
+        end
 
         def person_create_params
           params.permit(:email, :team, :role, :first_name)

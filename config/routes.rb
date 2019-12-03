@@ -64,7 +64,11 @@ Rails.application.routes.draw do
           end
         end
         resources :auth_user, only: [:create]
-        resources :people, only: [:create]
+        resources :people, only: [:create] do
+          collection do
+            get :list_children
+          end
+        end
 
         resources :protocol_subscriptions, only: [] do
           collection do

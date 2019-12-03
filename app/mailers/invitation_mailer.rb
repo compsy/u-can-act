@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class InvitationMailer < ActionMailer::Base
+class InvitationMailer < ApplicationMailer
   add_template_helper(ApplicationHelper)
 
   DEFAULT_INVITATION_SUBJECT = ENV['PROJECT_NAME']

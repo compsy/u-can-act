@@ -49,15 +49,11 @@ class CreateAnonymousUser < ActiveInteraction::Base
   end
 
   def create_new_person(auth_user)
-    ActiveRecord::Base.transaction do
-      auth_user.person = Person.create!(first_name: auth_user.auth0_id_string,
-                                        last_name: auth_user.auth0_id_string,
-                                        gender: nil,
-                                        mobile_phone: nil,
-                                        role: find_role,
-                                        auth_user: auth_user)
-      auth_user.save!
-    end
+    auth_user.create_person!(first_name: auth_user.auth0_id_string,
+                             last_name: auth_user.auth0_id_string,
+                             gender: nil,
+                             mobile_phone: nil,
+                             role: find_role)
     auth_user
   end
 

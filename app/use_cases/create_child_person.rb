@@ -10,11 +10,11 @@ class CreateChildPerson < ActiveInteraction::Base
   # Registers a child person
   def execute
     Person.create!(first_name: first_name,
-                   last_name: parent.id.to_s, # Store somewhere that this is a child
                    email: email,
                    gender: nil,
                    mobile_phone: nil,
-                   role: find_role)
+                   role: find_role,
+                   parent: parent)
   end
 
   private

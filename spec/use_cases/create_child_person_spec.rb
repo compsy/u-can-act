@@ -23,7 +23,7 @@ describe CreateChildPerson do
     expect(person.role.team.name).to eq team_name
     expect(person.role.title).to eq role
     expect(person.first_name).to eq first_name
-    expect(person.last_name).to eq parent.id.to_s
+    expect(person.parent).to eq parent
   end
 
   it 'raises an error when the specified role was not found' do

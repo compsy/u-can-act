@@ -19,21 +19,26 @@ class SubscribeToProtocol < ActiveInteraction::Base
   # - protocol: the protocol to subscribe the person to (optional)
   # - person: the person to start the protocol for
   # - start_date: the date when the subscription should start
+  # rubocop:disable Metrics/AbcSize
   def execute
+    the_mentor = mentor
     the_protocol = find_protocol
     the_start_date = find_start_date
     Rails.logger.warn("Protocol #{the_protocol.id} does not have any measurements") if the_protocol.measurements.blank?
 
-    prot_sub = ProtocolSubscription.create!(
+    # If we are a child, our parent is our mentor
+    the_mentor = person.parent if the_mentor.blank? && person&.parent.present?
+
+    ProtocolSubscription.create!(
       protocol: the_protocol,
       person: person,
-      filling_out_for: mentor,
+      filling_out_for: the_mentor,
       state: ProtocolSubscription::ACTIVE_STATE,
       start_date: the_start_date,
       end_date: end_date
     )
-    prot_sub
   end
+  # rubocop:enable Metrics/AbcSize
 
   def find_start_date
     # Active interaction weirdness. For some reason if we do not first copy

@@ -11,7 +11,7 @@ describe Api::V1::SettingsController, type: :controller do
       res
     end
 
-    let(:settings) { YAML.load_file(Rails.root.join('config', 'settings.yml')) }
+    let(:settings) { YAML.load_file(Rails.root.join('config/settings.yml')) }
     let(:specific_settings) do
       YAML.load_file(Rails.root.join('projects', ENV['PROJECT_NAME'], 'config', 'settings.yml'))
     end

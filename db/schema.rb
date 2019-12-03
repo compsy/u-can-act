@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191119145741) do
+ActiveRecord::Schema.define(version: 20191203172339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,9 @@ ActiveRecord::Schema.define(version: 20191119145741) do
     t.string "iban"
     t.string "ip_hash"
     t.boolean "account_active", default: false, null: false
+    t.bigint "parent_id"
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true
+    t.index ["parent_id"], name: "index_people_on_parent_id"
   end
 
   create_table "protocol_subscriptions", id: :serial, force: :cascade do |t|

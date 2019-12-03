@@ -68,6 +68,10 @@ Rails.application.routes.draw do
           collection do
             get :list_children
           end
+          member do
+            put :update_child
+            delete :destroy_child
+          end
         end
 
         resources :protocol_subscriptions, only: [] do

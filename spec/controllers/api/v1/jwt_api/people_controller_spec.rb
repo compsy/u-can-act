@@ -107,5 +107,13 @@ describe Api::V1::JwtApi::PeopleController, type: :controller do
         expect(result.length).to eq(0)
       end
     end
+
+    describe 'update_child' do
+      # TODO: write specs for update_child
+    end
+
+    describe 'destroy_child' do
+      # TODO: write specs for destroy_child
+    end
   end
 end

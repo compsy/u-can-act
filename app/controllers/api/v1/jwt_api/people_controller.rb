@@ -11,6 +11,7 @@ module Api
         before_action :set_first_name, only: %i[create]
         before_action :set_role_title, only: %i[create]
         before_action :set_children, only: %i[list_children]
+        before_action :set_child, only: %i[update_child destroy_child]
 
         def create
           @person = CreateChildPerson.run!(
@@ -28,7 +29,32 @@ module Api
           render json: @children, each_serializer: Api::ChildSerializer
         end
 
+        def update_child
+          @child = UpdateChildPerson.run(update_child_params.merge(person: @child))
+          if @child.valid?
+            render json: @child, serializer: Api::ChildSerializer, status: :ok
+          else
+            render json: @child.errors, status: :bad_request
+          end
+        end
+
+        def destroy_child
+          @child.destroy!
+          render json: { status: 'Child destroyed' }, status: :ok
+        end
+
         private
+
+        def set_child
+          @child = Person.find_by(id: params[:id], parent: current_auth_user.person)
+          return if @child.present?
+
+          render json: { error: 'No child with specified ID found' }, status: :not_found
+        end
+
+        def update_child_params
+          params.permit(:email, :first_name, :role)
+        end
 
         def set_children
           @children = Person.where(parent: current_auth_user.person)

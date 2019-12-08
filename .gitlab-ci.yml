@@ -28,7 +28,7 @@ build_test_job:
     NODE_ENV: development
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - sed -i "s/image: vsv/image: \${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
     - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
   # build the rails image, and push using unique commit sha for this feature
   script:
@@ -39,12 +39,10 @@ rspec_job:
   stage: test
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - sed -i "s/image: vsv/image: \${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
     - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
   script:
     - docker-compose run web rspec
-  variables:
-    CI: 'true'
   artifacts:
     paths:
       - coverage/
@@ -54,10 +52,9 @@ test_js_job:
   variables:
     RAILS_ENV: development
     NODE_ENV: development
-    CI: 'true'
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - sed -i "s/image: vsv/image: \${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
     - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
   # use docker-compose to prevent configuration duplication
   script:

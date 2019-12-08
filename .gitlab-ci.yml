@@ -29,6 +29,7 @@ build_test_job:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - sed -i "s/\${DOCKER_IMAGE_NAME-sdv}/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
   # build the rails image, and push using unique commit sha for this feature
   script:
     - docker build --build-arg precompileassets=not --build-arg production=false . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}-test

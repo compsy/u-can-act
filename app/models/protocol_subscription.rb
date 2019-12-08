@@ -140,6 +140,8 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def initialize_filling_out_for
+    # Note that this means that if the person you're filling out the protocol subscription for
+    # is destroyed, then the filling_out_for automatically gets reset back to yourself.
     self.filling_out_for ||= person
   end
 

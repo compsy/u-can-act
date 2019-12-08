@@ -14,7 +14,7 @@ ruby '2.6.3'
 gem 'rails', '~> 5.1.7'
 
 # Use Postgres as the database for Active Record
-gem 'pg', '= 0.20.0'
+gem 'pg', '= 1.1.4'
 
 # Driver for Redis datastore
 gem 'redis'
@@ -177,6 +177,7 @@ gem 'i18n-js' # We still need this gem because it generates translations.js for 
 gem 'rails-i18n'
 
 gem 'lograge'
+gem 'remote_syslog_logger'
 
 gem 'appsignal'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?

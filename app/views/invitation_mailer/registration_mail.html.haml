@@ -1,0 +1,6 @@
+%p #{@message.gsub("\n", "<br>").html_safe}
+%p
+  =link_to @registration_url, style: 'text-decoration: none; background-color:#0099ce;-webkit-border-radius:25px;-moz-border-radius:25px;border-radius:25px;display:inline-block;color:#fff;padding:0 20px;-webkit-box-shadow:0 0 0 10px rgba(255,255,255,0.8);-moz-box-shadow:0 0 0 10px rgba(255,255,255,0.8);box-shadow:0 0 0 10px rgba(255,255,255,0.8)' do
+    %span{style:"line-height:50px"}Maak een account aan
+%p Alvast hartelijk dank!
+%p Het #{ENV['PROJECT_NAME']} team

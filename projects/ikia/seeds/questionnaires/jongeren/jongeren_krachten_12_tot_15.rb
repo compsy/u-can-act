@@ -61,18 +61,6 @@ dagboek_content = [
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
-    id: :v1_9,
-    type: :expandable,
-    title: 'Schrijf alle dingen op die kunt doen met een melkpak',
-    default_expansions: 1,
-    max_expansions: 30,
-    content: [{
-                id: :v1_9_1,
-                type: :textarea,
-                title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
-    section_end: true
-  }, {
     section_start: 'In de volgende vragen zie je telkens drie woorden. Deze drie woorden hangen samen met één ander woord. De bedoeling is dat je bedenkt welk woord dit is. <br><br>
 Bijvoorbeeld: de woorden <i>tijd / hard / zand</i> kunnen met elkaar verbonden worden door het woord <i>steen: steentijd / hardsteen / zandsteen</i>. Het oplossingswoord is hier dus <i>steen</i>.<br><br>
 Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet weet, vul dan in "Weet ik niet".<br>',
@@ -340,6 +328,18 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     required: true,
     title: 'Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar'],
+    section_end: true
+ }, {
+    id: :v1_9,
+    type: :expandable,
+    title: 'Schrijf alle dingen op die kunt doen met een melkpak',
+    default_expansions: 1,
+    max_expansions: 30,
+    content: [{
+                id: :v1_9_1,
+                type: :textarea,
+                title: 'Wat kun je doen met een melkpak?',
+                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.'}],
     section_end: true
   }
 ]

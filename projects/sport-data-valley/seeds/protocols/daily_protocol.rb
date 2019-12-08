@@ -6,6 +6,15 @@ protocol ||= Protocol.new(name: pr_name)
 
 # TODO: We have to come up with the correct length of the protocol.
 protocol.duration = 30.days
+protocol.invitation_text = 'Je bent uitgenodigd door je coach om een vragenlijst in te vullen.'
+
+bp_name = 'base-platform-subscription-daily-protocol'
+bp_push_subscription = protocol.push_subscriptions.find_by(name: bp_name)
+bp_push_subscription ||= protocol.push_subscriptions.build(name: bp_name)
+bp_push_subscription.method = 'POST'
+bp_push_subscription.url = ENV['PUSH_SUBSCRIPTION_URL']
+bp_push_subscription.save!
+
 protocol.save!
 
 # Add questionnaires
@@ -44,4 +53,5 @@ sunday_measurement.period = 1.week # every sunday
 sunday_measurement.open_duration = 2.days # Open for two days
 sunday_measurement.reward_points = 0
 sunday_measurement.should_invite = true # send invitations
+sunday_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 sunday_measurement.save!

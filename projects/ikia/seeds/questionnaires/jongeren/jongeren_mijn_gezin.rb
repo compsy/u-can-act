@@ -351,7 +351,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v14_4,
     type: :textfield,
-    title: 'Wat doe je als je je down voelt of slecht in je vel zit? Dit kan iets zijn wat je hierboven genoemd hebt, of iets wat je nog niet genoemd hebt',
+    title: 'Wat doe je om je beter te voelen als je je down voelt of slecht in je vel zit? Dit kan iets zijn wat je hierboven genoemd hebt, of iets wat je nog niet genoemd hebt',
     required: true
   }, {
     id: :v15,

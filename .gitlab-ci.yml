@@ -41,6 +41,7 @@ rspec_job:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
     - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
   script:
     - docker-compose run web rspec
   artifacts:
@@ -56,6 +57,7 @@ test_js_job:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
     - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
   # use docker-compose to prevent configuration duplication
   script:
     - docker-compose run web yarn test
@@ -105,6 +107,7 @@ deploy_web_job:
   only:
     refs:
       - master
+
 
 .deploy_helpers: &deploy_helpers |
   # Extracts variables prefixed with K8S_SECRET_

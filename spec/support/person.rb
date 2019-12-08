@@ -333,6 +333,25 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'destroy' do
+    it 'destroys a person even though other people are filling out for it' do
+      person = FactoryBot.create(:person)
+      response = FactoryBot.create(:response)
+      response.filled_out_for = person
+      response.save!
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      other_person_id = protocol_subscription.person.id
+      protocol_subscription.filling_out_for = person
+      protocol_subscription.save!
+      expect(person.responses_filled_out_for_me).to eq([response])
+      expect { person.destroy }.to change(Person, :count).by(-1)
+      response.reload
+      expect(response.filled_out_for_id).to be_blank
+      protocol_subscription.reload
+      expect(protocol_subscription.filling_out_for_id).to eq(other_person_id)
+    end
+  end
+
   describe 'external_identifier' do
     it 'validates the alpha numeric of size IDENTIFIER_LENGTH format' do
       person = FactoryBot.create(:person)

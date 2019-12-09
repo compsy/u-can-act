@@ -6,57 +6,139 @@ services:
 # define pipline stages
 stages:
   - build
+  - test
   - deploy
 
 variables:
-  KUBE_NAMESPACE: sdvmvp-questionaires
+  # Workaround for error in DIND:
   DOCKER_TLS_CERTDIR: ''
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
-  IMAGE_REPO: ${CI_REGISTRY}/${CI_PROJECT_PATH}
+  RAILS_IMAGE: ${CI_REGISTRY}/${CI_PROJECT_PATH}
   DEPLOY_TAG: $CI_COMMIT_SHA
   PROJECT_NAME: sport-data-valley
+  CI: 'true'
+
+# Testing pipeline (backend, frontend, cucumber)
+build_test_job:
+  stage:
+    build
+  variables:
+    RAILS_ENV: development
+    NODE_ENV: development
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
+  # build the rails image, and push using unique commit sha for this feature
+  script:
+    - docker build --build-arg precompileassets=not --build-arg production=false . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}-test
+    - docker push $RAILS_IMAGE
+
+rspec_job:
+  stage: test
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
+  script:
+    - docker-compose run web rspec
+  artifacts:
+    paths:
+      - coverage/
+
+test_js_job:
+  stage: test
+  variables:
+    RAILS_ENV: development
+    NODE_ENV: development
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
+  # use docker-compose to prevent configuration duplication
+  script:
+    - docker-compose run web yarn test
 
 build_web_job:
   stage:
     build
   before_script:
+    - touch .env
+    #- export CI_COMMIT_REF_NAME_UP=`echo $CI_COMMIT_REF_NAME | awk '{ print toupper($0) }' | sed 's/-/_/g'`
+    - echo "PROJECT_NAME=${PROJECT_NAME}" > .env
+    #- env | grep K8S_SECRET_
+    #- env | grep K8S_SECRET_ | sed "s/^K8S_SECRET_\(.*\)$/\1/g" | sed "s/^${CI_COMMIT_REF_NAME_UP}_\(.*\)$/\1/g" > .env
+    - cat .env
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  variables:
+    RAILS_ENV: production
+    NODE_ENV: production
   script:
-    - echo "PROJECT_NAME=${PROJECT_NAMEs}" > .env.local
-    - export CI_COMMIT_REF_NAME_UP=`echo $CI_COMMIT_REF_NAME | awk '{ print toupper($0) }' | sed 's/-/_/g'`
-    - env | grep K8S_SECRET_
-    - env | grep K8S_SECRET_ | sed "s/^K8S_SECRET_\(.*\)$/\1/g" | sed "s/^${CI_COMMIT_REF_NAME_UP}_\(.*\)$/\1/g" > .env.local
-    - cat .env.local
-    - docker build . -t ${IMAGE_REPO}:${CI_COMMIT_SHA}
-
+    - docker build . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}-deploy
+    - docker push $RAILS_IMAGE
+  only:
+    refs:
+      - master
+      - production
 
 deploy_web_job:
-  stage:
-    deploy
+  stage: deploy
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
   environment:
     name: develop
-    url: https://sdvmvp.researchable.nl
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    url: https://svc-questionnaires.researchable.nl
   script:
     - echo "Deploying to namespace ${KUBE_NAMESPACE}"
+    - create_application_secret
     - kubectl version
     - cd manifests/
-    - sed -i s/__CI_COMMIT_REF_NAME__/${__CI_COMMIT_REF_NAME__}/
-    - cat deployment.yml
-    - touch .env
     - export CI_COMMIT_REF_NAME_UP=`echo $CI_COMMIT_REF_NAME | awk '{ print toupper($0) }'`
-    # delete old integrations URL
-    - sed -i 's/^INTEGRATIONS_URL=.*//' .env
-    # insert new integrations url and internal integrations url
-    - eval echo "INTEGRATIONS_URL=\$${CI_COMMIT_REF_NAME_UP}_INTEGRATIONS_URL" >> .env
-    - eval echo "INTEGRATIONS_URL_INTERNAL=\$${CI_COMMIT_REF_NAME_UP}_INTEGRATIONS_URL_INTERNAL" >> .env
-    # replace HOST_URL with production value
-    - eval "sed -i 's|^HOST_URL=.*|HOST_URL=${K8S_SECRET_DEVELOP_HOST_URL}|' .env"
-    # override hostname to which SessionToken is available
-    - eval "sed -i 's|SESSION_COOKIE_HOSTNAME=.*|SESSION_COOKIE_HOSTNAME=${K8S_SECRET_DEVELOP_COOKIE_DOMAIN}|' .env"
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - echo $CI_COMMIT_REF_NAME_UP
+    - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/" deployment.yaml ingress.yaml service.yaml worker.yaml
+    - sed -i "s/__CI_COMMIT_REF_NAME__/${CI_COMMIT_REF_NAME_UP}/" deployment.yaml ingress.yaml service.yaml worker.yaml
+    - kubectl apply -f .
+    - kubectl rollout status -f deployment.yaml
+    - kubectl get all,ing -l app=${CI_ENVIRONMENT_SLUG}
+  only:
+    refs:
+      - master
+
+
+.deploy_helpers: &deploy_helpers |
+  # Extracts variables prefixed with K8S_SECRET_
+  # and creates a Kubernetes secret.
+  #
+  # e.g. If we have the following environment variables:
+  #   K8S_SECRET_A=value1
+  #   K8S_SECRET_B=multi\ word\ value
+  #
+  # See: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/gitlab/ci/templates/Jobs/Deploy.gitlab-ci.yml
+  #
+  # Then we will create a secret with the following key-value pairs:
+  #   data:
+  #     A: dmFsdWUxCg==
+  #     B: bXVsdGkgd29yZCB2YWx1ZQo=
+  function create_application_secret() {
+    track="${1-stable}"
+    export APPLICATION_SECRET_NAME=production-secret
+
+    env | sed -n "s/^K8S_SECRET_\(.*\)$/\1/p" > k8s_prefixed_variables
+
+    echo "Creating secret $APPLICATION_SECRET_NAME in namespace $KUBE_NAMESPACE on track $track"
+    kubectl create secret \
+      -n "$KUBE_NAMESPACE" generic "$APPLICATION_SECRET_NAME" \
+      --from-env-file k8s_prefixed_variables -o yaml --dry-run |
+      kubectl replace -n "$KUBE_NAMESPACE" --force -f -
+
+    export APPLICATION_SECRET_CHECKSUM=$(cat k8s_prefixed_variables | sha256sum | cut -d ' ' -f 1)
+
+    rm k8s_prefixed_variables
+  }
+
+before_script:
+  - *deploy_helpers

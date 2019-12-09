@@ -83,6 +83,7 @@ build_web_job:
     refs:
       - master
       - production
+      - develop
 
 deploy_web_job:
   stage: deploy

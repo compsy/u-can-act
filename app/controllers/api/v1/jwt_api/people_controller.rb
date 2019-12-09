@@ -30,16 +30,22 @@ module Api
         end
 
         def update_child
-          @child = UpdateChildPerson.run(update_child_params.merge(person: @child))
+          # You cannot update the email address, because it does not send a new invitation.
+          @child = UpdateChildPerson.run(update_child_params.merge(person: @child, email: @child.email))
           if @child.valid?
-            render json: @child, serializer: Api::ChildSerializer, status: :ok
+            render json: @child.result, serializer: Api::ChildSerializer, status: :ok
           else
             render json: @child.errors, status: :bad_request
           end
         end
 
         def destroy_child
-          @child.destroy!
+          if @child.account_active?
+            # Don't actually destroy the child's account, just make us no longer the parent.
+            @child.update!(parent_id: nil)
+          else
+            @child.destroy!
+          end
           render json: { status: 'Child destroyed' }, status: :ok
         end
 

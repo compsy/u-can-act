@@ -2,7 +2,7 @@
 
 class UpdateChildPerson < ActiveInteraction::Base
   object :person
-  string :email
+  string :email, default: nil
   string :first_name
   string :role
 

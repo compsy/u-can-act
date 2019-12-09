@@ -77,7 +77,7 @@ build_web_job:
     RAILS_ENV: production
     NODE_ENV: production
   script:
-    - docker build . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}-deploy
+    - docker build . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}
     - docker push $RAILS_IMAGE
   only:
     refs:

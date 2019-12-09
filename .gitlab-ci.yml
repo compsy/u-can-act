@@ -107,6 +107,7 @@ deploy_web_job:
   only:
     refs:
       - master
+      - develop
 
 
 .deploy_helpers: &deploy_helpers |

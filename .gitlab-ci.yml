@@ -126,7 +126,7 @@ deploy_web_job:
   #     B: bXVsdGkgd29yZCB2YWx1ZQo=
   function create_application_secret() {
     track="${1-stable}"
-    export APPLICATION_SECRET_NAME=production-secret
+    export APPLICATION_SECRET_NAME=production-questionaire-secret
 
     env | sed -n "s/^K8S_SECRET_\(.*\)$/\1/p" > k8s_prefixed_variables
 

@@ -19,48 +19,48 @@ variables:
   PROJECT_NAME: sport-data-valley
   CI: 'true'
 
-# Testing pipeline (backend, frontend, cucumber)
-# build_test_job:
-#   stage:
-#     build
-#   variables:
-#     RAILS_ENV: development
-#     NODE_ENV: development
-#   before_script:
-#     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-#     - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
-#     - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
-#   # build the rails image, and push using unique commit sha for this feature
-#   script:
-#     - docker build --build-arg precompileassets=not --build-arg production=false . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}-test
-#     - docker push $RAILS_IMAGE
+Testing pipeline (backend, frontend, cucumber)
+build_test_job:
+  stage:
+    build
+  variables:
+    RAILS_ENV: development
+    NODE_ENV: development
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
+  # build the rails image, and push using unique commit sha for this feature
+  script:
+    - docker build --build-arg precompileassets=not --build-arg production=false . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}-test
+    - docker push $RAILS_IMAGE
 
-# rspec_job:
-#   stage: test
-#   before_script:
-#     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-#     - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
-#     - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
-#     - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
-#   script:
-#     - docker-compose run web rspec
-#   artifacts:
-#     paths:
-#       - coverage/
+rspec_job:
+  stage: test
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
+  script:
+    - docker-compose run web rspec
+  artifacts:
+    paths:
+      - coverage/
 
-# test_js_job:
-#   stage: test
-#   variables:
-#     RAILS_ENV: development
-#     NODE_ENV: development
-#   before_script:
-#     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-#     - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
-#     - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
-#     - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
-#   # use docker-compose to prevent configuration duplication
-#   script:
-#     - docker-compose run web yarn test
+test_js_job:
+  stage: test
+  variables:
+    RAILS_ENV: development
+    NODE_ENV: development
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - sed -i "s/vsv/\${RAILS_IMAGE}:\${CI_COMMIT_SHA}-test/" docker-compose.yml
+    - sed -ie '/build:/,/precompileassets/d' docker-compose.yml
+    - echo "PROJECT_NAME=${PROJECT_NAME}" >> .env
+  # use docker-compose to prevent configuration duplication
+  script:
+    - docker-compose run web yarn test
 
 build_web_job:
   stage:

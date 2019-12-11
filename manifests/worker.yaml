@@ -41,6 +41,16 @@ spec:
             value: "true"
           - name: PAPERTRAIL_PROGRAM
             value: dj
+          - name: PUSH_SUBSCRIPTION_URL
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___PUSH_SUBSCRIPTION_URL
+          - name: BASE_PLATFORM_URL
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___BASE_PLATFORM_URL
           - name: DATABASE_URL
             valueFrom:
               secretKeyRef:

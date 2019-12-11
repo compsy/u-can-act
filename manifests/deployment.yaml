@@ -38,6 +38,11 @@ spec:
             value: production
           - name: PAPERTRAIL_PROGRAM
             value: questionnaires
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___DATABASE_URL
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:

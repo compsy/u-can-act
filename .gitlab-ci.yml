@@ -6,7 +6,7 @@ services:
 # define pipline stages
 stages:
   - build
-#  - test
+  - test
   - deploy
 
 variables:

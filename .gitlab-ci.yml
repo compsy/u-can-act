@@ -77,7 +77,8 @@ build_web_job:
     RAILS_ENV: production
     NODE_ENV: production
   script:
-    - export DATABASE_URL=${K8S_SECRET_DEVELOP_DATABASE_URL}
+    - echo "DATABASE_URL=${K8S_SECRET_DEVELOP_DATABASE_URL}" >> .env
+    - cat .env
     - docker build . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}
     - docker push $RAILS_IMAGE
   only:

@@ -19,7 +19,7 @@ variables:
   PROJECT_NAME: sport-data-valley
   CI: 'true'
 
-Testing pipeline (backend, frontend, cucumber)
+# Testing pipeline (backend, frontend, cucumber)
 build_test_job:
   stage:
     build

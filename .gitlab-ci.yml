@@ -71,15 +71,15 @@ build_web_job:
     - echo "PROJECT_NAME=${PROJECT_NAME}" > .env
     #- env | grep K8S_SECRET_
     #- env | grep K8S_SECRET_ | sed "s/^K8S_SECRET_\(.*\)$/\1/g" | sed "s/^${CI_COMMIT_REF_NAME_UP}_\(.*\)$/\1/g" > .env
-    - env
-    - cat .env
+    # - env
+    # - cat .env
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   variables:
     RAILS_ENV: production
     NODE_ENV: production
   script:
     - echo "DATABASE_URL=${K8S_SECRET_DEVELOP_DATABASE_URL}" >> .env
-    - cat .env
+    # - cat .env
     - docker build . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}
     - docker push $RAILS_IMAGE
   only:

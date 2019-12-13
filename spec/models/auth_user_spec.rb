@@ -33,6 +33,7 @@ describe AuthUser, type: :model do
         ENV['SITE_LOCATION'] => {
           'access_level' => ['admin'],
           'role' => 'Studenttitle',
+          'email' => 'test@example.com',
           'team' => 'kct',
           'protocol' => 'KCT'
         }
@@ -73,6 +74,7 @@ describe AuthUser, type: :model do
         .with(auth0_id_string: correct_payload[described_class::AUTH0_KEY_LOCATION],
               team_name: correct_payload[ENV['SITE_LOCATION']]['team'],
               role_title: correct_payload[ENV['SITE_LOCATION']]['role'],
+              email: correct_payload[ENV['SITE_LOCATION']]['email'],
               access_level: AuthUser::ADMIN_ACCESS_LEVEL)
         .and_raise('stop_execution')
       expect { described_class.from_token_payload(correct_payload) }.to raise_error 'stop_execution'

@@ -4,8 +4,6 @@
     %meta{:content => 'text/html; charset=utf-8', 'http-equiv' => 'Content-Type'}/
     :css
       /* Email styles need to be inline */
-      .logo {width: 72px; }
-
       @font-face {
         font-family: 'Roboto';
         src: url("#{ENV['HOST_URL']}/fonts/Roboto-Bold.eot");
@@ -66,6 +64,6 @@
       .panel{style: "border: 2px solid #ccc; margin: 0px auto; padding: 10px; width: 560px; height: auto; background-color: #ffffff;-webkit-border-radius: 7px;-moz-border-radius: 7px;border-radius: 7px;"}
         %div{style: "padding-top:20px;padding-left:20px;padding-right:20px"}
           - if logo_image.present?
-            = image_tag logo_image, class: 'logo', alt: Rails.application.config.settings.application_name
+            = image_tag("#{ENV['HOST_URL']}#{image_path(logo_image)}", skip_pipeline: true, style: 'width: 50%;margin: auto;display: block;', alt: Rails.application.config.settings.application_name)
           = yield
     %div{style: "color: #ccc;"} #{"Ref: #{SecureRandom.hex(6)}"}

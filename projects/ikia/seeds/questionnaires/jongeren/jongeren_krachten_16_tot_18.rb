@@ -59,443 +59,195 @@ dagboek_content = [
     type: :range,
     title: 'Ik kom zomaar op ideeën',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
-    required: true
-  }, {
-    id: :v1_9,
-    type: :expandable,
-    title: 'Schrijf alle dingen op die je kunt doen met een melkpak',
-    default_expansions: 1,
-    max_expansions: 30,
-    content: [{
-                id: :v1_9_1,
-                type: :textarea,
-                title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
+    required: true,
     section_end: true
   }, {
     section_start: 'In de volgende vragen zie je telkens drie woorden. Deze drie woorden hangen samen met één ander woord. De bedoeling is dat je bedenkt welk woord dit is. <br><br>
 Bijvoorbeeld: de woorden <i>tijd / hard / zand</i> kunnen met elkaar verbonden worden door het woord <i>steen: steentijd / hardsteen / zandsteen</i>. Het oplossingswoord is hier dus <i>steen</i>.<br><br>
 Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet weet, vul dan in "Weet ik niet".<br>',
-    id: :v1_10,
+    id: :v2_1,
     type: :textfield,
     title: 'man / lijm / ster',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true,
     section_end: false
   }, {
-    id: :v1_11,
+    id: :v2_2,
     type: :textfield,
     title: 'hond / druk / band',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_12,
+    id: :v2_3,
     type: :textfield,
     title: 'palm / familie / huis',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_13,
+    id: :v2_4,
     type: :textfield,
     title: 'kamer / masker / explosie',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_14,
+    id: :v2_5,
     type: :textfield,
     title: 'strijkijzer / schip / trein',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_15,
+    id: :v2_6,
     type: :textfield,
     title: 'kop / boon / pause',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_16,
+    id: :v2_7,
     type: :textfield,
     title: 'controle / plaats / gewicht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_17,
+    id: :v2_8,
     type: :textfield,
     title: 'bar / jurk / glas',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_18,
+    id: :v2_9,
     type: :textfield,
     title: 'kolen / land / schacht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_19,
+    id: :v2_10,
     type: :textfield,
     title: 'kaas / land / huis',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_20,
+    id: :v2_11,
     type: :textfield,
     title: 'achter / kruk / mat',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_21,
+    id: :v2_12,
     type: :textfield,
     title: 'schommel / klap / rol',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_22,
+    id: :v2_13,
     type: :textfield,
     title: 'vlokken / ketting / pet',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_23,
+    id: :v2_14,
     type: :textfield,
     title: 'riet / klontje / hart',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_24,
+    id: :v2_15,
     type: :textfield,
     title: 'licht / dromen / maan',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_25,
+    id: :v2_16,
     type: :textfield,
     title: 'vis / mijn / geel',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_26,
+    id: :v2_17,
     type: :textfield,
     title: 'worm / kast / legger',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_27,
+    id: :v2_18,
     type: :textfield,
     title: 'bed / zee / school',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_28,
+    id: :v2_19,
     type: :textfield,
     title: 'grond / vis / geld',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_29,
+    id: :v2_20,
     type: :textfield,
     title: 'olie / pak / meester',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_30,
+    id: :v2_21,
     type: :textfield,
     title: 'room / vloot / koek',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_31,
+    id: :v2_22,
     type: :textfield,
     title: 'trommel / beleg /mes',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_32,
+    id: :v2_23,
     type: :textfield,
     title: 'ga / daar / dag',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_33,
+    id: :v2_24,
     type: :textfield,
     title: 'water / schoorsteen / lucht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_34,
+    id: :v2_25,
     type: :textfield,
     title: 'goot / kool / bak',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_35,
+    id: :v2_26,
     type: :textfield,
     title: 'deur / werk / kamer',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_36,
+    id: :v2_27,
     type: :textfield,
     title: 'nacht / vet / licht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_37,
+    id: :v2_28,
     type: :textfield,
     title: 'arm /veld / stil',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_38,
+    id: :v2_29,
     type: :textfield,
     title: 'val / meloen / lelie',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_39,
+    id: :v2_30,
     type: :textfield,
     title: 'school / ontbijt / spel',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true,
     section_end: true
   }, {
-    section_start: 'Geef voor elk van de volgende uitspraken aan hoe vaak deze voor jou in het algemeen waar is. Verplaats het bolletje naar het antwoord dat het beste past.',
-    id: :v2_1,
-    type: :range,
-    required: true,
-    title: 'Als ik loop let ik bewust op hoe de beweging van mijn lichaam voelt.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar'],
-    section_end: false
-  }, {
-    id: :v2_2,
-    type: :range,
-    required: true,
-    title: 'Ik ben goed in het vinden van woorden om mijn gevoelens te beschrijven.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_3,
-    type: :range,
-    required: true,
-    title: 'Ik bekritiseer mezelf voor het hebben van onlogische of ongepaste emoties.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_4,
-    type: :range,
-    required: true,
-    title: 'Ik neem mijn gevoelens en emoties waar zonder dat ik er iets mee hoef te doen.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_5,
-    type: :range,
-    required: true,
-    title: 'Als ik iets aan het doen ben dwalen mijn gedachten af en ben ik in het algemeen snel afgeleid.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_6,
-    type: :range,
-    required: true,
-    title: 'Als ik onder de douche sta of in bad lig blijf ik me bewust van het gevoel van water op mijn lichaam.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_7,
-    type: :range,
-    required: true,
-    title: 'Ik kan makkelijk mijn overtuigingen, meningen en verwachtingen onder woorden brengen.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_8,
-    type: :range,
-    required: true,
-    title: 'Ik let niet op wat ik doe omdat ik dagdroom, pieker of iets anders doe waardoor ik afgeleid ben.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_9,
-    type: :range,
-    required: true,
-    title: 'Ik observeer mijn gevoelens zonder dat ik me er helemaal door laat meeslepen.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_10,
-    type: :range,
-    required: true,
-    title: 'Ik zeg tegen mezelf dat ik me niet zo zou moeten voelen als ik me voel.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_11,
-    type: :range,
-    required: true,
-    title: 'Het valt me op hoe voedsel en drinken mijn gedachten, lichamelijke gewaarwordingen en emoties beïnvloeden.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_12,
-    type: :range,
-    required: true,
-    title: 'Het is moeilijk voor me om de woorden te vinden die mijn gedachten beschrijven.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_13,
-    type: :range,
-    required: true,
-    title: 'Ik ben snel afgeleid.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_14,
-    type: :range,
-    required: true,
-    title: 'Ik heb soms niet normale of slechte gedachten, die ik niet zo zou moeten denken.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_15,
-    type: :range,
-    required: true,
-    title: 'Ik let op lichamelijke ervaringen, zoals de wind in mijn haar of de zon op mijn gezicht.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_16,
-    type: :range,
-    required: true,
-    title: 'Ik heb moeite met het bedenken van de juiste woorden om uit te drukken wat ik van dingen vind.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_17,
-    type: :range,
-    required: true,
-    title: 'Ik oordeel of mijn gedachten goed of fout zijn.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_18,
-    type: :range,
-    required: true,
-    title: 'Ik vind het moeilijk om mijn aandacht te houden bij wat er op dit moment gebeurt.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_19,
-    type: :range,
-    required: true,
-    title: 'Als ik verontrustende gedachten heb of beelden zie, dan laat ik me daar niet door meevoeren.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_20,
-    type: :range,
-    required: true,
-    title: 'Ik let in het algemeen op geluiden zoals het tikken van een klok, het fluiten van de vogels of het voorbijrijden van een auto.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_21,
-    type: :range,
-    required: true,
-    title: 'In moeilijke situaties kan ik me inhouden zonder onmiddellijk te reageren.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_22,
-    type: :range,
-    required: true,
-    title: 'Als ik iets in mijn lichaam voel, kost het me moeite om de juiste woorden te vinden om het te beschrijven.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_23,
-    type: :range,
-    required: true,
-    title: 'Het lijkt alsof ik op de ‘automatische piloot’ sta zonder dat ik me erg bewust ben van wat ik doe.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_24,
-    type: :range,
-    required: true,
-    title: 'Als ik verontrustende gedachten heb of beelden zie, voel ik me kort daarna weer rustig.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_25,
-    type: :range,
-    required: true,
-    title: 'Ik zeg tegen mezelf dat ik niet moet denken zoals ik denk.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_26,
-    type: :range,
-    required: true,
-    title: 'Ik merk de geur en het aroma van dingen op.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_27,
-    type: :range,
-    required: true,
-    title: 'Zelfs als ik heel erg overstuur ben kan ik dit op een of andere manier onder woorden brengen.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_28,
-    type: :range,
-    required: true,
-    title: 'Ik doe activiteiten gehaast zonder dat ik er echt aandacht voor heb.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_29,
-    type: :range,
-    required: true,
-    title: 'Als ik verontrustende gedachten heb of beelden zie, kan ik ze opmerken zonder iets te doen.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_30,
-    type: :range,
-    required: true,
-    title: 'Ik denk dat mijn emoties soms slecht of ongepast zijn en dat ik ze niet zou moeten voelen.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_31,
-    type: :range,
-    required: true,
-    title: 'Ik merk de visuele aspecten van kunst of de natuur op, zoals kleur, vorm, structuur of patronen van licht en donker.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_32,
-    type: :range,
-    required: true,
-    title: 'Het is mijn natuurlijke neiging om mijn ervaringen in woorden te vatten.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_33,
-    type: :range,
-    required: true,
-    title: 'Als ik verontrustende gedachten heb of beelden zie, merk ik ze op laat ze los.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_34,
-    type: :range,
-    required: true,
-    title: 'Ik doe mijn werk of taken automatisch zonder dat ik me bewust ben van wat ik doe.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_35,
-    type: :range,
-    required: true,
-    title: 'Als ik verontrustende gedachten heb of beelden zie, veroordeel ik mezelf.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_36,
-    type: :range,
-    required: true,
-    title: 'Ik let op hoe mijn emoties mijn gedachten en gedrag beïnvloeden.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_37,
-    type: :range,
-    required: true,
-    title: 'Over het algemeen kan ik in detail beschrijven hoe ik me op dat moment voel.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_38,
-    type: :range,
-    required: true,
-    title: 'Ik merk dat ik vaak dingen doe zonder er aandacht aan te besteden.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar']
-  }, {
-    id: :v2_39,
-    type: :range,
-    required: true,
-    title: 'Ik keur mezelf af als ik onlogische gedachtes heb.',
-    labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar'],
-    section_end: true
-  }, {
-    section_start: 'Er volgen nu nog een aantal uitspraken over gedachten en gevoelens die je in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij jou past.',
+    section_start: 'Er volgen nu  een aantal uitspraken over gedachten en gevoelens die je in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij jou past.',
     id: :v3_1,
     type: :range,
     required: true,
@@ -622,6 +374,82 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     required: true,
     title: 'Voordat ik kritiek op iemand geef, probeer ik mij voor te stellen hoe ik mij zou voelen in zijn of haar plaats.',
     labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij'],
+    section_end: true
+  },{
+    section_start: 'Er volgen nu nog 10 zinnen. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    id: :v4_1,
+    type: :range,
+    required: true,
+    title: 'Ik raak van streek als ik gevoelens heb die nergens op slaan.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar'],
+    section_end: false
+  }, {
+    id: :v4_2,
+    type: :range,
+    required: true,
+    title: 'Op school loop ik van de ene activiteit naar de volgende zonder dat ik door heb wat ik aan het doen ben.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_3,
+    required: true,
+    type: :range,
+    title: 'Ik houd mezelf bezig zodat ik mijn gedachten of gevoelens niet op merk.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_4,
+    type: :range,
+    required: true,
+    title: 'Ik zeg tegen mezelf dat ik me niet zo zou moeten voelen zoals ik me voel.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_5,
+    type: :range,
+    required: true,
+    title: 'Ik druk gedachten weg die ik niet prettig vind.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_6,
+    type: :range,
+    required: true,
+    title: 'Het is moeilijk voor mij om mijn aandacht op één ding tegelijk te richten.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_7,
+    type: :range,
+    required: true,
+    title: 'Ik denk aan dingen die in het verleden gebeurd zijn, in plaats van aan dingen die in het hier en nu plaatsvinden.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_8,
+    type: :range,
+    required: true,
+    title: 'Ik word boos op mezelf over het hebben van bepaalde gedachten.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_9,
+    type: :range,
+    required: true,
+    title: 'Ik denk dat sommige van mijn gevoelens (bijvoorbeeld blij, boos, bang of verdrietig zijn) slecht zijn en dat ik ze niet zou moeten hebben.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
+  }, {
+    id: :v4_10,
+    type: :range,
+    required: true,
+    title: 'Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
+    labels: ['Nooit waar', 'Soms waar', 'Altijd waar'],
+    section_end: true
+  }, {
+    section_start: 'Tot slot...',
+    id: :v5,
+    type: :expandable,
+    title: 'Schrijf alle dingen op die je kunt doen met een melkpak',
+    default_expansions: 1,
+    max_expansions: 30,
+    content: [{
+                id: :v5_1,
+                type: :textarea,
+                title: 'Wat kun je doen met een melkpak?',
+                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.'}],
     section_end: true
   }
 ]

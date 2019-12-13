@@ -30,9 +30,7 @@ services:
       - backend
       - frontend
     depends_on:
-      - db
-      - redis
-      - mongo
+      - web
     links:
       - web
   web:

@@ -118,6 +118,12 @@ Below is a list of all required ENV variables for production servers.
   IP_HASH_SALT: <for certain users we store the hashed ip address. The hash is generated with this salt>
 
   INFO_SITE_URL: <site for more information about the u-can-act project, typically https://u-can-act.nl>
+
+  PUSH_SUBSCRIPTION_URL: <for pushing results back to the base platform, e.g., 'http://web:3000/api/v1/data/create_raw'> 
+  BASE_PLATFORM_URL: <the external url of the base platform for redirecting the user, e.g., 'http://localhost:3000'>
+
+  SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
+  REGISTRATION_URL: <url for sending invites to for person email registration>
 ```
 
 ### (Local) development settings
@@ -128,8 +134,6 @@ Since this file determines which project will run, it should at minimum have the
 `.env.local` minimum settings:
 ```
   PROJECT_NAME:      myproject
-  POSTGRES_DATABASE: myproject
-  MONGO_DATABASE:    myproject
 
   HOST_URL:          http://myproject.io
   HOST_DOMAIN:       myproject.io

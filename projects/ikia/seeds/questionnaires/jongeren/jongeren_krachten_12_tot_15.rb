@@ -96,13 +96,13 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v1_20,
+    id: :v2_11,
     type: :textfield,
     title: 'achter / kruk / mat',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
-    id: :v2_11,
+    id: :v2_12,
     type: :textfield,
     title: 'schommel / klap / rol',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',

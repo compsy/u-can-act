@@ -18,6 +18,7 @@ module Api
             end_date: end_date,
             mentor: mentor
           )
+          SendInvitations.run
           render status: :created, json: result
         end
 

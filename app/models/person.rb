@@ -38,6 +38,11 @@ class Person < ApplicationRecord
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy, inverse_of: :person
   has_many :responses, through: :protocol_subscriptions
+  has_many :responses_filled_out_for_me,
+           class_name: 'Response',
+           dependent: :nullify,
+           inverse_of: :filled_out_for,
+           foreign_key: 'filled_out_for_id'
   # invitation_sets.first is the last one created:
   has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy, inverse_of: :person
   has_one :auth_user, dependent: :destroy

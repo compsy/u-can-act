@@ -177,6 +177,7 @@ gem 'i18n-js' # We still need this gem because it generates translations.js for 
 gem 'rails-i18n'
 
 gem 'lograge'
+gem 'remote_syslog_logger'
 
 gem 'appsignal'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?

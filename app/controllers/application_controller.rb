@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   def page_not_found
     respond_to do |format|
       format.html { render file: Rails.root.join('public/404.html'), layout: nil, status: :not_found }
-      format.all  { render nothing: true, status: :not_found }
+      format.all  { head :not_found }
     end
   end
 

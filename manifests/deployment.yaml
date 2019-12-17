@@ -155,21 +155,11 @@ spec:
               secretKeyRef:
                 name: production-questionaire-secret
                 key: __CI_COMMIT_REF_NAME___AUTH0_SIGNING_CERTIFICATE
-          - name: REDIS_HOST
+          - name: REDIS_URL
             valueFrom:
               secretKeyRef:
                 name: production-questionaire-secret
-                key: __CI_COMMIT_REF_NAME___REDIS_HOST
-          - name: REDIS_PORT
-            valueFrom:
-              secretKeyRef:
-                name: production-questionaire-secret
-                key: __CI_COMMIT_REF_NAME___REDIS_PORT
-          - name: REDIS_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: production-questionaire-secret
-                key: __CI_COMMIT_REF_NAME___REDIS_PASSWORD
+                key: __CI_COMMIT_REF_NAME___REDIS_URL
           - name: TEST_PHONE_NUMBERS
             valueFrom:
               secretKeyRef:
@@ -220,6 +210,36 @@ spec:
               secretKeyRef:
                 name: production-questionaire-secret
                 key: __CI_COMMIT_REF_NAME___RAILS_SERVE_STATIC_FILES
+          - name: MAILGUN_API_HOST
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___MAILGUN_API_HOST
+          - name: MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___MONGODB_URI
+          - name: PROJECT_START_DATE
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___PROJECT_START_DATE
+          - name: PROJECT_END_DATE
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___PROJECT_END_DATE
+          - name: PROJECT_NAME
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___PROJECT_NAME
+          - name: SITE_LOCATION
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___SITE_LOCATION
           ports:
           - containerPort: 3000
             protocol: TCP

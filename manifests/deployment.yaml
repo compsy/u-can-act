@@ -240,6 +240,16 @@ spec:
               secretKeyRef:
                 name: production-questionaire-secret
                 key: __CI_COMMIT_REF_NAME___SITE_LOCATION
+          - name: WEB_CONCURRENCY
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___WEB_CONCURRENCY
+          - name: RAILS_MAX_THREADS
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___RAILS_MAX_THREADS
           ports:
           - containerPort: 3000
             protocol: TCP

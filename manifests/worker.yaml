@@ -206,3 +206,13 @@ spec:
               secretKeyRef:
                 name: production-questionaire-secret
                 key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM
+          - name: PAPERTRAIL_PORT
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___PAPERTRAIL_PORT
+          - name: PAPERTRAIL_HOST
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___PAPERTRAIL_HOST

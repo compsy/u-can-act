@@ -27,7 +27,7 @@ spec:
         - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
-          command: ['rake', 'jobs:work']
+          command: ['bundle', 'exec', 'rake', 'jobs:work']
           env:
           - name: RAILS_ENV
             value: production

@@ -31,7 +31,7 @@ describe CreateAnonymousPerson do
 
     it 'raises if a team is provided that does not have roles' do
       expect { described_class.run!(team_name: team.name) }
-        .to raise_error RuntimeError, "Team #{team.name} not found or does not have roles!"
+        .to raise_error RuntimeError, "Team '#{team.name}' not found or does not have roles!"
     end
   end
 end

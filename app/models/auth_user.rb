@@ -14,6 +14,14 @@ class AuthUser < ApplicationRecord
     auth0_id_string
   end
 
+  def generate_token
+    request_env = {}
+    Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
+                                    self,
+                                    :user,
+                                    request_env)
+  end
+
   class << self
     # This function gets called automatically when authorizing a user. So note
     # that if we raise from here, the authorization process stops and it might
@@ -23,26 +31,20 @@ class AuthUser < ApplicationRecord
       access_level = access_level_from_payload(payload)
       team = team_from_payload(payload)
       role = role_from_payload(payload)
+      email = email_from_payload(payload)
 
       auth_user = CreateAnonymousUser.run!(
         auth0_id_string: id,
         team_name: team,
         role_title: role,
-        access_level: access_level
+        access_level: access_level,
+        email: email
       )
 
       # Note that we only subscribe the person if the protocol is provided in
       # the metadata.
       subscribe_to_protocol_if_needed(auth_user.person, payload)
       auth_user
-    end
-
-    def generate_token
-      request_env = {}
-      Warden::JWTAuth::Hooks.new.send(:add_token_to_env,
-                                      self,
-                                      :user,
-                                      request_env)
     end
 
     private
@@ -58,6 +60,10 @@ class AuthUser < ApplicationRecord
 
     def role_from_payload(payload)
       metadata_from_payload(payload)['role']
+    end
+
+    def email_from_payload(payload)
+      metadata_from_payload(payload)['email']
     end
 
     def protocol_from_payload(payload)

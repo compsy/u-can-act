@@ -86,6 +86,7 @@ Rails.application.routes.draw do
             get :me
             get :my_students
             put :update
+            delete :destroy
           end
         end
       end

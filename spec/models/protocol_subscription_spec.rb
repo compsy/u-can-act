@@ -474,10 +474,10 @@ describe ProtocolSubscription do
                                                 protocol: protocol,
                                                 start_date: Time.new(2017, 10, 23, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
-      expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 10, 24, 13, 0, 0).in_time_zone)
-      expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 10, 31, 13, 0, 0, '-01:00').in_time_zone)
-      expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 11, 7, 13, 0, 0, '-01:00').in_time_zone)
-      expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 11, 14, 13, 0, 0, '-01:00').in_time_zone)
+      expect(protocol_subscription.responses[0].open_from).to eq Time.new(2017, 10, 24, 13, 0, 0).in_time_zone
+      expect(protocol_subscription.responses[1].open_from).to eq Time.new(2017, 10, 31, 13, 0, 0, '-01:00').in_time_zone
+      expect(protocol_subscription.responses[2].open_from).to eq Time.new(2017, 11, 7, 13, 0, 0, '-01:00').in_time_zone
+      expect(protocol_subscription.responses[3].open_from).to eq Time.new(2017, 11, 14, 13, 0, 0, '-01:00').in_time_zone
     end
   end
 

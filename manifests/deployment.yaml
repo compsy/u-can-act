@@ -261,6 +261,8 @@ spec:
             initialDelaySeconds: 200
             timeoutSeconds: 5
             periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /status
@@ -269,5 +271,5 @@ spec:
             initialDelaySeconds: 200
             timeoutSeconds: 5
             periodSeconds: 5
-
-
+            successThreshold: 1
+            failureThreshold: 3

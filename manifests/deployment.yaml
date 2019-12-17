@@ -215,6 +215,11 @@ spec:
               secretKeyRef:
                 name: production-questionaire-secret
                 key: __CI_COMMIT_REF_NAME___PAPERTRAIL_HOST
+          - name: RAILS_SERVE_STATIC_FILES
+            valueFrom:
+              secretKeyRef:
+                name: production-questionaire-secret
+                key: __CI_COMMIT_REF_NAME___RAILS_SERVE_STATIC_FILES
           ports:
           - containerPort: 3000
             protocol: TCP

@@ -1,4 +1,4 @@
-default_protocol_duration = 356.days  # evt eerder dynamisch afbreken
+default_protocol_duration = 365.days  # evt eerder dynamisch afbreken
 
 pr_name = 'training_log'
 protocol = Protocol.find_by_name(pr_name)

@@ -66,7 +66,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   protocol = Protocol.find_by_name(solo_protocol)
   token = solo_protocol
   otr = OneTimeResponse.find_by(token: token)
-  ort ||= OneTimeResponse.create!(token: token, protocol: protocol)
+  otr ||= OneTimeResponse.create!(token: token, protocol: protocol)
 
   puts Rails.application.routes.url_helpers.one_time_response_url(q: token)
   puts 'Generated onetime response'

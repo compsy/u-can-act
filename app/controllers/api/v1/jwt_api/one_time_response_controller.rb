@@ -22,13 +22,17 @@ module Api
         end
 
         def mentor
+          return nil if one_time_response_params[:mentor_id].blank?
+
           @mentor ||= Person.find_by(id: one_time_response_params[:mentor_id])
         end
 
         def load_one_time_response
           token = one_time_response_params[:otr]
+          render(status: :bad_request, json: 'otr parameter moet opgegeven worden.') && return if token.blank?
+
           @one_time_response = OneTimeResponse.find_by(token: token)
-          return @one_time_response if @one_time_response.present?
+          return if @one_time_response.present?
 
           render(status: :not_found, json: 'De vragenlijst kon niet gevonden worden.')
         end

@@ -88,6 +88,8 @@ class Person < ApplicationRecord
     return [] if protocol_subscriptions.blank?
 
     prot_subs = protocol_subscriptions.active.reject { |prot_sub| prot_sub.protocol.otr_protocol? }
+    # TODO: Check if the following yields the same results, this could be way more efficient.
+    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: false })
 
     filter_for_myself(prot_subs, for_myself)
   end
@@ -104,6 +106,9 @@ class Person < ApplicationRecord
 
   def my_open_one_time_responses(for_myself = true)
     prot_subs = protocol_subscriptions.active.select { |prot_sub| prot_sub.protocol.otr_protocol? }
+    # TODO: Check if the following yields the same results, this could be way more efficient.
+    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: true })
+
     subscriptions = filter_for_myself(prot_subs, for_myself)
     subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end

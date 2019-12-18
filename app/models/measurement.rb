@@ -22,6 +22,7 @@ class Measurement < ApplicationRecord
   validates :reminder_delay, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
 
   validate :either_open_from_or_offset_till_end
+  validate :no_otr_and_should_invite
 
   has_many :responses, dependent: :destroy
 
@@ -97,6 +98,10 @@ class Measurement < ApplicationRecord
       offsets_cannot_both_be_blank
       offsets_cannot_both_be_present
     end
+  end
+
+  def no_otr_and_should_invite
+    errors.add(:open_from_offset, 'cannot be blank') if should_invite? && protocol.otr_protocol?
   end
 
   def open_from_offset_cannot_be_blank

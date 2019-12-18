@@ -27,7 +27,7 @@ spec:
         - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
-          command: ['rake', 'jobs:work']
+          command: ['bundle', 'exec', 'rake', 'jobs:work']
           env:
           - name: RAILS_ENV
             value: production
@@ -40,7 +40,7 @@ spec:
           - name: CUCUMBER_ALLOWED
             value: "true"
           - name: PAPERTRAIL_PROGRAM
-            value: dj
+            value: djq
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:
@@ -186,5 +186,8 @@ spec:
               secretKeyRef:
                 name: production-secret
                 key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
-
-
+          - name: TOKEN_SIGNATURE_ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM

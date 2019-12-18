@@ -93,9 +93,6 @@ deploy_web_job:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
-  environment:
-    name: develop
-    url: https://svc-questionnaires.researchable.nl
   script:
     - echo "Deploying to namespace ${KUBE_NAMESPACE}"
     - create_application_secret
@@ -103,9 +100,9 @@ deploy_web_job:
     - cd manifests/
     - export CI_COMMIT_REF_NAME_UP=`echo $CI_COMMIT_REF_NAME | awk '{ print toupper($0) }'`
     - echo $CI_COMMIT_REF_NAME_UP
-    - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/" deployment.yaml ingress.yaml service.yaml worker.yaml
-    - sed -i "s/__CI_COMMIT_REF_NAME__/${CI_COMMIT_REF_NAME_UP}/" deployment.yaml ingress.yaml service.yaml worker.yaml
-    - kubectl apply -f .
+    - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/" deployment.yaml ingress_${CI_COMMIT_REF_NAME_UP}.yaml service.yaml worker.yaml
+    - sed -i "s/__CI_COMMIT_REF_NAME__/${CI_COMMIT_REF_NAME_UP}/" deployment.yaml ingress_${CI_COMMIT_REF_NAME_UP}.yaml service.yaml worker.yaml
+    - kubectl apply -f deployment.yaml ingress_${CI_COMMIT_REF_NAME_UP}.yaml service.yaml worker.yaml
     - kubectl rollout status -f deployment.yaml
     - kubectl get all,ing -l app=${CI_ENVIRONMENT_SLUG}
   only:

@@ -36,4 +36,4 @@ db_measurement.save!
 protocol = Protocol.find_by_name(pr_name)
 token = pr_name
 otr = OneTimeResponse.find_by(token: token)
-ort ||= OneTimeResponse.create!(token: token, protocol: protocol)
+otr ||= OneTimeResponse.create!(token: token, protocol: protocol)

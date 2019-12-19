@@ -16,7 +16,7 @@ dagboek_content = [
     id: :v1,
     title: 'Trainingtype',
     type: :dropdown,
-    options: %w[hardlopen fietsen kracht MTB],
+    options: %w[hardlopen fietsen voetballen kracht MTB],
     required: true
   },
   {
@@ -32,6 +32,8 @@ dagboek_content = [
       'ext tempo',
       'int tempo',
       'fartlek',
+      'general fitness',
+      'race',
       'anders'
     ],
     required: true
@@ -96,8 +98,13 @@ dagboek_content = [
       'Tevreden',
       'Totaal tevreden'
     ]
+  },
+  {
+    id: :v8,
+    type: :textarea,
+    title: 'Opmerkingen',
+    placeholder: 'Vul iets in (optioneel)'
   }
-
 ]
 
 questionnaire.content = dagboek_content

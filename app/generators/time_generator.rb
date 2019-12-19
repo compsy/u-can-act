@@ -27,7 +27,7 @@ class TimeGenerator < QuestionTypeGenerator
                           options,
                           content_tag(:label, label)
                         ])
-    content_tag(:div, options, class: "input-field col m6 l1 #{elem_id}")
+    content_tag(:div, options, class: "col m6 l1 no-padding #{elem_id}")
   end
 
   def generate_dropdown(items, id)
@@ -36,6 +36,6 @@ class TimeGenerator < QuestionTypeGenerator
       body << content_tag(:option, option, value: option)
     end
     body = safe_join(body)
-    content_tag(:select, body, name: answer_name(id), id: id, required: true)
+    content_tag(:select, body, name: answer_name(id), id: id, required: true, class: 'browser-default')
   end
 end

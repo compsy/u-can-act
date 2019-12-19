@@ -19,6 +19,7 @@
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react_ujs": "^2.6.0",
+    "serialize-javascript": "^2.1.1",
     "typescript": "^3.5.3",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7"
@@ -34,7 +35,6 @@
     "jest": "^24.9.0",
     "webpack-dev-server": "^3.8.0"
   },
-
   "scripts": {
     "test": "jest"
   },
@@ -51,6 +51,8 @@
       "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest"
     },
-    "setupFilesAfterEnv": ["./spec/javascript/setupTests.js"]
+    "setupFilesAfterEnv": [
+      "./spec/javascript/setupTests.js"
+    ]
   }
 }

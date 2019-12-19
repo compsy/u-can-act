@@ -36,6 +36,8 @@ spec:
             value: production
           - name: NODE_ENV
             value: production
+          - name: APPSIGNAL_ACTIVE
+            value: "true"
           - name: PAPERTRAIL_PROGRAM
             value: questionnaires
           - name: SECRET_KEY_BASE
@@ -183,6 +185,11 @@ spec:
               secretKeyRef:
                 name: production-secret
                 key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
+          - name: TOKEN_SIGNATURE_ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: production-secret
+                key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM
           ports:
           - containerPort: 3000
             protocol: TCP

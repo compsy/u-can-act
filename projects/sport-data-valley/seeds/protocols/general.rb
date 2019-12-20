@@ -5,6 +5,7 @@ general_solo_protocol = Protocol.find_by_name(pr_name)
 general_solo_protocol ||= Protocol.new(name: pr_name)
 general_solo_protocol.duration = 1.day
 general_solo_protocol.invitation_text = 'Je bent uitgenodigd door je coach om een vragenlijst in te vullen.'
+general_solo_protocol.save!
 
 bp_name = 'base-platform-subscription'
 bp_push_subscription = general_solo_protocol.push_subscriptions.find_by(name: bp_name)

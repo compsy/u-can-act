@@ -37,8 +37,15 @@ spec:
             value: production
           - name: APPSIGNAL_ACTIVE
             value: "true"
+          - name: APPSIGNAL_APP_ENV
+            value: __CI_COMMIT_DOWN_REF_NAME__
           - name: PAPERTRAIL_PROGRAM
             value: djq
+          - name: APPSIGNAL_PUSH_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: base-platform-secret
+                key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
           - name: PUSH_SUBSCRIPTION_URL
             valueFrom:
               secretKeyRef:

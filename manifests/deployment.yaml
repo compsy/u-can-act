@@ -36,10 +36,19 @@ spec:
             value: production
           - name: NODE_ENV
             value: production
+          - name: REVISION
+            value: __CI_COMMIT_SHA__
+          - name: APPSIGNAL_APP_ENV
+            value: __CI_COMMIT_DOWN_REF_NAME__
           - name: APPSIGNAL_ACTIVE
             value: "true"
           - name: PAPERTRAIL_PROGRAM
             value: questionnaires
+          - name: APPSIGNAL_PUSH_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: base-platform-secret
+                key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
           - name: PUSH_SUBSCRIPTION_URL
             valueFrom:
               secretKeyRef:

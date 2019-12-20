@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: svc-questionnaires
+  namespace: sdv-mvp-develop
+  labels:
+    app: svc-questionnaires
+spec:
+  rules:
+  - host: svc-questionnaires.researchable.nl
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: svc-questionnaires-service
+          servicePort: 3000
+  - host: svc-questionnaires.sportdatavalley.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: svc-questionnaires-service
+          servicePort: 3000
+

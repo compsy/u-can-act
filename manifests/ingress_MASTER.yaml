@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: svc-questionnaires
-  namespace: sdv-mvp-MASTER
+  namespace: sdv-mvp-master
   labels:
     app: svc-questionnaires
 spec:

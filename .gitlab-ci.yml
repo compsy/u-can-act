@@ -11,6 +11,7 @@ stages:
 
 variables:
   # Workaround for error in DIND:
+  KUBE_NAMESPACE: sdv-mvp-$CI_COMMIT_REF_NAME
   DOCKER_TLS_CERTDIR: ''
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
@@ -38,12 +39,16 @@ build_web_job:
       - production
       - develop
 
-deploy_web_job:
+.deploy_job: &deploy_job
   stage: deploy
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
   script:
+    # Replace the name of the namespace in the configuration of the CI runner.
+    # This allows us to also deploy to other namespaces.
+    - >-
+      sed -i "s/namespace:.*/namespace: "${KUBE_NAMESPACE}"/" $KUBECONFIG
     - echo "Deploying to namespace ${KUBE_NAMESPACE}"
     - create_application_secret
     - kubectl version
@@ -52,14 +57,28 @@ deploy_web_job:
     - echo $CI_COMMIT_REF_NAME_UP
     - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/" deployment.yaml ingress_${CI_COMMIT_REF_NAME_UP}.yaml service.yaml worker.yaml cron.yaml
     - sed -i "s/__CI_COMMIT_REF_NAME__/${CI_COMMIT_REF_NAME_UP}/" deployment.yaml ingress_${CI_COMMIT_REF_NAME_UP}.yaml service.yaml worker.yaml cron.yaml
-    - kubectl apply -f deployment.yaml ingress_${CI_COMMIT_REF_NAME_UP}.yaml service.yaml worker.yaml cron.yaml
+    - sed -i "s/__CI_COMMIT_DOWN_REF_NAME__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress_${CI_COMMIT_REF_NAME_UP}.yaml service.yaml worker.yaml cron.yaml
+    - kubectl apply -f deployment.yaml -f ingress_${CI_COMMIT_REF_NAME_UP}.yaml -f service.yaml -f worker.yaml -f cron.yaml
     - kubectl rollout status -f deployment.yaml
     - kubectl get all,ing -l app=${CI_ENVIRONMENT_SLUG}
+
+# This is needed for gitlab to be able to find the correct kube config
+deploy_job:develop:
+  <<: *deploy_job
+  environment:
+    name: develop
+  only:
+    refs:
+      - develop
+
+# This is needed for gitlab to be able to find the correct kube config
+deploy_job:master:
+  <<: *deploy_job
+  environment:
+    name: master
   only:
     refs:
       - master
-      - develop
-
 
 .deploy_helpers: &deploy_helpers |
   # Extracts variables prefixed with K8S_SECRET_

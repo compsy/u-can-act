@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: svc-questionnaires
-  namespace: sdv-mvp-__CI_COMMIT_REF_NAME__
+  namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
   labels:
     worker: "no"
 spec:

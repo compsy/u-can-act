@@ -10,7 +10,7 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/assets/training_log_header.jpg" style="width:auto" class="questionnaire-image" />',
+    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:auto" class="questionnaire-image" />',
   },
   {
     id: :v1,
@@ -65,7 +65,7 @@ dagboek_content = [
   },
   {
     id: :v6,
-    title: 'RPE score<br><img src="/assets/rpe.jpg" style="width:auto" class="questionnaire-image" />',
+    title: 'RPE score<br><img src="/sport-data-valley/rpe.jpg" style="width:auto" class="questionnaire-image" />',
     type: :range,
     min: 0,
     max: 10,

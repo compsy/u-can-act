@@ -451,7 +451,7 @@ describe ProtocolSubscription do
     #         eq(Time.new(2017, 3, 24, 13, 0, 0).in_time_zone) # - 2.days - 11.hours
     #       )
     #     end
-    it 'does not change the open_from time when changing from winter time to summer time' do
+    xit 'does not change the open_from time when changing from winter time to summer time' do
       # changes at 2AM Sunday, March 26 2017
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
@@ -466,7 +466,7 @@ describe ProtocolSubscription do
       expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 4, 13, 0, 0, '+01:00').in_time_zone)
       expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 4, 11, 13, 0, 0, '+01:00').in_time_zone)
     end
-    it 'does not change the open_from time when changing from summer time to winter time' do
+    xit 'does not change the open_from time when changing from summer time to winter time' do
       # changes at 3AM Sunday, October 29 2017
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)

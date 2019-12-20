@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-complete_protocol_subscriptions
+  name: scheduler-complete-protocol-subscriptions
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "30 2 * * *"
@@ -239,7 +239,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-cleanup_invitation_tokens
+  name: scheduler-cleanup-invitation-tokens
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 3 * * *"
@@ -478,7 +478,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-send_invitations
+  name: scheduler-send-invitations
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "*/10 * * * *"
@@ -717,7 +717,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-monitoring_questionnaires
+  name: scheduler-monitoring-questionnaires
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "00 3 * * *"

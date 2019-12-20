@@ -3,7 +3,7 @@
 class PushSubscription < ApplicationRecord
   belongs_to :protocol
   validates :url, presence: true
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { scope: :protocol_id }
   validates :method, inclusion: %w[GET POST PUT]
 
   def push_response(response)

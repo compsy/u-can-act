@@ -51,8 +51,14 @@ describe PushSubscription, type: :model do
       expect(push_subscription.errors.messages).to eq expected_error
     end
 
-    it 'validates that the name is unique' do
+    it 'accepts push subscriptions with the same name for different protocols' do
       FactoryBot.create(:push_subscription, name: 'ando')
+      push_subscription.name = 'ando'
+      expect(push_subscription).to be_valid
+    end
+
+    it 'validates that the combination of name and protocol is unique' do
+      FactoryBot.create(:push_subscription, name: 'ando', protocol: push_subscription.protocol)
       push_subscription.name = 'ando'
       expected_error = { name: ['is al in gebruik'] }
       expect(push_subscription).not_to be_valid

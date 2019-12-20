@@ -5,7 +5,6 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   demo_team = 'sdv-team'
   solo_role_title = 'Demo-solo'
   normal_role_title = 'normal'
-  solo_protocol = 'general-solo-protocol'
 
   organization = Organization.find_by_name(demo_organization)
   team = organization.teams.find_by_name(demo_team)
@@ -62,12 +61,4 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Daily protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
-  puts 'Generating onetime response'
-  protocol = Protocol.find_by_name(solo_protocol)
-  token = solo_protocol
-  otr = OneTimeResponse.find_by(token: token)
-  otr ||= OneTimeResponse.create!(token: token, protocol: protocol)
-
-  puts Rails.application.routes.url_helpers.one_time_response_url(q: token)
-  puts 'Generated onetime response'
 end

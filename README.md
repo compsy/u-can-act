@@ -124,6 +124,8 @@ Below is a list of all required ENV variables for production servers.
 
   SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
   REGISTRATION_URL: <url for sending invites to for person email registration>
+
+  WORKLESS_DISABLED: <set to 'true' if you want to disable workless>
 ```
 
 ### (Local) development settings

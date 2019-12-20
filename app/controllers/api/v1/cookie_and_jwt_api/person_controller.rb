@@ -21,6 +21,11 @@ module Api
           end
         end
 
+        def destroy
+          current_user.destroy!
+          render status: :ok, json: { status: 'ok' }
+        end
+
         private
 
         def person_params

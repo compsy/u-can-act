@@ -2,12 +2,12 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: svc-questionnaires
-  namespace: sdv-mvp
+  namespace: sdv-mvp-master
   labels:
     app: svc-questionnaires
 spec:
   rules:
-  - host: svc-questionnaires.researchable.nl
+  - host: svc-questionnaires.sportdatavalley.nl
     http:
       paths:
       - path: /

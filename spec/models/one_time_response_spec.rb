@@ -82,4 +82,66 @@ RSpec.describe OneTimeResponse, type: :model do
       )
     end
   end
+
+  describe 'redirect_url' do
+    let(:protocol) { FactoryBot.create(:protocol, :with_measurements) }
+    let(:otr) { FactoryBot.create(:one_time_response, protocol: protocol) }
+    let(:person) { FactoryBot.create(:person) }
+    let(:mentor) { FactoryBot.create(:mentor) }
+    let(:invitation_token) { FactoryBot.create(:invitation_token) }
+
+    before :each do
+      expect(person.protocol_subscriptions).to be_blank
+    end
+
+    it 'should return the url for the otr' do
+      otr.subscribe_person(person)
+      person.reload
+      result = otr.redirect_url(person)
+      expect(result).to_not be_blank
+      expect(result).to start_with '?q='
+    end
+
+    it 'should also create a url if not subscribed' do
+      result = otr.redirect_url(person)
+      expect(result).to_not be_blank
+      expect(result).to start_with '?q='
+    end
+  end
+
+  describe 'subscribe_person' do
+    let(:protocol) { FactoryBot.create(:protocol, :with_measurements) }
+    let(:otr) { FactoryBot.create(:one_time_response, protocol: protocol) }
+    let(:person) { FactoryBot.create(:person) }
+    let(:mentor) { FactoryBot.create(:mentor) }
+
+    before :each do
+      expect(person.protocol_subscriptions).to be_blank
+    end
+
+    it 'should subscribe the person to the protocol' do
+      otr.subscribe_person(person)
+      person.reload
+      expect(person.protocol_subscriptions).to_not be_blank
+      expect(person.protocol_subscriptions.length).to eq 1
+      expect(person.protocol_subscriptions.first.protocol).to eq otr.protocol
+    end
+
+    it 'should also set the mentor' do
+      otr.subscribe_person(person, mentor)
+      person.reload
+      expect(person.protocol_subscriptions).to_not be_blank
+      expect(person.protocol_subscriptions.length).to eq 1
+      expect(person.protocol_subscriptions.first.person).to eq person
+      expect(person.protocol_subscriptions.first.filling_out_for).to eq mentor
+    end
+
+    it 'should also prepare the responses' do
+      expect(person.all_my_open_responses).to be_blank
+      otr.subscribe_person(person)
+      person.reload
+      expect(person.all_my_open_responses).to_not be_blank
+      expect(person.my_open_one_time_responses).to_not be_blank
+    end
+  end
 end

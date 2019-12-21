@@ -13,7 +13,7 @@ spec:
   - hosts:
     - svc-questionnaires.sportdatavalley.dev
     - svc-questionnaires.researchable.nl
-    secretName: sportdatavalley-tls
+    secretName: sportdatavalley-svc-questionnaires-tls
   rules:
   - host: svc-questionnaires.researchable.nl
     http:

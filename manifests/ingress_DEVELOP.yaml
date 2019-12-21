@@ -5,7 +5,15 @@ metadata:
   namespace: sdv-mvp-develop
   labels:
     app: svc-questionnaires
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-master"
 spec:
+  tls:
+  - hosts:
+    - svc-questionnaires.sportdatavalley.dev
+    - svc-questionnaires.researchable.nl
+    secretName: sportdatavalley-tls
   rules:
   - host: svc-questionnaires.researchable.nl
     http:

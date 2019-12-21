@@ -10,6 +10,7 @@ organization = Organization.find_by_name(demo_organization)
 team = organization.teams.find_by_name(demo_team)
 normal_role = team.roles.where(title: normal_role_title).first
 
+$person_email ||= 'demo@researchable.nl'
 person = Person.find_by(email: $person_email)
 person ||= Person.new(email: $person_email)
 

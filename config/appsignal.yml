@@ -1,7 +1,19 @@
 default: &defaults
-  push_api_key: "a0c0b397-a5cb-46e6-b380-780e905cfe2f"
-  name: <%= ENV["PROJECT_NAME"] %>
+  # Your push api key, it is possible to set this dynamically using ERB:
+  # push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
+  push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
 
+  # Your app's name
+  name: "<%= ENV['PROJECT_NAME'] %>"
+
+  # Trigger new deploys
+  revision: "<%= ENV['REVISION'] %>"
+
+  enable_frontend_error_catching: true
+  enable_minutely_probes: true
+
+# Configuration per environment, leave out an environment or set active
+# to false to not push metrics for that environment.
 development:
   <<: *defaults
   active: false
@@ -9,9 +21,7 @@ development:
 production:
   <<: *defaults
   active: true
-  log_path: '/tmp'
 
 staging:
   <<: *defaults
   active: true
-  log_path: '/tmp'

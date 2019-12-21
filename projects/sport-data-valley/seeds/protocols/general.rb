@@ -15,6 +15,13 @@ bp_push_subscription.save!
 
 general_solo_protocol.save!
 
+puts 'Generating onetime response'
+otr = OneTimeResponse.find_by(token: pr_name)
+otr ||= OneTimeResponse.create!(token: pr_name, protocol: general_solo_protocol)
+
+puts Rails.application.routes.url_helpers.one_time_response_url(q: pr_name)
+puts 'Generated onetime response'
+
 # Add questionnaires
 questionnaires = [
   'ostrc',
@@ -35,7 +42,7 @@ questionnaires.each_with_index do |questionnaire_name, idx|
   demo_measurement.open_duration = nil # always open
   demo_measurement.reward_points = 0
   demo_measurement.stop_measurement = last_questionnaire # unsubscribe immediately if it is the last questionnaire
-  demo_measurement.should_invite = true # send e-mail invitations
+  demo_measurement.should_invite = false # send e-mail invitations
   demo_measurement.redirect_url = ENV['BASE_PLATFORM_URL'] if last_questionnaire
   demo_measurement.save!
 end

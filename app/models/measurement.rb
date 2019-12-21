@@ -101,7 +101,7 @@ class Measurement < ApplicationRecord
   end
 
   def no_otr_and_should_invite
-    errors.add(:open_from_offset, 'cannot be blank') if should_invite? && protocol&.otr_protocol?
+    errors.add(:should_invite, 'cannot be set for an otr protocol') if should_invite? && protocol&.otr_protocol?
   end
 
   def open_from_offset_cannot_be_blank

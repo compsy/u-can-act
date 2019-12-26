@@ -81,8 +81,10 @@ describe 'GET and POST /', type: :feature, js: true do
 
     # v4
     expect(page).to have_content('Hoeveel tijd deed u over het eten?')
-    materialize_select(1, 4, 'div.v4_uren>')
-    materialize_select(0, 15, 'div.v4_minuten>')
+    # materialize_select(1, 4, 'div.v4_uren>')
+    normal_select('#v4_uren', 4)
+    # materialize_select(0, 15, 'div.v4_minuten>')
+    normal_select('#v4_minuten', 15)
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)
     sleep(10)

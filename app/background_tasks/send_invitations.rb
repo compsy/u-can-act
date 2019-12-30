@@ -41,8 +41,11 @@ class SendInvitations
     end
 
     def create_invitations(invitation_set)
-      invitation_set.invitations.create!(type: 'EmailInvitation') if invitation_set.person.email.present?
-      invitation_set.invitations.create!(type: 'SmsInvitation') if invitation_set.person.mobile_phone.present?
+      if invitation_set.person.mobile_phone.present?
+        invitation_set.invitations.create!(type: 'SmsInvitation')
+      elsif invitation_set.person.email.present?
+        invitation_set.invitations.create!(type: 'EmailInvitation')
+      end
     end
   end
 end

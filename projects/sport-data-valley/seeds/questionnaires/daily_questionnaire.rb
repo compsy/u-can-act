@@ -81,7 +81,7 @@ dagboek_content = [
   },
   {
     id: :v7,
-    title: 'Readiness-to train',
+    title: 'Readiness-to-train',
     type: :range,
     min: 1,
     max: 5,

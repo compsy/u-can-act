@@ -36,7 +36,7 @@ if Rails.env.development? || Rails.env.staging?
     boek_measurement.save!
 
     # Create one time response
-    protocol = Protocol.find_by_name(questionnaire_key)
+    protocol = Protocol.find_by_name(pr_name)
     token = questionnaire_key
     OneTimeResponse.create!(token: token, protocol: protocol)
     puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"

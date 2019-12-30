@@ -18,14 +18,8 @@ capybara-*.html
 # **.orig
 rerun.txt
 routes.txt
-people.csv
 docker-compose.override.yml
-students.csv
-mentors.csv
 pickle-email-*.html
-
-# development database
-/tmp/db
 
 # dotenv
 .env.local

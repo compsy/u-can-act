@@ -21,10 +21,11 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         put :update, params: { person: { email: new_email } }
         expect(response.status).to eq 422
         expect(response.header['Content-Type']).to include 'application/json'
-        json = JSON.parse(response.body)
-        expect(json['status']).to eq 'not ok'
-        expect(json['errors']).to include 'email'
-        expect(json['errors']['email']).to include 'is ongeldig'
+        json = JSON.parse(response.body)['errors'][0]
+        expect(json['status']).to eq '422'
+        expect(json['title']).to eq 'unprocessable'
+        expect(json['detail']).to include 'email'
+        expect(json['detail']['email']).to include 'is ongeldig'
       end
 
       it 'updates the current user' do

@@ -192,11 +192,12 @@ describe Response do
       end
       it 'finds all responses for a given week of the year' do
         week_number = 20
-        date = Date.commercial(Time.zone.now.year, week_number, 1).in_time_zone + 3.days
+        date = Date.commercial(Time.zone.now.to_date.cwyear, week_number, 1).in_time_zone + 3.days
         expected_response = FactoryBot.create(:response, open_from: date)
 
         FactoryBot.create(:response,
-                          open_from: Date.commercial(Time.zone.now.year, week_number - 1, 1).in_time_zone + 3.days)
+                          open_from: Date.commercial(Time.zone.now.to_date.cwyear,
+                                                     week_number - 1, 1).in_time_zone + 3.days)
 
         result = described_class.in_week(week_number: week_number)
         expect(result.count).to eq 1

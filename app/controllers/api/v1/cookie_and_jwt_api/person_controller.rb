@@ -17,7 +17,7 @@ module Api
           if res
             render status: :ok, json: { status: 'ok' }
           else
-            render status: :unprocessable_entity, json: { status: 'not ok', errors: current_user.errors }
+            unprocessable_entity(current_user.errors)
           end
         end
 

@@ -196,7 +196,8 @@ describe Response do
         expected_response = FactoryBot.create(:response, open_from: date)
 
         FactoryBot.create(:response,
-                          open_from: Date.commercial(Time.zone.now.to_date.cwyear, week_number - 1, 1).in_time_zone + 3.days)
+                          open_from: Date.commercial(Time.zone.now.to_date.cwyear,
+                                                     week_number - 1, 1).in_time_zone + 3.days)
 
         result = described_class.in_week(week_number: week_number)
         expect(result.count).to eq 1

@@ -7,9 +7,9 @@ default: &default
   project_end_date: '2032-12-21'
   logo:
     favicon: 'myfavicon.ico'
-    mentor_logo: 'logo_mentor.svg'
-    student_logo: 'logo_student.svg'
-    fallback_logo: 'logo.svg'
+    mentor_logo: 'sdv-logo.png'
+    student_logo: 'sdv-logo.png'
+    fallback_logo: 'sdv-logo.png'
     company_logo: null
 development:
   <<: *default

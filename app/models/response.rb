@@ -35,6 +35,7 @@ class Response < ApplicationRecord
     )
   })
   scope :completed, (-> { where.not(completed_at: nil) })
+  scope :not_completed, (-> { where(completed_at: nil) })
   scope :invited, (lambda {
     where('invitation_set_id IS NOT NULL')
   })

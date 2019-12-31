@@ -10,7 +10,7 @@ class RescheduleResponses < ActiveInteraction::Base
   #   subscription
   def execute
     ActiveRecord::Base.transaction do
-      protocol_subscription.responses.after_date(future).destroy_all
+      protocol_subscription.responses.not_completed.after_date(future).destroy_all
       schedule_responses
     end
   end

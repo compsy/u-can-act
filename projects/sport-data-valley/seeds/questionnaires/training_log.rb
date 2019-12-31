@@ -52,6 +52,8 @@ dagboek_content = [
     hours_from: 0,
     hours_to: 24,
     hours_step: 1,
+    hours_label: 'uur',
+    minutes_label: 'minuten',
     required: true
   },
   {

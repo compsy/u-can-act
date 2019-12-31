@@ -35,6 +35,7 @@ class Response < ApplicationRecord
     )
   })
   scope :completed, (-> { where.not(completed_at: nil) })
+  scope :not_completed, (-> { where(completed_at: nil) })
   scope :invited, (lambda {
     where('invitation_set_id IS NOT NULL')
   })
@@ -65,7 +66,7 @@ class Response < ApplicationRecord
     # using %U is bad, hence week_number = Time.zone.now.strftime('%U') is off by one.
     # instead, use the Date.cweek function
     week_number = (options[:week_number] || Time.zone.now.to_date.cweek).to_i
-    year = (options[:year] || Time.zone.now.year).to_i
+    year = (options[:year] || Time.zone.now.to_date.cwyear).to_i
 
     date = Date.commercial(year, week_number, 1).in_time_zone
     between_dates(date.beginning_of_week.in_time_zone, date.end_of_week.in_time_zone)

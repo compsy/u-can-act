@@ -1,7 +1,7 @@
 # Don't delay jobs when running this as a service of the base platform locally in development
 Delayed::Worker.delay_jobs = false if ENV['RUNNING_AS_SERVICE'].present?
 
-if Rails.env.production?
+if Rails.env.production? || Rails.env.staging?
   if ENV['PAPERTRAIL_HOST'].present?
     Delayed::Worker.logger = RemoteSyslogLogger.new(ENV['PAPERTRAIL_HOST'],
                                            ENV['PAPERTRAIL_PORT'].to_i,

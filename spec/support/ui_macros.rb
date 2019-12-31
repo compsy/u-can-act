@@ -22,4 +22,8 @@ module UiMacros
     find("#{base} li", text: option).click # select the option wanted
     sleep(1)
   end
+
+  def normal_select(scope, value)
+    find(scope).find(:xpath, "option[@value='#{value}']").select_option
+  end
 end

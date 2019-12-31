@@ -13,6 +13,19 @@ module Api
                status: :unauthorized
       end
 
+      def unprocessable_entity(resource_errors)
+        render json: {
+          errors: [
+            {
+              status: '422',
+              title: 'unprocessable',
+              detail: resource_errors,
+              code: '100'
+            }
+          ]
+        }, status: :unprocessable_entity
+      end
+
 # rubocop:disable Style/BlockComments
 =begin
       # This function can be enabled when debugging the authentication

@@ -13,9 +13,11 @@ class TimeGenerator < QuestionTypeGenerator
     from = question[:hours_from] || 0
     to = question[:hours_to] || 6
     step = question[:hours_step] || 1
+    hours_label = question[:hours_label] || 'Uren'
+    minutes_label = question[:minutes_label] || 'Minuten'
 
-    hours = time_dropdown(question[:id], from, to, step, 'Uren')
-    minutes = time_dropdown(question[:id], 0, 60, 15, 'Minuten')
+    hours = time_dropdown(question[:id], from, to, step, hours_label)
+    minutes = time_dropdown(question[:id], 0, 60, 15, minutes_label)
 
     safe_join([hours, minutes])
   end

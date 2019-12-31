@@ -698,6 +698,8 @@ Required and allowed options (minimal example):
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
 
+Optional properties are `hours_label` and `minutes_label`, to override the default label texts.
+
 ### Type: Date
 Required and allowed options (minimal example and maximal example):
 

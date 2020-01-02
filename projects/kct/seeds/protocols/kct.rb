@@ -16,32 +16,21 @@ protocol.save!
 
 # Add dagboekmetingen
 questionnaires = [
-  # CAP1
-  'KCT Foxtrot',
-  # CAP2
-  'KCT Golf',
-  # COM
-  'KCT Delta',
-  # COP
-  'KCT Julliet',
-  # Demographics
-  'KCT Bravo',
-  # MTQ
-  'KCT India',
-  # NEO
-  'KCT Lima',
-  # OPT
-  'KCT Kilo',
-  # RES
-  'KCT Charlie',
-  # SE
-  'KCT Echo',
-  # IRS
-  'KCT Mike',
-  # IC
   'KCT Alfa',
-  # Vragenlijsten Nico
+  'KCT Bravo',
+  'KCT Charlie',
+  'KCT Delta',
+  'KCT Delta VCO',
+  # 'KCT Delta Compagnie',
+  'KCT Echo',
+  'KCT Foxtrot',
+  'KCT Golf',
   'KCT Hotel',
+  'KCT India',
+  'KCT Julliet',
+  'KCT Kilo',
+  'KCT Lima',
+  'KCT Mike',
 ]
 
 questionnaires.each do |name|

@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-daily-at-one-am
+  name: svc-questionnaire-scheduler-daily-at-one-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 1 * * *"
@@ -31,7 +31,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-daily-at-two-am
+  name: svc-questionnaire-scheduler-daily-at-two-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 2 * * *"
@@ -61,7 +61,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-daily-at-three-am
+  name: svc-questionnaire-scheduler-daily-at-three-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 3 * * *"
@@ -91,7 +91,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-daily-at-four-am
+  name: svc-questionnaire-scheduler-daily-at-four-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 4 * * *"
@@ -121,7 +121,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-daily
+  name: svc-questionnaire-scheduler-daily
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 0 * * *"
@@ -151,7 +151,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-hourly
+  name: svc-questionnaire-scheduler-hourly
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 * * * *"
@@ -181,7 +181,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-thirty-minutely
+  name: svc-questionnaire-scheduler-thirty-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "*/30 * * * *"
@@ -211,7 +211,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-five-minutely
+  name: svc-questionnaire-scheduler-five-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "*/5 * * * *"
@@ -241,7 +241,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-minutely
+  name: svc-questionnaire-scheduler-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "* * * * *"

@@ -6,7 +6,7 @@ module Api
     attributes :first_name, :last_name, :gender, :email, :mobile_phone, :iban, :id, :account_active, :my_open_responses
 
     def my_open_responses
-      object.my_open_responses(true)
+      object.my_open_responses
     end
   end
 end

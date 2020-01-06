@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-title = 'Echo'
+title = 'Echo VCO'
 
 name = 'KCT Echo VCO'
 questionnaire = Questionnaire.find_by_name(name)

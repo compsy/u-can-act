@@ -324,7 +324,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    react-rails (2.6.0)
+    react-rails (2.6.1)
       babel-transpiler (>= 0.7.0)
       connection_pool
       execjs
@@ -431,12 +431,12 @@ GEM
     temple (0.8.2)
     term-ansicolor (1.7.1)
       tins (~> 1.0)
-    thor (1.0.0)
+    thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
     tins (1.22.2)
-    tzinfo (1.2.5)
+    tzinfo (1.2.6)
       thread_safe (~> 0.1)
     tzinfo-data (1.2019.3)
       tzinfo (>= 1.0.0)

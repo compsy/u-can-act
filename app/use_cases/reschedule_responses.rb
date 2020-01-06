@@ -10,7 +10,7 @@ class RescheduleResponses < ActiveInteraction::Base
   #   subscription
   def execute
     ActiveRecord::Base.transaction do
-      protocol_subscription.responses.after_date(future).destroy_all
+      protocol_subscription.responses.not_completed.after_date(future).destroy_all
       schedule_responses
     end
   end
@@ -27,11 +27,11 @@ class RescheduleResponses < ActiveInteraction::Base
     measurement.response_times(protocol_subscription.start_date, protocol_subscription.end_date).each do |time|
       # TODO: We can speed this up by not scheduling responses that are too far in the future
       next if in_past? time
-      next if measurement_response_completed_and_not_periodical? measurement
+      next unless measurement_requires_scheduling? measurement
 
-      Response.create!(protocol_subscription_id: protocol_subscription.id,
-                       measurement_id: measurement.id,
-                       open_from: time)
+      Response.create(protocol_subscription_id: protocol_subscription.id,
+                      measurement_id: measurement.id,
+                      open_from: time)
     end
   end
 
@@ -43,12 +43,21 @@ class RescheduleResponses < ActiveInteraction::Base
     time > future
   end
 
-  def measurement_response_completed_and_not_periodical?(measurement)
+  # We don't want to create the response when the measurement has already been
+  # completed in the case of a non-periodical measurement. I.e., if the
+  # measurements reponse was completed, but it is periodical, we would like
+  # the new responses
+  def measurement_requires_scheduling?(measurement)
+    measurement.periodical? ||
+      measurement.protocol.otr_protocol? ||
+      !measurement_response_completed?(measurement)
+  end
+
+  def measurement_response_completed?(measurement)
     protocol_subscription
       .responses
       .completed
       .where(measurement_id: measurement.id)
-      .present? &&
-      !measurement.periodical?
+      .present?
   end
 end

@@ -12,7 +12,6 @@ FactoryBot.define do
     trait :stop_measurement do
       stop_measurement { true }
     end
-
     trait :periodical do
       period { 1.week.to_i }
     end

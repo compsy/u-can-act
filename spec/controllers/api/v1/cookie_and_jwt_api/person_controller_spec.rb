@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
   let(:person) { FactoryBot.create(:person, :with_iban, email: 'test@test2.com') }
+  let!(:auth_user) { FactoryBot.create(:auth_user, person: person) }
 
   describe 'unauthorized' do
     it_behaves_like 'an is_logged_in concern', :me, {}
@@ -20,10 +21,11 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         put :update, params: { person: { email: new_email } }
         expect(response.status).to eq 422
         expect(response.header['Content-Type']).to include 'application/json'
-        json = JSON.parse(response.body)
-        expect(json['status']).to eq 'not ok'
-        expect(json['errors']).to include 'email'
-        expect(json['errors']['email']).to include 'is ongeldig'
+        json = JSON.parse(response.body)['errors'][0]
+        expect(json['status']).to eq '422'
+        expect(json['title']).to eq 'unprocessable'
+        expect(json['detail']).to include 'email'
+        expect(json['detail']['email']).to include 'is ongeldig'
       end
 
       it 'updates the current user' do
@@ -36,6 +38,34 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         expect(json['status']).to eq 'ok'
         person.reload
         expect(person.email).to eq new_email
+      end
+    end
+
+    describe 'destroy' do
+      it 'renders the correct errors if something goes wrong' do
+        person.destroy
+        auc = AuthUser.count
+        pc = Person.count
+        delete :destroy, params: {}
+        expect(Person.count).to eq pc
+        expect(AuthUser.count).to eq auc
+        expect(response.status).to eq 401
+      end
+
+      it 'destroys the current user' do
+        auc = AuthUser.count
+        pc = Person.count
+        person_id = person.id
+        delete :destroy, params: {}
+        expect(Person.count + 1).to eq pc
+        expect(AuthUser.count + 1).to eq auc
+        expect(response.status).to eq 200
+        expect(response.header['Content-Type']).to include 'application/json'
+        json = JSON.parse(response.body)
+        expect(json).not_to be_nil
+        expect(json['status']).to eq 'ok'
+        person = Person.where(id: person_id).first
+        expect(person).to be_blank
       end
     end
 

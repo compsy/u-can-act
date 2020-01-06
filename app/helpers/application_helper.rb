@@ -24,6 +24,32 @@ module ApplicationHelper
     mentor_or_student_logo
   end
 
+  def created
+    render json: {
+      result: [
+        {
+          status: '201',
+          title: 'created',
+          detail: 'resource created',
+          code: '100'
+        }
+      ]
+    }, status: :created
+  end
+
+  def no_content
+    render json: {
+      result: [
+        {
+          status: '204',
+          title: 'no content',
+          detail: 'no content provided',
+          code: '100'
+        }
+      ]
+    }, status:  :no_content
+  end
+
   private
 
   def current_user_from_header

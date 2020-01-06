@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
       # JWT APIs
       scope module: :jwt_api do
+        resources :one_time_response, only: [:index, :show], param: :otr
         resources :questionnaire, only: [:show, :create], param: :key
         resources :response, only: [:show, :index, :create], param: :uuid do
           collection do
@@ -94,12 +95,27 @@ Rails.application.routes.draw do
             get :me
             get :my_students
             put :update
+            delete :destroy
           end
         end
       end
 
       # Basic auth APIs
       namespace :basic_auth_api do
+        resources :scheduling, only: [] do
+          collection do
+            post :daily_at_one_am
+            post :daily_at_two_am
+            post :daily_at_three_am
+            post :daily_at_four_am
+            post :daily
+            post :hourly
+            post :thirty_minutely
+            post :five_minutely
+            post :minutely
+          end
+        end
+
         resources :protocol_subscriptions, only: [:create]
         resources :person, only: [] do
           collection do

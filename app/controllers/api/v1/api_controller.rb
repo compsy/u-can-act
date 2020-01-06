@@ -13,6 +13,43 @@ module Api
                status: :unauthorized
       end
 
+      def unprocessable_entity(resource_errors)
+        render json: {
+          errors: [
+            {
+              status: '422',
+              title: 'unprocessable',
+              detail: resource_errors,
+              code: '100'
+            }
+          ]
+        }, status: :unprocessable_entity
+      end
+
+# rubocop:disable Style/BlockComments
+=begin
+      # This function can be enabled when debugging the authentication
+      # currently it is implemented by know authenticable
+      def define_current_entity_getter(entity_class, getter_name)
+        unless respond_to?(getter_name)
+          memoization_var_name = "@_#{getter_name}"
+          self.class.send(:define_method, getter_name) do
+            unless instance_variable_defined?(memoization_var_name)
+              current =
+                begin
+                  Knock::AuthToken.new(token: token).entity_for(entity_class)
+                rescue Knock.not_found_exception_class, JWT::DecodeError, JWT::EncodeError
+                  nil
+                end
+              instance_variable_set(memoization_var_name, current)
+            end
+            instance_variable_get(memoization_var_name)
+          end
+        end
+      end
+=end
+      # rubocop:enable Style/BlockComments
+
       # Called from the middleware!
       def raise_bad_request
         render plain: "Error while parsing json parameters: #{request.env['RAW_POST_DATA']}", status: :bad_request

@@ -10,13 +10,13 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/assets/training_log_header.jpg" style="width:auto" class="questionnaire-image" />',
+    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:auto" class="questionnaire-image" />',
   },
   {
     id: :v1,
     title: 'Trainingtype',
     type: :dropdown,
-    options: %w[hardlopen fietsen kracht MTB],
+    options: %w[hardlopen fietsen voetballen kracht MTB],
     required: true
   },
   {
@@ -32,6 +32,8 @@ dagboek_content = [
       'ext tempo',
       'int tempo',
       'fartlek',
+      'general fitness',
+      'race',
       'anders'
     ],
     required: true
@@ -50,6 +52,8 @@ dagboek_content = [
     hours_from: 0,
     hours_to: 24,
     hours_step: 1,
+    hours_label: 'uur',
+    minutes_label: 'minuten',
     required: true
   },
   {
@@ -63,7 +67,7 @@ dagboek_content = [
   },
   {
     id: :v6,
-    title: 'RPE score<br><img src="/assets/rpe.jpg" style="width:auto" class="questionnaire-image" />',
+    title: 'RPE score<br><img src="/sport-data-valley/rpe.jpg" style="width:auto" class="questionnaire-image" />',
     type: :range,
     min: 0,
     max: 10,
@@ -96,8 +100,13 @@ dagboek_content = [
       'Tevreden',
       'Totaal tevreden'
     ]
+  },
+  {
+    id: :v8,
+    type: :textarea,
+    title: 'Opmerkingen',
+    placeholder: 'Vul iets in (optioneel)'
   }
-
 ]
 
 questionnaire.content = dagboek_content

@@ -3,10 +3,12 @@
 class PushSubscription < ApplicationRecord
   belongs_to :protocol
   validates :url, presence: true
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { scope: :protocol_id }
   validates :method, inclusion: %w[GET POST PUT]
 
   def push_response(response)
+    return unless response&.person&.auth_user&.present?
+
     HTTParty.send(method.downcase.to_sym,
                   url,
                   headers: { Authorization: "Bearer #{response.person.auth_user.generate_token}" },

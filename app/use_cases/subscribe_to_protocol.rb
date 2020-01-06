@@ -12,6 +12,8 @@ class SubscribeToProtocol < ActiveInteraction::Base
   time :start_date, default: nil
   time :end_date, default: nil
 
+  boolean :only_if_not_subscribed, default: false
+
   # Function to start a protocol subscription for a person
   #
   # Params:
@@ -29,7 +31,13 @@ class SubscribeToProtocol < ActiveInteraction::Base
     # If we are a child, our parent is our mentor
     the_mentor = person.parent if the_mentor.blank? && person&.parent.present?
 
-    ProtocolSubscription.create!(
+    create_or_find_protocol_subscription(the_protocol, the_start_date, the_mentor)
+  end
+
+  def create_or_find_protocol_subscription(the_protocol, the_start_date, the_mentor)
+    prot_sub = nil
+    prot_sub = person.protocol_subscriptions.active.where(protocol_id: the_protocol.id).first if only_if_not_subscribed
+    prot_sub || ProtocolSubscription.create!(
       protocol: the_protocol,
       person: person,
       filling_out_for: the_mentor,

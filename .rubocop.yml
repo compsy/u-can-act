@@ -24,8 +24,12 @@ AllCops:
 Style/Encoding:
   Enabled: false
 
+# Sometimes you can't do this because of the &. operator
+Rails/Blank:
+  Enabled: false
+
 # Limit lines to 80 characters.
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 # Default is 5

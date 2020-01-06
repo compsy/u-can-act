@@ -124,6 +124,8 @@ Below is a list of all required ENV variables for production servers.
 
   SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
   REGISTRATION_URL: <url for sending invites to for person email registration>
+
+  WORKLESS_ENABLED: <set to 'true' if you want to enable workless>
 ```
 
 ### (Local) development settings
@@ -695,6 +697,8 @@ Required and allowed options (minimal example):
 }]
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
+
+Optional properties are `hours_label` and `minutes_label`, to override the default label texts.
 
 ### Type: Date
 Required and allowed options (minimal example and maximal example):

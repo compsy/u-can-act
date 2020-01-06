@@ -7,6 +7,7 @@ protocol ||= Protocol.new(name: pr_name)
 # TODO: We have to come up with the correct length of the protocol.
 protocol.duration = 30.days
 protocol.invitation_text = 'Je bent uitgenodigd door je coach om een vragenlijst in te vullen.'
+protocol.save!
 
 bp_name = 'base-platform-subscription-daily-protocol'
 bp_push_subscription = protocol.push_subscriptions.find_by(name: bp_name)

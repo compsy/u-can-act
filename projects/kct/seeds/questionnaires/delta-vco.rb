@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-title = 'Delta'
+title = 'Delta VCO'
 name = 'KCT Delta VCO'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)

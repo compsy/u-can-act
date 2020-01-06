@@ -2,7 +2,7 @@
 
 title = 'Echo'
 
-name = 'KCT Echo'
+name = 'KCT Echo VCO'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]

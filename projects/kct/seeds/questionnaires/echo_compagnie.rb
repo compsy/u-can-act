@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-title = 'Echo VCO'
-name = 'KCT Echo VCO'
+title = 'Echo Compagnie'
+name = 'KCT Echo Compagnie'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -35,20 +35,19 @@ content = [
       Hoe zeker ben je ervan dat je in staat bent om:
     </p>'
   },
-  create_question(:v1, 'Tot de top 10 van de beste kandidaten te behoren die de VCO gaat halen'),
+  create_question(:v1, 'Tot de top 10 van de beste operators te behoren'),
   create_question(:v2, 'Nog goed te functioneren nadat je een nacht niet hebt geslapen?'),
   create_question(:v3, 'Nog goed te functioneren nadat je twee nachten niet hebt geslapen?'),
   create_question(:v4, 'Pijn te lijden in de komende periode?'),
   create_question(:v5, 'Goed te presteren na twee dagen zonder eten?'),
   create_question(:v6, 'Het beste in jezelf naar boven te halen in de komende periode?'),
-  create_question(:v7, 'Boven verwachting te presteren in de VCO op de momenten die er toe doen?'),
+  create_question(:v7, 'Boven verwachting te presteren in de compagnie op de momenten die er toe doen?'),
   create_question(:v8, 'Kalm te blijven in moeilijke situaties?'),
   create_question(:v9, 'Te vertrouwen op je vermogen om problemen op te lossen?'),
   create_question(:v10, 'Je doelen te behalen als je een blessure of andere fysieke ongemakken hebt?'),
   create_question(:v11, 'Te weten wat je moet doen als het de komende weken tegen zit?'),
-  create_question(:v12, 'Meerdere oplossingen te bedenken als je in de VCO met een probleem wordt geconfronteerd?'),
-  create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?'),
-  create_question(:v14, 'De VCO met succes af te ronden?')
+  create_question(:v12, 'Meerdere oplossingen te bedenken als je in de compagnie met een probleem wordt geconfronteerd?'),
+  create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?')
 ]
 questionnaire.content = content
 questionnaire.title = title

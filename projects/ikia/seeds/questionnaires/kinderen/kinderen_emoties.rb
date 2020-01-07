@@ -104,7 +104,7 @@ dagboek_content = [
   }, {
     id: :v16,
     type: :range,
-    title: 'Sschaamte',
+    title: 'Schaamte',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
@@ -133,7 +133,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'Goed bezig! Je bent al bijna op de helft. De volgende vragen gaan over hoe je je zou <b>willen</b> voelen. Stel je het allerbeste en fijnste leven voor dat je kunt hebben. <br><br>
+    section_start: 'De volgende vragen gaan over hoe je je zou <b>willen</b> voelen. Stel je het allerbeste en fijnste leven voor dat je kunt hebben. <br><br>
 Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbeste leven. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
     id: :v21,
     type: :range,
@@ -257,7 +257,7 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     section_end: true
   }, {
-    section_start: 'Je bent al bijna klaar met de vragenlijst. Er volgen nu een aantal zinnen over gevoelens en gedachten die je kan hebben. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'Je bent al bijna klaar. Er volgen nog een aantal zinnen over gevoelens en gedachten die je kan hebben. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
     id: :v41,
     type: :range,
     title: 'Ik ben vaak in de war over hoe ik me voel.',

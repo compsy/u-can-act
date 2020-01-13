@@ -27,8 +27,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     options: [
-      {title: 'Nederland'}, {title: 'Anders', shows_questions: %i[v3_a, v3_b]
-    }
+      {title: 'Nederland'}, {title: 'Anders', shows_questions: %i[v3_a, v3_b]}
     ]
   }, {
     id: :v3_a,
@@ -48,12 +47,12 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Naar wat voor school ga je?',
     options: [
-      {title: 'Middelbare school', shows_questions: %i[v4_b, v4_c]}, 
-      {title: 'Speciaal onderwijs', shows_questions: %i[v4_d]}, 
-      {title: 'Middelbaar beroepsonderwijs (MBO)'}, 
+      {title: 'Middelbare school', shows_questions: %i[v4_b, v4_c]},
+      {title: 'Speciaal onderwijs', shows_questions: %i[v4_d]},
+      {title: 'Middelbaar beroepsonderwijs (MBO)'},
       {title: 'Hoger beroepsonderwijs (HBO)'},
       {title: 'Wetenschappelijk onderwijs (WO)'},
-      {title: 'Ik krijg thuisonderwijs'}, 
+      {title: 'Ik krijg thuisonderwijs'},
       {title: 'Ik krijg geen onderwijs'}
     ]
   }, {

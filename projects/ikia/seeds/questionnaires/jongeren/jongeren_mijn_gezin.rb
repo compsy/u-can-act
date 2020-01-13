@@ -480,43 +480,37 @@ Kies 1 van de 5 plaatjes',
     required: true,
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar']
   }, {
-    # TODO: plaatjes missing
     id: :v20_3,
-    type: :likert,
-    title: 'Op welke van deze plekken zou jij het liefste zijn?',
-    options: ['plaatje', 'plaatje2']
-  }, {
-    id: :v20_4,
     type: :range,
     title: 'Ik voel me verdrietig als mensen wilde dieren pijn doen.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
     required: true
   }, {
-    id: :v20_5,
+    id: :v20_4,
     type: :range,
     title: 'Ik vind het fijn om dieren en planten aan te raken.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
     required: true
   }, {
-    id: :v20_6,
+    id: :v20_5,
     type: :range,
     title: 'Voor dieren zorgen vind ik belangrijk.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
     required: true
   }, {
-    id: :v20_7,
+    id: :v20_6,
     type: :range,
     title: 'Mensen horen bij de natuur.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
     required: true
   }, {
-    id: :v20_8,
+    id: :v20_7,
     type: :range,
     title: 'Mensen kunnen niet leven zonder planten en dieren.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Heel erg waar'],
     required: true
   }, {
-    id: :v20_9,
+    id: :v20_8,
     type: :radio,
     title: 'Hoe erg hoort de natuur bij jou? Kies één van de plaatjes.',
     options: [natuur1, natuur2, natuur3, natuur4, natuur5],

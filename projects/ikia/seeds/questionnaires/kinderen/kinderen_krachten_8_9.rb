@@ -171,7 +171,7 @@ dagboek_content = [
     title: 'Als een vriend(in) kwaad is, word ik ook naar.',
     labels: ['Helemaal niet waar', 'Beetje waar', 'Waar'],
     section_end: true
- }, {
+  }, {
     section_start: 'Tot slot...',
     id: :v5,
     type: :expandable,

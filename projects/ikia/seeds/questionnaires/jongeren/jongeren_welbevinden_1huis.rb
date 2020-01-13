@@ -15,7 +15,7 @@ dagboek_content = [
     type: :textarea,
     title: 'Wat is gelukkig zijn?',
     required: true
-    },{
+  }, {
     id: :v2,
     type: :textarea,
     title: 'Wat is voor jou het allerbelangrijkste in je leven?',
@@ -238,7 +238,7 @@ dagboek_content = [
     title: 'Ik vind het leuk om nieuwe dingen te proberen.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
-  },{
+  }, {
     id: :v29,
     type: :range,
     title: 'Ik vind het leuk om plannen te maken voor de toekomst.',

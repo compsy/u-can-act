@@ -192,25 +192,25 @@ dagboek_content = [
     id: :v26_c,
     hidden: true,
     type: :likert,
-    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis',
+    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v26_d,
     hidden: true,
     type: :likert,
-    title: 'Vriendschappen',
+    title: 'Vriendschappen:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v26_e,
     hidden: true,
     type: :likert,
-    title: 'Leren in de klas',
+    title: 'Leren in de klas:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v26_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd',
+    title: 'Activiteiten in de vrije tijd:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v26_g,
@@ -249,25 +249,25 @@ dagboek_content = [
     id: :v27_c,
     hidden: true,
     type: :likert,
-    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis',
+    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v27_d,
     hidden: true,
     type: :likert,
-    title: 'Vriendschappen',
+    title: 'Vriendschappen:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v27_e,
     hidden: true,
     type: :likert,
-    title: 'Leren in de klas',
+    title: 'Leren in de klas:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v27_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd',
+    title: 'Activiteiten in de vrije tijd:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v27_g,
@@ -306,25 +306,25 @@ dagboek_content = [
     id: :v28_c,
     hidden: true,
     type: :likert,
-    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis',
+    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v28_d,
     hidden: true,
     type: :likert,
-    title: 'Vriendschappen',
+    title: 'Vriendschappen:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v28_e,
     hidden: true,
     type: :likert,
-    title: 'Leren in de klas',
+    title: 'Leren in de klas:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v28_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd',
+    title: 'Activiteiten in de vrije tijd:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v28_g,
@@ -363,25 +363,25 @@ dagboek_content = [
     id: :v29_c,
     hidden: true,
     type: :likert,
-    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis',
+    title: 'Belemmeren deze moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?<br><br>Thuis:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v29_d,
     hidden: true,
     type: :likert,
-    title: 'Vriendschappen',
+    title: 'Vriendschappen:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v29_e,
     hidden: true,
     type: :likert,
-    title: 'Leren in de klas',
+    title: 'Leren in de klas:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v29_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd',
+    title: 'Activiteiten in de vrije tijd:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v29_g,

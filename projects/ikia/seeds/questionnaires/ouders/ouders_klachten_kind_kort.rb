@@ -381,7 +381,7 @@ dagboek_content = [
     id: :v29_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd':,
+    title: 'Activiteiten in de vrije tijd:',
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }, {
     id: :v29_g,

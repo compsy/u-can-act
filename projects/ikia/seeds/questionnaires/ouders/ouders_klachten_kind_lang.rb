@@ -8,7 +8,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-tekst">Er volgt nu een lijst met vragen over kinderen. Alle vragen gaan over hoe uw kind nu is of in de afgelopen zes maanden is geweest. Geef bij elke vraag aan in hoeverre deze bij uw kind past. Beantwoord alle vragen zo goed als u kunt, ook al lijken sommige vragen niet bij uw kind te passen.</p>'
+    content: '<blockquote>Copyright T.M. Achenbach. Reproduced by permission under License Number 1060-0719.<br>Copyright vertaling F.C. Verhulst en J. van der Ende, Erasmus MC Rotterdam</blockquote><p class="flow-tekst">Er volgt nu een lijst met vragen over kinderen. Alle vragen gaan over hoe uw kind nu is of in de afgelopen zes maanden is geweest. Geef bij elke vraag aan in hoeverre deze bij uw kind past. Beantwoord alle vragen zo goed als u kunt, ook al lijken sommige vragen niet bij uw kind te passen.</p>'
   }, {
     id: :v1,
     type: :likert,
@@ -475,7 +475,7 @@ dagboek_content = [
   }, {
     id: :v77_1,
     type: :likert,
-    title: 'Slaap overdag en/of s nachts meer dan de meeste jongens en meisjes',
+    title: 'Slaap overdag en/of \'s nachts meer dan de meeste jongens en meisjes',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }, {
     id: :v77_2,

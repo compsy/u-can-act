@@ -11,7 +11,7 @@ Dir[Rails.root.join('projects',
                     'jongeren',
                     '**',
                     '*.rb')].map { |x| File.basename(x, '.rb') }.each do |questionnaire_key|
-  next if questionnaire_key == 'jongeren_krachten_12_tot_15'
+  next if %w[jongeren_krachten_12_tot_15 jongeren_start].include?(questionnaire_key)
 
   questionnaire = Questionnaire.find_by(key: questionnaire_key)
   next unless questionnaire

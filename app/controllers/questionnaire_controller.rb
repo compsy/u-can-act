@@ -6,6 +6,7 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include Concerns::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
+  skip_before_action :verify_authenticity_token, only: %i[interactive_render]
   before_action :log_csrf_error, only: %i[create]
   before_action :set_response, only: %i[show destroy]
   # TODO: verify cookie for show as well

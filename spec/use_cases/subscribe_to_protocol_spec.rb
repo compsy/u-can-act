@@ -47,7 +47,7 @@ describe SubscribeToProtocol do
     person.reload
     expect(person.protocol_subscriptions).not_to be_blank
     expect(person.protocol_subscriptions.first.protocol).to eq protocol
-    expect(person.protocol_subscriptions.first.filling_out_for).to eq parent
+    expect(person.protocol_subscriptions.first.filling_out_for).to eq person
   end
 
   it 'works with a timestring' do

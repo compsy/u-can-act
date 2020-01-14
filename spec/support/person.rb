@@ -70,7 +70,7 @@ shared_examples_for 'a person object' do
     it 'is not possible to set yourself as your own parent or child' do
       parent = FactoryBot.create(:person)
       parent.parent = parent
-      expected_error = { parent: ['cannot be parent of themselves'] }
+      expected_error = { parent: ['cannot be parent of yourself'] }
       expect(parent).not_to be_valid
       expect(parent.errors).not_to be_blank
       expect(parent.errors.messages).to eq expected_error

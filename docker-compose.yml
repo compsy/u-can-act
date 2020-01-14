@@ -47,6 +47,7 @@ services:
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
       - RESET_DB_ON_FAIL=true
+      - RUNNING_AS_SERVICE=true # Because we don't run a delayed job server in the docker container
     volumes:
       - .:/app
       - node_modules_volume:/app/node_modules

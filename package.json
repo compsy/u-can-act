@@ -34,7 +34,6 @@
     "jest": "^24.9.0",
     "webpack-dev-server": "^3.8.0"
   },
-
   "scripts": {
     "test": "jest"
   },
@@ -51,6 +50,8 @@
       "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest"
     },
-    "setupFilesAfterEnv": ["./spec/javascript/setupTests.js"]
+    "setupFilesAfterEnv": [
+      "./spec/javascript/setupTests.js"
+    ]
   }
 }

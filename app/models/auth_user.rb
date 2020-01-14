@@ -104,9 +104,9 @@ class AuthUser < ApplicationRecord
       RedisMutex.with_lock("SubscribeToProtocol:#{person.id}:#{protocol}") do
         # A person can only be subscribed to the same protocol once
         person.reload
-        return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
-
-        SubscribeToProtocol.run!(protocol_name: protocol, person: person)
+        unless person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
+          SubscribeToProtocol.run!(protocol_name: protocol, person: person)
+        end
       end
     end
   end

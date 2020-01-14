@@ -54,7 +54,7 @@ describe Api::V1::JwtApi::PeopleController, type: :controller do
         expect(person.role.team.name).to eq team_name
         expect(person.role.title).to eq role
         expect(person.first_name).to eq first_name
-        expect(person.last_name).to eq the_auth_user.person.id.to_s
+        expect(person.parent).to eq the_auth_user.person
       end
 
       it 'requires an email address' do
@@ -87,6 +87,33 @@ describe Api::V1::JwtApi::PeopleController, type: :controller do
         expect(response.status).to eq 400
         expect(response.body).to include 'First name for creating a person was not specified'
       end
+    end
+
+    describe 'list_children' do
+      it 'returns a list of children' do
+        person = FactoryBot.create(:person, parent: the_auth_user.person)
+        get :list_children
+        expect(response.status).to eq 200
+        result = JSON.parse(response.body)
+        expect(result.length).to eq(1)
+        expect(result[0]['id']).to eq person.id
+        expect(result[0]['first_name']).to eq person.first_name
+      end
+
+      it 'works when there are no children' do
+        get :list_children
+        expect(response.status).to eq 200
+        result = JSON.parse(response.body)
+        expect(result.length).to eq(0)
+      end
+    end
+
+    describe 'update_child' do
+      # TODO: write specs for update_child
+    end
+
+    describe 'destroy_child' do
+      # TODO: write specs for destroy_child
     end
   end
 end

@@ -38,6 +38,18 @@ describe SubscribeToProtocol do
     expect(person.protocol_subscriptions.first.protocol).to eq protocol
   end
 
+  it 'uses the parent as a mentor when there is one' do
+    parent = FactoryBot.create(:person)
+    person.parent = parent
+    person.save!
+    expect(person.protocol_subscriptions).to be_blank
+    described_class.run!(protocol_name: protocol.name, person: person)
+    person.reload
+    expect(person.protocol_subscriptions).not_to be_blank
+    expect(person.protocol_subscriptions.first.protocol).to eq protocol
+    expect(person.protocol_subscriptions.first.filling_out_for).to eq person
+  end
+
   it 'works with a timestring' do
     start_date = 10.hours.ago
     described_class.run!(protocol_name: protocol.name, person: person, start_date: start_date)

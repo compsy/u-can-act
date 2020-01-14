@@ -189,6 +189,6 @@ class Person < ApplicationRecord
   def not_own_parent
     return if id.blank? || parent_id.blank? || id != parent_id
 
-    errors.add(:parent, 'cannot be parent of themselves')
+    errors.add(:parent, 'cannot be parent of yourself')
   end
 end

@@ -91,7 +91,7 @@ dagboek_content = [
     title: 'Wat voor onbetaald werk doet u?<br><br>Ik ben:',
     options: [
       'Ik ben thuisblijfmoeder/ thuisblijfvader',
-      'Ik ben mantelzorger en zorg voor ŽŽn of meerder personen',
+      'Ik ben mantelzorger en zorg voor één of meerdere personen',
       'Ik doe vrijwilligerswerk',]
   }, {
     type: :raw,

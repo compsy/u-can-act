@@ -7,11 +7,11 @@ describe CalculateDistribution do
     let!(:questionnaire) { FactoryBot.create(:questionnaire) }
 
     it 'should store the correct results' do
-      reponse_content = FactoryBot.create(:response_content, content: {'v3' => '68'})
+      reponse_content = FactoryBot.create(:response_content, content: { 'v3' => '68' })
       response = FactoryBot.create(:response, :completed)
       response.content = reponse_content.id
       response.save!
-      expected = {'v3' => {}}
+      expected = { 'v3' => {} }
       (0..100).each do |val|
         expected['v3'][val.to_s] = 0
       end

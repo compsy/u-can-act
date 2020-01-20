@@ -45,6 +45,7 @@ namespace :scheduler do
     Rails.logger.info('Rescheduling - done')
   end
 
+  desc 'Calculate distributions for questionnaire responses'
   task calculate_distributions: :environment do
     Rails.logger.info('Calculating distributions - started')
     CalculateDistributionsJob.perform_later

@@ -35,7 +35,7 @@ describe CalculateDistributionJob do
     it 'is in one hour' do
       time_now = Time.zone.now
       expect(subject.reschedule_at(time_now, 1)).to be_within(1.minute)
-                                                      .of(TimeTools.increase_by_duration(time_now, 5.minutes))
+        .of(TimeTools.increase_by_duration(time_now, 5.minutes))
     end
   end
 end

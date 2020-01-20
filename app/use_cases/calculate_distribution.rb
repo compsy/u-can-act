@@ -9,7 +9,7 @@ class CalculateDistribution < ActiveInteraction::Base
   # @param questionnaire [Questionnaire] the current questionnaire
   def execute
     @usable_questions = usable_questions
-    @distribution = {}
+    @distribution = { 'total' => questionnaire.responses.completed.count }
 
     offset = 0
     loop do

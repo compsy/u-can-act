@@ -11,7 +11,7 @@ describe CalculateDistribution do
       response = FactoryBot.create(:response, :completed)
       response.content = reponse_content.id
       response.save!
-      expected = { 'v3' => {} }
+      expected = { 'total' => 1, 'v3' => {} }
       (0..100).each do |val|
         expected['v3'][val.to_s] = 0
       end

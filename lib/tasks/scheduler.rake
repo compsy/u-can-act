@@ -47,6 +47,8 @@ namespace :scheduler do
 
   desc 'Calculate distributions for questionnaire responses'
   task calculate_distributions: :environment do
+    # Should be called once per day optionally, or not at all,
+    # since we update the stats for every questionnaire after filling out a response.
     Rails.logger.info('Calculating distributions - started')
     CalculateDistributionsJob.perform_later
     Rails.logger.info('Calculating distributions - done')

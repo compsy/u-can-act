@@ -64,6 +64,44 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     end
   end
 
+  describe 'distribution' do
+    let!(:the_auth_user) { FactoryBot.create(:auth_user) }
+    let(:protocol) { FactoryBot.create(:protocol) }
+    let(:team) { FactoryBot.create(:team, :with_roles) }
+    let!(:the_payload) do
+      { ENV['SITE_LOCATION'] => {
+        'access_level' => ['user'],
+        'team' => team.name,
+        'protocol' => protocol.name
+      } }
+    end
+
+    describe 'general' do
+      let!(:questionnaire) { FactoryBot.create(:questionnaire) }
+      let!(:the_params) { { key: questionnaire.key } }
+      it_behaves_like 'a jwt authenticated route', 'get', :distribution
+    end
+
+    describe 'specific' do
+      before do
+        the_payload[:sub] = the_auth_user.auth0_id_string
+        jwt_auth the_payload
+      end
+
+      it 'sets the correct env vars if the questionnaire is available' do
+        get :distribution, params: { key: questionnaire.key }
+        expect(response.status).to eq 200
+        expect(controller.instance_variable_get(:@questionnaire)).to eq(questionnaire)
+      end
+
+      it 'returns the correct value' do
+        expect(RedisService).to receive(:get).with("distribution_#{questionnaire.key}").and_return('something')
+        get :distribution, params: { key: questionnaire.key }
+        expect(response.body).to eq 'something'
+      end
+    end
+  end
+
   describe 'create' do
     let!(:the_auth_user) { FactoryBot.create(:auth_user) }
     let(:protocol) { FactoryBot.create(:protocol) }

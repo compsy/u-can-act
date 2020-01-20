@@ -5,11 +5,15 @@ module Api
     module JwtApi
       class QuestionnaireController < JwtApiController
         before_action :check_admin_authenticated, only: %i[create]
-        before_action :set_questionnaire, only: %i[show]
+        before_action :set_questionnaire, only: %i[show distribution]
 
         def show
           # TODO: Add different formats
           render json: @questionnaire, serializer: Api::QuestionnaireSerializer
+        end
+
+        def distribution
+          render json: RedisService.get("distribution_#{@questionnaire.key}")
         end
 
         def create

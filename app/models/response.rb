@@ -113,6 +113,7 @@ class Response < ApplicationRecord
     update!(completed_at: Time.zone.now,
             filled_out_by: protocol_subscription.person,
             filled_out_for: protocol_subscription.filling_out_for)
+    CalculateDistributionJob.perform_later(id)
     return unless first_complete && protocol_subscription.protocol.push_subscriptions.present?
 
     PushSubscriptionsJob.perform_later(self)

@@ -10,7 +10,6 @@ class PushSubscriptionsJob < ApplicationJob
     response.protocol_subscription.protocol.push_subscriptions.each do |push_subscription|
       push_subscription.push_response(response)
     end
-    CalculateDistribution.run!(questionnaire: response.measurement.questionnaire)
   end
 
   def max_attempts

@@ -42,7 +42,7 @@ class CalculateDistribution < ActiveInteraction::Base
 
   def other_questions(questionnaire_content)
     questionnaire_content
-      .select { |question| %i[number radio likert].include?(question[:type]) }
+      .select { |question| %i[number radio likert dropdown].include?(question[:type]) }
       .map do |question|
       { id: question[:id].to_s, type: question[:type] }
     end

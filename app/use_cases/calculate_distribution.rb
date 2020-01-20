@@ -25,20 +25,38 @@ class CalculateDistribution < ActiveInteraction::Base
   private
 
   def usable_questions
+    questionnaire_content = questionnaire.content
+    range_questions(questionnaire_content) + other_questions(questionnaire_content)
+  end
+
+  def range_questions(questionnaire_content)
     rg_instance = RangeGenerator.new
-    questionnaire.content
-                 .select { |question| question[:type] == :range }
-                 .map do |question|
-      rg_instance.send(:range_slider_minmax, question).merge(id: question[:id].to_s, step: (question[:step] || 1))
+    questionnaire_content
+      .select { |question| question[:type] == :range }
+      .map do |question|
+      rg_instance.send(:range_slider_minmax, question).merge(id: question[:id].to_s,
+                                                             type: question[:type],
+                                                             step: (question[:step] || 1))
     end
   end
 
-  def initialize_question(question)
+  def other_questions(questionnaire_content)
+    questionnaire_content
+      .select { |question| %i[number radio].include?(question[:type]) }
+      .map do |question|
+      { id: question[:id].to_s, type: question[:type] }
+    end
+  end
+
+  def initialize_question(question, value)
     qid = question[:id]
-    return if @distribution[qid].present?
+    return if @distribution[qid].present? && question[:type] == :range
+
+    @distribution[qid] ||= {}
+    @distribution[qid][value] ||= 0 unless question[:type] == :range
+    return unless question[:type] == :range
 
     pos = question[:min]
-    @distribution[qid] = {}
     while pos <= question[:max]
       @distribution[qid][pos.to_s] = 0
       pos += question[:step]
@@ -50,7 +68,7 @@ class CalculateDistribution < ActiveInteraction::Base
       @usable_questions.each do |question|
         qid = question[:id]
         if content[qid].present?
-          initialize_question(question)
+          initialize_question(question, content[qid])
           @distribution[qid][content[qid]] += 1
         end
       end

@@ -76,6 +76,10 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
       } }
     end
 
+    before do
+      allow(Rails.application.config.settings.feature_toggles).to receive(:allow_distribution_export).and_return(true)
+    end
+
     describe 'general' do
       let!(:questionnaire) { FactoryBot.create(:questionnaire) }
       let!(:the_params) { { key: questionnaire.key } }

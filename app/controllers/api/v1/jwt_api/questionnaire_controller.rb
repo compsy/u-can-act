@@ -5,7 +5,9 @@ module Api
     module JwtApi
       class QuestionnaireController < JwtApiController
         before_action :check_admin_authenticated, only: %i[create]
+        before_action :check_distributions_enabled, only: %i[distribution]
         before_action :set_questionnaire, only: %i[show distribution]
+        before_action :set_distribution_and_check_min_responses, only: %i[distribution]
 
         def show
           # TODO: Add different formats
@@ -13,7 +15,7 @@ module Api
         end
 
         def distribution
-          render json: RedisService.get("distribution_#{@questionnaire.key}")
+          render json: @distribution
         end
 
         def create
@@ -36,11 +38,28 @@ module Api
           render(status: :forbidden, json: result)
         end
 
+        def check_distributions_enabled
+          return if Rails.application.config.settings.feature_toggles.allow_distribution_export
+
+          render(status: :forbidden, json: 'Allow distribution export feature flag not enabled.')
+        end
+
         def set_questionnaire
           @questionnaire = Questionnaire.find_by(key: params[:key])
           return if @questionnaire.present?
 
           render(status: :not_found, json: 'Vragenlijst met die key niet gevonden')
+        end
+
+        def set_distribution_and_check_min_responses
+          @distribution = RedisService.get("distribution_#{@questionnaire.key}")
+
+          distribution = JSON.parse(@distribution || '{}')
+          return if distribution.present? &&
+                    distribution['total'].present? &&
+                    distribution['total'] >= Rails.application.config.settings.distribution_export_min_responses
+
+          render(status: :forbidden, json: 'Number of completed responses for this questionnaire is below the minimum')
         end
 
         def questionnaire_params

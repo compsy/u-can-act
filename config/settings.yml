@@ -9,6 +9,8 @@ default: &default
   hide_logo: false
   feature_toggles:
     allow_identifier_export: false
+    allow_distribution_export: false
+  distribution_export_min_responses: 200
   logo:
     favicon: 'favicon.ico'
     mentor_logo: null

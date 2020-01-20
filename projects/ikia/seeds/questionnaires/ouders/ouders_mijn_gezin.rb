@@ -46,7 +46,7 @@ dagboek_content = [
         options: [
           'Biologische ouder',
           'Stiefouder/ partner van ouder',
-          'Adoptie-ouder of pleegouder)',
+          'Adoptie-ouder of pleegouder',
           'Oom of tante',
           'Opa of oma',
           'Partner'],

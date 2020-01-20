@@ -129,7 +129,7 @@ Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname 
     title: 'Wat is uw relatie tot uw kind?<br><br>Ik ben:',
     options: [
       'Biologische ouder',
-      'Adoptie-ouder of pleegouder)',
+      'Adoptie-ouder of pleegouder',
       'Stiefouder of partner van biologische ouder']
   }
 ]

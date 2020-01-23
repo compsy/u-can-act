@@ -50,6 +50,9 @@ class Person < ApplicationRecord
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },
   #          class_name: 'ProtocolSubscription', foreign_key: 'filled_out_for_id'
+  has_many :children, class_name: 'Person', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
+  belongs_to :parent, class_name: 'Person', optional: true
+  validate :not_own_parent
 
   after_initialize do |person|
     next if person.external_identifier
@@ -181,5 +184,11 @@ class Person < ApplicationRecord
   def warn_for_multiple_mentors
     Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{id}" if
     ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).count > 1
+  end
+
+  def not_own_parent
+    return if id.blank? || parent_id.blank? || id != parent_id
+
+    errors.add(:parent, 'cannot be parent of yourself')
   end
 end

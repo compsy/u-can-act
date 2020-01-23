@@ -99,9 +99,12 @@ class AuthUser < ApplicationRecord
       return if protocol.blank?
 
       # A person can only be subscribed to the same protocol once
-      return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
-
-      SubscribeToProtocol.run!(protocol_name: protocol, person: person)
+      ActiveRecord::Base.transaction do
+        person.reload
+        unless person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
+          SubscribeToProtocol.run!(protocol_name: protocol, person: person)
+        end
+      end
     end
   end
 end

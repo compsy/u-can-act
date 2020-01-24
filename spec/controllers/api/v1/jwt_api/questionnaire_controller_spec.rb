@@ -78,6 +78,8 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
 
     before do
       allow(Rails.application.config.settings.feature_toggles).to receive(:allow_distribution_export).and_return(true)
+      allow(Rails.application.config.settings).to(receive(:distribution_export_min_responses).and_return(0))
+      allow(RedisService).to receive(:get).and_return({ 'total' => 1 }.to_json)
     end
 
     describe 'general' do
@@ -99,9 +101,8 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
       end
 
       it 'returns the correct value' do
-        expect(RedisService).to receive(:get).with("distribution_#{questionnaire.key}").and_return('something')
         get :distribution, params: { key: questionnaire.key }
-        expect(response.body).to eq 'something'
+        expect(response.body).to eq '{"total":1}'
       end
     end
   end

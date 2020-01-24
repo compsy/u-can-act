@@ -9,6 +9,7 @@ default: &default
   project_end_date: '2021-03-01'
   feature_toggles:
     allow_distribution_export: true
+    realtime_distributions: true
   distribution_export_min_responses: 1
   logo:
     favicon: 'myfavicon.ico'

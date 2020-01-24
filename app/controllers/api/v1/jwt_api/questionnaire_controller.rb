@@ -52,9 +52,9 @@ module Api
         end
 
         def set_distribution_and_check_min_responses
-          @distribution = RedisService.get("distribution_#{@questionnaire.key}")
+          @distribution = RedisService.get("distribution_#{@questionnaire.key}") || '{}'
 
-          distribution = JSON.parse(@distribution || '{}')
+          distribution = JSON.parse(@distribution)
           return if distribution.present? &&
                     distribution['total'].present? &&
                     distribution['total'] >= Rails.application.config.settings.distribution_export_min_responses

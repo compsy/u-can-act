@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CalculateDistributionJob < ApplicationJob
+class UpdateDistributionJob < ApplicationJob
   queue_as :default
 
   def perform(response_id)
@@ -9,7 +9,8 @@ class CalculateDistributionJob < ApplicationJob
 
     questionnaire = response.measurement.questionnaire
     RedisMutex.with_lock("Distribution:#{questionnaire.key}") do
-      CalculateDistribution.run!(questionnaire: questionnaire)
+      UpdateDistribution.run!(questionnaire: questionnaire,
+                              response: response)
     end
   end
 

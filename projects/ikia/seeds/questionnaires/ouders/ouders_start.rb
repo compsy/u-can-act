@@ -107,7 +107,8 @@ Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname 
     type: :radio,
     show_otherwise: false,
     title: 'Wat is het geslacht van uw kind?',
-    options: ['Jongen', 'Meisje', 'Anders/ wil ik niet zeggen']
+    options: ['Jongen', 'Meisje', 'Anders/ wil ik niet zeggen'],
+    combines_with: %i[v9_3]
   }, {
     id: :v9_2,
     type: :dropdown,

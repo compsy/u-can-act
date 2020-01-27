@@ -13,12 +13,12 @@ describe UpdateDistribution do
       responseobj.save!
       expected = { 'total' => 1, 'v3' => {} }
       (0..100).each do |val|
-        expected['v3'][val.to_s] = 0
+        expected['v3'][val.to_s] = { '_' => 0 }
       end
       initial_distribution = expected.deep_dup
-      expected['v3']['68'] = 1
+      expected['v3']['68']['_'] = 1
       expected['total'] = 2
-      expect(initial_distribution['v3']['68']).to eq(0)
+      expect(initial_distribution['v3']['68']['_']).to eq(0)
       expect(RedisService).to(receive(:get).with(
         "distribution_#{responseobj.measurement.questionnaire.key}"
       ).and_return(initial_distribution.to_json))

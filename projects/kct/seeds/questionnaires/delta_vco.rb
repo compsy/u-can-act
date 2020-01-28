@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-title = 'Delta'
-name = 'KCT Delta'
+title = 'Delta VCO'
+name = 'KCT Delta VCO'
 questionnaire = Questionnaire.find_by_name(name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
@@ -51,14 +51,16 @@ Voor de volgende vragen kan gekozen worden uit de volgende mogelijkheden:
 7 = sterk mee eens
 </li>
 
+Je doel is het succesvol afronden van de ECO.
+De volgende vragen gaan over dit doel.
 </ul>
 '
   },
-  create_question(:v2, 'Het is moeilijk voor mij om het behalen van de ECO serieus te nemen.'),
-  create_question(:v3, 'Eerlijk gezegd, kan het me niet schelen of ik de ECO wel of niet haal.'),
-  create_question(:v4, 'Voor mij is het heel belangrijk om het behalen van de ECO na te streven.'),
-  create_question(:v5, 'Er hoeft niet veel te gebeuren om het behalen van de ECO te laten vallen.'),
-  create_question(:v6, 'Ik vind het behalen van de ECO een goed doel om voor te gaan.'),
+  create_question(:v2, 'Het is moeilijk voor mij om het behalen van de dit doel serieus te nemen.'),
+  create_question(:v3, 'Eerlijk gezegd, kan het me niet schelen of ik dit doel wel of niet haal.'),
+  create_question(:v4, 'Voor mij is het heel belangrijk om het behalen van dit doel na te streven.'),
+  create_question(:v5, 'Er hoeft niet veel te gebeuren om het behalen van dit doel te laten vallen.'),
+  create_question(:v6, 'Ik vind het behalen van dit doel een goed doel om voor te gaan.'),
   {
     id: :v7,
     type: :likert,

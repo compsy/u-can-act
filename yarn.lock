@@ -1013,7 +1013,8 @@
 
 "@rails/webpacker@git+https://github.com/rails/webpacker.git":
   version "4.2.2"
-  resolved "git+https://github.com/rails/webpacker.git#c7292e9a1e158e5fc9ec3026256cf7a42d70f549"
+  uid "0b550a0ed66f2c01baa5f05f1126abada47a6c6f"
+  resolved "git+https://github.com/rails/webpacker.git#0b550a0ed66f2c01baa5f05f1126abada47a6c6f"
   dependencies:
     "@babel/core" "^7.7.2"
     "@babel/plugin-proposal-class-properties" "^7.7.0"
@@ -1036,7 +1037,7 @@
     glob "^7.1.6"
     js-yaml "^3.13.1"
     mini-css-extract-plugin "^0.8.0"
-    node-sass "^4.13.0"
+    node-sass "^4.13.1"
     optimize-css-assets-webpack-plugin "^5.0.3"
     path-complete-extname "^1.0.0"
     pnp-webpack-plugin "^1.5.0"
@@ -1048,7 +1049,7 @@
     regenerator-runtime "^0.13.3"
     sass-loader "7.3.1"
     style-loader "^1.0.0"
-    terser-webpack-plugin "^2.3.1"
+    terser-webpack-plugin "^2.3.2"
     webpack "^4.41.3"
     webpack-assets-manifest "^3.1.1"
     webpack-cli "^3.3.10"
@@ -6240,10 +6241,10 @@ node-releases@^1.1.44:
   dependencies:
     semver "^6.3.0"
 
-node-sass@^4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.13.0.tgz#b647288babdd6a1cb726de4545516b31f90da066"
-  integrity sha512-W1XBrvoJ1dy7VsvTAS5q1V45lREbTlZQqFbiHb3R3OTTCma0XBtuG6xZ6Z4506nR4lmHPTqVRwxT6KgtWC97CA==
+node-sass@^4.13.1:
+  version "4.13.1"
+  resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.13.1.tgz#9db5689696bb2eec2c32b98bfea4c7a2e992d0a3"
+  integrity sha512-TTWFx+ZhyDx1Biiez2nB0L3YrCZ/8oHagaDalbuBSlqXgUPsdkUSzJsVxeDO9LtPB49+Fh3WQl3slABo6AotNw==
   dependencies:
     async-foreach "^0.1.3"
     chalk "^1.1.1"
@@ -8916,7 +8917,7 @@ terser-webpack-plugin@^1.4.3:
     webpack-sources "^1.4.0"
     worker-farm "^1.7.0"
 
-terser-webpack-plugin@^2.3.1:
+terser-webpack-plugin@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.2.tgz#6d3d1b0590c8f729bfbaeb7fb2528b8b62db4c74"
   integrity sha512-SmvB/6gtEPv+CJ88MH5zDOsZdKXPS/Uzv2//e90+wM1IHFUhsguPKEILgzqrM1nQ4acRXN/SV4Obr55SXC+0oA==

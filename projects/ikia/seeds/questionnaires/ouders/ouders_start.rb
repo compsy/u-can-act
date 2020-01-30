@@ -91,7 +91,7 @@ dagboek_content = [
     title: 'Wat voor onbetaald werk doet u?<br><br>Ik ben:',
     options: [
       'Ik ben thuisblijfmoeder/ thuisblijfvader',
-      'Ik ben mantelzorger en zorg voor ŽŽn of meerder personen',
+      'Ik ben mantelzorger en zorg voor één of meerdere personen',
       'Ik doe vrijwilligerswerk',]
   }, {
     type: :raw,
@@ -107,7 +107,8 @@ Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname 
     type: :radio,
     show_otherwise: false,
     title: 'Wat is het geslacht van uw kind?',
-    options: ['Jongen', 'Meisje', 'Anders/ wil ik niet zeggen']
+    options: ['Jongen', 'Meisje', 'Anders/ wil ik niet zeggen'],
+    combines_with: %i[v9_3]
   }, {
     id: :v9_2,
     type: :dropdown,
@@ -129,7 +130,7 @@ Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname 
     title: 'Wat is uw relatie tot uw kind?<br><br>Ik ben:',
     options: [
       'Biologische ouder',
-      'Adoptie-ouder of pleegouder)',
+      'Adoptie-ouder of pleegouder',
       'Stiefouder of partner van biologische ouder']
   }
 ]

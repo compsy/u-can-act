@@ -58,7 +58,6 @@ class CreateAnonymousUser < ActiveInteraction::Base
     auth_user
   end
 
-  # rubocop:disable Metrics/AbcSize
   def find_role
     team = find_team
 
@@ -72,7 +71,6 @@ class CreateAnonymousUser < ActiveInteraction::Base
 
     role
   end
-  # rubocop:enable Metrics/AbcSize
 
   def find_team
     return rerr('Required payload attribute team not specified') if team_name.blank?

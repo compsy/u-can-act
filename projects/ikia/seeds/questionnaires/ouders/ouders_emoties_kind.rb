@@ -115,7 +115,7 @@ dagboek_content = [
     id: :v18,
     type: :range,
     title: 'Geïrriteerd',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v19,
     type: :range,

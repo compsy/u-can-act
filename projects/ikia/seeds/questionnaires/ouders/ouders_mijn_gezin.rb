@@ -31,7 +31,7 @@ dagboek_content = [
     id: :v2,
     title: 'Zou u voor elk van deze personen de volgende vragen willen beantwoorden?',
     remove_button_label: 'Verwijder persoon',
-    add_button_label: 'Voeg persoon toe',
+    add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
     default_expansions: 1,
     max_expansions: 20,
@@ -46,7 +46,7 @@ dagboek_content = [
         options: [
           'Biologische ouder',
           'Stiefouder/ partner van ouder',
-          'Adoptie-ouder of pleegouder)',
+          'Adoptie-ouder of pleegouder',
           'Oom of tante',
           'Opa of oma',
           'Partner'],

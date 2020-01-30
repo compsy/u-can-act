@@ -120,6 +120,22 @@ describe Response do
       end
     end
 
+    describe 'complete!' do
+      it 'it calls the CalculateDistributionJob if this was the first complete' do
+        responseobj = FactoryBot.create(:response)
+        expect(CalculateDistributionJob).not_to receive(:perform_later)
+        expect(UpdateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+      end
+      it 'it calls the UpdateteDistributionJob if this wasn\'t the first complete' do
+        responseobj = FactoryBot.create(:response)
+        expect(UpdateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+        expect(CalculateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+      end
+    end
+
     describe 'invited' do
       it 'returns responses with a invites that dont have the not_send_state' do
         responses = []

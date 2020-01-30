@@ -18,7 +18,7 @@ dagboek_content = [
     labels: ['Helemaal niet gelukkig', 'Matig gelukkig', 'Heel erg gelukkig'],
     required: true
   }, {
-  section_start: 'De onderstaande punten zijn dingen die moeilijk kunt vinden in het contact met anderen. Kies bij elke vraag het antwoord dat het beste bij je past. <br><br>
+    section_start: 'De onderstaande punten zijn dingen die moeilijk kunt vinden in het contact met anderen. Kies bij elke vraag het antwoord dat het beste bij je past. <br><br>
   <em>Het is moeilijk voor mij om…</em>',
     id: :v2,
     type: :likert,
@@ -123,12 +123,12 @@ dagboek_content = [
     options: likert_options,
     section_end: true
   }, {
-  section_start: 'De volgende punten gaan over dingen die je teveel kunt doen. Kies bij elke vraag het antwoord dat het beste bij je past:',
+    section_start: 'De volgende punten gaan over dingen die je teveel kunt doen. Kies bij elke vraag het antwoord dat het beste bij je past:',
     id: :v22,
     type: :likert,
     title: 'Ik geef mezelf te veel bloot aan anderen',
     options: likert_options,
-   section_end: false
+    section_end: false
   }, {
     id: :v23,
     type: :likert,

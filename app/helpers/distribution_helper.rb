@@ -15,10 +15,10 @@ module DistributionHelper
     questionnaire_content
       .select { |question| question[:type] == :range }
       .map do |question|
-      rg_instance.send(:range_slider_minmax, question).merge(id: question[:id].to_s,
-                                                             type: question[:type],
-                                                             combines_with: question[:combines_with],
-                                                             step: (question[:step] || 1))
+      rg_instance.range_slider_minmax(question).merge(id: question[:id].to_s,
+                                                      type: question[:type],
+                                                      combines_with: question[:combines_with],
+                                                      step: (question[:step] || 1))
     end
   end
 

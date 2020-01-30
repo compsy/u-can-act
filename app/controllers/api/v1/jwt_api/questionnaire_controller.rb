@@ -41,7 +41,7 @@ module Api
         def check_distributions_enabled
           return if Rails.application.config.settings.feature_toggles.allow_distribution_export
 
-          render(status: :forbidden, json: 'Allow distribution export feature flag not enabled.')
+          render(json: { total: 0, error: 'Allow distribution export feature flag not enabled.' })
         end
 
         def set_questionnaire
@@ -59,7 +59,7 @@ module Api
                     distribution['total'].present? &&
                     distribution['total'] >= Rails.application.config.settings.distribution_export_min_responses
 
-          render(status: :forbidden, json: 'Number of completed responses for this questionnaire is below the minimum')
+          render(json: { total: 0, error: 'Not enough filled out questionnaires to display results' })
         end
 
         def questionnaire_params

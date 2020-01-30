@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 module DistributionHelper
+  # This is just the default value for the structure. Imagine the structure not being a hash but just
+  # a single value, it would be this value. The reason that everything has to be a hash is so that we
+  # can nest combined scores into combined histograms that are constructed recursively. In order for
+  # that to work, here we choose a value that is short (because everything is stored in JSON format)
+  # and is probably not taken by any of the question IDs.
   VALUE = '_'
 
   # Consider these as private methods that are (and can only be) tested in their own
@@ -35,8 +40,10 @@ module DistributionHelper
     return if distribution[qid].present? && question[:type] == :range
 
     distribution[qid] ||= {}
-    distribution[qid][value] ||= { VALUE => 0 } unless question[:type] == :range
-    return unless question[:type] == :range
+    unless question[:type] == :range
+      distribution[qid][value] ||= { VALUE => 0 }
+      return
+    end
 
     pos = question[:min]
     while pos <= question[:max]

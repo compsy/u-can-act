@@ -41,7 +41,7 @@ module Api
         def check_distributions_enabled
           return if Rails.application.config.settings.feature_toggles.allow_distribution_export
 
-          render(json: { total: 0, error: 'Allow distribution export feature flag not enabled.' })
+          render(status: :forbidden, json: 'Allow distribution export feature flag not enabled.')
         end
 
         def set_questionnaire

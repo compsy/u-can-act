@@ -6,7 +6,9 @@ class CalculateDistributionsJob < ApplicationJob
   def perform
     clean_up_redis
     Questionnaire.find_each do |questionnaire|
-      CalculateDistribution.run!(questionnaire: questionnaire)
+      RedisMutex.with_lock("Distribution:#{questionnaire.key}") do
+        CalculateDistribution.run!(questionnaire: questionnaire)
+      end
     end
   end
 
@@ -14,7 +16,9 @@ class CalculateDistributionsJob < ApplicationJob
     RedisService.keys.each do |key|
       next unless key.match?(/^distribution_/)
 
-      RedisService.del(key) unless Questionnaire.where(key: key[13..]).count.positive?
+      # Delete the distribution unless it is a known questionnaire. Here we strip the prefix 'distribution_'
+      # from the redis key to get the key of the questionnaire.
+      RedisService.del(key) unless Questionnaire.where(key: key[('distribution_'.length)..]).count.positive?
     end
   end
 

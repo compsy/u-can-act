@@ -386,6 +386,14 @@ RSpec.describe QuestionnaireController, type: :controller do
         end
       end
 
+      it 'heads 400 if the jsoncontent is not a string' do
+        post :interactive_render, params: {
+          content: [{ "id": 'v1', "title": 'Question', "type": 'radio', "options": %w[1 2] }]
+        }
+        expect(response.status).to eq 400
+        expect(response.body).to eq({ error: 'no implicit conversion of Array into String' }.to_json)
+      end
+
       it 'returns some error message' do
         post :interactive_render, params: { content: content }
         expect(response.body).to eq({ error: "785: unexpected token at 'notjson'" }.to_json)

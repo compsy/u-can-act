@@ -45,11 +45,7 @@ module DistributionHelper
       return
     end
 
-    pos = question[:min]
-    while pos <= question[:max]
-      distribution[qid][pos.to_s] = { VALUE => 0 }
-      pos += question[:step]
-    end
+    (question[:min]..question[:max]).step(question[:step]) { |pos| distribution[qid][pos.to_s] = { VALUE => 0 } }
   end
 
   def process_response_ids(response_ids)

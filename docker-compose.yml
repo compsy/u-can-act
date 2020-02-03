@@ -9,10 +9,14 @@ services:
   redis:
     image: "redis:alpine"
     command: redis-server --requirepass redispassword
+    volumes:
+      - ./tmp/redis:/data
     networks:
       - backend
   mongo:
     image: "mongo:latest"
+    volumes:
+      - ./tmp/mongo:/data/db
     networks:
       - backend
   webpack:

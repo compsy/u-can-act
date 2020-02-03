@@ -21,6 +21,5 @@ class CalculateDistribution < ActiveInteraction::Base
       offset += BATCH_SIZE
     end
     RedisService.set("distribution_#{questionnaire.key}", @distribution.to_json)
-    RedisService.bgsave
   end
 end

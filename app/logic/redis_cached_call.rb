@@ -23,7 +23,6 @@ class RedisCachedCall
     # Perform the actual call and store the results in the cache
     result = block.call
     RedisService.set(key, Marshal.dump(result))
-    RedisService.bgsave
     result
   end
 end

@@ -19,6 +19,5 @@ class UpdateDistribution < ActiveInteraction::Base
     @usable_questions = usable_questions
     process_response_ids([response.content])
     RedisService.set("distribution_#{questionnaire.key}", @distribution.to_json)
-    RedisService.bgsave
   end
 end

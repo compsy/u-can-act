@@ -1,20 +1,20 @@
 version: '3.0'
 services:
   db:
-    image: 'postgres'
+    image: postgres:10.5
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     networks:
       - backend
   redis:
-    image: "redis:alpine"
+    image: "redis:5.0.6-alpine"
     command: redis-server --requirepass redispassword
     volumes:
       - ./tmp/redis:/data
     networks:
       - backend
   mongo:
-    image: "mongo:latest"
+    image: mongo:4
     volumes:
       - ./tmp/mongo:/data/db
     networks:

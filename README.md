@@ -625,7 +625,8 @@ The default is that numbers are not required.
 
 The `number` type does not support `pattern` or `hint` because these properties are not supported by the html 5 `number` input type.
 
-A new unique property for the `number` type is the `links_to_expandable` property. Set this to the id of an expandable section to let the answer to this question set the number of expansions for the expandable question. If the user manually adds or removes expandable iterations with the + or - buttons, those changes are not reflected back to this number (i.e., it is used as a "default number of expansions").
+A new unique property for the `number` type is the `links_to_expandable` property. Set this to the id of an expandable section to let the answer to this question set the number of expansions for the expandable question.
+If the user manually adds or removes expandable iterations with the + or - buttons, those changes are not reflected back to this number (i.e., it is used as a "default number of expansions").
 
 Also, the `placeholder` property is supported for numbers.
 

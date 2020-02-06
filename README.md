@@ -353,6 +353,8 @@ The `content` attribute of a `Questionnaire` is a serialized array that stores t
 For all questions, it is allowed to use HTML tags in the texts. 
 Also, you may use any of the special variables defined in the previous section.
 
+All questions now support a `combines_with` attribute. The value of this attribute should be an array of (other) questionnaire IDs. This is used to indicate to the distributions engine that an additional conditional distribution histogram, combining the values of the question and the ones that it combines with, should also be calculated.
+
 ### Type: Checkbox
 Required and allowed options (minimal example and maximal example):
 

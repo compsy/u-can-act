@@ -5,7 +5,7 @@ require 'rails_helper'
 describe ResponseExporter do
   let!(:responseobj) do
     response_content = FactoryBot.create(:response_content,
-                                         content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23.0' })
+                                         content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23' })
     FactoryBot.create(:response, :completed, content: response_content.id.to_s)
   end
 

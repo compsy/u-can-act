@@ -10,6 +10,14 @@ class RangeGenerator < QuestionTypeGenerator
               ])
   end
 
+  def range_slider_minmax(question)
+    range_min = 0
+    range_max = 100
+    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
+    range_max = [range_min + 1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
+    { min: range_min, max: range_max }
+  end
+
   private
 
   def range_slider(question)
@@ -33,14 +41,6 @@ class RangeGenerator < QuestionTypeGenerator
     col_width = 100.0 / label_count
     col_width -= 8 # HACK: to get around padding that is in rem and not percentages
     "width:#{100 - col_width}%;margin-left:#{col_width / 2.0}%;margin-right:#{col_width / 2.0}%"
-  end
-
-  def range_slider_minmax(question)
-    range_min = 0
-    range_max = 100
-    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
-    range_max = [range_min + 1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
-    { min: range_min, max: range_max }
   end
 
   def range_labels(question)

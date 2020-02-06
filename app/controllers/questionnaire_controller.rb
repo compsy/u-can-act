@@ -93,6 +93,8 @@ class QuestionnaireController < ApplicationController
     @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
   rescue JSON::ParserError => e
     render status: :bad_request, json: { error: e.message }
+  rescue TypeError => e
+    render status: :bad_request, json: { error: e.message }
   end
 
   # This cop changes the code to not work anymore:

@@ -113,6 +113,7 @@ class Response < ApplicationRecord
     update!(completed_at: Time.zone.now,
             filled_out_by: protocol_subscription.person,
             filled_out_for: protocol_subscription.filling_out_for)
+    update_distribution(first_complete)
     return unless first_complete && protocol_subscription.protocol.push_subscriptions.present?
 
     PushSubscriptionsJob.perform_later(self)
@@ -155,5 +156,19 @@ class Response < ApplicationRecord
   def response_expired?
     measurement.open_duration.present? &&
       Time.zone.now > TimeTools.increase_by_duration(open_from, measurement.open_duration)
+  end
+
+  private
+
+  def update_distribution(first_complete)
+    return unless Rails.application.config.settings.feature_toggles.realtime_distributions
+
+    if first_complete
+      # Simply add the results of the current response
+      UpdateDistributionJob.perform_later(id)
+    else
+      # We don't know what the old answers were, so recalculate the whole questionnaire
+      CalculateDistributionJob.perform_later(id)
+    end
   end
 end

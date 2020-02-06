@@ -837,6 +837,73 @@ Image can be the URL of an image, or the filename of an image that exists in the
 
 The only optional parameters are `radius` and `density`. They default to 15 and 40, respectively.
 
+
+## Questionnaire Scores
+
+Questionnaire scores are automatically calculated and stored with the questionnaire results. The realtime distribution calculations also calculate distributions for questionnaire scores.
+
+Questionnaire content has the following format:
+```ruby
+{ questions: [], scores: [] }
+```
+Both these entries are required, but they may be empty.
+
+Scores is an array of scores with the following properties.
+
+Minimal example:
+```ruby
+[{ id: :s1,
+   label: 'The average of v1 and v2',
+   ids: %i[v1 v2],
+   operation: :average
+}]
+```
+Each score should have a unique `id` property. That means that these ids should be different from any other score id or question id in this questionnaire.
+`ids` is the list of is that the `operation` should be performed over. It may include ids of scores that occurred earlier in the `scores` array.
+
+Maximal example:
+```ruby
+[{ id: :s1,
+   label: 'The average of v1 and v2',
+   ids: %i[v1 v2],
+   operation: :average,
+   require_all: true,
+   round_to_decimals: 0
+}]
+```
+If `round_to_decimals` is missing, the result is not rounded, and the realtime distribution calculation will **not** calculate a distribution for this score. Analogously, if you specify the `round_to_decimals` attribute, the realtime distribution calculation will automatically calculate the distribution for this score. If you're only dealing with integers, you can use `round_to_decimals: 0`.
+If `require_all` is missing, it works the same as when specifying `require_all: false`.
+All other attributes are required.
+
+- The only currently supported `operation` is `:average`.
+- The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:
+
+```ruby
+{
+  questions: [ '...' ],
+  scores: [{
+           id: :s1,
+           label: 'Positive excited',
+           ids: %i[v1 v2 v3 v4],
+           operation: :average,
+           require_all: false,
+         }, {
+           id: :s2,
+           label: 'Positive not excited',
+           ids: %i[v5 v6 v7 v8],
+           operation: :average,
+           require_all: false,
+         }, {
+           id: :s3,
+           label: 'Positive',
+           ids: %i[s1 s2],
+           operation: :average,
+           require_all: true,
+           round_to_decimals: 1
+         }]
+}
+```
+
 [zenodo-image]: https://zenodo.org/badge/84442919.svg
 [zenodo-url]: https://zenodo.org/badge/latestdoi/84442919
 

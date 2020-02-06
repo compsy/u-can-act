@@ -30,7 +30,7 @@ dagboek_content = [
     id: :v4,
     type: :range,
     title: 'Wanneer begint uw kind te weigeren, tijdens de maaltijd?',
-    options: ['In het begin', 'Aan het eind'],
+    labels: ['In het begin', 'Aan het eind'],
     required: true
   }, {
     id: :v5,
@@ -65,13 +65,13 @@ dagboek_content = [
     id: :v10,
     type: :range,
     title: 'Moet u uw kind dwingen om te eten of te drinken?',
-    options: ['Meestal', 'Nooit'],
+    labels: ['Meestal', 'Nooit'],
     required: true
   }, {
     id: :v11,
     type: :range,
     title: 'Hoe goed kan uw kind zuigen en kauwen?',
-    options: ['Zeer goed', 'Zeer slecht'],
+    labels: ['Zeer goed', 'Zeer slecht'],
     required: true
   }, {
     id: :v12,

@@ -54,7 +54,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def create
-    response_content = ResponseContent.create!(content: questionnaire_content)
+    response_content = ResponseContent.create_with_scores!(content: questionnaire_content, response: @response)
     @response.update!(content: response_content.id)
     @response.complete!
     check_stop_subscription

@@ -9,6 +9,8 @@ class Questionnaire < ApplicationRecord
   validate :all_questions_have_types
   validate :all_questions_have_titles
   validate :all_questions_have_ids
+  validate :all_ranges_have_labels
+  validate :all_likert_radio_checkbox_dropdown_have_options
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
                                         foreign_key: 'informed_consent_questionnaire_id',
@@ -36,6 +38,12 @@ class Questionnaire < ApplicationRecord
           name14: 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag',
           name15: 'dagboek studenten 5x per week donderdag')
   })
+
+  def drawing_ids
+    content.select { |question| question[:type]&.to_sym == :drawing }.map { |question| question[:id] }
+  end
+
+  private
 
   def all_content_ids_unique
     ids = content.map { |entry| entry[:id] }
@@ -71,7 +79,27 @@ class Questionnaire < ApplicationRecord
     errors.add(:content, "the following questions are missing the required :id attribute: #{result.pretty_inspect}")
   end
 
-  def drawing_ids
-    content.select { |question| question[:type]&.to_sym == :drawing }.map { |question| question[:id] }
+  def all_ranges_have_labels
+    result = content.select { |question| %i[range].include?(question[:type]&.to_sym) }
+                    .reject { |question| non_empty_array?(question, :labels) }
+                    .map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content, 'the following range type questions are missing the required :labels' \
+                         " array attribute: #{result.pretty_inspect}")
+  end
+
+  def all_likert_radio_checkbox_dropdown_have_options
+    result = content.select { |question| %i[checkbox likert radio dropdown].include?(question[:type]&.to_sym) }
+                    .reject { |question| non_empty_array?(question, :options) }
+                    .map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content, 'the following questions are missing their required :options' \
+      " array attribute: #{result.pretty_inspect}")
+  end
+
+  def non_empty_array?(question, attr)
+    question.key?(attr) && question[attr].is_a?(Array) && question[attr].size.positive?
   end
 end

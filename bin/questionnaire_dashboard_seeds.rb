@@ -181,7 +181,10 @@ def create_responses(protocol_name, person, file_name)
     content[:v7] = convert_satisfaction(row['Training satisfaction'])
     content[:v8] = convert_comments(row['Comments'])
 
-    response_content = ResponseContent.create!(content: content)
+    response_content = ResponseContent.create_with_scores!(
+      content: content,
+      response: Response.new(measurement_id: response_params[:measurement_id])
+    )
     response_params[:content] = response_content.id
 
     PushSubscriptionsJob.perform_later(Response.create!(response_params))
@@ -404,7 +407,10 @@ def create_daily_responses(protocol_name, person, file_name)
     content[:v10] = convert_yes_no(row['Injured?'])
     content[:v11] = convert_comments(row['Comments'])
 
-    response_content = ResponseContent.create!(content: content)
+    response_content = ResponseContent.create_with_scores!(
+      content: content,
+      response: Response.new(measurement_id: response_params[:measurement_id])
+    )
     response_params[:content] = response_content.id
 
     PushSubscriptionsJob.perform_later(Response.create!(response_params))
@@ -436,7 +442,10 @@ def create_daily_responses(protocol_name, person, file_name)
       content[:v6] = convert_numerical_radio_symptoms(row['Did you experience symptoms/health complaints?'])
       content[:v7] = convert_comments(row['How did you experience last week?'])
 
-      response_content = ResponseContent.create!(content: content)
+      response_content = ResponseContent.create_with_scores!(
+        content: content,
+        response: Response.new(measurement_id: response_params[:measurement_id])
+      )
       response_params[:content] = response_content.id
 
       PushSubscriptionsJob.perform_later(Response.create!(response_params))

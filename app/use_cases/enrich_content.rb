@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Enrich response content (= questionnaire answers) with scores
 class EnrichContent < ActiveInteraction::Base
   EnrichMissingDataError = Class.new(StandardError)
 
@@ -11,7 +12,7 @@ class EnrichContent < ActiveInteraction::Base
   # @param content [Hash] the response values as a hash (keys are strings)
   # @param questionnaire [Hash] the questoinnaire definition hash (keys can be symbols)
   def execute
-    @questionnaire = questionnaire # work with instance variables instead of activeinteraction functions
+    @questionnaire = questionnaire # work with instance variables instead of activeinteraction methods
     @enriched_content = content.deep_dup
     @questionnaire[:scores].each do |score|
       calculate_and_add_score(score)
@@ -35,7 +36,6 @@ class EnrichContent < ActiveInteraction::Base
     nil
   end
 
-  # { id: :s1, label: 'average of v1 and v2', ids: %i[v1 v2], operation: :average, round_to_decimals: 1 }
   def calculate_score(score)
     data = gather_data(score)
     value = perform_operation(data, score)

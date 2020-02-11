@@ -71,6 +71,6 @@ Vragen over het onderzoek kunnen ook achteraf gesteld worden, via
   }
 ]
 
-questionnaire.content = content
+questionnaire.content = { questionnaire: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

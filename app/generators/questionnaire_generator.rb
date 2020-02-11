@@ -11,12 +11,12 @@ class QuestionnaireGenerator
   def generate_questionnaire(response_id:, content:, title:, submit_text:, action:, unsubscribe_url:, params: {})
     params[:response_id] = response_id
     response = Response.find_by(id: response_id) # allow nil response id for preview
-    raw_content = content.deep_dup
+    raw_content = content[:questions].deep_dup
     title = substitute_variables(response, title).first
     body = safe_join([
                        questionnaire_header(title),
                        questionnaire_hidden_fields(params),
-                       questionnaire_questions_html(content, response, raw_content, unsubscribe_url),
+                       questionnaire_questions_html(content[:questions], response, raw_content, unsubscribe_url),
                        submit_button(submit_text)
                      ])
     body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
@@ -27,7 +27,7 @@ class QuestionnaireGenerator
   def generate_hash_questionnaire(response_id, content, title)
     response = Response.find_by(id: response_id) # allow nil response id for preview
     title = substitute_variables(response, title).first
-    content = questionnaire_questions(content, response) { |quest| quest }
+    content = questionnaire_questions(content[:questions], response) { |quest| quest }
     { title: title, content: content }
   end
 

@@ -1,16 +1,23 @@
 # frozen_string_literal: true
 
 class Questionnaire < ApplicationRecord
+  KNOWN_OPERATIONS = %i[average].freeze
+
   validates :name, presence: true, uniqueness: true
   validates :content, presence: true
   validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z]+[a-z_0-9]*\Z/ }
-  serialize :content, Array
-  validate :all_content_ids_unique
-  validate :all_questions_have_types
-  validate :all_questions_have_titles
-  validate :all_questions_have_ids
-  validate :all_ranges_have_labels
-  validate :all_likert_radio_checkbox_dropdown_have_options
+  serialize :content, Hash
+  validate :questionnaire_structure, if: -> { content.present? }
+  validate :all_content_ids_unique, if: -> { content.key?(:scores) && content.key?(:questions) }
+  validate :all_questions_have_types, if: -> { content.key?(:questions) }
+  validate :all_questions_have_titles, if: -> { content.key?(:questions) }
+  validate :all_questions_have_ids, if: -> { content.key?(:questions) }
+  validate :all_ranges_have_labels, if: -> { content.key?(:questions) }
+  validate :all_likert_radio_checkbox_dropdown_have_options, if: -> { content.key?(:questions) }
+  validate :all_scores_have_required_atributes, if: -> { content.key?(:scores) }
+  validate :all_scores_have_nonempty_ids, if: -> { content.key?(:scores) }
+  validate :all_scores_use_existing_ids, if: -> { content.key?(:scores) && content.key?(:questions) }
+  validate :all_scores_have_known_operations, if: -> { content.key?(:scores) }
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
                                         foreign_key: 'informed_consent_questionnaire_id',
@@ -40,13 +47,22 @@ class Questionnaire < ApplicationRecord
   })
 
   def drawing_ids
-    content.select { |question| question[:type]&.to_sym == :drawing }.map { |question| question[:id] }
+    content[:questions].select { |question| question[:type]&.to_sym == :drawing }.map { |question| question[:id] }
   end
 
   private
 
+  def questionnaire_structure
+    return if content.is_a?(Hash) && content.key?(:scores) && content.key?(:questions) &&
+              content[:scores].is_a?(Array) && content[:questions].is_a?(Array)
+
+    errors.add(:content, 'needs to be a Hash with :questions and :scores components')
+  end
+
   def all_content_ids_unique
-    ids = content.map { |entry| entry[:id] }
+    question_ids = content[:questions].map { |entry| entry[:id] }
+    score_ids = content[:scores].map { |entry| entry[:id] }
+    ids = question_ids + score_ids
     result = ids.detect { |entry| ids.count(entry) > 1 }
 
     return if result.blank?
@@ -55,34 +71,34 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_questions_have_types
-    result = content.select { |question| question[:type].blank? }.map { |question| question[:id] }
+    result = content[:questions].select { |question| question[:type].blank? }.map { |question| question[:id] }
     return if result.blank?
 
     errors.add(:content, "the following questions are missing the required :type attribute: #{result.pretty_inspect}")
   end
 
   def all_questions_have_titles
-    result = content.reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
-                    .reject { |question| question.key?(:title) }
-                    .map { |question| question[:id] }
+    result = content[:questions].reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
+                                .reject { |question| question.key?(:title) }
+                                .map { |question| question[:id] }
     return if result.blank?
 
     errors.add(:content, "the following questions are missing the required :title attribute: #{result.pretty_inspect}")
   end
 
   def all_questions_have_ids
-    result = content.reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
-                    .reject { |question| question.key?(:id) }
-                    .map { |question| question[:title] }
+    result = content[:questions].reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
+                                .reject { |question| question.key?(:id) }
+                                .map { |question| question[:title] }
     return if result.blank?
 
     errors.add(:content, "the following questions are missing the required :id attribute: #{result.pretty_inspect}")
   end
 
   def all_ranges_have_labels
-    result = content.select { |question| %i[range].include?(question[:type]&.to_sym) }
-                    .reject { |question| non_empty_array?(question, :labels) }
-                    .map { |question| question[:id] }
+    result = content[:questions].select { |question| %i[range].include?(question[:type]&.to_sym) }
+                                .reject { |question| non_empty_array?(question, :labels) }
+                                .map { |question| question[:id] }
     return if result.blank?
 
     errors.add(:content, 'the following range type questions are missing the required :labels' \
@@ -90,9 +106,10 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_likert_radio_checkbox_dropdown_have_options
-    result = content.select { |question| %i[checkbox likert radio dropdown].include?(question[:type]&.to_sym) }
-                    .reject { |question| non_empty_array?(question, :options) }
-                    .map { |question| question[:id] }
+    options_required_for = %i[checkbox likert radio dropdown]
+    result = content[:questions].select { |question| options_required_for.include?(question[:type]&.to_sym) }
+                                .reject { |question| non_empty_array?(question, :options) }
+                                .map { |question| question[:id] }
     return if result.blank?
 
     errors.add(:content, 'the following questions are missing their required :options' \
@@ -101,5 +118,45 @@ class Questionnaire < ApplicationRecord
 
   def non_empty_array?(question, attr)
     question.key?(attr) && question[attr].is_a?(Array) && question[attr].size.positive?
+  end
+
+  def all_scores_have_required_atributes
+    result = content[:scores]
+             .reject { |score| score.key?(:id) && score.key?(:label) && score.key?(:ids) && score.key?(:operation) }
+             .map { |score| score[:label] || score[:id] }
+    return if result.blank?
+
+    errors.add(:content, "the following scores are missing one or more required attributes: #{result.pretty_inspect}")
+  end
+
+  def all_scores_have_nonempty_ids
+    result = content[:scores]
+             .select { |score| score[:ids].blank? }
+             .map { |score| score[:label] || score[:id] }
+    return if result.blank?
+
+    errors.add(:content, "the following scores have an empty ids attribute: #{result.pretty_inspect}")
+  end
+
+  def all_scores_use_existing_ids
+    allowed_ids = content[:questions].map { |entry| entry[:id] }
+    result = content[:scores].select do |score|
+      is_bad = ((score[:ids] || []) - allowed_ids).size.positive?
+      allowed_ids += score[:id]
+      is_bad
+    end
+    result = result.map { |score| score[:label] }
+    return if result.blank?
+
+    errors.add(:content, "the following scores use ids that do not exist in their context #{result.pretty_inspect}")
+  end
+
+  def all_scores_have_known_operations
+    result = content[:scores]
+             .reject { |score| KNOWN_OPERATIONS.include?(score[:operation]) }
+             .map { |score| score[:label] || score[:id] }
+    return if result.blank?
+
+    errors.add(:content, "the following scores have an unknown operation: #{result.pretty_inspect}")
   end
 end

@@ -144,7 +144,7 @@ dagboek_content = [{
   type: :range,
   labels: ['helemaal niet waar', 'helemaal waar']
 }]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!
 

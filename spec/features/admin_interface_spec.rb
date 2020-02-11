@@ -270,7 +270,8 @@ describe 'GET /admin', type: :feature, js: true do
       # xit 'should list the correct teams' do # uncomment when Auth is fixed
       #   Team.overview(bust_cache: true)
       #   FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-      #                                     content: [{ type: :raw, content: 'questionnaire' }])
+      #                                     content: { questions: [{ type: :raw, content: 'questionnaire' }]
+      #                                                scores: [] })
       #   page.click_on 'Organization overview'
       #   expect(page).to have_content 'Team overview'
       #   expect(page).to have_content org1.name

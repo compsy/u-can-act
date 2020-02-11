@@ -157,7 +157,7 @@ dagboek_content = [{
   type: :range,
   labels: ['helemaal niet waar', 'helemaal waar'],
   show_after: :only_on_final_questionnaire
-}, 
+},
 {
   id: :v24,
   title: "… ik keuze en vrijheid heb ik de dingen die ik op school doe.",
@@ -178,7 +178,7 @@ dagboek_content = [{
   labels: ['helemaal niet waar', 'helemaal waar'],
   show_after: :only_on_final_questionnaire
 }]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!
 

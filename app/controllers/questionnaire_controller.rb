@@ -84,18 +84,29 @@ class QuestionnaireController < ApplicationController
     render(status: :bad_request, json: { error: 'Please supply a json string in the content field.' })
   end
 
+  # rubocop:disable Metrics/AbcSize
   def set_interactive_content
     @raw_questionnaire_content = JSON.parse(params[:content])
-    if @raw_questionnaire_content.blank? || !(@raw_questionnaire_content.is_a? Array)
-      render status: :bad_request, json: { error: 'At least one question should be provided, in an array' }
+    if @raw_questionnaire_content.blank?
+      render status: :bad_request, json: { error: 'At least one question should be provided' }
       return
     end
-    @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
+    if !(@raw_questionnaire_content.is_a? Hash) && @raw_questionnaire_content.is_a?(Array)
+      @raw_questionnaire_content = { questions: @raw_questionnaire_content, scores: [] }
+    end
+    unless @raw_questionnaire_content.is_a? Hash
+      render status: :bad_request, json: { error: 'questions should be in an array or hash' }
+      return
+    end
+    @raw_questionnaire_content = @raw_questionnaire_content.with_indifferent_access
+    @raw_questionnaire_content[:questions] = @raw_questionnaire_content[:questions].map(&:with_indifferent_access)
+    @raw_questionnaire_content[:scores] = @raw_questionnaire_content[:scores].map(&:with_indifferent_access)
   rescue JSON::ParserError => e
     render status: :bad_request, json: { error: e.message }
   rescue TypeError => e
     render status: :bad_request, json: { error: e.message }
   end
+  # rubocop:enable Metrics/AbcSize
 
   # This cop changes the code to not work anymore:
   # rubocop:disable Style/WhileUntilModifier
@@ -131,9 +142,9 @@ class QuestionnaireController < ApplicationController
     #       in model validations).
     should_stop = false
     stop_subscription_hash.each do |key, received|
-      next unless content.key?(key)
+      next unless content[:questions].key?(key)
 
-      expected = Response.stop_subscription_token(key, content[key], @response.id)
+      expected = Response.stop_subscription_token(key, content[:questions][key], @response.id)
       if ActiveSupport::SecurityUtils.secure_compare(expected, received)
         should_stop = true
         break

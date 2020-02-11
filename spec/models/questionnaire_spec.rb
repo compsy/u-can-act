@@ -12,7 +12,7 @@ describe Questionnaire do
     describe 'all_content_ids_unique' do
       let(:invalid_questionnaire) do
         quest = FactoryBot.create(:questionnaire)
-        quest.content = [{
+        quest.content[:questions] = [{
           section_start: 'Algemeen',
           id: :v1,
           type: :radio,
@@ -36,7 +36,7 @@ describe Questionnaire do
         quest
       end
       let(:valid_questionnaire) do
-        FactoryBot.create(:questionnaire, content: [{
+        FactoryBot.create(:questionnaire, content: { questions: [{
                             section_start: 'Algemeen',
                             id: :v1,
                             type: :radio,
@@ -49,7 +49,7 @@ describe Questionnaire do
                             title: 'Wat heeft u vandaag gegeten?',
                             options: ['brood', 'kaas en ham', 'pizza'],
                             otherwise_label: 'Hier ook iets:'
-                          }])
+                          }], scores: [] })
       end
 
       it 'is not valid with duplicate keys' do
@@ -62,11 +62,18 @@ describe Questionnaire do
         expect(valid_questionnaire).to be_valid
         expect(valid_questionnaire.errors.messages).not_to have_key :content
       end
+
+      it 'is not valid with duplicate score keys' do
+        valid_questionnaire.content[:scores] = [{ id: :v1, label: 'something', ids: [:v2], operation: :average }]
+        expect(valid_questionnaire).not_to be_valid
+        expect(valid_questionnaire.errors.messages).to have_key :content
+        expect(valid_questionnaire.errors.messages[:content]).to include('can only have a series of unique ids: v1')
+      end
     end
 
     describe 'all_questions_have_types' do
       it 'is not valid with an empty question' do
-        content = [{}]
+        content = { questions: [{}], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
@@ -76,7 +83,7 @@ describe Questionnaire do
       end
 
       it 'is not valid with a question without type' do
-        content = [{ id: :v1, title: 'hoi' }]
+        content = { questions: [{ id: :v1, title: 'hoi' }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
@@ -86,7 +93,7 @@ describe Questionnaire do
       end
 
       it 'is valid with a question with a type' do
-        content = [{ id: :v1, title: 'hoi', type: :number }]
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
@@ -94,7 +101,7 @@ describe Questionnaire do
 
     describe 'all_questions_have_titles' do
       it 'is not valid with an empty question' do
-        content = [{}]
+        content = { questions: [{}], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
@@ -104,7 +111,7 @@ describe Questionnaire do
       end
 
       it 'is not valid with a question without title' do
-        content = [{ id: :v1, type: :number }]
+        content = { questions: [{ id: :v1, type: :number }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
@@ -114,19 +121,19 @@ describe Questionnaire do
       end
 
       it 'is valid with a question with a title' do
-        content = [{ id: :v1, title: 'hoi', type: :number }]
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
 
       it 'is valid without a title if it is a raw' do
-        content = [{ type: :raw }]
+        content = { questions: [{ type: :raw }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
 
       it 'is valid without a title if it is an unsubcribe' do
-        content = [{ type: :unsubscribe }]
+        content = { questions: [{ type: :unsubscribe }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
@@ -134,7 +141,7 @@ describe Questionnaire do
 
     describe 'all_questions_have_ids' do
       it 'is not valid with an empty question' do
-        content = [{}]
+        content = { questions: [{}], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
@@ -144,7 +151,7 @@ describe Questionnaire do
       end
 
       it 'is not valid with a question without id' do
-        content = [{ title: 'hoi', type: :number }]
+        content = { questions: [{ title: 'hoi', type: :number }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
@@ -154,21 +161,155 @@ describe Questionnaire do
       end
 
       it 'is valid with a question with an id' do
-        content = [{ id: :v1, title: 'hoi', type: :number }]
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
 
       it 'is valid without an id if it is a raw' do
-        content = [{ type: :raw }]
+        content = { questions: [{ type: :raw }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
 
       it 'is valid without an id if it is an unsubscribe' do
-        content = [{ type: :unsubscribe }]
+        content = { questions: [{ type: :unsubscribe }], scores: [] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'questionnaire_structure' do
+      it 'does not accept an array' do
+        content = []
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('needs to be a Hash with :questions and :scores components')
+        )
+      end
+      it 'does not accept an empty hash' do
+        content = {}
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('needs to be a Hash with :questions and :scores components')
+        )
+      end
+      it 'does accept a hash with score and questions components' do
+        content = { questions: [], scores: [] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_scores_have_required_atributes' do
+      it 'does not accept scores without an id' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ label: 'my-label', ids: %i[v1], operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores are missing one or more required attributes: my-label')
+        )
+      end
+
+      it 'does not accept scores without a label' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, ids: %i[v1], operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores are missing one or more required attributes: :s1')
+        )
+      end
+
+      it 'does not accept scores without ids' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores are missing one or more required attributes: my-label')
+        )
+      end
+
+      it 'does not accept scores with empty ids' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: [], operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores have an empty ids attribute: my-label')
+        )
+      end
+
+      it 'does not accept scores without an operation' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1] }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores are missing one or more required attributes: my-label')
+        )
+      end
+
+      it 'does accept scores with all required attributes' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_scores_use_existing_ids' do
+      it 'does not allow for ids that don\'t exist' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v2], operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores use ids that do not exist in their context: my-label')
+        )
+      end
+      it 'does not allow for ids of future scores' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[s2], operation: :average },
+                             { id: :s2, label: 'my-label2', ids: %i[v1], operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores use ids that do not exist in their context: my-label')
+        )
+      end
+      it 'does allow for ids of previous scores' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v2], operation: :average },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_scores_have_known_operations' do
+      it 'does not allow for operations that do not exist' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v2], operation: :diffusion }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('the following scores have an unknown operation: my-label')
+        )
       end
     end
   end
@@ -317,9 +458,9 @@ describe Questionnaire do
       expect(questionnaire.errors.messages[:content]).to include('moet opgegeven zijn')
     end
     it 'accepts a serialized array of hashes' do
-      given_content = [
+      given_content = { questions: [
         { id: :v1, type: :range, title: 'Bent u gelukkig?', labels: %w[Nee Ja] }
-      ]
+      ], scores: [] }
       questionnaire = FactoryBot.create(:questionnaire, content: given_content)
       expect(questionnaire).to be_valid
       expect(questionnaire.content[0][:id]).to eq :v1

@@ -493,6 +493,6 @@ dagboek_content = [
     labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
     required: true
   }]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

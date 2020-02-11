@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe QuestionnaireExporter do
-  let!(:questionnaire) { FactoryBot.create(:questionnaire) }
+  let!(:questionnaire) { FactoryBot.create(:questionnaire, :with_scores) }
 
   context 'invalid questionnaire' do
     it 'raises an error' do

@@ -55,7 +55,7 @@ rmcregioarray = [
 ]
 maatregel_text = '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>'
 evaluatie.key = File.basename(__FILE__)[0...-3]
-evaluatie.content = [{
+evaluatie.content = { questions: [{
   type: :raw,
   content: '<p class="flow-text"><em>Wij vragen u eerst om enkele achtergrondgegevens, om te kunnen achterhalen welke rol u speelt in welke regio. De resultaten worden op landelijk niveau geanalyseerd en zijn niet terug te leiden naar een specifieke regio. Uw privacy is gegarandeerd. Als er een i-button staat bij een vraag, dan kunt u daar op klikken voor meer informatie.</em></p>'
 }, {
@@ -959,6 +959,6 @@ evaluatie.content = [{
   type: :textarea,
   title: 'Indien u nog aanvullende op- of aanmerkingen heeft over de aanpak van voortijdig schoolverlaten en jongeren in een kwetsbare positie dan kunt u die hier benoemen.',
   placeholder: 'Vul hier uw antwoord in'
-}]
+}], scores: [] }
 evaluatie.title = 'De huidige aanpak van voortijdig schoolverlaten en jongeren in kwetsbare posities: een evaluatie van het nationale beleid'
 evaluatie.save!

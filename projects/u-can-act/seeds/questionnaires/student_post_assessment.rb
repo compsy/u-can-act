@@ -4,7 +4,7 @@ nm_name1 = 'nameting studenten'
 nameting1 = Questionnaire.find_by_name(nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
 nameting1.key = File.basename(__FILE__)[0...-3]
-nameting1.content = [{
+nameting1.content = { questions: [{
   id: :v1,
   type: :radio,
   title: 'Ben je dit schooljaar definitief gestopt met je opleiding?',
@@ -121,6 +121,6 @@ nameting1.content = [{
   section_start: '',
   type: :raw,
   content: '<p class="flow-text section-explanation">Klik op opslaan om je beloning te ontvangen.</p>'
-}]
+}], scores: [] }
 nameting1.title = 'Eindmeting'
 nameting1.save!

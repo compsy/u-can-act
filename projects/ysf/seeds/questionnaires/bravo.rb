@@ -112,6 +112,6 @@ content = [
     placeholder: ''
   }
 ]
-questionnaire.content = content
+questionnaire.content = { questionnaire: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

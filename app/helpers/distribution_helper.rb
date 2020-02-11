@@ -12,7 +12,9 @@ module DistributionHelper
   # context, hence there is no specific test suite for this file.
   def usable_questions
     @questionnaire_content = questionnaire.content
-    range_questions(@questionnaire_content) + other_questions(@questionnaire_content)
+    range_questions(@questionnaire_content[:questions]) +
+      other_questions(@questionnaire_content[:questions]) +
+      scores(@questionnaire_content[:scores])
   end
 
   def range_questions(questionnaire_content)
@@ -32,6 +34,15 @@ module DistributionHelper
       .select { |question| %i[number radio likert dropdown].include?(question[:type]) }
       .map do |question|
       { id: question[:id].to_s, type: question[:type], combines_with: question[:combines_with] }
+    end
+  end
+
+  def scores(questionnaire_content)
+    # skip scores that don't have the :round_to_decimals .key?
+    questionnaire_content
+      .select { |score| score.key?(:round_to_decimals) }
+      .map do |score|
+      { id: score[:id].to_s, type: :score, combines_with: nil }
     end
   end
 

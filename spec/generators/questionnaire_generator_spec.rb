@@ -30,25 +30,25 @@ describe QuestionnaireGenerator do
       expect(result).to include('Jane')
     end
     it 'raises an error when given a question of unknown type' do
-      questionnaire_content = [{
+      questionnaire_content = { questions: [{
         section_start: 'Algemeen',
         id: :v1,
         type: :asdf,
         title: 'Hoe voelt u zich vandaag?',
         options: %w[slecht goed]
-      }]
+      }], scores: [] }
       expect do
         subject.send(:questionnaire_questions_html,
                      questionnaire_content, nil, questionnaire_content, nil)
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
     it 'raises an error when given an unknown show_after type' do
-      questionnaire_content = [{
+      questionnaire_content = { questions: [{
         id: :v1,
         type: :raw,
         content: 'Hoe voelt u zich vandaag?',
         show_after: 'hoi en doei'
-      }]
+      }], scores: [] }
       expect do
         subject.send(:questionnaire_questions_html,
                      questionnaire_content, nil, questionnaire_content, nil)
@@ -58,13 +58,13 @@ describe QuestionnaireGenerator do
 
   describe 'generate_json_questionnaire' do
     before do
-      questionnaire_content = [{
+      questionnaire_content = { questions: [{
         section_start: 'Algemeen',
         id: :v1,
         type: :range,
         title: 'Hoe voelt {{deze_student}} zich vandaag?',
         options: %w[slecht goed]
-      }]
+      }], scores: [] }
       @result = subject.generate_hash_questionnaire(responseobj.id,
                                                     questionnaire_content,
                                                     'Dit is een titel {{deze_student}}')

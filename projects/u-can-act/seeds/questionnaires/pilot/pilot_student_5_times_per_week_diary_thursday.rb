@@ -153,6 +153,6 @@ dagboek_content = [{
   labels: ['niet goed geholpen', 'heel goed geholpen'],
   section_end: true
 }]
-dagboek3.content = dagboek_content
+dagboek3.content = { questions: dagboek_content, scores: [] }
 dagboek3.title = db_title
 dagboek3.save!

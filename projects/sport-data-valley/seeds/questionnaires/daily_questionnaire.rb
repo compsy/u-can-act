@@ -135,7 +135,7 @@ days.each do |day|
   questionnaire ||= Questionnaire.new(name: db_name1)
   questionnaire.key = "#{File.basename(__FILE__)[0...-3]}_#{day}"
 
-  questionnaire.content = dagboek_content
+  questionnaire.content = { questions: dagboek_content, scores: [] }
   questionnaire.title = db_title
   questionnaire.save!
 end

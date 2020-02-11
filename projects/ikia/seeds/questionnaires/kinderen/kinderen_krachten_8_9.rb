@@ -185,6 +185,6 @@ dagboek_content = [
                 tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
     section_end: true
   }]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

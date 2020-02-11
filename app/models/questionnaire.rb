@@ -148,7 +148,7 @@ class Questionnaire < ApplicationRecord
     result = result.map { |score| score[:label] }
     return if result.blank?
 
-    errors.add(:content, "the following scores use ids that do not exist in their context #{result.pretty_inspect}")
+    errors.add(:content, "the following scores use ids that do not exist in their context: #{result.pretty_inspect}")
   end
 
   def all_scores_have_known_operations

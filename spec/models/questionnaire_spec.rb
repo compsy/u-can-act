@@ -182,12 +182,10 @@ describe Questionnaire do
     describe 'questionnaire_structure' do
       it 'does not accept an array' do
         content = []
-        questionnaire = FactoryBot.build(:questionnaire, content: content)
-        expect(questionnaire).not_to be_valid
-        expect(questionnaire.errors.messages).to have_key :content
-        expect(questionnaire.errors.messages[:content]).to(
-          include('needs to be a Hash with :questions and :scores components')
-        )
+        expect { FactoryBot.build(:questionnaire, content: content) }.to(
+          raise_error(
+            ActiveRecord::SerializationTypeMismatch,
+            "can't serialize `content`: was supposed to be a Hash, but was a Array. -- []"))
       end
       it 'does not accept an empty hash' do
         content = {}
@@ -195,7 +193,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('needs to be a Hash with :questions and :scores components')
+          include('moet opgegeven zijn')
         )
       end
       it 'does accept a hash with score and questions components' do
@@ -213,7 +211,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores are missing one or more required attributes: my-label')
+          include("the following scores are missing one or more required attributes: [\"my-label\"]\n")
         )
       end
 
@@ -224,7 +222,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores are missing one or more required attributes: :s1')
+          include("the following scores are missing one or more required attributes: [:s1]\n")
         )
       end
 
@@ -235,7 +233,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores are missing one or more required attributes: my-label')
+          include("the following scores are missing one or more required attributes: [\"my-label\"]\n")
         )
       end
 
@@ -246,7 +244,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores have an empty ids attribute: my-label')
+          include("the following scores have an empty ids attribute: [\"my-label\"]\n")
         )
       end
 
@@ -257,7 +255,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores are missing one or more required attributes: my-label')
+          include("the following scores are missing one or more required attributes: [\"my-label\"]\n")
         )
       end
 
@@ -277,7 +275,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores use ids that do not exist in their context: my-label')
+          include("the following scores use ids that do not exist in their context: [\"my-label\"]\n")
         )
       end
       it 'does not allow for ids of future scores' do
@@ -288,12 +286,12 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores use ids that do not exist in their context: my-label')
+          include("the following scores use ids that do not exist in their context: [\"my-label\"]\n")
         )
       end
       it 'does allow for ids of previous scores' do
         content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
-                    scores: [{ id: :s1, label: 'my-label', ids: %i[v2], operation: :average },
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average },
                              { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average }] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
@@ -308,7 +306,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('the following scores have an unknown operation: my-label')
+          include("the following scores have an unknown operation: [\"my-label\"]\n")
         )
       end
     end
@@ -452,7 +450,7 @@ describe Questionnaire do
     end
     it 'is not blank' do
       questionnaire = FactoryBot.create(:questionnaire)
-      questionnaire.content = []
+      questionnaire.content = {}
       expect(questionnaire).not_to be_valid
       expect(questionnaire.errors.messages).to have_key :content
       expect(questionnaire.errors.messages[:content]).to include('moet opgegeven zijn')
@@ -463,7 +461,7 @@ describe Questionnaire do
       ], scores: [] }
       questionnaire = FactoryBot.create(:questionnaire, content: given_content)
       expect(questionnaire).to be_valid
-      expect(questionnaire.content[0][:id]).to eq :v1
+      expect(questionnaire.content[:questions].first[:id]).to eq :v1
       expect(questionnaire.content).to eq given_content
     end
   end

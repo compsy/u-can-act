@@ -874,7 +874,7 @@ Maximal example:
 ```
 If `round_to_decimals` is missing, the result is not rounded, and the realtime distribution calculation will **not** calculate a distribution for this score. Analogously, if you specify the `round_to_decimals` attribute, the realtime distribution calculation will automatically calculate the distribution for this score. If you're only dealing with integers, you can use `round_to_decimals: 0`.
 If `require_all` is missing, it works the same as when specifying `require_all: false`.
-All other attributes are required.
+All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
 
 - The only currently supported `operation` is `:average`.
 - The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:

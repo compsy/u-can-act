@@ -185,7 +185,9 @@ describe Questionnaire do
         expect { FactoryBot.build(:questionnaire, content: content) }.to(
           raise_error(
             ActiveRecord::SerializationTypeMismatch,
-            "can't serialize `content`: was supposed to be a Hash, but was a Array. -- []"))
+            "can't serialize `content`: was supposed to be a Hash, but was a Array. -- []"
+          )
+        )
       end
       it 'does not accept an empty hash' do
         content = {}

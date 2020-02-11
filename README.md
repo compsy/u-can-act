@@ -860,7 +860,7 @@ Minimal example:
 }]
 ```
 Each score should have a unique `id` property. That means that these ids should be different from any other score id or question id in this questionnaire.
-`ids` is the list of is that the `operation` should be performed over. It may include ids of scores that occurred earlier in the `scores` array.
+`ids` is the list of IDs that the `operation` should be performed over. It may include ids of scores that occurred earlier in the `scores` array.
 
 Maximal example:
 ```ruby

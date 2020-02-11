@@ -10,7 +10,7 @@ class EnrichContent < ActiveInteraction::Base
   # Enriches the questionnaire outcomes with scores
   #
   # @param content [Hash] the response values as a hash (keys are strings)
-  # @param questionnaire [Hash] the questoinnaire definition hash (keys can be symbols)
+  # @param questionnaire [Hash] the questionnaire definition hash (keys can be symbols)
   def execute
     @questionnaire = questionnaire # work with instance variables instead of activeinteraction methods
     @enriched_content = content.deep_dup

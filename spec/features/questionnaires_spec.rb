@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe 'GET and POST /', type: :feature, js: true do
+describe 'GET and POST /', type: :feature, js: true do
   let(:person_header) { 'Accountgegevens bewerken' }
   let(:student) { FactoryBot.create(:student) }
   let(:mentor) { FactoryBot.create(:mentor, first_name: 'Dagobert') }
@@ -2087,12 +2087,12 @@ fdescribe 'GET and POST /', type: :feature, js: true do
                                                 person: student)
 
       questionnaire_unsub = FactoryBot.create(:questionnaire, content: content)
-      post_questionnaire = FactoryBot.create(:questionnaire, content: [{
+      post_questionnaire = FactoryBot.create(:questionnaire, content: { questions: [{
                                                id: :v3,
                                                type: :range,
                                                title: 'Hoe gaat het met u?',
                                                labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens']
-                                             }])
+                                             }], scores: [] })
 
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire_unsub, protocol: protocol)
       stop_measurement = FactoryBot.create(:measurement, :stop_measurement,
@@ -2110,7 +2110,7 @@ fdescribe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       page.click_on 'Unsubscribe'
       expect(page).not_to have_content('Bedankt voor je inzet!')
-      expect(page).not_to have_content(content.first[:content])
+      expect(page).not_to have_content(content[:questions].first[:content])
       expect(page).to have_content('Hoe gaat het met u?')
       expect(page).to have_content('Opslaan')
       protocol_subscription.reload
@@ -2288,7 +2288,7 @@ fdescribe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
       expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-      expect(page).to have_content(content.first[:title])
+      expect(page).to have_content(content[:questions].first[:title])
       page.choose('v1_maandag', allow_label_click: true)
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -2351,7 +2351,7 @@ fdescribe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
       expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-      expect(page).to have_content(content.first[:title])
+      expect(page).to have_content(content[:questions].first[:title])
       page.find(:css, 'canvas').click
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -2410,7 +2410,7 @@ fdescribe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
       expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-      expect(page).to have_content(content.first[:title])
+      expect(page).to have_content(content[:questions].first[:title])
       page.select 'dinsdag'
       # materialize_select('Selecteer een dag', 'dinsdag')
       page.click_on 'Opslaan'
@@ -2475,7 +2475,7 @@ fdescribe 'GET and POST /', type: :feature, js: true do
       expect(page).to have_current_path(questionnaire_path(uuid: responseobj.uuid))
       expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
-      expect(page).to have_content(content.first[:title])
+      expect(page).to have_content(content[:questions].first[:title])
       page.fill_in 'v1', with: '2345'
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')

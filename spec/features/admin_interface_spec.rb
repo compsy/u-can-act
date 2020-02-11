@@ -145,7 +145,7 @@ describe 'GET /admin', type: :feature, js: true do
   describe 'Preview questionnaires' do
     let!(:questionnaire) do
       FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                        content: [{ type: :raw, content: 'questionnaire' }])
+                                        content: { questions: [{ type: :raw, content: 'questionnaire' }], scores: [] })
     end
 
     before do
@@ -233,8 +233,10 @@ describe 'GET /admin', type: :feature, js: true do
       end
 
       it 'does not list the correct teams with an incorrect session' do
-        FactoryBot.create(:questionnaire, name: 'myquestionnairename', title: 'some title',
-                                          content: [{ type: :raw, content: 'questionnaire' }])
+        FactoryBot.create(:questionnaire,
+                          name: 'myquestionnairename',
+                          title: 'some title',
+                          content: { questions: [{ type: :raw, content: 'questionnaire' }], scores: [] })
 
         visit '/admin'
         page.execute_script("localStorage.setItem('id_token', 'incorrect')")

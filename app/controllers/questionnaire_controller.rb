@@ -85,6 +85,9 @@ class QuestionnaireController < ApplicationController
   end
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def set_interactive_content
     @raw_questionnaire_content = JSON.parse(params[:content])
     if @raw_questionnaire_content.blank?
@@ -99,6 +102,10 @@ class QuestionnaireController < ApplicationController
       return
     end
     @raw_questionnaire_content = @raw_questionnaire_content.with_indifferent_access
+    unless @raw_questionnaire_content.key?(:scores) && @raw_questionnaire_content.key?(:questions)
+      render status: :bad_request, json: { error: 'The given hash should have the :questions and :scores attributes' }
+      return
+    end
     @raw_questionnaire_content[:questions] = @raw_questionnaire_content[:questions].map(&:with_indifferent_access)
     @raw_questionnaire_content[:scores] = @raw_questionnaire_content[:scores].map(&:with_indifferent_access)
   rescue JSON::ParserError => e
@@ -107,6 +114,9 @@ class QuestionnaireController < ApplicationController
     render status: :bad_request, json: { error: e.message }
   end
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   # This cop changes the code to not work anymore:
   # rubocop:disable Style/WhileUntilModifier
@@ -142,9 +152,9 @@ class QuestionnaireController < ApplicationController
     #       in model validations).
     should_stop = false
     stop_subscription_hash.each do |key, received|
-      next unless content[:questions].key?(key)
+      next unless content.key?(key)
 
-      expected = Response.stop_subscription_token(key, content[:questions][key], @response.id)
+      expected = Response.stop_subscription_token(key, content[key], @response.id)
       if ActiveSupport::SecurityUtils.secure_compare(expected, received)
         should_stop = true
         break

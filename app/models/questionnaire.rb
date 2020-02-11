@@ -142,7 +142,7 @@ class Questionnaire < ApplicationRecord
     allowed_ids = content[:questions].map { |entry| entry[:id] }
     result = content[:scores].select do |score|
       is_bad = ((score[:ids] || []) - allowed_ids).size.positive?
-      allowed_ids += score[:id]
+      allowed_ids << score[:id]
       is_bad
     end
     result = result.map { |score| score[:label] }

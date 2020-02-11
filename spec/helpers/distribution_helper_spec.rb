@@ -70,18 +70,6 @@ describe DistributionHelper do
         expected = { s1: { '3' => { '_' => 0 } } }
         expect(distribution).to eq expected
       end
-      fit 'does not include scores without the round_to_decimals key set' do
-        aquestion = { id: :s1,
-                      label: 'The average of v1 and v2',
-                      ids: %i[v1 v2],
-                      operation: :average,
-                      require_all: true }
-        value = '3'
-        distribution = {}
-        helper.initialize_question(aquestion, value, distribution)
-        expected = {}
-        expect(distribution).to eq expected
-      end
     end
   end
 end

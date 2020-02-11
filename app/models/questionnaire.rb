@@ -6,7 +6,7 @@ class Questionnaire < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :content, presence: true
   validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z]+[a-z_0-9]*\Z/ }
-  serialize :content, Hash
+  serialize :content # Don't specify Hash type because otherwise databases with existing questionnaires won't work
   validate :questionnaire_structure, if: -> { content.present? }
   validate :all_content_ids_unique, if: -> { content.key?(:scores) && content.key?(:questions) }
   validate :all_questions_have_types, if: -> { content.key?(:questions) }

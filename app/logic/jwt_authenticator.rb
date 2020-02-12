@@ -50,6 +50,9 @@ class JwtAuthenticator
     def store_token_in_cookie(token, cookies)
       cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => token }
       CookieJar.set_or_update_cookie(cookies, cookie)
+      # Remove the TokenAuthenticator cookie if set, so that when the token is no
+      # longer in the params, we still end up with the JWT token login.
+      CookieJar.delete_cookie(cookies, TokenAuthenticationController::PERSON_ID_COOKIE)
     end
   end
 end

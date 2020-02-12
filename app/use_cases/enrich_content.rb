@@ -22,10 +22,38 @@ class EnrichContent < ActiveInteraction::Base
 
   private
 
-  def to_number(value)
-    return if value.blank?
+  def to_number(value, qids)
+    return nil if value.blank?
 
-    (value.to_f % 1).positive? ? value.to_f : value.to_i
+    my_value = determine_numeric_value(value, qids)
+    # if we are a string that can't be converted to a number,
+    # return nil so we are registered as a missing value
+    return nil if my_value.is_a?(String) && (my_value =~ /\A-?\.?[0-9]/).blank?
+
+    (my_value.to_f % 1).positive? ? my_value.to_f : my_value.to_i
+  end
+
+  def determine_numeric_value(value, qids)
+    question = @questionnaire[:questions].find { |quest| quest[:id] == qids.to_sym }
+    return value unless question.present? && question.key?(:options)
+
+    unified_options = unify_options(question[:options])
+    current_option = unified_options.find { |option| option[:title] == value }
+    return value unless current_option.present? && current_option.key?(:numeric_value)
+
+    current_option[:numeric_value]
+  end
+
+  def unify_options(question_options)
+    roptions = []
+    question_options.each do |question_option|
+      roptions << if question_option.is_a?(Hash)
+                    question_option
+                  else
+                    { title: question_option }
+                  end
+    end
+    roptions
   end
 
   def calculate_and_add_score(score)
@@ -46,12 +74,18 @@ class EnrichContent < ActiveInteraction::Base
     result = []
     score[:ids].each do |qid|
       qids = qid.to_s
-      unless @enriched_content.key?(qids)
+      unless @enriched_content.key?(qids) && @enriched_content[qids].present?
         raise EnrichMissingDataError, "id #{qids} not found in the enriched response" if score[:require_all].present?
 
         next
       end
-      result << to_number(@enriched_content[qids])
+      numeric_value = to_number(@enriched_content[qids], qids)
+      if numeric_value.blank?
+        raise EnrichMissingDataError, "no numeric value for #{qids} could be determined" if score[:require_all].present?
+
+        next
+      end
+      result << numeric_value
     end
     result
   end

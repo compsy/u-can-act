@@ -189,5 +189,48 @@ describe EnrichContent do
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
     end
+
+    context 'numeric_value of options' do
+      let(:content) do
+        {
+          'v1' => 'title1',
+          'v2' => 'title2'
+        }
+      end
+      let(:questionnaire) do
+        {
+          questions: [{ id: :v1, type: :dropdown, options: [{ title: 'title1', numeric_value: 25 }] },
+                      { id: :v2, type: :radio, options: [{ title: 'title2', numeric_value: 26 }] }],
+          scores: [{ id: :s1,
+                     label: 'average of v1 and v2',
+                     ids: %i[v1 v2],
+                     operation: :average,
+                     require_all: true,
+                     round_to_decimals: 1 }]
+        }
+      end
+      let(:enriched_content) do
+        {
+          'v1' => 'title1',
+          'v2' => 'title2',
+          's1' => '25.5'
+        }
+      end
+
+      it 'should enrich the content correctly' do
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
+      end
+      it 'should fail when a value cannot be converted to a numerical value' do
+        content = { 'v1' => 'title2', 'v2' => 'title2' }
+        enriched_content = { 'v1' => 'title2', 'v2' => 'title2' }
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
+      end
+      it 'should not fail when a value cannot be converted to a numerical value if require_all is not true' do
+        content = { 'v1' => 'title2', 'v2' => 'title2' }
+        enriched_content = { 'v1' => 'title2', 'v2' => 'title2', 's1' => '26' }
+        questionnaire[:scores].first[:require_all] = false
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
+      end
+    end
   end
 end

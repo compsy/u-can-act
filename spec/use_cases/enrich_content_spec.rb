@@ -232,5 +232,33 @@ describe EnrichContent do
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
     end
+
+    context 'score recalculation' do
+      let(:content) do
+        {
+          'v1' => '25',
+          's1' => '25.5'
+        }
+      end
+      let(:questionnaire) do
+        {
+          questions: [{ id: :v1, type: :number, title: 'title1' }, { id: :v2, type: :number, title: 'title2' }],
+          scores: [{ id: :s1,
+                     label: 'average of v1 and v2',
+                     ids: %i[v1 v2],
+                     operation: :average,
+                     require_all: true,
+                     round_to_decimals: 1 }]
+        }
+      end
+      let(:enriched_content) do
+        {
+          'v1' => '25'
+        }
+      end
+      it 'should remove previous score definitions' do
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
+      end
+    end
   end
 end

@@ -61,6 +61,9 @@ class EnrichContent < ActiveInteraction::Base
     @enriched_content[score[:id].to_s] = value.to_s
   rescue EnrichMissingDataError
     # This just means the score won't be calculated
+    # Remove the score if it exists (in case the score calculation was updated,
+    # we don't want to be left with old scores).
+    @enriched_content.delete(score[:id].to_s)
     nil
   end
 

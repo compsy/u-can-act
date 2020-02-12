@@ -264,6 +264,25 @@ vanwege mijn kind.',
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Warmte',
+      ids: %i[v1 v7 v21],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Loslaten',
+      ids: %i[v2 v3 v9 v12 v20 v23 v27],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Positieve bekrachtiging',
+      ids: %i[v11 v18 v26 v30],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

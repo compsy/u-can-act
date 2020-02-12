@@ -12,8 +12,9 @@ module ApplicationHelper
     return @current_user if @current_user.present?
 
     @current_user ||= current_user_from_header
+    @current_user ||= JwtAuthenticator.auth_from_params(cookies.signed, params)
     @current_user ||= TokenAuthenticator.auth(cookies.signed, params)
-    @current_user ||= JwtAuthenticator.auth(cookies.signed, params)
+    @current_user ||= JwtAuthenticator.auth_from_cookies(cookies.signed)
     @current_user
   end
 

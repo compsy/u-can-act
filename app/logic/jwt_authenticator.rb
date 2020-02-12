@@ -2,9 +2,19 @@
 
 class JwtAuthenticator
   class << self
-    def auth(cookies, params)
-      token = token_from_cookie_or_params(params, cookies)
+    def auth_from_cookies(cookies)
+      token = token_from_cookies(cookies)
+      auth_with_token(token, cookies)
+    end
 
+    def auth_from_params(cookies, params)
+      token = decoded_token_from_params(params)
+      auth_with_token(token, cookies)
+    end
+
+    private
+
+    def auth_with_token(token, cookies)
       return if token.blank?
 
       # TODO: token opslaan in session ipv cookies
@@ -15,20 +25,19 @@ class JwtAuthenticator
       auth_user.person
     end
 
-    private
-
-    def token_from_cookie_or_params(params, cookies)
-      if token_from_params(params)
-        JWT.decode(token_from_params(params), Knock.token_public_key, true,
-                   algorithms: [ENV['TOKEN_SIGNATURE_ALGORITHM']])
-      else
-        CookieJar.read_entry(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+    def decoded_token_from_params(params)
+      if token_from_params(params).present?
+        return JWT.decode(token_from_params(params), Knock.token_public_key, true,
+                          algorithms: [ENV['TOKEN_SIGNATURE_ALGORITHM']])
       end
-
-    # Rescue if the argument passed is not a JWT token
-    rescue JWT::DecodeError => e
+      nil
+    rescue JWT::DecodeError => e # if the argument passed is not a JWT token
       Rails.logger.info "Decoding failed: #{e.message}"
       nil
+    end
+
+    def token_from_cookies(cookies)
+      CookieJar.read_entry(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
     end
 
     def token_from_params(params)

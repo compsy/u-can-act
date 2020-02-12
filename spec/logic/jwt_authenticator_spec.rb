@@ -32,6 +32,8 @@ describe JwtAuthenticator do
       cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => token }
       expect(CookieJar).to receive(:set_or_update_cookie)
         .with(cookies, cookie)
+      expect(CookieJar).to receive(:delete_cookie)
+        .with(cookies, TokenAuthenticationController::PERSON_ID_COOKIE)
 
       result = described_class.auth_from_cookies(cookies)
       expect(result).to eql person
@@ -65,6 +67,8 @@ describe JwtAuthenticator do
       cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => token }
       expect(CookieJar).to receive(:set_or_update_cookie)
         .with(cookies, cookie)
+      expect(CookieJar).to receive(:delete_cookie)
+        .with(cookies, TokenAuthenticationController::PERSON_ID_COOKIE)
 
       result = described_class.auth_from_params(cookies, auth: 'valid auth')
       expect(result).to eql person

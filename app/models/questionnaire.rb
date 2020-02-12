@@ -8,16 +8,22 @@ class Questionnaire < ApplicationRecord
   validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z]+[a-z_0-9]*\Z/ }
   serialize :content # Don't specify Hash type because otherwise databases with existing questionnaires won't work
   validate :questionnaire_structure, if: -> { content.present? }
-  validate :all_content_ids_unique, if: -> { content.key?(:scores) && content.key?(:questions) }
-  validate :all_questions_have_types, if: -> { content.key?(:questions) }
-  validate :all_questions_have_titles, if: -> { content.key?(:questions) }
-  validate :all_questions_have_ids, if: -> { content.key?(:questions) }
-  validate :all_ranges_have_labels, if: -> { content.key?(:questions) }
-  validate :all_likert_radio_checkbox_dropdown_have_options, if: -> { content.key?(:questions) }
-  validate :all_scores_have_required_atributes, if: -> { content.key?(:scores) }
-  validate :all_scores_have_nonempty_ids, if: -> { content.key?(:scores) }
-  validate :all_scores_use_existing_ids, if: -> { content.key?(:scores) && content.key?(:questions) }
-  validate :all_scores_have_known_operations, if: -> { content.key?(:scores) }
+  with_options if: :content_has_questions do
+    validate :all_questions_have_types
+    validate :all_questions_have_titles
+    validate :all_questions_have_ids
+    validate :all_ranges_have_labels
+    validate :all_likert_radio_checkbox_dropdown_have_options
+  end
+  with_options if: :content_has_scores do
+    validate :all_scores_have_required_atributes
+    validate :all_scores_have_nonempty_ids
+    validate :all_scores_have_known_operations
+  end
+  with_options if: :content_has_questions_and_scores do
+    validate :all_content_ids_unique
+    validate :all_scores_use_existing_ids
+  end
   has_many :measurements, dependent: :destroy
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
                                         foreign_key: 'informed_consent_questionnaire_id',
@@ -57,6 +63,18 @@ class Questionnaire < ApplicationRecord
               content[:scores].is_a?(Array) && content[:questions].is_a?(Array)
 
     errors.add(:content, 'needs to be a Hash with :questions and :scores components')
+  end
+
+  def content_has_questions
+    content.is_a?(Hash) && content.key?(:questions)
+  end
+
+  def content_has_scores
+    content.is_a?(Hash) && content.key?(:scores)
+  end
+
+  def content_has_questions_and_scores
+    content_has_questions && content_has_scores
   end
 
   def all_content_ids_unique

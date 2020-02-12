@@ -180,14 +180,13 @@ describe Questionnaire do
     end
 
     describe 'questionnaire_structure' do
-      it 'does not accept an array' do
+      it 'does accept an array' do
+        # Right now it still needs to work with existing databases, who raises an serialization error
+        # when deserializing an array value from the database, before we even try and instantiate
+        # an instance for possible migration. So add this test temporarily to allow all questionnaires
+        # to be overridden by their questionnaire seeds in all deploys, and then no longer allow arrays.
         content = []
-        expect { FactoryBot.build(:questionnaire, content: content) }.to(
-          raise_error(
-            ActiveRecord::SerializationTypeMismatch,
-            "can't serialize `content`: was supposed to be a Hash, but was a Array. -- []"
-          )
-        )
+        FactoryBot.build(:questionnaire, content: content) # should not raise an error right now
       end
       it 'does not accept an empty hash' do
         content = {}

@@ -18,7 +18,7 @@ dagboek_content = [
   }, {
     id: :v1,
     type: :likert,
-    title: ' Ik toon genegenheid door mijn kind te knuffelen, te zoenen en vast te houden ',
+    title: 'Ik toon genegenheid door mijn kind te knuffelen, te zoenen en vast te houden ',
     options: likert_options
   }, {
     id: :v2,
@@ -187,7 +187,7 @@ dagboek_content = [
     title: 'Wanneer mijn kind zich misdraagt, laat ik hem/haar weten wat er zal gebeuren als hij/zij zich niet gaat gedragen.',
     options: likert_options
   }, {
-    section_start: ' De volgende vragen gaan over hoe u de opvoeding en de relatie met uw kind ervaart. Geef voor elke uitspraak aan in hoeverre deze voor u geldt door het bolletje te verplaatsen.',
+    section_start: 'De volgende vragen gaan over hoe u de opvoeding en de relatie met uw kind ervaart. Geef voor elke uitspraak aan in hoeverre deze voor u geldt door het bolletje te verplaatsen.',
     id: :v35,
     type: :range,
     title: 'Ik voel me gelukkig met mijn kind.',

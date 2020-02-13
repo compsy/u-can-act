@@ -14,7 +14,7 @@ dagboek_content = [
     section_start: 'De volgende vragen gaan over uw leven in het algemeen:',
     id: :v1,
     type: :range,
-    title: ' Voelt u zich in het algemeen gelukkig?',
+    title: 'Voelt u zich in het algemeen gelukkig?',
     tooltip: 'Geef een globale inschatting, hoe u zich in het algemeen voelt (dus niet hoe u zich op dit moment voelt',
     labels: ['Nooit', 'Altijd'],
     required: true,
@@ -58,13 +58,13 @@ dagboek_content = [
   }, {
     id: :v8,
     type: :range,
-    title: ' In hoeverre leeft u een nuttig en betekenisvol leven?',
+    title: 'In hoeverre leeft u een nuttig en betekenisvol leven?',
     labels: ['Helemaal niet', 'Volledig'],
     required: true
   }, {
     id: :v9,
     type: :range,
-    title: ' Krijgt u hulp en steun van anderen wanneer u dit nodig hebt?',
+    title: 'Krijgt u hulp en steun van anderen wanneer u dit nodig hebt?',
     labels: ['Helemaal niet', 'Volledig'],
     required: true
   }, {
@@ -136,7 +136,7 @@ dagboek_content = [
   }, {
     id: :v21,
     type: :range,
-    title: ' In hoeverre heeft u een gevoel van richting in uw leven?',
+    title: 'In hoeverre heeft u een gevoel van richting in uw leven?',
     labels: ['Helemaal niet', 'Volledig'],
     required: true
   }, {
@@ -469,6 +469,25 @@ dagboek_content = [
     required: true,
     section_end: true
   }]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Positieve emoties',
+      ids: %i[v4 v14 v23],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Betekenis',
+      ids: %i[v8 v10 v21],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Voldoening',
+      ids: %i[v2 v6 v16],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

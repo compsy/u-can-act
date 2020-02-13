@@ -1,6 +1,7 @@
 # Beware! This file is public by definition
 default: &default
   default_team_name: 'sdv-team'
+  account_active_default: false
   # This settings is included only for the specs. Don't remove
   test_setting: 'test123'
   project_start_date: '2019-12-20'

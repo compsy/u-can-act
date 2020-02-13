@@ -37,11 +37,11 @@ describe DistributionHelper do
         aquestion[:min] = 2.5
         aquestion[:max] = 4
         aquestion[:step] = 0.5
-        value = '3.0'
+        value = '3'
         distribution = {}
         helper.initialize_question(aquestion, value, distribution)
-        expected = { v2: { '2.5' => { '_' => 0 }, '3.0' => { '_' => 0 },
-                           '3.5' => { '_' => 0 }, '4.0' => { '_' => 0 } } }
+        expected = { v2: { '2.5' => { '_' => 0 }, '3' => { '_' => 0 },
+                           '3.5' => { '_' => 0 }, '4' => { '_' => 0 } } }
         expect(distribution).to eq expected
       end
     end
@@ -70,6 +70,26 @@ describe DistributionHelper do
         expected = { s1: { '3' => { '_' => 0 } } }
         expect(distribution).to eq expected
       end
+    end
+  end
+
+  describe 'number_to_string' do
+    it 'works with integers' do
+      expect(helper.number_to_string(15)).to eq '15'
+      expect(helper.number_to_string(-2)).to eq '-2'
+      expect(helper.number_to_string(0)).to eq '0'
+      expect(helper.number_to_string(2.0)).to eq '2'
+      expect(helper.number_to_string(2.00)).to eq '2'
+      expect(helper.number_to_string(-3.000)).to eq '-3'
+    end
+    it 'works with floats' do
+      expect(helper.number_to_string(0.5)).to eq '0.5'
+      expect(helper.number_to_string(1.5)).to eq '1.5'
+      expect(helper.number_to_string(1.50)).to eq '1.5'
+      expect(helper.number_to_string(1.05)).to eq '1.05'
+      expect(helper.number_to_string(1.050)).to eq '1.05'
+      expect(helper.number_to_string(-2.42)).to eq '-2.42'
+      expect(helper.number_to_string(-2.40)).to eq '-2.4'
     end
   end
 end

@@ -10,7 +10,7 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:auto" class="questionnaire-image" />',
+    content: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:100%; max-width: 500px" class="questionnaire-image" />',
   },
   {
     id: :v1,

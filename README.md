@@ -500,7 +500,7 @@ The `tooltip' field is optional. When present, it will introduce a small i on wh
 
 The property `pattern` is a regex that limits what the user can enter. The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
 
-Textfields also support a `default_value` property, which is a default value used to fill out the text field. This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
+Textfields also support a `default_value` property, which is a default value used to fill out the text field. This can contain a variable, for example, `default_value: '{{deze_student}}'`.
 
 ### Type: Number
 Type for integer(?) numbers. Required and allowed options (minimal example and maximal example):

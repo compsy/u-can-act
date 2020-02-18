@@ -118,7 +118,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
@@ -207,7 +207,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.5.1)
+    i18n-js (3.6.0)
       i18n (>= 0.6.6)
     iban-tools (1.1.0)
     jaro_winkler (1.5.4)
@@ -391,7 +391,7 @@ GEM
     rubocop-rails (2.4.2)
       rack (>= 1.1)
       rubocop (>= 0.72.0)
-    rubocop-rspec (1.37.1)
+    rubocop-rspec (1.38.1)
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)

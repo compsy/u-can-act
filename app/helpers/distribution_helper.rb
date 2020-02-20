@@ -52,7 +52,6 @@ module DistributionHelper
   end
 
   def number_to_string(num)
-    Float(num)
     i = num.to_i
     f = num.to_f
     i == f ? i.to_s : f.to_s

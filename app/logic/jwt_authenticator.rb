@@ -2,26 +2,26 @@
 
 class JwtAuthenticator
   class << self
-    def auth_from_cookies(cookies)
-      token = token_from_cookies(cookies)
-      auth_with_token(token, cookies)
+    def auth_from_cookies(cookies_signed)
+      token = token_from_cookies(cookies_signed)
+      auth_with_token(token, cookies_signed)
     end
 
-    def auth_from_params(cookies, params)
+    def auth_from_params(cookies_signed, params)
       token = decoded_token_from_params(params)
-      auth_with_token(token, cookies)
+      auth_with_token(token, cookies_signed)
     end
 
     private
 
-    def auth_with_token(token, cookies)
+    def auth_with_token(token, cookies_signed)
       return if token.blank?
 
       # TODO: token opslaan in session ipv cookies
       auth_user = AuthUser.find_by(auth0_id_string: token.first['sub'])
       return if auth_user.blank?
 
-      store_token_in_cookie(token, cookies)
+      store_token_in_cookie(token, cookies_signed)
       auth_user.person
     end
 
@@ -36,8 +36,8 @@ class JwtAuthenticator
       nil
     end
 
-    def token_from_cookies(cookies)
-      CookieJar.read_entry(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+    def token_from_cookies(cookies_signed)
+      CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
     end
 
     def token_from_params(params)
@@ -47,12 +47,12 @@ class JwtAuthenticator
       params[:auth] || params[:token]
     end
 
-    def store_token_in_cookie(token, cookies)
+    def store_token_in_cookie(token, cookies_signed)
       cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => token }
-      CookieJar.set_or_update_cookie(cookies, cookie)
+      CookieJar.set_or_update_cookie(cookies_signed, cookie)
       # Remove the TokenAuthenticator cookie if set, so that when the token is no
       # longer in the params, we still end up with the JWT token login.
-      CookieJar.delete_cookie(cookies, TokenAuthenticationController::PERSON_ID_COOKIE)
+      CookieJar.delete_cookie(cookies_signed, TokenAuthenticationController::PERSON_ID_COOKIE)
     end
   end
 end

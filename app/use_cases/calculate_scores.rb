@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# Enrich response content (= questionnaire answers) with scores
-class CalculateScores < ActiveInteraction::Base
-  MyMissingDataError = Class.new(StandardError)
+class MyMissingDataError < StandardError
+end
 
+# Calculate scores given the content of a completed response and its questionnaire definition
+class CalculateScores < ActiveInteraction::Base
   hash :content, strip: false # strip: false means allow all keys
   hash :questionnaire, strip: false
 
@@ -12,10 +13,8 @@ class CalculateScores < ActiveInteraction::Base
   # @param content [Hash] the response values as a hash (keys are strings)
   # @param questionnaire [Hash] the questionnaire definition hash (keys can be symbols)
   def execute
-    @questionnaire = questionnaire # work with instance variables instead of activeinteraction methods
-    @content = content
     @scores = {}
-    @questionnaire[:scores].each do |score|
+    questionnaire[:scores].each do |score|
       calculate_and_add_score(score)
     end
     @scores
@@ -44,7 +43,7 @@ class CalculateScores < ActiveInteraction::Base
   # check if this option has the `numeric_value` attribute, and if so, return
   # this numeric_value. Otherwise, return the guveb value unchanged.
   def possibly_substitute_for_number(value, qids)
-    question = @questionnaire[:questions].find { |quest| quest[:id] == qids.to_sym }
+    question = questionnaire[:questions].find { |quest| quest[:id] == qids.to_sym }
     return value unless question.present? && question.key?(:options)
 
     unified_options = unify_options(question[:options])
@@ -81,13 +80,13 @@ class CalculateScores < ActiveInteraction::Base
   end
 
   def read_from_content(qids)
-    return @content[qids] if @content.key?(qids) && @content[qids].present?
+    return content[qids] if content.key?(qids) && content[qids].present?
 
     @scores[qids]
   end
 
   def exists_in_content?(qids)
-    (@content.key?(qids) && @content[qids].present?) ||
+    (content.key?(qids) && content[qids].present?) ||
       (@scores.key?(qids) && @scores[qids].present?)
   end
 

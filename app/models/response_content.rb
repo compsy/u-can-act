@@ -4,12 +4,13 @@ class ResponseContent
   include Mongoid::Document
   include Mongoid::Timestamps
   field :content, type: Hash
+  field :enriched_content, type: Hash
 
   class << self
     def create_with_scores!(content:, response:)
       questionnaire = response.measurement.questionnaire.content
       enriched_content = EnrichContent.run!(content: content, questionnaire: questionnaire)
-      create!(content: enriched_content)
+      create!(content: content, enriched_content: enriched_content)
     end
   end
 end

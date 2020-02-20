@@ -13,7 +13,8 @@ class EnrichContent < ActiveInteraction::Base
   # @param questionnaire [Hash] the questionnaire definition hash (keys can be symbols)
   def execute
     @questionnaire = questionnaire # work with instance variables instead of activeinteraction methods
-    @enriched_content = content.deep_dup
+    @content = content
+    @enriched_content = {}
     @questionnaire[:scores].each do |score|
       calculate_and_add_score(score)
     end
@@ -70,9 +71,6 @@ class EnrichContent < ActiveInteraction::Base
     @enriched_content[score[:id].to_s] = value.to_s
   rescue EnrichMissingDataError
     # This just means the score won't be calculated
-    # Remove the score if it exists (in case the score calculation was updated,
-    # we don't want to be left with old scores).
-    @enriched_content.delete(score[:id].to_s)
     nil
   end
 
@@ -82,16 +80,27 @@ class EnrichContent < ActiveInteraction::Base
     round_result(value, score)
   end
 
+  def read_from_content(qids)
+    return @content[qids] if @content.key?(qids) && @content[qids].present?
+
+    @enriched_content[qids]
+  end
+
+  def exists_in_content?(qids)
+    (@content.key?(qids) && @content[qids].present?) ||
+      (@enriched_content.key?(qids) && @enriched_content[qids].present?)
+  end
+
   def gather_data(score)
     result = []
     score[:ids].each do |qid|
       qids = qid.to_s
-      unless @enriched_content.key?(qids) && @enriched_content[qids].present?
+      unless exists_in_content?(qids)
         raise EnrichMissingDataError, "id #{qids} not found in the enriched response" if score[:require_all].present?
 
         next
       end
-      numeric_value = to_number(@enriched_content[qids], qids)
+      numeric_value = to_number(read_from_content(qids), qids)
       if numeric_value.blank?
         raise EnrichMissingDataError, "no numeric value for #{qids} could be determined" if score[:require_all].present?
 

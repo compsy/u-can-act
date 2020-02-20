@@ -23,8 +23,6 @@ describe EnrichContent do
     end
     let(:enriched_content) do
       {
-        'v1' => '25',
-        'v2' => '26',
         's1' => '25.5'
       }
     end
@@ -41,21 +39,21 @@ describe EnrichContent do
                                     operation: :average,
                                     require_all: false }]
         content = { 'v1' => '25.323434983' }
-        enriched_content = { 'v1' => '25.323434983', 's1' => '25.323434983' }
+        enriched_content = { 's1' => '25.323434983' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
         content = { 'v1' => '-17' }
-        enriched_content = { 'v1' => '-17', 's1' => '-17' }
+        enriched_content = { 's1' => '-17' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
       it 'should round a float to an integer if round_to_decimals is 0' do
         questionnaire[:scores][0][:round_to_decimals] = 0
-        enriched_content = { 'v1' => '25', 'v2' => '26', 's1' => '26' }
+        enriched_content = { 's1' => '26' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
       it 'should round to the number of decimals specified' do
         questionnaire[:scores][0][:round_to_decimals] = 2
         content = { 'v1' => '25.326434983' }
-        enriched_content = { 'v1' => '25.326434983', 's1' => '25.33' }
+        enriched_content = { 's1' => '25.33' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
     end
@@ -68,7 +66,7 @@ describe EnrichContent do
       it 'should not continue if the require_all option is present' do
         questionnaire[:scores][0][:ids] = %i[v1 v2 v3]
         questionnaire[:scores][0][:require_all] = true
-        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq content
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq({})
       end
       it 'but it should continue if all values are present' do
         questionnaire[:scores][0][:require_all] = true
@@ -104,8 +102,7 @@ describe EnrichContent do
           require_all: true,
           round_to_decimals: 3
         }]
-        enriched_content = { 'v1' => '0', 'v4' => '4.5', 'v5' => '8', 'v6' => '6',
-                             's1' => '2.25', 's2' => '7', 's3' => '4.625' }
+        enriched_content = { 's1' => '2.25', 's2' => '7', 's3' => '4.625' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
       it 'works with rounding' do
@@ -131,8 +128,7 @@ describe EnrichContent do
           require_all: true,
           round_to_decimals: 2
         }]
-        enriched_content = { 'v1' => '0', 'v4' => '4.5', 'v5' => '8', 'v6' => '6',
-                             's1' => '2.25', 's2' => '7', 's3' => '4.63' }
+        enriched_content = { 's1' => '2.25', 's2' => '7', 's3' => '4.63' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
       it 'works with missing values' do
@@ -158,8 +154,7 @@ describe EnrichContent do
           require_all: true,
           round_to_decimals: 3
         }]
-        enriched_content = { 'v1' => '0', 'v4' => '4.5', 'v5' => '8', 'v6' => '6',
-                             's1' => '2.25' }
+        enriched_content = { 's1' => '2.25' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
       it 'works with missing values if require_all is false' do
@@ -184,8 +179,7 @@ describe EnrichContent do
           ids: %i[s1 s2],
           operation: :average
         }]
-        enriched_content = { 'v1' => '0', 'v4' => '4.5', 'v5' => '8', 'v6' => '6',
-                             's1' => '2.25', 's3' => '2.25' }
+        enriched_content = { 's1' => '2.25', 's3' => '2.25' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
     end
@@ -211,8 +205,6 @@ describe EnrichContent do
       end
       let(:enriched_content) do
         {
-          'v1' => 'title1',
-          'v2' => 'title2',
           's1' => '25.5'
         }
       end
@@ -222,12 +214,12 @@ describe EnrichContent do
       end
       it 'should fail when a value cannot be converted to a numerical value' do
         content = { 'v1' => 'title2', 'v2' => 'title2' }
-        enriched_content = { 'v1' => 'title2', 'v2' => 'title2' }
+        enriched_content = {}
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
       it 'should not fail when a value cannot be converted to a numerical value if require_all is not true' do
         content = { 'v1' => 'title2', 'v2' => 'title2' }
-        enriched_content = { 'v1' => 'title2', 'v2' => 'title2', 's1' => '26' }
+        enriched_content = { 's1' => '26' }
         questionnaire[:scores].first[:require_all] = false
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content
       end
@@ -252,9 +244,7 @@ describe EnrichContent do
         }
       end
       let(:enriched_content) do
-        {
-          'v1' => '25'
-        }
+        { }
       end
       it 'should remove previous score definitions' do
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq enriched_content

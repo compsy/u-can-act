@@ -75,9 +75,10 @@ module DistributionHelper
   end
 
   def process_response_ids(response_ids)
-    ResponseContent.where(:id.in => response_ids).pluck(:content).each do |content|
+    ResponseContent.where(:id.in => response_ids).pluck(:content, :enriched_content).each do |content, enriched_content|
+      all_content = content.merge(enriched_content)
       @usable_questions.each do |question|
-        add_to_distribution(question, content, @distribution)
+        add_to_distribution(question, all_content, @distribution)
       end
     end
   end

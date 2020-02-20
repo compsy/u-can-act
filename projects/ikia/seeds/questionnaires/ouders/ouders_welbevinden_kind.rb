@@ -92,6 +92,20 @@ dagboek_content = [
     required: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Thuis',
+      ids: %i[v1 v2],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'De wijk waarin u woont',
+      ids: %i[v7 v8],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

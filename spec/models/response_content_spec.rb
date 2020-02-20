@@ -45,8 +45,10 @@ describe ResponseContent do
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
       response = FactoryBot.create(:response, measurement: measurement)
       content = { 'v1' => '23' }
-      expected = { 'v1' => '23', 's1' => '23' }
-      expect(described_class.create_with_scores!(content: content, response: response).content).to eq(expected)
+      expected = { 's1' => '23' }
+      rescontent = described_class.create_with_scores!(content: content, response: response)
+      expect(rescontent.content).to eq content
+      expect(rescontent.scores).to eq expected
     end
   end
 end

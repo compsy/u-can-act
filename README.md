@@ -446,12 +446,12 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
-   { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5] },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20 },
+   { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5], numeric_value: 40 },
    'Inzicht krijgen in de omgeving',
-   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true },
-   { title: 'Vaardigheden ontwikkelen', tooltip: 'Zoals wiskunde', shows_questions: %i[v10 v11] },
-   { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
+   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true, numeric_value: 60 },
+   { title: 'Vaardigheden ontwikkelen', tooltip: 'Zoals wiskunde', shows_questions: %i[v10 v11], numeric_value: 80 },
+   { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12], numeric_value: 100 }
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
@@ -463,12 +463,20 @@ Required and allowed options (minimal example and maximal example):
 The options array can contain either hashes or strings. 
 If it is just a string, it is used as the `title` element.
 The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. 
-The `tooltip' field is also optional. 
+The `tooltip` field is also optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
 Radios are always required.
+
+Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
+This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
+In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
+The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
+Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
 ### Type: Likert
 Required and allowed options (minimal example and maximal example):
@@ -486,7 +494,13 @@ Required and allowed options (minimal example and maximal example):
   type: :likert,
   title: 'Wat vind u van deze stelling?',
   tooltip: 'some tooltip',
-  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens'],
+  options: [
+    { title: 'helemaal oneens', numeric_value: 1 },
+    { title: 'oneens', numeric_value: 2 },
+    { title: 'neutraal', numeric_value: 3 },
+    { title: 'eens', numeric_value: 4 },
+    { title: 'helemaal eens', numeric_value: 5 }
+  ],
   section_end: true
 }]
 ```
@@ -494,6 +508,15 @@ Required and allowed options (minimal example and maximal example):
 The options array can currently only contain strings. 
 The strings in the array are used as answer options. 
 Likert questions are always required.
+
+Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
+This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
+In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
+The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
+Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
+
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
@@ -780,7 +803,13 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   label: 'RMC regio',
   tooltip: 'some tooltip',
-  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis'],
+  options: [
+    { title: 'hobby/sport', numeric_value: 0 },
+    { title: 'werk', numeric_value: 25 },
+    { title: 'vriendschap', numeric_value: 50 },
+    { title: 'romantische relatie', numeric_value: 75 },
+    { title: 'thuis', numeric_value: 100 }
+  ],
   section_end: true
 }]
 ```
@@ -801,6 +830,14 @@ The `tooltip' field is optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
+
+Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
+This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
+In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
+The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
+Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
 ### Type: Drawing
 Let's a user draw on an image. 

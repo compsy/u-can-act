@@ -25,7 +25,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: ' De volgende vragen gaan over de vriendschappen van uw kind.',
+    section_start: 'De volgende vragen gaan over de vriendschappen van uw kind.',
     id: :v3,
     type: :range,
     title: 'Mijn kind is tevreden met zijn/haar vrienden of vriendinnen.',

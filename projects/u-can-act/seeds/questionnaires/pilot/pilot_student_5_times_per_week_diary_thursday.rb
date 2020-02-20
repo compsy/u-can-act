@@ -63,7 +63,7 @@ dagboek_content = [{
 }, {
   id: :v9,
   type: :range,
-  title: ' Was dit <strong>genoeg tijd</strong> om goed te presteren op school?',
+  title: 'Was dit <strong>genoeg tijd</strong> om goed te presteren op school?',
   labels: ['niet genoeg tijd', 'te veel tijd']
 }, {
   id: :v10,

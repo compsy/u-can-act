@@ -56,6 +56,13 @@ class Questionnaire < ApplicationRecord
     content[:questions].select { |question| question[:type]&.to_sym == :drawing }.map { |question| question[:id] }
   end
 
+  def recalculate_scores!
+    # if there are no completed responses, we don't need to recalculate scores
+    return if responses.completed.count.zero?
+
+    RecalculateScoresJob.perform_later(id)
+  end
+
   private
 
   def questionnaire_structure

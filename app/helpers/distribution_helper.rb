@@ -12,6 +12,11 @@ module DistributionHelper
   # context, hence there is no specific test suite for this file.
   def usable_questions
     @questionnaire_content = questionnaire.content
+    # If there are old questionnaires in the system that no longer have seeds
+    # attached to them and are still in the old format, just leave them alone.
+    return [] unless @questionnaire_content.is_a?(Hash) &&
+                     @questionnaire_content.key?(:questions) && @questionnaire_content.key?(:scores)
+
     range_questions(@questionnaire_content[:questions]) +
       other_questions(@questionnaire_content[:questions]) +
       scores(@questionnaire_content[:scores])
@@ -46,6 +51,14 @@ module DistributionHelper
     end
   end
 
+  def number_to_string(num)
+    i = num.to_i
+    f = num.to_f
+    i == f ? i.to_s : f.to_s
+  rescue ArgumentError
+    num.to_s
+  end
+
   def initialize_question(question, value, distribution)
     qid = question[:id]
     return if distribution[qid].present? && question[:type] == :range
@@ -56,13 +69,18 @@ module DistributionHelper
       return
     end
 
-    (question[:min]..question[:max]).step(question[:step]) { |pos| distribution[qid][pos.to_s] = { VALUE => 0 } }
+    (question[:min]..question[:max]).step(question[:step]) do |pos|
+      distribution[qid][number_to_string(pos)] = { VALUE => 0 }
+    end
   end
 
   def process_response_ids(response_ids)
-    ResponseContent.where(:id.in => response_ids).pluck(:content).each do |content|
+    ResponseContent.where(:id.in => response_ids).pluck(:content, :scores).each do |content, scores|
+      next if content.nil? # Can theoretically happen
+
+      all_content = scores.present? ? content.merge(scores) : content
       @usable_questions.each do |question|
-        add_to_distribution(question, content, @distribution)
+        add_to_distribution(question, all_content, @distribution)
       end
     end
   end

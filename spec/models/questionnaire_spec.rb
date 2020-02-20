@@ -313,6 +313,27 @@ describe Questionnaire do
     end
   end
 
+  describe 'recalculate_scores!' do
+    it 'should call the recalculate_scores job' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      old_response_content_content = { 'v1' => '25', 'v2' => '26', 's1' => '27' }
+      reponse_content = FactoryBot.create(:response_content, content: old_response_content_content)
+      response_obj = FactoryBot.create(:response, :completed, measurement: measurement)
+      response_obj.content = reponse_content.id
+      response_obj.save!
+      expect(RecalculateScoresJob).to receive(:perform_later).with(response_obj.id)
+      questionnaire.recalculate_scores!
+    end
+    it 'should do nothing when there are no completed responses' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      FactoryBot.create(:response, measurement: measurement)
+      expect(RecalculateScoresJob).not_to receive(:perform_later)
+      questionnaire.recalculate_scores!
+    end
+  end
+
   describe 'responses' do
     it 'counts all the responses that it is used for' do
       questionnaire = FactoryBot.create(:questionnaire)

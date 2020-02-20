@@ -244,7 +244,7 @@ describe CalculateScores do
         }
       end
       let(:scores) do
-        { }
+        {}
       end
       it 'should remove previous score definitions' do
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores

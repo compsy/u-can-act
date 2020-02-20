@@ -3,8 +3,8 @@
 class ResponseContent
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :content, type: Hash
-  field :scores, type: Hash
+  field :content, type: Hash, default: {}
+  field :scores, type: Hash, default: {}
 
   class << self
     def create_with_scores!(content:, response:)

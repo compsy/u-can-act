@@ -25,7 +25,9 @@ class EnrichContent < ActiveInteraction::Base
   def to_number(value, qids)
     return nil if value.blank?
 
-    my_value = determine_numeric_value(value, qids)
+    my_value = possibly_substitute_for_number(value, qids)
+    # my_value can be either a string or a number (float or int) at this point.
+
     # if we are a string that can't be converted to a number,
     # return nil so we are registered as a missing value
     return nil if my_value.is_a?(String) && (my_value =~ /\A-?\.?[0-9]/).blank?
@@ -33,7 +35,14 @@ class EnrichContent < ActiveInteraction::Base
     (my_value.to_f % 1).positive? ? my_value.to_f : my_value.to_i
   end
 
-  def determine_numeric_value(value, qids)
+  # This method substitutes the given string value for a number if this substitution
+  # was defined in the questionnaire.
+  #
+  # If the value of a question in the response content hash belongs to a question
+  # that has an options attribute, and the value is one of the options, then
+  # check if this option has the `numeric_value` attribute, and if so, return
+  # this numeric_value. Otherwise, return the guveb value unchanged.
+  def possibly_substitute_for_number(value, qids)
     question = @questionnaire[:questions].find { |quest| quest[:id] == qids.to_sym }
     return value unless question.present? && question.key?(:options)
 

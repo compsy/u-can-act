@@ -21,15 +21,20 @@ class QuestionnaireExporter
     private
 
     def export_questionnaire(questionnaire_content, &block)
-      fields = %w[type hidden section_start section_end title placeholder content] +
-               %w[labels options otherwise_label min max]
-      headers = %w[question_id question_position type hidden section_start section_end] +
-                %w[title placeholder content labels options otherwise_label min max]
+      fields = %w[type hidden section_start section_end title placeholder tooltip required content] +
+               %w[labels label options show_otherwise otherwise_label otherwise_tooltip today min max step width] +
+               %w[hours_from hours_to hours_step data_method unsubscribe_url combines_with] +
+               %w[height image color maxlength links_to_expandable default_value pattern hint] +
+               %w[radius density button_text show_after ids operation require_all round_to_decimals]
+      headers = %w[question_id question_position] + fields
       yield format_headers(headers)
-      questionnaire_content.each do |question|
+      questionnaire_content[:questions].each do |question|
         next export_question(question, headers, fields, &block) if question[:type] != :expandable
 
         question[:content].each { |sub_question| export_question(sub_question, headers, fields, &block) }
+      end
+      questionnaire_content[:scores].each do |score|
+        export_question(score, headers, fields, &block)
       end
     end
 

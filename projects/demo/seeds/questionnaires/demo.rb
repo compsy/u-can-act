@@ -109,6 +109,6 @@ dagboek_content = [
     options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis']
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

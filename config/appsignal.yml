@@ -9,7 +9,7 @@ default: &defaults
   # Trigger new deploys
   revision: "<%= ENV['REVISION'] %>"
 
-  enable_frontend_error_catching: true
+  enable_frontend_error_catching: false
   enable_minutely_probes: true
 
 # Configuration per environment, leave out an environment or set active

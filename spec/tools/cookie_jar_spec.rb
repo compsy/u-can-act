@@ -27,6 +27,30 @@ describe CookieJar do
     end
   end
 
+  describe 'delete_cookie' do
+    it 'deletes a given cookie' do
+      current_cookie = {
+        response_id: '123',
+        token: 'whatever'
+      }
+      jar[described_class::COOKIE_LOCATION] = current_cookie.to_json
+      response_hash = { response_id: '123' }
+      described_class.delete_cookie(jar, :token)
+      expect(jar[described_class::COOKIE_LOCATION]).to eq response_hash.to_json
+    end
+
+    it 'does nothing with unknown key' do
+      current_cookie = {
+        response_id: '123',
+        token: 'whatever'
+      }
+      jar[described_class::COOKIE_LOCATION] = current_cookie.to_json
+      response_hash = { response_id: '123', token: 'whatever' }
+      described_class.delete_cookie(jar, :hihaho)
+      expect(jar[described_class::COOKIE_LOCATION]).to eq response_hash.to_json
+    end
+  end
+
   describe 'cookies_set?' do
     it 'returns false if no cookies are set' do
       expect(described_class).not_to be_cookies_set(jar)

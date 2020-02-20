@@ -328,6 +328,6 @@ Wilt u bij elke beschrijving aangeven hoe waar elke uitspraak is voor uw kind?</
     labels: ['Bijna nooit waar', 'Soms waar, soms niet waar', 'Bijna altijd waar']
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

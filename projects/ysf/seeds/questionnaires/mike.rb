@@ -301,6 +301,6 @@ Hartelijk dank!
   }
 ]
 
-questionnaire.content = content
+questionnaire.content = { questionnaire: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

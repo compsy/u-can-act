@@ -23,7 +23,7 @@ module Api
         end
 
         def create
-          content = ResponseContent.create!(content: response_content)
+          content = ResponseContent.create_with_scores!(content: response_content, response: @response)
           @response.update!(content: content.id)
           @response.complete!
           head 201

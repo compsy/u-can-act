@@ -25,7 +25,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: ' De volgende vragen gaan over de vriendschappen van uw kind.',
+    section_start: 'De volgende vragen gaan over de vriendschappen van uw kind.',
     id: :v3,
     type: :range,
     title: 'Mijn kind is tevreden met zijn/haar vrienden of vriendinnen.',
@@ -92,6 +92,6 @@ dagboek_content = [
     required: true
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

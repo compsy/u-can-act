@@ -65,6 +65,6 @@ symp1_content = [
     content: '<p class="flow-text">Door op onderstaande \'opslaan\'-knop te klikken verzendt u uw gegevens. U ontvangt een bevestigingsmail van uw aanmelding.</p><p>Voor vragen neem contact op met Lucia Boer <a href="mailto:info@u-can-act.nl">info@u-can-act.nl</a></p>'
   }
 ]
-symp1.content = symp1_content
+symp1.content = { questions: symp1_content, scores: [] }
 symp1.title = db_title
 symp1.save!

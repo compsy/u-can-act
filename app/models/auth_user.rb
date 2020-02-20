@@ -34,7 +34,7 @@ class AuthUser < ApplicationRecord
       email = email_from_payload(payload)
       auth_user = nil
 
-      RedisMutex.with_lock("CreateAnonymousUser:#{id}") do
+      RedisMutex.with_lock("CreateAnonymousUser:#{id}", block: 5) do
         auth_user = CreateAnonymousUser.run!(
           auth0_id_string: id,
           team_name: team,

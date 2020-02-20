@@ -54,7 +54,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def create
-    response_content = ResponseContent.create!(content: questionnaire_content)
+    response_content = ResponseContent.create_with_scores!(content: questionnaire_content, response: @response)
     @response.update!(content: response_content.id)
     @response.complete!
     check_stop_subscription
@@ -86,15 +86,37 @@ class QuestionnaireController < ApplicationController
 
   def set_interactive_content
     @raw_questionnaire_content = JSON.parse(params[:content])
-    if @raw_questionnaire_content.blank? || !(@raw_questionnaire_content.is_a? Array)
-      render status: :bad_request, json: { error: 'At least one question should be provided, in an array' }
-      return
-    end
-    @raw_questionnaire_content = @raw_questionnaire_content.map(&:with_indifferent_access)
+    ensure_content_is_hash!
+    return if performed?
+
+    make_content_indifferent!
   rescue JSON::ParserError => e
     render status: :bad_request, json: { error: e.message }
   rescue TypeError => e
     render status: :bad_request, json: { error: e.message }
+  end
+
+  def ensure_content_is_hash!
+    if @raw_questionnaire_content.blank?
+      render status: :bad_request, json: { error: 'At least one question should be provided' }
+      return
+    end
+    if !(@raw_questionnaire_content.is_a? Hash) && @raw_questionnaire_content.is_a?(Array)
+      @raw_questionnaire_content = { questions: @raw_questionnaire_content, scores: [] }
+    end
+    return if @raw_questionnaire_content.is_a? Hash
+
+    render status: :bad_request, json: { error: 'questions should be in an array or hash' }
+  end
+
+  def make_content_indifferent!
+    @raw_questionnaire_content = @raw_questionnaire_content.with_indifferent_access
+    unless @raw_questionnaire_content.key?(:scores) && @raw_questionnaire_content.key?(:questions)
+      render status: :bad_request, json: { error: 'The given hash should have the :questions and :scores attributes' }
+      return
+    end
+    @raw_questionnaire_content[:questions] = @raw_questionnaire_content[:questions].map(&:with_indifferent_access)
+    @raw_questionnaire_content[:scores] = @raw_questionnaire_content[:scores].map(&:with_indifferent_access)
   end
 
   # This cop changes the code to not work anymore:

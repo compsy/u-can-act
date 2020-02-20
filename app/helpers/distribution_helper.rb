@@ -76,7 +76,9 @@ module DistributionHelper
 
   def process_response_ids(response_ids)
     ResponseContent.where(:id.in => response_ids).pluck(:content, :scores).each do |content, scores|
-      all_content = content.merge(scores)
+      next if content.nil? # Can theoretically happen
+
+      all_content = scores.present? ? content.merge(scores) : content
       @usable_questions.each do |question|
         add_to_distribution(question, all_content, @distribution)
       end

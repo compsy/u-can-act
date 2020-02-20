@@ -24,6 +24,8 @@ class RecalculateScores < ActiveInteraction::Base
 
   def recalculate_response_ids(response_ids)
     ResponseContent.where(:id.in => response_ids).pluck(:content, :id).each do |content, rcid|
+      next if content.nil? # Can theoretically happen
+
       scores = CalculateScores.run!(content: content, questionnaire: @questionnaire_content)
       ResponseContent.find(rcid)&.update!(scores: scores)
     end

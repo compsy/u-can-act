@@ -11,7 +11,7 @@ require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
-require 'capybara-screenshot/rspec' unless ENV['CI']
+require 'capybara-screenshot/rspec'
 
 # Start coverage report on CircleCI
 if ENV['CI']
@@ -22,7 +22,7 @@ if ENV['CI']
 end
 
 # Also require the support files for testing
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -44,8 +44,12 @@ Webdrivers.cache_time = 86_400
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   [
+    'no-sandbox',
     'headless',
     'disable-gpu',
+    'disable-infobars',
+    'disable-extensions',
+    'disable-dev-shm-usage',
     # We need to specify the window size, otherwise it is to small and
     # collapses everything in the admin panel.
     'window-size=1280x1280'

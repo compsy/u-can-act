@@ -2,6 +2,7 @@
 
 class LikertGenerator < QuestionTypeGenerator
   def generate(question)
+    Rails.logger.info question if question[:title].blank?
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     question = add_otherwise_label(question)
     safe_join([
@@ -18,7 +19,7 @@ class LikertGenerator < QuestionTypeGenerator
       body << likert_option_body(question, add_raw_to_option(option, question, idx))
     end
     # safe_join(body)
-    content_tag(:div, safe_join(body), class: 'likert-scale')
+    content_tag(:div, safe_join(body), class: 'likert-scale radio-group required')
   end
 
   def likert_option_body(question, option)

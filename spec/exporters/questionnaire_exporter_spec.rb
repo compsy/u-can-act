@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe QuestionnaireExporter do
-  let!(:questionnaire) { FactoryBot.create(:questionnaire) }
+  let!(:questionnaire) { FactoryBot.create(:questionnaire, :with_scores) }
 
   context 'invalid questionnaire' do
     it 'raises an error' do
@@ -17,7 +17,8 @@ describe QuestionnaireExporter do
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 1 + # Header
                                 3 + # Normal questions
-                                5   # Expandable questions
+                                5 + # Expandable questions
+                                1   # Scores
 
       (1..3).each do |line_nr|
         expect(export[line_nr].split(';', -1).first).to eq "\"v#{line_nr}\""

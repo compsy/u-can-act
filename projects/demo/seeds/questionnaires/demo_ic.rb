@@ -8,7 +8,7 @@ ic_content = <<~'END'
   <p class="flow-text"><em>Beste onderzoeksdeelnemer,</em></p>
   <p class="flow-text">Dit is een voorbeeld van een informed consent.</p>
 END
-informed_consent1.content = [{
+informed_consent1.content = { questions: [{
   type: :raw,
   content: ic_content
 }, {
@@ -20,6 +20,6 @@ informed_consent1.content = [{
     'Ik verklaar dat bovenstaande informatie mij duidelijk is en ga hiermee akkoord.'
   ],
   show_otherwise: false
-}]
+}], scores: [] }
 informed_consent1.title = ''
 informed_consent1.save!

@@ -2,12 +2,26 @@
 default: &default
   application_name: <%=ENV['PROJECT_NAME']%>
   project_title: <%=ENV['PROJECT_NAME']%>
+  metadata_field: <%=ENV['SITE_LOCATION']%>
   default_team_name: 'Controlegroep'
+  account_active_default: true
+  hide_edit_iban: false
+  show_mobile_images: true
+  hide_logo: false
+  feature_toggles:
+    allow_identifier_export: false
+    allow_distribution_export: false
+    realtime_distributions: true
+  distribution_export_min_responses: 200
   logo:
+    favicon: 'favicon.ico'
     mentor_logo: null
     student_logo: null
     fallback_logo: null
     company_logo: null
+  registration:
+    subject_line: Doe mee met het <%=ENV['PROJECT_NAME']%> onderzoek!
+    text: Klik op de knop hieronder om een account aan te maken bij <%=ENV['PROJECT_NAME']%>.
 development:
   <<: *default
 production:

@@ -88,6 +88,6 @@ boek1_content = [
     show_otherwise: false
   }
 ]
-boek1.content = boek1_content
+boek1.content = { questions: boek1_content, scores: [] }
 boek1.title = db_title
 boek1.save!

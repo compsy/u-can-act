@@ -91,8 +91,9 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: gem install bundler
       - run: bundle --path vendor/bundle
+      - run: bundle exec rake i18n:js:export
       - run: yarn install
-      - run: echo 127.0.0.1 docker.io | sudo tee -a /etc/hosts
+      - run: echo 127.0.0.1 docker.io db redis mongo | sudo tee -a /etc/hosts
       - run: ./bin/chromedriver_install
       - run:
           name: Wait for db
@@ -115,24 +116,16 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+      - store_artifacts:
+          path: /home/circleci/test/tmp/capybara
+      - store_artifacts:
+          path: /home/circleci/test/log/test.log
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
             - build_num
 
   test_js:
-    <<: *build_defaults
-    steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn install
-      - run: yarn test
-
-  test_translations:
     <<: *build_defaults
     steps:
       - restore_cache:
@@ -145,9 +138,26 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: gem install bundler
       - run: bundle --path vendor/bundle
+      - run: bundle exec rake i18n:js:export
       - run: yarn install
-      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
-      - run: RAILS_ENV=development bin/check_translations.sh
+      - run: yarn test
+
+#  test_translations:
+#    <<: *build_defaults
+#    steps:
+#      - restore_cache:
+#          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+#      - restore_cache:
+#          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+#      - restore_cache:
+#          name: Restore Yarn Package Cache
+#          keys:
+#            - yarn-packages-{{ checksum "yarn.lock" }}
+#      - run: gem install bundler
+#      - run: bundle --path vendor/bundle
+#      - run: yarn install
+#      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
+#      - run: RAILS_ENV=development bin/check_translations.sh
 
   test_rubocop:
     <<: *build_defaults
@@ -184,13 +194,16 @@ workflows:
       - test_rubocop:
           requires:
             - build_gems
-      - test_translations:
-          requires:
-            - build_js
-            - test_rubocop # By waiting until test_rubocop is complete, the bottleneck (test_rspec) can start sooner.
+      # - test_translations:
+      #    requires:
+      #      - build_js
+      #      - test_rubocop # By waiting until test_rubocop is complete, the bottleneck (test_rspec) can start sooner.
       - test_js:
           requires:
-            - test_translations # By waiting until test_translations is complete, the bottleneck (test_rspec) can start sooner.
+            - build_js
+            - test_rubocop
+      #    requires:
+      #      - test_translations # By waiting until test_translations is complete, the bottleneck (test_rspec) can start sooner.
       - test_rspec:
           requires:
             - build_gems

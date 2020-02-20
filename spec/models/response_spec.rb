@@ -84,24 +84,25 @@ describe Response do
       end
       it 'is able to retrieve multiple responses' do
         FactoryBot.create(:response, :invited,
-                          open_from: (SendInvitations::REMINDER_DELAY + 90.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 90.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
         FactoryBot.create(:response, :invited,
-                          open_from: (SendInvitations::REMINDER_DELAY + 60.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 60.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
         FactoryBot.create(:response, :completed,
-                          open_from: (SendInvitations::REMINDER_DELAY + 50.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 50.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
         FactoryBot.create(:response, :invited,
-                          open_from: (SendInvitations::REMINDER_DELAY + 45.minutes).ago.in_time_zone,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 45.minutes).ago.in_time_zone,
                           measurement: measurement,
                           protocol_subscription: protocol_subscription)
-        FactoryBot.create(:response, open_from: (SendInvitations::REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
-                                     measurement: measurement,
-                                     protocol_subscription: protocol_subscription)
+        FactoryBot.create(:response,
+                          open_from: (Measurement::DEFAULT_REMINDER_DELAY + 45.minutes).from_now.in_time_zone,
+                          measurement: measurement,
+                          protocol_subscription: protocol_subscription)
         expect(described_class.opened_and_not_expired.count).to eq 3
       end
     end
@@ -116,6 +117,22 @@ describe Response do
         FactoryBot.create(:response)
         expect(described_class.completed.count).to eq 0
         expect(described_class.completed.to_a).to eq []
+      end
+    end
+
+    describe 'complete!' do
+      it 'it calls the CalculateDistributionJob if this was the first complete' do
+        responseobj = FactoryBot.create(:response)
+        expect(CalculateDistributionJob).not_to receive(:perform_later)
+        expect(UpdateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+      end
+      it 'it calls the UpdateteDistributionJob if this wasn\'t the first complete' do
+        responseobj = FactoryBot.create(:response)
+        expect(UpdateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+        expect(CalculateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
       end
     end
 
@@ -191,11 +208,12 @@ describe Response do
       end
       it 'finds all responses for a given week of the year' do
         week_number = 20
-        date = Date.commercial(Time.zone.now.year, week_number, 1).in_time_zone + 3.days
+        date = Date.commercial(Time.zone.now.to_date.cwyear, week_number, 1).in_time_zone + 3.days
         expected_response = FactoryBot.create(:response, open_from: date)
 
         FactoryBot.create(:response,
-                          open_from: Date.commercial(Time.zone.now.year, week_number - 1, 1).in_time_zone + 3.days)
+                          open_from: Date.commercial(Time.zone.now.to_date.cwyear,
+                                                     week_number - 1, 1).in_time_zone + 3.days)
 
         result = described_class.in_week(week_number: week_number)
         expect(result.count).to eq 1
@@ -218,6 +236,29 @@ describe Response do
       thedate = Time.zone.local(2018, 10, 10)
       expect(described_class.after_date(thedate).count).to eq 1
       expect(described_class.after_date(thedate).to_a).to eq [expected]
+    end
+  end
+
+  describe 'last?' do
+    it 'should return true if this response is the last in the series and false if not' do
+      protocol = FactoryBot.create(:protocol, duration: 2.weeks)
+      measurement = FactoryBot.create(:measurement, open_duration: 6.hours, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      responses = (1..10).map do |idx|
+        FactoryBot.create(
+          :response,
+          measurement: measurement,
+          open_from: TimeTools.increase_by_duration(protocol_subscription.start_date,
+                                                    idx.day + 12.hours),
+          protocol_subscription: protocol_subscription
+        )
+      end
+
+      responses.each_with_index do |response, idx|
+        result = response.last?
+        expected = (idx == responses.length - 1)
+        expect(result).to eq expected
+      end
     end
   end
 

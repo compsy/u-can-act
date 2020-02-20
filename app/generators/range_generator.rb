@@ -10,6 +10,14 @@ class RangeGenerator < QuestionTypeGenerator
               ])
   end
 
+  def range_slider_minmax(question)
+    range_min = 0
+    range_max = 100
+    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
+    range_max = [range_min + 1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
+    { min: range_min, max: range_max }
+  end
+
   private
 
   def range_slider(question)
@@ -22,35 +30,35 @@ class RangeGenerator < QuestionTypeGenerator
                      max: minmax[:max].to_s,
                      step: question[:step] || 1,
                      required: true)
-    range_body = content_tag(:p, range_body, class: 'range-field')
+    range_body = content_tag(:p, range_body,
+                             class: 'range-field',
+                             style: styles(question))
     range_body
   end
 
-  def range_slider_minmax(question)
-    range_min = 0
-    range_max = 100
-    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
-    range_max = [range_min + 1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
-    { min: range_min, max: range_max }
+  def styles(question)
+    label_count = [question[:labels].size, 1].max
+    col_width = 100.0 / label_count
+    col_width -= 8 # HACK: to get around padding that is in rem and not percentages
+    "width:#{100 - col_width}%;margin-left:#{col_width / 2.0}%;margin-right:#{col_width / 2.0}%"
   end
 
   def range_labels(question)
-    # Works best with 2, 3, or 4 labels
     labels_body = []
-    col_class = 12 / [question[:labels].size, 1].max
-    question[:labels].each_with_index do |label, idx|
-      align_class = case idx
-                    when 0
-                      'left-align'
-                    when (question[:labels].size - 1)
-                      'right-align'
-                    else
-                      'center-align'
-                    end
-      labels_body << content_tag(:div, label, class: "col #{align_class} s#{col_class}")
+    label_count = [question[:labels].size, 1].max
+    col_class = 12 / label_count
+    col_width = 100.0 / label_count
+    question[:labels].each do |label|
+      labels_body << label_div(label, col_class, col_width)
     end
     labels_body = safe_join(labels_body)
     labels_body = content_tag(:div, labels_body, class: 'row')
     labels_body
+  end
+
+  def label_div(label, col_class, col_width)
+    content_tag(:div, label,
+                class: "col center-align s#{col_class}",
+                style: "width: #{col_width}%")
   end
 end

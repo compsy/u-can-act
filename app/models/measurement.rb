@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Measurement < ApplicationRecord
+  DEFAULT_REMINDER_DELAY = 8.hours
+
   belongs_to :questionnaire
   validates :questionnaire_id, presence: true
   belongs_to :protocol # , autosave: true, validate: true
@@ -17,7 +19,10 @@ class Measurement < ApplicationRecord
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  validates :reminder_delay, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
+
   validate :either_open_from_or_offset_till_end
+  validate :no_otr_and_should_invite
 
   has_many :responses, dependent: :destroy
 
@@ -26,11 +31,24 @@ class Measurement < ApplicationRecord
   end
 
   def response_times(start_date, end_date)
-    unless periodical?
-      return [open_till(end_date)] if offset_till_end.present?
+    return [1.minute.ago.in_time_zone] if protocol.otr_protocol?
 
-      return [open_from(start_date)]
-    end
+    # A periodical measurement is one which is recorded every now and then
+    # following some srt of protocol / procedure. These measurements need more
+    # responses.
+    return periodical_response_times(start_date, end_date) if periodical?
+
+    # If the offset_till_end is provided, we want the measurement to be open
+    # till a certain end date, instead of a start date. This only holds for non
+    # periodical questionnaires
+    return [open_till(end_date)] if offset_till_end.present?
+
+    [open_from(start_date)]
+  end
+
+  private
+
+  def periodical_response_times(start_date, end_date)
     response_times = []
     temp_open_from = open_from(start_date)
     temp_open_till = open_till(end_date)
@@ -38,10 +56,9 @@ class Measurement < ApplicationRecord
       response_times << temp_open_from
       temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
     end
+
     response_times
   end
-
-  private
 
   def at_most_one_stop_measurement_per_protocol
     return unless stop_measurement && protocol_id.present?
@@ -81,6 +98,10 @@ class Measurement < ApplicationRecord
       offsets_cannot_both_be_blank
       offsets_cannot_both_be_present
     end
+  end
+
+  def no_otr_and_should_invite
+    errors.add(:should_invite, 'cannot be set for an otr protocol') if should_invite? && protocol&.otr_protocol?
   end
 
   def open_from_offset_cannot_be_blank

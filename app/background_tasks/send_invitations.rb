@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SendInvitations
-  REMINDER_DELAY = 8.hours
-
   class << self
     def run
       # Since we're modifying the object, find_each would probably not work.
@@ -25,14 +23,29 @@ class SendInvitations
       response_sets.each do |person_id, responses|
         invitation_set = InvitationSet.create!(person_id: person_id, responses: responses)
         create_invitations(invitation_set)
-        SendInvitationsJob.perform_later invitation_set
-        SendInvitationsJob.set(wait: REMINDER_DELAY).perform_later invitation_set
+
+        schedule_invite(invitation_set)
+        schedule_reminder(invitation_set)
       end
     end
 
+    def schedule_invite(invitation_set)
+      SendInvitationsJob.perform_later invitation_set
+    end
+
+    def schedule_reminder(invitation_set)
+      reminder_delay = invitation_set.reminder_delay
+      return if reminder_delay.blank?
+
+      SendInvitationsJob.set(wait: reminder_delay).perform_later invitation_set
+    end
+
     def create_invitations(invitation_set)
-      invitation_set.invitations.create!(type: 'EmailInvitation') if invitation_set.person.email.present?
-      invitation_set.invitations.create!(type: 'SmsInvitation')
+      if invitation_set.person.mobile_phone.present?
+        invitation_set.invitations.create!(type: 'SmsInvitation')
+      elsif invitation_set.person.email.present?
+        invitation_set.invitations.create!(type: 'EmailInvitation')
+      end
     end
   end
 end

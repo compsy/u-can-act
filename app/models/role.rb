@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Role < ApplicationRecord
-  validates :group, inclusion: [Person::STUDENT, Person::MENTOR, Person::SOLO]
+  validates :group, inclusion: [Person::STUDENT, Person::MENTOR, Person::SOLO, Person::OTHER]
   validates :title, presence: true
   validates :title, uniqueness: { scope: :team_id }
   belongs_to :team

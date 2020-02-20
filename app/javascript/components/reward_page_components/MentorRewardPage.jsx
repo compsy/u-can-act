@@ -1,5 +1,5 @@
-import React from 'react'
-import RewardFooter from './RewardFooter'
+import React from 'react';
+import RewardFooter from './RewardFooter';
 
 export default class MentorRewardPage extends React.Component {
   render() {
@@ -17,7 +17,7 @@ export default class MentorRewardPage extends React.Component {
             Je kan deze pagina veilig sluiten.
           </p>
         </div>
-        <RewardFooter person={this.props.person}/>
+        <RewardFooter person={this.props.person} />
       </div>
     );
   }

@@ -25,7 +25,7 @@ describe CalculateMaximumEurosByPerson do
       expect(result).to eq number_of_subs * reward
     end
 
-    it 'alsoes take canceled subs into account' do
+    it 'also takes canceled subs into account' do
       protocol = FactoryBot.create(:protocol, :with_rewards)
       3.times do |_x|
         protocol_subscription = FactoryBot.create(:protocol_subscription,

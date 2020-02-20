@@ -2,6 +2,7 @@
 
 module Api
   class QuestionnaireSerializer < ActiveModel::Serializer
+    type 'questionnaires'
     attributes :title,
                :key,
                :name,

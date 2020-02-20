@@ -28,7 +28,7 @@ namespace :maintenance do
         last = (0...10).map { ('a'..'z').to_a[rand(26)] }.join
         person.first_name = first
         person.last_name = last
-        person.mobile_phone = "06#{format('%08d', last_mobile_phone)}"
+        person.mobile_phone = "06#{format('%<number>08d', number: last_mobile_phone)}"
         person.email = "#{first}.#{last}@u-can-act.nl"
         person.iban = 'NL20INGB0001234567' unless person.mentor?
         last_mobile_phone += 1

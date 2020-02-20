@@ -1,4 +1,7 @@
 nl:
   pages:
     person:
-      header: Uw gegevens zijn opgeslagen. Hartelijk dank voor uw deelname aan het evaluatieonderzoek!
+      header: Accountgegevens bewerken
+      body: >
+        <p class="flow-text">Pas hier uw persoonsgegevens aan</p>
+      submit: Opslaan

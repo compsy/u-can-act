@@ -2,11 +2,17 @@
   $(document).ready( function() {
     $( "#questionnaire_content #action" ).click(function( event ) {
       event.preventDefault();
-
+      $('#action').addClass('disabled').text('Bezig...');
       var data = {'content': $('#content').val()};
-      $.post( "/api/v1/questionnaire", data, function( data ) {
+      $.post( "/questionnaire/interactive_render", data, function( data ) {
         $( ".result" ).html( data );
-        $(".example-title").show();
+        $('#action').removeClass('disabled').text('Submit');
+        $('html,body').animate({scrollTop: $('#action').offset().top}, 500);
+        questionnaireLoaded();
+      }).fail(function(err) {
+        console.log(err);
+        $( ".result" ).html( err.responseText );
+        $('#action').removeClass('disabled').text('Submit');
       });
     });
   });
@@ -15,8 +21,7 @@
     .row
       .input-field.col.s12
         %textarea#content.materialize-textarea #{@default_content}
-        %label{for: "content"} Questionnaire JSON 
+        %label{for: "content"} Questionnaire JSON
     .row
-      %button.btn.waves-effect.waves-light{name: 'action', id: 'action'}  Submit
-%h3.example-title{style: "display: none;"} Example questionnaire
+      %button.btn.waves-effect.waves-light{name: 'action', id: 'action'} Submit
 .result.mentor

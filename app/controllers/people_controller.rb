@@ -55,11 +55,14 @@ class PeopleController < ApplicationController
   def unsubscribed
     return if performed?
 
-    flash[:notice] = if @person.role.group == Person::SOLO
-                       'Bedankt voor het invullen van de vragenlijst!'
-                     else
-                       'Je hebt je uitgeschreven voor het u-can-act onderzoek. Bedankt voor je inzet!'
-                     end
+    flash[:notice] = unsubscribe_notice
     redirect_to NextPageFinder.get_next_page current_user: current_user
+  end
+
+  def unsubscribe_notice
+    return 'Bedankt voor het invullen van de vragenlijst!' if @person.role.group == Person::SOLO
+
+    "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek."\
+      ' Bedankt voor je inzet!'
   end
 end

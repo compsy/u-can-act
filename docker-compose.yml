@@ -1,0 +1,72 @@
+version: '3.0'
+services:
+  db:
+    image: postgres:10.5
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    networks:
+      - backend
+  redis:
+    image: "redis:5.0.6-alpine"
+    command: redis-server --requirepass redispassword
+    volumes:
+      - ./tmp/redis:/data
+    networks:
+      - backend
+  mongo:
+    image: mongo:4
+    volumes:
+      - ./tmp/mongo:/data/db
+    networks:
+      - backend
+  webpack:
+    image: vsv
+    entrypoint: ["/app/lib/docker-entrypoint-webpack.sh"]
+    command: ["bin/webpack-dev-server"]
+    volumes:
+      - .:/app
+      - node_modules_volume:/app/node_modules
+      # don't mount tmp directory
+      - /app/tmp
+    ports:
+      - "3036:3036"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - web
+    links:
+      - web
+  web:
+    image: vsv
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      args:
+        precompileassets: 'not'
+    entrypoint: ["/app/lib/docker-entrypoint.sh"]
+    command: ["rails","server","-b","0.0.0.0","-p","3000"]
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - RESET_DB_ON_FAIL=true
+      - RUNNING_AS_SERVICE=true # Because we don't run a delayed job server in the docker container
+    volumes:
+      - .:/app
+      - node_modules_volume:/app/node_modules
+      - /app/tmp
+    ports:
+      - "3002:3000"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - db
+      - redis
+      - mongo
+networks:
+  frontend:
+  backend:
+volumes:
+  node_modules_volume:

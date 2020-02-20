@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe SendInvitations do
   describe 'run' do
+    let(:default_delay) { Measurement::DEFAULT_REMINDER_DELAY }
     it 'calls the recently_opened_and_not_sent scope' do
       expect(Response).to receive(:recently_opened_and_not_invited).and_return []
       described_class.run
@@ -16,7 +17,7 @@ describe SendInvitations do
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
-          .with(wait: described_class::REMINDER_DELAY).once.and_return(invitationjob)
+          .with(wait: default_delay).once.and_return(invitationjob)
         expect(SendInvitationsJob).to receive(:perform_later).once.and_return true
         expect(responseobj.invitation_set_id).to be_nil
         invitationscount = Invitation.count
@@ -29,7 +30,7 @@ describe SendInvitations do
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
       end
 
-      it 'queues two invitations if a person has an email address' do
+      it 'prefers to send an invitation as sms if available' do
         student = FactoryBot.create(:person, email: 'student@student.com')
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   start_date: 1.week.ago.at_beginning_of_day,
@@ -38,14 +39,14 @@ describe SendInvitations do
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
-          .with(wait: described_class::REMINDER_DELAY).once.and_return(invitationjob)
+          .with(wait: default_delay).once.and_return(invitationjob)
         expect(SendInvitationsJob).to receive(:perform_later).once.and_return true
         expect(responseobj.invitation_set_id).to be_nil
         invitationscount = Invitation.count
         invitationsetscount = InvitationSet.count
         described_class.run
         responseobj.reload
-        expect(Invitation.count).to eq(invitationscount + 2) # email and sms
+        expect(Invitation.count).to eq(invitationscount + 1) # email and sms
         expect(InvitationSet.count).to eq(invitationsetscount + 1)
         expect(responseobj.invitation_set_id).not_to be_nil
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
@@ -98,17 +99,46 @@ describe SendInvitations do
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
-          .with(wait: described_class::REMINDER_DELAY).once.and_return(invitationjob)
+          .with(wait: default_delay).once.and_return(invitationjob)
         expect(SendInvitationsJob).to receive(:perform_later).once.and_return true
         invitationsetcount = InvitationSet.count
         invitationcount = Invitation.count
         described_class.run
         expect(InvitationSet.count).to eq(invitationsetcount + 1)
-        expect(Invitation.count).to eq(invitationcount + 2)
+        expect(Invitation.count).to eq(invitationcount + 1)
         responses.each do |resp|
           resp.reload
           expect(resp.invitation_set_id).to eq InvitationSet.first.id
         end
+      end
+
+      it 'queues based on the measurement reminder delay time' do
+        student = FactoryBot.create(:student)
+        reminder_delay = 3.hours + 2.minutes + 1.second
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: student)
+        measurement = FactoryBot.create(:measurement,
+                                        open_duration: 1.day,
+                                        reminder_delay: reminder_delay,
+                                        protocol: protocol_subscription.protocol)
+        responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
+                                                   protocol_subscription: protocol_subscription,
+                                                   measurement: measurement)
+
+        invitationjob = double('sendinvitationsjob')
+        expect(invitationjob).to receive(:perform_later).once.and_return true
+        expect(SendInvitationsJob).to receive(:set)
+          .with(wait: reminder_delay).once.and_return(invitationjob)
+        expect(SendInvitationsJob).to receive(:perform_later).once.and_return true
+        invitationsetscount = InvitationSet.count
+        invitationscount = Invitation.count
+        described_class.run
+        responseobj.reload
+        expect(Invitation.count).to eq(invitationscount + 1)
+        expect(InvitationSet.count).to eq(invitationsetscount + 1)
+        expect(responseobj.invitation_set_id).not_to be_nil
+        expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
       end
 
       it 'creates a single invitation_set for multiple responses for students' do
@@ -134,7 +164,7 @@ describe SendInvitations do
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
-          .with(wait: described_class::REMINDER_DELAY).once.and_return(invitationjob)
+          .with(wait: default_delay).once.and_return(invitationjob)
         expect(SendInvitationsJob).to receive(:perform_later).once.and_return true
         invitationsetcount = InvitationSet.count
         invitationcount = Invitation.count
@@ -158,7 +188,7 @@ describe SendInvitations do
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
-          .with(wait: described_class::REMINDER_DELAY).once.and_return(invitationjob)
+          .with(wait: default_delay).once.and_return(invitationjob)
         expect(SendInvitationsJob).to receive(:perform_later).and_return true
         described_class.run
         responseobj.reload
@@ -185,13 +215,13 @@ describe SendInvitations do
         invitationjob = double('sendinvitationsjob')
         expect(invitationjob).to receive(:perform_later).once.and_return true
         expect(SendInvitationsJob).to receive(:set)
-          .with(wait: described_class::REMINDER_DELAY).once.and_return(invitationjob)
+          .with(wait: default_delay).once.and_return(invitationjob)
         expect(SendInvitationsJob).to receive(:perform_later).and_return true
         described_class.run
         responseobj.reload
         expect(InvitationSet.count).to eq 1
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
-        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[EmailInvitation SmsInvitation]
+        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation]
         expect(Invitation.all.map(&:invitation_set_id).sort.uniq).to eq [InvitationSet.first.id]
         expect(InvitationSet.first.person_id).to eq protocol_subscription.person_id
         expect(InvitationSet.first.invitation_tokens).to eq []

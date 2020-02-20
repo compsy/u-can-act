@@ -5,6 +5,7 @@ class TokenAuthenticationController < ApplicationController
   before_action :check_invitation_token
 
   RESPONSE_ID_COOKIE = :response_id
+  JWT_TOKEN_COOKIE = :jwt_token
   PERSON_ID_COOKIE = :person_id
 
   def show
@@ -30,6 +31,8 @@ class TokenAuthenticationController < ApplicationController
   def store_person_cookie(identifier)
     cookie = { PERSON_ID_COOKIE => identifier }
     CookieJar.set_or_update_cookie(cookies.signed, cookie)
+    # Remove the JWTAuthenticator cookie if set, so we log out any other sessions on this browser.
+    CookieJar.delete_cookie(cookies.signed, JWT_TOKEN_COOKIE)
     store_verification_cookie
   end
 

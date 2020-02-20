@@ -34,7 +34,7 @@ shared_examples_for 'a person object' do
       expect(result).to match_array students
     end
 
-    it 'alsoes iterate over inactive protocol subscriptions' do
+    it 'also iterates over inactive protocol subscriptions' do
       mentor = FactoryBot.create(:mentor)
       students = FactoryBot.create_list(:student, 10)
       students.each do |student|
@@ -44,6 +44,36 @@ shared_examples_for 'a person object' do
 
       expect(result).not_to be_blank
       expect(result).to match_array students
+    end
+  end
+
+  describe 'parent and children' do
+    it 'retrieves another person' do
+      parent = FactoryBot.create(:person)
+      child = FactoryBot.create(:person, parent: parent)
+      parent.reload
+      expect(child.parent).to eq parent
+      expect(parent.children).to eq [child]
+    end
+
+    it 'nullifies the parent_id but not destroy the children when destroying parent' do
+      parent = FactoryBot.create(:person)
+      child = FactoryBot.create(:person, parent: parent)
+      parent.reload
+      expect(child.parent_id).not_to be_blank
+      expect { parent.destroy }.to change(Person, :count).by(-1)
+      child.reload
+      expect(child.parent).to be_blank
+      expect(child.parent_id).to be_blank
+    end
+
+    it 'is not possible to set yourself as your own parent or child' do
+      parent = FactoryBot.create(:person)
+      parent.parent = parent
+      expected_error = { parent: ['cannot be parent of yourself'] }
+      expect(parent).not_to be_valid
+      expect(parent.errors).not_to be_blank
+      expect(parent.errors.messages).to eq expected_error
     end
   end
 
@@ -300,6 +330,25 @@ shared_examples_for 'a person object' do
       person = FactoryBot.create(:person)
       expect(person.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(person.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'destroy' do
+    it 'destroys a person even though other people are filling out for it' do
+      person = FactoryBot.create(:person)
+      response = FactoryBot.create(:response)
+      response.filled_out_for = person
+      response.save!
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      other_person_id = protocol_subscription.person.id
+      protocol_subscription.filling_out_for = person
+      protocol_subscription.save!
+      expect(person.responses_filled_out_for_me).to eq([response])
+      expect { person.destroy }.to change(Person, :count).by(-1)
+      response.reload
+      expect(response.filled_out_for_id).to be_blank
+      protocol_subscription.reload
+      expect(protocol_subscription.filling_out_for_id).to eq(other_person_id)
     end
   end
 

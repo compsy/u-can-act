@@ -8,6 +8,7 @@ class Person < ApplicationRecord
   MENTOR = 'Mentor'
   STUDENT = 'Student'
   SOLO = 'Solo'
+  OTHER = 'Other'
 
   DEFAULT_PERCENTAGE = 70
 
@@ -19,6 +20,7 @@ class Person < ApplicationRecord
             mobile_phone: true,
             allow_blank: true,
             uniqueness: true
+
   validates :email,
             format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
             allow_blank: true,
@@ -36,12 +38,21 @@ class Person < ApplicationRecord
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy, inverse_of: :person
   has_many :responses, through: :protocol_subscriptions
+  has_many :responses_filled_out_for_me,
+           class_name: 'Response',
+           dependent: :nullify,
+           inverse_of: :filled_out_for,
+           foreign_key: 'filled_out_for_id'
   # invitation_sets.first is the last one created:
   has_many :invitation_sets, -> { order created_at: :desc }, dependent: :destroy, inverse_of: :person
+  has_one :auth_user, dependent: :destroy
   # Not used right now:
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },
   #          class_name: 'ProtocolSubscription', foreign_key: 'filled_out_for_id'
+  has_many :children, class_name: 'Person', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
+  belongs_to :parent, class_name: 'Person', optional: true
+  validate :not_own_parent
 
   after_initialize do |person|
     next if person.external_identifier
@@ -78,24 +89,59 @@ class Person < ApplicationRecord
 
   def my_protocols(for_myself = true)
     return [] if protocol_subscriptions.blank?
-    return protocol_subscriptions.active.select { |prot_sub| prot_sub.filling_out_for_id == id } if for_myself
 
-    protocol_subscriptions.active.reject { |prot_sub| prot_sub.filling_out_for_id == id }
+    prot_subs = protocol_subscriptions.active.reject { |prot_sub| prot_sub.protocol.otr_protocol? }
+    # TODO: Check if the following yields the same results, this could be way more efficient.
+    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: false })
+
+    filter_for_myself(prot_subs, for_myself)
+  end
+
+  def my_delegated_protocol_subscriptions
+    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id)
   end
 
   def my_open_responses(for_myself = true)
-    my_protocols(for_myself).map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+    active_subscriptions = protocol_subscriptions.active if for_myself.blank?
+    active_subscriptions ||= my_protocols(for_myself)
+    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+  end
+
+  def my_open_one_time_responses(for_myself = true)
+    prot_subs = protocol_subscriptions.active.select { |prot_sub| prot_sub.protocol.otr_protocol? }
+    # TODO: Check if the following yields the same results, this could be way more efficient.
+    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: true })
+
+    subscriptions = filter_for_myself(prot_subs, for_myself)
+    subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+  end
+
+  def all_my_open_responses(for_myself = true)
+    my_open_responses(for_myself) + my_open_one_time_responses(for_myself)
+  end
+
+  def my_responses
+    protocol_subscriptions.map(&:responses).flatten.sort_by(&:open_from)
+  end
+
+  def my_completed_responses
+    protocol_subscriptions.map { |prot| prot.responses.completed }.flatten.sort_by(&:open_from)
   end
 
   def open_questionnaire?(questionnaire_name)
-    my_open_responses.select do |resp|
+    my_open_responses.count do |resp|
       resp.measurement.questionnaire.name == questionnaire_name
-    end.count.positive?
+    end.positive?
   end
 
   def mentor
+    # Introduce caching because otherwise it does a (cached) database query for every question in a questionnaire
+    return @mentor if @mentorcached
+
     warn_for_multiple_mentors
-    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).first&.person
+    @mentorcached = true
+    @mentor = ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).first&.person
+    @mentor
   end
 
   def stats(week_number, year, threshold_percentage)
@@ -115,6 +161,17 @@ class Person < ApplicationRecord
 
   private
 
+  def filter_for_myself(prot_subs, for_myself)
+    # Note that false is also blank (hence nil)
+    return prot_subs if for_myself.nil?
+
+    if for_myself
+      prot_subs.select { |prot_sub| prot_sub.filling_out_for_id == id }
+    else
+      prot_subs.reject { |prot_sub| prot_sub.filling_out_for_id == id }
+    end
+  end
+
   def check_threshold(completed, total, threshold_percentage)
     return 0 unless total.positive?
 
@@ -127,5 +184,11 @@ class Person < ApplicationRecord
   def warn_for_multiple_mentors
     Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{id}" if
     ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).count > 1
+  end
+
+  def not_own_parent
+    return if id.blank? || parent_id.blank? || id != parent_id
+
+    errors.add(:parent, 'cannot be parent of yourself')
   end
 end

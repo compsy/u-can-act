@@ -3,6 +3,7 @@
 namespace :deployment do
   # Run with
   # be rake "deployment:create_project[project_name]"
+  # rubocop:disable Rails/RakeEnvironment
   desc 'Create project'
   task :create_project, [:project_name] => [] do |_, args| # doesn't need environment
     @args = args
@@ -17,12 +18,12 @@ namespace :deployment do
       puts 'Creating .env.local file...'
       File.open(Rails.root.join('.env.local'), 'w') do |f|
         f.puts "PROJECT_NAME:      #{@args[:project_name]}"
-        f.puts "POSTGRES_DATABASE: #{@args[:project_name]}"
-        f.puts "MONGO_DATABASE:    #{@args[:project_name]}"
         f.puts ''
         f.puts "HOST_URL:          http://#{@args[:project_name]}.io"
         f.puts "HOST_DOMAIN:       #{@args[:project_name]}.io"
         f.puts "INFO_EMAIL:        info@#{@args[:project_name]}.io"
+        f.puts ''
+        f.puts "SITE_LOCATION:     http://#{@args[:project_name]}.io"
       end
     end
     # rubocop:enable Metrics/AbcSize
@@ -48,7 +49,7 @@ namespace :deployment do
 
     def create_project_directory
       puts "creating projects/#{@args[:project_name]} directory..."
-      source_dir = Rails.root.join('projects', 'new')
+      source_dir = Rails.root.join('projects/new')
       target_dir = Rails.root.join('projects', @args[:project_name])
       copy_only_nonexisting_files(source_dir, target_dir)
     end
@@ -64,4 +65,5 @@ namespace :deployment do
     puts "Creating project '#{@args[:project_name]}' - done"
     puts "\nYou should now type:\nbundle exec rake db:setup"
   end
+  # rubocop:enable Rails/RakeEnvironment
 end

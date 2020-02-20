@@ -10,7 +10,27 @@ describe Api::PersonSerializer do
   describe 'renders the correct json' do
     it 'contains the correct variables' do
       expect(json).not_to be_nil
-      expect(json.keys).to match_array %w[first_name last_name gender iban email mobile_phone]
+      expect(json.keys).to match_array %w[
+        account_active
+        id
+        first_name
+        last_name
+        gender
+        iban
+        email
+        mobile_phone
+        my_open_responses
+      ]
+    end
+
+    it 'contains the correct value for the id' do
+      expect(person.id).not_to be_blank
+      expect(json['id']).to eq person.id
+    end
+
+    it 'contains the correct value for the account_active' do
+      expect(person.id).not_to be_blank
+      expect(json['account_active']).to eq person.account_active
     end
 
     it 'contains the correct value for the first_name' do
@@ -41,6 +61,10 @@ describe Api::PersonSerializer do
     it 'contains the correct value for the gender' do
       expect(person.gender).not_to be_blank
       expect(json['gender']).to eq person.gender
+    end
+
+    it 'contains the correct open responses' do
+      expect(json['my_open_responses']).to eq person.my_open_responses
     end
   end
 end

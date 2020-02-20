@@ -1,0 +1,23 @@
+# Beware! This file is public by definition
+default: &default
+  default_team_name: 'Differentiatie Binnenstebuiten'
+  hide_edit_iban: true
+  show_mobile_images: false
+  project_start_date: '2018-10-01'
+  project_end_date: '2019-10-01'
+  feature_toggles:
+    allow_identifier_export: true
+  logo:
+    favicon: 'myfavicon.ico'
+    mentor_logo: 'rug_logo.png'
+    student_logo: 'rug_logo.png'
+    fallback_logo: 'rug_logo.png'
+    company_logo: null
+development:
+  <<: *default
+production:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default

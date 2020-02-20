@@ -29,9 +29,13 @@ class DropdownGenerator < QuestionTypeGenerator
     placeholder = question[:placeholder] || DROPDOWN_PLACEHOLDER
     body << content_tag(:option, placeholder, disabled: true, selected: true, value: '')
     question[:options].each_with_index do |option, idx|
-      body << content_tag(:option, option, value: question[:raw][:options][idx])
+      body << dropdown_option_body(add_raw_to_option(option, question, idx))
     end
     body = safe_join(body)
     content_tag(:select, body, name: answer_name(id), id: id, required: true, class: 'browser-default')
+  end
+
+  def dropdown_option_body(option)
+    content_tag(:option, option[:title].html_safe, value: option[:raw][:title])
   end
 end

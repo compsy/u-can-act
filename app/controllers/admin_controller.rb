@@ -29,6 +29,14 @@ class AdminController < ApplicationController
     export_class('people', 'Person', PersonExporter)
   end
 
+  def identifier_export
+    unless Rails.application.config.settings.feature_toggles.allow_identifier_export
+      raise 'Exporting identifiers is currently not allowed.'
+    end
+
+    export_class('identifiers', 'Person', IdentifierExporter)
+  end
+
   def reward_export
     export_class('rewards', 'Person', RewardExporter)
   end

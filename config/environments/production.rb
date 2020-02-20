@@ -58,6 +58,12 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
+  config.logger = RemoteSyslogLogger.new(
+    ENV['PAPERTRAIL_HOST'],
+    ENV['PAPERTRAIL_PORT'].to_i,
+    program: "rails-#{ENV['PAPERTRAIL_PROGRAM']}"
+  ) if ENV['PAPERTRAIL_HOST'].present?
+
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -96,6 +102,7 @@ Rails.application.configure do
   # Setup mailgun mailing
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
+    api_host: ENV['MAILGUN_API_HOST'],
     api_key: ENV['MAILGUN_API_KEY'],
     domain: ENV['MAILGUN_DOMAIN'],
   }

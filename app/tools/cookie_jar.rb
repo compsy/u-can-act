@@ -25,6 +25,8 @@ class CookieJar
       return false if entry.nil? || cookie.nil?
 
       cookie = JSON.parse(cookie)
+      cookie = {} unless cookie.is_a?(Hash)
+      cookie = cookie.with_indifferent_access
       cookie[entry.to_s]
     end
 
@@ -34,9 +36,23 @@ class CookieJar
       if current_cookie.present?
         current_cookie = JSON.parse(current_cookie)
         current_cookie = {} unless current_cookie.is_a?(Hash)
+        current_cookie = current_cookie.with_indifferent_access
         cookie_hash = current_cookie.merge(cookie_hash)
       end
       jar[COOKIE_LOCATION] = cookie_hash.to_json
+    end
+
+    def delete_cookie(jar, key)
+      current_cookie = jar[COOKIE_LOCATION]
+      return if current_cookie.blank?
+
+      current_cookie = JSON.parse(current_cookie)
+      current_cookie = {} unless current_cookie.is_a?(Hash)
+      current_cookie = current_cookie.with_indifferent_access
+      return unless current_cookie.key?(key)
+
+      current_cookie.delete(key)
+      jar[COOKIE_LOCATION] = current_cookie.to_json
     end
   end
 end

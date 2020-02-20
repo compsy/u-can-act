@@ -98,7 +98,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def wrap_option_body(option_body, question_type)
-    if %i[radio checkbox].include? question_type
+    if %i[radio checkbox].include? question_type.to_sym
       content_tag(:p, option_body, class: 'option-label')
     else
       content_tag(:p, option_body)

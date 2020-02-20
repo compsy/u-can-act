@@ -13,7 +13,7 @@ RSpec.describe MentorOverviewController, type: :controller do
         expect(controller).to receive(:current_user).at_least(:once).and_return(nil)
         get :index
         expect(response).to have_http_status(:unauthorized)
-        expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')
+        expect(response.body).to include('Je bent niet ingelogd.')
       end
 
       it 'requires a token with response id that exists' do

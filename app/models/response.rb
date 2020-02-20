@@ -7,6 +7,7 @@ class Response < ApplicationRecord
   RECENT_PAST = 2.hours
   belongs_to :protocol_subscription
   has_one :person, through: :protocol_subscription
+  has_one :protocol, through: :protocol_subscription
   validates :protocol_subscription_id, presence: true
   belongs_to :filled_out_for, class_name: 'Person', optional: true
   belongs_to :filled_out_by, class_name: 'Person', optional: true
@@ -34,6 +35,7 @@ class Response < ApplicationRecord
     )
   })
   scope :completed, (-> { where.not(completed_at: nil) })
+  scope :not_completed, (-> { where(completed_at: nil) })
   scope :invited, (lambda {
     where('invitation_set_id IS NOT NULL')
   })
@@ -64,7 +66,7 @@ class Response < ApplicationRecord
     # using %U is bad, hence week_number = Time.zone.now.strftime('%U') is off by one.
     # instead, use the Date.cweek function
     week_number = (options[:week_number] || Time.zone.now.to_date.cweek).to_i
-    year = (options[:year] || Time.zone.now.year).to_i
+    year = (options[:year] || Time.zone.now.to_date.cwyear).to_i
 
     date = Date.commercial(year, week_number, 1).in_time_zone
     between_dates(date.beginning_of_week.in_time_zone, date.end_of_week.in_time_zone)
@@ -86,6 +88,10 @@ class Response < ApplicationRecord
     Rails.application.routes.url_helpers.questionnaire_path(uuid: uuid)
   end
 
+  def last?
+    protocol_subscription.responses.last == self
+  end
+
   def future?
     open_from > Time.zone.now
   end
@@ -103,9 +109,14 @@ class Response < ApplicationRecord
   end
 
   def complete!
+    first_complete = completed_at.blank?
     update!(completed_at: Time.zone.now,
             filled_out_by: protocol_subscription.person,
             filled_out_for: protocol_subscription.filling_out_for)
+    update_distribution(first_complete)
+    return unless first_complete && protocol_subscription.protocol.push_subscriptions.present?
+
+    PushSubscriptionsJob.perform_later(self)
   end
 
   def remote_content
@@ -113,7 +124,10 @@ class Response < ApplicationRecord
   end
 
   def values
-    remote_content&.content
+    rcontent = remote_content
+    return rcontent&.content if rcontent&.content.nil? || rcontent&.scores.blank?
+
+    rcontent&.content&.merge(rcontent&.scores)
   end
 
   def expired?
@@ -145,5 +159,19 @@ class Response < ApplicationRecord
   def response_expired?
     measurement.open_duration.present? &&
       Time.zone.now > TimeTools.increase_by_duration(open_from, measurement.open_duration)
+  end
+
+  private
+
+  def update_distribution(first_complete)
+    return unless Rails.application.config.settings.feature_toggles.realtime_distributions
+
+    if first_complete
+      # Simply add the results of the current response
+      UpdateDistributionJob.perform_later(id)
+    else
+      # We don't know what the old answers were, so recalculate the whole questionnaire
+      CalculateDistributionJob.perform_later(id)
+    end
   end
 end

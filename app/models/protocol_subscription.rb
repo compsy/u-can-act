@@ -14,16 +14,20 @@ class ProtocolSubscription < ApplicationRecord
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true
   validates :end_date, presence: true
+
+  # Note: this ordering is important for a number of reasons. E.g.:
+  # - Response.last? uses it to determine if this is the last in the set.
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
   after_create :schedule_responses
   after_initialize :initialize_filling_out_for
   after_initialize :initialize_end_date
   has_many :protocol_transfers, dependent: :destroy
 
-  validates :filling_out_for_id,
-            uniqueness: { scope: %i[person_id state],
-                          conditions: -> { where(state: ACTIVE_STATE) },
-                          if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
+  # Commented this to allow to start multiple mentor'ed diary studies for the SDV project.
+  # validates :filling_out_for_id,
+  #           uniqueness: { scope: %i[person_id state],
+  #                         conditions: -> { where(state: ACTIVE_STATE) },
+  #                         if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
   scope :active, (-> { where(state: ACTIVE_STATE) })
 
   def transfer!(transfer_to)
@@ -136,6 +140,8 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def initialize_filling_out_for
+    # Note that this means that if the person you're filling out the protocol subscription for
+    # is destroyed, then the filling_out_for automatically gets reset back to yourself.
     self.filling_out_for ||= person
   end
 
@@ -145,6 +151,6 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def schedule_responses
-    RescheduleResponses.run!(protocol_subscription: self, future: 1.second.ago)
+    RescheduleResponses.run!(protocol_subscription: self, future: 10.minutes.ago)
   end
 end

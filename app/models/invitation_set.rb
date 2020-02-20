@@ -16,4 +16,11 @@ class InvitationSet < ApplicationRecord
 
     "#{ENV['HOST_URL']}/?q=#{concatenated_token}"
   end
+
+  def reminder_delay
+    delay = responses.map do |response|
+      response.measurement.reminder_delay
+    end.compact.min
+    delay || Measurement::DEFAULT_REMINDER_DELAY
+  end
 end

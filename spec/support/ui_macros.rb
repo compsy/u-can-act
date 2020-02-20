@@ -18,8 +18,12 @@ module UiMacros
     sleep(1)
     find_all("#{base}>ul>li", text: prompt).first.find(:xpath, '..').find(:xpath, '..').click
     # Add some delay because the thing folds out slowly
-    sleep(1)
+    sleep(2)
     find("#{base} li", text: option).click # select the option wanted
     sleep(1)
+  end
+
+  def normal_select(scope, value)
+    find(scope).find(:xpath, "option[@value='#{value}']").select_option
   end
 end

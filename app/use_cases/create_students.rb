@@ -20,17 +20,23 @@ class CreateStudents < ActiveInteraction::Base
 
   def parse_students(students, plain_text_parser)
     students.map do |student|
-      {
+      student_hash = {
         first_name: student[:first_name],
         last_name: student[:last_name],
         gender: student[:gender],
         mobile_phone: plain_text_parser.parse_mobile_phone(student[:mobile_phone]),
         protocol_id: plain_text_parser.parse_protocol_name(student[:protocol_name]),
         start_date: plain_text_parser.parse_start_date(student[:start_date]),
-        role_id: plain_text_parser.parse_role_title(student[:team_name], Person::STUDENT),
-        end_date: plain_text_parser.parse_end_date(student[:end_date])
+        role_id: plain_text_parser.parse_role_title(student[:team_name], role_title(student)),
+        email: student[:email]
       }
+      student_hash[:end_date] = plain_text_parser.parse_end_date(student[:end_date]) if student[:end_date].present?
+      student_hash
     end
+  end
+
+  def role_title(student)
+    student[:role_title] || Person::STUDENT
   end
 
   def create_students(students)
@@ -41,6 +47,7 @@ class CreateStudents < ActiveInteraction::Base
       studentobj = Person.create!(first_name: student[:first_name],
                                   last_name: student[:last_name],
                                   gender: student[:gender],
+                                  email: student[:email],
                                   mobile_phone: student[:mobile_phone],
                                   role_id: student[:role_id])
       ProtocolSubscription.create!(person: studentobj,

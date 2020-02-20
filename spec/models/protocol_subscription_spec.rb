@@ -96,19 +96,22 @@ describe ProtocolSubscription do
     let(:mentor) { FactoryBot.create(:mentor) }
     let(:student) { FactoryBot.create(:student) }
 
-    it 'does not allow two protocol subscriptions with the same state and filling_out_for_id' do
-      prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
-                                                        person: mentor,
-                                                        filling_out_for: student)
-      prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
-                                                        person: prot1.person)
-      prot2.filling_out_for_id = prot1.filling_out_for_id
-      expect(prot2).not_to be_valid
-      expect(prot2.errors.messages).to have_key :filling_out_for_id
-      expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
-      expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
-                                            'Validatie mislukt: Filling out for is al in gebruik')
-    end
+    # Commented this to allow to start multiple mentor'ed diary studies for the SDV project.
+    # it 'does not allow two protocol subscriptions with the same filling_out_for_id' do
+    # prot1 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+    # person: mentor,
+    # filling_out_for: student)
+    # prot2 = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE,
+    # person: prot1.person)
+    # prot2.filling_out_for_id = prot1.filling_out_for_id
+    # expect(prot2).not_to be_valid
+    # expect(prot2.errors.messages).to have_key :filling_out_for_id
+    # expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
+    # expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
+    # 'Validatie mislukt: Filling out for is al in gebruik')
+    # end
+    #
+
     it 'allows two subscriptions with the same filling_out_for_id and different states if one is completed' do
       prot1 = FactoryBot.create(:protocol_subscription, state: described_class::COMPLETED_STATE,
                                                         person: mentor,
@@ -219,7 +222,7 @@ describe ProtocolSubscription do
       expect(protocol_subscription.person).to eq original_mentor
     end
 
-    it 'alsoes change the filling_out_for if this is the same as the person' do
+    it 'also changes the filling_out_for if this is the same as the person' do
       protocol_subscription.filling_out_for = original_mentor
       expect(protocol_subscription.person).to eq protocol_subscription.filling_out_for
 
@@ -290,6 +293,12 @@ describe ProtocolSubscription do
       expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :start_date
       expect(protocol_subscription.errors.messages[:start_date]).to include('moet opgegeven zijn')
+    end
+    it 'does not have to be the beginning of a day' do
+      not_midnight = Time.new(2017, 4, 10, 12, 0, 0).in_time_zone
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: not_midnight)
+      expect(protocol_subscription.valid?).to be_truthy
+      expect(protocol_subscription.errors.messages).to_not have_key :start_date
     end
   end
 
@@ -448,12 +457,12 @@ describe ProtocolSubscription do
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
-                                                start_date: Time.new(2017, 3, 20, 0, 0, 0).in_time_zone)
+                                                start_date: Time.new(2017, 3, 20, 0, 0, 0, '+01:00').in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
-      expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 3, 21, 13, 0, 0).in_time_zone)
-      expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 3, 28, 13, 0, 0).in_time_zone)
-      expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 4, 13, 0, 0).in_time_zone)
-      expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 4, 11, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 3, 21, 13, 0, 0, '+01:00').in_time_zone)
+      expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 3, 28, 13, 0, 0, '+02:00').in_time_zone)
+      expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 4, 4, 13, 0, 0, '+02:00').in_time_zone)
+      expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 4, 11, 13, 0, 0, '+02:00').in_time_zone)
     end
     it 'does not change the open_from time when changing from summer time to winter time' do
       # changes at 3AM Sunday, October 29 2017
@@ -461,12 +470,12 @@ describe ProtocolSubscription do
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
-                                                start_date: Time.new(2017, 10, 23, 0, 0, 0).in_time_zone)
+                                                start_date: Time.new(2017, 10, 23, 0, 0, 0, '+02:00').in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
-      expect(protocol_subscription.responses[0].open_from).to eq(Time.new(2017, 10, 24, 13, 0, 0).in_time_zone)
-      expect(protocol_subscription.responses[1].open_from).to eq(Time.new(2017, 10, 31, 13, 0, 0).in_time_zone)
-      expect(protocol_subscription.responses[2].open_from).to eq(Time.new(2017, 11, 7, 13, 0, 0).in_time_zone)
-      expect(protocol_subscription.responses[3].open_from).to eq(Time.new(2017, 11, 14, 13, 0, 0).in_time_zone)
+      expect(protocol_subscription.responses[0].open_from).to eq Time.new(2017, 10, 24, 13, 0, 0, '+02:00').in_time_zone
+      expect(protocol_subscription.responses[1].open_from).to eq Time.new(2017, 10, 31, 13, 0, 0, '+01:00').in_time_zone
+      expect(protocol_subscription.responses[2].open_from).to eq Time.new(2017, 11, 7, 13, 0, 0, '+01:00').in_time_zone
+      expect(protocol_subscription.responses[3].open_from).to eq Time.new(2017, 11, 14, 13, 0, 0, '+01:00').in_time_zone
     end
   end
 

@@ -34,6 +34,12 @@ describe PlainTextParser do
       result = subject.parse_mobile_phone(mobile_phone)
       expect(result).to eq mobile_phone
     end
+
+    it 'should raise an error if a phone number is blank' do
+      ['', nil].each do |phone_number|
+        expect { subject.parse_mobile_phone(phone_number) }.to raise_error(/Phone number is blank/)
+      end
+    end
   end
 
   describe 'parse_protocol_name' do

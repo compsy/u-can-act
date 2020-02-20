@@ -2,6 +2,7 @@
 
 module Api
   class ProtocolSubscriptionSerializer < ActiveModel::Serializer
+    type 'protocol_subscriptions'
     attributes :person_type,
                :protocol_completion,
                :earned_euros,
@@ -9,7 +10,11 @@ module Api
                :euro_delta,
                :current_multiplier,
                :max_streak,
-               :initial_multiplier
+               :initial_multiplier,
+               :start_date,
+               :end_date,
+               :name,
+               :questionnaires
 
     def completion
       @completion ||= object.protocol_completion
@@ -31,6 +36,16 @@ module Api
 
     def max_still_awardable_euros
       object.max_still_earnable_reward_points
+    end
+
+    def name
+      object.protocol.name
+    end
+
+    def questionnaires
+      object.protocol.measurements.map do |measurement|
+        measurement.questionnaire.title
+      end
     end
 
     def euro_delta

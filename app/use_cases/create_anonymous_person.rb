@@ -24,6 +24,6 @@ class CreateAnonymousPerson < ActiveInteraction::Base
     role = team&.roles&.first
     return role if role.present?
 
-    raise "Team #{team_name} not found or does not have roles!"
+    raise "Team '#{team_name}' not found or does not have roles!"
   end
 end

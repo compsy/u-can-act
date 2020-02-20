@@ -4,11 +4,15 @@ class SubscribeToProtocol < ActiveInteraction::Base
   string :protocol_name, default: nil
   object :protocol, default: nil
   object :person
+  object :mentor, default: nil, class: :person
 
   # Watch out! IF you set a start date here (e.g. = Time.now.in_time_zone) it
   # will set it once, and reuse THAT time everytime. I.e., it will not update
   # the time when time passes.
   time :start_date, default: nil
+  time :end_date, default: nil
+
+  boolean :only_if_not_subscribed, default: false
 
   # Function to start a protocol subscription for a person
   #
@@ -22,17 +26,24 @@ class SubscribeToProtocol < ActiveInteraction::Base
     the_start_date = find_start_date
     Rails.logger.warn("Protocol #{the_protocol.id} does not have any measurements") if the_protocol.measurements.blank?
 
-    prot_sub = ProtocolSubscription.create!(
+    create_or_find_protocol_subscription(the_protocol, the_start_date)
+  end
+
+  def create_or_find_protocol_subscription(the_protocol, the_start_date)
+    prot_sub = nil
+    prot_sub = person.protocol_subscriptions.active.where(protocol_id: the_protocol.id).first if only_if_not_subscribed
+    prot_sub || ProtocolSubscription.create!(
       protocol: the_protocol,
       person: person,
+      filling_out_for: mentor,
       state: ProtocolSubscription::ACTIVE_STATE,
-      start_date: the_start_date
+      start_date: the_start_date,
+      end_date: end_date
     )
-    prot_sub
   end
 
   def find_start_date
-    # Active interaction weirdness. For somereason if we do not first copy
+    # Active interaction weirdness. For some reason if we do not first copy
     # start_date into a different variable, it is nil and overridden by the if
     # statement. When we first copy it to a different variable it does work.
     the_start_date = start_date

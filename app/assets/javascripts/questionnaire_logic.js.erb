@@ -149,6 +149,20 @@ function collapseExpandable() {
   updateExpandableButtons();
 }
 
+function changeExpansions() {
+  var expandableId = $(this).parent().attr('data-expandable');
+  var newExpansions = parseInt($(this).val());
+  var curExpansions = $('.expandable_wrapper:not(.hidden)' + '.' + expandableId).length
+  while (newExpansions > curExpansions) {
+    $('#' + expandableId + '_expand').click();
+    curExpansions+= 1;
+  }
+  while (newExpansions < curExpansions) {
+    $('#' + expandableId + '_collapse').click();
+    curExpansions -= 1;
+  }
+}
+
 function disableHiddenInputs() {
   $('.hidden').each(function (index) {
     $(this).find('input,textarea,select').each(function (sub_index) {
@@ -201,7 +215,7 @@ function autoResizeImages() {
   });
 }
 
-$(function () {
+function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
@@ -239,6 +253,7 @@ $(function () {
   $(document).on('click', '.toast', function () {
     $(this).hide();
   });
+  $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');
   });
@@ -263,4 +278,8 @@ $(function () {
   $(window).resize(function () {
     autoResizeImages();
   });
+}
+
+$(function () {
+  questionnaireLoaded();
 });

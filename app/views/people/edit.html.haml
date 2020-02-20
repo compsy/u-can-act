@@ -14,5 +14,5 @@
 .row
   .col.s12
     = form_for(@person, html: { class: 'settings' }) do |f|
-      = render partial: 'iban_form', locals: {f: f} 
+      = render partial: 'iban_form', locals: {f: f} unless Rails.application.config.settings.hide_edit_iban
       = render partial: 'personal_details_from', locals: {f: f} 

@@ -30,7 +30,7 @@ ic_content = <<~'END'
           </li>
           <li>Alle onderzoeksgegevens worden naar strikte ethische richtlijnen en met grote
   voorzichtigheid behandeld. Al mijn antwoorden op de vragen worden
-  geanonimiseerd en zijn niet tot mijn persoon te herleiden. 
+  geanonimiseerd en zijn niet tot mijn persoon te herleiden.
           </li>
         </ol>
       </li>
@@ -40,7 +40,7 @@ ic_content = <<~'END'
       </li>
     </ol>
 END
-informed_consent1.content = [{
+informed_consent1.content = { questions: [{
                                type: :raw,
                                content: ic_content
                              }, {
@@ -67,6 +67,6 @@ informed_consent1.content = [{
                              }, {
                                type: :raw,
                                content: '<p class="flow-text">Datum: {{datum_lang}}</p><p class="flow-text">Naam: {{deze_student}} {{achternaam_student}}</p>'
-                             }]
+                             }], scores: [] }
 informed_consent1.title = ''
 informed_consent1.save!

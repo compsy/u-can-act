@@ -14,7 +14,7 @@ ruby '2.6.3'
 gem 'rails', '~> 5.1.7'
 
 # Use Postgres as the database for Active Record
-gem 'pg', '= 0.20.0'
+gem 'pg', '= 1.1.4'
 
 # Driver for Redis datastore
 gem 'redis'
@@ -45,6 +45,7 @@ gem 'mongoid'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
+gem 'redis-mutex'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
@@ -77,7 +78,9 @@ gem 'active_model_serializers'
 
 # Gem for JWT / Authentication
 gem 'jwt'
-gem 'knock'
+
+# current master, using this because the version on rubygems hasn't been updated
+gem 'knock', github: 'nsarno/knock', ref: '84d3e54b9a8f1e9701097207a8d3135d5a9e64c1'
 
 # Gem for authorization
 # Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474
@@ -89,9 +92,16 @@ gem 'snitcher'
 # Gem for checking iban bank accounts
 gem 'iban-tools'
 
+# Swagger
+gem 'rswag-api'
+gem 'rswag-ui'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+
+  # Swagger
+  gem 'rswag-specs'
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
@@ -140,7 +150,7 @@ group :production, :staging do
   gem 'daemons'
 end
 
-gem 'workless', git: 'https://github.com/patricklindsay/workless.git', branch: 'fixes'
+gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -168,6 +178,11 @@ gem 'i18n-js' # We still need this gem because it generates translations.js for 
 gem 'rails-i18n'
 
 gem 'lograge'
+gem 'remote_syslog_logger'
 
 gem 'appsignal'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+
+# push subscriptions
+gem 'httparty'
+gem 'warden-jwt_auth', '>= 0.4.0'

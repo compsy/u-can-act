@@ -20,21 +20,37 @@ class VariableEvaluator
     private
 
     def evaluate(text, subs_hash)
-      full_subs_hash = default_subs_hash.dup.merge(subs_hash.dup) do |_, oldval, newval|
-        newval.presence || oldval
-      end
+      full_subs_hash = merge(default_subs_hash, subs_hash)
       substitutions_hash = substitutions(full_subs_hash)
+
+      substitutions_hash = merge_string_items(substitutions_hash, subs_hash)
+
       substitutions_hash.each do |variable, expansion|
-        text = text.gsub("{{#{variable}}}", expansion)
-        # if it already starts with a capital, don't capitalize() it, otherwise
-        # a name like Jan-Willem will be changed to Jan-willem.
-        text = if expansion.match?(/^[A-Z]/)
-                 text.gsub("{{#{variable.capitalize}}}", expansion)
-               else
-                 text.gsub("{{#{variable.capitalize}}}", expansion.capitalize)
-               end
+        text = perform_static_substitution(text, variable, expansion)
       end
       text
+    end
+
+    def merge_string_items(default, extra)
+      extra.each_key do |key|
+        default[key] = extra[key] if key.is_a? String
+      end
+      default
+    end
+
+    def merge(default, extra)
+      default.dup.merge(extra.dup) do |_, oldval, newval|
+        newval.presence || oldval
+      end
+    end
+
+    def perform_static_substitution(text, variable, expansion)
+      text = text.gsub("{{#{variable}}}", expansion)
+      # if it already starts with a capital, don't capitalize() it, otherwise
+      # a name like Jan-Willem will be changed to Jan-willem.
+      return text.gsub("{{#{variable.capitalize}}}", expansion) if expansion.match?(/^[A-Z]/)
+
+      text.gsub("{{#{variable.capitalize}}}", expansion.capitalize)
     end
 
     def default_subs_hash

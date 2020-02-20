@@ -84,12 +84,19 @@ class QuestionnaireController < ApplicationController
     render(status: :bad_request, json: { error: 'Please supply a json string in the content field.' })
   end
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/CyclomaticComplexity
   def set_interactive_content
     @raw_questionnaire_content = JSON.parse(params[:content])
+    ensure_content_is_hash!
+    return if performed?
+
+    make_content_indifferent!
+  rescue JSON::ParserError => e
+    render status: :bad_request, json: { error: e.message }
+  rescue TypeError => e
+    render status: :bad_request, json: { error: e.message }
+  end
+
+  def ensure_content_is_hash!
     if @raw_questionnaire_content.blank?
       render status: :bad_request, json: { error: 'At least one question should be provided' }
       return
@@ -97,10 +104,12 @@ class QuestionnaireController < ApplicationController
     if !(@raw_questionnaire_content.is_a? Hash) && @raw_questionnaire_content.is_a?(Array)
       @raw_questionnaire_content = { questions: @raw_questionnaire_content, scores: [] }
     end
-    unless @raw_questionnaire_content.is_a? Hash
-      render status: :bad_request, json: { error: 'questions should be in an array or hash' }
-      return
-    end
+    return if @raw_questionnaire_content.is_a? Hash
+
+    render status: :bad_request, json: { error: 'questions should be in an array or hash' }
+  end
+
+  def make_content_indifferent!
     @raw_questionnaire_content = @raw_questionnaire_content.with_indifferent_access
     unless @raw_questionnaire_content.key?(:scores) && @raw_questionnaire_content.key?(:questions)
       render status: :bad_request, json: { error: 'The given hash should have the :questions and :scores attributes' }
@@ -108,15 +117,7 @@ class QuestionnaireController < ApplicationController
     end
     @raw_questionnaire_content[:questions] = @raw_questionnaire_content[:questions].map(&:with_indifferent_access)
     @raw_questionnaire_content[:scores] = @raw_questionnaire_content[:scores].map(&:with_indifferent_access)
-  rescue JSON::ParserError => e
-    render status: :bad_request, json: { error: e.message }
-  rescue TypeError => e
-    render status: :bad_request, json: { error: e.message }
   end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/PerceivedComplexity
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   # This cop changes the code to not work anymore:
   # rubocop:disable Style/WhileUntilModifier

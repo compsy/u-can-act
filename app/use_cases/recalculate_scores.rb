@@ -24,8 +24,8 @@ class RecalculateScores < ActiveInteraction::Base
 
   def recalculate_response_ids(response_ids)
     ResponseContent.where(:id.in => response_ids).pluck(:content, :id).each do |content, rcid|
-      enriched_content = EnrichContent.run!(content: content, questionnaire: @questionnaire_content)
-      ResponseContent.find(rcid)&.update!(enriched_content: enriched_content)
+      scores = CalculateScores.run!(content: content, questionnaire: @questionnaire_content)
+      ResponseContent.find(rcid)&.update!(scores: scores)
     end
   end
 

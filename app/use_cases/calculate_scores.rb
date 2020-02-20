@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Enrich response content (= questionnaire answers) with scores
-class EnrichContent < ActiveInteraction::Base
-  EnrichMissingDataError = Class.new(StandardError)
+class CalculateScores < ActiveInteraction::Base
+  MyMissingDataError = Class.new(StandardError)
 
   hash :content, strip: false # strip: false means allow all keys
   hash :questionnaire, strip: false
@@ -14,11 +14,11 @@ class EnrichContent < ActiveInteraction::Base
   def execute
     @questionnaire = questionnaire # work with instance variables instead of activeinteraction methods
     @content = content
-    @enriched_content = {}
+    @scores = {}
     @questionnaire[:scores].each do |score|
       calculate_and_add_score(score)
     end
-    @enriched_content
+    @scores
   end
 
   private
@@ -68,8 +68,8 @@ class EnrichContent < ActiveInteraction::Base
 
   def calculate_and_add_score(score)
     value = calculate_score(score)
-    @enriched_content[score[:id].to_s] = value.to_s
-  rescue EnrichMissingDataError
+    @scores[score[:id].to_s] = value.to_s
+  rescue MyMissingDataError
     # This just means the score won't be calculated
     nil
   end
@@ -83,12 +83,12 @@ class EnrichContent < ActiveInteraction::Base
   def read_from_content(qids)
     return @content[qids] if @content.key?(qids) && @content[qids].present?
 
-    @enriched_content[qids]
+    @scores[qids]
   end
 
   def exists_in_content?(qids)
     (@content.key?(qids) && @content[qids].present?) ||
-      (@enriched_content.key?(qids) && @enriched_content[qids].present?)
+      (@scores.key?(qids) && @scores[qids].present?)
   end
 
   def gather_data(score)
@@ -96,13 +96,13 @@ class EnrichContent < ActiveInteraction::Base
     score[:ids].each do |qid|
       qids = qid.to_s
       unless exists_in_content?(qids)
-        raise EnrichMissingDataError, "id #{qids} not found in the enriched response" if score[:require_all].present?
+        raise MyMissingDataError, "id #{qids} not found in the enriched response" if score[:require_all].present?
 
         next
       end
       numeric_value = to_number(read_from_content(qids), qids)
       if numeric_value.blank?
-        raise EnrichMissingDataError, "no numeric value for #{qids} could be determined" if score[:require_all].present?
+        raise MyMissingDataError, "no numeric value for #{qids} could be determined" if score[:require_all].present?
 
         next
       end
@@ -121,7 +121,7 @@ class EnrichContent < ActiveInteraction::Base
   end
 
   def perform_operation_average(data)
-    raise EnrichMissingDataError, 'trying to calculate the average of an empty array' if data.size.zero?
+    raise MyMissingDataError, 'trying to calculate the average of an empty array' if data.size.zero?
     return data[0] if data.size == 1 # no need to convert to float if we have just one integer
 
     data.inject(0.0) { |sum, el| sum + el } / data.size

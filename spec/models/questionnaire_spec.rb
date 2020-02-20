@@ -302,13 +302,50 @@ describe Questionnaire do
     describe 'all_scores_have_known_operations' do
       it 'does not allow for operations that do not exist' do
         content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
-                    scores: [{ id: :s1, label: 'my-label', ids: %i[v2], operation: :diffusion }] }
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :diffusion }] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
           include("the following scores have an unknown operation: [\"my-label\"]\n")
         )
+      end
+    end
+
+    describe 'all_scores_have_valid_ids_in_preprocessing' do
+      it 'does not allow for ids that do not exist' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1],
+                               operation: :average, preprocessing: { v2: { multiply_with: -1, offset: 100 } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid ids in preprocessing steps: [\"my-label\"]\n")
+        )
+      end
+    end
+
+    describe 'all_scores_have_valid_preprocessing' do
+      it 'does not allow for operations that do not exist' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1],
+                               operation: :average, preprocessing: { v1: { multiply_with: -1, hello: 100 } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label\"]\n")
+        )
+      end
+      it 'does allow for valid preprocessing' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: -50 } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
       end
     end
   end

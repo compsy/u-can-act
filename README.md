@@ -904,6 +904,7 @@ Maximal example:
 [{ id: :s1,
    label: 'The average of v1 and v2',
    ids: %i[v1 v2],
+   preprocessing: { v2: { multiply_with: -1, offset: 100 } },
    operation: :average,
    require_all: true,
    round_to_decimals: 0
@@ -912,6 +913,7 @@ Maximal example:
 If `round_to_decimals` is missing, the result is not rounded, and the realtime distribution calculation will **not** calculate a distribution for this score. Analogously, if you specify the `round_to_decimals` attribute, the realtime distribution calculation will automatically calculate the distribution for this score. If you're only dealing with integers, you can use `round_to_decimals: 0`.
 If `require_all` is missing, it works the same as when specifying `require_all: false`.
 All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
+The `preprocessing` key is optional, and if provided, should be a hash with a (sub)set of the IDs in `ids` as keys. Each entry in a hash represents how this value will be preprocessed. Currently, only the following operations are supported: `multiply _with`, which multiplies the value with a given number (which can be integer or float, positive or negative), and `offset`, which adds a constant number to the value (this number can also be an integer or float, positive or negative). Both `multiply_with` and `offset` are optional. If both are provided, `multiply_with` is performed first. It is possible to chain operations by defining a new score that takes as input a previously preprocessed score (see below).
 
 - The only currently supported `operation` is `:average`.
 - The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:

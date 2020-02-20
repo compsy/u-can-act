@@ -22,17 +22,20 @@ class CalculateScores < ActiveInteraction::Base
 
   private
 
-  def to_number(value, qids)
-    return nil if value.blank?
-
-    my_value = possibly_substitute_for_number(value, qids)
-    # my_value can be either a string or a number (float or int) at this point.
-
+  def str_or_num_to_num(my_value)
     # if we are a string that can't be converted to a number,
     # return nil so we are registered as a missing value
     return nil if my_value.is_a?(String) && (my_value =~ /\A-?\.?[0-9]/).blank?
 
     (my_value.to_f % 1).positive? ? my_value.to_f : my_value.to_i
+  end
+
+  def to_number(value, qids)
+    return nil if value.blank?
+
+    my_value = possibly_substitute_for_number(value, qids)
+    # my_value can be either a string or a number (float or int) at this point.
+    str_or_num_to_num(my_value)
   end
 
   # This method substitutes the given string value for a number if this substitution
@@ -105,6 +108,7 @@ class CalculateScores < ActiveInteraction::Base
 
         next
       end
+      numeric_value = preprocess_value(numeric_value, qid, score) if numeric_value.present?
       result << numeric_value
     end
     result
@@ -130,5 +134,14 @@ class CalculateScores < ActiveInteraction::Base
     return value unless score.key?(:round_to_decimals)
 
     value.round(score[:round_to_decimals])
+  end
+
+  def preprocess_value(numeric_value, qid, score)
+    return numeric_value unless score.key?(:preprocessing) && score[:preprocessing].key?(qid)
+
+    preprocessing_step = score[:preprocessing][qid]
+    numeric_value *= str_or_num_to_num(preprocessing_step[:multiply_with]) if preprocessing_step.key?(:multiply_with)
+    numeric_value += str_or_num_to_num(preprocessing_step[:offset]) if preprocessing_step.key?(:offset)
+    numeric_value
   end
 end

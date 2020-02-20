@@ -104,6 +104,17 @@ dagboek1.content = {
       label: 'De wijk waarin u woont',
       ids: %i[v7 v8],
       operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Vriendschappen',
+      ids: %i[v3 v4],
+      preprocessing: { v4: { multiply_with: -1, offset: 100 } },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s4,
+      label: 'Zichzelf',
+      ids: %i[v9 v10],
+      operation: :average,
       round_to_decimals: 0 }
   ]
 }

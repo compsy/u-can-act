@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module DistributionHelper
+  include ConversionHelper
   # This is just the default value for the structure. Imagine the structure not being a hash but just
   # a single value, it would be this value. The reason that everything has to be a hash is so that we
   # can nest combined scores into combined histograms that are constructed recursively. In order for
@@ -49,14 +50,6 @@ module DistributionHelper
       .map do |score|
       { id: score[:id].to_s, type: :score, combines_with: nil }
     end
-  end
-
-  def number_to_string(num)
-    i = num.to_i
-    f = num.to_f
-    i == f ? i.to_s : f.to_s
-  rescue ArgumentError
-    num.to_s
   end
 
   def initialize_question(question, value, distribution)

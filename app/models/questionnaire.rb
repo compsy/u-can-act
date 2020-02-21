@@ -2,7 +2,13 @@
 
 class Questionnaire < ApplicationRecord
   KNOWN_OPERATIONS = %i[average].freeze
-  KNOWN_PREPROCESSING_STEPS = %i[multiply_with offset].freeze
+
+  # This is an ordered array of known preprocessing steps
+  PREPROCESSING_STEPS = [
+    { name: :multiply_with, method: :* },
+    { name: :offset, method: :+ }
+  ].freeze
+  PREPROCESSING_STEP_NAMES = PREPROCESSING_STEPS.map { |step| step[:name] }.freeze
 
   validates :name, presence: true, uniqueness: true
   validates :content, presence: true
@@ -209,6 +215,6 @@ class Questionnaire < ApplicationRecord
   end
 
   def invalid_preprocessing_steps?(score_preprocessing)
-    (score_preprocessing.values.map(&:keys).flatten.uniq.map(&:to_sym) - KNOWN_PREPROCESSING_STEPS).present?
+    (score_preprocessing.values.map(&:keys).flatten.uniq.map(&:to_sym) - PREPROCESSING_STEP_NAMES).present?
   end
 end

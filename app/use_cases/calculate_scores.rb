@@ -140,8 +140,11 @@ class CalculateScores < ActiveInteraction::Base
     return numeric_value unless score.key?(:preprocessing) && score[:preprocessing].key?(qid)
 
     preprocessing_step = score[:preprocessing][qid]
-    numeric_value *= str_or_num_to_num(preprocessing_step[:multiply_with]) if preprocessing_step.key?(:multiply_with)
-    numeric_value += str_or_num_to_num(preprocessing_step[:offset]) if preprocessing_step.key?(:offset)
+    Questionnaire::PREPROCESSING_STEPS.each do |step|
+      next unless preprocessing_step.key?(step[:name])
+
+      numeric_value = numeric_value.send(step[:method], str_or_num_to_num(preprocessing_step[step[:name]]))
+    end
     numeric_value
   end
 end

@@ -207,14 +207,14 @@ class Questionnaire < ApplicationRecord
   def all_scores_have_valid_preprocessing
     result = content[:scores]
              .select { |score| score.key?(:preprocessing) }
-             .select { |score| invalid_preprocessing_steps?(score[:preprocessing]) }
+             .reject { |score| only_valid_preprocessing_steps?(score[:preprocessing]) }
              .map { |score| score[:label] || score[:id] }
     return if result.blank?
 
     errors.add(:content, "the following scores have invalid preprocessing steps: #{result.pretty_inspect}")
   end
 
-  def invalid_preprocessing_steps?(score_preprocessing)
-    (score_preprocessing.values.map(&:keys).flatten.uniq.map(&:to_sym) - PREPROCESSING_STEP_NAMES).present?
+  def only_valid_preprocessing_steps?(score_preprocessing)
+    (score_preprocessing.values.map(&:keys).flatten.uniq.map(&:to_sym) - PREPROCESSING_STEP_NAMES).blank?
   end
 end

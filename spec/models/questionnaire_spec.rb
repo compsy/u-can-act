@@ -347,6 +347,54 @@ describe Questionnaire do
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
+      it 'requires that all preprocessing steps have numeric values' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: 'ando' } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label2\"]\n")
+        )
+      end
+      it 'requires that all preprocessing steps do not have nil values' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: nil } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label2\"]\n")
+        )
+      end
+      it 'requires that preprocessing steps do not have blank values' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: '' } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label2\"]\n")
+        )
+      end
+      it 'does allow for valid preprocessing with numbers as strings' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: '100' } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: '-50' } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
     end
   end
 

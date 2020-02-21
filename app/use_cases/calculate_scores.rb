@@ -5,6 +5,7 @@ end
 
 # Calculate scores given the content of a completed response and its questionnaire definition
 class CalculateScores < ActiveInteraction::Base
+  include ConversionHelper
   hash :content, strip: false # strip: false means allow all keys
   hash :questionnaire, strip: false
 
@@ -21,14 +22,6 @@ class CalculateScores < ActiveInteraction::Base
   end
 
   private
-
-  def str_or_num_to_num(my_value)
-    # if we are a string that can't be converted to a number,
-    # return nil so we are registered as a missing value
-    return nil if my_value.is_a?(String) && (my_value =~ /\A-?\.?[0-9]/).blank?
-
-    (my_value.to_f % 1).positive? ? my_value.to_f : my_value.to_i
-  end
 
   def to_number(value, qids)
     return nil if value.blank?

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Questionnaire < ApplicationRecord
+  include ConversionHelper
   KNOWN_OPERATIONS = %i[average].freeze
 
   # This is an ordered array of known preprocessing steps
@@ -215,6 +216,7 @@ class Questionnaire < ApplicationRecord
   end
 
   def only_valid_preprocessing_steps?(score_preprocessing)
-    (score_preprocessing.values.map(&:keys).flatten.uniq.map(&:to_sym) - PREPROCESSING_STEP_NAMES).blank?
+    (score_preprocessing.values.map(&:keys).flatten.uniq.map(&:to_sym) - PREPROCESSING_STEP_NAMES).blank? &&
+      score_preprocessing.values.map(&:values).flatten.uniq.reject { |value| str_or_num_to_num(value).present? }.blank?
   end
 end

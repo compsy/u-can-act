@@ -12,7 +12,7 @@ dagboek_content = [
     content: '<p class="flow-text">Op de volgende bladzijden staan 62 uitspraken die u kunt gebruiken om uw kind te beschrijven. <br>
 <br>
 We willen graag dat u voor elke uitspraak invult in hoeverre deze waar is voor uw kind.
-Lees iedere beschrijving goed en kies dan het antwoord dat het beste <u> bij uw kind </u> past. Er zijn geen goede of foute antwoorden. Wilt u het antwoord kiezen dat het eerst bij u opkomt? <br>
+Lees iedere beschrijving goed en kies dan het antwoord dat het beste <strong>bij uw kind</strong> past. Er zijn geen goede of foute antwoorden. Wilt u het antwoord kiezen dat het eerst bij u opkomt? <br>
 <br>
 U kunt de slider naar links of naar rechts verschuiven. <br>
 Wilt u bij elke beschrijving aangeven hoe waar elke uitspraak is voor uw kind?</p>'

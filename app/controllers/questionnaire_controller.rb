@@ -6,7 +6,7 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include Concerns::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
-  skip_before_action :verify_authenticity_token, only: %i[interactive_render]
+  skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
   before_action :set_response, only: %i[show destroy]
   # TODO: verify cookie for show as well
@@ -29,13 +29,19 @@ class QuestionnaireController < ApplicationController
     @default_content = ''
   end
 
+  # This method is used to post results from the interactive questionnaire previewer
+  def from_json
+    flash[:success] = 'Success! If this were an actual questionnaire, your response would have been saved.'
+    redirect_to :interactive_questionnaire_index
+  end
+
   def interactive_render
     @content = QuestionnaireGenerator.new.generate_questionnaire(
       response_id: nil,
       content: @raw_questionnaire_content,
       title: 'Test questionnaire',
       submit_text: 'Opslaan',
-      action: '/api/v1/questionnaire/from_json',
+      action: '/questionnaire/from_json',
       unsubscribe_url: nil
     )
 

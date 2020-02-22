@@ -344,6 +344,14 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
   end
 
+  describe 'from_json' do
+    it 'should redirect to interactive' do
+      post :from_json, params: {}
+      expect(response.status).to eq 302
+      expect(response.body).to match %r{\/questionnaire\/interactive}
+    end
+  end
+
   describe 'interactive_render' do
     context 'correct request' do
       let(:content) do

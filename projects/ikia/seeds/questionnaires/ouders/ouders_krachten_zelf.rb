@@ -376,7 +376,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
     title: 'Voordat ik kritiek op iemand geef, probeer ik mij voor te stellen hoe ik mij zou voelen in zijn of haar plaats.',
     labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij'],
     section_end: true
-    },{
+  }, {
     section_start: 'Geef voor elk van de volgende uitspraken aan hoe vaak deze voor u in het algemeen waar is. Verplaats het bolletje naar het antwoord dat het beste past.',
     id: :v4_1,
     type: :range,
@@ -613,7 +613,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
     title: 'Ik keur mezelf af als ik onlogische gedachtes heb.',
     labels: ['Nooit of bijna nooit waar', 'Soms waar', 'Heel vaak of altijd waar'],
     section_end: true
- }, {
+  }, {
     section_start: 'Tot slot...',
     id: :v5,
     type: :expandable,
@@ -625,10 +625,50 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
                 type: :textarea,
                 required: true,
                 title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
-   section_end: true
+                tooltip: 'Bijvoorbeeld: een pennenhouder van maken' }],
+    section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Creativiteit',
+      ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Empathie',
+      ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16 v3_19 v3_21],
+      preprocessing: {
+        v3_3: { multiply_with: -1, offset: 100 },
+        v3_13: { multiply_with: -1, offset: 100 },
+        v3_2: { multiply_with: -1, offset: 100 },
+        v3_11: { multiply_with: -1, offset: 100 }
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Observeren',
+      ids: %i[v4_1 v4_6 v4_11 v4_15 v4_20 v4_26 v4_31 v4_36],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s4,
+      label: 'Niet oordelen',
+      ids: %i[v4_3 v4_10 v4_14 v4_17 v4_25 v4_30 v4_35 v4_39],
+      preprocessing: {
+        v4_3: { multiply_with: -1, offset: 100 },
+        v4_10: { multiply_with: -1, offset: 100 },
+        v4_14: { multiply_with: -1, offset: 100 },
+        v4_17: { multiply_with: -1, offset: 100 },
+        v4_25: { multiply_with: -1, offset: 100 },
+        v4_30: { multiply_with: -1, offset: 100 },
+        v4_35: { multiply_with: -1, offset: 100 },
+        v4_39: { multiply_with: -1, offset: 100 }
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

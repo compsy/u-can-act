@@ -628,6 +628,6 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
    section_end: true
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

@@ -134,6 +134,6 @@ Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname 
       'Stiefouder of partner van biologische ouder']
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

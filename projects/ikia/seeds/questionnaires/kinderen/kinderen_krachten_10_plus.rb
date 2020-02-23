@@ -285,25 +285,25 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     id: :v4_3,
     required: true,
     type: :range,
-    title: ' Ik houd mezelf bezig zodat ik mijn gedachten of gevoelens niet op merk.',
+    title: 'Ik houd mezelf bezig zodat ik mijn gedachten of gevoelens niet op merk.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v4_4,
     type: :range,
     required: true,
-    title: ' Ik zeg tegen mezelf dat ik me niet zo zou moeten voelen zoals ik me voel.',
+    title: 'Ik zeg tegen mezelf dat ik me niet zo zou moeten voelen zoals ik me voel.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v4_5,
     type: :range,
     required: true,
-    title: ' Ik druk gedachten weg die ik niet prettig vind.',
+    title: 'Ik druk gedachten weg die ik niet prettig vind.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v4_6,
     type: :range,
     required: true,
-    title: ' Het is moeilijk voor mij om mijn aandacht op één ding tegelijk te richten.',
+    title: 'Het is moeilijk voor mij om mijn aandacht op één ding tegelijk te richten.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar']
   }, {
     id: :v4_7,
@@ -327,7 +327,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     id: :v4_10,
     type: :range,
     required: true,
-    title: ' Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
+    title: 'Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar'],
     section_end: true
   }, {
@@ -342,10 +342,10 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
                 type: :textarea,
                 title: 'Wat kun je doen met een melkpak?',
                 tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
-    section_end: true  
+    section_end: true
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!
 

@@ -676,6 +676,6 @@ dagboek_content = [
     title: 'Schrijf hier alle andere dingen op die te maken hebben met je gevoelens, gedrag, manier van doen of belangstelling',
     options: ['Helemaal niet', 'Een beetje of soms', 'Duidelijk of vaak']
   }]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

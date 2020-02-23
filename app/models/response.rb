@@ -124,7 +124,10 @@ class Response < ApplicationRecord
   end
 
   def values
-    remote_content&.content
+    rcontent = remote_content
+    return rcontent&.content if rcontent&.content.nil? || rcontent&.scores.blank?
+
+    rcontent&.content&.merge(rcontent&.scores)
   end
 
   def expired?

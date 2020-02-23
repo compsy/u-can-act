@@ -80,6 +80,6 @@ dagboek_content = [
     options: ['Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Weet ik niet']
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

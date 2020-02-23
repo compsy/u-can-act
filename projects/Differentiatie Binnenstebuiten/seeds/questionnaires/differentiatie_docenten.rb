@@ -81,6 +81,6 @@ question(:v12, '4. Ik kon storend gedrag in de klas in de hand houden.'),
   title: 'Welke ondersteuning / aanpassingen ga je tijdens de volgende les bieden?'
 }]
 
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

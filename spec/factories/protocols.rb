@@ -9,10 +9,10 @@ FactoryBot.define do
       association :informed_consent_questionnaire,
                   factory: :questionnaire,
                   title: 'Informed Consent',
-                  content: [{
+                  content: { questions: [{
                     type: :raw,
                     content: '<p class="flow-text">Geef toestemming bla bla</p>'
-                  }]
+                  }], scores: [] }
     end
   end
 

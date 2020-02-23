@@ -35,7 +35,7 @@ ic_content = <<~'END'
     </li>
   </ol>
 END
-informed_consent1.content = [{
+informed_consent1.content = { questions: [{
   type: :raw,
   content: ic_content
 }, {
@@ -47,6 +47,6 @@ informed_consent1.content = [{
     'Ik verklaar dat bovenstaande informatie mij duidelijk is en ga hiermee akkoord.'
   ],
   show_otherwise: false
-}]
+}], scores: [] }
 informed_consent1.title = ''
 informed_consent1.save!

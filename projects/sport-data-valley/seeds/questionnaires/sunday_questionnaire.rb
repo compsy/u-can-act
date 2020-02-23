@@ -109,6 +109,6 @@ dagboek_content = [
   }
 ]
 
-questionnaire.content = dagboek_content
+questionnaire.content = { questions: dagboek_content, scores: [] }
 questionnaire.title = db_title
 questionnaire.save!

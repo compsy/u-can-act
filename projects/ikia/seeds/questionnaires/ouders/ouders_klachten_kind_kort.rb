@@ -391,6 +391,29 @@ dagboek_content = [
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Binnenwereld',
+      ids: %i[v3 v8 v13 v16 v24 v6 v11 v14 v19 v23],
+      preprocessing: {
+        v11: { multiply_with: -1, offset: 100 },
+        v14: { multiply_with: -1, offset: 100 }
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Buitenwereld',
+      ids: %i[v5 v7 v12 v18 v22 v2 v10 v15 v21 v25],
+      preprocessing: {
+        v7: { multiply_with: -1, offset: 100 },
+        v21: { multiply_with: -1, offset: 100 },
+        v25: { multiply_with: -1, offset: 100 }
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

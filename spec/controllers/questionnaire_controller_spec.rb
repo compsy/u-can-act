@@ -347,10 +347,12 @@ RSpec.describe QuestionnaireController, type: :controller do
   describe 'interactive_render' do
     context 'correct request' do
       let(:content) do
-        [{
-          type: :raw,
-          content: 'content here!'
-        }].to_json
+        { questions: [
+          {
+            type: :raw,
+            content: 'content here!'
+          }
+        ], scores: [] }.to_json
       end
 
       it 'heads 200' do

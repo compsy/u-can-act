@@ -136,7 +136,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   )
 
   responseobj = person.protocol_subscriptions.first.responses.first
-  response_content = ResponseContent.create!(content: {v14: 'Ik ga bezig met begrijpend lezen.' })
+  response_content = ResponseContent.create_with_scores!(content: {v14: 'Ik ga bezig met begrijpend lezen.' },
+                                                         response: responseobj)
   responseobj.content = response_content.id
   responseobj.complete!
   responseobj.save
@@ -160,7 +161,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   )
 
   responseobj = person.protocol_subscriptions.first.responses.first
-  response_content = ResponseContent.create!(content: {})
+  response_content = ResponseContent.create_with_scores!(content: {},
+                                                         response: responseobj)
   responseobj.content = response_content.id
   responseobj.complete!
   responseobj.save

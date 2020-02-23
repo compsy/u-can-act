@@ -2,33 +2,42 @@
 
 class JwtAuthenticator
   class << self
-    def auth(cookies, params)
-      token = token_from_cookie_or_params(params, cookies)
+    def auth_from_cookies(cookies_signed)
+      token = token_from_cookies(cookies_signed)
+      auth_with_token(token, cookies_signed)
+    end
 
+    def auth_from_params(cookies_signed, params)
+      token = decoded_token_from_params(params)
+      auth_with_token(token, cookies_signed)
+    end
+
+    private
+
+    def auth_with_token(token, cookies_signed)
       return if token.blank?
 
       # TODO: token opslaan in session ipv cookies
       auth_user = AuthUser.find_by(auth0_id_string: token.first['sub'])
       return if auth_user.blank?
 
-      store_token_in_cookie(token, cookies)
+      store_token_in_cookie(token, cookies_signed)
       auth_user.person
     end
 
-    private
-
-    def token_from_cookie_or_params(params, cookies)
-      if token_from_params(params)
-        JWT.decode(token_from_params(params), Knock.token_public_key, true,
-                   algorithms: [ENV['TOKEN_SIGNATURE_ALGORITHM']])
-      else
-        CookieJar.read_entry(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+    def decoded_token_from_params(params)
+      if token_from_params(params).present?
+        return JWT.decode(token_from_params(params), Knock.token_public_key, true,
+                          algorithms: [ENV['TOKEN_SIGNATURE_ALGORITHM']])
       end
-
-    # Rescue if the argument passed is not a JWT token
-    rescue JWT::DecodeError => e
+      nil
+    rescue JWT::DecodeError => e # if the argument passed is not a JWT token
       Rails.logger.info "Decoding failed: #{e.message}"
       nil
+    end
+
+    def token_from_cookies(cookies_signed)
+      CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
     end
 
     def token_from_params(params)
@@ -38,9 +47,12 @@ class JwtAuthenticator
       params[:auth] || params[:token]
     end
 
-    def store_token_in_cookie(token, cookies)
+    def store_token_in_cookie(token, cookies_signed)
       cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => token }
-      CookieJar.set_or_update_cookie(cookies, cookie)
+      CookieJar.set_or_update_cookie(cookies_signed, cookie)
+      # Remove the TokenAuthenticator cookie if set, so that when the token is no
+      # longer in the params, we still end up with the JWT token login.
+      CookieJar.delete_cookie(cookies_signed, TokenAuthenticationController::PERSON_ID_COOKIE)
     end
   end
 end

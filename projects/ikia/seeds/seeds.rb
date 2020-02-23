@@ -42,4 +42,26 @@ if Rails.env.development? || Rails.env.staging?
     puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
   end
   puts ''
+=begin
+  team = Team.find_by(name: 'IKIA')
+
+  # Create user with responses
+  child_role = team.roles.where(group: Person::STUDENT, title: 'kids').first
+  child_email = 'ikia-child@compsy.nl'
+  child_person = Person.find_by(email: child_email)
+  child_person ||= Person.new(email: child_email)
+  child_person.first_name = 'Child'
+  child_person.last_name = 'Test'
+  child_person.role = child_role
+  child_person.account_active = true
+  child_person.save!
+
+  # create responses
+  child_protocol = Protocol.find_by(name: 'kids')
+  child_person.responses.destroy_all
+  child_protocol.measurements.each do |measurement|
+    questionnaire = measurement.questionnaire
+    random_response_content = RandomResponseGenerator.generate(questionnaire.content)
+  end
+=end
 end

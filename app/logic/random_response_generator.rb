@@ -28,6 +28,7 @@ class RandomResponseGenerator
     end
 
     def generate_answer_for_question(question)
+      # TODO: use RandomAlphaNumericStringGenerator to generate stuff for text fields
       case question[:type]
       when :radio, :likert
         generate_answer_for_radio(question)

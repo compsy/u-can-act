@@ -62,6 +62,8 @@ if Rails.env.development? || Rails.env.staging?
   child_protocol.measurements.each do |measurement|
     questionnaire = measurement.questionnaire
     random_response_content = RandomResponseGenerator.generate(questionnaire.content)
+    # create the respons content in the special way
+    # call complete! on the response
   end
 =end
 end

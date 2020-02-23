@@ -629,6 +629,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
     section_end: true
   }
 ]
+invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {
   questions: dagboek_content,
   scores: [
@@ -641,10 +642,10 @@ dagboek1.content = {
       label: 'Empathie',
       ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16 v3_19 v3_21],
       preprocessing: {
-        v3_3: { multiply_with: -1, offset: 100 },
-        v3_13: { multiply_with: -1, offset: 100 },
-        v3_2: { multiply_with: -1, offset: 100 },
-        v3_11: { multiply_with: -1, offset: 100 }
+        v3_3: invert,
+        v3_13: invert,
+        v3_2: invert,
+        v3_11: invert
       },
       operation: :average,
       round_to_decimals: 0 },
@@ -657,14 +658,14 @@ dagboek1.content = {
       label: 'Niet oordelen',
       ids: %i[v4_3 v4_10 v4_14 v4_17 v4_25 v4_30 v4_35 v4_39],
       preprocessing: {
-        v4_3: { multiply_with: -1, offset: 100 },
-        v4_10: { multiply_with: -1, offset: 100 },
-        v4_14: { multiply_with: -1, offset: 100 },
-        v4_17: { multiply_with: -1, offset: 100 },
-        v4_25: { multiply_with: -1, offset: 100 },
-        v4_30: { multiply_with: -1, offset: 100 },
-        v4_35: { multiply_with: -1, offset: 100 },
-        v4_39: { multiply_with: -1, offset: 100 }
+        v4_3: invert,
+        v4_10: invert,
+        v4_14: invert,
+        v4_17: invert,
+        v4_25: invert,
+        v4_30: invert,
+        v4_35: invert,
+        v4_39: invert
       },
       operation: :average,
       round_to_decimals: 0 },

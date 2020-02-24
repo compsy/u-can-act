@@ -230,7 +230,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
   }, {
     id: :v2_28,
     type: :textfield,
-    title: 'arm /veld / stil',
+    title: 'arm / veld / stil',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
     required: true
   }, {
@@ -448,6 +448,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     content: [{
                 id: :v5_1,
                 type: :textarea,
+                required: true,
                 title: 'Wat kun je doen met een melkpak?',
                 tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.'}],
     section_end: true

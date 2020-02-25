@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'addressable'
+
+require 'addressable/uri'
 
 class EmailRegistration < ActiveInteraction::Base
   object :person

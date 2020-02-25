@@ -150,6 +150,8 @@ group :production, :staging do
   gem 'daemons'
 end
 
+gem 'addressable'
+
 gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do

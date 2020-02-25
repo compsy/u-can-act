@@ -10,7 +10,7 @@ if Rails.env.development? || Rails.env.staging?
                       'seeds',
                       'questionnaires',
                       '**',
-                      '*.rb')].map{|x|File.basename(x, '.rb')}.each do |questionnaire_key|
+                      '*.rb')].map { |x| File.basename(x, '.rb') }.each do |questionnaire_key|
     questionnaire = Questionnaire.find_by(key: questionnaire_key)
     next unless questionnaire
 
@@ -42,7 +42,7 @@ if Rails.env.development? || Rails.env.staging?
     puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
   end
   puts ''
-=begin
+
   team = Team.find_by(name: 'IKIA')
 
   # Create user with responses
@@ -56,14 +56,25 @@ if Rails.env.development? || Rails.env.staging?
   child_person.account_active = true
   child_person.save!
 
+  child_auth_user = child_person.auth_user
+  child_auth_user ||= child_person.build_auth_user
+  child_auth_user.access_level = AuthUser::USER_ACCESS_LEVEL
+  child_auth_user.auth0_id_string = 'CHILDAUTHIDSTRING'
+  child_auth_user.save!
+
   # create responses
   child_protocol = Protocol.find_by(name: 'kids')
-  child_person.responses.destroy_all
+  child_person.protocol_subscriptions.destroy_all
+  child_protsub = ProtocolSubscription.create!(protocol: child_protocol, person: child_person,
+                                               start_date: 1.hour.ago, informed_consent_given_at: Time.zone.now,
+                                               state: ProtocolSubscription::ACTIVE_STATE)
   child_protocol.measurements.each do |measurement|
     questionnaire = measurement.questionnaire
     random_response_content = RandomResponseGenerator.generate(questionnaire.content)
-    # create the respons content in the special way
-    # call complete! on the response
+    response = Response.create!(measurement: measurement, protocol_subscription: child_protsub,
+                                open_from: 5.minutes.ago, opened_at: 3.minutes.ago)
+    response_content = ResponseContent.create_with_scores!(content: random_response_content, response: response)
+    response.update!(content: response_content.id.to_s)
+    response.complete!
   end
-=end
 end

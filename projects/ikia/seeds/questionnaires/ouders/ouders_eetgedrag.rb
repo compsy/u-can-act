@@ -46,7 +46,7 @@ dagboek_content = [
     id: :v5,
     type: :range,
     title: 'Hoe lang duurt een maaltijd van uw kind (in minuten)?',
-    labels: ['In het begin', 'Aan het eind'],
+    labels: ['0 minuten', '60 minuten of meer'],
     required: true
   }, {
     id: :v6,

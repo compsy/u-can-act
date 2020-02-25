@@ -44,9 +44,10 @@ dagboek_content = [
     required: true
   }, {
     id: :v5,
-    type: :likert,
+    type: :range,
     title: 'Hoe lang duurt een maaltijd van uw kind (in minuten)?',
-    options: likert_options
+    labels: ['In het begin', 'Aan het eind'],
+    required: true
   }, {
     id: :v6,
     type: :range,

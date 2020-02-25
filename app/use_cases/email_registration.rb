@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'addressable/uri'
+
 class EmailRegistration < ActiveInteraction::Base
   object :person
 
@@ -21,7 +23,7 @@ class EmailRegistration < ActiveInteraction::Base
     params_arr = %i[target_audience email]
     shared_secret = ENV['SHARED_SECRET']
     params_hsh = { target_audience: person.role.title, email: person.email }
-    uri = ::Addressable::URI.new
+    uri = Addressable::URI.new
     uri.query_values = ParameterHasher.generate_hmac_params(params_arr, params_hsh, shared_secret)
     uri.query
   end

@@ -59,7 +59,7 @@ if Rails.env.development? || Rails.env.staging?
   child_auth_user = child_person.auth_user
   child_auth_user ||= child_person.build_auth_user(password_digest: SecureRandom.hex(10))
   child_auth_user.access_level = AuthUser::USER_ACCESS_LEVEL
-  child_auth_user.auth0_id_string = 'CHILDAUTHIDSTRING'
+  child_auth_user.auth0_id_string = 'auth0|5e555e6737de640d5dd40873'
   child_auth_user.save!
 
   # create responses

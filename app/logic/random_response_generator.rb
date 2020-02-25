@@ -58,7 +58,7 @@ class RandomResponseGenerator
       question[attr].each do |option|
         title = option
         title = option[:title] if option.is_a?(Hash) && option.key?(:title)
-        raise "The following option could not be resolved to a string: #{option}" unless option.is_a?(String)
+        raise "The following option could not be resolved to a string: #{option}" unless title.is_a?(String)
 
         titles << title
       end
@@ -86,7 +86,7 @@ class RandomResponseGenerator
       qmax = question[:max] if question[:max].present?
       qstep = 1
       qstep = question[:step] if question[:step].present?
-      {min: qmin, max: qmax, step: qstep}
+      { min: qmin, max: qmax, step: qstep }
     end
 
     def generate_answer_for_checkbox(question)

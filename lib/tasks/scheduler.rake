@@ -59,9 +59,7 @@ namespace :scheduler do
     # TODO: write a spec for me
     # Does not need to be called unless score definitions were updated.
     Rails.logger.info('Recalculating scores - started')
-    Questionnaire.all.each do |questionnaire|
-      questionnaire.recalculate_scores!
-    end
+    Questionnaire.all.each(&:recalculate_scores!)
     Rails.logger.info('Recalculating scores - done')
   end
 

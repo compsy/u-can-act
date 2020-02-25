@@ -488,6 +488,7 @@ PLATFORMS
 DEPENDENCIES
   active_interaction
   active_model_serializers
+  addressable
   animate-rails!
   appsignal
   bcrypt

@@ -32,6 +32,9 @@ Rails/Blank:
 Layout/LineLength:
   Max: 120
 
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
 # Default is 5
 Metrics/ParameterLists:
   Max: 6

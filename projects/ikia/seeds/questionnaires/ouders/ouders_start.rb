@@ -95,9 +95,9 @@ dagboek_content = [
       'Ik doe vrijwilligerswerk',]
   }, {
     type: :raw,
-    content: '<p class="flow-text"> De volgende vragen gaan over uw kind. De volgende vragenlijsten gaan over ditzelfde kind. Het is belangrijk dat u bij het invullen van de vragenlijsten hetzelfde kind in gedachten houdt. Heeft u nog meer kinderen en wilt u voor hen ook vragenlijsten invullen? Maak dan meerdere accounts aan. <br>
+    content: '<p class="flow-text"> Het is belangrijk dat u de vragenlijsten in dit onderzoek steeds over hetzelfde kind invult. Als u meerdere kinderen heeft waarover u vragenlijsten in wilt vullen, dan kunt u meerdere accounts aanmaken. <br>
 <br>
-Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname ziet u in de toekomstige vragenlijsten, zodat u weet over welk kind de vragen gaan.</p>'
+Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheugensteuntje kunt u hieronder uw kind een nickname (bijnaam) geven. Deze nickname ziet u in de toekomst bij de vragenlijsten.</p>'
   }, {
     id: :v9,
     type: :textfield,

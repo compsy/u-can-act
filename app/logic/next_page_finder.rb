@@ -5,8 +5,12 @@ class NextPageFinder
     include Rails.application.routes.url_helpers
 
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
     def get_next_page(current_user:, previous_response: nil, next_response: nil, params: {})
       return previous_response.measurement.redirect_url if previous_response&.measurement&.redirect_url
+
+      # If we come from an OTR, we never want to be redirected to the next response lined up
+      return klaar_path if previous_response&.protocol&.otr_protocol?
 
       next_response ||= current_user.my_open_responses.first
 
@@ -22,6 +26,7 @@ class NextPageFinder
 
       klaar_path
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/AbcSize
   end
 end

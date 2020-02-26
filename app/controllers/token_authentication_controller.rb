@@ -9,7 +9,9 @@ class TokenAuthenticationController < ApplicationController
   PERSON_ID_COOKIE = :person_id
 
   def show
-    redirect_to questionnaire_index_path
+    responses = InvitationToken.find_attached_responses(questionnaire_params[:q])
+    redirect_to klaar_path if responses.blank?
+    redirect_to questionnaire_path(uuid: responses.first.uuid)
   end
 
   private

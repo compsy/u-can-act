@@ -86,12 +86,13 @@ dagboek_content = [
     section_end: true
   }, {
     id: :v5,
-    type: :likert,
+    type: :radio,
     title: 'Heeft u huisdieren?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja', shows_questions: %i[v5_a]}
-    ]
+      {title: 'Ja', shows_questions: %i[v5_a]},
+      {title: 'Nee'}
+    ],
+    show_otherwise: false
   }, {
     id: :v5_a,
     hidden: true,
@@ -150,17 +151,17 @@ dagboek_content = [
     id: :v9,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er bij uw kind een aangeboren afwijking of aandoening geconstateerd?',
+    title: 'Is er bij uw kind één of meerdere aangeboren lichamelijke aandoening(en) geconstateerd?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja', shows_questions: %i[v9_a ]}
+      {title: 'Ja', shows_questions: %i[v9_a ]},
+      {title: 'Nee'}
     ]
   }, {
     id: :v9_a,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
-    title: 'Om welke aangeboren afwijking of aandoening gaat het?',
+    title: 'Om welke aangeboren aandoening(en) gaat het?',
     options: [
       {title: 'Schisis (gespleten lip, kaak of gehemelte)'},
       {title: 'Cerebrale parese (hersenverlamming)'},
@@ -177,23 +178,22 @@ dagboek_content = [
     id: :v10,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er bij uw kind een levensbedreigende of chronische ziekte geconstateerd waarvoor hij of zij onder behandeling is (geweest) van een arts?',
+    title: 'Is er bij uw kind sprake van één of meerdere lichamelijke ziekte(s) waarvoor hij/zij onder behandeling is (geweest) van een arts?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja', shows_questions: %i[v10_a ]}
+      {title: 'Ja', shows_questions: %i[v10_a ]},
+      {title: 'Nee'}
     ],
     section_end: false
   }, {
     id: :v10_a,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
-    title: 'Om welke ziekte gaat het?',
+    title: 'Om welke ziekte(s) gaat het?',
     options: [
       {title: 'Astma'},
       {title: 'Chronisch eczeem'},
       {title: 'Darmstoornis'},
-      {title: 'Lichamelijke aandoeningen'},
       {title: 'Diabetes mellitus'},
       {title: 'Migraine/ ernstige hoofdpijn'},
       {title: 'Chronische gewrichtsontsteking'},
@@ -203,20 +203,20 @@ dagboek_content = [
     id: :v11,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er bij uw kind sprake van een psychologische aandoening of ziekte?',
+    title: 'Is er bij uw kind sprake van één of meerdere psychologische aandoening(en)?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja', shows_questions: %i[v11_a, v11_b, v11_c ]}
+      {title: 'Ja', shows_questions: %i[v11_a v11_b v11_c]},
+      {title: 'Nee', shows_questions: %i[v12]}
     ]
   }, {
     id: :v11_a,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
-    title: 'Om welke psychologische aandoening of ziekte gaat het?',
+    title: 'Om welke psychologische aandoening(en) gaat het?',
     options: [
       {title: 'AD(H)D'},
-      {title: 'Autisme'},
+      {title: 'Autisme (Spectrum Stoornis)'},
       {title: 'Angststoornis of fobie'},
       {title: 'Depressie'},
       {title: 'Syndroom van Tourette'},
@@ -229,9 +229,9 @@ dagboek_content = [
   }, {
     id: :v11_b,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
-    title: 'Door wie is deze aandoening of ziekte vastgesteld?',
+    title: 'Door wie is/zijn deze aandoening(en) vastgesteld?',
     options: [
       {title: 'Psychiater of psycholoog'},
       {title: 'Huisarts'},
@@ -239,21 +239,22 @@ dagboek_content = [
   }, {
     id: :v11_c,
     hidden: true,
-    type: :likert,
+    type: :radio,
     title: 'Is uw kind hiervoor in behandeling (geweest)?',
     options: [
-      {title: 'Nee', shows_questions: %i[v12]},
-      {title: 'Ja, op dit moment', shows_questions: %i[v11_c1, v11_c2]},
-      {title: 'Ja, maar op dit moment niet meer', shows_questions: %i[v11_a, v11_b, v11_c ]}
-    ]
+      {title: 'Ja, op dit moment', shows_questions: %i[v11_c1 v11_c2]},
+      {title: 'Ja, maar op dit moment niet meer', shows_questions: %i[v11_c1 v11c_2]},
+      {title: 'Nee', shows_questions: %i[v12]}
+    ],
+    show_otherwise: true
   }, {
     id: :v11_c1,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
-    title: 'Om welke behandeling of behandelingen gaat het?',
+    title: 'Om welke behandeling(en) gaat het?',
     options: [
-      {title: 'Psychotherapie Behandeling (gesprekken met een psycholoog)'},
+      {title: 'Psychotherapie (gesprekken met een psycholoog)'},
       {title: 'Sociale Vaardigheidstraining'},
       {title: 'Medicatie'},
       {title: 'Kindercoach'},
@@ -276,17 +277,17 @@ dagboek_content = [
   }, {
     id: :v13,
     type: :radio,
-    title: 'Is er bij uw kind sprake van een leerstoornis?',
+    title: 'Is er bij uw kind sprake van één of meerdere leerstoornis(sen)?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja', shows_questions: %i[v13_a ]}
+      {title: 'Ja', shows_questions: %i[v13_a ]},
+      {title: 'Nee'}
     ]
   }, {
     id: :v13_a,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
-    title: 'Om welke leerstoornis gaat het?',
+    title: 'Om welke leerstoornis(sen) gaat het?',
     options: [
       {title: 'Dyslexie'},
       {title: 'Dyscalculie'},
@@ -298,17 +299,17 @@ dagboek_content = [
   }, {
     id: :v14,
     type: :radio,
-    title: 'Is er bij uw kind sprake van een (aangeboren of door ziekte of ongeval opgelopen) handicap?',
+    title: 'Is er bij uw kind sprake van één of meerdere (aangeboren of door ziekte of ongeval opgelopen) handicap(s)?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja', shows_questions: %i[v14_a ]}
+      {title: 'Ja', shows_questions: %i[v14_a ]},
+      {title: 'Nee'}
     ]
   }, {
     id: :v14_a,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
-    title: 'Om welke handicap gaat het?',
+    title: 'Om welke handicap(s) gaat het?',
     options: [
       {title: 'Doofheid'},
       {title: 'Blindheid'},
@@ -322,15 +323,14 @@ dagboek_content = [
     section_start: 'De volgende vragen gaan over de ontwikkeling van uw kind tijdens zijn/haar eerste vier levensjaren. ',
     id: :v15,
     type: :range,
-    title: 'Hoe verliep de motorische ontwikkeling van uw kind (leren staan, leren lopen, leren
-traplopen, leren fietsen)?',
+    title: 'Hoe verliep de motorische ontwikkeling van uw kind (leren staan, (trap)lopen, fietsen)?',
     labels: ['Veel langzamer dan gemiddeld', 'Ongeveer gemiddeld', 'Veel sneller dan gemiddeld'],
     required: true,
     section_end: false
   }, {
     id: :v16,
     type: :range,
-    title: 'Hoe verliep de taalontwikkeling van uw kind (eerste woordjes, eerste zinnetjes,
+    title: 'Hoe verliep de taalontwikkeling van uw kind (eerste woordjes en zinnetjes,
 begrip van taal)?',
     labels: ['Veel langzamer dan gemiddeld', 'Ongeveer gemiddeld', 'Veel sneller dan gemiddeld'],
     required: true

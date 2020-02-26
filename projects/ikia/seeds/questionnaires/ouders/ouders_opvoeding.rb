@@ -14,7 +14,7 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> Iedere ouder heeft een eigen aanpak als het om opvoeden gaat. In deze vragenlijst onderzoekt u uw opvoedingsstijl. Er zijn in totaal X vragen. Hier bent u ongeveer X minuten mee bezig. Verplaats het bolletje naar het antwoord dat het beste bij u past. </p>'
+    content: '<p class="flow-text"> Iedere ouder heeft een eigen aanpak als het om opvoeden gaat. In deze vragenlijst onderzoekt u uw opvoedingsstijl. Er zijn in totaal 46 vragen. Hier bent u ongeveer X minuten mee bezig. Kies het antwoord dat het beste bij u past. </p>'
   }, {
     id: :v1,
     type: :likert,

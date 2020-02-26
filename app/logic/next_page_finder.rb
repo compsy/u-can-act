@@ -8,8 +8,10 @@ class NextPageFinder
     def get_next_page(current_user:, previous_response: nil, next_response: nil, params: {})
       return previous_response.measurement.redirect_url if previous_response&.measurement&.redirect_url
 
-      next_response ||= current_user.my_open_one_time_responses(true).first
       next_response ||= current_user.my_open_responses.first
+
+      # We only want to schedule OTRs when we're not in a normal questionnaire
+      next_response ||= current_user.my_open_one_time_responses(true).first if previous_response.blank?
 
       return questionnaire_path(uuid: next_response.uuid, **params) if next_response.present?
 

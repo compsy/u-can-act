@@ -34,7 +34,7 @@ describe Api::V1::SettingsController, type: :controller do
     it 'contains all elements in the yaml' do
       expect(result_keys).not_to be_blank
       def recursive_check(hash, yaml)
-        yaml.keys.each do |key|
+        yaml.each_key do |key|
           cur = hash[key]
           cur_yaml = yaml[key]
           if cur_yaml.is_a?(String)

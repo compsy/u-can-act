@@ -35,6 +35,15 @@ Layout/LineLength:
 Layout/EndOfLine:
   EnforcedStyle: lf
 
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
 # Default is 5
 Metrics/ParameterLists:
   Max: 6

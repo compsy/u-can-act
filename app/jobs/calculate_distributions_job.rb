@@ -13,7 +13,7 @@ class CalculateDistributionsJob < ApplicationJob
   end
 
   def clean_up_redis
-    RedisService.keys.each do |key|
+    RedisService.each_key do |key|
       next unless key.match?(/^distribution_/)
 
       # Delete the distribution unless it is a known questionnaire. Here we strip the prefix 'distribution_'

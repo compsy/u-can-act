@@ -27,8 +27,8 @@ class RandomResponseGenerator
       nil
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     def generate_answer_for_question(question)
-      # TODO: use RandomAlphaNumericStringGenerator to generate stuff for text fields
       case question[:type]
       when :radio, :likert, :dropdown
         generate_answer_for_radio(question)
@@ -40,10 +40,13 @@ class RandomResponseGenerator
         generate_answer_for_text(question)
       when :number
         generate_answer_for_number(question)
+      when :date
+        generate_answer_for_date(question)
       else
         raise MyRandomResponseError, "Cannot generate answer for question of type #{question[:type]}"
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def generate_answer_for_radio(question)
       cur_titles = titles(question, :options)
@@ -77,6 +80,19 @@ class RandomResponseGenerator
     def generate_answer_for_number(question)
       minmax = determine_min_max_step(question)
       rand(minmax[:min]..minmax[:max])
+    end
+
+    def generate_answer_for_date(question)
+      minmax = determine_min_max_date(question)
+      rand(minmax[:min]..minmax[:max]).to_formatted_s(:db)
+    end
+
+    def determine_min_max_date(question)
+      qmin = Time.zone.today
+      qmin = Date.new(*question[:min]) if question[:min].present?
+      qmax = qmin
+      qmax = Date.new(*question[:max]) if question[:max].present?
+      { min: qmin, max: qmax }
     end
 
     def determine_min_max_step(question)

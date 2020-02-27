@@ -103,7 +103,7 @@ section_start: 'De volgende vragen gaan over jou en je <b>beste vriend(in)</b>. 
 id: :v2_2,
 type: :range,
 hidden: true,
-title: 'Mijn vriend(in) brengen bijna al onze vrije tijd samen door.',
+title: 'Mijn vriend(in) en ik brengen bijna al onze vrije tijd samen door.',
 labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
 required: true,
 section_end: false

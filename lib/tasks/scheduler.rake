@@ -54,6 +54,15 @@ namespace :scheduler do
     Rails.logger.info('Calculating distributions - done')
   end
 
+  desc 'Recalculate all scores'
+  task recalculate_scores: :environment do
+    # TODO: write a spec for me
+    # Does not need to be called unless score definitions were updated.
+    Rails.logger.info('Recalculating scores - started')
+    Questionnaire.all.each(&:recalculate_scores!)
+    Rails.logger.info('Recalculating scores - done')
+  end
+
   desc 'Regenerate questionnaire headers'
   task generate_questionnaire_headers: :environment do
     Rails.logger.info('Generating questionnaire headers - started')

@@ -36,13 +36,13 @@ Layout/EndOfLine:
   EnforcedStyle: lf
 
 Style/HashEachMethods:
-  Enabled: true
+  Enabled: false
 
 Style/HashTransformKeys:
-  Enabled: true
+  Enabled: false
 
 Style/HashTransformValues:
-  Enabled: true
+  Enabled: false
 
 # Default is 5
 Metrics/ParameterLists:

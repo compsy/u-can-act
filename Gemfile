@@ -130,6 +130,8 @@ group :test do
 
   # Cleans the database after specs
   gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
+  gem 'database_cleaner-mongoid'
 
   # Integration testing
   gem 'capybara'

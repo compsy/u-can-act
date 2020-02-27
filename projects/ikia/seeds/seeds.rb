@@ -10,7 +10,7 @@ if Rails.env.development? || Rails.env.staging?
                       'seeds',
                       'questionnaires',
                       '**',
-                      '*.rb')].map{|x|File.basename(x, '.rb')}.each do |questionnaire_key|
+                      '*.rb')].map { |x| File.basename(x, '.rb') }.each do |questionnaire_key|
     questionnaire = Questionnaire.find_by(key: questionnaire_key)
     next unless questionnaire
 
@@ -24,7 +24,7 @@ if Rails.env.development? || Rails.env.staging?
     boek_protocol.save!
 
     boek_id = questionnaire.id
-    boek_measurement = boek_protocol.measurements.find_by_questionnaire_id(boek_id)
+    boek_measurement = boek_protocol.measurements.find_by(questionnaire_id: boek_id)
     boek_measurement ||= boek_protocol.measurements.build(questionnaire_id: boek_id)
     boek_measurement.open_from_offset = 0 # open right away
     boek_measurement.period = nil # one-off and not repeated

@@ -32,6 +32,18 @@ Rails/Blank:
 Layout/LineLength:
   Max: 120
 
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
+Style/HashEachMethods:
+  Enabled: false
+
+Style/HashTransformKeys:
+  Enabled: false
+
+Style/HashTransformValues:
+  Enabled: false
+
 # Default is 5
 Metrics/ParameterLists:
   Max: 6

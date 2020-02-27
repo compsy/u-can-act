@@ -59,7 +59,7 @@ labels: ['Helemaal niet waar', 'Soms waar', 'Altijd waar'],
 required: true,
 section_end: true
 },{
-id: :v2_1a,
+id: :v2_1,
 type: :radio,
 title: 'Ik heb een <b>beste</b> vriend(in).',
 show_otherwise: false,

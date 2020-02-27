@@ -22,7 +22,6 @@ if [ "$RESET_DB_ON_FAIL" == "true" ]; then
   else
     bundle exec rails db:migrate && bundle exec rails db:seed || { bundle exec rails db:drop && bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rake db:migrate RAILS_ENV=test && bundle exec rails db:seed; }
   fi
-  bundle exec rails scheduler:calculate_distributions
 else
   echo not resetting db on fail
   bundle exec rails db:migrate && bundle exec rails db:seed || { bundle exec rails db:setup; }

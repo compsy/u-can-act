@@ -26,5 +26,10 @@ Dir[Rails.root.join('projects', seed_directory, 'seeds', '*.rb')].each do |file|
   require file
 end
 
+if Rails.env.development?
+  puts 'Recalculating scores and distributions for all questionnaires...'
+  Questionnaire.all.each(&:recalculate_scores!)
+end
+
 # Remember to use create!/save! instead of create/save everywhere in seeds
 puts 'Seeds loaded!'

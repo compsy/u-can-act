@@ -105,3 +105,17 @@ describe 'rake scheduler:calculate_distributions', type: :task do
     task.execute
   end
 end
+
+describe 'rake scheduler:recalculate_questionnaires', type: :task do
+  it 'preloads the Rails environment' do
+    expect(task.prerequisites).to include 'environment'
+  end
+
+  it 'calls the rescheduling job' do
+    FactoryBot.create(:questionnaire)
+    expect(Rails.logger).to receive(:info).once.ordered.with('Recalculating questionnaires - started')
+    expect_any_instance_of(Questionnaire).to receive(:recalculate_scores!)
+    expect(Rails.logger).to receive(:info).once.ordered.with('Recalculating questionnaires - done')
+    task.execute
+  end
+end

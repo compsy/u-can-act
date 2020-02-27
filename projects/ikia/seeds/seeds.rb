@@ -44,48 +44,9 @@ if Rails.env.development? || Rails.env.staging?
   puts ''
 
   # Create dummy users with responses
-  def create_dummy!(role_title:, role_group:, email:, first_name:, auth0_id_string:, protocol_name:)
-    puts "Creating #{first_name} dummy..."
-    team = Team.find_by(name: 'IKIA')
-    role = team.roles.where(group: role_group, title: role_title).first
-
-    auth_user = AuthUser.find_by(auth0_id_string: auth0_id_string)
-    person = nil
-    person = auth_user.person if auth_user.present?
-    Person.find_by(email: email)&.destroy unless person.present?
-    person ||= Person.new
-    person.email = email
-    person.first_name = first_name
-    person.last_name = 'Test'
-    person.role = role
-    person.account_active = true
-    person.save!
-
-    auth_user ||= person.auth_user
-    auth_user ||= person.build_auth_user(password_digest: SecureRandom.hex(10))
-    auth_user.person_id = person.id
-    auth_user.access_level = AuthUser::USER_ACCESS_LEVEL
-    auth_user.auth0_id_string = auth0_id_string
-    auth_user.save!
-
-    # create responses
-    protocol = Protocol.find_by(name: protocol_name)
-    person.protocol_subscriptions.destroy_all
-    protsub = ProtocolSubscription.create!(protocol: protocol, person: person,
-                                           start_date: 1.hour.ago, informed_consent_given_at: Time.zone.now,
-                                           state: ProtocolSubscription::ACTIVE_STATE)
-    protocol.measurements.each do |measurement|
-      questionnaire = measurement.questionnaire
-      random_response_content = RandomResponseGenerator.generate(questionnaire.content)
-      response = Response.create!(measurement: measurement, protocol_subscription: protsub,
-                                  open_from: 5.minutes.ago, opened_at: 3.minutes.ago)
-      response_content = ResponseContent.create_with_scores!(content: random_response_content, response: response)
-      response.update!(content: response_content.id.to_s)
-      response.complete!
-    end
-  end
-
-  create_dummy!(
+  puts 'Creating Child dummy...'
+  CreateDummyUser.run!(
+    team_name: 'IKIA',
     role_title: 'kids',
     role_group: Person::STUDENT,
     email: 'ikia-child@compsy.nl',
@@ -93,7 +54,9 @@ if Rails.env.development? || Rails.env.staging?
     auth0_id_string: 'auth0|5e555e6737de640d5dd40873',
     protocol_name: 'kids'
   )
-  create_dummy!(
+  puts 'Creating Teen dummy...'
+  CreateDummyUser.run!(
+    team_name: 'IKIA',
     role_title: 'teens',
     role_group: Person::STUDENT,
     email: 'ikia-teen@compsy.nl',
@@ -101,7 +64,9 @@ if Rails.env.development? || Rails.env.staging?
     auth0_id_string: 'auth0|5e5564fe37de640d5dd4119c',
     protocol_name: 'teens'
   )
-  create_dummy!(
+  puts 'Creating Youngadult dummy...'
+  CreateDummyUser.run!(
+    team_name: 'IKIA',
     role_title: 'youngadults',
     role_group: Person::STUDENT,
     email: 'ikia-youngadult@compsy.nl',
@@ -109,7 +74,9 @@ if Rails.env.development? || Rails.env.staging?
     auth0_id_string: 'auth0|5e570d590767ca173c72d7b1',
     protocol_name: 'youngadults'
   )
-  create_dummy!(
+  puts 'Creating Parent dummy...'
+  CreateDummyUser.run!(
+    team_name: 'IKIA',
     role_title: 'parents',
     role_group: Person::MENTOR,
     email: 'ikia-parent@compsy.nl',

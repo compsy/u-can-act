@@ -29,6 +29,9 @@ class RandomResponseGenerator
 
     # rubocop:disable Metrics/CyclomaticComplexity
     def generate_answer_for_question(question)
+      # The following types are currently unsupported (no answers will be generated for them):
+      # :drawing, :time, :expandable
+      # The question types :raw and :unsubscribe never generate answers in a response, so they are supported.
       case question[:type]
       when :radio, :likert, :dropdown
         generate_answer_for_radio(question)
@@ -70,7 +73,7 @@ class RandomResponseGenerator
     end
 
     def generate_answer_for_text(_question)
-      RandomAlphaNumericStringGenerator.generate(rand(20..30))
+      RandomStringGenerator.generate_alphabetical(rand(5..30))
     end
 
     def generate_answer_for_range(question)

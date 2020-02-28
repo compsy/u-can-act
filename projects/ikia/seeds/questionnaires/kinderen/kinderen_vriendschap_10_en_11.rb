@@ -433,6 +433,49 @@ v2_41 v2_42 v2_43 v2_44 v2_45 v2_46 v2_47] },
     required: true,
     section_end: true
   }]
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Samen zijn',
+      ids: %i[v2_2 v2_7 v2_19 v2_22 v2_23],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Elkaar helpen',
+      ids: %i[v2_17 v2_18 v2_24 v2_28 v2_32 v2_33 v2_34 v2_36 v2_39],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Over problemen en zorgen praten',
+      ids: %i[v2_14 v2_16 v2_25 v2_29 v2_38 v2_40],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s4,
+      label: 'Ruzies en irritaties',
+      ids: %i[v2_3 v2_9 v2_20 v2_21 v2_27 v2_31 v2_37],
+      preprocessing: {
+        v2_3: invert,
+        v2_9: invert,
+        v2_20: invert,
+        v2_27: invert,
+        v2_31: invert,
+        v2_37: invert},
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s5,
+      label: 'Ruzies goedmaken',
+      ids: %i[v2_11 v2_26 v2_35],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s6,
+      label: 'Eenzaamheid',
+      ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8 v1_9 v1_10 v1_11 v1_12 v1_13],
+      operation: :average,
+      round_to_decimals: 0 }
+    ]
+  } 
 dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

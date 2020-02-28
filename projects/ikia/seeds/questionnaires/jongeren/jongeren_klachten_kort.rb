@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 db_title = 'Binnenwereld en buitenwereld'
-
 db_name1 = 'Klachten_Kort_Jongeren'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
@@ -72,7 +71,7 @@ dagboek_content = [
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
     required: true
   }, {
-    id: :v2,
+    id: :v11,
     type: :range,
     title: 'Ik heb minstens één goede vriend of vriendin.',
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
@@ -165,10 +164,10 @@ dagboek_content = [
     title: 'Denk je dat je moeilijkheden hebt met emoties?',
     type: :likert,
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g] }
     ]
   }, {
     id: :v26_a,
@@ -176,10 +175,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v26_b,
@@ -222,10 +221,10 @@ dagboek_content = [
     type: :likert,
     title: 'Denk je dat je moeilijkheden hebt met concentratie?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] }
     ]
   }, {
     id: :v27_a,
@@ -233,10 +232,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v27_b,
@@ -279,10 +278,10 @@ dagboek_content = [
     type: :likert,
     title: 'Denk je dat je moeilijkheden hebt met je gedrag?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g] }
     ]
   }, {
     id: :v28_a,
@@ -290,10 +289,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v28_b,
@@ -336,10 +335,10 @@ dagboek_content = [
     type: :likert,
     title: 'Denk je dat je moeilijkheden hebt om met andere mensen op te schieten?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g] }
     ]
   }, {
     id: :v29_a,
@@ -347,10 +346,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v29_b,
@@ -495,6 +494,30 @@ dagboek_content = [
     required: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Binnenwereld',
+      ids: %i[v3 v8 v13 v16 v24 v6 v11 v14 v19 v23],
+      preprocessing: {
+        v11: invert,
+        v14: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Buitenwereld',
+      ids: %i[v5 v7 v12 v18 v22 v2 v10 v15 v21 v25],
+      preprocessing: {
+        v7: invert,
+        v21: invert,
+        v25: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

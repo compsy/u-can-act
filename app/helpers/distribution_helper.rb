@@ -20,6 +20,7 @@ module DistributionHelper
 
     range_questions(@questionnaire_content[:questions]) +
       other_questions(@questionnaire_content[:questions]) +
+      checkbox_questions(@questionnaire_content[:questions]) +
       scores(@questionnaire_content[:scores])
   end
 
@@ -41,6 +42,34 @@ module DistributionHelper
       .map do |question|
       { id: question[:id].to_s, type: question[:type], combines_with: question[:combines_with] }
     end
+  end
+
+  def checkbox_questions(questionnaire_content)
+    questions = []
+    questionnaire_content
+      .select { |question| %i[checkbox].include?(question[:type]) }
+      .each do |question|
+      generate_checkbox_options(question).each do |option|
+        questions << option
+      end
+    end
+    questions
+  end
+
+  def generate_checkbox_options(question)
+    options = []
+    cur_titles = titles(question, :options)
+    return options if cur_titles.size.zero?
+
+    cur_titles.each do |title|
+      options << idify(question[:id], title)
+    end
+    unless question.key?(:show_otherwise) && question[:show_otherwise].blank?
+      otherwise_label = QuestionTypeGenerator::OTHERWISE_TEXT
+      otherwise_label = question[:otherwise_label] if question[:otherwise_label].present?
+      options << idify(question[:id], otherwise_label)
+    end
+    options.uniq.map { |option| { id: option, type: question[:type], combines_with: nil } }
   end
 
   def scores(questionnaire_content)

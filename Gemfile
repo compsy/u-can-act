@@ -20,7 +20,7 @@ gem 'pg', '= 1.1.4'
 gem 'redis'
 
 # Use Puma as the app server
-gem 'puma'
+gem 'puma', '>= 4.3.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6.0.0'
 # Use HAML for templates

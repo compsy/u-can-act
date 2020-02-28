@@ -15,7 +15,7 @@ class CreateDummyUser < ActiveInteraction::Base
   # questionnaire (measurement) in that protocol. The goal is to have an easy way to view
   # results pages.
   # Only use this for dummy accounts, because we destroy all protocol subscriptions of the
-  # use if they already exist.
+  # user if they already exist.
   #
   # Params:
   # - team_name: the name of the team to create the person with

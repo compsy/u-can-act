@@ -30,8 +30,8 @@ Sommige kinderen hebben meer dan 1 thuis.',
     show_otherwise: false,
     title: 'In hoeveel verschillende huizen woon je?',
     options: [
-      {title: '1 huis', shows_questions: %i[v2, v3, v4]},
-      {title: '2 of meer huizen', shows_questions: %i[v5, v6, v7, v8, v9, v10, v11, v12]}],
+      { title: '1 huis', shows_questions: %i[v2, v3, v4] },
+      { title: '2 of meer huizen', shows_questions: %i[v5, v6, v7, v8, v9, v10, v11, v12] }],
     section_end: false
   }, {
     id: :v2,
@@ -39,8 +39,8 @@ Sommige kinderen hebben meer dan 1 thuis.',
     type: :likert,
     title: 'Heb je in dit huis een eigen kamer?',
     options: [
-      {title: 'Ja'},
-      {title: 'Nee'}]
+      { title: 'Ja' },
+      { title: 'Nee' }]
   }, {
     id: :v3,
     hidden: true,
@@ -101,9 +101,9 @@ Deze persoon is mijn:',
         show_otherwise: false,
         title: 'Is deze persoon een jongen of een meisje?',
         options: [
-          {title: 'Jongen'},
-          {title: 'Meisje'},
-          {title: 'Anders'}]
+          { title: 'Jongen' },
+          { title: 'Meisje' },
+          { title: 'Anders' }]
       }, {
         id: :v4_5,
         type: :radio,
@@ -112,7 +112,8 @@ Deze persoon is mijn:',
 Kies 1 van de 5 plaatjes',
         options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5],
         show_otherwise: false
-      }],
+      }
+    ],
     section_end: true
   }, {
     id: :v5,
@@ -122,14 +123,14 @@ Kies 1 van de 5 plaatjes',
     section_start: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont.',
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
-      {title: 'Minder dan 1 nacht per week'},
-      {title: '1 nacht per week'},
-      {title: '2 nachten per week'},
-      {title: '3 nachten per week'},
-      {title: '4 nachten per week'},
-      {title: '5 nachten per week'},
-      {title: '6 nachten per week'},
-      {title: '7 nachten per week'}],
+      { title: 'Minder dan 1 nacht per week' },
+      { title: '1 nacht per week' },
+      { title: '2 nachten per week' },
+      { title: '3 nachten per week' },
+      { title: '4 nachten per week' },
+      { title: '5 nachten per week' },
+      { title: '6 nachten per week' },
+      { title: '7 nachten per week' }],
     section_end: false
   }, {
     id: :v6,
@@ -138,8 +139,8 @@ Kies 1 van de 5 plaatjes',
     show_otherwise: false,
     title: 'Heb je in dit huis een eigen kamer?',
     options: [
-      {title: 'Ja'},
-      {title: 'Nee'}]
+      { title: 'Ja' },
+      { title: 'Nee' }]
   }, {
     id: :v7,
     hidden: true,
@@ -160,57 +161,60 @@ Kies 1 van de 5 plaatjes',
     type: :expandable,
     default_expansions: 1,
     max_expansions: 20,
-    content: [{
-                type: :raw,
-                content: '<p class="flow-text">Persoon</p>'
-              }, {
-                id: :v8_1,
-                type: :radio,
-                title: 'Wie is deze persoon? <br>
+    content: [
+      {
+        type: :raw,
+        content: '<p class="flow-text">Persoon</p>'
+      }, {
+        id: :v8_1,
+        type: :radio,
+        title: 'Wie is deze persoon? <br>
 <br>
 Deze persoon is mijn:',
-                options: [
-                  'Ouder',
-                  'Stiefouder',
-                  'Broer(tje) of zus(je)',
-                  'Opa of oma',
-                  'Oom of tante',
-                  'Pleegouder'],
-                show_otherwise: true,
-                otherwise_label: 'Anders, namelijk:'
-              }, {
-                id: :v8_2,
-                type: :number,
-                title: 'Hoe oud is deze persoon in jaren?',
-                tooltip: 'Bijvoorbeeld: als je moeder 33 jaar is vul je 33 in.',
-                maxlength: 2,
-                placeholder: 'Vul hier een getal in',
-                min: 0,
-                max: 99,
-                required: true
-              }, {
-                id: :v8_3,
-                type: :dropdown,
-                title: 'In welke maand is deze persoon jarig?',
-                options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december', 'weet ik niet']
-              }, {
-                id: :v8_4,
-                type: :radio,
-                required: true,
-                show_otherwise: false,
-                title: 'Is dit een jongen of een meisje?',
-                options: [
-                  {title: 'Jongen'},
-                  {title: 'Meisje'},
-                  {title: 'Anders'}]
-              }, {
-                id: :v8_5,
-                type: :radio,
-                show_otherwise: false,
-                title: 'Hoe voel je je bij deze persoon? <br>
+        options: [
+          'Ouder',
+          'Stiefouder',
+          'Broer(tje) of zus(je)',
+          'Opa of oma',
+          'Oom of tante',
+          'Pleegouder'],
+        show_otherwise: true,
+        otherwise_label: 'Anders, namelijk:'
+      }, {
+        id: :v8_2,
+        type: :number,
+        title: 'Hoe oud is deze persoon in jaren?',
+        tooltip: 'Bijvoorbeeld: als je moeder 33 jaar is vul je 33 in.',
+        maxlength: 2,
+        placeholder: 'Vul hier een getal in',
+        min: 0,
+        max: 99,
+        required: true
+      }, {
+        id: :v8_3,
+        type: :dropdown,
+        title: 'In welke maand is deze persoon jarig?',
+        options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december', 'weet ik niet']
+      }, {
+        id: :v8_4,
+        type: :radio,
+        required: true,
+        show_otherwise: false,
+        title: 'Is dit een jongen of een meisje?',
+        options: [
+          { title: 'Jongen' },
+          { title: 'Meisje' },
+          { title: 'Anders' }]
+      }, {
+        id: :v8_5,
+        type: :radio,
+        show_otherwise: false,
+        title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
-                options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]}],
+        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]
+      }
+    ],
     section_end: true
   }, {
     id: :v9,
@@ -220,14 +224,14 @@ Kies 1 van de 5 plaatjes',
     show_otherwise: false,
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
-      {title: 'Minder dan 1 nacht per week'},
-      {title: '1 nacht per week'},
-      {title: '2 nachten per week'},
-      {title: '3 nachten per week'},
-      {title: '4 nachten per week'},
-      {title: '5 nachten per week'},
-      {title: '6 nachten per week'},
-      {title: '7 nachten per week'}],
+      { title: 'Minder dan 1 nacht per week' },
+      { title: '1 nacht per week' },
+      { title: '2 nachten per week' },
+      { title: '3 nachten per week' },
+      { title: '4 nachten per week' },
+      { title: '5 nachten per week' },
+      { title: '6 nachten per week' },
+      { title: '7 nachten per week' }],
     section_end: false
   }, {
     id: :v10,
@@ -236,8 +240,8 @@ Kies 1 van de 5 plaatjes',
     show_otherwise: false,
     title: 'Heb je in dit huis een eigen kamer?',
     options: [
-      {title: 'Ja'},
-      {title: 'Nee'}]
+      { title: 'Ja' },
+      { title: 'Nee' }]
   }, {
     id: :v11,
     hidden: true,
@@ -258,74 +262,77 @@ Kies 1 van de 5 plaatjes',
     type: :expandable,
     default_expansions: 1,
     max_expansions: 20,
-    content: [{
-                type: :raw,
-                content: '<p class="flow-text">Persoon</p>'
-              }, {
-                id: :v12_1,
-                type: :radio,
-                title: 'Wie is deze persoon? <br>
+    content: [
+      {
+        type: :raw,
+        content: '<p class="flow-text">Persoon</p>'
+      }, {
+        id: :v12_1,
+        type: :radio,
+        title: 'Wie is deze persoon? <br>
 <br>
 Deze persoon is mijn:',
-                options: [
-                  'Ouder',
-                  'Stiefouder',
-                  'Broer(tje) of zus(je)',
-                  'Opa of oma',
-                  'Oom of tante',
-                  'Pleegouder'],
-                show_otherwise: true,
-                otherwise_label: 'Anders, namelijk:'
-              }, {
-                id: :v12_2,
-                type: :number,
-                title: 'Hoe oud is deze persoon in jaren?',
-                tooltip: 'Bijvoorbeeld: als je moeder 33 jaar is vul je 33 in.',
-                maxlength: 2,
-                placeholder: 'Vul hier een getal in',
-                min: 0,
-                max: 99,
-                required: true
-              }, {
-                id: :v12_3,
-                type: :dropdown,
-                title: 'In welke maand is deze persoon jarig?',
-                options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december', 'weet ik niet']
-              }, {
-                id: :v12_4,
-                type: :radio,
-                show_otherwise: false,
-                title: 'Is dit een jongen of een meisje?',
-                options: [
-                  {title: 'Jongen'},
-                  {title: 'Meisje'},
-                  {title: 'Anders'}]
-              }, {
-                id: :v12_5,
-                type: :radio,
-                show_otherwise: false,
-                title: 'Hoe voel je je bij deze persoon? <br>
+        options: [
+          'Ouder',
+          'Stiefouder',
+          'Broer(tje) of zus(je)',
+          'Opa of oma',
+          'Oom of tante',
+          'Pleegouder'],
+        show_otherwise: true,
+        otherwise_label: 'Anders, namelijk:'
+      }, {
+        id: :v12_2,
+        type: :number,
+        title: 'Hoe oud is deze persoon in jaren?',
+        tooltip: 'Bijvoorbeeld: als je moeder 33 jaar is vul je 33 in.',
+        maxlength: 2,
+        placeholder: 'Vul hier een getal in',
+        min: 0,
+        max: 99,
+        required: true
+      }, {
+        id: :v12_3,
+        type: :dropdown,
+        title: 'In welke maand is deze persoon jarig?',
+        options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december', 'weet ik niet']
+      }, {
+        id: :v12_4,
+        type: :radio,
+        show_otherwise: false,
+        title: 'Is dit een jongen of een meisje?',
+        options: [
+          { title: 'Jongen' },
+          { title: 'Meisje' },
+          { title: 'Anders' }]
+      }, {
+        id: :v12_5,
+        type: :radio,
+        show_otherwise: false,
+        title: 'Hoe voel je je bij deze persoon? <br>
 <br>
 Kies 1 van de 5 plaatjes',
-                options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]}]
+        options: [betrokkenheid1, betrokkenheid2, betrokkenheid3, betrokkenheid4, betrokkenheid5]
+      }
+    ]
   }, {
     id: :v13,
     type: :radio,
     show_otherwise: false,
     title: 'Heb je een huisdier?',
-    options: [{title: 'Ja', shows_questions: %i[v13_1]}, {title: 'Nee'}]
+    options: [{ title: 'Ja', shows_questions: %i[v13_1] }, { title: 'Nee' }]
   }, {
     id: :v13_1,
     hidden: true,
     type: :checkbox,
     title: 'Wat voor huisdier(en) heb je?',
     options: [
-      {title: 'Hond(en)'},
-      {title: 'Kat(ten)'},
-      {title: 'Vogel(s)'},
-      {title: 'Knaagdier(en) (Cavia, konijn, muizen, ratten)'},
-      {title: 'Reptiel(en)'},
-      {title: 'Vis(sen)'}],
+      { title: 'Hond(en)' },
+      { title: 'Kat(ten)' },
+      { title: 'Vogel(s)' },
+      { title: 'Knaagdier(en) (Cavia, konijn, muizen, ratten)' },
+      { title: 'Reptiel(en)' },
+      { title: 'Vis(sen)' }],
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over je gewoontes',
@@ -333,7 +340,7 @@ Kies 1 van de 5 plaatjes',
     type: :checkbox,
     required: true,
     title: 'Wat vind je leuk om te doen? Waar word je blij van?',
-    options: [{title: 'Tekenen'}, {title: 'Lezen'}, {title: 'Gamen'}, {title: 'Sporten'}, {title: 'Muziek maken'}, {title: 'Films, videos of series kijken (op tv of via internet)'}, {title: 'Winkelen'}, {title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)'}, {title: 'Buiten zijn of spelen'}],
+    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
     section_end: false
   }, {
     id: :v14_2,
@@ -355,7 +362,7 @@ Kies 1 van de 5 plaatjes',
     id: :v15,
     type: :radio,
     title: 'Doe je één of meerdere sporten?',
-    options: [{title: 'Ja', shows_questions: %i[v15_1 v15_2]}, {title: 'Nee'}],
+    options: [{ title: 'Ja', shows_questions: %i[v15_1 v15_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {
     id: :v15_1,
@@ -382,7 +389,7 @@ Kies 1 van de 5 plaatjes',
     id: :v17,
     type: :radio,
     title: 'Heb je één of meerdere vriend(en) of vriendin(nen)?',
-    options: [{title: 'Ja', shows_questions: %i[v17_2 v17_3]}, {title: 'Nee'}],
+    options: [{ title: 'Ja', shows_questions: %i[v17_2 v17_3] }, { title: 'Nee' }],
     show_otherwise: false,
     section_end: false
   }, {
@@ -409,7 +416,7 @@ Kies 1 van de 5 plaatjes',
     id: :v18,
     type: :radio,
     title: 'Doe je weleens iets leuks met je ouder(s) of opvoeder(s)?',
-    options: [{title: 'Ja', shows_questions: %i[v18_1]}, {title: 'Nee'}],
+    options: [{ title: 'Ja', shows_questions: %i[v18_1] }, { title: 'Nee' }],
     show_otherwise: false,
     section_end: false
   }, {
@@ -448,7 +455,7 @@ Kies 1 van de 5 plaatjes',
     id: :v19_1,
     type: :radio,
     title: 'Is er <i>in de buurt waar jij woont</i> een park, bos, strand of andere plek met natuur waar jij weleens naartoe gaat?',
-    options: [{title: 'Ja', shows_questions: %i[ v19_2]}, {title: 'Nee'}],
+    options: [{ title: 'Ja', shows_questions: %i[ v19_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {
     id: :v19_2,
@@ -516,6 +523,25 @@ Kies 1 van de 5 plaatjes',
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Plezier van de natuur',
+      ids: %i[v20 v20_1 v20_2],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Zorg voor de natuur',
+      ids: %i[v20_3 v20_4 v20_5],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Gelijkheid',
+      ids: %i[v20_6 v20_7],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

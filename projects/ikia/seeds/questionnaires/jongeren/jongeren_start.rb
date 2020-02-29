@@ -15,7 +15,8 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     title: 'Ben je een jongen of een meisje?',
-    options: ['Jongen', 'Meisje', 'Anders']
+    options: ['Jongen', 'Meisje', 'Anders'],
+    combines_with: %i[v2]
   }, {
     id: :v2,
     type: :date,

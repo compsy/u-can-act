@@ -108,9 +108,10 @@ module DistributionHelper
     qid = question[:id]
     return unless content[qid].present?
 
-    initialize_question(question, content[qid], distribution)
-    distribution[qid][content[qid]][VALUE] += 1
-    return if question[:combines_with].blank?
+    distribution[qid] ||= {}
+    add_to_distribution_aux(question, content[qid], distribution[qid])
+    # We don't store a single value for dates, so they can't be combined
+    return if question[:combines_with].blank? || question[:type] == :date
 
     question[:combines_with].each do |qid2|
       question2 = @usable_questions.find { |usable_question| usable_question[:id] == qid2.to_s }
@@ -118,6 +119,49 @@ module DistributionHelper
 
       add_to_distribution(question2, content, distribution[qid][content[qid]])
     end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def add_to_distribution_aux(question, value, distribution)
+    add_method = case question[:type]
+                 when :range
+                   :add_range_to_distribution
+                 when :date
+                   :add_date_to_distribution
+                 else
+                   :add_other_to_distribution
+                 end
+    send(add_method, question, value, distribution)
+  end
+
+  def add_other_to_distribution(_question, value, distribution)
+    distribution[value] ||= { VALUE => 0 }
+    distribution[value][VALUE] += 1
+  end
+
+  def add_range_to_distribution(question, value, distribution)
+    if distribution.blank?
+      %i[min max step].each do |prop|
+        distribution["#{VALUE}#{prop}"] = question[prop]
+      end
+    end
+    add_other_to_distribution(question, value, distribution)
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def add_date_to_distribution(question, value, distribution)
+    mdate = Date.parse(value)
+    myear = mdate.year.to_s
+    mmonth = mdate.month.to_s
+    mday = mdate.day.to_s
+    distribution[myear] ||= { VALUE => 0 }
+    distribution[myear][VALUE] += 1
+    distribution[myear][mmonth] ||= { VALUE => 0 }
+    distribution[myear][mmonth][VALUE] += 1
+    distribution[myear][mmonth][mday] ||= { VALUE => 0 }
+    distribution[myear][mmonth][mday][VALUE] += 1
+  rescue ArgumentError
+    Rails.logger.info("ERROR: unable to parse date #{value} for #{question.pretty_inspect}")
   end
   # rubocop:enable Metrics/AbcSize
 end

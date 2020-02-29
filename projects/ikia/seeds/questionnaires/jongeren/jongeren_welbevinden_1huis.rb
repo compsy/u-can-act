@@ -8,7 +8,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
+    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
   }, {
     section_start: 'Type je antwoorden op de volgende vragen in de tekstvelden. Je mag zoveel typen als je wilt.',
     id: :v1,
@@ -73,7 +73,7 @@ dagboek_content = [
     title: 'Ik geniet ervan om thuis te zijn.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true,
-    section_end: false,
+    section_end: false
   }, {
     id: :v10_2,
     type: :range,

@@ -298,7 +298,8 @@ dagboek1.content = {
       label: 'Ruzies goedmaken',
       ids: %i[v2_10 v2_20 v2_23],
       preprocessing: {
-        v2_10: invert },
+        v2_10: invert
+      },
       operation: :average,
       round_to_decimals: 0 },
     { id: :s6,

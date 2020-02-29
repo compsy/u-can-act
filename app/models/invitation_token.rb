@@ -20,7 +20,7 @@ class InvitationToken < ApplicationRecord
     end
 
     if invitation_token.id.nil? && @token_plain.blank?
-      token = RandomAlphaNumericStringGenerator.generate(InvitationToken::TOKEN_LENGTH)
+      token = RandomStringGenerator.generate_alpha_numeric(InvitationToken::TOKEN_LENGTH)
       invitation_token.token = token
       @token_plain = token
     end

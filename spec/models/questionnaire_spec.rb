@@ -12,27 +12,35 @@ describe Questionnaire do
     describe 'all_content_ids_unique' do
       let(:invalid_questionnaire) do
         quest = FactoryBot.create(:questionnaire)
-        quest.content[:questions] = [{
-          section_start: 'Algemeen',
-          id: :v1,
-          type: :radio,
-          title: 'Hoe voelt u zich vandaag?',
-          options: %w[slecht goed],
-          otherwise_label: 'Anders nog wat:'
-        }, {
-          section_start: 'Algemeen',
-          id: :v2,
-          type: :radio,
-          title: 'Hoe voelt u zich vandaag?',
-          options: %w[slecht goed],
-          otherwise_label: 'Anders nog wat:'
-        }, {
-          id: :v1,
-          type: :checkbox,
-          title: 'Wat heeft u vandaag gegeten?',
-          options: ['brood', 'kaas en ham', 'pizza'],
-          otherwise_label: 'Hier ook iets:'
-        }]
+        quest.content[:questions] = [
+          {
+            type: :raw,
+            content: 'hey1'
+          }, {
+            type: :raw,
+            content: 'hey2'
+          }, {
+            section_start: 'Algemeen',
+            id: :v1,
+            type: :radio,
+            title: 'Hoe voelt u zich vandaag?',
+            options: %w[slecht goed],
+            otherwise_label: 'Anders nog wat:'
+          }, {
+            section_start: 'Algemeen',
+            id: :v2,
+            type: :radio,
+            title: 'Hoe voelt u zich vandaag?',
+            options: %w[slecht goed],
+            otherwise_label: 'Anders nog wat:'
+          }, {
+            id: :v1,
+            type: :checkbox,
+            title: 'Wat heeft u vandaag gegeten?',
+            options: ['brood', 'kaas en ham', 'pizza'],
+            otherwise_label: 'Hier ook iets:'
+          }
+        ]
         quest
       end
       let(:valid_questionnaire) do

@@ -97,9 +97,8 @@ class Questionnaire < ApplicationRecord
   def all_content_ids_unique
     question_ids = content[:questions].map { |entry| entry[:id] }
     score_ids = content[:scores].map { |entry| entry[:id] }
-    ids = question_ids + score_ids
+    ids = (question_ids + score_ids).compact
     result = ids.detect { |entry| ids.count(entry) > 1 }
-
     return if result.blank?
 
     errors.add(:content, "can only have a series of unique ids: #{result}")

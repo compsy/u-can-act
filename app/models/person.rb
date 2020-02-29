@@ -58,7 +58,7 @@ class Person < ApplicationRecord
     next if person.external_identifier
 
     loop do
-      person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
+      person.external_identifier = RandomStringGenerator.generate_alpha_numeric(Person::IDENTIFIER_LENGTH)
       break if Person.where(external_identifier: person.external_identifier).count.zero?
     end
   end

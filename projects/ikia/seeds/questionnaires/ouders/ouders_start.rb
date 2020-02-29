@@ -29,7 +29,7 @@ dagboek_content = [
     maxlength: 4,
     placeholder: 'Vul hier een getal in',
     min: 1940,
-    max: 2030,
+    max: 2005,
     required: true
   }, {
     id: :v4,
@@ -122,7 +122,7 @@ Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheu
     maxlength: 4,
     placeholder: 'Vul hier een getal in',
     min: 2000,
-    max: 2030,
+    max: 2014,
     required: true
   }, {
     id: :v9_4,

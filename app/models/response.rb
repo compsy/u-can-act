@@ -5,6 +5,9 @@ class Response < ApplicationRecord
   # the open_duration of the voormeting measurement of the student and mentor protocol
   # to be nil.
   RECENT_PAST = 2.hours
+
+  before_destroy :destroy_response_content
+
   belongs_to :protocol_subscription
   has_one :person, through: :protocol_subscription
   has_one :protocol, through: :protocol_subscription
@@ -71,6 +74,7 @@ class Response < ApplicationRecord
     date = Date.commercial(year, week_number, 1).in_time_zone
     between_dates(date.beginning_of_week.in_time_zone, date.end_of_week.in_time_zone)
   end
+
   # rubocop:enable Metrics/AbcSize
 
   def self.between_dates(from_date, to_date)
@@ -173,5 +177,10 @@ class Response < ApplicationRecord
       # We don't know what the old answers were, so recalculate the whole questionnaire
       CalculateDistributionJob.perform_later(id)
     end
+  end
+
+  # Removes the {#ResponseContent}s attached to this {#Response}.
+  def destroy_response_content
+    ResponseContent.where(id: content).delete if content.present?
   end
 end

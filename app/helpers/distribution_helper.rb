@@ -38,7 +38,7 @@ module DistributionHelper
 
   def other_questions(questionnaire_content)
     questionnaire_content
-      .select { |question| %i[number radio likert dropdown].include?(question[:type]) }
+      .select { |question| %i[number radio likert dropdown date].include?(question[:type]) }
       .map do |question|
       { id: question[:id].to_s, type: question[:type], combines_with: question[:combines_with] }
     end
@@ -83,17 +83,13 @@ module DistributionHelper
 
   def initialize_question(question, value, distribution)
     qid = question[:id]
-    return if distribution[qid].present? && question[:type] == :range
-
     distribution[qid] ||= {}
-    unless question[:type] == :range
-      distribution[qid][value] ||= { VALUE => 0 }
-      return
+    if distribution[qid].blank? && question[:type] == :range
+      %i[min max step].each do |prop|
+        distribution[qid]["#{VALUE}#{prop}"] = question[prop]
+      end
     end
-
-    (question[:min]..question[:max]).step(question[:step]) do |pos|
-      distribution[qid][number_to_string(pos)] = { VALUE => 0 }
-    end
+    distribution[qid][value] ||= { VALUE => 0 }
   end
 
   def process_response_ids(response_ids)

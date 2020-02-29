@@ -461,7 +461,8 @@ dagboek1.content = {
         v2_20: invert,
         v2_27: invert,
         v2_31: invert,
-        v2_37: invert},
+        v2_37: invert
+      },
       operation: :average,
       round_to_decimals: 0 },
     { id: :s5,
@@ -474,8 +475,7 @@ dagboek1.content = {
       ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8 v1_9 v1_10 v1_11 v1_12 v1_13],
       operation: :average,
       round_to_decimals: 0 }
-    ]
-  } 
-dagboek1.content = { questions: dagboek_content, scores: [] }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

@@ -16,4 +16,20 @@ module ConversionHelper
   rescue ArgumentError
     num.to_s
   end
+
+  def idify(*strs)
+    strs.map { |x| x.to_s.parameterize.underscore }.join('_')
+  end
+
+  def titles(question, attr)
+    titles = []
+    question[attr].each do |option|
+      title = option
+      title = option[:title] if option.is_a?(Hash) && option.key?(:title)
+      raise "The following option could not be resolved to a string: #{option}" unless title.is_a?(String)
+
+      titles << title
+    end
+    titles
+  end
 end

@@ -1,4 +1,4 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
 db_title = 'Klachten van mijn kind'
 db_name1 = 'Klachten_Kinderen_Lang_Ouderrapportage_6plus'

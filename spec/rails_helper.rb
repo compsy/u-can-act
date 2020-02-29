@@ -5,6 +5,8 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
+ENV['TZ'] = 'Europe/Amsterdam' # Fix for the selenium webbrowser not being in the correct timezone
+
 require 'rspec/rails'
 require 'database_cleaner'
 require 'database_cleaner/active_record'

@@ -60,18 +60,6 @@ class RandomResponseGenerator
       cur_titles[idx]
     end
 
-    def titles(question, attr)
-      titles = []
-      question[attr].each do |option|
-        title = option
-        title = option[:title] if option.is_a?(Hash) && option.key?(:title)
-        raise "The following option could not be resolved to a string: #{option}" unless title.is_a?(String)
-
-        titles << title
-      end
-      titles
-    end
-
     def generate_answer_for_text(_question)
       RandomStringGenerator.generate_alphabetical(rand(5..30))
     end
@@ -93,9 +81,9 @@ class RandomResponseGenerator
 
     def determine_min_max_date(question)
       qmin = Time.zone.today
-      qmin = Date.new(*question[:min]) if question[:min].present?
+      qmin = Date.parse(question[:min]) if question[:min].present?
       qmax = qmin
-      qmax = Date.new(*question[:max]) if question[:max].present?
+      qmax = Date.parse(question[:max]) if question[:max].present?
       { min: qmin, max: qmax }
     end
 
@@ -122,10 +110,6 @@ class RandomResponseGenerator
         end
       end
       raise MyRandomResponseError, 'We already added our own responses'
-    end
-
-    def idify(*strs)
-      strs.map { |x| x.to_s.parameterize.underscore }.join('_')
     end
   end
 end

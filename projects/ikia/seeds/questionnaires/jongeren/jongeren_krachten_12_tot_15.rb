@@ -9,7 +9,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over krachten. Er volgen X vragen. Hier ben je ongeveer X minuten mee bezig.</p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over je krachten. Er volgen X vragen. Hier ben je ongeveer X minuten mee bezig.</p>'
   }, {
     id: :v1_1,
     type: :range,
@@ -360,21 +360,60 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     title: 'Ik hou mezelf tegen in het hebben van gevoelens die ik niet prettig vind.',
     labels: ['Nooit waar', 'Soms waar', 'Altijd waar'],
     section_end: true
- }, {
-   section_start: 'Tot slot...',
+  }, {
+    section_start: 'Tot slot...',
     id: :v5,
     type: :expandable,
-    title: 'Schrijf alle dingen op die kunt doen met een melkpak',
+    title: 'Schrijf alle dingen op die je kunt doen met een melkpak',
     default_expansions: 1,
     max_expansions: 30,
     content: [{
                 id: :v5_1,
                 type: :textarea,
+                required: true,
                 title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.'}],
+                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.' }],
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Creativiteit',
+      ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Empathie',
+      ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16],
+      preprocessing: {
+        v3_3: invert,
+        v3_13: invert,
+        v3_2: invert,
+        v3_11: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Mindfulness',
+      ids: %i[v4_1 v4_2 v4_3 v4_4 v4_5 v4_6 v4_7 v4_8 v4_9 v4_10],
+      preprocessing: {
+        v4_1: invert,
+        v4_2: invert,
+        v4_3: invert,
+        v4_4: invert,
+        v4_5: invert,
+        v4_6: invert,
+        v4_7: invert,
+        v4_8: invert,
+        v4_9: invert,
+        v4_10: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

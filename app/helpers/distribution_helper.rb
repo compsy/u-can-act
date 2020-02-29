@@ -81,17 +81,6 @@ module DistributionHelper
     end
   end
 
-  def initialize_question(question, value, distribution)
-    qid = question[:id]
-    distribution[qid] ||= {}
-    if distribution[qid].blank? && question[:type] == :range
-      %i[min max step].each do |prop|
-        distribution[qid]["#{VALUE}#{prop}"] = question[prop]
-      end
-    end
-    distribution[qid][value] ||= { VALUE => 0 }
-  end
-
   def process_response_ids(response_ids)
     ResponseContent.where(:id.in => response_ids).pluck(:content, :scores).each do |content, scores|
       next if content.nil? # Can theoretically happen

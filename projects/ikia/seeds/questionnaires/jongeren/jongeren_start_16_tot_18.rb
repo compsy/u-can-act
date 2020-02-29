@@ -20,15 +20,18 @@ dagboek_content = [
   }, {
     id: :v2,
     type: :date,
-    Required: true,
-    title: 'Wanneer ben je geboren?'
+    required: true,
+    title: 'Wanneer ben je geboren?',
+    min: '2000/01/01',
+    default_date: '2005/01/01',
+    max: '2014/01/01'
   }, {
     id: :v3,
     title: 'In welk land ben je geboren?',
     type: :radio,
     show_otherwise: false,
     options: [
-      {title: 'Nederland'}, {title: 'Anders', shows_questions: %i[v3_a, v3_b]}
+      { title: 'Nederland' }, { title: 'Anders', shows_questions: %i[v3_a, v3_b] }
     ]
   }, {
     id: :v3_a,
@@ -48,13 +51,13 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Naar wat voor school ga je?',
     options: [
-      {title: 'Middelbare school', shows_questions: %i[v4_b, v4_c]},
-      {title: 'Speciaal onderwijs', shows_questions: %i[v4_d]},
-      {title: 'Middelbaar beroepsonderwijs (MBO)'},
-      {title: 'Hoger beroepsonderwijs (HBO)'},
-      {title: 'Wetenschappelijk onderwijs (WO)'},
-      {title: 'Ik krijg thuisonderwijs'},
-      {title: 'Ik krijg geen onderwijs'}
+      { title: 'Middelbare school', shows_questions: %i[v4_b, v4_c] },
+      { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] },
+      { title: 'Middelbaar beroepsonderwijs (MBO)' },
+      { title: 'Hoger beroepsonderwijs (HBO)' },
+      { title: 'Wetenschappelijk onderwijs (WO)' },
+      { title: 'Ik krijg thuisonderwijs' },
+      { title: 'Ik krijg geen onderwijs' }
     ]
   }, {
     id: :v4_b,

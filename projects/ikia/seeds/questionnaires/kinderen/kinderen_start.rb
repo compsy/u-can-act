@@ -15,20 +15,23 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     title: 'Ben je een jongen of een meisje?',
-    options: ['Jongen', 'Meisje', 'Anders']
+    options: ['Jongen', 'Meisje', 'Anders'],
+    combines_with: %i[v2]
   }, {
     id: :v2,
     type: :date,
-    Required: true,
-    title: 'Wanneer ben je geboren?'
+    required: true,
+    title: 'Wanneer ben je geboren?',
+    min: '2000/01/01',
+    default_date: '2005/01/01',
+    max: '2014/01/01'
   }, {
     id: :v3,
     title: 'In welk land ben je geboren?',
     type: :radio,
     show_otherwise: false,
     options: [
-      {title: 'Nederland'}, {title: 'Anders', shows_questions: %i[v3_a, v3_b]
-    }
+      { title: 'Nederland' }, { title: 'Anders', shows_questions: %i[v3_a, v3_b] }
     ]
   }, {
     id: :v3_a,
@@ -48,7 +51,7 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Naar wat voor school ga je?',
     options: [
-      {title: 'Basisschool', shows_questions: %i[v4_a]}, {title: 'Middelbare school', shows_questions: %i[v4_b, v4_c]}, {title: 'Speciaal onderwijs', shows_questions: %i[v4_d]}, {title: 'Ik krijg thuisonderwijs'}, {title: 'Ik krijg geen onderwijs'}
+      { title: 'Basisschool', shows_questions: %i[v4_a] }, { title: 'Middelbare school', shows_questions: %i[v4_b, v4_c] }, { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] }, { title: 'Ik krijg thuisonderwijs' }, { title: 'Ik krijg geen onderwijs' }
     ]
   }, {
     id: :v4_a,

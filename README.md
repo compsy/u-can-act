@@ -744,18 +744,18 @@ Required and allowed options (minimal example and maximal example):
   required: true,
   tooltip: 'some tooltip',
   placeholder: 'Place holder',
-  min: [2018, 06, 14],
-  max: [2018, 07, 20],
+  min: '2018/06/14',
+  max: '2018/07/20',
+  default_date: '2018/07/20',
   section_end: true
 }]
 ```
 
-The `min` and `max` properties can be either two arrays as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
-
-Please note that there is currently a bug in the date picker when you specify dates as arrays. 
-So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
+The `min` and `max` properties can be either strings as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
 
 If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
+
+The `default_date` property can be used to set a default date. The `default_date` and `today` properties should never both be used.
 
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. 

@@ -81,9 +81,9 @@ class RandomResponseGenerator
 
     def determine_min_max_date(question)
       qmin = Time.zone.today
-      qmin = Date.new(*question[:min]) if question[:min].present?
+      qmin = Date.parse(question[:min]) if question[:min].present?
       qmax = qmin
-      qmax = Date.new(*question[:max]) if question[:max].present?
+      qmax = Date.parse(question[:max]) if question[:max].present?
       { min: qmin, max: qmax }
     end
 

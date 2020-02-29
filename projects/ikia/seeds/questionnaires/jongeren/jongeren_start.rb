@@ -28,8 +28,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     options: [
-      {title: 'Nederland'}, {title: 'Anders', shows_questions: %i[v3_a, v3_b]
-    }
+      {title: 'Nederland'}, {title: 'Anders', shows_questions: %i[v3_a, v3_b]}
     ]
   }, {
     id: :v3_a,

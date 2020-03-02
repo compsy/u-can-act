@@ -410,7 +410,7 @@ dagboek1.content = {
   questions: dagboek_content,
   scores: [
     { id: :s1,
-      label: 'Samen zijn',
+      label: 'Samen leuke dingen doen',
       ids: %i[v2_2 v2_7 v2_19 v2_22 v2_23],
       operation: :average,
       round_to_decimals: 0 },

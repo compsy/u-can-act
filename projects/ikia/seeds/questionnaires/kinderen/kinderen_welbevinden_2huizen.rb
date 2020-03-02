@@ -103,6 +103,7 @@ dagboek_content = [
     type: :range,
     title: 'Ik vind de wijk waar ik woon leuk.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
+    required: true
   }, {
     id: :v10_7,
     type: :range,

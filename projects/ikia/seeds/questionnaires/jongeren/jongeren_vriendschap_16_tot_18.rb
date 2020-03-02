@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 db_title = 'Vriendschap'
 db_name1 = 'Vriendschap_Jongeren_16tot18'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])

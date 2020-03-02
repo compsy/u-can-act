@@ -36,7 +36,7 @@ Sommige jongeren hebben meer dan 1 thuis.',
   }, {
     id: :v2,
     hidden: true,
-    type: :likert,
+    type: :radio,
     title: 'Heb je in dit huis een eigen kamer?',
     options: [
       { title: 'Ja' },
@@ -307,7 +307,7 @@ Deze persoon is mijn:',
           { title: 'Anders' }]
       }, {
         id: :v12_5,
-        type: :likert,
+        type: :radio,
         show_otherwise: false,
         title: 'Hoe voel je je bij deze persoon? <br>
 <br>

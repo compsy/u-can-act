@@ -28,8 +28,8 @@ Deze antwoorden kan je kiezen:<br>
 <br>
 <br>
 Voorbeeld:<br>
-Wanneer ik verdrietig ben…<br>
-[INSERT VOORBEELD VRAAG “moet ik huilen” PNG]<br>
+Wanneer ik verdrietig ben…</p>
+<img src="https://u-can-act.nl/wp-content/uploads/2019/11/Feel-KJ-voorbeeldvraag_long.png" width="179" class="questionnaire-image" /><p class="flow-text">
 <br>
 Als je bijvoorbeeld vaak moet huilen als je verdrietig bent, kies je vaak.<br>
 <br>

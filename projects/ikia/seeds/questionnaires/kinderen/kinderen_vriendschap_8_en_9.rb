@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 db_title = 'Vriendschap'
 db_name1 = 'Vriendschap_Kinderen_8en9'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
@@ -20,7 +22,7 @@ dagboek_content = [
     type: :range,
     title: 'Ik vind dat ik minder vriend(inn)en heb dan anderen.',
     labels: ['Helemaal niet waar', 'Soms waar', 'Altijd waar'],
-    required: true,
+    required: true
   }, {
     id: :v1_6,
     type: :range,

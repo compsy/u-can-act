@@ -36,7 +36,7 @@ Sommige kinderen hebben meer dan 1 thuis.',
   }, {
     id: :v2,
     hidden: true,
-    type: :likert,
+    type: :radio,
     title: 'Heb je in dit huis een eigen kamer?',
     options: [
       { title: 'Ja' },

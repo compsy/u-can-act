@@ -36,7 +36,7 @@ days.each_with_index do |day, offset|
 
   general_daily_measurement.open_from_offset = offset.days + start_time
   general_daily_measurement.period = 1.week # every day for each questionnaire
-  general_daily_measurement.open_duration = 2.days # Open for two days
+  general_daily_measurement.open_duration = 1.days # Open for one day
   general_daily_measurement.reward_points = 0
   general_daily_measurement.should_invite = true # send invitations
   general_daily_measurement.save!

@@ -39,6 +39,7 @@ days.each_with_index do |day, offset|
   general_daily_measurement.open_duration = 2.days # Open for two days
   general_daily_measurement.reward_points = 0
   general_daily_measurement.should_invite = true # send invitations
+  general_daily_measurement.reminder_delay = 0 # don't send reminders
   general_daily_measurement.save!
 end
 
@@ -54,5 +55,6 @@ sunday_measurement.period = 1.week # every sunday
 sunday_measurement.open_duration = 2.days # Open for two days
 sunday_measurement.reward_points = 0
 sunday_measurement.should_invite = true # send invitations
+sunday_measurement.reminder_delay = 0 # don't send reminders
 sunday_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 sunday_measurement.save!

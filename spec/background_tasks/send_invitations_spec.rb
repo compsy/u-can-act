@@ -205,10 +205,10 @@ describe SendInvitations do
       it 'does not queue reminders if reminder delay zero' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol,
-                                        reminder_delay: 0)
+                                                      reminder_delay: 0)
         responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
-                                        protocol_subscription: protocol_subscription,
-                                        measurement: measurement)
+                                                   protocol_subscription: protocol_subscription,
+                                                   measurement: measurement)
         expect(SendInvitationsJob).not_to receive(:set)
         expect(SendInvitationsJob).to receive(:perform_later).once.and_return true
         described_class.run

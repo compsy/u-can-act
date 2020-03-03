@@ -10,6 +10,7 @@ FactoryBot.define do
     mobile_phone
     first_name { 'Jane' }
     last_name { 'Doe' }
+    account_active { true }
 
     trait :with_random_name do
       sequence(:first_name, 'a') { |n| 'Janine' + n }

@@ -36,7 +36,7 @@ class SendInvitations
 
     def schedule_reminder(invitation_set)
       reminder_delay = invitation_set.reminder_delay
-      return if reminder_delay.blank?
+      return if reminder_delay.blank? || reminder_delay.zero?
 
       SendInvitationsJob.set(wait: reminder_delay).perform_later invitation_set
     end

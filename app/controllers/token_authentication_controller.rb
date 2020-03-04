@@ -10,13 +10,7 @@ class TokenAuthenticationController < ApplicationController
 
   def show
     responses = InvitationToken.find_attached_responses(questionnaire_params[:q])
-    if current_user.mentor?
-      redirect_to mentor_overview_index_path
-    elsif responses.blank?
-      redirect_to klaar_path
-    else
-      redirect_to questionnaire_path(uuid: responses.first.uuid)
-    end
+    redirect_to preference_questionnaire_index_path(uuid: responses.first.uuid)
   end
 
   private

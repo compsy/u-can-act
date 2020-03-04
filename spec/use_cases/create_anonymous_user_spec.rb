@@ -127,7 +127,8 @@ describe CreateAnonymousUser do
                                  first_name: 'Some name',
                                  last_name: '2',
                                  role: role,
-                                 email: email)
+                                 email: email,
+                                 account_active: false)
       auth_user = FactoryBot.create(:auth_user, auth0_id_string: auth0_id_string)
       expect(person.account_active).to be_falsey
       person.reload

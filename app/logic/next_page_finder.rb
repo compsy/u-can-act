@@ -6,6 +6,7 @@ class NextPageFinder
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def get_next_page(current_user:, previous_response: nil, next_response: nil, params: {})
       return previous_response.measurement.redirect_url if previous_response&.measurement&.redirect_url
 
@@ -26,6 +27,7 @@ class NextPageFinder
 
       klaar_path
     end
+    # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/AbcSize
   end

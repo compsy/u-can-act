@@ -387,13 +387,7 @@ dagboek1.content = {
       round_to_decimals: 0 },
     { id: :s2,
       label: 'Empathie',
-      ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16],
-      preprocessing: {
-        v3_3: invert,
-        v3_13: invert,
-        v3_2: invert,
-        v3_11: invert
-      },
+      ids: %i[v3_1 v3_2 v3_3 v3_4 v3_5 v3_6 v3_7 v3_8 v3_9 v3_10 v3_11 v3_12 v3_13 v3_14 v3_15 v3_16 v3_17 v3_18],
       operation: :average,
       round_to_decimals: 0 },
     { id: :s3,

@@ -192,7 +192,7 @@ dagboek1.content = {
   scores: [
     { id: :s1,
       label: 'Creativiteit',
-      ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8 v1_9],
+      ids: %i[v1 v2 v3 v4 v5 v6 v7 v8 v9],
       operation: :average,
       round_to_decimals: 0 },
     { id: :s2,

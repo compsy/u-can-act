@@ -18,7 +18,7 @@ class NextPageFinder
       # We only want to schedule OTRs when we're not in a normal questionnaire
       next_response ||= current_user.my_open_one_time_responses(true).first if previous_response.blank?
 
-      return mentor_overview_index_path if current_user.mentor? && !next_response&.protocol_subscription&.for_myself?
+      return mentor_overview_index_path if current_user.mentor?
 
       return questionnaire_path(uuid: next_response.uuid, **params) if next_response.present?
 

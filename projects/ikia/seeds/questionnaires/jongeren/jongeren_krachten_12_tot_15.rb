@@ -187,115 +187,133 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     otherwise_label: 'Oplossingswoord:',
     section_end: true
   }, {
-    section_start: 'De volgende zinnen gaan over gevoelens die je kan hebben, en hoe je met de gevoelens van anderen om kan gaan. Geef bij elke zin aan hoe waar deze voor jou is. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'Er volgen nu  een aantal uitspraken over gedachten en gevoelens die je in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij jou past.',
     id: :v3_1,
     type: :range,
     required: true,
-    title: 'Als mijn moeder blij is, word ik daar blij van.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar'],
+    title: 'Ik heb vaak tedere, bezorgde gevoelens voor mensen die minder gelukkig zijn dan ik.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij'],
     section_end: false
   }, {
     id: :v3_2,
     type: :range,
     required: true,
-    title: 'Ik begrijp dat een klasgenoot zich schaamt als hij iets verkeerds heeft gedaan.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik vind het soms moeilijk om dingen te zien vanuit het gezichtspunt van een ander.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_3,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) verdrietig is, wil ik graag troosten.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Soms heb ik niet veel medelijden met andere mensen wanneer ze problemen hebben.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_4,
     type: :range,
     required: true,
-    title: 'Ik voel me vervelend als twee mensen ruzie maken.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'In noodsituaties voel ik me ongerust en slecht op mijn gemak.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_5,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) boos is, weet ik meestal wel waarom.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik probeer naar ieders kant van een meningsverschil te kijken voordat ik een beslissing neem.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_6,
     type: :range,
     required: true,
-    title: 'Ik wil graag helpen als een klasgenootje boos is.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Wanneer ik iemand zie waarvan wordt geprofiteerd, voel ik me nogal beschermend tegenover die persoon.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_7,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) verdrietig is, word ik ook verdrietig.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik voel me soms hulpeloos als ik middenin een zeer emotionele situatie zit.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_8,
     type: :range,
     required: true,
-    title: 'Ik begrijp dat een klasgenoot trots is als hij iets goeds heeft gedaan.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik probeer mijn vrienden soms beter te begrijpen door me in te beelden hoe de dingen eruit zien vanuit hun perspectief.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_9,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) ruzie heeft, probeer ik te helpen.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Als ik zie dat iemand zich bezeert blijf ik meestal kalm.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_10,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) plezier heeft, moet ik ook lachen. ',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Andermans ongelukken doen me meestal niet zo veel.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_11,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) verdrietig is, begrijp ik vaak waarom.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Als ik zeker ben dat ik over iets gelijk heb, verspil ik niet veel tijd aan het luisteren naar de argumenten van een ander.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_12,
     type: :range,
     required: true,
-    title: 'Ik wil graag dat iedereen zich goed voelt.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik houd er niet van om in een gespannen emotionele situatie te zijn.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_13,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) huilt, moet ik zelf ook huilen.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Als ik zie dat iemand oneerlijk wordt behandeld, voel ik soms weinig medelijden met die persoon.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_14,
     type: :range,
     required: true,
-    title: 'Als een klasgenootje moet huilen, begrijp ik vaak wat er is gebeurd.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik ben meestal behoorlijk goed in het omgaan met noodsituaties.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_15,
     type: :range,
     required: true,
-    title: 'Als een klasgenootje verdrietig is, wil ik graag iets doen om het beter te maken.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik ben vaak nogal geraakt door dingen die ik zie gebeuren.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_16,
     type: :range,
     required: true,
-    title: 'Als iemand in mijn familie verdrietig is, voel ik me erg naar.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik geloof dat er twee kanten zijn aan elke vraag en probeer naar allebei de kanten te kijken.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_17,
     type: :range,
     required: true,
-    title: 'Ik vind het leuk een vriend(in) een cadeautje te geven.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar']
+    title: 'Ik zou mijzelf beschrijven als een persoon met een goed hart.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_18,
     type: :range,
     required: true,
-    title: 'Als een vriend(in) kwaad is, word ik ook naar.',
-    labels: ['Helemaal niet waar', 'Beetje waar', 'Helemaal waar'],
+    title: 'Ik verlies vaak de controle tijdens noodsituaties.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+  }, {
+    id: :v3_19,
+    type: :range,
+    required: true,
+    title: 'Als ik boos ben op iemand, probeer ik mijzelf meestal voor een tijdje in die ander te verplaatsen.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+  }, {
+    id: :v3_20,
+    type: :range,
+    required: true,
+    title: 'Als ik iemand zie die zeer hard hulp nodig heeft in een noodsituatie, heb ik mezelf niet meer in de hand.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+  }, {
+    id: :v3_21,
+    type: :range,
+    required: true,
+    title: 'Voordat ik kritiek op iemand geef, probeer ik mij voor te stellen hoe ik mij zou voelen in zijn of haar plaats.',
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij'],
     section_end: true
   }, {
     section_start: 'Er volgen nu nog 10 zinnen. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
@@ -387,7 +405,7 @@ dagboek1.content = {
       round_to_decimals: 0 },
     { id: :s2,
       label: 'Empathie',
-      ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16],
+      ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16 v3_19 v3_21],
       preprocessing: {
         v3_3: invert,
         v3_13: invert,

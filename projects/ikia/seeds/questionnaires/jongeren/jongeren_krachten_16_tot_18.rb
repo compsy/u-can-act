@@ -13,7 +13,7 @@ dagboek_content = [
   }, {
     id: :v1_1,
     type: :range,
-    title: 'In vergelijking met anderen van jouw leeftijd, hoe creatief ben je?',
+    title: 'In vergelijking met anderen van jouw leeftijd, hoe creatief ben jij?',
     labels: ['Helemaal niet creatief', 'Net zo creatief', 'Heel erg creatief'],
     required: true
   }, {

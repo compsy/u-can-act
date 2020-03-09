@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Leefplezier van mijn kind'
+db_title = 'Leefplezier'
 db_name1 = 'Welbevinden_Kind_Ouderrapportage_6plus'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])

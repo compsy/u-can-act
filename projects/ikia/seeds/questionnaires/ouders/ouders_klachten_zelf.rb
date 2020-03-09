@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Klachten (zelf)'
+db_title = 'Stemming'
 db_name1 = 'Klachten_Ouders_Zelfrapportage'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])

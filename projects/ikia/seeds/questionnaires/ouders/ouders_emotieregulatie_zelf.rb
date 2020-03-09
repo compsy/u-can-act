@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Omgaan met gevoelens (zelf)'
+db_title = 'Omgaan met gevoelens'
 
 db_name1 = 'Emotieregulatie_Ouders_Zelfrapportage'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Mijn leefplezier'
+db_title = 'Leefplezier'
 
 db_name1 = 'Welbevinden_Ouders_Zelfrapportage'
 dagboek1 = Questionnaire.find_by_name(db_name1)

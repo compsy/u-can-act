@@ -31,8 +31,10 @@ Dir[Rails.root.join('projects',
   unused_measurement_ids.delete(boek_measurement.id)
 end
 if unused_measurement_ids.present?
-  puts "ERROR: unused ids present: "
-  puts unused_measurement_ids.pretty_inspect
+  puts "ERROR: unused kids ids present: "
+  puts unused_measurement_ids.map do |unused_id|
+    Measurement.find(unused_id)&.questionnaire&.key || unused_id.to_s
+  end.pretty_inspect
   unused_measurement_ids.to_a.each do |measurement_id|
     Measurement.find(measurement_id)&.destroy
   end

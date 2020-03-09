@@ -85,7 +85,7 @@ GEM
       rack
     arel (8.0.0)
     ast (2.4.0)
-    autoprefixer-rails (9.7.2)
+    autoprefixer-rails (9.7.4)
       execjs
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
@@ -93,7 +93,7 @@ GEM
       execjs (~> 2.0)
     bcrypt (3.1.13)
     bindex (0.8.1)
-    bson (4.6.0)
+    bson (4.8.2)
     builder (3.2.4)
     byebug (11.1.1)
     capybara (3.31.0)
@@ -126,7 +126,7 @@ GEM
       term-ansicolor (~> 1.3)
       thor (>= 0.19.4, < 2.0)
       tins (~> 1.6)
-    crass (1.0.5)
+    crass (1.0.6)
     daemons (1.3.1)
     database_cleaner (1.8.3)
     database_cleaner-active_record (1.8.0)
@@ -166,14 +166,14 @@ GEM
     dry-equalizer (0.3.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    excon (0.71.0)
+    excon (0.72.0)
     execjs (2.7.0)
     factory_bot (5.1.1)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.1.1)
       factory_bot (~> 5.1.0)
       railties (>= 4.2.0)
-    ffi (1.11.2)
+    ffi (1.12.2)
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -225,13 +225,13 @@ GEM
     jaro_winkler (1.5.4)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
-    json (2.2.0)
+    json (2.3.0)
     json-schema (2.8.1)
       addressable (>= 2.4)
     jsonapi-renderer (0.2.2)
     jwt (2.2.1)
-    launchy (2.4.3)
-      addressable (~> 2.3)
+    launchy (2.5.0)
+      addressable (~> 2.7)
     libv8 (7.3.492.27.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -245,7 +245,7 @@ GEM
     loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    lumberjack (1.0.13)
+    lumberjack (1.2.4)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     mailgun-ruby (1.2.0)
@@ -264,23 +264,23 @@ GEM
     minitest (5.14.0)
     modernizr-rails (2.7.1)
     moneta (1.0.0)
-    mongo (2.11.1)
-      bson (>= 4.6.0, < 5.0.0)
-    mongoid (7.0.5)
+    mongo (2.11.4)
+      bson (>= 4.4.2, < 5.0.0)
+    mongoid (7.1.0)
       activemodel (>= 5.1, < 6.1)
-      mongo (>= 2.5.1, < 3.0.0)
+      mongo (>= 2.7.0, < 3.0.0)
     multi_json (1.14.1)
     multi_xml (0.6.0)
     nenv (0.3.0)
     netrc (0.11.0)
     nio4r (2.5.2)
-    nokogiri (1.10.8)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     notiffany (0.1.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
     parallel (1.19.1)
-    parser (2.7.0.3)
+    parser (2.7.0.4)
       ast (~> 2.4.0)
     pg (1.1.4)
     platform-api (2.2.0)
@@ -334,7 +334,7 @@ GEM
     rainbow (3.0.0)
     rake (13.0.1)
     rb-fsevent (0.10.3)
-    rb-inotify (0.10.0)
+    rb-inotify (0.10.1)
       ffi (~> 1.0)
     react-rails (2.6.1)
       babel-transpiler (>= 0.7.0)
@@ -350,10 +350,10 @@ GEM
       redis-classy (~> 2.0)
     redis-namespace (1.7.0)
       redis (>= 3.0.4)
-    regexp_parser (1.6.0)
+    regexp_parser (1.7.0)
     remote_syslog_logger (1.0.4)
       syslog_protocol
-    request_store (1.4.1)
+    request_store (1.5.0)
       rack (>= 1.4)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
@@ -364,12 +364,12 @@ GEM
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
       rspec-mocks (~> 3.9.0)
-    rspec-core (3.9.0)
-      rspec-support (~> 3.9.0)
+    rspec-core (3.9.1)
+      rspec-support (~> 3.9.1)
     rspec-expectations (3.9.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
-    rspec-mocks (3.9.0)
+    rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-rails (3.9.0)
@@ -380,7 +380,7 @@ GEM
       rspec-expectations (~> 3.9.0)
       rspec-mocks (~> 3.9.0)
       rspec-support (~> 3.9.0)
-    rspec-support (3.9.0)
+    rspec-support (3.9.2)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     rswag-api (2.2.0)
@@ -409,9 +409,9 @@ GEM
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
-    ruby_parser (3.14.1)
+    ruby_parser (3.14.2)
       sexp_processor (~> 4.9)
-    rubyzip (2.0.0)
+    rubyzip (2.2.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.2.1)
@@ -425,7 +425,7 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sexp_processor (4.13.0)
+    sexp_processor (4.14.1)
     shellany (0.0.1)
     silencer (1.0.1)
     simplecov (0.16.1)
@@ -447,6 +447,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sync (0.5.0)
     syslog_protocol (0.9.2)
     temple (0.8.2)
     term-ansicolor (1.7.1)
@@ -455,7 +456,8 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    tins (1.22.2)
+    tins (1.24.1)
+      sync
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
     tzinfo-data (1.2019.3)
@@ -497,27 +499,27 @@ PLATFORMS
 
 DEPENDENCIES
   active_interaction
-  active_model_serializers
+  active_model_serializers (>= 0.10.10)
   addressable
   animate-rails!
   appsignal
   bcrypt
   byebug
   cancancan!
-  capybara
-  capybara-screenshot
-  coffee-rails
+  capybara (>= 3.31.0)
+  capybara-screenshot (>= 1.0.24)
+  coffee-rails (>= 4.2.2)
   coveralls (>= 0.8.21)
   daemons
   database_cleaner
   database_cleaner-active_record
   database_cleaner-mongoid
   delayed_job_active_record
-  dotenv-rails
-  factory_bot_rails
+  dotenv-rails (>= 2.7.5)
+  factory_bot_rails (>= 5.1.1)
   guard-rspec
-  haml-rails
-  highcharts-rails
+  haml-rails (>= 2.0.1)
+  highcharts-rails (>= 6.0.3)
   httparty
   i18n-js
   iban-tools
@@ -525,7 +527,7 @@ DEPENDENCIES
   jwt
   knock!
   listen (>= 3.0.5, < 3.2)
-  lograge
+  lograge (>= 0.11.2)
   mailgun-ruby
   materialize-sass (>= 1.0.0)
   messagebird-rest
@@ -534,26 +536,26 @@ DEPENDENCIES
   mongoid
   pg (= 1.1.4)
   pry-rails
-  puma
+  puma (>= 4.3.2)
   rack-cors
   rails (~> 5.1.7)
-  rails-controller-testing
-  rails-i18n
-  react-rails
+  rails-controller-testing (>= 1.0.4)
+  rails-i18n (>= 5.1.3)
+  react-rails (>= 2.6.1)
   react-source
   redis
   redis-mutex
   remote_syslog_logger
-  rspec-rails
+  rspec-rails (>= 3.9.0)
   rspec_junit_formatter
-  rswag-api
-  rswag-specs
-  rswag-ui
+  rswag-api (>= 2.2.0)
+  rswag-specs (>= 2.2.0)
+  rswag-ui (>= 2.2.0)
   rubocop
   rubocop-performance
   rubocop-rails
   rubocop-rspec
-  sass-rails
+  sass-rails (>= 6.0.0)
   selenium-webdriver
   silencer
   simplecov
@@ -565,9 +567,9 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   warden-jwt_auth (>= 0.4.0)
-  web-console
-  webdrivers
-  webpacker (>= 4.0.x)
+  web-console (>= 3.7.0)
+  webdrivers (>= 4.2.0)
+  webpacker (>= 4.2.2)
   workless!
 
 RUBY VERSION

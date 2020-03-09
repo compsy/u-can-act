@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Klachten (zelf)'
+db_title = 'Stemming'
 db_name1 = 'Klachten_Ouders_Zelfrapportage'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
@@ -99,7 +99,7 @@ dagboek_content = [
     id: :v15,
     type: :range,
     title: 'Ik had het gevoel flauw te gaan vallen.',
-    labels: ['Nooit', 'Soms', 'Vaak', 'Meestal']
+    labels: ['Nooit', 'Soms', 'Meestal']
   }, {
     id: :v16,
     type: :range,
@@ -310,6 +310,20 @@ dagboek_content = [
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Stemming',
+      ids: %i[v3 v5 v10 v13 v16 v17 v21 v24 v26 v31 v34 v37 v38 v42],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Vermijden van gevoelens',
+      ids: %i[v43 v44 v45 v46 v47 v48 v49],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

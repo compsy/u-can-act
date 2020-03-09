@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
-db_title = 'Omgaan met gevoelens (kind)'
+db_title = 'Omgaan met gevoelens'
 
 db_name1 = 'Emotieregulatie_Kinderen_Ouderrapportage_6plus'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
-likert_options = ['Bijna nooit', 'Zelden', 'Af en toe', 'Vaak', 'Bijna altijd']
+likert_options = [
+  { title: 'Bijna nooit', numeric_value: 0 },
+  { title: 'Zelden', numeric_value: 25 },
+  { title: 'Af en toe', numeric_value: 50 },
+  { title: 'Vaak', numeric_value: 75 },
+  { title: 'Bijna altijd', numeric_value: 100 }
+]
 dagboek_content = [
   {
     type: :raw,
@@ -483,6 +489,35 @@ Er kunnen verschillende redenen zijn waarom iemand verdrietig is. In de zinnen h
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Afleiding zoeken',
+      ids: %i[v4a v27a v4b v27b v4c v27c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Positieve stemming oproepen',
+      ids: %i[v3a v17a v3b v17b v3c v17c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Piekeren',
+      ids: %i[v10a v24a v10b v24b v10c v24c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s4,
+      label: 'Terugtrekken',
+      ids: %i[v7a v25a v7b v25b v7c v25c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s5,
+      label: 'Sociale steun',
+      ids: %i[v2a v19a v2b v19b v2c v19c],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

@@ -6,7 +6,7 @@ module Concerns
 
     # rubocop:disable Rails/LexicallyScopedActionFilter
     included do
-      before_action :verify, except: %i[interactive interactive_render]
+      before_action :verify, except: %i[interactive interactive_render from_json]
     end
     # rubocop:enable Rails/LexicallyScopedActionFilter
 

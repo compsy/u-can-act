@@ -344,6 +344,14 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
   end
 
+  describe 'from_json' do
+    it 'should redirect to interactive' do
+      post :from_json, params: {}
+      expect(response.status).to eq 302
+      expect(response.body).to match %r{\/questionnaire\/interactive}
+    end
+  end
+
   describe 'interactive_render' do
     context 'correct request' do
       let(:content) do
@@ -398,7 +406,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'returns some error message' do
         post :interactive_render, params: { content: content }
-        expect(response.body).to eq({ error: "785: unexpected token at 'notjson'" }.to_json)
+        expect(response.body).to eq({ error: "783: unexpected token at 'notjson'" }.to_json)
       end
     end
   end

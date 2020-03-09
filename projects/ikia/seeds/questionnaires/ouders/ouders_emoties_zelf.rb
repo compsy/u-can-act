@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Mijn gevoelens'
+db_title = 'Gevoelens'
 
 db_name1 = 'Emoties_Ouders_Zelf'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
@@ -256,6 +256,20 @@ dagboek_content = [
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Positieve emoties',
+      ids: %i[v1 v3 v5 v6 v8 v11 v13 v14 v15 v19],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Negatieve emoties',
+      ids: %i[v2 v4 v7 v9 v10 v12 v16 v17 v18 v20],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

@@ -522,4 +522,11 @@ describe Response do
       expect(responseobj.updated_at).to be_within(1.minute).of(Time.zone.now)
     end
   end
+
+  describe 'destroy' do
+    it 'cleans up response content items' do
+      response = FactoryBot.create(:response, :completed)
+      expect { response.destroy }.to change(ResponseContent, :count).by(-1)
+    end
+  end
 end

@@ -7,7 +7,7 @@ default: &defaults
   name: "<%= ENV['PROJECT_NAME'] %>"
 
   # Trigger new deploys
-  revision: "<%= ENV['REVISION'] %>"
+  revision: "<%= ENV['REVISION'] || ENV['HEROKU_SLUG_COMMIT'] %>"
 
   enable_frontend_error_catching: false
   enable_minutely_probes: true

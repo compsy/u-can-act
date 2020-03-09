@@ -29,10 +29,15 @@ dagboek_content = [
     maxlength: 4,
     placeholder: 'Vul hier een getal in',
     min: 1940,
-    max: 2030,
+    max: 2005,
     required: true
   }, {
-    id: :v4,
+    id: :v4a,
+    type: :dropdown,
+    title: 'In welk land woont u?',
+    options: ['Afghanistan', 'Albanië', 'Algerije', 'Amerikaans-Samoa', 'Amerikaanse Maagdeneilanden', 'Andorra', 'Angola', 'Anguilla', 'Antigua en Barbuda', 'Argentinië', 'Armenië', 'Aruba', 'Australië', 'Azerbeidzjan', 'Bahamas', 'Bahrein', 'Bangladesh', 'Barbados', 'België', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnië en Herzegovina', 'Botswana', 'Brazilië', 'Britse Maagdeneilanden', 'Brunei', 'Bulgarije', 'Burkina Faso', 'Burundi', 'Cambodja', 'Canada', 'Centraal-Afrikaanse Republiek', 'Chili', 'China', 'Christmaseiland', 'Cocoseilanden', 'Colombia', 'Comoren', 'Congo-Brazzaville', 'Congo-Kinshasa', 'Cookeilanden', 'Costa Rica', 'Cuba', 'Curaçao', 'Cyprus', 'Denemarken', 'Djibouti', 'Dominica', 'Dominicaanse Republiek', 'Duitsland', 'Ecuador', 'Egypte', 'El Salvador', 'Equatoriaal-Guinea', 'Eritrea', 'Estland', 'Ethiopië', 'Faeröer', 'Falkeilanden', 'Fiji', 'Filipijnen', 'Finland', 'Frankrijk', 'Frans-Polynesië', 'Gabon', 'Gambia', 'Georgië', 'Ghana', 'Gibraltar', 'Grenada', 'Griekenland', 'Groenland', 'Guam', 'Guatemala', 'Guernsey', 'Guinee', 'Guinee-Bissau', 'Guyana', 'Haïti', 'Honduras', 'Hongarije', 'Hongkong', 'Ierland', 'IJsland', 'India', 'Indonesië', 'Irak', 'Iran', 'Israël', 'Italië', 'Ivoorkust', 'Jamaica', 'Japan', 'Jemen', 'Jersey', 'Jordanië', 'Kaaimaneilanden', 'Kaapverdië', 'Kameroen', 'Kazachstan', 'Kenia', 'Kirgizië', 'Kiribati', 'Koeweit', 'Kosovo', 'Kroatië', 'Laos', 'Lesotho', 'Letland', 'Libanon', 'Liberia', 'Libië', 'Liechtenstein', 'Litouwen', 'Luxemburg', 'Macau', 'Madagaskar', 'Malawi', 'Maldiven', 'Maleisië', 'Mali', 'Malta', 'Man', 'Marokko', 'Marshalleilanden', 'Mauritanië', 'Mauritius', 'Mexico', 'Micronesia', 'Moldavië', 'Monaco', 'Mongolië', 'Montenegro', 'Montserrat', 'Mozambique', 'Myanmar', 'Namibië', 'Nauru', 'Nederland', 'Nepal', 'Nicaragua', 'Nieuw-Caledonië', 'Nieuw-Zeeland', 'Niger', 'Nigeria', 'Niue', 'Noord-Korea', 'Noord-Macedonië', 'Noordelijke Marianen', 'Noorwegen', 'Norfolk', 'Oeganda', 'Oekraïne', 'Oezbekistan', 'Oman', 'Oost-Timor', 'Oostenrijk', 'Pakistan', 'Palau', 'Palestina', 'Panama', 'Papoea-Nieuw-Guinea', 'Paraguay', 'Peru', 'Pitcairneilanden', 'Polen', 'Portugal', 'Puerto Rico', 'Qatar', 'Roemenië', 'Rusland', 'Rwanda', 'Saint Kitts en Nevis', 'Saint Lucia', 'Saint Vincent en de Grenadines', 'Saint-Barthélemy', 'Saint-Pierre en Miquelon', 'Salomonseilanden', 'Samoa', 'San Marino', 'Sao Tomé en Principe', 'Saoedi-Arabië', 'Senegal', 'Servië', 'Seychellen', 'Sierra Leone', 'Singapore', 'Sint Maarten', 'Sint-Maarten', 'Slovenië', 'Slowakije', 'Soedan', 'Somalië', 'Spanje', 'Spitsbergen en Jan Mayen', 'Sri Lanka', 'Suriname', 'Swaziland', 'Syrië', 'Tadzjikistan', 'Taiwan', 'Tanzania', 'Thailand', 'Togo', 'Tokelau', 'Tonga', 'Trinidad en Tobago', 'Tsjaad', 'Tsjechië', 'Tunesië', 'Turkije', 'Turkmenistan', 'Turks- en Caicoseilanden', 'Tuvalu', 'Uruguay', 'Vanuatu', 'Vaticaanstad', 'Venezuela', 'Verenigd Koninkrijk', 'Verenigde Arabische Emiraten', 'Verenigde Staten', 'Vietnam', 'Wallis en Futuna', 'Westelijke Sahara', 'Wit-Rusland', 'Zambia', 'Zimbabwe', 'Zuid-Afrika', 'Zuid-Korea', 'Zuid-Soedan', 'Zweden', 'Zwitserland']
+  }, {
+    id: :v4b,
     type: :number,
     title: 'Wat zijn de vier cijfers van uw postcode?',
     maxlength: 4,
@@ -95,9 +100,9 @@ dagboek_content = [
       'Ik doe vrijwilligerswerk',]
   }, {
     type: :raw,
-    content: '<p class="flow-text"> De volgende vragen gaan over uw kind. De volgende vragenlijsten gaan over ditzelfde kind. Het is belangrijk dat u bij het invullen van de vragenlijsten hetzelfde kind in gedachten houdt. Heeft u nog meer kinderen en wilt u voor hen ook vragenlijsten invullen? Maak dan meerdere accounts aan. <br>
+    content: '<p class="flow-text"> Het is belangrijk dat u de vragenlijsten in dit onderzoek steeds over hetzelfde kind invult. Als u meerdere kinderen heeft waarover u vragenlijsten in wilt vullen, dan kunt u meerdere accounts aanmaken. <br>
 <br>
-Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname ziet u in de toekomstige vragenlijsten, zodat u weet over welk kind de vragen gaan.</p>'
+Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheugensteuntje kunt u hieronder uw kind een nickname (bijnaam) geven. Deze nickname ziet u in de toekomst bij de vragenlijsten.</p>'
   }, {
     id: :v9,
     type: :textfield,
@@ -122,7 +127,7 @@ Als geheugensteuntje kunt u uw kind een nickname (bijnaam) geven. Deze nickname 
     maxlength: 4,
     placeholder: 'Vul hier een getal in',
     min: 2000,
-    max: 2030,
+    max: 2014,
     required: true
   }, {
     id: :v9_4,

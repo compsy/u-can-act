@@ -130,6 +130,8 @@ group :test do
 
   # Cleans the database after specs
   gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
+  gem 'database_cleaner-mongoid'
 
   # Integration testing
   gem 'capybara', '>= 3.31.0'
@@ -149,6 +151,8 @@ group :production, :staging do
   # Required by Delayed Job
   gem 'daemons'
 end
+
+gem 'addressable'
 
 gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 

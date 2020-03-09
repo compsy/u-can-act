@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
-db_title = 'Omgaan met gevoelens (zelf)'
+db_title = 'Omgaan met gevoelens'
 
 db_name1 = 'Emotieregulatie_Ouders_Zelfrapportage'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
-likert_options = ['Bijna nooit', 'Zelden', 'Af en toe', 'Vaak', 'Bijna altijd']
+likert_options = [
+  { title: 'Bijna nooit', numeric_value: 0 },
+  { title: 'Zelden', numeric_value: 25 },
+  { title: 'Af en toe', numeric_value: 50 },
+  { title: 'Vaak', numeric_value: 75 },
+  { title: 'Bijna altijd', numeric_value: 100 }
+]
 dagboek_content = [
   {
     type: :raw,
@@ -382,6 +388,35 @@ dagboek_content = [
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Accepteren',
+      ids: %i[v2a v16a v2b v16b v2c v16c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Een andere bril opzetten',
+      ids: %i[v8a v21a v8b v21b v8c v21c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Positieve stemming oproepen',
+      ids: %i[v9a v19a v9b v19b v9c v19c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s4,
+      label: 'Terugtrekken',
+      ids: %i[v3a v18a v3b v18b v3c v18c],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s5,
+      label: 'Piekeren',
+      ids: %i[v6a v17a v6b v17b v6c v17c],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

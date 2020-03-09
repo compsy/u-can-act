@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     collection do
       get :interactive
       post :interactive_render
+      post :from_json
     end
   end
   resource :person, only: %i[edit update] do

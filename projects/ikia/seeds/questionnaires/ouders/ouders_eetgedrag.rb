@@ -1,9 +1,19 @@
 # frozen_string_literal: true
-db_title = 'Eetgedrag van mijn kind'
+db_title = 'Eetgedrag'
 db_name1 = 'Eetgedrag_Kinderen_Ouderrapportage_4tot11'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
+
+likert_options = [
+  { title: '1-10', numeric_value: 0.0 },
+  { title: '11-20', numeric_value: 16.67 },
+  { title: '21-30', numeric_value: 33.33 },
+  { title: '31-40', numeric_value: 50.0 },
+  { title: '41-50', numeric_value: 66.67 },
+  { title: '51-60', numeric_value: 83.33 },
+  { title: '>60 min', numeric_value: 100.0 }
+]
 dagboek_content = [
   {
     type: :raw,
@@ -34,9 +44,10 @@ dagboek_content = [
     required: true
   }, {
     id: :v5,
-    type: :likert,
+    type: :range,
     title: 'Hoe lang duurt een maaltijd van uw kind (in minuten)?',
-    options: ['1-10', '11-20', '21-30', '31-40', '41-50', '51-60', '>60 min']
+    labels: ['0 minuten', '60 minuten of meer'],
+    required: true
   }, {
     id: :v6,
     type: :range,
@@ -93,6 +104,25 @@ dagboek_content = [
     required: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Eetgedrag',
+      ids: %i[v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14],
+      preprocessing: {
+        v1: invert,
+        v3: invert,
+        v4: invert,
+        v8: invert,
+        v10: invert,
+        v12: invert,
+        v13: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

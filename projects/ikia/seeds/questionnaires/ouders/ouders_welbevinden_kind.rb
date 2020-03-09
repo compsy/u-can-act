@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Leefplezier van mijn kind'
+db_title = 'Leefplezier'
 db_name1 = 'Welbevinden_Kind_Ouderrapportage_6plus'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
@@ -92,6 +92,7 @@ dagboek_content = [
     required: true
   }
 ]
+invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {
   questions: dagboek_content,
   scores: [
@@ -113,7 +114,7 @@ dagboek1.content = {
     { id: :s4,
       label: 'Vriendschappen',
       ids: %i[v3 v4],
-      preprocessing: { v4: { multiply_with: -1, offset: 100 } },
+      preprocessing: { v4: invert },
       operation: :average,
       round_to_decimals: 0 },
     { id: :s5,

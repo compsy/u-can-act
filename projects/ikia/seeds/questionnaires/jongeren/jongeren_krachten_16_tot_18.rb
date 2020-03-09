@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-db_title = 'Creativiteit'
+db_title = 'Krachten'
 
-db_name1 = 'Creativiteit_Jongeren_16tot18'
+db_name1 = 'Krachten_Jongeren_16tot18'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
@@ -13,7 +13,7 @@ dagboek_content = [
   }, {
     id: :v1_1,
     type: :range,
-    title: 'In vergelijking met anderen van jouw leeftijd, hoe creatief bent je?',
+    title: 'In vergelijking met anderen van jouw leeftijd, hoe creatief ben jij?',
     labels: ['Helemaal niet creatief', 'Net zo creatief', 'Heel erg creatief'],
     required: true
   }, {
@@ -66,185 +66,245 @@ dagboek_content = [
 Bijvoorbeeld: de woorden <i>tijd / hard / zand</i> kunnen met elkaar verbonden worden door het woord <i>steen: steentijd / hardsteen / zandsteen</i>. Het oplossingswoord is hier dus <i>steen</i>.<br><br>
 Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet weet, vul dan in "Weet ik niet".<br>',
     id: :v2_1,
-    type: :textfield,
+    type: :radio,
     title: 'man / lijm / ster',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true,
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:',
     section_end: false
   }, {
     id: :v2_2,
-    type: :textfield,
+    type: :radio,
     title: 'hond / druk / band',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_3,
-    type: :textfield,
+    type: :radio,
     title: 'palm / familie / huis',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_4,
-    type: :textfield,
+    type: :radio,
     title: 'kamer / masker / explosie',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_5,
-    type: :textfield,
+    type: :radio,
     title: 'strijkijzer / schip / trein',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_6,
-    type: :textfield,
+    type: :radio,
     title: 'kop / boon / pause',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_7,
-    type: :textfield,
+    type: :radio,
     title: 'controle / plaats / gewicht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_8,
-    type: :textfield,
+    type: :radio,
     title: 'bar / jurk / glas',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_9,
-    type: :textfield,
+    type: :radio,
     title: 'kolen / land / schacht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_10,
-    type: :textfield,
+    type: :radio,
     title: 'kaas / land / huis',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_11,
-    type: :textfield,
+    type: :radio,
     title: 'achter / kruk / mat',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_12,
-    type: :textfield,
+    type: :radio,
     title: 'schommel / klap / rol',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_13,
-    type: :textfield,
+    type: :radio,
     title: 'vlokken / ketting / pet',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_14,
-    type: :textfield,
+    type: :radio,
     title: 'riet / klontje / hart',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_15,
-    type: :textfield,
+    type: :radio,
     title: 'licht / dromen / maan',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_16,
-    type: :textfield,
+    type: :radio,
     title: 'vis / mijn / geel',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_17,
-    type: :textfield,
+    type: :radio,
     title: 'worm / kast / legger',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_18,
-    type: :textfield,
+    type: :radio,
     title: 'bed / zee / school',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_19,
-    type: :textfield,
+    type: :radio,
     title: 'grond / vis / geld',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_20,
-    type: :textfield,
+    type: :radio,
     title: 'olie / pak / meester',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_21,
-    type: :textfield,
+    type: :radio,
     title: 'room / vloot / koek',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_22,
-    type: :textfield,
+    type: :radio,
     title: 'trommel / beleg /mes',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_23,
-    type: :textfield,
+    type: :radio,
     title: 'ga / daar / dag',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_24,
-    type: :textfield,
+    type: :radio,
     title: 'water / schoorsteen / lucht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_25,
-    type: :textfield,
+    type: :radio,
     title: 'goot / kool / bak',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_26,
-    type: :textfield,
+    type: :radio,
     title: 'deur / werk / kamer',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_27,
-    type: :textfield,
+    type: :radio,
     title: 'nacht / vet / licht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_28,
-    type: :textfield,
-    title: 'arm /veld / stil',
+    type: :radio,
+    title: 'arm / veld / stil',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_29,
-    type: :textfield,
+    type: :radio,
     title: 'val / meloen / lelie',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_30,
-    type: :textfield,
+    type: :radio,
     title: 'school / ontbijt / spel',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true,
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:',
     section_end: true
   }, {
     section_start: 'Er volgen nu  een aantal uitspraken over gedachten en gevoelens die je in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij jou past.',
@@ -375,7 +435,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     title: 'Voordat ik kritiek op iemand geef, probeer ik mij voor te stellen hoe ik mij zou voelen in zijn of haar plaats.',
     labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij'],
     section_end: true
-  },{
+  }, {
     section_start: 'Er volgen nu nog 10 zinnen. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
     id: :v4_1,
     type: :range,
@@ -448,11 +508,50 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     content: [{
                 id: :v5_1,
                 type: :textarea,
+                required: true,
                 title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.'}],
+                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.' }],
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Creativiteit',
+      ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Empathie',
+      ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16 v3_19 v3_21],
+      preprocessing: {
+        v3_3: invert,
+        v3_13: invert,
+        v3_2: invert,
+        v3_11: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Mindfulness',
+      ids: %i[v4_1 v4_2 v4_3 v4_4 v4_5 v4_6 v4_7 v4_8 v4_9 v4_10],
+      preprocessing: {
+        v4_1: invert,
+        v4_2: invert,
+        v4_3: invert,
+        v4_4: invert,
+        v4_5: invert,
+        v4_6: invert,
+        v4_7: invert,
+        v4_8: invert,
+        v4_9: invert,
+        v4_10: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

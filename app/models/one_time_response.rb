@@ -11,7 +11,7 @@ class OneTimeResponse < ApplicationRecord
     next if one_time_response.token.present?
 
     loop do
-      one_time_response.token = RandomAlphaNumericStringGenerator.generate(OneTimeResponse::TOKEN_LENGTH)
+      one_time_response.token = RandomStringGenerator.generate_alpha_numeric(OneTimeResponse::TOKEN_LENGTH)
       break if OneTimeResponse.where(token: one_time_response.token).count.zero?
     end
   end

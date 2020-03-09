@@ -39,8 +39,8 @@ $(function() {
     if ($(self).data('default-date'))
       default_date = new Date(Date.parse($(self).data('default-date')));
     $(self).datepicker({
-      minDate: $(self).data('min'),
-      maxDate: $(self).data('max'),
+      minDate: new Date(Date.parse($(self).data('min'))),
+      maxDate: new Date(Date.parse($(self).data('max'))),
       defaultDate: default_date,                         // This is so we can set a default date already filled out,
       setDefaultDate: $(self).data('set-default-date'),  // allowing the user to skip the input
       format: 'yyyy-mm-dd',

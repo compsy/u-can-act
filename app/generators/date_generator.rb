@@ -36,6 +36,10 @@ class DateGenerator < QuestionTypeGenerator
       data[:'default-date'] = Time.zone.today
       data[:'set-default-date'] = true
     end
+    if question[:default_date].present?
+      data[:'default-date'] = Date.parse(question[:default_date])
+      data[:'set-default-date'] = false
+    end
     data
   end
 

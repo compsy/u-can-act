@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-db_title = 'Kenmerken van mijn kind'
+db_title = 'Klachten (kort)'
 db_name1 = 'Klachten_Kind_Kort_Ouderrapportage'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
@@ -7,7 +7,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> De volgende vragenlijst gaat over kenmerken van uw kind. Geef bij elke zin aan in hoeverre deze uitspraak waar of niet waar is door het bolletje te verplaatsen. Baseer uw antwoorden op het gedrag van uw kind gedurende de laatste zes maanden. Het invullen kost u ongeveer X minuten.</p>'
+    content: '<p class="flow-text"> De volgende vragenlijst gaat over klachten die uw kind kan hebben. Geef bij elke zin aan in hoeverre deze uitspraak waar of niet waar is door het bolletje te verplaatsen. Baseer uw antwoorden op het gedrag van uw kind gedurende de laatste zes maanden. Het invullen kost u ongeveer X minuten.</p>'
   }, {
     section_start: 'Mijn kind…',
     id: :v1,
@@ -391,6 +391,7 @@ dagboek_content = [
     options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
   }
 ]
+invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {
   questions: dagboek_content,
   scores: [
@@ -398,8 +399,8 @@ dagboek1.content = {
       label: 'Binnenwereld',
       ids: %i[v3 v8 v13 v16 v24 v6 v11 v14 v19 v23],
       preprocessing: {
-        v11: { multiply_with: -1, offset: 100 },
-        v14: { multiply_with: -1, offset: 100 }
+        v11: invert,
+        v14: invert
       },
       operation: :average,
       round_to_decimals: 0 },
@@ -407,9 +408,9 @@ dagboek1.content = {
       label: 'Buitenwereld',
       ids: %i[v5 v7 v12 v18 v22 v2 v10 v15 v21 v25],
       preprocessing: {
-        v7: { multiply_with: -1, offset: 100 },
-        v21: { multiply_with: -1, offset: 100 },
-        v25: { multiply_with: -1, offset: 100 }
+        v7: invert,
+        v21: invert,
+        v25: invert
       },
       operation: :average,
       round_to_decimals: 0 }

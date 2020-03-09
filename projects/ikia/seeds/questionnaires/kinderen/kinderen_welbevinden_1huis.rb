@@ -8,7 +8,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
+    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
   }, {
     section_start: 'Type je antwoorden op de volgende vragen in de tekstvelden. Je mag zoveel typen als je wilt.',
     id: :v1,
@@ -117,7 +117,7 @@ dagboek_content = [
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v10_10,
+    id: :v10_9,
     type: :range,
     title: 'Er zijn leuke dingen te doen waar ik woon.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
@@ -248,6 +248,25 @@ dagboek_content = [
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Thuis',
+      ids: %i[v10_1 v10_2 v10_3 v10_4 v10_5 v10_6 v10_7 v10_8 v10_9],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Op school',
+      ids: %i[v17 v18 v19 v20 v21 v22],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Vrienden',
+      ids: %i[v11 v12 v13 v14 v15 v16],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

@@ -200,7 +200,7 @@ dagboek1.content = {
       ids: %i[v2_1 v2_2 v2_3 v2_4 v2_5 v2_6 v2_7 v2_8 v2_9 v2_10 v2_11 v2_12 v2_13 v2_14 v2_15 v2_16 v2_17 v2_18],
       operation: :average,
       round_to_decimals: 0 }
-  ] }
-dagboek1.content = { questions: dagboek_content, scores: [] }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

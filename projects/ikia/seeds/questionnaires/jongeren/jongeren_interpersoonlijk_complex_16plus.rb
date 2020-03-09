@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-db_title = 'Sociaal gedrag jongeren 16plus'
+db_title = 'Omgang met anderen'
 
-db_name1 = 'Sociaal gedrag'
+db_name1 = 'Interpersoonlijk gedrag jongeren16plus'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1

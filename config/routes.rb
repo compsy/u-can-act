@@ -132,6 +132,8 @@ Rails.application.routes.draw do
             post :change_to_mentor
           end
         end
+
+        resources :questionnaires, only: [:create]
       end
 
       # Admin APIs

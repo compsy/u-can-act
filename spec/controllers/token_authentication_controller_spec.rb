@@ -29,19 +29,37 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       end
     end
 
-    it 'redirects to the questionnaire controller if everything checks out' do
-      person = FactoryBot.create(:person)
-      protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                start_date: 1.week.ago.at_beginning_of_day,
-                                                person: person)
-      responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
-                                                           open_from: 1.hour.ago)
-      invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
-      identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
-      get :show, params: { q: identifier }
-      expect(response).to have_http_status(:found)
-      expect(response.location).not_to eq(mentor_overview_index_url)
-      expect(response.location).to end_with(questionnaire_path(responseobj.uuid))
+    describe 'redirects to the questionnaire controller' do
+      let(:person) { FactoryBot.create(:person) }
+      let(:mentor) { FactoryBot.create(:mentor) }
+
+      def prepare_spec(protocol_subscription)
+        responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
+                                                             open_from: 1.hour.ago)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        get :show, params: { q: identifier }
+        expect(response).to have_http_status(:found)
+        expect(response.location).not_to eq(mentor_overview_index_url)
+        [response, responseobj]
+      end
+
+      it 'redirects to the questionnaire controller if everything checks out' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person)
+        response, responseobj = prepare_spec(protocol_subscription)
+        expect(response.location).to end_with(preference_questionnaire_index_path(uuid: responseobj.uuid))
+      end
+
+      it 'redirects to the index of questionnaire controller if everything checks out and we are a mentor' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  filling_out_for: person,
+                                                  person: mentor)
+        response, _responseobj = prepare_spec(protocol_subscription)
+        expect(response.location).to end_with(questionnaire_index_path)
+      end
     end
 
     describe 'should set the correct cookie' do

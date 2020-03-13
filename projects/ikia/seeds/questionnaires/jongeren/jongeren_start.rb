@@ -15,32 +15,47 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     title: 'Ben je een jongen of een meisje?',
-    options: ['Jongen', 'Meisje', 'Anders']
+    options: ['Jongen', 'Meisje', 'Anders'],
+    combines_with: %i[v2]
   }, {
     id: :v2,
     type: :date,
-    Required: true,
-    title: 'Wanneer ben je geboren?'
+    required: true,
+    title: 'Wanneer ben je geboren?',
+    min: '2000/01/01',
+    default_date: '2005/01/01',
+    max: '2014/01/01'
   }, {
-    id: :v3,
+    id: :v3_a,
+    type: :radio,
+    title: 'In welk land woon je?',
+    show_otherwise: false,
+    options: [
+      { title: 'Nederland' }, {title: 'België'},{ title: 'Anders', shows_questions: %i[v3_b]}]
+  },{ 
+    id: :v3_b,
+    type: :dropdown,
+    hidden: true,
+    title: 'Welk land is dit?',
+    options: ['Afghanistan', 'Albanië', 'Algerije', 'Amerikaans-Samoa', 'Amerikaanse Maagdeneilanden', 'Andorra', 'Angola', 'Anguilla', 'Antigua en Barbuda', 'Argentinië', 'Armenië', 'Aruba', 'Australië', 'Azerbeidzjan', 'Bahamas', 'Bahrein', 'Bangladesh', 'Barbados', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnië en Herzegovina', 'Botswana', 'Brazilië', 'Britse Maagdeneilanden', 'Brunei', 'Bulgarije', 'Burkina Faso', 'Burundi', 'Cambodja', 'Canada', 'Centraal-Afrikaanse Republiek', 'Chili', 'China', 'Christmaseiland', 'Cocoseilanden', 'Colombia', 'Comoren', 'Congo-Brazzaville', 'Congo-Kinshasa', 'Cookeilanden', 'Costa Rica', 'Cuba', 'Curaçao', 'Cyprus', 'Denemarken', 'Djibouti', 'Dominica', 'Dominicaanse Republiek', 'Duitsland', 'Ecuador', 'Egypte', 'El Salvador', 'Equatoriaal-Guinea', 'Eritrea', 'Estland', 'Ethiopië', 'Faeröer', 'Falkeilanden', 'Fiji', 'Filipijnen', 'Finland', 'Frankrijk', 'Frans-Polynesië', 'Gabon', 'Gambia', 'Georgië', 'Ghana', 'Gibraltar', 'Grenada', 'Griekenland', 'Groenland', 'Guam', 'Guatemala', 'Guernsey', 'Guinee', 'Guinee-Bissau', 'Guyana', 'Haïti', 'Honduras', 'Hongarije', 'Hongkong', 'Ierland', 'IJsland', 'India', 'Indonesië', 'Irak', 'Iran', 'Israël', 'Italië', 'Ivoorkust', 'Jamaica', 'Japan', 'Jemen', 'Jersey', 'Jordanië', 'Kaaimaneilanden', 'Kaapverdië', 'Kameroen', 'Kazachstan', 'Kenia', 'Kirgizië', 'Kiribati', 'Koeweit', 'Kosovo', 'Kroatië', 'Laos', 'Lesotho', 'Letland', 'Libanon', 'Liberia', 'Libië', 'Liechtenstein', 'Litouwen', 'Luxemburg', 'Macau', 'Madagaskar', 'Malawi', 'Maldiven', 'Maleisië', 'Mali', 'Malta', 'Man', 'Marokko', 'Marshalleilanden', 'Mauritanië', 'Mauritius', 'Mexico', 'Micronesia', 'Moldavië', 'Monaco', 'Mongolië', 'Montenegro', 'Montserrat', 'Mozambique', 'Myanmar', 'Namibië', 'Nauru', 'Nepal', 'Nicaragua', 'Nieuw-Caledonië', 'Nieuw-Zeeland', 'Niger', 'Nigeria', 'Niue', 'Noord-Korea', 'Noord-Macedonië', 'Noordelijke Marianen', 'Noorwegen', 'Norfolk', 'Oeganda', 'Oekraïne', 'Oezbekistan', 'Oman', 'Oost-Timor', 'Oostenrijk', 'Pakistan', 'Palau', 'Palestina', 'Panama', 'Papoea-Nieuw-Guinea', 'Paraguay', 'Peru', 'Pitcairneilanden', 'Polen', 'Portugal', 'Puerto Rico', 'Qatar', 'Roemenië', 'Rusland', 'Rwanda', 'Saint Kitts en Nevis', 'Saint Lucia', 'Saint Vincent en de Grenadines', 'Saint-Barthélemy', 'Saint-Pierre en Miquelon', 'Salomonseilanden', 'Samoa', 'San Marino', 'Sao Tomé en Principe', 'Saoedi-Arabië', 'Senegal', 'Servië', 'Seychellen', 'Sierra Leone', 'Singapore', 'Sint Maarten', 'Sint-Maarten', 'Slovenië', 'Slowakije', 'Soedan', 'Somalië', 'Spanje', 'Spitsbergen en Jan Mayen', 'Sri Lanka', 'Suriname', 'Swaziland', 'Syrië', 'Tadzjikistan', 'Taiwan', 'Tanzania', 'Thailand', 'Togo', 'Tokelau', 'Tonga', 'Trinidad en Tobago', 'Tsjaad', 'Tsjechië', 'Tunesië', 'Turkije', 'Turkmenistan', 'Turks- en Caicoseilanden', 'Tuvalu', 'Uruguay', 'Vanuatu', 'Vaticaanstad', 'Venezuela', 'Verenigd Koninkrijk', 'Verenigde Arabische Emiraten', 'Verenigde Staten', 'Vietnam', 'Wallis en Futuna', 'Westelijke Sahara', 'Wit-Rusland', 'Zambia', 'Zimbabwe', 'Zuid-Afrika', 'Zuid-Korea', 'Zuid-Soedan', 'Zweden', 'Zwitserland']
+  }, {
+    id: :v3_c,
     title: 'In welk land ben je geboren?',
     type: :radio,
     show_otherwise: false,
     options: [
-      {title: 'Nederland'}, {title: 'Anders', shows_questions: %i[v3_a, v3_b]
-    }
-    ]
+      { title: 'Nederland' }, {title: 'België'}, { title: 'Anders', shows_questions: %i[v3_d, v3_e] }]
   }, {
-    id: :v3_a,
+    id: :v3_d,
     type: :dropdown,
     hidden: true,
     title: 'Welk land is dit?',
-    options: ['Afghanistan', 'Albanië', 'Algerije', 'Amerikaans-Samoa', 'Amerikaanse Maagdeneilanden', 'Andorra', 'Angola', 'Anguilla', 'Antigua en Barbuda', 'Argentinië', 'Armenië', 'Aruba', 'Australië', 'Azerbeidzjan', 'Bahamas', 'Bahrein', 'Bangladesh', 'Barbados', 'België', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnië en Herzegovina', 'Botswana', 'Brazilië', 'Britse Maagdeneilanden', 'Brunei', 'Bulgarije', 'Burkina Faso', 'Burundi', 'Cambodja', 'Canada', 'Centraal-Afrikaanse Republiek', 'Chili', 'China', 'Christmaseiland', 'Cocoseilanden', 'Colombia', 'Comoren', 'Congo-Brazzaville', 'Congo-Kinshasa', 'Cookeilanden', 'Costa Rica', 'Cuba', 'Curaçao', 'Cyprus', 'Denemarken', 'Djibouti', 'Dominica', 'Dominicaanse Republiek', 'Duitsland', 'Ecuador', 'Egypte', 'El Salvador', 'Equatoriaal-Guinea', 'Eritrea', 'Estland', 'Ethiopië', 'Faeröer', 'Falkeilanden', 'Fiji', 'Filipijnen', 'Finland', 'Frankrijk', 'Frans-Polynesië', 'Gabon', 'Gambia', 'Georgië', 'Ghana', 'Gibraltar', 'Grenada', 'Griekenland', 'Groenland', 'Guam', 'Guatemala', 'Guernsey', 'Guinee', 'Guinee-Bissau', 'Guyana', 'Haïti', 'Honduras', 'Hongarije', 'Hongkong', 'Ierland', 'IJsland', 'India', 'Indonesië', 'Irak', 'Iran', 'Israël', 'Italië', 'Ivoorkust', 'Jamaica', 'Japan', 'Jemen', 'Jersey', 'Jordanië', 'Kaaimaneilanden', 'Kaapverdië', 'Kameroen', 'Kazachstan', 'Kenia', 'Kirgizië', 'Kiribati', 'Koeweit', 'Kosovo', 'Kroatië', 'Laos', 'Lesotho', 'Letland', 'Libanon', 'Liberia', 'Libië', 'Liechtenstein', 'Litouwen', 'Luxemburg', 'Macau', 'Madagaskar', 'Malawi', 'Maldiven', 'Maleisië', 'Mali', 'Malta', 'Man', 'Marokko', 'Marshalleilanden', 'Mauritanië', 'Mauritius', 'Mexico', 'Micronesia', 'Moldavië', 'Monaco', 'Mongolië', 'Montenegro', 'Montserrat', 'Mozambique', 'Myanmar', 'Namibië', 'Nauru', 'Nepal', 'Nicaragua', 'Nieuw-Caledonië', 'Nieuw-Zeeland', 'Niger', 'Nigeria', 'Niue', 'Noord-Korea', 'Noord-Macedonië', 'Noordelijke Marianen', 'Noorwegen', 'Norfolk', 'Oeganda', 'Oekraïne', 'Oezbekistan', 'Oman', 'Oost-Timor', 'Oostenrijk', 'Pakistan', 'Palau', 'Palestina', 'Panama', 'Papoea-Nieuw-Guinea', 'Paraguay', 'Peru', 'Pitcairneilanden', 'Polen', 'Portugal', 'Puerto Rico', 'Qatar', 'Roemenië', 'Rusland', 'Rwanda', 'Saint Kitts en Nevis', 'Saint Lucia', 'Saint Vincent en de Grenadines', 'Saint-Barthélemy', 'Saint-Pierre en Miquelon', 'Salomonseilanden', 'Samoa', 'San Marino', 'Sao Tomé en Principe', 'Saoedi-Arabië', 'Senegal', 'Servië', 'Seychellen', 'Sierra Leone', 'Singapore', 'Sint Maarten', 'Sint-Maarten', 'Slovenië', 'Slowakije', 'Soedan', 'Somalië', 'Spanje', 'Spitsbergen en Jan Mayen', 'Sri Lanka', 'Suriname', 'Swaziland', 'Syrië', 'Tadzjikistan', 'Taiwan', 'Tanzania', 'Thailand', 'Togo', 'Tokelau', 'Tonga', 'Trinidad en Tobago', 'Tsjaad', 'Tsjechië', 'Tunesië', 'Turkije', 'Turkmenistan', 'Turks- en Caicoseilanden', 'Tuvalu', 'Uruguay', 'Vanuatu', 'Vaticaanstad', 'Venezuela', 'Verenigd Koninkrijk', 'Verenigde Arabische Emiraten', 'Verenigde Staten', 'Vietnam', 'Wallis en Futuna', 'Westelijke Sahara', 'Wit-Rusland', 'Zambia', 'Zimbabwe', 'Zuid-Afrika', 'Zuid-Korea', 'Zuid-Soedan', 'Zweden', 'Zwitserland']
+    options: ['Afghanistan', 'Albanië', 'Algerije', 'Amerikaans-Samoa', 'Amerikaanse Maagdeneilanden', 'Andorra', 'Angola', 'Anguilla', 'Antigua en Barbuda', 'Argentinië', 'Armenië', 'Aruba', 'Australië', 'Azerbeidzjan', 'Bahamas', 'Bahrein', 'Bangladesh', 'Barbados', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnië en Herzegovina', 'Botswana', 'Brazilië', 'Britse Maagdeneilanden', 'Brunei', 'Bulgarije', 'Burkina Faso', 'Burundi', 'Cambodja', 'Canada', 'Centraal-Afrikaanse Republiek', 'Chili', 'China', 'Christmaseiland', 'Cocoseilanden', 'Colombia', 'Comoren', 'Congo-Brazzaville', 'Congo-Kinshasa', 'Cookeilanden', 'Costa Rica', 'Cuba', 'Curaçao', 'Cyprus', 'Denemarken', 'Djibouti', 'Dominica', 'Dominicaanse Republiek', 'Duitsland', 'Ecuador', 'Egypte', 'El Salvador', 'Equatoriaal-Guinea', 'Eritrea', 'Estland', 'Ethiopië', 'Faeröer', 'Falkeilanden', 'Fiji', 'Filipijnen', 'Finland', 'Frankrijk', 'Frans-Polynesië', 'Gabon', 'Gambia', 'Georgië', 'Ghana', 'Gibraltar', 'Grenada', 'Griekenland', 'Groenland', 'Guam', 'Guatemala', 'Guernsey', 'Guinee', 'Guinee-Bissau', 'Guyana', 'Haïti', 'Honduras', 'Hongarije', 'Hongkong', 'Ierland', 'IJsland', 'India', 'Indonesië', 'Irak', 'Iran', 'Israël', 'Italië', 'Ivoorkust', 'Jamaica', 'Japan', 'Jemen', 'Jersey', 'Jordanië', 'Kaaimaneilanden', 'Kaapverdië', 'Kameroen', 'Kazachstan', 'Kenia', 'Kirgizië', 'Kiribati', 'Koeweit', 'Kosovo', 'Kroatië', 'Laos', 'Lesotho', 'Letland', 'Libanon', 'Liberia', 'Libië', 'Liechtenstein', 'Litouwen', 'Luxemburg', 'Macau', 'Madagaskar', 'Malawi', 'Maldiven', 'Maleisië', 'Mali', 'Malta', 'Man', 'Marokko', 'Marshalleilanden', 'Mauritanië', 'Mauritius', 'Mexico', 'Micronesia', 'Moldavië', 'Monaco', 'Mongolië', 'Montenegro', 'Montserrat', 'Mozambique', 'Myanmar', 'Namibië', 'Nauru', 'Nepal', 'Nicaragua', 'Nieuw-Caledonië', 'Nieuw-Zeeland', 'Niger', 'Nigeria', 'Niue', 'Noord-Korea', 'Noord-Macedonië', 'Noordelijke Marianen', 'Noorwegen', 'Norfolk', 'Oeganda', 'Oekraïne', 'Oezbekistan', 'Oman', 'Oost-Timor', 'Oostenrijk', 'Pakistan', 'Palau', 'Palestina', 'Panama', 'Papoea-Nieuw-Guinea', 'Paraguay', 'Peru', 'Pitcairneilanden', 'Polen', 'Portugal', 'Puerto Rico', 'Qatar', 'Roemenië', 'Rusland', 'Rwanda', 'Saint Kitts en Nevis', 'Saint Lucia', 'Saint Vincent en de Grenadines', 'Saint-Barthélemy', 'Saint-Pierre en Miquelon', 'Salomonseilanden', 'Samoa', 'San Marino', 'Sao Tomé en Principe', 'Saoedi-Arabië', 'Senegal', 'Servië', 'Seychellen', 'Sierra Leone', 'Singapore', 'Sint Maarten', 'Sint-Maarten', 'Slovenië', 'Slowakije', 'Soedan', 'Somalië', 'Spanje', 'Spitsbergen en Jan Mayen', 'Sri Lanka', 'Suriname', 'Swaziland', 'Syrië', 'Tadzjikistan', 'Taiwan', 'Tanzania', 'Thailand', 'Togo', 'Tokelau', 'Tonga', 'Trinidad en Tobago', 'Tsjaad', 'Tsjechië', 'Tunesië', 'Turkije', 'Turkmenistan', 'Turks- en Caicoseilanden', 'Tuvalu', 'Uruguay', 'Vanuatu', 'Vaticaanstad', 'Venezuela', 'Verenigd Koninkrijk', 'Verenigde Arabische Emiraten', 'Verenigde Staten', 'Vietnam', 'Wallis en Futuna', 'Westelijke Sahara', 'Wit-Rusland', 'Zambia', 'Zimbabwe', 'Zuid-Afrika', 'Zuid-Korea', 'Zuid-Soedan', 'Zweden', 'Zwitserland']
   }, {
-    id: :v3_b,
+    id: :v3_e,
     type: :dropdown,
     hidden: true,
-    title: 'Hoe oud was je toen je naar Nederland kwam?',
+    title: 'Hoe oud was je toen je naar het land kwam waar je nu woont?',
     options: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18']
   }, {
     id: :v4,
@@ -48,7 +63,7 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Naar wat voor school ga je?',
     options: [
-      {title: 'Basisschool', shows_questions: %i[v4_a]}, {title: 'Middelbare school', shows_questions: %i[v4_b, v4_c]}, {title: 'Speciaal onderwijs', shows_questions: %i[v4_d]}, {title: 'Ik krijg thuisonderwijs'}, {title: 'Ik krijg geen onderwijs'}
+      { title: 'Basisschool', shows_questions: %i[v4_a] }, { title: 'Middelbare school', shows_questions: %i[v4_b, v4_c] }, { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] }, { title: 'Ik krijg thuisonderwijs' }, { title: 'Ik krijg geen onderwijs' }
     ]
   }, {
     id: :v4_a,

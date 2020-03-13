@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Mijn leefplezier'
+db_title = 'Leefplezier'
 
 db_name1 = 'Welbevinden_Ouders_Zelfrapportage'
 dagboek1 = Questionnaire.find_by_name(db_name1)
@@ -9,7 +9,7 @@ dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> De volgende vragenlijst onderzoekt uw welbevinden en tevredenheid, gevoel van controle, en omgang met anderen. Het invullen van deze 70 vragen kost u ongeveer 15 minuten. U kunt het blokje op de antwoordschaal naar de plek schuiven die volgens u het beste aansluit bij uw ervaringen. Er zijn geen goede of foute antwoorden.</p>'
+    content: '<p class="flow-text"> De volgende vragenlijst onderzoekt uw welbevinden en tevredenheid, gevoel van controle, en omgang met anderen. Het invullen van deze 70 vragen kost u ongeveer 15 minuten. U kunt het bolletje op de antwoordschaal naar de plek schuiven die volgens u het beste aansluit bij uw ervaringen. Er zijn geen goede of foute antwoorden.</p>'
   }, {
     section_start: 'De volgende vragen gaan over uw leven in het algemeen:',
     id: :v1,
@@ -233,7 +233,7 @@ dagboek_content = [
     id: :v36,
     type: :range,
     hidden: true,
-    title: 'Hoe tevreden bent u met de mensen waarmee u samenleeft?',
+    title: 'Hoe tevreden bent u met de persoon of personen waarmee u samenleeft?',
     labels: ['Kan niet slechter', 'Gemengd (tevreden en ontevreden)', 'Kan niet beter']
   }, {
     id: :v37,

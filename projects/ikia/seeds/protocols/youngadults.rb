@@ -4,6 +4,7 @@ boek_protocol ||= Protocol.new(name: pr_name)
 boek_protocol.duration = 3.years
 
 boek_protocol.save!
+unused_measurement_ids = boek_protocol.measurements.pluck(:id).to_set
 Dir[Rails.root.join('projects',
                     'ikia',
                     'seeds',
@@ -11,7 +12,9 @@ Dir[Rails.root.join('projects',
                     'jongeren',
                     '**',
                     '*.rb')].map { |x| File.basename(x, '.rb') }.each do |questionnaire_key|
-  next if %w[jongeren_krachten_12_tot_15 jongeren_start].include?(questionnaire_key)
+  next if %w[jongeren_krachten_12_tot_15
+             jongeren_start
+             jongeren_vriendschap_12_tot_15].include?(questionnaire_key)
 
   questionnaire = Questionnaire.find_by(key: questionnaire_key)
   next unless questionnaire
@@ -29,4 +32,14 @@ Dir[Rails.root.join('projects',
   boek_measurement.should_invite = false # don't send invitations
   boek_measurement.redirect_url = '/klaar' # is overridden by callback_url passed
   boek_measurement.save!
+  unused_measurement_ids.delete(boek_measurement.id)
+end
+if unused_measurement_ids.present?
+  puts "ERROR: unused youngadults ids present: "
+  puts unused_measurement_ids.map do |unused_id|
+    Measurement.find(unused_id)&.questionnaire&.key || unused_id.to_s
+  end.pretty_inspect
+  unused_measurement_ids.to_a.each do |measurement_id|
+    Measurement.find(measurement_id)&.destroy
+  end
 end

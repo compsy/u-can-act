@@ -293,6 +293,35 @@ dagboek_content = [
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Luisteren en vragen stellen',
+      ids: %i[v5a v5b v5c v5h v6a v6f v6i],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Complimenten geven',
+      ids: %i[v3e v3h],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Signalen opmerken',
+      ids: %i[v3d v3i v4d v5e v5f v6c v6g],
+      preprocessing: {
+        v3d: invert,
+        v3i: invert,
+        v4d: invert,
+        v5e: invert,
+        v5f: invert,
+        v6c: invert,
+        v6g: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

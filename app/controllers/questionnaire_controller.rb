@@ -8,7 +8,7 @@ class QuestionnaireController < ApplicationController
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
-  before_action :set_response, only: %i[show destroy]
+  before_action :set_response, only: %i[show preference destroy]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]
@@ -23,6 +23,12 @@ class QuestionnaireController < ApplicationController
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
+  end
+
+  # Allows users to be redirected to the correct questionnaire with preference
+  # for a certain response
+  def preference
+    redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: @response
   end
 
   def interactive

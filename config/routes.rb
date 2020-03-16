@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :mentor_overview, only: [:index]
   resources :questionnaire, only: %i[index show create destroy], param: :uuid do
     collection do
+      get 'preference/:uuid', to: 'questionnaire#preference', as: 'preference'
       get :interactive
       post :interactive_render
       post :from_json

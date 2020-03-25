@@ -21,7 +21,7 @@ dagboek_content = [
   {
     type: :raw,
     content: '<p class="flow-text"> Welkom bij de vragenlijst! Deze vragenlijst gaat over de mensen in jouw gezin.
-Ook zijn er vragen over de gewoontes van je gezin, en over je eigen gewoontes. Je bent hier ongeveer X minuten mee bezig.</p>'
+Ook zijn er vragen over de gewoontes van je gezin, en over je eigen gewoontes. Je bent hier ongeveer 10 minuten mee bezig.</p>'
   }, {
     section_start: 'De volgende vragen gaan over je thuis. Hiermee bedoelen we het huis waarin je woont. In dit huis woont ook een volwassene die voor je zorgt.
 Sommige kinderen hebben meer dan 1 thuis.',

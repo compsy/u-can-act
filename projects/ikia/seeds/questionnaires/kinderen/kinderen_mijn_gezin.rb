@@ -55,7 +55,7 @@ Sommige kinderen hebben meer dan 1 thuis.',
   }, {
     id: :v4,
     hidden: true,
-    title: 'Beantwoord voor elk persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -99,10 +99,10 @@ Deze persoon is mijn:',
         id: :v4_4,
         type: :radio,
         show_otherwise: false,
-        title: 'Is deze persoon een jongen of een meisje?',
+        title: 'Is deze persoon een man/jongen of een vrouw/meisje?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v4_5,
@@ -155,7 +155,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v8,
     hidden: true,
-    title: 'Beantwoord voor elke persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -200,10 +200,10 @@ Deze persoon is mijn:',
         type: :radio,
         required: true,
         show_otherwise: false,
-        title: 'Is dit een jongen of een meisje?',
+        title: 'Is dit een man/jongen of een vrouw/meisje?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v8_5,
@@ -256,7 +256,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v12,
     hidden: true,
-    title: 'Beantwoord voor elke persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -300,10 +300,10 @@ Deze persoon is mijn:',
         id: :v12_4,
         type: :radio,
         show_otherwise: false,
-        title: 'Is dit een jongen of een meisje?',
+        title: 'Is dit een man/jongen of een vrouw/meisje?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v12_5,
@@ -361,7 +361,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v15,
     type: :radio,
-    title: 'Doe je één of meerdere sporten?',
+    title: 'Doe je één of meerdere sport(en)?',
     options: [{ title: 'Ja', shows_questions: %i[v15_1 v15_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {

@@ -48,7 +48,7 @@ dagboek_content = [
   }, {
     id: :v5,
     type: :dropdown,
-    title: 'Wat is uw hoogst genoten opleiding?',
+    title: 'Wat is uw hoogst afgeronde opleiding?',
     options: [
       'Geen opleiding (lagere school of basisonderwijs niet afgemaakt)',
       'Lager onderwijs (basisonderwijs, speciaal basisonderwijs)',
@@ -70,7 +70,7 @@ dagboek_content = [
     required: true
   }, {
     id: :v7,
-    type: :radio,
+    type: :checkbox,
     title: 'Welke situatie is het meest op u van toepassing? (Meerdere antwoorden zijn mogelijk)',
     options: [
       {title: 'Ik werk betaald', shows_questions: %i[v7_a]},
@@ -132,7 +132,7 @@ Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheu
   }, {
     id: :v9_4,
     type: :radio,
-    title: 'Wat is uw relatie tot uw kind?<br><br>Ik ben:',
+    title: 'Wat is uw relatie tot uw kind?<br><br>Ik ben zijn/haar:',
     options: [
       'Biologische ouder',
       'Adoptie-ouder of pleegouder',

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-db_title = 'IKIA dagboekvragenlijst' # Dagboekvragenlijst moet geen titel hebben alleen een logo
+db_title = 'Dagboekvragenlijst'
+db_name1 = 'Dagboek_jongeren_12-15_en_16-18+'
+dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+dagboek1.name = db_name1
 
-db_name1 = 'ikia'
-dagboek1 = Questionnaire.find_by_name(db_name1)
-dagboek1 ||= Questionnaire.new(name: db_name1)
-dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [
   {
     section_start: '<strong>De volgende vragen gaan over hoe je je op dit moment voelt.</strong>',

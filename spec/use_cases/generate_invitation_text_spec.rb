@@ -56,12 +56,10 @@ describe GenerateInvitationText do
 
       describe 'mentor' do
         let(:questionnaire) { FactoryBot.create(:questionnaire, name: 'voormeting mentoren') }
-        let(:measurement1) { FactoryBot.create(:measurement, questionnaire: questionnaire) }
-        let(:measurement2) { FactoryBot.create(:measurement) }
-
-        let(:protocol) { FactoryBot.create(:protocol, measurements: [measurement1, measurement2]) }
+        let(:protocol) { FactoryBot.create(:protocol) }
+        let(:measurement1) { FactoryBot.create(:measurement, questionnaire: questionnaire, protocol: protocol) }
+        let(:measurement2) { FactoryBot.create(:measurement, protocol: protocol) }
         let(:mentor) { FactoryBot.create(:mentor) }
-
         let(:protocol_subscription) do
           FactoryBot.create(:protocol_subscription,
                             end_date: 10.days.from_now,

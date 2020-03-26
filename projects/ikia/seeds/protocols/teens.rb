@@ -15,7 +15,8 @@ Dir[Rails.root.join('projects',
   next if %w[jongeren_krachten_16_tot_18
              jongeren_start_16_tot_18
              jongeren_vriendschap_16_tot_18
-             jongeren_interpersoonlijk_complex_16plus].include?(questionnaire_key)
+             jongeren_interpersoonlijk_complex_16plus
+             jongeren_dagboek].include?(questionnaire_key)
 
   questionnaire = Questionnaire.find_by(key: questionnaire_key)
   next unless questionnaire

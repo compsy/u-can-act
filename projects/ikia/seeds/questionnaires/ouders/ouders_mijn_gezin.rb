@@ -16,7 +16,7 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text"> Welkom bij de vragenlijst! In deze vragenlijst onderzoeken we uw gezinssamenstelling en de vroege ontwikkeling van uw kind. </p>'
   }, {
-    section_start: 'De volgende vragen gaan over uw gezin. Met gezin bedoelen we personen die permanent of regelmatig bij u wonen. Bijvoorbeeld in het weekend, tijdens de week, om de week.',
+    section_start: 'De volgende vragen gaan over uw gezin. Met gezin bedoelen we personen die voor lange tijd of regelmatig bij u wonen. Bijvoorbeeld in het weekend, tijdens de week, om de week.',
     id: :v1,
     type: :number,
     title: 'Uit hoeveel personen bestaat uw gezin? Reken uzelf <b>niet</b> mee.',
@@ -29,7 +29,7 @@ dagboek_content = [
     section_end: false
   }, {
     id: :v2,
-    title: 'Zou u voor elk van deze personen de volgende vragen willen beantwoorden?',
+    title: 'Hieronder ziet u voor elke persoon die bij u in huis woont een blokje met vijf vragen. Zou u voor elk persoon één blokje met vragen willen invullen?',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -42,7 +42,7 @@ dagboek_content = [
       }, {
         id: :v4_1,
         type: :radio,
-        title: 'Wat is uw relatie tot dit gezinslid?<br><br>Ik ben:',
+        title: 'Wat is uw relatie tot dit gezinslid?<br><br>Ik ben zijn/haar:',
         options: [
           'Biologische ouder',
           'Stiefouder/ partner van ouder',
@@ -73,8 +73,8 @@ dagboek_content = [
         show_otherwise: false,
         title: 'Geslacht',
         options: [
-          {title: 'Jongen/ Man'},
-          {title: 'Meisje/ Vrouw'},
+          {title: 'Man/jongen'},
+          {title: 'Vrouw/meisje'},
           {title: 'Anders'}]
       }, {
         id: :v4_5,
@@ -137,10 +137,10 @@ dagboek_content = [
       {title: 'Wil ik liever niet zeggen'}
     ]
   }, {
-    section_start: 'De volgende vragen gaan over de zwangerschap en de geboorte van uw kind.',
+    section_start: 'De volgende vragen gaan over uw zwangerschap en de geboorte van uw kind.',
     id: :v8,
     type: :number,
-    title: 'Wat was de zwangerschapsduur in weken bij de geboorte?',
+    title: 'Wat was de zwangerschapsduur bij de geboorte (in weken)?',
     maxlength: 2,
     placeholder: 'Bijvoorbeeld: 38',
     min: 20,
@@ -178,7 +178,7 @@ dagboek_content = [
     id: :v10,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er bij uw kind sprake van één of meerdere lichamelijke ziekte(s) waarvoor hij/zij onder behandeling is (geweest) van een arts?',
+    title: 'Zijn er bij uw kind één of meerdere <i>lichamelijke</i> ziekte(s) vastgesteld?',
     options: [
       {title: 'Ja', shows_questions: %i[v10_a ]},
       {title: 'Nee'}
@@ -203,7 +203,7 @@ dagboek_content = [
     id: :v11,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er bij uw kind sprake van één of meerdere psychologische aandoening(en)?',
+    title: 'Zijn er bij uw kind één of meerdere <i>psychologische</i> aandoening(en) vastgesteld?',
     options: [
       {title: 'Ja', shows_questions: %i[v11_a v11_b v11_c]},
       {title: 'Nee', shows_questions: %i[v12]}
@@ -234,7 +234,7 @@ dagboek_content = [
     title: 'Door wie is/zijn deze aandoening(en) vastgesteld?',
     options: [
       {title: 'Psychiater of psycholoog'},
-      {title: 'Huisarts'},
+      {title: 'Huisarts'}
     ]
   }, {
     id: :v11_c,
@@ -271,13 +271,13 @@ dagboek_content = [
     id: :v12,
     hidden: true,
     type: :range,
-    title: 'In hoeverre denkt u dat er bij uw kind toch sprake is van psychologische aandoening of ziekte?',
+    title: 'In hoeverre denkt u dat er bij uw kind <i>toch</i> sprake is van psychologische aandoening of ziekte?',
     labels: ['Heel onwaarschijnlijk', 'Misschien/ ik weet het niet', 'Heel waarschijnlijk'],
     required: true
   }, {
     id: :v13,
     type: :radio,
-    title: 'Is er bij uw kind sprake van één of meerdere leerstoornis(sen)?',
+    title: 'Zijn er bij uw kind één of meerdere leerstoornis(sen) vastgesteld?',
     options: [
       {title: 'Ja', shows_questions: %i[v13_a ]},
       {title: 'Nee'}
@@ -344,9 +344,9 @@ gevolg begrijpen)?',
   }, {
     id: :v18,
     type: :range,
-    title: 'Zijn er momenten in de eerste vier levensjaren geweest waarin u zich zorgen maakte
+    title: 'Heeft u zich in de eerste vier levensjaren zorgen gemaakt
 over de ontwikkeling of het gedrag van uw kind?',
-    labels: ['Geen', 'Soms', 'Heel vaak'],
+    labels: ['Nooit', 'Soms', 'Heel vaak'],
     required: true
   }, {
     id: :v19,

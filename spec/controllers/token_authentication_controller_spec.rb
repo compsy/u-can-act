@@ -86,7 +86,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
 
         expect(CookieJar)
           .to receive(:set_or_update_cookie)
-          .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)
+          .with(instance_of(ActionDispatch::Cookies::SignedKeyRotatingCookieJar), expected)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
         get :show, params: { q: identifier }
       end

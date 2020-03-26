@@ -2,16 +2,13 @@
 
 source 'https://rubygems.org'
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
-  "https://github.com/#{repo_name}.git"
-end
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Specify ruby version for heroku
 ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.7'
+gem 'rails', '~> 5.2.4'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 1.1.4'
@@ -140,13 +137,14 @@ group :test do
   # selenium for js testing
   gem 'selenium-webdriver'
   gem 'webdrivers', '>= 4.2.0'
+
+  # Easy installation and use of chromedriver to run system tests with Chrome
+  # gem 'chromedriver-helper'
 end
 
 group :production, :staging do
-  # JavaScript runtime
-  # gem 'therubyracer'
-  # ExecJS::RubyRacerRuntime is not supported. Please replace therubyracer with mini_racer in your Gemfile.
-  gem 'mini_racer'
+  # See https://github.com/rails/execjs#readme for more supported runtimes
+  gem 'mini_racer', platforms: :ruby
 
   # Required by Delayed Job
   gem 'daemons'
@@ -157,7 +155,7 @@ gem 'addressable'
 gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
+  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.7.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -185,8 +183,10 @@ gem 'lograge', '>= 0.11.2'
 gem 'remote_syslog_logger'
 
 gem 'appsignal'
-gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
 # push subscriptions
 gem 'httparty'
 gem 'warden-jwt_auth', '>= 0.4.0'
+
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', require: false

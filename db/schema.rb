@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200112233900) do
+ActiveRecord::Schema.define(version: 2020_03_26_204306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 20200112233900) do
     t.string "ip_hash"
     t.boolean "account_active", default: false, null: false
     t.bigint "parent_id"
+    t.index ["email"], name: "index_people_on_email", unique: true
+    t.index ["external_identifier"], name: "index_people_on_external_identifier", unique: true
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true
     t.index ["parent_id"], name: "index_people_on_parent_id"
   end

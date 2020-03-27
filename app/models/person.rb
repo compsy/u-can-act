@@ -162,7 +162,7 @@ class Person < ApplicationRecord
 
   def filter_for_myself(prot_subs, for_myself)
     # Note that false is also blank (hence nil)
-    return prot_subs if for_myself.nil?
+    return prot_subs.to_a if for_myself.nil?
 
     if for_myself
       prot_subs.select { |prot_sub| prot_sub.filling_out_for_id == id }

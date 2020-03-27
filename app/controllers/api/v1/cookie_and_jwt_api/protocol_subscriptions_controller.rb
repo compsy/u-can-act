@@ -11,7 +11,8 @@ module Api
           render json: @protocol_subscription, serializer: Api::ProtocolSubscriptionSerializer
         end
 
-        # Either specify a start_time or a start_time. If a start_time is specified,
+        # Specify either a start_date or a start_time. A given start_date takes precedence.
+        # If a start_time is specified (and no start_date is specified),
         # the start_date is chosen as the given start_time added to midnight the next day.
         def create
           result = SubscribeToProtocol.run!(

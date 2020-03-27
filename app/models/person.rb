@@ -88,11 +88,9 @@ class Person < ApplicationRecord
   end
 
   def my_protocols(for_myself = true)
-    return [] if protocol_subscriptions.blank?
+    return [] if protocol_subscriptions.active.blank?
 
-    prot_subs = protocol_subscriptions.active.reject { |prot_sub| prot_sub.protocol.otr_protocol? }
-    # TODO: Check if the following yields the same results, this could be way more efficient.
-    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: false })
+    prot_subs = protocol_subscriptions.active.joins(:protocoels).where(protocol: { otr_protocol: false })
 
     filter_for_myself(prot_subs, for_myself)
   end

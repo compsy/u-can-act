@@ -20,7 +20,7 @@ dagboek_content = [
   }, {
     id: :v2,
     type: :range,
-    title: 'Mijn kind brengt graag tijd door met andere gezinsleden.',
+    title: 'Mijn kind brengt graag tijd door met mij en/of andere gezinsleden.',
     labels: ['Helemaal niet mee eens', 'Een beetje mee eens', 'Helemaal wel mee eens'],
     required: true,
     section_end: true

@@ -52,6 +52,9 @@ module Api
           TimeTools.increase_by_duration(next_midnight, protocol_subscription_create_params[:start_time].to_i)
         end
 
+        # No start time given if the start_time was either blank, or it was a regular string
+        # without digits in it, which would still have a to_i value of 0, but obviously would
+        # not be accepted. Only accept a to_i that was 0 if the actual start_time argument was 0 also.
         def no_start_time_given
           protocol_subscription_create_params[:start_time].blank? ||
             (protocol_subscription_create_params[:start_time].to_i.zero? &&

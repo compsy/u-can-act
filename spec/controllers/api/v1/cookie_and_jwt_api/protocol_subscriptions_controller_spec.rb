@@ -116,4 +116,52 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
       end
     end
   end
+
+  describe 'destroy' do
+    describe 'without cookie' do
+      it 'returns 401 if the user is not logged in' do
+        delete :destroy, params: { id: protocol_subscription.id }
+        expect(response.status).to eq 401
+        expect(response.body).to include 'niet ingelogd'
+      end
+    end
+
+    describe 'with auth' do
+      before do
+        cookie_auth(protocol_subscription.person)
+      end
+      let(:protocol) { FactoryBot.create(:protocol) }
+      let(:time) { Time.zone.now.change(usec: 0) }
+      let(:prot_name) { protocol.name }
+
+      it 'destroys the protocol subscription of itself' do
+        expect do
+          delete :destroy, params: { id: protocol_subscription.id }
+        end.to change(ProtocolSubscription, :count).by(-1)
+        expect(response.status).to eq 200
+      end
+
+      it 'destroys the protocol subscription that it is mentor of' do
+        other_person = FactoryBot.create(:person)
+        # this protocol subscription belongs to someone else:
+        protocol_subscription.update!(person: other_person, filling_out_for: other_person)
+        # Make sure that the current_auth_user.person is seen as a mentor of other_person,
+        # by creating a "mentor" protocol subscription where the mentor fills out a protocol subscription
+        # for this person.
+        FactoryBot.create(:protocol_subscription, person: the_auth_user.person, filling_out_for: other_person)
+        expect do
+          delete :destroy, params: { id: protocol_subscription.id }
+        end.to change(ProtocolSubscription, :count).by(-1)
+        expect(response.status).to eq 200
+      end
+
+      it 'does not destroy protocol subscriptions that it does not own' do
+        protocol_subscription.update!(person_id: FactoryBot.create(:person).id)
+        expect do
+          delete :destroy, params: { id: protocol_subscription.id }
+        end.not_to change(ProtocolSubscription, :count)
+        expect(response.status).to eq 403
+      end
+    end
+  end
 end

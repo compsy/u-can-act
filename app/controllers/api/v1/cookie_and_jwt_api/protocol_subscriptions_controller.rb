@@ -4,8 +4,8 @@ module Api
   module V1
     module CookieAndJwtApi
       class ProtocolSubscriptionsController < CookieAndJwtApiController
-        before_action :set_protocol_subscription, only: %i[show]
-        before_action :verify_access, only: %i[show]
+        before_action :set_protocol_subscription, only: %i[show destroy]
+        before_action :verify_access, only: %i[show destroy]
 
         def show
           render json: @protocol_subscription, serializer: Api::ProtocolSubscriptionSerializer
@@ -22,6 +22,12 @@ module Api
             only_if_not_subscribed: true
           )
           render status: :created, json: result
+        end
+
+        def destroy
+          return validation_error(protocol_subscription: 'error_during_destroy') unless @protocol_subscription.destroy
+
+          destroyed
         end
 
         private

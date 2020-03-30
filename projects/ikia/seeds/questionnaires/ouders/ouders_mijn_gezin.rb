@@ -64,8 +64,8 @@ dagboek_content = [
         tooltip: 'Vul het geboortejaar in van deze persoon, bijvoorbeeld: 1986.',
         maxlength: 4,
         placeholder: 'Vul hier een getal in',
-        min: 1940,
-        max: 2030,
+        min: 1920,
+        max: 2020,
         required: true
       }, {
         id: :v4_4,
@@ -96,7 +96,7 @@ dagboek_content = [
   }, {
     id: :v5_a,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     show_otherwise: true,
     title: 'Wat voor huisdier(en) heeft u?',
     options: [
@@ -151,7 +151,7 @@ dagboek_content = [
     id: :v9,
     type: :radio,
     show_otherwise: false,
-    title: 'Is er bij uw kind één of meerdere aangeboren lichamelijke aandoening(en) geconstateerd?',
+    title: 'Is er bij uw kind een <i>aangeboren</i> lichamelijke aandoening geconstateerd?',
     options: [
       {title: 'Ja', shows_questions: %i[v9_a ]},
       {title: 'Nee'}
@@ -172,13 +172,14 @@ dagboek_content = [
       {title: 'Chromosoomafwijking (bijvoorbeeld Syndroom van Down)'},
       {title: 'Stofwisselingsziekte'}
     ],
+    tooltip: 'Meerdere antwoorden zijn mogelijk.',
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over lichamelijke en psychologische ziektes en aandoeningen.',
+    section_start: 'De volgende vragen gaan over lichamelijke en psychologische aandoeningen.',
     id: :v10,
     type: :radio,
     show_otherwise: false,
-    title: 'Zijn er bij uw kind één of meerdere <i>lichamelijke</i> ziekte(s) vastgesteld?',
+    title: 'Is er bij uw kind een <i>lichamelijke</i> ziekte vastgesteld?',
     options: [
       {title: 'Ja', shows_questions: %i[v10_a ]},
       {title: 'Nee'}
@@ -197,13 +198,17 @@ dagboek_content = [
       {title: 'Diabetes mellitus'},
       {title: 'Migraine/ ernstige hoofdpijn'},
       {title: 'Chronische gewrichtsontsteking'},
-      {title: 'Kanker'}
-    ]
+      {title: 'Kanker'},
+      {title: 'Auto-immuunziekte'},
+      {title: 'Waterpokken, mazelen of een andere vlekjesziekte'},
+      {title: 'Allergie'}
+    ],
+    tooltip: 'Meerdere antwoorden zijn mogelijk'
   }, {
     id: :v11,
     type: :radio,
     show_otherwise: false,
-    title: 'Zijn er bij uw kind één of meerdere <i>psychologische</i> aandoening(en) vastgesteld?',
+    title: 'Is er bij uw kind een <i>psychologische</i> aandoening vastgesteld?',
     options: [
       {title: 'Ja', shows_questions: %i[v11_a v11_b v11_c]},
       {title: 'Nee', shows_questions: %i[v12]}
@@ -225,7 +230,8 @@ dagboek_content = [
       {title: 'Gedragsstoornis (bv. ODD of CD)'},
       {title: 'Eetstoornis'},
       {title: 'Traumagerelateerde stoornis'}
-    ]
+    ],
+    tooltip: 'Meerdere antwoorden mogelijk'
   }, {
     id: :v11_b,
     hidden: true,
@@ -246,7 +252,7 @@ dagboek_content = [
       {title: 'Ja, maar op dit moment niet meer', shows_questions: %i[v11_c1 v11c_2]},
       {title: 'Nee', shows_questions: %i[v12]}
     ],
-    show_otherwise: true
+    show_otherwise: false
   }, {
     id: :v11_c1,
     hidden: true,
@@ -259,7 +265,8 @@ dagboek_content = [
       {title: 'Medicatie'},
       {title: 'Kindercoach'},
       {title: 'Creatieve therapie'}
-    ]
+    ],
+    tooltip: 'Meerdere antwoorden mogelijk'
   }, {
     id: :v11_c2,
     hidden: true,
@@ -277,7 +284,7 @@ dagboek_content = [
   }, {
     id: :v13,
     type: :radio,
-    title: 'Zijn er bij uw kind één of meerdere leerstoornis(sen) vastgesteld?',
+    title: 'Is er bij uw kind een leerstoornis vastgesteld?',
     options: [
       {title: 'Ja', shows_questions: %i[v13_a ]},
       {title: 'Nee'}
@@ -295,11 +302,12 @@ dagboek_content = [
       {title: 'Dyspraxie'},
       {title: 'Auditieve verwerkingsstoornis'},
       {title: 'Visuele verwerkingsstoornis'}
-    ]
+    ],
+    tooltip: 'Meerdere antwoorden mogelijk'
   }, {
     id: :v14,
     type: :radio,
-    title: 'Is er bij uw kind sprake van één of meerdere (aangeboren of door ziekte of ongeval opgelopen) handicap(s)?',
+    title: 'Is er bij uw kind sprake van een aangeboren of opgelopen handicap?',
     options: [
       {title: 'Ja', shows_questions: %i[v14_a ]},
       {title: 'Nee'}
@@ -318,6 +326,7 @@ dagboek_content = [
       {title: 'Verstandelijke beperking'},
       {title: 'Meervoudige beperking'}
     ],
+    tooltip: 'Meerdere antwoorden mogelijk'
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over de ontwikkeling van uw kind tijdens zijn/haar eerste vier levensjaren. ',

@@ -8,9 +8,9 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! De volgende vragen gaan over het leefplezier van uw kind. Met leefplezier bedoelen we: hoe tevreden uw kind is thuis, op school, met zijn of haar vrienden, en met zichzelf. Maak bij elke vraag een inschatting van hoe uw kind zich de afgelopen twee weken voelde. Verplaats het bolletje naar het antwoord dat het beste past. </p>'
+    content: '<p class="flow-text">Welkom! De volgende korte vragenlijst gaat over het leefplezier van uw kind. Met leefplezier bedoelen we welbevinden of levensgeluk. Maak bij elke vraag een inschatting van hoe uw kind zich <i>de afgelopen twee weken</i> voelde. Verplaats het bolletje naar het antwoord dat het beste past. </p>'
   }, {
-    section_start: 'De volgende vragen gaan over de thuissituatie van uw kind.',
+    section_start: 'De volgende vragen gaan over de thuissituatie van uw kind:',
     id: :v1,
     type: :range,
     title: 'Mijn kind maakt thuis een tevreden indruk.',
@@ -25,10 +25,10 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over de vriendschappen van uw kind.',
+    section_start: 'De volgende vragen gaan over de vriendschap(pen) van uw kind:',
     id: :v3,
     type: :range,
-    title: 'Mijn kind is tevreden met zijn/haar vrienden of vriendinnen.',
+    title: 'Mijn kind is tevreden met zijn/haar vriend(en) of vriendin(nen).',
     labels: ['Helemaal niet mee eens', 'Een beetje mee eens', 'Helemaal wel mee eens'],
     required: true,
     section_end: false
@@ -40,7 +40,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over hoe uw kind zich op school voelt.',
+    section_start: 'De volgende vragen gaan over hoe uw kind zich op school voelt:',
     id: :v5,
     type: :range,
     title: 'Mijn kind gaat met plezier naar school.',
@@ -55,7 +55,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over de wijk waar jullie wonen.',
+    section_start: 'De volgende vragen gaan over de wijk waar jullie wonen:',
     id: :v7,
     type: :range,
     title: 'Mijn kind voelt zich op zijn/haar gemak in de wijk.',
@@ -70,7 +70,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over hoe tevreden uw kind is met zichzelf.',
+    section_start: 'De volgende vragen gaan over hoe tevreden uw kind is met zichzelf:',
     id: :v9,
     type: :range,
     title: 'Mijn kind is tevreden met hoe hij/zij eruit ziet.',

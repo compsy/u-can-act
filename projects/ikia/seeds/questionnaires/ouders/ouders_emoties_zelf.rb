@@ -9,9 +9,9 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over uw eigen gevoelens. Er zijn 40 vragen. Hier bent u ongeveer X minuten mee bezig.</p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over uw eigen gevoelens. Er zijn 40 vragen. Hier bent u ongeveer 10 minuten mee bezig.</p>'
   }, {
-    section_start: 'Denk terug aan hoe u zich de afgelopen twee weken voelde. Geef bij elk gevoel hieronder aan in hoeverre u zich zo gevoeld heeft. Verplaats het bolletje naar het antwoord dat het beste bij u past.',
+    section_start: 'Denk terug aan hoe u zich de <i>afgelopen twee weken</i> voelde. Geef bij elk gevoel hieronder aan in hoeverre u zich zo gevoeld heeft. Verplaats het bolletje naar het antwoord dat het beste bij u past.',
     id: :v1,
     type: :range,
     title: 'Gelukkig',
@@ -104,7 +104,7 @@ dagboek_content = [
   }, {
     id: :v16,
     type: :range,
-    title: 'Schaamte',
+    title: 'Beschaamd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
@@ -226,7 +226,7 @@ dagboek_content = [
   }, {
     id: :v36,
     type: :range,
-    title: 'Schaamte',
+    title: 'Beschaamd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {

@@ -14,16 +14,16 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> Iedere ouder heeft een eigen aanpak als het om opvoeden gaat. In deze vragenlijst onderzoekt u uw opvoedingsstijl. Er zijn in totaal 46 vragen. Hier bent u ongeveer X minuten mee bezig. Kies het antwoord dat het beste bij u past. </p>'
+    content: '<p class="flow-text"> Iedere ouder heeft een eigen aanpak als het om opvoeden gaat. In deze vragenlijst onderzoekt u uw opvoedingsstijl. Er zijn in totaal 46 vragen. Hier bent u ongeveer 10 minuten mee bezig. Kies het antwoord dat het beste bij u past. </p>'
   }, {
     id: :v1,
     type: :likert,
-    title: 'Ik toon genegenheid door mijn kind te knuffelen, te zoenen en vast te houden ',
+    title: 'Ik toon genegenheid door mijn kind te knuffelen, te zoenen en vast te houden.',
     options: likert_options
   }, {
     id: :v2,
     type: :likert,
-    title: 'Als mijn kind zeurt omdat hij/zij iets niet mag, geef ik toe',
+    title: 'Als mijn kind zeurt omdat hij/zij iets niet mag, geef ik toe.',
     options: likert_options
   }, {
     id: :v3,

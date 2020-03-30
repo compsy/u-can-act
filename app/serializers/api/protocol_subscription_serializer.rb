@@ -14,7 +14,8 @@ module Api
                :start_date,
                :end_date,
                :name,
-               :questionnaires
+               :questionnaires,
+               :id
 
     def completion
       @completion ||= object.protocol_completion

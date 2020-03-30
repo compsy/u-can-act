@@ -61,4 +61,59 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
       end
     end
   end
+
+  describe 'create' do
+    describe 'without cookie' do
+      it 'returns 401 if the user is not logged in' do
+        post :create, params: { start_time: '0', protocol_name: protocol_subscription.protocol.name }
+        expect(response.status).to eq 401
+        expect(response.body).to include 'niet ingelogd'
+      end
+    end
+
+    describe 'with auth' do
+      before do
+        cookie_auth(protocol_subscription.person)
+      end
+      let(:protocol) { FactoryBot.create(:protocol) }
+      let(:time) { Time.zone.now.change(usec: 0) }
+      let(:prot_name) { protocol.name }
+
+      it 'calls the SubscribeToProtocol with a start_date' do
+        expect(SubscribeToProtocol).to receive(:run!).with(
+          protocol_name: prot_name,
+          person: the_auth_user.person,
+          start_date: time,
+          only_if_not_subscribed: true
+        ).and_return true
+
+        post :create, params: { protocol_name: prot_name,
+                                start_date: time }
+        expect(response.status).to eq 201
+      end
+
+      it 'starts the protocol subscription with a start_time' do
+        post :create, params: { protocol_name: prot_name,
+                                start_time: '900' }
+        expect(response.status).to eq 201
+        expected = TimeTools.increase_by_duration(Time.zone.now.beginning_of_day, 1.day + 900.seconds)
+        expect(ProtocolSubscription.last.start_date).to be_within(3.seconds).of(expected)
+      end
+
+      it 'works with a start_time that is zero' do
+        post :create, params: { protocol_name: prot_name,
+                                start_time: '0' }
+        expect(response.status).to eq 201
+        expected = TimeTools.increase_by_duration(Time.zone.now.beginning_of_day, 1.day)
+        expect(ProtocolSubscription.last.start_date).to be_within(3.seconds).of(expected)
+      end
+
+      it 'starts the protocol right now if we don\'t specify a start_time or start_date' do
+        post :create, params: { protocol_name: prot_name }
+        expect(response.status).to eq 201
+        expected = Time.zone.now
+        expect(ProtocolSubscription.last.start_date).to be_within(3.seconds).of(expected)
+      end
+    end
+  end
 end

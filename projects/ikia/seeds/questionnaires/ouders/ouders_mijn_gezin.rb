@@ -73,9 +73,9 @@ dagboek_content = [
         show_otherwise: false,
         title: 'Geslacht',
         options: [
-          {title: 'Man/jongen'},
-          {title: 'Vrouw/meisje'},
-          {title: 'Anders'}]
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
+          { title: 'Anders' }]
       }, {
         id: :v4_5,
         type: :radio,
@@ -89,8 +89,8 @@ dagboek_content = [
     type: :radio,
     title: 'Heeft u huisdieren?',
     options: [
-      {title: 'Ja', shows_questions: %i[v5_a]},
-      {title: 'Nee'}
+      { title: 'Ja', shows_questions: %i[v5_a] },
+      { title: 'Nee' }
     ],
     show_otherwise: false
   }, {
@@ -100,12 +100,12 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Wat voor huisdier(en) heeft u?',
     options: [
-      {title: 'Hond(en)'},
-      {title: 'Kat(ten)'},
-      {title: 'Vogels'},
-      {title: 'Knaagdieren (Cavia, konijn, muizen, ratten)'},
-      {title: 'Reptielen'},
-      {title: 'Vissen'}
+      { title: 'Hond(en)' },
+      { title: 'Kat(ten)' },
+      { title: 'Vogels' },
+      { title: 'Knaagdieren (Cavia, konijn, muizen, ratten)' },
+      { title: 'Reptielen' },
+      { title: 'Vissen' }
     ]
   }, {
     id: :v6,
@@ -113,11 +113,11 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Waaruit bestaat uw huidige huisvesting?',
     options: [
-      {title: 'Koopwoning'},
-      {title: 'Huurwoning'},
-      {title: 'Woongroep'},
-      {title: 'Inwonend bij ouders of ouders van uw partner'},
-      {title: 'Beschermd wonen project'},
+      { title: 'Koopwoning' },
+      { title: 'Huurwoning' },
+      { title: 'Woongroep' },
+      { title: 'Inwonend bij ouders of ouders van uw partner' },
+      { title: 'Beschermd wonen project' },
     ]
   }, {
     id: :v7,
@@ -125,16 +125,16 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Wat is het netto maandinkomen van uw huishouden? (Netto is het bedrag dat u maandelijks op uw rekening krijgt. Als u het huishouden met iemand deelt, tel dan ook de inkomsten van uw partner mee.)',
     options: [
-      {title: 'Minder dan € 750'},
-      {title: '€ 751 - € 1000'},
-      {title: '€ 1001 - € 1500'},
-      {title: '€ 1501 - € 2000'},
-      {title: '€ 2001 - € 2500'},
-      {title: '€ 2501 - € 3000'},
-      {title: '€ 3001 - € 3500'},
-      {title: 'Meer dan € 3500'},
-      {title: 'Ik weet het niet'},
-      {title: 'Wil ik liever niet zeggen'}
+      { title: 'Minder dan € 750' },
+      { title: '€ 751 - € 1000' },
+      { title: '€ 1001 - € 1500' },
+      { title: '€ 1501 - € 2000' },
+      { title: '€ 2001 - € 2500' },
+      { title: '€ 2501 - € 3000' },
+      { title: '€ 3001 - € 3500' },
+      { title: 'Meer dan € 3500' },
+      { title: 'Ik weet het niet' },
+      { title: 'Wil ik liever niet zeggen' }
     ]
   }, {
     section_start: 'De volgende vragen gaan over uw zwangerschap en de geboorte van uw kind.',
@@ -153,8 +153,8 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Is er bij uw kind een <i>aangeboren</i> lichamelijke aandoening geconstateerd?',
     options: [
-      {title: 'Ja', shows_questions: %i[v9_a ]},
-      {title: 'Nee'}
+      { title: 'Ja', shows_questions: %i[v9_a ] },
+      { title: 'Nee' }
     ]
   }, {
     id: :v9_a,
@@ -163,14 +163,14 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Om welke aangeboren aandoening(en) gaat het?',
     options: [
-      {title: 'Schisis (gespleten lip, kaak of gehemelte)'},
-      {title: 'Cerebrale parese (hersenverlamming)'},
-      {title: 'Spina bifida (open rugje)'},
-      {title: 'Hartafwijking'},
-      {title: 'Maagdarmkanaal afwijking'},
-      {title: 'Cystic Fibrosis (taaislijmziekte)'},
-      {title: 'Chromosoomafwijking (bijvoorbeeld Syndroom van Down)'},
-      {title: 'Stofwisselingsziekte'}
+      { title: 'Schisis (gespleten lip, kaak of gehemelte)' },
+      { title: 'Cerebrale parese (hersenverlamming)' },
+      { title: 'Spina bifida (open rugje)' },
+      { title: 'Hartafwijking' },
+      { title: 'Maagdarmkanaal afwijking' },
+      { title: 'Cystic Fibrosis (taaislijmziekte)' },
+      { title: 'Chromosoomafwijking (bijvoorbeeld Syndroom van Down)' },
+      { title: 'Stofwisselingsziekte' }
     ],
     tooltip: 'Meerdere antwoorden zijn mogelijk.',
     section_end: true
@@ -181,8 +181,8 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Is er bij uw kind een <i>lichamelijke</i> ziekte vastgesteld?',
     options: [
-      {title: 'Ja', shows_questions: %i[v10_a ]},
-      {title: 'Nee'}
+      { title: 'Ja', shows_questions: %i[v10_a ] },
+      { title: 'Nee' }
     ],
     section_end: false
   }, {
@@ -192,16 +192,16 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Om welke ziekte(s) gaat het?',
     options: [
-      {title: 'Astma'},
-      {title: 'Chronisch eczeem'},
-      {title: 'Darmstoornis'},
-      {title: 'Diabetes mellitus'},
-      {title: 'Migraine/ ernstige hoofdpijn'},
-      {title: 'Chronische gewrichtsontsteking'},
-      {title: 'Kanker'},
-      {title: 'Auto-immuunziekte'},
-      {title: 'Waterpokken, mazelen of een andere vlekjesziekte'},
-      {title: 'Allergie'}
+      { title: 'Astma' },
+      { title: 'Chronisch eczeem' },
+      { title: 'Darmstoornis' },
+      { title: 'Diabetes mellitus' },
+      { title: 'Migraine/ ernstige hoofdpijn' },
+      { title: 'Chronische gewrichtsontsteking' },
+      { title: 'Kanker' },
+      { title: 'Auto-immuunziekte' },
+      { title: 'Waterpokken, mazelen of een andere vlekjesziekte' },
+      { title: 'Allergie' }
     ],
     tooltip: 'Meerdere antwoorden zijn mogelijk'
   }, {
@@ -210,8 +210,8 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Is er bij uw kind een <i>psychologische</i> aandoening vastgesteld?',
     options: [
-      {title: 'Ja', shows_questions: %i[v11_a v11_b v11_c]},
-      {title: 'Nee', shows_questions: %i[v12]}
+      { title: 'Ja', shows_questions: %i[v11_a v11_b v11_c] },
+      { title: 'Nee', shows_questions: %i[v12] }
     ]
   }, {
     id: :v11_a,
@@ -220,16 +220,16 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Om welke psychologische aandoening(en) gaat het?',
     options: [
-      {title: 'AD(H)D'},
-      {title: 'Autisme (Spectrum Stoornis)'},
-      {title: 'Angststoornis of fobie'},
-      {title: 'Depressie'},
-      {title: 'Syndroom van Tourette'},
-      {title: 'Dwangstoornis of OCS'},
-      {title: 'Hechtingsstoornis'},
-      {title: 'Gedragsstoornis (bv. ODD of CD)'},
-      {title: 'Eetstoornis'},
-      {title: 'Traumagerelateerde stoornis'}
+      { title: 'AD(H)D' },
+      { title: 'Autisme (Spectrum Stoornis)' },
+      { title: 'Angststoornis of fobie' },
+      { title: 'Depressie' },
+      { title: 'Syndroom van Tourette' },
+      { title: 'Dwangstoornis of OCS' },
+      { title: 'Hechtingsstoornis' },
+      { title: 'Gedragsstoornis (bv. ODD of CD)' },
+      { title: 'Eetstoornis' },
+      { title: 'Traumagerelateerde stoornis' }
     ],
     tooltip: 'Meerdere antwoorden mogelijk'
   }, {
@@ -239,8 +239,8 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Door wie is/zijn deze aandoening(en) vastgesteld?',
     options: [
-      {title: 'Psychiater of psycholoog'},
-      {title: 'Huisarts'}
+      { title: 'Psychiater of psycholoog' },
+      { title: 'Huisarts' }
     ]
   }, {
     id: :v11_c,
@@ -248,9 +248,9 @@ dagboek_content = [
     type: :radio,
     title: 'Is uw kind hiervoor in behandeling (geweest)?',
     options: [
-      {title: 'Ja, op dit moment', shows_questions: %i[v11_c1 v11_c2]},
-      {title: 'Ja, maar op dit moment niet meer', shows_questions: %i[v11_c1 v11c_2]},
-      {title: 'Nee', shows_questions: %i[v12]}
+      { title: 'Ja, op dit moment', shows_questions: %i[v11_c1 v11_c2] },
+      { title: 'Ja, maar op dit moment niet meer', shows_questions: %i[v11_c1 v11c_2] },
+      { title: 'Nee', shows_questions: %i[v12] }
     ],
     show_otherwise: false
   }, {
@@ -260,11 +260,11 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Om welke behandeling(en) gaat het?',
     options: [
-      {title: 'Psychotherapie (gesprekken met een psycholoog)'},
-      {title: 'Sociale Vaardigheidstraining'},
-      {title: 'Medicatie'},
-      {title: 'Kindercoach'},
-      {title: 'Creatieve therapie'}
+      { title: 'Psychotherapie (gesprekken met een psycholoog)' },
+      { title: 'Sociale Vaardigheidstraining' },
+      { title: 'Medicatie' },
+      { title: 'Kindercoach' },
+      { title: 'Creatieve therapie' }
     ],
     tooltip: 'Meerdere antwoorden mogelijk'
   }, {
@@ -286,8 +286,8 @@ dagboek_content = [
     type: :radio,
     title: 'Is er bij uw kind een leerstoornis vastgesteld?',
     options: [
-      {title: 'Ja', shows_questions: %i[v13_a ]},
-      {title: 'Nee'}
+      { title: 'Ja', shows_questions: %i[v13_a ] },
+      { title: 'Nee' }
     ]
   }, {
     id: :v13_a,
@@ -296,12 +296,12 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Om welke leerstoornis(sen) gaat het?',
     options: [
-      {title: 'Dyslexie'},
-      {title: 'Dyscalculie'},
-      {title: 'Dysgrafie'},
-      {title: 'Dyspraxie'},
-      {title: 'Auditieve verwerkingsstoornis'},
-      {title: 'Visuele verwerkingsstoornis'}
+      { title: 'Dyslexie' },
+      { title: 'Dyscalculie' },
+      { title: 'Dysgrafie' },
+      { title: 'Dyspraxie' },
+      { title: 'Auditieve verwerkingsstoornis' },
+      { title: 'Visuele verwerkingsstoornis' }
     ],
     tooltip: 'Meerdere antwoorden mogelijk'
   }, {
@@ -309,8 +309,8 @@ dagboek_content = [
     type: :radio,
     title: 'Is er bij uw kind sprake van een aangeboren of opgelopen handicap?',
     options: [
-      {title: 'Ja', shows_questions: %i[v14_a ]},
-      {title: 'Nee'}
+      { title: 'Ja', shows_questions: %i[v14_a ] },
+      { title: 'Nee' }
     ]
   }, {
     id: :v14_a,
@@ -319,14 +319,14 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Om welke handicap(s) gaat het?',
     options: [
-      {title: 'Doofheid'},
-      {title: 'Blindheid'},
-      {title: 'Spasticiteit'},
-      {title: 'Motorische beperking'},
-      {title: 'Verstandelijke beperking'},
-      {title: 'Meervoudige beperking'}
+      { title: 'Doofheid' },
+      { title: 'Blindheid' },
+      { title: 'Spasticiteit' },
+      { title: 'Motorische beperking' },
+      { title: 'Verstandelijke beperking' },
+      { title: 'Meervoudige beperking' }
     ],
-    tooltip: 'Meerdere antwoorden mogelijk'
+    tooltip: 'Meerdere antwoorden mogelijk',
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over de ontwikkeling van uw kind tijdens zijn/haar eerste vier levensjaren. ',

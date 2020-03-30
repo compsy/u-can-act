@@ -88,11 +88,13 @@ class Person < ApplicationRecord
   end
 
   def my_protocols(for_myself = true)
-    return [] if protocol_subscriptions.blank?
+    return [] if protocol_subscriptions.active.blank?
 
-    prot_subs = protocol_subscriptions.active.reject { |prot_sub| prot_sub.protocol.otr_protocol? }
-    # TODO: Check if the following yields the same results, this could be way more efficient.
-    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: false })
+    prot_subs = protocol_subscriptions.active.joins(
+      :protocol
+    ).joins(
+      'FULL JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
+    ).where('one_time_responses.id IS NULL')
 
     filter_for_myself(prot_subs, for_myself)
   end
@@ -108,10 +110,7 @@ class Person < ApplicationRecord
   end
 
   def my_open_one_time_responses(for_myself = true)
-    prot_subs = protocol_subscriptions.active.select { |prot_sub| prot_sub.protocol.otr_protocol? }
-    # TODO: Check if the following yields the same results, this could be way more efficient.
-    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: true })
-
+    prot_subs = protocol_subscriptions.active.joins(protocol: :one_time_responses).distinct(:id)
     subscriptions = filter_for_myself(prot_subs, for_myself)
     subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
   end
@@ -163,7 +162,7 @@ class Person < ApplicationRecord
 
   def filter_for_myself(prot_subs, for_myself)
     # Note that false is also blank (hence nil)
-    return prot_subs if for_myself.nil?
+    return prot_subs.to_a if for_myself.nil?
 
     if for_myself
       prot_subs.select { |prot_sub| prot_sub.filling_out_for_id == id }

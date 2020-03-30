@@ -3,10 +3,13 @@
 class AsyncActiveInteractionJob < ApplicationJob
   queue_as :default
 
-  def perform(sself, *args)
+  # rubocop:disable Security/MarshalLoad
+  def perform(sself, serialized_args)
+    args = Marshal.load(serialized_args).first
     klass = Object.const_get(sself)
-    klass.run!(*args)
+    klass.run!(args)
   end
+  # rubocop:enable Security/MarshalLoad
 
   def max_attempts
     2

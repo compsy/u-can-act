@@ -21,7 +21,6 @@ module Api
             start_date: start_date,
             only_if_not_subscribed: true
           )
-          SendInvitations.run
           render status: :created, json: result
         end
 
@@ -30,14 +29,14 @@ module Api
         def verify_access
           return if check_access_allowed(@protocol_subscription)
 
-          render(status: :forbidden, json: 'U heeft geen toegang tot deze protocolsubscriptie')
+          access_denied(protocol_subscription: 'U heeft geen toegang tot deze protocolsubscriptie')
         end
 
         def set_protocol_subscription
           @protocol_subscription = ProtocolSubscription.find_by(id: params[:id])
           return if @protocol_subscription.present?
 
-          render(status: :not_found, json: 'Protocol subscription met dat ID niet gevonden')
+          not_found(protocol_subscription: 'Protocol subscription met dat ID niet gevonden')
         end
 
         def start_date

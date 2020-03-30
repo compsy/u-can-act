@@ -64,7 +64,7 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
 
   describe 'create' do
     describe 'without cookie' do
-      it 'returns 401 if no protocol_subscription is available' do
+      it 'returns 401 if the user is not logged in' do
         post :create, params: { start_time: '0', protocol_name: protocol_subscription.protocol.name }
         expect(response.status).to eq 401
         expect(response.body).to include 'niet ingelogd'

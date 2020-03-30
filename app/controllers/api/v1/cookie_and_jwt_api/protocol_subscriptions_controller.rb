@@ -24,9 +24,9 @@ module Api
           render status: :created, json: result
         end
 
+        # This cancels the protocol subscription.
         def destroy
-          return validation_error(protocol_subscription: 'error_during_destroy') unless @protocol_subscription.destroy
-
+          @protocol_subscription.cancel!
           destroyed
         end
 

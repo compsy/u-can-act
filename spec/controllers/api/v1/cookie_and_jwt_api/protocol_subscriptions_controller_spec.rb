@@ -5,7 +5,9 @@ require 'rails_helper'
 describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :controller do
   render_views
   let(:the_auth_user) { FactoryBot.create(:auth_user, :with_person) }
-  let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, person: the_auth_user.person) }
+  let(:protocol_subscription) do
+    FactoryBot.create(:protocol_subscription, person: the_auth_user.person, start_date: 1.day.ago)
+  end
   let(:test_response) do
     FactoryBot.create(:response,
                       protocol_subscription: protocol_subscription,
@@ -135,10 +137,14 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
       let(:prot_name) { protocol.name }
 
       it 'destroys the protocol subscription of itself' do
+        expect(protocol_subscription.state).not_to eq ProtocolSubscription::CANCELED_STATE
         expect do
           delete :destroy, params: { id: protocol_subscription.id }
-        end.to change(ProtocolSubscription, :count).by(-1)
+        end.not_to change(ProtocolSubscription, :count)
         expect(response.status).to eq 200
+        protocol_subscription.reload
+        expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
+        expect(protocol_subscription.end_date).to be < Time.zone.now
       end
 
       it 'destroys the protocol subscription that it is mentor of' do
@@ -151,8 +157,11 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
         FactoryBot.create(:protocol_subscription, person: the_auth_user.person, filling_out_for: other_person)
         expect do
           delete :destroy, params: { id: protocol_subscription.id }
-        end.to change(ProtocolSubscription, :count).by(-1)
+        end.not_to change(ProtocolSubscription, :count)
         expect(response.status).to eq 200
+        protocol_subscription.reload
+        expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
+        expect(protocol_subscription.end_date).to be < Time.zone.now
       end
 
       it 'does not destroy protocol subscriptions that it does not own' do
@@ -161,6 +170,9 @@ describe Api::V1::CookieAndJwtApi::ProtocolSubscriptionsController, type: :contr
           delete :destroy, params: { id: protocol_subscription.id }
         end.not_to change(ProtocolSubscription, :count)
         expect(response.status).to eq 403
+        protocol_subscription.reload
+        expect(protocol_subscription.state).not_to eq ProtocolSubscription::CANCELED_STATE
+        expect(protocol_subscription.end_date).to be > Time.zone.now
       end
     end
   end

@@ -9,7 +9,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over uw krachten. Er volgen X vragen. Hier bent u ongeveer X minuten mee bezig.</p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over uw krachten. Het invullen duurt ongeveer 15 minuten.</p>'
   }, {
     id: :v1_1,
     type: :range,
@@ -17,7 +17,7 @@ dagboek_content = [
     labels: ['Helemaal niet creatief', 'Net zo creatief', 'Heel erg creatief'],
     required: true
   }, {
-    section_start: 'In hoeverre passen de volgende uitspraken bij u? Verplaats het bolletje naar het antwoord dat het beste bij u past.',
+    section_start: 'In hoeverre passen de volgende uitspraken bij u? Verplaats het bolletje naar het antwoord dat het beste bij u past:',
     id: :v1_2,
     type: :range,
     title: 'Ik bedenk verschillende manieren om opdrachten uit te werken',
@@ -62,10 +62,10 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'In de volgende vragen ziet u telkens drie woorden. Deze drie woorden zijn allen gerelateerd aan één ander woord. De bedoeling is dat u bedenkt welk woord dit is. <br><br>
+    section_start: 'In de volgende vragen ziet u telkens drie woorden. Deze woorden zijn alledrie gerelateerd aan één ander woord. De bedoeling is dat u bedenkt welk woord dit is. <br><br>
 
 Bijvoorbeeld: de woorden <i>tijd / hard / zand</i> kunnen met elkaar verbonden worden door het woord <i>steen: steentijd / hardsteen / zandsteen</i>. Het oplossingswoord is hier dus <i>steen</i>.<br><br>
-Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet weet, vul dan in "Weet ik niet".<br>',
+Vul het woord in in het daarvoor bedoelde tekstvak. Als u het antwoord niet weet, kies dan voor "Weet ik niet".<br>',
     id: :v2_1,
     type: :radio,
     title: 'man / lijm / ster',
@@ -308,7 +308,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
     otherwise_label: 'Oplossingswoord:',
     section_end: true
   }, {
-    section_start: 'Er volgen nu een aantal uitspraken over gedachten en gevoelens die u in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij u past.',
+    section_start: 'Er volgen nu een aantal uitspraken over gedachten en gevoelens die u in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij u past:',
     id: :v3_1,
     type: :range,
     required: true,
@@ -320,37 +320,37 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
     type: :range,
     required: true,
     title: 'Ik vind het soms moeilijk om dingen te zien vanuit het gezichtspunt van een ander.',
-    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+  labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_3,
     type: :range,
     required: true,
     title: 'Soms heb ik niet veel medelijden met andere mensen wanneer ze problemen hebben.',
-    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+  labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_4,
     type: :range,
     required: true,
     title: 'In noodsituaties voel ik me ongerust en slecht op mijn gemak.',
-    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+  labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_5,
     type: :range,
     required: true,
     title: 'Ik probeer naar ieders kant van een meningsverschil te kijken voordat ik een beslissing neem.',
-    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+   labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_6,
     type: :range,
     required: true,
     title: 'Wanneer ik iemand zie waarvan wordt geprofiteerd, voel ik me nogal beschermend tegenover die persoon.',
-    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+   labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_7,
     type: :range,
     required: true,
     title: 'Ik voel me soms hulpeloos als ik middenin een zeer emotionele situatie zit.',
-    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+   labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_8,
     type: :range,
@@ -437,7 +437,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
     labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij'],
     section_end: true
   }, {
-    section_start: 'Geef voor elk van de volgende uitspraken aan hoe vaak deze voor u in het algemeen waar is. Verplaats het bolletje naar het antwoord dat het beste past.',
+    section_start: 'Geef voor elk van de volgende uitspraken aan hoe vaak deze voor u <i>in het algemeen</i> waar is. Verplaats het bolletje naar het antwoord dat het beste past:',
     id: :v4_1,
     type: :range,
     required: true,
@@ -677,7 +677,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als u het antwoord niet wee
     section_start: 'Tot slot...',
     id: :v5,
     type: :expandable,
-    title: 'Schrijf alle dingen op die kunt doen met een melkpak',
+    title: 'Schrijf alle dingen op die u zou kunnen doen met een melkpak',
     default_expansions: 1,
     max_expansions: 30,
     content: [{

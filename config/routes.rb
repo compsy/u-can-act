@@ -96,7 +96,7 @@ Rails.application.routes.draw do
       # JWT and Cookie apis
       # TODO in V2 API, rename to people.
       scope module: :cookie_and_jwt_api do
-        resources :protocol_subscriptions, only: [:create, :show]
+        resources :protocol_subscriptions, only: [:create, :show, :destroy]
 
         resources :person, only: [] do
           collection do

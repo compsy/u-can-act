@@ -16,10 +16,7 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> Deze vragenlijst gaat over hoe uw kind omgaat met vervelende gevoelens. Alle kinderen zijn wel eens boos, bang of verdrietig. Hoe gaat uw kind met zulke gevoelens om? <br> <br> U krijgt zo verschillende uitspraken te zien over hoe kinderen en jongeren op hun gevoelens reageren. Geef bij elke uitspraak aan wat uw kind doet of denkt als hij/zij boos, bang of verdrietig is. Er bestaan geen goede of foute antwoorden. Kies bij elke vraag gewoon het antwoord dat het best beschrijft hoe uw kind zou reageren. Er volgen in totaal 90 vragen. Hier bent u ongeveer X minuten mee bezig. </p>'
-  }, {
-    type: :raw,
-    content: '<p class="flow-text"> Iedereen is wel eens boos. Uw kind kan boos zijn omdat hij/zij iets niet mag. Uw kind kan boos zijn op andere kinderen, omdat zij hem/haar uitschelden of plagen. Hij/zij kan ook boos zijn op zichzelf. Er kunnen verschillende redenen zijn waarom iemand boos is. In de zinnen hieronder staat wat mensen kunnen doen als zij boos zijn. Wat doet of denkt uw kind als hij/zij boos is? Kies bij elke zin het antwoord dat het beste past. </p>'
+    content: '<p class="flow-text"> Deze vragenlijst gaat over hoe uw kind omgaat met vervelende gevoelens. Alle kinderen zijn wel eens boos, bang of verdrietig. Hoe gaat uw kind met zulke gevoelens om? <br> <br> U krijgt zo verschillende uitspraken te zien over hoe kinderen en jongeren op hun gevoelens reageren. Geef bij elke uitspraak aan wat uw kind doet of denkt als hij/zij boos, bang of verdrietig is. Er bestaan geen goede of foute antwoorden. Kies bij elke vraag gewoon het antwoord dat het best beschrijft hoe uw kind zou reageren. Er volgen in totaal 90 vragen. Hier bent u ongeveer 15 minuten mee bezig. </p>'
   }, {
     section_start: 'Wanneer mijn kind boos is…',
     id: :v1a,
@@ -175,8 +172,7 @@ dagboek_content = [
     section_end: true
   }, {
     type: :raw,
-    content: '<p class="flow-text">Iedereen is wel eens bang. Uw kind kan bang zijn wanneer hij/zij alleen is. Uw kind kan bang zijn wanneer hij/zij in bed ligt. Hij/zij kan bang zijn voor een dier of voor andere mensen.<br> <br>
-Er kunnen verschillende redenen zijn waarom iemand bang is. In de zinnen hierna staat wat mensen kunnen doen als ze bang zijn. Wat doet of denkt uw kind als hij/zij bang is? Kies bij elke zin het antwoord dat het beste past. </p>'
+    content: '<p class="flow-text">In de zinnen hierna staat wat mensen kunnen doen als ze bang zijn. Wat doet of denkt uw kind als hij/zij bang is? Kies bij elke zin het antwoord dat het beste past. </p>'
   }, {
     section_start: 'Wanneer mijn kind bang is…',
     id: :v1b,
@@ -332,8 +328,7 @@ Er kunnen verschillende redenen zijn waarom iemand bang is. In de zinnen hierna 
     section_end: true
   }, {
     type: :raw,
-    content: '<p class="flow-text">Iedereen is wel eens verdrietig. Uw kind kan verdrietig zijn wanneer een dier doodgaat. Uw kind kan verdrietig zijn wanneer een toets mislukt. Hij/zij kan verdrietig zijn wanneer andere mensen gemeen doen tegen hem/haar.<br> <br>
-Er kunnen verschillende redenen zijn waarom iemand verdrietig is. In de zinnen hierna staat wat mensen kunnen doen als zij verdrietig zijn. <br> <br> Wat doet of denkt uw kind als hij/zij verdrietig is? Kies bij elke zin het antwoord dat het beste past. </p>'
+    content: '<p class="flow-text">In de zinnen hierna staat wat mensen kunnen doen als zij verdrietig zijn. Wat doet of denkt uw kind als hij/zij verdrietig is? Kies bij elke zin het antwoord dat het beste past. </p>'
   }, {
     section_start: 'Wanneer mijn kind verdrietig is…',
     id: :v1c,

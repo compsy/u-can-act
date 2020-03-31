@@ -119,7 +119,7 @@ Kies 1 van de 5 plaatjes',
     id: :v5,
     hidden: true,
     type: :radio,
-    show_otherwise: false,
+    show_otherwise: true,
     section_start: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont.',
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
@@ -221,7 +221,7 @@ Kies 1 van de 5 plaatjes',
     section_start: 'De volgende vragen gaan over het andere huis waar je woont.',
     hidden: true,
     type: :radio,
-    show_otherwise: false,
+    show_otherwise: true,
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
       { title: 'Minder dan 1 nacht per week' },
@@ -333,6 +333,7 @@ Kies 1 van de 5 plaatjes',
       { title: 'Knaagdier(en) (Cavia, konijn, muizen, ratten)' },
       { title: 'Reptiel(en)' },
       { title: 'Vis(sen)' }],
+    tooltip: 'Je mag meerdere antwoorden kiezen'
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over je gewoontes',
@@ -341,6 +342,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     title: 'Wat vind je leuk om te doen? Waar word je blij van?',
     options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
+    tooltip: 'Je mag meerdere antwoorden kiezen',
     section_end: false
   }, {
     id: :v14_2,

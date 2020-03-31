@@ -8,9 +8,9 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over moeilijkheden die mensen kunnen ervaren in hun gevoelens, gedachten en gedrag. Verplaats het bolletje naar het antwoord dat het beste bij u past. Er zijn in totaal 49 vragen. Hier bent u ongeveer X minuten mee bezig. </p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over uw stemming en de gedachten die u daarover heeft. Het invullen duurt ongeveer 10 minuten. </p>'
   }, {
-    section_start: 'Geef voor ieder van de onderstaande uitspraken aan in hoeverre de uitspraak <b> de afgelopen week </b> voor u van toepassing was.',
+    section_start: 'Geef bij elke zin aan in hoeverre deze <i>in de afgelopen week</i> op u van toepassing was. Verschuif het bolletje naar het antwoord dat het beste bij u past:',
     id: :v1,
     type: :range,
     title: 'Ik merkte dat ik overstuur raakte van onbelangrijke zaken.',
@@ -264,7 +264,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'Geef bij de onderstaande zinnen aan in hoeverre deze voor u waar zijn. Verplaats het bolletje naar het antwoord dat het beste bij u past.',
+    section_start: 'Geef elke zin aan in hoeverre deze voor u <i>in het algemeen</i> waar is. Verplaats het bolletje naar het antwoord dat het beste bij u past:',
     id: :v43,
     type: :range,
     title: 'Mijn pijnlijke ervaringen en herinneringen maken het me moeilijk om een waardevol leven te leiden.',

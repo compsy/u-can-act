@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-QUESTIONNAIRE = 'jongeren_dagboek'
+questionnaire_key = 'jongeren_dagboek'
 
 pr_name = File.basename(__FILE__)[0...-3]
 diary_protocol = Protocol.find_by_name(pr_name)
@@ -8,8 +8,8 @@ diary_protocol ||= Protocol.new(name: pr_name)
 diary_protocol.duration = 30.days
 diary_protocol.save!
 
-questionnaire = Questionnaire.find_by(key: QUESTIONNAIRE)
-raise "Error: questionnaire for protocol #{pr_name} not found: #{QUESTIONNAIRE}" unless questionnaire
+questionnaire = Questionnaire.find_by(key: questionnaire_key)
+raise "Error: questionnaire for protocol #{pr_name} not found: #{questionnaire_key}" unless questionnaire
 questionnaire_id = questionnaire.id
 
 # Morning measurement

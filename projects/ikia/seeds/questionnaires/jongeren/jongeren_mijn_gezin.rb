@@ -21,7 +21,7 @@ dagboek_content = [
   {
     type: :raw,
     content: '<p class="flow-text"> Welkom bij de vragenlijst! Deze vragenlijst gaat over de mensen in jouw gezin.
-Ook zijn er vragen over de gewoontes van je gezin, en over je eigen gewoontes. Je bent hier ongeveer X minuten mee bezig.</p>'
+Ook zijn er vragen over de gewoontes van je gezin, en over je eigen gewoontes. Je bent hier ongeveer 10 minuten mee bezig.</p>'
   }, {
     section_start: 'De volgende vragen gaan over je thuis. Hiermee bedoelen we het huis waarin je woont. In dit huis woont ook een volwassene die voor je zorgt.
 Sommige jongeren hebben meer dan 1 thuis.',
@@ -45,7 +45,7 @@ Sommige jongeren hebben meer dan 1 thuis.',
     id: :v3,
     hidden: true,
     type: :number,
-    title: 'Met hoeveel <i>andere</i> mensen woon je samen in dit huis? Dit zijn personen die altijd of meestal in hetzelfde huis wonen als jij, zoals ouders, (half-) broers, (half-) zussen. Tel jezelf <i>niet</i> mee.',
+    title: 'Met hoeveel <i>andere</i> personen woon je samen in dit huis? Dit zijn personen die altijd of meestal in hetzelfde huis wonen als jij, zoals ouders, (half-) broers, (half-) zussen. Tel jezelf <i>niet</i> mee.',
     maxlength: 2,
     links_to_expandable: :v4,
     placeholder: 'Bijvoorbeeld: 4',
@@ -55,7 +55,7 @@ Sommige jongeren hebben meer dan 1 thuis.',
   }, {
     id: :v4,
     hidden: true,
-    title: 'Beantwoord voor elk persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -99,10 +99,10 @@ Deze persoon is mijn:',
         id: :v4_4,
         type: :radio,
         show_otherwise: false,
-        title: 'Is deze persoon een jongen of een meisje?',
+        title: 'Is deze persoon een vrouw/meisje of man/jongen?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v4_5,
@@ -155,7 +155,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v8,
     hidden: true,
-    title: 'Beantwoord voor elke persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -200,10 +200,10 @@ Deze persoon is mijn:',
         type: :radio,
         required: true,
         show_otherwise: false,
-        title: 'Is dit een jongen of een meisje?',
+        title: 'Is dit een vrouw/meisje of een man/jongen?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v8_5,
@@ -256,7 +256,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v12,
     hidden: true,
-    title: 'Beantwoord voor elke persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -300,10 +300,10 @@ Deze persoon is mijn:',
         id: :v12_4,
         type: :radio,
         show_otherwise: false,
-        title: 'Is dit een jongen of een meisje?',
+        title: 'Is dit een vrouw/meisje of man/jongen?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v12_5,
@@ -340,7 +340,8 @@ Kies 1 van de 5 plaatjes',
     type: :checkbox,
     required: true,
     title: 'Wat vind je leuk om te doen? Waar word je blij van?',
-    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
+    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, 
+      { title: 'Buiten zijn' }, {title: 'Met vrienden afspreken'}],
     section_end: false
   }, {
     id: :v14_2,
@@ -361,7 +362,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v15,
     type: :radio,
-    title: 'Doe je één of meerdere sporten?',
+    title: 'Doe je één of meerdere sport(en)?',
     options: [{ title: 'Ja', shows_questions: %i[v15_1 v15_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {

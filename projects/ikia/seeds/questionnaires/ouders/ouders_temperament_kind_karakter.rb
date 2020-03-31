@@ -16,7 +16,7 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> De volgende vragenlijst gaat over het karakter van uw kind. Er volgen nu 104 zinnen over eigenschappen van mensen. Geef bij elke zin aan in hoeverre u het hiermee eens. Doe dit voor elke zin, ook als u niet helemaal zeker bent van uw antwoord. Het invullen duurt ongeveer 20 minuten.'
+    content: '<p class="flow-text"> De volgende vragenlijst gaat over het karakter van uw kind. Er volgen nu 104 zinnen met mogelijke eigenschappen van uw kind. Geef bij elke zin aan in hoeverre u het hiermee eens bent. Doe dit voor elke zin, ook als u niet helemaal zeker bent van uw antwoord. Het invullen duurt ongeveer 20 minuten.'
   }, {
     section_start: 'Mijn kind…',
     id: :v1,

@@ -73,14 +73,13 @@ dagboek_content = [
     type: :checkbox,
     title: 'Welke situatie is het meest op u van toepassing?',
     options: [
-      {title: 'Ik werk betaald', shows_questions: %i[v7_a]},
-      {title: 'Ik werk onbetaald', shows_questions: %i[v7_b]},
-      {title: 'Ik studeer'},
-      {title: 'Ik ben werkloos/ werkzoekend'},
-      {title: 'Ik zit in de ziektewet of ben gedeeltelijk arbeidsongeschikt'},
-      {title: 'Ik heb een bijstandsuitkering'},
-      {title: 'Ik ben met pensioen'}],
-    tooltip
+      { title: 'Ik werk betaald', shows_questions: %i[v7_a] },
+      { title: 'Ik werk onbetaald', shows_questions: %i[v7_b] },
+      { title: 'Ik studeer' },
+      { title: 'Ik ben werkloos/ werkzoekend' },
+      { title: 'Ik zit in de ziektewet of ben gedeeltelijk arbeidsongeschikt' },
+      { title: 'Ik heb een bijstandsuitkering' },
+      { title: 'Ik ben met pensioen' }]
   }, {
     id: :v7_a,
     hidden: true,

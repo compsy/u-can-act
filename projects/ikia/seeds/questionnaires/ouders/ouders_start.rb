@@ -66,12 +66,12 @@ dagboek_content = [
     maxlength: 2,
     placeholder: 'Bijvoorbeeld: 3',
     min: 0,
-    max: 20,
+    max: 50,
     required: true
   }, {
     id: :v7,
     type: :checkbox,
-    title: 'Welke situatie is het meest op u van toepassing? (Meerdere antwoorden zijn mogelijk)',
+    title: 'Welke situatie is het meest op u van toepassing?',
     options: [
       {title: 'Ik werk betaald', shows_questions: %i[v7_a]},
       {title: 'Ik werk onbetaald', shows_questions: %i[v7_b]},
@@ -79,7 +79,8 @@ dagboek_content = [
       {title: 'Ik ben werkloos/ werkzoekend'},
       {title: 'Ik zit in de ziektewet of ben gedeeltelijk arbeidsongeschikt'},
       {title: 'Ik heb een bijstandsuitkering'},
-      {title: 'Ik ben met pensioen'}]
+      {title: 'Ik ben met pensioen'}],
+    tooltip
   }, {
     id: :v7_a,
     hidden: true,
@@ -88,16 +89,16 @@ dagboek_content = [
     maxlength: 2,
     placeholder: 'Bijvoorbeeld: 36',
     min: 0,
-    max: 70,
+    max: 100,
   }, {
     id: :v7_b,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     title: 'Wat voor onbetaald werk doet u?<br><br>Ik ben:',
     options: [
       'Ik ben thuisblijfmoeder/ thuisblijfvader',
       'Ik ben mantelzorger en zorg voor één of meerdere personen',
-      'Ik doe vrijwilligerswerk',]
+      'Ik doe vrijwilligerswerk']
   }, {
     type: :raw,
     content: '<p class="flow-text"> Het is belangrijk dat u de vragenlijsten in dit onderzoek steeds over hetzelfde kind invult. Als u meerdere kinderen heeft waarover u vragenlijsten in wilt vullen, dan kunt u meerdere accounts aanmaken. <br>
@@ -126,8 +127,8 @@ Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheu
     tooltip: 'Vul een jaartal in vanaf 2000 als geboortejaar van uw kind, bijvoorbeeld: 2011.',
     maxlength: 4,
     placeholder: 'Vul hier een getal in',
-    min: 2000,
-    max: 2014,
+    min: 1990,
+    max: 2020,
     required: true
   }, {
     id: :v9_4,

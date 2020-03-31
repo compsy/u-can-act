@@ -36,10 +36,10 @@ dagboek_content = [
     type: :range,
     title: 'Ik ben in de war over wat ik nu voel',
     labels: ['Helemaal niet', 'Heel erg']
- }, {
+  }, {
     type: :raw,
-    content: '<p class="flow-text">Geef bij elk gevoel aan hoe sterk je dit nu voelt:</p>'   
- },{   
+    content: '<p class="flow-text">Geef bij elk gevoel aan hoe sterk je dit nu voelt:</p>'
+  }, {
     id: :v5,
     type: :range,
     title: 'Trots',
@@ -111,9 +111,9 @@ dagboek_content = [
     type: :range,
     title: 'Ontspannen',
     labels: ['Helemaal niet', 'Heel erg'],
-  },{
+  }, {
     id: :v19,
-    type: :range,  
+    type: :range,
     title: 'Geïrriteerd',
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
@@ -123,12 +123,12 @@ dagboek_content = [
     id: :v20,
     type: :radio,
     title: 'Hoe leuk was deze gebeurtenis?',
-    options:[
-      {title: 'Helemaal niet leuk'},
-      {title: 'Niet leuk'},
-      {title: 'Een beetje leuk', shows_questions: %i[v20a v20b]},
-      {title: 'Leuk', shows_questions: %i[v20a v20b]},
-      {title: 'Heel erg leuk', shows_questions: %i[v20a v20b]}],
+    options: [
+      { title: 'Helemaal niet leuk' },
+      { title: 'Niet leuk' },
+      { title: 'Een beetje leuk', shows_questions: %i[v20a v20b] },
+      { title: 'Leuk', shows_questions: %i[v20a v20b] },
+      { title: 'Heel erg leuk', shows_questions: %i[v20a v20b] }],
     section_end: false
   }, {
     id: :v20a,
@@ -136,57 +136,57 @@ dagboek_content = [
     hidden: true,
     title: 'Ik heb geprobeerd om het positieve gevoel vast te houden.',
     labels: ['Helemaal niet', 'Heel erg']
-  },{
+  }, {
     id: :v20b,
     type: :range,
     hidden: true,
     title: 'Ik heb teruggedacht aan deze gebeurtenis.',
     labels: ['Helemaal niet', 'Heel erg']
-  },{  
+  }, {
     id: :v21,
     type: :radio,
     title: 'Hoe vervelend was deze gebeurtenis?',
-    options:[
-      {title: 'Helemaal niet vervelend'},
-      {title: 'Niet vervelend'},
-      {title: 'Een beetje vervelend', shows_questions: %i[v21a v21b]},
-      {title: 'Vervelend', shows_questions: %i[v21a v21b]},
-      {title: 'Heel erg vervelend', shows_questions: %i[v21a v21b]}],
-   },{
-     id: :v21a,
-     type: :range,
-     hidden: true,
-     title: 'Ik heb gepiekerd over deze gebeurtenis.',
-     labels: ['Helemaal niet', 'Heel erg']
-   },{
-     id: :v21b,
-     type: :range,
-     hidden: true,
-     title: 'Ik heb geprobeerd om niet over deze gebeurtenis na te denken.',
-     labels: ['Helemaal niet', 'Heel erg']
-   },{  
-     id: :v22,
-     type: :radio,
-     title: 'Heb je met iemand over deze gebeurtenis gepraat?',
-     options: [
-       {title: 'Nee, met niemand', shows_questions: %i[v22b]},
-       {title: 'Ja, met mijn ouder(s)', shows_questions: %i[v22a]},
-       {title: 'Ja, met een vriend(in)', shows_questions: %i[v22a]},
-       {title: 'Ja, met een leraar/lerares', shows_questions: %i[v22a]},
-       {title: 'Ja, met iemand anders', shows_questions: %i[v22a]}],
-     show_otherwise: false 
+    options: [
+      { title: 'Helemaal niet vervelend' },
+      { title: 'Niet vervelend' },
+      { title: 'Een beetje vervelend', shows_questions: %i[v21a v21b] },
+      { title: 'Vervelend', shows_questions: %i[v21a v21b] },
+      { title: 'Heel erg vervelend', shows_questions: %i[v21a v21b] }],
+  }, {
+    id: :v21a,
+    type: :range,
+    hidden: true,
+    title: 'Ik heb gepiekerd over deze gebeurtenis.',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v21b,
+    type: :range,
+    hidden: true,
+    title: 'Ik heb geprobeerd om niet over deze gebeurtenis na te denken.',
+    labels: ['Helemaal niet', 'Heel erg']
+  }, {
+    id: :v22,
+    type: :radio,
+    title: 'Heb je met iemand over deze gebeurtenis gepraat?',
+    options: [
+      { title: 'Nee, met niemand', shows_questions: %i[v22b] },
+      { title: 'Ja, met mijn ouder(s)', shows_questions: %i[v22a] },
+      { title: 'Ja, met een vriend(in)', shows_questions: %i[v22a] },
+      { title: 'Ja, met een leraar/lerares', shows_questions: %i[v22a] },
+      { title: 'Ja, met iemand anders', shows_questions: %i[v22a] }],
+    show_otherwise: false
   }, {
     id: :v22a,
     hidden: true,
     type: :checkbox,
     title: 'Hoe reageerde deze persoon toen je over de gebeurtenis vertelde?',
     options: [
-      {title: 'Hij/zij werd boos'},
-      {title: 'Hij/zij vond het niet belangrijk'},
-      {title: 'Hij/zij nam de tijd om naar mij te luisteren'},
-      {title: 'Hij/zij troostte me'},
-      {title: 'Hij/zij moest lachen'},
-      {title: 'Hij/zij knuffelde me'}],
+      { title: 'Hij/zij werd boos' },
+      { title: 'Hij/zij vond het niet belangrijk' },
+      { title: 'Hij/zij nam de tijd om naar mij te luisteren' },
+      { title: 'Hij/zij troostte me' },
+      { title: 'Hij/zij moest lachen' },
+      { title: 'Hij/zij knuffelde me' }],
     show_otherwise: true,
     otherwise_label: 'Anders, namelijk',
     tooltip: 'Je mag meerdere antwoorden kiezen'
@@ -195,7 +195,7 @@ dagboek_content = [
     type: :range,
     hidden: true,
     title: 'Had je wel met iemand over deze gebeurtenis willen praten?',
-   labels: ['Helemaal niet', 'Heel graag'],
+    labels: ['Helemaal niet', 'Heel graag'],
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over hoe het vandaag tussen jou en je ouder (of opvoeder) was. Hiermee bedoelen we één van je ouders of beide ouders.
@@ -237,8 +237,8 @@ Dit mag per antwoord verschillend zijn.',
     type: :radio,
     title: 'Ik heb vandaag een vriend gezien.',
     options: [
-      {title: 'Ja', shows_questions: %i[v29a v29b v29c]},
-      {title: 'Nee', shows_questions: %i[v29d]}],
+      { title: 'Ja', shows_questions: %i[v29a v29b v29c] },
+      { title: 'Nee', shows_questions: %i[v29d] }],
     show_otherwise: false,
     section_end: false
   }, {
@@ -247,27 +247,27 @@ Dit mag per antwoord verschillend zijn.',
     hidden: true,
     title: 'Ik had het gevoel dat ik mezelf kon zijn bij mijn vriend(en).',
     labels: ['Helemaal niet', 'Heel erg']
-  },{
+  }, {
     id: :v29b,
     type: :range,
     hidden: true,
     title: 'Ik had het gevoel dat mijn vriend(en) blij was/waren dat ik er was.',
     labels: ['Helemaal niet', 'Heel erg']
-  },{
+  }, {
     id: :v29c,
     type: :range,
     hidden: true,
     title: 'Ik was liever alleen geweest dan samen met mijn vriend(en).',
     labels: ['Helemaal niet', 'Heel erg']
-  },{     
+  }, {
     id: :v29d,
     type: :range,
     hidden: true,
     title: 'Ik had liever bij een vriend willen zijn.',
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
-  },{
-    section_start: 'De laatste vragen:',  
+  }, {
+    section_start: 'De laatste vragen:',
     id: :v30,
     type: :range,
     title: 'Vandaag was een goede dag.',
@@ -278,23 +278,23 @@ Dit mag per antwoord verschillend zijn.',
     type: :range,
     title: 'Ik ben vandaag buiten geweest.',
     labels: ['Helemaal niet', 'Heel veel']
-  },{
+  }, {
     id: :v32,
     type: :range,
     title: 'Ik heb het vandaag druk gehad.',
     labels: ['Helemaal niet', 'Heel erg']
-  },{
+  }, {
     id: :v33,
     type: :range,
     title: 'Ik heb me vandaag zorgen gemaakt.',
     labels: ['Helemaal niet', 'Heel veel']
-  },{
+  }, {
     id: :v34,
     type: :range,
     title: 'Ik kijk uit naar morgen.',
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
-    },
+  },
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

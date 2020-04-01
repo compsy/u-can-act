@@ -335,12 +335,13 @@ Kies 1 van de 5 plaatjes',
       { title: 'Vis(sen)' }],
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je gewoontes',
+    section_start: 'De volgende vragen gaan over je gewoontes:',
     id: :v14_1,
     type: :checkbox,
     required: true,
     title: 'Wat vind je leuk om te doen? Waar word je blij van?',
-    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
+    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, {title: 'Met vrienden of vriendinnen zijn'}, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
+    tooltip: 'Je mag meerdere antwoorden kiezen',
     section_end: false
   }, {
     id: :v14_2,
@@ -356,7 +357,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v14_4,
     type: :textfield,
-    title: 'Wat doe je als je je down voelt of slecht in je vel zit? Dit kan iets zijn wat je hierboven genoemd hebt, of iets wat je nog niet genoemd hebt',
+    title: 'Wat doe je als je je down voelt of slecht in je vel zit? Dit kan iets zijn wat je hierboven genoemd hebt, of iets wat je nog niet genoemd hebt.',
     required: true
   }, {
     id: :v15,
@@ -385,7 +386,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je vriend(en) en vriendin(nen)',
+    section_start: 'De volgende vragen gaan over je vriend(en) en vriendin(nen):',
     id: :v17,
     type: :radio,
     title: 'Heb je één of meerdere vriend(en) of vriendin(nen)?',
@@ -412,7 +413,7 @@ Kies 1 van de 5 plaatjes',
     labels: ['Ik zou ze veel minder vaak spreken', 'Ik zou niks veranderen', 'Ik zou ze veel vaker spreken'],
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over gewoontes van je gezin',
+    section_start: 'De volgende vragen gaan over de gewoontes van je gezin:',
     id: :v18,
     type: :radio,
     title: 'Doe je weleens iets leuks met je ouder(s) of opvoeder(s)?',
@@ -444,7 +445,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over natuur en over buiten zijn',
+    section_start: 'De volgende vragen gaan over de natuur en over buiten zijn:',
     id: :v19,
     type: :radio,
     title: 'Heeft jullie huis een tuin?',
@@ -465,7 +466,7 @@ Kies 1 van de 5 plaatjes',
     labels: ['Ik wil veel minder vaak gaan', 'Ik wil niks veranderen', 'Ik wil veel vaker gaan'],
     section_end: true
   }, {
-    section_start: 'Er volgen nu een aantal zinnen over de natuur, en hoe jij daarover denkt. Hierbij gaat het om <i>alle</i> natuur en niet alleen om natuur in de buurt waar jij woont. Geef bij elke zin aan hoe waar deze is voor jou.',
+    section_start: 'Er volgen nu een aantal zinnen over de natuur, en hoe jij daarover denkt. Hierbij gaat het om <i>alle</i> natuur en niet alleen om natuur in de buurt waar jij woont. Geef bij elke zin aan hoe waar deze is voor jou:',
     id: :v20,
     type: :range,
     title: 'Als ik verdrietig ben, ga ik het liefst naar buiten om in de natuur te zijn.',

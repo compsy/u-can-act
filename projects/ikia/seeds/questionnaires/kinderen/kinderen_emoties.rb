@@ -8,9 +8,9 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over gevoelens. In totaal zijn er 70 vragen. Hier ben je ongeveer X minuten mee bezig. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.'
+    content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over gevoelens. Het invullen duurt ongeveer 10 minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.'
   }, {
-    section_start: 'Denk terug aan hoe je je de afgelopen twee weken voelde. Geef bij elk gevoel hieronder aan of je je zo gevoeld hebt. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'Denk terug aan hoe je je de <i>afgelopen twee weken</i> voelde. Geef bij elk gevoel hieronder aan of je je zo gevoeld hebt. Verschuif het bolletje naar het antwoord dat het beste bij jou past:',
     id: :v1,
     type: :range,
     title: 'Gelukkig',
@@ -46,6 +46,7 @@ dagboek_content = [
     type: :range,
     title: 'Geliefd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat andere mensen van je houden',
     required: true
   }, {
     id: :v7,
@@ -104,8 +105,9 @@ dagboek_content = [
   }, {
     id: :v16,
     type: :range,
-    title: 'Schaamte',
+    title: 'Beschaamd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt',
     required: true
   }, {
     id: :v17,
@@ -170,6 +172,7 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
     type: :range,
     title: 'Geliefd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat andere mensen van je houden',
     required: true
   }, {
     id: :v27,
@@ -228,8 +231,9 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
   }, {
     id: :v36,
     type: :range,
-    title: 'Schaamte',
+    title: 'Beschaamd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt',
     required: true
   }, {
     id: :v37,
@@ -257,7 +261,7 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     section_end: true
   }, {
-    section_start: 'Je bent al bijna klaar. Er volgen nog een aantal zinnen over gevoelens en gedachten die je kan hebben. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'Er volgen nu een aantal zinnen over gevoelens en gedachten. Bedenk bij elke zin hoe vaak de zin waar is voor jou. Verschuif het bolletje naar het antwoord dat het beste bij jou past:',
     id: :v41,
     type: :range,
     title: 'Ik ben vaak in de war over hoe ik me voel.',

@@ -13,11 +13,11 @@ raise "Error: questionnaire for protocol #{pr_name} not found: #{questionnaire_k
 questionnaire_id = questionnaire.id
 
 # Morning measurement
-redirect_url = '/?morning_measurement'
+redirect_url = "#{ENV['IKIA_CALLBACK_URL']}?morning_measurement"
 diary_measurement = diary_protocol.measurements.find_by(redirect_url: redirect_url)
 diary_measurement ||= diary_protocol.measurements.build(redirect_url: redirect_url)
 diary_measurement.questionnaire_id = questionnaire_id
-diary_measurement.open_from_offset = 0        # open right away + the offset specified by the user
+diary_measurement.open_from_offset = 6.hours  # 6 am minimum time + the offset specified by the user
 diary_measurement.period = 1.day              # daily for 30 days
 diary_measurement.open_duration = 1.hour      # don't allow people to fill it out the next day
 diary_measurement.reminder_delay = 15.minutes # send one reminder after one hour
@@ -26,11 +26,11 @@ diary_measurement.should_invite = true        # send invitation (SMS)
 diary_measurement.save!
 
 # Afternoon measurement
-redirect_url = '/?afternoon_measurement'
+redirect_url = "#{ENV['IKIA_CALLBACK_URL']}?afternoon_measurement"
 diary_measurement = diary_protocol.measurements.find_by(redirect_url: redirect_url)
 diary_measurement ||= diary_protocol.measurements.build(redirect_url: redirect_url)
 diary_measurement.questionnaire_id = questionnaire_id
-diary_measurement.open_from_offset = 6.hours # six hours after the first one
+diary_measurement.open_from_offset = 12.hours # six hours after the first one
 diary_measurement.period = 1.day
 diary_measurement.open_duration = 1.hour
 diary_measurement.reminder_delay = 15.minutes
@@ -39,11 +39,11 @@ diary_measurement.should_invite = true
 diary_measurement.save!
 
 # Evening measurement
-redirect_url = '/?evening_measurement'
+redirect_url = "#{ENV['IKIA_CALLBACK_URL']}?evening_measurement"
 diary_measurement = diary_protocol.measurements.find_by(redirect_url: redirect_url)
 diary_measurement ||= diary_protocol.measurements.build(redirect_url: redirect_url)
 diary_measurement.questionnaire_id = questionnaire_id
-diary_measurement.open_from_offset = 12.hours # twelve hours after the first one
+diary_measurement.open_from_offset = 18.hours # twelve hours after the first one
 diary_measurement.period = 1.day
 diary_measurement.open_duration = 1.hour
 diary_measurement.reminder_delay = 15.minutes

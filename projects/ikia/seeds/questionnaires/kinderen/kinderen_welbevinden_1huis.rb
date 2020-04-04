@@ -8,7 +8,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
+    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer 10 minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
   }, {
     section_start: 'Type je antwoorden op de volgende vragen in de tekstvelden. Je mag zoveel typen als je wilt.',
     id: :v1,
@@ -22,7 +22,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je leven in het algemeen. Verplaats het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'De volgende vragen gaan over je leven in het algemeen. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v3,
     type: :range,
     title: 'Ik heb een goed leven.',
@@ -67,7 +67,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je thuis:',
+    section_start: 'De volgende vragen gaan over je thuis. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v10_1,
     type: :range,
     title: 'Ik geniet ervan om thuis te zijn.',
@@ -124,7 +124,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je vrienden en vriendinnen:',
+    section_start: 'De volgende vragen gaan over je vrienden en vriendinnen. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v11,
     type: :range,
     title: 'Mijn vrienden zijn aardig tegen mij.',
@@ -163,7 +163,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over school:',
+    section_start: 'De volgende vragen gaan over school. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v17,
     type: :range,
     title: 'Ik heb vaak zin om naar school te gaan.',
@@ -202,7 +202,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over jezelf:',
+    section_start: 'De volgende vragen gaan over jezelf. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v23,
     type: :range,
     title: 'Ik voel me goed over mezelf.',

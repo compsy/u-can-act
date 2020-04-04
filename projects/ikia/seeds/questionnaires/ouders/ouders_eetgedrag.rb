@@ -17,7 +17,7 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over het eetgedrag van uw kind. Er zijn X vragen. Hier bent u ongeveer X minuten mee bezig. Let erop dat de antwoordopties steeds verschillend zijn. Lees daarom elke vraag zorgvuldig.</p>'
+    content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over het eetgedrag van uw kind. Het invullen duurt ongeveer 5 minuten. Let erop dat de antwoordopties steeds verschillend zijn. Lees daarom elke vraag zorgvuldig.</p>'
   }, {
     id: :v1,
     type: :range,
@@ -102,7 +102,28 @@ dagboek_content = [
     title: 'Hoe zeer beïnvloedt het eten van uw kind de gezinsrelaties?',
     labels: ['Helemaal niet', 'Erg negatief'],
     required: true
-  }
+  },{
+ id: :v2_1,
+    type: :radio,
+    title: 'Volgt uw kind een dieet of aangepast voedingspatroon?',
+    options: [
+      {title: 'Ja', shows_questions: %i[v2_2]},
+      {title: 'Nee'}],
+    show_otherwise: false
+    },{
+      id: :v2_2,
+      hidden: true,
+      type: :checkbox,
+      title: 'Om welk dieet of aangepast voedingspatroon gaat het?',
+      options: [
+        'Vegetarisch', 
+        'Veganistisch', 
+        'Lactose- of koemelkvrij',
+        'Glutenvrij',
+        'Pinda- of notenvrij']
+      show_otherwise: true,
+      tooltip: 'Meerdere antwoorden mogelijk'
+      },       
 ]
 invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {

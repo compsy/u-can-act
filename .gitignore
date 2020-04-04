@@ -20,7 +20,6 @@ rerun.txt
 routes.txt
 docker-compose.override.yml
 pickle-email-*.html
-informed_consent.html
 
 # dotenv
 .env.local

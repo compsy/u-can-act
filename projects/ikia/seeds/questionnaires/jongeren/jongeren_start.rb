@@ -60,7 +60,7 @@ dagboek_content = [
   }, {
     id: :v4,
     type: :radio,
-    show_otherwise: false,
+    show_otherwise: true,
     title: 'Naar wat voor school ga je?',
     options: [
       { title: 'Basisschool', shows_questions: %i[v4_a] }, { title: 'Middelbare school', shows_questions: %i[v4_b, v4_c] }, { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] }, { title: 'Ik krijg thuisonderwijs' }, { title: 'Ik krijg geen onderwijs' }

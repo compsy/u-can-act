@@ -66,7 +66,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'Je bent heel blij omdat je een toets op school goed gemaakt hebt.Hoe zou je opvoeder reageren? <br><br><b>Hij/zij zou…</b>',
+    section_start: 'Je bent heel blij omdat je een toets op school goed gemaakt hebt. Hoe zou je opvoeder reageren? <br><br><b>Hij/zij zou…</b>',
     id: :v3a,
     type: :range,
     title: '…de tijd nemen om naar mij te luisteren',

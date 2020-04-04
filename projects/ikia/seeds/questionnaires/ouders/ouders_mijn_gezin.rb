@@ -249,7 +249,7 @@ dagboek_content = [
     title: 'Is uw kind hiervoor in behandeling (geweest)?',
     options: [
       { title: 'Ja, op dit moment', shows_questions: %i[v11_c1 v11_c2] },
-      { title: 'Ja, maar op dit moment niet meer', shows_questions: %i[v11_c1 v11c_2] },
+      { title: 'Ja, maar op dit moment niet meer', shows_questions: %i[v11_c1 v11_c2] },
       { title: 'Nee', shows_questions: %i[v12] }
     ],
     show_otherwise: false

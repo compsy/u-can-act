@@ -79,7 +79,7 @@ dagboek_content = [
     title: 'Wat voor type middelbare school is dit? Als je in een combinatieklas zit, kies dan het hoogste niveau',
     options: ['Praktijkonderwijs (bijvoorbeeld houtbewerking, groenvoorziening, bouw)', 'VMBO of MAVO', 'HAVO', 'VWO, atheneum of gymnasium']
   }, {
-    id: :v4c,
+    id: :v4_c,
     type: :radio,
     hidden: true,
     show_otherwise: false,

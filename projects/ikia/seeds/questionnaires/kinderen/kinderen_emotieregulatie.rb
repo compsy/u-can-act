@@ -17,8 +17,7 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text"> Deze vragenlijst gaat over wat je doet en denkt wanneer je boos, bang of verdrietig bent. Er zijn in totaal 90 vragen. Het invullen duurt ongeveer 15 minuten. Ook al heb je misschien het gevoel dat een vraag niet helemaal op jou van toepassing is, geef dan toch het best passende antwoord.</p>'
   }, {
-    section_start: 'Wat doe jij als je boos bent? Kies bij elke zin het antwoord dat het beste bij je past: <br><br> 
-<b>Wanneer ik boos ben…</b>',
+    section_start: 'Wat doe jij als je boos bent? Kies bij elke zin het antwoord dat het beste bij je past: <br><br> <b>Wanneer ik boos ben…</b>',
     id: :v1a,
     type: :likert,
     title: 'Probeer ik dat wat me boos maakt te veranderen.',

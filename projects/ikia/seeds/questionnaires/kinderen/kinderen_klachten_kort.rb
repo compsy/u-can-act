@@ -8,15 +8,14 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragenlijst gaat over moeilijkheden die kinderen kunnen hebben. Het invullen duurt ongeveer 10 minuten. 
-</p>'
+    content: '<p class="flow-text">De volgende vragenlijst gaat over moeilijkheden die kinderen kunnen hebben. Het invullen duurt ongeveer 10 minuten.</p>'
   }, {
     section_start: 'Bedenk bij elke zin of dit de <i>afgelopen zes maanden</i> zo bij jou is geweest. Verplaats het bolletje naar het antwoord wat het beste bij jou past:',
     id: :v1,
     type: :range,
     title: 'Ik probeer aardig te zijn tegen anderen. Ik houd rekening met hun gevoelens.',
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
-    required: true
+    required: true,
     section_end: false
   }, {
     id: :v2,
@@ -231,7 +230,7 @@ dagboek_content = [
       { title: 'Ja, duidelijke problemen', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] },
       { title: 'Ja, ernstige problemen', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] }
     ],
-    tooltip: 'Concentreren betekent dat je je aandacht ergens bij kunt houden' 
+    tooltip: 'Concentreren betekent dat je je aandacht ergens bij kunt houden'
   }, {
     id: :v27_a,
     hidden: true,

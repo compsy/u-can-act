@@ -341,7 +341,7 @@ Kies 1 van de 5 plaatjes',
     type: :checkbox,
     required: true,
     title: 'Wat vind je leuk om te doen? Waar word je blij van?',
-    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, {title: 'Met vrienden of vriendinnen zijn'}, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
+    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Met vrienden of vriendinnen zijn' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
     tooltip: 'Je mag meerdere antwoorden kiezen',
     section_end: false
   }, {
@@ -436,7 +436,7 @@ Kies 1 van de 5 plaatjes',
     id: :v18_3,
     type: :radio,
     title: 'Eten jullie weleens samen met het hele gezin?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false
   }, {
     id: :v18_4,
@@ -450,14 +450,14 @@ Kies 1 van de 5 plaatjes',
     id: :v19,
     type: :radio,
     title: 'Heeft jullie huis een tuin?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false,
     section_end: false
   }, {
     id: :v19_1,
     type: :radio,
     title: 'Is er <i>in de buurt waar jij woont</i> een park, bos, strand of andere plek met natuur waar jij weleens naartoe gaat?',
-    options: [{ title: 'Ja', shows_questions: %i[ v19_2] }, { title: 'Nee' }],
+    options: [{ title: 'Ja', shows_questions: %i[v19_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {
     id: :v19_2,

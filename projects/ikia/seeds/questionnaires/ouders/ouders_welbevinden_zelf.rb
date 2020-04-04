@@ -16,44 +16,44 @@ dagboek_content = [
     type: :range,
     title: 'Voelt u zich in het algemeen gelukkig?',
     tooltip: 'Geef een globale inschatting, hoe u zich in het algemeen voelt (dus niet hoe u zich op dit moment voelt',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true,
     section_end: false
   }, {
     id: :v2,
     type: :range,
     title: 'Hoe vaak voelt u dat u uw doelen gaat behalen?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v3,
     type: :range,
     title: 'Hoe vaak gaat u volledig op in waar u mee bezig bent?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v4,
     type: :range,
     title: 'Hoe vaak voelt u zich opgewekt?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v5,
     type: :range,
     title: 'Hoe vaak voelt u zich angstig?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v6,
     type: :range,
     title: 'Hoe vaak bereikt u de belangrijke doelen die u uzelf stelt?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v7,
     type: :range,
     title: 'Hoe zou u uw gezondheid beoordelen?',
-    labels: ['Verschrikkelijk', 'Uitstekend'],
+    labels: %w[Verschrikkelijk Uitstekend],
     required: true
   }, {
     id: :v8,
@@ -95,37 +95,37 @@ dagboek_content = [
     id: :v14,
     type: :range,
     title: 'Hoe vaak voelt u zich positief?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v15,
     type: :range,
     title: 'Hoe vaak voelt u zich boos?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v16,
     type: :range,
     title: 'Hoe vaak kunt u aan uw verantwoordelijkheden voldoen?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v17,
     type: :range,
     title: 'Hoe vaak voelt u zich verdrietig?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v18,
     type: :range,
     title: 'Hoe vaak verliest u het besef van tijd terwijl u met iets plezierigs bezig bent?',
-    labels: ['Nooit', 'Altijd'],
+    labels: %w[Nooit Altijd],
     required: true
   }, {
     id: :v19,
     type: :range,
     title: 'Hoe gezond bent u in vergelijking met anderen van uw leeftijd en geslacht?',
-    labels: ['Verschrikkelijk', 'Uitstekend'],
+    labels: %w[Verschrikkelijk Uitstekend],
     required: true
   }, {
     id: :v20,
@@ -156,8 +156,8 @@ dagboek_content = [
     type: :radio,
     title: 'Geef aan wat voor u van toepassing is:',
     options: [
-      {title: 'Ik heb een betaalde baan (of werk op een sociale werkplaats, of volg onderwijs/opleiding als voornaamste daginvulling)', shows_questions: %i[v25]},
-      {title: 'Ik heb geen betaalde baan (bijvoorbeeld omdat ik ben afgekeurd) of ben gepensioneerd', shows_questions: %i[v26]}],
+      { title: 'Ik heb een betaalde baan (of werk op een sociale werkplaats, of volg onderwijs/opleiding als voornaamste daginvulling)', shows_questions: %i[v25] },
+      { title: 'Ik heb geen betaalde baan (bijvoorbeeld omdat ik ben afgekeurd) of ben gepensioneerd', shows_questions: %i[v26] }],
     show_otherwise: false
   }, {
     id: :v25,
@@ -205,13 +205,13 @@ dagboek_content = [
     id: :v32,
     type: :radio,
     title: 'Bent u in het afgelopen jaar beschuldigd van een misdrijf?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false
   }, {
     id: :v33,
     type: :radio,
     title: 'Bent u in het afgelopen jaar slachtoffer geweest van lichamelijk geweld?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false
   }, {
     id: :v34,
@@ -224,10 +224,10 @@ dagboek_content = [
     type: :radio,
     title: 'Geef aan wat voor u van toepassing is:',
     options: [
-      {title: 'Ik leef samen met partner', shows_questions: %i[v36]},
-      {title: 'Ik woon samen met kinderen zonder partner', shows_questions: %i[v36]},
-      {title: 'Ik woon alleen', shows_questions: %i[v37]},
-      {title: 'Anders'}],
+      { title: 'Ik leef samen met partner', shows_questions: %i[v36] },
+      { title: 'Ik woon samen met kinderen zonder partner', shows_questions: %i[v36] },
+      { title: 'Ik woon alleen', shows_questions: %i[v37] },
+      { title: 'Anders' }],
     show_otherwise: false
   }, {
     id: :v36,

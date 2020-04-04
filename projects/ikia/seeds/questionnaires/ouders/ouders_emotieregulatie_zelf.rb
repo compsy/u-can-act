@@ -269,7 +269,7 @@ dagboek_content = [
   }, {
     type: :raw,
     content: '<p class="flow-text"> Wat doet of denkt u als u verdrietig bent? Verschuif het bolletje naar het antwoord dat het best beschrijft hoe u zou reageren. </p>'
-    },{
+  }, {
     section_start: 'Wanneer ik verdrietig ben…',
     id: :v1c,
     type: :likert,

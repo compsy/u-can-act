@@ -56,7 +56,7 @@ dagboek_content = [
         id: :v4_2,
         type: :dropdown,
         title: 'Wanneer is hij/zij geboren?<br><br>Maand:',
-        options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
+        options: %w[januari februari maart april mei juni juli augustus september oktober november december]
       }, {
         id: :v4_3,
         type: :number,

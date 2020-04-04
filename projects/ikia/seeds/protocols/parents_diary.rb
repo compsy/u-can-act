@@ -6,6 +6,7 @@ pr_name = File.basename(__FILE__)[0...-3]
 diary_protocol = Protocol.find_by_name(pr_name)
 diary_protocol ||= Protocol.new(name: pr_name)
 diary_protocol.duration = 30.days
+diary_protocol.invitation_text = 'Uw dagelijkse vragenlijst staat voor u klaar. Klik op de volgende link om deze in te vullen.'
 diary_protocol.save!
 
 questionnaire = Questionnaire.find_by(key: questionnaire_key)

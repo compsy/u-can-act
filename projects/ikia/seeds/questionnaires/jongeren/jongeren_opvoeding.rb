@@ -21,7 +21,7 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text"> Er volgen nu zes situaties en een aantal zinnen die reacties van opvoeders beschrijven. Stel je bij elke situatie voor dat jij het meegemaakt. Hoe zou jouw opvoeder dan reageren? Verplaats het bolletje naar het antwoord dat het beste past.</p>'
   }, {
-    section_start: 'Je wilt graag een spel doen op de computer maar dit mag niet van je opvoeder. Je besluit het spel toch op de computer te spelen.<br> <br>Hoe zou jouw opvoeder reageren? Hij/zij zou…',
+    section_start: 'Je wilt graag een spel doen op de computer maar dit mag niet van je opvoeder. Je besluit het spel toch op de computer te spelen. Hoe zou jouw opvoeder reageren? <br><br><b>Hij/zij zou…</b>',
     id: :v2a,
     type: :range,
     title: '…mij uitleggen waarom het niet mag',
@@ -66,7 +66,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'Je bent heel blij omdat je een toets op school goed gemaakt hebt.<br><br> Hoe zou je opvoeder reageren? Hij/zij zou…',
+    section_start: 'Je bent heel blij omdat je een toets op school goed gemaakt hebt. Hoe zou je opvoeder reageren? <br><br><b>Hij/zij zou…</b>',
     id: :v3a,
     type: :range,
     title: '…de tijd nemen om naar mij te luisteren',
@@ -123,7 +123,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'Je gaat iets leuks doen met vrienden waar je veel zin in hebt. <br> <br> Hoe zou je opvoeder reageren? Hij/zij zou…',
+    section_start: 'Je gaat iets leuks doen met vrienden waar je veel zin in hebt. Hoe zou je opvoeder reageren? <br><br><b>Hij/zij zou…</b>',
     id: :v4a,
     type: :range,
     title: '…vragen wat we gaan doen',
@@ -179,7 +179,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'Je bent verdrietig omdat je ruzie hebt met een vriend of vriendin. <br> <br> Hoe zou je opvoeder reageren? Hij/zij zou…',
+    section_start: 'Je bent verdrietig omdat je ruzie hebt met een vriend of vriendin. Hoe zou je opvoeder reageren? <br><br><b>Hij/zij zou…</b>',
     id: :v5a,
     type: :range,
     title: '…proberen om me op te vrolijken',
@@ -235,7 +235,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'Je bent zenuwachtig voor een belangrijke gebeurtenis, bijvoorbeeld voor een wedstrijd of optreden. <br> <br> Hij/zij zou…',
+    section_start: 'Je bent zenuwachtig voor een belangrijke gebeurtenis, bijvoorbeeld voor een wedstrijd of optreden. <br><br><b>Hij/zij zou…</b>',
     id: :v6a,
     type: :range,
     title: '…proberen mijn gedachten af te leiden door het over andere dingen te hebben',

@@ -119,8 +119,8 @@ Kies 1 van de 5 plaatjes',
     id: :v5,
     hidden: true,
     type: :radio,
-    show_otherwise: false,
-    section_start: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont.',
+    show_otherwise: true,
+    section_start: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont:',
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
       { title: 'Minder dan 1 nacht per week' },
@@ -218,10 +218,10 @@ Kies 1 van de 5 plaatjes',
     section_end: true
   }, {
     id: :v9,
-    section_start: 'De volgende vragen gaan over het andere huis waar je woont.',
+    section_start: 'De volgende vragen gaan over het andere huis waar je woont:',
     hidden: true,
     type: :radio,
-    show_otherwise: false,
+    show_otherwise: true,
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
       { title: 'Minder dan 1 nacht per week' },
@@ -333,9 +333,10 @@ Kies 1 van de 5 plaatjes',
       { title: 'Knaagdier(en) (Cavia, konijn, muizen, ratten)' },
       { title: 'Reptiel(en)' },
       { title: 'Vis(sen)' }],
+    tooltip: 'Je mag meerdere antwoorden kiezen',
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je gewoontes',
+    section_start: 'De volgende vragen gaan over je gewoontes:',
     id: :v14_1,
     type: :checkbox,
     required: true,
@@ -386,7 +387,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je vriend(en) en vriendin(nen)',
+    section_start: 'De volgende vragen gaan over je vriend(en) en vriendin(nen):',
     id: :v17,
     type: :radio,
     title: 'Heb je één of meerdere vriend(en) of vriendin(nen)?',
@@ -413,7 +414,7 @@ Kies 1 van de 5 plaatjes',
     labels: ['Ik zou ze veel minder vaak spreken', 'Ik zou niks veranderen', 'Ik zou ze veel vaker spreken'],
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over gewoontes van je gezin',
+    section_start: 'De volgende vragen gaan over gewoontes van je gezin:',
     id: :v18,
     type: :radio,
     title: 'Doe je weleens iets leuks met je ouder(s) of opvoeder(s)?',
@@ -445,7 +446,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over natuur en over buiten zijn',
+    section_start: 'De volgende vragen gaan over de natuur en over buiten zijn:',
     id: :v19,
     type: :radio,
     title: 'Heeft jullie huis een tuin?',

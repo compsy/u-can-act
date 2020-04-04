@@ -10,7 +10,7 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text">Deze vragenlijst gaat over gevoelens van uw kind. In deze vragenlijst onderzoeken we hoe uw kind zich de afgelopen tijd gevoeld heeft.</p>'
   }, {
-    section_start: 'Geef bij elk gevoel hieronder aan in welke mate u denkt dat uw kind zich <i>in de afgelopen twee weken</i>zo gevoeld heeft. Verplaats het bolletje naar het antwoord dat het beste past.',
+    section_start: 'Geef bij elk gevoel hieronder aan in welke mate u denkt dat uw kind zich <i>in de afgelopen twee weken</i> zo gevoeld heeft. Verplaats het bolletje naar het antwoord dat het beste past.',
     id: :v1,
     type: :range,
     title: 'Gelukkig',

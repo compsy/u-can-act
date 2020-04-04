@@ -3,6 +3,7 @@
 class Questionnaire < ApplicationRecord
   include ConversionHelper
   KNOWN_OPERATIONS = %i[average].freeze
+  OPTIONS_REQUIRED_FOR = %i[checkbox likert radio dropdown].freeze
 
   # This is an ordered array of known preprocessing steps
   PREPROCESSING_STEPS = [
@@ -19,6 +20,8 @@ class Questionnaire < ApplicationRecord
   with_options if: :content_has_questions do
     validate :all_questions_have_types
     validate :all_questions_have_titles
+    validate :all_shows_questions_ids_valid
+    validate :all_hides_questions_ids_valid
     validate :all_questions_have_ids
     validate :all_ranges_have_labels
     validate :all_likert_radio_checkbox_dropdown_have_options
@@ -120,6 +123,26 @@ class Questionnaire < ApplicationRecord
     errors.add(:content, "the following questions are missing the required :title attribute: #{result.pretty_inspect}")
   end
 
+  def all_shows_questions_ids_valid
+    result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
+                                .reject { |question| valid_option_ids?(question, :shows_questions, [true]) }
+                                .map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content,
+               "the following questions have invalid ids in a shows_questions option: #{result.pretty_inspect}")
+  end
+
+  def all_hides_questions_ids_valid
+    result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
+                                .reject { |question| valid_option_ids?(question, :hides_questions, [nil, false]) }
+                                .map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content,
+               "the following questions have invalid ids in a hides_questions option: #{result.pretty_inspect}")
+  end
+
   def all_questions_have_ids
     result = content[:questions].reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
                                 .reject { |question| question.key?(:id) }
@@ -140,8 +163,7 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_likert_radio_checkbox_dropdown_have_options
-    options_required_for = %i[checkbox likert radio dropdown]
-    result = content[:questions].select { |question| options_required_for.include?(question[:type]&.to_sym) }
+    result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
                                 .reject { |question| non_empty_array?(question, :options) }
                                 .map { |question| question[:id] }
     return if result.blank?
@@ -152,6 +174,16 @@ class Questionnaire < ApplicationRecord
 
   def non_empty_array?(question, attr)
     question.key?(attr) && question[attr].is_a?(Array) && question[attr].size.positive?
+  end
+
+  def valid_option_ids?(question, option_attr, hidden_values)
+    allowed_ids = content[:questions].select{ |quest| hidden_values.include?(quest[:hidden]) }
+                                     .map { |quest| quest[:id] }.compact
+    question[:options].each do |option|
+      next unless option.is_a?(Hash) && option[option_attr].present?
+      return false if (option[option_attr] - allowed_ids).size.positive?
+    end
+    true
   end
 
   def all_scores_have_required_atributes

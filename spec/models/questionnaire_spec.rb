@@ -147,6 +147,178 @@ describe Questionnaire do
       end
     end
 
+    describe 'all_shows_questions_ids_valid' do
+      it 'checks the radio type' do
+        content = {
+          questions: [{ id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the checkbox type' do
+        content = {
+          questions: [
+            { id: :v1, type: :checkbox, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the dropdown type' do
+        content = {
+          questions: [
+            { id: :v1, type: :dropdown, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the likert type' do
+        content = {
+          questions: [{ id: :v1, type: :likert, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'is not valid if hidden is not true' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number' }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'is valid with valid ids' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number', hidden: true }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_hides_questions_ids_valid' do
+      it 'checks the radio type' do
+        content = {
+          questions: [{ id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the checkbox type' do
+        content = {
+          questions: [
+            { id: :v1, type: :checkbox, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the dropdown type' do
+        content = {
+          questions: [
+            { id: :v1, type: :dropdown, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the likert type' do
+        content = {
+          questions: [{ id: :v1, type: :likert, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'is not valid if hidden is not false or nil' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number', hidden: true }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'is valid with valid ids' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number' }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
     describe 'all_questions_have_ids' do
       it 'is not valid with an empty question' do
         content = { questions: [{}], scores: [] }

@@ -177,7 +177,7 @@ class Questionnaire < ApplicationRecord
   end
 
   def valid_option_ids?(question, option_attr, hidden_values)
-    allowed_ids = content[:questions].select{ |quest| hidden_values.include?(quest[:hidden]) }
+    allowed_ids = content[:questions].select { |quest| hidden_values.include?(quest[:hidden]) }
                                      .map { |quest| quest[:id] }.compact
     question[:options].each do |option|
       next unless option.is_a?(Hash) && option[option_attr].present?

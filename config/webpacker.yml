@@ -7,6 +7,7 @@ default: &default
   public_root_path: public
   cache_path: tmp/cache/webpacker
   check_yarn_integrity: false
+  webpack_compile_output: true
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
@@ -36,7 +37,7 @@ development:
   compile: true
 
   # Verifies that versions and hashed value of the package contents in the project's package.json
-  check_yarn_integrity: false
+  check_yarn_integrity: true
 
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:

@@ -290,7 +290,7 @@ describe Questionnaire do
         )
       end
 
-      it 'is not valid if hidden is not false or nil' do
+      it 'is also valid if hidden is not false or nil' do
         content = {
           questions: [
             { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] },
@@ -299,11 +299,7 @@ describe Questionnaire do
           scores: []
         }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
-        expect(questionnaire).not_to be_valid
-        expect(questionnaire.errors.messages).to have_key :content
-        expect(questionnaire.errors.messages[:content]).to(
-          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
-        )
+        expect(questionnaire).to be_valid
       end
 
       it 'is valid with valid ids' do

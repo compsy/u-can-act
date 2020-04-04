@@ -135,7 +135,7 @@ class Questionnaire < ApplicationRecord
 
   def all_hides_questions_ids_valid
     result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
-                                .reject { |question| valid_option_ids?(question, :hides_questions, [nil, false]) }
+                                .reject { |question| valid_option_ids?(question, :hides_questions, nil) }
                                 .map { |question| question[:id] }
     return if result.blank?
 
@@ -177,7 +177,7 @@ class Questionnaire < ApplicationRecord
   end
 
   def valid_option_ids?(question, option_attr, hidden_values)
-    allowed_ids = content[:questions].select { |quest| hidden_values.include?(quest[:hidden]) }
+    allowed_ids = content[:questions].select { |quest| hidden_values.blank? || hidden_values.include?(quest[:hidden]) }
                                      .map { |quest| quest[:id] }.compact
     question[:options].each do |option|
       next unless option.is_a?(Hash) && option[option_attr].present?

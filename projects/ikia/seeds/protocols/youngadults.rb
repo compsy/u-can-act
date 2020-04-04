@@ -35,7 +35,7 @@ Dir[Rails.root.join('projects',
   boek_measurement.reward_points = 0
   boek_measurement.stop_measurement = false
   boek_measurement.should_invite = false # don't send invitations
-  boek_measurement.redirect_url = '/klaar' # is overridden by callback_url passed
+  boek_measurement.redirect_url = ENV['IKIA_CALLBACK_URL'] # is overridden by callback_url, unless ic was filled out
   boek_measurement.save!
   unused_measurement_ids.delete(boek_measurement.id)
 end

@@ -48,7 +48,7 @@ class DrawingGenerator < QuestionTypeGenerator
   def asset_exists?(asset)
     return Rails.application.assets_manifest.assets[asset].present? if Rails.env.production? || Rails.env.staging?
 
-    Rails.application.assets[question[:image]].present?
+    Rails.application.assets[asset].present?
   end
   # rubocop:enable Rails/UnknownEnv
 
@@ -56,7 +56,7 @@ class DrawingGenerator < QuestionTypeGenerator
   def asset_path(asset)
     return "/assets/#{Rails.application.assets_manifest.assets[asset]}" if Rails.env.production? || Rails.env.staging?
 
-    "/assets/#{Rails.application.assets[question[:image]].digest_path}"
+    "/assets/#{Rails.application.assets[asset].digest_path}"
   end
   # rubocop:enable Rails/UnknownEnv
 

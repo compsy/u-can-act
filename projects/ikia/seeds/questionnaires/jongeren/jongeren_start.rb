@@ -44,7 +44,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     options: [
-      { title: 'Nederland' }, { title: 'België' }, { title: 'Anders', shows_questions: %i[v3_d, v3_e] }]
+      { title: 'Nederland' }, { title: 'België' }, { title: 'Anders', shows_questions: %i[v3_d v3_e] }]
   }, {
     id: :v3_d,
     type: :dropdown,
@@ -63,7 +63,7 @@ dagboek_content = [
     show_otherwise: true,
     title: 'Naar wat voor school ga je?',
     options: [
-      { title: 'Basisschool', shows_questions: %i[v4_a] }, { title: 'Middelbare school', shows_questions: %i[v4_b, v4_c] }, { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] }, { title: 'Ik krijg thuisonderwijs' }, { title: 'Ik krijg geen onderwijs' }
+      { title: 'Basisschool', shows_questions: %i[v4_a] }, { title: 'Middelbare school', shows_questions: %i[v4_b v4_c] }, { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] }, { title: 'Ik krijg thuisonderwijs' }, { title: 'Ik krijg geen onderwijs' }
     ]
   }, {
     id: :v4_a,

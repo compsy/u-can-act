@@ -30,8 +30,8 @@ Sommige jongeren hebben meer dan 1 thuis.',
     show_otherwise: false,
     title: 'In hoeveel verschillende huizen woon je?',
     options: [
-      { title: '1 huis', shows_questions: %i[v2, v3, v4] },
-      { title: '2 of meer huizen', shows_questions: %i[v5, v6, v7, v8, v9, v10, v11, v12] }],
+      { title: '1 huis', shows_questions: %i[v2 v3 v4] },
+      { title: '2 of meer huizen', shows_questions: %i[v5 v6 v7 v8 v9 v10 v11 v12] }],
     section_end: false
   }, {
     id: :v2,

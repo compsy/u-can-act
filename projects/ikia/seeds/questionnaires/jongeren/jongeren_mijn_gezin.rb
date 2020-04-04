@@ -30,8 +30,8 @@ Sommige jongeren hebben meer dan 1 thuis.',
     show_otherwise: false,
     title: 'In hoeveel verschillende huizen woon je?',
     options: [
-      { title: '1 huis', shows_questions: %i[v2, v3, v4] },
-      { title: '2 of meer huizen', shows_questions: %i[v5, v6, v7, v8, v9, v10, v11, v12] }],
+      { title: '1 huis', shows_questions: %i[v2 v3 v4] },
+      { title: '2 of meer huizen', shows_questions: %i[v5 v6 v7 v8 v9 v10 v11 v12] }],
     section_end: false
   }, {
     id: :v2,
@@ -341,8 +341,8 @@ Kies 1 van de 5 plaatjes',
     type: :checkbox,
     required: true,
     title: 'Wat vind je leuk om te doen? Waar word je blij van?',
-    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, 
-      { title: 'Buiten zijn' }, {title: 'Met vrienden afspreken'}],
+    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' },
+              { title: 'Buiten zijn' }, { title: 'Met vrienden afspreken' }],
     section_end: false
   }, {
     id: :v14_2,
@@ -436,7 +436,7 @@ Kies 1 van de 5 plaatjes',
     id: :v18_3,
     type: :radio,
     title: 'Eten jullie weleens samen met het hele gezin?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false
   }, {
     id: :v18_4,
@@ -450,14 +450,14 @@ Kies 1 van de 5 plaatjes',
     id: :v19,
     type: :radio,
     title: 'Heeft jullie huis een tuin?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false,
     section_end: false
   }, {
     id: :v19_1,
     type: :radio,
     title: 'Is er <i>in de buurt waar jij woont</i> een park, bos, strand of andere plek met natuur waar jij weleens naartoe gaat?',
-    options: [{ title: 'Ja', shows_questions: %i[ v19_2] }, { title: 'Nee' }],
+    options: [{ title: 'Ja', shows_questions: %i[v19_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {
     id: :v19_2,

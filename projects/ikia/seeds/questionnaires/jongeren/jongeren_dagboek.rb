@@ -316,7 +316,7 @@ dagboek_content = [
     title: 'Ik kijk uit naar de rest van de dag.',
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
-  },
+  }
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

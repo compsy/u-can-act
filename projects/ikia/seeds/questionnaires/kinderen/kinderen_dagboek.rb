@@ -294,7 +294,7 @@ Dit mag per antwoord verschillend zijn.',
     title: 'Ik kijk uit naar morgen.',
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
-  },
+  }
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

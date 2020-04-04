@@ -320,37 +320,37 @@ Vul het woord in in het daarvoor bedoelde tekstvak. Als u het antwoord niet weet
     type: :range,
     required: true,
     title: 'Ik vind het soms moeilijk om dingen te zien vanuit het gezichtspunt van een ander.',
-  labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_3,
     type: :range,
     required: true,
     title: 'Soms heb ik niet veel medelijden met andere mensen wanneer ze problemen hebben.',
-  labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_4,
     type: :range,
     required: true,
     title: 'In noodsituaties voel ik me ongerust en slecht op mijn gemak.',
-  labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_5,
     type: :range,
     required: true,
     title: 'Ik probeer naar ieders kant van een meningsverschil te kijken voordat ik een beslissing neem.',
-   labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_6,
     type: :range,
     required: true,
     title: 'Wanneer ik iemand zie waarvan wordt geprofiteerd, voel ik me nogal beschermend tegenover die persoon.',
-   labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_7,
     type: :range,
     required: true,
     title: 'Ik voel me soms hulpeloos als ik middenin een zeer emotionele situatie zit.',
-   labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
+    labels: ['Past helemaal niet bij mij', 'Past een beetje bij mij', 'Past heel erg bij mij']
   }, {
     id: :v3_8,
     type: :range,

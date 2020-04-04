@@ -15,7 +15,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     title: 'Ben je een jongen of een meisje?',
-    options: ['Jongen', 'Meisje', 'Anders'],
+    options: %w[Jongen Meisje Anders],
     combines_with: %i[v2]
   }, {
     id: :v2,
@@ -31,8 +31,8 @@ dagboek_content = [
     title: 'In welk land woon je?',
     show_otherwise: false,
     options: [
-      { title: 'Nederland' }, {title: 'België'},{ title: 'Anders', shows_questions: %i[v3_b]}]
-  },{ 
+      { title: 'Nederland' }, { title: 'België' }, { title: 'Anders', shows_questions: %i[v3_b] }]
+  }, {
     id: :v3_b,
     type: :dropdown,
     hidden: true,
@@ -44,7 +44,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     options: [
-      { title: 'Nederland' }, {title: 'België'}, { title: 'Anders', shows_questions: %i[v3_d, v3_e] }]
+      { title: 'Nederland' }, { title: 'België' }, { title: 'Anders', shows_questions: %i[v3_d v3_e] }]
   }, {
     id: :v3_d,
     type: :dropdown,
@@ -56,14 +56,14 @@ dagboek_content = [
     type: :dropdown,
     hidden: true,
     title: 'Hoe oud was je toen je naar het land kwam waar je nu woont?',
-    options: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18']
+    options: (0..18).to_a.map(&:to_s)
   }, {
     id: :v4,
     type: :radio,
     show_otherwise: true,
     title: 'Naar wat voor school ga je?',
     options: [
-      { title: 'Basisschool', shows_questions: %i[v4_a] }, { title: 'Middelbare school', shows_questions: %i[v4_b, v4_c] }, { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] }, { title: 'Ik krijg thuisonderwijs' }, { title: 'Ik krijg geen onderwijs' }
+      { title: 'Basisschool', shows_questions: %i[v4_a] }, { title: 'Middelbare school', shows_questions: %i[v4_b v4_c] }, { title: 'Speciaal onderwijs', shows_questions: %i[v4_d] }, { title: 'Ik krijg thuisonderwijs' }, { title: 'Ik krijg geen onderwijs' }
     ]
   }, {
     id: :v4_a,
@@ -80,7 +80,7 @@ dagboek_content = [
     title: 'Wat voor type middelbare school is dit? Als je in een combinatieklas zit, kies dan het hoogste niveau',
     options: ['Praktijkonderwijs (bijvoorbeeld houtbewerking, groenvoorziening, bouw)', 'VMBO of MAVO', 'HAVO', 'VWO, atheneum of gymnasium']
   }, {
-    id: :v4c,
+    id: :v4_c,
     type: :radio,
     hidden: true,
     show_otherwise: false,

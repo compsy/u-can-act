@@ -2,6 +2,9 @@ pr_name = File.basename(__FILE__)[0...-3]
 boek_protocol = Protocol.find_by_name(pr_name)
 boek_protocol ||= Protocol.new(name: pr_name)
 boek_protocol.duration = 3.years
+ic_name = 'jongeren_informed_consent'
+boek_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
+raise "informed consent questionnaire #{ic_name} not found" unless boek_protocol.informed_consent_questionnaire
 
 boek_protocol.save!
 unused_measurement_ids = boek_protocol.measurements.pluck(:id).to_set
@@ -16,7 +19,8 @@ Dir[Rails.root.join('projects',
              jongeren_start_16_tot_18
              jongeren_vriendschap_16_tot_18
              jongeren_interpersoonlijk_complex_16plus
-             jongeren_dagboek].include?(questionnaire_key)
+             jongeren_dagboek
+             jongeren_informed_consent].include?(questionnaire_key)
 
   questionnaire = Questionnaire.find_by(key: questionnaire_key)
   next unless questionnaire
@@ -24,7 +28,7 @@ Dir[Rails.root.join('projects',
   # Create the protocol for the questionnaire
 
   boek_id = questionnaire.id
-  boek_measurement = boek_protocol.measurements.find_by_questionnaire_id(boek_id)
+  boek_measurement = boek_protocol.measurements.find_by(questionnaire_id: boek_id)
   boek_measurement ||= boek_protocol.measurements.build(questionnaire_id: boek_id)
   boek_measurement.open_from_offset = 0 # open right away
   boek_measurement.period = nil # one-off and not repeated

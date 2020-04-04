@@ -222,3 +222,13 @@ body {
   margin: auto;
   display: block;
 }
+
+.informed-consent {
+  p, ul {
+    @extend .flow-text;
+  }
+  li {
+    margin-bottom: 0.75rem;
+    list-style-type: disc !important;
+  }
+}

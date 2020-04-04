@@ -2158,7 +2158,7 @@ describe 'GET and POST /', type: :feature, js: true do
         type: :radio,
         title: 'Wat heeft u vandaag gegeten?',
         options: [
-          { title: 'brood', shows_questions: %i[v2] },
+          { title: 'brood' },
           'pizza'
         ]
       }], scores: [] }

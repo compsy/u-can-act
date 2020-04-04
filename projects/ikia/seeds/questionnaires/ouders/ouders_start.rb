@@ -20,7 +20,7 @@ dagboek_content = [
     id: :v2,
     type: :dropdown,
     title: 'Wanneer bent u geboren? <br><br>Maand:',
-    options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
+    options: %w[januari februari maart april mei juni juli augustus september oktober november december]
   }, {
     id: :v3,
     type: :number,
@@ -118,7 +118,7 @@ Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheu
     id: :v9_2,
     type: :dropdown,
     title: 'Wanneer is uw kind geboren? <br><br>Maand:',
-    options: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
+    options: %w[januari februari maart april mei juni juli augustus september oktober november december]
   }, {
     id: :v9_3,
     type: :number,

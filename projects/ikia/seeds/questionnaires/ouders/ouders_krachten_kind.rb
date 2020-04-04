@@ -186,7 +186,6 @@ dagboek_content = [
     section_end: true
   }
 ]
-invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {
   questions: dagboek_content,
   scores: [

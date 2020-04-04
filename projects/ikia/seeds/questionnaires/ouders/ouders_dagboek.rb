@@ -385,7 +385,8 @@ dagboek_content = [
     title: 'Ik kijk uit naar morgen.',
     labels: ['Helemaal niet', 'Heel erg'],
     section_end: true
-  },]
+  }
+]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title

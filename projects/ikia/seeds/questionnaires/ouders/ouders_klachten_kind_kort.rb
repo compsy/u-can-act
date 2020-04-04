@@ -166,10 +166,10 @@ dagboek_content = [
     title: 'Denkt u dat uw kind moeilijkheden heeft met emoties?',
     type: :likert,
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] }
     ]
   }, {
     id: :v26_a,
@@ -177,10 +177,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden met emoties?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v26_b,
@@ -223,10 +223,10 @@ dagboek_content = [
     type: :likert,
     title: 'Denkt u dat uw kind moeilijkheden heeft met concentratie?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] }
     ]
   }, {
     id: :v27_a,
@@ -234,10 +234,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden met concentratie?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v27_b,
@@ -280,10 +280,10 @@ dagboek_content = [
     type: :likert,
     title: 'Denkt u dat uw kind moeilijkheden heeft met gedrag?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] }
     ]
   }, {
     id: :v28_a,
@@ -291,10 +291,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden met gedrag?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v28_b,
@@ -337,10 +337,10 @@ dagboek_content = [
     type: :likert,
     title: 'Denkt u dat uw kind moeilijkheden heeft met sociaal contact?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] }
     ]
   }, {
     id: :v29_a,
@@ -348,10 +348,10 @@ dagboek_content = [
     type: :likert,
     title: 'Hoe lang bestaan deze moeilijkheden met sociaal contact?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v29_b,

@@ -8,15 +8,14 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragenlijst gaat over moeilijkheden die kinderen kunnen hebben. Het invullen duurt ongeveer 10 minuten. 
-</p>'
+    content: '<p class="flow-text">De volgende vragenlijst gaat over moeilijkheden die kinderen kunnen hebben. Het invullen duurt ongeveer 10 minuten.</p>'
   }, {
     section_start: 'Bedenk bij elke zin of dit de <i>afgelopen zes maanden</i> zo bij jou is geweest. Verplaats het bolletje naar het antwoord wat het beste bij jou past:',
     id: :v1,
     type: :range,
     title: 'Ik probeer aardig te zijn tegen anderen. Ik houd rekening met hun gevoelens.',
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
-    required: true
+    required: true,
     section_end: false
   }, {
     id: :v2,
@@ -169,9 +168,9 @@ dagboek_content = [
     type: :likert,
     options: [
       { title: 'Nee' },
-      { title: 'Ja, kleine problemen', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g] },
-      { title: 'Ja, duidelijke problemen', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g] },
-      { title: 'Ja, ernstige problemen', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g] }
+      { title: 'Ja, kleine problemen', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] },
+      { title: 'Ja, duidelijke problemen', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] },
+      { title: 'Ja, ernstige problemen', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] }
     ],
     section_end: false
   }, {
@@ -227,11 +226,11 @@ dagboek_content = [
     title: 'Denk je dat je problemen hebt met concentreren?',
     options: [
       { title: 'Nee' },
-      { title: 'Ja, kleine problemen', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] },
-      { title: 'Ja, duidelijke problemen', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] },
-      { title: 'Ja, ernstige problemen', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g] }
+      { title: 'Ja, kleine problemen', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] },
+      { title: 'Ja, duidelijke problemen', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] },
+      { title: 'Ja, ernstige problemen', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] }
     ],
-    tooltip: 'Concentreren betekent dat je je aandacht ergens bij kunt houden' 
+    tooltip: 'Concentreren betekent dat je je aandacht ergens bij kunt houden'
   }, {
     id: :v27_a,
     hidden: true,
@@ -285,9 +284,9 @@ dagboek_content = [
     title: 'Denk je dat je problemen hebt met je gedrag?',
     options: [
       { title: 'Nee' },
-      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g] },
-      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g] },
-      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g] }
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] }
     ]
   }, {
     id: :v28_a,
@@ -342,9 +341,9 @@ dagboek_content = [
     title: 'Denk je dat je problemen hebt om met andere mensen op te schieten?',
     options: [
       { title: 'Nee' },
-      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g] },
-      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g] },
-      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g] }
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] }
     ]
   }, {
     id: :v29_a,

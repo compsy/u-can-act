@@ -70,7 +70,6 @@ module.exports = exports = {
     "no-case-declarations": WARN,
     "no-div-regex": WARN,
     "no-else-return": WARN,
-    "no-labels": WARN,
     "no-empty-pattern": WARN,
     "no-eq-null": WARN,
     "no-eval": ERROR,
@@ -108,7 +107,7 @@ module.exports = exports = {
     "no-useless-call": ERROR,
     "no-useless-concat": ERROR,
     "no-void": WARN,
-    // Produce warnings when something is commented as TODO or FIXME
+    // Produce warnings when something is commented as TO DO or FIX ME
     "no-warning-comments": [WARN, {
       "terms": ["TODO", "FIXME"],
       "location": "start"
@@ -197,7 +196,6 @@ module.exports = exports = {
       "max": 64
     }],
     "indent": [2, 2],
-    "jsx-quotes": [WARN, "prefer-double"],
     "linebreak-style": [WARN, "unix"],
     "lines-around-comment": [WARN, {
       "beforeBlockComment": true
@@ -246,7 +244,6 @@ module.exports = exports = {
     "sort-vars": OFF,
     "space-before-blocks": [WARN, "always"],
     "space-before-function-paren": [WARN, "never"],
-    "keyword-spacing": [WARN, "always"],
     "space-in-parens": [WARN, "never"],
     "space-infix-ops": [WARN, {
       "int32Hint": true

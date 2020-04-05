@@ -30,9 +30,9 @@
 }
 
 .erroneous {
-  border-left: 2px solid red;
-  margin-left: -8px;
-  padding-left: 6px;
+  border-left: 2px solid red !important;
+  margin-left: -8px !important;
+  padding-left: 6px !important;
 }
 
 .otherwise-textfield {
@@ -57,6 +57,16 @@ input[type=range] {
   padding-top: 15px;
   padding-bottom: 15px;
   margin-bottom: 0;
+}
+
+.notchanged {
+  input[type=range]::-ms-thumb, input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
+    background: $unchanged-range-thumb;
+  }
+
+  input[type=range] + .thumb, input[type=range]::-webkit-slider-thumb {
+    background-color: $unchanged-range-thumb;
+  }
 }
 
 // Note: It doesn't work in Chrome (and possibly other browsers)

@@ -65,7 +65,7 @@ function toggle_shown_questions() {
 }
 
 function toggle_hidden_questions() {
-  $(this).closest('.row').find('input[data-hides-questions]').each(function (index) {
+  $(this).closest('.row').find('input[data-hides-questions]').each(function (_index) {
     var this_is_checked = $(this).is(':checked');
     $(this).data('hides-questions').forEach(function (entry) {
       show_hide_entry(entry, !this_is_checked);
@@ -84,7 +84,7 @@ function time_element() {
     timestamp_c = new Date().getTime();
     if (timestamp_a !== null && id_b !== null && id_b !== undefined) {
       var duration = timestamp_b - timestamp_a;
-      if (rails_env == 'production') {
+      if (rails_env === 'production') {
         ga('send', 'timing', 'Time to answer question', id_b, duration);
       } else {
         if (rails_env !== 'test') {
@@ -108,7 +108,7 @@ function addRemoveDisabledClass(buttons, element_class) {
   var currentButton;
   var questionnaireId;
   var elem;
-  buttons.each(function (button) {
+  buttons.each(function (_button) {
     // $(this) is the button
     currentButton = $(this);
     questionnaireId = currentButton.attr('data-belongsto');
@@ -164,8 +164,8 @@ function changeExpansions() {
 }
 
 function disableHiddenInputs() {
-  $('.hidden').each(function (index) {
-    $(this).find('input,textarea,select').each(function (sub_index) {
+  $('.hidden').each(function (_index) {
+    $(this).find('input,textarea,select').each(function (_sub_index) {
       $(this).prop('disabled', true);
     });
   });
@@ -174,23 +174,29 @@ function disableHiddenInputs() {
 function check_required_controls(event) {
   var returnval = true;
   var firstelem = null;
-  $('div.radio-group.required:visible').each(function (sub_index) {
-    if ($(this).find(':radio:checked').length == 0) {
+  $('div.radio-group.required:visible').each(function (_sub_index) {
+    if ($(this).find(':radio:checked').length === 0) {
       event.preventDefault();
       $(this).addClass('erroneous');
       if (firstelem == null) firstelem = this;
       returnval = false;
     }
   });
-  $('div.checkbox-group.required:visible').each(function (sub_index) {
-    if ($(this).find(':checkbox:checked').length == 0) {
+  $('div.checkbox-group.required:visible').each(function (_sub_index) {
+    if ($(this).find(':checkbox:checked').length === 0) {
       event.preventDefault();
       $(this).addClass('erroneous');
       if (firstelem == null) firstelem = this;
       returnval = false;
     }
   });
-  if (!returnval) { // scroll to the last invalid element
+  $('div.range-container.required.notchanged:visible').each(function (_sub_index) {
+    event.preventDefault();
+    $(this).addClass('erroneous');
+    if (firstelem == null) firstelem = this;
+    returnval = false;
+  });
+  if (!returnval) { // scroll to the first invalid element
     $('html, body').animate({
       scrollTop: $(firstelem).offset().top
     }, 200);
@@ -215,9 +221,14 @@ function autoResizeImages() {
   });
 }
 
+function removeNotChanged () {
+  $(this).closest('.notchanged').removeClass('notchanged');
+}
+
 function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
+  $('.notchanged input[type=range]').change(removeNotChanged).click(removeNotChanged);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
   // The line below breaks stuff, just assume that the questionnaire visibilities are correct by default
   //$('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);
@@ -243,10 +254,10 @@ function questionnaireLoaded() {
   disableHiddenInputs();
 
   // Needed to disable the warning when leaving a page, when actually submitting it
-  $(document).on("submit", "form", function (event) {
+  $(document).on("submit", "form", function (_event) {
     window.onbeforeunload = null;
   });
-  $(document).on("click", ".navigate-away-allowed", function (event) {
+  $(document).on("click", ".navigate-away-allowed", function (_event) {
     window.onbeforeunload = null;
   });
   // Hide toasts on click
@@ -263,7 +274,7 @@ function questionnaireLoaded() {
     if (keyboardDoms.has(document.activeElement.nodeName) && !keyboardDoms.has(e.target.nodeName))
       document.activeElement.blur();
   });
-  $(document).on('touchend', 'body', function (e) {
+  $(document).on('touchend', 'body', function (_e) {
     $('.thumb').removeClass('active');
   });
 

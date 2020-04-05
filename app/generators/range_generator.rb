@@ -3,9 +3,13 @@
 class RangeGenerator < QuestionTypeGenerator
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
+    slider_body = range_slider(question)
+    slider_body = content_tag(:div,
+                              slider_body,
+                              class: "range-container notchanged#{question[:required].present? ? ' required' : ''}")
     safe_join([
                 content_tag(:p, title, class: 'flow-text'),
-                range_slider(question),
+                slider_body,
                 range_labels(question)
               ])
   end

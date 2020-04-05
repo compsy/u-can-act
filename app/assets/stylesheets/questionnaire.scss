@@ -298,10 +298,28 @@ blockquote {
 }
 
 .datepicker-container {
-  .select-dropdown.dropdown-trigger {
-    text-decoration: underline;
-    &:hover {
-      text-decoration: none;
+  .datepicker-controls {
+    .select-wrapper {
+      input {
+        &:focus {
+          border-bottom: 1px solid $accent-color;
+        }
+
+        border-bottom: 1px solid #616161;
+      }
+
+      .caret {
+        display: block;
+      }
+    }
+
+    .select-year input {
+      margin-left: 1rem;
+      width: 75px;
+    }
+
+    .select-month input {
+      width: 120px;
     }
   }
 }

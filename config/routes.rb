@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :mentor_overview, only: [:index]
   resources :questionnaire, only: %i[index show create destroy], param: :uuid do
     collection do
+      get 'preference/:uuid', to: 'questionnaire#preference', as: 'preference'
       get :interactive
       post :interactive_render
       post :from_json
@@ -95,7 +96,7 @@ Rails.application.routes.draw do
       # JWT and Cookie apis
       # TODO in V2 API, rename to people.
       scope module: :cookie_and_jwt_api do
-        resources :protocol_subscriptions, only: [:create, :show]
+        resources :protocol_subscriptions, only: [:create, :show, :destroy]
 
         resources :person, only: [] do
           collection do
@@ -132,6 +133,8 @@ Rails.application.routes.draw do
             post :change_to_mentor
           end
         end
+
+        resources :questionnaires, only: [:create]
       end
 
       # Admin APIs

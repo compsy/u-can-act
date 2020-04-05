@@ -3,68 +3,68 @@
 db_title = 'Krachten'
 
 db_name1 = 'Creativiteit_Kinderen4tm11_Ouderrapportage'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! De vragenlijst gaat over de krachten van uw kind. Er volgen X vragen. Hier bent u ongeveer X minuten mee bezig.</p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over de krachten van uw kind. Hier bent u ongeveer 10 minuten mee bezig.</p>'
   }, {
-    section_start: 'De volgende vragen gaan over creativiteit. Verplaats het bolletje naar het antwoord dat het beste bij uw kind past.',
+    section_start: 'De volgende vragen gaan over creativiteit. Verplaats het bolletje naar het antwoord dat het beste bij uw kind past:',
     id: :v1,
     type: :range,
     required: true,
-    title: 'Mijn kind heeft een fantasierijk denkvermogen',
+    title: 'Mijn kind heeft een fantasierijk denkvermogen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     section_end: false
   }, {
     id: :v2,
     type: :range,
     required: true,
-    title: 'Mijn kind heeft gevoel voor humor',
+    title: 'Mijn kind heeft gevoel voor humor.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v3,
     type: :range,
     required: true,
-    title: 'Mijn kind bedenkt ongebruikelijke, unieke of slimme oplossingen',
+    title: 'Mijn kind bedenkt ongebruikelijke, unieke of slimme oplossingen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v4,
     type: :range,
     required: true,
-    title: 'Mijn kind heeft een avontuurlijk karakter of is niet bang om risicos te nemen',
+    title: 'Mijn kind heeft een avontuurlijk karakter of is niet bang om risicos te nemen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v5,
     type: :range,
     required: true,
-    title: 'Mijn kind komt met veel ideeën of oplossingen voor vragen of problemen',
+    title: 'Mijn kind komt met veel ideeën of oplossingen voor vragen of problemen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v6,
     type: :range,
     required: true,
-    title: 'Mijn kind ziet humor in situaties waar anderen dat niet zien',
+    title: 'Mijn kind ziet humor in situaties waar anderen dat niet zien.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v7,
     type: :range,
     required: true,
-    title: 'Mijn kind kan dingen of ideeën aanpassen of verbeteren',
+    title: 'Mijn kind kan dingen of ideeën aanpassen of verbeteren.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v8,
     type: :range,
     required: true,
-    title: 'Mijn kind is bereid om te fantaseren en met ideeën te spelen',
+    title: 'Mijn kind is bereid om te fantaseren en met ideeën te spelen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v9,
     type: :range,
     required: true,
-    title: 'Mijn kind is niet bang om anders te zijn of om het niet eens te zijn met de gangbare opinie',
+    title: 'Mijn kind is niet bang om anders te zijn of om het niet eens te zijn met de gangbare opinie.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg']
   }, {
     id: :v10,
@@ -74,7 +74,7 @@ dagboek_content = [
     labels: ['Helemaal niet', 'Niet meer of minder', 'Heel erg'],
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over gevoelens die uw kind kan hebben, en hoe hij/zij met de gevoelens van anderen omgaat. Verplaats het bolletje naar het antwoord dat het beste bij uw kind past.',
+    section_start: 'De volgende vragen gaan hoe uw kind met de gevoelens van mensen om hem/haar heen omgaat. Verplaats het bolletje naar het antwoord dat het beste bij uw kind past:',
     id: :v2_1,
     type: :range,
     required: true,
@@ -186,7 +186,6 @@ dagboek_content = [
     section_end: true
   }
 ]
-invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {
   questions: dagboek_content,
   scores: [

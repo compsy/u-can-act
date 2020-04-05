@@ -3,7 +3,7 @@
 db_title = 'Mijn gezin en gewoontes'
 
 db_name1 = 'Mijn_gezin_Jongeren'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 style = 'style="max-height: 200px; vertical-align: middle; max-width: 100%"'
@@ -21,7 +21,7 @@ dagboek_content = [
   {
     type: :raw,
     content: '<p class="flow-text"> Welkom bij de vragenlijst! Deze vragenlijst gaat over de mensen in jouw gezin.
-Ook zijn er vragen over de gewoontes van je gezin, en over je eigen gewoontes. Je bent hier ongeveer X minuten mee bezig.</p>'
+Ook zijn er vragen over de gewoontes van je gezin, en over je eigen gewoontes. Je bent hier ongeveer 10 minuten mee bezig.</p>'
   }, {
     section_start: 'De volgende vragen gaan over je thuis. Hiermee bedoelen we het huis waarin je woont. In dit huis woont ook een volwassene die voor je zorgt.
 Sommige jongeren hebben meer dan 1 thuis.',
@@ -30,8 +30,8 @@ Sommige jongeren hebben meer dan 1 thuis.',
     show_otherwise: false,
     title: 'In hoeveel verschillende huizen woon je?',
     options: [
-      { title: '1 huis', shows_questions: %i[v2, v3, v4] },
-      { title: '2 of meer huizen', shows_questions: %i[v5, v6, v7, v8, v9, v10, v11, v12] }],
+      { title: '1 huis', shows_questions: %i[v2 v3 v4] },
+      { title: '2 of meer huizen', shows_questions: %i[v5 v6 v7 v8 v9 v10 v11 v12] }],
     section_end: false
   }, {
     id: :v2,
@@ -45,7 +45,7 @@ Sommige jongeren hebben meer dan 1 thuis.',
     id: :v3,
     hidden: true,
     type: :number,
-    title: 'Met hoeveel <i>andere</i> mensen woon je samen in dit huis? Dit zijn personen die altijd of meestal in hetzelfde huis wonen als jij, zoals ouders, (half-) broers, (half-) zussen. Tel jezelf <i>niet</i> mee.',
+    title: 'Met hoeveel <i>andere</i> personen woon je samen in dit huis? Dit zijn personen die altijd of meestal in hetzelfde huis wonen als jij, zoals ouders, (half-) broers, (half-) zussen. Tel jezelf <i>niet</i> mee.',
     maxlength: 2,
     links_to_expandable: :v4,
     placeholder: 'Bijvoorbeeld: 4',
@@ -55,7 +55,7 @@ Sommige jongeren hebben meer dan 1 thuis.',
   }, {
     id: :v4,
     hidden: true,
-    title: 'Beantwoord voor elk persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -99,10 +99,10 @@ Deze persoon is mijn:',
         id: :v4_4,
         type: :radio,
         show_otherwise: false,
-        title: 'Is deze persoon een jongen of een meisje?',
+        title: 'Is deze persoon een vrouw/meisje of man/jongen?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v4_5,
@@ -119,8 +119,8 @@ Kies 1 van de 5 plaatjes',
     id: :v5,
     hidden: true,
     type: :radio,
-    show_otherwise: false,
-    section_start: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont.',
+    show_otherwise: true,
+    section_start: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont:',
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
       { title: 'Minder dan 1 nacht per week' },
@@ -155,7 +155,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v8,
     hidden: true,
-    title: 'Beantwoord voor elke persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -200,10 +200,10 @@ Deze persoon is mijn:',
         type: :radio,
         required: true,
         show_otherwise: false,
-        title: 'Is dit een jongen of een meisje?',
+        title: 'Is dit een vrouw/meisje of een man/jongen?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v8_5,
@@ -218,10 +218,10 @@ Kies 1 van de 5 plaatjes',
     section_end: true
   }, {
     id: :v9,
-    section_start: 'De volgende vragen gaan over het andere huis waar je woont.',
+    section_start: 'De volgende vragen gaan over het andere huis waar je woont:',
     hidden: true,
     type: :radio,
-    show_otherwise: false,
+    show_otherwise: true,
     title: 'Hoeveel nachten per week slaap je in dit huis?',
     options: [
       { title: 'Minder dan 1 nacht per week' },
@@ -256,7 +256,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v12,
     hidden: true,
-    title: 'Beantwoord voor elke persoon met wie je in huis woont de volgende vragen.',
+    title: 'We willen graag wat meer informatie over deze personen. Hieronder zie je voor elk van deze personen een blokje getiteld "Persoon" met vijf vragen. Beantwoord voor elke persoon met wie in je huis woont een blokje met vragen.',
     remove_button_label: 'Verwijder persoon',
     add_button_label: 'Voeg nog een persoon toe',
     type: :expandable,
@@ -300,10 +300,10 @@ Deze persoon is mijn:',
         id: :v12_4,
         type: :radio,
         show_otherwise: false,
-        title: 'Is dit een jongen of een meisje?',
+        title: 'Is dit een vrouw/meisje of man/jongen?',
         options: [
-          { title: 'Jongen' },
-          { title: 'Meisje' },
+          { title: 'Man/jongen' },
+          { title: 'Vrouw/meisje' },
           { title: 'Anders' }]
       }, {
         id: :v12_5,
@@ -333,14 +333,16 @@ Kies 1 van de 5 plaatjes',
       { title: 'Knaagdier(en) (Cavia, konijn, muizen, ratten)' },
       { title: 'Reptiel(en)' },
       { title: 'Vis(sen)' }],
+    tooltip: 'Je mag meerdere antwoorden kiezen',
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je gewoontes',
+    section_start: 'De volgende vragen gaan over je gewoontes:',
     id: :v14_1,
     type: :checkbox,
     required: true,
     title: 'Wat vind je leuk om te doen? Waar word je blij van?',
-    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' }, { title: 'Buiten zijn of spelen' }],
+    options: [{ title: 'Tekenen' }, { title: 'Lezen' }, { title: 'Gamen' }, { title: 'Sporten' }, { title: 'Muziek maken' }, { title: 'Films, videos of series kijken (op tv of via internet)' }, { title: 'Winkelen' }, { title: 'Sociale media (bijvoorbeeld Facebook, Instagram, SnapChat)' },
+              { title: 'Buiten zijn' }, { title: 'Met vrienden afspreken' }],
     section_end: false
   }, {
     id: :v14_2,
@@ -361,7 +363,7 @@ Kies 1 van de 5 plaatjes',
   }, {
     id: :v15,
     type: :radio,
-    title: 'Doe je één of meerdere sporten?',
+    title: 'Doe je één of meerdere sport(en)?',
     options: [{ title: 'Ja', shows_questions: %i[v15_1 v15_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {
@@ -385,7 +387,7 @@ Kies 1 van de 5 plaatjes',
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je vriend(en) en vriendin(nen)',
+    section_start: 'De volgende vragen gaan over je vriend(en) en vriendin(nen):',
     id: :v17,
     type: :radio,
     title: 'Heb je één of meerdere vriend(en) of vriendin(nen)?',
@@ -412,7 +414,7 @@ Kies 1 van de 5 plaatjes',
     labels: ['Ik zou ze veel minder vaak spreken', 'Ik zou niks veranderen', 'Ik zou ze veel vaker spreken'],
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over gewoontes van je gezin',
+    section_start: 'De volgende vragen gaan over gewoontes van je gezin:',
     id: :v18,
     type: :radio,
     title: 'Doe je weleens iets leuks met je ouder(s) of opvoeder(s)?',
@@ -434,7 +436,7 @@ Kies 1 van de 5 plaatjes',
     id: :v18_3,
     type: :radio,
     title: 'Eten jullie weleens samen met het hele gezin?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false
   }, {
     id: :v18_4,
@@ -444,18 +446,18 @@ Kies 1 van de 5 plaatjes',
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over natuur en over buiten zijn',
+    section_start: 'De volgende vragen gaan over de natuur en over buiten zijn:',
     id: :v19,
     type: :radio,
     title: 'Heeft jullie huis een tuin?',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false,
     section_end: false
   }, {
     id: :v19_1,
     type: :radio,
     title: 'Is er <i>in de buurt waar jij woont</i> een park, bos, strand of andere plek met natuur waar jij weleens naartoe gaat?',
-    options: [{ title: 'Ja', shows_questions: %i[ v19_2] }, { title: 'Nee' }],
+    options: [{ title: 'Ja', shows_questions: %i[v19_2] }, { title: 'Nee' }],
     show_otherwise: false
   }, {
     id: :v19_2,

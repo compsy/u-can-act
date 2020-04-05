@@ -3,7 +3,7 @@
 db_title = 'Omgaan met gevoelens'
 
 db_name1 = 'Emotieregulatie_Ouders_Zelfrapportage'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 likert_options = [
@@ -16,7 +16,7 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom bij de vragenlijst! Alle mensen kennen gevoelens van boosheid, angst en verdriet. Toch gaat iedereen verschillend om met deze emoties. Wat doet of denkt u als u boos, bang of verdrietig bent? <br> <br> Er volgen nu verschillende uitspraken over hoe mensen reageren op boosheid, angst en verdriet. Geef bij elke uitspraak aan wat u doet of denkt als u deze emoties ervaart. Plaats het bolletje naar het antwoord dat het best beschrijft hoe u zou reageren. <br> <br> Als u het gevoel heeft dat een vraag niet helemaal op u van toepassing is, geef dan toch het best passende antwoord. </p>'
+    content: '<p class="flow-text">Welkom bij de vragenlijst <i>Omgaan met gevoelens</i>. Alle mensen hebben weleens gevoelens van boosheid, angst en verdriet. Toch gaat iedereen verschillend om met deze emoties. Er volgen nu verschillende uitspraken over hoe mensen reageren op boosheid, angst en verdriet <br> <br> Wat doet of denkt u als u boos bent? Verschuif het bolletje naar het antwoord dat het best beschrijft hoe u zou reageren. </p>'
   }, {
     section_start: 'Wanneer ik boos ben…',
     id: :v1a,
@@ -141,6 +141,9 @@ dagboek_content = [
     options: likert_options,
     section_end: true
   }, {
+    type: :raw,
+    content: '<p class="flow-text"> Wat doet of denkt u als u bang bent? Verschuif het bolletje naar het antwoord dat het best beschrijft hoe u zou reageren. </p>'
+  }, {
     section_start: 'Wanneer ik bang ben…',
     id: :v1b,
     type: :likert,
@@ -263,6 +266,9 @@ dagboek_content = [
     title: 'Denk ik dat wat ik heb meegemaakt het ergste is dat iemand kan overkomen.',
     options: likert_options,
     section_end: true
+  }, {
+    type: :raw,
+    content: '<p class="flow-text"> Wat doet of denkt u als u verdrietig bent? Verschuif het bolletje naar het antwoord dat het best beschrijft hoe u zou reageren. </p>'
   }, {
     section_start: 'Wanneer ik verdrietig ben…',
     id: :v1c,

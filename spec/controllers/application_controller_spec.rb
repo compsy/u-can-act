@@ -50,7 +50,7 @@ describe ApplicationController, type: :controller do
       expected = { described_class::TEST_COOKIE => described_class::TEST_COOKIE_ENTRY }
       expect(CookieJar)
         .to receive(:set_or_update_cookie)
-        .with(instance_of(ActionDispatch::Cookies::SignedCookieJar), expected)
+        .with(instance_of(ActionDispatch::Cookies::SignedKeyRotatingCookieJar), expected)
       get :index
     end
   end

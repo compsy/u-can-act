@@ -25,19 +25,105 @@ module ApplicationHelper
     mentor_or_student_logo
   end
 
-  def created
+  # renders a resource (eg json file) or rendes an error of there are errors in the resource
+  def render_resource(resource)
+    if resource.errors.empty?
+      render json: resource
+    else
+      validation_error(resource.errors)
+    end
+  end
+
+  # Method to render validation errors in a consistent way
+  # @param resource_errors the errors to render
+  def validation_error(resource_errors)
+    render json: {
+      errors: [
+        {
+          status: '400',
+          title: 'Bad Request',
+          detail: resource_errors,
+          code: '100'
+        }
+      ]
+    }, status: :bad_request
+  end
+
+  # Method to render access denied errors in a consistent way
+  # @param resource_errors the errors to render
+  def access_denied(resource_errors)
+    render json: {
+      errors: [
+        {
+          status: '403',
+          title: 'Access Denied',
+          detail: resource_errors,
+          code: '100'
+        }
+      ]
+    }, status: :forbidden
+  end
+
+  # Method to render not found errors in a consistent way
+  # @param resource_errors the errors to render
+  def not_found(resource_errors)
+    render json: {
+      errors: [
+        {
+          status: '404',
+          title: 'Not Found',
+          detail: resource_errors,
+          code: '100'
+        }
+      ]
+    }, status: :not_found
+  end
+
+  # Method to render created status in a consistent way
+  def created(instance = nil)
     render json: {
       result: [
         {
           status: '201',
           title: 'created',
           detail: 'resource created',
-          code: '100'
+          code: '100',
+          instance: ActiveModelSerializers::SerializableResource.new(instance)
         }
       ]
     }, status: :created
   end
 
+  # Method to render destroyed status in a consistent way
+  def destroyed
+    render json: {
+      result: [
+        {
+          status: '200',
+          title: 'destroyed',
+          detail: 'resource destroyed',
+          code: '100'
+        }
+      ]
+    }, status: :ok
+  end
+
+  # Method to render unprocessable entity errors in a consistent way
+  # @param resource_errors the errors to render
+  def unprocessable_entity(resource_errors)
+    render json: {
+      errors: [
+        {
+          status: '422',
+          title: 'unprocessable',
+          detail: resource_errors,
+          code: '100'
+        }
+      ]
+    }, status: :unprocessable_entity
+  end
+
+  # Method to render no content in a consistent way
   def no_content
     render json: {
       result: [
@@ -48,7 +134,7 @@ module ApplicationHelper
           code: '100'
         }
       ]
-    }, status:  :no_content
+    }, status: :no_content
   end
 
   private

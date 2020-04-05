@@ -44,9 +44,24 @@ class DrawingGenerator < QuestionTypeGenerator
     }
   end
 
+  # rubocop:disable Rails/UnknownEnv
+  def asset_exists?(asset)
+    return Rails.application.assets_manifest.assets[asset].present? if Rails.env.production? || Rails.env.staging?
+
+    Rails.application.assets[asset].present?
+  end
+  # rubocop:enable Rails/UnknownEnv
+
+  # rubocop:disable Rails/UnknownEnv
+  def asset_path(asset)
+    return "/assets/#{Rails.application.assets_manifest.assets[asset]}" if Rails.env.production? || Rails.env.staging?
+
+    "/assets/#{Rails.application.assets[asset].digest_path}"
+  end
+  # rubocop:enable Rails/UnknownEnv
+
   def drawing_data_image(question)
-    return "/assets/#{Rails.application.assets[question[:image]].digest_path}" if
-      Rails.application.assets[question[:image]].present?
+    return asset_path(question[:image]) if asset_exists?(question[:image])
 
     question[:image]
   end

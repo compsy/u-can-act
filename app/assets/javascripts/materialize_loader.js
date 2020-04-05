@@ -46,9 +46,9 @@ $(function() {
       format: 'yyyy-mm-dd',
       i18n: {
         months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-        monthsShort: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+        monthsShort: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
         weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-        weekdaysShort: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+        weekdaysShort: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
         weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
         clear: 'Wissen',
         cancel: 'Annuleren',

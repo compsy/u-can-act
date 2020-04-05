@@ -2,7 +2,7 @@
 
 db_title = 'Omgaan met gevoelens'
 db_name1 = 'Emotieregulatie_kinderen'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 likert_options = [
@@ -15,29 +15,9 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom bij deze vragenlijst over hoe je omgaat met vervelende gevoelens. Deze vragenlijst gaat over wat je doet en denkt wanneer je boos, bang, of verdrietig bent. Er zijn in totaal 90 vragen. Je bent hier ongeveer X minuten mee bezig. Kies bij iedere zin het antwoord dat het beste bij je past.
-<br>
-<br>
-Deze antwoorden kan je kiezen:<br>
-  - Bijna nooit<br>
-  - Zelden<br>
-  - Af en toe<br>
-  - Vaak<br>
-  - Bijna altijd<br>
-<br>
-<br>
-Voorbeeld:<br>
-Wanneer ik verdrietig ben…</p>
-<img src="https://u-can-act.nl/wp-content/uploads/2019/11/Feel-KJ-voorbeeldvraag_long.png" width="179" class="questionnaire-image" /><p class="flow-text">
-<br>
-Als je bijvoorbeeld vaak moet huilen als je verdrietig bent, kies je vaak.<br>
-<br>
-<b>Er is geen goed of fout antwoord! Kies gewoon het antwoord dat het best beschrijft hoe jij zou reageren. </b><br>
-<br>
-<b>Als je niet weet wat je moet antwoorden:</b><br>
-Ook al heb je misschien het gevoel dat een vraag niet helemaal op jou van toepassing is, geef dan toch het best passende antwoord.<br></p>'
+    content: '<p class="flow-text"> Deze vragenlijst gaat over wat je doet en denkt wanneer je boos, bang of verdrietig bent. Er zijn in totaal 90 vragen. Het invullen duurt ongeveer 15 minuten. Ook al heb je misschien het gevoel dat een vraag niet helemaal op jou van toepassing is, geef dan toch het best passende antwoord.</p>'
   }, {
-    section_start: 'Wanneer ik boos ben…',
+    section_start: 'Wat doe jij als je boos bent? Kies bij elke zin het antwoord dat het beste bij je past: <br><br> <b>Wanneer ik boos ben…</b>',
     id: :v1a,
     type: :likert,
     title: 'Probeer ik dat wat me boos maakt te veranderen.',
@@ -190,7 +170,8 @@ Ook al heb je misschien het gevoel dat een vraag niet helemaal op jou van toepas
     options: likert_options,
     section_end: true
   }, {
-    section_start: 'Wanneer ik bang ben…',
+    section_start: 'Wat doe jij als je bang bent? Kies bij elke zin het antwoord dat het beste bij je past: <br><br>
+<b>Wanneer ik bang ben…</b>',
     id: :v1b,
     type: :likert,
     title: 'Probeer ik dat wat me bang maakt te veranderen.',
@@ -343,7 +324,8 @@ Ook al heb je misschien het gevoel dat een vraag niet helemaal op jou van toepas
     options: likert_options,
     section_end: true
   }, {
-    section_start: 'Wanneer ik verdrietig ben…',
+    section_start: 'Wat doe jij als je verdrietig bent? Kies bij elke zin het antwoord dat het beste bij je past: <br><br>
+<b>Wanneer ik verdrietig ben…</b>',
     id: :v1c,
     type: :likert,
     title: 'Probeer ik dat wat me verdrietig maakt te veranderen.',

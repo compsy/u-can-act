@@ -3,7 +3,7 @@
 db_title = 'Omgang met anderen'
 
 db_name1 = 'Interpersoonlijk gedrag'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 likert_options = ['Helemaal niet', 'Matig', 'Heel sterk']
@@ -18,14 +18,13 @@ dagboek_content = [
     labels: ['Helemaal niet gelukkig', 'Matig gelukkig', 'Heel erg gelukkig'],
     required: true
   }, {
-    type: :raw,
-    content: '<p class="flow-text"><b>De onderstaande punten zijn dingen die u als moeilijk ervaart in het contact met anderen. Het is moeilijk voor mij om …</b></p>'
-  }, {
+    section_start: 'De onderstaande punten zijn dingen die u als moeilijk ervaart in het contact met anderen. Het is moeilijk voor mij om…',
     id: :v2,
     type: :likert,
     title: '“Nee” te zeggen tegen andere mensen',
     options: likert_options,
-    required: true
+    required: true,
+    section_end: false
   }, {
     id: :v3,
     type: :likert,
@@ -139,16 +138,16 @@ dagboek_content = [
     type: :likert,
     title: 'Assertief te zijn zonder bezorgd te zijn dat ik andermans gevoelens zou kwetsen',
     options: likert_options,
-    required: true
+    required: true,
+    section_end: true
   }, {
-    type: :raw,
-    content: '<p class="flow-text"><b>De volgende zaken doe ik teveel:</b></p>'
-  }, {
+    section_start: 'De volgende zaken doe ik teveel:',
     id: :v22,
     type: :likert,
     title: 'Ik geef mezelf te veel bloot aan anderen',
     options: likert_options,
-    required: true
+    required: true,
+    section_end: false
   }, {
     id: :v23,
     type: :likert,
@@ -214,7 +213,8 @@ dagboek_content = [
     type: :likert,
     title: 'Ik word te veel emotioneel getroffen door het leed van een ander',
     options: likert_options,
-    required: true
+    required: true,
+    section_end: true
   }
 ]
 dagboek1.content = { questions: dagboek_content, scores: [] }

@@ -31,10 +31,7 @@ RSpec.configure do |config|
           in: :header
         },
         BasicAuth: {
-          description: 'The basic auth token',
-          type: :apiKey,
-          name: 'Authorization',
-          in: :header
+          type: :basic
         }
       }
     }

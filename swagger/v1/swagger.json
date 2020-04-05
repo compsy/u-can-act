@@ -76,6 +76,9 @@
                 "start_date": {
                   "type": "string"
                 },
+                "end_date": {
+                  "type": "string"
+                },
                 "mentor_id": {
                   "type": "integer"
                 }
@@ -89,6 +92,258 @@
           },
           "401": {
             "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/questionnaires": {
+      "post": {
+        "summary": "Creates a new questionnaire",
+        "tags": [
+          "Questionnaire"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "questionnaire",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "object"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "content",
+                "key"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A questionnaire was created."
+          },
+          "401": {
+            "description": "Not authenticated."
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/daily_at_one_am": {
+      "post": {
+        "summary": "Runs the daily at 3 am jobs",
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "tags": [
+          "Scheduling"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/daily_at_two_am": {
+      "post": {
+        "summary": "Runs the daily at 3 am jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/daily_at_three_am": {
+      "post": {
+        "summary": "Runs the daily at 3 am jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/daily_at_four_am": {
+      "post": {
+        "summary": "Runs the daily at 4 am jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/daily": {
+      "post": {
+        "summary": "Runs the daily jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/hourly": {
+      "post": {
+        "summary": "Runs the hourly jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/thirty_minutely": {
+      "post": {
+        "summary": "Runs the 30 minutely jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/five_minutely": {
+      "post": {
+        "summary": "Runs the 5 minutely jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/scheduling/minutely": {
+      "post": {
+        "summary": "Runs the minutely jobs",
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
           }
         }
       }
@@ -350,7 +605,7 @@
         ],
         "responses": {
           "200": {
-            "description": "all my protocol subscriptions returned",
+            "description": "all delegated protocol subscriptions returned",
             "schema": {
               "type": "array",
               "items": {
@@ -399,10 +654,7 @@
       "in": "header"
     },
     "BasicAuth": {
-      "description": "The basic auth token",
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
+      "type": "basic"
     }
   }
 }

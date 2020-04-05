@@ -13,6 +13,7 @@
 //= require modernizr
 //= require history
 //= require auth0
+//= # require activestorage
 //= require highcharts
 //= require highcharts/highcharts-more
 //= require highcharts/modules/exporting

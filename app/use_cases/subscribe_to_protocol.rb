@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubscribeToProtocol < ActiveInteraction::Base
+class SubscribeToProtocol < AsyncActiveInteraction
   string :protocol_name, default: nil
   object :protocol, default: nil
   object :person

@@ -4,25 +4,20 @@ services:
     image: postgres:10.5
     volumes:
       - ./tmp/db:/var/lib/postgresql/data:delegated
-    networks:
-      - backend
   redis:
     image: "redis:5.0.6-alpine"
     command: redis-server --requirepass redispassword
     volumes:
       - ./tmp/redis:/data:delegated
-    networks:
-      - backend
   mongo:
     image: mongo:4
     volumes:
       - ./tmp/mongo:/data/db:delegated
-    networks:
-      - backend
   webpack:
     image: vsv
-    entrypoint: ["/app/lib/docker-entrypoint-webpack.sh"]
-    command: ["bin/webpack-dev-server"]
+    entrypoint: []
+    command: ["bundle","exec","bin/webpack-dev-server"]
+    restart: on-failure
     volumes:
       - .:/app:delegated
       - node_modules_volume:/app/node_modules
@@ -30,9 +25,6 @@ services:
       - /app/tmp
     ports:
       - "3036:3036"
-    networks:
-      - backend
-      - frontend
     depends_on:
       - web
     links:
@@ -59,16 +51,10 @@ services:
       - /app/tmp
     ports:
       - "3002:3000"
-    networks:
-      - backend
-      - frontend
     depends_on:
       - db
       - redis
       - mongo
-networks:
-  frontend:
-  backend:
 volumes:
   node_modules_volume:
   gems_volume:

@@ -6,7 +6,7 @@ nameting1 ||= Questionnaire.new(name: nm_name1)
 nameting1.key = File.basename(__FILE__)[0...-3]
 nameting1.content = { questions: [{
   id: :v1,
-  type: :likert,
+  type: :textfield,
   title: 'Kan je in één woord beschrijven hoe jij het ervaart om jongeren te begeleiden binnen {{je_begeleidingsinitiatief}}?'
 }, {
   id: :v2,

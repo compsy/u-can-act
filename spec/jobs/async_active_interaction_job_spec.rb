@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe RecalculateScoresJob do
+describe AsyncActiveInteractionJob do
   describe '#perform_later' do
     it 'performs something later' do
       ActiveJob::Base.queue_adapter = :test
@@ -13,10 +13,11 @@ describe RecalculateScoresJob do
   end
 
   describe 'perform' do
-    it 'calls the recalculate scores use case with the correct parameters' do
-      questionnaire = FactoryBot.create(:questionnaire)
-      expect(RecalculateScores).to receive(:run!).with(questionnaire: questionnaire)
-      described_class.perform_now(questionnaire.id)
+    it 'calls the sself argument with args and run with the correct parameters' do
+      tim = Time.zone.now.change(usec: 0)
+      expect(AsyncActiveInteraction).to receive(:run!).with(one: 2, three: 4, four: tim)
+      args = Marshal.dump([{ one: 2, three: 4, four: tim }])
+      described_class.perform_now('AsyncActiveInteraction', args)
     end
   end
 

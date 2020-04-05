@@ -9,7 +9,15 @@ class TokenAuthenticationController < ApplicationController
   PERSON_ID_COOKIE = :person_id
 
   def show
-    redirect_to questionnaire_index_path
+    responses = InvitationToken.find_attached_responses(questionnaire_params[:q])
+    if responses.first.protocol_subscription.for_myself?
+      # If we are a student, we want to give priority to the response from
+      # the set we actually clicked on
+      redirect_to preference_questionnaire_index_path(uuid: responses.first.uuid)
+    else
+      # If we are a mentor, we want to follow the full logic of the next page finder
+      redirect_to questionnaire_index_path
+    end
   end
 
   private

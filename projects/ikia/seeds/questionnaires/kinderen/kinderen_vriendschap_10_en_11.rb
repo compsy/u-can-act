@@ -2,18 +2,18 @@
 
 db_title = 'Vriendschap'
 db_name1 = 'Vriendschap_Kinderen_10en11'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! De volgende vragen gaan over vriendschap, en hoe jij daarover denkt. </p>'
+    content: '<p class="flow-text">Welkom! De volgende vragen gaan over vriendschap, en hoe jij daarover denkt. Het invullen duurt ongeveer 10 minuten.</p>'
   }, {
-    section_start: 'Bedenk bij elke zin hoe waar deze voor jou is. Verplaats het bolletje naar het antwoord dat het beste past.',
+    section_start: 'Bedenk bij elke zin hoe waar deze voor jou is. Verplaats het bolletje naar het antwoord dat het beste past:',
     id: :v1_1,
     type: :range,
-    title: 'Ik heb één of meerdere vrienden of vriendinnen.',
+    title: 'Ik heb één of meerdere vriend(en) of vriendin(nen).',
     labels: ['Helemaal niet waar', 'Soms waar', 'Altijd waar'],
     required: true,
     section_end: false
@@ -44,7 +44,7 @@ dagboek_content = [
   }, {
     id: :v1_6,
     type: :range,
-    title: 'Vriend(inn)en maken is moeilijk voor mij.',
+    title: 'Vrienden maken is moeilijk voor mij.',
     labels: ['Helemaal niet waar', 'Soms waar', 'Altijd waar'],
     required: true
   }, {
@@ -103,7 +103,7 @@ v2_31 v2_32 v2_33 v2_34 v2_35 v2_36 v2_37 v2_38 v2_39 v2_40
 v2_41 v2_42 v2_43 v2_44 v2_45 v2_46 v2_47] },
       { title: 'Nee', shows_questions: %i[v2_48] }]
   }, {
-    section_start: 'De volgende vragen gaan over jou en je <b>beste vriend(in)</b>. Verplaats het bolletje naar het antwoord dat het beste past.',
+    section_start: 'De volgende vragen gaan over jou en je <b>beste vriend(in)</b>. Verplaats het bolletje naar het antwoord dat het beste past:',
     id: :v2_2,
     type: :range,
     hidden: true,

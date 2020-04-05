@@ -2,13 +2,13 @@
 
 db_title = 'Leefplezier'
 db_name1 = 'Welbevinden_Jongeren'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
+    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer 10 minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
   }, {
     section_start: 'Type je antwoorden op de volgende vragen in de tekstvelden. Je mag zoveel typen als je wilt.',
     id: :v1,
@@ -163,7 +163,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over school:',
+    section_start: 'De volgende vragen gaan over school (dit kan ook een stageplek zijn of ander onderwijs):',
     id: :v17,
     type: :range,
     title: 'Ik heb vaak zin om naar school te gaan.',

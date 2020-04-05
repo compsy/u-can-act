@@ -3,7 +3,7 @@
 db_title = 'Karakter'
 
 db_name1 = 'Persoonlijkheid_Kinderen_10plus_Ouderrapportage'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 likert_options = [
@@ -16,7 +16,7 @@ likert_options = [
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> De volgende vragenlijst gaat over het karakter van uw kind. Er volgen nu 104 zinnen over eigenschappen van mensen. Geef bij elke zin aan in hoeverre u het hiermee eens. Doe dit voor elke zin, ook als u niet helemaal zeker bent van uw antwoord. Het invullen duurt ongeveer 20 minuten.'
+    content: '<p class="flow-text"> De volgende vragenlijst gaat over het karakter van uw kind. Er volgen nu 104 zinnen met mogelijke eigenschappen van uw kind. Geef bij elke zin aan in hoeverre u het hiermee eens bent. Doe dit voor elke zin, ook als u niet helemaal zeker bent van uw antwoord. Het invullen duurt ongeveer 20 minuten.'
   }, {
     section_start: 'Mijn kind…',
     id: :v1,

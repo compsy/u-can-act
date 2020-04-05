@@ -174,11 +174,15 @@ function disableHiddenInputs() {
 function check_required_controls(event) {
   var returnval = true;
   var firstelem = null;
+  var topOffset = 100000;
   $('div.radio-group.required:visible').each(function (_sub_index) {
     if ($(this).find(':radio:checked').length === 0) {
       event.preventDefault();
       $(this).addClass('erroneous');
-      if (firstelem == null) firstelem = this;
+      if (firstelem == null || $(this).offset().top < topOffset) {
+        firstelem = this;
+        topOffset = $(firstelem).offset().top;
+      }
       returnval = false;
     }
   });
@@ -186,19 +190,25 @@ function check_required_controls(event) {
     if ($(this).find(':checkbox:checked').length === 0) {
       event.preventDefault();
       $(this).addClass('erroneous');
-      if (firstelem == null) firstelem = this;
+      if (firstelem == null || $(this).offset().top < topOffset) {
+        firstelem = this;
+        topOffset = $(firstelem).offset().top;
+      }
       returnval = false;
     }
   });
   $('div.range-container.required.notchanged:visible').each(function (_sub_index) {
     event.preventDefault();
     $(this).addClass('erroneous');
-    if (firstelem == null) firstelem = this;
+    if (firstelem == null || $(this).offset().top < topOffset) {
+      firstelem = this;
+      topOffset = $(firstelem).offset().top;
+    }
     returnval = false;
   });
   if (!returnval) { // scroll to the first invalid element
     $('html, body').animate({
-      scrollTop: $(firstelem).offset().top
+      scrollTop: topOffset
     }, 200);
   }
   return returnval;
@@ -222,7 +232,7 @@ function autoResizeImages() {
 }
 
 function removeNotChanged () {
-  $(this).closest('.notchanged').removeClass('notchanged');
+  $(this).closest('.notchanged').removeClass('notchanged').removeClass('erroneous');
 }
 
 function questionnaireLoaded() {

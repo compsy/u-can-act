@@ -2,7 +2,7 @@
 
 db_title = 'Gevoelens'
 db_name1 = 'Emoties_Kind_Ouderrapportage'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
@@ -10,7 +10,7 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text">Deze vragenlijst gaat over gevoelens van uw kind. In deze vragenlijst onderzoeken we hoe uw kind zich de afgelopen tijd gevoeld heeft.</p>'
   }, {
-    section_start: 'Geef bij elk gevoel hieronder aan in welke mate u denkt dat uw kind zich <i>in de afgelopen twee weken</i>zo gevoeld heeft. Verplaats het bolletje naar het antwoord dat het beste past.',
+    section_start: 'Geef bij elk gevoel hieronder aan in welke mate u denkt dat uw kind zich <i>in de afgelopen twee weken</i> zo gevoeld heeft. Verplaats het bolletje naar het antwoord dat het beste past.',
     id: :v1,
     type: :range,
     title: 'Gelukkig',

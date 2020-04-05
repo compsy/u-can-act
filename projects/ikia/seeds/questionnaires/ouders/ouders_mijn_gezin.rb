@@ -2,7 +2,7 @@
 
 db_title = 'Mijn kind en gezin'
 db_name1 = 'Mijn_gezin_ouders'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 style = 'style="max-height: 200px; vertical-align: middle; max-width: 100%"'

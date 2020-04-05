@@ -40,7 +40,5 @@ if unused_measurement_ids.present?
   puts unused_measurement_ids.map do |unused_id|
     Measurement.find(unused_id)&.questionnaire&.key || unused_id.to_s
   end.pretty_inspect
-  unused_measurement_ids.to_a.each do |measurement_id|
-    Measurement.find(measurement_id)&.destroy
-  end
+  raise "Error: unused parents ids present"
 end

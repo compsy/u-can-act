@@ -9,7 +9,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over je krachten. Er volgen X vragen. Hier ben je ongeveer X minuten mee bezig.</p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over je krachten. Het invullen duurt ongeveer 15 minuten.</p>'
   }, {
     id: :v1_1,
     type: :range,
@@ -17,47 +17,47 @@ dagboek_content = [
     labels: ['Helemaal niet creatief', 'Net zo creatief', 'Heel erg creatief'],
     required: true
   }, {
-    section_start: 'In hoeverre passen de volgende uitspraken bij jou? Verplaats het bolletje naar het antwoord dat het beste bij je past.',
+    section_start: 'In hoeverre passen de volgende uitspraken bij jou? Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v1_2,
     type: :range,
-    title: 'Ik bedenk verschillende manieren om opdrachten uit te werken',
+    title: 'Ik bedenk verschillende manieren om opdrachten uit te werken.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true,
     section_end: false
   }, {
     id: :v1_3,
     type: :range,
-    title: 'Ik bedenk nieuwe dingen',
+    title: 'Ik bedenk nieuwe dingen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_4,
     type: :range,
-    title: 'Ik heb altijd veel ideeën als ik een opdracht krijg',
+    title: 'Ik heb altijd veel ideeën als ik een opdracht krijg.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_5,
     type: :range,
-    title: 'Ik maak nieuwe dingen',
+    title: 'Ik maak nieuwe dingen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_6,
     type: :range,
-    title: 'Ik probeer meer manieren uit',
+    title: 'Ik probeer meer manieren uit.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_7,
     type: :range,
-    title: 'Ik maak dingen die voor mij nieuw zijn',
+    title: 'Ik maak dingen die voor mij nieuw zijn.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_8,
     type: :range,
-    title: 'Ik kom zomaar op ideeën',
+    title: 'Ik kom zomaar op ideeën.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true,
     section_end: true
@@ -307,7 +307,7 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     otherwise_label: 'Oplossingswoord:',
     section_end: true
   }, {
-    section_start: 'Er volgen nu  een aantal uitspraken over gedachten en gevoelens die je in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij jou past.',
+    section_start: 'Er volgen nu  een aantal uitspraken over gedachten en gevoelens die je in verschillende situaties kan hebben. Geef voor elke uitspraak aan in hoeverre deze bij jou past:',
     id: :v3_1,
     type: :range,
     required: true,

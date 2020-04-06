@@ -35,7 +35,8 @@ dagboek_content = [
     id: :v4,
     type: :range,
     title: 'Ik ben in de war over wat ik nu voel',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     type: :raw,
     content: '<p class="flow-text">Geef bij elk gevoel aan hoe sterk je dit nu voelt:</p>'
@@ -43,79 +44,94 @@ dagboek_content = [
     id: :v5,
     type: :range,
     title: 'Trots',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v6,
     type: :range,
     title: 'Boos',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v7,
     type: :range,
     title: 'Tevreden',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v8,
     type: :range,
     title: 'Beschaamd',
     labels: ['Helemaal niet', 'Heel erg'],
-    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt'
+    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt',
+     required: true
   }, {
     id: :v9,
     type: :range,
     title: 'Vol energie',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v10,
     type: :range,
     title: 'Vrolijk',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v11,
     type: :range,
     title: 'Verdrietig',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v12,
     type: :range,
     title: 'Bang',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v13,
     type: :range,
     title: 'Gelukkig',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v14,
     type: :range,
     title: 'Eenzaam',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v15,
     type: :range,
     title: 'Zenuwachtig',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v16,
     type: :range,
     title: 'Geliefd',
     labels: ['Helemaal niet', 'Heel erg'],
     tooltip: 'Dit is het gevoel dat andere mensen van je houden',
+     required: true
   }, {
     id: :v17,
     type: :range,
     title: 'Gestrest',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v18,
     type: :range,
     title: 'Ontspannen',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v19,
     type: :range,
     title: 'Geïrriteerd',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true,
     section_end: true
   }, {
     section_start: '<strong>De volgende vragen gaan over hoe je dag was.</strong> <br> <br>
@@ -135,13 +151,15 @@ dagboek_content = [
     type: :range,
     hidden: true,
     title: 'Ik heb geprobeerd om het positieve gevoel vast te houden.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v20b,
     type: :range,
     hidden: true,
     title: 'Ik heb teruggedacht aan deze gebeurtenis.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v21,
     type: :radio,
@@ -157,13 +175,15 @@ dagboek_content = [
     type: :range,
     hidden: true,
     title: 'Ik heb gepiekerd over deze gebeurtenis.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v21b,
     type: :range,
     hidden: true,
     title: 'Ik heb geprobeerd om niet over deze gebeurtenis na te denken.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v22,
     type: :radio,
@@ -196,6 +216,7 @@ dagboek_content = [
     hidden: true,
     title: 'Had je wel met iemand over deze gebeurtenis willen praten?',
     labels: ['Helemaal niet', 'Heel graag'],
+     required: true,
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over hoe het vandaag tussen jou en je ouder (of opvoeder) was. Hiermee bedoelen we één van je ouders of beide ouders.
@@ -204,32 +225,38 @@ Dit mag per antwoord verschillend zijn.',
     type: :range,
     title: 'We hebben vandaag iets leuks gedaan.',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true,
     section_end: false
   }, {
     id: :v24,
     type: :range,
     title: 'We hebben vandaag ruzie gemaakt.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v25,
     type: :range,
     title: 'We hebben elkaar vandaag een knuffel gegeven.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v26,
     type: :range,
     title: 'Mijn ouder was vandaag boos op mij.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v27,
     type: :range,
     title: 'Vandaag was het leuk of fijn om bij mijn ouder te zijn.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v28,
     type: :range,
     title: 'Ik had het gevoel dat mijn ouder blij was dat ik er was.',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true,
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over hoe het tussen jou en je vriend(en) was. Met "vriend" bedoelen we zowel jongens als meisjes.',
@@ -246,25 +273,29 @@ Dit mag per antwoord verschillend zijn.',
     type: :range,
     hidden: true,
     title: 'Ik had het gevoel dat ik mezelf kon zijn bij mijn vriend(en).',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v29b,
     type: :range,
     hidden: true,
     title: 'Ik had het gevoel dat mijn vriend(en) blij was/waren dat ik er was.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v29c,
     type: :range,
     hidden: true,
     title: 'Ik was liever alleen geweest dan samen met mijn vriend(en).',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v29d,
     type: :range,
     hidden: true,
     title: 'Ik had liever bij een vriend willen zijn.',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true,
     section_end: true
   }, {
     section_start: 'De laatste vragen:',
@@ -272,27 +303,32 @@ Dit mag per antwoord verschillend zijn.',
     type: :range,
     title: 'Vandaag was een goede dag.',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true,
     section_end: false
   }, {
     id: :v31,
     type: :range,
     title: 'Ik ben vandaag buiten geweest.',
-    labels: ['Helemaal niet', 'Heel veel']
+    labels: ['Helemaal niet', 'Heel veel'],
+     required: true
   }, {
     id: :v32,
     type: :range,
     title: 'Ik heb het vandaag druk gehad.',
-    labels: ['Helemaal niet', 'Heel erg']
+    labels: ['Helemaal niet', 'Heel erg'],
+     required: true
   }, {
     id: :v33,
     type: :range,
     title: 'Ik heb me vandaag zorgen gemaakt.',
-    labels: ['Helemaal niet', 'Heel veel']
+    labels: ['Helemaal niet', 'Heel veel'],
+     required: true
   }, {
     id: :v34,
     type: :range,
     title: 'Ik kijk uit naar morgen.',
     labels: ['Helemaal niet', 'Heel erg'],
+     required: true,
     section_end: true
   }
 ]

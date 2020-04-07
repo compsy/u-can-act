@@ -256,6 +256,32 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(responseobj.values).to eq('v1' => 'true')
       end
 
+      it 'refuses to store empty responses' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        post :create, params: { response_id: responseobj.id, content: {} }
+        expect(response).to have_http_status(:bad_request)
+        expect(response.body).to include 'Cannot store blank questionnaire responses'
+        responseobj.reload
+        expect(responseobj.completed_at).to be_blank
+        expect(responseobj.content).to be_blank
+        expect(responseobj.values).to be_blank
+      end
+
+      it 'refuses to store responses with just the csrf_failed key' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        post :create, params: { response_id: responseobj.id, content: { 'csrf_failed' => true } }
+        expect(response).to have_http_status(:bad_request)
+        expect(response.body).to include 'Cannot store blank questionnaire responses'
+        responseobj.reload
+        expect(responseobj.completed_at).to be_blank
+        expect(responseobj.content).to be_blank
+        expect(responseobj.values).to be_blank
+      end
+
       context 'request forgery protection' do
         before do
           ActionController::Base.allow_forgery_protection = true
@@ -279,6 +305,23 @@ RSpec.describe QuestionnaireController, type: :controller do
           expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
           expect(responseobj.content).not_to be_nil
           expect(responseobj.values).to eq('v1' => 'true', Response::CSRF_FAILED => 'true')
+        end
+
+        it 'logs an attention message and adds a key to the answers when authenticity token fails' do
+          expect_any_instance_of(described_class).to receive(:verify_cookie)
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          open_from: 1.hour.ago)
+          expect(Rails.logger).to receive(:warn).with(/^\[Attention\]/)
+          post :create, params: { response_id: responseobj.id, content: {} }
+          expect(response).to have_http_status(:bad_request)
+          expect(response.body).to include 'Cannot store blank questionnaire responses'
+          responseobj.reload
+          expect(responseobj.completed_at).to be_blank
+          expect(responseobj.content).to be_blank
+          expect(responseobj.values).to be_blank
         end
       end
     end

@@ -44,6 +44,12 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: false
 
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
 # Default is 5
 Metrics/ParameterLists:
   Max: 6

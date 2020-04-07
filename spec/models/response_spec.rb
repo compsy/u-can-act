@@ -134,6 +134,56 @@ describe Response do
         expect(CalculateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
         responseobj.complete!
       end
+      context 'with push_subscriptions' do
+        it 'calls the push_subscriptions_job if it is the first complete' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          FactoryBot.create(:push_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement)
+          expect(PushSubscriptionsJob).to receive(:perform_later).once.with(responseobj)
+          responseobj.complete!
+        end
+        it 'doesn\'t call the push_subscriptions_job if it wasn\'t the first complete' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          FactoryBot.create(:push_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement,
+                                          completed_at: Time.zone.now)
+          expect(PushSubscriptionsJob).not_to receive(:perform_later)
+          responseobj.complete!
+        end
+        it 'doesn\'t call the push_subscriptions_job if there are no push subscriptions' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement)
+          expect(PushSubscriptionsJob).not_to receive(:perform_later)
+          responseobj.complete!
+        end
+        it 'doesn\'t call the push_subscriptions_job if csrf_failed' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          FactoryBot.create(:push_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement)
+          reponse_content = FactoryBot.create(:response_content,
+                                              content: { 'v3' => '68', Response::CSRF_FAILED => 'true' })
+          responseobj.content = reponse_content.id
+          responseobj.save!
+          expect(PushSubscriptionsJob).not_to receive(:perform_later)
+          responseobj.complete!
+        end
+      end
     end
 
     describe 'invited' do

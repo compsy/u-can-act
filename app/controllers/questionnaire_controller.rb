@@ -16,6 +16,8 @@ class QuestionnaireController < ApplicationController
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
   before_action :set_create_response, only: %i[create create_informed_consent]
+  before_action :check_opened_at, only: [:create]
+  before_action :check_content_empty, only: [:create]
   before_action :check_content_hash, only: [:create]
   before_action :check_interactive_content, only: %i[interactive_render]
   before_action :set_interactive_content, only: %i[interactive_render]
@@ -211,6 +213,20 @@ class QuestionnaireController < ApplicationController
     end
   end
 
+  def check_content_empty
+    quest_content = questionnaire_content
+    return if quest_content.present? && (quest_content.keys - [Response::CSRF_FAILED]).present?
+
+    render(status: :bad_request, html: 'Cannot store blank questionnaire responses', layout: 'application')
+  end
+
+  def check_opened_at
+    return if @response.opened_at.present?
+
+    render(status: :bad_request, html: 'Cannot accept answers for an unopened response',
+           layout: 'application')
+  end
+
   def check_informed_consent
     render :informed_consent if @protocol_subscription.needs_informed_consent?
   end
@@ -325,7 +341,7 @@ class QuestionnaireController < ApplicationController
     return if valid_request_origin? && any_authenticity_token_valid?
 
     record_warning_in_rails_logger
-    params['content']['csrf_failed'] = 'true' if params['content'].present?
+    params['content'][Response::CSRF_FAILED] = 'true' if params['content'].present?
   end
 
   def record_warning_in_rails_logger

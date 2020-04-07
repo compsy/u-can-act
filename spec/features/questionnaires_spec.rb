@@ -849,6 +849,7 @@ describe 'GET and POST /', type: :feature, js: true do
       visit responseobj.invitation_set.invitation_url(invitation_token.token_plain, false)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       # v1
+      page.check('Nee', allow_label_click: true)
       page.click_on 'Opslaan'
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       expect(page).not_to have_content('Je hebt je uitgeschreven voor het '\
@@ -2538,6 +2539,7 @@ describe 'GET and POST /', type: :feature, js: true do
       expect(page).not_to have_current_path(mentor_overview_index_path)
       expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
       expect(page).to have_content('Hoihoihoi')
+      page.check('Yes', allow_label_click: true)
       page.click_on 'Opslaan'
       expect(page).to have_content(person_header)
     end

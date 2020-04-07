@@ -5,6 +5,7 @@ class Response < ApplicationRecord
   # the open_duration of the voormeting measurement of the student and mentor protocol
   # to be nil.
   RECENT_PAST = 2.hours
+  CSRF_FAILED = 'csrf_failed'
 
   before_destroy :destroy_response_content
 
@@ -112,13 +113,20 @@ class Response < ApplicationRecord
     completed_at.present?
   end
 
+  def csrf_failed?
+    cached_values = values
+    return false if cached_values.blank?
+
+    cached_values[CSRF_FAILED].present?
+  end
+
   def complete!
     first_complete = completed_at.blank?
     update!(completed_at: Time.zone.now,
             filled_out_by: protocol_subscription.person,
             filled_out_for: protocol_subscription.filling_out_for)
     update_distribution(first_complete)
-    return unless first_complete && protocol_subscription.protocol.push_subscriptions.present?
+    return unless first_complete && protocol_subscription.protocol.push_subscriptions.present? && !csrf_failed?
 
     PushSubscriptionsJob.perform_later(self)
   end

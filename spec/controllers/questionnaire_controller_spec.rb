@@ -247,7 +247,10 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'shows status 200 when everything is correct' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)
         responseobj.reload
@@ -259,7 +262,10 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'refuses to store empty responses' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
         post :create, params: { response_id: responseobj.id, content: {} }
         expect(response).to have_http_status(:bad_request)
         expect(response.body).to include 'Cannot store blank questionnaire responses'
@@ -272,10 +278,26 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'refuses to store responses with just the csrf_failed key' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
-        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
         post :create, params: { response_id: responseobj.id, content: { 'csrf_failed' => true } }
         expect(response).to have_http_status(:bad_request)
         expect(response.body).to include 'Cannot store blank questionnaire responses'
+        responseobj.reload
+        expect(responseobj.completed_at).to be_blank
+        expect(responseobj.content).to be_blank
+        expect(responseobj.values).to be_blank
+      end
+
+      it 'refuses to store responses with blank opened_at' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:bad_request)
+        expect(response.body).to include 'Cannot accept answers for an unopened response'
         responseobj.reload
         expect(responseobj.completed_at).to be_blank
         expect(responseobj.content).to be_blank
@@ -297,7 +319,8 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                     start_date: 1.week.ago.at_beginning_of_day)
           responseobj = FactoryBot.create(:response,
                                           protocol_subscription: protocol_subscription,
-                                          open_from: 1.hour.ago)
+                                          open_from: 1.hour.ago,
+                                          opened_at: 5.minutes.ago)
           expect(Rails.logger).to receive(:warn).with(/^\[Attention\]/)
           post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
           expect(response).to have_http_status(:found)
@@ -313,7 +336,8 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                     start_date: 1.week.ago.at_beginning_of_day)
           responseobj = FactoryBot.create(:response,
                                           protocol_subscription: protocol_subscription,
-                                          open_from: 1.hour.ago)
+                                          open_from: 1.hour.ago,
+                                          opened_at: 5.minutes.ago)
           expect(Rails.logger).to receive(:warn).with(/^\[Attention\]/)
           post :create, params: { response_id: responseobj.id, content: {} }
           expect(response).to have_http_status(:bad_request)
@@ -337,7 +361,8 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                                           filling_out_for: mentor,
                                                                           start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                                   open_from: 1.hour.ago)
+                                                   open_from: 1.hour.ago,
+                                                   opened_at: 5.minutes.ago)
 
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)
@@ -349,7 +374,8 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                                           filling_out_for: student,
                                                                           start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                                   open_from: 1.hour.ago)
+                                                   open_from: 1.hour.ago,
+                                                   opened_at: 5.minutes.ago)
 
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)
@@ -368,7 +394,8 @@ RSpec.describe QuestionnaireController, type: :controller do
       let!(:responseobj) do
         FactoryBot.create(:response, :without_filled_out_by_ids,
                           protocol_subscription: protocol_subscription,
-                          open_from: 1.hour.ago)
+                          open_from: 1.hour.ago,
+                          opened_at: 5.minutes.ago)
       end
 
       before do

@@ -278,7 +278,7 @@ RSpec.describe QuestionnaireController, type: :controller do
           responseobj.reload
           expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
           expect(responseobj.content).not_to be_nil
-          expect(responseobj.values).to eq('v1' => 'true', 'csrf_failed' => 'true')
+          expect(responseobj.values).to eq('v1' => 'true', Response::CSRF_FAILED => 'true')
         end
       end
     end

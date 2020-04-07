@@ -15,9 +15,8 @@ class UpdateDistribution < ActiveInteraction::Base
       CalculateDistribution.run!(questionnaire: questionnaire)
       return
     end
-    @distribution['total'] += 1
     @usable_questions = usable_questions
-    process_response_ids([response.content])
+    @distribution['total'] += process_response_ids([response.content])
     RedisService.set("distribution_#{questionnaire.key}", @distribution.to_json)
   end
 end

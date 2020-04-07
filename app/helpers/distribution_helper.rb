@@ -82,14 +82,17 @@ module DistributionHelper
   end
 
   def process_response_ids(response_ids)
+    added_count = 0
     ResponseContent.where(:id.in => response_ids).pluck(:content, :scores).each do |content, scores|
-      next if content.nil? # Can theoretically happen
+      next if content.blank? || content[Response::CSRF_FAILED].present? # Don't calculate statistics for bogus responses
 
+      added_count += 1
       all_content = scores.present? ? content.merge(scores) : content
       @usable_questions.each do |question|
         add_to_distribution(question, all_content, @distribution)
       end
     end
+    added_count
   end
 
   # rubocop:disable Metrics/AbcSize

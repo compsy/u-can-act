@@ -325,7 +325,7 @@ class QuestionnaireController < ApplicationController
     return if valid_request_origin? && any_authenticity_token_valid?
 
     record_warning_in_rails_logger
-    params['content']['csrf_failed'] = 'true' if params['content'].present?
+    params['content'][Response::CSRF_FAILED] = 'true' if params['content'].present?
   end
 
   def record_warning_in_rails_logger

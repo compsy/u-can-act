@@ -187,7 +187,6 @@ dagboek_content = [
     section_end: true
   }
 ]
-invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {
   questions: dagboek_content,
   scores: [
@@ -199,7 +198,7 @@ dagboek1.content = {
     { id: :s2,
       label: 'Boven-Samen',
       ids: %i[v3 v21 v24 v29],
-       operation: :average,
+      operation: :average,
       round_to_decimals: 0 },
     { id: :s3,
       label: 'Samen',
@@ -208,7 +207,7 @@ dagboek1.content = {
       round_to_decimals: 0 },
     { id: :s4,
       label: 'Onder-Samen',
-       ids: %i[v8 v20 v27 v31],
+      ids: %i[v8 v20 v27 v31],
       operation: :average,
       round_to_decimals: 0 },
     { id: :s5,
@@ -218,12 +217,12 @@ dagboek1.content = {
       round_to_decimals: 0 },
     { id: :s6,
       label: 'Onder-Niet samen',
-       ids: %i[v2 v5 v9 v19],
+      ids: %i[v2 v5 v9 v19],
       operation: :average,
       round_to_decimals: 0 },
     { id: :s7,
       label: 'Niet samen',
-       ids: %i[v10 v13 v15 v16],
+      ids: %i[v10 v13 v15 v16],
       operation: :average,
       round_to_decimals: 0 },
     { id: :s8,
@@ -231,8 +230,8 @@ dagboek1.content = {
       ids: %i[v14 v17 v18 v28],
       operation: :average,
       round_to_decimals: 0 }
-    ]
-  }
+  ]
+}
 dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

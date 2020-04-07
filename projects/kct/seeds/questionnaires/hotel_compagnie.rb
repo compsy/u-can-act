@@ -240,7 +240,7 @@ Waarom zit je in een compagnie?
 '
   },
   create_question_seven(:v44, 'Omdat operator zijn de kern weergeeft van de persoon die ik ben.'),
-  create_question_seven(:v45, 'Omdat ik het leuk vind om te leren in het kader van als operator te functioneren.'),
+  create_question_seven(:v45, 'Omdat ik het leuk vind om te leren in het kader van mijn functie als operator.'),
   create_question_seven(:v46, 'Ik had m\'n redenen om operator te worden, maar nu vraag ik me af of ik er wel mee door moet gaan.'),
   create_question_seven(:v47, 'Omdat mensen om wie ik geef het me kwalijk zouden nemen als ik <i>niet</i> operator zou zijn.'),
   create_question_seven(:v48, 'Omdat operator zijn een manier is om me verder te ontwikkelen.'),

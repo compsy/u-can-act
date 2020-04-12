@@ -1,10 +1,10 @@
 #!/bin/bash
-# New chromedriver from https://discuss.circleci.com/t/update-chromedriver/9358 
+# New chromedriver from https://discuss.circleci.com/t/update-chromedriver/9358
 # and https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5
 
 # Install dependencies
 sudo apt-get -y update
-sudo apt-get -y install libappindicator3-1
+sudo apt-get -y install libappindicator3-1 libgbm1
 
 # Install Chrome driver
 wget https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip

@@ -6,7 +6,11 @@ db_name1 = 'Interpersoonlijk gedrag'
 dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
-likert_options = ['Helemaal niet', 'Matig', 'Heel sterk']
+likert_options = [
+  { title: 'Helemaal niet', numeric_value: 0 },
+  { title: 'Matig', numeric_value: 50 },
+  { title: 'Heel sterk', numeric_value: 100 }
+]
 dagboek_content = [
   {
     type: :raw,

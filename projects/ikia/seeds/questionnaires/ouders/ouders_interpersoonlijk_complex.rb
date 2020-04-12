@@ -262,6 +262,5 @@ dagboek1.content = {
       round_to_decimals: 0 }
   ]
 }
-dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

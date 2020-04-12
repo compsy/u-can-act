@@ -6,7 +6,11 @@ db_name1 = 'Interpersoonlijk gedrag jongeren16plus'
 dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
-likert_options = ['Helemaal niet', 'Matig', 'Heel sterk']
+likert_options = [
+  { title: 'Helemaal niet', numeric_value: 0 },
+  { title: 'Matig', numeric_value: 50 },
+  { title: 'Heel sterk', numeric_value: 100 }
+]
 dagboek_content = [
   {
     type: :raw,
@@ -18,7 +22,7 @@ dagboek_content = [
     labels: ['Helemaal niet gelukkig', 'Matig gelukkig', 'Heel erg gelukkig'],
     required: true
   }, {
-    section_start: 'De onderstaande punten zijn dingen die moeilijk kunt vinden in het contact met anderen. Kies bij elke vraag het antwoord dat het beste bij je past. <br><br>
+    section_start: 'De onderstaande punten zijn dingen die je moeilijk kunt vinden in het contact met anderen. Kies bij elke vraag het antwoord dat het beste bij je past. <br><br>
   <em>Het is moeilijk voor mij om…</em>',
     id: :v1,
     type: :likert,
@@ -232,6 +236,5 @@ dagboek1.content = {
       round_to_decimals: 0 }
   ]
 }
-dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

@@ -74,42 +74,42 @@ module Api
           @email = person_create_params[:email]
           return if @email.present?
 
-          validation_error(email: 'Email address for creating a person was not specified')
+          validation_error(email: ['Email address for creating a person was not specified'])
         end
 
         def check_email
           person = Person.find_by(email: @email)
           return if person.blank?
 
-          validation_error(email: 'A person already exists with the specified email address')
+          validation_error(email: ['A person already exists with the specified email address'])
         end
 
         def set_parent
           @parent = current_auth_user.person
           return if @parent.present?
 
-          validation_error(person: 'The logged-in parent user does not have a person object')
+          validation_error(person: ['The logged-in parent user does not have a person object'])
         end
 
         def set_team_name
           @team_name = person_create_params[:team]
           return if @team_name.present?
 
-          validation_error(team: 'Team for creating a person was not specified')
+          validation_error(team: ['Team for creating a person was not specified'])
         end
 
         def set_role_title
           @role_title = person_create_params[:role]
           return if @role_title.present?
 
-          validation_error(role: 'Role for creating a person was not specified')
+          validation_error(role: ['Role for creating a person was not specified'])
         end
 
         def set_first_name
           @first_name = person_create_params[:first_name]
           return if @first_name.present?
 
-          validation_error(first_name: 'First name for creating a person was not specified')
+          validation_error(first_name: ['First name for creating a person was not specified'])
         end
       end
     end

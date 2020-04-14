@@ -35,7 +35,7 @@ module Api
           if @child.valid?
             render json: @child.result, serializer: Api::ChildSerializer, status: :ok
           else
-            render json: @child.errors, status: :bad_request
+            unprocessable_entity(@child.errors)
           end
         end
 
@@ -46,7 +46,7 @@ module Api
           else
             @child.destroy!
           end
-          render json: { status: 'Child destroyed' }, status: :ok
+          destroyed
         end
 
         private
@@ -55,7 +55,7 @@ module Api
           @child = Person.find_by(id: params[:id], parent: current_auth_user.person)
           return if @child.present?
 
-          render json: { error: 'No child with specified ID found' }, status: :not_found
+          not_found(id: 'No child with specified ID found')
         end
 
         def update_child_params
@@ -74,42 +74,42 @@ module Api
           @email = person_create_params[:email]
           return if @email.present?
 
-          render json: { error: 'Email address for creating a person was not specified' }, status: :bad_request
+          validation_error(email: 'Email address for creating a person was not specified')
         end
 
         def check_email
           person = Person.find_by(email: @email)
           return if person.blank?
 
-          render json: { error: 'A person already exists with the specified email address' }, status: :bad_request
+          validation_error(email: 'A person already exists with the specified email address')
         end
 
         def set_parent
           @parent = current_auth_user.person
           return if @parent.present?
 
-          render json: { error: 'The logged-in parent user does not have a person object' }, status: :bad_request
+          validation_error(person: 'The logged-in parent user does not have a person object')
         end
 
         def set_team_name
           @team_name = person_create_params[:team]
           return if @team_name.present?
 
-          render json: { error: 'Team for creating a person was not specified' }, status: :bad_request
+          validation_error(team: 'Team for creating a person was not specified')
         end
 
         def set_role_title
           @role_title = person_create_params[:role]
           return if @role_title.present?
 
-          render json: { error: 'Role for creating a person was not specified' }, status: :bad_request
+          validation_error(role: 'Role for creating a person was not specified')
         end
 
         def set_first_name
           @first_name = person_create_params[:first_name]
           return if @first_name.present?
 
-          render json: { error: 'First name for creating a person was not specified' }, status: :bad_request
+          validation_error(first_name: 'First name for creating a person was not specified')
         end
       end
     end

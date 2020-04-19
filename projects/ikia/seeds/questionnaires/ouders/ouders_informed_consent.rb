@@ -8,20 +8,19 @@ dagboek1.name = db_name1
 
 ic_content = <<~'END'
 <div class="informed-consent">
-  <p><strong>Informatie over het Ieder Kind Is Anders onderzoek</strong></p>
   <p>
-    Ieder Kind is Anders (IKIA) is een onderzoeksproject van de afdeling Ontwikkelingspsychologie van de Rijksuniversiteit Groningen. In het IKIA project proberen we antwoord te vinden op de vraag wat kinderen en jongeren gelukkig maakt. Is dit voor iedereen anders? En denken kinderen en jongeren hier hetzelfde over als hun ouders? Voor het IKIA onderzoek hebben we toestemming van de Ethische Commissie Psychologie (Psy-18269-O). 
+    Ieder Kind is Anders (IKIA) is een onderzoeksproject van de afdeling Ontwikkelingspsychologie van de Rijksuniversiteit Groningen. In het IKIA project proberen we antwoord te vinden op de vraag wat kinderen en jongeren gelukkig maakt. Is dit voor iedereen anders? En denken kinderen en jongeren hier hetzelfde over als hun ouders? Voor het IKIA onderzoek hebben we toestemming van de Ethische Commissie Psychologie (Psy-18269-O).
   </p>
   <p>
     Meedoen aan IKIA is vrijwillig. Wel is uw toestemming nodig. Lees daarom deze informatie goed door.
     Vragen die u misschien heeft kunt u stellen via <a
     href="mailto:iederkindisanders@rug.nl">iederkindisanders@rug.nl</a>,
     bijvoorbeeld wanneer u iets
-    niet begrijpt. Als u besluit om geen toestemming te geven, dan hoeft u niet uit te leggen waarom, en zal dit geen negatieve gevolgen voor u hebben. U kunt uw toestemming  voor deelname aan het IKIA onderzoek ook op elk moment weer intrekken. 
+    niet begrijpt. Als u besluit om geen toestemming te geven, dan hoeft u niet uit te leggen waarom, en zal dit geen negatieve gevolgen voor u hebben. U kunt uw toestemming  voor deelname aan het IKIA onderzoek ook op elk moment weer intrekken.
   </p>
   <p><strong>Hoe gaat IKIA in zijn werk?</strong></p>
   <p>
-    Het IKIA onderzoek zal de komende jaren plaatsvinden via deze website. U kunt inloggen op uw IKIA profiel wanneer u wilt en vragenlijsten invullen. Deze vragen gaan over emoties, geluk, vriendschap, de opvoeding, of ervaren klachten. Na iedere vragenlijst krijgt u uw resultaten te zien. U kunt hierna aan het volgende IKIA onderdeel werken of stoppen wanneer u dat wil, en het eventueel later weer oppakken. Hiernaast kunt u deelnemen aan een dagboekonderzoek, waarin u 30 dagen lang elke dag een vragenlijst via SMS ontvangt. Deze vragen gaan over emoties, gebeurtenissen van die dag en het contact tussen u en uw kind. 
+    Het IKIA onderzoek zal de komende jaren plaatsvinden via deze website. U kunt inloggen op uw IKIA profiel wanneer u wilt en vragenlijsten invullen. Deze vragen gaan over emoties, geluk, vriendschap, de opvoeding, of ervaren klachten. Na iedere vragenlijst krijgt u uw resultaten te zien. U kunt hierna aan het volgende IKIA onderdeel werken of stoppen wanneer u dat wil, en het eventueel later weer oppakken. Hiernaast kunt u deelnemen aan een dagboekonderzoek, waarin u 30 dagen lang elke dag een vragenlijst via SMS ontvangt. Deze vragen gaan over emoties, gebeurtenissen van die dag en het contact tussen u en uw kind.
   </p>
   <p><strong>Welke gevolgen kan deelname hebben?</strong></p>
   <p>
@@ -29,9 +28,9 @@ ic_content = <<~'END'
   </p>
   <p><strong>Vertrouwelijkheid van gegevens</strong></p>
   <p>
-    Voor het uitvoeren van het IKIA onderzoek is het noodzakelijk dat wij wat persoonlijke gegevens van u en uw kind verzamelen. Deze gegevens zullen met uiterste zorgvuldigheid en vertrouwelijkheid worden behandeld. Dit betreft leeftijd, geslacht, geboorteland, postcode en onderwijsvoortgang van uw kind. Ten slotte vragen we u om uw mobiele telefoonnummer wanneer u het dagboekonderzoek start. Dit telefoonnummer wordt alleen gebruikt om de dagboekvragenlijsten op te sturen. 
+    Voor het uitvoeren van het IKIA onderzoek is het noodzakelijk dat wij wat persoonlijke gegevens van u en uw kind verzamelen. Deze gegevens zullen met uiterste zorgvuldigheid en vertrouwelijkheid worden behandeld. Dit betreft leeftijd, geslacht, geboorteland, postcode en onderwijsvoortgang van uw kind. Ten slotte vragen we u om uw mobiele telefoonnummer wanneer u het dagboekonderzoek start. Dit telefoonnummer wordt alleen gebruikt om de dagboekvragenlijsten op te sturen.
   </p>
-  <p>  
+  <p>
   Uw gegevens zullen anoniem/gecodeerd worden verwerkt en persoonlijk identificeerbare gegevens van U of uw kind, zoals geboortedatum, zullen in een beveiligde computeromgeving worden bewaard, losgekoppeld van de antwoorden op de vragenlijsten. Uw volledig geanonimiseerde onderzoeksgegevens zullen gebruikt worden in wetenschappelijke publicaties, en langere tijd bewaard blijven om te helpen bij het beantwoorden van nieuwe onderzoeksvragen.
   </p>
   <p><strong>Wat moet u nog meer weten?</strong></p>
@@ -41,7 +40,7 @@ ic_content = <<~'END'
     Als u vragen of zorgen heeft over uw
     privacy en de omgang met uw persoonsgegevens dan kunt u contact opnemen met de Functionaris
     Gegevensbescherming van de Rijksuniversiteit Groningen (<a href="mailto:privacy@rug.nl">privacy@rug.nl</a>).
-    Als onderzoekdeelnemer heeft u recht op een kopie van deze onderzoek informatie. U kunt de informatie hier {link naar FAQ} terugvinden. 
+    Als onderzoekdeelnemer heeft u recht op een kopie van deze onderzoek informatie. U kunt de informatie hier {link naar FAQ} terugvinden.
   </p>
 </div>
 END
@@ -70,7 +69,7 @@ dagboek_content = [
     type: :checkbox,
     required: false,
     title: '',
-    options: [{title: 'Ik geef hierbij toestemming om in de toekomst opnieuw benaderd te worden voor eventueel vervolgonderzoek. Ik kan dan opnieuw kiezen of ik deel wil nemen.'}],
+    options: [{title: '(optioneel) Ik geef hierbij toestemming om in de toekomst opnieuw benaderd te worden voor eventueel vervolgonderzoek. Ik kan dan opnieuw kiezen of ik deel wil nemen.'}],
       show_otherwise: false
       },{
     type: :raw,

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Informatie over het Ieder Kind Is Anders onderzoek bij het aanmelden van uw kind'
+db_title = 'Informatie over deelname van uw kind aan Ieder Kind Is Anders'
 db_name1 = 'Informed_consent_ouders_kind'
 dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
@@ -8,20 +8,19 @@ dagboek1.name = db_name1
 
 ic_content = <<~'END'
 <div class="informed-consent">
-  <p><strong>Informatie over deelname van uw kind aan Ieder Kind Is Anders</strong></p>
   <p>
-    Ieder Kind is Anders (IKIA) is een onderzoeksproject van de afdeling Ontwikkelingspsychologie van de Rijksuniversiteit Groningen. In het IKIA project proberen we antwoord te vinden op de vraag wat kinderen en jongeren gelukkig maakt. Is dit voor iedereen anders? En denken kinderen en jongeren hier hetzelfde over als hun ouders? Voor het IKIA onderzoek hebben we toestemming van de Ethische Commissie Psychologie (Psy-18269-O). 
+    Ieder Kind is Anders (IKIA) is een onderzoeksproject van de afdeling Ontwikkelingspsychologie van de Rijksuniversiteit Groningen. In het IKIA project proberen we antwoord te vinden op de vraag wat kinderen en jongeren gelukkig maakt. Is dit voor iedereen anders? En denken kinderen en jongeren hier hetzelfde over als hun ouders? Voor het IKIA onderzoek hebben we toestemming van de Ethische Commissie Psychologie (Psy-18269-O).
   </p>
   <p>
-   Meedoen aan IKIA is vrijwillig. Wel is uw toestemming nodig voor deelname van uw kind als hij/zij jonger dan 16 jaar is. Lees daarom deze informatie goed door. 
+   Meedoen aan IKIA is vrijwillig. Wel is uw toestemming nodig voor deelname van uw kind als hij/zij jonger dan 16 jaar is. Lees daarom deze informatie goed door.
     Vragen die u misschien heeft kunt u stellen via <a
     href="mailto:iederkindisanders@rug.nl">iederkindisanders@rug.nl</a>,
     bijvoorbeeld wanneer u iets
-    niet begrijpt. Als u besluit om geen toestemming te geven, dan hoeft u niet uit te leggen waarom, en heeft dit geen negatieve gevolgen. U kunt uw toestemming voor de deelname van uw kind op elk moment weer intrekken. 
+    niet begrijpt. Als u besluit om geen toestemming te geven, dan hoeft u niet uit te leggen waarom, en heeft dit geen negatieve gevolgen. U kunt uw toestemming voor de deelname van uw kind op elk moment weer intrekken.
   </p>
   <p><strong>Hoe gaat IKIA in zijn werk?</strong></p>
   <p>
-    Het IKIA onderzoek zal de komende jaren plaatsvinden via deze website. Op elk gewenst moment kan uw kind inloggen op zijn/haar eigen IKIA profiel en hier vragen beantwoorden. Deze vragen gaan over emoties, geluk, vriendschap, de opvoeding, of ervaren klachten. Na iedere vragenlijst krijgt uw kind persoonlijke resultaten te zien. Hiernaast kan uw kind deelnemen aan een dagboekonderzoek, waarin hij/zij 30 dagen lang elke dag een vragenlijst via SMS ontvangt. Deze vragen gaan over emoties, gebeurtenissen van die dag en het contact tussen uw kind en u. 
+    Het IKIA onderzoek zal de komende jaren plaatsvinden via deze website. Op elk gewenst moment kan uw kind inloggen op zijn/haar eigen IKIA profiel en hier vragen beantwoorden. Deze vragen gaan over emoties, geluk, vriendschap, de opvoeding, of ervaren klachten. Na iedere vragenlijst krijgt uw kind persoonlijke resultaten te zien. Hiernaast kan uw kind deelnemen aan een dagboekonderzoek, waarin hij/zij 30 dagen lang elke dag een vragenlijst via SMS ontvangt. Deze vragen gaan over emoties, gebeurtenissen van die dag en het contact tussen uw kind en u.
   </p>
   <p><strong>Welke gevolgen kan deelname hebben?</strong></p>
   <p>
@@ -29,7 +28,7 @@ ic_content = <<~'END'
   </p>
   <p><strong>Vertrouwelijkheid van gegevens</strong></p>
   <p>
-    Voor het uitvoeren van het IKIA onderzoek is het noodzakelijk dat wij enkele persoonlijke gegevens verzamelen. Dit betreft leeftijd, geslacht, geboorteland en postcode. Deze gegevens zullen met uiterste zorgvuldigheid en vertrouwelijkheid worden behandeld. Hiernaast vragen we u om het emailadres van uw kind zodat we hem/haar een registratielink kunnen sturen. Ten slotte vragen we uw kind om zijn/haar mobiele telefoonnummer wanneer hij/zij het dagboekonderzoek start. Dit telefoonnummer wordt alleen gebruikt om de dagboekvragenlijsten op te sturen. 
+    Voor het uitvoeren van het IKIA onderzoek is het noodzakelijk dat wij enkele persoonlijke gegevens verzamelen. Dit betreft leeftijd, geslacht, geboorteland en postcode. Deze gegevens zullen met uiterste zorgvuldigheid en vertrouwelijkheid worden behandeld. Hiernaast vragen we u om het emailadres van uw kind zodat we hem/haar een registratielink kunnen sturen. Ten slotte vragen we uw kind om zijn/haar mobiele telefoonnummer wanneer hij/zij het dagboekonderzoek start. Dit telefoonnummer wordt alleen gebruikt om de dagboekvragenlijsten op te sturen.
   </p>
   <p>
     Gegevens van uw kind zullen anoniem/gecodeerd worden verwerkt. Persoonlijk identificeerbare gegevens van uw kind, zoals het e-mailadres en de geboortedatum, zullen in een beveiligde computeromgeving worden bewaard, losgekoppeld van de antwoorden op de vragenlijsten. Deze volledig geanonimiseerde onderzoeksgegevens zullen gebruikt worden in wetenschappelijke publicaties, en langere tijd bewaard blijven om te helpen bij het beantwoorden van nieuwe onderzoeksvragen.
@@ -41,7 +40,7 @@ ic_content = <<~'END'
     Als u vragen of zorgen heeft over de
     privacy van uzelf of uw kind en de omgang met persoonsgegevens dan kunt u contact opnemen met de Functionaris
     Gegevensbescherming van de Rijksuniversiteit Groningen (<a href="mailto:privacy@rug.nl">privacy@rug.nl</a>).
-    Als onderzoekdeelnemer heeft u recht op een kopie van deze onderzoek informatie. U kunt de informatie hier {link naar FAQ} terugvinden. 
+    Als onderzoekdeelnemer heeft u recht op een kopie van deze onderzoek informatie. U kunt de informatie hier {link naar FAQ} terugvinden.
   </p>
 </div>
 END
@@ -72,9 +71,9 @@ Ik geef hierbij toestemming voor het gebruik van de geanonimiseerde gegevens van
     type: :checkbox,
     required: false,
     title: '',
-    options:[{ title: 'Jullie mogen contact met mij opnemen voor vervolgonderzoek waarna ik zelf zal bepalen of mijn kind daaraan mee mag doen.'}],
+    options:[{ title: '(optioneel) Jullie mogen contact met mij opnemen voor vervolgonderzoek waarna ik zelf zal bepalen of mijn kind daaraan mee mag doen.'}],
     show_otherwise: false
-    },{  
+    },{
     type: :raw,
     content: ic_footer
   }

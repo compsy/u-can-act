@@ -65,13 +65,6 @@ dagboek_content = [
     ],
     show_otherwise: false
   }, {
-    id: :v2,
-    type: :checkbox,
-    required: false,
-    title: '',
-    options: [{ title: '(optioneel) Ik geef hierbij toestemming om in de toekomst opnieuw benaderd te worden voor eventueel vervolgonderzoek. Ik kan dan opnieuw kiezen of ik deel wil nemen.' }],
-    show_otherwise: false
-  }, {
     type: :raw,
     content: ic_footer
   }

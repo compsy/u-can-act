@@ -67,13 +67,6 @@ Ik geef hierbij toestemming voor het gebruik van de geanonimiseerde gegevens van
               }],
     show_otherwise: false
   }, {
-    id: :v2,
-    type: :checkbox,
-    required: false,
-    title: '',
-    options: [{ title: '(optioneel) Jullie mogen contact met mij opnemen voor vervolgonderzoek waarna ik zelf zal bepalen of mijn kind daaraan mee mag doen.' }],
-    show_otherwise: false
-  }, {
     type: :raw,
     content: ic_footer
   }

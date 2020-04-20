@@ -140,18 +140,14 @@ Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheu
   },{
     section_start: 'Tot slot: Digitale nieuwsbrief & vervolgonderzoek',
     id: :v10,
-    type: :checkbox,
+    type: :radio,
     title: 'Ieder Kind is Anders verstuurt 4x per jaar een nieuwsbrief via e-mail. Hierin delen we het laatste nieuws en de resultaten van het onderzoek. Wilt u deze nieuwsbrief ontvangen?',   
-    options: [{title: 'Ja, ik wil de nieuwsbrief ontvangen'}, {title: 'Nee, ik heb geen interesse'}],
-    show_otherwise: false,
-    required: true
+    options: [{title: 'Ja, ik wil de nieuwsbrief ontvangen'}, {title: 'Nee, ik heb geen interesse'}]
  },{
    id: :v11,
-   type: :checkbox,
+   type: :radio,
    title: 'Mogen we u na afloop van Ieder Kind is Anders eventueel benaderen voor vervolgonderzoek? Voordat u hieraan deel zou nemen krijgt u uiteraard informatie over de studie en wordt opnieuw toestemming gevraagd.',
    options: [{title: 'Ja, jullie mogen mij benaderen voor vervolgonderzoek'}, {title: 'Nee, ik heb geen interesse'}],
-   show_otherwise: false,
-   required: true,
    section_end: true
    }
 ]

@@ -85,13 +85,6 @@ dagboek_content = [
     ],
     show_otherwise: false
   }, {
-    id: :v2,
-    type: :checkbox,
-    required: false,
-    title: '',
-    options: ['(optioneel) Jullie mogen contact met me opnemen voor vervolgonderzoek waarna ik zelf zal bepalen of ik daaraan mee wil doen.'],
-    show_otherwise: false
-  }, {
     type: :raw,
     content: ic_footer
   }

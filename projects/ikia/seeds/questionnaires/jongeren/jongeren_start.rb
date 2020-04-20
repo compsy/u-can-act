@@ -96,18 +96,14 @@ dagboek_content = [
     },{
     section_start: 'Tot slot: Digitale nieuwsbrief & vervolgonderzoek',
     id: :v10,
-    type: :checkbox,
+    type: :radio,
     title: 'Ieder Kind is Anders verstuurt 4x per jaar een nieuwsbrief via e-mail. Hierin delen we het laatste nieuws en de resultaten van het onderzoek. Wil je deze nieuwsbrief ontvangen?',   
-    options: [{title: 'Ja, ik wil de nieuwsbrief ontvangen'}, {title: 'Nee, ik heb geen interesse'}],
-    show_otherwise: false,
-    required: true
+    options: [{title: 'Ja, ik wil de nieuwsbrief ontvangen'}, {title: 'Nee, ik heb geen interesse'}]
  },{
    id: :v11,
-   type: :checkbox,
+   type: :radio,
    title: 'Mogen we je na afloop van Ieder Kind is Anders uitnodigen voor vervolgonderzoek? Je krijgt dan natuurlijk eerst informatie over het onderzoek waarna je kunt beslissen of je mee wilt doen.',
    options: [{title: 'Ja, jullie mogen mij uitnodigen voor vervolgonderzoek'}, {title: 'Nee, ik heb geen interesse'}],
-   show_otherwise: false,
-   required: true,
    section_end: true
    }
 ]

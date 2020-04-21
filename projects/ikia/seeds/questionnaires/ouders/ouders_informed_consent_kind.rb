@@ -40,7 +40,7 @@ ic_content = <<~'END'
       Als u vragen of zorgen heeft over de
       privacy van uzelf of uw kind en de omgang met persoonsgegevens dan kunt u contact opnemen met de Functionaris
       Gegevensbescherming van de Rijksuniversiteit Groningen (<a href="mailto:privacy@rug.nl">privacy@rug.nl</a>).
-      Als onderzoekdeelnemer heeft u recht op een kopie van deze onderzoek informatie. U kunt de informatie hier {link naar FAQ} terugvinden.
+      Als onderzoekdeelnemer heeft u recht op een kopie van deze onderzoek informatie. U kunt de informatie <a href="https://app.iederkindisanders.nl/ouders/veelgestelde-vragen" target="_blank" rel="noopener noreferrer">hier</a> terugvinden.
     </p>
   </div>
 END

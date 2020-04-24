@@ -58,7 +58,7 @@ ic_content = <<~'END'
       via <a href="mailto:iederkindisanders@rug.nl">iederkindisanders@rug.nl</a>. Als onderzoekdeelnemer heb je recht op
       een
       kopie van deze onderzoek informatie, en je kunt dit ook altijd nalezen bij
-      de <a href="https://app.iederkindisanders.nl/jongeren/veelgestelde-vragen" rel="noreferrer noopener"
+      de <a href="https://iederkindisanders.nl/jongeren/veelgestelde-vragen" rel="noreferrer noopener"
             target="_blank">veelgestelde vragen</a>.
     </p>
   </div>

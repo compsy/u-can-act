@@ -14,6 +14,12 @@ dagboek_content = [
     title: 'Ik voel me op dit moment...',
     section_end: false
   }, {
+    id: :v1b,
+    type: :range,
+    title: 'Hoe sterk voel je dit?',
+    labels: ['Helemaal niet', 'Heel erg'],
+    required: true
+  },{   
     id: :v2,
     type: :radio,
     show_otherwise: false,
@@ -223,7 +229,7 @@ dagboek_content = [
 Dit mag per antwoord verschillend zijn.',
     id: :v23,
     type: :range,
-    title: 'We hebben vandaag iets leuks gedaan.',
+    title: 'We hebben vandaag samen iets leuks gedaan.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true,
     section_end: false

@@ -22,10 +22,10 @@
         .col.s12
           .section
             %h4 Ieder Kind Is Anders
-            %p= "Aantal geregistreerde ouders: #{Person.where(account_active: true, role_id: Role.find_by(title: 'parents').id).count}"
-            %p= "Aantal geregistreerde kinderen: #{Person.where(account_active: true, role_id: Role.find_by(title: 'kids').id).count}"
-            %p= "Aantal geregistreerde jongeren 12-15: #{Person.where(account_active: true, role_id: Role.find_by(title: 'teens').id).count}"
-            %p= "Aantal geregistreerde jongeren 16-18: #{Person.where(account_active: true, role_id: Role.find_by(title: 'youngadults').id).count}"
+            %p= "Aantal geregistreerde ouders: #{Person.where(account_active: true, role_id: Role.find_by(title: 'parents')&.id).count}"
+            %p= "Aantal geregistreerde kinderen: #{Person.where(account_active: true, role_id: Role.find_by(title: 'kids')&.id).count}"
+            %p= "Aantal geregistreerde jongeren 12-15: #{Person.where(account_active: true, role_id: Role.find_by(title: 'teens')&.id).count}"
+            %p= "Aantal geregistreerde jongeren 16-18: #{Person.where(account_active: true, role_id: Role.find_by(title: 'youngadults')&.id).count}"
       .col.s12
         .section
           = react_component('admin_page_components/Statistics')

@@ -4,11 +4,12 @@
     .admin-interface
       .col.s12
         %h1 Dashboard
-      .col.s12
-        .section
-          %h4 Reward Money
-          %p= "Total earned so far: #{print_as_money(Reward.total_earned_euros)}"
-          %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
+      - if Reward.total_earned_euros.positive? || Reward.max_still_earnable_euros.positive?
+        .col.s12
+          .section
+            %h4 Reward Money
+            %p= "Total earned so far: #{print_as_money(Reward.total_earned_euros)}"
+            %p= "Can still be earned: #{print_as_money(Reward.max_still_earnable_euros)}"
       - if Rails.application.config.settings.application_name == 'u-can-act' # vieze hack
         .col.s12
           .section
@@ -17,6 +18,14 @@
             %p= "Aantal keren informed consent geaccepteerd: #{Protocol.find_by_name('evaluatieonderzoek')&.protocol_subscriptions&.where('informed_consent_given_at IS NOT NULL')&.count}"
             %p= "Aantal keren vragenlijst is ingevuld: #{Measurement.find_by_questionnaire_id(Questionnaire.find_by_name('evaluatieonderzoek')&.id)&.responses&.where('completed_at IS NOT NULL')&.count}"
             %p= "Aantal keren emailadres & ip opgegeven: #{Person.where('email IS NOT NULL AND ip_hash IS NOT NULL').count}"
+      - if Rails.application.config.settings.application_name == 'ikia' # vieze hack
+        .col.s12
+          .section
+            %h4 Ieder Kind Is Anders
+            %p= "Aantal geregistreerde ouders: #{Person.where(account_active: true, role_id: Role.find_by(title: 'parents').id).count}"
+            %p= "Aantal geregistreerde kinderen: #{Person.where(account_active: true, role_id: Role.find_by(title: 'kids').id).count}"
+            %p= "Aantal geregistreerde jongeren 12-15: #{Person.where(account_active: true, role_id: Role.find_by(title: 'teens').id).count}"
+            %p= "Aantal geregistreerde jongeren 16-18: #{Person.where(account_active: true, role_id: Role.find_by(title: 'youngadults').id).count}"
       .col.s12
         .section
           = react_component('admin_page_components/Statistics')

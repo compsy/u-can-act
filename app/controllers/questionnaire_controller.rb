@@ -22,6 +22,7 @@ class QuestionnaireController < ApplicationController
   before_action :check_interactive_content, only: %i[interactive_render]
   before_action :set_interactive_content, only: %i[interactive_render]
   before_action :verify_interactive_content, only: %i[interactive_render]
+  before_action :set_default_content, only: %i[interactive]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
@@ -33,9 +34,7 @@ class QuestionnaireController < ApplicationController
     redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: @response
   end
 
-  def interactive
-    @default_content = ''
-  end
+  def interactive; end
 
   # This method is used to post results from the interactive questionnaire previewer
   def from_json
@@ -355,5 +354,13 @@ class QuestionnaireController < ApplicationController
 
   def answer_within_limits?(key, value)
     key.to_s.size <= MAX_ANSWER_LENGTH && value.to_s.size <= MAX_ANSWER_LENGTH
+  end
+
+  def set_default_content
+    @default_content = ''
+    @default_content = Base64.strict_decode64(params['content']) if params['content']
+  rescue ArgumentError => e
+    # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
+    raise e if e.message != 'invalid base64'
   end
 end

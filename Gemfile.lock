@@ -288,7 +288,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     parallel (1.19.1)
-    parser (2.7.1.1)
+    parser (2.7.1.2)
       ast (~> 2.4.0)
     pg (1.1.4)
     platform-api (2.2.0)
@@ -415,7 +415,7 @@ GEM
       activesupport
       rack (>= 1.1)
       rubocop (>= 0.72.0)
-    rubocop-rspec (1.38.1)
+    rubocop-rspec (1.39.0)
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)

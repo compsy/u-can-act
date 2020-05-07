@@ -284,6 +284,7 @@ Dit mag per antwoord verschillend zijn.',
     section_end: false
   }, {
     id: :v30a,
+    hidden: true,
     type: :checkbox,
     title: 'Was dit in het echt of online (bijvoorbeeld via Whatsapp of Zoom)?',
     options: ['In het echt', 'Online'],

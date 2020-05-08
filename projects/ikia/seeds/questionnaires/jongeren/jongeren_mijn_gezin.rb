@@ -537,7 +537,7 @@ Kies 1 van de 5 plaatjes',
       },{
         id: :v21a,
         hidden: true,
-        type: :radio,
+        type: :checkbox,
         title: 'Wie is deze persoon?',
         options: ['Mijn ouder(s)', 'Mijn broer(tje) of zus(je)','Mijn opa of oma', 'Een ander familielid', 'Een vriend(in)', 'Mijn leraar/lerares'],
         show_otherwise: true,

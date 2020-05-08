@@ -8,7 +8,7 @@ dagboek1.name = db_name1
 
 dagboek_content = [
   {
-    section_start: '<strong>De volgende vragen gaan over hoe u zich op dit moment voelt:</strong>',
+    section_start: '<strong>Hoe voelt u zich op dit moment?</strong>',
     id: :v1,
     type: :range,
     title: 'Trots',
@@ -163,21 +163,29 @@ dagboek_content = [
     required: true
   }, {
     id: :v20,
+    type: :checkbox,
+    title: 'Waar had deze gebeurtenis mee te maken?',
+    options: ['Met mijzelf', 'Met mijn partner', 'Met mijn kind(eren)', 'Met mijn baan', 'Met iets op het nieuws/in de krant', 'Met het coronavirus', 'Met onbekenden'],
+    show_otherwise: true,
+    otherwise_label: 'Met iets anders, namelijk:',
+    required: true
+    },{    
+    id: :v21,
     type: :radio,
     title: 'Heeft u met iemand over deze gebeurtenis gepraat?',
     options: [
-      { title: 'Nee, met niemand', shows_questions: %i[v20b] },
-      { title: 'Ja, met mijn partner', shows_questions: %i[v20a] },
-      { title: 'Ja, met een vriend(in)', shows_questions: %i[v20a] },
-      { title: 'Ja, met een collega', shows_questions: %i[v20a] },
-      { title: 'Ja, met mijn kind', shows_questions: %i[v20a] },
-      { title: 'Ja, met iemand anders', shows_questions: %i[v20a] }],
+      { title: 'Nee, met niemand', shows_questions: %i[v21b] },
+      { title: 'Ja, met mijn partner', shows_questions: %i[v21a] },
+      { title: 'Ja, met een vriend(in)', shows_questions: %i[v21a] },
+      { title: 'Ja, met een collega', shows_questions: %i[v21a] },
+      { title: 'Ja, met mijn kind', shows_questions: %i[v21a] },
+      { title: 'Ja, met iemand anders', shows_questions: %i[v21a] }],
     show_otherwise: false
   }, {
-    id: :v20a,
+    id: :v21a,
     hidden: true,
     type: :checkbox,
-    title: 'Hoe reageerde deze persoon toen je over de gebeurtenis vertelde?',
+    title: 'Hoe reageerde deze persoon toen u over de gebeurtenis vertelde?',
     options: [
       { title: 'Hij/zij werd boos' },
       { title: 'Hij/zij vond het niet belangrijk' },
@@ -189,7 +197,7 @@ dagboek_content = [
     otherwise_label: 'Anders, namelijk',
     tooltip: 'Meerdere antwoorden mogelijk'
   }, {
-    id: :v20b,
+    id: :v21b,
     type: :range,
     hidden: true,
     title: 'Had u wel met iemand over deze gebeurtenis willen praten?',
@@ -199,19 +207,19 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text">In hoeverre had deze gebeurtenis (of uw gevoelens of gedachten erover) invloed op...</p>'
   }, {
-    id: :v21,
+    id: :v22a,
     type: :range,
     title: '...uw geduld met uw kind?',
     labels: ['Ik had veel minder geduld dan normaal', 'Geen invloed', 'Ik had veel meer geduld dan normaal'],
     required: true
   }, {
-    id: :v22,
+    id: :v22b,
     type: :range,
     title: '...uw aandacht of tijd voor uw kind?',
     labels: ['Ik had veel minder aandacht dan normaal', 'Geen invloed', 'Ik had veel meer aandacht dan normaal'],
     required: true
   }, {
-    id: :v23,
+    id: :v22c,
     type: :range,
     title: '...hoeveel plezier u beleefde aan het contact met uw kind?',
     labels: ['Ik beleefde veel minder plezier aan ons contact', 'Geen invloed', 'Ik beleefde veel meer plezier aan ons contact'],
@@ -219,92 +227,92 @@ dagboek_content = [
     section_end: true
   }, {
     section_start: 'Hoe denkt u dat uw kind zich vandaag voelde?',
-    id: :v24,
+    id: :v23,
     type: :range,
     title: 'Trots',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true,
     section_end: false
   }, {
-    id: :v25,
+    id: :v24,
     type: :range,
     title: 'Boos',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v26,
+    id: :v25,
     type: :range,
     title: 'Tevreden',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v27,
+    id: :v26,
     type: :range,
     title: 'Beschaamd',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v28,
+    id: :v27,
     type: :range,
     title: 'Vol energie',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v29,
+    id: :v28,
     type: :range,
     title: 'Vrolijk',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v30,
+    id: :v29,
     type: :range,
     title: 'Verdrietig',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v31,
+    id: :v30,
     type: :range,
     title: 'Bang',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v32,
+    id: :v31,
     type: :range,
     title: 'Gelukkig',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v33,
+    id: :v32,
     type: :range,
     title: 'Eenzaam',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v34,
+    id: :v33,
     type: :range,
     title: 'Zenuwachtig',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v35,
+    id: :v34,
     type: :range,
     title: 'Geliefd',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v36,
+    id: :v35,
     type: :range,
     title: 'Gestrest',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v37,
+    id: :v36,
     type: :range,
     title: 'Ontspannen',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v38,
+    id: :v37,
     type: :range,
     title: 'Geïrriteerd',
     labels: ['Helemaal niet', 'Heel erg'],
@@ -323,14 +331,15 @@ dagboek_content = [
     section_end: false
   }, {
     id: :v39a,
-    type: :radio,
+    type: :checkbox,
     hidden: true,
     title: 'Waar had deze gebeurtenis mee te maken?',
     options: [
       { title: 'Met hem/haarzelf' },
       { title: 'Met zijn haar vriend(en) of vriendin(nen)' },
       { title: 'Met iets dat op school gebeurd is' },
-      { title: 'Met zijn/haar ouders of familie' }],
+      { title: 'Met zijn/haar ouders of familie' },
+      {title: 'Met het coronavirus'}],
     show_otherwise: true
   }, {
     id: :v40,
@@ -340,36 +349,41 @@ dagboek_content = [
     required: true
   }, {
     id: :v41,
+    type: :radio,
+    title: 'Mijn kind is vandaag naar school geweest.',
+    options: ['Ja', 'Nee'],
+    },{
+   id: :v42,
     type: :range,
     title: 'Mijn kind was vandaag gemakkelijk in de omgang.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v42,
+    id: :v43,
     type: :range,
     title: 'Mijn kind was vandaag overstuur.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v43,
+    id: :v44,
     type: :range,
     title: 'Mijn kind maakte zich vandaag zorgen.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v44,
+    id: :v45,
     type: :range,
     title: 'Mijn kind had vandaag lichamelijk ongemak (bijv. misselijk, pijn, duizelig).',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v45,
+    id: :v46,
     type: :range,
     title: 'Mijn kind heeft de afgelopen nacht goed geslapen.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v46,
+    id: :v47,
     type: :range,
     title: 'Mijn kind heeft vandaag goed gegeten.',
     labels: ['Helemaal niet', 'Heel erg'],
@@ -377,50 +391,50 @@ dagboek_content = [
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over u en uw kind:',
-    id: :v47,
+    id: :v48,
     type: :range,
     title: 'Bent u tevreden met hoeveel tijd u vandaag samen met uw kind bent geweest?',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true,
     section_end: false
   }, {
-    id: :v48,
+    id: :v49,
     type: :range,
     title: 'Ik had vandaag ruzie met mijn kind.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v49,
+    id: :v50,
     type: :range,
     title: 'Ik ben vandaag boos geworden op mijn kind.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
-    id: :v50,
+    id: :v51,
     type: :range,
     title: 'Ik heb vandaag iets leuks gedaan met mijn kind (bijv. lezen, voetballen, muziek maken, koekjes bakken)',
     labels: ['Helemaal niet', 'Heel veel'],
     required: true
   }, {
-    id: :v51,
+    id: :v52,
     type: :range,
     title: 'Ik heb mijn kind vandaag getroost.',
     labels: ['Helemaal niet', 'Heel veel'],
     required: true
   }, {
-    id: :v52,
+    id: :v53,
     type: :range,
     title: 'Mijn kind en ik hebben elkaar vandaag geknuffeld.',
     labels: ['Helemaal niet', 'Heel veel'],
     required: true
   }, {
-    id: :v53,
+    id: :v55,
     type: :range,
     title: 'Ik heb me vandaag zorgen gemaakt over mijn kind.',
     labels: ['Helemaal niet', 'Heel veel'],
     required: true
   }, {
-    id: :v54,
+    id: :v56,
     type: :range,
     title: 'Ik moest vandaag mijn plannen veranderen vanwege het gedrag of de emoties van mijn kind.',
     labels: ['Helemaal niet', 'Heel erg'],
@@ -428,14 +442,14 @@ dagboek_content = [
     section_end: true
   }, {
     section_start: 'Tot slot...',
-    id: :v55,
+    id: :v57,
     type: :range,
     title: 'Vandaag was een leuke dag.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true,
     section_end: false
   }, {
-    id: :v56,
+    id: :v568,
     type: :range,
     title: 'Ik kijk uit naar morgen.',
     labels: ['Helemaal niet', 'Heel erg'],

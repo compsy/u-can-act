@@ -9,7 +9,7 @@ class QuestionnaireController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
   before_action :set_response, only: %i[show preference destroy]
-  before_action :set_locale, only: %[show]
+  before_action :set_locale, only: %i[show]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]

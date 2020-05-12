@@ -8,10 +8,17 @@ class QuestionnaireGenerator
   end
 
   # rubocop:disable Metrics/ParameterLists
-  def generate_questionnaire(response_id:, content:, title:, submit_text:, action:, unsubscribe_url:, params: {})
+  # rubocop:disable Metrics/AbcSize
+  def generate_questionnaire(response_id:, content:, title:, submit_text:,
+                             action:, unsubscribe_url:, locale:, params: {})
     params[:response_id] = response_id
+    params['content[locale]'] = locale
     response = Response.find_by(id: response_id) # allow nil response id for preview
-    raw_content = content[:questions].deep_dup
+    raw_content = QuestionnaireTranslator.translate_content(content[:questions].deep_dup, 'i18n')
+    # Translate a second time to get rid of any remaining translation hashes because the i18n translation is optional
+    raw_content = QuestionnaireTranslator.translate_content(raw_content,
+                                                            Rails.application.config.i18n.default_locale.to_s)
+    content = QuestionnaireTranslator.translate_content(content, locale)
     title = substitute_variables(response, title).first
     body = safe_join([
                        questionnaire_header(title),
@@ -23,6 +30,7 @@ class QuestionnaireGenerator
     body
   end
   # rubocop:enable Metrics/ParameterLists
+  # rubocop:enable Metrics/AbcSize
 
   def generate_hash_questionnaire(response_id, content, title)
     response = Response.find_by(id: response_id) # allow nil response id for preview

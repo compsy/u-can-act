@@ -88,6 +88,7 @@ class AdminController < ApplicationController
       submit_text: 'Opslaan',
       action: '/admin/preview_done',
       unsubscribe_url: nil,
+      locale: Rails.application.config.i18n.default_locale.to_s,
       params: { authenticity_token: form_authenticity_token(form_options: { action: '/admin/preview_done',
                                                                             method: 'post' }) }
     )

@@ -193,6 +193,20 @@ form .likert-scale {
   }
 }
 
+// Fix range labels leaping off the screen
+.range-container + .row {
+  .col {
+    overflow: hidden;
+  }
+}
+h4, h5, .flow-text {
+  overflow: hidden;
+}
+
+input:not([type]).validate + label, input[type=text]:not(.browser-default).validate + label, input[type=password]:not(.browser-default).validate + label, input[type=email]:not(.browser-default).validate + label, input[type=url]:not(.browser-default).validate + label, input[type=time]:not(.browser-default).validate + label, input[type=date]:not(.browser-default).validate + label, input[type=datetime]:not(.browser-default).validate + label, input[type=datetime-local]:not(.browser-default).validate + label, input[type=tel]:not(.browser-default).validate + label, input[type=number]:not(.browser-default).validate + label, input[type=search]:not(.browser-default).validate + label, textarea.materialize-textarea.validate + label {
+  width: calc(100% - 1.5rem);
+}
+
 // Fix i'tjes being on a new line
 p.option-label, div.otherwise-textfield {
   padding-left: 35px;

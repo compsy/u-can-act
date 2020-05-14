@@ -48,7 +48,7 @@ class QuestionnaireController < ApplicationController
       response_id: nil,
       content: @raw_questionnaire_content,
       title: 'Test questionnaire',
-      submit_text: 'Opslaan',
+      submit_text: (Rails.application.config.i18n.default_locale.to_s == 'en' ? 'Save' : 'Opslaan'),
       action: '/questionnaire/from_json',
       unsubscribe_url: nil,
       locale: Rails.application.config.i18n.default_locale.to_s
@@ -282,7 +282,7 @@ class QuestionnaireController < ApplicationController
       response_id: @response.id,
       content: @response.measurement.questionnaire.content,
       title: @response.measurement.questionnaire.title,
-      submit_text: 'Opslaan',
+      submit_text: (@response.person.locale == 'en' ? 'Save' : 'Opslaan'),
       action: '/',
       unsubscribe_url: @response.unsubscribe_url,
       locale: @response.person.locale,

@@ -57,7 +57,7 @@ describe AdminHelper do
       expect(helper.questionnaire_select_options(questionnaires)).to eq expected
     end
     it 'works with an empty list' do
-      expect(helper.questionnaire_select_options([])).to eq [['Selecteer een vragenlijst...', '']]
+      expect(helper.questionnaire_select_options([])).to eq [['Select a questionnaire...', '']]
     end
   end
 end

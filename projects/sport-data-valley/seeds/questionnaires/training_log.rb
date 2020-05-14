@@ -11,8 +11,8 @@ dagboek_content = [
   {
     type: :raw,
     content: {
-      nl: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:100%; max-width: 500px" class="questionnaire-image" />',
-      en: '<p class="flow-text">Feedback on the training session</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:100%; max-width: 500px" class="questionnaire-image" />'
+      nl: '<p class="flow-text">Feedback op de trainingssessie</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:100%" class="questionnaire-image" />',
+      en: '<p class="flow-text">Feedback on the training session</p><br><img src="/sport-data-valley/training_log_header.jpg" style="width:100%" class="questionnaire-image" />'
     }
   },
   {

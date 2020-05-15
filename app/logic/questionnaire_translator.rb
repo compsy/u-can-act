@@ -23,12 +23,8 @@ class QuestionnaireTranslator
         end
         return content
       end
-      if content.is_a?(Array)
-        content.each_with_index do |value, idx|
-          content[idx] = translate_content_aux(value)
-        end
-        return content
-      end
+      return content.map { |value| translate_content_aux(value) } if content.is_a?(Array)
+
       content
     end
   end

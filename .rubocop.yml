@@ -32,6 +32,12 @@ Rails/Blank:
 Layout/LineLength:
   Max: 120
 
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
 Layout/EndOfLine:
   EnforcedStyle: lf
 

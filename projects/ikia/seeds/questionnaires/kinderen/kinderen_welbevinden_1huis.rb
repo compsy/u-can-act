@@ -2,13 +2,13 @@
 
 db_title = 'Leefplezier'
 db_name1 = 'Welbevinden_Kinderen_1huis'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
+    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer 10 minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
   }, {
     section_start: 'Type je antwoorden op de volgende vragen in de tekstvelden. Je mag zoveel typen als je wilt.',
     id: :v1,
@@ -22,7 +22,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je leven in het algemeen. Verplaats het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'De volgende vragen gaan over je leven in het algemeen. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v3,
     type: :range,
     title: 'Ik heb een goed leven.',
@@ -67,7 +67,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je thuis:',
+    section_start: 'De volgende vragen gaan over je thuis. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v10_1,
     type: :range,
     title: 'Ik geniet ervan om thuis te zijn.',
@@ -117,14 +117,14 @@ dagboek_content = [
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true
   }, {
-    id: :v10_10,
+    id: :v10_9,
     type: :range,
     title: 'Er zijn leuke dingen te doen waar ik woon.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over je vrienden en vriendinnen:',
+    section_start: 'De volgende vragen gaan over je vrienden en vriendinnen. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v11,
     type: :range,
     title: 'Mijn vrienden zijn aardig tegen mij.',
@@ -163,7 +163,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over school:',
+    section_start: 'De volgende vragen gaan over school. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v17,
     type: :range,
     title: 'Ik heb vaak zin om naar school te gaan.',
@@ -202,7 +202,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over jezelf:',
+    section_start: 'De volgende vragen gaan over jezelf. Bedenk bij elke zin hoe waar deze is voor jou. Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v23,
     type: :range,
     title: 'Ik voel me goed over mezelf.',
@@ -248,6 +248,25 @@ dagboek_content = [
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Thuis',
+      ids: %i[v10_1 v10_2 v10_3 v10_4 v10_5 v10_6 v10_7 v10_8 v10_9],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Op school',
+      ids: %i[v17 v18 v19 v20 v21 v22],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Vrienden',
+      ids: %i[v11 v12 v13 v14 v15 v16],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

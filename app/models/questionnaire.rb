@@ -1,7 +1,16 @@
 # frozen_string_literal: true
 
 class Questionnaire < ApplicationRecord
+  include ConversionHelper
   KNOWN_OPERATIONS = %i[average].freeze
+  OPTIONS_REQUIRED_FOR = %i[checkbox likert radio dropdown].freeze
+
+  # This is an ordered array of known preprocessing steps
+  PREPROCESSING_STEPS = [
+    { name: :multiply_with, method: :* },
+    { name: :offset, method: :+ }
+  ].freeze
+  PREPROCESSING_STEP_NAMES = PREPROCESSING_STEPS.map { |step| step[:name] }.freeze
 
   validates :name, presence: true, uniqueness: true
   validates :content, presence: true
@@ -11,6 +20,8 @@ class Questionnaire < ApplicationRecord
   with_options if: :content_has_questions do
     validate :all_questions_have_types
     validate :all_questions_have_titles
+    validate :all_shows_questions_ids_valid
+    validate :all_hides_questions_ids_valid
     validate :all_questions_have_ids
     validate :all_ranges_have_labels
     validate :all_likert_radio_checkbox_dropdown_have_options
@@ -19,6 +30,8 @@ class Questionnaire < ApplicationRecord
     validate :all_scores_have_required_atributes
     validate :all_scores_have_nonempty_ids
     validate :all_scores_have_known_operations
+    validate :all_scores_have_valid_ids_in_preprocessing
+    validate :all_scores_have_valid_preprocessing
   end
   with_options if: :content_has_questions_and_scores do
     validate :all_content_ids_unique
@@ -87,9 +100,8 @@ class Questionnaire < ApplicationRecord
   def all_content_ids_unique
     question_ids = content[:questions].map { |entry| entry[:id] }
     score_ids = content[:scores].map { |entry| entry[:id] }
-    ids = question_ids + score_ids
+    ids = (question_ids + score_ids).compact
     result = ids.detect { |entry| ids.count(entry) > 1 }
-
     return if result.blank?
 
     errors.add(:content, "can only have a series of unique ids: #{result}")
@@ -109,6 +121,26 @@ class Questionnaire < ApplicationRecord
     return if result.blank?
 
     errors.add(:content, "the following questions are missing the required :title attribute: #{result.pretty_inspect}")
+  end
+
+  def all_shows_questions_ids_valid
+    result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
+                                .reject { |question| valid_option_ids?(question, :shows_questions, [true]) }
+                                .map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content,
+               "the following questions have invalid ids in a shows_questions option: #{result.pretty_inspect}")
+  end
+
+  def all_hides_questions_ids_valid
+    result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
+                                .reject { |question| valid_option_ids?(question, :hides_questions, nil) }
+                                .map { |question| question[:id] }
+    return if result.blank?
+
+    errors.add(:content,
+               "the following questions have invalid ids in a hides_questions option: #{result.pretty_inspect}")
   end
 
   def all_questions_have_ids
@@ -131,8 +163,7 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_likert_radio_checkbox_dropdown_have_options
-    options_required_for = %i[checkbox likert radio dropdown]
-    result = content[:questions].select { |question| options_required_for.include?(question[:type]&.to_sym) }
+    result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
                                 .reject { |question| non_empty_array?(question, :options) }
                                 .map { |question| question[:id] }
     return if result.blank?
@@ -143,6 +174,16 @@ class Questionnaire < ApplicationRecord
 
   def non_empty_array?(question, attr)
     question.key?(attr) && question[attr].is_a?(Array) && question[attr].size.positive?
+  end
+
+  def valid_option_ids?(question, option_attr, hidden_values)
+    allowed_ids = content[:questions].select { |quest| hidden_values.blank? || hidden_values.include?(quest[:hidden]) }
+                                     .map { |quest| quest[:id] }.compact
+    question[:options].each do |option|
+      next unless option.is_a?(Hash) && option[option_attr].present?
+      return false if (option[option_attr] - allowed_ids).size.positive?
+    end
+    true
   end
 
   def all_scores_have_required_atributes
@@ -183,5 +224,30 @@ class Questionnaire < ApplicationRecord
     return if result.blank?
 
     errors.add(:content, "the following scores have an unknown operation: #{result.pretty_inspect}")
+  end
+
+  def all_scores_have_valid_ids_in_preprocessing
+    result = content[:scores]
+             .select { |score| score.key?(:preprocessing) }
+             .select { |score| (score[:preprocessing].keys - (score[:ids] || [])).present? }
+             .map { |score| score[:label] || score[:id] }
+    return if result.blank?
+
+    errors.add(:content, "the following scores have invalid ids in preprocessing steps: #{result.pretty_inspect}")
+  end
+
+  def all_scores_have_valid_preprocessing
+    result = content[:scores]
+             .select { |score| score.key?(:preprocessing) }
+             .reject { |score| only_valid_preprocessing_steps?(score[:preprocessing]) }
+             .map { |score| score[:label] || score[:id] }
+    return if result.blank?
+
+    errors.add(:content, "the following scores have invalid preprocessing steps: #{result.pretty_inspect}")
+  end
+
+  def only_valid_preprocessing_steps?(score_preprocessing)
+    (score_preprocessing.values.map(&:keys).flatten.uniq.map(&:to_sym) - PREPROCESSING_STEP_NAMES).blank? &&
+      score_preprocessing.values.map(&:values).flatten.uniq.reject { |value| str_or_num_to_num(value).present? }.blank?
   end
 end

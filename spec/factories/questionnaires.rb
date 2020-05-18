@@ -163,7 +163,10 @@ FactoryBot.define do
     trait :minimal do
       content do
         {
-          questions: [{ type: :raw, content: '<p>Hoihoihoi</p>' }],
+          questions: [
+            { type: :raw, content: '<p>Hoihoihoi</p>' },
+            { type: :checkbox, id: :v1, title: 'Tick this box?', options: %w[Yes No] }
+          ],
           scores: []
         }
       end

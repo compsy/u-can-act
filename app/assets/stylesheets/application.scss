@@ -61,6 +61,8 @@ $u-can-act-orange: #ed5800;
 $u-can-act-grey: #99b5cd;
 $u-can-act-light-grey: #f6f6f6;
 
+$unchanged-range-thumb: #c2c0c2;
+
 .accent-color-text {
   color: $u-can-act-green;
 }
@@ -221,4 +223,14 @@ body {
   width: 20%;
   margin: auto;
   display: block;
+}
+
+.informed-consent {
+  p, ul {
+    @extend .flow-text;
+  }
+  li {
+    margin-bottom: 0.75rem;
+    list-style-type: disc !important;
+  }
 }

@@ -6,9 +6,10 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include Concerns::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
-  skip_before_action :verify_authenticity_token, only: %i[interactive_render]
+  skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
-  before_action :set_response, only: %i[show destroy]
+  before_action :set_response, only: %i[show preference destroy]
+  before_action :set_locale, only: %i[show]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]
@@ -16,17 +17,30 @@ class QuestionnaireController < ApplicationController
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
   before_action :set_create_response, only: %i[create create_informed_consent]
+  before_action :check_opened_at, only: [:create]
+  before_action :check_content_empty, only: [:create]
   before_action :check_content_hash, only: [:create]
   before_action :check_interactive_content, only: %i[interactive_render]
   before_action :set_interactive_content, only: %i[interactive_render]
   before_action :verify_interactive_content, only: %i[interactive_render]
+  before_action :set_default_content, only: %i[interactive]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
-  def interactive
-    @default_content = ''
+  # Allows users to be redirected to the correct questionnaire with preference
+  # for a certain response
+  def preference
+    redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: @response
+  end
+
+  def interactive; end
+
+  # This method is used to post results from the interactive questionnaire previewer
+  def from_json
+    flash[:success] = 'Success! If this were an actual questionnaire, your response would have been saved.'
+    redirect_to :interactive_questionnaire_index
   end
 
   def interactive_render
@@ -34,9 +48,10 @@ class QuestionnaireController < ApplicationController
       response_id: nil,
       content: @raw_questionnaire_content,
       title: 'Test questionnaire',
-      submit_text: 'Opslaan',
-      action: '/api/v1/questionnaire/from_json',
-      unsubscribe_url: nil
+      submit_text: (Rails.application.config.i18n.default_locale.to_s == 'en' ? 'Save' : 'Opslaan'),
+      action: '/questionnaire/from_json',
+      unsubscribe_url: nil,
+      locale: Rails.application.config.i18n.default_locale.to_s
     )
 
     render 'questionnaire/show', layout: nil
@@ -77,6 +92,15 @@ class QuestionnaireController < ApplicationController
   end
 
   private
+
+  def set_locale
+    person = current_user
+    I18n.locale = if person
+                    person.locale
+                  else
+                    I18n.default_locale
+                  end
+  end
 
   def check_interactive_content
     return unless params.blank? || params[:content].blank?
@@ -169,7 +193,10 @@ class QuestionnaireController < ApplicationController
   def stop_protocol_subscription
     @response.protocol_subscription.cancel!
     check_to_send_confirmation_email if ENV['PROJECT_NAME'] == 'Evaluatieonderzoek'
-    flash[:notice] = stop_protocol_subscription_notice
+    # If we have a callback_url, we will redirect to it, which means the flash hash is never read out
+    # until the next time that we fill out a questionnaire, and then it says "thanks for unsubscribing", which is weird.
+    # Hence, don't set a flash notice if we have a callback_url.
+    flash[:notice] = stop_protocol_subscription_notice unless params[:callback_url].present?
     Rails.logger.info "[Info] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."
   end
@@ -197,6 +224,20 @@ class QuestionnaireController < ApplicationController
              layout: 'application')
       break
     end
+  end
+
+  def check_content_empty
+    quest_content = questionnaire_content
+    return if quest_content.present? && (quest_content.keys - [Response::CSRF_FAILED]).present?
+
+    render(status: :bad_request, html: 'Cannot store blank questionnaire responses', layout: 'application')
+  end
+
+  def check_opened_at
+    return if @response.opened_at.present?
+
+    render(status: :bad_request, html: 'Cannot accept answers for an unopened response',
+           layout: 'application')
   end
 
   def check_informed_consent
@@ -241,9 +282,10 @@ class QuestionnaireController < ApplicationController
       response_id: @response.id,
       content: @response.measurement.questionnaire.content,
       title: @response.measurement.questionnaire.title,
-      submit_text: 'Opslaan',
+      submit_text: (@response.person.locale == 'en' ? 'Save' : 'Opslaan'),
       action: '/',
       unsubscribe_url: @response.unsubscribe_url,
+      locale: @response.person.locale,
       params: default_questionnaire_params
     )
   end
@@ -313,7 +355,7 @@ class QuestionnaireController < ApplicationController
     return if valid_request_origin? && any_authenticity_token_valid?
 
     record_warning_in_rails_logger
-    params['content']['csrf_failed'] = 'true' if params['content'].present?
+    params['content'][Response::CSRF_FAILED] = 'true' if params['content'].present?
   end
 
   def record_warning_in_rails_logger
@@ -327,5 +369,13 @@ class QuestionnaireController < ApplicationController
 
   def answer_within_limits?(key, value)
     key.to_s.size <= MAX_ANSWER_LENGTH && value.to_s.size <= MAX_ANSWER_LENGTH
+  end
+
+  def set_default_content
+    @default_content = ''
+    @default_content = Base64.strict_decode64(params['content']) if params['content']
+  rescue ArgumentError => e
+    # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
+    raise e if e.message != 'invalid base64'
   end
 end

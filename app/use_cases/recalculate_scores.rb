@@ -24,7 +24,9 @@ class RecalculateScores < ActiveInteraction::Base
 
   def recalculate_response_ids(response_ids)
     ResponseContent.where(:id.in => response_ids).pluck(:content, :id).each do |content, rcid|
-      next if content.nil? # Can theoretically happen
+      # Note that we don't check for csrf_failed here (on purpose)
+      # It doesn't hurt to calculate scores for csrf_failed responses.
+      next if content.blank? # Can theoretically happen.
 
       scores = CalculateScores.run!(content: content, questionnaire: @questionnaire_content)
       ResponseContent.find(rcid)&.update!(scores: scores)

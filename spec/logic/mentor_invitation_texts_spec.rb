@@ -5,11 +5,10 @@ require 'rails_helper'
 describe MentorInvitationTexts do
   let(:voormeting) { FactoryBot.create(:questionnaire, name: 'voormeting mentoren') }
   let(:nameting) { FactoryBot.create(:questionnaire, name: 'nameting mentoren') }
-  let(:measurement1) { FactoryBot.create(:measurement, questionnaire: voormeting) }
-  let(:measurement2) { FactoryBot.create(:measurement) }
+  let(:protocol) { FactoryBot.create(:protocol) }
+  let(:measurement1) { FactoryBot.create(:measurement, questionnaire: voormeting, protocol: protocol) }
+  let(:measurement2) { FactoryBot.create(:measurement, protocol: protocol) }
   let(:measurement3) { FactoryBot.create(:measurement, questionnaire: nameting) }
-
-  let(:protocol) { FactoryBot.create(:protocol, measurements: [measurement1, measurement2]) }
   let(:mentor) { FactoryBot.create(:mentor) }
 
   let(:protocol_subscription) do
@@ -28,7 +27,7 @@ describe MentorInvitationTexts do
       Timecop.return
     end
 
-    it 'sends the correct message if the response ois a post_assessment' do
+    it 'sends the correct message if the response is a post_assessment' do
       response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                               completed_at: nil,
                                               measurement: measurement3,

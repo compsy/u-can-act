@@ -2,13 +2,13 @@
 
 db_title = 'Krachten'
 db_name1 = 'Krachten_Kinderen_8en9jaar'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over krachten. Er volgen X vragen. Hier ben je ongeveer X minuten mee bezig.</p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over je krachten. Het invullen duurt ongeveer 10 minuten.</p>'
   }, {
     id: :v1_1,
     type: :range,
@@ -16,52 +16,52 @@ dagboek_content = [
     labels: ['Helemaal niet creatief', 'Net zo creatief', 'Heel erg creatief'],
     required: true
   }, {
-    section_start: 'In hoeverre passen de volgende uitspraken bij jou? Verplaats het bolletje naar het antwoord dat het beste bij je past.',
+    section_start: 'In hoeverre passen de volgende zinnen bij jou? Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v1_2,
     type: :range,
-    title: 'Ik bedenk verschillende manieren om opdrachten uit te werken',
+    title: 'Ik bedenk verschillende manieren om opdrachten uit te werken.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true,
     section_end: false
   }, {
     id: :v1_3,
     type: :range,
-    title: 'Ik bedenk nieuwe dingen',
+    title: 'Ik bedenk nieuwe dingen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_4,
     type: :range,
-    title: 'Ik heb altijd veel ideeën als ik een opdracht krijg',
+    title: 'Ik heb altijd veel ideeën als ik een opdracht krijg.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_5,
     type: :range,
-    title: 'Ik maak nieuwe dingen',
+    title: 'Ik maak nieuwe dingen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_6,
     type: :range,
-    title: 'Ik probeer meer manieren uit',
+    title: 'Ik probeer meer manieren uit.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_7,
     type: :range,
-    title: 'Ik maak dingen die voor mij nieuw zijn',
+    title: 'Ik maak dingen die voor mij nieuw zijn.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_8,
     type: :range,
-    title: 'Ik kom zomaar op ideeën',
+    title: 'Ik kom zomaar op ideeën.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende zinnen gaan over gevoelens die je kan hebben, en hoe je met de gevoelens van anderen om kan gaan. Geef bij elke zin aan hoe waar deze voor jou is. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'De volgende zinnen gaan over gevoelens van andere mensen en hoe jij daarop reageert. Geef bij elke zin aan hoe waar deze is voor jou. Verschuif het bolletje naar het antwoord dat het beste bij jou past:',
     id: :v3_1,
     type: :range,
     required: true,
@@ -175,16 +175,39 @@ dagboek_content = [
     section_start: 'Tot slot...',
     id: :v5,
     type: :expandable,
-    title: 'Schrijf alle dingen op die kunt doen met een melkpak',
+    title: 'Schrijf alle dingen op die je kunt doen met een melkpak',
     default_expansions: 1,
     max_expansions: 30,
     content: [{
                 id: :v5_1,
                 type: :textarea,
+                required: true,
                 title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
+                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.' }],
     section_end: true
-  }]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+  }
+]
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Creativiteit',
+      ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Empathie',
+      ids: %i[v3_1 v3_3 v3_6 v3_10 v3_13 v3_15 v3_17 v3_2 v3_5 v3_8 v3_11 v3_16],
+      preprocessing: {
+        v3_3: invert,
+        v3_13: invert,
+        v3_2: invert,
+        v3_11: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

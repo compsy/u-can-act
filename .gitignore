@@ -48,6 +48,7 @@ bower.json
 
 # Windows ignores:
 tmp/pids
+/public/assets
 /public/packs
 /public/packs-test
 /node_modules
@@ -81,3 +82,10 @@ privatekey.pem
 certificate.pem
 
 .DS_Store
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

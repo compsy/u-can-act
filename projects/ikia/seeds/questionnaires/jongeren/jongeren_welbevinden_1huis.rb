@@ -2,13 +2,13 @@
 
 db_title = 'Leefplezier'
 db_name1 = 'Welbevinden_Jongeren'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. het invullen van de vragen kost ongeveer X minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
+    content: '<p class= "flow-text">Welkom! Deze vragenlijst gaat over je leefplezier. Het invullen van de vragen kost ongeveer 10 minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.</p>'
   }, {
     section_start: 'Type je antwoorden op de volgende vragen in de tekstvelden. Je mag zoveel typen als je wilt.',
     id: :v1,
@@ -73,7 +73,7 @@ dagboek_content = [
     title: 'Ik geniet ervan om thuis te zijn.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
     required: true,
-    section_end: false,
+    section_end: false
   }, {
     id: :v10_2,
     type: :range,
@@ -103,6 +103,7 @@ dagboek_content = [
     type: :range,
     title: 'Ik vind de wijk waar ik woon leuk.',
     labels: ['Helemaal niet waar', 'Een beetje waar', 'Helemaal waar'],
+    required: true
   }, {
     id: :v10_7,
     type: :range,
@@ -162,7 +163,7 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over school:',
+    section_start: 'De volgende vragen gaan over school (dit kan ook een stageplek zijn of ander onderwijs):',
     id: :v17,
     type: :range,
     title: 'Ik heb vaak zin om naar school te gaan.',
@@ -247,6 +248,25 @@ dagboek_content = [
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Thuis',
+      ids: %i[v10_1 v10_2 v10_3 v10_4 v10_5 v10_6 v10_7 v10_8 v10_9],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Op school',
+      ids: %i[v17 v18 v19 v20 v21 v22],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Vrienden',
+      ids: %i[v11 v12 v13 v14 v15 v16],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

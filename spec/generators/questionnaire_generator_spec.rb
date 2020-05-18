@@ -15,6 +15,7 @@ describe QuestionnaireGenerator do
                  submit_text: 'Opslaan',
                  action: '/',
                  unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: responseobj.uuid),
+                 locale: Rails.application.config.i18n.default_locale.to_s,
                  params: {
                    authenticity_token: 'authenticity-token'
                  }

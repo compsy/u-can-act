@@ -250,5 +250,73 @@ describe CalculateScores do
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores
       end
     end
+
+    context 'preprocessing' do
+      it 'is possible to have multiply_with preprocessing' do
+        content = { 'v1' => 'title1', 'v2' => 'title2' }
+        questionnaire = {
+          questions: [{ id: :v1, type: :dropdown, options: [{ title: 'title1', numeric_value: 25 }] },
+                      { id: :v2, type: :radio, options: [{ title: 'title2', numeric_value: 26 }] }],
+          scores: [{ id: :s1,
+                     label: 'average of v1 and v2',
+                     ids: %i[v1 v2],
+                     operation: :average,
+                     require_all: true,
+                     preprocessing: { v1: { multiply_with: 2 } },
+                     round_to_decimals: 1 }]
+        }
+        scores = { 's1' => '38.0' }
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores
+      end
+      it 'is possible to have offset preprocessing' do
+        content = { 'v1' => 'title1', 'v2' => 'title2' }
+        questionnaire = {
+          questions: [{ id: :v1, type: :dropdown, options: [{ title: 'title1', numeric_value: 25 }] },
+                      { id: :v2, type: :radio, options: [{ title: 'title2', numeric_value: 26 }] }],
+          scores: [{ id: :s1,
+                     label: 'average of v1 and v2',
+                     ids: %i[v1 v2],
+                     operation: :average,
+                     require_all: true,
+                     preprocessing: { v1: { offset: -50.5 } },
+                     round_to_decimals: 1 }] # 0.25 -> 0.3
+        }
+        scores = { 's1' => '0.3' }
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores
+      end
+      it 'is possible to have chained preprocessing' do
+        content = { 'v1' => 'title1', 'v2' => 'title2' }
+        questionnaire = {
+          questions: [{ id: :v1, type: :dropdown, options: [{ title: 'title1', numeric_value: 25 }] },
+                      { id: :v2, type: :radio, options: [{ title: 'title2', numeric_value: 26 }] }],
+          scores: [{ id: :s1,
+                     label: 'average of v1 and v2',
+                     ids: %i[v1],
+                     operation: :average,
+                     require_all: true,
+                     preprocessing: { v1: { offset: -23 } } }, # 2
+                   { id: :s2,
+                     label: 's1 processed',
+                     ids: %i[s1],
+                     operation: :average,
+                     require_all: true,
+                     preprocessing: { s1: { multiply_with: -3, offset: 11 } } }, # 5
+                   { id: :s3,
+                     label: 'average of s1 and s2',
+                     ids: %i[s1 s2],
+                     operation: :average,
+                     require_all: true }, # 3.5
+                   { id: :s4,
+                     label: 'something with s3',
+                     ids: %i[s3],
+                     operation: :average,
+                     require_all: true,
+                     round_to_decimals: 0,
+                     preprocessing: { s3: { multiply_with: 4, offset: -1 } } }] # 13
+        }
+        scores = { 's1' => '2', 's2' => '5', 's3' => '3.5', 's4' => '13' }
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores
+      end
+    end
   end
 end

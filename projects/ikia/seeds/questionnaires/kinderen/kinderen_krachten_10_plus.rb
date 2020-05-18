@@ -3,13 +3,13 @@
 db_title = 'Krachten'
 
 db_name1 = 'Krachten_Kinderen_Vanaf10jaar'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over krachten. Er volgen X vragen. Hier ben je ongeveer X minuten mee bezig.</p>'
+    content: '<p class="flow-text">Welkom! Deze vragenlijst gaat over je krachten. Het invullen duurt ongeveer 10 minuten.</p>'
   }, {
     id: :v1_1,
     type: :range,
@@ -17,47 +17,47 @@ dagboek_content = [
     labels: ['Helemaal niet creatief', 'Net zo creatief', 'Heel erg creatief'],
     required: true
   }, {
-    section_start: 'In hoeverre passen de volgende uitspraken bij jou? Verplaats het bolletje naar het antwoord dat het beste bij je past.',
+    section_start: 'In hoeverre passen de volgende uitspraken bij jou? Verplaats het bolletje naar het antwoord dat het beste bij je past:',
     id: :v1_2,
     type: :range,
-    title: 'Ik bedenk verschillende manieren om opdrachten uit te werken',
+    title: 'Ik bedenk verschillende manieren om opdrachten uit te werken.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true,
     section_end: false
   }, {
     id: :v1_3,
     type: :range,
-    title: 'Ik bedenk nieuwe dingen',
+    title: 'Ik bedenk nieuwe dingen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_4,
     type: :range,
-    title: 'Ik heb altijd veel ideeën als ik een opdracht krijg',
+    title: 'Ik heb altijd veel ideeën als ik een opdracht krijg.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_5,
     type: :range,
-    title: 'Ik maak nieuwe dingen',
+    title: 'Ik maak nieuwe dingen.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_6,
     type: :range,
-    title: 'Ik probeer meer manieren uit',
+    title: 'Ik probeer meer manieren uit.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_7,
     type: :range,
-    title: 'Ik maak dingen die voor mij nieuw zijn',
+    title: 'Ik maak dingen die voor mij nieuw zijn.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
     id: :v1_8,
     type: :range,
-    title: 'Ik kom zomaar op ideeën',
+    title: 'Ik kom zomaar op ideeën.',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true,
     section_end: true
@@ -66,98 +66,128 @@ dagboek_content = [
 Bijvoorbeeld: de woorden <i>tijd / hard / zand</i> kunnen met elkaar verbonden worden door het woord <i>steen: steentijd / hardsteen / zandsteen</i>. Het oplossingswoord is hier dus <i>steen</i>.<br><br>
 Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet weet, vul dan in "Weet ik niet".<br>',
     id: :v2_2,
-    type: :textfield,
+    type: :radio,
     title: 'hond / druk / band',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true,
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:',
     section_end: false
   }, {
     id: :v2_7,
-    type: :textfield,
+    type: :radio,
     title: 'controle / plaats / gewicht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_8,
-    type: :textfield,
+    type: :radio,
     title: 'bar / jurk / glas',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_9,
-    type: :textfield,
+    type: :radio,
     title: 'kolen / land / schacht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_10,
-    type: :textfield,
+    type: :radio,
     title: 'kaas / land / huis',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_11,
-    type: :textfield,
+    type: :radio,
     title: 'achter / kruk / mat',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_12,
-    type: :textfield,
+    type: :radio,
     title: 'schommel / klap / rol',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_13,
-    type: :textfield,
+    type: :radio,
     title: 'vlokken / ketting / pet',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_16,
-    type: :textfield,
+    type: :radio,
     title: 'vis / mijn / geel',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_17,
-    type: :textfield,
+    type: :radio,
     title: 'worm / kast / legger',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_21,
-    type: :textfield,
+    type: :radio,
     title: 'room / vloot / koek',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_22,
-    type: :textfield,
+    type: :radio,
     title: 'trommel / beleg /mes',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_24,
-    type: :textfield,
+    type: :radio,
     title: 'water / schoorsteen / lucht',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_25,
-    type: :textfield,
+    type: :radio,
     title: 'goot / kool / bak',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:'
   }, {
     id: :v2_29,
-    type: :textfield,
+    type: :radio,
     title: 'val / meloen / lelie',
     tooltip: 'Het oplossingswoord verbindt de drie woorden.',
-    required: true,
+    options: ['Weet ik niet'],
+    show_otherwise: true,
+    otherwise_label: 'Oplossingswoord:',
     section_end: true
   }, {
-    section_start: 'De volgende zinnen gaan over gevoelens die je kan hebben, en hoe je met de gevoelens van anderen om kan gaan. Geef bij elke zin aan hoe waar deze voor jou is. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'De volgende zinnen gaan over gevoelens van andere mensen en hoe jij daarop reageert. Geef bij elke zin aan hoe waar deze voor jou is. Verschuif het bolletje naar het antwoord dat het beste bij jou past:',
     id: :v3_1,
     type: :range,
     required: true,
@@ -334,25 +364,50 @@ Vul het woord in bij het daarvoor bedoelde tekstvak. Als je het antwoord niet we
     section_start: 'Tot slot...',
     id: :v5,
     type: :expandable,
-    title: 'Schrijf alle dingen op die kunt doen met een melkpak',
+    title: 'Schrijf alle dingen op die je kunt doen met een melkpak',
     default_expansions: 1,
     max_expansions: 30,
     content: [{
                 id: :v5_1,
                 type: :textarea,
+                required: true,
                 title: 'Wat kun je doen met een melkpak?',
-                tooltip: 'Bijvoorbeeld: een pennenhouder van maken'}],
+                tooltip: 'Schrijf zoveel mogelijk dingen op. Bijvoorbeeld: een pennenhouder van maken. Druk op het plusje als je nog een ander idee hebt over wat je met een melkpak kan doen.' }],
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Creativiteit',
+      ids: %i[v1_2 v1_3 v1_4 v1_5 v1_6 v1_7 v1_8],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Empathie',
+      ids: %i[v3_1 v3_2 v3_3 v3_4 v3_5 v3_6 v3_7 v3_8 v3_9 v3_10 v3_11 v3_12 v3_13 v3_14 v3_15 v3_16 v3_17 v3_18],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Mindfulness',
+      ids: %i[v4_1 v4_2 v4_3 v4_4 v4_5 v4_6 v4_7 v4_8 v4_9 v4_10],
+      preprocessing: {
+        v4_1: invert,
+        v4_2: invert,
+        v4_3: invert,
+        v4_4: invert,
+        v4_5: invert,
+        v4_6: invert,
+        v4_7: invert,
+        v4_8: invert,
+        v4_9: invert,
+        v4_10: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!
-
-
-
-
-
-
-
-

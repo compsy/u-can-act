@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
-db_title = 'Gevoelens van mijn kind'
+db_title = 'Gevoelens'
 db_name1 = 'Emoties_Kind_Ouderrapportage'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Hoe denkt u dat uw kind zich de afgelopen twee weken voelde? Geef bij elk gevoel hieronder aan in hoeverre u denkt dat uw kind zich zo gevoeld heeft. </p>'
+    content: '<p class="flow-text">Deze vragenlijst gaat over gevoelens van uw kind. In deze vragenlijst onderzoeken we hoe uw kind zich de afgelopen tijd gevoeld heeft.</p>'
   }, {
+    section_start: 'Geef bij elk gevoel hieronder aan in welke mate u denkt dat uw kind zich <i>in de afgelopen twee weken</i> zo gevoeld heeft. Verplaats het bolletje naar het antwoord dat het beste past.',
     id: :v1,
     type: :range,
     title: 'Gelukkig',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
-    required: true
+    required: true,
+    section_end: false
   }, {
     id: :v2,
     type: :range,
@@ -102,7 +104,7 @@ dagboek_content = [
   }, {
     id: :v16,
     type: :range,
-    title: 'Schaamte',
+    title: 'Beschaamd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     required: true
   }, {
@@ -127,7 +129,8 @@ dagboek_content = [
     type: :range,
     title: 'Somber',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
-    required: true
+    required: true,
+    section_end: true
   }
 ]
 dagboek1.content = {

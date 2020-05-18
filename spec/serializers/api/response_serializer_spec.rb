@@ -24,6 +24,11 @@ describe Api::ResponseSerializer do
     expect(json['open_from']).to eq responseobj.open_from
   end
 
+  it 'contains the correct value for the expires_at' do
+    expect(responseobj.open_from).not_to be_blank
+    expect(json['expires_at']).to eq responseobj.expires_at
+  end
+
   it 'contains the correct value for the opened_at' do
     expect(responseobj.opened_at).not_to be_blank
     expect(json['opened_at']).to eq responseobj.opened_at

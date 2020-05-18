@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module DistributionHelper
+  include ConversionHelper
   # This is just the default value for the structure. Imagine the structure not being a hash but just
   # a single value, it would be this value. The reason that everything has to be a hash is so that we
   # can nest combined scores into combined histograms that are constructed recursively. In order for
@@ -19,6 +20,7 @@ module DistributionHelper
 
     range_questions(@questionnaire_content[:questions]) +
       other_questions(@questionnaire_content[:questions]) +
+      checkbox_questions(@questionnaire_content[:questions]) +
       scores(@questionnaire_content[:scores])
   end
 
@@ -36,10 +38,38 @@ module DistributionHelper
 
   def other_questions(questionnaire_content)
     questionnaire_content
-      .select { |question| %i[number radio likert dropdown].include?(question[:type]) }
+      .select { |question| %i[number radio likert dropdown date].include?(question[:type]) }
       .map do |question|
       { id: question[:id].to_s, type: question[:type], combines_with: question[:combines_with] }
     end
+  end
+
+  def checkbox_questions(questionnaire_content)
+    questions = []
+    questionnaire_content
+      .select { |question| %i[checkbox].include?(question[:type]) }
+      .each do |question|
+      generate_checkbox_options(question).each do |option|
+        questions << option
+      end
+    end
+    questions
+  end
+
+  def generate_checkbox_options(question)
+    options = []
+    cur_titles = titles(question, :options)
+    return options if cur_titles.size.zero?
+
+    cur_titles.each do |title|
+      options << idify(question[:id], title)
+    end
+    unless question.key?(:show_otherwise) && question[:show_otherwise].blank?
+      otherwise_label = QuestionTypeGenerator::OTHERWISE_TEXT
+      otherwise_label = question[:otherwise_label] if question[:otherwise_label].present?
+      options << idify(question[:id], otherwise_label)
+    end
+    options.uniq.map { |option| { id: option, type: question[:type], combines_with: nil } }
   end
 
   def scores(questionnaire_content)
@@ -51,38 +81,18 @@ module DistributionHelper
     end
   end
 
-  def number_to_string(num)
-    i = num.to_i
-    f = num.to_f
-    i == f ? i.to_s : f.to_s
-  rescue ArgumentError
-    num.to_s
-  end
-
-  def initialize_question(question, value, distribution)
-    qid = question[:id]
-    return if distribution[qid].present? && question[:type] == :range
-
-    distribution[qid] ||= {}
-    unless question[:type] == :range
-      distribution[qid][value] ||= { VALUE => 0 }
-      return
-    end
-
-    (question[:min]..question[:max]).step(question[:step]) do |pos|
-      distribution[qid][number_to_string(pos)] = { VALUE => 0 }
-    end
-  end
-
   def process_response_ids(response_ids)
+    added_count = 0
     ResponseContent.where(:id.in => response_ids).pluck(:content, :scores).each do |content, scores|
-      next if content.nil? # Can theoretically happen
+      next if content.blank? || content[Response::CSRF_FAILED].present? # Don't calculate statistics for bogus responses
 
+      added_count += 1
       all_content = scores.present? ? content.merge(scores) : content
       @usable_questions.each do |question|
         add_to_distribution(question, all_content, @distribution)
       end
     end
+    added_count
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -90,9 +100,10 @@ module DistributionHelper
     qid = question[:id]
     return unless content[qid].present?
 
-    initialize_question(question, content[qid], distribution)
-    distribution[qid][content[qid]][VALUE] += 1
-    return if question[:combines_with].blank?
+    distribution[qid] ||= {}
+    add_to_distribution_aux(question, content[qid], distribution[qid])
+    # We don't store a single value for dates, so they can't be combined
+    return if question[:combines_with].blank? || question[:type] == :date
 
     question[:combines_with].each do |qid2|
       question2 = @usable_questions.find { |usable_question| usable_question[:id] == qid2.to_s }
@@ -100,6 +111,49 @@ module DistributionHelper
 
       add_to_distribution(question2, content, distribution[qid][content[qid]])
     end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def add_to_distribution_aux(question, value, distribution)
+    add_method = case question[:type]
+                 when :range
+                   :add_range_to_distribution
+                 when :date
+                   :add_date_to_distribution
+                 else
+                   :add_other_to_distribution
+                 end
+    send(add_method, question, value, distribution)
+  end
+
+  def add_other_to_distribution(_question, value, distribution)
+    distribution[value] ||= { VALUE => 0 }
+    distribution[value][VALUE] += 1
+  end
+
+  def add_range_to_distribution(question, value, distribution)
+    if distribution.blank?
+      %i[min max step].each do |prop|
+        distribution["#{VALUE}#{prop}"] = question[prop]
+      end
+    end
+    add_other_to_distribution(question, value, distribution)
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def add_date_to_distribution(question, value, distribution)
+    mdate = Date.parse(value)
+    myear = mdate.year.to_s
+    mmonth = mdate.month.to_s
+    mday = mdate.day.to_s
+    distribution[myear] ||= { VALUE => 0 }
+    distribution[myear][VALUE] += 1
+    distribution[myear][mmonth] ||= { VALUE => 0 }
+    distribution[myear][mmonth][VALUE] += 1
+    distribution[myear][mmonth][mday] ||= { VALUE => 0 }
+    distribution[myear][mmonth][mday][VALUE] += 1
+  rescue ArgumentError
+    Rails.logger.info("ERROR: unable to parse date #{value} for #{question.pretty_inspect}")
   end
   # rubocop:enable Metrics/AbcSize
 end

@@ -53,5 +53,33 @@ describe NextPageFinder do
       result = described_class.get_next_page(current_user: person)
       expect(result).to eq Rails.application.routes.url_helpers.klaar_path
     end
+
+    it 'gives back the one time response if it is open' do
+      response = FactoryBot.create_list(:response, 1)
+      expect(person).to receive(:my_open_one_time_responses).and_return(response)
+
+      result = described_class.get_next_page(current_user: person)
+      expect(result).not_to be_blank
+      expect(result).to eq Rails.application.routes.url_helpers.questionnaire_path(uuid: response.first.uuid)
+    end
+
+    it 'gives me the otr response only when no previous response was provided' do
+      response = FactoryBot.create_list(:response, 1)
+      allow(person).to receive(:my_open_one_time_responses).and_return(response)
+      response2 = FactoryBot.create(:response)
+      result = described_class.get_next_page(current_user: person, previous_response: response2)
+      expect(result).to_not be_blank
+      expect(result).to eq Rails.application.routes.url_helpers.klaar_path
+    end
+
+    it 'gives the scheduled questionnaire priority over any potential open OTR' do
+      response_otrs = FactoryBot.create_list(:response, 1)
+      response_normal = FactoryBot.create_list(:response, 1)
+      allow(person).to receive(:my_open_one_time_responses).and_return(response_otrs)
+      allow(person).to receive(:my_open_responses).and_return(response_normal)
+      result = described_class.get_next_page(current_user: person)
+      expect(result).to_not be_blank
+      expect(result).to eq Rails.application.routes.url_helpers.questionnaire_path(uuid: response_normal.first.uuid)
+    end
   end
 end

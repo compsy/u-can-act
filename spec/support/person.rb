@@ -155,8 +155,8 @@ shared_examples_for 'a person object' do
       FactoryBot.create(:person, email: nil)
       FactoryBot.create(:person, email: '')
       FactoryBot.create(:person, email: nil)
-      FactoryBot.create(:person, email: '')
-      expect(Person.count).to eq(4)
+      expect { FactoryBot.create(:person, email: '') }.to raise_error(ActiveRecord::RecordNotUnique)
+      expect(Person.count).to eq(3)
     end
 
     it 'does not accept a double period' do

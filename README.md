@@ -353,7 +353,7 @@ The `content` attribute of a `Questionnaire` is a Hash with two keys, `:question
 For all questions, it is allowed to use HTML tags in the texts. 
 Also, you may use any of the special variables defined in the previous section.
 
-All questions now support a `combines_with` attribute. The value of this attribute should be an array of (other) questionnaire IDs. This is used to indicate to the distributions engine that an additional conditional distribution histogram, combining the values of the question and the ones that it combines with, should also be calculated.
+All questions except checkboxes now support a `combines_with` attribute. The value of this attribute should be an array of (other) questionnaire IDs. This is used to indicate to the distributions engine that an additional conditional distribution histogram, combining the values of the question and the ones that it combines with, should also be calculated.
 
 ### Type: Checkbox
 Required and allowed options (minimal example and maximal example):
@@ -535,6 +535,7 @@ Required and allowed options (minimal example and maximal example):
   min: 0,
   max: 100,
   step: 1,
+  required: true,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
@@ -543,6 +544,7 @@ Required and allowed options (minimal example and maximal example):
 ```
 The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. 
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
+If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**
@@ -744,18 +746,18 @@ Required and allowed options (minimal example and maximal example):
   required: true,
   tooltip: 'some tooltip',
   placeholder: 'Place holder',
-  min: [2018, 06, 14],
-  max: [2018, 07, 20],
+  min: '2018/06/14',
+  max: '2018/07/20',
+  default_date: '2018/07/20',
   section_end: true
 }]
 ```
 
-The `min` and `max` properties can be either two arrays as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
-
-Please note that there is currently a bug in the date picker when you specify dates as arrays. 
-So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
+The `min` and `max` properties can be either strings as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
 
 If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
+
+The `default_date` property can be used to set a default date. The `default_date` and `today` properties should never both be used.
 
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. 
@@ -904,6 +906,7 @@ Maximal example:
 [{ id: :s1,
    label: 'The average of v1 and v2',
    ids: %i[v1 v2],
+   preprocessing: { v2: { multiply_with: -1, offset: 100 } },
    operation: :average,
    require_all: true,
    round_to_decimals: 0
@@ -912,6 +915,7 @@ Maximal example:
 If `round_to_decimals` is missing, the result is not rounded, and the realtime distribution calculation will **not** calculate a distribution for this score. Analogously, if you specify the `round_to_decimals` attribute, the realtime distribution calculation will automatically calculate the distribution for this score. If you're only dealing with integers, you can use `round_to_decimals: 0`.
 If `require_all` is missing, it works the same as when specifying `require_all: false`.
 All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
+The `preprocessing` key is optional, and if provided, should be a hash with a (sub)set of the IDs in `ids` as keys. Each entry in a hash represents how this value will be preprocessed. Currently, only the following operations are supported: `multiply _with`, which multiplies the value with a given number (which can be integer or float, positive or negative), and `offset`, which adds a constant number to the value (this number can also be an integer or float, positive or negative). Both `multiply_with` and `offset` are optional. If both are provided, `multiply_with` is performed first. It is possible to chain operations by defining a new score that takes as input a previously preprocessed score (see below).
 
 - The only currently supported `operation` is `:average`.
 - The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:

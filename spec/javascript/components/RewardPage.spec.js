@@ -12,6 +12,7 @@ describe('RewardPage', () => {
     /*eslint no-global-assign:off*/
     Date = class extends Date {
       constructor() {
+        super()
         return constantDate;
       }
     };

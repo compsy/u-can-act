@@ -679,7 +679,8 @@ evaluatie.content = { questions: [{
     { title: 'Ja' },
     { title: 'Nee', shows_questions: %i[v62 v62_1 v63] }
   ],
-  show_otherwise: false
+  show_otherwise: false,
+  hidden: true
 }, {
   id: :v62,
   hidden: true,

@@ -2,15 +2,15 @@
 
 db_title = 'Gevoelens'
 db_name1 = 'Emoties_Kinderen'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over gevoelens. In totaal zijn er 70 vragen. Hier ben je ongeveer X minuten mee bezig. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.'
+    content: '<p class="flow-text"> Welkom! Deze vragenlijst gaat over gevoelens. Het invullen duurt ongeveer 10 minuten. Daarna kun je je resultaten bekijken en krijg je uitleg over wat alles betekent.'
   }, {
-    section_start: 'Denk terug aan hoe je je de afgelopen twee weken voelde. Geef bij elk gevoel hieronder aan of je je zo gevoeld hebt. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'Denk terug aan hoe je je de <i>afgelopen twee weken</i> voelde. Geef bij elk gevoel hieronder aan of je je zo gevoeld hebt. Verschuif het bolletje naar het antwoord dat het beste bij jou past:',
     id: :v1,
     type: :range,
     title: 'Gelukkig',
@@ -46,6 +46,7 @@ dagboek_content = [
     type: :range,
     title: 'Geliefd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat andere mensen van je houden',
     required: true
   }, {
     id: :v7,
@@ -104,8 +105,9 @@ dagboek_content = [
   }, {
     id: :v16,
     type: :range,
-    title: 'Schaamte',
+    title: 'Beschaamd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt',
     required: true
   }, {
     id: :v17,
@@ -170,6 +172,7 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
     type: :range,
     title: 'Geliefd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat andere mensen van je houden',
     required: true
   }, {
     id: :v27,
@@ -228,8 +231,9 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
   }, {
     id: :v36,
     type: :range,
-    title: 'Schaamte',
+    title: 'Beschaamd',
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
+    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt',
     required: true
   }, {
     id: :v37,
@@ -257,7 +261,7 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
     labels: ['Helemaal niet', 'Een beetje', 'Heel erg'],
     section_end: true
   }, {
-    section_start: 'Je bent al bijna klaar. Er volgen nog een aantal zinnen over gevoelens en gedachten die je kan hebben. Verschuif het bolletje naar het antwoord dat het beste bij jou past.',
+    section_start: 'Er volgen nu een aantal zinnen over gevoelens en gedachten. Bedenk bij elke zin hoe vaak de zin waar is voor jou. Verschuif het bolletje naar het antwoord dat het beste bij jou past:',
     id: :v41,
     type: :range,
     title: 'Ik ben vaak in de war over hoe ik me voel.',
@@ -441,6 +445,20 @@ Geef aan in hoeverre je de volgende gevoelens zou willen hebben in dit allerbest
     section_end: true
   }
 ]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Positieve emoties',
+      ids: %i[v1 v3 v5 v6 v8 v11 v13 v14 v15 v19],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Negatieve emoties',
+      ids: %i[v2 v4 v7 v9 v10 v12 v16 v17 v18 v20],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

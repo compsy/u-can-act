@@ -30,8 +30,8 @@ FactoryBot.define do
 
     trait :not_expired do
       open_from { 10.minutes.ago.in_time_zone }
-      after(:build) do |response|
-        FactoryBot.create(:protocol_subscription, responses: [response], end_date: 10.days.from_now)
+      after(:create) do |response|
+        response.protocol_subscription.update!(end_date: 10.days.from_now)
       end
     end
 
@@ -45,7 +45,7 @@ FactoryBot.define do
     end
     trait :periodical do
       after(:create) do |response|
-        FactoryBot.create(:measurement, responses: [response], period: 1)
+        response.measurement.update!(period: 1)
       end
     end
   end

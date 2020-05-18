@@ -12,27 +12,35 @@ describe Questionnaire do
     describe 'all_content_ids_unique' do
       let(:invalid_questionnaire) do
         quest = FactoryBot.create(:questionnaire)
-        quest.content[:questions] = [{
-          section_start: 'Algemeen',
-          id: :v1,
-          type: :radio,
-          title: 'Hoe voelt u zich vandaag?',
-          options: %w[slecht goed],
-          otherwise_label: 'Anders nog wat:'
-        }, {
-          section_start: 'Algemeen',
-          id: :v2,
-          type: :radio,
-          title: 'Hoe voelt u zich vandaag?',
-          options: %w[slecht goed],
-          otherwise_label: 'Anders nog wat:'
-        }, {
-          id: :v1,
-          type: :checkbox,
-          title: 'Wat heeft u vandaag gegeten?',
-          options: ['brood', 'kaas en ham', 'pizza'],
-          otherwise_label: 'Hier ook iets:'
-        }]
+        quest.content[:questions] = [
+          {
+            type: :raw,
+            content: 'hey1'
+          }, {
+            type: :raw,
+            content: 'hey2'
+          }, {
+            section_start: 'Algemeen',
+            id: :v1,
+            type: :radio,
+            title: 'Hoe voelt u zich vandaag?',
+            options: %w[slecht goed],
+            otherwise_label: 'Anders nog wat:'
+          }, {
+            section_start: 'Algemeen',
+            id: :v2,
+            type: :radio,
+            title: 'Hoe voelt u zich vandaag?',
+            options: %w[slecht goed],
+            otherwise_label: 'Anders nog wat:'
+          }, {
+            id: :v1,
+            type: :checkbox,
+            title: 'Wat heeft u vandaag gegeten?',
+            options: ['brood', 'kaas en ham', 'pizza'],
+            otherwise_label: 'Hier ook iets:'
+          }
+        ]
         quest
       end
       let(:valid_questionnaire) do
@@ -134,6 +142,174 @@ describe Questionnaire do
 
       it 'is valid without a title if it is an unsubcribe' do
         content = { questions: [{ type: :unsubscribe }], scores: [] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_shows_questions_ids_valid' do
+      it 'checks the radio type' do
+        content = {
+          questions: [{ id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the checkbox type' do
+        content = {
+          questions: [
+            { id: :v1, type: :checkbox, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the dropdown type' do
+        content = {
+          questions: [
+            { id: :v1, type: :dropdown, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the likert type' do
+        content = {
+          questions: [{ id: :v1, type: :likert, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'is not valid if hidden is not true' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number' }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a shows_questions option: [:v1]\n")
+        )
+      end
+
+      it 'is valid with valid ids' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', shows_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number', hidden: true }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
+
+    describe 'all_hides_questions_ids_valid' do
+      it 'checks the radio type' do
+        content = {
+          questions: [{ id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the checkbox type' do
+        content = {
+          questions: [
+            { id: :v1, type: :checkbox, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the dropdown type' do
+        content = {
+          questions: [
+            { id: :v1, type: :dropdown, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'checks the likert type' do
+        content = {
+          questions: [{ id: :v1, type: :likert, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following questions have invalid ids in a hides_questions option: [:v1]\n")
+        )
+      end
+
+      it 'is also valid if hidden is not false or nil' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number', hidden: true }
+          ],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is valid with valid ids' do
+        content = {
+          questions: [
+            { id: :v1, type: :radio, title: 'hello', options: [{ title: 'sup', hides_questions: %i[v2] }] },
+            { id: :v2, type: :number, title: 'enter a number' }
+          ],
+          scores: []
+        }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
@@ -302,13 +478,98 @@ describe Questionnaire do
     describe 'all_scores_have_known_operations' do
       it 'does not allow for operations that do not exist' do
         content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
-                    scores: [{ id: :s1, label: 'my-label', ids: %i[v2], operation: :diffusion }] }
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :diffusion }] }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
           include("the following scores have an unknown operation: [\"my-label\"]\n")
         )
+      end
+    end
+
+    describe 'all_scores_have_valid_ids_in_preprocessing' do
+      it 'does not allow for ids that do not exist' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1],
+                               operation: :average, preprocessing: { v2: { multiply_with: -1, offset: 100 } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid ids in preprocessing steps: [\"my-label\"]\n")
+        )
+      end
+    end
+
+    describe 'all_scores_have_valid_preprocessing' do
+      it 'does not allow for operations that do not exist' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1],
+                               operation: :average, preprocessing: { v1: { multiply_with: -1, hello: 100 } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label\"]\n")
+        )
+      end
+      it 'does allow for valid preprocessing' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: -50 } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+      it 'requires that all preprocessing steps have numeric values' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: 'ando' } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label2\"]\n")
+        )
+      end
+      it 'requires that all preprocessing steps do not have nil values' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: nil } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label2\"]\n")
+        )
+      end
+      it 'requires that preprocessing steps do not have blank values' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: 100 } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: '' } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include("the following scores have invalid preprocessing steps: [\"my-label2\"]\n")
+        )
+      end
+      it 'does allow for valid preprocessing with numbers as strings' do
+        content = { questions: [{ id: :v1, title: 'hoi', type: :number }],
+                    scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average,
+                               preprocessing: { v1: { multiply_with: -1, offset: '100' } } },
+                             { id: :s2, label: 'my-label2', ids: %i[s1], operation: :average,
+                               preprocessing: { s1: { offset: '-50' } } }] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
       end
     end
   end

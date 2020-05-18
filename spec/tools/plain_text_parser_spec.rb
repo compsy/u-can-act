@@ -154,7 +154,7 @@ describe PlainTextParser do
 
     it 'raises if the filling out for person does not exist' do
       allow(subject).to receive(:parse_mobile_phone).and_return(mobile_phone)
-      expect { subject.parse_filling_out_for('random') } .to raise_error(
+      expect { subject.parse_filling_out_for('random') }.to raise_error(
         RuntimeError, "Person #{mobile_phone} does not exist"
       )
     end

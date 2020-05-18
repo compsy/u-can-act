@@ -2,20 +2,21 @@
 
 db_title = 'Binnenwereld en buitenwereld'
 db_name1 = 'Klachten_Kort_Kinderen_11plus'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragenlijst gaat over gevoelens en moeilijkheden die je wel eens kan hebben, en hoe je hiermee omgaat. Bedenk bij elke zin of dit de afgelopen zes maanden zo bij jou is geweest. Verplaats het bolletje naar het antwoord wat het beste bij jou past. Het invullen duurt ongeveer X minuten.
-</p>'
+    content: '<p class="flow-text">De volgende vragenlijst gaat over moeilijkheden die kinderen kunnen hebben. Het invullen duurt ongeveer 10 minuten.</p>'
   }, {
+    section_start: 'Bedenk bij elke zin of dit de <i>afgelopen zes maanden</i> zo bij jou is geweest. Verplaats het bolletje naar het antwoord wat het beste bij jou past:',
     id: :v1,
     type: :range,
     title: 'Ik probeer aardig te zijn tegen anderen. Ik houd rekening met hun gevoelens.',
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
-    required: true
+    required: true,
+    section_end: false
   }, {
     id: :v2,
     type: :range,
@@ -71,7 +72,7 @@ dagboek_content = [
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
     required: true
   }, {
-    id: :v2,
+    id: :v11,
     type: :range,
     title: 'Ik heb minstens één goede vriend of vriendin.',
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
@@ -138,7 +139,7 @@ dagboek_content = [
   }, {
     id: :v22,
     type: :range,
-    title: 'Ik neem dingen weg die niet van mij zijn thuis, op school of op andere plaatsen.',
+    title: 'Ik steel of jat dingen die niet van mij zijn (thuis, op school of op andere plaatsen).',
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
     required: true
   }, {
@@ -158,244 +159,248 @@ dagboek_content = [
     type: :range,
     title: 'Ik maak af waar ik mee bezig ben. Ik kan mijn aandacht er goed bij houden.',
     labels: ['Niet waar', 'Een beetje waar', 'Zeker waar'],
-    required: true
+    required: true,
+    section_end: true
   }, {
+    section_start: 'De volgende vragen gaan over of jij denkt dat je problemen hebt met gevoelens, concentratie, gedrag en opschieten met andere mensen.',
     id: :v26,
-    title: 'Denk je dat je moeilijkheden hebt met emoties?',
+    title: 'Denk je dat je problemen hebt met gevoelens?',
     type: :likert,
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v26_a, v26_b, v26_c, v26_d, v26_e, v26_f, v26_g]}
-    ]
+      { title: 'Nee' },
+      { title: 'Ja, kleine problemen', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] },
+      { title: 'Ja, duidelijke problemen', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] },
+      { title: 'Ja, ernstige problemen', shows_questions: %i[v26_a v26_b v26_c v26_d v26_e v26_f v26_g] }
+    ],
+    section_end: false
   }, {
     id: :v26_a,
     hidden: true,
     type: :likert,
-    title: 'Hoe lang bestaan deze moeilijkheden?',
+    title: 'Hoe lang bestaan deze problemen met gevoelens?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v26_b,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden je overstuur of van slag?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met gevoelens je overstuur of van slag?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v26_c,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met gevoelens jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v26_d,
     hidden: true,
     type: :likert,
     title: 'Vriendschappen:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v26_e,
     hidden: true,
     type: :likert,
     title: 'Leren in de klas:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v26_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Wat je doet in je vrije tijd:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v26_g,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met gevoelens het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v27,
     type: :likert,
-    title: 'Denk je dat je moeilijkheden hebt met concentratie?',
+    title: 'Denk je dat je problemen hebt met concentreren?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v27_a, v27_b, v27_c, v27_d, v27_e, v27_f, v27_g]}
-    ]
+      { title: 'Nee' },
+      { title: 'Ja, kleine problemen', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] },
+      { title: 'Ja, duidelijke problemen', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] },
+      { title: 'Ja, ernstige problemen', shows_questions: %i[v27_a v27_b v27_c v27_d v27_e v27_f v27_g] }
+    ],
+    tooltip: 'Concentreren betekent dat je je aandacht ergens bij kunt houden'
   }, {
     id: :v27_a,
     hidden: true,
     type: :likert,
-    title: 'Hoe lang bestaan deze moeilijkheden?',
+    title: 'Hoe lang bestaan deze problemen met concentreren?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v27_b,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden je overstuur of van slag?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met concentreren je overstuur of van slag?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v27_c,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met concentratie jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v27_d,
     hidden: true,
     type: :likert,
     title: 'Vriendschappen:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v27_e,
     hidden: true,
     type: :likert,
     title: 'Leren in de klas:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v27_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Wat je doet in je vrije tijd:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v27_g,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met concentreren het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v28,
     type: :likert,
-    title: 'Denk je dat je moeilijkheden hebt met je gedrag?',
+    title: 'Denk je dat je problemen hebt met je gedrag?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a, v28_b, v28_c, v28_d, v28_e, v28_f, v28_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v28_a v28_b v28_c v28_d v28_e v28_f v28_g] }
     ]
   }, {
     id: :v28_a,
     hidden: true,
     type: :likert,
-    title: 'Hoe lang bestaan deze moeilijkheden?',
+    title: 'Hoe lang bestaan deze problemen met je gedrag?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v28_b,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden je overstuur of van slag?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met je gedrag je overstuur of van slag?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v28_c,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met je gedrag jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v28_d,
     hidden: true,
     type: :likert,
     title: 'Vriendschappen:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v28_e,
     hidden: true,
     type: :likert,
     title: 'Leren in de klas:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v28_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Wat je doet in je vrije tijd:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v28_g,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen met je gedrag het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v29,
     type: :likert,
-    title: 'Denk je dat je moeilijkheden hebt om met andere mensen op te schieten?',
+    title: 'Denk je dat je problemen hebt om met andere mensen op te schieten?',
     options: [
-      {title: 'Nee'},
-      {title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]},
-      {title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]},
-      {title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a, v29_b, v29_c, v29_d, v29_e, v29_f, v29_g]}
+      { title: 'Nee' },
+      { title: 'Ja, kleine moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] },
+      { title: 'Ja, duidelijke moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] },
+      { title: 'Ja, ernstige moeilijkheden', shows_questions: %i[v29_a v29_b v29_c v29_d v29_e v29_f v29_g] }
     ]
   }, {
     id: :v29_a,
     hidden: true,
     type: :likert,
-    title: 'Hoe lang bestaan deze moeilijkheden?',
+    title: 'Hoe lang bestaan deze problemen om met andere mensen op te schieten?',
     options: [
-      {title: 'Korter dan een maand'},
-      {title: '1-5 maanden'},
-      {title: '6-12 maanden'},
-      {title: 'Meer dan een jaar'}
+      { title: 'Korter dan een maand' },
+      { title: '1-5 maanden' },
+      { title: '6-12 maanden' },
+      { title: 'Meer dan een jaar' }
     ]
   }, {
     id: :v29_b,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden je overstuur of van slag?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen om met andere mensen op te schieten je overstuur of van slag?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v29_c,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen om met andere mensen op te schieten jouw leven lastiger op de volgende gebieden?<br><br>Thuis:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v29_d,
     hidden: true,
     type: :likert,
     title: 'Vriendschappen:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v29_e,
     hidden: true,
     type: :likert,
     title: 'Leren in de klas:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v29_f,
     hidden: true,
     type: :likert,
-    title: 'Activiteiten in de vrije tijd:',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Wat je doet in je vrije tijd:',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg']
   }, {
     id: :v29_g,
     hidden: true,
     type: :likert,
-    title: 'Maken de moeilijkheden het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
-    options: ['Helemaal niet', 'Een beetje maar', 'Tamelijk', 'Heel erg']
+    title: 'Maken de problemen om met andere mensen op te schieten het lastiger voor de mensen in jouw omgeving (je gezin, vrienden, leerkrachten, enz.)?',
+    options: ['Helemaal niet', 'Een beetje maar', 'Behoorlijk', 'Heel erg'],
+    section_end: true
   }, {
-    type: :raw,
-    content: '<p class="flow-text">Je bent nu aangekomen bij het laatste gedeelte van de vragenlijst. De volgende vragen gaan over wat je denkt, voelt en doet. Lees elke zin zorgvuldig en bedenk hoe waar deze uitspraak voor jou is. Verplaats het bolletje naar het antwoord dat het beste bij jou past.</p>'
-  }, {
+    section_start: 'De volgende vragen gaan over wat je denkt, voelt en doet. Lees elke zin goed en bedenk hoe waar deze uitspraak voor jou is. Verplaats het bolletje naar het antwoord dat het beste bij jou past:',
     id: :v30,
     type: :range,
     title: 'Mijn leven zal pas goed zijn als ik me gelukkig voel.',
     labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
-    required: true
+    required: true,
+    section_end: false
   }, {
     id: :v31,
     type: :range,
@@ -491,8 +496,34 @@ dagboek_content = [
     type: :range,
     title: 'Ik kan geen goede vriend(in) zijn als ik van streek ben.',
     labels: ['Helemaal niet waar', 'Best wel waar', 'Heel erg waar'],
-    required: true
-  }]
-dagboek1.content = { questions: dagboek_content, scores: [] }
+    required: true,
+    section_end: true
+  }
+]
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Binnenwereld',
+      ids: %i[v3 v8 v13 v16 v24 v6 v11 v14 v19 v23],
+      preprocessing: {
+        v11: invert,
+        v14: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Buitenwereld',
+      ids: %i[v5 v7 v12 v18 v22 v2 v10 v15 v21 v25],
+      preprocessing: {
+        v7: invert,
+        v21: invert,
+        v25: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

@@ -155,7 +155,7 @@ describe 'GET /admin', type: :feature, js: true do
     end
 
     it 'has working preview of questionnaires' do
-      materialize_select('Selecteer een vragenlijst...', 'myquestionnairename')
+      materialize_select('Select a questionnaire...', 'myquestionnairename')
       page.click_on 'Preview questionnaire'
       expect(page).to have_content 'some title'
       page.click_on 'Opslaan'

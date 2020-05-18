@@ -239,6 +239,7 @@ function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
   $('.notchanged input[type=range]').change(removeNotChanged).click(removeNotChanged);
+  $(document).on('touchstart', '.notchanged input[type=range]', removeNotChanged);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
   // The line below breaks stuff, just assume that the questionnaire visibilities are correct by default
   //$('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);

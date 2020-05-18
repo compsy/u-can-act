@@ -53,11 +53,11 @@ describe AdminHelper do
         FactoryBot.create(:questionnaire, name: 'firstname'),
         FactoryBot.create(:questionnaire, name: 'secondname')
       ]
-      expected = [['Selecteer een vragenlijst...', ''], %w[firstname firstname], %w[secondname secondname]]
+      expected = [['Select a questionnaire...', ''], %w[firstname firstname], %w[secondname secondname]]
       expect(helper.questionnaire_select_options(questionnaires)).to eq expected
     end
     it 'works with an empty list' do
-      expect(helper.questionnaire_select_options([])).to eq [['Selecteer een vragenlijst...', '']]
+      expect(helper.questionnaire_select_options([])).to eq [['Select a questionnaire...', '']]
     end
   end
 end

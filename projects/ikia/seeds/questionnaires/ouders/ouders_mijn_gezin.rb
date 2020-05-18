@@ -364,6 +364,25 @@ over de ontwikkeling of het gedrag van uw kind?',
     labels: ['Grote achterstand', 'Geen achterstand/voorsprong', 'Grote voorsprong'],
     required: true,
     section_end: true
+  }, {
+    section_start: 'Tot slot:',
+    id: :v20,
+    type: :checkbox,
+    title: 'Kent u iemand die het coronavirus heeft of heeft gehad?',
+    options: [
+      { title: 'Ja, iemand die het nu heeft', shows_questions: %i[v20a] },
+      { title: 'Ja, iemand die het gehad heeft', shows_questions: %i[v20a] },
+      { title: 'Nee' }],
+    show_otherwise: false,
+    section_end: false
+  }, {
+    id: :v20a,
+    hidden: true,
+    type: :checkbox,
+    title: 'Wie is deze persoon?',
+    options: ['Mijn partner', 'Mijn kind', 'Mijn ouder(s)', 'Mijn broer/zus', 'Een ander familielid', 'Een vriend(in)', 'Een collega'],
+    show_otherwise: true,
+    section_end: true
   }
 ]
 dagboek1.content = { questions: dagboek_content, scores: [] }

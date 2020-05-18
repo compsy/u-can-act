@@ -32,6 +32,12 @@ Rails/Blank:
 Layout/LineLength:
   Max: 120
 
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
 Layout/EndOfLine:
   EnforcedStyle: lf
 
@@ -43,6 +49,12 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: false
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
 
 # Default is 5
 Metrics/ParameterLists:

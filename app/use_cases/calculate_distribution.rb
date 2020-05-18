@@ -9,17 +9,19 @@ class CalculateDistribution < ActiveInteraction::Base
   #
   # @param questionnaire [Questionnaire] the current questionnaire
   def execute
-    @distribution = { 'total' => questionnaire.responses.completed.count }
+    @distribution = { 'total' => 0 }
     @usable_questions = usable_questions
 
     offset = 0
+    total_count = 0
     loop do
       response_ids = questionnaire.responses.completed.limit(BATCH_SIZE).offset(offset).pluck(:content)
       break if response_ids.blank?
 
-      process_response_ids(response_ids)
+      total_count += process_response_ids(response_ids)
       offset += BATCH_SIZE
     end
+    @distribution['total'] = total_count
     RedisService.set("distribution_#{questionnaire.key}", @distribution.to_json)
   end
 end

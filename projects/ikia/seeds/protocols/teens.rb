@@ -2,7 +2,7 @@ pr_name = File.basename(__FILE__)[0...-3]
 boek_protocol = Protocol.find_by_name(pr_name)
 boek_protocol ||= Protocol.new(name: pr_name)
 boek_protocol.duration = 3.years
-ic_name = 'jongeren_informed_consent'
+ic_name = 'jongeren_informed_consent_12_tot_15'
 boek_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
 raise "informed consent questionnaire #{ic_name} not found" unless boek_protocol.informed_consent_questionnaire
 
@@ -20,7 +20,8 @@ Dir[Rails.root.join('projects',
              jongeren_vriendschap_16_tot_18
              jongeren_interpersoonlijk_complex_16plus
              jongeren_dagboek
-             jongeren_informed_consent].include?(questionnaire_key)
+             jongeren_informed_consent_12_tot_15
+             jongeren_informed_consent_16_tot_18].include?(questionnaire_key)
 
   questionnaire = Questionnaire.find_by(key: questionnaire_key)
   next unless questionnaire

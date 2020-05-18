@@ -53,6 +53,7 @@ class Person < ApplicationRecord
   has_many :children, class_name: 'Person', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   belongs_to :parent, class_name: 'Person', optional: true
   validate :not_own_parent
+  validates :locale, inclusion: Rails.application.config.i18n.available_locales.map(&:to_s)
 
   after_initialize do |person|
     next if person.external_identifier

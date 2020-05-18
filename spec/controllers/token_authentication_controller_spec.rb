@@ -60,6 +60,15 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         response, _responseobj = prepare_spec(protocol_subscription)
         expect(response.location).to end_with(questionnaire_index_path)
       end
+
+      it 'does not redirect to the questionnaire index path if we are not a mentor' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  filling_out_for: mentor,
+                                                  person: person)
+        response, responseobj = prepare_spec(protocol_subscription)
+        expect(response.location).to end_with(preference_questionnaire_index_path(uuid: responseobj.uuid))
+      end
     end
 
     describe 'should set the correct cookie' do

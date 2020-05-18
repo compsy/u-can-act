@@ -22,6 +22,17 @@ describe CalculateDistribution do
       response_obj = FactoryBot.create(:response, :completed, measurement: measurement)
       response_obj.content = reponse_content.id
       response_obj.save!
+
+      # it should ignore csrf_failed responses
+      reponse_content2 = FactoryBot.create(:response_content, content: {
+                                             'v2_pizza' => 'true',
+                                             'v3' => '70',
+                                             'v4' => '2019-02-06',
+                                             'csrf_failed' => 'true'
+                                           })
+      response_obj2 = FactoryBot.create(:response, :completed, measurement: measurement)
+      response_obj2.content = reponse_content2.id
+      response_obj2.save!
       expected = {
         'total' => 1,
         'v3' => {

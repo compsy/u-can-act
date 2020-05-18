@@ -29,7 +29,7 @@ module Api
         private
 
         def person_params
-          params.require(:person).permit(:mobile_phone, :email, :account_active)
+          params.require(:person).permit(:mobile_phone, :email, :account_active, :locale)
         end
       end
     end

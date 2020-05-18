@@ -8,10 +8,28 @@ class QuestionnaireGenerator
   end
 
   # rubocop:disable Metrics/ParameterLists
-  def generate_questionnaire(response_id:, content:, title:, submit_text:, action:, unsubscribe_url:, params: {})
+  # rubocop:disable Metrics/AbcSize
+  def generate_questionnaire(response_id:, content:, title:, submit_text:,
+                             action:, unsubscribe_url:, locale:, params: {})
     params[:response_id] = response_id
+    params['content[locale]'] = locale
     response = Response.find_by(id: response_id) # allow nil response id for preview
-    raw_content = content[:questions].deep_dup
+    # It is important that the raw content is always in the same language, because it defines the keys in the response
+    # hash, e.g. v1_brood for a checkbox question with an answer named pizza. We wouldn't want to see a v1_bread column
+    # appear in the CSV export when that represents the same answer, just in a different language. The v1 keys for
+    # checkboxes are determined by their raw labels, hence we make sure that the raw labels are language independent
+    # (note: this is not the label that is shown to the user, it is merely used for the name/id of the elements on the
+    # page).
+    # We translate the raw content twice because the i18n language is optional, and if a translated string only has an
+    # 'nl' and 'en' component, it will be left untranslated in the string, which will give errors down the line when
+    # it expects a string and finds a hash. This is why after using the i18n translated strings wherever we can, we do a
+    # second pass to translate any remaining untranslated strings to the default language.
+    raw_content = QuestionnaireTranslator.translate_content(content[:questions].deep_dup, 'i18n')
+    # Translate a second time to get rid of any remaining translation hashes because the i18n translation is optional
+    raw_content = QuestionnaireTranslator.translate_content(raw_content,
+                                                            Rails.application.config.i18n.default_locale.to_s)
+    # The content needs its own parsing step, since there we don't want any i18n labels.
+    content = QuestionnaireTranslator.translate_content(content, locale)
     title = substitute_variables(response, title).first
     body = safe_join([
                        questionnaire_header(title),
@@ -23,6 +41,7 @@ class QuestionnaireGenerator
     body
   end
   # rubocop:enable Metrics/ParameterLists
+  # rubocop:enable Metrics/AbcSize
 
   def generate_hash_questionnaire(response_id, content, title)
     response = Response.find_by(id: response_id) # allow nil response id for preview

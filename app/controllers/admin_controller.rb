@@ -4,6 +4,7 @@ class AdminController < ApplicationController
   include AdminHelper
   http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
   before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
+  before_action :set_locale, only: %i[preview]
   before_action :set_questionnaire_content, only: %i[preview]
   before_action :load_questionnaires, only: %i[export preview_overview]
 
@@ -80,14 +81,22 @@ class AdminController < ApplicationController
     render(status: :not_found, html: 'Questionnaire with that name not found.', layout: 'application')
   end
 
+  def set_locale
+    @locale = questionnaire_params[:locale]
+    return if @locale.present? && Rails.application.config.i18n.available_locales.map(&:to_s).include?(@locale)
+
+    render(status: :bad_request, html: 'Invalid locale or no locale specified.', layout: 'application')
+  end
+
   def set_questionnaire_content
     @content = QuestionnaireGenerator.new.generate_questionnaire(
       response_id: nil,
       content: @questionnaire.content,
       title: @questionnaire.title,
-      submit_text: 'Opslaan',
+      submit_text: (@locale == 'en' ? 'Save' : 'Opslaan'),
       action: '/admin/preview_done',
       unsubscribe_url: nil,
+      locale: @locale,
       params: { authenticity_token: form_authenticity_token(form_options: { action: '/admin/preview_done',
                                                                             method: 'post' }) }
     )
@@ -100,6 +109,6 @@ class AdminController < ApplicationController
   end
 
   def questionnaire_params
-    params.permit(:id)
+    params.permit(:id, :locale)
   end
 end

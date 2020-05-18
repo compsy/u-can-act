@@ -522,7 +522,26 @@ Kies 1 van de 5 plaatjes',
     title: 'Hoe erg hoort de natuur bij jou? Kies één van de plaatjes.',
     options: [natuur1, natuur2, natuur3, natuur4, natuur5],
     show_otherwise: false,
-    section_end: true
+    section_end: true,
+    },{
+      section_start: 'Tot slot:',
+      id: :v21,
+      type: :checkbox,
+      title: 'Ken je iemand die het coronavirus heeft of heeft gehad?',
+      options: [
+        {title: 'Ja, iemand die het nu heeft', shows_questions: %i[v21a]},
+        {title: 'Ja, iemand die het gehad heeft', shows_questions: %i[v21a]},
+        {title: 'Nee'}],
+      show_otherwise: false,
+      section_end: false
+      },{
+        id: :v21a,
+        hidden: true,
+        type: :checkbox,
+        title: 'Wie is deze persoon?',
+        options: ['Mijn ouder(s)', 'Mijn broer(tje) of zus(je)','Mijn opa of oma', 'Een ander familielid', 'Een vriend(in)', 'Mijn leraar/lerares'],
+        show_otherwise: true,
+        section_end: true
   }
 ]
 dagboek1.content = {

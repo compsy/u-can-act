@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-fdescribe 'Response api' do
+describe 'Response api' do
   base_path = '/response'
   let(:the_auth_user) { FactoryBot.create(:auth_user, :with_person) }
   let(:other_person) { FactoryBot.create(:person) }

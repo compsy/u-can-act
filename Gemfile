@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 1.1.4'
@@ -25,7 +25,7 @@ gem 'haml-rails', '>= 2.0.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '>= 4.2.2'
+gem 'coffee-rails', '>= 5.0.0'
 
 # Use React for the UI
 gem 'react-rails', '>= 2.6.1'
@@ -35,10 +35,10 @@ gem 'react-source'
 gem 'highcharts-rails', '>= 6.0.3'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder'
+gem 'jbuilder', '>= 2.10.0'
 
 # Driver for the mongo database
-gem 'mongoid'
+gem 'mongoid', '>= 7.1.1'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
@@ -59,7 +59,7 @@ gem 'dotenv-rails', '>= 2.7.5'
 gem 'coveralls', '>= 0.8.21', require: false
 
 # Delayed job for delayed calculation
-gem 'delayed_job_active_record'
+gem 'delayed_job_active_record', '>= 4.1.4'
 
 # Used to scroll to top
 gem 'animate-rails', github: 'camelmasa/animate-rails'
@@ -70,7 +70,7 @@ gem 'messagebird-rest', require: 'messagebird'
 # Email via mailgun
 gem 'mailgun-ruby'
 
-gem 'active_interaction'
+gem 'active_interaction', '>= 3.8.2'
 gem 'active_model_serializers', '>= 0.10.10'
 
 # Gem for JWT / Authentication
@@ -90,19 +90,19 @@ gem 'snitcher'
 gem 'iban-tools'
 
 # Swagger
-gem 'rswag-api', '>= 2.2.0'
-gem 'rswag-ui', '>= 2.2.0'
+gem 'rswag-api', '>= 2.3.1'
+gem 'rswag-ui', '>= 2.3.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # Swagger
-  gem 'rswag-specs', '>= 2.2.0'
+  gem 'rswag-specs', '>= 2.3.1'
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
-  gem 'rspec-rails', '>= 3.9.0'
+  gem 'rspec-rails', '>= 4.0.1'
   gem 'rspec_junit_formatter'
 end
 
@@ -110,7 +110,7 @@ group :test do
   # Code quality monitoring
   gem 'rubocop'
   gem 'rubocop-performance'
-  gem 'rubocop-rails'
+  gem 'rubocop-rails', '>= 2.5.2'
   gem 'rubocop-rspec'
 
   # Allows jumping back and forth in time
@@ -120,15 +120,15 @@ group :test do
   gem 'simplecov'
 
   # Used for gem mocking
-  gem 'factory_bot_rails', '>= 5.1.1'
+  gem 'factory_bot_rails', '>= 5.2.0'
 
   # Test which template was rendered
   gem 'rails-controller-testing', '>= 1.0.4'
 
   # Cleans the database after specs
   gem 'database_cleaner'
-  gem 'database_cleaner-active_record'
-  gem 'database_cleaner-mongoid'
+  gem 'database_cleaner-active_record', '>= 1.8.0'
+  gem 'database_cleaner-mongoid', '>= 1.8.1'
 
   # Integration testing
   gem 'capybara', '>= 3.31.0'
@@ -171,7 +171,7 @@ gem 'silencer'
 gem 'materialize-sass', '>= 1.0.0'
 gem 'modernizr-rails'
 
-gem 'webpacker', '>= 4.2.2'
+gem 'webpacker', '>= 5.1.1'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'

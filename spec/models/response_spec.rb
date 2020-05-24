@@ -232,7 +232,7 @@ describe Response do
 
     describe 'in_week' do
       it 'finds all responses in the current week and year by default' do
-        expected_response = FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
+        expected_response = FactoryBot.create(:response, open_from: 1.second.ago.in_time_zone)
 
         FactoryBot.create(:response, open_from: 2.weeks.ago.in_time_zone)
 

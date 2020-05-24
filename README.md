@@ -839,6 +839,7 @@ In particular, one would want the `numeric_value`s of different questions in the
 The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
 If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
+
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
 ### Type: Drawing

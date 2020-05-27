@@ -39,7 +39,7 @@ dagboek_content = [
     id: :v1, # 1
     type: :radio,
     show_otherwise: false,
-    title: 'Bent u jonger of ouder dan 12 jaar?',
+    title: 'Vult u deze lijst in voor iemand jonger of ouder dan 12 jaar?',
     options: [
       { title: 'Jonger', shows_questions: (2..23).map{|x| "v#{x}".to_sym} },
       { title: 'Ouder', shows_questions: (24..47).map{|x| "v#{x}".to_sym}  }

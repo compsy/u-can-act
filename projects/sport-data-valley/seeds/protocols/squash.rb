@@ -1,4 +1,4 @@
-default_protocol_duration = 365.days  # evt eerder dynamisch afbreken
+default_protocol_duration = 1.day  # evt eerder dynamisch afbreken
 
 pr_name = 'squash'
 protocol = Protocol.find_by_name(pr_name)
@@ -27,7 +27,7 @@ db_measurement.period = nil
 db_measurement.open_duration = nil
 db_measurement.open_from_offset = 0
 db_measurement.reward_points = 0
-db_measurement.stop_measurement = false
+db_measurement.stop_measurement = true
 db_measurement.should_invite = false
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 db_measurement.save!

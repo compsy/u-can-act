@@ -10,6 +10,10 @@ class TokenAuthenticationController < ApplicationController
 
   def show
     responses = InvitationToken.find_attached_responses(questionnaire_params[:q])
+    if responses.blank?
+      render(status: :not_found, html: 'Deze link is niet (meer) geldig.', layout: 'application')
+      return
+    end
     current_person = responses.first.person
     if current_person.mentor? && !responses.first.protocol_subscription.for_myself?
       # If we are a mentor, we want to follow the full logic of the next page finder

@@ -63,11 +63,11 @@ dagboek_content = [
     type: :dropdown,
     placeholder: { nl: 'Selecteer uw antwoord...', en: 'Select your answer...' },
     options: [
-      { nl: 'Extensieve duur', en: 'Extensive duration', i18n: 'components.dashboards.questionnaire.session_type.extensive_duration' },
+      { nl: 'Extensieve duur', en: 'Extensive endurance', i18n: 'components.dashboards.questionnaire.session_type.extensive_endurance' },
       { nl: 'Extensieve interval', en: 'Extensive interval', i18n: 'components.dashboards.questionnaire.session_type.extensive_interval' },
       { nl: 'Extensieve tempo', en: 'Extensive tempo', i18n: 'components.dashboards.questionnaire.session_type.extensive_tempo' },
       { nl: 'Herstel', en: 'Recovery', i18n: 'components.dashboards.questionnaire.session_type.recovery' },
-      { nl: 'Intensieve duur', en: 'Intensive duration', i18n: 'components.dashboards.questionnaire.session_type.intensive_duration' },
+      { nl: 'Intensieve duur', en: 'Intensive endurance', i18n: 'components.dashboards.questionnaire.session_type.intensive_endurance' },
       { nl: 'Intensieve interval', en: 'Intensive interval', i18n: 'components.dashboards.questionnaire.session_type.intensive_interval' },
       { nl: 'Intensieve tempo', en: 'Intensive tempo', i18n: 'components.dashboards.questionnaire.session_type.intensive_tempo' },
       { nl: 'Kracht', en: 'Power', i18n: 'components.dashboards.questionnaire.session_type.power' },

@@ -287,7 +287,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     parallel (1.19.1)
-    parser (2.7.1.2)
+    parser (2.7.1.3)
       ast (~> 2.4.0)
     pg (1.1.4)
     platform-api (2.2.0)
@@ -410,7 +410,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.0.3)
       parser (>= 2.7.0.1)
-    rubocop-performance (1.5.2)
+    rubocop-performance (1.6.0)
       rubocop (>= 0.71.0)
     rubocop-rails (2.5.2)
       activesupport

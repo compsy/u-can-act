@@ -11,7 +11,8 @@ metadata:
 spec:
   tls:
   - hosts:
-    - svc-questionnaires.sportdatavalley.dev
+    - svc-questionnaires.beta.sportdatavalley.dev
+    - svc-questionnaires.app.sportdatavalley.dev
     - svc-questionnaires.researchable.nl
     secretName: sportdatavalley-svc-questionnaires-tls
   rules:
@@ -22,7 +23,14 @@ spec:
         backend:
           serviceName: svc-questionnaires-service
           servicePort: 3000
-  - host: svc-questionnaires.sportdatavalley.dev
+  - host: svc-questionnaires.beta.sportdatavalley.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: svc-questionnaires-service
+          servicePort: 3000
+  - host: svc-questionnaires.app.sportdatavalley.dev
     http:
       paths:
       - path: /

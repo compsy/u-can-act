@@ -27,6 +27,16 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Deze link is niet meer geldig.')
       end
+
+      it 'requires a q parameter that has responses attached' do
+        responseobj = FactoryBot.create(:response, :invited)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        responseobj.destroy!
+        get :show, params: { q: identifier }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('Deze link is niet (meer) geldig.')
+      end
     end
 
     describe 'redirects to the questionnaire controller' do
@@ -59,6 +69,15 @@ RSpec.describe TokenAuthenticationController, type: :controller do
                                                   person: mentor)
         response, _responseobj = prepare_spec(protocol_subscription)
         expect(response.location).to end_with(questionnaire_index_path)
+      end
+
+      it 'does not redirect to the questionnaire index path if we are not a mentor' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  filling_out_for: mentor,
+                                                  person: person)
+        response, responseobj = prepare_spec(protocol_subscription)
+        expect(response.location).to end_with(preference_questionnaire_index_path(uuid: responseobj.uuid))
       end
     end
 

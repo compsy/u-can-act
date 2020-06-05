@@ -9,6 +9,7 @@ class QuestionnaireController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
   before_action :set_response, only: %i[show preference destroy]
+  before_action :set_locale, only: %i[show]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]
@@ -22,6 +23,7 @@ class QuestionnaireController < ApplicationController
   before_action :check_interactive_content, only: %i[interactive_render]
   before_action :set_interactive_content, only: %i[interactive_render]
   before_action :verify_interactive_content, only: %i[interactive_render]
+  before_action :set_default_content, only: %i[interactive]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
@@ -33,9 +35,7 @@ class QuestionnaireController < ApplicationController
     redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: @response
   end
 
-  def interactive
-    @default_content = ''
-  end
+  def interactive; end
 
   # This method is used to post results from the interactive questionnaire previewer
   def from_json
@@ -48,9 +48,10 @@ class QuestionnaireController < ApplicationController
       response_id: nil,
       content: @raw_questionnaire_content,
       title: 'Test questionnaire',
-      submit_text: 'Opslaan',
+      submit_text: (Rails.application.config.i18n.default_locale.to_s == 'en' ? 'Save' : 'Opslaan'),
       action: '/questionnaire/from_json',
-      unsubscribe_url: nil
+      unsubscribe_url: nil,
+      locale: Rails.application.config.i18n.default_locale.to_s
     )
 
     render 'questionnaire/show', layout: nil
@@ -91,6 +92,15 @@ class QuestionnaireController < ApplicationController
   end
 
   private
+
+  def set_locale
+    person = current_user
+    I18n.locale = if person
+                    person.locale
+                  else
+                    I18n.default_locale
+                  end
+  end
 
   def check_interactive_content
     return unless params.blank? || params[:content].blank?
@@ -272,9 +282,10 @@ class QuestionnaireController < ApplicationController
       response_id: @response.id,
       content: @response.measurement.questionnaire.content,
       title: @response.measurement.questionnaire.title,
-      submit_text: 'Opslaan',
+      submit_text: (@response.person.locale == 'en' ? 'Save' : 'Opslaan'),
       action: '/',
       unsubscribe_url: @response.unsubscribe_url,
+      locale: @response.person.locale,
       params: default_questionnaire_params
     )
   end
@@ -358,5 +369,13 @@ class QuestionnaireController < ApplicationController
 
   def answer_within_limits?(key, value)
     key.to_s.size <= MAX_ANSWER_LENGTH && value.to_s.size <= MAX_ANSWER_LENGTH
+  end
+
+  def set_default_content
+    @default_content = ''
+    @default_content = Base64.strict_decode64(params['content']) if params['content']
+  rescue ArgumentError => e
+    # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
+    raise e if e.message != 'invalid base64'
   end
 end

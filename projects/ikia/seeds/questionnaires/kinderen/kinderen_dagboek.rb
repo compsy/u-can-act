@@ -69,7 +69,7 @@ dagboek_content = [
     type: :range,
     title: 'Beschaamd',
     labels: ['Helemaal niet', 'Heel erg'],
-    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt',
+    tooltip: 'Dit is het gevoel dat je je ergens voor schaamt, dat je het anders had willen doen',
     required: true
   }, {
     id: :v9,
@@ -191,6 +191,14 @@ dagboek_content = [
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
+    id: :v21c,
+    type: :checkbox,
+    title: 'Waar had deze gebeurtenis mee te maken?',
+    options: ['Met mijzelf', 'Met mijn ouders of familie', 'Met mijn vrienden', 'Mijn mijn klasgenoten', 'Met iets op social media', 'Met school', 'Met het coronavirus', 'Met onbekenden', 'Met iets wat niet direct met mijzelf te maken had, bijvoorbeeld iets op het nieuws'],
+    show_otherwise: true,
+    otherwise_label: 'Met iets anders, namelijk:',
+    required: true
+    },{
     id: :v22,
     type: :radio,
     title: 'Heb je met iemand over deze gebeurtenis gepraat?',
@@ -214,7 +222,7 @@ dagboek_content = [
       { title: 'Hij/zij moest lachen' },
       { title: 'Hij/zij knuffelde me' }],
     show_otherwise: true,
-    otherwise_label: 'Anders, namelijk',
+    otherwise_label: 'Anders, namelijk:',
     tooltip: 'Je mag meerdere antwoorden kiezen'
   }, {
     id: :v22b,
@@ -265,52 +273,65 @@ Dit mag per antwoord verschillend zijn.',
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over hoe het tussen jou en je vriend(en) was. Met "vriend" bedoelen we zowel jongens als meisjes.',
+    section_start: 'De volgende vragen gaan over hoe het tussen jou en je vriend(in) was.',
     id: :v29,
     type: :radio,
-    title: 'Ik heb vandaag een vriend gezien.',
+    title: 'Heb je vandaag een vriend(in) gezien of gesproken?',
     options: [
-      { title: 'Ja', shows_questions: %i[v29a v29b v29c] },
-      { title: 'Nee', shows_questions: %i[v29d] }],
+      { title: 'Ja', shows_questions: %i[v29a v29b v29c v29d] },
+      { title: 'Nee', shows_questions: %i[v29e] }],
     show_otherwise: false,
     section_end: false
   }, {
     id: :v29a,
-    type: :range,
     hidden: true,
-    title: 'Ik had het gevoel dat ik mezelf kon zijn bij mijn vriend(en).',
-    labels: ['Helemaal niet', 'Heel erg'],
-    required: true
-  }, {
+    type: :checkbox,
+    title: 'Was dit in het echt of online (bijvoorbeeld via Whatsapp of Zoom)?',
+    options: ['In het echt', 'Online'],
+    show_otherwise: false
+    },{
     id: :v29b,
     type: :range,
     hidden: true,
-    title: 'Ik had het gevoel dat mijn vriend(en) blij was/waren dat ik er was.',
+    title: 'Ik had het gevoel dat ik mezelf kon zijn bij mijn vriend(in).',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
     id: :v29c,
     type: :range,
     hidden: true,
-    title: 'Ik was liever alleen geweest dan samen met mijn vriend(en).',
+    title: 'Ik had het gevoel dat mijn vriend(in) blij was om mij te zien/spreken.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
     id: :v29d,
     type: :range,
     hidden: true,
-    title: 'Ik had liever bij een vriend willen zijn.',
+    title: 'Ik was liever alleen geweest.',
+    labels: ['Helemaal niet', 'Heel erg'],
+    required: true
+  }, {
+    id: :v29e,
+    type: :range,
+    hidden: true,
+    title: 'Ik had liever een vriend(in) willen zien of spreken.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true,
     section_end: true
   }, {
     section_start: 'De laatste vragen:',
-    id: :v30,
-    type: :range,
-    title: 'Vandaag was een goede dag.',
-    labels: ['Helemaal niet', 'Heel erg'],
-    required: true,
+    id: :v30a,
+    type: :radio,
+    title: 'Ik ben vandaag naar school geweest.',
+    options: ['Ja', 'Nee'],
+    show_otherwise: false,
     section_end: false
+    },{
+      id: :v30,
+    type: :range,
+    title: 'Vandaag was een leuke dag.',
+    labels: ['Helemaal niet', 'Heel erg'],
+    required: true
   }, {
     id: :v31,
     type: :range,

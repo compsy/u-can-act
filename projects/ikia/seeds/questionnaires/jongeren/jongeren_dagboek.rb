@@ -19,7 +19,7 @@ dagboek_content = [
     title: 'Hoe sterk voel je dit?',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
-    },{
+  }, {
     id: :v2,
     type: :radio,
     show_otherwise: false,
@@ -198,7 +198,7 @@ dagboek_content = [
     show_otherwise: true,
     otherwise_label: 'Met iets anders, namelijk:',
     required: true
-    },{
+  }, {
     id: :v22,
     type: :radio,
     title: 'Heb je met iemand over deze gebeurtenis gepraat?',
@@ -294,7 +294,7 @@ dagboek_content = [
     title: 'Was dit in het echt of online (bijvoorbeeld via Skype, Whatsapp of Zoom)?',
     options: ['In het echt', 'Online'],
     required: true
-    },{
+  }, {
     id: :v24b,
     type: :range,
     hidden: true,
@@ -353,9 +353,9 @@ dagboek_content = [
     id: :v28b,
     type: :radio,
     title: 'Ik ben vandaag naar school geweest.',
-    options: ['Ja', 'Nee'],
+    options: %w[Ja Nee],
     show_otherwise: false,
-    },{
+  }, {
     id: :v29,
     type: :radio,
     title: 'Is deze meting de laatste meting van vandaag?',

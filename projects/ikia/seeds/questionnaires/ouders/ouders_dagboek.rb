@@ -169,7 +169,7 @@ dagboek_content = [
     show_otherwise: true,
     otherwise_label: 'Met iets anders, namelijk:',
     required: true
-    },{    
+  }, {
     id: :v20,
     type: :radio,
     title: 'Heeft u met iemand over deze gebeurtenis gepraat?',
@@ -339,7 +339,7 @@ dagboek_content = [
       { title: 'Met zijn haar vriend(en) of vriendin(nen)' },
       { title: 'Met iets dat op school gebeurd is' },
       { title: 'Met zijn/haar ouders of familie' },
-      {title: 'Met het coronavirus'}],
+      { title: 'Met het coronavirus' }],
     show_otherwise: true
   }, {
     id: :v40,
@@ -351,9 +351,9 @@ dagboek_content = [
     id: :v40b,
     type: :radio,
     title: 'Mijn kind is vandaag naar school geweest.',
-    options: ['Ja', 'Nee'],
-    },{
-   id: :v41,
+    options: %w[Ja Nee],
+  }, {
+    id: :v41,
     type: :range,
     title: 'Mijn kind was vandaag gemakkelijk in de omgang.',
     labels: ['Helemaal niet', 'Heel erg'],

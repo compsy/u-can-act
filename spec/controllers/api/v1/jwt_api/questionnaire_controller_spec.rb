@@ -64,6 +64,51 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     end
   end
 
+  describe 'GET #index' do
+    let!(:the_auth_user) { FactoryBot.create(:auth_user) }
+    let(:protocol) { FactoryBot.create(:protocol) }
+    let(:team) { FactoryBot.create(:team, :with_roles) }
+    let(:questionnaires) { FactoryBot.create_list(:questionnaire, 10) }
+    let!(:the_payload) do
+      { ENV['SITE_LOCATION'] => {
+        'access_level' => ['user'],
+        'team' => team.name,
+        'protocol' => protocol.name
+      } }
+    end
+
+    before :each do
+      the_payload[:sub] = FactoryBot.create(:auth_user, :admin).auth0_id_string
+      jwt_auth the_payload
+    end
+
+    it 'returns the correct keys' do
+      get :index
+      expect(response.status).to eq 200
+      parsed = JSON.parse(response.body)
+      parsed.each do |quest|
+        expect(quest.keys).to match_array %w[key title]
+      end
+    end
+
+    it 'should have the correct list (based on length)' do
+      get :index
+      expect(response.status).to eq 200
+      parsed = JSON.parse(response.body)
+      expect(parsed.length).to eq Questionnaire.all.length
+    end
+
+    it 'returns the correct keys' do
+      get :index
+      expect(response.status).to eq 200
+      parsed = JSON.parse(response.body)
+      Questionnaire.all.each do |expected|
+        expect(parsed.any? { |result| result['key'] == expected.key }).to be_truthy
+        expect(parsed.any? { |result| result['title'] == expected.title }).to be_truthy
+      end
+    end
+  end
+
   describe 'create' do
     let!(:the_auth_user) { FactoryBot.create(:auth_user) }
     let(:protocol) { FactoryBot.create(:protocol) }

@@ -1,0 +1,22 @@
+# Beware! This file is public by definition
+default: &default
+  default_team_name: 'UCF'
+  metadata_field: 'https://u-can-feel.nl'
+  # This settings is included only for the specs. Don't remove
+  test_setting: 'test123'
+  project_title: 'U-can-feel'
+  project_start_date: '2020-09-01'
+  project_end_date: '2021-09-01'
+  logo:
+    mentor_logo: 'logo_mentor.png'
+    student_logo: 'logo_student.png'
+    fallback_logo: 'logo.png'
+    company_logo: 'logo.png'
+development:
+  <<: *default
+production:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default

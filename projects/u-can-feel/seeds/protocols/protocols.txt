@@ -1,0 +1,4 @@
+Voor de cohortstudie:
+
+1. Omvat de vragenlijsten 'demografie.rb', 'wellbeing.rb', 'school.rb', 'socialnetworks.rb', and 'other_factors.rb', in deze volgorde. Elke vragenlijst zou automatisch op de vorige vragenlijst moeten volgen.
+2. Vragenlijsten worden eenmalig afgenomen. Ze moeten medio september 2020 open gesteld worden (idealiter op een datum en tijdstip die per school kan verschillen) en 2 weken lang opengesteld blijven. Is het mogelijk om na bijv. een week een reminder te sturen als iemand de vragenlijsten nog niet heeft ingevuld?

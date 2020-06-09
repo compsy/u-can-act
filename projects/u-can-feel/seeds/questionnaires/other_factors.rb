@@ -1,0 +1,296 @@
+# frozen_string_literal: true
+
+db_title = 'Geloof, gebeurtenissen en sociale media'
+db_name1 = 'other_factors'
+dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+dagboek1.name = db_name1
+social_media_options = ['Nooit of bijna nooit', 'Zo nu en dan', 'Soms', 'Vaak', 'Heel vaak']
+dagboek_content = [
+  {
+    type: :raw,
+    content: '<p class="flow-text">Je bent er bijna! <br><br>
+        De laatste vragen gaan over een aantal dingen die invloed kunnen hebben op hoe het met je gaat, namelijk je geloof, gebeurtenissen in je leven en sociale media.<br><br>
+        De eerste vragen gaan over je geloof. Sommige kinderen geloven in God of een hogere macht. Andere kinderen geloven daar niet in.
+    </p>'
+  }, {
+    id: :v1,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Geloof jij in God of een ander soort hogere macht?',
+    options: [
+      { title: 'Ja', shows_questions: %i[v5_a v5_b v5_c v5_d v5_e] },
+      { title: 'Nee' },
+      { title: 'Weet ik niet', shows_questions: %i[v5_a v5_b v5_c v5_d v5_e] }
+    ]
+  }, {
+    id: :v2,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Kom je uit een gelovig gezin?',
+    options: %w[Ja Nee]
+  }, {
+    id: :v3,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ben je in het afgelopen jaar naar de kerk, de moskee of een andere religieuze dienst geweest?',
+    options: ['Ja, ongeveer wekelijks of vaker', 'Ja, één of twee keer per maand', 'Ja, een paar keer per jaar', 'Nooit of bijna nooit']
+  }, {
+    type: :raw,
+    content: '<p class="flow-text">Verschuif de slider om aan te geven hoeveel je het eens of oneens bent met de volgende zin(nen).
+    </p>'
+  }, {
+    id: :v4,
+    type: :range,
+    title: 'Op mijn school speelt geloof een belangrijke rol',
+    labels: ['Helemaal oneens', 'Helemaal eens']
+  }, {
+    id: :v5_a,
+    type: :range,
+    hidden: true,
+    title: 'Ik geloof dat God of een hogere macht van mij houdt en om mij geeft',
+    labels: ['Helemaal oneens', 'Helemaal eens']
+  }, {
+    id: :v5_b,
+    type: :range,
+    hidden: true,
+    title: 'Mijn relatie met God of een hogere macht is belangrijk voor mij',
+    labels: ['Helemaal oneens', 'Helemaal eens']
+  }, {
+    id: :v5_c,
+    type: :range,
+    hidden: true,
+    title: 'Ik ervaar zelf niet veel kracht of steun van God of een hogere macht',
+    labels: ['Helemaal oneens', 'Helemaal eens']
+  }, {
+    id: :v5_d,
+    type: :range,
+    hidden: true,
+    title: 'Ik geloof dat God of een hogere macht geeft om mijn problemen',
+    labels: ['Helemaal oneens', 'Helemaal eens']
+  }, {
+    id: :v5_e,
+    type: :range,
+    hidden: true,
+    title: 'Mijn relatie met God of een hogere macht helpt om mij gelukkig te maken',
+    labels: ['Helemaal oneens', 'Helemaal eens']
+  }, {
+    type: :raw,
+    content: '<p class="flow-text">De volgende vragen gaan over dingen die kunnen gebeuren in je leven. Geef voor elke gebeurtenis aan of dit <b>het afgelopen jaar</b> in jouw leven gebeurd is.
+    </p>'
+  }, {
+    id: :v6,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ik ben verhuisd',
+    options: %w[Ja Nee]
+  }, {
+    id: :v7,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Iemand in mijn gezin had een ernstig ongeluk of ziekte',
+    options: %w[Ja Nee]
+  }, {
+    id: :v8,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Mijn ouders zijn dit jaar gescheiden',
+    options: %w[Ja Nee]
+  }, {
+    id: :v9,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ik ben op school geschorst',
+    options: %w[Ja Nee]
+  }, {
+    id: :v10,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Mijn ouders hadden vaak ruzie met elkaar',
+    options: %w[Ja Nee]
+  }, {
+    id: :v11,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ik had vaak ruzie met mijn ouders',
+    options: %w[Ja Nee]
+  }, {
+    id: :v12,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Mijn vader of moeder is zijn of haar baan kwijtgeraakt',
+    options: %w[Ja Nee]
+  }, {
+    id: :v13,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ik heb een ernstig ongeluk of ziekte gehad',
+    options: %w[Ja Nee]
+  }, {
+    id: :v14,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Het is uit gegaan met mijn vriendje/vriendinnetje',
+    options: %w[Ja Nee]
+  }, {
+    id: :v15,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ik heb slechte cijfers gehaald op school',
+    options: %w[Ja Nee]
+  }, {
+    id: :v16,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ik heb problemen met de politie gehad',
+    options: %w[Ja Nee]
+  }, {
+    id: :v17,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Mijn ouders hadden geldproblemen',
+    options: %w[Ja Nee]
+  }, {
+    id: :v18,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Ik mocht niet meedoen met een groep of team waar ik graag bij wou',
+    options: %w[Ja Nee]
+  }, {
+    id: :v19,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Iemand in mijn gezin is gearresteerd',
+    options: %w[Ja Nee]
+  }, {
+    id: :v20,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Er is een nieuwe huisgenoot bij ons gezin komen wonen (bijvoorbeeld een stiefouder, een nieuw broertje of zusje, een stiefbroer of stiefzus, of iemand anders)',
+    options: %w[Ja Nee]
+  }, {
+    id: :v21,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Mensen waar ik vrienden mee was, laten mij links liggen',
+    options: %w[Ja Nee]
+  }, {
+    id: :v22,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Mijn vader of moeder had psychische problemen',
+    options: %w[Ja Nee]
+  }, {
+    id: :v23,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Mijn vader of moeder had problemen met drugs of alcohol',
+    options: %w[Ja Nee]
+  }, {
+    id: :v24,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Iemand anders in mijn gezin had psychische problemen',
+    options: %w[Ja Nee]
+  }, {
+    id: :v25,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Iemand anders in mijn gezin had problemen met drugs of alcohol',
+    options: %w[Ja Nee]
+  }, {
+    type: :raw,
+    content: '<p class="flow-text">De laatste vragen gaan over hoe jij sociale media gebruikt.
+    </p>'
+  }, {
+    id: :v25_a,
+    type: :checkbox,
+    show_otherwise: false,
+    required: true,
+    title: 'Welke sociale media gebruik jij weleens?',
+    options: [
+      { title: 'WhatsApp', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Instagram', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'YouTube', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Snapchat', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Facebook', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Pinterest', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Twitter', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'TikTok', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Iets anders', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Ik gebruik helemaal geen sociale media' }
+    ]
+  }, {
+    id: :v25_b,
+    type: :checkbox,
+    show_otherwise: false,
+    required: true,
+    hidden: true,
+    title: 'Welke sociale media gebruik jij <b>dagelijks of bijna dagelijks</b>?',
+    options: [
+      { title: 'WhatsApp' },
+      { title: 'Instagram' },
+      { title: 'YouTube' },
+      { title: 'Snapchat' },
+      { title: 'Facebook' },
+      { title: 'Pinterest' },
+      { title: 'Twitter' },
+      { title: 'TikTok' },
+      { title: 'Iets anders' },
+      { title: 'Ik gebruik geen van deze sociale media dagelijks of bijna dagelijks' }
+    ]
+  }, {
+    id: :v26_a,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: 'Hoe vaak ben je in de afgelopen maand bezig geweest met sociale media?',
+    options: ['Bijna de hele dag door', 'Een paar keer per dag', 'Dagelijks', 'Een paar keer per week', 'Wekelijks', 'Nooit of bijna nooit']
+  }, {
+    id: :v26_b,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: 'Hoeveel tijd heb je in de afgelopen maand ongeveer per dag aan sociale media besteed?',
+    options: ['Meer dan 2 uur', '1 à 2 uur', 'Een half uur tot een uur', 'Minder dan een half uur']
+  }, {
+    id: :v27_a,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: 'Hoe vaak heb je in de afgelopen maand op sociale media gezeten terwijl je eigenlijk iets anders moest doen?',
+    options: social_media_options
+  }, {
+    id: :v27_b,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: 'Hoe vaak heb je in de afgelopen maand langer op sociale media gezeten dan je eigenlijk wou?',
+    options: social_media_options
+  }, {
+    id: :v28_a,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: 'Heb je in de afgelopen maand je ontevreden gevoeld omdat je <b>meer</b> tijd aan sociale media had willen besteden?',
+    options: social_media_options
+  }, {
+    id: :v28_b,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: "Heb je in de afgelopen maand geen interesse gehad in hobby's of andere bezigheden omdat je liever met sociale media bezig was?",
+    options: social_media_options
+  }, {
+    id: :v28_c,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: 'Heb je in de afgelopen maand sociale media gebruikt om niet aan vervelende dingen te hoeven denken?',
+    options: social_media_options
+  }
+]
+
+dagboek1.content = { questions: dagboek_content, scores: [] }
+dagboek1.title = db_title
+dagboek1.save!

@@ -8,7 +8,7 @@ dagboek1.name = db_name1
 
 dagboek_content = [
   {
-    section_start: '<strong>De volgende vragen gaan over hoe u zich op dit moment voelt:</strong>',
+    section_start: '<strong>Hoe voelt u zich op dit moment?</strong>',
     id: :v1,
     type: :range,
     title: 'Trots',
@@ -162,6 +162,14 @@ dagboek_content = [
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
+    id: :v19c,
+    type: :checkbox,
+    title: 'Waar had deze gebeurtenis mee te maken?',
+    options: ['Met mijzelf', 'Met mijn partner', 'Met mijn kind(eren)', 'Met mijn baan', 'Met iets op het nieuws/in de krant', 'Met het coronavirus', 'Met onbekenden'],
+    show_otherwise: true,
+    otherwise_label: 'Met iets anders, namelijk:',
+    required: true
+  }, {
     id: :v20,
     type: :radio,
     title: 'Heeft u met iemand over deze gebeurtenis gepraat?',
@@ -177,7 +185,7 @@ dagboek_content = [
     id: :v20a,
     hidden: true,
     type: :checkbox,
-    title: 'Hoe reageerde deze persoon toen je over de gebeurtenis vertelde?',
+    title: 'Hoe reageerde deze persoon toen u over de gebeurtenis vertelde?',
     options: [
       { title: 'Hij/zij werd boos' },
       { title: 'Hij/zij vond het niet belangrijk' },
@@ -323,14 +331,15 @@ dagboek_content = [
     section_end: false
   }, {
     id: :v39a,
-    type: :radio,
+    type: :checkbox,
     hidden: true,
     title: 'Waar had deze gebeurtenis mee te maken?',
     options: [
       { title: 'Met hem/haarzelf' },
       { title: 'Met zijn haar vriend(en) of vriendin(nen)' },
       { title: 'Met iets dat op school gebeurd is' },
-      { title: 'Met zijn/haar ouders of familie' }],
+      { title: 'Met zijn/haar ouders of familie' },
+      { title: 'Met het coronavirus' }],
     show_otherwise: true
   }, {
     id: :v40,
@@ -338,6 +347,11 @@ dagboek_content = [
     title: 'Mijn kind heeft het vandaag druk gehad.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
+  }, {
+    id: :v40b,
+    type: :radio,
+    title: 'Mijn kind is vandaag naar school geweest.',
+    options: %w[Ja Nee],
   }, {
     id: :v41,
     type: :range,

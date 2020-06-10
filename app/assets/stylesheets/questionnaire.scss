@@ -197,7 +197,7 @@ form .likert-scale {
 // Fix range labels leaping off the screen
 .range-container + .row {
   .col {
-    overflow: hidden;
+    overflow-wrap: break-word;
   }
 }
 h4, h5, .flow-text {

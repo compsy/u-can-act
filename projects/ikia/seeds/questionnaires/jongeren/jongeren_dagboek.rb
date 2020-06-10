@@ -11,7 +11,14 @@ dagboek_content = [
     section_start: '<strong>De volgende vragen gaan over hoe je je op dit moment voelt:</strong>',
     id: :v1,
     type: :textfield,
-    title: 'Ik voel me op dit moment...'
+    title: 'Ik voel me op dit moment...',
+    section_end: false
+  }, {
+    id: :v1b,
+    type: :range,
+    title: 'Hoe sterk voel je dit?',
+    labels: ['Helemaal niet', 'Heel erg'],
+    required: true
   }, {
     id: :v2,
     type: :radio,
@@ -184,6 +191,14 @@ dagboek_content = [
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
   }, {
+    id: :v21c,
+    type: :checkbox,
+    title: 'Waar had deze gebeurtenis mee te maken?',
+    options: ['Met mijzelf', 'Met mijn ouders of familie', 'Met mijn vrienden', 'Met mijn klasgenoten', 'Met iets op social media', 'Met school', 'Met het coronavirus', 'Met onbekenden', 'Met iets wat niet direct met mijzelf te maken had, bijvoorbeeld iets op het nieuws'],
+    show_otherwise: true,
+    otherwise_label: 'Met iets anders, namelijk:',
+    required: true
+  }, {
     id: :v22,
     type: :radio,
     title: 'Heb je met iemand over deze gebeurtenis gepraat?',
@@ -215,7 +230,6 @@ dagboek_content = [
     hidden: true,
     title: 'Had je wel met iemand over deze gebeurtenis willen praten?',
     labels: ['Helemaal niet', 'Heel graag'],
-    required: true,
     section_end: true
   }, {
     section_start: 'De volgende vragen gaan over jou en je ouder (of opvoeder). Hiermee bedoelen we één van je ouders of beide ouders.
@@ -265,40 +279,47 @@ dagboek_content = [
     required: true,
     section_end: true
   }, {
-    section_start: 'De volgende vragen gaan over jou en je vriend(en). Hiermee bedoelen we zowel jongens als meisjes.',
+    section_start: 'De volgende vragen gaan over jou en je vriend(in).',
     id: :v24,
     type: :radio,
-    title: 'Heb je sinds de vorige meting een vriend of vrienden gezien?',
+    title: 'Heb je sinds de vorige meting een vriend(in) gezien of gesproken?',
     options: [
-      { title: 'Ja', shows_questions: %i[v24a v24b v24c] },
-      { title: 'Nee', shows_questions: %i[v24d] }],
+      { title: 'Ja', shows_questions: %i[v24a v24b v24c v24d] },
+      { title: 'Nee', shows_questions: %i[v24e] }],
     section_end: false
   }, {
     id: :v24a,
-    type: :range,
     hidden: true,
-    title: 'Ik had het gevoel dat ik mezelf kon zijn bij mijn vriend(en).',
-    labels: ['Helemaal niet', 'Helemaal wel'],
+    type: :checkbox,
+    title: 'Was dit in het echt of online (bijvoorbeeld via Skype, Whatsapp of Zoom)?',
+    options: ['In het echt', 'Online'],
     required: true
   }, {
     id: :v24b,
     type: :range,
     hidden: true,
-    title: 'Ik had het gevoel dat mijn vriend(en) blij was/waren dat ik er was.',
+    title: 'Ik had het gevoel dat ik mezelf kon zijn bij mijn vriend(in).',
     labels: ['Helemaal niet', 'Helemaal wel'],
     required: true
   }, {
     id: :v24c,
     type: :range,
     hidden: true,
-    title: 'Ik was liever alleen geweest dan met mijn vriend(en).',
+    title: 'Ik had het gevoel dat mijn vriend(in) blij was om mij te zien/spreken.',
     labels: ['Helemaal niet', 'Helemaal wel'],
     required: true
   }, {
     id: :v24d,
     type: :range,
     hidden: true,
-    title: 'Ik had liever bij mijn vriend(en) willen zijn.',
+    title: 'Ik was liever alleen geweest.',
+    labels: ['Helemaal niet', 'Helemaal wel'],
+    required: true
+  }, {
+    id: :v24e,
+    type: :range,
+    hidden: true,
+    title: 'Ik had liever een vriend(in) willen zien of spreken.',
     labels: ['Helemaal niet', 'Helemaal wel'],
     required: true,
     section_end: true
@@ -328,6 +349,12 @@ dagboek_content = [
     title: 'Sinds de vorige meting heb ik het druk gehad.',
     labels: ['Helemaal niet', 'Heel erg'],
     required: true
+  }, {
+    id: :v28b,
+    type: :radio,
+    title: 'Ik ben vandaag naar school geweest.',
+    options: %w[Ja Nee],
+    show_otherwise: false,
   }, {
     id: :v29,
     type: :radio,

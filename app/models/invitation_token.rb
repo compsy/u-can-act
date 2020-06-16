@@ -51,7 +51,7 @@ class InvitationToken < ApplicationRecord
   end
 
   def self.find_attached_responses_split(identifier, token)
-    find_invitation_token(identifier, token)&.invitation_set&.responses
+    find_invitation_token(identifier, token)&.invitation_set&.sorted_responses
   end
 
   def self.find_invitation_token(identifier, token)

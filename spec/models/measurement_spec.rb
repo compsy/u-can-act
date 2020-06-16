@@ -177,6 +177,26 @@ describe Measurement do
     end
   end
 
+  describe 'priority' do
+    it 'is an integer' do
+      measurement = FactoryBot.create(:measurement)
+      measurement.priority = 2
+      expect(measurement).to be_valid
+      measurement.priority = 0
+      expect(measurement).to be_valid
+      measurement.priority = -1
+      expect(measurement).to be_valid
+      measurement.priority = 1.5
+      expect(measurement).not_to be_valid
+      expect(measurement.errors.messages).to have_key :priority
+      expect(measurement.errors.messages[:priority]).to include('moet een geheel getal zijn')
+    end
+    it 'accepts nil values' do
+      measurement = FactoryBot.create(:measurement, priority: nil)
+      expect(measurement).to be_valid
+    end
+  end
+
   describe 'period' do
     it 'is a positive integer' do
       measurement = FactoryBot.create(:measurement)

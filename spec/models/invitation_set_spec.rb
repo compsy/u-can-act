@@ -148,4 +148,49 @@ describe InvitationSet do
       expect(invitation_set.reminder_delay).to eq Measurement::DEFAULT_REMINDER_DELAY
     end
   end
+
+  describe 'sorted_responses' do
+    it 'should sort the responses by descending priority and ascending open_from' do
+      measurement4 = FactoryBot.create(:measurement, priority: 2)
+      responseobj4 = FactoryBot.create(:response, measurement: measurement4, open_from: 1.day.ago)
+
+      measurement1 = FactoryBot.create(:measurement, priority: 1)
+      responseobj1 = FactoryBot.create(:response, measurement: measurement1)
+
+      measurement6 = FactoryBot.create(:measurement, priority: -50)
+      responseobj6 = FactoryBot.create(:response, measurement: measurement6)
+
+      measurement2 = FactoryBot.create(:measurement, priority: 0)
+      responseobj2 = FactoryBot.create(:response, measurement: measurement2)
+
+      measurement3 = FactoryBot.create(:measurement, priority: 2)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3, open_from: 3.days.ago)
+
+      measurement5 = FactoryBot.create(:measurement, priority: 2)
+      responseobj5 = FactoryBot.create(:response, measurement: measurement5, open_from: 2.days.ago)
+
+      invitation_set = FactoryBot.create(:invitation_set, responses: [responseobj1, responseobj2, responseobj3,
+                                                                      responseobj4, responseobj5, responseobj6])
+      expected = [responseobj3, responseobj5, responseobj4, responseobj1, responseobj2, responseobj6]
+      expect(invitation_set.sorted_responses).to eq(expected)
+    end
+    it 'should sort items with priority nil after any items with a priority non nil' do
+      measurement3 = FactoryBot.create(:measurement, priority: 2)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3, open_from: 2.days.ago)
+
+      measurement5 = FactoryBot.create(:measurement, priority: -20)
+      responseobj5 = FactoryBot.create(:response, measurement: measurement5, open_from: 3.days.ago)
+
+      measurement6 = FactoryBot.create(:measurement, priority: nil)
+      responseobj6 = FactoryBot.create(:response, measurement: measurement6, open_from: 1.day.ago)
+
+      measurement7 = FactoryBot.create(:measurement, priority: nil)
+      responseobj7 = FactoryBot.create(:response, measurement: measurement7, open_from: 2.days.ago)
+
+      invitation_set = FactoryBot.create(:invitation_set, responses: [responseobj3, responseobj5, responseobj6,
+                                                                      responseobj7])
+      expected = [responseobj3, responseobj5, responseobj7, responseobj6]
+      expect(invitation_set.sorted_responses).to eq(expected)
+    end
+  end
 end

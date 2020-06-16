@@ -23,4 +23,12 @@ class InvitationSet < ApplicationRecord
     end.compact.min
     delay || Measurement::DEFAULT_REMINDER_DELAY
   end
+
+  def sorted_responses
+    responses.sort_by do |response|
+      # Sort by descending priority first, and then ascending open_from.
+      # Show items with priority nil after any items with non-nil priority.
+      [-1 * (response.measurement.priority.presence || (Measurement::MIN_PRIORITY - 1)), response.open_from]
+    end
+  end
 end

@@ -3,6 +3,8 @@
 class Measurement < ApplicationRecord
   DEFAULT_REMINDER_DELAY = 8.hours
   WEEKDAYS = %w[sunday monday tuesday wednesday thursday friday saturday].freeze
+  MIN_PRIORITY = -10_000
+  MAX_PRIORITY = 10_000
 
   belongs_to :questionnaire
   validates :questionnaire_id, presence: true
@@ -28,6 +30,8 @@ class Measurement < ApplicationRecord
   validates :open_from_day, inclusion: { in: [nil] + WEEKDAYS }
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :priority, numericality: { only_integer: true, allow_nil: true,
+                                       greater_than_or_equal_to: MIN_PRIORITY, less_than_or_equal_to: MAX_PRIORITY }
 
   validates :reminder_delay, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
 

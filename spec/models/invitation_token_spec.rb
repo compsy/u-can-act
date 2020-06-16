@@ -287,4 +287,16 @@ describe InvitationToken do
       end
     end
   end
+
+  describe 'find_attached_responses_split' do
+    it 'uses sorted_responses' do
+      person = FactoryBot.create(:person, external_identifier: 'abcd')
+      invitation_set = FactoryBot.create(:invitation_set, person: person)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: invitation_set)
+      invitation_token.token = 'efgh'
+      invitation_token.save!
+      expect_any_instance_of(InvitationSet).to receive(:sorted_responses).and_return(['sup'])
+      expect(described_class.find_attached_responses('abcdefgh')).to eq(['sup'])
+    end
+  end
 end

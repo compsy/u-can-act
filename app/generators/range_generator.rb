@@ -4,11 +4,10 @@ class RangeGenerator < QuestionTypeGenerator
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     slider_body = range_slider(question)
-    slider_body = content_tag(:div,
-                              slider_body,
-                              class: "range-container notchanged#{question[:required].present? ? ' required' : ''}")
+    slider_body = tag.div(slider_body,
+                          class: "range-container notchanged#{question[:required].present? ? ' required' : ''}")
     safe_join([
-                content_tag(:p, title, class: 'flow-text'),
+                tag.p(title, class: 'flow-text'),
                 slider_body,
                 range_labels(question)
               ])
@@ -34,8 +33,8 @@ class RangeGenerator < QuestionTypeGenerator
                      max: minmax[:max].to_s,
                      step: question[:step] || 1,
                      required: true)
-    range_body = content_tag(:p, range_body,
-                             class: 'range-field')
+    range_body = tag.p(range_body,
+                       class: 'range-field')
     range_body
   end
 
@@ -53,16 +52,15 @@ class RangeGenerator < QuestionTypeGenerator
       labels_body << label_div(label, col_class, new_col_width, idx, label_count)
     end
     labels_body = safe_join(labels_body)
-    labels_body = content_tag(:div, labels_body, class: 'row')
-    labels_body
+    tag.div(labels_body, class: 'row')
   end
 
   def label_div(label, col_class, col_width, idx, label_count)
     alignment = 'center-align'
     alignment = 'left-align' if idx.zero?
     alignment = 'right-align' if idx + 1 == label_count
-    content_tag(:div, label,
-                class: "col #{alignment} s#{col_class}",
-                style: "width: #{col_width}%")
+    tag.div(label,
+            class: "col #{alignment} s#{col_class}",
+            style: "width: #{col_width}%")
   end
 end

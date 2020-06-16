@@ -22,7 +22,7 @@ diary_measurement = diary_protocol.measurements.find_by(questionnaire_id: questi
 diary_measurement ||= diary_protocol.measurements.build(questionnaire_id: questionnaire_id)
 diary_measurement.open_from_offset = 12.hours # if we schedule these at week start, this is saturday noon
 # TODO: uncomment me
-# diary_measurement.open_from_day = 'saturday'
+# diary_measurement.open_from_day = 'saturday' # shift to the next saturday at noon
 diary_measurement.period = 1.week # daily for 30 days
 diary_measurement.open_duration = 36.hours # don't allow people to fill it out the next day
 diary_measurement.reminder_delay = 24.hours # send one reminder sunday at noon

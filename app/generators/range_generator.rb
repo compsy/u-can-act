@@ -52,8 +52,7 @@ class RangeGenerator < QuestionTypeGenerator
       labels_body << label_div(label, col_class, new_col_width, idx, label_count)
     end
     labels_body = safe_join(labels_body)
-    labels_body = tag.div(labels_body, class: 'row')
-    labels_body
+    tag.div(labels_body, class: 'row')
   end
 
   def label_div(label, col_class, col_width, idx, label_count)

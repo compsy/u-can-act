@@ -176,9 +176,9 @@ describe Response do
           responseobj = FactoryBot.create(:response,
                                           protocol_subscription: protocol_subscription,
                                           measurement: measurement)
-          reponse_content = FactoryBot.create(:response_content,
+          response_content = FactoryBot.create(:response_content,
                                               content: { 'v3' => '68', Response::CSRF_FAILED => 'true' })
-          responseobj.content = reponse_content.id
+          responseobj.content = response_content.id
           responseobj.save!
           expect(PushSubscriptionsJob).not_to receive(:perform_later)
           responseobj.complete!

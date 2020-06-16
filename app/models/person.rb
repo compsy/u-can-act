@@ -106,7 +106,7 @@ class Person < ApplicationRecord
 
   # For any method that only returns open responses, we want them to be sorted by descending priority first,
   # and ascending open_from second. This is because we call .first on this method to determine which is the next
-  # reponses that should be shown to the user.
+  # response that should be shown to the user.
   def my_open_responses(for_myself = true)
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)
@@ -115,7 +115,7 @@ class Person < ApplicationRecord
 
   # For any method that only returns open responses, we want them to be sorted by descending priority first,
   # and ascending open_from second. This is because we call .first on this method to determine which is the next
-  # reponses that should be shown to the user.
+  # response that should be shown to the user.
   def my_open_one_time_responses(for_myself = true)
     prot_subs = protocol_subscriptions.active.joins(protocol: :one_time_responses).distinct(:id)
     subscriptions = filter_for_myself(prot_subs, for_myself)

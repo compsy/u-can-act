@@ -5,9 +5,9 @@ require 'rails_helper'
 describe UpdateDistribution do
   describe 'execute' do
     it 'should store the correct results' do
-      reponse_content = FactoryBot.create(:response_content, content: { 'v3' => '68' })
+      response_content = FactoryBot.create(:response_content, content: { 'v3' => '68' })
       responseobj = FactoryBot.create(:response)
-      responseobj.content = reponse_content.id
+      responseobj.content = response_content.id
       responseobj.save!
       initial_distribution = { 'total' => 1 }
       expected = initial_distribution.deep_dup
@@ -22,9 +22,9 @@ describe UpdateDistribution do
     end
 
     it 'should ignore responses with csrf_failed' do
-      reponse_content = FactoryBot.create(:response_content, content: { 'v3' => '68', Response::CSRF_FAILED => 'true' })
+      response_content = FactoryBot.create(:response_content, content: { 'v3' => '68', Response::CSRF_FAILED => 'true' })
       responseobj = FactoryBot.create(:response)
-      responseobj.content = reponse_content.id
+      responseobj.content = response_content.id
       responseobj.save!
       initial_distribution = { 'total' => 1 }
       expect(RedisService).to(receive(:get).with(

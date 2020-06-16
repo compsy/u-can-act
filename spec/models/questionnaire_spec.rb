@@ -579,9 +579,9 @@ describe Questionnaire do
       questionnaire = FactoryBot.create(:questionnaire)
       measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
       old_response_content_content = { 'v1' => '25', 'v2' => '26', 's1' => '27' }
-      reponse_content = FactoryBot.create(:response_content, content: old_response_content_content)
+      response_content = FactoryBot.create(:response_content, content: old_response_content_content)
       response_obj = FactoryBot.create(:response, :completed, measurement: measurement)
-      response_obj.content = reponse_content.id
+      response_obj.content = response_content.id
       response_obj.save!
       expect(RecalculateScoresJob).to receive(:perform_later).with(response_obj.id)
       questionnaire.recalculate_scores!

@@ -22,9 +22,9 @@ class Measurement < ApplicationRecord
   # open_from_day is optional, if specified, it means that the open_from_offset (if present) is added to midnight
   # of the specified day. Note that it is allowed (but never needed) to have open_from_offset > 24 hours if an
   # open_from_day is also specified. It just means that if you set open_from_day on a thursday, and open_from_offset
-  # to 36 hours, that it will be noon on a friday (which you also could've done with open_from_dayh friday and
-  # open_from_offset 12 hours). If the day of the start_date of the protocol subscription is the same open_from_day,
-  # it will schedule the response for the same day, as long as start_date.beginning_of_day + open_from_offset is
+  # to 36 hours, that it will be noon on a friday (which you also could've done with open_from_day friday and
+  # open_from_offset 12 hours). If the day of the start_date of the protocol subscription is the same as open_from_day,
+  # it will schedule the response for the same day if start_date.beginning_of_day + open_from_offset is
   # equal to or larger than start_date (the start date of the protocol subscription itself). Otherwise, it will be
   # scheduled a week later.
   validates :open_from_day, inclusion: { in: [nil] + WEEKDAYS }
@@ -105,7 +105,8 @@ class Measurement < ApplicationRecord
       new_start_date = start_date.beginning_of_day
       while WEEKDAYS[new_start_date.wday] != open_from_day || open_from_with_offset(new_start_date) < start_date
         # We go to the next day, but if it's daylight savings time switches, the next day can be more or less
-        # than 24 hours away, so to be sure we go to noon the next day, and then back to the beginning of the day.
+        # than 24 hours away, so to be sure we first go to noon the next day, and then back to the beginning
+        # of that day.
         new_start_date = TimeTools.increase_by_duration(new_start_date, 36.hours).beginning_of_day
       end
       return open_from_with_offset(new_start_date)

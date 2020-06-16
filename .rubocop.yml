@@ -71,8 +71,8 @@ Style/RedundantRegexpCharacterClass:
 Style/RedundantRegexpEscape:
   Enabled: true
 
-  Style/SlicingWithRange:
-    Enabled: true
+Style/SlicingWithRange:
+  Enabled: true
 
 # Default is 5
 Metrics/ParameterLists:

@@ -140,8 +140,6 @@ describe Person do
   end
 
   describe 'my_open_responses' do
-    # fix this to make actual open responses and open one time responses, and supply them in a weird order make sure
-    # they are sorted maybe first do the two individual ones
     it 'should use the priority_sorting_metric' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago)
       response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
@@ -151,8 +149,6 @@ describe Person do
   end
 
   describe 'my_open_one_time_responses' do
-    # fix this to make actual open responses and open one time responses, and supply them in a weird order make sure
-    # they are sorted maybe first do the two individual ones
     it 'should use the priority_sorting_metric' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago)
       FactoryBot.create(:one_time_response, protocol: protocol_subscription.protocol)
@@ -163,8 +159,6 @@ describe Person do
   end
 
   describe 'all_my_open_responses' do
-    # fix this to make actual open responses and open one time responses, and supply them in a weird order make sure
-    # they are sorted maybe first do the two individual ones
     it 'should use the priority_sorting_metric' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago)
       response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)

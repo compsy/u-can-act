@@ -37,7 +37,7 @@ class QuestionnaireGenerator
                        questionnaire_questions_html(content[:questions], response, raw_content, unsubscribe_url),
                        submit_button(submit_text)
                      ])
-    body = content_tag(:form, body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
+    body = tag.form(body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
     body
   end
   # rubocop:enable Metrics/ParameterLists
@@ -61,9 +61,9 @@ class QuestionnaireGenerator
   def questionnaire_header(title)
     return ''.html_safe if title.blank?
 
-    header_body = content_tag(:h4, title, class: 'header')
-    header_body = content_tag(:div, header_body, class: 'col s12')
-    header_body = content_tag(:div, header_body, class: 'row')
+    header_body = tag.h4(title, class: 'header')
+    header_body = tag.div(header_body, class: 'col s12')
+    header_body = tag.div(header_body, class: 'row')
     header_body
   end
 
@@ -99,13 +99,12 @@ class QuestionnaireGenerator
   end
 
   def submit_button(submit_text)
-    submit_body = content_tag(:button,
-                              submit_text,
-                              type: 'submit',
-                              class: 'btn waves-effect waves-light',
-                              data: { disable_with: 'Bezig...' })
-    submit_body = content_tag(:div, submit_body, class: 'col s12')
-    submit_body = content_tag(:div, submit_body, class: 'row section')
+    submit_body = tag.button(submit_text,
+                             type: 'submit',
+                             class: 'btn waves-effect waves-light',
+                             data: { disable_with: 'Bezig...' })
+    submit_body = tag.div(submit_body, class: 'col s12')
+    submit_body = tag.div(submit_body, class: 'row section')
     submit_body
   end
 end

@@ -25,9 +25,9 @@ class QuestionnaireQuestionGenerator < Generator
 
   def generate(question)
     question_body = find_generator(question[:type]).generate(question)
-    question_body = content_tag(:div, question_body, class: 'col s12')
-    question_body = content_tag(:div, question_body,
-                                class: find_generator(:klasses, only_questions: false).generate(question).to_s)
+    question_body = tag.div(question_body, class: 'col s12')
+    question_body = tag.div(question_body,
+                            class: find_generator(:klasses, only_questions: false).generate(question).to_s)
     wrap_question_in_sections(question_body, question)
   end
 

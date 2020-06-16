@@ -107,7 +107,7 @@ class ExpandableGenerator < QuestionTypeGenerator
 
     id = id.split('_')
     start = id.first
-    endd = id[1..-1].join('_')
+    endd = id[1..].join('_')
     "#{start}_#{sub_id}_#{endd}".to_sym
   end
 end

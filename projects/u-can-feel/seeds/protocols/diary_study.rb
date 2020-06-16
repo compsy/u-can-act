@@ -20,10 +20,12 @@ questionnaire_id = questionnaire.id
 
 diary_measurement = diary_protocol.measurements.find_by(questionnaire_id: questionnaire_id)
 diary_measurement ||= diary_protocol.measurements.build(questionnaire_id: questionnaire_id)
-diary_measurement.open_from_offset = 5.days + 12.hours # if we schedule these at week start, this is saturday noon
+diary_measurement.open_from_offset = 12.hours # if we schedule these at week start, this is saturday noon
+# TODO: uncomment me
+# diary_measurement.open_from_day = 'saturday'
 diary_measurement.period = 1.week # daily for 30 days
 diary_measurement.open_duration = 36.hours # don't allow people to fill it out the next day
-diary_measurement.reminder_delay = 24.hours # send one reminder after one hour
+diary_measurement.reminder_delay = 24.hours # send one reminder sunday at noon
 diary_measurement.stop_measurement = false # filling out this measurement does not stop the protocol subscription
 diary_measurement.should_invite = true # send invitation (SMS and/or email)
 diary_measurement.save!

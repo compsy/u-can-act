@@ -352,7 +352,7 @@ describe Measurement do
           expected_times = [TimeTools.increase_by_duration(start_date, 12.hours)]
           expect(measurement.response_times(start_date, end_date)).to eq expected_times
         end
-        it 'reschedules measuremets on the same day but before the start date one week in the future' do
+        it 'reschedules measurements on the same day but before the start date one week in the future' do
           start_date = Time.new(2017, 10, 10, 15).in_time_zone
           end_date = TimeTools.increase_by_duration(start_date, 1.week)
           measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')

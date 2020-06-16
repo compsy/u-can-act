@@ -22,7 +22,8 @@ describe UpdateDistribution do
     end
 
     it 'should ignore responses with csrf_failed' do
-      response_content = FactoryBot.create(:response_content, content: { 'v3' => '68', Response::CSRF_FAILED => 'true' })
+      response_content = FactoryBot.create(:response_content,
+                                           content: { 'v3' => '68', Response::CSRF_FAILED => 'true' })
       responseobj = FactoryBot.create(:response)
       responseobj.content = response_content.id
       responseobj.save!

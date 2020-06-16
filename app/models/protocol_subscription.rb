@@ -6,7 +6,7 @@ class ProtocolSubscription < ApplicationRecord
   CANCELED_STATE = 'canceled'
   COMPLETED_STATE = 'completed'
   belongs_to :person
-  belongs_to :filling_out_for, class_name: 'Person', foreign_key: 'filling_out_for_id', inverse_of: false
+  belongs_to :filling_out_for, class_name: 'Person', inverse_of: false
   validates :person_id, presence: true # The person who receives the SMS (Mentor)
   validates :filling_out_for_id, presence: true # Student ID
   belongs_to :protocol

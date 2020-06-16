@@ -25,8 +25,7 @@ questionnaire_keys.each do |questionnaire_key|
   measurement = cohort_protocol.measurements.find_by(questionnaire_id: questionnaire_id)
   measurement ||= cohort_protocol.measurements.build(questionnaire_id: questionnaire_id)
   measurement.open_from_offset = 12.hours # open noon the next day
-  # TODO: uncomment me
-  # measurement.open_from_day = 'saturday' # the open_from_offset is added to saturday at midnight
+  measurement.open_from_day = 'saturday' # the open_from_offset is added to saturday at midnight
   measurement.period = nil # one-off and not repeated
   measurement.open_duration = nil # open for the entire duration of the protocol
   measurement.reminder_delay = 1.week # send a reminder after one week

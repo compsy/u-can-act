@@ -88,7 +88,7 @@ GEM
     appsignal (2.10.7)
       rack
     arel (9.0.0)
-    ast (2.4.0)
+    ast (2.4.1)
     autoprefixer-rails (9.7.6)
       execjs
     babel-source (5.8.35)
@@ -218,7 +218,7 @@ GEM
       ruby_parser (~> 3.5)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    httparty (0.18.0)
+    httparty (0.18.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     i18n (1.8.3)
@@ -301,7 +301,7 @@ GEM
     public_suffix (4.0.5)
     puma (4.3.5)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-proxy (0.6.5)
@@ -352,7 +352,7 @@ GEM
       railties (>= 3.2)
       tilt
     react-source (0.13.3)
-    redis (4.1.4)
+    redis (4.2.1)
     redis-classy (2.4.1)
       redis-namespace (~> 1.0)
     redis-mutex (4.0.1)
@@ -418,7 +418,7 @@ GEM
       activesupport
       rack (>= 1.1)
       rubocop (>= 0.72.0)
-    rubocop-rspec (1.39.0)
+    rubocop-rspec (1.40.0)
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)

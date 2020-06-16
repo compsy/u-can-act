@@ -2,6 +2,8 @@
 
 require 'csv'
 
+TIME_OFFSET = Time.zone.now.beginning_of_day - Time.zone.local(2019, 12, 13)
+
 demo_organization = 'sport-data-valley'
 demo_team = 'sdv-team'
 normal_role_title = 'normal'
@@ -162,7 +164,7 @@ def create_responses(protocol_name, person, file_name)
     response_params[:filled_out_by_id] = filled_out_by_id
     response_params[:filled_out_for_id] = filled_out_for_id
 
-    timestamp = Time.zone.strptime(row['Timestamp'], '%m-%d-%Y %H:%M:%S')
+    timestamp = Time.zone.strptime(row['Timestamp'], '%m-%d-%Y %H:%M:%S') + TIME_OFFSET
     response_params[:open_from] = timestamp
     response_params[:opened_at] = timestamp
     response_params[:completed_at] = timestamp
@@ -171,7 +173,7 @@ def create_responses(protocol_name, person, file_name)
     content[:v1] = convert_training_type(row['Training type'])
     content[:v2] = convert_session_type(row['Session type'])
 
-    starting_at = Time.zone.strptime(row['Starting at'], '%m-%d-%Y %H:%M:%S')
+    starting_at = Time.zone.strptime(row['Starting at'], '%m-%d-%Y %H:%M:%S') + TIME_OFFSET
     content[:v3] = date_format(starting_at)
     content[:v4_uren] = hour_format(starting_at)
     content[:v4_minuten] = minute_format(starting_at)
@@ -383,13 +385,13 @@ def create_daily_responses(protocol_name, person, file_name)
     response_params[:filled_out_by_id] = filled_out_by_id
     response_params[:filled_out_for_id] = filled_out_for_id
 
-    timestamp = Time.zone.strptime(row['Timestamp'], '%m-%d-%Y %H:%M:%S')
+    timestamp = Time.zone.strptime(row['Timestamp'], '%m-%d-%Y %H:%M:%S') + TIME_OFFSET
     response_params[:open_from] = timestamp
     response_params[:opened_at] = timestamp
     response_params[:completed_at] = timestamp
 
     content = {}
-    date = Time.zone.strptime(row['Date'], '%m-%d-%Y %H:%M:%S')
+    date = Time.zone.strptime(row['Date'], '%m-%d-%Y %H:%M:%S') + TIME_OFFSET
     content[:date_dontuse] = date_format(date) # store this somewhere in case we need it later
     content[:v1] = convert_scale_value(row['Sleep quality'])
 
@@ -427,12 +429,12 @@ def create_daily_responses(protocol_name, person, file_name)
       response_params[:filled_out_by_id] = filled_out_by_id
       response_params[:filled_out_for_id] = filled_out_for_id
 
-      timestamp = Time.zone.strptime(row['Timestamp'], '%m-%d-%Y %H:%M:%S')
+      timestamp = Time.zone.strptime(row['Timestamp'], '%m-%d-%Y %H:%M:%S') + TIME_OFFSET
       response_params[:open_from] = timestamp
       response_params[:opened_at] = timestamp
       response_params[:completed_at] = timestamp
       content = {}
-      date = Time.zone.strptime(row['Date'], '%m-%d-%Y %H:%M:%S')
+      date = Time.zone.strptime(row['Date'], '%m-%d-%Y %H:%M:%S') + TIME_OFFSET
       content[:date_dontuse] = date_format(date) # store this somewhere in case we need it later
       content[:v1] = convert_scale_value(row['Fatigue (mental)'])
       content[:v2] = convert_scale_value(row['Fatigue (physical)'])

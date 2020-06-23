@@ -5,7 +5,7 @@ class NumberGenerator < QuestionTypeGenerator
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-    safe_join([content_tag(:p, title, class: 'flow-text'), number_field(question)])
+    safe_join([tag.p(title, class: 'flow-text'), number_field(question)])
   end
 
   private
@@ -16,14 +16,13 @@ class NumberGenerator < QuestionTypeGenerator
                        number_label(question)
                      ])
     body = if question[:links_to_expandable].present?
-             content_tag(:div,
-                         body,
-                         data: { expandable: question[:links_to_expandable].to_s },
-                         class: 'input-field col s12 m6 links_to_expandable')
+             tag.div(body,
+                     data: { expandable: question[:links_to_expandable].to_s },
+                     class: 'input-field col s12 m6 links_to_expandable')
            else
-             content_tag(:div, body, class: 'input-field col s12 m6')
+             tag.div(body, class: 'input-field col s12 m6')
            end
-    body = content_tag(:div, body, class: 'row')
+    body = tag.div(body, class: 'row')
     body
   end
 
@@ -47,9 +46,8 @@ class NumberGenerator < QuestionTypeGenerator
   end
 
   def number_label(question)
-    content_tag(:label,
-                placeholder(question, NUMBER_PLACEHOLDER),
-                for: idify(question[:id]),
-                class: 'flow-text')
+    tag.label(placeholder(question, NUMBER_PLACEHOLDER),
+              for: idify(question[:id]),
+              class: 'flow-text')
   end
 end

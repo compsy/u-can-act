@@ -418,7 +418,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     it 'should redirect to interactive' do
       post :from_json, params: {}
       expect(response.status).to eq 302
-      expect(response.body).to match %r{\/questionnaire\/interactive}
+      expect(response.body).to match %r{/questionnaire/interactive}
     end
   end
 

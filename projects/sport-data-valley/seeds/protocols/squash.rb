@@ -33,3 +33,9 @@ db_measurement.should_invite = true
 db_measurement.reminder_delay = 4.hours
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 db_measurement.save!
+
+# Create one time response
+protocol = Protocol.find_by(name: pr_name)
+token = pr_name
+otr = OneTimeResponse.find_by(token: token)
+otr ||= OneTimeResponse.create!(token: token, protocol: protocol)

@@ -287,4 +287,17 @@ describe InvitationToken do
       end
     end
   end
+
+  describe 'find_attached_responses' do
+    it 'uses priority_sorting_metric' do
+      person = FactoryBot.create(:person, external_identifier: 'abcd')
+      invitation_set = FactoryBot.create(:invitation_set, person: person)
+      response = FactoryBot.create(:response, invitation_set: invitation_set)
+      invitation_token = FactoryBot.create(:invitation_token, invitation_set: invitation_set)
+      invitation_token.token = 'efgh'
+      invitation_token.save!
+      expect_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
+      expect(described_class.find_attached_responses('abcdefgh')).to eq([response])
+    end
+  end
 end

@@ -2,6 +2,9 @@
 
 class Measurement < ApplicationRecord
   DEFAULT_REMINDER_DELAY = 8.hours
+  WEEKDAYS = %w[sunday monday tuesday wednesday thursday friday saturday].freeze
+  MIN_PRIORITY = -10_000
+  MAX_PRIORITY = 10_000
 
   belongs_to :questionnaire
   validates :questionnaire_id, presence: true
@@ -16,8 +19,19 @@ class Measurement < ApplicationRecord
   validates :open_duration, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   # either open_from_offset or offset_till_end has to be specified
   validates :open_from_offset, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
+  # open_from_day is optional, if specified, it means that the open_from_offset (if present) is added to midnight
+  # of the specified day. Note that it is allowed (but never needed) to have open_from_offset > 24 hours if an
+  # open_from_day is also specified. It just means that if you set open_from_day on a thursday, and open_from_offset
+  # to 36 hours, that it will be noon on a friday (which you also could've done with open_from_day friday and
+  # open_from_offset 12 hours). If the day of the start_date of the protocol subscription is the same as open_from_day,
+  # it will schedule the response for the same day if start_date.beginning_of_day + open_from_offset is
+  # equal to or larger than start_date (the start date of the protocol subscription itself). Otherwise, it will be
+  # scheduled a week later.
+  validates :open_from_day, inclusion: { in: [nil] + WEEKDAYS }
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :priority, numericality: { only_integer: true, allow_nil: true,
+                                       greater_than_or_equal_to: MIN_PRIORITY, less_than_or_equal_to: MAX_PRIORITY }
 
   validates :reminder_delay, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
 
@@ -83,7 +97,23 @@ class Measurement < ApplicationRecord
     end
   end
 
+  # Note that this may produce an open_from time that is after the end_date, but only for nonperiodical measurements.
+  # This is done on purpose (we assume that if people create a measurement, they want it to run). And it will not exceed
+  # the end date by more than a week.
   def open_from(start_date)
+    return open_from_with_offset(start_date) if open_from_day.blank?
+
+    new_start_date = start_date.beginning_of_day
+    while WEEKDAYS[new_start_date.wday] != open_from_day || open_from_with_offset(new_start_date) < start_date
+      # We go to the next day, but if it's daylight savings time switches, the next day can be more or less
+      # than 24 hours away, so to be sure we first go to noon the next day, and then back to the beginning
+      # of that day.
+      new_start_date = TimeTools.increase_by_duration(new_start_date, 36.hours).beginning_of_day
+    end
+    open_from_with_offset(new_start_date)
+  end
+
+  def open_from_with_offset(start_date)
     if open_from_offset.present?
       TimeTools.increase_by_duration(start_date, open_from_offset)
     else

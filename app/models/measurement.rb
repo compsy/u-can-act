@@ -102,6 +102,7 @@ class Measurement < ApplicationRecord
   # the end date by more than a week.
   def open_from(start_date)
     return open_from_with_offset(start_date) if open_from_day.blank?
+
     new_start_date = start_date.beginning_of_day
     while WEEKDAYS[new_start_date.wday] != open_from_day || open_from_with_offset(new_start_date) < start_date
       # We go to the next day, but if it's daylight savings time switches, the next day can be more or less
@@ -109,7 +110,7 @@ class Measurement < ApplicationRecord
       # of that day.
       new_start_date = TimeTools.increase_by_duration(new_start_date, 36.hours).beginning_of_day
     end
-    open_from_with_offset(new_start_date) 
+    open_from_with_offset(new_start_date)
   end
 
   def open_from_with_offset(start_date)

@@ -104,28 +104,38 @@ class Person < ApplicationRecord
     ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id)
   end
 
+  # For any method that only returns open responses, we want them to be sorted by descending priority first,
+  # and ascending open_from second. This is because we call .first on this method to determine which is the next
+  # response that should be shown to the user.
   def my_open_responses(for_myself = true)
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)
-    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:priority_sorting_metric)
   end
 
+  # For any method that only returns open responses, we want them to be sorted by descending priority first,
+  # and ascending open_from second. This is because we call .first on this method to determine which is the next
+  # response that should be shown to the user.
   def my_open_one_time_responses(for_myself = true)
     prot_subs = protocol_subscriptions.active.joins(protocol: :one_time_responses).distinct(:id)
     subscriptions = filter_for_myself(prot_subs, for_myself)
-    subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+    subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:priority_sorting_metric)
   end
 
+  # For any method that only returns open responses, we want them to be sorted by descending priority first,
+  # and ascending open_from second.
   def all_my_open_responses(for_myself = true)
-    my_open_responses(for_myself) + my_open_one_time_responses(for_myself)
+    (my_open_responses(for_myself) + my_open_one_time_responses(for_myself)).sort_by(&:priority_sorting_metric)
   end
 
+  # For any method that can also return completed responses, it makes more sense to sort by open_from first.
   def my_responses
-    protocol_subscriptions.map(&:responses).flatten.sort_by(&:open_from)
+    protocol_subscriptions.map(&:responses).flatten.sort_by(&:open_from_sorting_metric)
   end
 
+  # For any method that can also return completed responses, it makes more sense to sort by open_from first.
   def my_completed_responses
-    protocol_subscriptions.map { |prot| prot.responses.completed }.flatten.sort_by(&:open_from)
+    protocol_subscriptions.map { |prot| prot.responses.completed }.flatten.sort_by(&:open_from_sorting_metric)
   end
 
   def open_questionnaire?(questionnaire_name)

@@ -245,7 +245,6 @@ class QuestionnaireController < ApplicationController
   end
 
   def verify_cookie
-    # TODO: !!THIS HAS CHANGED A LOT!! NEEDS TO BE CHECKED VERY CAREFULLY!
     return if AuthenticationVerifier.valid? questionnaire_create_params[:response_id], current_user
 
     render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')

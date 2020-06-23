@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_12_115509) do
+ActiveRecord::Schema.define(version: 2020_06_16_134711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 2020_05_12_115509) do
     t.boolean "should_invite", default: true, null: false
     t.string "redirect_url"
     t.integer "reminder_delay", default: 28800
+    t.string "open_from_day"
+    t.integer "priority"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id"
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id"
   end

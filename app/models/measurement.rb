@@ -101,17 +101,15 @@ class Measurement < ApplicationRecord
   # This is done on purpose (we assume that if people create a measurement, they want it to run). And it will not exceed
   # the end date by more than a week.
   def open_from(start_date)
-    if open_from_day.present?
-      new_start_date = start_date.beginning_of_day
-      while WEEKDAYS[new_start_date.wday] != open_from_day || open_from_with_offset(new_start_date) < start_date
-        # We go to the next day, but if it's daylight savings time switches, the next day can be more or less
-        # than 24 hours away, so to be sure we first go to noon the next day, and then back to the beginning
-        # of that day.
-        new_start_date = TimeTools.increase_by_duration(new_start_date, 36.hours).beginning_of_day
-      end
-      return open_from_with_offset(new_start_date)
+    return open_from_with_offset(start_date) if open_from_day.blank?
+    new_start_date = start_date.beginning_of_day
+    while WEEKDAYS[new_start_date.wday] != open_from_day || open_from_with_offset(new_start_date) < start_date
+      # We go to the next day, but if it's daylight savings time switches, the next day can be more or less
+      # than 24 hours away, so to be sure we first go to noon the next day, and then back to the beginning
+      # of that day.
+      new_start_date = TimeTools.increase_by_duration(new_start_date, 36.hours).beginning_of_day
     end
-    open_from_with_offset(start_date)
+    open_from_with_offset(new_start_date) 
   end
 
   def open_from_with_offset(start_date)

@@ -24,7 +24,7 @@ raise "Cannot find questionnaire: #{name}" unless squash_questionnaire_id
 
 db_measurement = protocol.measurements.where(questionnaire_id: squash_questionnaire_id).first
 db_measurement ||= protocol.measurements.build(questionnaire_id: squash_questionnaire_id)
-db_measurement.period = 10.years
+db_measurement.period = nil
 db_measurement.open_duration = 1.day
 db_measurement.open_from_offset = 0
 db_measurement.reward_points = 0

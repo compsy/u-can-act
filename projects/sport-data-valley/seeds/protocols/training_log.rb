@@ -1,7 +1,7 @@
 default_protocol_duration = 1.day  # evt eerder dynamisch afbreken
 
 pr_name = 'training_log'
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
 protocol.informed_consent_questionnaire = nil
@@ -18,7 +18,7 @@ bp_push_subscription.save!
 protocol.save!
 
 name = 'training_log'
-dagboekvragenlijst_id = Questionnaire.find_by_name(name)&.id
+dagboekvragenlijst_id = Questionnaire.find_by(name: name)&.id
 raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
 
 db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
@@ -33,7 +33,7 @@ db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 db_measurement.save!
 
 # Create one time response
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 token = pr_name
 otr = OneTimeResponse.find_by(token: token)
 otr ||= OneTimeResponse.create!(token: token, protocol: protocol)

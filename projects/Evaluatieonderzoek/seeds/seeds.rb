@@ -6,8 +6,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   end
   puts 'Generating people - Started'
 
-  organization = Organization.find_by_name('Evaluatieonderzoek')
-  team = organization.teams.find_by_name('Evaluatieonderzoek')
+  organization = Organization.find_by(name: 'Evaluatieonderzoek')
+  team = organization.teams.find_by(name: 'Evaluatieonderzoek')
   student = team.roles.where(title: 'Evalueerder').first
 
   students =[
@@ -18,7 +18,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   students.each do |student_hash|
     phone = generate_phone
-    phone = generate_phone while Person.find_by_mobile_phone(phone).present?
+    phone = generate_phone while Person.find_by(mobile_phone: phone).present?
     Person.create!(first_name: student_hash[:first_name],
                    last_name: student_hash[:last_name],
                    gender: student_hash[:gender],
@@ -28,8 +28,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Evaluatieonderzoek
   puts ''
-  protocol = Protocol.find_by_name('evaluatieonderzoek')
-  person = Team.find_by_name('Evaluatieonderzoek').roles.where(group: Person::SOLO).first.people[0]
+  protocol = Protocol.find_by(name: 'evaluatieonderzoek')
+  person = Team.find_by(name: 'Evaluatieonderzoek').roles.where(group: Person::SOLO).first.people[0]
   prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
@@ -47,8 +47,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "Evaluatieonderzoek: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Evaluatieonderzoek informed consent
-  protocol = Protocol.find_by_name('evaluatieonderzoek')
-  person = Team.find_by_name('Evaluatieonderzoek').roles.where(group: Person::SOLO).first.people[1]
+  protocol = Protocol.find_by(name: 'evaluatieonderzoek')
+  person = Team.find_by(name: 'Evaluatieonderzoek').roles.where(group: Person::SOLO).first.people[1]
   prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
@@ -66,8 +66,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Telefonische interviews
   puts ''
-  protocol = Protocol.find_by_name('telefonische_interviews')
-  person = Team.find_by_name('Evaluatieonderzoek').roles.where(group: Person::SOLO).first.people[2]
+  protocol = Protocol.find_by(name: 'telefonische_interviews')
+  person = Team.find_by(name: 'Evaluatieonderzoek').roles.where(group: Person::SOLO).first.people[2]
   prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
@@ -87,19 +87,19 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   OneTimeResponse.destroy_all
 
   puts ''
-  protocol = Protocol.find_by_name('evaluatieonderzoek')
+  protocol = Protocol.find_by(name: 'evaluatieonderzoek')
   token = 'abc'
   OneTimeResponse.create!(token: token, protocol: protocol)
   puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
 
   puts ''
-  protocol = Protocol.find_by_name('symposium')
+  protocol = Protocol.find_by(name: 'symposium')
   token = 'symposium'
   OneTimeResponse.create!(token: token, protocol: protocol)
   puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
 
   puts ''
-  protocol = Protocol.find_by_name('boek')
+  protocol = Protocol.find_by(name: 'boek')
   token = 'boek'
   OneTimeResponse.create!(token: token, protocol: protocol)
   puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"

@@ -10,11 +10,11 @@ invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende
 default_protocol_duration = (Date.new(2019,4,17) - Date.new(2018,10,29)).to_i
 default_reward_points = 100
 
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration.days
 
-protocol.informed_consent_questionnaire = Questionnaire.find_by_name(ic_name)
+protocol.informed_consent_questionnaire = Questionnaire.find_by(name: ic_name)
 raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 
 protocol.invitation_text = invitation_text
@@ -28,7 +28,7 @@ reward = protocol.rewards.create!(threshold: 3, reward_points: 2)
 reward.save!
 
 # Add dagboekmetingen
-dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+dagboekvragenlijst_id = Questionnaire.find_by(name: db_name)&.id
 raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 
 offsets = []

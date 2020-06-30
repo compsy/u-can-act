@@ -1,7 +1,7 @@
 default_protocol_duration = 1.day  # evt eerder dynamisch afbreken
 
 pr_name = 'squash'
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 
 protocol.duration = default_protocol_duration
@@ -19,7 +19,7 @@ bp_push_subscription.save!
 protocol.save!
 
 name = 'squash'
-squash_questionnaire_id = Questionnaire.find_by_name(name)&.id
+squash_questionnaire_id = Questionnaire.find_by(name: name)&.id
 raise "Cannot find questionnaire: #{name}" unless squash_questionnaire_id
 
 db_measurement = protocol.measurements.where(questionnaire_id: squash_questionnaire_id).first

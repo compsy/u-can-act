@@ -14,9 +14,9 @@
         .col.s12
           .section
             %h4 Evaluatieonderzoek
-            %p= "Aantal keren op de link geklikt: #{Protocol.find_by_name('evaluatieonderzoek')&.protocol_subscriptions&.count}"
-            %p= "Aantal keren informed consent geaccepteerd: #{Protocol.find_by_name('evaluatieonderzoek')&.protocol_subscriptions&.where('informed_consent_given_at IS NOT NULL')&.count}"
-            %p= "Aantal keren vragenlijst is ingevuld: #{Measurement.find_by_questionnaire_id(Questionnaire.find_by_name('evaluatieonderzoek')&.id)&.responses&.where('completed_at IS NOT NULL')&.count}"
+            %p= "Aantal keren op de link geklikt: #{Protocol.find_by(name: 'evaluatieonderzoek')&.protocol_subscriptions&.count}"
+            %p= "Aantal keren informed consent geaccepteerd: #{Protocol.find_by(name: 'evaluatieonderzoek')&.protocol_subscriptions&.where('informed_consent_given_at IS NOT NULL')&.count}"
+            %p= "Aantal keren vragenlijst is ingevuld: #{Measurement.find_by(questionnaire_id: Questionnaire.find_by(name: 'evaluatieonderzoek')&.id)&.responses&.where('completed_at IS NOT NULL')&.count}"
             %p= "Aantal keren emailadres & ip opgegeven: #{Person.where('email IS NOT NULL AND ip_hash IS NOT NULL').count}"
       - if Rails.application.config.settings.application_name == 'ikia' # vieze hack
         .col.s12

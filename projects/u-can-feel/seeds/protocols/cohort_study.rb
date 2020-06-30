@@ -4,7 +4,7 @@
 questionnaire_keys = %w[demografie wellbeing school socialnetworks other_factors]
 
 pr_name = File.basename(__FILE__)[0...-3]
-cohort_protocol = Protocol.find_by_name(pr_name)
+cohort_protocol = Protocol.find_by(name: pr_name)
 cohort_protocol ||= Protocol.new(name: pr_name)
 cohort_protocol.duration = 14.days
 cohort_protocol.invitation_text = 'Je bent uitgenodigd door je school om mee te doen aan het u-can-feel onderzoek. Klik op de volgende link om een aantal vragenlijsten in te vullen.'

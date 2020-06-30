@@ -3,7 +3,7 @@
 questionnaire_key = 'weekly_diary'
 
 pr_name = File.basename(__FILE__)[0...-3]
-diary_protocol = Protocol.find_by_name(pr_name)
+diary_protocol = Protocol.find_by(name: pr_name)
 diary_protocol ||= Protocol.new(name: pr_name)
 diary_protocol.duration = 44.weeks
 diary_protocol.invitation_text = 'Je wekelijkse vragenlijst staat voor je klaar. Klik op de volgende link om deze in te vullen.'

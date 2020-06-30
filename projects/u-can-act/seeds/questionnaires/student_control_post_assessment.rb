@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 nm_name1 = 'nameting studenten controle'
-nameting1 = Questionnaire.find_by_name(nm_name1)
+nameting1 = Questionnaire.find_by(name: nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
 nameting1.key = File.basename(__FILE__)[0...-3]
 nameting1.content = { questions: [{

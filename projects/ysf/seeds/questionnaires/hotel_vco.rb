@@ -2,7 +2,7 @@
 
 title = 'Hotel VCO'
 name = 'KCT Hotel VCO'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 

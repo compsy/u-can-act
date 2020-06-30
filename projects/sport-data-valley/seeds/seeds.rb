@@ -5,8 +5,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   demo_team = 'sdv-team'
   normal_role_title = 'normal'
 
-  organization = Organization.find_by_name(demo_organization)
-  team = organization.teams.find_by_name(demo_team)
+  organization = Organization.find_by(name: demo_organization)
+  team = organization.teams.find_by(name: demo_team)
   normal_role = team.roles.where(title: normal_role_title).first
 
   # Create weekly protocol
@@ -22,8 +22,10 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
                 role: normal_role)
 
+
+  # Create daily protocol instance
   protocol = Protocol.find_by(name: 'daily_protocol')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[1]
+  person = Team.find_by(name: demo_team).roles.where(group: Person::STUDENT).first.people[1]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -39,4 +41,22 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Daily protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+
+  # Create squash protocol instance
+  protocol = Protocol.find_by(name: 'squash')
+  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[1]
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now
+  )
+
+  invitation_set = InvitationSet.create!(person: person)
+
+  prot_sub.responses.first.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "Squash protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 end

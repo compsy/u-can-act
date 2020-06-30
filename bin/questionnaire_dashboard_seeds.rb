@@ -8,8 +8,8 @@ demo_organization = 'sport-data-valley'
 demo_team = 'sdv-team'
 normal_role_title = 'normal'
 
-organization = Organization.find_by_name(demo_organization)
-team = organization.teams.find_by_name(demo_team)
+organization = Organization.find_by(name: demo_organization)
+team = organization.teams.find_by(name: demo_team)
 normal_role = team.roles.where(title: normal_role_title).first
 
 $person_email ||= 'demo@researchable.nl'
@@ -143,7 +143,7 @@ def create_responses(protocol_name, person, file_name)
   protsub.save!
 
   questionnaire_name = protocol_name
-  questionnaire_id = Questionnaire.find_by_name(questionnaire_name).id
+  questionnaire_id = Questionnaire.find_by(name: questionnaire_name).id
   measurement = protocol.measurements.where(questionnaire_id: questionnaire_id).first
 
   protsub_id = protsub.id
@@ -375,7 +375,7 @@ def create_daily_responses(protocol_name, person, file_name)
 
     dag = convert_day(row['Day'])
     questionnaire_name = "daily_questionnaire_#{dag}"
-    questionnaire_id = Questionnaire.find_by_name(questionnaire_name).id
+    questionnaire_id = Questionnaire.find_by(name: questionnaire_name).id
     measurement = protocol.measurements.where(questionnaire_id: questionnaire_id).first
     measurement_id = measurement.id
 
@@ -419,7 +419,7 @@ def create_daily_responses(protocol_name, person, file_name)
 
     if dag == 'zondag'
       questionnaire_name = "sunday_questionnaire"
-      questionnaire_id = Questionnaire.find_by_name(questionnaire_name).id
+      questionnaire_id = Questionnaire.find_by(name: questionnaire_name).id
       measurement = protocol.measurements.where(questionnaire_id: questionnaire_id).first
       measurement_id = measurement.id
 

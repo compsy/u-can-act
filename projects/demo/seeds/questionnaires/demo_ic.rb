@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ic_name1 = 'demo-ic'
-informed_consent1 = Questionnaire.find_by_name(ic_name1)
+informed_consent1 = Questionnaire.find_by(name: ic_name1)
 informed_consent1 ||= Questionnaire.new(name: ic_name1)
 informed_consent1.key = File.basename(__FILE__)[0...-3]
 ic_content = <<~'END'

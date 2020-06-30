@@ -12,11 +12,11 @@ end
 ['a','b'].each { |sub_id| teams << "#{special_team}#{sub_id}" }
 
 organization_name = 'Differentiatie Binnenstebuiten'
-organization = Organization.find_by_name(organization_name)
+organization = Organization.find_by(name: organization_name)
 
 teams.each do |team_name|
   puts "Running seeds for #{team_name}"
-  team = Team.find_by_name(team_name)
+  team = Team.find_by(name: team_name)
   team ||= Team.create!(name: team_name, organization: organization)
   team.update_attributes!(organization: organization)
 

@@ -8,7 +8,7 @@ default_reward_points = 100
 ###############
 
 pr_name = 'kct'
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
 protocol.informed_consent_questionnaire = nil
@@ -39,7 +39,7 @@ questionnaires = [
 
 questionnaires.each do |name|
   of_offset = 0.days # Thursday noon
-  dagboekvragenlijst_id = Questionnaire.find_by_name(name)&.id
+  dagboekvragenlijst_id = Questionnaire.find_by(name: name)&.id
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)

@@ -3,7 +3,7 @@
 db_title = 'Webapp Jongeren'
 
 db_name3 = 'dagboek studenten 5x per week donderdag'
-dagboek3 = Questionnaire.find_by_name(db_name3)
+dagboek3 = Questionnaire.find_by(name: db_name3)
 dagboek3 ||= Questionnaire.new(name: db_name3)
 dagboek3.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [{

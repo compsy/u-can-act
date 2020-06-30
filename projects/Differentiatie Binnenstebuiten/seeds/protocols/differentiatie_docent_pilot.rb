@@ -11,7 +11,7 @@ pr_name = 'differentiatie_docenten_test'
 db_name = 'Differentiatie Binnenstebuiten Docenten'
 invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration.days
 protocol.invitation_text = invitation_text
@@ -25,7 +25,7 @@ reward = protocol.rewards.create!(threshold: 3, reward_points: 2)
 reward.save!
 
 # Add dagboekmetingen
-dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+dagboekvragenlijst_id = Questionnaire.find_by(name: db_name)&.id
 raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 
 of_offset = 20.minutes # Tuesday, Wednesday, Thursday, Friday at noon

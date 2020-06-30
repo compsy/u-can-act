@@ -55,7 +55,6 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_set = InvitationSet.create!(person: person)
 
-  byebug
   prot_sub.responses.first.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
 
   invitation_token = invitation_set.invitation_tokens.create!

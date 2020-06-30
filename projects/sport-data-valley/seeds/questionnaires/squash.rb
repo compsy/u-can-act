@@ -42,7 +42,7 @@ dagboek_content = [
     title: 'Vult u deze lijst in voor iemand jonger of ouder dan 12 jaar?',
     options: [
       { title: 'Jonger', shows_questions: (2..23).map{|x| "v#{x}".to_sym} },
-      { title: 'Ouder', shows_questions: (24..47).map{|x| "v#{x}".to_sym}  }
+      { title: 'Ouder', shows_questions: (24..48).map{|x| "v#{x}".to_sym}  }
     ]
   }, {
     id: :v2,
@@ -173,17 +173,58 @@ dagboek_content += combined_day_time_question(36, 'Zwaar inspannend huishoudelij
 dagboek_content << {
   id: :v38,
   hidden: true,
+  type: :radio,
+  show_otherwise: false,
+  title: 'Volgt u op dit moment een van de onderstaande opleidingen?',
+  options: [
+    {title: 'Basisonderwijs (inclusief speciaal onderwijs)', shows_questions: [:v38a, :v38b]},
+    {title: 'Praktijkonderwijs', shows_questions: [:v38a, :v38b]},
+    {title: 'Vmbo, lwoo, vso', shows_questions: [:v38a, :v38b]},
+    {title: 'Havo', shows_questions: [:v38a, :v38b]},
+    {title: 'Vwo, gymnasium, atheneum', shows_questions: [:v38a, :v38b]},
+    {title: 'Mbo (pdb, mba)', shows_questions: [:v38a, :v38b]},
+    {title: 'Nee'},
+  ]
+}
+
+dagboek_content << {
+  id: :v38a,
+  type: :number,
+  required: true,
+  title: "Gymlessen op school<br><em>Dagen/week</em>",
+  placeholder: 'Vul het aantal dagen in',
+  maxlength: 1,
+  min: 0,
+  max: 7,
+  hidden: true
+}
+dagboek_content << {
+  id: :v38b,
+  type: :time,
+  title: '<em>Uren en Minuten / dag</em>',
+  hours_from: 0,
+  hours_to: 24,
+  hours_step: 1,
+  hours_label: 'uren',
+  minutes_label: 'minuten',
+  required: true,
+  hidden: true
+}
+
+dagboek_content << {
+  id: :v39,
+  hidden: true,
   type: :raw,
   content: '<p class="flow-text"><u>Vrije tijd</u><br>Neem in uw gedachten een normale week in de afgelopen maanden. Wilt u aangeven hoeveel dagen per week u deze activiteiten verrichtte en hoeveel tijd u daar gemiddeld op zo\'n dag mee bezig was?<br><strong>Als u een activiteit niet heeft verricht, vul dan een 0 in</strong></p>'
 }
 
-dagboek_content += combined_day_time_question(39, 'Wandelen')
-dagboek_content += combined_day_time_question(41, 'Fietsen')
-dagboek_content += combined_day_time_question(43, 'Tuinieren')
-dagboek_content += combined_day_time_question(45, 'Klussen/doe-het-zelven')
+dagboek_content += combined_day_time_question(40, 'Wandelen')
+dagboek_content += combined_day_time_question(42, 'Fietsen')
+dagboek_content += combined_day_time_question(44, 'Tuinieren')
+dagboek_content += combined_day_time_question(46, 'Klussen/doe-het-zelven')
 
 dagboek_content << {
-  id: :v47,
+  id: :v48,
   hidden: true,
   title: 'Welke sport(en) beoefent u? (bijvoorbeeld fitness/conditietraining, tennis, hardlopen, voetbal).<br> <strong>Maximaal 4 sporten opschrijven(zwemles en gym op school tellen niet mee.)</strong><br> <strong>Als uw kind niet aan sport doet kunt u de vraag overslaan </strong>',
   add_button_label: 'Sport toevoegen',
@@ -193,14 +234,14 @@ dagboek_content << {
   max_expansions: 4,
   content: [{
     section_start: '',
-    id: :v47_1,
+    id: :v48_1,
     type: :textarea,
     placeholder: 'Vul de naam van de sport in',
     required: true,
     title: 'Sport',
   },
   {
-  id: :v47_2,
+  id: :v48_2,
     type: :number,
     required: true,
     title: "Hoeveel dagen per week doet u aan deze sport ",
@@ -210,7 +251,7 @@ dagboek_content << {
     max: 7
   },
   {
-    id: :v47_3,
+    id: :v48_3,
     type: :time,
     title: 'Hoeveel tijd bent u op zo\'n dag met deze sport bezig?',
     hours_from: 0,

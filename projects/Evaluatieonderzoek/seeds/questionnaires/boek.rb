@@ -3,7 +3,7 @@
 db_title = 'Inschrijfformulier: boek u-can-act project' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'boek'
-boek1 = Questionnaire.find_by_name(db_name1)
+boek1 = Questionnaire.find_by(name: db_name1)
 boek1 ||= Questionnaire.new(name: db_name1)
 boek1.key = File.basename(__FILE__)[0...-3]
 boek1_content = [

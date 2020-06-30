@@ -1,5 +1,5 @@
 ic_name = 'informed consent scholieren'
-informed_consent = Questionnaire.find_by_name(ic_name)
+informed_consent = Questionnaire.find_by(name: ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
 informed_consent.key = File.basename(__FILE__)[0...-3]
 ic_content = <<~'END'

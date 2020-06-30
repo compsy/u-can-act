@@ -6,7 +6,7 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminde
   default_protocol_duration = (Date.new(2019,4,17) - Date.new(2018,10,29)).to_i
   default_reward_points = 100
 
-  protocol = Protocol.find_by_name(pr_name)
+  protocol = Protocol.find_by(name: pr_name)
   protocol ||= Protocol.new(name: pr_name)
   protocol.duration = default_protocol_duration.days
 
@@ -21,7 +21,7 @@ def create_protocol(pr_name, db_name, ic_name, invitation_text, offsets, reminde
   reward.save!
 
   # Add dagboekmetingen
-  dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+  dagboekvragenlijst_id = Questionnaire.find_by(name: db_name)&.id
   raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 
 

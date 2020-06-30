@@ -3,7 +3,7 @@
 db_title = 'Inschrijfformulier voor het u-can-act symposium op donderdag 16 mei 2019' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'symposium'
-symp1 = Questionnaire.find_by_name(db_name1)
+symp1 = Questionnaire.find_by(name: db_name1)
 symp1 ||= Questionnaire.new(name: db_name1)
 symp1.key = File.basename(__FILE__)[0...-3]
 symp1_content = [

@@ -18,7 +18,6 @@ class CreateStudents < ActiveInteraction::Base
 
   private
 
-  # rubocop:disable Metrics/AbcSize
   def parse_students(students, plain_text_parser)
     students.map do |student|
       student_hash = {
@@ -35,7 +34,6 @@ class CreateStudents < ActiveInteraction::Base
       student_hash
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def role_title(student)
     student[:role_title] || Person::STUDENT

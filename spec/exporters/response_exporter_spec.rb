@@ -5,7 +5,7 @@ require 'rails_helper'
 describe ResponseExporter do
   let!(:responseobj) do
     response_content = FactoryBot.create(:response_content,
-                                         content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23.0' })
+                                         content: { 'v1' => 'slecht', 'v23_2a13_brood' => 'true', 'v3' => '23' })
     FactoryBot.create(:response, :completed, content: response_content.id.to_s)
   end
 
@@ -58,7 +58,7 @@ describe ResponseExporter do
     end
 
     it 'works without responses' do
-      questionnaire_content = [{
+      questionnaire_content = { questions: [{
         section_start: 'Algemeen',
         id: :v1,
         type: :radio,
@@ -75,7 +75,7 @@ describe ResponseExporter do
         title: 'Hoe gaat het met u?',
         labels: ['niet mee eens', 'beetje mee eens', 'helemaal mee eens'],
         section_end: true
-      }]
+      }], scores: [] }
       questionnaire = FactoryBot.create(:questionnaire, content: questionnaire_content)
       export = described_class.export_lines(questionnaire.name).to_a.join.split("\n")
       expect(export.size).to eq 1

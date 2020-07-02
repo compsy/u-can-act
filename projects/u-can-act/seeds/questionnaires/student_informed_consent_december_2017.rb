@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ic_name = 'informed consent studenten december 2017'
-informed_consent = Questionnaire.find_by_name(ic_name)
+informed_consent = Questionnaire.find_by(name: ic_name)
 informed_consent ||= Questionnaire.new(name: ic_name)
 informed_consent.key = File.basename(__FILE__)[0...-3]
 ic_content = <<~'END'
@@ -45,9 +45,9 @@ ic_content = <<~'END'
     </li>
   </ol>
 END
-informed_consent.content = [{
+informed_consent.content = { questions: [{
   type: :raw,
   content: ic_content
-}]
+}], scores: [] }
 informed_consent.title = 'u-can-act'
 informed_consent.save!

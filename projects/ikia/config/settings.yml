@@ -5,8 +5,11 @@ default: &default
   # This settings is included only for the specs. Don't remove
   test_setting: 'test123'
   project_title: 'Ieder kind is anders'
-  project_start_date: '2017-12-01'
-  project_end_date: '2018-12-01'
+  project_start_date: '2020-04-20'
+  project_end_date: '2024-04-20'
+  feature_toggles:
+    allow_distribution_export: true
+  distribution_export_min_responses: 1
   logo:
     favicon: 'myfavicon.ico'
     mentor_logo: 'logo_mentor.png'

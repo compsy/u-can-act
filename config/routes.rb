@@ -11,8 +11,10 @@ Rails.application.routes.draw do
   resources :mentor_overview, only: [:index]
   resources :questionnaire, only: %i[index show create destroy], param: :uuid do
     collection do
+      get 'preference/:uuid', to: 'questionnaire#preference', as: 'preference'
       get :interactive
       post :interactive_render
+      post :from_json
     end
   end
   resource :person, only: %i[edit update] do
@@ -57,7 +59,13 @@ Rails.application.routes.draw do
       # JWT APIs
       scope module: :jwt_api do
         resources :one_time_response, only: [:index, :show], param: :otr
-        resources :questionnaire, only: [:show, :create], param: :key
+        resources :questionnaire, only: [:index, :show, :create], param: :key do
+          resources :results, only: [] do
+            collection do
+              get :distribution
+            end
+          end
+        end
         resources :response, only: [:show, :index, :create], param: :uuid do
           collection do
             get :completed
@@ -65,7 +73,15 @@ Rails.application.routes.draw do
           end
         end
         resources :auth_user, only: [:create]
-        resources :people, only: [:create]
+        resources :people, only: [:create] do
+          collection do
+            get :list_children
+          end
+          member do
+            put :update_child
+            delete :destroy_child
+          end
+        end
 
         resources :protocol_subscriptions, only: [] do
           collection do
@@ -80,7 +96,7 @@ Rails.application.routes.draw do
       # JWT and Cookie apis
       # TODO in V2 API, rename to people.
       scope module: :cookie_and_jwt_api do
-        resources :protocol_subscriptions, only: [:create, :show]
+        resources :protocol_subscriptions, only: [:create, :show, :destroy]
 
         resources :person, only: [] do
           collection do
@@ -94,6 +110,20 @@ Rails.application.routes.draw do
 
       # Basic auth APIs
       namespace :basic_auth_api do
+        resources :scheduling, only: [] do
+          collection do
+            post :daily_at_one_am
+            post :daily_at_two_am
+            post :daily_at_three_am
+            post :daily_at_four_am
+            post :daily
+            post :hourly
+            post :thirty_minutely
+            post :five_minutely
+            post :minutely
+          end
+        end
+
         resources :protocol_subscriptions, only: [:create]
         resources :person, only: [] do
           collection do
@@ -103,6 +133,8 @@ Rails.application.routes.draw do
             post :change_to_mentor
           end
         end
+
+        resources :questionnaires, only: [:create]
       end
 
       # Admin APIs

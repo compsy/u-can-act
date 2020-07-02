@@ -20,7 +20,7 @@ class Organization < ApplicationRecord
 
   def self.overview_key(week_number = nil, year = nil)
     week_number = (week_number || Time.zone.now.to_date.cweek).to_i
-    year = (year || Time.zone.now.year).to_i
+    year = (year || Time.zone.now.to_date.cwyear).to_i
     "#{ORGANIZATION_OVERVIEW_BASE_KEY}_#{year}_#{week_number}"
   end
 

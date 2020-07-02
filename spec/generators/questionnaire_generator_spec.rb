@@ -15,6 +15,7 @@ describe QuestionnaireGenerator do
                  submit_text: 'Opslaan',
                  action: '/',
                  unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: responseobj.uuid),
+                 locale: Rails.application.config.i18n.default_locale.to_s,
                  params: {
                    authenticity_token: 'authenticity-token'
                  }
@@ -58,13 +59,13 @@ describe QuestionnaireGenerator do
 
   describe 'generate_json_questionnaire' do
     before do
-      questionnaire_content = [{
+      questionnaire_content = { questions: [{
         section_start: 'Algemeen',
         id: :v1,
         type: :range,
         title: 'Hoe voelt {{deze_student}} zich vandaag?',
         options: %w[slecht goed]
-      }]
+      }], scores: [] }
       @result = subject.generate_hash_questionnaire(responseobj.id,
                                                     questionnaire_content,
                                                     'Dit is een titel {{deze_student}}')

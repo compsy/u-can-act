@@ -6,19 +6,9 @@ preload_app!
 
 rackup      DefaultRackup
 port        ENV['PORT']     || 3000
-environment ENV['RACK_ENV'] || 'development'
+environment ENV['RAILS_ENV'] || 'development'
 
-# If you are preloading your application and using Active Record, it's
-# recommended that you close any connections to the database before workers
-# are forked to prevent connection leakage.
-before_fork do
-  ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
-end
-
-on_worker_boot do
-  # Worker specific setup for Rails 4.1+
-  # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-end
+# Specifies the `pidfile` that Puma will use.
+# pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 plugin :tmp_restart

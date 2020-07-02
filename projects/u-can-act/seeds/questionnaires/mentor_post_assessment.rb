@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 nm_name1 = 'nameting mentoren'
-nameting1 = Questionnaire.find_by_name(nm_name1)
+nameting1 = Questionnaire.find_by(name: nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
 nameting1.key = File.basename(__FILE__)[0...-3]
-nameting1.content = [{
+nameting1.content = { questions: [{
   id: :v1,
-  type: :likert,
+  type: :textfield,
   title: 'Kan je in één woord beschrijven hoe jij het ervaart om jongeren te begeleiden binnen {{je_begeleidingsinitiatief}}?'
 }, {
   id: :v2,
@@ -41,6 +41,6 @@ nameting1.content = [{
   id: :v7,
   type: :textarea,
   title: 'Heb je nog tips hoe wij het onderzoek of de webapp beter kunnen maken in de toekomst?'
-}]
+}], scores: [] }
 nameting1.title = 'Eindmeting begeleiders'
 nameting1.save!

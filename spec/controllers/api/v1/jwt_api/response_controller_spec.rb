@@ -77,7 +77,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         expect(json['questionnaire_title']).to eq response1.measurement.questionnaire.title
         expect(json['questionnaire_content']).not_to be_nil
         expect(json['questionnaire_content'].as_json)
-          .to eq(response1.measurement.questionnaire.content.as_json)
+          .to eq(response1.measurement.questionnaire.content[:questions].as_json)
       end
 
       it 'uses the PersonalizedQuestionnaireSerializer for rendering' do

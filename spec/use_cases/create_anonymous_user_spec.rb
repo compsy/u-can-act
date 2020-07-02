@@ -28,6 +28,7 @@ describe CreateAnonymousUser do
       expect(auth_user.person.auth_user).to eq auth_user
       expect(auth_user.person.role.title).to eq role_title
       expect(auth_user.person.email).to be_blank
+      expect(auth_user.person.account_active).to be_truthy
     end
 
     it 'raises an error when the role was not found' do
@@ -94,7 +95,8 @@ describe CreateAnonymousUser do
       person = FactoryBot.create(:person,
                                  first_name: auth0_id_string,
                                  last_name: auth0_id_string,
-                                 role: role)
+                                 role: role,
+                                 account_active: true)
       auth_user = FactoryBot.create(:auth_user, auth0_id_string: auth0_id_string, person: person)
       person.reload
       pre_count = Person.count
@@ -115,6 +117,8 @@ describe CreateAnonymousUser do
       expect(auth_user.person.auth_user).to eq auth_user
       expect(auth_user.person.role.title).to eq role_title
       expect(auth_user.person.email).to be_blank
+      # if an auth_user has a person, it was assumed to be active, so we don't change the property here
+      expect(auth_user.person.account_active).to be_truthy
     end
 
     it 'reuses the existing person with given email' do
@@ -123,8 +127,10 @@ describe CreateAnonymousUser do
                                  first_name: 'Some name',
                                  last_name: '2',
                                  role: role,
-                                 email: email)
+                                 email: email,
+                                 account_active: false)
       auth_user = FactoryBot.create(:auth_user, auth0_id_string: auth0_id_string)
+      expect(person.account_active).to be_falsey
       person.reload
       pre_count = Person.count
       pre_acount = AuthUser.count
@@ -145,6 +151,7 @@ describe CreateAnonymousUser do
       expect(auth_user.person.auth_user).to eq auth_user
       expect(auth_user.person.role.title).to eq role_title
       expect(auth_user.person.email).to be_blank
+      expect(auth_user.person.account_active).to be_truthy
     end
   end
 
@@ -171,11 +178,16 @@ describe CreateAnonymousUser do
       expect(auth_user.person.auth_user).to eq auth_user
       expect(auth_user.person.role.title).to eq role_title
       expect(auth_user.person.email).to be_blank
+      expect(auth_user.person.account_active).to be_truthy
     end
 
     it 'reuses the existing auth_user and person if they exist' do
       role = team.roles.where(title: role_title).first
-      person = FactoryBot.create(:person, first_name: auth0_id_string, last_name: auth0_id_string, role: role)
+      person = FactoryBot.create(:person,
+                                 first_name: auth0_id_string,
+                                 last_name: auth0_id_string,
+                                 role: role,
+                                 account_active: true)
       auth_user = FactoryBot.create(:auth_user, auth0_id_string: auth0_id_string, person: person)
       person.reload
       pre_count = Person.count
@@ -193,6 +205,7 @@ describe CreateAnonymousUser do
       expect(auth_user.person.last_name).to eq auth0_id_string
       expect(auth_user.person.auth_user).to eq auth_user
       expect(auth_user.person.role.title).to eq role_title
+      expect(auth_user.person.account_active).to be_truthy
     end
 
     it 'reuses the existing auth_user and person if they exist' do
@@ -201,7 +214,8 @@ describe CreateAnonymousUser do
                                  first_name: auth0_id_string,
                                  last_name: auth0_id_string,
                                  role: role,
-                                 email: email)
+                                 email: email,
+                                 account_active: true)
       auth_user = FactoryBot.create(:auth_user, auth0_id_string: auth0_id_string)
       person.reload
       pre_count = Person.count
@@ -221,6 +235,7 @@ describe CreateAnonymousUser do
       expect(auth_user.person.last_name).to eq auth0_id_string
       expect(auth_user.person.auth_user).to eq auth_user
       expect(auth_user.person.role.title).to eq role_title
+      expect(auth_user.person.account_active).to be_truthy
     end
   end
 end

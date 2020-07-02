@@ -10,6 +10,7 @@ class SendInvitations
         next if response.expired?
         next unless response.measurement.should_invite?
         next unless response.protocol_subscription.active?
+        next unless response.person.account_active?
 
         person_id = response.protocol_subscription.person_id
         response_sets[person_id] += [response]
@@ -35,14 +36,17 @@ class SendInvitations
 
     def schedule_reminder(invitation_set)
       reminder_delay = invitation_set.reminder_delay
-      return if reminder_delay.blank?
+      return if reminder_delay.blank? || reminder_delay.zero?
 
       SendInvitationsJob.set(wait: reminder_delay).perform_later invitation_set
     end
 
     def create_invitations(invitation_set)
-      invitation_set.invitations.create!(type: 'EmailInvitation') if invitation_set.person.email.present?
-      invitation_set.invitations.create!(type: 'SmsInvitation') if invitation_set.person.mobile_phone.present?
+      if invitation_set.person.mobile_phone.present?
+        invitation_set.invitations.create!(type: 'SmsInvitation')
+      elsif invitation_set.person.email.present?
+        invitation_set.invitations.create!(type: 'EmailInvitation')
+      end
     end
   end
 end

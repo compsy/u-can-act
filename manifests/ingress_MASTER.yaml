@@ -5,9 +5,24 @@ metadata:
   namespace: sdv-mvp-master
   labels:
     app: svc-questionnaires
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-master"
 spec:
+  tls:
+  - hosts:
+    - svc-questionnaires.beta.sportdatavalley.nl
+    - svc-questionnaires.app.sportdatavalley.nl
+    secretName: sportdatavalley-svc-questionnaires-tls
   rules:
   - host: svc-questionnaires.beta.sportdatavalley.nl
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: svc-questionnaires-service
+          servicePort: 3000
+  - host: svc-questionnaires.app.sportdatavalley.nl
     http:
       paths:
       - path: /

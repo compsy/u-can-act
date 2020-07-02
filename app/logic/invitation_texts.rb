@@ -245,7 +245,6 @@ class InvitationTexts
         protocol_completion[curidx - 3][:completed]
     end
 
-    # rubocop:disable Metrics/AbcSize
     def rejoined_after_missing_multiple(protocol_completion, curidx)
       # Minimal pattern: VX..XC         (V = voormeting, X = completed, C = current)
       #           index: 012345
@@ -255,7 +254,6 @@ class InvitationTexts
         !protocol_completion[curidx - 3][:completed] &&
         protocol_completion[1..(curidx - 4)].map { |x| x[:completed] }.any?
     end
-    # rubocop:enable Metrics/AbcSize
 
     def streak_size
       Protocol.find_by(name: 'studenten')&.rewards&.second&.threshold || 3

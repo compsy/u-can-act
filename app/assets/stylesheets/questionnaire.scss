@@ -30,9 +30,9 @@
 }
 
 .erroneous {
-  border-left: 2px solid red;
-  margin-left: -8px;
-  padding-left: 6px;
+  border-left: 2px solid red !important;
+  margin-left: -8px !important;
+  padding-left: 6px !important;
 }
 
 .otherwise-textfield {
@@ -53,7 +53,20 @@
 }
 
 input[type=range] {
-  margin-top: 26px;
+  margin-top: 11px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 0;
+}
+
+.notchanged {
+  input[type=range]::-ms-thumb, input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
+    background: $unchanged-range-thumb;
+  }
+
+  input[type=range] + .thumb, input[type=range]::-webkit-slider-thumb {
+    background-color: $unchanged-range-thumb;
+  }
 }
 
 // Note: It doesn't work in Chrome (and possibly other browsers)
@@ -97,6 +110,7 @@ ol ol {
 
 .questionnaire-image {
   width: 80%;
+  max-width: 500px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -170,6 +184,7 @@ form .likert-scale {
 
 // Fix balloons sticking on mobile
 .range-field {
+  width: 100%;
   .thumb {
     display: none;
 
@@ -177,6 +192,24 @@ form .likert-scale {
       display: block;
     }
   }
+}
+
+// Fix range labels leaping off the screen
+.range-container + .row {
+  .col {
+    overflow-wrap: break-word;
+  }
+}
+h4, h5, .flow-text {
+  overflow: hidden;
+}
+
+h4, h5 {
+  line-height: 135%;
+}
+
+input:not([type]).validate + label, input[type=text]:not(.browser-default).validate + label, input[type=password]:not(.browser-default).validate + label, input[type=email]:not(.browser-default).validate + label, input[type=url]:not(.browser-default).validate + label, input[type=time]:not(.browser-default).validate + label, input[type=date]:not(.browser-default).validate + label, input[type=datetime]:not(.browser-default).validate + label, input[type=datetime-local]:not(.browser-default).validate + label, input[type=tel]:not(.browser-default).validate + label, input[type=number]:not(.browser-default).validate + label, input[type=search]:not(.browser-default).validate + label, textarea.materialize-textarea.validate + label {
+  width: calc(100% - 1.5rem);
 }
 
 // Fix i'tjes being on a new line
@@ -291,4 +324,31 @@ button[type="submit"] {
 
 blockquote {
   color: #666;
+}
+
+.datepicker-container {
+  .datepicker-controls {
+    .select-wrapper {
+      input {
+        &:focus {
+          border-bottom: 1px solid $accent-color;
+        }
+
+        border-bottom: 1px solid #616161;
+      }
+
+      .caret {
+        display: block;
+      }
+    }
+
+    .select-year input {
+      margin-left: 1rem;
+      width: 75px;
+    }
+
+    .select-month input {
+      width: 120px;
+    }
+  }
 }

@@ -3,7 +3,7 @@
 db_title = 'Inschrijfformulier voor het u-can-act symposium op donderdag 16 mei 2019' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'symposium'
-symp1 = Questionnaire.find_by_name(db_name1)
+symp1 = Questionnaire.find_by(name: db_name1)
 symp1 ||= Questionnaire.new(name: db_name1)
 symp1.key = File.basename(__FILE__)[0...-3]
 symp1_content = [
@@ -65,6 +65,6 @@ symp1_content = [
     content: '<p class="flow-text">Door op onderstaande \'opslaan\'-knop te klikken verzendt u uw gegevens. U ontvangt een bevestigingsmail van uw aanmelding.</p><p>Voor vragen neem contact op met Lucia Boer <a href="mailto:info@u-can-act.nl">info@u-can-act.nl</a></p>'
   }
 ]
-symp1.content = symp1_content
+symp1.content = { questions: symp1_content, scores: [] }
 symp1.title = db_title
 symp1.save!

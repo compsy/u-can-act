@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ev_name = 'evaluatieonderzoek'
-evaluatie = Questionnaire.find_by_name(ev_name)
+evaluatie = Questionnaire.find_by(name: ev_name)
 evaluatie ||= Questionnaire.new(name: ev_name)
 
 maatregelitje = 'Deze maatregelen zijn:<ul class="browser-default"><li>De regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie (afkomstig uit entree, PrO en VSO).</li><li>De RMC contactgemeenten hebben de verantwoordelijkheid gekregen voor het opstellen van een vierjarig regionaal plan met maatregelen voor VSV en jongeren in een kwetsbare positie, voor het realiseren van het plan, voor de totstandkoming van de regionale samenwerking, en voor een deel van het regionale budget.</li><li>De RMC afdeling van de gemeenten krijgt een taak erbij: het monitoren van jongeren van 16 en 17, afkomstig uit PrO en VSO wat betreft hun deelname aan werk of onderwijs. Daarnaast krijgen zij een taak duidelijker belegd: monitoren van jongeren van 18 tot 23 jaar, afkomstig uit PrO en VSO, wat betreft hun deelname aan werk, dagbesteding of onderwijs.</li></ul>'
@@ -55,7 +55,7 @@ rmcregioarray = [
 ]
 maatregel_text = '<div class="divider"></div><p class="flow-text"><em>De volgende vragen gaan over onderstaande maatregel.</em></p>'
 evaluatie.key = File.basename(__FILE__)[0...-3]
-evaluatie.content = [{
+evaluatie.content = { questions: [{
   type: :raw,
   content: '<p class="flow-text"><em>Wij vragen u eerst om enkele achtergrondgegevens, om te kunnen achterhalen welke rol u speelt in welke regio. De resultaten worden op landelijk niveau geanalyseerd en zijn niet terug te leiden naar een specifieke regio. Uw privacy is gegarandeerd. Als er een i-button staat bij een vraag, dan kunt u daar op klikken voor meer informatie.</em></p>'
 }, {
@@ -679,7 +679,8 @@ evaluatie.content = [{
     { title: 'Ja' },
     { title: 'Nee', shows_questions: %i[v62 v62_1 v63] }
   ],
-  show_otherwise: false
+  show_otherwise: false,
+  hidden: true
 }, {
   id: :v62,
   hidden: true,
@@ -959,6 +960,6 @@ evaluatie.content = [{
   type: :textarea,
   title: 'Indien u nog aanvullende op- of aanmerkingen heeft over de aanpak van voortijdig schoolverlaten en jongeren in een kwetsbare positie dan kunt u die hier benoemen.',
   placeholder: 'Vul hier uw antwoord in'
-}]
+}], scores: [] }
 evaluatie.title = 'De huidige aanpak van voortijdig schoolverlaten en jongeren in kwetsbare posities: een evaluatie van het nationale beleid'
 evaluatie.save!

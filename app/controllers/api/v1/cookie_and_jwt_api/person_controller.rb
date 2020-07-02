@@ -17,7 +17,7 @@ module Api
           if res
             render status: :ok, json: { status: 'ok' }
           else
-            render status: :unprocessable_entity, json: { status: 'not ok', errors: current_user.errors }
+            unprocessable_entity(current_user.errors)
           end
         end
 
@@ -29,7 +29,7 @@ module Api
         private
 
         def person_params
-          params.require(:person).permit(:mobile_phone, :email, :account_active)
+          params.require(:person).permit(:mobile_phone, :email, :account_active, :locale)
         end
       end
     end

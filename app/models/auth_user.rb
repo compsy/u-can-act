@@ -32,18 +32,21 @@ class AuthUser < ApplicationRecord
       team = team_from_payload(payload)
       role = role_from_payload(payload)
       email = email_from_payload(payload)
+      auth_user = nil
 
-      auth_user = CreateAnonymousUser.run!(
-        auth0_id_string: id,
-        team_name: team,
-        role_title: role,
-        access_level: access_level,
-        email: email
-      )
+      RedisMutex.with_lock("CreateAnonymousUser:#{id}", block: 5) do
+        auth_user = CreateAnonymousUser.run!(
+          auth0_id_string: id,
+          team_name: team,
+          role_title: role,
+          access_level: access_level,
+          email: email
+        )
+      end
 
       # Note that we only subscribe the person if the protocol is provided in
       # the metadata.
-      subscribe_to_protocol_if_needed(auth_user.person, payload)
+      subscribe_to_protocol_if_needed(auth_user.person, payload) if auth_user&.person.present?
       auth_user
     end
 
@@ -98,10 +101,13 @@ class AuthUser < ApplicationRecord
       protocol = protocol_from_payload(payload)
       return if protocol.blank?
 
-      # A person can only be subscribed to the same protocol once
-      return if person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
-
-      SubscribeToProtocol.run!(protocol_name: protocol, person: person)
+      RedisMutex.with_lock("SubscribeToProtocol:#{person.id}:#{protocol}") do
+        # A person can only be subscribed to the same protocol once
+        person.reload
+        unless person.protocol_subscriptions.any? { |protsub| protsub.protocol.name == protocol }
+          SubscribeToProtocol.run!(protocol_name: protocol, person: person)
+        end
+      end
     end
   end
 end

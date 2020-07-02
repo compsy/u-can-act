@@ -37,7 +37,8 @@ class CreateAnonymousUser < ActiveInteraction::Base
       person = Person.find_by(email: email_address)
       if person.present? && person.auth_user.blank?
         ActiveRecord::Base.transaction do
-          person.update!(auth_user: auth_user, email: nil, role: find_role)
+          person.update!(auth_user: auth_user, email: nil, role: find_role,
+                         account_active: Rails.application.config.settings.account_active_default)
           auth_user.person = person
           auth_user.save!
         end
@@ -53,11 +54,11 @@ class CreateAnonymousUser < ActiveInteraction::Base
                              last_name: auth_user.auth0_id_string,
                              gender: nil,
                              mobile_phone: nil,
-                             role: find_role)
+                             role: find_role,
+                             account_active: Rails.application.config.settings.account_active_default)
     auth_user
   end
 
-  # rubocop:disable Metrics/AbcSize
   def find_role
     team = find_team
 
@@ -71,7 +72,6 @@ class CreateAnonymousUser < ActiveInteraction::Base
 
     role
   end
-  # rubocop:enable Metrics/AbcSize
 
   def find_team
     return rerr('Required payload attribute team not specified') if team_name.blank?

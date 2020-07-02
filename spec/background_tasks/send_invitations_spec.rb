@@ -30,7 +30,7 @@ describe SendInvitations do
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
       end
 
-      it 'queues two invitations if a person has an email address' do
+      it 'prefers to send an invitation as sms if available' do
         student = FactoryBot.create(:person, email: 'student@student.com')
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   start_date: 1.week.ago.at_beginning_of_day,
@@ -46,7 +46,7 @@ describe SendInvitations do
         invitationsetscount = InvitationSet.count
         described_class.run
         responseobj.reload
-        expect(Invitation.count).to eq(invitationscount + 2) # email and sms
+        expect(Invitation.count).to eq(invitationscount + 1) # email and sms
         expect(InvitationSet.count).to eq(invitationsetscount + 1)
         expect(responseobj.invitation_set_id).not_to be_nil
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
@@ -105,7 +105,7 @@ describe SendInvitations do
         invitationcount = Invitation.count
         described_class.run
         expect(InvitationSet.count).to eq(invitationsetcount + 1)
-        expect(Invitation.count).to eq(invitationcount + 2)
+        expect(Invitation.count).to eq(invitationcount + 1)
         responses.each do |resp|
           resp.reload
           expect(resp.invitation_set_id).to eq InvitationSet.first.id
@@ -202,6 +202,27 @@ describe SendInvitations do
         expect(InvitationSet.first.responses.count).to eq 1
       end
 
+      it 'does not queue reminders if reminder delay zero' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        measurement = FactoryBot.create(:measurement, open_duration: 1.day, protocol: protocol_subscription.protocol,
+                                                      reminder_delay: 0)
+        responseobj = FactoryBot.create(:response, open_from: 1.hour.ago,
+                                                   protocol_subscription: protocol_subscription,
+                                                   measurement: measurement)
+        expect(SendInvitationsJob).not_to receive(:set)
+        expect(SendInvitationsJob).to receive(:perform_later).once.and_return true
+        described_class.run
+        responseobj.reload
+        expect(InvitationSet.count).to eq 1
+        expect(Invitation.count).to eq 1
+        expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
+        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation]
+        expect(Invitation.all.map(&:invitation_set_id).sort.uniq).to eq [InvitationSet.first.id]
+        expect(InvitationSet.first.person_id).to eq protocol_subscription.person_id
+        expect(InvitationSet.first.invitation_tokens).to eq []
+        expect(InvitationSet.first.responses.count).to eq 1
+      end
+
       it 'queues reminders for mentor responses' do
         mentor = FactoryBot.create(:mentor)
         protocol_subscription = FactoryBot.create(:protocol_subscription, :mentor,
@@ -221,7 +242,7 @@ describe SendInvitations do
         responseobj.reload
         expect(InvitationSet.count).to eq 1
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
-        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[EmailInvitation SmsInvitation]
+        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation]
         expect(Invitation.all.map(&:invitation_set_id).sort.uniq).to eq [InvitationSet.first.id]
         expect(InvitationSet.first.person_id).to eq protocol_subscription.person_id
         expect(InvitationSet.first.invitation_tokens).to eq []

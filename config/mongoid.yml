@@ -55,6 +55,7 @@ staging:
           mode: :primary_preferred
         max_retries: 30
         retry_interval: 1
+        retry_writes: false
         timeout: 15
 
 production:
@@ -67,4 +68,5 @@ production:
           mode: :primary_preferred
         max_retries: 30
         retry_interval: 1
+        retry_writes: false
         timeout: 15

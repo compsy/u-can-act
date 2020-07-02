@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 vm_name1 = 'voormeting studenten'
-voormeting1 = Questionnaire.find_by_name(vm_name1)
+voormeting1 = Questionnaire.find_by(name: vm_name1)
 voormeting1 ||= Questionnaire.new(name: vm_name1)
 voormeting1.key = File.basename(__FILE__)[0...-3]
-voormeting1.content = [{
+voormeting1.content = { questions: [{
   id: :v1,
   type: :textfield,
   required: true,
@@ -54,6 +54,6 @@ voormeting1.content = [{
   type: :radio,
   title: 'Wat deed je voordat je aan deze opleiding begon?',
   options: ['Werken', 'Middelbare school', 'Een andere MBO opleiding']
-}]
+}], scores: [] }
 voormeting1.title = 'Voormeting'
 voormeting1.save!

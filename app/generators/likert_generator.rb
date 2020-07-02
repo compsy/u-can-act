@@ -6,7 +6,7 @@ class LikertGenerator < QuestionTypeGenerator
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     question = add_otherwise_label(question)
     safe_join([
-                content_tag(:p, title, class: 'flow-text'),
+                tag.p(title, class: 'flow-text'),
                 likert_options(question)
               ])
   end
@@ -19,7 +19,7 @@ class LikertGenerator < QuestionTypeGenerator
       body << likert_option_body(question, add_raw_to_option(option, question, idx))
     end
     # safe_join(body)
-    content_tag(:div, safe_join(body), class: 'likert-scale radio-group required')
+    tag.div(safe_join(body), class: 'likert-scale radio-group required')
   end
 
   def likert_option_body(question, option)
@@ -29,7 +29,7 @@ class LikertGenerator < QuestionTypeGenerator
 
     option_body = tag(:input, tag_options)
     option_body = decorate_with_label(question, option_body, option)
-    content_tag(:div, option_body, class: 'likert-item')
+    tag.div(option_body, class: 'likert-item')
   end
 
   def question_options(question, option, elem_id)

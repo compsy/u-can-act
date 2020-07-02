@@ -3,7 +3,7 @@
 db_title = '' # Dagboekvragenlijst moet geen titel hebben alleen een logo
 
 db_name1 = 'Differentiatie Binnenstebuiten Docenten'
-dagboek1 = Questionnaire.find_by_name(db_name1)
+dagboek1 = Questionnaire.find_by(name: db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 
@@ -81,6 +81,6 @@ question(:v12, '4. Ik kon storend gedrag in de klas in de hand houden.'),
   title: 'Welke ondersteuning / aanpassingen ga je tijdens de volgende les bieden?'
 }]
 
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

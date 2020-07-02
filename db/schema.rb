@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191219145741) do
+ActiveRecord::Schema.define(version: 2020_06_16_134711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20191219145741) do
     t.boolean "should_invite", default: true, null: false
     t.string "redirect_url"
     t.integer "reminder_delay", default: 28800
+    t.string "open_from_day"
+    t.integer "priority"
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id"
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id"
   end
@@ -114,7 +116,12 @@ ActiveRecord::Schema.define(version: 20191219145741) do
     t.string "iban"
     t.string "ip_hash"
     t.boolean "account_active", default: false, null: false
+    t.bigint "parent_id"
+    t.string "locale", default: "nl"
+    t.index ["email"], name: "index_people_on_email", unique: true
+    t.index ["external_identifier"], name: "index_people_on_external_identifier", unique: true
     t.index ["mobile_phone"], name: "index_people_on_mobile_phone", unique: true
+    t.index ["parent_id"], name: "index_people_on_parent_id"
   end
 
   create_table "protocol_subscriptions", id: :serial, force: :cascade do |t|

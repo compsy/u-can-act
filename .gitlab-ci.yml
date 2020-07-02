@@ -1,7 +1,7 @@
 # load docker image & start docker engine
 image: tmaier/docker-compose:latest
 services:
-  - docker:dind
+  - docker:19.03.1-dind
 
 # define pipline stages
 stages:

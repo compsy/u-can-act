@@ -8,10 +8,10 @@ default_reward_points = 100
 ###############
 
 pr_name = 'differentiatie_studenten'
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
-protocol.informed_consent_questionnaire = Questionnaire.find_by_name('informed consent scholieren')
+protocol.informed_consent_questionnaire = Questionnaire.find_by(name: 'informed consent scholieren')
 protocol.invitation_text ='Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 protocol.save!
@@ -26,7 +26,7 @@ reward.save!
 # Add dagboekmetingen
 db_name = 'Differentiatie Binnenstebuiten Scholieren Nederlands'
 of_offset = 3.days + 12.hours # Thursday noon
-dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+dagboekvragenlijst_id = Questionnaire.find_by(name: db_name)&.id
 raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id,
                                              open_from_offset: of_offset).first

@@ -35,4 +35,20 @@ describe ResponseContent do
       expect(responsecontent.content).to eq content_hash
     end
   end
+
+  describe 'create_with_scores!' do
+    it 'enriches the content' do
+      questionnaire = FactoryBot.create(:questionnaire, content: {
+                                          questions: [{ id: :v1, title: 'hoi', type: :number }],
+                                          scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average }]
+                                        })
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      response = FactoryBot.create(:response, measurement: measurement)
+      content = { 'v1' => '23' }
+      expected = { 's1' => '23' }
+      rescontent = described_class.create_with_scores!(content: content, response: response)
+      expect(rescontent.content).to eq content
+      expect(rescontent.scores).to eq expected
+    end
+  end
 end

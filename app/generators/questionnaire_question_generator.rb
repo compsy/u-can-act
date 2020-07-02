@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class QuestionnaireQuestionGenerator < Generator
-  # rubocop:disable Metrics/AbcSize
   def initialize
     @generators = {
       radio: RadioGenerator.new,
@@ -23,13 +22,12 @@ class QuestionnaireQuestionGenerator < Generator
       klasses: KlassesGenerator.new
     }
   end
-  # rubocop:enable Metrics/AbcSize
 
   def generate(question)
     question_body = find_generator(question[:type]).generate(question)
-    question_body = content_tag(:div, question_body, class: 'col s12')
-    question_body = content_tag(:div, question_body,
-                                class: find_generator(:klasses, only_questions: false).generate(question).to_s)
+    question_body = tag.div(question_body, class: 'col s12')
+    question_body = tag.div(question_body,
+                            class: find_generator(:klasses, only_questions: false).generate(question).to_s)
     wrap_question_in_sections(question_body, question)
   end
 

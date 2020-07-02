@@ -16,8 +16,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   end
   puts 'Generating people - Started'
 
-  organization = Organization.find_by_name(team_name)
-  team = organization.teams.find_by_name(team_name)
+  organization = Organization.find_by(name: team_name)
+  team = organization.teams.find_by(name: team_name)
   team ||= Team.create!(name: team_name, organization: organization)
 
   docenten_title = 'Docenten'
@@ -40,7 +40,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   students.each do |student_hash|
     phone = generate_phone
-    phone = generate_phone while Person.find_by_mobile_phone(phone).present?
+    phone = generate_phone while Person.find_by(mobile_phone: phone).present?
     Person.create!(first_name: student_hash[:first_name],
                    last_name: student_hash[:last_name],
                    gender: student_hash[:gender],
@@ -49,13 +49,13 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts 'Generating people - Finished'
 
   # Differentiatie person
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
+  person = Team.find_by(name: team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Student').first
 
   person.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('differentiatie_studenten'),
+    protocol: Protocol.find_by(name: 'differentiatie_studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
@@ -68,13 +68,13 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "differentiatie student meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie person
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
+  person = Team.find_by(name: team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Student IC').first
 
   person.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('differentiatie_studenten'),
+    protocol: Protocol.find_by(name: 'differentiatie_studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week
   )
@@ -86,13 +86,13 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "differentiatie student meting IC: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie person bijna klaar
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
+  person = Team.find_by(name: team_name).roles.where(group: Person::STUDENT, title: scholieren_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Student').first
 
   person.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('differentiatie_studenten'),
+    protocol: Protocol.find_by(name: 'differentiatie_studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: 34.weeks.ago.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
@@ -107,12 +107,12 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts ''
 
   # Differentiatie docent
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: docenten_title)
+  person = Team.find_by(name: team_name).roles.where(group: Person::STUDENT, title: docenten_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Docent').first
   person.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('differentiatie_docenten'),
+    protocol: Protocol.find_by(name: 'differentiatie_docenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
@@ -124,19 +124,20 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "differentiatie 1e docent meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie docent met responses
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: docenten_title)
+  person = Team.find_by(name: team_name).roles.where(group: Person::STUDENT, title: docenten_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Docent vorige vraag').first
   person.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('differentiatie_docenten'),
+    protocol: Protocol.find_by(name: 'differentiatie_docenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: 2.weeks.ago.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
   )
 
   responseobj = person.protocol_subscriptions.first.responses.first
-  response_content = ResponseContent.create!(content: {v14: 'Ik ga bezig met begrijpend lezen.' })
+  response_content = ResponseContent.create_with_scores!(content: {v14: 'Ik ga bezig met begrijpend lezen.' },
+                                                         response: responseobj)
   responseobj.content = response_content.id
   responseobj.complete!
   responseobj.save
@@ -148,19 +149,20 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "differentiatie docent meting met eerdere vragenlijst: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Differentiatie docent met responses maar leeg
-  person = Team.find_by_name(team_name).roles.where(group: Person::STUDENT, title: docenten_title)
+  person = Team.find_by(name: team_name).roles.where(group: Person::STUDENT, title: docenten_title)
                .first
                .people
                .where(first_name: 'Differentiatie', last_name: 'Docent vorige vraag maar leeg').first
   person.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('differentiatie_docenten'),
+    protocol: Protocol.find_by(name: 'differentiatie_docenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: 2.weeks.ago.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
   )
 
   responseobj = person.protocol_subscriptions.first.responses.first
-  response_content = ResponseContent.create!(content: {})
+  response_content = ResponseContent.create_with_scores!(content: {},
+                                                         response: responseobj)
   responseobj.content = response_content.id
   responseobj.complete!
   responseobj.save

@@ -124,6 +124,8 @@ Below is a list of all required ENV variables for production servers.
 
   SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
   REGISTRATION_URL: <url for sending invites to for person email registration>
+
+  WORKLESS_ENABLED: <set to 'true' if you want to enable workless>
 ```
 
 ### (Local) development settings
@@ -346,10 +348,12 @@ Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
 Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{begeleider}}` or `jouw {{begeleider}}`.
 
 ## Questionnaire Syntax
-The `content` attribute of a `Questionnaire` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`.
+The `content` attribute of a `Questionnaire` is a Hash with two keys, `:questions` and `:scores`. `content[:questions]` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`.
 
 For all questions, it is allowed to use HTML tags in the texts. 
 Also, you may use any of the special variables defined in the previous section.
+
+All questions except checkboxes now support a `combines_with` attribute. The value of this attribute should be an array of (other) questionnaire IDs. This is used to indicate to the distributions engine that an additional conditional distribution histogram, combining the values of the question and the ones that it combines with, should also be calculated.
 
 ### Type: Checkbox
 Required and allowed options (minimal example and maximal example):
@@ -442,12 +446,12 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
-   { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5] },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20 },
+   { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5], numeric_value: 40 },
    'Inzicht krijgen in de omgeving',
-   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true },
-   { title: 'Vaardigheden ontwikkelen', tooltip: 'Zoals wiskunde', shows_questions: %i[v10 v11] },
-   { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12] }
+   { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true, numeric_value: 60 },
+   { title: 'Vaardigheden ontwikkelen', tooltip: 'Zoals wiskunde', shows_questions: %i[v10 v11], numeric_value: 80 },
+   { title: 'De omgeving veranderen/afstemmen met de omgeving', shows_questions: %i[v12], numeric_value: 100 }
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
@@ -459,12 +463,20 @@ Required and allowed options (minimal example and maximal example):
 The options array can contain either hashes or strings. 
 If it is just a string, it is used as the `title` element.
 The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. 
-The `tooltip' field is also optional. 
+The `tooltip` field is also optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
 Radios are always required.
+
+Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
+This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
+In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
+The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
+Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
 ### Type: Likert
 Required and allowed options (minimal example and maximal example):
@@ -482,7 +494,13 @@ Required and allowed options (minimal example and maximal example):
   type: :likert,
   title: 'Wat vind u van deze stelling?',
   tooltip: 'some tooltip',
-  options: ['helemaal oneens', 'oneens', 'neutraal', 'eens', 'helemaal eens'],
+  options: [
+    { title: 'helemaal oneens', numeric_value: 1 },
+    { title: 'oneens', numeric_value: 2 },
+    { title: 'neutraal', numeric_value: 3 },
+    { title: 'eens', numeric_value: 4 },
+    { title: 'helemaal eens', numeric_value: 5 }
+  ],
   section_end: true
 }]
 ```
@@ -490,6 +508,15 @@ Required and allowed options (minimal example and maximal example):
 The options array can currently only contain strings. 
 The strings in the array are used as answer options. 
 Likert questions are always required.
+
+Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
+This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
+In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
+The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
+Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
+
 
 ### Type: Range
 Required and allowed options (minimal example and maximal example):
@@ -508,6 +535,7 @@ Required and allowed options (minimal example and maximal example):
   min: 0,
   max: 100,
   step: 1,
+  required: true,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
@@ -516,6 +544,7 @@ Required and allowed options (minimal example and maximal example):
 ```
 The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. 
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
+If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**
@@ -621,7 +650,8 @@ The default is that numbers are not required.
 
 The `number` type does not support `pattern` or `hint` because these properties are not supported by the html 5 `number` input type.
 
-A new unique property for the `number` type is the `links_to_expandable` property. Set this to the id of an expandable section to let the answer to this question set the number of expansions for the expandable question. If the user manually adds or removes expandable iterations with the + or - buttons, those changes are not reflected back to this number (i.e., it is used as a "default number of expansions").
+A new unique property for the `number` type is the `links_to_expandable` property. Set this to the id of an expandable section to let the answer to this question set the number of expansions for the expandable question.
+If the user manually adds or removes expandable iterations with the + or - buttons, those changes are not reflected back to this number (i.e., it is used as a "default number of expansions").
 
 Also, the `placeholder` property is supported for numbers.
 
@@ -696,6 +726,8 @@ Required and allowed options (minimal example):
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
 
+Optional properties are `hours_label` and `minutes_label`, to override the default label texts.
+
 ### Type: Date
 Required and allowed options (minimal example and maximal example):
 
@@ -714,18 +746,18 @@ Required and allowed options (minimal example and maximal example):
   required: true,
   tooltip: 'some tooltip',
   placeholder: 'Place holder',
-  min: [2018, 06, 14],
-  max: [2018, 07, 20],
+  min: '2018/06/14',
+  max: '2018/07/20',
+  default_date: '2018/07/20',
   section_end: true
 }]
 ```
 
-The `min` and `max` properties can be either two arrays as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
-
-Please note that there is currently a bug in the date picker when you specify dates as arrays. 
-So if you want june 14th, as a start date, use [2018, 5, 14], i.e., subtract one from the month.
+The `min` and `max` properties can be either strings as in the above example, or they can be of the following form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to false, which removes any limits).
 
 If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
+
+The `default_date` property can be used to set a default date. The `default_date` and `today` properties should never both be used.
 
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. 
@@ -773,7 +805,13 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   label: 'RMC regio',
   tooltip: 'some tooltip',
-  options: ['hobby/sport', 'werk', 'vriendschap', 'romantische relatie', 'thuis'],
+  options: [
+    { title: 'hobby/sport', numeric_value: 0 },
+    { title: 'werk', numeric_value: 25 },
+    { title: 'vriendschap', numeric_value: 50 },
+    { title: 'romantische relatie', numeric_value: 75 },
+    { title: 'thuis', numeric_value: 100 }
+  ],
   section_end: true
 }]
 ```
@@ -794,6 +832,14 @@ The `tooltip' field is optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
+
+Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
+This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
+In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
+The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
+Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
 ### Type: Drawing
 Let's a user draw on an image. 
@@ -830,6 +876,75 @@ Height and width should be specified as integers, without any postfix such as `p
 Image can be the URL of an image, or the filename of an image that exists in the asset pipeline.
 
 The only optional parameters are `radius` and `density`. They default to 15 and 40, respectively.
+
+
+## Questionnaire Scores
+
+Questionnaire scores are automatically calculated and stored with the questionnaire results. The realtime distribution calculations also calculate distributions for questionnaire scores.
+
+Questionnaire content has the following format:
+```ruby
+{ questions: [], scores: [] }
+```
+Both these entries are required, but they may be empty.
+
+Scores is an array of scores with the following properties.
+
+Minimal example:
+```ruby
+[{ id: :s1,
+   label: 'The average of v1 and v2',
+   ids: %i[v1 v2],
+   operation: :average
+}]
+```
+Each score should have a unique `id` property. That means that these ids should be different from any other score id or question id in this questionnaire.
+`ids` is the list of IDs that the `operation` should be performed over. It may include ids of scores that occurred earlier in the `scores` array.
+
+Maximal example:
+```ruby
+[{ id: :s1,
+   label: 'The average of v1 and v2',
+   ids: %i[v1 v2],
+   preprocessing: { v2: { multiply_with: -1, offset: 100 } },
+   operation: :average,
+   require_all: true,
+   round_to_decimals: 0
+}]
+```
+If `round_to_decimals` is missing, the result is not rounded, and the realtime distribution calculation will **not** calculate a distribution for this score. Analogously, if you specify the `round_to_decimals` attribute, the realtime distribution calculation will automatically calculate the distribution for this score. If you're only dealing with integers, you can use `round_to_decimals: 0`.
+If `require_all` is missing, it works the same as when specifying `require_all: false`.
+All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
+The `preprocessing` key is optional, and if provided, should be a hash with a (sub)set of the IDs in `ids` as keys. Each entry in a hash represents how this value will be preprocessed. Currently, only the following operations are supported: `multiply _with`, which multiplies the value with a given number (which can be integer or float, positive or negative), and `offset`, which adds a constant number to the value (this number can also be an integer or float, positive or negative). Both `multiply_with` and `offset` are optional. If both are provided, `multiply_with` is performed first. It is possible to chain operations by defining a new score that takes as input a previously preprocessed score (see below).
+
+- The only currently supported `operation` is `:average`.
+- The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:
+
+```ruby
+{
+  questions: [ '...' ],
+  scores: [{
+           id: :s1,
+           label: 'Positive excited',
+           ids: %i[v1 v2 v3 v4],
+           operation: :average,
+           require_all: false,
+         }, {
+           id: :s2,
+           label: 'Positive not excited',
+           ids: %i[v5 v6 v7 v8],
+           operation: :average,
+           require_all: false,
+         }, {
+           id: :s3,
+           label: 'Positive',
+           ids: %i[s1 s2],
+           operation: :average,
+           require_all: true,
+           round_to_decimals: 1
+         }]
+}
+```
 
 [zenodo-image]: https://zenodo.org/badge/84442919.svg
 [zenodo-url]: https://zenodo.org/badge/latestdoi/84442919

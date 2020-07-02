@@ -1,34 +1,30 @@
-version: '3.0'
+version: '3.7'
 services:
   db:
-    image: 'postgres'
+    image: postgres:10.5
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
-    networks:
-      - backend
+      - ./tmp/db:/var/lib/postgresql/data:delegated
   redis:
-    image: "redis:alpine"
+    image: "redis:5.0.6-alpine"
     command: redis-server --requirepass redispassword
-    networks:
-      - backend
+    volumes:
+      - ./tmp/redis:/data:delegated
   mongo:
-    image: "mongo:latest"
-    networks:
-      - backend
+    image: mongo:4
+    volumes:
+      - ./tmp/mongo:/data/db:delegated
   webpack:
     image: vsv
-    entrypoint: ["/app/lib/docker-entrypoint-webpack.sh"]
-    command: ["bin/webpack-dev-server"]
+    entrypoint: []
+    command: ["bundle","exec","bin/webpack-dev-server"]
+    restart: on-failure
     volumes:
-      - .:/app
+      - .:/app:delegated
       - node_modules_volume:/app/node_modules
-      # don't mount tmp directory
+      - gems_volume:/usr/local/bundle/ruby/2.6.0
       - /app/tmp
     ports:
       - "3036:3036"
-    networks:
-      - backend
-      - frontend
     depends_on:
       - web
     links:
@@ -47,21 +43,18 @@ services:
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
       - RESET_DB_ON_FAIL=true
+      - RUNNING_AS_SERVICE=true # Because we don't run a delayed job server in the docker container
     volumes:
-      - .:/app
+      - .:/app:delegated
       - node_modules_volume:/app/node_modules
+      - gems_volume:/usr/local/bundle/ruby/2.6.0
       - /app/tmp
     ports:
       - "3002:3000"
-    networks:
-      - backend
-      - frontend
     depends_on:
       - db
       - redis
       - mongo
-networks:
-  frontend:
-  backend:
 volumes:
   node_modules_volume:
+  gems_volume:

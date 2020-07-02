@@ -87,6 +87,23 @@ describe Measurement do
     end
   end
 
+  describe 'open_from_day' do
+    it 'is a day of the week' do
+      measurement = FactoryBot.create(:measurement)
+      measurement.open_from_day = 'saturday'
+      expect(measurement).to be_valid
+      measurement.open_from_day = 'gehaktdag'
+      expect(measurement).not_to be_valid
+      expect(measurement.errors.messages).to have_key :open_from_day
+      expect(measurement.errors.messages[:open_from_day]).to include('is niet in de lijst opgenomen')
+    end
+    it 'is able to be nil' do
+      measurement = FactoryBot.create(:measurement)
+      measurement.open_from_day = nil
+      expect(measurement).to be_valid
+    end
+  end
+
   describe 'stop_measurement' do
     it 'is false by default' do
       measurement = described_class.new
@@ -157,6 +174,26 @@ describe Measurement do
       expect(measurement).not_to be_valid
       expect(measurement.errors.messages).to have_key :should_invite
       expect(measurement.errors.messages[:should_invite]).to include('is niet in de lijst opgenomen')
+    end
+  end
+
+  describe 'priority' do
+    it 'is an integer' do
+      measurement = FactoryBot.create(:measurement)
+      measurement.priority = 2
+      expect(measurement).to be_valid
+      measurement.priority = 0
+      expect(measurement).to be_valid
+      measurement.priority = -1
+      expect(measurement).to be_valid
+      measurement.priority = 1.5
+      expect(measurement).not_to be_valid
+      expect(measurement.errors.messages).to have_key :priority
+      expect(measurement.errors.messages[:priority]).to include('moet een geheel getal zijn')
+    end
+    it 'accepts nil values' do
+      measurement = FactoryBot.create(:measurement, priority: nil)
+      expect(measurement).to be_valid
     end
   end
 
@@ -300,7 +337,30 @@ describe Measurement do
         expected_times = [TimeTools.increase_by_duration(start_date, 3.days)]
         expect(measurement.response_times(start_date, end_date)).to eq expected_times
       end
-      it 'works withonly an offset_till_end' do
+      context 'open_from_day' do
+        it 'works' do
+          start_date = Time.new(2017, 10, 10).in_time_zone
+          end_date = TimeTools.increase_by_duration(start_date, 1.week)
+          measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'saturday')
+          expected_times = [TimeTools.increase_by_duration(start_date, 4.days + 12.hours)]
+          expect(measurement.response_times(start_date, end_date)).to eq expected_times
+        end
+        it 'works for measurements on the same day' do
+          start_date = Time.new(2017, 10, 10).in_time_zone
+          end_date = TimeTools.increase_by_duration(start_date, 1.week)
+          measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
+          expected_times = [TimeTools.increase_by_duration(start_date, 12.hours)]
+          expect(measurement.response_times(start_date, end_date)).to eq expected_times
+        end
+        it 'reschedules measurements on the same day but before the start date one week in the future' do
+          start_date = Time.new(2017, 10, 10, 15).in_time_zone
+          end_date = TimeTools.increase_by_duration(start_date, 1.week)
+          measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
+          expected_times = [TimeTools.increase_by_duration(start_date.beginning_of_day, 7.days + 12.hours)]
+          expect(measurement.response_times(start_date, end_date)).to eq expected_times
+        end
+      end
+      it 'works with only an offset_till_end' do
         start_date = Time.new(2017, 10, 10).in_time_zone
         end_date = TimeTools.increase_by_duration(start_date, 1.week)
         measurement = FactoryBot.create(:measurement, open_from_offset: nil, offset_till_end: 5.days)

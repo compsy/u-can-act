@@ -3,7 +3,7 @@
 title = 'Foxtrot'
 
 name = 'KCT Foxtrot'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
@@ -63,7 +63,7 @@ content = [
   create_block_question(:v10, "10.", 'mr_55.jpg'),
   create_block_question(:v11, "11.", 'mr_56.jpg'),
 ]
-questionnaire.content = content
+questionnaire.content = { questionnaire: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!
 

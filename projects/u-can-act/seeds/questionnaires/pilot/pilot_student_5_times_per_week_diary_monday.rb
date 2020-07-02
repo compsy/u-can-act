@@ -3,7 +3,7 @@
 db_title = 'Webapp Jongeren'
 
 db_name1 = 'dagboek studenten 5x per week maandag'
-dagboek1 = Questionnaire.find_by_name(db_name1)
+dagboek1 = Questionnaire.find_by(name: db_name1)
 dagboek1 ||= Questionnaire.new(name: db_name1)
 dagboek1.key = File.basename(__FILE__)[0...-3]
 dagboek_content = [{
@@ -19,7 +19,7 @@ dagboek_content = [{
 }, {
   id: :v2,
   type: :range,
-  title: ' Was dit <strong>genoeg tijd</strong> om goed te presteren op school?',
+  title: 'Was dit <strong>genoeg tijd</strong> om goed te presteren op school?',
   labels: ['niet genoeg tijd', 'te veel tijd']
 }, {
   id: :v3,
@@ -78,6 +78,6 @@ dagboek_content = [{
   labels: ['heel slecht', 'heel goed'],
   section_end: true
 }]
-dagboek1.content = dagboek_content
+dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title
 dagboek1.save!

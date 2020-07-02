@@ -47,6 +47,36 @@ shared_examples_for 'a person object' do
     end
   end
 
+  describe 'parent and children' do
+    it 'retrieves another person' do
+      parent = FactoryBot.create(:person)
+      child = FactoryBot.create(:person, parent: parent)
+      parent.reload
+      expect(child.parent).to eq parent
+      expect(parent.children).to eq [child]
+    end
+
+    it 'nullifies the parent_id but not destroy the children when destroying parent' do
+      parent = FactoryBot.create(:person)
+      child = FactoryBot.create(:person, parent: parent)
+      parent.reload
+      expect(child.parent_id).not_to be_blank
+      expect { parent.destroy }.to change(Person, :count).by(-1)
+      child.reload
+      expect(child.parent).to be_blank
+      expect(child.parent_id).to be_blank
+    end
+
+    it 'is not possible to set yourself as your own parent or child' do
+      parent = FactoryBot.create(:person)
+      parent.parent = parent
+      expected_error = { parent: ['cannot be parent of yourself'] }
+      expect(parent).not_to be_valid
+      expect(parent.errors).not_to be_blank
+      expect(parent.errors.messages).to eq expected_error
+    end
+  end
+
   describe 'iban' do
     let(:person) { FactoryBot.create(:person) }
 
@@ -125,8 +155,8 @@ shared_examples_for 'a person object' do
       FactoryBot.create(:person, email: nil)
       FactoryBot.create(:person, email: '')
       FactoryBot.create(:person, email: nil)
-      FactoryBot.create(:person, email: '')
-      expect(Person.count).to eq(4)
+      expect { FactoryBot.create(:person, email: '') }.to raise_error(ActiveRecord::RecordNotUnique)
+      expect(Person.count).to eq(3)
     end
 
     it 'does not accept a double period' do

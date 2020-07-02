@@ -1,167 +1,22 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-complete-protocol-subscriptions
+  name: svc-questionnaire-scheduler-daily-at-one-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
-  schedule: "30 2 * * *"
+  schedule: "0 1 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
-          - name: svc-questionnaires
-            image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
-            command: ['bundle', 'exec', 'rake', 'scheduler:complete_protocol_subscriptions']
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_one_am']
             env:
-            - name: RAILS_ENV
-              value: production
-            - name: RACK_ENV
-              value: production
-            - name: NODE_ENV
-              value: production
-            - name: APPSIGNAL_ACTIVE
-              value: "true"
-            - name: APPSIGNAL_APP_ENV
-              value: __CI_COMMIT_DOWN_REF_NAME__
-            - name: PAPERTRAIL_PROGRAM
-              value: questionnaires
-            - name: APPSIGNAL_PUSH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: base-platform-secret
-                  key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
-            - name: PUSH_SUBSCRIPTION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PUSH_SUBSCRIPTION_URL
-            - name: BASE_PLATFORM_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___BASE_PLATFORM_URL
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___DATABASE_URL
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SECRET_KEY_BASE
-            - name: HOST_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: HOST_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: INFO_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_EMAIL
-            - name: FEEDBACK_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FEEDBACK_EMAIL
-            - name: MESSAGEBIRD_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_ACCESS_KEY
-            - name: MESSAGEBIRD_SEND_FROM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_SEND_FROM
-            - name: PERSON_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PERSON_SALT
-            - name: STOP_SUBSCRIPTION_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___STOP_SUBSCRIPTION_SALT
-            - name: ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_USERNAME
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_PASSWORD
-            - name: MAILGUN_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_KEY
-            - name: MAILGUN_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_DOMAIN
-            - name: FROM_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FROM_EMAIL_ADDRESS
-            - name: AUTH0_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_ID
-            - name: AUTH0_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_DOMAIN
-            - name: AUTH0_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_SECRET
-            - name: AUTH0_REDIRECT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_REDIRECT_URL
-            - name: AUTH0_AUDIENCE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_AUDIENCE
-            - name: AUTH0_SIGNING_CERTIFICATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_SIGNING_CERTIFICATE
-            - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___REDIS_URL
-            - name: TEST_PHONE_NUMBERS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TEST_PHONE_NUMBERS
-            - name: SNITCH_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SNITCH_KEY
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
@@ -172,241 +27,56 @@ spec:
                 secretKeyRef:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
-            - name: IP_HASH_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___IP_HASH_SALT
-            - name: INFO_SITE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
-            - name: TOKEN_SIGNATURE_ALGORITHM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM
-            - name: PAPERTRAIL_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_PORT
-            - name: PAPERTRAIL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_HOST
-            - name: RAILS_SERVE_STATIC_FILES
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_SERVE_STATIC_FILES
-            - name: MAILGUN_API_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_HOST
-            - name: MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MONGODB_URI
-            - name: PROJECT_START_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_START_DATE
-            - name: PROJECT_END_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_END_DATE
-            - name: PROJECT_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_NAME
-            - name: SITE_LOCATION
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SITE_LOCATION
-            - name: WEB_CONCURRENCY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___WEB_CONCURRENCY
-            - name: RAILS_MAX_THREADS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_MAX_THREADS
 ---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-cleanup-invitation-tokens
+  name: svc-questionnaire-scheduler-daily-at-two-am
+  namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+spec:
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_two_am']
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: svc-questionnaires-secret
+                  key: __CI_COMMIT_REF_NAME___API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: svc-questionnaires-secret
+                  key: __CI_COMMIT_REF_NAME___API_SECRET
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: svc-questionnaire-scheduler-daily-at-three-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
   schedule: "0 3 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
-          - name: svc-questionnaires
-            image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
-            command: ['bundle', 'exec', 'rake', 'scheduler:cleanup_invitation_tokens']
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_three_am']
             env:
-            - name: RAILS_ENV
-              value: production
-            - name: RACK_ENV
-              value: production
-            - name: NODE_ENV
-              value: production
-            - name: APPSIGNAL_ACTIVE
-              value: "true"
-            - name: APPSIGNAL_APP_ENV
-              value: __CI_COMMIT_DOWN_REF_NAME__
-            - name: PAPERTRAIL_PROGRAM
-              value: questionnaires
-            - name: APPSIGNAL_PUSH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: base-platform-secret
-                  key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
-            - name: PUSH_SUBSCRIPTION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PUSH_SUBSCRIPTION_URL
-            - name: BASE_PLATFORM_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___BASE_PLATFORM_URL
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___DATABASE_URL
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SECRET_KEY_BASE
-            - name: HOST_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: HOST_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: INFO_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_EMAIL
-            - name: FEEDBACK_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FEEDBACK_EMAIL
-            - name: MESSAGEBIRD_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_ACCESS_KEY
-            - name: MESSAGEBIRD_SEND_FROM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_SEND_FROM
-            - name: PERSON_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PERSON_SALT
-            - name: STOP_SUBSCRIPTION_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___STOP_SUBSCRIPTION_SALT
-            - name: ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_USERNAME
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_PASSWORD
-            - name: MAILGUN_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_KEY
-            - name: MAILGUN_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_DOMAIN
-            - name: FROM_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FROM_EMAIL_ADDRESS
-            - name: AUTH0_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_ID
-            - name: AUTH0_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_DOMAIN
-            - name: AUTH0_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_SECRET
-            - name: AUTH0_REDIRECT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_REDIRECT_URL
-            - name: AUTH0_AUDIENCE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_AUDIENCE
-            - name: AUTH0_SIGNING_CERTIFICATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_SIGNING_CERTIFICATE
-            - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___REDIS_URL
-            - name: TEST_PHONE_NUMBERS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TEST_PHONE_NUMBERS
-            - name: SNITCH_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SNITCH_KEY
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
@@ -417,242 +87,26 @@ spec:
                 secretKeyRef:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
-            - name: IP_HASH_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___IP_HASH_SALT
-            - name: INFO_SITE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
-            - name: TOKEN_SIGNATURE_ALGORITHM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM
-            - name: PAPERTRAIL_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_PORT
-            - name: PAPERTRAIL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_HOST
-            - name: RAILS_SERVE_STATIC_FILES
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_SERVE_STATIC_FILES
-            - name: MAILGUN_API_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_HOST
-            - name: MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MONGODB_URI
-            - name: PROJECT_START_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_START_DATE
-            - name: PROJECT_END_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_END_DATE
-            - name: PROJECT_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_NAME
-            - name: SITE_LOCATION
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SITE_LOCATION
-            - name: WEB_CONCURRENCY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___WEB_CONCURRENCY
-            - name: RAILS_MAX_THREADS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_MAX_THREADS
-
 ---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-send-invitations
+  name: svc-questionnaire-scheduler-daily-at-four-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "0 4 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
-          - name: svc-questionnaires
-            image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
-            command: ['bundle', 'exec', 'rake', 'scheduler:send_invitations']
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_four_am']
             env:
-            - name: RAILS_ENV
-              value: production
-            - name: RACK_ENV
-              value: production
-            - name: NODE_ENV
-              value: production
-            - name: APPSIGNAL_ACTIVE
-              value: "true"
-            - name: APPSIGNAL_APP_ENV
-              value: __CI_COMMIT_DOWN_REF_NAME__
-            - name: PAPERTRAIL_PROGRAM
-              value: questionnaires
-            - name: APPSIGNAL_PUSH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: base-platform-secret
-                  key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
-            - name: PUSH_SUBSCRIPTION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PUSH_SUBSCRIPTION_URL
-            - name: BASE_PLATFORM_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___BASE_PLATFORM_URL
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___DATABASE_URL
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SECRET_KEY_BASE
-            - name: HOST_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: HOST_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: INFO_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_EMAIL
-            - name: FEEDBACK_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FEEDBACK_EMAIL
-            - name: MESSAGEBIRD_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_ACCESS_KEY
-            - name: MESSAGEBIRD_SEND_FROM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_SEND_FROM
-            - name: PERSON_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PERSON_SALT
-            - name: STOP_SUBSCRIPTION_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___STOP_SUBSCRIPTION_SALT
-            - name: ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_USERNAME
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_PASSWORD
-            - name: MAILGUN_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_KEY
-            - name: MAILGUN_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_DOMAIN
-            - name: FROM_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FROM_EMAIL_ADDRESS
-            - name: AUTH0_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_ID
-            - name: AUTH0_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_DOMAIN
-            - name: AUTH0_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_SECRET
-            - name: AUTH0_REDIRECT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_REDIRECT_URL
-            - name: AUTH0_AUDIENCE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_AUDIENCE
-            - name: AUTH0_SIGNING_CERTIFICATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_SIGNING_CERTIFICATE
-            - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___REDIS_URL
-            - name: TEST_PHONE_NUMBERS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TEST_PHONE_NUMBERS
-            - name: SNITCH_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SNITCH_KEY
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
@@ -663,242 +117,26 @@ spec:
                 secretKeyRef:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
-            - name: IP_HASH_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___IP_HASH_SALT
-            - name: INFO_SITE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
-            - name: TOKEN_SIGNATURE_ALGORITHM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM
-            - name: PAPERTRAIL_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_PORT
-            - name: PAPERTRAIL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_HOST
-            - name: RAILS_SERVE_STATIC_FILES
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_SERVE_STATIC_FILES
-            - name: MAILGUN_API_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_HOST
-            - name: MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MONGODB_URI
-            - name: PROJECT_START_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_START_DATE
-            - name: PROJECT_END_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_END_DATE
-            - name: PROJECT_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_NAME
-            - name: SITE_LOCATION
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SITE_LOCATION
-            - name: WEB_CONCURRENCY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___WEB_CONCURRENCY
-            - name: RAILS_MAX_THREADS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_MAX_THREADS
-
 ---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-monitoring-questionnaires
+  name: svc-questionnaire-scheduler-daily
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
-  schedule: "00 3 * * *"
+  schedule: "0 0 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
-          - name: svc-questionnaires
-            image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
-            command: ['bundle', 'exec', 'rake', 'scheduler:monitoring']
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily']
             env:
-            - name: RAILS_ENV
-              value: production
-            - name: RACK_ENV
-              value: production
-            - name: NODE_ENV
-              value: production
-            - name: APPSIGNAL_ACTIVE
-              value: "true"
-            - name: APPSIGNAL_APP_ENV
-              value: __CI_COMMIT_DOWN_REF_NAME__
-            - name: PAPERTRAIL_PROGRAM
-              value: questionnaires
-            - name: APPSIGNAL_PUSH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: base-platform-secret
-                  key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
-            - name: PUSH_SUBSCRIPTION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PUSH_SUBSCRIPTION_URL
-            - name: BASE_PLATFORM_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___BASE_PLATFORM_URL
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___DATABASE_URL
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SECRET_KEY_BASE
-            - name: HOST_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: HOST_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: INFO_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_EMAIL
-            - name: FEEDBACK_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FEEDBACK_EMAIL
-            - name: MESSAGEBIRD_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_ACCESS_KEY
-            - name: MESSAGEBIRD_SEND_FROM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_SEND_FROM
-            - name: PERSON_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PERSON_SALT
-            - name: STOP_SUBSCRIPTION_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___STOP_SUBSCRIPTION_SALT
-            - name: ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_USERNAME
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_PASSWORD
-            - name: MAILGUN_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_KEY
-            - name: MAILGUN_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_DOMAIN
-            - name: FROM_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FROM_EMAIL_ADDRESS
-            - name: AUTH0_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_ID
-            - name: AUTH0_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_DOMAIN
-            - name: AUTH0_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_SECRET
-            - name: AUTH0_REDIRECT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_REDIRECT_URL
-            - name: AUTH0_AUDIENCE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_AUDIENCE
-            - name: AUTH0_SIGNING_CERTIFICATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_SIGNING_CERTIFICATE
-            - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___REDIS_URL
-            - name: TEST_PHONE_NUMBERS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TEST_PHONE_NUMBERS
-            - name: SNITCH_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SNITCH_KEY
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
@@ -909,241 +147,26 @@ spec:
                 secretKeyRef:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
-            - name: IP_HASH_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___IP_HASH_SALT
-            - name: INFO_SITE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
-            - name: TOKEN_SIGNATURE_ALGORITHM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM
-            - name: PAPERTRAIL_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_PORT
-            - name: PAPERTRAIL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_HOST
-            - name: RAILS_SERVE_STATIC_FILES
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_SERVE_STATIC_FILES
-            - name: MAILGUN_API_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_HOST
-            - name: MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MONGODB_URI
-            - name: PROJECT_START_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_START_DATE
-            - name: PROJECT_END_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_END_DATE
-            - name: PROJECT_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_NAME
-            - name: SITE_LOCATION
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SITE_LOCATION
-            - name: WEB_CONCURRENCY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___WEB_CONCURRENCY
-            - name: RAILS_MAX_THREADS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_MAX_THREADS
 ---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler-rescheduling
+  name: svc-questionnaire-scheduler-hourly
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
 spec:
-  schedule: "30 1 * * *"
+  schedule: "0 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
-          - name: svc-questionnaires
-            image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
-            command: ['bundle', 'exec', 'rake', 'scheduler:rescheduling']
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/hourly']
             env:
-            - name: RAILS_ENV
-              value: production
-            - name: RACK_ENV
-              value: production
-            - name: NODE_ENV
-              value: production
-            - name: APPSIGNAL_ACTIVE
-              value: "true"
-            - name: APPSIGNAL_APP_ENV
-              value: __CI_COMMIT_DOWN_REF_NAME__
-            - name: PAPERTRAIL_PROGRAM
-              value: questionnaires
-            - name: APPSIGNAL_PUSH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: base-platform-secret
-                  key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
-            - name: PUSH_SUBSCRIPTION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PUSH_SUBSCRIPTION_URL
-            - name: BASE_PLATFORM_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___BASE_PLATFORM_URL
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___DATABASE_URL
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SECRET_KEY_BASE
-            - name: HOST_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: HOST_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___HOST_URL
-            - name: INFO_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_EMAIL
-            - name: FEEDBACK_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FEEDBACK_EMAIL
-            - name: MESSAGEBIRD_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_ACCESS_KEY
-            - name: MESSAGEBIRD_SEND_FROM
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MESSAGEBIRD_SEND_FROM
-            - name: PERSON_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PERSON_SALT
-            - name: STOP_SUBSCRIPTION_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___STOP_SUBSCRIPTION_SALT
-            - name: ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_USERNAME
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___ADMIN_PASSWORD
-            - name: MAILGUN_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_KEY
-            - name: MAILGUN_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_DOMAIN
-            - name: FROM_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___FROM_EMAIL_ADDRESS
-            - name: AUTH0_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_ID
-            - name: AUTH0_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_DOMAIN
-            - name: AUTH0_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_CLIENT_SECRET
-            - name: AUTH0_REDIRECT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_REDIRECT_URL
-            - name: AUTH0_AUDIENCE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_AUDIENCE
-            - name: AUTH0_SIGNING_CERTIFICATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___AUTH0_SIGNING_CERTIFICATE
-            - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___REDIS_URL
-            - name: TEST_PHONE_NUMBERS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TEST_PHONE_NUMBERS
-            - name: SNITCH_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SNITCH_KEY
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
@@ -1154,74 +177,94 @@ spec:
                 secretKeyRef:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
-            - name: IP_HASH_SALT
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: svc-questionnaire-scheduler-thirty-minutely
+  namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+spec:
+  schedule: "*/30 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/thirty_minutely']
+            env:
+            - name: API_KEY
               valueFrom:
                 secretKeyRef:
                   name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___IP_HASH_SALT
-            - name: INFO_SITE_URL
+                  key: __CI_COMMIT_REF_NAME___API_KEY
+            - name: API_SECRET
               valueFrom:
                 secretKeyRef:
                   name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___INFO_SITE_URL
-            - name: TOKEN_SIGNATURE_ALGORITHM
+                  key: __CI_COMMIT_REF_NAME___API_SECRET
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: svc-questionnaire-scheduler-five-minutely
+  namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/five_minutely']
+            env:
+            - name: API_KEY
               valueFrom:
                 secretKeyRef:
                   name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___TOKEN_SIGNATURE_ALGORITHM
-            - name: PAPERTRAIL_PORT
+                  key: __CI_COMMIT_REF_NAME___API_KEY
+            - name: API_SECRET
               valueFrom:
                 secretKeyRef:
                   name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_PORT
-            - name: PAPERTRAIL_HOST
+                  key: __CI_COMMIT_REF_NAME___API_SECRET
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: svc-questionnaire-scheduler-minutely
+  namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cron-container
+            image: byrnedo/alpine-curl
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/minutely']
+            env:
+            - name: API_KEY
               valueFrom:
                 secretKeyRef:
                   name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PAPERTRAIL_HOST
-            - name: RAILS_SERVE_STATIC_FILES
+                  key: __CI_COMMIT_REF_NAME___API_KEY
+            - name: API_SECRET
               valueFrom:
                 secretKeyRef:
                   name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_SERVE_STATIC_FILES
-            - name: MAILGUN_API_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MAILGUN_API_HOST
-            - name: MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___MONGODB_URI
-            - name: PROJECT_START_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_START_DATE
-            - name: PROJECT_END_DATE
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_END_DATE
-            - name: PROJECT_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___PROJECT_NAME
-            - name: SITE_LOCATION
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___SITE_LOCATION
-            - name: WEB_CONCURRENCY
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___WEB_CONCURRENCY
-            - name: RAILS_MAX_THREADS
-              valueFrom:
-                secretKeyRef:
-                  name: svc-questionnaires-secret
-                  key: __CI_COMMIT_REF_NAME___RAILS_MAX_THREADS
+                  key: __CI_COMMIT_REF_NAME___API_SECRET
 

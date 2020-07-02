@@ -10,14 +10,14 @@ describe 'SHOW /otr', type: :feature, js: true do
       :with_roles,
       name: Rails.application.config.settings.default_team_name
     )
-    questionnaire = FactoryBot.create(:questionnaire, content: [{
+    questionnaire = FactoryBot.create(:questionnaire, content: { questions: [{
                                         section_start: 'Algemeen',
                                         id: :v1,
                                         type: :radio,
                                         title: 'Hoe voelt u zich vandaag?',
                                         options: %w[slecht goed],
                                         otherwise_label: 'Anders nog wat:'
-                                      }])
+                                      }], scores: [] })
     FactoryBot.create(
       :measurement,
       protocol: protocol,

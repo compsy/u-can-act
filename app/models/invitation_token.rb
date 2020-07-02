@@ -20,23 +20,41 @@ class InvitationToken < ApplicationRecord
     end
 
     if invitation_token.id.nil? && @token_plain.blank?
-      token = RandomAlphaNumericStringGenerator.generate(InvitationToken::TOKEN_LENGTH)
+      token = RandomStringGenerator.generate_alpha_numeric(InvitationToken::TOKEN_LENGTH)
       invitation_token.token = token
       @token_plain = token
     end
   end
 
   def self.test_token(full_token)
+    identifier, token = InvitationToken.split_token(full_token)
+    InvitationToken.test_identifier_token_combination(identifier, token)
+  end
+
+  def self.test_identifier_token_combination(identifier, token)
+    InvitationToken.find_invitation_token(identifier, token)
+  end
+
+  def self.split_token(full_token)
     from = Person::IDENTIFIER_LENGTH
     to = Person::IDENTIFIER_LENGTH + InvitationToken::TOKEN_LENGTH
     return nil if full_token.nil? || full_token.length < to
 
     identifier = full_token[0...from]
     token = full_token[from..to]
-    InvitationToken.test_identifier_token_combination(identifier, token)
+    [identifier, token]
   end
 
-  def self.test_identifier_token_combination(identifier, token)
+  def self.find_attached_responses(full_token)
+    identifier, token = InvitationToken.split_token(full_token)
+    InvitationToken.find_attached_responses_split(identifier, token)
+  end
+
+  def self.find_attached_responses_split(identifier, token)
+    find_invitation_token(identifier, token)&.invitation_set&.responses&.sort_by(&:priority_sorting_metric)
+  end
+
+  def self.find_invitation_token(identifier, token)
     person = Person.find_by(external_identifier: identifier)
     return nil unless person
 

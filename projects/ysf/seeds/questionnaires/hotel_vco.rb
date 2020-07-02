@@ -2,7 +2,7 @@
 
 title = 'Hotel VCO'
 name = 'KCT Hotel VCO'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
@@ -311,6 +311,6 @@ Geef aan in hoeverre je het eens of oneens bent met elk van de volgende stelling
   create_question_seven(:v73, 'Het kost me weinig moeite om me in te beelden dat mij nare dingen zouden kunnen overkomen.'),
 ]
 
-questionnaire.content = content
+questionnaire.content = { questionnaire: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

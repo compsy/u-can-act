@@ -44,7 +44,7 @@ spec:
           - name: APPSIGNAL_PUSH_API_KEY
             valueFrom:
               secretKeyRef:
-                name: base-platform-secret
+                name: svc-questionnaires-secret
                 key: __CI_COMMIT_REF_NAME___APPSIGNAL_PUSH_API_KEY
           - name: PUSH_SUBSCRIPTION_URL
             valueFrom:

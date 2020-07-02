@@ -2,7 +2,8 @@
 = QuestionnaireGenerator.new.generate_questionnaire(response_id: @response.id,
   content: @protocol.informed_consent_questionnaire.content,
   title: @protocol.informed_consent_questionnaire.title,
-  submit_text: 'Volgende',
+  submit_text: (@response.person.locale == 'en' ? 'Next' : 'Volgende'),
   action: '/informed_consent',
   unsubscribe_url: @response.unsubscribe_url,
+  locale: @response.person.locale,
   params: { authenticity_token: form_authenticity_token(form_options: { action: '/informed_consent', method: 'post' })})

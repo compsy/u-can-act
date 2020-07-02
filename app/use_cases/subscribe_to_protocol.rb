@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubscribeToProtocol < ActiveInteraction::Base
+class SubscribeToProtocol < AsyncActiveInteraction
   string :protocol_name, default: nil
   object :protocol, default: nil
   object :person
@@ -30,6 +30,7 @@ class SubscribeToProtocol < ActiveInteraction::Base
   end
 
   def create_or_find_protocol_subscription(the_protocol, the_start_date)
+    prot_sub = nil
     prot_sub = person.protocol_subscriptions.active.where(protocol_id: the_protocol.id).first if only_if_not_subscribed
     prot_sub || ProtocolSubscription.create!(
       protocol: the_protocol,

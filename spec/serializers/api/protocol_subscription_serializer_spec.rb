@@ -91,7 +91,7 @@ describe Api::ProtocolSubscriptionSerializer do
     end
 
     it 'contains the correct max_still_awardable_euros' do
-      expected = protocol_subscription.protocol_completion[-5..-1]
+      expected = protocol_subscription.protocol_completion[-5..]
       expected = protocol.calculate_reward(expected, true)
       expect(json[:max_still_awardable_euros]).to eq expected
     end

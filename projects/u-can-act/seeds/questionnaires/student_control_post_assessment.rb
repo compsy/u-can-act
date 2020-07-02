@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 nm_name1 = 'nameting studenten controle'
-nameting1 = Questionnaire.find_by_name(nm_name1)
+nameting1 = Questionnaire.find_by(name: nm_name1)
 nameting1 ||= Questionnaire.new(name: nm_name1)
 nameting1.key = File.basename(__FILE__)[0...-3]
-nameting1.content = [{
+nameting1.content = { questions: [{
   id: :v1,
   type: :radio,
   title: 'Ben je dit schooljaar definitief gestopt met je opleiding?',
@@ -18,7 +18,7 @@ nameting1.content = [{
   id: :v2,
   hidden: true,
   type: :date,
-  max: [2018, 11, 0o1],
+  max: '2018/11/01',
   required: true,
   title: 'Wanneer ben je ongeveer gestopt? Als je het niet precies meer weet, vul dan iets in dat zo goed mogelijk in de buurt komt.'
 }, {
@@ -98,6 +98,6 @@ nameting1.content = [{
   section_start: '',
   type: :raw,
   content: '<p class="flow-text section-explanation">Klik op opslaan om je beloning te ontvangen.</p>'
-}]
+}], scores: [] }
 nameting1.title = 'Eindmeting'
 nameting1.save!

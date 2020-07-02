@@ -2,7 +2,7 @@
 
 title = 'Delta VCO'
 name = 'KCT Delta VCO'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
@@ -68,6 +68,6 @@ De volgende vragen gaan over dit doel.
     options: ['Praktisch onhaalbaar', 'Onhaalbaar', 'Nauwelijks haalbaar', 'Haalbaar', 'Gemakkelijk haalbaar']
   }
 ]
-questionnaire.content = content
+questionnaire.content = { questionnaire: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

@@ -1,15 +1,16 @@
 # Beware! This file is public by definition
 default: &default
   default_team_name: 'sdv-team'
+  account_active_default: false
   # This settings is included only for the specs. Don't remove
   test_setting: 'test123'
   project_start_date: '2019-12-20'
   project_end_date: '2032-12-21'
   logo:
     favicon: 'myfavicon.ico'
-    mentor_logo: 'logo_mentor.svg'
-    student_logo: 'logo_student.svg'
-    fallback_logo: 'logo.svg'
+    mentor_logo: 'sdv-logo.png'
+    student_logo: 'sdv-logo.png'
+    fallback_logo: 'sdv-logo.png'
     company_logo: null
 development:
   <<: *default

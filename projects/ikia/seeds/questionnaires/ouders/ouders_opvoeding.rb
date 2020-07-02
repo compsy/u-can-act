@@ -1,219 +1,193 @@
 # frozen_string_literal: true
 db_title = 'Opvoeding'
 db_name1 = 'Opvoeding_Ouderrapportage'
-dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
+dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
+likert_options = [
+  { title: 'Nooit', numeric_value: 0 },
+  { title: 'Bijna nooit', numeric_value: 25 },
+  { title: 'Soms', numeric_value: 50 },
+  { title: 'Vaak', numeric_value: 75 },
+  { title: 'Altijd', numeric_value: 100 }
+]
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text"> Iedere ouder heeft een eigen aanpak als het om opvoeden gaat. In deze vragenlijst onderzoekt u uw opvoedingsstijl. Er zijn in totaal X vragen. Hier bent u ongeveer X minuten mee bezig. Verplaats het bolletje naar het antwoord dat het beste bij u past. </p>'
+    content: '<p class="flow-text"> Iedere ouder heeft een eigen aanpak als het om opvoeden gaat. In deze vragenlijst onderzoekt u uw opvoedingsstijl. Er zijn in totaal 46 vragen. Hier bent u ongeveer 10 minuten mee bezig. Kies het antwoord dat het beste bij u past. </p>'
   }, {
     id: :v1,
-    type: :range,
-    title: ' Ik toon genegenheid door mijn kind te knuffelen, te zoenen en vast te houden ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    type: :likert,
+    title: 'Ik toon genegenheid door mijn kind te knuffelen, te zoenen en vast te houden.',
+    options: likert_options
   }, {
     id: :v2,
-    type: :range,
-    title: 'Als mijn kind zeurt omdat hij/zij iets niet mag, geef ik toe',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    type: :likert,
+    title: 'Als mijn kind zeurt omdat hij/zij iets niet mag, geef ik toe.',
+    options: likert_options
   }, {
     id: :v3,
-    type: :range,
+    type: :likert,
     title: 'Ik ben bang dat mijn kind mij niet meer leuk vindt als ik hem/haar corrigeer voor slecht gedrag. ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v4,
-    type: :range,
+    type: :likert,
     title: 'Ik kibbel met mijn kind.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v5,
-    type: :range,
+    type: :likert,
     title: 'Ik dreig met straf zonder hier een duidelijke reden voor te geven. ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v6,
-    type: :range,
+    type: :likert,
     title: 'De straf die ik mijn kind geef hangt af van mijn stemming. ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v7,
-    type: :range,
+    type: :likert,
     title: 'Ik deel warme en intieme momenten met mijn kind.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v8,
-    type: :range,
+    type: :likert,
     title: 'Ik gil of schreeuw wanneer mijn kind zich misdraagt. ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v9,
-    type: :range,
+    type: :likert,
     title: 'Wanneer ik mijn kind wil straffen als hij/zij zich misdraagt, kan hij/zij mij overhalen om dit niet te doen. ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v10,
-    type: :range,
+    type: :likert,
     title: 'Ik toon respect voor de mening van mijn kind door hem/haar aan te moedigen deze te uiten.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v11,
-    type: :range,
+    type: :likert,
     title: 'Als mijn kind zijn/haar taken doet laat ik zien dat ik zijn/haar gedrag opmerk. ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v12,
-    type: :range,
+    type: :likert,
     title: 'Ik beëindig de straf van mijn kind vroegtijdig (bijvoorbeeld eerder dan ik had gezegd). ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v13,
-    type: :range,
+    type: :likert,
     title: 'Ik barst in woede uit tegen mijn kind. ',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v14,
-    type: :range,
+    type: :likert,
     title: 'Ik geef mijn kind een tik wanneer hij/zij iets verkeerd heeft gedaan.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v15,
-    type: :range,
+    type: :likert,
     title: 'Als ik iets van mijn kind vraag, geef ik hier een reden voor (bijvoorbeeld: “We gaan over vijf minuten weg dus het is tijd om op te ruimen”).',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v16,
-    type: :range,
+    type: :likert,
     title: 'Ik verlies mijn kalmte wanneer mijn kind niet doet wat ik hem/haar gevraagd heb.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v17,
-    type: :range,
+    type: :likert,
     title: 'Ik moedig mijn kind aan om over zijn/haar problemen te praten.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v18,
-    type: :range,
+    type: :likert,
     title: 'Als mijn kind doet wat ik hem/haar gevraagd heb geef ik hem/haar een compliment voor het luisteren.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v19,
-    type: :range,
+    type: :likert,
     title: 'Ik geef mijn kind van tevoren een seintje als we iets anders gaan doen (bijvoorbeeld een waarschuwing dat we over vijf minuten van huis vertrekken).',
-    labels: ['Nooit', 'Soms', 'Altijd'],
+    options: likert_options,
     required: true
   }, {
     id: :v20,
-    type: :range,
+    type: :likert,
     title: 'Als mijn kind overstuur raakt wanneer ik hem/haar iets weiger, krabbel ik terug en geef ik toch toe.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v21,
-    type: :range,
+    type: :likert,
     title: 'Mijn kind en ik knuffelen elkaar en/of geven elkaar zoenen.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v22,
-    type: :range,
+    type: :likert,
     title: 'Ik luister naar de ideeën en meningen van mijn kind.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v23,
-    type: :range,
+    type: :likert,
     title: 'Het is voor mijn gevoel te veel gedoe om mijn kind zover te krijgen dat hij/zij naar mij luistert.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v24,
-    type: :range,
+    type: :likert,
     title: 'Ik geef mijn kind een tik wanneer ik heel erg boos ben.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v25,
-    type: :range,
+    type: :likert,
     title: 'Ik gebruik lichamelijke straffen (zoals een tik geven) om mijn kind te corrigeren.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v26,
-    type: :range,
+    type: :likert,
     title: 'Als mijn kind zijn/haar kamer opruimt laat ik hem/haar weten hoe trots ik ben.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v27,
-    type: :range,
+    type: :likert,
     title: 'Ik geef toe aan mijn kind als hij/zij ergens heisa over maakt.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v28,
-    type: :range,
+    type: :likert,
     title: 'Ik vertel mijn kind hoe ik verwacht dat hij/zij zich zal gedragen voordat hij/zij ergens mee bezig gaat.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v29,
-    type: :range,
+    type: :likert,
     title: 'Wanneer ik overstuur ben of last heb van stress, word ik kritisch en streng tegen mijn kind.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v30,
-    type: :range,
+    type: :likert,
     title: 'Ik laat mijn kind weten dat ik het fijn vind wanneer hij/zij meehelpt in huis.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v31,
-    type: :range,
+    type: :likert,
     title: 'Ik gebruik lichamelijke straffen (zoals een tik geven) omdat andere dingen die ik heb geprobeerd niet hebben gewerkt.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v32,
-    type: :range,
+    type: :likert,
     title: 'Wanneer ik mijn kind corrigeer voor zijn/haar gedrag leg ik kort uit waarom.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v33,
-    type: :range,
+    type: :likert,
     title: 'Ik vermijd strijd met mijn kind door hem/haar duidelijke keuzes te geven.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
     id: :v34,
-    type: :range,
+    type: :likert,
     title: 'Wanneer mijn kind zich misdraagt, laat ik hem/haar weten wat er zal gebeuren als hij/zij zich niet gaat gedragen.',
-    labels: ['Nooit', 'Soms', 'Altijd'],
-    required: true
+    options: likert_options
   }, {
-    section_start: ' De volgende vragen gaan over hoe u de opvoeding en de relatie met uw kind ervaart. Geef voor elke uitspraak aan in hoeverre deze voor u geldt door het bolletje te verplaatsen.',
+    section_start: 'De volgende vragen gaan over hoe u de opvoeding en de relatie met uw kind ervaart. Geef voor elke uitspraak aan in hoeverre deze voor u geldt door het bolletje te verplaatsen.',
     id: :v35,
     type: :range,
     title: 'Ik voel me gelukkig met mijn kind.',
@@ -290,6 +264,25 @@ vanwege mijn kind.',
     section_end: true
   }
 ]
-dagboek1.content = dagboek_content
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Warmte',
+      ids: %i[v1 v7 v21],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Loslaten',
+      ids: %i[v2 v3 v9 v12 v20 v23 v27],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Positieve bekrachtiging',
+      ids: %i[v11 v18 v26 v30],
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

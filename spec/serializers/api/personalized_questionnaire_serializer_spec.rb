@@ -19,7 +19,7 @@ describe Api::PersonalizedQuestionnaireSerializer do
   end
 
   it 'contains the correct value for the questionnaire_content' do
-    content = response.measurement.questionnaire.content.as_json
+    content = response.measurement.questionnaire.content[:questions].as_json
     expect(content).not_to be_blank
     expect(json['questionnaire_content'].as_json).to eq content
   end

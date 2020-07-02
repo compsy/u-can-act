@@ -120,6 +120,72 @@ describe Response do
       end
     end
 
+    describe 'complete!' do
+      it 'it calls the CalculateDistributionJob if this was the first complete' do
+        responseobj = FactoryBot.create(:response)
+        expect(CalculateDistributionJob).not_to receive(:perform_later)
+        expect(UpdateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+      end
+      it 'it calls the UpdateteDistributionJob if this wasn\'t the first complete' do
+        responseobj = FactoryBot.create(:response)
+        expect(UpdateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+        expect(CalculateDistributionJob).to receive(:perform_later).once.with(responseobj.id)
+        responseobj.complete!
+      end
+      context 'with push_subscriptions' do
+        it 'calls the push_subscriptions_job if it is the first complete' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          FactoryBot.create(:push_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement)
+          expect(PushSubscriptionsJob).to receive(:perform_later).once.with(responseobj)
+          responseobj.complete!
+        end
+        it 'doesn\'t call the push_subscriptions_job if it wasn\'t the first complete' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          FactoryBot.create(:push_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement,
+                                          completed_at: Time.zone.now)
+          expect(PushSubscriptionsJob).not_to receive(:perform_later)
+          responseobj.complete!
+        end
+        it 'doesn\'t call the push_subscriptions_job if there are no push subscriptions' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement)
+          expect(PushSubscriptionsJob).not_to receive(:perform_later)
+          responseobj.complete!
+        end
+        it 'doesn\'t call the push_subscriptions_job if csrf_failed' do
+          protocol = FactoryBot.create(:protocol)
+          protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+          FactoryBot.create(:push_subscription, protocol: protocol)
+          measurement = FactoryBot.create(:measurement, protocol: protocol)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          measurement: measurement)
+          response_content = FactoryBot.create(:response_content,
+                                               content: { 'v3' => '68', Response::CSRF_FAILED => 'true' })
+          responseobj.content = response_content.id
+          responseobj.save!
+          expect(PushSubscriptionsJob).not_to receive(:perform_later)
+          responseobj.complete!
+        end
+      end
+    end
+
     describe 'invited' do
       it 'returns responses with a invites that dont have the not_send_state' do
         responses = []
@@ -166,7 +232,7 @@ describe Response do
 
     describe 'in_week' do
       it 'finds all responses in the current week and year by default' do
-        expected_response = FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)
+        expected_response = FactoryBot.create(:response, open_from: 1.second.ago.in_time_zone)
 
         FactoryBot.create(:response, open_from: 2.weeks.ago.in_time_zone)
 
@@ -192,11 +258,12 @@ describe Response do
       end
       it 'finds all responses for a given week of the year' do
         week_number = 20
-        date = Date.commercial(Time.zone.now.year, week_number, 1).in_time_zone + 3.days
+        date = Date.commercial(Time.zone.now.to_date.cwyear, week_number, 1).in_time_zone + 3.days
         expected_response = FactoryBot.create(:response, open_from: date)
 
         FactoryBot.create(:response,
-                          open_from: Date.commercial(Time.zone.now.year, week_number - 1, 1).in_time_zone + 3.days)
+                          open_from: Date.commercial(Time.zone.now.to_date.cwyear,
+                                                     week_number - 1, 1).in_time_zone + 3.days)
 
         result = described_class.in_week(week_number: week_number)
         expect(result.count).to eq 1
@@ -503,6 +570,99 @@ describe Response do
       responseobj = FactoryBot.create(:response)
       expect(responseobj.created_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.updated_at).to be_within(1.minute).of(Time.zone.now)
+    end
+  end
+
+  describe 'destroy' do
+    it 'cleans up response content items' do
+      response = FactoryBot.create(:response, :completed)
+      expect { response.destroy }.to change(ResponseContent, :count).by(-1)
+    end
+  end
+
+  describe 'priority_sorting_metric' do
+    it 'should sort the responses by descending priority and ascending open_from' do
+      measurement4 = FactoryBot.create(:measurement, priority: 2)
+      responseobj4 = FactoryBot.create(:response, measurement: measurement4, open_from: 1.day.ago)
+
+      measurement1 = FactoryBot.create(:measurement, priority: 1)
+      responseobj1 = FactoryBot.create(:response, measurement: measurement1)
+
+      measurement6 = FactoryBot.create(:measurement, priority: -50)
+      responseobj6 = FactoryBot.create(:response, measurement: measurement6)
+
+      measurement2 = FactoryBot.create(:measurement, priority: 0)
+      responseobj2 = FactoryBot.create(:response, measurement: measurement2)
+
+      measurement3 = FactoryBot.create(:measurement, priority: 2)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3, open_from: 3.days.ago)
+
+      measurement5 = FactoryBot.create(:measurement, priority: 2)
+      responseobj5 = FactoryBot.create(:response, measurement: measurement5, open_from: 2.days.ago)
+
+      responses = [responseobj1, responseobj2, responseobj3, responseobj4, responseobj5, responseobj6]
+      expected = [responseobj3, responseobj5, responseobj4, responseobj1, responseobj2, responseobj6]
+      expect(responses.sort_by(&:priority_sorting_metric)).to eq(expected)
+    end
+    it 'should sort items with priority nil after any items with a priority non nil' do
+      measurement3 = FactoryBot.create(:measurement, priority: 2)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3, open_from: 2.days.ago)
+
+      measurement5 = FactoryBot.create(:measurement, priority: -20)
+      responseobj5 = FactoryBot.create(:response, measurement: measurement5, open_from: 3.days.ago)
+
+      measurement6 = FactoryBot.create(:measurement, priority: nil)
+      responseobj6 = FactoryBot.create(:response, measurement: measurement6, open_from: 1.day.ago)
+
+      measurement7 = FactoryBot.create(:measurement, priority: nil)
+      responseobj7 = FactoryBot.create(:response, measurement: measurement7, open_from: 2.days.ago)
+
+      responses = [responseobj3, responseobj5, responseobj6, responseobj7]
+      expected = [responseobj3, responseobj5, responseobj7, responseobj6]
+      expect(responses.sort_by(&:priority_sorting_metric)).to eq(expected)
+    end
+  end
+
+  describe 'open_from_sorting_metric' do
+    it 'should sort the responses by descending priority and ascending open_from' do
+      measurement4 = FactoryBot.create(:measurement, priority: 2)
+      responseobj4 = FactoryBot.create(:response, measurement: measurement4, open_from: 1.day.ago)
+
+      measurement1 = FactoryBot.create(:measurement, priority: 1)
+      responseobj1 = FactoryBot.create(:response, measurement: measurement1)
+
+      measurement6 = FactoryBot.create(:measurement, priority: -50)
+      responseobj6 = FactoryBot.create(:response, measurement: measurement6)
+
+      measurement2 = FactoryBot.create(:measurement, priority: 0)
+      responseobj2 = FactoryBot.create(:response, measurement: measurement2)
+
+      measurement3 = FactoryBot.create(:measurement, priority: 2)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3, open_from: 3.days.ago)
+
+      measurement5 = FactoryBot.create(:measurement, priority: 2)
+      responseobj5 = FactoryBot.create(:response, measurement: measurement5, open_from: 2.days.ago)
+
+      responses = [responseobj1, responseobj2, responseobj3, responseobj4, responseobj5, responseobj6]
+      expected = [responseobj1, responseobj2, responseobj6, responseobj3, responseobj5, responseobj4]
+      expect(responses.sort_by(&:open_from_sorting_metric)).to eq(expected)
+    end
+    it 'should sort items with priority nil after any items with a priority non nil' do
+      measurement3 = FactoryBot.create(:measurement, priority: 2)
+      responseobj3 = FactoryBot.create(:response, measurement: measurement3, open_from: 2.days.ago)
+
+      measurement5 = FactoryBot.create(:measurement, priority: -20)
+      responseobj5 = FactoryBot.create(:response, measurement: measurement5, open_from: 3.days.ago)
+
+      measurement6 = FactoryBot.create(:measurement, priority: nil)
+      responseobj6 = FactoryBot.create(:response, measurement: measurement6, open_from: 1.day.ago)
+
+      measurement7 = FactoryBot.create(:measurement, priority: nil)
+      responseobj7 = FactoryBot.create(:response, measurement: measurement7, open_from: 2.days.ago)
+
+      responses = [responseobj3, responseobj5, responseobj6, responseobj7]
+      expected = [responseobj5, responseobj3, responseobj7, responseobj6]
+      expect(responses.sort_by(&:open_from_sorting_metric)).to eq(expected)
     end
   end
 end

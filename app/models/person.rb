@@ -50,12 +50,16 @@ class Person < ApplicationRecord
   # has_many :supervised_protocol_subscriptions,
   #          -> { order created_at: :desc },
   #          class_name: 'ProtocolSubscription', foreign_key: 'filled_out_for_id'
+  has_many :children, class_name: 'Person', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
+  belongs_to :parent, class_name: 'Person', optional: true
+  validate :not_own_parent
+  validates :locale, inclusion: Rails.application.config.i18n.available_locales.map(&:to_s)
 
   after_initialize do |person|
     next if person.external_identifier
 
     loop do
-      person.external_identifier = RandomAlphaNumericStringGenerator.generate(Person::IDENTIFIER_LENGTH)
+      person.external_identifier = RandomStringGenerator.generate_alpha_numeric(Person::IDENTIFIER_LENGTH)
       break if Person.where(external_identifier: person.external_identifier).count.zero?
     end
   end
@@ -85,11 +89,13 @@ class Person < ApplicationRecord
   end
 
   def my_protocols(for_myself = true)
-    return [] if protocol_subscriptions.blank?
+    return [] if protocol_subscriptions.active.blank?
 
-    prot_subs = protocol_subscriptions.active.reject { |prot_sub| prot_sub.protocol.otr_protocol? }
-    # TODO: Check if the following yields the same results, this could be way more efficient.
-    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: false })
+    prot_subs = protocol_subscriptions.active.joins(
+      :protocol
+    ).joins(
+      'FULL JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
+    ).where('one_time_responses.id IS NULL')
 
     filter_for_myself(prot_subs, for_myself)
   end
@@ -98,31 +104,38 @@ class Person < ApplicationRecord
     ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id)
   end
 
+  # For any method that only returns open responses, we want them to be sorted by descending priority first,
+  # and ascending open_from second. This is because we call .first on this method to determine which is the next
+  # response that should be shown to the user.
   def my_open_responses(for_myself = true)
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)
-    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:priority_sorting_metric)
   end
 
+  # For any method that only returns open responses, we want them to be sorted by descending priority first,
+  # and ascending open_from second. This is because we call .first on this method to determine which is the next
+  # response that should be shown to the user.
   def my_open_one_time_responses(for_myself = true)
-    prot_subs = protocol_subscriptions.active.select { |prot_sub| prot_sub.protocol.otr_protocol? }
-    # TODO: Check if the following yields the same results, this could be way more efficient.
-    # prot_subs = protocol_subscriptions.active.joins(:protocols).where(protocol: { otr_protocol: true })
-
+    prot_subs = protocol_subscriptions.active.joins(protocol: :one_time_responses).distinct(:id)
     subscriptions = filter_for_myself(prot_subs, for_myself)
-    subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:open_from)
+    subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:priority_sorting_metric)
   end
 
+  # For any method that only returns open responses, we want them to be sorted by descending priority first,
+  # and ascending open_from second.
   def all_my_open_responses(for_myself = true)
-    my_open_responses(for_myself) + my_open_one_time_responses(for_myself)
+    (my_open_responses(for_myself) + my_open_one_time_responses(for_myself)).sort_by(&:priority_sorting_metric)
   end
 
+  # For any method that can also return completed responses, it makes more sense to sort by open_from first.
   def my_responses
-    protocol_subscriptions.map(&:responses).flatten.sort_by(&:open_from)
+    protocol_subscriptions.map(&:responses).flatten.sort_by(&:open_from_sorting_metric)
   end
 
+  # For any method that can also return completed responses, it makes more sense to sort by open_from first.
   def my_completed_responses
-    protocol_subscriptions.map { |prot| prot.responses.completed }.flatten.sort_by(&:open_from)
+    protocol_subscriptions.map { |prot| prot.responses.completed }.flatten.sort_by(&:open_from_sorting_metric)
   end
 
   def open_questionnaire?(questionnaire_name)
@@ -160,7 +173,7 @@ class Person < ApplicationRecord
 
   def filter_for_myself(prot_subs, for_myself)
     # Note that false is also blank (hence nil)
-    return prot_subs if for_myself.nil?
+    return prot_subs.to_a if for_myself.nil?
 
     if for_myself
       prot_subs.select { |prot_sub| prot_sub.filling_out_for_id == id }
@@ -181,5 +194,11 @@ class Person < ApplicationRecord
   def warn_for_multiple_mentors
     Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{id}" if
     ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).count > 1
+  end
+
+  def not_own_parent
+    return if id.blank? || parent_id.blank? || id != parent_id
+
+    errors.add(:parent, 'cannot be parent of yourself')
   end
 end

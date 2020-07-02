@@ -311,6 +311,6 @@ Geef aan in hoeverre je het eens of oneens bent met elk van de volgende stelling
   create_question_seven(:v73, 'Het kost me weinig moeite om me in te beelden dat mij nare dingen zouden kunnen overkomen.'),
 ]
 
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

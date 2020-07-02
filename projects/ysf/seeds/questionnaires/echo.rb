@@ -51,6 +51,6 @@ content = [
   create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?'),
   create_question(:v14, 'De ECO met succes af te ronden?')
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

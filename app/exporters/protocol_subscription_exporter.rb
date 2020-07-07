@@ -23,8 +23,7 @@ class ProtocolSubscriptionExporter < ObjectExporter
         'updated_at' => format_datetime(protocol_subscription.updated_at),
         'start_date' => format_datetime(protocol_subscription.start_date)
       }
-      vals = add_more_fields(vals, protocol_subscription)
-      vals
+      add_more_fields(vals, protocol_subscription)
     end
 
     def to_be_skipped?(protocol_subscription)

@@ -6,8 +6,7 @@ class UnsubscribeGenerator < QuestionTypeGenerator
                        generate_unsubscribe_content(question),
                        generate_unsubscribe_action(question)
                      ])
-    body = tag.div(body, class: 'card light-grey-background-color')
-    body
+    tag.div(body, class: 'card light-grey-background-color')
   end
 
   private
@@ -17,8 +16,7 @@ class UnsubscribeGenerator < QuestionTypeGenerator
     body << tag.span(question[:title].html_safe, class: 'card-title') if question[:title].present?
     body << tag.p(question[:content].html_safe) if question[:content].present?
     body = safe_join(body)
-    body = tag.div(body, class: 'card-content black-text')
-    body
+    tag.div(body, class: 'card-content black-text')
   end
 
   def generate_unsubscribe_action(question)

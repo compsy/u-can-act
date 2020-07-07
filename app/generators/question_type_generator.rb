@@ -35,8 +35,7 @@ class QuestionTypeGenerator < Generator
 
   def add_shows_hides_questions(tag_options, shows_questions, hides_questions)
     tag_options = add_show_hide_question(tag_options, shows_questions, :shows_questions)
-    tag_options = add_show_hide_question(tag_options, hides_questions, :hides_questions)
-    tag_options
+    add_show_hide_question(tag_options, hides_questions, :hides_questions)
   end
 
   def add_show_hide_question(tag_options, questions_to_toggle, key)
@@ -156,8 +155,7 @@ class QuestionTypeGenerator < Generator
                                    class: 'validate otherwise'),
                                otherwise_textfield_label(question)
                              ])
-    option_field = tag.div(option_field, class: 'input-field inline')
-    option_field
+    tag.div(option_field, class: 'input-field inline')
   end
 
   def otherwise_textfield_label(question)

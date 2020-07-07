@@ -33,9 +33,8 @@ class RangeGenerator < QuestionTypeGenerator
                      max: minmax[:max].to_s,
                      step: question[:step] || 1,
                      required: true)
-    range_body = tag.p(range_body,
-                       class: 'range-field')
-    range_body
+    tag.p(range_body,
+          class: 'range-field')
   end
 
   def range_labels(question)

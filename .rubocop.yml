@@ -121,6 +121,46 @@ Metrics/AbcSize:
   Exclude:
     - 'spec/**/*'
 
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Style/AccessorGrouping:
+  Enabled: true
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/RedundantAssignment:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Performance/AncestorsInclude:
+  Enabled: true
+
+Performance/BigDecimalWithNumericArgument:
+  Enabled: true
+
+Performance/RedundantSortBlock:
+  Enabled: true
+
+Performance/RedundantStringChars:
+  Enabled: true
+
+Performance/ReverseFirst:
+  Enabled: true
+
+Performance/SortReverse:
+  Enabled: true
+
+Performance/Squeeze:
+  Enabled: true
+
+Performance/StringInclude:
+  Enabled: true
+
+
 ################################################################## DISABLED COPS
 # These cops are disabled because we think they are a Bad Idea. If you add one
 # here, make sure to add a comment describing what the cop does, and why this

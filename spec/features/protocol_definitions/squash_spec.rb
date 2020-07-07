@@ -4,7 +4,7 @@ require 'rails_helper'
 
 fdescribe 'squash protocol', type: :request do
   before(:each) do
-      basic_auth 'admin', 'admin'
+    basic_auth 'admin', 'admin'
   end
 
   context 'squash protocol' do
@@ -12,15 +12,15 @@ fdescribe 'squash protocol', type: :request do
       load Rails.root.join('projects/sport-data-valley/seeds/questionnaires/squash.rb')
       load Rails.root.join('projects/sport-data-valley/seeds/protocols/squash.rb')
     end
-    let!(:member) { FactoryBot.create(:person, :with_auth_user)}
-    let!(:mentor) { FactoryBot.create(:person, :with_auth_user)}
+    let!(:member) { FactoryBot.create(:person, :with_auth_user) }
+    let!(:mentor) { FactoryBot.create(:person, :with_auth_user) }
     let(:protocol) { Protocol.first }
 
     it 'should set the correct protocol' do
       expect(protocol.name).to eq 'squash'
     end
-    let(:start) {Time.zone.now}
-    let(:endd) {start + 1.day}
+    let(:start) { Time.zone.now }
+    let(:endd) { start + 1.day }
     let(:body) do
       {
         protocol_name: protocol.name,
@@ -39,7 +39,7 @@ fdescribe 'squash protocol', type: :request do
         expect(response.status).to eq 201
       end
       post_count = ProtocolSubscription.count
-      expect(post_count).to eq (pre_count + 1)
+      expect(post_count).to eq(pre_count + 1)
       expect(member.protocol_subscriptions.count).to eq 1
     end
 
@@ -50,7 +50,7 @@ fdescribe 'squash protocol', type: :request do
         expect(response.status).to eq 201
       end
       post_count = InvitationSet.count
-      expect(post_count).to eq (pre_count + 1)
+      expect(post_count).to eq(pre_count + 1)
     end
   end
 end

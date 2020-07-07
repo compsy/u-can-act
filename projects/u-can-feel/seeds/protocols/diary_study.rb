@@ -7,10 +7,12 @@ diary_protocol = Protocol.find_by(name: pr_name)
 diary_protocol ||= Protocol.new(name: pr_name)
 diary_protocol.duration = 44.weeks
 diary_protocol.invitation_text = 'Je wekelijkse vragenlijst staat voor je klaar. Klik op de volgende link om deze in te vullen.'
+# Je kunt alleen meedoen aan de dagboekstudie als je ook mee hebt gedaan aan de cross-sectionele vragenlijsten.
 
-ic_name = 'informed_consent_16_plus'
-diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
-raise "informed consent questionnaire #{ic_name} not found" unless diary_protocol.informed_consent_questionnaire
+diary_protocol.informed_consent_questionnaire_id = nil
+# ic_name = 'informed_consent'
+# diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
+# raise "informed consent questionnaire #{ic_name} not found" unless diary_protocol.informed_consent_questionnaire
 
 diary_protocol.save!
 

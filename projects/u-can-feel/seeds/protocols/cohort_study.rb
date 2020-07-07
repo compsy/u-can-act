@@ -9,9 +9,9 @@ cohort_protocol ||= Protocol.new(name: pr_name)
 cohort_protocol.duration = 14.days
 cohort_protocol.invitation_text = 'Je bent uitgenodigd door je school om mee te doen aan het u-can-feel onderzoek. Klik op de volgende link om een aantal vragenlijsten in te vullen.'
 
-ic_name = 'informed_consent_16_plus'
-cohort_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
-raise "informed consent questionnaire #{ic_name} not found" unless cohort_protocol.informed_consent_questionnaire
+ic_key = 'informed_consent'
+cohort_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_key)
+raise "informed consent questionnaire #{ic_key} not found" unless cohort_protocol.informed_consent_questionnaire
 
 cohort_protocol.save!
 unused_measurement_ids = cohort_protocol.measurements.pluck(:id).to_set

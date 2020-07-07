@@ -27,7 +27,6 @@ class RandomResponseGenerator
       nil
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
     def generate_answer_for_question(question)
       # The following types are currently unsupported (no answers will be generated for them):
       # :drawing, :time, :expandable
@@ -49,8 +48,6 @@ class RandomResponseGenerator
         raise MyRandomResponseError, "Cannot generate answer for question of type #{question[:type]}"
       end
     end
-
-    # rubocop:enable Metrics/CyclomaticComplexity
 
     def generate_answer_for_radio(question)
       cur_titles = titles(question, :options)

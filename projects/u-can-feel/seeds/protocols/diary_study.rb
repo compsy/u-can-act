@@ -8,7 +8,7 @@ diary_protocol ||= Protocol.new(name: pr_name)
 diary_protocol.duration = 44.weeks
 diary_protocol.invitation_text = 'Je wekelijkse vragenlijst staat voor je klaar. Klik op de volgende link om deze in te vullen.'
 
-ic_name = 'informed_consent'
+ic_name = 'informed_consent_16_plus'
 diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
 raise "informed consent questionnaire #{ic_name} not found" unless diary_protocol.informed_consent_questionnaire
 

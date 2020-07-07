@@ -22,8 +22,7 @@ class NumberGenerator < QuestionTypeGenerator
            else
              tag.div(body, class: 'input-field col s12 m6')
            end
-    body = tag.div(body, class: 'row')
-    body
+    tag.div(body, class: 'row')
   end
 
   def number_tag(question)

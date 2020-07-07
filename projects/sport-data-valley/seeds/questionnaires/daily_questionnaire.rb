@@ -146,6 +146,6 @@ days.each_with_index do |day, idx|
   questionnaire.key = "#{File.basename(__FILE__)[0...-3]}_#{day}"
 
   questionnaire.content = { questions: current_dagboek_content, scores: [] }
-  questionnaire.title = ''
+  questionnaire.title = "#{day.capitalize} vragenlijst"
   questionnaire.save!
 end

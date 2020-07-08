@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SendInvitations do
+fdescribe SendInvitations do
   describe 'run' do
     let(:default_delay) { Measurement::DEFAULT_REMINDER_DELAY }
     it 'calls the recently_opened_and_not_sent scope' do
@@ -30,7 +30,7 @@ describe SendInvitations do
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
       end
 
-      it 'prefers to send an invitation as sms if available' do
+      it 'queues two invitations if a person has an email address' do
         student = FactoryBot.create(:person, email: 'student@student.com')
         protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                   start_date: 1.week.ago.at_beginning_of_day,
@@ -46,7 +46,7 @@ describe SendInvitations do
         invitationsetscount = InvitationSet.count
         described_class.run
         responseobj.reload
-        expect(Invitation.count).to eq(invitationscount + 1) # email and sms
+        expect(Invitation.count).to eq(invitationscount + 2) # email and sms
         expect(InvitationSet.count).to eq(invitationsetscount + 1)
         expect(responseobj.invitation_set_id).not_to be_nil
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
@@ -105,7 +105,7 @@ describe SendInvitations do
         invitationcount = Invitation.count
         described_class.run
         expect(InvitationSet.count).to eq(invitationsetcount + 1)
-        expect(Invitation.count).to eq(invitationcount + 1)
+        expect(Invitation.count).to eq(invitationcount + 2)
         responses.each do |resp|
           resp.reload
           expect(resp.invitation_set_id).to eq InvitationSet.first.id
@@ -216,7 +216,7 @@ describe SendInvitations do
         expect(InvitationSet.count).to eq 1
         expect(Invitation.count).to eq 1
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
-        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation]
+        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation EmailInvitation]
         expect(Invitation.all.map(&:invitation_set_id).sort.uniq).to eq [InvitationSet.first.id]
         expect(InvitationSet.first.person_id).to eq protocol_subscription.person_id
         expect(InvitationSet.first.invitation_tokens).to eq []

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe SendInvitations do
+describe SendInvitations do
   describe 'run' do
     let(:default_delay) { Measurement::DEFAULT_REMINDER_DELAY }
     it 'calls the recently_opened_and_not_sent scope' do
@@ -216,7 +216,7 @@ fdescribe SendInvitations do
         expect(InvitationSet.count).to eq 1
         expect(Invitation.count).to eq 1
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
-        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation EmailInvitation]
+        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation]
         expect(Invitation.all.map(&:invitation_set_id).sort.uniq).to eq [InvitationSet.first.id]
         expect(InvitationSet.first.person_id).to eq protocol_subscription.person_id
         expect(InvitationSet.first.invitation_tokens).to eq []
@@ -242,7 +242,7 @@ fdescribe SendInvitations do
         responseobj.reload
         expect(InvitationSet.count).to eq 1
         expect(responseobj.invitation_set_id).to eq InvitationSet.first.id
-        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[SmsInvitation]
+        expect(Invitation.all.map(&:type).sort.uniq).to eq %w[EmailInvitation SmsInvitation]
         expect(Invitation.all.map(&:invitation_set_id).sort.uniq).to eq [InvitationSet.first.id]
         expect(InvitationSet.first.person_id).to eq protocol_subscription.person_id
         expect(InvitationSet.first.invitation_tokens).to eq []

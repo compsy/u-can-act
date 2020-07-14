@@ -29,7 +29,7 @@ questionnaire_keys.each_with_index do |questionnaire_key, idx|
   measurement.period = nil # one-off and not repeated
   measurement.open_duration = nil # open for the entire duration of the protocol
   measurement.reminder_delay = 1.week # send a reminder after one week
-  measurement.priority = idx # ensure that the questionnaires are shown in the specified order
+  measurement.priority = questionnaire_keys.count - idx # ensure that the questionnaires are shown in the specified order
   measurement.stop_measurement = (questionnaire_key == questionnaire_keys.last) # stop the protocol after filling out
   measurement.should_invite = true # send invitations                    # the last questionnaire
   measurement.save!

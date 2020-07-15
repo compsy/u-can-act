@@ -1,11 +1,18 @@
-# u-can-act
-Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
-Ook in gebruik als _back end_ voor <https://iederkindisanders.nl/> en <https://yourspecialforces.nl>.
+<h1 align="center">
+  u-can-act
+</h1>
 
-[![DOI][zenodo-image]][zenodo-url]
-[![Circle CI][circleci-image]][circleci-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependabot Status][dependabot-image]][dependabot-url]
+<p align="center">
+  Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
+  Ook in gebruik als <i>back end</i> voor <a href="https://iederkindisanders.nl">Ieder Kind is Anders</a> en <a href="https://yourspecialforces.nl">Your Special Forces</a>.
+</p>
+
+<p align="center">
+  <a href="https://zenodo.org/badge/latestdoi/84442919"><img src="https://zenodo.org/badge/84442919.svg"></a>
+  <a href="https://circleci.com/gh/compsy/u-can-act"><img src="https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a"></a>
+  <a href="https://coveralls.io/github/compsy/u-can-act?branch=master"><img src="https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master"></a>
+  <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act"></a>
+</p>
 
 Table of Contents
 =================
@@ -946,14 +953,5 @@ The `preprocessing` key is optional, and if provided, should be a hash with a (s
 }
 ```
 
-[zenodo-image]: https://zenodo.org/badge/84442919.svg
-[zenodo-url]: https://zenodo.org/badge/latestdoi/84442919
 
-[circleci-image]: https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
-[circleci-url]: https://circleci.com/gh/compsy/u-can-act
 
-[coveralls-image]: https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/compsy/u-can-act?branch=master
-
-[dependabot-image]: https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act
-[dependabot-url]: https://dependabot.com

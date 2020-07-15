@@ -37,8 +37,7 @@ class QuestionnaireGenerator
                        questionnaire_questions_html(content[:questions], response, raw_content, unsubscribe_url),
                        submit_button(submit_text)
                      ])
-    body = tag.form(body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
-    body
+    tag.form(body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
   end
   # rubocop:enable Metrics/ParameterLists
   # rubocop:enable Metrics/AbcSize
@@ -63,8 +62,7 @@ class QuestionnaireGenerator
 
     header_body = tag.h4(title, class: 'header')
     header_body = tag.div(header_body, class: 'col s12')
-    header_body = tag.div(header_body, class: 'row')
-    header_body
+    tag.div(header_body, class: 'row')
   end
 
   def questionnaire_hidden_fields(params)
@@ -104,7 +102,6 @@ class QuestionnaireGenerator
                              class: 'btn waves-effect waves-light',
                              data: { disable_with: 'Bezig...' })
     submit_body = tag.div(submit_body, class: 'col s12')
-    submit_body = tag.div(submit_body, class: 'row section')
-    submit_body
+    tag.div(submit_body, class: 'row section')
   end
 end

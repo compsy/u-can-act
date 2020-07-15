@@ -59,6 +59,6 @@ content = [
   create_question(:v14, 'Ik zet de zaken op een rij en los het probleem op.', false),
   create_question(:v15, 'Ik praat erover met iemand die iets soortgelijks heeft meegemaakt.', false)
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

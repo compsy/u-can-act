@@ -47,6 +47,6 @@ content = [
   create_question(:v9, "Ik reken er meestal niet op dat mij iets goeds zal overkomen.", false),
   create_question(:v10, "Over het algemeen verwacht ik dat me meer goede dingen dan slechte dingen zullen overkomen.", false)
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

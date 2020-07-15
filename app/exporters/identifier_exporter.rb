@@ -16,8 +16,7 @@ class IdentifierExporter < ObjectExporter
 
     def format_fields(person)
       vals = {}
-      vals = person_properties(person, vals)
-      vals
+      person_properties(person, vals)
     end
 
     def to_be_skipped?(person)

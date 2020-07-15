@@ -18,8 +18,7 @@ class PersonExporter < ObjectExporter
       vals = {}
       vals = person_properties(person, vals)
       vals = role_properties(person.role, vals)
-      vals = team_properties(person.role.team, vals)
-      vals
+      team_properties(person.role.team, vals)
     end
 
     def to_be_skipped?(person)

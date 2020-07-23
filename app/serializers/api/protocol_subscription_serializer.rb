@@ -50,7 +50,7 @@ module Api
 
     def questionnaires
       object.protocol.measurements.map do |measurement|
-        measurement.questionnaire.title
+        measurement.questionnaire.title.presence || measurement.questionnaire.key.humanize
       end
     end
 

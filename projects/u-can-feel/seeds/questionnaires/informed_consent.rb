@@ -9,7 +9,6 @@ dagboek1.name = db_name1
 ic_content_16_min = <<~'END'
   <div class='informed-consent'>
     <h4>INFORMATIE OVER HET ONDERZOEK</h4>
-    <h5>VOOR LEERLINGEN VAN 15 OF JONGER</h5>
     <h5><strong>"U-CAN-FEEL"</strong></h5>
     <p><strong><i class='material-icons'>chevron_right</i> Waarom krijg ik deze informatie?</strong></p>
     <p>
@@ -36,14 +35,11 @@ ic_content_16_min = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Wat vragen we van je tijdens het onderzoek?</strong></p>
     <p>
       Allereerst vragen we toestemming van jou en je ouders. Als jullie toestemming geven, vragen wij je om de komende
-      twee jaar elk half jaar een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in september 2020.
+      twee jaar elk half jaar een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is nu.
     </p>
     <p>
       De vragenlijst gaat over hoe het met jou gaat en dingen die je meemaakt, bijvoorbeeld op school. Het invullen zal
-      maximaal 1 uur kosten. Je kunt de vragenlijst invullen op je eigen mobiele telefoon.
-      <em>Dit kan tijdens een lesuur op school. / We vragen je om de vragenlijst thuis in te vullen, op een moment dat het
-        je goed uitkomt.
-      </em>
+      maximaal 1 uur kosten. Je kunt de vragenlijst invullen op je eigen mobiele telefoon of laptop.
     </p>
     <p>
       Uit de hele groep leerlingen kiezen we een klein aantal leerlingen die we vragen om tijdens het schooljaar elke week
@@ -80,9 +76,11 @@ ic_content_16_min = <<~'END'
       leiden, ook niet als er in één van de databases ingebroken wordt.
     </p>
     <p>
-      Je hebt recht op toegang tot je eigen gegevens. Je hebt ook het recht om ons te vragen om gegevens te veranderen of
-      te verwijderen. Hiervoor kun je contact opnemen met de onderzoekers. Je hoeft niet te zeggen waarom je dat wil. Dit
-      kan tot 1 april 2023.
+      Je hebt recht op toegang tot je eigen gegevens. Je ouders hebben ook het recht om ons te vragen om jouw gegevens 
+      te veranderen of te verwijderen. Hiervoor kunnen jij of je ouders contact opnemen met de onderzoekers. Je hoeft 
+      niet te zeggen waarom je dat wil. Dit kan tot 1 april 2023. Als je antwoorden op de vragenlijsten al gebruikt zijn 
+      voor wetenschappelijk onderzoek, zijn we verplicht om de antwoorden te bewaren. Je kunt ons dan wel vragen om jouw 
+      antwoorden niet meer te gebruiken voor nieuw onderzoek.
     </p>
     <p>
       Na afloop van het onderzoek bewaren we de antwoorden op de vragenlijsten binnen de Rijksuniversiteit Groningen. De
@@ -113,7 +111,6 @@ ic_content_16_min = <<~'END'
       Als onderzoeksdeelnemer heb je recht op een kopie van deze onderzoeksinformatie.
     </p>
     <h4>GEÏNFORMEERDE TOESTEMMING</h4>
-    <h5>(voor leerlingen)</h5>
     <h5><strong>"U-CAN-FEEL" ONDERZOEK</strong></h5>
     <ul class='flow-text browser-default'>
       <li>
@@ -138,7 +135,6 @@ END
 ic_content_16_plus = <<~'END'
   <div class='informed-consent'>
     <h4>INFORMATIE OVER HET ONDERZOEK</h4>
-    <h5>VOOR LEERLINGEN VAN 16 EN OUDER</h5>
     <h5><strong>"U-CAN-FEEL"</strong></h5>
     <p><strong><i class='material-icons'>chevron_right</i> Waarom krijg ik deze informatie?</strong></p>
     <p>
@@ -166,14 +162,11 @@ ic_content_16_plus = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Wat vragen we van je tijdens het onderzoek?</strong></p>
     <p>
       Allereerst vragen we jouw toestemming. Als je toestemming geeft, vragen wij je om de komende twee jaar elk half jaar
-      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in september 2020.
+      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is nu.
     </p>
     <p>
       De vragenlijst gaat over hoe het met jou gaat en dingen die je meemaakt, bijvoorbeeld op school. Het invullen zal
-      maximaal 1 uur kosten. Je kunt de vragenlijst invullen op je eigen mobiele telefoon.
-      <em>Dit kan tijdens een lesuur op school. / We vragen je om de vragenlijst thuis in te vullen, op een moment dat het
-        je goed uitkomt.
-      </em>
+      maximaal 1 uur kosten. Je kunt de vragenlijst invullen op je eigen mobiele telefoon of laptop.
     </p>
     <p>
       Uit de hele groep leerlingen kiezen we een klein aantal leerlingen die we vragen om tijdens het schooljaar elke week
@@ -210,9 +203,11 @@ ic_content_16_plus = <<~'END'
       leiden, ook niet als er in één van de databases ingebroken wordt.
     </p>
     <p>
-      Je hebt recht op toegang tot je eigen gegevens. Je hebt ook het recht om ons te vragen om gegevens te veranderen of
-      te verwijderen. Hiervoor kun je contact opnemen met de onderzoekers. Je hoeft niet te zeggen waarom je dat wil. Dit
-      kan tot 1 april 2023.
+      Je hebt recht op toegang tot je eigen gegevens. Je hebt ook het recht om ons te vragen om gegevens te veranderen 
+      of te verwijderen. Hiervoor kun je contact opnemen met de onderzoekers. Je hoeft niet te zeggen waarom je dat wil. 
+      Dit kan tot 1 april 2023. Als je antwoorden op de vragenlijsten al gebruikt zijn voor wetenschappelijk onderzoek, 
+      zijn we verplicht om de antwoorden te bewaren. Je kunt ons dan wel vragen om jouw antwoorden niet meer te gebruiken 
+      voor nieuw onderzoek.
     </p>
     <p>
       Na afloop van het onderzoek worden de antwoorden op de vragenlijsten bewaard binnen de Rijksuniversiteit Groningen.
@@ -246,7 +241,6 @@ ic_content_16_plus = <<~'END'
       Als onderzoeksdeelnemer heb je recht op een kopie van deze onderzoeksinformatie.
     </p>
     <h4>GEÏNFORMEERDE TOESTEMMING</h4>
-    <h5>(voor leerlingen)</h5>
     <h5><strong>"U-CAN-FEEL" ONDERZOEK</strong></h5>
     <ul class='flow-text browser-default'>
       <li>

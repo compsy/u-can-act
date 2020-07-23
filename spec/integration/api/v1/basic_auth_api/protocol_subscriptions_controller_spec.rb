@@ -43,4 +43,39 @@ describe 'ProtocolSubscriptions API' do
       end
     end
   end
+
+  path '/basic_auth_api/protocol_subscriptions/delegated_protocol_subscriptions' do
+    get 'Lists all my students their protocolsubscriptions' do
+      tags 'ProtocolSubscription'
+      consumes 'application/json'
+      security [JwtAuth: {}]
+
+      response '200', 'all delegated protocol subscriptions returned' do
+        schema type: :array,
+               items: {
+                 type: :object,
+                 properties: {
+                   person_type: { type: :string },
+                   protocol_completion: { type: :array },
+                   earned_euros: { type: :number },
+                   max_still_awardable_euros: { type: :number },
+                   euro_delta: { type: :number },
+                   current_multiplier: { type: :number },
+                   max_streak: { type: :null },
+                   initial_multiplier: { type: :number }
+                 }
+               }
+        let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
+        run_test! do |response|d
+          result = JSON.parse(response.body)
+          expect(result.length).to eq protocol_subscriptions_other.length
+        end
+      end
+
+      response '401', 'not authenticated' do
+        let(:Authorization) { 'Bearer nil' }
+        run_test!
+      end
+    end
+  end
 end

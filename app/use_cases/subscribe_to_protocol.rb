@@ -5,6 +5,7 @@ class SubscribeToProtocol < AsyncActiveInteraction
   object :protocol, default: nil
   object :person
   object :mentor, default: nil, class: :person
+  string :external_identifier, default: nil
 
   # Watch out! IF you set a start date here (e.g. = Time.now.in_time_zone) it
   # will set it once, and reuse THAT time everytime. I.e., it will not update
@@ -38,7 +39,8 @@ class SubscribeToProtocol < AsyncActiveInteraction
       filling_out_for: mentor,
       state: ProtocolSubscription::ACTIVE_STATE,
       start_date: the_start_date,
-      end_date: end_date
+      end_date: end_date,
+      external_identifier: external_identifier
     )
   end
 

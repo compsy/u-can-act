@@ -44,4 +44,19 @@ class ApplicationController < ActionController::Base
       # end
     end
   end
+
+  # Method to render unprocessable entity errors in a consistent way
+  # @param resource_errors the errors to render
+  def unprocessable_entity(resource_errors)
+    render json: {
+      errors: [
+        {
+          status: '422',
+          title: 'unprocessable',
+          detail: resource_errors,
+          code: '100'
+        }
+      ]
+    }, status: :unprocessable_entity
+  end
 end

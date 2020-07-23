@@ -87,7 +87,6 @@ Rails.application.routes.draw do
           collection do
             # @note Watch out! This can be interpreted as a show route later.
             get :mine
-            get :delegated_protocol_subscriptions
           end
         end
         resources :protocol, only: [:index]
@@ -124,7 +123,11 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :protocol_subscriptions, only: [:create]
+        resources :protocol_subscriptions, only: [:create] do
+          collection do
+            get :delegated_protocol_subscriptions
+          end
+        end
         resources :person, only: [] do
           collection do
             get :show_list

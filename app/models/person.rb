@@ -100,10 +100,6 @@ class Person < ApplicationRecord
     filter_for_myself(prot_subs, for_myself)
   end
 
-  def my_delegated_protocol_subscriptions
-    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id)
-  end
-
   # For any method that only returns open responses, we want them to be sorted by descending priority first,
   # and ascending open_from second. This is because we call .first on this method to determine which is the next
   # response that should be shown to the user.

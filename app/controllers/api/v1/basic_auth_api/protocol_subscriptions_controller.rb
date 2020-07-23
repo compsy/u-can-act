@@ -5,7 +5,8 @@ module Api
     module BasicAuthApi
       class ProtocolSubscriptionsController < BasicAuthApiController
         before_action :set_person, only: %i[create]
-        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions]
+        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy]
+        before_action :set_protocol_subscription, only: %i[destroy]
 
         def show_for_mentor
           mentor.my_protocols(false)
@@ -29,7 +30,21 @@ module Api
                  each_serializer: Api::ProtocolSubscriptionSerializer
         end
 
+        # This cancels the protocol subscription. Only works if the external_identifier is given.
+        def destroy
+          @protocol_subscription.cancel!
+          destroyed
+        end
+
         private
+
+        def set_protocol_subscription
+          @protocol_subscription = ProtocolSubscription.find_by(id: params[:id],
+                                                                external_identifier: @external_identifier)
+          return if @protocol_subscription.present?
+
+          not_found(protocol_subscription: 'Protocol subscription met dat ID niet gevonden')
+        end
 
         def start_date
           return Time.zone.now if protocol_subscription_create_params[:start_date].blank?

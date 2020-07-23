@@ -15,6 +15,7 @@ module Api
                :end_date,
                :name,
                :questionnaires,
+               :first_name,
                :id
 
     def completion
@@ -37,6 +38,10 @@ module Api
 
     def max_still_awardable_euros
       object.max_still_earnable_reward_points
+    end
+
+    def first_name
+      object.person.first_name
     end
 
     def name

@@ -85,7 +85,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     hidden: true,
-    title: 'Je gaf aan dat je de afgelopen week naar school bent geweest. Heb je in de afgelopen week wel lessen gemist of overgeslagen, bijvoorbeeld omdat je ziek was of aan het spijbelen?',
+    title: 'Je gaf aan dat je de afgelopen week naar school bent geweest. Heb je in de afgelopen week wel lessen gemist? Het maakt niet uit wat de reden was. Als je alleen een paar minuten te laat was, hoef je het niet mee te tellen.',
     options: [
       { title: 'Nee, ik heb geen lessen gemist' },
       { title: 'Ik heb één schooluur tot een halve dag gemist', shows_questions: %i[v10_b] },
@@ -103,22 +103,22 @@ dagboek_content = [
     required: true,
     title: 'Waarom heb je lessen gemist?',
     options: [
-      { title: 'Ik had een afspraak, bijvoorbeeld met de dokter' },
-      { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
-      { title: 'Ik vond het moeilijk om naar school te gaan of voelde me bang voor school' },
-      { title: 'Ik was aan het spijbelen' },
-      { title: 'Ik had een dagje vrij gekregen van mijn ouders' },
-      { title: 'Ik mocht om andere redenen thuisblijven van mijn ouders, bijvoorbeeld om thuis te helpen' },
-      { title: 'Ik was met mijn gezin op vakantie of een dagje weg' },
-      { title: 'Ons gezin had iets dringends, bijvoorbeeld een begrafenis of iemand moest naar het ziekenhuis' },
-      { title: 'Ons gezin had andere problemen, bijvoorbeeld een kapotte fiets of auto, of een doktersafspraak' },
-      { title: 'Ons gezin had een religieuze feestdag' },
-      { title: 'De school was gesloten, bijvoorbeeld vanwege een staking' },
-      { title: 'Ik was van school gestuurd of geschorst' },
-      { title: 'De school had mij gevraagd om thuis te blijven' },
-      { title: 'Er was zwaar weer, bijvoorbeeld storm' },
-      { title: 'Ik had een andere reden' }
-    ]
+    { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
+    { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
+    { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
+    { title: 'Ik was aan het spijbelen' },
+    { title: 'Ik had vrij gekregen van mijn ouders (bijvoorbeeld om rust te krijgen)' },
+    { title: 'Ik mocht om andere redenen thuisblijven van mijn ouders (bijvoorbeeld om thuis te helpen)' },
+    { title: 'Mijn ouders hadden vakantie geregeld onder schooltijd' },
+    { title: 'Ons gezin had iets dringends (bijvoorbeeld een begrafenis of iemand moest naar het ziekenhuis)' },
+    { title: 'Ons gezin had andere problemen (bijvoorbeeld een kapotte auto of fiets, of iemand in het gezin moest naar een afspraak)' },
+    { title: 'Ons gezin had een religieuze feestdag' },
+    { title: 'De school was gesloten (bijvoorbeeld vanwege een staking of een studiedag voor leraren)' },
+    { title: 'Ik was naar huis gestuurd vanwege mijn gedrag (bijvoorbeeld een schorsing)' },
+    { title: 'De school had mijn ouders gevraagd om mij thuis te houden' },
+    { title: 'Er was zwaar weer (bijvoorbeeld een storm)' },
+    { title: 'Ik had een andere reden' }
+  ]
   }, {
     id: :v11,
     type: :range,

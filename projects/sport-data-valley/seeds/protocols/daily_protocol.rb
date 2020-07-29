@@ -24,7 +24,7 @@ start_time = 12.hours
 # Create a different measurement for each day
 days = %w(maandag dinsdag woensdag donderdag vrijdag zaterdag zondag)
 
-const DAY_MAPPING = {
+DAY_MAPPING = {
   maandag: 'monday',
   dinsdag: 'tuesday',
   woensdag: 'wednesday',

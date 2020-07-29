@@ -39,7 +39,7 @@ dagboek_content = [
   }, {
     id: :v5,
     type: :range,
-    title: 'Ik wou dat ik een ander leven had',
+    title: 'Ik wou dat ik een ander soort leven had',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v6,
@@ -54,7 +54,7 @@ dagboek_content = [
   }, {
     id: :v8,
     type: :range,
-    title: 'Mijn leven is beter dan dat van de meeste andere kinderen',
+    title: 'Ik heb een beter leven dan de meeste kinderen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     type: :raw,
@@ -210,12 +210,47 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Ik maak me zorgen dat me iets ergs gaat overkomen',
     options: rcads_options
+  },  {
+    type: :raw,
+    content: '<p class="flow-text">In het afgelopen jaar is er vanwege het uitbreken van het coronavirus veel gebeurd. Sommige mensen voelen zich daardoor misschien vaker zenuwachtig of somber. Anderen hebben hier geen last van of voelen zich juist rustiger, bijvoorbeeld omdat ze vaker thuis kunnen zijn. We zijn benieuwd hoe dit voor jou is. <br> <br>
+    Vergeleken met vóór de coronacrisis, voelde je je in de afgelopen 2 weken vaker of juist minder vaak ...
+  </p>'
   }, {
+    id: :v34_a,
+    type: :range,
+    title: 'Zenuwachtig',
+    labels: ['Veel minder vaak', 'Veel vaker']
+  }, {
+    id: :v34_b,
+    type: :range,
+    title: 'Hopeloos?',
+    labels: ['Veel minder vaak', 'Veel vaker']
+  }, {
+    id: :v34_c,
+    type: :range,
+    title: 'Rusteloos of ongedurig?',
+    labels: ['Veel minder vaak', 'Veel vaker']
+  }, {
+    id: :v34_d,
+    type: :range,
+    title: 'Zo somber dat niets je kon opvrolijken?',
+    labels: ['Veel minder vaak', 'Veel vaker']
+  }, {
+    id: :v34_e,
+    type: :range,
+    title: 'Dat alles veel moeite kostte?',
+    labels: ['Veel minder vaak', 'Veel vaker']
+  }, {
+    id: :v34_f,
+    type: :range,
+    title: 'Waardeloos?',
+    labels: ['Veel minder vaak', 'Veel vaker']
+  },{
     type: :raw,
     content: '<p class="flow-text">De volgende vragen gaan over angsten voor bepaalde dingen, zoals voor dieren, onweer of bloed, waar sommige mensen last van hebben.
     </p>'
   }, {
-    id: :v34,
+    id: :v35,
     type: :checkbox,
     required: true,
     show_otherwise: false,
@@ -363,7 +398,7 @@ dagboek_content = [
     title: 'Wanneer was de laatste keer dat je erg bang was voor één van die dingen?',
     options: ['In de afgelopen maand', '1 tot 12 maanden geleden', 'Meer dan een jaar geleden']
   }
-
+  
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

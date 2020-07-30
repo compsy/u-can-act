@@ -5,11 +5,13 @@ require 'rails_helper'
 describe Api::PersonSerializer do
   let!(:person) { FactoryBot.create(:person, :with_iban, email: 'test@test.com') }
   let!(:protocol_subscription) { FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago, person: person) }
-  let!(:response) { FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago) }
+  let!(:response) do
+    FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+  end
   subject(:json) { JSON.parse(described_class.new(person).to_json) }
 
   describe 'renders the correct json' do
-    it 'contains the correct variables' do
+    it 'contains the correct attributes' do
       expect(json).not_to be_nil
       expect(json.keys).to match_array %w[
         account_active

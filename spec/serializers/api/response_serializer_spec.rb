@@ -32,7 +32,7 @@ describe Api::ResponseSerializer do
     expect(Api::QuestionnaireShortSerializer)
       .to receive(:new)
       .and_call_original
-      .twice
+      .once
     described_class.new(responseobj).as_json
   end
 

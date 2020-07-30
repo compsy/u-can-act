@@ -94,7 +94,7 @@ class Person < ApplicationRecord
     prot_subs = protocol_subscriptions.active.joins(
       :protocol
     ).joins(
-      'FULL JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
+      'LEFT JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
     ).where('one_time_responses.id IS NULL')
 
     filter_for_myself(prot_subs, for_myself)

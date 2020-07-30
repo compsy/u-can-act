@@ -115,9 +115,11 @@ describe 'ProtocolSubscriptions API' do
                  }
                }
         let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
-        let!(:protocol_subscriptions) { FactoryBot.create_list(:protocol_subscription, 3,
-                                                               person: auth_user.person,
-                                                               external_identifier: 'something_else') }
+        let!(:protocol_subscriptions) do
+          FactoryBot.create_list(:protocol_subscription, 3,
+                                 person: auth_user.person,
+                                 external_identifier: 'something_else')
+        end
         let!(:protocol_subscriptions_other) do
           FactoryBot.create_list(:protocol_subscription, 5,
                                  filling_out_for_id: auth_user.person.id,

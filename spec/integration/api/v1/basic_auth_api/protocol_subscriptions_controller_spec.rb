@@ -5,7 +5,16 @@ require 'swagger_helper'
 describe 'ProtocolSubscriptions API' do
   let(:protocol) { FactoryBot.create(:protocol) }
   let(:auth_user) { FactoryBot.create(:auth_user, :with_person) }
+  let(:other_person) { FactoryBot.create(:person) }
   let(:mentor) { FactoryBot.create(:mentor) }
+  let!(:the_payload) do
+    {
+      'sub' => auth_user.auth0_id_string,
+      ENV['SITE_LOCATION'] => {
+        'access_level' => ['user']
+      }
+    }
+  end
 
   path '/basic_auth_api/protocol_subscriptions' do
     post 'Creates a new protocol subscription' do
@@ -44,11 +53,48 @@ describe 'ProtocolSubscriptions API' do
     end
   end
 
+  path '/basic_auth_api/protocol_subscriptions/{id}' do
+    delete 'Cancels a protocol subscription' do
+      tags 'ProtocolSubscription'
+      consumes 'application/json'
+      security [BasicAuth: {}]
+
+      parameter name: :id, in: :path, type: :string
+      parameter name: :external_identifier, in: :body, schema: {
+        type: :object,
+        properties: {
+          external_identifier: { type: :string }
+        }
+      }
+      let(:protocol_subscription) do
+        FactoryBot.create(:protocol_subscription, external_identifier: 'external_identifier')
+      end
+      let(:id) { protocol_subscription.id }
+      let(:external_identifier) do
+        {
+          external_identifier: 'external_identifier'
+        }
+      end
+
+      response '200', 'cancels a protocol subscription' do
+        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        run_test!
+      end
+
+      response '401', 'not authenticated' do
+        let(:Authorization) { 'Bearer nil' }
+        run_test!
+      end
+    end
+  end
+
   path '/basic_auth_api/protocol_subscriptions/delegated_protocol_subscriptions' do
     get 'Lists all my students their protocolsubscriptions' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [JwtAuth: {}]
+      security [BasicAuth: {}]
+      parameter name: :external_identifier, in: :query, type: :string
+      let(:external_identifier) { 'external_identifier' }
 
       response '200', 'all delegated protocol subscriptions returned' do
         schema type: :array,
@@ -62,10 +108,22 @@ describe 'ProtocolSubscriptions API' do
                    euro_delta: { type: :number },
                    current_multiplier: { type: :number },
                    max_streak: { type: :null },
-                   initial_multiplier: { type: :number }
+                   initial_multiplier: { type: :number },
+                   name: { type: :string },
+                   questionnaires: { type: :array },
+                   first_name: { type: :string }
                  }
                }
-        let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
+        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:protocol_subscriptions) { FactoryBot.create_list(:protocol_subscription, 3,
+                                                               person: auth_user.person,
+                                                               external_identifier: 'something_else') }
+        let!(:protocol_subscriptions_other) do
+          FactoryBot.create_list(:protocol_subscription, 5,
+                                 filling_out_for_id: auth_user.person.id,
+                                 external_identifier: 'external_identifier')
+        end
+
         run_test! do |response|
           result = JSON.parse(response.body)
           expect(result.length).to eq protocol_subscriptions_other.length

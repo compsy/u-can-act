@@ -38,7 +38,10 @@ describe 'ProtocolSubscription api' do
                    euro_delta: { type: :number },
                    current_multiplier: { type: :number },
                    max_streak: { type: :null },
-                   initial_multiplier: { type: :number }
+                   initial_multiplier: { type: :number },
+                   name: { type: :string },
+                   questionnaires: { type: :array },
+                   first_name: { type: :string }
                  }
                }
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }

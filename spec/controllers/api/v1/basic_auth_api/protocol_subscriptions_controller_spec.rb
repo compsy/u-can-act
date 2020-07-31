@@ -124,7 +124,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
     end
     let!(:protocol_subscription) { FactoryBot.create(:protocol_subscription, external_identifier: external_identifier) }
 
-    it 'cancel a protocol subscription' do
+    it 'cancels a protocol subscription' do
       expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
       expect do
         delete :destroy, params: { external_identifier: external_identifier,

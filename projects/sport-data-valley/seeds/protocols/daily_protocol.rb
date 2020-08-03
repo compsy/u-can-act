@@ -23,6 +23,17 @@ start_time = 12.hours
 
 # Create a different measurement for each day
 days = %w(maandag dinsdag woensdag donderdag vrijdag zaterdag zondag)
+
+DAY_MAPPING = {
+  maandag: 'monday',
+  dinsdag: 'tuesday',
+  woensdag: 'wednesday',
+  donderdag: 'thursday',
+  vrijdag: 'friday',
+  zaterdag: 'saturday',
+  zondag: 'sunday'
+}
+
 days.each_with_index do |day, offset|
 
   # Select the correct questionnaire
@@ -34,7 +45,8 @@ days.each_with_index do |day, offset|
   general_daily_measurement = protocol.measurements.find_by(questionnaire_id: questionnaire_id)
   general_daily_measurement ||= protocol.measurements.build(questionnaire_id: questionnaire_id)
 
-  general_daily_measurement.open_from_offset = offset.days + start_time
+  general_daily_measurement.open_from_offset = start_time
+  general_daily_measurement.open_from_day = DAY_MAPPING[day.to_sym]
   general_daily_measurement.period = 1.week # every day for each questionnaire
   general_daily_measurement.open_duration = 1.days # Open for one day
   general_daily_measurement.reward_points = 0
@@ -50,9 +62,10 @@ raise "Cannot find questionnaire: #{sunday_questionnaire_name}" unless questionn
 
 sunday_measurement = protocol.measurements.find_by(questionnaire_id: questionnaire_id)
 sunday_measurement ||= protocol.measurements.build(questionnaire_id: questionnaire_id)
-sunday_measurement.open_from_offset = 6.days + start_time # open on Sunday
+sunday_measurement.open_from_offset = start_time # open on Sunday
+sunday_measurement.open_from_day = 'sunday'
 sunday_measurement.period = 1.week # every sunday
-sunday_measurement.open_duration = 2.days # Open for two days
+sunday_measurement.open_duration = 1.days # Open for one day
 sunday_measurement.reward_points = 0
 sunday_measurement.should_invite = true # send invitations
 sunday_measurement.reminder_delay = 0 # don't send reminders

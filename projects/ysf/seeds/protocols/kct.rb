@@ -42,11 +42,11 @@ questionnaires.each do |name|
 end
 
 questionnaires = [
-  'KCT Maandag',
-  'KCT Vrijdag'
+  'KCT Begin van de week',
+  'KCT Eind van de week'
 ]
 
-# It is unkown when exactly the KCT wants to show `KCT Maandag` or `KCT Vrijdag`, so the
+# It is unkown when exactly the KCT wants to show `KCT Begin van de week` or `KCT Eind van de week`, so the
 # questionnaires are set to be available again after one day and are hidden by the frontend.
 questionnaires.each do |name|
   of_offset = 0.days

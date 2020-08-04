@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-title = 'Maandag'
+title = 'Begin'
 
-name = 'KCT Maandag'
+name = 'KCT Begin van de week'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]

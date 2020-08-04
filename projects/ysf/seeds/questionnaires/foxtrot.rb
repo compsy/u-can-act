@@ -63,7 +63,7 @@ content = [
   create_block_question(:v10, "10.", 'mr_55.jpg'),
   create_block_question(:v11, "11.", 'mr_56.jpg'),
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!
 

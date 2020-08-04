@@ -49,6 +49,6 @@ content = [
   create_question(:v12, 'Meerdere oplossingen te bedenken als je in de compagnie met een probleem wordt geconfronteerd?'),
   create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?')
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

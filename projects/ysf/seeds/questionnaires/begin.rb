@@ -130,6 +130,6 @@ content = [
     show_otherwise: false,
   },
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

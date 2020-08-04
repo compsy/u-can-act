@@ -7,7 +7,7 @@ pr_name = 'kct'
 protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
-protocol.informed_consent_questionnaire = 'KCT Alfa'
+protocol.informed_consent_questionnaire = nil
 protocol.save!
 
 questionnaires = [

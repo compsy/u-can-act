@@ -82,7 +82,7 @@ class Questionnaire < ApplicationRecord
     return if content.is_a?(Hash) && content.key?(:scores) && content.key?(:questions) &&
               content[:scores].is_a?(Array) && content[:questions].is_a?(Array)
 
-    errors.add(:content, 'needs to be a Hash with :questions and :scores components')
+    errors.add(:content, 'needs to be a Hash with :questions and :scores components of type array')
   end
 
   def content_has_questions

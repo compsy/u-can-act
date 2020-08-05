@@ -42,6 +42,6 @@ content = [
   create_question(:v5, 'Ik herstel normaal gesproken snel als ik een lastige tijd heb gehad.'),
   create_question(:v6, 'Ik heb lang nodig om over een tegenslag heen te komen.')
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

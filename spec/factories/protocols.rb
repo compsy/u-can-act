@@ -46,4 +46,10 @@ FactoryBot.define do
       FactoryBot.create(:reward, threshold: 3, reward_points: 3,  protocol: protocol)
     end
   end
+
+  trait :with_one_time_responses do
+    after(:create) do |protocol|
+      FactoryBot.create(:one_time_response, protocol: protocol)
+    end
+  end
 end

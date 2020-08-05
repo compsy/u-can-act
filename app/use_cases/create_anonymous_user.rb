@@ -13,8 +13,7 @@ class CreateAnonymousUser < ActiveInteraction::Base
   # - auth0_id_string: the id retrieved from auth0
   def execute
     auth_user = create_or_find_auth_user(auth0_id_string, access_level)
-    auth_user = create_or_find_person(auth_user, email)
-    auth_user
+    create_or_find_person(auth_user, email)
   end
 
   private

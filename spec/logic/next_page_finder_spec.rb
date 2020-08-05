@@ -49,6 +49,29 @@ describe NextPageFinder do
       expect(result).to eq Rails.application.routes.url_helpers.mentor_overview_index_path
     end
 
+    it 'redirects to the mentor page if the person is a mentor and open responses are filled out for other users' do
+      mentor = FactoryBot.create(:mentor)
+      FactoryBot.create(:protocol_subscription, filling_out_for: mentor, person: person)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                filling_out_for: person,
+                                                person: mentor,
+                                                start_date: 1.week.ago)
+      FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 10.minutes.ago)
+      result = described_class.get_next_page(current_user: mentor)
+      expect(result).to eq Rails.application.routes.url_helpers.mentor_overview_index_path
+    end
+
+    it 'redirects to the response if the person is not a mentor and open responses are filled out for other users' do
+      mentor = FactoryBot.create(:mentor)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                filling_out_for: mentor,
+                                                person: person,
+                                                start_date: 1.week.ago)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 10.minutes.ago)
+      result = described_class.get_next_page(current_user: person)
+      expect(result).to eq Rails.application.routes.url_helpers.questionnaire_path(uuid: response.uuid)
+    end
+
     it 'redirects to the klaar_path if no questionnaires are available, nor is the current person a mentor' do
       result = described_class.get_next_page(current_user: person)
       expect(result).to eq Rails.application.routes.url_helpers.klaar_path

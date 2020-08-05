@@ -16,8 +16,7 @@ class DateGenerator < QuestionTypeGenerator
                        mydate_label(question)
                      ])
     body = tag.div(body, class: 'input-field col s12 m6')
-    body = tag.div(body, class: 'row')
-    body
+    tag.div(body, class: 'row')
   end
 
   def mydate_tag(question)

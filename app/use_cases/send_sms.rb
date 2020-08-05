@@ -18,11 +18,10 @@ class SendSms < ActiveInteraction::Base
     raise 'No name to send the message from is provided.' unless messagebird_send_from_provided?
 
     sms = MessageBirdAdapter.new(Rails.env.test?)
-    response = sms.send_text(ENV['MESSAGEBIRD_SEND_FROM'], number, text, reference: reference)
+    sms.send_text(ENV['MESSAGEBIRD_SEND_FROM'], number, text, reference: reference)
 
     # fail DeliveryFailure, response.message unless response.success?
     # Failure detection no longer provided.
-    response
   end
 
   private

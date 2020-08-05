@@ -15,6 +15,7 @@ module Api
                :end_date,
                :name,
                :questionnaires,
+               :first_name,
                :id
 
     def completion
@@ -39,13 +40,17 @@ module Api
       object.max_still_earnable_reward_points
     end
 
+    def first_name
+      object.person.first_name
+    end
+
     def name
       object.protocol.name
     end
 
     def questionnaires
       object.protocol.measurements.map do |measurement|
-        measurement.questionnaire.title
+        measurement.questionnaire.title.presence || measurement.questionnaire.key.humanize
       end
     end
 

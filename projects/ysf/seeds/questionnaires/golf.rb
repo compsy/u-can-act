@@ -70,9 +70,6 @@ content = [
   rotate_question(:v23, "23.", 'HGIN_3D_023.png'),
   rotate_question(:v24, "24.", 'HGIN_3D_024.png')
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!
-#
-#######################################
-

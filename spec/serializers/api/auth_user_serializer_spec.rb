@@ -6,7 +6,7 @@ describe Api::AuthUserSerializer do
   describe 'with person' do
     let(:auth_user) { FactoryBot.create(:auth_user, :with_person) }
 
-    subject(:json) { described_class.new(auth_user).as_json.with_indifferent_access }
+    subject(:json) { JSON.parse(described_class.new(auth_user).to_json) }
 
     it 'should contain the correct keys' do
       expect(json.keys.length).to eq 2
@@ -23,8 +23,8 @@ describe Api::AuthUserSerializer do
         expect(Api::PersonSerializer)
           .to receive(:new)
           .and_call_original
-          .twice
-        result = described_class.new(auth_user).as_json.with_indifferent_access
+          .once
+        result = JSON.parse(described_class.new(auth_user).to_json)
 
         # Short sanity check
         expect(result['person']['first_name']).to_not be_blank

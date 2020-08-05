@@ -94,14 +94,10 @@ class Person < ApplicationRecord
     prot_subs = protocol_subscriptions.active.joins(
       :protocol
     ).joins(
-      'FULL JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
+      'LEFT JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
     ).where('one_time_responses.id IS NULL')
 
     filter_for_myself(prot_subs, for_myself)
-  end
-
-  def my_delegated_protocol_subscriptions
-    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id)
   end
 
   # For any method that only returns open responses, we want them to be sorted by descending priority first,
@@ -110,7 +106,10 @@ class Person < ApplicationRecord
   def my_open_responses(for_myself = true)
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)
-    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:priority_sorting_metric)
+    active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }
+                        .flatten
+                        .reject { |response| response.protocol_subscription.protocol.otr_protocol? }
+                        .sort_by(&:priority_sorting_metric)
   end
 
   # For any method that only returns open responses, we want them to be sorted by descending priority first,

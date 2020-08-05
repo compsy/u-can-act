@@ -40,8 +40,7 @@ class ExpandableGenerator < QuestionTypeGenerator
     body << remove_button(question)
     body = safe_join(body)
     body = tag.div(body, class: 'row')
-    body = tag.div(body, class: 'col s12')
-    body
+    tag.div(body, class: 'col s12')
   end
 
   def add_button(question)

@@ -9,7 +9,6 @@ class TimeGenerator < QuestionTypeGenerator
 
   private
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   def time_body(question)
     from = question[:hours_from] || 0
@@ -25,7 +24,7 @@ class TimeGenerator < QuestionTypeGenerator
 
     safe_join([hours, minutes])
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
+
   # rubocop:enable Metrics/PerceivedComplexity
 
   def time_dropdown(question_id, from_time, to_time, step, label, raw_label)

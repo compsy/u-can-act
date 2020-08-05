@@ -13,7 +13,7 @@ phone = nil
 students = students.map do |student_hash|
   loop do
     phone = "06#{rand(10 ** 8).to_s.rjust(8,'0')}"
-    break if Person.find_by_mobile_phone(phone).nil?
+    break if Person.find_by(mobile_phone: phone).nil?
   end
   Person.create!(first_name: student_hash[:first_name],
                   last_name: student_hash[:last_name],
@@ -23,10 +23,10 @@ end
 
 loop do
   phone = "06#{rand(10 ** 8).to_s.rjust(8,'0')}"
-  break if Person.find_by_mobile_phone(phone).nil?
+  break if Person.find_by(mobile_phone: phone).nil?
 end
 
-Person.find_by_email('janssens_hermanus81@gmail.com')&.destroy
+Person.find_by(email: 'janssens_hermanus81@gmail.com')&.destroy
 mentor = Person.create!(first_name: 'Guido',
                 last_name: 'van Rossum',
                 gender: 'male',
@@ -34,7 +34,7 @@ mentor = Person.create!(first_name: 'Guido',
                 mobile_phone: phone, role: mentor_role)
 
 
-protocol = Protocol.find_by_name('mentoren dagboek')
+protocol = Protocol.find_by(name: 'mentoren dagboek')
 
 responseobj = nil
 invitation_set = InvitationSet.create!(person: mentor)
@@ -58,7 +58,7 @@ file_name = Rails.root.join('bin','dummy_mentor').to_s
 
 student = students.last
 student.protocol_subscriptions.create!(
-  protocol: Protocol.find_by_name('studenten'),
+  protocol: Protocol.find_by(name: 'studenten'),
   state: ProtocolSubscription::ACTIVE_STATE,
   start_date: Time.zone.now.beginning_of_week,
   informed_consent_given_at: Time.zone.now

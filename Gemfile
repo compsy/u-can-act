@@ -17,22 +17,22 @@ gem 'pg', '= 1.1.4'
 gem 'redis'
 
 # Use Puma as the app server
-gem 'puma', '>= 4.3.2'
+gem 'puma'
 # Use SCSS for stylesheets
-gem 'sass-rails', '>= 6.0.0'
+gem 'sass-rails'
 # Use HAML for templates
-gem 'haml-rails', '>= 2.0.1'
+gem 'haml-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '>= 4.2.2'
+gem 'coffee-rails'
 
 # Use React for the UI
-gem 'react-rails', '>= 2.6.1'
+gem 'react-rails'
 gem 'react-source'
 
 # Use highcharts
-gem 'highcharts-rails', '>= 6.0.3'
+gem 'highcharts-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
@@ -54,9 +54,9 @@ gem 'rack-cors'
 
 gem 'pry-rails'
 
-gem 'dotenv-rails', '>= 2.7.5'
+gem 'dotenv-rails'
 
-gem 'coveralls', '>= 0.8.21', require: false
+gem 'coveralls', require: false
 
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
@@ -71,7 +71,7 @@ gem 'messagebird-rest', require: 'messagebird'
 gem 'mailgun-ruby'
 
 gem 'active_interaction'
-gem 'active_model_serializers', '>= 0.10.10'
+gem 'active_model_serializers'
 
 # Gem for JWT / Authentication
 gem 'jwt'
@@ -90,20 +90,20 @@ gem 'snitcher'
 gem 'iban-tools'
 
 # Swagger
-gem 'rswag-api', '>= 2.2.0'
-gem 'rswag-ui', '>= 2.2.0'
+gem 'rswag-api'
+gem 'rswag-ui'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # Swagger
-  gem 'rswag-specs', '>= 2.2.0'
+  gem 'rswag-specs'
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
-  gem 'rspec-rails', '>= 3.9.0'
   gem 'rspec_junit_formatter'
+  gem 'rspec-rails'
 end
 
 group :test do
@@ -120,10 +120,10 @@ group :test do
   gem 'simplecov'
 
   # Used for gem mocking
-  gem 'factory_bot_rails', '>= 5.1.1'
+  gem 'factory_bot_rails'
 
   # Test which template was rendered
-  gem 'rails-controller-testing', '>= 1.0.4'
+  gem 'rails-controller-testing'
 
   # Cleans the database after specs
   gem 'database_cleaner'
@@ -131,12 +131,12 @@ group :test do
   gem 'database_cleaner-mongoid'
 
   # Integration testing
-  gem 'capybara', '>= 3.31.0'
-  gem 'capybara-screenshot', '>= 1.0.24'
+  gem 'capybara'
+  gem 'capybara-screenshot'
 
   # selenium for js testing
   gem 'selenium-webdriver'
-  gem 'webdrivers', '>= 4.2.0'
+  gem 'webdrivers'
 
   # Easy installation and use of chromedriver to run system tests with Chrome
   # gem 'chromedriver-helper'
@@ -157,7 +157,7 @@ gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console', '>= 3.7.0'
+  gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
@@ -168,25 +168,25 @@ end
 gem 'silencer'
 
 # JS / CSS Frameworks
-gem 'materialize-sass', '>= 1.0.0'
+gem 'materialize-sass'
 gem 'modernizr-rails'
 
-gem 'webpacker', '>= 4.2.2'
+gem 'webpacker'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
 gem 'i18n-js' # We still need this gem because it generates translations.js for us.
-gem 'rails-i18n', '>= 5.1.3'
+gem 'rails-i18n'
 
-gem 'lograge', '>= 0.11.2'
+gem 'lograge'
 gem 'remote_syslog_logger'
 
 gem 'appsignal'
 
 # push subscriptions
 gem 'httparty'
-gem 'warden-jwt_auth', '>= 0.4.0'
+gem 'warden-jwt_auth'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false

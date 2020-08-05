@@ -5,7 +5,7 @@ class TextfieldGenerator < QuestionTypeGenerator
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-    safe_join([content_tag(:p, title, class: 'flow-text'), textfield_field(question)])
+    safe_join([tag.p(title, class: 'flow-text'), textfield_field(question)])
   end
 
   private
@@ -16,9 +16,8 @@ class TextfieldGenerator < QuestionTypeGenerator
                        textfield_label(question),
                        textfield_helper(question)
                      ])
-    body = content_tag(:div, body, class: 'input-field col s12 m6')
-    body = content_tag(:div, body, class: 'row')
-    body
+    body = tag.div(body, class: 'input-field col s12 m6')
+    tag.div(body, class: 'row')
   end
 
   def textfield_tag(question)
@@ -38,18 +37,16 @@ class TextfieldGenerator < QuestionTypeGenerator
   end
 
   def textfield_label(question)
-    content_tag(:label,
-                placeholder(question, TEXTFIELD_PLACEHOLDER),
-                for: idify(question[:id]),
-                class: 'flow-text')
+    tag.label(placeholder(question, TEXTFIELD_PLACEHOLDER),
+              for: idify(question[:id]),
+              class: 'flow-text')
   end
 
   def textfield_helper(question)
     return nil if question[:hint].blank?
 
-    content_tag(:span,
-                '', # Don't show a hint by default and don't show one when value is correct.
-                data: { error: question[:hint], success: '' },
-                class: 'helper-text')
+    tag.span('', # Don't show a hint by default and don't show one when value is correct.
+             data: { error: question[:hint], success: '' },
+             class: 'helper-text')
   end
 end

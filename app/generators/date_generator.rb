@@ -5,7 +5,7 @@ class DateGenerator < QuestionTypeGenerator
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-    safe_join([content_tag(:p, title, class: 'flow-text'), mydate_field(question)])
+    safe_join([tag.p(title, class: 'flow-text'), mydate_field(question)])
   end
 
   private
@@ -15,9 +15,8 @@ class DateGenerator < QuestionTypeGenerator
                        mydate_tag(question),
                        mydate_label(question)
                      ])
-    body = content_tag(:div, body, class: 'input-field col s12 m6')
-    body = content_tag(:div, body, class: 'row')
-    body
+    body = tag.div(body, class: 'input-field col s12 m6')
+    tag.div(body, class: 'row')
   end
 
   def mydate_tag(question)
@@ -44,9 +43,8 @@ class DateGenerator < QuestionTypeGenerator
   end
 
   def mydate_label(question)
-    content_tag(:label,
-                placeholder(question, DATEFIELD_PLACEHOLDER),
-                for: idify(question[:id]),
-                class: 'flow-text')
+    tag.label(placeholder(question, DATEFIELD_PLACEHOLDER),
+              for: idify(question[:id]),
+              class: 'flow-text')
   end
 end

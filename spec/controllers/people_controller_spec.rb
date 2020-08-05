@@ -42,7 +42,7 @@ RSpec.describe PeopleController, type: :controller do
     it 'redirects to the klaar page without any active protocol subscriptions' do
       get :unsubscribe
       expect(response.status).to eq 302
-      expect(response.body).to match %r{\/klaar}
+      expect(response.body).to match %r{/klaar}
       expect(controller.instance_variable_get(:@person)).not_to be_nil
       expect(controller.instance_variable_get(:@person)).to eq person
 
@@ -57,7 +57,7 @@ RSpec.describe PeopleController, type: :controller do
       expect(person.protocol_subscriptions.active.count).to eq 0
       expect(person.protocol_subscriptions.count).to eq 5
       expect(response.status).to eq 302
-      expect(response.body).to match %r{\/klaar}
+      expect(response.body).to match %r{/klaar}
       expect(controller.instance_variable_get(:@person)).not_to be_nil
       expect(controller.instance_variable_get(:@person)).to eq person
 
@@ -78,7 +78,7 @@ RSpec.describe PeopleController, type: :controller do
       get :unsubscribe
       expect(person.protocol_subscriptions.active.count).to eq 1
       expect(response.status).to eq 302
-      expect(response.body).to match %r{\/questionnaire}
+      expect(response.body).to match %r{/questionnaire}
       expect(response.body).to match(/\?callback_url=%2Fperson%2Funsubscribe/)
       expect(controller.instance_variable_get(:@person)).not_to be_nil
       expect(controller.instance_variable_get(:@person)).to eq person
@@ -93,7 +93,7 @@ RSpec.describe PeopleController, type: :controller do
         cookie_auth(person)
         get :unsubscribe
         expect(response.status).to eq 302
-        expect(response.body).to match %r{\/mentor_overview}
+        expect(response.body).to match %r{/mentor_overview}
         expect(controller.instance_variable_get(:@person)).not_to be_nil
         expect(controller.instance_variable_get(:@person)).to eq person
 
@@ -111,7 +111,7 @@ RSpec.describe PeopleController, type: :controller do
         expect(person.protocol_subscriptions.active.count).to eq 0
         expect(person.protocol_subscriptions.count).to eq 10
         expect(response.status).to eq 302
-        expect(response.body).to match %r{\/mentor_overview}
+        expect(response.body).to match %r{/mentor_overview}
         expect(controller.instance_variable_get(:@person)).not_to be_nil
         expect(controller.instance_variable_get(:@person)).to eq person
 
@@ -135,7 +135,7 @@ RSpec.describe PeopleController, type: :controller do
         get :unsubscribe
         expect(person.protocol_subscriptions.active.count).to eq 1
         expect(response.status).to eq 302
-        expect(response.body).to match %r{\/questionnaire}
+        expect(response.body).to match %r{/questionnaire}
         expect(response.body).to match(/\?callback_url=%2Fperson%2Funsubscribe/)
         expect(controller.instance_variable_get(:@person)).not_to be_nil
         expect(controller.instance_variable_get(:@person)).to eq person

@@ -2,7 +2,7 @@
 
 title = 'Echo Compagnie'
 name = 'KCT Echo Compagnie'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
@@ -49,6 +49,6 @@ content = [
   create_question(:v12, 'Meerdere oplossingen te bedenken als je in de compagnie met een probleem wordt geconfronteerd?'),
   create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?')
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

@@ -45,7 +45,7 @@ class RescheduleResponses < ActiveInteraction::Base
 
   # We don't want to create the response when the measurement has already been
   # completed in the case of a non-periodical measurement. I.e., if the
-  # measurements reponse was completed, but it is periodical, we would like
+  # measurements response was completed, but it is periodical, we would like
   # the new responses
   def measurement_requires_scheduling?(measurement)
     measurement.periodical? ||

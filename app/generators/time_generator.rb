@@ -4,12 +4,11 @@ class TimeGenerator < QuestionTypeGenerator
   def generate(question)
     body = time_body(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-    safe_join([content_tag(:p, title, class: 'flow-text'), body])
+    safe_join([tag.p(title, class: 'flow-text'), body])
   end
 
   private
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   def time_body(question)
     from = question[:hours_from] || 0
@@ -25,7 +24,7 @@ class TimeGenerator < QuestionTypeGenerator
 
     safe_join([hours, minutes])
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
+
   # rubocop:enable Metrics/PerceivedComplexity
 
   def time_dropdown(question_id, from_time, to_time, step, label, raw_label)
@@ -33,17 +32,17 @@ class TimeGenerator < QuestionTypeGenerator
     options = generate_dropdown((from_time...to_time).step(step), elem_id)
     options = safe_join([
                           options,
-                          content_tag(:label, label)
+                          tag.label(label)
                         ])
-    content_tag(:div, options, class: "col m6 l1 no-padding #{elem_id}")
+    tag.div(options, class: "col m6 l1 no-padding #{elem_id}")
   end
 
   def generate_dropdown(items, id)
     body = []
     items.each do |option|
-      body << content_tag(:option, option, value: option)
+      body << tag.option(option, value: option)
     end
     body = safe_join(body)
-    content_tag(:select, body, name: answer_name(id), id: id, required: true, class: 'browser-default')
+    tag.select(body, name: answer_name(id), id: id, required: true, class: 'browser-default')
   end
 end

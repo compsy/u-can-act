@@ -1,5 +1,5 @@
 pr_name = File.basename(__FILE__)[0...-3]
-boek_protocol = Protocol.find_by_name(pr_name)
+boek_protocol = Protocol.find_by(name: pr_name)
 boek_protocol ||= Protocol.new(name: pr_name)
 boek_protocol.duration = 1.day
 

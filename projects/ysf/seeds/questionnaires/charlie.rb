@@ -3,7 +3,7 @@
 title = 'Charlie'
 
 name = 'KCT Charlie'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
@@ -42,6 +42,6 @@ content = [
   create_question(:v5, 'Ik herstel normaal gesproken snel als ik een lastige tijd heb gehad.'),
   create_question(:v6, 'Ik heb lang nodig om over een tegenslag heen te komen.')
 ]
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

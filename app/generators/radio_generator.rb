@@ -6,11 +6,11 @@ class RadioGenerator < QuestionTypeGenerator
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     question = add_otherwise_label(question)
     radio_group = safe_join([
-                              content_tag(:p, title, class: 'flow-text'),
+                              tag.p(title, class: 'flow-text'),
                               answer_options(question),
                               radio_otherwise(question)
                             ])
-    content_tag(:div, radio_group, class: 'radio-group required')
+    tag.div(radio_group, class: 'radio-group required')
   end
 
   private

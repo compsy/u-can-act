@@ -2,7 +2,7 @@
 
 title = 'Hotel Compagnie'
 name = 'KCT Hotel Compagnie'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
@@ -240,7 +240,7 @@ Waarom zit je in een compagnie?
 '
   },
   create_question_seven(:v44, 'Omdat operator zijn de kern weergeeft van de persoon die ik ben.'),
-  create_question_seven(:v45, 'Omdat ik het leuk vind om te leren in het kader van als operator te functioneren.'),
+  create_question_seven(:v45, 'Omdat ik het leuk vind om te leren in het kader van mijn functie als operator.'),
   create_question_seven(:v46, 'Ik had m\'n redenen om operator te worden, maar nu vraag ik me af of ik er wel mee door moet gaan.'),
   create_question_seven(:v47, 'Omdat mensen om wie ik geef het me kwalijk zouden nemen als ik <i>niet</i> operator zou zijn.'),
   create_question_seven(:v48, 'Omdat operator zijn een manier is om me verder te ontwikkelen.'),
@@ -311,6 +311,6 @@ Geef aan in hoeverre je het eens of oneens bent met elk van de volgende stelling
   create_question_seven(:v73, 'Het kost me weinig moeite om me in te beelden dat mij nare dingen zouden kunnen overkomen.'),
 ]
 
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

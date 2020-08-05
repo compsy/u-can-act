@@ -11,8 +11,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   solo_role_title = 'Demo-solo'
   solo_protocol = 'demo-solo-protocol'
 
-  organization = Organization.find_by_name(demo_organization)
-  team = organization.teams.find_by_name(demo_team)
+  organization = Organization.find_by(name: demo_organization)
+  team = organization.teams.find_by(name: demo_team)
   solo_role = team.roles.where(title: solo_role_title).first
 
   students = [
@@ -22,7 +22,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   students.each do |student_hash|
     phone = generate_phone
-    phone = generate_phone while Person.find_by_mobile_phone(phone).present?
+    phone = generate_phone while Person.find_by(mobile_phone: phone).present?
     Person.create!(first_name: student_hash[:first_name],
                    last_name: student_hash[:last_name],
                    gender: student_hash[:gender],
@@ -32,8 +32,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Solo
   puts ''
-  protocol = Protocol.find_by_name(solo_protocol)
-  person = Team.find_by_name(demo_team).roles.where(group: Person::SOLO).first.people[0]
+  protocol = Protocol.find_by(name: solo_protocol)
+  person = Team.find_by(name: demo_team).roles.where(group: Person::SOLO).first.people[0]
   prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
@@ -51,8 +51,8 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "Demo informed consent: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Demo informed consent
-  protocol = Protocol.find_by_name(solo_protocol)
-  person = Team.find_by_name(demo_team).roles.where(group: Person::SOLO).first.people[1]
+  protocol = Protocol.find_by(name: solo_protocol)
+  person = Team.find_by(name: demo_team).roles.where(group: Person::SOLO).first.people[1]
   prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
@@ -70,7 +70,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   puts 'Generating onetime response'
   OneTimeResponse.destroy_all
-  protocol = Protocol.find_by_name(solo_protocol)
+  protocol = Protocol.find_by(name: solo_protocol)
   token = 'demosolo'
   OneTimeResponse.create!(token: token, protocol: protocol)
 

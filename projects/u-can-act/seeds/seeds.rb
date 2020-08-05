@@ -35,7 +35,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   students.each do |student_hash|
     phone = generate_phone
-    phone = generate_phone while Person.find_by_mobile_phone(phone).present?
+    phone = generate_phone while Person.find_by(mobile_phone: phone).present?
     Person.create!(first_name: student_hash[:first_name],
                    last_name: student_hash[:last_name],
                    gender: student_hash[:gender],
@@ -50,7 +50,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   mentors.each do |mentor_hash|
     phone = generate_phone
-    phone = generate_phone while Person.find_by_mobile_phone(phone).present?
+    phone = generate_phone while Person.find_by(mobile_phone: phone).present?
     Person.create!(first_name: mentor_hash[:first_name],
                    last_name: mentor_hash[:last_name],
                    gender: mentor_hash[:gender],
@@ -66,8 +66,8 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
 
   # Mentor pre assessment
   puts ''
-  protocol = Protocol.find_by_name('mentoren voormeting/nameting')
-  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people[0]
+  protocol = Protocol.find_by(name: 'mentoren voormeting/nameting')
+  person = Team.find_by(name: 'Default team').roles.where(group: Person::MENTOR).first.people[0]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -81,9 +81,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   puts "mentor voormeting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Mentor diary
-  protocol = Protocol.find_by_name('mentoren dagboek')
-  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people[1]
-  students = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[0..-2]
+  protocol = Protocol.find_by(name: 'mentoren dagboek')
+  person = Team.find_by(name: 'Default team').roles.where(group: Person::MENTOR).first.people[1]
+  students = Team.find_by(name: 'Default team').roles.where(group: Person::STUDENT).first.people[0..-2]
   invitation_set = InvitationSet.create!(person: person)
   invitation_token = invitation_set.invitation_tokens.create!
   students.each do |student|
@@ -100,8 +100,8 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   puts "mentor dagboek: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Mentor post assessment
-  protocol = Protocol.find_by_name('mentoren voormeting/nameting')
-  person = Team.find_by_name('Default team').roles.where(group: Person::MENTOR).first.people[2]
+  protocol = Protocol.find_by(name: 'mentoren voormeting/nameting')
+  person = Team.find_by(name: 'Default team').roles.where(group: Person::MENTOR).first.people[2]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -114,7 +114,7 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   invitation_set = InvitationSet.create!(person: person)
   responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
-  nameting_students = Team.find_by_name('Default team').roles.where(title: 'nameting-student').first.people[0..-2]
+  nameting_students = Team.find_by(name: 'Default team').roles.where(title: 'nameting-student').first.people[0..-2]
   nameting_students.each do |student|
     prot_sub = ProtocolSubscription.create!(
       protocol: protocol,
@@ -128,9 +128,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
 
   # Student pre assessment
   puts ''
-  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[0]
+  student = Team.find_by(name: 'Default team').roles.where(group: Person::STUDENT).first.people[0]
   student.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('studenten'),
+    protocol: Protocol.find_by(name: 'studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week
   )
@@ -142,9 +142,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   puts "student voormeting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Student diary
-  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[1]
+  student = Team.find_by(name: 'Default team').roles.where(group: Person::STUDENT).first.people[1]
   student.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('studenten'),
+    protocol: Protocol.find_by(name: 'studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
@@ -157,9 +157,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   puts "student dagboek: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Student diary almost in streak
-  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[2]
+  student = Team.find_by(name: 'Default team').roles.where(group: Person::STUDENT).first.people[2]
   student.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('studenten'),
+    protocol: Protocol.find_by(name: 'studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago
@@ -178,9 +178,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   puts "student dagboek (bijna in streak): #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Student post assessment
-  student = Team.find_by_name('Default team').roles.where(group: Person::STUDENT).first.people[3]
+  student = Team.find_by(name: 'Default team').roles.where(group: Person::STUDENT).first.people[3]
   student.protocol_subscriptions.create(
-    protocol: Protocol.find_by_name('studenten'),
+    protocol: Protocol.find_by(name: 'studenten'),
     state: ProtocolSubscription::ACTIVE_STATE,
     start_date: Time.zone.now.beginning_of_week,
     informed_consent_given_at: 10.minutes.ago

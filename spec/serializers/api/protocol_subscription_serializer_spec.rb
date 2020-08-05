@@ -91,7 +91,7 @@ describe Api::ProtocolSubscriptionSerializer do
     end
 
     it 'contains the correct max_still_awardable_euros' do
-      expected = protocol_subscription.protocol_completion[-5..-1]
+      expected = protocol_subscription.protocol_completion[-5..]
       expected = protocol.calculate_reward(expected, true)
       expect(json[:max_still_awardable_euros]).to eq expected
     end
@@ -127,6 +127,18 @@ describe Api::ProtocolSubscriptionSerializer do
       expected = protocol_subscription.protocol_completion
       expected = protocol.calculate_reward(expected) / 100.0
       expect(json[:earned_euros]).to eq expected
+    end
+
+    it 'contains the correct questionnaire titles' do
+      questionnaire_key = FactoryBot.create(:questionnaire, key: 'my_questionnaire', title: '')
+      questionnaire_title = FactoryBot.create(:questionnaire, title: 'Some Questionnaire')
+      protocol = FactoryBot.create(:protocol)
+      FactoryBot.create(:measurement, protocol: protocol, questionnaire: questionnaire_key)
+      FactoryBot.create(:measurement, protocol: protocol, questionnaire: questionnaire_title)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      result = described_class.new(protocol_subscription).as_json.with_indifferent_access
+      # if the title is blank, the humanized key is returned instead
+      expect(result[:questionnaires]).to match_array(['My questionnaire', 'Some Questionnaire'])
     end
   end
 end

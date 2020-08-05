@@ -3,7 +3,7 @@
 title = 'Alfa'
 
 name = 'KCT Alfa'
-questionnaire = Questionnaire.find_by_name(name)
+questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
@@ -25,21 +25,11 @@ Daarnaast kan ik de gegevens die verkregen zijn uit dit onderzoek terugkrijgen, 
 </li>
 
 <li>
-De antwoorden op de vragen kunnen geen invloed hebben op mijn selectietraject en worden niet gebruikt in een andere context dan dit onderzoek.
+De antwoorden op de vragen kunnen geen invloed hebben op mijn functie en worden niet gebruikt in een andere context dan dit onderzoek.
 </li>
 
 <li>
-In verschillende blokken deze week wordt mij gevraagd om vragenlijsten online in te vullen en om safe houses te herkennen in bepaalde steden.
-</li>
-
-<li>
-Op een later moment kan mij worden gevraagd om de online modules opnieuw te doen.
-Deze meting kan plaatsvinden aan het eind van de ECO of eerder.
-Over de concrete datum en het tijdstip word ik geïnformeerd door het KCT.
-</li>
-
-<li>
-Gedurende de ECO zal mij regelmatig aan het eind en begin van de week gevraagd worden om een paar korte vragen te beantwoorden.
+Er wordt mij gevraagd om vragenlijsten online in te vullen en om safe houses te herkennen in bepaalde steden.
 </li>
 
 <li>
@@ -71,6 +61,6 @@ Vragen over het onderzoek kunnen ook achteraf gesteld worden, via
   }
 ]
 
-questionnaire.content = { questionnaire: content, scores: [] }
+questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title
 questionnaire.save!

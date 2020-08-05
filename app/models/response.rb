@@ -113,6 +113,16 @@ class Response < ApplicationRecord
     completed_at.present?
   end
 
+  # Sort by descending priority first, and then ascending open_from.
+  # Show items with priority nil after any items with non-nil priority.
+  def priority_sorting_metric
+    [-1 * (measurement.priority.presence || (Measurement::MIN_PRIORITY - 1)), open_from]
+  end
+
+  def open_from_sorting_metric
+    [open_from, -1 * (measurement.priority.presence || (Measurement::MIN_PRIORITY - 1))]
+  end
+
   def csrf_failed?
     cached_values = values
     return false if cached_values.blank?

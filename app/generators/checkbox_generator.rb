@@ -5,11 +5,11 @@ class CheckboxGenerator < QuestionTypeGenerator
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     question = add_otherwise_label(question)
     checkbox_group = safe_join([
-                                 content_tag(:p, title, class: 'flow-text'),
+                                 tag.p(title, class: 'flow-text'),
                                  answer_options(question),
                                  checkbox_otherwise(question)
                                ])
-    content_tag(:div, checkbox_group, class: checkbox_group_klasses(question))
+    tag.div(checkbox_group, class: checkbox_group_klasses(question))
   end
 
   private

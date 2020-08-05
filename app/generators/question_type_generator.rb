@@ -15,11 +15,10 @@ class QuestionTypeGenerator < Generator
   def generate_tooltip(tooltip_content)
     return nil if tooltip_content.blank?
 
-    tooltip_body = content_tag(:i, 'info', class: 'tooltip flow-text material-icons info-outline')
-    content_tag(:a,
-                tooltip_body,
-                onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'," \
-                         " displayLength: #{tooltip_duration(tooltip_content)}});autoResizeImages();")
+    tooltip_body = tag.i('info', class: 'tooltip flow-text material-icons info-outline')
+    tag.a(tooltip_body,
+          onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'," \
+                   " displayLength: #{tooltip_duration(tooltip_content)}});autoResizeImages();")
   end
 
   def tooltip_duration(tooltip_content)
@@ -36,8 +35,7 @@ class QuestionTypeGenerator < Generator
 
   def add_shows_hides_questions(tag_options, shows_questions, hides_questions)
     tag_options = add_show_hide_question(tag_options, shows_questions, :shows_questions)
-    tag_options = add_show_hide_question(tag_options, hides_questions, :hides_questions)
-    tag_options
+    add_show_hide_question(tag_options, hides_questions, :hides_questions)
   end
 
   def add_show_hide_question(tag_options, questions_to_toggle, key)
@@ -99,9 +97,9 @@ class QuestionTypeGenerator < Generator
 
   def wrap_option_body(option_body, question_type)
     if %i[radio checkbox].include? question_type.to_sym
-      content_tag(:p, option_body, class: 'option-label')
+      tag.p(option_body, class: 'option-label')
     else
-      content_tag(:p, option_body)
+      tag.p(option_body)
     end
   end
 
@@ -115,21 +113,19 @@ class QuestionTypeGenerator < Generator
       ]
     )
 
-    content_tag(:div, option_body, class: 'otherwise-textfield')
+    tag.div(option_body, class: 'otherwise-textfield')
   end
 
   def wrap_toggle_in_label(option_body, label, for_question)
     option_body = safe_join([
                               option_body,
-                              content_tag(
-                                :span,
+                              tag.span(
                                 label
                               )
                             ])
 
-    content_tag(:label,
-                option_body,
-                for: for_question)
+    tag.label(option_body,
+              for: for_question)
   end
 
   def add_otherwise_label(question)
@@ -159,13 +155,11 @@ class QuestionTypeGenerator < Generator
                                    class: 'validate otherwise'),
                                otherwise_textfield_label(question)
                              ])
-    option_field = content_tag(:div, option_field, class: 'input-field inline')
-    option_field
+    tag.div(option_field, class: 'input-field inline')
   end
 
   def otherwise_textfield_label(question)
-    content_tag(:label,
-                OTHERWISE_PLACEHOLDER,
-                for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
+    tag.label(OTHERWISE_PLACEHOLDER,
+              for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
   end
 end

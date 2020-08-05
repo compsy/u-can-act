@@ -3,7 +3,7 @@
 class ExpandableGenerator < QuestionTypeGenerator
   def generate(question)
     safe_join([
-                content_tag(:p, question[:title].html_safe, class: 'flow-text'),
+                tag.p(question[:title].html_safe, class: 'flow-text'),
                 expandables(question),
                 expandable_buttons(question)
               ])
@@ -19,8 +19,7 @@ class ExpandableGenerator < QuestionTypeGenerator
       end
 
       sub_question_body = safe_join(sub_question_body)
-      content_tag(
-        :div,
+      tag.div(
         sub_question_body,
         class: " col s12 expandable_wrapper #{is_hidden ? 'hidden' : ''} #{question[:id]}"
       )
@@ -40,15 +39,14 @@ class ExpandableGenerator < QuestionTypeGenerator
     body << add_button(question)
     body << remove_button(question)
     body = safe_join(body)
-    body = content_tag(:div, body, class: 'row')
-    body = content_tag(:div, body, class: 'col s12')
-    body
+    body = tag.div(body, class: 'row')
+    tag.div(body, class: 'col s12')
   end
 
   def add_button(question)
     single_expandable_button(
       idify(question[:id]),
-      safe_join([content_tag(:i, 'add', class: 'material-icons left'), question[:add_button_label] || '']),
+      safe_join([tag.i('add', class: 'material-icons left'), question[:add_button_label] || '']),
       'expand_expandable success',
       true
     )
@@ -57,15 +55,14 @@ class ExpandableGenerator < QuestionTypeGenerator
   def remove_button(question)
     single_expandable_button(
       idify(question[:id]),
-      safe_join([content_tag(:i, 'remove', class: 'material-icons left'), question[:remove_button_label] || '']),
+      safe_join([tag.i('remove', class: 'material-icons left'), question[:remove_button_label] || '']),
       'collapse_expandable warning',
       false
     )
   end
 
   def single_expandable_button(id, label, klass, expand)
-    content_tag(
-      :a,
+    tag.a(
       label,
       id: id + '_' + (expand ? 'expand' : 'collapse'),
       data: { belongsto: id },
@@ -109,7 +106,7 @@ class ExpandableGenerator < QuestionTypeGenerator
 
     id = id.split('_')
     start = id.first
-    endd = id[1..-1].join('_')
+    endd = id[1..].join('_')
     "#{start}_#{sub_id}_#{endd}".to_sym
   end
 end

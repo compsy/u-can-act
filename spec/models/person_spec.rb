@@ -120,4 +120,61 @@ describe Person do
       expect(result[:total]).to eq 0
     end
   end
+
+  describe 'my_responses' do
+    it 'should use the open_from_sorting_metric' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+      expect_any_instance_of(Response).to receive(:open_from_sorting_metric).and_call_original
+      expect(protocol_subscription.person.my_responses).to eq([response])
+    end
+  end
+
+  describe 'my_completed_responses' do
+    it 'should use the open_from_sorting_metric' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      response = FactoryBot.create(:response, :completed, protocol_subscription: protocol_subscription)
+      expect_any_instance_of(Response).to receive(:open_from_sorting_metric).and_call_original
+      expect(protocol_subscription.person.my_completed_responses).to eq([response])
+    end
+  end
+
+  describe 'my_open_responses' do
+    it 'should use the priority_sorting_metric' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+      expect_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
+      expect(protocol_subscription.person.my_open_responses).to eq([response])
+    end
+    it 'should not return otr responses' do
+      protocol = FactoryBot.create(:protocol, :with_one_time_responses)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago, protocol: protocol)
+      FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+      expect(protocol_subscription.person.my_open_responses).to eq([])
+    end
+  end
+
+  describe 'my_open_one_time_responses' do
+    it 'should use the priority_sorting_metric' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago)
+      FactoryBot.create(:one_time_response, protocol: protocol_subscription.protocol)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+      expect_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
+      expect(protocol_subscription.person.my_open_one_time_responses).to eq([response])
+    end
+  end
+
+  describe 'all_my_open_responses' do
+    it 'should use the priority_sorting_metric' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+      protocol_subscription2 = FactoryBot.create(:protocol_subscription,
+                                                 start_date: 10.minutes.ago,
+                                                 person: protocol_subscription.person)
+      FactoryBot.create(:one_time_response, protocol: protocol_subscription2.protocol)
+      response2 = FactoryBot.create(:response, protocol_subscription: protocol_subscription2, open_from: 2.minutes.ago)
+      # expect_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
+      expect(protocol_subscription.person.all_my_open_responses).to eq([response2, response])
+    end
+  end
 end

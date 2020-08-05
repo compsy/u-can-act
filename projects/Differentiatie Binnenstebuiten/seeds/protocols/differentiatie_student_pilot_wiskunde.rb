@@ -12,10 +12,10 @@ db_name = 'Differentiatie Binnenstebuiten Scholieren Wiskunde'
 ic_name = 'informed consent scholieren'
 invitation_text = 'Er staat een nieuw dagboek voor je klaar. Klik op de volgende link om deze in te vullen. Alvast bedankt!'
 
-protocol = Protocol.find_by_name(pr_name)
+protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration.days
-protocol.informed_consent_questionnaire = Questionnaire.find_by_name(ic_name)
+protocol.informed_consent_questionnaire = Questionnaire.find_by(name: ic_name)
 raise 'informed consent questionnaire not found' unless protocol.informed_consent_questionnaire
 protocol.invitation_text = invitation_text
 protocol.save!
@@ -28,7 +28,7 @@ reward = protocol.rewards.create!(threshold: 3, reward_points: 2)
 reward.save!
 
 # Add dagboekmetingen
-dagboekvragenlijst_id = Questionnaire.find_by_name(db_name)&.id
+dagboekvragenlijst_id = Questionnaire.find_by(name: db_name)&.id
 raise "Cannot find questionnaire: #{db_name}" unless dagboekvragenlijst_id
 
 (1..default_protocol_duration).each do |number_of_days|

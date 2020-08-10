@@ -11,61 +11,55 @@ content = [
   {
     type: :raw,
     content: '
-  <p class="flow-text"><em>Geïnformeerde toestemming</em></p>
   <p class="flow-text">
-Ik stem toe mee te doen aan een onderzoek, dat uitgevoerd wordt door Lkol M. Baatenburg de Jong, MSc en ir. T.H. Huijzer, onder begeleiding van dr. R. J. R. den Hartigh, dr. F.J. Blaauw en Prof. dr. de Jonge.
-De procedure is getoetst en goed bevonden door de ethische commissie van de Afdeling Psychologie, Rijksuniversiteit Groningen.
+    <em>Toestemmingsverklaring</em>
+  </p>
+  <center>
+    Voor deelname aan wetenschappelijk onderzoek
+  </center><br />
+  <p class="flow-text">
+    "Your Special Forces"
+  </p>
+
+  <p class="flow-text">
+    De <b>informatiebrief</b> is, nu en ook later, te vinden op
+    <a href="https://yourspecialforces.nl/sep2020" target="_blank">
+      https://yourspecialforces.nl/sep2020
+    </a>.
   </p>
 
   <ol class="flow-text">
-<li>
-Ik ben me ervan bewust dat deelname aan dit onderzoek geheel vrijwillig is.
-Ik kan mijn medewerking op elk tijdstip stopzetten, zonder een reden te geven.
-Daarnaast kan ik de gegevens die verkregen zijn uit dit onderzoek terugkrijgen, laten verwijderen uit de database of laten vernietigen.
-</li>
+    <li>
+    Ik verklaar op een voor mij duidelijke wijze te zijn ingelicht over de aard en het doel van het
+    onderzoek. Ik ben in de gelegenheid gesteld om vragen over het onderzoek te stellen en mijn
+    vragen zijn naar tevredenheid beantwoord.
+    </li>
 
-<li>
-De antwoorden op de vragen kunnen geen invloed hebben op mijn selectietraject en worden niet gebruikt in een andere context dan dit onderzoek.
-</li>
+    <li>
+    Ik weet dat de gegevens en resultaten uit dit onderzoek op een beveiligde server worden
+    opgeslagen en gebruikt worden in toekomstig onderzoek rondom de selectie en ontwikkeling
+    van operators.
+    </li>
 
-<li>
-In verschillende blokken deze week wordt mij gevraagd om vragenlijsten online in te vullen en om safe houses te herkennen in bepaalde steden.
-</li>
+    <li>
+    Ik geef toestemming om de gegevens te verwerken voor de doeleinden zoals beschreven in
+    de informatiebrief.
+    </li>
 
-<li>
-Op een later moment kan mij worden gevraagd om de online modules opnieuw te doen.
-Deze meting kan plaatsvinden aan het eind van de ECO of eerder.
-Over de concrete datum en het tijdstip word ik geïnformeerd door het KCT.
-</li>
-
-<li>
-Gedurende de ECO zal mij regelmatig aan het eind en begin van de week gevraagd worden om een paar korte vragen te beantwoorden.
-</li>
-
-<li>
-Mijn gegevens zullen vertrouwelijk worden behandeld.
-Mijn persoonsgegevens worden fysiek gescheiden van mijn antwoordgegevens.
-</li>
-
-<li>
-Mijn geanonimiseerde antwoordgegevens kunnen worden gebruikt voor wetenschappelijk onderzoek.
-</li>
-
-<li>
-De onderzoeker zal verdere vragen over het onderzoek nu of gedurende het onderzoek beantwoorden.
-Vragen over het onderzoek kunnen ook achteraf gesteld worden, via
-<a href="mailto:t.h.huijzer@rug.nl">t.h.huijzer@rug.nl</a>
-.
-</li>
-  </ol>'
+    <li>
+    Ik begrijp dat ik mijn deelname op ieder moment, om wat voor reden dan ook, mag en kan
+    beëindigen zonder dat hieraan enige consequenties verbonden zijn.
+    </li>
+  </ol>
+  '
   },
   {
     id: :v1,
     type: :radio,
     title: '',
     options: [
-      'Ik heb bovenstaande informatie gelezen en heb besloten om <b>wel</b> deel te nemen aan het onderzoek',
-      'Ik heb bovenstaande informatie gelezen en heb besloten om <b>niet</b> deel te nemen aan het onderzoek'
+      'Ik doe <b>wel</b> mee aan het onderzoek',
+      'Ik doe <b>niet</b> mee aan het onderzoek'
     ],
     show_otherwise: false
   }

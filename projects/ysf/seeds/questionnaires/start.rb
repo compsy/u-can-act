@@ -10,7 +10,7 @@ questionnaire.key = File.basename(__FILE__)[0...-3]
 def create_injury_question(id, title)
   res = {
     id: id,
-    type: :radio,
+    type: :likert,
     title: title,
     show_otherwise: false,
     options: %w[1 2 3]
@@ -37,26 +37,26 @@ content = [
   }, {
     section_start: 'Deel 1: Beoordeel hoe jij je <b>nu voelt</b> in relatie tot je beste herstel-status ooit.',
     id: :v1,
-    type: :radio,
+    type: :likert,
     required: true,
     title: '<b>Physical Performance Capability</b>, bijv. fysiek sterk; fit; energiek; vol kracht.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
     id: :v2,
-    type: :radio,
+    type: :likert,
     title: '<b>Mental Performance Capability</b>, bijv. attent/oplettend; ontvankelijk, gevoelig; geconcentreerd; alert.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
     id: :v3,
-    type: :radio,
+    type: :likert,
     title: '<b>Emotional Balance</b>, bijv. tevreden; evenwichtig; in een goede bui; alles onder controle hebben; stabiel; verheugd.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
     id: :v4,
-    type: :radio,
+    type: :likert,
     title: '<b>Overall Recovery (herstel)</b>, bijv. teruggewonnen; uitgerust; spierontspanning; fysiek ontspannen.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
@@ -64,25 +64,25 @@ content = [
   }, {
     section_start: 'Deel 2: Geef onderstaand per item aan hoe jij je <b>nu voelt</b> in relatie tot je hoogste <b>stress-toestand</b> ooit.',
     id: :v5,
-    type: :radio,
+    type: :likert,
     title: '<b>Muscular Stress</b>, bijv. stijve spieren; spierpijn; vermoeide spieren.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
     id: :v6,
-    type: :radio,
+    type: :likert,
     title: '<b>Lack of Activation</b>, bijv. ongemotiveerd; ongeïnteresseerd; geen fut; loom / weinig energie.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
     id: :v7,
-    type: :radio,
+    type: :likert,
     title: '<b>Negative Emotional State</b>, bijv. neerslachtig; gestressed; geërgerd; kort lontje; verdrietig.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
     id: :v8,
-    type: :radio,
+    type: :likert,
     title: '<b>Overall Stress</b>, bijv. moe; uitgeput; overbelast; fysiek afgemat.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,

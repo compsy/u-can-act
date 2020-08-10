@@ -12,20 +12,24 @@ content = [
     type: :raw,
     content: '
   <p class="flow-text">
-    <em>Toestemmingsverklaring</em>
+    <em><center>Toestemmingsverklaring</center></em>
   </p>
   <center>
-    Voor deelname aan wetenschappelijk onderzoek
-  </center><br />
+    Voor deelname aan wetenschappelijk onderzoek<br />
+  </center>
   <p class="flow-text">
-    "Your Special Forces"
+    <center>
+      "Your Special Forces"
+    </center>
   </p>
 
   <p class="flow-text">
-    De <b>informatiebrief</b> is, nu en ook later, te vinden op
+    De <b>informatiebrief</b> is, nu en ook later, te vinden op<br />
+    <center>
     <a href="https://yourspecialforces.nl/sep2020" target="_blank">
       https://yourspecialforces.nl/sep2020
     </a>.
+    </center>
   </p>
 
   <ol class="flow-text">

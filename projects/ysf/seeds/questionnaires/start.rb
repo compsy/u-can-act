@@ -31,8 +31,11 @@ content = [
     <p class="flow-text section-explanation">
     Hieronder vind je een lijst met uitdrukkingen die verschillende aspecten van je huidige staat van herstel en stresstoestand beschrijven.
     Deze vragenlijst wordt gebruikt als hulpmiddel om jou en de gehele groep zo goed mogelijk te kunnen begeleiden tijdens de opleiding.
+    </p>
 
-    De vragen lopen van <b>0 (helemaal niet van toepassing)</b> tot <b>6 (volledig van toepassing)</b>.
+    <p>
+      De vragen lopen van <b>0 (helemaal niet van toepassing)</b> tot <b>6 (volledig van toepassing)</b>.
+    </p>
     '
   }, {
     section_start: 'Deel 1: Beoordeel hoe jij je <b>nu voelt</b> in relatie tot je beste herstel-status ooit.',
@@ -92,9 +95,9 @@ content = [
     content: '
     <p class="flow-text section-explanation">
       Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen dagen klachten had en hoeveel last je had.
-
-      <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
     </p>
+
+    <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
 
     <p class="flow-text section-explanation">
       De betekenis van de cijfers 1 tot en met 5 is als volgt:
@@ -121,6 +124,10 @@ content = [
   create_injury_question(:v12, 'Pols/hand'),
   create_injury_question(:v13, 'Buik'),
   create_injury_question(:v14, 'Schouder'),
+  {
+    type: :raw,
+    content: '<img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />'
+  },
   create_injury_question(:v15, 'Rug thoracaal'),
   create_injury_question(:v16, 'Lage rug'),
   create_injury_question(:v17, 'Bekken'),

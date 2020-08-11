@@ -1,5 +1,5 @@
-default_protocol_duration = 2.months
-default_open_duration = 2.months
+default_protocol_duration = 5.months
+default_open_duration = 5.months
 default_posttest_open_duration = nil
 default_reward_points = 100
 

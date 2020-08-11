@@ -11,6 +11,7 @@ def create_injury_question(id, title)
   res = {
     id: id,
     type: :likert,
+    required: true,
     title: title,
     show_otherwise: false,
     options: %w[1 2 3]
@@ -20,7 +21,7 @@ end
 
 content = [
   {
-    id: :v0,
+    id: :v1,
     type: :textfield,
     required: true,
     title: 'Gewicht',
@@ -39,26 +40,26 @@ content = [
     '
   }, {
     section_start: 'Deel 1: Beoordeel hoe jij je <b>nu voelt</b> in relatie tot je beste herstel-status ooit.',
-    id: :v1,
+    id: :v2,
     type: :likert,
     required: true,
     title: '<b>Physical Performance Capability</b>, bijv. fysiek sterk; fit; energiek; vol kracht.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
-    id: :v2,
+    id: :v3,
     type: :likert,
     title: '<b>Mental Performance Capability</b>, bijv. attent/oplettend; ontvankelijk, gevoelig; geconcentreerd; alert.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
-    id: :v3,
+    id: :v4,
     type: :likert,
     title: '<b>Emotional Balance</b>, bijv. tevreden; evenwichtig; in een goede bui; alles onder controle hebben; stabiel; verheugd.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
-    id: :v4,
+    id: :v5,
     type: :likert,
     title: '<b>Overall Recovery (herstel)</b>, bijv. teruggewonnen; uitgerust; spierontspanning; fysiek ontspannen.',
     options: %w[0 1 2 3 4 5 6],
@@ -66,25 +67,25 @@ content = [
     section_end: true
   }, {
     section_start: 'Deel 2: Geef onderstaand per item aan hoe jij je <b>nu voelt</b> in relatie tot je hoogste <b>stress-toestand</b> ooit.',
-    id: :v5,
+    id: :v6,
     type: :likert,
     title: '<b>Muscular Stress</b>, bijv. stijve spieren; spierpijn; vermoeide spieren.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
-    id: :v6,
+    id: :v7,
     type: :likert,
     title: '<b>Lack of Activation</b>, bijv. ongemotiveerd; ongeïnteresseerd; geen fut; loom / weinig energie.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
-    id: :v7,
+    id: :v8,
     type: :likert,
     title: '<b>Negative Emotional State</b>, bijv. neerslachtig; gestressed; geërgerd; kort lontje; verdrietig.',
     options: %w[0 1 2 3 4 5 6],
     show_otherwise: false,
   }, {
-    id: :v8,
+    id: :v9,
     type: :likert,
     title: '<b>Overall Stress</b>, bijv. moe; uitgeput; overbelast; fysiek afgemat.',
     options: %w[0 1 2 3 4 5 6],
@@ -118,24 +119,24 @@ content = [
     </p>
     '
   },
-  create_injury_question(:v9, 'Hoofd'),
-  create_injury_question(:v10, 'Hals/nek'),
-  create_injury_question(:v11, 'Borst'),
-  create_injury_question(:v12, 'Pols/hand'),
-  create_injury_question(:v13, 'Buik'),
-  create_injury_question(:v14, 'Schouder'),
+  create_injury_question(:v10, 'Hoofd'),
+  create_injury_question(:v11, 'Hals/nek'),
+  create_injury_question(:v12, 'Borst'),
+  create_injury_question(:v13, 'Pols/hand'),
+  create_injury_question(:v14, 'Buik'),
+  create_injury_question(:v15, 'Schouder'),
   {
     type: :raw,
     content: '<img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />'
   },
-  create_injury_question(:v15, 'Rug thoracaal'),
-  create_injury_question(:v16, 'Lage rug'),
-  create_injury_question(:v17, 'Bekken'),
-  create_injury_question(:v18, 'Pols/hand'),
-  create_injury_question(:v19, 'Bovenbeen'),
-  create_injury_question(:v20, 'Knie'),
-  create_injury_question(:v21, 'Onderbeen'),
-  create_injury_question(:v22, 'Enkel'),
+  create_injury_question(:v16, 'Rug thoracaal'),
+  create_injury_question(:v17, 'Lage rug'),
+  create_injury_question(:v18, 'Bekken'),
+  create_injury_question(:v19, 'Pols/hand'),
+  create_injury_question(:v20, 'Bovenbeen'),
+  create_injury_question(:v21, 'Knie'),
+  create_injury_question(:v22, 'Onderbeen'),
+  create_injury_question(:v23, 'Enkel'),
 ]
 
 questionnaire.content = { questions: content, scores: [] }

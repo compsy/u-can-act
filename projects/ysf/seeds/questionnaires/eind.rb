@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-title = 'Eind'
+title = 'Eind van de week'
 
 name = 'KCT Eind van de week'
 questionnaire = Questionnaire.find_by(name: name)

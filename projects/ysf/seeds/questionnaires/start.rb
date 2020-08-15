@@ -7,12 +7,31 @@ questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
+def create_ponder_question(id, title, negative, positive)
+  {
+    id: id,
+    type: :likert,
+    required: true,
+    title: title,
+    options: [
+      sprintf('1 (%s)', negative),
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      sprintf('7 (%s)', positive)
+    ],
+    show_otherwise: false
+  }
+end
+
 def create_srss_question(title, examples)
   res = {
     id: title.gsub(/\s+/, "_").downcase.to_sym,
     type: :likert,
     required: true,
-    title: sprintf('<b> %s </b>, bijvoorbeeld: %s', title, examples),
+    title: sprintf('<b>%s</b>, bijvoorbeeld: %s.', title, examples),
     options: [
       '0 (helemaal niet van toepassing)',
       '1',
@@ -35,6 +54,42 @@ content = [
     title: 'Gewicht',
     placeholder: '... kilogram'
   }, {
+    id: :herstel,
+    type: :radio,
+    required: true,
+    title: 'Hoe goed ben je hersteld?',
+    options: [
+      '6',
+      '7 (heel, heel slecht hersteld)',
+      '8',
+      '9 (heel slecht hersteld)',
+      '10',
+      '11 (slecht hersteld)',
+      '12',
+      '13 (redelijk hersteld)',
+      '14',
+      '15 (goed hersteld)',
+      '16',
+      '17 (heel goed hersteld)',
+      '18',
+      '19 (heel, heel goed hersteld)',
+      '20'
+    ],
+    show_otherwise: false,
+  },
+  create_ponder_question(
+    :vertrouwen,
+    'Hoe zeker ben je ervan dat je het einde van de week kan halen?',
+    'helemaal niet zeker',
+    'heel erg zeker'
+  ),
+  create_ponder_question(
+    :motivatie,
+    'Hoe gemotiveerd ben je om het einde van de week te halen?',
+    'helemaal niet gemotiveerd',
+    'heel erg gemotiveerd'
+  ),
+  {
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
@@ -76,8 +131,8 @@ content = [
         id: :plaats,
         type: :dropdown,
         title: 'Waar had je last?',
+        placeholder: 'Selecteer je antwoord...',
         required: true,
-        tooltip: 'Selecteer je antwoord...',
         options: ['Hoofd', 'Hals/nek', 'Borst', 'Pols/hand', 'Buik', 'Schouder',
           'Rug thoracaal (ter hoogte borst)', 'Lage rug', 'Bekken', 'Bovenbeen',
           'Knie', 'Onderbeen', 'Enkel']

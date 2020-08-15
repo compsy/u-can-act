@@ -1,5 +1,4 @@
-default_protocol_duration = 5.months
-default_open_duration = 5.months
+default_protocol_duration = 5.months + 2.weeks # Should at least cover until January, 1.
 default_posttest_open_duration = nil
 default_reward_points = 100
 
@@ -33,7 +32,7 @@ questionnaires.each do |name|
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
   db_measurement.period = nil
-  db_measurement.open_duration = default_open_duration
+  db_measurement.open_duration = 2.months
   db_measurement.open_from_offset = 0
   db_measurement.reward_points = default_reward_points
   db_measurement.stop_measurement = false
@@ -46,20 +45,25 @@ questionnaires = [
   'KCT Eind van de week'
 ]
 
-# It is unkown when exactly the KCT wants to show `KCT Start van de week` or `KCT Eind van de week`, so the
-# questionnaires are set to be available again after one day and are hidden by the frontend.
 questionnaires.each do |name|
   of_offset = 0.days
   dagboekvragenlijst_id = Questionnaire.find_by(name: name)&.id
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
-  # Repeat after a few days, that way it should be available again in time.
-  db_measurement.period = 5.days
-  db_measurement.open_duration = default_open_duration
-  db_measurement.open_from_offset = 0
   db_measurement.reward_points = default_reward_points
   db_measurement.stop_measurement = false
   db_measurement.should_invite = true
+  db_measurement.period = 1.week # Repeat weekly.
+
+  # For an example, see `differentiatie_2.rb`.
+  if name.include? "Start"
+    db_measurement.open_from_offset = 6.days + 6.hours # Sunday at 6:00.
+    db_measurement.open_duration = 3.days # Close Wednesday at 6:00.
+  else
+    db_measurement.open_from_offset = 4.days + 6.hours # Friday at 6:00.
+    db_measurement.open_duration = 2.days # Close Sunday at 6:00.
+  end
+
   db_measurement.save!
 end

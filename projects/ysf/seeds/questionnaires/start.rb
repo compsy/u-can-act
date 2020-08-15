@@ -68,7 +68,7 @@ content = [
   }, {
     id: :plaats_expandable,
     type: :expandable,
-    title: 'Geef, met behulp van bovenstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen dagen klachten had en hoeveel last je had.',
+    title: 'Geef, met behulp van bovenstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen week klachten had en hoeveel last je had.',
     add_button_label: 'Voeg plaats toe',
     remove_button_label: 'Verwijder plaats',
     content: [

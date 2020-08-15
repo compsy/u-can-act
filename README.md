@@ -811,6 +811,7 @@ Required and allowed options (minimal example and maximal example):
   type: :dropdown,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   label: 'RMC regio',
+  placeholder: 'Selecteer uw antwoord...',
   tooltip: 'some tooltip',
   options: [
     { title: 'hobby/sport', numeric_value: 0 },

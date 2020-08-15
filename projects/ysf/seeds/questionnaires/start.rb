@@ -7,21 +7,29 @@ questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
-def create_injury_question(id, title)
+def create_srss_question(title, examples)
   res = {
-    id: id,
+    id: title.gsub(/\s+/, "_").downcase.to_sym,
     type: :likert,
     required: true,
-    title: title,
-    show_otherwise: false,
-    options: %w[1 2 3]
+    title: '<b> #{title} </b>. Bijvoorbeeld: #{examples}.',
+    options: [
+      '0 (helemaal niet van toepassing)',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6 (helemaal van toepassing)'
+    ],
+    show_otherwise: false
   }
   res
 end
 
 content = [
   {
-    id: :v1,
+    id: :gewicht,
     type: :textfield,
     required: true,
     title: 'Gewicht',
@@ -30,113 +38,67 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-    Hieronder vind je een lijst met uitdrukkingen die verschillende aspecten van je huidige staat van herstel en stresstoestand beschrijven.
-    Deze vragenlijst wordt gebruikt als hulpmiddel om jou en de gehele groep zo goed mogelijk te kunnen begeleiden tijdens de opleiding.
-    </p>
-
-    <p>
-      De vragen lopen van <b>0 (helemaal niet van toepassing)</b> tot <b>6 (volledig van toepassing)</b>.
+      Hieronder vind je een lijst met uitdrukkingen, die verschillende aspecten van jouw hersteltoestand beschrijven.
+      Geef aan hoe jij je <b>op dit moment</b> voelt, in vergelijking met je beste hersteltoestand ooit.
     </p>
     '
-  }, {
-    section_start: 'Deel 1: Beoordeel hoe jij je <b>nu voelt</b> in relatie tot je beste herstel-status ooit.',
-    id: :v2,
-    type: :likert,
-    required: true,
-    title: '<b>Physical Performance Capability</b>, bijv. fysiek sterk; fit; energiek; vol kracht.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-  }, {
-    id: :v3,
-    type: :likert,
-    title: '<b>Mental Performance Capability</b>, bijv. attent/oplettend; ontvankelijk, gevoelig; geconcentreerd; alert.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-  }, {
-    id: :v4,
-    type: :likert,
-    title: '<b>Emotional Balance</b>, bijv. tevreden; evenwichtig; in een goede bui; alles onder controle hebben; stabiel; verheugd.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-  }, {
-    id: :v5,
-    type: :likert,
-    title: '<b>Overall Recovery (herstel)</b>, bijv. teruggewonnen; uitgerust; spierontspanning; fysiek ontspannen.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-    section_end: true
-  }, {
-    section_start: 'Deel 2: Geef onderstaand per item aan hoe jij je <b>nu voelt</b> in relatie tot je hoogste <b>stress-toestand</b> ooit.',
-    id: :v6,
-    type: :likert,
-    title: '<b>Muscular Stress</b>, bijv. stijve spieren; spierpijn; vermoeide spieren.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-  }, {
-    id: :v7,
-    type: :likert,
-    title: '<b>Lack of Activation</b>, bijv. ongemotiveerd; ongeïnteresseerd; geen fut; loom / weinig energie.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-  }, {
-    id: :v8,
-    type: :likert,
-    title: '<b>Negative Emotional State</b>, bijv. neerslachtig; gestressed; geërgerd; kort lontje; verdrietig.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-  }, {
-    id: :v9,
-    type: :likert,
-    title: '<b>Overall Stress</b>, bijv. moe; uitgeput; overbelast; fysiek afgemat.',
-    options: %w[0 1 2 3 4 5 6],
-    show_otherwise: false,
-    section_end: true,
-  }, {
+  },
+  create_srss_question('Fysiek prestatievermogen', 'sterk; fysiek fit; energiek; vol energie'),
+  create_srss_question('Mentaal prestatievermogen', 'alert; ontvankelijk; mentaal scherp; geconcentreerd'),
+  create_srss_question('Emotionele balans', 'tevreden; stabiel; in een goede bui; alles onder controle hebben'),
+  create_srss_question('Algeheel herstel', 'hersteld; uitgerust; ontspannen spieren; fysiek ontspannen'),
+  {
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-      Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen dagen klachten had en hoeveel last je had.
-    </p>
-
-    <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
-
-    <p class="flow-text section-explanation">
-      De betekenis van de cijfers 1 tot en met 5 is als volgt:
-
-      <ul class="flow-text section-explanation">
-        <li>
-        1 = geen last
-        </li>
-
-        <li>
-        2 = een beetje last
-        </li>
-
-        <li>
-        3 = heel veel last
-        </li>
-      </ul>
+      Hieronder vind je een lijst met uitdrukkingen, die verschillende aspecten van jouw stresstoestand beschrijven.
+      Geef aan hoe jij je <b>op dit moment</b> voelt, in vergelijking met je hoogste hersteltoestand ooit.
     </p>
     '
   },
-  create_injury_question(:v10, 'Hoofd'),
-  create_injury_question(:v11, 'Hals/nek'),
-  create_injury_question(:v12, 'Borst'),
-  create_injury_question(:v13, 'Pols/hand'),
-  create_injury_question(:v14, 'Buik'),
-  create_injury_question(:v15, 'Schouder'),
+  create_srss_question('Stress op spieren', 'uitgeputte spieren; vermoeide spieren; spierpijn; stijve spieren'),
+  create_srss_question('Gebrek aan bezieling', 'ongemotiveerd; sloom; niet enthousiast; gebrek aan energie'),
+  create_srss_question('Negatieve emotionele toestand', 'neerslachtig; gestressed; geïrriteerd; opvliegend'),
+  create_srss_question('Algehele stress', 'moe; versleten; overbelast; fysiek uitgeput'),
   {
     type: :raw,
-    content: '<img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />'
-  },
-  create_injury_question(:v16, 'Rug thoracaal'),
-  create_injury_question(:v17, 'Lage rug'),
-  create_injury_question(:v18, 'Bekken'),
-  create_injury_question(:v19, 'Pols/hand'),
-  create_injury_question(:v20, 'Bovenbeen'),
-  create_injury_question(:v21, 'Knie'),
-  create_injury_question(:v22, 'Onderbeen'),
-  create_injury_question(:v23, 'Enkel'),
+    content: '
+    <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
+    '
+  }, {
+    id: :plaats_expandable,
+    type: :expandable,
+    title: 'Geef, met behulp van bovenstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen dagen klachten had en hoeveel last je had.',
+    add_button_label: 'Voeg plaats toe',
+    remove_button_label: 'Verwijder plaats',
+    content: [
+      {
+        id: :plaats,
+        type: :dropdown,
+        title: "Waar had je last?",
+        options: ['Hoofd', 'Hals/nek', 'Borst', 'Pols/hand', 'Buik', 'Schouder',
+          'Rug thoracaal (ter hoogte borst)', 'Lage rug', 'Bekken', 'Bovenbeen',
+          'Knie', 'Onderbeen', 'Enkel']
+      }, {
+        id: :pijn,
+        type: :likert,
+        title: 'Hoeveel last had je?',
+        # https://behandelaar.pijnbijkanker.nl/chronische-pijn/onderzoek/meet-methodes/vas
+        options: [
+          '1 (geen pijn)',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10 (ergst denkbare pijn)'
+        ],
+      }
+    ]
+  }
 ]
 
 questionnaire.content = { questions: content, scores: [] }

@@ -116,14 +116,9 @@ content = [
   create_srss_question('Negatieve emotionele toestand', 'neerslachtig; gestressed; geïrriteerd; opvliegend'),
   create_srss_question('Algehele stress', 'moe; versleten; overbelast; fysiek uitgeput'),
   {
-    type: :raw,
-    content: '
-    <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
-    '
-  }, {
     id: :plaats_expandable,
     type: :expandable,
-    title: 'Geef, met behulp van bovenstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen week klachten had en hoeveel last je had.',
+    title: 'Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen week klachten had en hoeveel last je had.',
     add_button_label: 'Voeg plaats toe',
     remove_button_label: 'Verwijder plaats',
     content: [
@@ -156,6 +151,12 @@ content = [
         ],
       }
     ]
+  },
+  {
+    type: :raw,
+    content: '
+    <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
+    '
   }
 ]
 

@@ -12,7 +12,7 @@ def create_srss_question(title, examples)
     id: title.gsub(/\s+/, "_").downcase.to_sym,
     type: :likert,
     required: true,
-    title: '<b> #{title} </b>. Bijvoorbeeld: #{examples}.',
+    title: sprintf('<b> %s </b>, bijvoorbeeld: %s', title, examples),
     options: [
       '0 (helemaal niet van toepassing)',
       '1',
@@ -75,13 +75,16 @@ content = [
       {
         id: :plaats,
         type: :dropdown,
-        title: "Waar had je last?",
+        title: 'Waar had je last?',
+        required: true,
+        tooltip: 'Selecteer je antwoord...',
         options: ['Hoofd', 'Hals/nek', 'Borst', 'Pols/hand', 'Buik', 'Schouder',
           'Rug thoracaal (ter hoogte borst)', 'Lage rug', 'Bekken', 'Bovenbeen',
           'Knie', 'Onderbeen', 'Enkel']
       }, {
         id: :pijn,
         type: :likert,
+        required: true,
         title: 'Hoeveel last had je?',
         # https://behandelaar.pijnbijkanker.nl/chronische-pijn/onderzoek/meet-methodes/vas
         options: [

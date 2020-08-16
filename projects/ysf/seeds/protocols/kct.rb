@@ -59,12 +59,12 @@ questionnaires.each do |name|
 
   # For an example, see `differentiatie_2.rb`.
   if name.include? "Start"
-    db_measurement.open_from_day = 'sunday'
-    db_measurement.open_from_offset = 6.hours # Sunday at 06:00.
+    # db_measurement.open_from_day = 'sunday'
+    db_measurement.open_from_offset = 0 # 6.hours # Sunday at 06:00.
     db_measurement.open_duration = 3.days # Close Wednesday at 06:00.
   else
-    db_measurement.open_from_day = 'friday'
-    db_measurement.open_from_offset = 6.hours # Friday at 06:00.
+    # db_measurement.open_from_day = 'friday'
+    db_measurement.open_from_offset = 0 # 6.hours # Friday at 06:00.
     db_measurement.open_duration = 2.days # Close Sunday at 6:00.
   end
 

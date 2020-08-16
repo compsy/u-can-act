@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
-title = 'Start van de week'
+# `Eind van de week` is defined below.
 
+###
+# Start van de week
+###
+title = 'Start van de week'
 name = 'KCT Start van de week'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
-questionnaire.key = File.basename(__FILE__)[0...-3]
+questionnaire.key = 'start'
 
 def create_ponder_question(id, title, negative, positive)
   {
@@ -27,7 +31,7 @@ def create_ponder_question(id, title, negative, positive)
 end
 
 def create_srss_question(title, examples)
-  res = {
+  {
     id: title.gsub(/\s+/, "_").downcase.to_sym,
     type: :likert,
     required: true,
@@ -43,7 +47,6 @@ def create_srss_question(title, examples)
     ],
     show_otherwise: false
   }
-  res
 end
 
 content = [
@@ -161,6 +164,62 @@ content = [
     '
   }
 ]
+
+questionnaire.content = { questions: content, scores: [] }
+questionnaire.title = title
+questionnaire.save!
+
+
+###
+# Eind van de week
+###
+title = 'Eind van de week'
+name = 'KCT Eind van de week'
+questionnaire = Questionnaire.find_by(name: name)
+questionnaire ||= Questionnaire.new(name: name)
+questionnaire.key = 'eind'
+
+def create_sleep_question(id, title)
+  {
+    id: id
+    type: :likert,
+    required: true,
+    title: title
+    options: [
+      '1 (helemaal niet van toepassing)',
+      '2',
+      '3',
+      '4',
+      '5 (helemaal van toepassing)'
+    ],
+    show_otherwise: false
+  }
+end
+
+sleep = [
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Hieronder volgen enkele vragen over je slaap.
+      Wil je voor elk van de uitspraken aangeven in hoeverre deze op jou van toepassing was <b>in de afgelopen week</b>?
+    </p>
+    '
+  },
+  create_sleep_question(:s_vermoeidheid, 'Ik heb overdag last van vermoeidheid.'),
+  create_sleep_question(:s_wakker_worden, 'Ik val pas tegen de ochtend in slaap en heb dan grote moeite om \'s morgens bijtijds wakker te worden.'),
+  create_sleep_question(:s_uitslapen, 'In het weekeinde slaap ik lang uit.'),
+  create_sleep_question(:s_kwaliteit, 'De kwaliteit van mijn slaap is slecht en ik voel me \'s morgens dan ook niet uitgerust.'),
+  create_sleep_question(:s_wakker_liggen, 'Ik lig \'s nachts lang wakker.'),
+  create_sleep_question(:s_moeilijk, 'Ik kan \'s avonds moeilijk in slaap komen.'),
+  create_sleep_question(:s_gevolgen, 'Vooral na een slechte nacht heb ik overdag last van één of meer van deze gevolgen: vermoeidheid, slaperigheid, slecht humeur, zwakke concentratie, geheugenproblemen of gebrek aan energie.'),
+  create_sleep_question(:s_onvoldoende, 'Ik krijg onvoldoende slaap.'),
+  create_sleep_question(:s_nachtmerries, 'Ik heb last van nachtmerries of angstige dromen.'),
+  create_sleep_question(:s_functioneren, 'Omdat ik te weinig slaap krijg, functioneer ik overdag minder goed.'),
+  create_sleep_question(:s_schema, 'Ik slaap slecht omdat het me niet lukt om op een normale tijd in slaap te vallen en \'s morgens op een normale tijd wakker te worden.')
+]
+
+content = content.append(sleep)
 
 questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title

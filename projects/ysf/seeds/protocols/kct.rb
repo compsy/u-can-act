@@ -55,7 +55,7 @@ questionnaires.each do |name|
   db_measurement.reward_points = default_reward_points
   db_measurement.stop_measurement = false
   db_measurement.should_invite = true
-  db_measurement.period = 1.week # Repeat weekly.
+  db_measurement.period = nil # 1.week # Repeat weekly.
 
   # For an example, see `differentiatie_2.rb`.
   if name.include? "Start"

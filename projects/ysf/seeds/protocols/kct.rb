@@ -31,6 +31,7 @@ questionnaires.each do |name|
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
+  # One-off questionnaire; not repeated.
   db_measurement.period = nil
   db_measurement.open_duration = 2.months
   db_measurement.open_from_offset = 0
@@ -58,10 +59,12 @@ questionnaires.each do |name|
 
   # For an example, see `differentiatie_2.rb`.
   if name.include? "Start"
-    db_measurement.open_from_offset = 6.days + 6.hours # Sunday at 6:00.
-    db_measurement.open_duration = 3.days # Close Wednesday at 6:00.
+    db_measurement.open_from_day = 'sunday'
+    db_measurement.open_from_offset = 6.hours # Sunday at 06:00.
+    db_measurement.open_duration = 3.days # Close Wednesday at 06:00.
   else
-    db_measurement.open_from_offset = 4.days + 6.hours # Friday at 6:00.
+    db_measurement.open_from_day = 'friday'
+    db_measurement.open_from_offset = 6.hours # Friday at 06:00.
     db_measurement.open_duration = 2.days # Close Sunday at 6:00.
   end
 

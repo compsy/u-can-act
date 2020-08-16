@@ -155,7 +155,9 @@ content = [
   {
     type: :raw,
     content: '
-    <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
+    <center>
+      <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
+    </center>
     '
   }
 ]

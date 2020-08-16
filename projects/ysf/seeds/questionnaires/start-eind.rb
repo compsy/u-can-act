@@ -181,10 +181,10 @@ questionnaire.key = 'eind'
 
 def create_sleep_question(id, title)
   {
-    id: id
+    id: id,
     type: :likert,
     required: true,
-    title: title
+    title: title,
     options: [
       '1 (helemaal niet van toepassing)',
       '2',
@@ -219,7 +219,7 @@ sleep = [
   create_sleep_question(:s_schema, 'Ik slaap slecht omdat het me niet lukt om op een normale tijd in slaap te vallen en \'s morgens op een normale tijd wakker te worden.')
 ]
 
-content = content.append(sleep)
+content = content + sleep
 
 questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title

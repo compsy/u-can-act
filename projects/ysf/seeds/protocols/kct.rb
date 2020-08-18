@@ -26,7 +26,6 @@ questionnaires = [
 ]
 
 questionnaires.each do |name|
-  of_offset = 0.days
   dagboekvragenlijst_id = Questionnaire.find_by(name: name)&.id
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
@@ -34,7 +33,7 @@ questionnaires.each do |name|
   # One-off questionnaire; not repeated.
   db_measurement.period = nil
   db_measurement.open_duration = 2.months
-  db_measurement.open_from_offset = 0
+  db_measurement.open_from_offset = 0.days
   db_measurement.reward_points = default_reward_points
   db_measurement.stop_measurement = false
   db_measurement.should_invite = true
@@ -47,7 +46,6 @@ questionnaires = [
 ]
 
 questionnaires.each do |name|
-  of_offset = 0.days
   dagboekvragenlijst_id = Questionnaire.find_by(name: name)&.id
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
@@ -60,11 +58,11 @@ questionnaires.each do |name|
   # For an example, see `differentiatie_2.rb`.
   if name.include? "Start"
     # db_measurement.open_from_day = 'sunday'
-    db_measurement.open_from_offset = 0 # 6.hours # Sunday at 06:00.
+    db_measurement.open_from_offset = 0.hours # 6.hours # Sunday at 06:00.
     db_measurement.open_duration = 2.months # 3.days # Close Wednesday at 06:00.
   else
     # db_measurement.open_from_day = 'friday'
-    db_measurement.open_from_offset = 0 # 6.hours # Friday at 06:00.
+    db_measurement.open_from_offset = 0.hours # 6.hours # Friday at 06:00.
     db_measurement.open_duration = 2.months # 2.days # Close Sunday at 6:00.
   end
 

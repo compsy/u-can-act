@@ -73,6 +73,8 @@ Heymans Instituut voor Psychologisch onderzoek, afdeling Psychologie<br />
 Rijksuniversiteit Groningen<br />
 mail: j.r.den.hartigh@rug.nl<br />
 
+<h1>Toestemmingsverklaring</h1>
+
   <ol class="flow-text">
     <li>
     Ik verklaar op een voor mij duidelijke wijze te zijn ingelicht over de aard en het doel van het

@@ -17,8 +17,8 @@ def create_ponder_question(id, title, negative, positive)
     required: true,
     title: title,
     labels: [negative, positive],
-    min: 1,
-    max: 7,
+    min: 0,
+    max: 100,
     step: 1
   }
 end
@@ -93,22 +93,14 @@ def create_friday_ponder_questions()
     create_ponder_question(
       :prestatie,
       'Hoe goed heb jij deze week gepresteerd?',
-      'helemaal niet goed',
-      'heel erg goed'
+      'zeer slecht (ver beneden je kunnen)',
+      'maximaal (op de top van je kunnen)'
     )
   ]
 end
 
 def create_medic_question()
   [
-    {
-      type: :raw,
-      content: '
-      <center>
-        <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
-      </center>
-      '
-    },
     {
       id: :plaats_expandable,
       type: :expandable,
@@ -128,24 +120,24 @@ def create_medic_question()
         },
         {
           id: :pijn,
-          type: :likert,
+          type: :range,
           required: true,
           title: 'Hoeveel last had je?',
           # https://behandelaar.pijnbijkanker.nl/chronische-pijn/onderzoek/meet-methodes/vas
-          options: [
-            '1 <br/> (geen pijn)',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '10 <br/> (ergst denkbare pijn)'
-          ],
+          labels: ['geen pijn', 'ergst denkbare pijn'],
+          min: 1,
+          max: 10,
+          step: 1
         }
       ]
+    },
+    {
+      type: :raw,
+      content: '
+      <center>
+        <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
+      </center>
+      '
     }
   ]
 end
@@ -153,19 +145,13 @@ end
 def create_srss_question(title, examples)
   {
     id: title.gsub(/\s+/, "_").downcase.to_sym,
-    type: :likert,
+    type: :range,
     required: true,
     title: sprintf('<b>%s</b>, bijvoorbeeld: %s.', title, examples),
-    options: [
-      '0 <br/> (helemaal niet van toepassing)',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6 <br/> (helemaal van toepassing)'
-    ],
-    show_otherwise: false
+    labels: ['helemaal niet van toepassing', 'helemaal van toepassing'],
+    min: 0,
+    max: 6,
+    step: 1
   }
 end
 

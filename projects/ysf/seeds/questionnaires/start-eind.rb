@@ -125,7 +125,7 @@ def create_medic_question()
           title: 'Hoeveel last had je?',
           # https://behandelaar.pijnbijkanker.nl/chronische-pijn/onderzoek/meet-methodes/vas
           labels: ['geen pijn', 'ergst denkbare pijn'],
-          min: 1,
+          min: 0,
           max: 10,
           step: 1
         }

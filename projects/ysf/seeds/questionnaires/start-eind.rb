@@ -211,8 +211,7 @@ def create_sleep_questions()
       '
     },
     create_sleep_question(:s_vermoeidheid, 'Ik heb overdag last van vermoeidheid.'),
-    create_sleep_question(:s_wakker_worden, 'Ik val pas tegen de ochtend in slaap en heb dan grote moeite om \'s morgens bijtijds wakker te worden.'),
-    create_sleep_question(:s_uitslapen, 'In het weekeinde slaap ik lang uit.'),
+    create_sleep_question(:s_wakker_worden, 'Ik val pas tegen de ochtend in slaap en heb dan grote moeite om \'s morgens bijtijds wakker te worden. In het weekeinde slaap ik lang uit.'),
     create_sleep_question(:s_kwaliteit, 'De kwaliteit van mijn slaap is slecht en ik voel me \'s morgens dan ook niet uitgerust.'),
     create_sleep_question(:s_wakker_liggen, 'Ik lig \'s nachts lang wakker.'),
     create_sleep_question(:s_moeilijk, 'Ik kan \'s avonds moeilijk in slaap komen.'),

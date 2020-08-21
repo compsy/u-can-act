@@ -25,7 +25,7 @@ content = [
     </a>.
   </p>
 
-<h1> Informatiebrief </h1>
+<h2> Informatiebrief </h2>
 
 De ontwikkeling van (kandidaat)operators wordt gevolgd door onder andere de technische en medische staf van het Korps Commandotroepen (KCT).
 Daarnaast werkt het KCT samen met de Rijksuniversiteit Groningen (RUG) om onderzoek uit te voeren rondom de selectie en ontwikkeling van operators.
@@ -72,10 +72,11 @@ Hoofdonderzoeker van het project vanuit de RUG<br />
 Heymans Instituut voor Psychologisch onderzoek, afdeling Psychologie<br />
 Rijksuniversiteit Groningen<br />
 mail: j.r.den.hartigh@rug.nl<br />
+<br/>
 
-<h1>Toestemmingsverklaring</h1>
+<h2>Toestemmingsverklaring</h2>
 
-  <ol class="flow-text">
+  <ol>
     <li>
     Ik verklaar op een voor mij duidelijke wijze te zijn ingelicht over de aard en het doel van het
     onderzoek. Ik ben in de gelegenheid gesteld om vragen over het onderzoek te stellen en mijn

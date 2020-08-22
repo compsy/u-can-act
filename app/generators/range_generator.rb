@@ -31,6 +31,7 @@ class RangeGenerator < QuestionTypeGenerator
                      name: answer_name(idify(question[:id])),
                      min: minmax[:min].to_s,
                      max: minmax[:max].to_s,
+                     value: minmax[:min].to_s,
                      step: question[:step] || 1,
                      required: true)
     range_body = tag.p(range_body,

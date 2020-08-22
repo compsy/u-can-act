@@ -16,7 +16,10 @@ def create_ponder_question(id, title, negative, positive)
     type: :range,
     required: true,
     title: title,
-    labels: [negative, positive],
+    labels: [
+      sprintf('0 = %s', negative),
+      sprintf('100 = %s', positive)
+    ],
     min: 0,
     max: 100,
     step: 1
@@ -124,7 +127,7 @@ def create_medic_question()
           required: true,
           title: 'Hoeveel last had je?',
           # https://behandelaar.pijnbijkanker.nl/chronische-pijn/onderzoek/meet-methodes/vas
-          labels: ['geen pijn', 'ergst denkbare pijn'],
+          labels: ['0 = geen pijn', '10 = ergst denkbare pijn'],
           min: 0,
           max: 10,
           step: 1
@@ -148,7 +151,7 @@ def create_srss_question(title, examples)
     type: :range,
     required: true,
     title: sprintf('<b>%s</b>, bijvoorbeeld: %s.', title, examples),
-    labels: ['helemaal niet van toepassing', 'helemaal van toepassing'],
+    labels: ['0 = helemaal niet van toepassing', '6 = helemaal van toepassing'],
     min: 0,
     max: 6,
     step: 1
@@ -192,7 +195,7 @@ def create_sleep_question(id, title)
     type: :range,
     required: true,
     title: title,
-    labels: ['helemaal niet van toepassing', 'helemaal van toepassing'],
+    labels: ['1 = helemaal niet van toepassing', '5 = helemaal van toepassing'],
     min: 1,
     max: 5,
     step: 1

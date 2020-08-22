@@ -544,6 +544,7 @@ Required and allowed options (minimal example and maximal example):
   min: 0,
   max: 100,
   step: 1,
+  value: 50,
   required: true,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
@@ -553,6 +554,7 @@ Required and allowed options (minimal example and maximal example):
 ```
 The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. 
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
+The `value` denotes the default location for the slider, that is, the location of the slider when it is not yet changed by the user.
 If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
 
 ### Type: Raw

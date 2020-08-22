@@ -33,6 +33,18 @@ class RangeGenerator < QuestionTypeGenerator
                      max: minmax[:max].to_s,
                      step: question[:step] || 1,
                      required: true)
+    # TODO: Make this code prettier.
+    unless question[:value].nil?
+      range_body = tag(:input,
+                       type: 'range',
+                       id: idify(question[:id]),
+                       name: answer_name(idify(question[:id])),
+                       min: minmax[:min].to_s,
+                       max: minmax[:max].to_s,
+                       step: question[:step] || 1,
+                       required: true,
+                       value: question[:value])
+    end
     tag.p(range_body,
           class: 'range-field')
   end

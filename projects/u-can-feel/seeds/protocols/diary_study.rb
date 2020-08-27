@@ -27,6 +27,7 @@ diary_measurement.open_from_day = 'saturday' # shift to the next saturday at noo
 diary_measurement.period = 1.week # weekly for 44 weeks
 diary_measurement.open_duration = 36.hours # don't allow people to fill it out the next day
 diary_measurement.reminder_delay = 24.hours # send one reminder sunday at noon
+diary_measurement.redirect_url = '/klaar'
 diary_measurement.stop_measurement = false # filling out this measurement does not stop the protocol subscription
 diary_measurement.should_invite = true # send invitation (SMS and/or email)
 diary_measurement.save!

@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+def create_number_question()
+  {
+    id: :number,
+    type: :textfield,
+    required: false,
+    title: 'Wat is je cursist nummer?'
+  }
+end
+
 def create_weight_question()
   {
     id: :gewicht,
@@ -236,6 +245,7 @@ questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = 'start'
 
 content = [
+  create_number_question(),
   create_weight_question(),
   *create_monday_ponder_questions(),
   *create_srss_questions(),
@@ -256,6 +266,7 @@ questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = 'eind'
 
 content = [
+  create_number_question(),
   create_weight_question(),
   *create_friday_ponder_questions(),
   *create_medic_question(),

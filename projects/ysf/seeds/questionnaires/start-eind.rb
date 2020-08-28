@@ -242,7 +242,7 @@ title = 'Start van de week'
 name = 'KCT Start van de week'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
-questionnaire.key = 'start'
+questionnaire.key = 'ysf-start'
 
 content = [
   create_number_question(),
@@ -263,7 +263,7 @@ title = 'Eind van de week'
 name = 'KCT Eind van de week'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
-questionnaire.key = 'eind'
+questionnaire.key = 'ysf-eind'
 
 content = [
   create_number_question(),

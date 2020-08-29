@@ -105,8 +105,8 @@ def create_friday_ponder_questions()
     create_ponder_question(
       :prestatie,
       'Hoe goed heb jij deze week gepresteerd?',
-      'zeer slecht (ver beneden je kunnen)',
-      'maximaal (op de top van je kunnen)'
+      'ver beneden je kunnen',
+      'op de top van je kunnen'
     )
   ]
 end

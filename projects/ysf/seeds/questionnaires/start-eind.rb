@@ -156,7 +156,7 @@ def create_medic_question()
   ]
 end
 
-def create_medic_question()
+def create_event_question()
   [
     {
       id: :gebeurd_expandable,
@@ -304,7 +304,8 @@ content = [
   create_weight_question(),
   *create_monday_ponder_questions(),
   *create_srss_questions(),
-  *create_medic_question()
+  *create_medic_question(),
+  *create_event_question()
 ]
 
 questionnaire.content = { questions: content, scores: [] }

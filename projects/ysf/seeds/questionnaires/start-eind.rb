@@ -157,56 +157,46 @@ def create_medic_question()
 end
 
 def create_event_question()
-  [
-    {
-      id: :gebeurd_expandable,
-      type: :expandable,
-      title: 'Is er in de afgelopen week iets belangrijks gebeurd? Als je wil, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
-      add_button_label: 'Voeg gebeurtenis toe',
-      remove_button_label: 'Verwijder gebeurtenis',
-      content: [
-        {
-          id: :gebeurtenis,
-          type: :dropdown,
-          title: 'Waar was deze gebeurtenis aan gerelateerd?',
-          placeholder: 'Selecteer je antwoord...',
-          required: false,
-          options: [
-            'Mezelf',
-            'Thuissituatie/hechte familie/dierbaren',
-            'Vrienden/andere familie/kennissen',
-            'Maatschappij/nieuws',
-            'Het KCT/de opleiding',
-            'Anders'
-          ]
-        },
-        {
-          id: :gebeurtenis_valentie,
-          type: :range,
-          required: false,
-          title: 'Hoe negatief of positief was deze gebeurtenis?',
-          labels: ['0 = zeer negatief', '10 = zeer positief'],
-          min: 0,
-          max: 10,
-          step: 1
-        },
-        {
-          id: :gebeurtenis_tekst,
-          type: :textfield,
-          required: false,
-          title: 'Als je wil, kun je hieronder een toelichting geven'
-        }
-      ]
-    },
-    {
-      type: :raw,
-      content: '
-      <center>
-        <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
-      </center>
-      '
-    }
-  ]
+  {
+    id: :gebeurd_expandable,
+    type: :expandable,
+    title: 'Is er in de afgelopen week iets belangrijks gebeurd? Als je wil, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
+    add_button_label: 'Voeg gebeurtenis toe',
+    remove_button_label: 'Verwijder gebeurtenis',
+    content: [
+      {
+        id: :gebeurtenis,
+        type: :dropdown,
+        title: 'Waar was deze gebeurtenis aan gerelateerd?',
+        placeholder: 'Selecteer je antwoord...',
+        required: false,
+        options: [
+          'Mezelf',
+          'Thuissituatie/hechte familie/dierbaren',
+          'Vrienden/andere familie/kennissen',
+          'Maatschappij/nieuws',
+          'Het KCT/de opleiding',
+          'Anders'
+        ]
+      },
+      {
+        id: :gebeurtenis_valentie,
+        type: :range,
+        required: false,
+        title: 'Hoe negatief of positief was deze gebeurtenis?',
+        labels: ['0 = zeer negatief', '10 = zeer positief'],
+        min: 0,
+        max: 10,
+        step: 1
+      },
+      {
+        id: :gebeurtenis_tekst,
+        type: :textfield,
+        required: false,
+        title: 'Als je wil, kun je hieronder een toelichting geven'
+      }
+    ]
+  }
 end
 
 def create_srss_question(title, examples)
@@ -305,7 +295,7 @@ content = [
   *create_monday_ponder_questions(),
   *create_srss_questions(),
   *create_medic_question(),
-  *create_event_question()
+  create_event_question()
 ]
 
 questionnaire.content = { questions: content, scores: [] }

@@ -16,6 +16,8 @@ def create_weight_question()
     required: true,
     title: 'Wat is je gewicht?',
     placeholder: '... kilogram'
+    # pattern: '[0-9]{2,3}(,[0-9]{1,2})?',
+    # hint: 'Moet een getal zijn met 2 of 3 nummers, bijvoorbeeld 86 of 104'
   }
 end
 
@@ -140,6 +142,59 @@ def create_medic_question()
           min: 0,
           max: 10,
           step: 1
+        }
+      ]
+    },
+    {
+      type: :raw,
+      content: '
+      <center>
+        <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
+      </center>
+      '
+    }
+  ]
+end
+
+def create_medic_question()
+  [
+    {
+      id: :gebeurd_expandable,
+      type: :expandable,
+      title: 'Is er in de afgelopen week iets belangrijks gebeurd? Als je wil, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
+      add_button_label: 'Voeg gebeurtenis toe',
+      remove_button_label: 'Verwijder gebeurtenis',
+      content: [
+        {
+          id: :gebeurtenis,
+          type: :dropdown,
+          title: 'Waar was deze gebeurtenis aan gerelateerd?',
+          placeholder: 'Selecteer je antwoord...',
+          required: false,
+          options: [
+            'Mezelf',
+            'Thuissituatie/hechte familie/dierbaren',
+            'Vrienden/andere familie/kennissen',
+            'Maatschappij/nieuws',
+            'Het KCT/de opleiding',
+            'Anders'
+          ]
+        },
+        {
+          id: :gebeurtenis_valentie,
+          type: :range,
+          required: false,
+          title: 'Hoe negatief of positief was deze gebeurtenis?',
+          labels: ['0 = zeer negatief', '10 = zeer positief'],
+          min: 0,
+          max: 10,
+          step: 1
+        },
+        {
+          id: :gebeurtenis_tekst,
+          type: :textfield,
+          required: false,
+          title: 'Als je wil, kun je hieronder een toelichting geven'
         }
       ]
     },

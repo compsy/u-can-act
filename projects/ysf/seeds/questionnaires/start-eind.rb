@@ -160,7 +160,7 @@ def create_event_question()
   {
     id: :gebeurd_expandable,
     type: :expandable,
-    title: 'Is er in de afgelopen week iets belangrijks gebeurd? Als je wil, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
+    title: 'Is er in de afgelopen week iets belangrijks gebeurd? Zo ja, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
     add_button_label: 'Voeg gebeurtenis toe',
     remove_button_label: 'Verwijder gebeurtenis',
     content: [
@@ -174,8 +174,9 @@ def create_event_question()
           'Mezelf',
           'Thuissituatie/hechte familie/dierbaren',
           'Vrienden/andere familie/kennissen',
+          'Werk',
           'Maatschappij/nieuws',
-          'Het KCT/de opleiding',
+          'De opleiding bij het KCT',
           'Anders'
         ]
       },

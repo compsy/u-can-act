@@ -128,9 +128,9 @@ def create_medic_question()
           title: 'Waar had je last?',
           placeholder: 'Selecteer je antwoord...',
           required: true,
-          options: ['Hoofd', 'Hals/nek', 'Borst', 'Pols/hand', 'Buik', 'Schouder',
-            'Rug thoracaal (ter hoogte borst)', 'Lage rug', 'Bekken', 'Bovenbeen',
-            'Knie', 'Onderbeen', 'Enkel']
+          options: ['Hoofd', 'Hals/nek', 'Borst', 'Pols/hand', 'Buik', 'Lies', 'Scheenbeen', 'Schouder',
+            'Rug thoracaal (ter hoogte borst)', 'Arm/elleboog', 'Lage rug', 'Bekken', 'Bovenbeen', 'Hamstring',
+            'Knie', 'Kuit', 'Onderbeen', 'Enkel', 'Voet']
         },
         {
           id: :pijn,

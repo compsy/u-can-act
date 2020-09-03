@@ -52,6 +52,7 @@ days.each_with_index do |day, offset|
   general_daily_measurement.reward_points = 0
   general_daily_measurement.should_invite = true # send invitations
   general_daily_measurement.reminder_delay = 0 # don't send reminders
+  general_daily_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
   general_daily_measurement.save!
 end
 

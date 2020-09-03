@@ -19,7 +19,7 @@ bp_push_subscription.save!
 protocol.save!
 
 # Add questionnaires
-start_time = 12.hours
+start_time = 7.hours
 
 # Create a different measurement for each day
 days = %w(maandag dinsdag woensdag donderdag vrijdag zaterdag zondag)

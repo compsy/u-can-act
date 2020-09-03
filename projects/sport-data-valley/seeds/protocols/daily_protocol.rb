@@ -20,6 +20,7 @@ protocol.save!
 
 # Add questionnaires
 start_time = 7.hours
+reminder_offset = 9.hours # (start time + offset is the time at which the reminder is sent)
 
 # Create a different measurement for each day
 days = %w(maandag dinsdag woensdag donderdag vrijdag zaterdag zondag)
@@ -51,7 +52,7 @@ days.each_with_index do |day, offset|
   general_daily_measurement.open_duration = 1.days # Open for one day
   general_daily_measurement.reward_points = 0
   general_daily_measurement.should_invite = true # send invitations
-  general_daily_measurement.reminder_delay = 0 # don't send reminders
+  general_daily_measurement.reminder_delay = reminder_offset
   general_daily_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
   general_daily_measurement.save!
 end
@@ -69,6 +70,6 @@ sunday_measurement.period = 1.week # every sunday
 sunday_measurement.open_duration = 1.days # Open for one day
 sunday_measurement.reward_points = 0
 sunday_measurement.should_invite = true # send invitations
-sunday_measurement.reminder_delay = 0 # don't send reminders
+sunday_measurement.reminder_delay = reminder_offset
 sunday_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 sunday_measurement.save!

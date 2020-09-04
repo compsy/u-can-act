@@ -9,7 +9,7 @@ module Api
 
         def show_list
           auth_users = AuthUser.where(auth0_id_string: person_params[:person_auth0_ids])
-          render status: :ok, json: auth_users.map(&:person)
+          render status: :ok, json: auth_users.map(&:person), each_serializer: Api::PersonSerializer
         end
 
         def change_to_mentor

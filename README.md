@@ -141,6 +141,7 @@ However, a `.env.local` file is **not** included in the repository, and should b
 Since this file determines which project will run, it should at minimum have the following settings:
 
 `.env.local` minimum settings:
+
 ```
   PROJECT_NAME:      myproject
 
@@ -244,6 +245,7 @@ There are two types of measurements.
 Periodical and one-time measurements. 
 Periodical measurements are measurements that have a `period` that is not nil. 
 Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
+**See the measurement model for the most up to date documentation**.
 
 For non-periodical measurements, the `offset_until_end` is ignored.
 
@@ -255,6 +257,7 @@ Variable | Description
 `q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.
 `q.period` | Time between measurements.
 `q.open_from_offset` | What offset to apply before opening the protocol. 
+`q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
 ## Importing new students and mentors
@@ -812,6 +815,7 @@ Required and allowed options (minimal example and maximal example):
   type: :dropdown,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   label: 'RMC regio',
+  placeholder: 'Selecteer uw antwoord...',
   tooltip: 'some tooltip',
   options: [
     { title: 'hobby/sport', numeric_value: 0 },

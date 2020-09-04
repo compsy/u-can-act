@@ -8,10 +8,9 @@ default: &default
   project_start_date: '2020-09-01'
   project_end_date: '2021-09-01'
   logo:
-    mentor_logo: 'logo_mentor.png'
-    student_logo: 'logo_student.png'
-    fallback_logo: 'logo.png'
-    company_logo: 'rug_logo.png'
+    mentor_logo: 'rug_logo.png'
+    student_logo: 'rug_logo.png'
+    fallback_logo: 'rug_logo.png'
 development:
   <<: *default
 production:

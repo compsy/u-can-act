@@ -314,9 +314,7 @@ questionnaire.key = 'eind'
 
 content = [
   create_number_question(),
-  create_weight_question(),
   *create_friday_ponder_questions(),
-  *create_medic_question(),
   *create_sleep_questions()
 ]
 

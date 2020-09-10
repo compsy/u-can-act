@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 1.1.4'
@@ -19,20 +19,20 @@ gem 'redis'
 # Use Puma as the app server
 gem 'puma'
 # Use SCSS for stylesheets
-gem 'sass-rails'
+gem 'sass-rails', '>= 6.0.0'
 # Use HAML for templates
-gem 'haml-rails'
+gem 'haml-rails', '>= 2.0.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
+gem 'coffee-rails', '>= 5.0.0'
 
 # Use React for the UI
-gem 'react-rails'
+gem 'react-rails', '>= 2.6.1'
 gem 'react-source'
 
 # Use highcharts
-gem 'highcharts-rails'
+gem 'highcharts-rails', '>= 6.0.3'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
@@ -54,7 +54,7 @@ gem 'rack-cors'
 
 gem 'pry-rails'
 
-gem 'dotenv-rails'
+gem 'dotenv-rails', '>= 2.7.6'
 
 gem 'coveralls', require: false
 
@@ -71,7 +71,7 @@ gem 'messagebird-rest', require: 'messagebird'
 gem 'mailgun-ruby'
 
 gem 'active_interaction'
-gem 'active_model_serializers'
+gem 'active_model_serializers', '>= 0.10.10'
 
 # Gem for JWT / Authentication
 gem 'jwt'
@@ -90,20 +90,20 @@ gem 'snitcher'
 gem 'iban-tools'
 
 # Swagger
-gem 'rswag-api'
-gem 'rswag-ui'
+gem 'rswag-api', '>= 2.3.1'
+gem 'rswag-ui', '>= 2.3.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # Swagger
-  gem 'rswag-specs'
+  gem 'rswag-specs', '>= 2.3.1'
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 4.0.1'
 end
 
 group :test do
@@ -120,10 +120,10 @@ group :test do
   gem 'simplecov'
 
   # Used for gem mocking
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 6.1.0'
 
   # Test which template was rendered
-  gem 'rails-controller-testing'
+  gem 'rails-controller-testing', '>= 1.0.5'
 
   # Cleans the database after specs
   gem 'database_cleaner'
@@ -157,7 +157,7 @@ gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console'
+  gem 'web-console', '>= 3.7.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
@@ -171,15 +171,15 @@ gem 'silencer'
 gem 'materialize-sass'
 gem 'modernizr-rails'
 
-gem 'webpacker'
+gem 'webpacker', '>= 5.2.1'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
 gem 'i18n-js' # We still need this gem because it generates translations.js for us.
-gem 'rails-i18n'
+gem 'rails-i18n', '>= 5.1.3'
 
-gem 'lograge'
+gem 'lograge', '>= 0.11.2'
 gem 'remote_syslog_logger'
 
 gem 'appsignal'

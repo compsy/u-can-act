@@ -120,6 +120,7 @@ def create_medic_question()
       type: :expandable,
       title: 'Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen week klachten had en hoeveel last je had. Je kunt een plaats selecteren via de knop "Voeg plaats toe".',
       add_button_label: 'Voeg plaats toe',
+      max_expansions: 5,
       remove_button_label: 'Verwijder plaats',
       content: [
         {
@@ -160,6 +161,7 @@ def create_event_question()
   {
     id: :gebeurd_expandable,
     type: :expandable,
+    max_expansions: 5,
     title: 'Is er in de afgelopen week iets belangrijks gebeurd? Zo ja, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
     add_button_label: 'Voeg gebeurtenis toe',
     remove_button_label: 'Verwijder gebeurtenis',

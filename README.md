@@ -344,6 +344,7 @@ In this case:
         datum_lang                  <vandaag>                    1 november 2018
 ```
 So you can write a sentence as follows:
+
 ```
 Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} en
 {{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad.

@@ -63,7 +63,7 @@ questionnaires.each do |name|
   else
     db_measurement.open_from_day = 'wednesday'
     db_measurement.open_from_offset = 12.hours # Wednesday at 12:00.
-    db_measurement.open_duration = 3.days - 6.hours # Close Sunday at 06:00.
+    db_measurement.open_duration = 4.days - 6.hours # Close Sunday at 06:00.
   end
 
   db_measurement.save!

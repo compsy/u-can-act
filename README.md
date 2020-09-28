@@ -141,6 +141,7 @@ However, a `.env.local` file is **not** included in the repository, and should b
 Since this file determines which project will run, it should at minimum have the following settings:
 
 `.env.local` minimum settings:
+
 ```
   PROJECT_NAME:      myproject
 
@@ -343,6 +344,7 @@ In this case:
         datum_lang                  <vandaag>                    1 november 2018
 ```
 So you can write a sentence as follows:
+
 ```
 Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} en
 {{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad.

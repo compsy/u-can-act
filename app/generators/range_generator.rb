@@ -25,14 +25,17 @@ class RangeGenerator < QuestionTypeGenerator
 
   def range_slider(question)
     minmax = range_slider_minmax(question)
-    range_body = tag(:input,
-                     type: 'range',
-                     id: idify(question[:id]),
-                     name: answer_name(idify(question[:id])),
-                     min: minmax[:min].to_s,
-                     max: minmax[:max].to_s,
-                     step: question[:step] || 1,
-                     required: true)
+    question_options = {
+      type: 'range',
+      id: idify(question[:id]),
+      name: answer_name(idify(question[:id])),
+      min: minmax[:min].to_s,
+      max: minmax[:max].to_s,
+      step: question[:step] || 1,
+      required: true
+    }
+    question_options[:value] = question[:value] if question[:value].present?
+    range_body = tag(:input, question_options)
     tag.p(range_body,
           class: 'range-field')
   end

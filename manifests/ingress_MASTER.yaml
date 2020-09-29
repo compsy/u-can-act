@@ -29,4 +29,17 @@ spec:
         backend:
           serviceName: svc-questionnaires-service
           servicePort: 3000
-
+  - host: questionnaires.app.sportdatavalley.nl
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: svc-questionnaires-service
+          servicePort: 3000
+  - host: q.app.sportdatavalley.nl
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: svc-questionnaires-service
+          servicePort: 3000

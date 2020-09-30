@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RangeGenerator < QuestionTypeGenerator
+  include ConversionHelper
+
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     slider_body = range_slider(question)
@@ -25,19 +27,35 @@ class RangeGenerator < QuestionTypeGenerator
 
   def range_slider(question)
     minmax = range_slider_minmax(question)
+    step = question[:step] || 1
     question_options = {
       type: 'range',
       id: idify(question[:id]),
       name: answer_name(idify(question[:id])),
       min: minmax[:min].to_s,
       max: minmax[:max].to_s,
-      step: question[:step] || 1,
+      step: step,
       required: true
     }
     question_options[:value] = question[:value] if question[:value].present?
+    unless question[:ticks]
+      range_body = tag(:input, question_options)
+      return tag.p(range_body, class: 'range-field')
+    end
+    question_options[:list] = idify(question[:id], 'datalist')
     range_body = tag(:input, question_options)
-    tag.p(range_body,
-          class: 'range-field')
+    datalist = range_datalist(min: minmax[:min], max: minmax[:max], step: step)
+    range_datalist = content_tag(:datalist, datalist, id: idify(question[:id], 'datalist'))
+    body = safe_join([range_body, range_datalist])
+    tag.p(body, class: 'range-field with-ticks')
+  end
+
+  def range_datalist(min:, max:, step:)
+    body = []
+    (min..max).step(step).each do |option|
+      body << tag.option(number_to_string(option))
+    end
+    safe_join(body)
   end
 
   def range_labels(question)
@@ -54,7 +72,7 @@ class RangeGenerator < QuestionTypeGenerator
       labels_body << label_div(label, col_class, new_col_width, idx, label_count)
     end
     labels_body = safe_join(labels_body)
-    tag.div(labels_body, class: 'row')
+    tag.div(labels_body, class: 'row label-row')
   end
 
   def label_div(label, col_class, col_width, idx, label_count)

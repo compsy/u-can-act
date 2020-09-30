@@ -57,6 +57,7 @@ input[type=range] {
   padding-top: 15px;
   padding-bottom: 15px;
   margin-bottom: 0;
+  border: 1px solid transparent;
 }
 
 .notchanged {
@@ -86,6 +87,37 @@ input[type=range]::-ms-track {
 // Fix that it cuts off the top and bottom when dragging the scroll thumb in Firefox.
 input[type=range]:-moz-focusring {
   outline: none;
+}
+
+datalist {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -14px;
+  color: #6c757d;
+  padding-top: 0;
+  width: calc(100% - 21.5px);
+  margin-left: 10.5px;
+
+  option {
+    width: 2ex;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    background-image: image-url("tick.png");
+    background-position-y: top;
+    background-position-x: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+}
+
+.col .row.label-row {
+  width: calc(100% - 36px);
+  margin-left: 18px;
+  margin-right: 0;
+  .col {
+    padding: 0;
+  }
 }
 
 input[disabled].otherwise {
@@ -192,6 +224,9 @@ form .likert-scale {
       display: block;
     }
   }
+  &.with-ticks {
+    margin-bottom: 0;
+  }
 }
 
 // Fix range labels leaping off the screen
@@ -281,8 +316,8 @@ button[type="submit"] {
         position: relative;
       }
        &:after {
-        bottom: 0px;
-        right: 0px;
+        bottom: 0;
+        right: 0;
       }
        width: 100%;
       text-align: center;

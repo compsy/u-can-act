@@ -68,6 +68,15 @@ input[type=range] {
   input[type=range] + .thumb, input[type=range]::-webkit-slider-thumb {
     background-color: $unchanged-range-thumb;
   }
+  &.no-initial-thumb {
+    input[type=range]::-ms-thumb, input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
+      background: transparent;
+    }
+
+    input[type=range] + .thumb, input[type=range]::-webkit-slider-thumb {
+      background-color: transparent;
+    }
+  }
 }
 
 // Note: It doesn't work in Chrome (and possibly other browsers)
@@ -119,6 +128,39 @@ datalist {
     padding: 0;
   }
 }
+
+@media only screen and (min-width: 200px) {
+  .label-row {
+    font-size: 8px;
+  }
+}
+@media only screen and (min-width: 400px) {
+  .label-row {
+    font-size: 9px;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .label-row {
+    font-size: 11px;
+  }
+}
+@media only screen and (min-width: 800px) {
+  .label-row {
+    font-size: 13px;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  .label-row {
+    font-size: 14px;
+  }
+}
+@media only screen and (min-width: 1201px) {
+  .label-row {
+    font-size: 15px;
+  }
+}
+
+
 
 input[disabled].otherwise {
   cursor: pointer;

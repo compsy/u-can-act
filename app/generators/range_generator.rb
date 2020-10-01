@@ -7,7 +7,8 @@ class RangeGenerator < QuestionTypeGenerator
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     slider_body = range_slider(question)
     slider_body = tag.div(slider_body,
-                          class: "range-container notchanged#{question[:required].present? ? ' required' : ''}")
+                          class: "range-container notchanged#{question[:required].present? ? ' required' : ''}" \
+                                 "#{question[:no_initial_thumb].present? ? ' no-initial-thumb' : ''}")
     safe_join([
                 tag.p(title, class: 'flow-text'),
                 slider_body,
@@ -28,20 +29,30 @@ class RangeGenerator < QuestionTypeGenerator
   def range_slider(question)
     minmax = range_slider_minmax(question)
     step = question[:step] || 1
-    question_options = {
+    question_options = range_question_options(minmax: minmax, step: step, question: question)
+    question_options[:value] = question[:value] if question[:value].present?
+    unless question[:ticks]
+      range_body = tag(:input, question_options)
+      return tag.p(range_body, class: 'range-field')
+    end
+    range_slider_with_ticks(minmax: minmax, step: step, question: question, question_options: question_options)
+  end
+
+  def range_question_options(minmax:, step:, question:)
+    {
       type: 'range',
       id: idify(question[:id]),
       name: answer_name(idify(question[:id])),
       min: minmax[:min].to_s,
       max: minmax[:max].to_s,
       step: step,
-      required: true
+      required: question[:required].present?
     }
-    question_options[:value] = question[:value] if question[:value].present?
-    unless question[:ticks]
-      range_body = tag(:input, question_options)
-      return tag.p(range_body, class: 'range-field')
-    end
+  end
+
+  # Disabling this rubocop because tag.datalist is not a defined method.
+  # rubocop:disable Rails/ContentTag
+  def range_slider_with_ticks(minmax:, step:, question:, question_options:)
     question_options[:list] = idify(question[:id], 'datalist')
     range_body = tag(:input, question_options)
     datalist = range_datalist(min: minmax[:min], max: minmax[:max], step: step)
@@ -49,6 +60,7 @@ class RangeGenerator < QuestionTypeGenerator
     body = safe_join([range_body, range_datalist])
     tag.p(body, class: 'range-field with-ticks')
   end
+  # rubocop:enable Rails/ContentTag
 
   def range_datalist(min:, max:, step:)
     body = []
@@ -62,8 +74,7 @@ class RangeGenerator < QuestionTypeGenerator
     labels_body = []
     label_count = [question[:labels].size, 1].max
     col_class = 12 / label_count
-    col_width = 100.0 / label_count
-    col_width = 100.0 / (label_count - 1) if label_count > 3
+    col_width = col_width_from_label_count(label_count)
     question[:labels].each_with_index do |label, idx|
       new_col_width = col_width
       if label_count > 3
@@ -73,6 +84,12 @@ class RangeGenerator < QuestionTypeGenerator
     end
     labels_body = safe_join(labels_body)
     tag.div(labels_body, class: 'row label-row')
+  end
+
+  def col_width_from_label_count(label_count)
+    return 100.0 / (label_count - 1) if label_count > 3
+
+    100.0 / label_count
   end
 
   def label_div(label, col_class, col_width, idx, label_count)

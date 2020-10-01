@@ -235,6 +235,16 @@ function removeNotChanged () {
   $(this).closest('.notchanged').removeClass('notchanged').removeClass('erroneous');
 }
 
+const hideThumbs = () => {
+  for (const elem of document.querySelectorAll('.thumb.active')) {
+    setTimeout(() => {
+      elem.style.height = '0px'
+      elem.style.width = '0px'
+      elem.classList.remove('active')
+    }, 500)
+  }
+}
+
 function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
@@ -285,9 +295,7 @@ function questionnaireLoaded() {
     if (keyboardDoms.has(document.activeElement.nodeName) && !keyboardDoms.has(e.target.nodeName))
       document.activeElement.blur();
   });
-  $(document).on('touchend', 'body', function (_e) {
-    $('.thumb').removeClass('active');
-  });
+  $(document).on('touchend', 'body', hideThumbs);
 
   // Handle flash notices
   $('.flash-notice').delay(10000).slideUp('slow');

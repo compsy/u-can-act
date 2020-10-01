@@ -126,6 +126,12 @@ datalist {
   margin-right: 0;
   .col {
     padding: 0;
+    &.left-align {
+      transform: translateX(-17px);
+    }
+    &.right-align {
+      transform: translateX(17px);
+    }
   }
 }
 

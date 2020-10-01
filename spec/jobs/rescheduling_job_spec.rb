@@ -16,7 +16,8 @@ describe ReschedulingJob do
     it 'calls the reschedule responses use case with the correct parameters' do
       FactoryBot.create(:protocol_subscription, :canceled)
       protsub = FactoryBot.create(:protocol_subscription)
-      expect(RescheduleResponses).to receive(:run!).with(protocol_subscription: protsub)
+      expect(RescheduleResponses).to receive(:run!).with(protocol_subscription: protsub,
+                                                         future: kind_of(ActiveSupport::TimeWithZone))
       described_class.perform_now
     end
   end

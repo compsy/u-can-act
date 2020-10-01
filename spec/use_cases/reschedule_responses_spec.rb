@@ -5,17 +5,17 @@ require 'rails_helper'
 describe RescheduleResponses do
   describe 'execute' do
     let!(:protocol_subscription) { FactoryBot.create(:protocol_subscription) }
+    let!(:future) { TimeTools.increase_by_duration(Time.zone.now, 3.hours) }
 
     it 'runs everything inside a transaction' do
       expect(ActiveRecord::Base).to receive(:transaction) do |_options, &block|
         block.call # cannot set isolation level in nested transaction.
       end
-      described_class.run!(protocol_subscription: protocol_subscription)
+      described_class.run!(protocol_subscription: protocol_subscription, future: future)
     end
 
     describe 'should destroy all future responses' do
       it 'with the default future date' do
-        future = TimeTools.increase_by_duration(Time.zone.now, 3.hours)
         responses = []
         responses << FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                   open_from: future - 2.days)
@@ -25,7 +25,7 @@ describe RescheduleResponses do
                                      open_from: future)
         FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                      open_from: future + 1.day, completed_at: Time.zone.local(2018, 10, 10))
-        described_class.run!(protocol_subscription: protocol_subscription)
+        described_class.run!(protocol_subscription: protocol_subscription, future: future)
         responses.zip(Response.all).each do |local_response, other_response|
           expect(local_response).to eq other_response
         end
@@ -38,7 +38,7 @@ describe RescheduleResponses do
                                                   protocol: protocol,
                                                   start_date: 1.week.ago.at_beginning_of_day)
         Response.destroy_all
-        described_class.run!(protocol_subscription: protocol_subscription)
+        described_class.run!(protocol_subscription: protocol_subscription, future: future)
         expect(Response.count).to eq(4)
       end
 
@@ -126,7 +126,7 @@ describe RescheduleResponses do
         ).and_call_original
 
         expect(Response.count).to eq(1)
-        described_class.run!(protocol_subscription: protocol_subscription)
+        described_class.run!(protocol_subscription: protocol_subscription, future: future)
         expect(Response.count).to eq(1)
         expect(Response.all.first).to eq finished_response
       end
@@ -141,7 +141,7 @@ describe RescheduleResponses do
         ).and_call_original
 
         expect(Response.count).to eq(0)
-        described_class.run!(protocol_subscription: protocol_subscription)
+        described_class.run!(protocol_subscription: protocol_subscription, future: future)
         expect(Response.count).to eq(1)
         expect(Response.all.first.measurement).to eq measurement
         expect(Response.all.first.protocol_subscription).to eq protocol_subscription
@@ -175,7 +175,7 @@ describe RescheduleResponses do
         expect(Response.count).to eq(1)
         expect(protocol_subscription.responses.count).to eq(1)
 
-        described_class.run!(protocol_subscription: protocol_subscription)
+        described_class.run!(protocol_subscription: protocol_subscription, future: future)
         expect(Response.count).to eq(2)
         expect(Response.all.first.protocol_subscription).to eq protocol_subscription
         expect(Response.all.second.protocol_subscription).to eq protocol_subscription

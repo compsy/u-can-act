@@ -29,13 +29,13 @@ class RangeGenerator < QuestionTypeGenerator
   def range_slider(question)
     minmax = range_slider_minmax(question)
     step = question[:step] || 1
-    question_options = range_question_options(minmax: minmax, step: step, question: question)
-    question_options[:value] = question[:value] if question[:value].present?
+    range_options = range_question_options(minmax: minmax, step: step, question: question)
+    range_options[:value] = question[:value] if question[:value].present?
     unless question[:ticks]
-      range_body = tag(:input, question_options)
+      range_body = tag(:input, range_options)
       return tag.p(range_body, class: 'range-field')
     end
-    range_slider_with_ticks(minmax: minmax, step: step, question: question, question_options: question_options)
+    range_slider_with_ticks(minmax: minmax, step: step, question: question, range_options: range_options)
   end
 
   def range_question_options(minmax:, step:, question:)
@@ -52,9 +52,9 @@ class RangeGenerator < QuestionTypeGenerator
 
   # Disabling this rubocop because tag.datalist is not a defined method.
   # rubocop:disable Rails/ContentTag
-  def range_slider_with_ticks(minmax:, step:, question:, question_options:)
-    question_options[:list] = idify(question[:id], 'datalist')
-    range_body = tag(:input, question_options)
+  def range_slider_with_ticks(minmax:, step:, question:, range_options:)
+    range_options[:list] = idify(question[:id], 'datalist')
+    range_body = tag(:input, range_options)
     datalist = range_datalist(min: minmax[:min], max: minmax[:max], step: step)
     range_datalist = content_tag(:datalist, datalist, id: idify(question[:id], 'datalist'))
     body = safe_join([range_body, range_datalist])

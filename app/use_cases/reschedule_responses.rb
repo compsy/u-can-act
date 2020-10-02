@@ -2,7 +2,7 @@
 
 class RescheduleResponses < ActiveInteraction::Base
   object :protocol_subscription
-  time :future, default: TimeTools.increase_by_duration(Time.zone.now, 3.hours)
+  time :future
 
   # Reschedules future responses for a protocol subscription
   #
@@ -26,6 +26,8 @@ class RescheduleResponses < ActiveInteraction::Base
   def schedule_responses_for_measurement(measurement)
     measurement.response_times(protocol_subscription.start_date, protocol_subscription.end_date).each do |time|
       # TODO: We can speed this up by not scheduling responses that are too far in the future
+      #       But only for protocols that require rescheduling (e.g., periodical protocols).
+      #       Because for other protocols we schedule all responses at once and never do rescheduling.
       next if in_past? time
       next unless measurement_requires_scheduling? measurement
 

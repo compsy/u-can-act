@@ -59,4 +59,21 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Squash protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  # Create restq protocol instance
+  protocol = Protocol.find_by(name: 'restq')
+  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[1]
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now
+  )
+
+  invitation_set = InvitationSet.create!(person: person)
+
+  prot_sub.responses.first.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "Restq protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 end

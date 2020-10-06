@@ -2,7 +2,8 @@
 
 require 'csv'
 
-TIME_OFFSET = Time.zone.now.beginning_of_day - Time.zone.local(2019, 12, 13)
+TIME_OFFSET = Time.zone.now.beginning_of_day - Time.zone.local(2019, 12, 13) # good one
+# TIME_OFFSET = Time.zone.now.beginning_of_day - Time.zone.local(2020, 01, 24) # second set of data
 
 demo_organization = 'sport-data-valley'
 demo_team = 'sdv-team'

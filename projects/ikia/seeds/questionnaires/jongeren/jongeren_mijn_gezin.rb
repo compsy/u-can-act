@@ -524,7 +524,7 @@ Kies 1 van de 5 plaatjes',
     show_otherwise: false,
     section_end: true,
   }, {
-    section_start: 'Tot slot:',
+    section_start: 'Tot slot: Dit onderzoek gaat over geluk. Het coronavirus kan ook invloed hebben op je geluk. Daarom stellen we af en toe een vraag over corona.',
     id: :v21,
     type: :checkbox,
     title: 'Ken je iemand die het coronavirus heeft of heeft gehad?',

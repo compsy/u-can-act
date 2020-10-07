@@ -365,7 +365,7 @@ over de ontwikkeling of het gedrag van uw kind?',
     required: true,
     section_end: true
   }, {
-    section_start: 'Tot slot:',
+    section_start: 'Tot slot: Dit onderzoek gaat over geluk. Het coronavirus kan daar ook invloed op hebben. Daarom stellen we af en toe een vraag over het coronavirus.',
     id: :v20,
     type: :checkbox,
     title: 'Kent u iemand die het coronavirus heeft of heeft gehad?',

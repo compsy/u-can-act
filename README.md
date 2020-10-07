@@ -344,6 +344,7 @@ In this case:
         datum_lang                  <vandaag>                    1 november 2018
 ```
 So you can write a sentence as follows:
+
 ```
 Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} en
 {{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad.
@@ -545,7 +546,10 @@ Required and allowed options (minimal example and maximal example):
   min: 0,
   max: 100,
   step: 1,
+  value: 50,
   required: true,
+  ticks: true,
+  no_initial_thumb: true,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
@@ -554,6 +558,9 @@ Required and allowed options (minimal example and maximal example):
 ```
 The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. 
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
+The `value` denotes the default location for the slider, that is, the location of the slider when it is not yet changed by the user.
+If the `ticks` attribute is `true`, the slider will show ticks and values at each `step` (the default value for `ticks` is `false`).
+if the `no_initial_thumb` attribute is `true`, then the slider does not show an initial scrollthumb for unmodified range inputs. Only when the user changes the slider to set a value will the scrollthumb appear. (the default value for `no_initial_thumb` is `false`)
 If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
 
 ### Type: Raw

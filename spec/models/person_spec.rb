@@ -17,7 +17,7 @@ describe Person do
       expect(person.protocol_subscriptions).to be_blank
       expect(person.last_completed_response).to be_nil
     end
-    it 'returns the last completed response' do
+    it 'returns the last completed response', focus: true do
       person = FactoryBot.create(:person, :with_protocol_subscriptions)
 
       max_idx = 10
@@ -27,10 +27,7 @@ describe Person do
         response = FactoryBot.create(:response, completed_at: (10 + idx).days.ago.in_time_zone,
                                                 protocol_subscription: current_prot_sub)
         expected_response = response if idx == 0
-      end
-
-      # Create some not completed responses as well
-      max_idx.times.each do |_idx|
+        # Create some not completed responses as well
         FactoryBot.create(:response, protocol_subscription: current_prot_sub)
       end
 
@@ -40,7 +37,7 @@ describe Person do
       expect(person.last_completed_response).to eq expected_response
     end
 
-    it 'returns the last completed response if a person has multiple protocol subscriptions' do
+    it 'returns the last completed response if a person has multiple protocol subscriptions', focus: true do
       person = FactoryBot.create(:person)
       FactoryBot.create_list(:protocol_subscription, 10, person: person)
 
@@ -53,11 +50,8 @@ describe Person do
         max_idx.times.each do |idx|
           FactoryBot.create(:response, completed_at: (10 + idx).days.ago.in_time_zone,
                                        protocol_subscription: prot_sub)
+          FactoryBot.create(:response, protocol_subscription: prot_sub)
         end
-      end
-
-      person.protocol_subscriptions.each do |prot_sub|
-        max_idx.times.each { |_idx| FactoryBot.create(:response, protocol_subscription: prot_sub) }
       end
 
       expect(person.last_completed_response).not_to be_nil

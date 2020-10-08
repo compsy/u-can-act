@@ -114,7 +114,7 @@ RSpec.describe Reward, type: :model do
     end
 
     describe 'total_earned_euros' do
-      it 'works with one person' do
+      it 'works with one person', focus: true do
         protocol = FactoryBot.create(:protocol)
         FactoryBot.create(:measurement, protocol: protocol, open_from_offset: 0)
         FactoryBot.create(:measurement, :periodical, protocol: protocol)

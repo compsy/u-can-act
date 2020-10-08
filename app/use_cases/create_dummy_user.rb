@@ -57,7 +57,7 @@ class CreateDummyUser < ActiveInteraction::Base
   end
 
   def seed_person
-    @auth_user = AuthUser.find_by(auth0_id_string: auth0_id_string)
+    initialize_auth_user
     @person = nil
     @person = @auth_user.person if @auth_user.present?
     Person.find_by(email: email)&.destroy unless @person.present?
@@ -68,6 +68,10 @@ class CreateDummyUser < ActiveInteraction::Base
     @person.role = @role
     @person.account_active = true
     @person.save!
+  end
+
+  def initialize_auth_user
+    @auth_user = AuthUser.find_by(auth0_id_string: auth0_id_string)
   end
 
   def seed_auth_user

@@ -13,7 +13,7 @@ class QuestionnaireExporter
       @counter = 0
       Enumerator.new do |enum|
         export_questionnaire(questionnaire_content) do |line|
-          enum << line + "\n"
+          enum << "#{line}\n"
         end
       end
     end

@@ -63,17 +63,17 @@ describe AdminController, type: :controller do
       end
 
       it 'requires basic http auth' do
-        call_routes_and_expect_unauthorized(routes_list.map { |entry| entry[:route] })
+        call_routes_and_expect_unauthorized(routes_list.pluck(:route))
       end
 
       it 'requires the correct username' do
         basic_auth 'otherusername', 'admin'
-        call_routes_and_expect_unauthorized(routes_list.map { |entry| entry[:route] })
+        call_routes_and_expect_unauthorized(routes_list.pluck(:route))
       end
 
       it 'requires a correct password' do
         basic_auth 'admin', 'otherpassword'
-        call_routes_and_expect_unauthorized(routes_list.map { |entry| entry[:route] })
+        call_routes_and_expect_unauthorized(routes_list.pluck(:route))
       end
 
       context 'with an allowed action' do

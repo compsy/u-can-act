@@ -77,9 +77,7 @@ class RangeGenerator < QuestionTypeGenerator
     col_width = col_width_from_label_count(label_count)
     question[:labels].each_with_index do |label, idx|
       new_col_width = col_width
-      if label_count > 3
-        new_col_width /= 2.0 if idx.zero? || idx + 1 == label_count
-      end
+      new_col_width /= 2.0 if label_count > 3 && (idx.zero? || idx + 1 == label_count)
       labels_body << label_div(label, col_class, new_col_width, idx, label_count)
     end
     labels_body = safe_join(labels_body)

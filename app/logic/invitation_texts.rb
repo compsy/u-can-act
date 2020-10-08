@@ -191,7 +191,7 @@ class InvitationTexts
     end
 
     def completed_some?(protocol_completion)
-      protocol_completion.map { |x| x[:completed] }.any?
+      protocol_completion.pluck(:completed).any?
     end
 
     def missed_first_two_responses(protocol_completion, curidx)
@@ -226,14 +226,14 @@ class InvitationTexts
       curidx > 3 &&
         !protocol_completion[curidx - 1][:completed] &&
         !protocol_completion[curidx - 2][:completed] &&
-        protocol_completion[1..(curidx - 3)].map { |x| x[:completed] }.any?
+        protocol_completion[1..(curidx - 3)].pluck(:completed).any?
     end
 
     def missed_everything(protocol_completion, curidx)
       # Minimal pattern: V.C           (V = voormeting, X = completed, C = current)
       #           index: 012
       curidx > 1 &&
-        protocol_completion[1..(curidx - 1)].map { |x| x[:completed] }.none?
+        protocol_completion[1..(curidx - 1)].pluck(:completed).none?
     end
 
     def rejoined_after_missing_one(protocol_completion, curidx)
@@ -252,7 +252,7 @@ class InvitationTexts
         protocol_completion[curidx - 1][:completed] &&
         !protocol_completion[curidx - 2][:completed] &&
         !protocol_completion[curidx - 3][:completed] &&
-        protocol_completion[1..(curidx - 4)].map { |x| x[:completed] }.any?
+        protocol_completion[1..(curidx - 4)].pluck(:completed).any?
     end
 
     def streak_size

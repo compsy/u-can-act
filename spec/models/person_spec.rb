@@ -27,10 +27,7 @@ describe Person do
         response = FactoryBot.create(:response, completed_at: (10 + idx).days.ago.in_time_zone,
                                                 protocol_subscription: current_prot_sub)
         expected_response = response if idx == 0
-      end
-
-      # Create some not completed responses as well
-      max_idx.times.each do |_idx|
+        # Create some not completed responses as well
         FactoryBot.create(:response, protocol_subscription: current_prot_sub)
       end
 
@@ -53,11 +50,8 @@ describe Person do
         max_idx.times.each do |idx|
           FactoryBot.create(:response, completed_at: (10 + idx).days.ago.in_time_zone,
                                        protocol_subscription: prot_sub)
+          FactoryBot.create(:response, protocol_subscription: prot_sub)
         end
-      end
-
-      person.protocol_subscriptions.each do |prot_sub|
-        max_idx.times.each { |_idx| FactoryBot.create(:response, protocol_subscription: prot_sub) }
       end
 
       expect(person.last_completed_response).not_to be_nil

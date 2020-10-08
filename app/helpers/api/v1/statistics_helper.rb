@@ -9,7 +9,7 @@ module Api
         role_ids = Role.where(group: group).pluck(:id)
         person_ids = Person.where(role: role_ids).pluck(:id)
         ProtocolSubscription
-          .where('informed_consent_given_at IS NOT NULL')
+          .where.not(informed_consent_given_at: nil)
           .where(person_id: person_ids)
           .group(:person_id).count.count
       end

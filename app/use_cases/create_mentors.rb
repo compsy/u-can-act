@@ -18,6 +18,7 @@ class CreateMentors < ActiveInteraction::Base
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def parse_mentors(mentors, plain_text_parser)
     mentors.map do |mentor|
       {
@@ -35,6 +36,7 @@ class CreateMentors < ActiveInteraction::Base
       }
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def create_mentors(mentors)
     number_of_mentors = 0

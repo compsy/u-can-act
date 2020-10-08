@@ -101,12 +101,16 @@ class RandomResponseGenerator
       if question[:required].blank? && rand < 1.0 / cur_titles.size
         # don't fill out anything
       else
-        nr_checked = rand(1..cur_titles.size)
-        cur_titles.shuffle[0...nr_checked].each do |title|
-          @response[idify(question[:id], title)] = 'true'
-        end
+        check_random_amount_of_checkbox_options(question, cur_titles)
       end
       raise MyRandomResponseError, 'We already added our own responses'
+    end
+
+    def check_random_amount_of_checkbox_options(question, cur_titles)
+      nr_checked = rand(1..cur_titles.size)
+      cur_titles.shuffle[0...nr_checked].each do |title|
+        @response[idify(question[:id], title)] = 'true'
+      end
     end
   end
 end

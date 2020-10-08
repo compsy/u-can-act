@@ -186,9 +186,9 @@ RSpec.describe Organization, type: :model do
 
     it 'sums correctly' do
       result = described_class.summarize_organization_data(organization_data)
-
+      attributes = %i[completed missing]
       [Person::MENTOR, Person::STUDENT].each do |person|
-        %i[completed missing].each do |key|
+        attributes.each do |key|
           sum = organization_data.map { |entry| entry[person][key] }.sum
           expect(result[person][key]).to eq sum
         end

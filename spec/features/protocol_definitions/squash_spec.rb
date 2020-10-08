@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-fdescribe 'squash protocol', type: :request do
+describe 'squash protocol', type: :request do
   before(:each) do
     basic_auth 'admin', 'admin'
   end

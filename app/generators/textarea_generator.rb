@@ -16,8 +16,7 @@ class TextareaGenerator < QuestionTypeGenerator
                        textarea_label(question)
                      ])
     body = tag.div(body, class: 'input-field col s12')
-    body = tag.div(body, class: 'row')
-    body
+    tag.div(body, class: 'row')
   end
 
   def textarea_tag(question)

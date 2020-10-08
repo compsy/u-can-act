@@ -32,25 +32,25 @@ dagboek_content = [
     id: :v3_a,
     type: :range,
     hidden: true,
-    title: 'De volgende 4 vragen gaan over degene met wie je verkering hebt. Verschuif de slider om aan te geven hoeveel je het eens of oneens bent met elke zin. <br><br> Mijn vriendje/vriendinnetje is er voor mij als ik hem of haar nodig heb',
+    title: 'De volgende 4 vragen gaan over degene met wie je verkering hebt. Verschuif de slider om aan te geven hoeveel je het eens of oneens bent met elke zin. <br><br> Mijn vriend/vriendin is er voor mij als ik hem of haar nodig heb',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3_b,
     type: :range,
     hidden: true,
-    title: 'Ik kan mooie én verdrietige dingen delen met mijn vriendje/vriendinnetje',
+    title: 'Ik kan mooie én verdrietige dingen delen met mijn vriend/vriendin',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3_c,
     type: :range,
     hidden: true,
-    title: 'Mijn vriendje/vriendinnetje is echt een steun voor mij',
+    title: 'Mijn vriend/vriendin steunt mij echt',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3_d,
     type: :range,
     hidden: true,
-    title: 'Mijn vriendje/vriendinnetje geeft om mijn gevoelens',
+    title: 'Mijn vriend/vriendin geeft om mijn gevoelens',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     type: :raw,
@@ -114,13 +114,13 @@ dagboek_content = [
   }, {
     id: :v15,
     type: :range,
-    title: 'Mijn klasgenoten respecteren mij',
+    title: 'Mijn klasgenoten behandelen mij met respect',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     type: :raw,
     content: '<p class="flow-text">De volgende vragen gaan over pesten. Pesten is dat één of meer kinderen een ander kind keer op keer lastig vallen. Pesten is dus, dat je steeds opnieuw vervelend doet tegen iemand anders. Voor degene die gepest wordt is het moeilijk om zich te verdedigen. <br><br>
 
-        Pesten is dus niet een ruzie tussen één of meer kinderen die ongeveer even sterk zijn. Pesten is ook niet plagen om een geintje. Pesten is als je steeds opnieuw vervelend doet tegen iemand anders.
+    Pesten is dus niet een ruzie tussen één of meer kinderen die ongeveer even sterk zijn. Pesten is ook niet plagen om een geintje. Pesten is als je steeds opnieuw vervelend doet tegen iemand anders.
     </p>'
   }, {
     id: :v16,
@@ -212,7 +212,7 @@ dagboek_content = [
     hidden: true,
     required: true,
     title: 'Aan wie heb je het verteld? Je kunt meerdere mensen aankruisen.',
-    options: ['Mijn mentor', 'Een andere volwassene op school', 'Mijn ouder(s) of verzorger(s)', 'Een broer of zus', 'Een vriend of vriendin', 'Iemand anders']
+    options: ['Mijn mentor', 'Een andere volwassene op school (bijvoorbeeld de jeugdverpleegkundige)', 'Mijn ouder(s) of verzorger(s)', 'Een broer of zus', 'Een vriend of vriendin', 'Iemand anders']
   }, {
     id: :v23,
     type: :radio,
@@ -247,24 +247,23 @@ dagboek_content = [
     id: :v26,
     type: :radio,
     show_otherwise: false,
-    title: 'Hoe vaak proberen leraren of andere volwassenen op school er iets aan te doen als een leerling gepest wordt op school?',
+    title: 'Hoe vaak proberen leraren of andere volwassenen op school het pesten te stoppen als een leerling gepest wordt op school?',
     options: ['Bijna nooit', 'Zo nu en dan', 'Soms', 'Meestal', 'Bijna altijd']
   }, {
     id: :v27,
     type: :radio,
     show_otherwise: false,
-    title: 'Hoe vaak proberen andere leerlingen er iets aan te doen als een leerling gepest wordt op school?',
+    title: 'Hoe vaak proberen andere leerlingen het pesten te stoppen als een leerling gepest wordt op school?',
     options: ['Bijna nooit', 'Zo nu en dan', 'Soms', 'Meestal', 'Bijna altijd']
   }, {
     id: :v28,
     type: :radio,
     show_otherwise: false,
-    title: 'Hoeveel heeft je mentor de afgelopen maanden gedaan om pesten tegen te gaan?',
+    title: 'Hoeveel denk je dat je mentor de afgelopen maanden heeft gedaan om pesten tegen te gaan?',
     options: ['Niets of zo goed als niets', 'Weinig', 'Een beetje', 'Behoorlijk veel', 'Heel veel']
   }
-
-
 ]
+
 
 dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title

@@ -15,6 +15,8 @@ module Api
                :end_date,
                :name,
                :questionnaires,
+               :first_name,
+               :auth0_id_string,
                :id
 
     def completion
@@ -35,8 +37,18 @@ module Api
       object.person.role.group
     end
 
+    def auth0_id_string
+      return object.person.auth_user.auth0_id_string if object.person.auth_user.present?
+
+      ''
+    end
+
     def max_still_awardable_euros
       object.max_still_earnable_reward_points
+    end
+
+    def first_name
+      object.person.first_name
     end
 
     def name
@@ -45,7 +57,7 @@ module Api
 
     def questionnaires
       object.protocol.measurements.map do |measurement|
-        measurement.questionnaire.title
+        measurement.questionnaire.title.presence || measurement.questionnaire.key.humanize
       end
     end
 

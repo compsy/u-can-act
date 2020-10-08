@@ -7,10 +7,12 @@ diary_protocol = Protocol.find_by(name: pr_name)
 diary_protocol ||= Protocol.new(name: pr_name)
 diary_protocol.duration = 44.weeks
 diary_protocol.invitation_text = 'Je wekelijkse vragenlijst staat voor je klaar. Klik op de volgende link om deze in te vullen.'
+# Je kunt alleen meedoen aan de dagboekstudie als je ook mee hebt gedaan aan de cross-sectionele vragenlijsten.
 
-ic_name = 'informed_consent'
-diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
-raise "informed consent questionnaire #{ic_name} not found" unless diary_protocol.informed_consent_questionnaire
+diary_protocol.informed_consent_questionnaire_id = nil
+# ic_name = 'informed_consent'
+# diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
+# raise "informed consent questionnaire #{ic_name} not found" unless diary_protocol.informed_consent_questionnaire
 
 diary_protocol.save!
 
@@ -25,6 +27,7 @@ diary_measurement.open_from_day = 'saturday' # shift to the next saturday at noo
 diary_measurement.period = 1.week # weekly for 44 weeks
 diary_measurement.open_duration = 36.hours # don't allow people to fill it out the next day
 diary_measurement.reminder_delay = 24.hours # send one reminder sunday at noon
+diary_measurement.redirect_url = '/klaar'
 diary_measurement.stop_measurement = false # filling out this measurement does not stop the protocol subscription
 diary_measurement.should_invite = true # send invitation (SMS and/or email)
 diary_measurement.save!

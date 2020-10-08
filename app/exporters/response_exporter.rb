@@ -62,9 +62,8 @@ class ResponseExporter
 
     def sort_and_add_default_header_fields(headers)
       headers = headers.keys.sort { |x, y| format_key(x) <=> format_key(y) }
-      headers = %w[response_id filled_out_by_id filled_out_for_id protocol_subscription_id measurement_id] +
-                %w[invitation_set_id open_from opened_at completed_at created_at updated_at] + headers
-      headers
+      %w[response_id filled_out_by_id filled_out_for_id protocol_subscription_id measurement_id] +
+        %w[invitation_set_id open_from opened_at completed_at created_at updated_at] + headers
     end
 
     def response_hash(response)

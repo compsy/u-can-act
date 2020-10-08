@@ -1,11 +1,18 @@
-# u-can-act
-Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
-Ook in gebruik als _back end_ voor <https://iederkindisanders.nl/> en <https://yourspecialforces.nl>.
+<h1 align="center">
+  u-can-act
+</h1>
 
-[![DOI][zenodo-image]][zenodo-url]
-[![Circle CI][circleci-image]][circleci-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependabot Status][dependabot-image]][dependabot-url]
+<p align="center">
+  Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
+  Ook in gebruik als <i>back end</i> voor <a href="https://iederkindisanders.nl">Ieder Kind is Anders</a> en <a href="https://yourspecialforces.nl">Your Special Forces</a>.
+</p>
+
+<p align="center">
+  <a href="https://zenodo.org/badge/latestdoi/84442919"><img src="https://zenodo.org/badge/84442919.svg"></a>
+  <a href="https://circleci.com/gh/compsy/u-can-act"><img src="https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a"></a>
+  <a href="https://coveralls.io/github/compsy/u-can-act?branch=master"><img src="https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master"></a>
+  <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act"></a>
+</p>
 
 Table of Contents
 =================
@@ -134,6 +141,7 @@ However, a `.env.local` file is **not** included in the repository, and should b
 Since this file determines which project will run, it should at minimum have the following settings:
 
 `.env.local` minimum settings:
+
 ```
   PROJECT_NAME:      myproject
 
@@ -237,6 +245,7 @@ There are two types of measurements.
 Periodical and one-time measurements. 
 Periodical measurements are measurements that have a `period` that is not nil. 
 Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
+**See the measurement model for the most up to date documentation**.
 
 For non-periodical measurements, the `offset_until_end` is ignored.
 
@@ -248,6 +257,7 @@ Variable | Description
 `q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.
 `q.period` | Time between measurements.
 `q.open_from_offset` | What offset to apply before opening the protocol. 
+`q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
 ## Importing new students and mentors
@@ -334,6 +344,7 @@ In this case:
         datum_lang                  <vandaag>                    1 november 2018
 ```
 So you can write a sentence as follows:
+
 ```
 Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} en
 {{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad.
@@ -535,7 +546,10 @@ Required and allowed options (minimal example and maximal example):
   min: 0,
   max: 100,
   step: 1,
+  value: 50,
   required: true,
+  ticks: true,
+  no_initial_thumb: true,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
   labels: ['helemaal niet duidelijk', 'heel duidelijk'],
@@ -544,6 +558,9 @@ Required and allowed options (minimal example and maximal example):
 ```
 The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. 
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
+The `value` denotes the default location for the slider, that is, the location of the slider when it is not yet changed by the user.
+If the `ticks` attribute is `true`, the slider will show ticks and values at each `step` (the default value for `ticks` is `false`).
+if the `no_initial_thumb` attribute is `true`, then the slider does not show an initial scrollthumb for unmodified range inputs. Only when the user changes the slider to set a value will the scrollthumb appear. (the default value for `no_initial_thumb` is `false`)
 If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
 
 ### Type: Raw
@@ -804,6 +821,7 @@ Required and allowed options (minimal example and maximal example):
   type: :dropdown,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   label: 'RMC regio',
+  placeholder: 'Selecteer uw antwoord...',
   tooltip: 'some tooltip',
   options: [
     { title: 'hobby/sport', numeric_value: 0 },
@@ -946,14 +964,5 @@ The `preprocessing` key is optional, and if provided, should be a hash with a (s
 }
 ```
 
-[zenodo-image]: https://zenodo.org/badge/84442919.svg
-[zenodo-url]: https://zenodo.org/badge/latestdoi/84442919
 
-[circleci-image]: https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
-[circleci-url]: https://circleci.com/gh/compsy/u-can-act
 
-[coveralls-image]: https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/compsy/u-can-act?branch=master
-
-[dependabot-image]: https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act
-[dependabot-url]: https://dependabot.com

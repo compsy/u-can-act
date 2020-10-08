@@ -13,7 +13,10 @@ class NextPageFinder
       # If we come from an OTR, we never want to be redirected to the next response lined up
       return klaar_path if previous_response&.protocol&.otr_protocol?
 
-      next_response ||= current_user.my_open_responses.first
+      # If the person is a mentor, then we don't want to automatically redirect to responses filled out for other users.
+      # If the person is not a mentor, then we do (because we use the filling out for another person as a way to give
+      # another person access to the questionnaire response).
+      next_response ||= current_user.my_open_responses(current_user.mentor?).first
 
       # We only want to schedule OTRs when we're not in a normal questionnaire
       next_response ||= current_user.my_open_one_time_responses(true).first if previous_response.blank?

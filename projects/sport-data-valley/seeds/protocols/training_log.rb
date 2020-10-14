@@ -37,3 +37,4 @@ protocol = Protocol.find_by(name: pr_name)
 token = pr_name
 otr = OneTimeResponse.find_by(token: token)
 otr ||= OneTimeResponse.create!(token: token, protocol: protocol)
+puts "Training log: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"

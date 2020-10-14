@@ -9,7 +9,7 @@ class ObjectExporter
       Enumerator.new do |enum|
         export(klass, formatted_fields, default_fields) do |line|
           # Encode to ISO-8859-1 because Excel can't handle UTF-8 for some reason.
-          enum << line.encode('ISO-8859-1', 'UTF-8', invalid: :replace, undef: :replace) + "\n"
+          enum << "#{line.encode('ISO-8859-1', 'UTF-8', invalid: :replace, undef: :replace)}\n"
         end
       end
     end

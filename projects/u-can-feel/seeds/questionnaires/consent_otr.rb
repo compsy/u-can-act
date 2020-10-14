@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-db_title = 'Informed consent questionnaire'
+db_title = 'Toestemmingsformulier voor het onderzoek'
 db_name1 = 'consent_otr'
 dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
@@ -30,13 +30,13 @@ ic_content_ouders = <<~'END'
     <p>
       Het onderzoek loopt van 1 september 2020 tot april 2023. Het wordt gedaan door de afdeling Psychologie van de
       Rijksuniversiteit Groningen. Het onderzoeksplan is ook goedgekeurd door de ethische commissie van de afdeling
-      Psychologie. De verantwoordelijke onderzoekers zijn: dr. Ymkje Anna de Vries (afdeling
+      Psychologie (PSY-1920-S-0429). De verantwoordelijke onderzoekers zijn: dr. Ymkje Anna de Vries (afdeling
       Psychologie) en dr. Bert Wienen (Hogeschool Windesheim Zwolle).
     </p>
     <p><strong><i class='material-icons'>chevron_right</i> Moet mijn kind meedoen aan dit onderzoek?</strong></p>
     <p>Meedoen aan het onderzoek is vrijwillig. Wel is toestemming nodig van zowel u als uw kind. Lees deze informatie
       daarom goed door. Stel alle vragen die u misschien heeft, bijvoorbeeld omdat u iets niet begrijpt. U kunt vragen
-      stellen aan de contactpersoon op uw school of aan de onderzoekers. Pas daarna besluit u of uw kind mee doet. Als u
+      stellen aan de contactpersoon op de school van uw kind of aan de onderzoekers. Pas daarna besluit u of uw kind mee doet. Als u
       besluit dat uw kind niet mee doet, hoeft u niet uit te leggen waarom, en zal dit geen negatieve gevolgen voor u of
       uw kind hebben op school. Dit recht geldt op elk moment, dus ook nadat u hebt toegestemd in deelname aan het
       onderzoek.
@@ -51,7 +51,7 @@ ic_content_ouders = <<~'END'
     <p>
       Allereerst vragen we toestemming van zowel u als uw kind. Als u en uw kind toestemming geven, vragen wij uw kind de
       komende twee jaar elk half jaar om een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in
-      september 2020.
+      oktober 2020.
     </p>
     <p>
       De vragenlijst gaat over de gevoelens van uw kind en dingen die uw kind meemaakt, bijvoorbeeld op school. Het
@@ -81,7 +81,7 @@ ic_content_ouders = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Hoe gaan we met uw gegevens om?</strong></p>
     <p>
       Om het onderzoek goed uit te kunnen voeren, is het nodig dat wij wat persoonsgegevens van uw kind verzamelen.
-      Bijvoorbeeld zijn/haar naam, leerlingnummer en telefoon-nummer. Zo kunnen wij opnieuw contact opnemen met uw kind.
+      Bijvoorbeeld zijn/haar naam, leerlingnummer en telefoonnummer. Zo kunnen wij opnieuw contact opnemen met uw kind.
       We vernietigen deze gegevens op 1 april 2023. Ook gaat het om de antwoorden op de vragenlijsten.
     </p>
     <p>
@@ -182,7 +182,7 @@ ic_content_16_plus = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Wat vragen we van je tijdens het onderzoek?</strong></p>
     <p>
       Allereerst vragen we jouw toestemming. Als je toestemming geeft, vragen wij je om de komende twee jaar elk half jaar
-      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is nu.
+      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in oktober 2020.
     </p>
     <p>
       De vragenlijst gaat over hoe het met jou gaat en dingen die je meemaakt, bijvoorbeeld op school. Het invullen zal
@@ -315,7 +315,7 @@ dagboek_content = [
     required: true,
     title: 'Toestemming voor het ontvangen en koppelen van verzuimgegevens',
     options: [
-      'Ja, ik geef toestemming aan de school om mijn verzuimgegevens te delen met de onderzoekers.',
+      'Ja, ik geef toestemming aan de school om de verzuimgegevens van mijn kind te delen met de onderzoekers.',
       'Nee, ik geef geen toestemming voor het koppelen van verzuimgegevens.'
     ],
     show_otherwise: false
@@ -356,13 +356,13 @@ dagboek_content = [
     title: 'Emailadres van uw kind',
     pattern: EMAIL_REGEX,
     hint: 'Vul a.u.b. een geldig e-mailadres in.',
-    required: false
+    required: true
   }, {
     id: :v10parent,
     hidden: true,
     type: :textfield,
     title: 'Leerlingnummer van uw kind',
-    required: false
+    required: true
   }, {
     id: :v11parent,
     hidden: true,
@@ -418,13 +418,13 @@ dagboek_content = [
     title: 'Wat is je emailadres?',
     pattern: EMAIL_REGEX,
     hint: 'Vul a.u.b. een geldig e-mailadres in.',
-    required: false
+    required: true
   }, {
     id: :v8child,
     hidden: true,
     type: :textfield,
     title: 'Wat is je leerlingnummer?',
-    required: false
+    required: true
   }, {
     id: :v9child,
     hidden: true,

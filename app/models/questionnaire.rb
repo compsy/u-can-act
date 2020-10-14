@@ -4,13 +4,15 @@ class Questionnaire < ApplicationRecord
   include ConversionHelper
   KNOWN_OPERATIONS = %i[average].freeze
   OPTIONS_REQUIRED_FOR = %i[checkbox likert radio dropdown].freeze
+  QUESTIONS_WITHOUT_TITLES = %i[raw unsubscribe].freeze
+  RANGE_QUESTION_TYPES = %i[range].freeze
 
   # This is an ordered array of known preprocessing steps
   PREPROCESSING_STEPS = [
     { name: :multiply_with, method: :* },
     { name: :offset, method: :+ }
   ].freeze
-  PREPROCESSING_STEP_NAMES = PREPROCESSING_STEPS.map { |step| step[:name] }.freeze
+  PREPROCESSING_STEP_NAMES = PREPROCESSING_STEPS.pluck(:name).freeze
 
   validates :name, presence: true, uniqueness: true
   validates :content, presence: true
@@ -66,7 +68,7 @@ class Questionnaire < ApplicationRecord
   })
 
   def drawing_ids
-    content[:questions].select { |question| question[:type]&.to_sym == :drawing }.map { |question| question[:id] }
+    content[:questions].select { |question| question[:type]&.to_sym == :drawing }.pluck(:id)
   end
 
   def recalculate_scores!
@@ -98,8 +100,8 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_content_ids_unique
-    question_ids = content[:questions].map { |entry| entry[:id] }
-    score_ids = content[:scores].map { |entry| entry[:id] }
+    question_ids = content[:questions].pluck(:id)
+    score_ids = content[:scores].pluck(:id)
     ids = (question_ids + score_ids).compact
     result = ids.detect { |entry| ids.count(entry) > 1 }
     return if result.blank?
@@ -108,16 +110,16 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_questions_have_types
-    result = content[:questions].select { |question| question[:type].blank? }.map { |question| question[:id] }
+    result = content[:questions].select { |question| question[:type].blank? }.pluck(:id)
     return if result.blank?
 
     errors.add(:content, "the following questions are missing the required :type attribute: #{result.pretty_inspect}")
   end
 
   def all_questions_have_titles
-    result = content[:questions].reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
+    result = content[:questions].reject { |question| QUESTIONS_WITHOUT_TITLES.include?(question[:type]&.to_sym) }
                                 .reject { |question| question.key?(:title) }
-                                .map { |question| question[:id] }
+                                .pluck(:id)
     return if result.blank?
 
     errors.add(:content, "the following questions are missing the required :title attribute: #{result.pretty_inspect}")
@@ -126,7 +128,7 @@ class Questionnaire < ApplicationRecord
   def all_shows_questions_ids_valid
     result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
                                 .reject { |question| valid_option_ids?(question, :shows_questions, [true]) }
-                                .map { |question| question[:id] }
+                                .pluck(:id)
     return if result.blank?
 
     errors.add(:content,
@@ -136,7 +138,7 @@ class Questionnaire < ApplicationRecord
   def all_hides_questions_ids_valid
     result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
                                 .reject { |question| valid_option_ids?(question, :hides_questions, nil) }
-                                .map { |question| question[:id] }
+                                .pluck(:id)
     return if result.blank?
 
     errors.add(:content,
@@ -144,18 +146,18 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_questions_have_ids
-    result = content[:questions].reject { |question| %i[raw unsubscribe].include?(question[:type]&.to_sym) }
+    result = content[:questions].reject { |question| QUESTIONS_WITHOUT_TITLES.include?(question[:type]&.to_sym) }
                                 .reject { |question| question.key?(:id) }
-                                .map { |question| question[:title] }
+                                .pluck(:title)
     return if result.blank?
 
     errors.add(:content, "the following questions are missing the required :id attribute: #{result.pretty_inspect}")
   end
 
   def all_ranges_have_labels
-    result = content[:questions].select { |question| %i[range].include?(question[:type]&.to_sym) }
+    result = content[:questions].select { |question| RANGE_QUESTION_TYPES.include?(question[:type]&.to_sym) }
                                 .reject { |question| non_empty_array?(question, :labels) }
-                                .map { |question| question[:id] }
+                                .pluck(:id)
     return if result.blank?
 
     errors.add(:content, 'the following range type questions are missing the required :labels' \
@@ -165,7 +167,7 @@ class Questionnaire < ApplicationRecord
   def all_likert_radio_checkbox_dropdown_have_options
     result = content[:questions].select { |question| OPTIONS_REQUIRED_FOR.include?(question[:type]&.to_sym) }
                                 .reject { |question| non_empty_array?(question, :options) }
-                                .map { |question| question[:id] }
+                                .pluck(:id)
     return if result.blank?
 
     errors.add(:content, 'the following questions are missing their required :options' \
@@ -178,7 +180,7 @@ class Questionnaire < ApplicationRecord
 
   def valid_option_ids?(question, option_attr, hidden_values)
     allowed_ids = content[:questions].select { |quest| hidden_values.blank? || hidden_values.include?(quest[:hidden]) }
-                                     .map { |quest| quest[:id] }.compact
+                                     .pluck(:id).compact
     question[:options].each do |option|
       next unless option.is_a?(Hash) && option[option_attr].present?
       return false if (option[option_attr] - allowed_ids).size.positive?
@@ -205,13 +207,13 @@ class Questionnaire < ApplicationRecord
   end
 
   def all_scores_use_existing_ids
-    allowed_ids = content[:questions].map { |entry| entry[:id] }
+    allowed_ids = content[:questions].pluck(:id)
     result = content[:scores].select do |score|
       is_bad = ((score[:ids] || []) - allowed_ids).size.positive?
       allowed_ids << score[:id]
       is_bad
     end
-    result = result.map { |score| score[:label] }
+    result = result.pluck(:label)
     return if result.blank?
 
     errors.add(:content, "the following scores use ids that do not exist in their context: #{result.pretty_inspect}")

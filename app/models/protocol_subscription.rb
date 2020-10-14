@@ -18,9 +18,9 @@ class ProtocolSubscription < ApplicationRecord
   # Note: this ordering is important for a number of reasons. E.g.:
   # - Response.last? uses it to determine if this is the last in the set.
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
-  after_create :schedule_responses
   after_initialize :initialize_filling_out_for
   after_initialize :initialize_end_date
+  after_create :schedule_responses
   has_many :protocol_transfers, dependent: :destroy
 
   # Commented this to allow to start multiple mentor'ed diary studies for the SDV project.

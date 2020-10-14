@@ -163,6 +163,17 @@ function changeExpansions() {
   }
 }
 
+function changeActiveLabel (e) {
+  const value = $(this).val();
+  $(this).closest('.range-field').find('datalist option').each(function (_index) {
+    if ($(this).val() === value) {
+      $(this).addClass('active')
+    } else {
+      $(this).removeClass('active')
+    }
+  })
+}
+
 function disableHiddenInputs() {
   $('.hidden').each(function (_index) {
     $(this).find('input,textarea,select').each(function (_sub_index) {
@@ -285,6 +296,7 @@ function questionnaireLoaded() {
   $(document).on('click', '.toast', function () {
     $(this).hide();
   });
+  $(document).on('change', '.range-container input[type="range"]', changeActiveLabel);
   $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');

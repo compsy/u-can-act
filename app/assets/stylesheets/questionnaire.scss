@@ -166,6 +166,19 @@ datalist {
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .range-field {
+    datalist {
+      option {
+        opacity: 0;
+
+        &.active {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
 
 
 input[disabled].otherwise {

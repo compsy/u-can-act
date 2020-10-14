@@ -39,6 +39,50 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         person.reload
         expect(person.email).to eq new_email
       end
+
+      it 'does not update if the given timestamp is older than the last update' do
+        person_attributes = {}
+        person_attributes['email'] = 'email@test.com'
+        person_attributes['locale'] = 'en'
+        person_attributes['timestamp'] = Time.current.to_s
+        person.update!(locale: 'nl')
+        sleep 1 # wait a second before submitting request
+
+        put :update, params: { person: person_attributes }
+
+        expect(response.status).to eq 422
+        person.reload
+        expect(person.locale).to eq('nl')
+      end
+
+      it 'updates a user if the given timestamp is newer than the last update' do
+        person_attributes = {}
+        person_attributes['email'] = 'email@test.com'
+        person_attributes['locale'] = 'en'
+        person.update!(locale: 'nl')
+        sleep 1 # wait a second before submitting request
+        person_attributes['timestamp'] = Time.current.to_s
+
+        put :update, params: { person: person_attributes }
+
+        expect(response.status).to eq 200
+        person.reload
+        expect(person.locale).to eq('en')
+      end
+
+      it 'updates a user if no timestamp is given' do
+        person_attributes = {}
+        person_attributes['email'] = 'email@test.com'
+        person_attributes['locale'] = 'en'
+        person.update!(locale: 'nl')
+        sleep 1
+
+        put :update, params: { person: person_attributes }
+
+        expect(response.status).to eq 200
+        person.reload
+        expect(person.locale).to eq('en')
+      end
     end
 
     describe 'destroy' do

@@ -12,7 +12,8 @@ spec:
   tls:
   - hosts:
     - svc-questionnaires.app.sportdatavalley.dev
-    - svc-questionnaires.researchable.nl
+    - questionnaires.app.sportdatavalley.dev
+    - q.app.sportdatavalley.dev
     secretName: sportdatavalley-svc-questionnaires-tls
   rules:
   - host: svc-questionnaires.app.sportdatavalley.dev

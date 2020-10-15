@@ -39,7 +39,11 @@ describe 'Person API' do
       }
       security [JwtAuth: {}]
 
-      let(:person) { { person: { email: 'test@example.com', mobile_phone: '0612341234' } } }
+      let(:person) do
+        { person: {
+          email: 'test@example.com', mobile_phone: '0612341234'
+        } }
+      end
 
       response '200', 'updates the current user' do
         schema type: :object,
@@ -55,7 +59,7 @@ describe 'Person API' do
         run_test!
       end
 
-      response '200', 'updates the current user if later timestamp is given'
+      response '200', 'updates the current user if later timestamp is given' do
         schema type: :object,
                properties: {
                  first_name: { type: :string },
@@ -66,12 +70,18 @@ describe 'Person API' do
                  timestamp: { type: :string }
                }
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
-        let(:person) {{ person:  { email: 'test@example.com', mobile_phone: '0612341234', timestamp: (Time.current + 1.minute).to_s } } }
+        let(:person) do
+          { person: {
+            email: 'test@example.com',
+            mobile_phone: '0612341234',
+            timestamp: (Time.current + 1.minute).to_s
+          } }
+        end
 
         run_test!
       end
 
-      response '422', 'does not update the current user if older timestamp is given'
+      response '422', 'does not update the current user if older timestamp is given' do
         schema type: :object,
                properties: {
                  first_name: { type: :string },
@@ -82,7 +92,13 @@ describe 'Person API' do
                  timestamp: { type: :string }
                }
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
-        let(:person) { { person: { email: 'test@example.com', mobile_phone: '0612341234', timestamp: (Time.current - 1.minute).to_s } } }
+        let(:person) do
+          { person: {
+            email: 'test@example.com',
+            mobile_phone: '0612341234',
+            timestamp: (Time.current - 1.minute).to_s
+          } }
+        end
 
         run_test!
       end

@@ -75,10 +75,14 @@ class RangeGenerator < QuestionTypeGenerator
     label_count = [question[:labels].size, 1].max
     col_class = 12 / label_count
     col_width = col_width_from_label_count(label_count)
+    minmax = range_slider_minmax(question)
+    step = (1.0 + minmax[:max] - minmax[:min]) / label_count
+    cur = minmax[:min]
     question[:labels].each_with_index do |label, idx|
       new_col_width = col_width
       new_col_width /= 2.0 if label_count > 3 && (idx.zero? || idx + 1 == label_count)
-      labels_body << label_div(label, col_class, new_col_width, idx, label_count)
+      labels_body << label_div(label, col_class, new_col_width, idx, label_count, cur)
+      cur += step
     end
     labels_body = safe_join(labels_body)
     tag.div(labels_body, class: 'row label-row')
@@ -90,12 +94,13 @@ class RangeGenerator < QuestionTypeGenerator
     100.0 / label_count
   end
 
-  def label_div(label, col_class, col_width, idx, label_count)
+  def label_div(label, col_class, col_width, idx, label_count, value)
     alignment = 'center-align'
     alignment = 'left-align' if idx.zero?
     alignment = 'right-align' if idx + 1 == label_count
     tag.div(label,
             class: "col #{alignment} s#{col_class}",
-            style: "width: #{col_width}%")
+            style: "width: #{col_width}%",
+            data: { value: value })
   end
 end

@@ -13,6 +13,8 @@ spec:
   - hosts:
     - svc-questionnaires.beta.sportdatavalley.nl
     - svc-questionnaires.app.sportdatavalley.nl
+    - questionnaires.app.sportdatavalley.nl
+    - q.app.sportdatavalley.nl
     secretName: sportdatavalley-svc-questionnaires-tls
   rules:
   - host: svc-questionnaires.beta.sportdatavalley.nl

@@ -33,12 +33,13 @@ describe 'Person API' do
         type: :object,
         properties: {
           mobile_phone: { type: :string },
-          email: { type: :string }
+          email: { type: :string },
+          timestamp: { type: :string }
         }
       }
       security [JwtAuth: {}]
 
-      let(:person) { { email: 'test@example.com', content: '0612341234' } }
+      let(:person) { { person: { email: 'test@example.com', mobile_phone: '0612341234' } } }
 
       response '200', 'updates the current user' do
         schema type: :object,
@@ -47,9 +48,42 @@ describe 'Person API' do
                  last_name: { type: :string },
                  gender: { type: :string },
                  email: { type: :string },
-                 mobile_phone: { type: :string }
+                 mobile_phone: { type: :string },
+                 timestamp: { type: :string }
                }
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
+        run_test!
+      end
+
+      response '200', 'updates the current user if later timestamp is given'
+        schema type: :object,
+               properties: {
+                 first_name: { type: :string },
+                 last_name: { type: :string },
+                 gender: { type: :string },
+                 email: { type: :string },
+                 mobile_phone: { type: :string },
+                 timestamp: { type: :string }
+               }
+        let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
+        let(:person) {{ person:  { email: 'test@example.com', mobile_phone: '0612341234', timestamp: (Time.current + 1.minute).to_s } } }
+
+        run_test!
+      end
+
+      response '422', 'does not update the current user if older timestamp is given'
+        schema type: :object,
+               properties: {
+                 first_name: { type: :string },
+                 last_name: { type: :string },
+                 gender: { type: :string },
+                 email: { type: :string },
+                 mobile_phone: { type: :string },
+                 timestamp: { type: :string }
+               }
+        let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
+        let(:person) { { person: { email: 'test@example.com', mobile_phone: '0612341234', timestamp: (Time.current - 1.minute).to_s } } }
+
         run_test!
       end
 

@@ -165,15 +165,6 @@ function changeExpansions() {
 
 function changeActiveLabel() {
   const value = $(this).val();
-  /*
-  $(this).closest('.range-field').find('datalist option').each(function (_index) {
-    if ($(this).val() === value) {
-      $(this).addClass('active')
-    } else {
-      $(this).removeClass('active')
-    }
-  })
-  */
   $(this).closest('.col.s12').find('.label-row .col').each(function (_index) {
     if (parseFloat($(this).data('value')) === parseFloat(value)) {
       $(this).addClass('active')

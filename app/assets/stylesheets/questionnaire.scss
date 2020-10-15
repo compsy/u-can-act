@@ -168,20 +168,6 @@ datalist {
 }
 
 @media only screen and (max-width: 700px) {
-  /*
-  .range-container {
-    .range-field {
-      datalist {
-        option {
-          opacity: 0;
-          &.active {
-            opacity: 1;
-          }
-        }
-      }
-    }
-  }
-  */
   .label-row {
     .col {
       display: none;

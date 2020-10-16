@@ -297,6 +297,7 @@ function questionnaireLoaded() {
     $(this).hide();
   });
   $(document).on('input', '.range-container input[type="range"]', changeActiveLabel);
+  $(document).on('input', '.range-container input[type="range"]', removeNotChanged);
   $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');

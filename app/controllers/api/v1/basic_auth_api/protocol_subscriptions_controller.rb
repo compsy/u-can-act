@@ -50,10 +50,7 @@ module Api
           return Time.zone.now if protocol_subscription_create_params[:start_date].blank?
 
           # The start date cannot be in the past.
-          temp_start_date = Time.zone.parse(protocol_subscription_create_params[:start_date])
-          return Time.zone.now if temp_start_date <= Time.zone.now
-
-          temp_start_date
+          [Time.zone.parse(protocol_subscription_create_params[:start_date]), Time.zone.now].max
         end
 
         def end_date

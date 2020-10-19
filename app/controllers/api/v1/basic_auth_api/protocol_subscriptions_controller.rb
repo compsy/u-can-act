@@ -49,13 +49,20 @@ module Api
         def start_date
           return Time.zone.now if protocol_subscription_create_params[:start_date].blank?
 
-          Time.zone.parse(protocol_subscription_create_params[:start_date])
+          # The start date cannot be in the past.
+          temp_start_date = Time.zone.parse(protocol_subscription_create_params[:start_date])
+          return Time.zone.now if temp_start_date <= Time.zone.now
+
+          temp_start_date
         end
 
         def end_date
           return nil if protocol_subscription_create_params[:end_date].blank?
 
-          Time.zone.parse(protocol_subscription_create_params[:end_date])
+          # The duration between start and end date should be at least one hour.
+          minimum_end_date = TimeTools.increase_by_duration(start_date, 1.hour)
+
+          [Time.zone.parse(protocol_subscription_create_params[:end_date]), minimum_end_date].max
         end
 
         def mentor

@@ -5,7 +5,7 @@ class RangeGenerator < QuestionTypeGenerator
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-    slider_body = range_slider(question)
+    slider_body = safe_join([range_value_label(question), range_slider(question)])
     slider_body = tag.div(slider_body,
                           class: "range-container notchanged#{question[:required].present? ? ' required' : ''}" \
                                  "#{question[:no_initial_thumb].present? ? ' no-initial-thumb' : ''}")
@@ -25,6 +25,10 @@ class RangeGenerator < QuestionTypeGenerator
   end
 
   private
+
+  def range_value_label(_question)
+    tag.div('', class: 'range-value-label')
+  end
 
   def range_slider(question)
     minmax = range_slider_minmax(question)

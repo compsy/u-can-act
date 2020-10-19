@@ -70,6 +70,7 @@ class RangeGenerator < QuestionTypeGenerator
     safe_join(body)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def range_labels(question)
     labels_body = []
     label_count = [question[:labels].size, 1].max
@@ -87,6 +88,7 @@ class RangeGenerator < QuestionTypeGenerator
     labels_body = safe_join(labels_body)
     tag.div(labels_body, class: 'row label-row')
   end
+  # rubocop:enable Metrics/AbcSize
 
   def col_width_from_label_count(label_count)
     return 100.0 / (label_count - 1) if label_count > 3

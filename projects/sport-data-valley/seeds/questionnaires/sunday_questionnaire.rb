@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'Wekelijkse vragenlijst'
+db_title = ''
 
 db_name1 = 'sunday_questionnaire'
 questionnaire = Questionnaire.find_by(name: db_name1)
@@ -8,6 +8,11 @@ questionnaire ||= Questionnaire.new(name: db_name1)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
 dagboek_content = [
+  {
+    type: :raw,
+    content: { nl: "<h4 class=\"header\">Wekelijkse vragenlijst</h4>",
+               en: "<h4 class=\"header\">Weekly questionnaire</h4>" }
+  },
   {
     type: :raw,
     content: { nl: '<p class="flow-text">Wanneer je terugkijkt op de afgelopen week, kun je dan feedback geven over hoe je deze week hebt ervaren.</p>',

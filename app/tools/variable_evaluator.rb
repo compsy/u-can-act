@@ -9,7 +9,10 @@ class VariableEvaluator
         obj.each do |k, v|
           obj[k] = evaluate_obj(v, subs_hash)
         end
-      elsif obj.is_a?(Array)
+        return obj
+      end
+
+      if obj.is_a?(Array)
         obj.each_with_index do |v, i|
           obj[i] = evaluate_obj(v, subs_hash)
         end

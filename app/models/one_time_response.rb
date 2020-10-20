@@ -17,7 +17,7 @@ class OneTimeResponse < ApplicationRecord
   end
 
   def redirect_url(person)
-    responses = person.my_open_one_time_responses.select do |elem|
+    responses = person.all_my_open_one_time_responses.select do |elem|
       elem.protocol_subscription.protocol.id == protocol.id
     end
     invitation_set = InvitationSet.create!(person_id: person.id,

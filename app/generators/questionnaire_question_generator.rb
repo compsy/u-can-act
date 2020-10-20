@@ -21,6 +21,7 @@ class QuestionnaireQuestionGenerator < Generator
       section_end: SectionEndGenerator.new,
       klasses: KlassesGenerator.new
     }
+    super
   end
 
   def generate(question)

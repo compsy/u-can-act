@@ -5,6 +5,7 @@ require:
 
 AllCops:
   TargetRubyVersion: 2.6
+  NewCops: enable
   Exclude:
     - 'config/**/*'
     - 'db/**/*'
@@ -105,6 +106,10 @@ Rails/HelperInstanceVariable:
   Exclude:
     - 'app/helpers/**/*'
 
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - 'spec/**/*'
+
 # Describe specs fail this test
 # Namespaces in rake tasks do too
 Metrics/BlockLength:
@@ -132,6 +137,9 @@ Style/BisectedAttrAccessor:
 
 Style/RedundantAssignment:
   Enabled: true
+
+Style/OptionalBooleanParameter:
+  Enabled: false
 
 Style/RedundantFetchBlock:
   Enabled: true

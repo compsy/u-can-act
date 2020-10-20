@@ -101,7 +101,7 @@ class FixResponses < ActiveInteraction::Base
       return
     end
     questionnaire.measurements.each do |measurement|
-      measurement.responses.where('content IS NOT NULL').find_each do |response|
+      measurement.responses.where.not(content: nil).find_each do |response|
         fix_response_content(response.content)
       end
     end
@@ -122,12 +122,15 @@ class FixResponses < ActiveInteraction::Base
     response_content.save!
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/MethodLength
   def calculate_new_hash(content_hsh)
     new_hsh = {}
+    timings = [true, false]
     content_hsh.each do |key, val|
       replaced = false
       new_key = key.dup
-      [true, false].each do |timing|
+      timings.each do |timing|
         VARIABLES.each do |variable|
           varregex = variable.gsub('deze_student', '[a-z_]+?')
           varregex = "#{varregex}_timing" if timing
@@ -145,4 +148,6 @@ class FixResponses < ActiveInteraction::Base
     end
     new_hsh
   end
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/MethodLength
 end

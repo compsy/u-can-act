@@ -25,14 +25,15 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         person: person,
         mentor: mentor,
         end_date: nil,
-        start_date: time,
+        start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
-      ).and_return true
+      ).and_call_original
 
       post :create, params: { protocol_name: prot_name,
                               start_date: time,
                               mentor_id: mentor.id,
                               auth0_id_string: auth_user.auth0_id_string }
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
       expect(response.status).to eq 201
     end
 
@@ -41,8 +42,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: nil,
-        start_date: time,
-        end_date: time,
+        start_date: instance_of(ActiveSupport::TimeWithZone),
+        end_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: external_identifier
       ).and_return true
 
@@ -59,7 +60,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
                               start_date: time.to_s,
                               auth0_id_string: auth_user.auth0_id_string }
       expect(response.status).to eq 201
-      expect(ProtocolSubscription.last.start_date).to eq time
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
     end
 
     it 'should be possible to call the url without a time' do
@@ -69,13 +70,14 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         person: person,
         mentor: mentor,
         end_date: nil,
-        start_date: time,
+        start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
-      ).and_return true
+      ).and_call_original
 
       post :create, params: { protocol_name: prot_name,
                               mentor_id: mentor.id,
                               auth0_id_string: auth_user.auth0_id_string }
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(Time.zone.now)
       expect(response.status).to eq 201
       Timecop.return
     end

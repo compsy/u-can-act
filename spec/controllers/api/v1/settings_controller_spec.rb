@@ -34,6 +34,7 @@ describe Api::V1::SettingsController, type: :controller do
     it 'contains all elements in the yaml' do
       expect(result_keys).not_to be_blank
       def recursive_check(hash, yaml)
+        optional_settings = %w[company_logo]
         yaml.keys.each do |key|
           cur = hash[key]
           cur_yaml = yaml[key]
@@ -42,7 +43,7 @@ describe Api::V1::SettingsController, type: :controller do
             cur_yaml.gsub!("<%=ENV['SITE_LOCATION']%>", ENV['SITE_LOCATION'])
           end
           # Company logo is an optional setting
-          expect(cur).not_to be_nil unless %w[company_logo].include?(key)
+          expect(cur).not_to be_nil unless optional_settings.include?(key)
           expect(cur).to eq cur_yaml unless cur_yaml.is_a?(Hash) # We don't care about the intermediate nodes
           result_keys.delete(key)
           recursive_check(cur, cur_yaml) if cur_yaml.is_a? Hash

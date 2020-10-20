@@ -29,7 +29,8 @@ class SendInvitationsJob < ApplicationJob
   private
 
   def create_invitation_text(responses)
-    responses.each { |response| return GenerateInvitationText.run!(response: response) }
+    # Generates an invitation text based on the first response
+    GenerateInvitationText.run!(response: responses.first)
   end
 
   def finalize_and_schedule_invitation_set(invitation_set)

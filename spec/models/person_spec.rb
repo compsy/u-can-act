@@ -158,6 +158,21 @@ describe Person do
     end
   end
 
+  describe 'all_my_open_one_time_responses' do
+    it 'should use the priority_sorting_metric' do
+      other_person = FactoryBot.create(:person)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 10.minutes.ago,
+                                                filling_out_for: other_person)
+      FactoryBot.create(:one_time_response, protocol: protocol_subscription.protocol)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+      allow_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
+      expect(protocol_subscription.person.all_my_open_one_time_responses).to eq([response])
+      expect(protocol_subscription.person.my_open_one_time_responses(nil)).to eq([response])
+      expect(protocol_subscription.person.my_open_one_time_responses).to eq([])
+    end
+  end
+
   describe 'all_my_open_responses' do
     it 'should use the priority_sorting_metric' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago)

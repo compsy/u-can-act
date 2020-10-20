@@ -121,6 +121,10 @@ class Person < ApplicationRecord
     subscriptions.map { |prot| prot.responses.opened_and_not_expired }.flatten.sort_by(&:priority_sorting_metric)
   end
 
+  def all_my_open_one_time_responses
+    my_open_one_time_responses(nil)
+  end
+
   # For any method that only returns open responses, we want them to be sorted by descending priority first,
   # and ascending open_from second.
   def all_my_open_responses(for_myself = true)

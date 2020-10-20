@@ -94,7 +94,7 @@ RSpec.describe OneTimeResponse, type: :model do
       expect(person.protocol_subscriptions).to be_blank
     end
 
-    it 'should return the url for the otr' do
+    it 'returns the url for the otr' do
       otr.subscribe_person(person)
       person.reload
       result = otr.redirect_url(person)
@@ -102,8 +102,37 @@ RSpec.describe OneTimeResponse, type: :model do
       expect(result).to start_with '?q='
     end
 
-    it 'should also create a url if not subscribed' do
+    it 'also creates a url if not subscribed' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                person: person,
+                                                start_date: 1.day.ago)
+      response = FactoryBot.create(:response,
+                                   protocol_subscription: protocol_subscription,
+                                   measurement: protocol.measurements.first,
+                                   open_from: 1.minute.ago)
       result = otr.redirect_url(person)
+      invitation_set = InvitationSet.last
+      expect(invitation_set.responses).to_not be_blank
+      expect(invitation_set.responses.first).to eq(response)
+      expect(result).to_not be_blank
+      expect(result).to start_with '?q='
+    end
+
+    it 'also works with one time responses that are filled out for someone else' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                person: person,
+                                                start_date: 1.day.ago,
+                                                filling_out_for_id: FactoryBot.create(:person).id)
+      response = FactoryBot.create(:response,
+                                   protocol_subscription: protocol_subscription,
+                                   measurement: protocol.measurements.first,
+                                   open_from: 1.minute.ago)
+      result = otr.redirect_url(person)
+      invitation_set = InvitationSet.last
+      expect(invitation_set.responses).to_not be_blank
+      expect(invitation_set.responses.first).to eq(response)
       expect(result).to_not be_blank
       expect(result).to start_with '?q='
     end

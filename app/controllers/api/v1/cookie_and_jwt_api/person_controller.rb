@@ -13,7 +13,7 @@ module Api
         delegate :my_students, to: :current_user
 
         def update
-          res = current_user.update(person_params)
+          res = update_person
           if res
             render status: :ok, json: { status: 'ok' }
           else
@@ -28,8 +28,19 @@ module Api
 
         private
 
+        def update_person
+          timestamp = person_params[:timestamp] and person_params[:timestamp].to_datetime
+          # no timestamp: request is synchronous
+          # if timestamp: request is async, so check if it is the most recent one
+          if timestamp.nil? || (timestamp > current_user.updated_at)
+            return current_user.update(person_params.except(:timestamp))
+          end
+
+          nil
+        end
+
         def person_params
-          params.require(:person).permit(:mobile_phone, :email, :account_active, :locale)
+          params.require(:person).permit(:mobile_phone, :email, :account_active, :locale, :timestamp)
         end
       end
     end

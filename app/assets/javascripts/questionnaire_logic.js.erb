@@ -163,6 +163,19 @@ function changeExpansions() {
   }
 }
 
+function changeActiveLabel() {
+  const value = $(this).val();
+  const rangeValueLabel = $(this).closest('.range-container').find('.range-value-label').first()
+  $(this).closest('.col.s12').find('.label-row .col').each(function (_index) {
+    if (parseFloat($(this).data('value')) === parseFloat(value)) {
+      $(rangeValueLabel).text($(this).text())
+      $(this).addClass('active')
+    } else {
+      $(this).removeClass('active')
+    }
+  })
+}
+
 function disableHiddenInputs() {
   $('.hidden').each(function (_index) {
     $(this).find('input,textarea,select').each(function (_sub_index) {
@@ -285,6 +298,8 @@ function questionnaireLoaded() {
   $(document).on('click', '.toast', function () {
     $(this).hide();
   });
+  $(document).on('input', '.range-container input[type="range"]', changeActiveLabel);
+  $(document).on('input', '.range-container input[type="range"]', removeNotChanged);
   $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');

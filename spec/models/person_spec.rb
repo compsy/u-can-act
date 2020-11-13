@@ -27,10 +27,7 @@ describe Person do
         response = FactoryBot.create(:response, completed_at: (10 + idx).days.ago.in_time_zone,
                                                 protocol_subscription: current_prot_sub)
         expected_response = response if idx == 0
-      end
-
-      # Create some not completed responses as well
-      max_idx.times.each do |_idx|
+        # Create some not completed responses as well
         FactoryBot.create(:response, protocol_subscription: current_prot_sub)
       end
 
@@ -53,11 +50,8 @@ describe Person do
         max_idx.times.each do |idx|
           FactoryBot.create(:response, completed_at: (10 + idx).days.ago.in_time_zone,
                                        protocol_subscription: prot_sub)
+          FactoryBot.create(:response, protocol_subscription: prot_sub)
         end
-      end
-
-      person.protocol_subscriptions.each do |prot_sub|
-        max_idx.times.each { |_idx| FactoryBot.create(:response, protocol_subscription: prot_sub) }
       end
 
       expect(person.last_completed_response).not_to be_nil
@@ -161,6 +155,21 @@ describe Person do
       response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
       expect_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
       expect(protocol_subscription.person.my_open_one_time_responses).to eq([response])
+    end
+  end
+
+  describe 'all_my_open_one_time_responses' do
+    it 'should use the priority_sorting_metric' do
+      other_person = FactoryBot.create(:person)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: 10.minutes.ago,
+                                                filling_out_for: other_person)
+      FactoryBot.create(:one_time_response, protocol: protocol_subscription.protocol)
+      response = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+      allow_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
+      expect(protocol_subscription.person.all_my_open_one_time_responses).to eq([response])
+      expect(protocol_subscription.person.my_open_one_time_responses(nil)).to eq([response])
+      expect(protocol_subscription.person.my_open_one_time_responses).to eq([])
     end
   end
 

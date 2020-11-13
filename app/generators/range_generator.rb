@@ -5,7 +5,7 @@ class RangeGenerator < QuestionTypeGenerator
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-    slider_body = range_slider(question)
+    slider_body = safe_join([range_value_label(question), range_slider(question)])
     slider_body = tag.div(slider_body,
                           class: "range-container notchanged#{question[:required].present? ? ' required' : ''}" \
                                  "#{question[:no_initial_thumb].present? ? ' no-initial-thumb' : ''}")
@@ -25,6 +25,10 @@ class RangeGenerator < QuestionTypeGenerator
   end
 
   private
+
+  def range_value_label(_question)
+    tag.div('', class: 'range-value-label')
+  end
 
   def range_slider(question)
     minmax = range_slider_minmax(question)
@@ -70,21 +74,25 @@ class RangeGenerator < QuestionTypeGenerator
     safe_join(body)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def range_labels(question)
     labels_body = []
     label_count = [question[:labels].size, 1].max
     col_class = 12 / label_count
     col_width = col_width_from_label_count(label_count)
+    minmax = range_slider_minmax(question)
+    step = (1.0 + minmax[:max] - minmax[:min]) / label_count
+    cur = minmax[:min]
     question[:labels].each_with_index do |label, idx|
       new_col_width = col_width
-      if label_count > 3
-        new_col_width /= 2.0 if idx.zero? || idx + 1 == label_count
-      end
-      labels_body << label_div(label, col_class, new_col_width, idx, label_count)
+      new_col_width /= 2.0 if label_count > 3 && (idx.zero? || idx + 1 == label_count)
+      labels_body << label_div(label, col_class, new_col_width, idx, label_count, cur)
+      cur += step
     end
     labels_body = safe_join(labels_body)
     tag.div(labels_body, class: 'row label-row')
   end
+  # rubocop:enable Metrics/AbcSize
 
   def col_width_from_label_count(label_count)
     return 100.0 / (label_count - 1) if label_count > 3
@@ -92,12 +100,13 @@ class RangeGenerator < QuestionTypeGenerator
     100.0 / label_count
   end
 
-  def label_div(label, col_class, col_width, idx, label_count)
+  def label_div(label, col_class, col_width, idx, label_count, value)
     alignment = 'center-align'
     alignment = 'left-align' if idx.zero?
     alignment = 'right-align' if idx + 1 == label_count
     tag.div(label,
             class: "col #{alignment} s#{col_class}",
-            style: "width: #{col_width}%")
+            style: "width: #{col_width}%",
+            data: { value: value })
   end
 end

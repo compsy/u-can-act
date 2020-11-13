@@ -67,7 +67,7 @@ class AdminController < ApplicationController
 
   def export_class(filename, data_type_string, exporting_class, *args)
     Rails.logger.warn "[Attention] #{data_type_string} data was exported by: #{request.ip}"
-    filename = filename + '_' + date_string
+    filename = "#{filename}_#{date_string}"
     file_headers!(filename)
     streaming_headers!
     response.status = 200

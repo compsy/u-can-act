@@ -20,8 +20,8 @@
     "react-router-dom": "^5.0.1",
     "react_ujs": "^2.6.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.7"
+    "webpack": "^5.1.1",
+    "webpack-cli": "^4.0.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.5.0",

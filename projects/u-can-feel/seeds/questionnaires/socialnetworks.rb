@@ -59,7 +59,7 @@ dagboek_content = [
   }, {
     id: :v4,
     type: :range,
-    title: 'Mijn ouders proberen mij echt te helpen',
+    title: 'Mijn ouders proberen mij echt te helpen als ik problemen heb',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5,
@@ -118,7 +118,7 @@ dagboek_content = [
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragen gaan over pesten. Pesten is dat één of meer kinderen een ander kind keer op keer lastig vallen. Pesten is dus, dat je steeds opnieuw vervelend doet tegen iemand anders. Voor degene die gepest wordt is het moeilijk om zich te verdedigen. <br><br>
+    content: '<p class="flow-text">De volgende vragen gaan over pesten. Pesten is dat één of meer kinderen een ander kind keer op keer lastig vallen. Voor degene die gepest wordt is het moeilijk om zich te verdedigen. <br><br>
 
     Pesten is dus niet een ruzie tussen één of meer kinderen die ongeveer even sterk zijn. Pesten is ook niet plagen om een geintje. Pesten is als je steeds opnieuw vervelend doet tegen iemand anders.
     </p>'
@@ -126,7 +126,7 @@ dagboek_content = [
     id: :v16,
     type: :radio,
     show_otherwise: false,
-    title: 'Nu je weet wat pesten is, kun je dan ook zeggen hoe vaak je de afgelopen twee maanden gepest bent?',
+    title: 'Hoe vaak ben je de afgelopen twee maanden gepest?',
     options: [
       { title: 'Ik ben niet gepest' },
       { title: 'Ik ben één of twee keer gepest', shows_questions: %i[v17 v18_a v18_b v19 v20_a v20_b v21 v22 v23] },
@@ -139,7 +139,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     hidden: true,
-    title: 'Hoe erg vond je het om gepest te worden?',
+    title: 'Hoe erg vond of vind je het om gepest te worden?',
     options: ['Helemaal niet erg', 'Niet zo erg', 'Een beetje erg', 'Best erg', 'Heel erg']
   }, {
     id: :v18_a,
@@ -193,8 +193,8 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     hidden: true,
-    title: 'Hoe lang gebeurt het pesten al?',
-    options: ['Eén of twee weken', 'Ongeveer een maand', 'Ongeveer een half jaar', 'Ongeveer een jaar', 'Meer dan een jaar']
+    title: 'Wanneer is het pesten begonnen?',
+    options: ['Eén of twee weken geleden', 'Ongeveer een maand geleden', 'Ongeveer een half jaar geleden', 'Ongeveer een jaar geleden', 'Meer dan een jaar geleden']
   }, {
     id: :v22,
     type: :radio,
@@ -227,7 +227,7 @@ dagboek_content = [
     title: 'Hoe vaak heb jij de afgelopen twee maanden meegedaan aan het pesten van een andere leerling?',
     options: [
       { title: 'Ik heb niemand gepest' },
-      { title: 'Maar één of twee keer', shows_questions: %i[v25] },
+      { title: 'Eén of twee keer', shows_questions: %i[v25] },
       { title: 'Ongeveer twee of drie keer per maand', shows_questions: %i[v25] },
       { title: 'Ongeveer één keer per week', shows_questions: %i[v25] },
       { title: 'Een paar keer per week', shows_questions: %i[v25] }
@@ -260,7 +260,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     title: 'Hoeveel denk je dat je mentor de afgelopen maanden heeft gedaan om pesten tegen te gaan?',
-    options: ['Niets of zo goed als niets', 'Weinig', 'Een beetje', 'Behoorlijk veel', 'Heel veel']
+    options: ['Niets of zo goed als niets', 'Heel weinig', 'Een beetje', 'Behoorlijk veel', 'Heel veel']
   }
 ]
 

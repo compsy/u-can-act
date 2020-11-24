@@ -14,7 +14,7 @@ dagboek_content = [
   }, {
     id: :v1,
     type: :range,
-    title: 'Leraren begrijpen mijn problemen',
+    title: 'Er is tenminste één leraar op school die mijn problemen begrijpt',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v2,
@@ -74,7 +74,7 @@ dagboek_content = [
   }, {
     id: :v13,
     type: :range,
-    title: 'Leraren leggen duidelijk uit wat ik moet doen om een goed cijfer te halen',
+    title: 'De meeste leraren leggen duidelijk uit wat ik moet doen om een goed cijfer te halen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v14,
@@ -119,12 +119,12 @@ dagboek_content = [
   }, {
     id: :v22,
     type: :range,
-    title: 'De schoolregels worden eerlijk en altijd op dezelfde manier toegepast',
+    title: 'De schoolregels worden door de meeste leraren eerlijk en altijd op dezelfde manier toegepast',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v23,
     type: :range,
-    title: 'Mijn leraren geven het duidelijk aan als ik me niet goed gedraag in de klas',
+    title: 'De meeste leraren geven het duidelijk aan als ik me niet goed gedraag in de klas',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v24,
@@ -201,54 +201,83 @@ dagboek_content = [
     show_otherwise: false,
     required: true,
     title: 'Heb je naast de gewone schoollessen extra ondersteuning voor je schoolwerk? Je kunt meerdere dingen aankruisen.',
-    options: ['Ja, huiswerkbegeleiding', 'Ja, bijles', 'Ja, examentraining', 'Ja, iets anders', 'Nee']
+    options: [
+      { title: 'Ja, huiswerkbegeleiding', shows_questions: %i[v34] }, 
+      { title: 'Ja, bijles', shows_questions: %i[v34] }, 
+      { title: 'Ja, examentraining', shows_questions: %i[v34] }, 
+      { title: 'Ja, iets anders', shows_questions: %i[v34] }, 
+      { title: 'Nee' }
+    ]
   }, {
     id: :v31,
     type: :radio,
     show_otherwise: false,
     title: "Heb je in het afgelopen jaar minder tijd dan anders kunnen besteden aan hobby's of aan dingen doen met je vrienden, omdat je het te druk had met school?",
     options: ['Nee', 'Ja, een beetje minder tijd', 'Ja, veel minder tijd']
+  },  {
+    type: :raw,
+    content: '<p class="flow-text">Vanwege de coronacrisis was het vorige schooljaar anders dan anders en was het onderwijs een tijdje alleen online. We zijn benieuwd of dit nog steeds gevolgen heeft voor jou op school.
+</p>'
+  }, {
+    id: :v32,
+    type: :radio,
+    show_otherwise: false,
+    title: "Hoeveel heb je vorig jaar kunnen leren vergeleken met een gewoon schooljaar?",
+    options: ['Veel minder', 'Iets minder', 'Ongeveer even veel', 'Iets meer', 'Veel meer']
+  }, {
+    id: :v33,
+    type: :radio,
+    show_otherwise: false,
+    title: "Heb je dit jaar meer moeite met school, omdat je vorig jaar misschien dingen hebt gemist door het online onderwijs?",
+    options: ['Nee, helemaal niet', 'Nee, niet echt', 'Ja, een beetje', 'Ja, heel erg']
+  }, {
+    id: :v34,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: "Je zei eerder dat je extra ondersteuning krijgt met school, bijvoorbeeld huiswerkbegeleiding of bijles. Heb je die extra ondersteuning vanwege de coronacrisis?",
+    options: ['Ja, helemaal', 'Ja, voor een deel', 'Nee']
   }, {
     type: :raw,
     content: '<p class="flow-text">De volgende vragen gaan over hoeveel druk je voelt om goed te presteren op school. Verschuif de slider om aan te geven hoe eens of oneens je het bent met elke zin. 
 </p>'
   }, {
-    id: :v32,
+    id: :v35,
     type: :range,
     title: 'Ik geef mezelf de schuld als ik niet kan voldoen aan de verwachtingen van mijn ouders',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
-    id: :v33,
+    id: :v36,
     type: :range,
     title: 'Ik heb het gevoel dat ik mijn leraren of mijn ouders heb teleurgesteld als ik slecht presteer op school',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
-    id: :v34,
+    id: :v37,
     type: :range,
     title: 'Ik ben gestrest als ik weet dat mijn ouders teleurgesteld zijn over mijn cijfers',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
-    id: :v35,
+    id: :v38,
     type: :range,
     title: 'Ik voel me slecht als ik niet kan voldoen aan de verwachtingen van mijn leraren',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
-    id: :v36,
+    id: :v39,
     type: :range,
     title: 'Ik ben gestrest als ik niet voldoe aan mijn eigen verwachtingen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
-    id: :v37,
+    id: :v40,
     type: :range,
     title: 'Als ik niet voldoe aan mijn eigen verwachtingen, heb ik het gevoel dat ik niet goed genoeg ben',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
-    id: :v38,
+    id: :v41,
     type: :range,
     title: 'Ik kan vaak niet slapen en lig te piekeren als ik mijn eigen doelen niet kan halen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
-    id: :v39,
+    id: :v42,
     type: :range,
     title: 'Als ik minder goed presteer op een toets dan ik had gekund, ben ik gestrest',
     labels: ['Helemaal oneens', 'Helemaal eens']

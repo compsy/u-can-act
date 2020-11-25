@@ -8,6 +8,7 @@ const DatePicker = props => {
   const [startDate, setStartDate] = useState(undefined)
 
   const convertToDate = datestr => {
+    // TODO: this should be more generic
     if (!datestr || datestr.length === 0) return undefined
     if (datestr === 'two_weeks_ago') return moment().subtract(2, 'weeks').toDate()
     if (datestr === 'today') return moment().toDate()

@@ -2,7 +2,7 @@
 
 class DateRangeGenerator < QuestionTypeGenerator
   include React::Rails::ViewHelper
-  DATEFIELD_PLACEHOLDER = 'Vul een datum in'
+  DATEFIELD_PLACEHOLDER = { nl: 'Vul een datum in', en: 'Fill out a date' }.freeze
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
@@ -12,42 +12,21 @@ class DateRangeGenerator < QuestionTypeGenerator
   private
 
   def mydate_field(question)
-    body = safe_join([
-                       mydate_tag(question),
-                       mydate_label(question)
-                     ])
-    body = tag.div(body, class: 'input-field col s12 m6')
+    body = mydate_tag(question)
+    body = tag.div(body, class: 'col s12 m6')
     tag.div(body, class: 'row')
   end
 
-  def mydate_tag(_question)
-    react_component('DatePicker')
-    #
-    # tag(:input,
-    #     type: 'text',
-    #     id: idify(question[:id]),
-    #     name: answer_name(question[:id]),
-    #     required: question[:required].present?,
-    #     class: 'datepicker',
-    #     data: mydate_data(question))
-  end
-
-  def mydate_data(question)
-    data = { min: question[:min], max: question[:max], 'set-default-date': false }
-    if question[:today].present?
-      data[:'default-date'] = Time.zone.today
-      data[:'set-default-date'] = true
-    end
-    if question[:default_date].present?
-      data[:'default-date'] = Date.parse(question[:default_date])
-      data[:'set-default-date'] = false
-    end
-    data
-  end
-
-  def mydate_label(question)
-    tag.label(placeholder(question, DATEFIELD_PLACEHOLDER),
-              for: idify(question[:id]),
-              class: 'flow-text')
+  def mydate_tag(question)
+    locale = (question[:locale].presence || Rails.application.config.i18n.default_locale).to_sym
+    react_component(
+      'DatePicker',
+      id: idify(question[:id]),
+      name: answer_name(question[:id]),
+      required: question[:required].present?,
+      placeholder: placeholder(question, DATEFIELD_PLACEHOLDER[locale]),
+      min: question[:min],
+      max: question[:max]
+    )
   end
 end

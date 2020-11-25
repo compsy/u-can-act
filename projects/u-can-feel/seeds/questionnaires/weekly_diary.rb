@@ -60,8 +60,50 @@ dagboek_content = [
     labels: ['Heel slecht', 'Heel goed']
   }, {
     id: :v8a,
-    type: :date_range,
-    title: 'Welke dagdelen ben je in de afgelopen 2 weken niet naar school geweest, terwijl je wel les had?'
+    title: 'Denk even na over de afgelopen 2 weken. Welke dagdelen ben je in de afgelopen 2 weken niet naar school geweest, terwijl je wel les had? Bijvoorbeeld omdat je ziek was, andere afspraken had, of aan het spijbelen was. Kruis een dagdeel aan als je minstens 1 lesuur gemist hebt.',
+    remove_button_label: 'Verwijder dag',
+    add_button_label: 'Voeg dag toe',
+    type: :expandable,
+    default_expansions: 0,
+    max_expansions: 10,
+    content: [
+      {
+        id: :v8a_1,
+        type: :date_range,
+        title: 'Welke dag?',
+        max: :today,
+        min: :two_weeks_ago
+      }, {
+        id: :v8a_2,
+        type: :checkbox,
+        title: 'Welk dagdeel?',
+        required: true, # they have to check at least one option
+        options: %w[Ochtend Middag],
+        show_otherwise: false
+      }, {
+        id: :v8a_3,
+        type: :radio,
+        title: 'Waarom heb je op deze dag lessen gemist?',
+        options: [
+          'Ik had een afspraak, bijvoorbeeld met de huisarts',
+          'Ik was ziek, bijvoorbeeld grieperig, of lag in het ziekenhuis',
+          'Ik vond het moeilijk om naar school te gaan of voelde me bang voor school',
+          'Ik was aan het spijbelen',
+          'Ik had een dagje vrij gekregen van mijn ouders',
+          'Ik mocht om andere redenen thuisblijven van mijn ouders',
+          'Ik was met mijn gezin op vakantie',
+          'Ons gezin had iets dringends, bijvoorbeeld een begrafenis of iemand moest naar het ziekenhuis',
+          'Ons gezin had andere problemen, bijvoorbeeld een kapotte fiets of een doktersafspraak voor iemand anders',
+          'Ons gezin had een religieuze feestdag',
+          'De school was gesloten, bijvoorbeeld vanwege een staking',
+          'Ik was van school gestuurd of geschorst',
+          'De school had mij gevraagd om thuis te blijven',
+          'Er was zwaar weer, bijvoorbeeld een storm'
+        ],
+        show_otherwise: true,
+        otherwise_label: 'Een andere reden'
+      }
+    ]
   }, {
     id: :v9,
     type: :radio,

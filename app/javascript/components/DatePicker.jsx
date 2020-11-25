@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { DatePicker as ReactDatePicker } from 'react-datepicker'
 
 const DatePicker = props => {
-  return <p>It's working!</p>
+  const [startDate, setStartDate] = useState(new Date())
+
+  return (
+    <ReactDatePicker selected={startDate} onChange={date => setStartDate(date)} />
+  )
 }
 
 export default DatePicker

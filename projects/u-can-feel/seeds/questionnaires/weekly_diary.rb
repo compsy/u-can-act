@@ -59,6 +59,10 @@ dagboek_content = [
     title: 'Hoe goed heb je in de afgelopen week geslapen?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
+    id: :v8a,
+    type: :date_range,
+    title: 'Welke dagdelen ben je in de afgelopen 2 weken niet naar school geweest, terwijl je wel les had?'
+  }, {
     id: :v9,
     type: :radio,
     show_otherwise: false,
@@ -103,7 +107,7 @@ dagboek_content = [
     required: true,
     title: 'Waarom heb je lessen gemist?',
     options: [
-    { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
+    { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' },
     { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
     { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
     { title: 'Ik was aan het spijbelen' },

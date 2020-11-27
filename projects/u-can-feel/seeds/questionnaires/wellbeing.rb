@@ -14,6 +14,7 @@ dagboek_content = [
   }, {
     id: :v1,
     type: :range,
+    required: true,
     title: 'Voel je je in het algemeen gelukkig? Verschuif de slider om aan te geven hoe gelukkig je je in het algemeen voelt.',
     labels: ['Helemaal niet gelukkig', 'Heel gelukkig']
   }, {
@@ -23,36 +24,43 @@ dagboek_content = [
   }, {
     id: :v2,
     type: :range,
+    required: true,
     title: 'Het gaat goed met mijn leven',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3,
     type: :range,
+    required: true,
     title: 'Mijn leven is precies goed',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v4,
     type: :range,
+    required: true,
     title: 'Ik zou veel dingen in mijn leven willen veranderen als dat kon',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5,
     type: :range,
+    required: true,
     title: 'Ik wou dat ik een ander soort leven had',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v6,
     type: :range,
+    required: true,
     title: 'Ik heb een goed leven',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v7,
     type: :range,
+    required: true,
     title: 'Ik heb wat ik wil in het leven',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v8,
     type: :range,
+    required: true,
     title: 'Ik heb een beter leven dan de meeste kinderen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
@@ -217,31 +225,37 @@ dagboek_content = [
   }, {
     id: :v34_a,
     type: :range,
+    required: true,
     title: 'Zenuwachtig?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_b,
     type: :range,
+    required: true,
     title: 'Hopeloos?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_c,
     type: :range,
+    required: true,
     title: 'Rusteloos of onrustig?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_d,
     type: :range,
+    required: true,
     title: 'Zo somber dat niets je kon opvrolijken?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_e,
     type: :range,
+    required: true,
     title: 'Dat alles veel moeite kostte?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_f,
     type: :range,
+    required: true,
     title: 'Waardeloos?',
     labels: ['Nooit', 'Altijd']
   }, {
@@ -251,31 +265,37 @@ dagboek_content = [
   }, {
     id: :v34_g,
     type: :range,
+    required: true,
     title: 'Zenuwachtig?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_h,
     type: :range,
+    required: true,
     title: 'Hopeloos?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_i,
     type: :range,
+    required: true,
     title: 'Rusteloos of onrustig?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_j,
     type: :range,
+    required: true,
     title: 'Zo somber dat niets je kon opvrolijken?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_k,
     type: :range,
+    required: true,
     title: 'Dat alles veel moeite kostte?',
     labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_l,
     type: :range,
+    required: true,
     title: 'Waardeloos?',
     labels: ['Nooit', 'Altijd']
   }, {

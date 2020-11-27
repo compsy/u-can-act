@@ -32,24 +32,28 @@ dagboek_content = [
     id: :v3_a,
     type: :range,
     hidden: true,
+    required: true,
     title: 'De volgende 4 vragen gaan over degene met wie je verkering hebt. Verschuif de slider om aan te geven hoeveel je het eens of oneens bent met elke zin. <br><br> Mijn vriend/vriendin is er voor mij als ik hem of haar nodig heb',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3_b,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Ik kan mooie én verdrietige dingen delen met mijn vriend/vriendin',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3_c,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Mijn vriend/vriendin steunt mij echt',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3_d,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Mijn vriend/vriendin geeft om mijn gevoelens',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
@@ -59,61 +63,73 @@ dagboek_content = [
   }, {
     id: :v4,
     type: :range,
+    required: true,
     title: 'Mijn ouders proberen mij echt te helpen als ik problemen heb',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5,
     type: :range,
+    required: true,
     title: 'Ik krijg de emotionele hulp en steun die ik nodig heb van mijn ouders',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v6,
     type: :range,
+    required: true,
     title: 'Mijn vrienden proberen mij echt te helpen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v7,
     type: :range,
+    required: true,
     title: 'Ik kan op mijn vrienden rekenen als er dingen misgaan',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v8,
     type: :range,
+    required: true,
     title: 'Ik kan met mijn ouders praten over mijn problemen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v9,
     type: :range,
+    required: true,
     title: 'Ik heb vrienden met wie ik mooie én verdrietige dingen kan delen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v10,
     type: :range,
+    required: true,
     title: 'Mijn ouders willen mij wel helpen om beslissingen te maken',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v11,
     type: :range,
+    required: true,
     title: 'Ik kan met mijn vrienden over mijn problemen praten',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v12,
     type: :range,
+    required: true,
     title: 'Mijn klasgenoten vragen mij om mee te doen aan activiteiten',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v13,
     type: :range,
+    required: true,
     title: 'Mijn klasgenoten doen aardige dingen voor mij',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v14,
     type: :range,
+    required: true,
     title: 'Mijn klasgenoten doen dingen samen met mij',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v15,
     type: :range,
+    required: true,
     title: 'Mijn klasgenoten behandelen mij met respect',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
@@ -263,7 +279,6 @@ dagboek_content = [
     options: ['Niets of zo goed als niets', 'Heel weinig', 'Een beetje', 'Behoorlijk veel', 'Heel veel']
   }
 ]
-
 
 dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title

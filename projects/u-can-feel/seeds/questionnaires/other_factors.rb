@@ -42,36 +42,42 @@ dagboek_content = [
   }, {
     id: :v4,
     type: :range,
+    required: true,
     title: 'Op mijn school speelt geloof een belangrijke rol',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_a,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Ik geloof dat God, Allah of een andere hogere macht van mij houdt en om mij geeft',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_b,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Mijn relatie met God, Allah of een andere hogere macht betekent veel voor mij',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_c,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Ik ervaar niet veel kracht of steun van God, Allah of een andere hogere macht',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_d,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Ik geloof dat God, Allah of een andere hogere macht geeft om mijn problemen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_e,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Mijn relatie met God, Allah of een andere hogere macht draagt bij aan mijn geluk',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {

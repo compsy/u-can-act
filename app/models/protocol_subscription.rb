@@ -28,7 +28,7 @@ class ProtocolSubscription < ApplicationRecord
   #           uniqueness: { scope: %i[person_id state],
   #                         conditions: -> { where(state: ACTIVE_STATE) },
   #                         if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
-  scope :active, (-> { where(state: ACTIVE_STATE).where('(end_date IS NULL) OR (end_date > :now)', now: Time.zone.now) })
+  scope :active, (-> { where(state: ACTIVE_STATE).where('end_date > :now', now: Time.zone.now) })
 
   def transfer!(transfer_to)
     raise('The person you transfer to should not be the same as the original person!') if transfer_to == person

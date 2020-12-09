@@ -234,3 +234,19 @@ body {
     list-style-type: disc !important;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  html {
+      filter: invert(1) hue-rotate(180deg);
+  }
+  html img,
+  picture,
+  video{
+      filter: invert(1) hue-rotate(180deg);
+  }
+  .invert {
+      filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+

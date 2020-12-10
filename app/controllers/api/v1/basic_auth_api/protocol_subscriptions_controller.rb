@@ -4,8 +4,9 @@ module Api
   module V1
     module BasicAuthApi
       class ProtocolSubscriptionsController < BasicAuthApiController
-        before_action :set_person, only: %i[create]
-        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy]
+        before_action :set_person, only: %i[create destroy_delegated_protocol_subscriptions]
+        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy
+                                                         destroy_delegated_protocol_subscriptions]
         before_action :set_protocol_subscription, only: %i[destroy]
 
         def show_for_mentor
@@ -28,6 +29,12 @@ module Api
         def delegated_protocol_subscriptions
           render json: ProtocolSubscription.active.where(external_identifier: @external_identifier),
                  each_serializer: Api::ProtocolSubscriptionSerializer
+        end
+
+        def destroy_delegated_protocol_subscriptions
+          ProtocolSubscription.active.where(person: @person,
+                                            external_identifier: @external_identifier).each(&:cancel!)
+          destroyed
         end
 
         # This cancels the protocol subscription. Only works if the external_identifier is given.

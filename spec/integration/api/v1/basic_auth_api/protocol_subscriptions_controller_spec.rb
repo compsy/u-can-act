@@ -139,7 +139,7 @@ describe 'ProtocolSubscriptions API' do
     end
   end
 
-  path '/basic_auth_api/protocol_subscriptions/destroy_delegated_protocol_subscriptions', focus: true do
+  path '/basic_auth_api/protocol_subscriptions/destroy_delegated_protocol_subscriptions' do
     delete 'Cancels all protocol subscriptions with a certain external identifier for a user' do
       tags 'ProtocolSubscription'
       consumes 'application/json'

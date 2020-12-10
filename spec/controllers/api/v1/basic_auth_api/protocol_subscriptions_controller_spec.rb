@@ -152,7 +152,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
     end
   end
 
-  describe '#destroy_delegated_protocol_subscriptions', focus: true do
+  describe '#destroy_delegated_protocol_subscriptions' do
     before do
       basic_auth 'admin', 'admin'
     end

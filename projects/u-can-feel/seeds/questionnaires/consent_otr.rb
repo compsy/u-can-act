@@ -28,7 +28,7 @@ ic_content_ouders = <<~'END'
       school daarbij.
     </p>
     <p>
-      Het onderzoek loopt van 1 september 2020 tot april 2023. Het wordt gedaan door de afdeling Psychologie van de
+      Het onderzoek loopt van 1 september 2020 tot 1 september 2023. Het wordt gedaan door de afdeling Psychologie van de
       Rijksuniversiteit Groningen. Het onderzoeksplan is ook goedgekeurd door de ethische commissie van de afdeling
       Psychologie (PSY-1920-S-0429). De verantwoordelijke onderzoekers zijn: dr. Ymkje Anna de Vries (afdeling
       Psychologie) en dr. Bert Wienen (Hogeschool Windesheim Zwolle).
@@ -51,16 +51,16 @@ ic_content_ouders = <<~'END'
     <p>
       Allereerst vragen we toestemming van zowel u als uw kind. Als u en uw kind toestemming geven, vragen wij uw kind de
       komende twee jaar elk half jaar om een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in
-      oktober 2020.
+      januari of februari 2021.
     </p>
     <p>
       De vragenlijst gaat over de gevoelens van uw kind en dingen die uw kind meemaakt, bijvoorbeeld op school. Het
-      invullen zal maximaal 1 uur kosten. Uw kind kan de vragenlijst invullen op zijn/haar eigen mobiele telefoon.
+      invullen zal maximaal 1 uur kosten. Uw kind kan de vragenlijst invullen op zijn/haar eigen mobiele telefoon of laptop.
     </p>
     <p>
       Uit de hele groep leerlingen kiezen we een klein aantal leerlingen die we vragen om tijdens het schooljaar elke week
-      een paar vragen te beantwoorden via een app op de telefoon. Dit kost ongeveer 5 minuten per week. Dit kan komend
-      schooljaar gebeuren of pas het jaar daarna. Leerlingen die hieraan meedoen, krijgen een kleine vergoeding van 1 euro
+      een paar vragen te beantwoorden via een app op de telefoon. Dit kost ongeveer 5 minuten per week. Dit gebeurt pas
+      het volgende schooljaar. Leerlingen die hieraan meedoen, krijgen een kleine vergoeding van 1 euro
       per ingevulde vragenlijst.
     </p>
     <p>
@@ -81,20 +81,20 @@ ic_content_ouders = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Hoe gaan we met uw gegevens om?</strong></p>
     <p>
       Om het onderzoek goed uit te kunnen voeren, is het nodig dat wij wat persoonsgegevens van uw kind verzamelen.
-      Bijvoorbeeld zijn/haar naam, leerlingnummer en telefoonnummer. Zo kunnen wij opnieuw contact opnemen met uw kind.
-      We vernietigen deze gegevens op 1 april 2023. Ook gaat het om de antwoorden op de vragenlijsten.
+      Bijvoorbeeld zijn/haar leerlingnummer en telefoonnummer. Zo kunnen wij opnieuw contact opnemen met uw kind.
+      We vernietigen deze gegevens op 1 september 2023. Ook gaat het om de antwoorden op de vragenlijsten.
     </p>
     <p>
       Alle informatie die uw kind aan ons geeft, wordt vertrouwelijk behandeld. Dit betekent dat we deze informatie <strong>nooit</strong>
-      aan de school, de ouders, of anderen geven. Gegevens zoals de naam van uw kind worden apart opgeslagen van de
+      aan de school, de ouders, of anderen geven. Gegevens zoals het telefoonnummer van uw kind worden apart opgeslagen van de
       antwoorden op de vragenlijsten, in beveiligde databases. Hierdoor zijn de antwoorden niet naar uw kind terug te
       leiden.
     </p>
     <p>
-      Uw kind heeft tot 1 april 2023 recht op toegang tot zijn/haar gegevens en vanaf zijn 16e verjaardag ook op het
+      Uw kind heeft tot 1 september 2023 recht op toegang tot zijn/haar gegevens en vanaf zijn/haar 16e verjaardag ook op het
       wijzigen en het verwijderen van zijn/haar gegevens. Hiervoor kan uw kind contact opnemen met de onderzoekers. Uw
       kind hoeft niet te zeggen waarom hij/zij dat wil. Als ouder hebt u géén recht op toegang tot de gegevens van uw
-      kind. U kunt wél vragen om wijziging of verwijdering van de gegevens. Dit recht bestaat tot 1 april 2023 of tot uw
+      kind. U kunt wél vragen om wijziging of verwijdering van de gegevens. Dit recht bestaat tot 1 september 2023 of tot uw
       kind 16 wordt. Als de antwoorden op de vragenlijsten al gebruikt zijn voor wetenschappelijk onderzoek, zijn we
       verplicht om de antwoorden te bewaren. U of uw kind kan ons dan wel vragen om de antwoorden niet meer te gebruiken
       voor nieuw onderzoek.
@@ -127,7 +127,7 @@ ic_content_ouders = <<~'END'
       Groningen: <a href='mailto:privacy@rug.nl' target='_blank' rel='noopener noreferrer'>privacy@rug.nl</a>.
     </p>
     <p>
-      Als ouder van een onderzoeksdeelnemer heeft u recht op een kopie van deze onderzoeksinformatie.
+      Als ouder van een onderzoeksdeelnemer heeft u recht op een kopie van deze onderzoeksinformatie. U kunt daarvoor deze pagina opslaan of uitprinten.
     </p>
     <h4>GEÏNFORMEERDE TOESTEMMING</h4>
     <h5><strong>"U-CAN-FEEL" ONDERZOEK</strong></h5>
@@ -161,7 +161,7 @@ ic_content_16_plus = <<~'END'
       We vragen je om mee te doen aan een onderzoek over gevoelens van geluk, angst en somberheid bij leerlingen op de
       middelbare school. Ook jouw school doet mee aan dit onderzoek, net als andere scholen in Zwolle.
     </p>
-    <p>Het onderzoek loopt van 1 september 2020 tot april 2023. Het wordt gedaan door de afdeling Psychologie van de
+    <p>Het onderzoek loopt van 1 september 2020 tot 1 september 2023. Het wordt gedaan door de afdeling Psychologie van de
       Rijksuniversiteit Groningen. Het onderzoeksplan is ook goed gekeurd door de ethische commissie van de afdeling
       Psychologie. De onderzoekers zijn: Ymkje Anna de Vries (<a href='mailto:y.a.de.vries@rug.nl'>y.a.de.vries@rug.nl</a>)
       en Bert Wienen (<a href='mailto:b.wienen@windesheim.nl'>b.wienen@windesheim.nl</a>).
@@ -182,7 +182,7 @@ ic_content_16_plus = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Wat vragen we van je tijdens het onderzoek?</strong></p>
     <p>
       Allereerst vragen we jouw toestemming. Als je toestemming geeft, vragen wij je om de komende twee jaar elk half jaar
-      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in oktober 2020.
+      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in januari of februari 2021.
     </p>
     <p>
       De vragenlijst gaat over hoe het met jou gaat en dingen die je meemaakt, bijvoorbeeld op school. Het invullen zal
@@ -191,7 +191,7 @@ ic_content_16_plus = <<~'END'
     <p>
       Uit de hele groep leerlingen kiezen we een klein aantal leerlingen die we vragen om tijdens het schooljaar elke week
       een paar vragen te beantwoorden via een app op de telefoon. Dit kost ongeveer 5 minuten per week en hiervoor krijg
-      je een vergoeding van 1 euro per ingevulde vragenlijst. Dit kan komend schooljaar gebeuren of pas het jaar daarna.
+      je een vergoeding van 1 euro per ingevulde vragenlijst. Dit gebeurt pas volgend schooljaar.
     </p>
     <p>
       We vragen ook jouw toestemming om gegevens van de school te krijgen over jouw verzuim (afwezigheid van school). Dit
@@ -209,8 +209,8 @@ ic_content_16_plus = <<~'END'
     </p>
     <p><strong><i class='material-icons'>chevron_right</i> Hoe gaan we met je gegevens om?</strong></p>
     <p>
-      Om het onderzoek goed uit te kunnen voeren, is het nodig dat we je naam, je leerlingnummer en je mobiele
-      telefoonnummer opslaan. Zo kunnen we later opnieuw contact met je opnemen. Na afloop van het onderzoek, op 1 april
+      Om het onderzoek goed uit te kunnen voeren, is het nodig dat we je leerlingnummer en je mobiele
+      telefoonnummer opslaan. Zo kunnen we later opnieuw contact met je opnemen. Na afloop van het onderzoek, op 1 september
       2023, vernietigen we deze gegevens.
     </p>
     <p>
@@ -218,14 +218,14 @@ ic_content_16_plus = <<~'END'
       aan je school, aan je ouders, of aan anderen geven.
     </p>
     <p>
-      We slaan je gegevens en je antwoorden op in beveiligde databases. Daarbij worden je naam, leerlingnummer en
+      We slaan je gegevens en je antwoorden op in beveiligde databases. Daarbij worden je leerlingnummer en
       telefoonnummer apart opgeslagen van de antwoorden op de vragen. Hierdoor zijn antwoorden niet naar jou terug te
       leiden, ook niet als er in één van de databases ingebroken wordt.
     </p>
     <p>
       Je hebt recht op toegang tot je eigen gegevens. Je hebt ook het recht om ons te vragen om gegevens te veranderen
       of te verwijderen. Hiervoor kun je contact opnemen met de onderzoekers. Je hoeft niet te zeggen waarom je dat wil.
-      Dit kan tot 1 april 2023. Als je antwoorden op de vragenlijsten al gebruikt zijn voor wetenschappelijk onderzoek,
+      Dit kan tot 1 september 2023. Als je antwoorden op de vragenlijsten al gebruikt zijn voor wetenschappelijk onderzoek,
       zijn we verplicht om de antwoorden te bewaren. Je kunt ons dan wel vragen om jouw antwoorden niet meer te gebruiken
       voor nieuw onderzoek.
     </p>
@@ -237,7 +237,7 @@ ic_content_16_plus = <<~'END'
     </p>
     <p>
       Om verder onderzoek mogelijk te maken, kunnen de antwoorden op de vragen onder bepaalde voorwaarden ook gedeeld
-      worden met andere onderzoekers. Maar je naam, nummer en telefoonnummer worden <strong>nooit</strong> gedeeld. We
+      worden met andere onderzoekers. Maar je leerlingnummer en telefoonnummer worden <strong>nooit</strong> gedeeld. We
       delen alleen die gegevens die echt nodig zijn voor het verdere onderzoek. Andere onderzoekers moeten de gegevens na
       afloop vernietigen.
     </p>
@@ -258,7 +258,7 @@ ic_content_16_plus = <<~'END'
       Groningen: <a href='mailto:privacy@rug.nl'>privacy@rug.nl</a>.
     </p>
     <p>
-      Als onderzoeksdeelnemer heb je recht op een kopie van deze onderzoeksinformatie.
+      Als onderzoeksdeelnemer heb je recht op een kopie van deze onderzoeksinformatie. Je kunt daarvoor deze pagina opslaan of uitprinten.
     </p>
     <h4>GEÏNFORMEERDE TOESTEMMING</h4>
     <h5><strong>"U-CAN-FEEL" ONDERZOEK</strong></h5>
@@ -287,10 +287,10 @@ dagboek_content = [
     id: :v1,
     type: :radio,
     show_otherwise: false,
-    title: 'Bent u ouder van een leerling of ben je zelf leerling (en minstens 16 jaar oud)?',
+    title: 'Bent u ouder van een leerling van 15 of jonger of ben je zelf leerling (en minstens 16 jaar oud)?',
     options: [
-      { title: 'Ouder van een leerling', shows_questions: %i[v2parent v3parent v4parent v5parent v6parent v7parent v8parent v9parent v10parent v11parent] },
-      { title: 'Leerling van 16 of ouder', shows_questions: %i[v2child v3child v4child v5child v6child v7child v8child v9child] }
+      { title: 'Ouder van een leerling van 15 of jonger', shows_questions: %i[v2parent v3parent v4parent v5parent v6parent v7parent v8parent v9parent v10parent v11parent v12parent] },
+      { title: 'Leerling van 16 of ouder', shows_questions: %i[v2child v3child v4child v5child v6child v7child v8child v9child v10child] }
     ]
   }, {
     id: :v2parent,
@@ -304,7 +304,7 @@ dagboek_content = [
     required: true,
     title: 'Toestemming voor deelname aan het onderzoek',
     options: [
-      'Ja, ik geef toestemming voor deelname van mijn kind aan het onderzoek. Ik geef de onderzoekers ook toestemming om mijn kind te vragen over zijn/haar geloofsovertuiging en over zijn/haar gezondheid. Deze toestemming loopt tot 01-04-2023.',
+      'Ja, ik geef toestemming voor deelname van mijn kind aan het onderzoek. Ik geef de onderzoekers ook toestemming om mijn kind te vragen over zijn/haar geloofsovertuiging en over zijn/haar gezondheid. Deze toestemming loopt tot 01-09-2023.',
       'Nee, ik geef geen toestemming voor deelname van mijn kind.'
     ],
     show_otherwise: false
@@ -326,7 +326,7 @@ dagboek_content = [
     required: true,
     title: 'Toestemming voor de verwerking van mijn persoonsgegevens',
     options: [
-      'Ja, ik geef toestemming voor de verwerking van de persoonsgegevens van mijn kind, zoals vermeld in de onderzoeksinformatie. Ik weet dat ik of mijn kind tot 01-04-2023 kan vragen om de gegevens van mijn kind te laten verwijderen, zoals uitgelegd in de informatiebrief. Ook als mijn kind besluit om te stoppen met deelname, kan ik of mijn kind hierom vragen.',
+      'Ja, ik geef toestemming voor de verwerking van de persoonsgegevens van mijn kind, zoals vermeld in de onderzoeksinformatie. Ik weet dat ik of mijn kind tot 01-09-2023 kan vragen om de gegevens van mijn kind te laten verwijderen, zoals uitgelegd in de informatiebrief. Ook als mijn kind besluit om te stoppen met deelname, kan ik of mijn kind hierom vragen.',
       'Nee, ik geef geen toestemming voor de verwerking van de persoonsgegevens van mijn kind.'
     ],
     show_otherwise: false
@@ -360,17 +360,23 @@ dagboek_content = [
   }, {
     id: :v10parent,
     hidden: true,
-    type: :textfield,
-    title: 'Leerlingnummer van uw kind',
-    required: true
-  }, {
-    id: :v11parent,
-    hidden: true,
     type: :radio,
     required: true,
     title: 'Naar welke school gaat uw kind?',
     options: SCHOOLS,
     show_otherwise: true,
+  }, {
+    id: :v11parent,
+    hidden: true,
+    type: :textfield,
+    required: true,
+    title: 'In welke klas zit uw kind? We bedoelen de specifieke klas (bijvoorbeeld H3c), niet alleen het leerjaar',
+  }, {
+    id: :v12parent,
+    hidden: true,
+    type: :textfield,
+    title: 'Wat is het leerlingnummer van uw kind?',
+    required: true
   }, {
     id: :v2child,
     hidden: true,
@@ -383,7 +389,7 @@ dagboek_content = [
     required: true,
     title: 'Toestemming om mee te doen aan het onderzoek',
     options: [
-      'Ja, ik geef toestemming om mee te doen aan het onderzoek. Ik geef de onderzoekers ook toestemming om mij te vragen over mijn geloofsovertuiging en over mijn gezondheid. Deze toestemming loopt tot 01-04-2023, tenzij ik besluit om eerder te stoppen. Ik geef ook toestemming voor het verwerken van mijn persoonsgegevens zoals uitgelegd in de informatiebrief.',
+      'Ja, ik geef toestemming om mee te doen aan het onderzoek. Ik geef de onderzoekers ook toestemming om mij te vragen over mijn geloofsovertuiging en over mijn gezondheid. Deze toestemming loopt tot 01-09-2023, tenzij ik besluit om eerder te stoppen. Ik geef ook toestemming voor het verwerken van mijn persoonsgegevens zoals uitgelegd in de informatiebrief.',
       'Nee, ik geef geen toestemming.'
     ],
     show_otherwise: false
@@ -422,17 +428,23 @@ dagboek_content = [
   }, {
     id: :v8child,
     hidden: true,
-    type: :textfield,
-    title: 'Wat is je leerlingnummer?',
-    required: true
-  }, {
-    id: :v9child,
-    hidden: true,
     type: :radio,
     required: true,
     title: 'Naar welke school ga je?',
     options: SCHOOLS,
     show_otherwise: true,
+  }, {
+    id: :v9child,
+    hidden: true,
+    type: :textfield,
+    title: 'In welke klas zit je? We bedoelen de specifieke klas (bijvoorbeeld H3c), niet alleen het leerjaar',
+    required: true,
+  }, {
+    id: :v10child,
+    hidden: true,
+    type: :textfield,
+    title: 'Wat is je leerlingnummer?',
+    required: true
   }
 ]
 

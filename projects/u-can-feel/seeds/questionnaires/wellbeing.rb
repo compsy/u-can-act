@@ -13,52 +13,59 @@ dagboek_content = [
     </p>'
   }, {
     id: :v1,
-    type: :radio,
-    show_otherwise: false,
-    title: 'Voel je je in het algemeen gelukkig?',
-    options: ['0 (Helemaal niet gelukkig)', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10 (Heel gelukkig)']
+    type: :range,
+    required: true,
+    title: 'Voel je je in het algemeen gelukkig? Verschuif de slider om aan te geven hoe gelukkig je je in het algemeen voelt.',
+    labels: ['Helemaal niet gelukkig', 'Heel gelukkig']
   }, {
     type: :raw,
-    content: '<p class="flow-text">Denk even na over hoe je leven geweest is in de afgelopen twee weken. Verschuif de slider om aan te geven hoeveel je het eens of oneens bent met elke zin.
+    content: '<p class="flow-text">Denk even na over hoe je leven geweest is <strong>in de afgelopen twee weken</strong>. Verschuif de slider om aan te geven hoeveel je het eens of oneens bent met elke zin.
     </p>'
   }, {
     id: :v2,
     type: :range,
+    required: true,
     title: 'Het gaat goed met mijn leven',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3,
     type: :range,
+    required: true,
     title: 'Mijn leven is precies goed',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v4,
     type: :range,
+    required: true,
     title: 'Ik zou veel dingen in mijn leven willen veranderen als dat kon',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5,
     type: :range,
+    required: true,
     title: 'Ik wou dat ik een ander soort leven had',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v6,
     type: :range,
+    required: true,
     title: 'Ik heb een goed leven',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v7,
     type: :range,
+    required: true,
     title: 'Ik heb wat ik wil in het leven',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v8,
     type: :range,
+    required: true,
     title: 'Ik heb een beter leven dan de meeste kinderen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragen gaan over vervelende gevoelens, waar je weleens last van kunt hebben. Klik het knopje om aan te geven hoe vaak jij in de afgelopen twee weken last hebt gehad van zulke gevoelens.
+    content: '<p class="flow-text">De volgende vragen gaan over vervelende gevoelens, waar je weleens last van kunt hebben. Klik het knopje om aan te geven hoe vaak jij <strong>in de afgelopen twee weken</strong> deze gevoelens hebt gehad.
     </p>'
   }, {
     id: :v9,
@@ -212,40 +219,86 @@ dagboek_content = [
     options: rcads_options
   },  {
     type: :raw,
-    content: '<p class="flow-text">In het afgelopen jaar is er vanwege het uitbreken van het coronavirus veel gebeurd. Sommige mensen voelen zich daardoor misschien vaker zenuwachtig of somber. Anderen hebben hier geen last van of voelen zich juist rustiger, bijvoorbeeld omdat ze vaker thuis kunnen zijn. We zijn benieuwd hoe dit voor jou is. <br> <br>
-    Vergeleken met vóór de coronacrisis, voelde je je in de afgelopen 2 weken vaker of juist minder vaak ...
+    content: '<p class="flow-text">In het afgelopen jaar is er vanwege het uitbreken van het coronavirus veel gebeurd. Sommige mensen voelen zich daardoor misschien vaker zenuwachtig of somber. Anderen hebben hier geen last van of voelen zich juist rustiger, bijvoorbeeld omdat ze vaker thuis konden zijn. We zijn daarom benieuwd hoe je je voelde vóór de coronacrisis en hoe dat nu is. <br> <br>
+    <strong>Denk even terug aan een maand in de periode vóór de coronacrisis, bijvoorbeeld precies een jaar geleden. Hoe vaak voelde je je in die maand ...</strong>
   </p>'
   }, {
     id: :v34_a,
     type: :range,
-    title: 'Zenuwachtig',
-    labels: ['Veel minder vaak', 'Veel vaker']
+    required: true,
+    title: 'Zenuwachtig?',
+    labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_b,
     type: :range,
+    required: true,
     title: 'Hopeloos?',
-    labels: ['Veel minder vaak', 'Veel vaker']
+    labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_c,
     type: :range,
-    title: 'Rusteloos of ongedurig?',
-    labels: ['Veel minder vaak', 'Veel vaker']
+    required: true,
+    title: 'Rusteloos of onrustig?',
+    labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_d,
     type: :range,
+    required: true,
     title: 'Zo somber dat niets je kon opvrolijken?',
-    labels: ['Veel minder vaak', 'Veel vaker']
+    labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_e,
     type: :range,
+    required: true,
     title: 'Dat alles veel moeite kostte?',
-    labels: ['Veel minder vaak', 'Veel vaker']
+    labels: ['Nooit', 'Altijd']
   }, {
     id: :v34_f,
     type: :range,
+    required: true,
     title: 'Waardeloos?',
-    labels: ['Veel minder vaak', 'Veel vaker']
-  },{
+    labels: ['Nooit', 'Altijd']
+  }, {
+    type: :raw,
+    content: '<p class="flow-text"><strong>Denk nu even aan de afgelopen maand, die net geweest is. Hoe vaak voelde je je in de afgelopen maand ...</strong>
+  </p>'
+  }, {
+    id: :v34_g,
+    type: :range,
+    required: true,
+    title: 'Zenuwachtig?',
+    labels: ['Nooit', 'Altijd']
+  }, {
+    id: :v34_h,
+    type: :range,
+    required: true,
+    title: 'Hopeloos?',
+    labels: ['Nooit', 'Altijd']
+  }, {
+    id: :v34_i,
+    type: :range,
+    required: true,
+    title: 'Rusteloos of onrustig?',
+    labels: ['Nooit', 'Altijd']
+  }, {
+    id: :v34_j,
+    type: :range,
+    required: true,
+    title: 'Zo somber dat niets je kon opvrolijken?',
+    labels: ['Nooit', 'Altijd']
+  }, {
+    id: :v34_k,
+    type: :range,
+    required: true,
+    title: 'Dat alles veel moeite kostte?',
+    labels: ['Nooit', 'Altijd']
+  }, {
+    id: :v34_l,
+    type: :range,
+    required: true,
+    title: 'Waardeloos?',
+    labels: ['Nooit', 'Altijd']
+  }, {
     type: :raw,
     content: '<p class="flow-text">De volgende vragen gaan over angsten voor bepaalde dingen, zoals voor dieren, onweer of bloed, waar sommige mensen last van hebben.
     </p>'
@@ -256,16 +309,17 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Ben je ooit veel banger dan de meeste andere kinderen geweest voor één van de volgende dingen of situaties? Je kunt meerdere dingen aanklikken.',
     options: [
-      { title: 'Insecten, slangen, honden of andere dieren', shows_questions: %i[v35_a v35_b v41_a v41_b v41_c v42] },
-      { title: 'Stilstaand water (bijvoorbeeld een zwembad of meer)', shows_questions: %i[v36_a v36_b v41_a v41_b v41_c v42] },
-      { title: 'Zwaar weer (bijvoorbeeld stormen, onweer of bliksem)', shows_questions: %i[v36_a v36_b v41_a v41_b v41_c v42] },
-      { title: 'Naar de tandarts of dokter gaan', shows_questions: %i[v37_a v37_b v41_a v41_b v41_c v42] },
-      { title: 'Een prik of vaccinatie krijgen', shows_questions: %i[v37_a v37_b v41_a v41_b v41_c v42] },
-      { title: 'Bloed of een wond zien', shows_questions: %i[v37_a v37_b v41_a v41_b v41_c v42] },
-      { title: 'In een ziekenhuis zijn', shows_questions: %i[v37_a v37_b v41_a v41_b v41_c v42] },
-      { title: 'Besloten ruimtes, zoals grotten, tunnels, kasten of liften', shows_questions: %i[v38_a v38_b v41_a v41_b v41_c v42] },
-      { title: 'Hoogtes, zoals een dak, een balkon, een brug of een trap', shows_questions: %i[v39_a v39_b v41_a v41_b v41_c v42] },
-      { title: 'Vliegen of vliegtuigen', shows_questions: %i[v40_a v40_b v41_a v41_b v41_c v42] },
+      { title: 'Insecten, slangen, honden of andere dieren', shows_questions: %i[v35_a v35_b v42_a v42_b v42_c v43] },
+      { title: 'Stilstaand water (bijvoorbeeld een zwembad of meer)', shows_questions: %i[v36_a v36_b v42_a v42_b v42_c v43] },
+      { title: 'Zwaar weer (bijvoorbeeld stormen, onweer of bliksem)', shows_questions: %i[v36_a v36_b v42_a v42_b v42_c v43] },
+      { title: 'Naar de tandarts of dokter gaan', shows_questions: %i[v37_a v37_b v42_a v42_b v42_c v43] },
+      { title: 'Een prik of vaccinatie krijgen', shows_questions: %i[v37_a v37_b v42_a v42_b v42_c v43] },
+      { title: 'Bloed of een wond zien', shows_questions: %i[v37_a v37_b v42_a v42_b v42_c v43] },
+      { title: 'In een ziekenhuis zijn', shows_questions: %i[v37_a v37_b v42_a v42_b v42_c v43] },
+      { title: 'Kleine ruimtes, zoals grotten, tunnels, kasten of liften', shows_questions: %i[v38_a v38_b v42_a v42_b v42_c v43] },
+      { title: 'Hoogtes, zoals een dak, een balkon, een brug of een trap', shows_questions: %i[v39_a v39_b v42_a v42_b v42_c v43] },
+      { title: 'Vliegen of vliegtuigen', shows_questions: %i[v40_a v40_b v42_a v42_b v42_c v43] },
+      { title: 'Het donker', shows_questions: %i[v41_a v41_b v42_a v42_b v42_c v43] },
       { title: 'Geen van deze dingen' }
     ]
   }, {
@@ -315,14 +369,14 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     hidden: true,
-    title: 'Je zei dat je ooit wel eens heel bang geweest bent voor besloten ruimtes, zoals grotten of tunnels. De volgende vragen gaan over deze angst. <br><br> Heb je wel eens een periode gehad waarin je bijna altijd heel bang of overstuur werd als je in een besloten ruimte terecht kwam?',
+    title: 'Je zei dat je ooit wel eens heel bang geweest bent voor kleine ruimtes, zoals grotten of tunnels. De volgende vragen gaan over deze angst. <br><br> Heb je wel eens een periode gehad waarin je bijna altijd heel bang of overstuur werd als je in een kleine ruimte terecht kwam?',
     options: %w[Ja Nee]
   }, {
     id: :v38_b,
     type: :radio,
     show_otherwise: false,
     hidden: true,
-    title: 'Ben je ooit dit soort besloten ruimtes zoveel mogelijk uit de weg gegaan?',
+    title: 'Ben je ooit dit soort kleine ruimtes zoveel mogelijk uit de weg gegaan?',
     options: %w[Ja Nee]
   }, {
     id: :v39_a,
@@ -357,48 +411,61 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     hidden: true,
+    title: 'Je zei dat je ooit wel eens heel bang geweest bent voor het donker. De volgende vragen gaan over deze angst. <br><br> Heb je wel eens een periode gehad waarin je bijna altijd heel bang of overstuur werd als je in het donker moest zijn?',
+    options: %w[Ja Nee]
+  }, {
+    id: :v41_b,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
+    title: 'Ben je ooit zoveel mogelijk situaties waarin je in het donker zou moeten zijn uit de weg gegaan?',
+    options: %w[Ja Nee]
+  }, {
+    id: :v42_a,
+    type: :radio,
+    show_otherwise: false,
+    hidden: true,
     title: 'De volgende vragen gaan over je angst voor alle dingen die je hebt aangekruist. Hoeveel moeilijker heeft je angst voor dit soort dingen het je gemaakt om gewoon je leven te leiden? Bijvoorbeeld om je schoolwerk goed te doen, met vrienden af te spreken of goed op te schieten met je familie',
     options: ['Helemaal niet', 'Een beetje', 'Matig', 'Veel', 'Heel veel']
   }, {
-    id: :v41_b,
+    id: :v42_b,
     type: :radio,
     show_otherwise: false,
     hidden: true,
     title: 'Heb je ooit een periode gehad waarin je erg van streek, bezorgd of teleurgesteld in jezelf was omdat je zo bang was voor dit soort dingen?',
     options: %w[Ja Nee]
   }, {
-    id: :v41_c,
+    id: :v42_c,
     type: :radio,
     show_otherwise: false,
     hidden: true,
     title: 'Weet je nog hoe oud je was de allereerste keer dat je zo bang werd door dit soort dingen?',
     options: [
-      { title: 'Ja, dat weet ik nog', shows_questions: %i[v41_d] },
-      { title: 'Nee, dat weet ik niet meer', shows_questions: %i[v41_e] }
+      { title: 'Ja, dat weet ik nog', shows_questions: %i[v42_d] },
+      { title: 'Nee, dat weet ik niet meer', shows_questions: %i[v42_e] }
     ]
   }, {
-    id: :v41_d,
+    id: :v42_d,
     type: :dropdown,
     show_otherwise: false,
     hidden: true,
     title: 'Hoe oud was je de allereerste keer dat je zo bang werd door dit soort dingen?',
     options: (0..20).to_a.map(&:to_s)
   }, {
-    id: :v41_e,
+    id: :v42_e,
     type: :radio,
     show_otherwise: false,
     hidden: true,
     title: 'Weet je nog hoe oud je ongeveer was toen je de eerste keer zo bang werd door dit soort dingen?',
     options: ['Voor de basisschool', 'Voor de middelbare school', 'Tijdens de middelbare school', 'Dat weet ik niet meer']
   }, {
-    id: :v42,
+    id: :v43,
     type: :radio,
     show_otherwise: false,
     hidden: true,
     title: 'Wanneer was de laatste keer dat je erg bang was voor één van die dingen?',
     options: ['In de afgelopen maand', '1 tot 12 maanden geleden', 'Meer dan een jaar geleden']
   }
-  
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

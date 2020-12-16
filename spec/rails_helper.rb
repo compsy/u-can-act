@@ -82,6 +82,8 @@ RSpec.configure do |config|
   # config.include FormHelpers, type: :feature
   config.include UiMacros, type: :feature
   config.include AuthHelper
+  # Note that this overrides some functions of the authhelper
+  config.include AuthRequestHelper, type: :request
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

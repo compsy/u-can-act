@@ -99,6 +99,10 @@ class ProtocolSubscription < ApplicationRecord
       informed_consent_given_at.present?)
   end
 
+  def informed_consent_content
+    ResponseContent.find(informed_consent_content) if informed_consent_content.present?
+  end
+
   def completion
     # cached version
     @completion ||= protocol_completion

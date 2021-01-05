@@ -8,6 +8,8 @@ module DistributionHelper
   # that to work, here we choose a value that is short (because everything is stored in JSON format)
   # and is probably not taken by any of the question IDs.
   VALUE = '_'
+  OTHER_QUESTION_TYPES = %i[number radio likert dropdown date].freeze
+  CHECKBOX_QUESTION_TYPE = %i[checkbox].freeze
 
   # Consider these as private methods that are (and can only be) tested in their own
   # context, hence there is no specific test suite for this file.
@@ -38,7 +40,7 @@ module DistributionHelper
 
   def other_questions(questionnaire_content)
     questionnaire_content
-      .select { |question| %i[number radio likert dropdown date].include?(question[:type]) }
+      .select { |question| OTHER_QUESTION_TYPES.include?(question[:type]) }
       .map do |question|
       { id: question[:id].to_s, type: question[:type], combines_with: question[:combines_with] }
     end
@@ -47,7 +49,7 @@ module DistributionHelper
   def checkbox_questions(questionnaire_content)
     questions = []
     questionnaire_content
-      .select { |question| %i[checkbox].include?(question[:type]) }
+      .select { |question| CHECKBOX_QUESTION_TYPE.include?(question[:type]) }
       .each do |question|
       generate_checkbox_options(question).each do |option|
         questions << option
@@ -65,11 +67,15 @@ module DistributionHelper
       options << idify(question[:id], title)
     end
     unless question.key?(:show_otherwise) && question[:show_otherwise].blank?
-      otherwise_label = QuestionTypeGenerator::OTHERWISE_TEXT
-      otherwise_label = question[:otherwise_label] if question[:otherwise_label].present?
-      options << idify(question[:id], otherwise_label)
+      options << idify(question[:id], otherwise_label(question))
     end
     options.uniq.map { |option| { id: option, type: question[:type], combines_with: nil } }
+  end
+
+  def otherwise_label(question)
+    return question[:otherwise_label] if question[:otherwise_label].present?
+
+    QuestionTypeGenerator::OTHERWISE_TEXT
   end
 
   def scores(questionnaire_content)

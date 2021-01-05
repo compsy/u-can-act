@@ -20,7 +20,7 @@ dagboek_content = [
     type: :dropdown,
     show_otherwise: false,
     title: 'Hoe oud ben je?',
-    options: (8..20).to_a.map(&:to_s)
+    options: (8..21).to_a.map(&:to_s)
   }, {
     id: :v3,
     type: :radio,
@@ -47,16 +47,16 @@ dagboek_content = [
     hidden: true,
     required: true,
     show_otherwise: false,
-    title: 'Op welk schoolniveau ben je in de eerste klas begonnen? Je kunt weer meerdere opties aanvinken.',
+    title: 'Op welk schoolniveau ben je in de eerste klas begonnen? Je kunt weer meerdere niveaus aanklikken.',
     options: ['VMBO basis', 'VMBO kader', 'VMBO gemengd', 'VMBO-TL', 'Havo', 'Vwo, atheneum of gymnasium']
   }, {
     id: :v4_c,
     type: :checkbox,
     required: true,
     show_otherwise: false,
-    title: 'Welk advies had je op de basisschool gekregen voor je schoolniveau?',
+    title: 'Welk advies had je op de basisschool gekregen voor je schoolniveau? Je kunt weer meerdere niveaus aanklikken.',
     options: ['VMBO basis', 'VMBO kader', 'VMBO gemengd', 'VMBO-TL', 'Havo', 'Vwo, atheneum of gymnasium', 'Anders', 'Geen advies', 'Ik weet het niet meer']
-  }, {
+  },{
     type: :raw,
     content: '<p class="flow-text">De volgende vragen gaan over je thuis. Hiermee bedoelen we het huis waarin je woont. In dit huis woont ook een volwassene die voor je zorgt. Sommige kinderen hebben meer dan 1 thuis.
 </p>'
@@ -75,7 +75,7 @@ dagboek_content = [
     hidden: true,
     show_otherwise: false,
     title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
-    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, geen van beide ouders']
+    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
   }, {
     id: :v6_b,
     type: :checkbox,
@@ -83,13 +83,13 @@ dagboek_content = [
     required: true,
     show_otherwise: false,
     title: 'Wie wonen er nog meer bij je in dit huis? Je kunt meerdere opties aanvinken.',
-    options: ['Niemand anders', 'Een stiefouder', 'Broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
+    options: ['Niemand anders', 'Een stiefouder of vriend/vriendin van je ouder', '(Half)broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
   }, {
     id: :v7_a,
     type: :radio,
     hidden: true,
     show_otherwise: false,
-    title: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont. Hoeveel nachten per week slaap je in dit huis?',
+    title: 'De volgende vragen gaan over het huis waar je het grootste deel van de tijd woont. Als je ongeveer even vaak in twee verschillende huizen slaapt (bijvoorbeeld de helft van de week bij je moeder en de andere helft bij je vader), kies dan gewoon één van de huizen waar je woont. Hoeveel nachten per week slaap je ongeveer in dit huis?',
     options: ['Minder dan 1 nacht per week', '1 nacht per week', '2 nachten per week', '3 nachten per week', '4 nachten per week', '5 nachten per week', '6 nachten per week', '7 nachten per week']
   }, {
     id: :v7_b,
@@ -97,7 +97,7 @@ dagboek_content = [
     hidden: true,
     show_otherwise: false,
     title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
-    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, geen van beide ouders']
+    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
   }, {
     id: :v7_c,
     type: :checkbox,
@@ -105,7 +105,7 @@ dagboek_content = [
     required: true,
     show_otherwise: false,
     title: 'Wie wonen er nog meer bij je in dit huis? Je kunt meerdere opties aanvinken.',
-    options: ['Niemand anders', 'Een stiefouder', 'Broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
+    options: ['Niemand anders', 'Een stiefouder of vriend/vriendin van je ouder', '(Half)broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
   }, {
     id: :v7_d,
     type: :radio,
@@ -129,7 +129,7 @@ dagboek_content = [
     hidden: true,
     show_otherwise: false,
     title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
-    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, geen van beide ouders']
+    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
   }, {
     id: :v8_c,
     type: :checkbox,
@@ -137,7 +137,7 @@ dagboek_content = [
     required: true,
     show_otherwise: false,
     title: 'Wie wonen er nog meer bij je in dit huis? Je kunt meerdere opties aanvinken.',
-    options: ['Niemand anders', 'Een stiefouder', 'Broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
+    options: ['Niemand anders', 'Een stiefouder of vriend/vriendin van je ouder', '(Half)broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
   }, {
     id: :v8_d,
     type: :radio,
@@ -161,7 +161,7 @@ dagboek_content = [
     hidden: true,
     show_otherwise: false,
     title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
-    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, geen van beide ouders']
+    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
   }, {
     id: :v9_c,
     type: :checkbox,
@@ -169,8 +169,8 @@ dagboek_content = [
     required: true,
     show_otherwise: false,
     title: 'Wie wonen er nog meer bij je in dit huis? Je kunt meerdere opties aanvinken.',
-    options: ['Niemand anders', 'Een stiefouder', 'Broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
-  }
+    options: ['Niemand anders', 'Een stiefouder of vriend/vriendin van je ouder', '(Half)broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
+  } 
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

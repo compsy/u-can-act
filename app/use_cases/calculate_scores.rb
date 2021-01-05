@@ -120,7 +120,7 @@ class CalculateScores < ActiveInteraction::Base
     raise MyMissingDataError, 'trying to calculate the average of an empty array' if data.size.zero?
     return data[0] if data.size == 1 # no need to convert to float if we have just one integer
 
-    data.inject(0.0) { |sum, el| sum + el } / data.size
+    data.sum(0.0) / data.size
   end
 
   def round_result(value, score)

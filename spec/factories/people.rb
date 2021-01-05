@@ -13,8 +13,8 @@ FactoryBot.define do
     account_active { true }
 
     trait :with_random_name do
-      sequence(:first_name, 'a') { |n| 'Janine' + n }
-      sequence(:last_name, 'a') { |n| 'Douval' + n }
+      sequence(:first_name, 'a') { |n| "Janine#{n}" }
+      sequence(:last_name, 'a') { |n| "Douval#{n}" }
     end
 
     trait :with_protocol_subscriptions do

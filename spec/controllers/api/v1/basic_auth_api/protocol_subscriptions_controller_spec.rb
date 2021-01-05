@@ -25,14 +25,15 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         person: person,
         mentor: mentor,
         end_date: nil,
-        start_date: time,
+        start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
-      ).and_return true
+      ).and_call_original
 
       post :create, params: { protocol_name: prot_name,
                               start_date: time,
                               mentor_id: mentor.id,
                               auth0_id_string: auth_user.auth0_id_string }
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
       expect(response.status).to eq 201
     end
 
@@ -41,8 +42,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: nil,
-        start_date: time,
-        end_date: time,
+        start_date: instance_of(ActiveSupport::TimeWithZone),
+        end_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: external_identifier
       ).and_return true
 
@@ -59,7 +60,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
                               start_date: time.to_s,
                               auth0_id_string: auth_user.auth0_id_string }
       expect(response.status).to eq 201
-      expect(ProtocolSubscription.last.start_date).to eq time
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
     end
 
     it 'should be possible to call the url without a time' do
@@ -69,13 +70,14 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         person: person,
         mentor: mentor,
         end_date: nil,
-        start_date: time,
+        start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
-      ).and_return true
+      ).and_call_original
 
       post :create, params: { protocol_name: prot_name,
                               mentor_id: mentor.id,
                               auth0_id_string: auth_user.auth0_id_string }
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(Time.zone.now)
       expect(response.status).to eq 201
       Timecop.return
     end
@@ -137,7 +139,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
     end
 
     it 'should give an error status when called without external identifier' do
-      get :delegated_protocol_subscriptions, params: { id: protocol_subscription.id }
+      delete :destroy, params: { id: protocol_subscription.id }
       expect(response.status).to eq 422
     end
 
@@ -147,6 +149,68 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
                                  id: protocol_subscription.id }
       expect(response.status).to eq 404
       expect(response.body).to match(/Protocol subscription met dat ID niet gevonden/)
+    end
+  end
+
+  describe '#destroy_delegated_protocol_subscriptions' do
+    before do
+      basic_auth 'admin', 'admin'
+    end
+    let(:person) { FactoryBot.create(:person) }
+    let(:auth_user) { FactoryBot.create(:auth_user, person: person) }
+    let!(:protocol_subscription) do
+      FactoryBot.create(:protocol_subscription,
+                        external_identifier: external_identifier,
+                        person: person)
+    end
+    let!(:protocol_subscription2) do
+      FactoryBot.create(:protocol_subscription,
+                        state: ProtocolSubscription::CANCELED_STATE,
+                        external_identifier: external_identifier,
+                        person: person)
+    end
+    let!(:protocol_subscription3) do
+      FactoryBot.create(:protocol_subscription,
+                        external_identifier: 'something else',
+                        person: person)
+    end
+    let!(:protocol_subscription4) do
+      FactoryBot.create(:protocol_subscription,
+                        external_identifier: external_identifier)
+    end
+    let!(:protocol_subscription5) do
+      FactoryBot.create(:protocol_subscription,
+                        external_identifier: external_identifier,
+                        person: person)
+    end
+
+    it 'cancels all active protocol subscription for the given profile and external identifier' do
+      expect(protocol_subscription.state).to eq ProtocolSubscription::ACTIVE_STATE
+      expect do
+        delete :destroy_delegated_protocol_subscriptions, params: { external_identifier: external_identifier,
+                                                                    auth0_id_string: auth_user.auth0_id_string }
+      end.not_to change(ProtocolSubscription, :count)
+      expect(response.status).to eq 200
+      expect(response.body).to match(/destroyed/)
+      protocol_subscription.reload
+      expect(protocol_subscription.state).to eq ProtocolSubscription::CANCELED_STATE
+      protocol_subscription3.reload
+      expect(protocol_subscription3.state).to eq ProtocolSubscription::ACTIVE_STATE
+      protocol_subscription4.reload
+      expect(protocol_subscription4.state).to eq ProtocolSubscription::ACTIVE_STATE
+      protocol_subscription5.reload
+      expect(protocol_subscription5.state).to eq ProtocolSubscription::CANCELED_STATE
+    end
+
+    it 'should give an error status when called without external identifier' do
+      delete :destroy_delegated_protocol_subscriptions, params: { auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 422
+    end
+
+    it 'should give an error status when the person could not be found' do
+      delete :destroy_delegated_protocol_subscriptions, params: { external_identifier: external_identifier }
+      expect(response.status).to eq 404
+      expect(response.body).to match(/Person met dat ID niet gevonden/)
     end
   end
 end

@@ -233,7 +233,7 @@ describe CreateMentors do
     it 'creates mentors for all hashes in the array supplied' do
       mentor_pre = Person.count
       subject.send(:create_mentors, parsed_mentors)
-      expect(Person.count).to eq parsed_mentors.map { |x| x[:mobile_phone] }.uniq.count + mentor_pre
+      expect(Person.count).to eq parsed_mentors.pluck(:mobile_phone).uniq.count + mentor_pre
     end
 
     it 'creates the correct mentors' do

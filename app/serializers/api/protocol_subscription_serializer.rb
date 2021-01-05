@@ -16,6 +16,7 @@ module Api
                :name,
                :questionnaires,
                :first_name,
+               :auth0_id_string,
                :id
 
     def completion
@@ -34,6 +35,12 @@ module Api
 
     def person_type
       object.person.role.group
+    end
+
+    def auth0_id_string
+      return object.person.auth_user.auth0_id_string if object.person.auth_user.present?
+
+      ''
     end
 
     def max_still_awardable_euros

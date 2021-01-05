@@ -15,9 +15,9 @@ class ResponseExporter
         enum << '"' # output a character to the stream right away
         csv_headers = export_headers(questionnaire, bust_cache: false)
         formatted_headers = format_headers(csv_headers)[1..] # strip first char
-        enum << formatted_headers + "\n"
+        enum << "#{formatted_headers}\n"
         export(questionnaire, csv_headers) do |line|
-          enum << line + "\n"
+          enum << "#{line}\n"
         end
       end
     end

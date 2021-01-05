@@ -146,6 +146,12 @@ describe Person do
       expect_any_instance_of(Response).to receive(:priority_sorting_metric).and_call_original
       expect(protocol_subscription.person.my_open_responses).to eq([response])
     end
+    it 'should not return otr responses' do
+      protocol = FactoryBot.create(:protocol, :with_one_time_responses)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 10.minutes.ago, protocol: protocol)
+      FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
+      expect(protocol_subscription.person.my_open_responses).to eq([])
+    end
   end
 
   describe 'my_open_one_time_responses' do

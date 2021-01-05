@@ -61,4 +61,10 @@ describe SubscribeToProtocol do
     expect { described_class.run!(protocol_name: 'test', person: person) }
       .to raise_error(RuntimeError, 'Protocol not found')
   end
+
+  it 'sets the external identifier' do
+    described_class.run!(protocol_name: protocol.name, person: person, external_identifier: 'external_identifier')
+    person.reload
+    expect(person.protocol_subscriptions.first.external_identifier).to eq 'external_identifier'
+  end
 end

@@ -47,7 +47,6 @@ class StudentInvitationTexts < InvitationTexts
     end
 
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/CyclomaticComplexity
     def rewards_threshold_pool(threshold)
       case threshold
       when 1000 # 10 euro
@@ -87,7 +86,6 @@ class StudentInvitationTexts < InvitationTexts
       end
     end
 
-    # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/MethodLength
 
     def default_pool(protocol)

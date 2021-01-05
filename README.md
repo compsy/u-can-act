@@ -1,11 +1,18 @@
-# u-can-act
-Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
-Ook in gebruik als _back end_ voor <https://iederkindisanders.nl/> en <https://yourspecialforces.nl>.
+<h1 align="center">
+  u-can-act
+</h1>
 
-[![DOI][zenodo-image]][zenodo-url]
-[![Circle CI][circleci-image]][circleci-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependabot Status][dependabot-image]][dependabot-url]
+<p align="center">
+  Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
+  Ook in gebruik als <i>back end</i> voor <a href="https://iederkindisanders.nl">Ieder Kind is Anders</a> en <a href="https://yourspecialforces.nl">Your Special Forces</a>.
+</p>
+
+<p align="center">
+  <a href="https://zenodo.org/badge/latestdoi/84442919"><img src="https://zenodo.org/badge/84442919.svg"></a>
+  <a href="https://circleci.com/gh/compsy/u-can-act"><img src="https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a"></a>
+  <a href="https://coveralls.io/github/compsy/u-can-act?branch=master"><img src="https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master"></a>
+  <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act"></a>
+</p>
 
 Table of Contents
 =================
@@ -237,6 +244,7 @@ There are two types of measurements.
 Periodical and one-time measurements. 
 Periodical measurements are measurements that have a `period` that is not nil. 
 Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
+**See the measurement model for the most up to date documentation**.
 
 For non-periodical measurements, the `offset_until_end` is ignored.
 
@@ -248,6 +256,7 @@ Variable | Description
 `q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.
 `q.period` | Time between measurements.
 `q.open_from_offset` | What offset to apply before opening the protocol. 
+`q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
 ## Importing new students and mentors
@@ -804,6 +813,7 @@ Required and allowed options (minimal example and maximal example):
   type: :dropdown,
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   label: 'RMC regio',
+  placeholder: 'Selecteer uw antwoord...',
   tooltip: 'some tooltip',
   options: [
     { title: 'hobby/sport', numeric_value: 0 },
@@ -946,14 +956,5 @@ The `preprocessing` key is optional, and if provided, should be a hash with a (s
 }
 ```
 
-[zenodo-image]: https://zenodo.org/badge/84442919.svg
-[zenodo-url]: https://zenodo.org/badge/latestdoi/84442919
 
-[circleci-image]: https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a
-[circleci-url]: https://circleci.com/gh/compsy/u-can-act
 
-[coveralls-image]: https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/compsy/u-can-act?branch=master
-
-[dependabot-image]: https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act
-[dependabot-url]: https://dependabot.com

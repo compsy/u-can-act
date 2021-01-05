@@ -4,7 +4,6 @@ require 'rails_helper'
 
 shared_examples_for 'a basic authenticated route' do |method, route|
   # Disabling rubocop, it currently only does this because of the params || {} line
-  # rubocop:disable Metrics/CyclomaticComplexity
   def call_url(method, route)
     case method
     when 'get'
@@ -13,7 +12,6 @@ shared_examples_for 'a basic authenticated route' do |method, route|
       post route, params: (params || {}) if method == 'post'
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   it 'returns a 401 when not authenticated' do
     call_url(method, route)

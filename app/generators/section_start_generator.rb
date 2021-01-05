@@ -9,7 +9,6 @@ class SectionStartGenerator < Generator
     klasses = 'extra-spacing row'
     klasses += ' hidden' if question[:hidden].present?
     klasses += " #{idify(question[:id], 'toggle')}" if question.key?(:hidden) # hides_questions need hidden: false
-    body = tag.div(body, class: klasses)
-    body
+    tag.div(body, class: klasses)
   end
 end

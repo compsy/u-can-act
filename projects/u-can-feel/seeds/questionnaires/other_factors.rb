@@ -11,13 +11,13 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text">Je bent er bijna! <br><br>
         De laatste vragen gaan over een aantal dingen die invloed kunnen hebben op hoe het met je gaat, namelijk je geloof, gebeurtenissen in je leven en sociale media.<br><br>
-        De eerste vragen gaan over je geloof. Sommige kinderen geloven in God of een hogere macht. Andere kinderen geloven daar niet in.
+        De eerste vragen gaan over je geloof. Sommige kinderen geloven in God, Allah of een andere hogere macht. Andere kinderen geloven daar niet in.
     </p>'
   }, {
     id: :v1,
     type: :radio,
     show_otherwise: false,
-    title: 'Geloof jij in God of een ander soort hogere macht?',
+    title: 'Geloof jij in God, Allah, of een ander soort hogere macht?',
     options: [
       { title: 'Ja', shows_questions: %i[v5_a v5_b v5_c v5_d v5_e] },
       { title: 'Nee' },
@@ -48,31 +48,31 @@ dagboek_content = [
     id: :v5_a,
     type: :range,
     hidden: true,
-    title: 'Ik geloof dat God of een hogere macht van mij houdt en om mij geeft',
+    title: 'Ik geloof dat God, Allah of een andere hogere macht van mij houdt en om mij geeft',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_b,
     type: :range,
     hidden: true,
-    title: 'Mijn relatie met God of een hogere macht is belangrijk voor mij',
+    title: 'Mijn relatie met God, Allah of een andere hogere macht betekent veel voor mij',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_c,
     type: :range,
     hidden: true,
-    title: 'Ik ervaar zelf niet veel kracht of steun van God of een hogere macht',
+    title: 'Ik ervaar niet veel kracht of steun van God, Allah of een andere hogere macht',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_d,
     type: :range,
     hidden: true,
-    title: 'Ik geloof dat God of een hogere macht geeft om mijn problemen',
+    title: 'Ik geloof dat God, Allah of een andere hogere macht geeft om mijn problemen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_e,
     type: :range,
     hidden: true,
-    title: 'Mijn relatie met God of een hogere macht helpt om mij gelukkig te maken',
+    title: 'Mijn relatie met God, Allah of een andere hogere macht draagt bij aan mijn geluk',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     type: :raw,
@@ -130,7 +130,7 @@ dagboek_content = [
     id: :v14,
     type: :radio,
     show_otherwise: false,
-    title: 'Het is uit gegaan met mijn vriendje/vriendinnetje',
+    title: 'De relatie met mijn vriend/vriendin is uitgegaan',
     options: %w[Ja Nee]
   }, {
     id: :v15,
@@ -154,7 +154,7 @@ dagboek_content = [
     id: :v18,
     type: :radio,
     show_otherwise: false,
-    title: 'Ik mocht niet meedoen met een groep of team waar ik graag bij wou',
+    title: 'Ik ben niet toegelaten tot een groep of team waar ik graag bij wilde',
     options: %w[Ja Nee]
   }, {
     id: :v19,
@@ -172,7 +172,7 @@ dagboek_content = [
     id: :v21,
     type: :radio,
     show_otherwise: false,
-    title: 'Mensen waar ik vrienden mee was, laten mij links liggen',
+    title: 'Mensen waar ik vrienden mee was, schenken geen aandacht meer aan mij',
     options: %w[Ja Nee]
   }, {
     id: :v22,

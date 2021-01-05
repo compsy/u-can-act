@@ -3,9 +3,10 @@
 module Api
   class AuthUserSerializer < ActiveModel::Serializer
     type 'auth_users'
-    attributes :auth0_id_string
+    attributes :auth0_id_string, :person
 
-    has_one :person do
+    # It doesn't work with has_one because for some reason it passes the wrong object
+    def person
       PersonSerializer.new(object.person) if object.person.present?
     end
   end

@@ -209,7 +209,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
   end
 
-  describe 'POST /informed_consent', focus: true do
+  describe 'POST /informed_consent' do
     describe 'redirecting with a student' do
       before do
         cookie_auth(student)
@@ -246,7 +246,10 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'shows status 200 when everything is correct' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
-        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  protocol: protocol)
         responseobj = FactoryBot.create(:response,
                                         protocol_subscription: protocol_subscription,
                                         open_from: 1.hour.ago,

@@ -216,14 +216,14 @@ RSpec.describe QuestionnaireController, type: :controller do
       end
 
       it 'requires a response id' do
-        post :create
+        post :create_informed_consent
         expect(response).to have_http_status(:unauthorized)
         expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')
       end
 
       it 'requires a response that exists' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
-        post :create, params: { response_id: 'something', content: { 'v1' => 'true' } }
+        post :create_informed_consent, params: { response_id: 'something', content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
       end
@@ -231,7 +231,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'requires a response that is not filled out yet' do
         responseobj = FactoryBot.create(:response, :completed)
         expect_any_instance_of(described_class).to receive(:verify_cookie)
-        post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        post :create_informed_consent, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)
         expect(response.location).to end_with klaar_path
       end
@@ -239,7 +239,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       it 'requires a q parameter that is not expired' do
         responseobj = FactoryBot.create(:response)
         expect_any_instance_of(described_class).to receive(:verify_cookie)
-        post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        post :create_informed_consent, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)
         expect(response.location).to end_with klaar_path
       end
@@ -251,12 +251,14 @@ RSpec.describe QuestionnaireController, type: :controller do
                                         protocol_subscription: protocol_subscription,
                                         open_from: 1.hour.ago,
                                         opened_at: 5.minutes.ago)
-        post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        post :create_informed_consent, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)
         responseobj.reload
-        expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
-        expect(responseobj.content).not_to be_nil
-        expect(responseobj.values).to eq('v1' => 'true')
+        expect(responseobj.completed_at).to be_blank
+        expect(responseobj.protocol_subscription.informed_consent_given_at).to be_within(1.minute).of(Time.zone.now)
+        expect(responseobj.content).to be_blank
+        expect(responseobj.protocol_subscription.informed_consent_content).to_not be_blank
+        expect(responseobj.protocol_subscription.informed_consent_values).to eq('v1' => 'true')
       end
     end
   end

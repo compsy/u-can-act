@@ -51,7 +51,7 @@ Voor de volgende vragen kan gekozen worden uit de volgende mogelijkheden:
 7 = sterk mee eens
 </li>
 
-Je doel is het succesvol afronden van de ECO.
+Je doel is het succesvol afronden van de VCO.
 De volgende vragen gaan over dit doel.
 </ul>
 '

@@ -12,7 +12,7 @@ class ProtocolSubscriptionExporter < ObjectExporter
 
     def formatted_fields
       %w[protocol_subscription_id person_id created_at updated_at start_date end_date
-         protocol informed_consent_given_at filling_out_for_person_id]
+         protocol informed_consent_content informed_consent_given_at filling_out_for_person_id]
     end
 
     def format_fields(protocol_subscription)
@@ -37,6 +37,11 @@ class ProtocolSubscriptionExporter < ObjectExporter
       vals['protocol'] = protocol_subscription.protocol.name
       vals['informed_consent_given_at'] = format_datetime(protocol_subscription.informed_consent_given_at)
       vals['filling_out_for_person_id'] = protocol_subscription.filling_out_for.external_identifier
+      ic_content = ''
+      if protocol_subscription.informed_consent_given_at && protocol_subscription.informed_consent_content
+        ic_content = protocol_subscription.informed_consent_values.to_json
+      end
+      vals['informed_consent_content'] = ic_content
       vals
     end
   end

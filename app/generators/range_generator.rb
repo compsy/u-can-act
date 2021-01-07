@@ -31,7 +31,9 @@ class RangeGenerator < QuestionTypeGenerator
       slider_body = tag.div(slider_body,
                             class: "col s3#{question[:gradient].present? ? ' gradient-bg' : ''}",
                             style: 'width: 55px; margin-left: 10px')
-      labels = tag.div(labels, class: 'col s9')
+      labels = tag.div(labels,
+                       class: 'col s9',
+                       style: 'width: calc(100% - 70px)')
       return tag.div(safe_join([slider_body, labels]), class: 'row')
     end
     safe_join([slider_body, labels])

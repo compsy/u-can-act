@@ -239,6 +239,10 @@ input[type="checkbox"] + label {
   display: inline;
 }
 
+.input-label {
+  pointer-events: none;
+}
+
 form .likert-scale {
   p:first {
     display:block;

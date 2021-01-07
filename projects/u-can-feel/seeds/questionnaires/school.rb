@@ -14,131 +14,157 @@ dagboek_content = [
   }, {
     id: :v1,
     type: :range,
+    required: true,
     title: 'Er is tenminste één leraar op school die mijn problemen begrijpt',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v2,
     type: :range,
+    required: true,
     title: 'Leraren en andere volwassenen op school zijn echt geïnteresseerd in mijn toekomst',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v3,
     type: :range,
+    required: true,
     title: 'Leraren zijn beschikbaar als ik het ergens over wil hebben',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v4,
     type: :range,
+    required: true,
     title: 'Het is makkelijk om met leraren te praten',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5,
     type: :range,
+    required: true,
     title: 'Leerlingen kunnen goed opschieten met leraren',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v6,
     type: :range,
+    required: true,
     title: 'Op mijn school is er een leraar of een andere volwassene die het opvalt als ik er niet ben',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v7,
     type: :range,
+    required: true,
     title: 'Leraren op mijn school helpen ons met onze problemen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v8,
     type: :range,
+    required: true,
     title: 'Mijn leraren geven om mij',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v9,
     type: :range,
+    required: true,
     title: 'Mijn leraar geeft mij een goed gevoel over mezelf',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v10,
     type: :range,
+    required: true,
     title: 'Wat we op school leren is interessant',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v11,
     type: :range,
+    required: true,
     title: 'Mijn school maakt leerlingen enthousiast over het leren',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v12,
     type: :range,
+    required: true,
     title: 'Meestal begrijp ik mijn huiswerkopdrachten',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v13,
     type: :range,
+    required: true,
     title: 'De meeste leraren leggen duidelijk uit wat ik moet doen om een goed cijfer te halen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v14,
     type: :range,
+    required: true,
     title: 'Ik denk dat leraren ervan uitgaan dat alle leerlingen willen leren',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v15,
     type: :range,
+    required: true,
     title: 'Ik heb het gevoel dat ik goed kan presteren op deze school',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v16,
     type: :range,
+    required: true,
     title: 'Mijn leraren geloven dat ik goed kan presteren bij toetsen en opdrachten',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v17,
     type: :range,
+    required: true,
     title: 'Ik doe mijn best om goed te presteren op mijn vakken',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v18,
     type: :range,
+    required: true,
     title: 'De regels in het klaslokaal gelden voor iedereen hetzelfde',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v19,
     type: :range,
+    required: true,
     title: 'Op deze school lossen leerlingen en leraren samen problemen op',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v20,
     type: :range,
+    required: true,
     title: 'Leerlingen hebben een probleem als ze zich niet aan de schoolregels houden',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v21,
     type: :range,
+    required: true,
     title: 'De schoolregels zijn redelijk',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v22,
     type: :range,
+    required: true,
     title: 'De schoolregels worden door de meeste leraren eerlijk en altijd op dezelfde manier toegepast',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v23,
     type: :range,
+    required: true,
     title: 'De meeste leraren geven het duidelijk aan als ik me niet goed gedraag in de klas',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v24,
     type: :range,
+    required: true,
     title: 'De straffen op deze school zijn redelijk',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v25,
     type: :range,
+    required: true,
     title: 'Ik ben tevreden met de hoeveelheid toetsen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v26,
     type: :range,
+    required: true,
     title: 'Ik ben tevreden met de hoeveelheid huiswerk',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
@@ -244,41 +270,49 @@ dagboek_content = [
   }, {
     id: :v35,
     type: :range,
+    required: true,
     title: 'Ik geef mezelf de schuld als ik niet kan voldoen aan de verwachtingen van mijn ouders',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v36,
     type: :range,
+    required: true,
     title: 'Ik heb het gevoel dat ik mijn leraren of mijn ouders heb teleurgesteld als ik slecht presteer op school',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v37,
     type: :range,
+    required: true,
     title: 'Ik ben gestrest als ik weet dat mijn ouders teleurgesteld zijn over mijn cijfers',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v38,
     type: :range,
+    required: true,
     title: 'Ik voel me slecht als ik niet kan voldoen aan de verwachtingen van mijn leraren',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v39,
     type: :range,
+    required: true,
     title: 'Ik ben gestrest als ik niet voldoe aan mijn eigen verwachtingen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v40,
     type: :range,
+    required: true,
     title: 'Als ik niet voldoe aan mijn eigen verwachtingen, heb ik het gevoel dat ik niet goed genoeg ben',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v41,
     type: :range,
+    required: true,
     title: 'Ik kan vaak niet slapen en lig te piekeren als ik mijn eigen doelen niet kan halen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v42,
     type: :range,
+    required: true,
     title: 'Als ik minder goed presteer op een toets dan ik had gekund, ben ik gestrest',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }

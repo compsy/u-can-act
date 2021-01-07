@@ -113,7 +113,7 @@ dagboek_content = [
   },
   {
     id: :v6,
-    title: 'RPE score<br><img src="/sport-data-valley/rpe.jpg" style="width:auto" class="questionnaire-image" />',
+    title: 'RPE score',
     type: :range,
     min: 1,
     max: 10,
@@ -121,6 +121,8 @@ dagboek_content = [
     required: true,
     ticks: true,
     no_initial_thumb: true,
+    vertical: true,
+    gradient: true,
     labels: [
       { nl: 'Heel licht', en: 'Really easy' },
       { nl: 'Licht', en: 'Easy' },

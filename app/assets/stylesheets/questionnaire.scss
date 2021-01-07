@@ -146,6 +146,39 @@ datalist {
   }
 }
 
+.range-labels-vertical {
+  height: 268px;
+  font-size: .95rem;
+  margin-top: 29px;
+  .vertical-range-label {
+    font-size: 13.3px;
+    user-select: none;
+
+    &.active {
+      font-weight: 700;
+    }
+  }
+}
+
+$slider-size: 304;
+input[type=range] {
+  &.vranger {
+    margin-top: $slider-size * 0.5 - 20px;
+    margin-left: $slider-size * -0.5 + 20px;
+    margin-bottom: $slider-size * 0.5 - 6px;
+    padding-top: 15px;
+    width: $slider-size * 1px;
+    transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+  }
+}
+
+.row .col.gradient-bg {
+  background: linear-gradient(#97c9ee 0%, #3ac7fc 10%, #93d4d0 20%, #00b34e 30%, #fde82b 42%, #efa528 70%, #eb572f 80%, #a92e26 90%);
+  padding-right: 48px;
+  border-radius: 10px;
+}
+
 @media only screen and (min-width: 800px) {
   .label-row {
     font-size: 13px;

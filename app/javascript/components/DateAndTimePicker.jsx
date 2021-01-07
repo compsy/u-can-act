@@ -16,7 +16,6 @@ const DateAndTimePicker = props => {
   const calculateMin = () => {
     if (!props.min || props.min.length === 0) return undefined
     if (props.max && (props.max === true || props.max === false)) {
-      console.log('max is true or false')
       // if min is a number
       if (parseInt(props.min).toString() === props.min.toString()) {
         const minNum = parseInt(props.min)

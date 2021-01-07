@@ -62,6 +62,13 @@ class QuestionnaireController < ApplicationController
   end
 
   def create_informed_consent
+    if content_present?
+      response_content = ResponseContent.create_informed_consent_with_scores!(
+        content: questionnaire_content,
+        protocol_subscription: @protocol_subscription
+      )
+      @protocol_subscription.informed_consent_content = response_content.id
+    end
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
     @response.update!(opened_at: Time.zone.now)
@@ -227,10 +234,14 @@ class QuestionnaireController < ApplicationController
   end
 
   def check_content_empty
-    quest_content = questionnaire_content
-    return if quest_content.present? && (quest_content.keys - [Response::CSRF_FAILED]).present?
+    return if content_present?
 
     render(status: :bad_request, html: 'Cannot store blank questionnaire responses', layout: 'application')
+  end
+
+  def content_present?
+    quest_content = questionnaire_content
+    quest_content.present? && (quest_content.keys - [Response::CSRF_FAILED]).present?
   end
 
   def check_opened_at

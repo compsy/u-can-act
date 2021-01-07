@@ -83,33 +83,25 @@ dagboek_content = [
     required: true
   },
   {
-    id: :v3,
-    type: :date,
-    today: true,
-    placeholder: { nl: 'Vul een datum in', en: 'Enter a date' },
-    title: { nl: 'Begonnen om', en: 'Started at' },
-    required: true
-  },
-  {
-    id: :v4,
-    type: :time,
-    title: '',
-    hours_from: 0,
-    hours_to: 24,
-    hours_step: 1,
-    hours_label: { nl: 'uur', en: 'hour' },
-    minutes_label: { nl: 'minuten', en: 'minutes' },
-    required: true
-  },
-  {
     id: :v5,
     type: :number,
-    required: true,
-    placeholder: { nl: 'Vul een getal in', en: 'Enter a number' },
     title: { nl: 'Tijdsduur (min)', en: 'Duration (min)' },
+    placeholder: { nl: 'Vul een getal in', en: 'Enter a number' },
+    required: true,
     maxlength: 4,
     min: 0,
     max: 1440 # 24hrs
+  },
+  {
+    id: :v3,
+    type: :date_and_time,
+    hours_id: :v4_uur,
+    minutes_id: :v4_minuten,
+    today: true,
+    placeholder: { nl: 'Vul een datum en tijd in', en: 'Enter a date and time' },
+    title: { nl: 'Begonnen om', en: 'Started at' },
+    required: true,
+    max: true
   },
   {
     id: :v6,

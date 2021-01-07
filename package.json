@@ -9,6 +9,7 @@
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "d3": "^5.11.0",
+    "date-fns": "^2.16.1",
     "dotenv": "^8.1.0",
     "jquery-ujs": "^1.2.2",
     "materialize": "^1.0.0",

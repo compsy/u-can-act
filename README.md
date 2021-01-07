@@ -776,6 +776,43 @@ If the `today` property is present, then the default value for the date is set t
 
 The `default_date` property can be used to set a default date. The `default_date` and `today` properties should never both be used.
 
+### Type: Date and Time
+
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  hours_id: :v2,
+  minutes_id: :v3,
+  type: :date_and_time,
+  title: 'Wanneer ben je gestopt?',
+}, {
+  section_start: 'Tot slot',
+  hidden: true,
+  id: :v2,
+  hours_id: :v3,
+  minutes_id: :v4,
+  type: :date_and_time,
+  today: true,
+  title: 'Wanneer ben je gestopt?',
+  required: true,
+  tooltip: 'some tooltip',
+  placeholder: 'Place holder',
+  min: '2018/06/14',
+  max: '2018/07/20',
+  section_end: true
+}]
+```
+
+The `min` and `max` properties can be either strings as in the above example, or they can be of the following
+form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to `false`, which removes any limits).
+
+If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
+
+The `default_date` property can be used to set a default date. The `default_date` and `today` properties should never
+both be used.
+
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. 
 Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. 

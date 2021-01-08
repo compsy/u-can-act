@@ -147,22 +147,25 @@ datalist {
 }
 
 $slider-size: 304;
-$vertical-slider-top-margin: 34px;
+$vertical-range-top-margin: 40px;
+$vertical-range-width: 85px;
 $vertical-range-margin-left: 11px;
 $vertical-range-min-width-label: 125px;
-$vertical-range-width: 75px;
+$vertical-range-height: 377px;
+$vertical-range-padding-left: 23px;
+$vertical-range-tick-margin-left: 26px;
 
 .vertical-range {
   &>.col.s3 {
     border-radius: 10px;
     width: $vertical-range-width;
     margin-left: $vertical-range-margin-left;
-    padding-left: $vertical-slider-top-margin * 0.5;
+    padding-left: $vertical-range-padding-left;
     padding-right: 0;
   }
   &>.col.s9 {
     width: calc(100% - #{$vertical-range-margin-left + $vertical-range-width});
-    height: 365px;
+    height: $vertical-range-height;
     padding-left: 0;
   }
   .range-field {
@@ -186,21 +189,21 @@ $vertical-range-width: 75px;
 
     .vertical-range-label-wrapper {
       height: 100%;
-      padding-top: $vertical-slider-top-margin;
-      padding-bottom: $vertical-slider-top-margin;
+      padding-top: $vertical-range-top-margin;
+      padding-bottom: $vertical-range-top-margin;
       position: relative;
 
       &>span {
         &:first-child, &:last-child {
           width: 100%;
           min-width: $vertical-range-min-width-label;
-          height: $vertical-slider-top-margin + 1px;
+          height: $vertical-range-top-margin + 1px;
           display: inline-block;
           background-color: white;
           position: absolute;
         }
         &:first-child {
-          margin-top: -1 * $vertical-slider-top-margin - 1px;
+          margin-top: -1 * $vertical-range-top-margin - 1px;
         }
       }
 
@@ -212,7 +215,7 @@ $vertical-range-width: 75px;
         min-width: 1px;
         .vertical-range-tick {
           display: inline-block;
-          margin-left: -23px;
+          margin-left: -1 * $vertical-range-tick-margin-left;
           padding-top: 4px;
           position: absolute;
         }
@@ -243,8 +246,8 @@ $vertical-range-width: 75px;
       margin-top: $slider-size * 0.5 - 20px;
       margin-left: $slider-size * -0.5 + 20px;
       margin-bottom: $slider-size * 0.5 - 6px;
-      padding-top: $vertical-slider-top-margin + 1px;
-      padding-bottom: $vertical-slider-top-margin + 1px;
+      padding-top: $vertical-range-top-margin + 1px;
+      padding-bottom: $vertical-range-top-margin + 1px;
       width: $slider-size * 1px;
       transform: rotate(90deg);
       -moz-transform: rotate(90deg);

@@ -166,7 +166,7 @@ function changeExpansions() {
 function changeActiveLabel() {
   const value = $(this).val();
   const rangeValueLabel = $(this).closest('.range-container').find('.range-value-label').first()
-  $(this).closest('.col.s12').find('.label-row .col').each(function (_index) {
+  $(this).closest('.col.s12').find('.label-row .col, .range-labels-vertical .vertical-range-label').each(function (_index) {
     if (parseFloat($(this).data('value')) === parseFloat(value)) {
       $(rangeValueLabel).text($(this).text())
       $(this).addClass('active')

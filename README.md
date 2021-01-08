@@ -549,6 +549,8 @@ Required and allowed options (minimal example and maximal example):
   value: 50,
   required: true,
   ticks: true,
+  vertical: true,
+  gradient: true,
   no_initial_thumb: true,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
@@ -560,7 +562,9 @@ The range type supports the optional properties `min` and `max`, which are set t
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
 The `value` denotes the default location for the slider, that is, the location of the slider when it is not yet changed by the user.
 If the `ticks` attribute is `true`, the slider will show ticks and values at each `step` (the default value for `ticks` is `false`).
-if the `no_initial_thumb` attribute is `true`, then the slider does not show an initial scrollthumb for unmodified range inputs. Only when the user changes the slider to set a value will the scrollthumb appear. (the default value for `no_initial_thumb` is `false`)
+If the `no_initial_thumb` attribute is `true`, then the slider does not show an initial scrollthumb for unmodified range inputs. Only when the user changes the slider to set a value will the scrollthumb appear. (the default value for `no_initial_thumb` is `false`)
+If the `vertical` attribute is `true`, then the slider is a vertical slider, with labels on the right. This option defaults to `false`. Note that when this option is `true`, the array of `labels` must correspond to the same number of steps as provided by the `min`, `max`, and `step` arguments.
+If the `gradient` attribute is `true`, then the background of the slider is set to a gradient. Currently this only works for vertical sliders.
 If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
 
 ### Type: Raw

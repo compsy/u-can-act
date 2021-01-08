@@ -203,7 +203,9 @@ class QuestionnaireController < ApplicationController
     # If we have a callback_url, we will redirect to it, which means the flash hash is never read out
     # until the next time that we fill out a questionnaire, and then it says "thanks for unsubscribing", which is weird.
     # Hence, don't set a flash notice if we have a callback_url.
-    flash[:notice] = stop_protocol_subscription_notice unless params[:callback_url].present?
+    unless params[:callback_url].present? || @response.measurement.redirect_url.present?
+      flash[:notice] = stop_protocol_subscription_notice
+    end
     Rails.logger.info "[Info] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
       "person #{@response.protocol_subscription.person_id}."
   end

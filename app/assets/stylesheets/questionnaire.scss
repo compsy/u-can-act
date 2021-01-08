@@ -147,27 +147,76 @@ datalist {
 }
 
 $slider-size: 304;
+$vertical-slider-top-margin: 34px;
+$vertical-range-margin-left: 11px;
 
 .vertical-range {
+  &>.col.s3 {
+    border-radius: 10px;
+    width: 75px;
+    margin-left: $vertical-range-margin-left;
+    padding-left: 18px;
+    padding-right: 0;
+  }
+  &>.col.s9 {
+    width: calc(100% - #{$vertical-range-margin-left + 75px});
+    height: 365px;
+    padding-left: 0;
+  }
   .range-field {
     span.thumb, span.thumb.active {
       display: none;
     }
   }
 
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -15px;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 5px;
+  }
+
   .range-labels-vertical {
-    height: 268px;
+    height: 100%;
     font-size: 13.3px;
-    margin-top: 29px;
+    display: inline-block;
 
-    .vertical-range-label {
-      display: inline-block;
-      cursor: pointer;
-      user-select: none;
-      min-width: 100px;
+    .vertical-range-label-wrapper {
+      height: 100%;
+      padding-top: $vertical-slider-top-margin;
+      padding-bottom: $vertical-slider-top-margin;
+      position: relative;
 
-      &.active {
-        font-weight: 700;
+      &>span {
+        &:first-child, &:last-child {
+          width: 100%;
+          height: $vertical-slider-top-margin + 1px;
+          display: inline-block;
+          background-color: white;
+          position: absolute;
+        }
+        &:first-child {
+          margin-top: -1 * $vertical-slider-top-margin - 1px;
+        }
+      }
+
+      .vertical-range-label {
+        display: inline-block;
+        cursor: pointer;
+        user-select: none;
+        min-width: 145px;
+        width: 100%;
+        background-color: white;
+        padding-top: 4px;
+        padding-right: 10px;
+        padding-left: 8px;
+        white-space: nowrap;
+
+        &.active {
+          font-weight: 700;
+          background-color: transparent;
+        }
       }
     }
   }
@@ -177,7 +226,8 @@ $slider-size: 304;
       margin-top: $slider-size * 0.5 - 20px;
       margin-left: $slider-size * -0.5 + 20px;
       margin-bottom: $slider-size * 0.5 - 6px;
-      padding-top: 15px;
+      padding-top: 35px;
+      padding-bottom: 35px;
       width: $slider-size * 1px;
       transform: rotate(90deg);
       -moz-transform: rotate(90deg);
@@ -185,10 +235,12 @@ $slider-size: 304;
   }
 }
 
-.row .col.gradient-bg {
+.gradient-bg {
   background: linear-gradient(#97c9ee 0%, #3ac7fc 10%, #93d4d0 20%, #00b34e 30%, #fde82b 42%, #efa528 70%, #eb572f 80%, #a92e26 90%);
-  padding-right: 49px;
-  border-radius: 10px;
+
+  input[type=range]::-webkit-slider-runnable-track {
+    background: white;
+  }
 }
 
 @media only screen and (min-width: 800px) {

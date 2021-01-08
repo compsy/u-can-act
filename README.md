@@ -787,16 +787,16 @@ Required and allowed options (minimal example and maximal example):
 ```ruby
 [{
   id: :v1,
-  hours_id: :v2,
-  minutes_id: :v3,
+  hours_id: :v2_uur,
+  minutes_id: :v2_minuten,
   type: :date_and_time,
   title: 'Wanneer ben je gestopt?',
 }, {
   section_start: 'Tot slot',
   hidden: true,
-  id: :v2,
-  hours_id: :v3,
-  minutes_id: :v4,
+  id: :v1,
+  hours_id: :v2_uur,
+  minutes_id: :v2_minuten,
   type: :date_and_time,
   today: true,
   title: 'Wanneer ben je gestopt?',

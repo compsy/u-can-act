@@ -104,7 +104,7 @@ dagboek_content = [
     minutes_id: :v4_minuten,
     today: true,
     placeholder: { nl: 'Vul een datum en tijd in', en: 'Enter a date and time' },
-    title: { nl: 'Begonnen om', en: 'Started at' },
+    title: { nl: 'Begonnen op', en: 'Started at' },
     required: true,
     max: true
   },

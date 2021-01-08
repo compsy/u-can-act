@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import moment from 'moment'
 import { dateAndTimePickerDefaultOptions, backendDateFormat, backendHoursFormat, backendMinutesFormat } from './Constants'
 import { nl, enUS } from 'date-fns/locale'
+import I18n from 'i18n'
 
 const DateAndTimePicker = props => {
   const calculateStartDate = () => {
@@ -43,8 +44,8 @@ const DateAndTimePicker = props => {
         minDate={calculateMin()}
         maxDate={calculateMax()}
         required={props.required}
-        locale={(props.locale && props.locale === 'nl') ? nl : enUS}
-        timeCaption={(props.locale && props.locale === 'nl') ? 'Tijd' : 'Time'}
+        locale={(props.locale && props.locale === 'en') ? enUS : nl }
+        timeCaption={I18n.t('time', { locale: props.locale })}
       />
       <label htmlFor={props.id} className={classNames('input-label', startDate && 'active')}>{props.placeholder}</label>
       {startDate && (

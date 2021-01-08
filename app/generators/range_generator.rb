@@ -34,7 +34,7 @@ class RangeGenerator < QuestionTypeGenerator
       labels = tag.div(labels,
                        class: 'col s9',
                        style: 'width: calc(100% - 71px)')
-      return tag.div(safe_join([slider_body, labels]), class: 'row')
+      return tag.div(safe_join([slider_body, labels]), class: 'row vertical-range')
     end
     safe_join([slider_body, labels])
   end
@@ -134,17 +134,20 @@ class RangeGenerator < QuestionTypeGenerator
             data: { value: value })
   end
 
+  # rubocop:disable Metrics/AbcSize
   def vertical_range_labels(minmax, step, col_width, question)
     labels_body = []
     (minmax[:min]..minmax[:max]).step(step).each_with_index do |value, idx|
       label = ''
       label += "- #{number_to_string(value)} " if question[:ticks].present?
       label += question[:labels][idx].to_s if question[:labels].present?
-      labels_body << tag.div(label,
-                             class: 'vertical-range-label',
-                             style: "height: #{col_width}%",
-                             data: { value: value })
+      labels_body << tag.span(label,
+                              class: 'vertical-range-label',
+                              style: "height: #{col_width}%",
+                              data: { value: value })
+      labels_body << tag('br')
     end
     tag.div(safe_join(labels_body), class: 'range-labels-vertical')
   end
+  # rubocop:enable Metrics/AbcSize
 end

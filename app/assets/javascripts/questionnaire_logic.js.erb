@@ -258,8 +258,17 @@ const hideThumbs = () => {
   }
 }
 
+const updateRangeValue = (e) => {
+  const rangeObj = $(e.target).closest('.row').find('input[type=range]')
+  rangeObj.val($(e.target).data('value'))
+  removeNotChanged.call(rangeObj)
+  changeActiveLabel.call(rangeObj)
+}
+
 function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
+  const array_of_dom_elements = document.querySelectorAll('input[type=range]')
+  M.Range.init(array_of_dom_elements)
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
   $('.notchanged input[type=range]').change(removeNotChanged).click(removeNotChanged);
   $(document).on('touchstart', '.notchanged input[type=range]', removeNotChanged);
@@ -298,6 +307,7 @@ function questionnaireLoaded() {
   $(document).on('click', '.toast', function () {
     $(this).hide();
   });
+  $(document).on('click', '.vertical-range-label', updateRangeValue);
   $(document).on('input', '.range-container input[type="range"]', changeActiveLabel);
   $(document).on('input', '.range-container input[type="range"]', removeNotChanged);
   $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);

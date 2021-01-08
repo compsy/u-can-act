@@ -146,30 +146,42 @@ datalist {
   }
 }
 
-.range-labels-vertical {
-  height: 268px;
-  font-size: .95rem;
-  margin-top: 29px;
-  .vertical-range-label {
-    font-size: 13.3px;
-    user-select: none;
+$slider-size: 304;
 
-    &.active {
-      font-weight: 700;
+.vertical-range {
+  .range-field {
+    span.thumb, span.thumb.active {
+      display: none;
     }
   }
-}
 
-$slider-size: 304;
-input[type=range] {
-  &.vranger {
-    margin-top: $slider-size * 0.5 - 20px;
-    margin-left: $slider-size * -0.5 + 20px;
-    margin-bottom: $slider-size * 0.5 - 6px;
-    padding-top: 15px;
-    width: $slider-size * 1px;
-    transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
+  .range-labels-vertical {
+    height: 268px;
+    font-size: 13.3px;
+    margin-top: 29px;
+
+    .vertical-range-label {
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      min-width: 100px;
+
+      &.active {
+        font-weight: 700;
+      }
+    }
+  }
+
+  input[type=range] {
+    &.vranger {
+      margin-top: $slider-size * 0.5 - 20px;
+      margin-left: $slider-size * -0.5 + 20px;
+      margin-bottom: $slider-size * 0.5 - 6px;
+      padding-top: 15px;
+      width: $slider-size * 1px;
+      transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+    }
   }
 }
 

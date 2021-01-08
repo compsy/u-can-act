@@ -7,7 +7,9 @@ export const datePickerDefaultOptions = Object.freeze({
 export const dateAndTimePickerDefaultOptions = Object.freeze({
   dateFormat: 'dd-MM-yyyy HH:mm',
   showYearDropdown: true,
-  showMonthDropdown: true
+  showMonthDropdown: true,
+  showTimeSelect: true,
+  timeIntervals: 15
 })
 
 export const backendDateFormat = 'YYYY-MM-DD'

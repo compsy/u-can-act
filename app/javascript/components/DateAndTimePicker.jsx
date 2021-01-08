@@ -43,8 +43,6 @@ const DateAndTimePicker = props => {
         minDate={calculateMin()}
         maxDate={calculateMax()}
         required={props.required}
-        showTimeSelect
-        timeIntervals={15}
         locale={(props.locale && props.locale === 'nl') ? nl : enUS}
         timeCaption={(props.locale && props.locale === 'nl') ? 'Tijd' : 'Time'}
       />

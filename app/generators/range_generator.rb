@@ -29,12 +29,10 @@ class RangeGenerator < QuestionTypeGenerator
   def join_body_and_labels(slider_body, labels, question)
     if question[:vertical].present?
       slider_body = tag.div(slider_body,
-                            class: "col s3#{question[:gradient].present? ? ' gradient-bg' : ''}",
-                            style: 'width: 55px; margin-left: 10px')
+                            class: "col s3#{question[:gradient].present? ? ' gradient-bg' : ''}")
       labels = tag.div(labels,
-                       class: 'col s9',
-                       style: 'width: calc(100% - 71px)')
-      return tag.div(safe_join([slider_body, labels]), class: 'row')
+                       class: 'col s9')
+      return tag.div(safe_join([slider_body, labels]), class: 'row vertical-range')
     end
     safe_join([slider_body, labels])
   end
@@ -105,7 +103,7 @@ class RangeGenerator < QuestionTypeGenerator
     minmax = range_slider_minmax(question)
     step = (1.0 + minmax[:max] - minmax[:min]) / label_count
     cur = minmax[:min]
-    return vertical_range_labels(minmax, step, col_width, question) if question[:vertical].present?
+    return vertical_range_labels(minmax, step, question) if question[:vertical].present?
 
     question[:labels].each_with_index do |label, idx|
       new_col_width = col_width
@@ -134,17 +132,28 @@ class RangeGenerator < QuestionTypeGenerator
             data: { value: value })
   end
 
-  def vertical_range_labels(minmax, step, col_width, question)
+  # rubocop:disable Metrics/AbcSize
+  def vertical_range_labels(minmax, step, question)
+    col_width = 100.0 / (minmax[:min]..minmax[:max]).step(step).size
     labels_body = []
+    labels_body << tag.span('')
+    space = raw('&nbsp;')
     (minmax[:min]..minmax[:max]).step(step).each_with_index do |value, idx|
-      label = ''
-      label += "- #{number_to_string(value)} " if question[:ticks].present?
-      label += question[:labels][idx].to_s if question[:labels].present?
-      labels_body << tag.div(label,
-                             class: 'vertical-range-label',
-                             style: "height: #{col_width}%",
-                             data: { value: value })
+      label = []
+      label << tag.span("- #{number_to_string(value)} ", class: 'vertical-range-tick') if question[:ticks].present?
+      label << tag.span(
+        question[:labels].present? && question[:labels][idx].to_s.present? ? question[:labels][idx].to_s : space,
+        class: 'vertical-range-labeltext'
+      )
+      labels_body << tag.span(safe_join(label),
+                              class: 'vertical-range-label',
+                              style: "height: #{col_width}%",
+                              data: { value: value })
+      labels_body << tag('br')
     end
-    tag.div(safe_join(labels_body), class: 'range-labels-vertical')
+    labels_body << tag.span('')
+    labels_body = tag.div(safe_join(labels_body), class: 'vertical-range-label-wrapper')
+    tag.div(labels_body, class: "range-labels-vertical#{question[:gradient].present? ? ' gradient-bg' : ''}")
   end
+  # rubocop:enable Metrics/AbcSize
 end

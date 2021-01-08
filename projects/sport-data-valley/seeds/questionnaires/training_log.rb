@@ -74,7 +74,8 @@ dagboek_content = [
       { nl: 'Intensieve duur', en: 'Intensive endurance', i18n: 'components.dashboards.questionnaire.session_type.intensive_endurance' },
       { nl: 'Intensieve interval', en: 'Intensive interval', i18n: 'components.dashboards.questionnaire.session_type.intensive_interval' },
       { nl: 'Intensieve tempo', en: 'Intensive tempo', i18n: 'components.dashboards.questionnaire.session_type.intensive_tempo' },
-      { nl: 'Kracht', en: 'Strength', i18n: 'components.dashboards.questionnaire.session_type.power' },
+      { nl: 'Power', en: 'Power', i18n: 'components.dashboards.questionnaire.session_type.power' },
+      { nl: 'Kracht', en: 'Strength', i18n: 'components.dashboards.questionnaire.session_type.strength' },
       { nl: 'Skills', en: 'Skills', i18n: 'components.dashboards.questionnaire.session_type.skills' },
       { nl: 'Sprint', en: 'Sprint', i18n: 'components.dashboards.questionnaire.session_type.sprint' },
       { nl: 'Teamtraining', en: 'Team training', i18n: 'components.dashboards.questionnaire.session_type.team_training' },
@@ -88,33 +89,25 @@ dagboek_content = [
     required: true
   },
   {
-    id: :v3,
-    type: :date,
-    today: true,
-    placeholder: { nl: 'Vul een datum in', en: 'Enter a date' },
-    title: { nl: 'Begonnen om', en: 'Started at' },
-    required: true
-  },
-  {
-    id: :v4,
-    type: :time,
-    title: '',
-    hours_from: 0,
-    hours_to: 24,
-    hours_step: 1,
-    hours_label: { nl: 'uur', en: 'hour' },
-    minutes_label: { nl: 'minuten', en: 'minutes' },
-    required: true
-  },
-  {
     id: :v5,
     type: :number,
-    required: true,
-    placeholder: { nl: 'Vul een getal in', en: 'Enter a number' },
     title: { nl: 'Tijdsduur (min)', en: 'Duration (min)' },
+    placeholder: { nl: 'Vul een getal in', en: 'Enter a number' },
+    required: true,
     maxlength: 4,
     min: 0,
     max: 1440 # 24hrs
+  },
+  {
+    id: :v3,
+    type: :date_and_time,
+    hours_id: :v4_uur,
+    minutes_id: :v4_minuten,
+    today: true,
+    placeholder: { nl: 'Vul een datum en tijd in', en: 'Enter a date and time' },
+    title: { nl: 'Begonnen op', en: 'Started at' },
+    required: true,
+    max: true
   },
   {
     id: :v6,

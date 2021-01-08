@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionnaireQuestionGenerator < Generator
+  # rubocop:disable Metrics/MethodLength
   def initialize
     @generators = {
       radio: RadioGenerator.new,
@@ -19,10 +20,12 @@ class QuestionnaireQuestionGenerator < Generator
       expandable: ExpandableGenerator.new,
       section_start: SectionStartGenerator.new,
       section_end: SectionEndGenerator.new,
-      klasses: KlassesGenerator.new
+      klasses: KlassesGenerator.new,
+      date_and_time: DateAndTimeGenerator.new
     }
     super
   end
+  # rubocop:enable Metrics/MethodLength
 
   def generate(question)
     question_body = find_generator(question[:type]).generate(question)

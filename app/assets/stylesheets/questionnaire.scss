@@ -146,37 +146,123 @@ datalist {
   }
 }
 
-.range-labels-vertical {
-  height: 268px;
-  font-size: .95rem;
-  margin-top: 29px;
-  .vertical-range-label {
-    font-size: 13.3px;
-    user-select: none;
+$slider-size: 304;
+$vertical-range-top-margin: 11px;
+$vertical-range-width: 85px;
+$vertical-range-margin-left: 11px;
+$vertical-range-min-width-label: 125px;
+$vertical-range-height: 318px;
+$vertical-range-padding-left: 23px;
+$vertical-range-tick-margin-left: 26px;
 
-    &.active {
-      font-weight: 700;
+.vertical-range {
+  &>.col.s3 {
+    border-radius: 10px;
+    width: $vertical-range-width;
+    margin-left: $vertical-range-margin-left;
+    padding-left: $vertical-range-padding-left;
+    padding-right: 0;
+  }
+  &>.col.s9 {
+    width: calc(100% - #{$vertical-range-margin-left + $vertical-range-width});
+    height: $vertical-range-height;
+    padding-left: 0;
+  }
+  .range-field {
+    margin-top:0;
+
+    span.thumb, span.thumb.active {
+      display: none;
+    }
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -15px;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 5px;
+  }
+
+  .range-labels-vertical {
+    height: 100%;
+    font-size: 13.3px;
+    display: inline-block;
+
+    .vertical-range-label-wrapper {
+      height: 100%;
+      padding-top: $vertical-range-top-margin;
+      padding-bottom: $vertical-range-top-margin - 1px;
+      position: relative;
+
+      &>span {
+        &:first-child, &:last-child {
+          width: 100%;
+          min-width: $vertical-range-min-width-label;
+          height: $vertical-range-top-margin + 1px;
+          display: inline-block;
+          background-color: white;
+          position: absolute;
+        }
+        &:first-child {
+          margin-top: -1 * $vertical-range-top-margin - 1px;
+        }
+      }
+
+      .vertical-range-label {
+        display: inline-block;
+        cursor: pointer;
+        user-select: none;
+        width: 100%;
+        min-width: 1px;
+        .vertical-range-tick {
+          display: inline-block;
+          margin-left: -1 * $vertical-range-tick-margin-left;
+          padding-top: 4px;
+          position: absolute;
+        }
+        .vertical-range-labeltext {
+          display: inline-block;
+          background-color: white;
+          min-width: $vertical-range-min-width-label;
+          width: 100%;
+          height: 100%;
+          padding-top: 4px;
+          padding-right: 10px;
+          padding-left: 8px;
+          white-space: nowrap;
+        }
+
+        &.active {
+          .vertical-range-labeltext {
+            font-weight: 700;
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+
+  input[type=range] {
+    &.vranger {
+      margin-top: 132px;
+      margin-left: $slider-size * -0.5 + 20px;
+      margin-bottom: 132px;
+      padding-top: $vertical-range-top-margin + 1px;
+      padding-bottom: $vertical-range-top-margin + 1px;
+      width: $slider-size * 1px;
+      transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
     }
   }
 }
 
-$slider-size: 304;
-input[type=range] {
-  &.vranger {
-    margin-top: $slider-size * 0.5 - 20px;
-    margin-left: $slider-size * -0.5 + 20px;
-    margin-bottom: $slider-size * 0.5 - 6px;
-    padding-top: 15px;
-    width: $slider-size * 1px;
-    transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-  }
-}
+.gradient-bg {
+  background: linear-gradient(#97c9ee 0%, #3ac7fc 10%, #93d4d0 21%, #00b34e 31%, #fde82b 41%, #efa528 70%, #eb572f 80%, #a92e26 90%);
 
-.row .col.gradient-bg {
-  background: linear-gradient(#97c9ee 0%, #3ac7fc 10%, #93d4d0 20%, #00b34e 30%, #fde82b 42%, #efa528 70%, #eb572f 80%, #a92e26 90%);
-  padding-right: 49px;
-  border-radius: 10px;
+  input[type=range]::-webkit-slider-runnable-track {
+    background: white;
+  }
 }
 
 @media only screen and (min-width: 800px) {
@@ -270,6 +356,10 @@ input[type="checkbox"] + label {
 .radio-item input[type="radio"]:not(:checked) + label, .radio-item input[type="radio"]:checked + label {
   padding-top: 0.3rem;
   display: inline;
+}
+
+.input-label {
+  pointer-events: none;
 }
 
 form .likert-scale {

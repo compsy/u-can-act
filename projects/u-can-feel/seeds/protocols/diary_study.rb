@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 questionnaire_key = 'weekly_diary'
+OneTimeResponse.find_by(token: 'weekly_diary')&.destroy if Rails.env.development?
 
 pr_name = File.basename(__FILE__)[0...-3]
 diary_protocol = Protocol.find_by(name: pr_name)
@@ -31,3 +32,16 @@ diary_measurement.redirect_url = '/klaar'
 diary_measurement.stop_measurement = false # filling out this measurement does not stop the protocol subscription
 diary_measurement.should_invite = true # send invitation (SMS and/or email)
 diary_measurement.save!
+
+if Rails.env.development?
+  # Create one time response for testing the weekly diary
+  protocol = Protocol.find_by(name: pr_name)
+  token = 'weekly_diary'
+  otr = OneTimeResponse.find_by(token: token)
+  otr ||= OneTimeResponse.new(token: token)
+  otr.protocol = protocol
+  otr.save!
+
+  puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+  puts ''
+end

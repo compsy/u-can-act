@@ -40,7 +40,7 @@ describe QuestionnaireGenerator do
       }]
       expect do
         subject.send(:questionnaire_questions_html,
-                     questionnaire_content, nil, questionnaire_content, nil)
+                     questionnaire_content, nil, questionnaire_content, nil, 'nl')
       end.to raise_error(RuntimeError, 'Unknown question type asdf')
     end
     it 'raises an error when given an unknown show_after type' do
@@ -52,7 +52,7 @@ describe QuestionnaireGenerator do
       }]
       expect do
         subject.send(:questionnaire_questions_html,
-                     questionnaire_content, nil, questionnaire_content, nil)
+                     questionnaire_content, nil, questionnaire_content, nil, 'nl')
       end.to raise_error(RuntimeError, 'Unknown show_after type: hoi en doei')
     end
   end

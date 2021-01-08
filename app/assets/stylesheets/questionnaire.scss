@@ -147,11 +147,11 @@ datalist {
 }
 
 $slider-size: 304;
-$vertical-range-top-margin: 40px;
+$vertical-range-top-margin: 11px;
 $vertical-range-width: 85px;
 $vertical-range-margin-left: 11px;
 $vertical-range-min-width-label: 125px;
-$vertical-range-height: 377px;
+$vertical-range-height: 318px;
 $vertical-range-padding-left: 23px;
 $vertical-range-tick-margin-left: 26px;
 
@@ -169,6 +169,8 @@ $vertical-range-tick-margin-left: 26px;
     padding-left: 0;
   }
   .range-field {
+    margin-top:0;
+
     span.thumb, span.thumb.active {
       display: none;
     }
@@ -190,7 +192,7 @@ $vertical-range-tick-margin-left: 26px;
     .vertical-range-label-wrapper {
       height: 100%;
       padding-top: $vertical-range-top-margin;
-      padding-bottom: $vertical-range-top-margin;
+      padding-bottom: $vertical-range-top-margin - 1px;
       position: relative;
 
       &>span {
@@ -243,9 +245,9 @@ $vertical-range-tick-margin-left: 26px;
 
   input[type=range] {
     &.vranger {
-      margin-top: $slider-size * 0.5 - 20px;
+      margin-top: 132px;
       margin-left: $slider-size * -0.5 + 20px;
-      margin-bottom: $slider-size * 0.5 - 6px;
+      margin-bottom: 132px;
       padding-top: $vertical-range-top-margin + 1px;
       padding-bottom: $vertical-range-top-margin + 1px;
       width: $slider-size * 1px;
@@ -256,7 +258,7 @@ $vertical-range-tick-margin-left: 26px;
 }
 
 .gradient-bg {
-  background: linear-gradient(#97c9ee 0%, #3ac7fc 10%, #93d4d0 20%, #00b34e 30%, #fde82b 42%, #efa528 70%, #eb572f 80%, #a92e26 90%);
+  background: linear-gradient(#97c9ee 0%, #3ac7fc 10%, #93d4d0 21%, #00b34e 31%, #fde82b 41%, #efa528 70%, #eb572f 80%, #a92e26 90%);
 
   input[type=range]::-webkit-slider-runnable-track {
     background: white;

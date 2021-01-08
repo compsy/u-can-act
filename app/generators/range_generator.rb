@@ -33,7 +33,7 @@ class RangeGenerator < QuestionTypeGenerator
                             style: 'width: 55px; margin-left: 10px')
       labels = tag.div(labels,
                        class: 'col s9',
-                       style: 'width: calc(100% - 70px)')
+                       style: 'width: calc(100% - 71px)')
       return tag.div(safe_join([slider_body, labels]), class: 'row')
     end
     safe_join([slider_body, labels])

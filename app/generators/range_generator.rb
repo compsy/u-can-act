@@ -137,11 +137,15 @@ class RangeGenerator < QuestionTypeGenerator
     col_width = 100.0 / (minmax[:min]..minmax[:max]).step(step).size
     labels_body = []
     labels_body << tag.span('')
+    space = raw('&nbsp;')
     (minmax[:min]..minmax[:max]).step(step).each_with_index do |value, idx|
-      label = ''
-      label += "- #{number_to_string(value)} " if question[:ticks].present?
-      label += question[:labels][idx].to_s if question[:labels].present?
-      labels_body << tag.span(label,
+      label = []
+      label << tag.span("- #{number_to_string(value)} ", class: 'vertical-range-tick') if question[:ticks].present?
+      label << tag.span(
+        question[:labels].present? && question[:labels][idx].to_s.present? ? question[:labels][idx].to_s : space,
+        class: 'vertical-range-labeltext'
+      )
+      labels_body << tag.span(safe_join(label),
                               class: 'vertical-range-label',
                               style: "height: #{col_width}%",
                               data: { value: value })

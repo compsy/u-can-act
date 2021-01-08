@@ -259,8 +259,8 @@ const hideThumbs = () => {
 }
 
 const updateRangeValue = (e) => {
-  const rangeObj = $(e.target).closest('.row').find('input[type=range]')
-  rangeObj.val($(e.target).data('value'))
+  const rangeObj = $(e.currentTarget).closest('.row').find('input[type=range]')
+  rangeObj.val($(e.currentTarget).data('value'))
   removeNotChanged.call(rangeObj)
   changeActiveLabel.call(rangeObj)
 }

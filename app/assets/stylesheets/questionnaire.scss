@@ -146,14 +146,14 @@ datalist {
   }
 }
 
-$slider-size: 304;
 $vertical-range-top-margin: 11px;
 $vertical-range-width: 85px;
 $vertical-range-margin-left: 11px;
 $vertical-range-min-width-label: 125px;
-$vertical-range-height: 318px;
+$vertical-range-height: 382px;
 $vertical-range-padding-left: 23px;
 $vertical-range-tick-margin-left: 26px;
+$vertical-range-padding-top: 8px;
 
 .vertical-range {
   &>.col.s3 {
@@ -192,7 +192,7 @@ $vertical-range-tick-margin-left: 26px;
     .vertical-range-label-wrapper {
       height: 100%;
       padding-top: $vertical-range-top-margin;
-      padding-bottom: $vertical-range-top-margin - 1px;
+      padding-bottom: $vertical-range-top-margin;
       position: relative;
 
       &>span {
@@ -218,7 +218,7 @@ $vertical-range-tick-margin-left: 26px;
         .vertical-range-tick {
           display: inline-block;
           margin-left: -1 * $vertical-range-tick-margin-left;
-          padding-top: 4px;
+          padding-top: $vertical-range-padding-top;
           position: absolute;
         }
         .vertical-range-labeltext {
@@ -227,7 +227,7 @@ $vertical-range-tick-margin-left: 26px;
           min-width: $vertical-range-min-width-label;
           width: 100%;
           height: 100%;
-          padding-top: 4px;
+          padding-top: $vertical-range-padding-top;
           padding-right: 10px;
           padding-left: 8px;
           white-space: nowrap;
@@ -245,12 +245,12 @@ $vertical-range-tick-margin-left: 26px;
 
   input[type=range] {
     &.vranger {
-      margin-top: 132px;
-      margin-left: $slider-size * -0.5 + 20px;
-      margin-bottom: 132px;
-      padding-top: $vertical-range-top-margin + 1px;
-      padding-bottom: $vertical-range-top-margin + 1px;
-      width: $slider-size * 1px;
+      margin-top: 148px;
+      margin-left: -161px;
+      margin-bottom: 147px;
+      padding-top: 42px;
+      padding-bottom: 43px;
+      width: 361px;
       transform: rotate(90deg);
       -moz-transform: rotate(90deg);
     }
@@ -258,7 +258,7 @@ $vertical-range-tick-margin-left: 26px;
 }
 
 .gradient-bg {
-  background: linear-gradient(#97c9ee 0%, #3ac7fc 10%, #93d4d0 21%, #00b34e 31%, #fde82b 41%, #efa528 70%, #eb572f 80%, #a92e26 90%);
+  background: linear-gradient(#97c9ee 0%, #3ac7fc 8%, #93d4d0 17%, #00b34e 31%, #fde82b 50%, #efa528 69%, #eb572f 83%, #a92e26 93%);
 
   input[type=range]::-webkit-slider-runnable-track {
     background: white;

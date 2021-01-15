@@ -51,4 +51,21 @@ describe ResponseContent do
       expect(rescontent.scores).to eq expected
     end
   end
+
+  describe 'create_informed_consent_with_scores!' do
+    it 'enriches the content' do
+      questionnaire = FactoryBot.create(:questionnaire, content: {
+                                          questions: [{ id: :v1, title: 'hoi', type: :number }],
+                                          scores: [{ id: :s1, label: 'my-label', ids: %i[v1], operation: :average }]
+                                        })
+      protocol = FactoryBot.create(:protocol, informed_consent_questionnaire: questionnaire)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      content = { 'v1' => '23' }
+      expected = { 's1' => '23' }
+      rescontent = described_class.create_informed_consent_with_scores!(content: content,
+                                                                        protocol_subscription: protocol_subscription)
+      expect(rescontent.content).to eq content
+      expect(rescontent.scores).to eq expected
+    end
+  end
 end

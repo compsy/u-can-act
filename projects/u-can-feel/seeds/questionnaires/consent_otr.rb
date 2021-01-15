@@ -50,8 +50,8 @@ ic_content_ouders = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Wat vragen we van uw kind tijdens het onderzoek?</strong></p>
     <p>
       Allereerst vragen we toestemming van zowel u als uw kind. Als u en uw kind toestemming geven, vragen wij uw kind de
-      komende twee jaar elk half jaar om een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in
-      januari of februari 2021.
+      komende twee jaar elk half jaar om een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is ongeveer in
+      maart 2021.
     </p>
     <p>
       De vragenlijst gaat over de gevoelens van uw kind en dingen die uw kind meemaakt, bijvoorbeeld op school. Het
@@ -182,7 +182,7 @@ ic_content_16_plus = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Wat vragen we van je tijdens het onderzoek?</strong></p>
     <p>
       Allereerst vragen we jouw toestemming. Als je toestemming geeft, vragen wij je om de komende twee jaar elk half jaar
-      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is in januari of februari 2021.
+      een vragenlijst in te vullen (in totaal vijf keer). De eerste keer is ongeveer in maart 2021.
     </p>
     <p>
       De vragenlijst gaat over hoe het met jou gaat en dingen die je meemaakt, bijvoorbeeld op school. Het invullen zal

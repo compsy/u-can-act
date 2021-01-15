@@ -103,7 +103,7 @@ dagboek_content = [
     required: true,
     title: 'Waarom heb je lessen gemist?',
     options: [
-    { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
+    { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' },
     { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
     { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
     { title: 'Ik was aan het spijbelen' },

@@ -34,7 +34,8 @@ class QuestionnaireGenerator
     body = safe_join([
                        questionnaire_header(title),
                        questionnaire_hidden_fields(params),
-                       questionnaire_questions_html(content[:questions], response, raw_content, unsubscribe_url),
+                       questionnaire_questions_html(content[:questions], response,
+                                                    raw_content, unsubscribe_url, locale),
                        submit_button(submit_text)
                      ])
     tag.form(body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
@@ -74,11 +75,12 @@ class QuestionnaireGenerator
     safe_join(hidden_body)
   end
 
-  def questionnaire_questions_html(content, response, raw_content, unsubscribe_url)
+  def questionnaire_questions_html(content, response, raw_content, unsubscribe_url, locale)
     body = questionnaire_questions(content, response) do |quest, idx|
       quest[:response_id] = response&.id
       quest[:raw] = raw_content[idx]
       quest[:unsubscribe_url] = unsubscribe_url
+      quest[:locale] = locale
       @questionnaire_question_qenerator.generate(quest)
     end
     safe_join(body)

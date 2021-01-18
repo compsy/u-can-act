@@ -17,7 +17,8 @@ module Api
                :questionnaires,
                :first_name,
                :auth0_id_string,
-               :id
+               :id,
+               :state
 
     def completion
       @completion ||= object.protocol_completion

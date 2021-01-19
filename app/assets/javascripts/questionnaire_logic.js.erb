@@ -163,6 +163,19 @@ function changeExpansions() {
   }
 }
 
+function changeActiveLabel() {
+  const value = $(this).val();
+  const rangeValueLabel = $(this).closest('.range-container').find('.range-value-label').first()
+  $(this).closest('.col.s12').find('.label-row .col, .range-labels-vertical .vertical-range-label').each(function (_index) {
+    if (parseFloat($(this).data('value')) === parseFloat(value)) {
+      $(rangeValueLabel).text($(this).text())
+      $(this).addClass('active')
+    } else {
+      $(this).removeClass('active')
+    }
+  })
+}
+
 function disableHiddenInputs() {
   $('.hidden').each(function (_index) {
     $(this).find('input,textarea,select').each(function (_sub_index) {
@@ -245,8 +258,17 @@ const hideThumbs = () => {
   }
 }
 
+const updateRangeValue = (e) => {
+  const rangeObj = $(e.currentTarget).closest('.row').find('input[type=range]')
+  rangeObj.val($(e.currentTarget).data('value'))
+  removeNotChanged.call(rangeObj)
+  changeActiveLabel.call(rangeObj)
+}
+
 function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
+  const array_of_dom_elements = document.querySelectorAll('input[type=range]')
+  M.Range.init(array_of_dom_elements)
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
   $('.notchanged input[type=range]').change(removeNotChanged).click(removeNotChanged);
   $(document).on('touchstart', '.notchanged input[type=range]', removeNotChanged);
@@ -285,6 +307,9 @@ function questionnaireLoaded() {
   $(document).on('click', '.toast', function () {
     $(this).hide();
   });
+  $(document).on('click', '.vertical-range-label', updateRangeValue);
+  $(document).on('input', '.range-container input[type="range"]', changeActiveLabel);
+  $(document).on('input', '.range-container input[type="range"]', removeNotChanged);
   $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');

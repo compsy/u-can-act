@@ -4,7 +4,7 @@
 
 # Install dependencies
 apt-get -y update
-apt-get -y install libappindicator3-1 curl fonts-liberation libasound2 libnspr4 libnss3 libxss1 lsb-release xdg-utils
+apt-get -y install libappindicator3-1 curl fonts-liberation libasound2 libnspr4 libnss3 libxss1 lsb-release xdg-utils libgbm1
 
 # Install Chrome driver
 wget https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip

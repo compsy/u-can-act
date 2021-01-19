@@ -4,8 +4,9 @@ module Api
   module V1
     module BasicAuthApi
       class ProtocolSubscriptionsController < BasicAuthApiController
-        before_action :set_person, only: %i[create]
-        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy]
+        before_action :set_person, only: %i[create destroy_delegated_protocol_subscriptions]
+        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy
+                                                         destroy_delegated_protocol_subscriptions]
         before_action :set_protocol_subscription, only: %i[destroy]
 
         def show_for_mentor
@@ -30,6 +31,12 @@ module Api
                  each_serializer: Api::ProtocolSubscriptionSerializer
         end
 
+        def destroy_delegated_protocol_subscriptions
+          ProtocolSubscription.active.where(person: @person,
+                                            external_identifier: @external_identifier).each(&:cancel!)
+          destroyed
+        end
+
         # This cancels the protocol subscription. Only works if the external_identifier is given.
         def destroy
           @protocol_subscription.cancel!
@@ -49,13 +56,22 @@ module Api
         def start_date
           return Time.zone.now if protocol_subscription_create_params[:start_date].blank?
 
-          Time.zone.parse(protocol_subscription_create_params[:start_date])
+          # The start date cannot be in the past.
+          [Time.zone.parse(protocol_subscription_create_params[:start_date]), Time.zone.now].max
         end
 
         def end_date
           return nil if protocol_subscription_create_params[:end_date].blank?
 
-          Time.zone.parse(protocol_subscription_create_params[:end_date])
+          # The duration between start and end date should be at least one hour.
+          # There is no specific reason for having a one hour minimum, it's an
+          # artibtrary amount of time that should be enough to fill out any questionnaire.
+          # The limit is to make it more fool proof, i.e., there's no case in which
+          # you would want to start a protocol shorter than one hour (or at least
+          # if there is such a case, we don't allow it through this API).
+          minimum_end_date = TimeTools.increase_by_duration(start_date, 1.hour)
+
+          [Time.zone.parse(protocol_subscription_create_params[:end_date]), minimum_end_date].max
         end
 
         def mentor

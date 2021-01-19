@@ -99,6 +99,17 @@ class ProtocolSubscription < ApplicationRecord
       informed_consent_given_at.present?)
   end
 
+  def informed_consent_remote_content
+    ResponseContent.find(informed_consent_content) if informed_consent_content.present?
+  end
+
+  def informed_consent_values
+    rcontent = informed_consent_remote_content
+    return rcontent&.content if rcontent&.content.nil? || rcontent&.scores.blank?
+
+    rcontent&.content&.merge(rcontent&.scores)
+  end
+
   def completion
     # cached version
     @completion ||= protocol_completion

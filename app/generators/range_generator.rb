@@ -5,14 +5,14 @@ class RangeGenerator < QuestionTypeGenerator
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
-    slider_body = range_slider(question)
+    slider_body = safe_join([range_value_label(question), range_slider(question)])
     slider_body = tag.div(slider_body,
                           class: "range-container notchanged#{question[:required].present? ? ' required' : ''}" \
                                  "#{question[:no_initial_thumb].present? ? ' no-initial-thumb' : ''}")
+    body_and_labels = join_body_and_labels(slider_body, range_labels(question), question)
     safe_join([
                 tag.p(title, class: 'flow-text'),
-                slider_body,
-                range_labels(question)
+                body_and_labels
               ])
   end
 
@@ -26,17 +26,41 @@ class RangeGenerator < QuestionTypeGenerator
 
   private
 
+  def join_body_and_labels(slider_body, labels, question)
+    if question[:vertical].present?
+      slider_body = tag.div(slider_body,
+                            class: "col s3#{question[:gradient].present? ? ' gradient-bg' : ''}")
+      labels = tag.div(labels,
+                       class: 'col s9')
+      return tag.div(safe_join([slider_body, labels]), class: 'row vertical-range')
+    end
+    safe_join([slider_body, labels])
+  end
+
+  def range_value_label(question)
+    return nil if question[:vertical].present?
+
+    tag.div('', class: 'range-value-label')
+  end
+
+  # rubocop:disable Metrics/AbcSize
   def range_slider(question)
     minmax = range_slider_minmax(question)
     step = question[:step] || 1
     range_options = range_question_options(minmax: minmax, step: step, question: question)
     range_options[:value] = question[:value] if question[:value].present?
-    unless question[:ticks]
+    if question[:vertical].present?
+      range_options[:class] = 'vranger'
+      range_body = tag(:input, range_options)
+      return tag.p(range_body, class: 'range-field')
+    end
+    unless question[:ticks].present?
       range_body = tag(:input, range_options)
       return tag.p(range_body, class: 'range-field')
     end
     range_slider_with_ticks(minmax: minmax, step: step, question: question, range_options: range_options)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def range_question_options(minmax:, step:, question:)
     {
@@ -70,19 +94,27 @@ class RangeGenerator < QuestionTypeGenerator
     safe_join(body)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def range_labels(question)
     labels_body = []
     label_count = [question[:labels].size, 1].max
     col_class = 12 / label_count
     col_width = col_width_from_label_count(label_count)
+    minmax = range_slider_minmax(question)
+    step = (1.0 + minmax[:max] - minmax[:min]) / label_count
+    cur = minmax[:min]
+    return vertical_range_labels(minmax, step, question) if question[:vertical].present?
+
     question[:labels].each_with_index do |label, idx|
       new_col_width = col_width
       new_col_width /= 2.0 if label_count > 3 && (idx.zero? || idx + 1 == label_count)
-      labels_body << label_div(label, col_class, new_col_width, idx, label_count)
+      labels_body << label_div(label, col_class, new_col_width, idx, label_count, cur)
+      cur += step
     end
     labels_body = safe_join(labels_body)
     tag.div(labels_body, class: 'row label-row')
   end
+  # rubocop:enable Metrics/AbcSize
 
   def col_width_from_label_count(label_count)
     return 100.0 / (label_count - 1) if label_count > 3
@@ -90,12 +122,38 @@ class RangeGenerator < QuestionTypeGenerator
     100.0 / label_count
   end
 
-  def label_div(label, col_class, col_width, idx, label_count)
+  def label_div(label, col_class, col_width, idx, label_count, value)
     alignment = 'center-align'
     alignment = 'left-align' if idx.zero?
     alignment = 'right-align' if idx + 1 == label_count
     tag.div(label,
             class: "col #{alignment} s#{col_class}",
-            style: "width: #{col_width}%")
+            style: "width: #{col_width}%",
+            data: { value: value })
   end
+
+  # rubocop:disable Metrics/AbcSize
+  def vertical_range_labels(minmax, step, question)
+    col_width = 100.0 / (minmax[:min]..minmax[:max]).step(step).size
+    labels_body = []
+    labels_body << tag.span('')
+    space = raw('&nbsp;')
+    (minmax[:min]..minmax[:max]).step(step).each_with_index do |value, idx|
+      label = []
+      label << tag.span("- #{number_to_string(value)} ", class: 'vertical-range-tick') if question[:ticks].present?
+      label << tag.span(
+        question[:labels].present? && question[:labels][idx].to_s.present? ? question[:labels][idx].to_s : space,
+        class: 'vertical-range-labeltext'
+      )
+      labels_body << tag.span(safe_join(label),
+                              class: 'vertical-range-label',
+                              style: "height: #{col_width}%",
+                              data: { value: value })
+      labels_body << tag('br')
+    end
+    labels_body << tag.span('')
+    labels_body = tag.div(safe_join(labels_body), class: 'vertical-range-label-wrapper')
+    tag.div(labels_body, class: "range-labels-vertical#{question[:gradient].present? ? ' gradient-bg' : ''}")
+  end
+  # rubocop:enable Metrics/AbcSize
 end

@@ -364,37 +364,52 @@ describe ProtocolSubscription do
     it 'creates responses when you create a protocol subscription' do
       protocol = FactoryBot.create(:protocol)
       FactoryBot.create(:measurement, :periodical, protocol: protocol)
-      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(3)
     end
     it 'creates responses up to the specified offset_till_end' do
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 2.weeks)
-      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(2)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 1.week)
-      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(3)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 3.weeks)
-      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(1)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 4.weeks)
-      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(0)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: 0)
-      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
       protocol = FactoryBot.create(:protocol, duration: 4.weeks)
       FactoryBot.create(:measurement, :periodical, protocol: protocol, offset_till_end: nil)
-      protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       expect(protocol_subscription.responses.count).to eq(4)
     end
     it 'deletes the responses when destroying the protocol subscription' do
-      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                start_date: Time.new(2017, 4, 10, 0, 0, 0).in_time_zone)
       FactoryBot.create(:response, protocol_subscription: protocol_subscription)
       expect(protocol_subscription.responses.first).to be_a(Response)
       responsecountbefore = Response.count

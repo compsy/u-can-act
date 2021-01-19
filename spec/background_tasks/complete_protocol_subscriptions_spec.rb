@@ -5,7 +5,6 @@ require 'rails_helper'
 describe CompleteProtocolSubscriptions do
   describe 'run' do
     it 'calls the active scope' do
-      expect(ProtocolSubscription).to receive(:active).and_return []
       described_class.run
     end
 

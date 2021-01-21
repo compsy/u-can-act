@@ -54,9 +54,8 @@ module Api
 
     def state
       return ProtocolSubscription::CANCELED_STATE if object.state == ProtocolSubscription::CANCELED_STATE
-      if object.state == ProtocolSubscription::ACTIVE_STATE && !object.ended?
-        return ProtocolSubscription::ACTIVE_STATE
-      end
+      return ProtocolSubscription::ACTIVE_STATE if object.state == ProtocolSubscription::ACTIVE_STATE && !object.ended?
+
       ProtocolSubscription::COMPLETED_STATE
     end
 

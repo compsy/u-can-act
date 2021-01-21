@@ -52,6 +52,14 @@ module Api
       object.person.first_name
     end
 
+    def state
+      return ProtocolSubscription::CANCELED_STATE if object.state == ProtocolSubscription::CANCELED_STATE
+      if object.state == ProtocolSubscription::ACTIVE_STATE && !object.ended?
+        return ProtocolSubscription::ACTIVE_STATE
+      end
+      ProtocolSubscription::COMPLETED_STATE
+    end
+
     def name
       object.protocol.name
     end

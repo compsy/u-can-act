@@ -12,7 +12,8 @@ SCHOOLS = [
   'Thorbecke Scholengemeenschap MHA',
   'Thomas á Kempis College',
   'Jena XL',
-  'Meander College'
+  'Meander College',
+  'Mens&'
 ]
 PHONE_REGEX = '^06([\s-]?[0-9]){8}$'
 EMAIL_REGEX = '^[^@\s]+@[^@\s]+$'

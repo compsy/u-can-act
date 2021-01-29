@@ -78,7 +78,7 @@ describe 'ProtocolSubscriptions API' do
         }
       end
 
-      response '200', 'cancels a protocol subscription' do
+      response '200', 'updates a protocol subscription' do
         let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
         run_test!
       end

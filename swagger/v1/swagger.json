@@ -136,7 +136,7 @@
         ],
         "responses": {
           "200": {
-            "description": "cancels a protocol subscription"
+            "description": "updates a protocol subscription"
           },
           "401": {
             "description": "not authenticated"

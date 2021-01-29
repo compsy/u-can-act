@@ -143,9 +143,14 @@ describe 'ProtocolSubscriptions API' do
                    current_multiplier: { type: :number },
                    max_streak: { type: :null },
                    initial_multiplier: { type: :number },
+                   start_date: { type: :string },
+                   end_date: { type: :string },
                    name: { type: :string },
                    questionnaires: { type: :array },
-                   first_name: { type: :string }
+                   first_name: { type: :string },
+                   auth0_id_string: { type: :string },
+                   id: { type: :integer },
+                   state: { type: :string }
                  }
                }
         let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }

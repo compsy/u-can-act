@@ -15,5 +15,10 @@ FactoryBot.define do
     trait :canceled do
       state { ProtocolSubscription::CANCELED_STATE }
     end
+
+    trait :completed do
+      end_date { 1.hour.ago }
+      state { ProtocolSubscription::COMPLETED_STATE }
+    end
   end
 end

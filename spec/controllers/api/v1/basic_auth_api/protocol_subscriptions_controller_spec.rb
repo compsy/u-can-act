@@ -118,6 +118,20 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       expect(json_data[0]['first_name']).to eq(protocol_subscription.person.first_name)
       expect(json_data[0]['id']).to eq(protocol_subscription.id)
     end
+
+    it 'should also return protocol subscriptions that are completed or canceled' do
+      protocol_subscription1 = FactoryBot.create(:protocol_subscription, :canceled,
+                                                 end_date: 1.hour.ago,
+                                                 external_identifier: external_identifier)
+      protocol_subscription2 = FactoryBot.create(:protocol_subscription, :completed,
+                                                 external_identifier: external_identifier)
+      get :delegated_protocol_subscriptions, params: { external_identifier: external_identifier }
+      expect(response.status).to eq 200
+      json_data = JSON.parse(response.body)
+      expect(json_data.length).to eq(2)
+      expect(json_data.map { |entry| entry['id'] }).to match_array([protocol_subscription1.id,
+                                                                    protocol_subscription2.id])
+    end
   end
 
   describe '#destroy' do

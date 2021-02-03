@@ -41,14 +41,6 @@ class TokenAuthenticationController < ApplicationController
     store_person_cookie(identifier_param)
   end
 
-  def store_person_cookie(identifier)
-    cookie = { PERSON_ID_COOKIE => identifier }
-    CookieJar.set_or_update_cookie(cookies.signed, cookie)
-    # Remove the JWTAuthenticator cookie if set, so we log out any other sessions on this browser.
-    CookieJar.delete_cookie(cookies.signed, JWT_TOKEN_COOKIE)
-    store_verification_cookie
-  end
-
   def identifier_param
     identifier = questionnaire_params[:q]
     identifier[0...Person::IDENTIFIER_LENGTH] if identifier

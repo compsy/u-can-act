@@ -11,11 +11,25 @@ module ApplicationHelper
   def current_user
     return @current_user if @current_user.present?
 
+    @current_user ||= current_user_from_request_path
     @current_user ||= current_user_from_header
     @current_user ||= JwtAuthenticator.auth_from_params(cookies.signed, params)
     @current_user ||= TokenAuthenticator.auth(cookies.signed, params)
     @current_user ||= JwtAuthenticator.auth_from_cookies(cookies.signed)
     @current_user
+  end
+
+  def store_verification_cookie
+    cookie = { ApplicationController::TEST_COOKIE => ApplicationController::TEST_COOKIE_ENTRY }
+    CookieJar.set_or_update_cookie(cookies.signed, cookie)
+  end
+
+  def store_person_cookie(identifier)
+    cookie = { TokenAuthenticationController::PERSON_ID_COOKIE => identifier }
+    CookieJar.set_or_update_cookie(cookies.signed, cookie)
+    # Remove the JWTAuthenticator cookie if set, so we log out any other sessions on this browser.
+    CookieJar.delete_cookie(cookies.signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+    store_verification_cookie
   end
 
   def logo_image
@@ -148,6 +162,26 @@ module ApplicationHelper
     current_auth_user&.person
   rescue NameError => _e
     nil
+  end
+
+  # Allow a user to log in as a person if they know the uuid of an opened response.
+  def current_user_from_request_path
+    # Since this potentially has security implications, make it a feature toggle. Defaults to false.
+    return nil unless Rails.application.config.settings.feature_toggles.allow_response_uuid_login
+
+    # Works on both the questionnaire and the questionnaire/preference urls
+    uuid_match = %r{\A/questionnaire/(?:preference/)?([a-z0-9-]+)/?\z}.match(request&.path)
+    return nil unless uuid_match.present?
+
+    # The response must be opened and cannot be completed already
+    # (this is so that once a response has been completed, that link cannot
+    #  be used to log in for that same user again)
+    response = Response.opened.find_by(uuid: uuid_match[1])
+    return nil unless response.present?
+
+    # Store cookie for next time
+    store_person_cookie(response.person.external_identifier)
+    response.person
   end
 
   def mentor_or_student_logo

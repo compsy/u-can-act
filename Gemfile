@@ -56,7 +56,7 @@ gem 'pry-rails'
 
 gem 'dotenv-rails'
 
-gem 'coveralls', require: false
+gem 'coveralls_reborn', require: false
 
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'

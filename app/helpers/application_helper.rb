@@ -170,12 +170,14 @@ module ApplicationHelper
     return nil unless Rails.application.config.settings.feature_toggles.allow_response_uuid_login
 
     # Works on both the questionnaire and the questionnaire/preference urls
+    # uuid_match[1] is the uuid part, because the (?:) prevents the preference part
+    # from introducing a backref.
     uuid_match = %r{\A/questionnaire/(?:preference/)?([a-z0-9-]+)/?\z}.match(request&.path)
     return nil unless uuid_match.present?
 
     # The response must be opened and cannot be completed already
     # (this is so that once a response has been completed, that link cannot
-    #  be used to log in for that same user again)
+    # be used to log in for that same user again)
     response = Response.opened.find_by(uuid: uuid_match[1])
     return nil unless response.present?
 

@@ -45,13 +45,15 @@ class InvitationToken < ApplicationRecord
     [identifier, token]
   end
 
-  def self.find_attached_responses(full_token)
+  def self.find_attached_responses(full_token, exclude_completed = false)
     identifier, token = InvitationToken.split_token(full_token)
-    InvitationToken.find_attached_responses_split(identifier, token)
+    InvitationToken.find_attached_responses_split(identifier, token, exclude_completed)
   end
 
-  def self.find_attached_responses_split(identifier, token)
-    find_invitation_token(identifier, token)&.invitation_set&.responses&.sort_by(&:priority_sorting_metric)
+  def self.find_attached_responses_split(identifier, token, exclude_completed)
+    responses = find_invitation_token(identifier, token)&.invitation_set&.responses
+    responses = responses&.opened if exclude_completed
+    responses&.sort_by(&:priority_sorting_metric)
   end
 
   def self.find_invitation_token(identifier, token)

@@ -3,29 +3,59 @@
 class TokenAuthenticationController < ApplicationController
   before_action :check_params
   before_action :check_invitation_token
+  before_action :set_attached_responses
+  before_action :set_response_to_redirect_to
 
   RESPONSE_ID_COOKIE = :response_id
   JWT_TOKEN_COOKIE = :jwt_token
   PERSON_ID_COOKIE = :person_id
 
   def show
-    responses = InvitationToken.find_attached_responses(questionnaire_params[:q])
-    if responses.blank?
-      render(status: :not_found, html: 'Deze link is niet (meer) geldig.', layout: 'application')
+    current_person = @attached_responses.first.person
+    if @response_to_redirect_to.blank?
+      # If all responses for this invitation set were filled out,
+      if current_person.mentor?
+        # then a mentor can still use the link
+        # from their invitation to view the mentor dashboard. Note that the link is only valid as long
+        # as the InvitationToken is valid (and expired Invitation tokens by default expire after 7 days).
+        # So this guarantees that any mentor can use any link sent to them for 7 days to get to their
+        # mentor dashboard, even if they filled out all responses.
+        redirect_to questionnaire_index_path
+      else
+        # A regular user however has no dashboard to go to, so if there are no more responses to fill out,
+        # their invitation link will render a 404 error.
+        render(status: :not_found, html: 'Deze link is niet (meer) geldig.', layout: 'application')
+      end
       return
     end
-    current_person = responses.first.person
-    if current_person.mentor? && !responses.first.protocol_subscription.for_myself?
-      # If we are a mentor, we want to follow the full logic of the next page finder
+    # We know now that we have at least one response to fill out. We prefer to redirect to the first one
+    # of this set (note that these responses are ordered by the {Response#priority_sorting_metric}).
+    # If we are a mentor and the first response to be filled out is for a student, then redirect to the
+    # mentor dashboard instead.
+    if current_person.mentor? && !@response_to_redirect_to.protocol_subscription.for_myself?
       redirect_to questionnaire_index_path
     else
-      # If we are a student, we want to give priority to the response from
-      # the set we actually clicked on
-      redirect_to preference_questionnaire_index_path(uuid: responses.first.uuid)
+      # If we are not a mentor or the response to be filled out is for ourselves,
+      # redirect to the response.
+      redirect_to preference_questionnaire_index_path(uuid: @response_to_redirect_to.uuid)
     end
   end
 
   private
+
+  def set_attached_responses
+    @attached_responses = InvitationToken.find_attached_responses(questionnaire_params[:q], false)
+    return if @attached_responses.present?
+
+    render(status: :not_found, html: 'Deze link is niet (meer) geldig.', layout: 'application')
+  end
+
+  def set_response_to_redirect_to
+    @response_to_redirect_to = InvitationToken.find_attached_responses(questionnaire_params[:q], true).first
+
+    # I think if you return false or nil from a before_action, it stops the rendering?
+    true
+  end
 
   def check_invitation_token
     invitation_token = InvitationToken.test_identifier_token_combination(identifier_param, token_param)
@@ -39,14 +69,6 @@ class TokenAuthenticationController < ApplicationController
       return
     end
     store_person_cookie(identifier_param)
-  end
-
-  def store_person_cookie(identifier)
-    cookie = { PERSON_ID_COOKIE => identifier }
-    CookieJar.set_or_update_cookie(cookies.signed, cookie)
-    # Remove the JWTAuthenticator cookie if set, so we log out any other sessions on this browser.
-    CookieJar.delete_cookie(cookies.signed, JWT_TOKEN_COOKIE)
-    store_verification_cookie
   end
 
   def identifier_param

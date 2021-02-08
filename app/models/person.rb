@@ -104,6 +104,7 @@ class Person < ApplicationRecord
   # and ascending open_from second. This is because we call .first on this method to determine which is the next
   # response that should be shown to the user.
   def my_open_responses(for_myself = true)
+    active_subscriptions = nil
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)
     active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }

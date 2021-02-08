@@ -121,6 +121,56 @@ RSpec.describe QuestionnaireController, type: :controller do
         Timecop.return
       end
     end
+
+    describe 'without cookie auth' do
+      before do
+        expect(Rails.application.config.settings.feature_toggles).to(
+          receive(:allow_response_uuid_login).and_return(true)
+        )
+      end
+
+      it 'shows status 200 when everything is correct' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/show')
+      end
+
+      it 'shows an informed questionnaire if there is one required' do
+        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+        expect(protocol.informed_consent_questionnaire).not_to be_nil
+        expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person,
+                                                  protocol: protocol)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/informed_consent')
+      end
+
+      it 'saves the response in the database, with the correct timestamp' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: mentor,
+                                                  filling_out_for: person)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago)
+        date = Time.zone.now
+        Timecop.freeze(date)
+        expect(responseobj.opened_at).to be_nil
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response.status).to eq 200
+        responseobj.reload
+        expect(responseobj.opened_at).to be_within(5.seconds).of(date)
+        Timecop.return
+      end
+    end
   end
 
   describe 'the @is_mentor_variable' do

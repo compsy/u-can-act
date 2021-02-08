@@ -185,6 +185,16 @@ logo:
 ```
 The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
 
+### Feature toggles
+
+The `settings.yml` file has a `feature_toggles` section with the following entries:
+
+- `allow_identifier_export` (defaults to `false`): By default, the Person export available from the admin dashboard only exports the properties `gender` and `first_name` (along with role, title, team name and organization name) for a Person. Enabling this feature allows for exporting an additional Identifiers file with email and mobile phone numbers, tied to a person id.
+- `allow_distribution_export` (defaults to `false`): Enabling this feature allows for exporting the distributions (i.e., how often people gave a certain answer, for all possible answers, for all questionnaires) for any valid JWT token (belonging to a person) through the JWT API. This is used e.g., for the IKIA project to display distributions in graphs alongside the scores of the user.
+- `realtime_distributions` (defaults to `true`): Whether or not the distributions (see above) should be kept up-to-date in real time (i.e., updated after every filled out response). This should typically be set to true, because it introduces very little overhead. There is also a nightly job that calculates distributions (doing the same thing, but then with a day delay), so if rather have that distributions update once per day, you can set this to `false`.
+- `google_analytics` (defaults to `true`): Whether or not Google Analytics should be enabled for the site. Currently, analytics for all deploys of this repo are reported under the `UA-100060757-1` Compsy property. This should really be separate per deploy, but right now it isn't.
+- `allow_response_uuid_login` (defaults to `false`): Setting this feature toggle to true allows users to use a questionnaire uuid link to log in. This may or may not help with filling out questionnaires under Edge/Outlook where for some reason redirects are followed but cookies are not being set correctly. Since there are many UUIDs, the risk of a person randomly guessing one is low. This risk is further lowered because only UUIDs for responses that have been opened and are not yet completed are valid. And even when someone does guess a UUID, there is no information leaked: they can fill out a questionnaire but that's it.
+
 ### Development configuration
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:
 ```

@@ -44,17 +44,15 @@ module Api
         end
 
         # This updates the protocol subscription. Only works if the external_identifier is given.
-        # We rescheduel the responses with a date that is in the future, for the same reasoning
+        # We reschedule the responses with a date that is in the future, for the same reasoning
         # as is explained in reschedule_responses.rb.
         def update
           res = @protocol_subscription.update(protocol_subscription_update_params)
-          if res
-            RescheduleResponses.run!(protocol_subscription: @protocol_subscription,
-                                     future: TimeTools.increase_by_duration(Time.zone.now, 1.hour))
-            render status: :ok, json: { status: 'ok' }
-          else
-            unprocessable_entity(@protocol_subscription.errors)
-          end
+          return unprocessable_entity(@protocol_subscription.errors) unless res
+
+          RescheduleResponses.run!(protocol_subscription: @protocol_subscription,
+                                   future: TimeTools.increase_by_duration(Time.zone.now, 1.hour))
+          render status: :ok, json: { status: 'ok' }
         end
 
         private

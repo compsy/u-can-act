@@ -45,6 +45,15 @@ Capybara.ignore_hidden_elements = false
 # Webdrivers.logger.level = :DEBUG
 Webdrivers.cache_time = 86_400
 
+capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+  chromeOptions: {
+    args: %w[
+      headless disable-gpu no-sandbox
+      --window-size=1980,1080 --enable-features=NetworkService,NetworkServiceInProcess
+    ]
+  }
+)
+
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   [
@@ -58,11 +67,28 @@ Capybara.register_driver :selenium_chrome_headless do |app|
     # collapses everything in the admin panel.
     'window-size=1280x1280'
   ].each { |arg| options.add_argument(arg) }
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.read_timeout = 600 # instead of the default 60
+  client.open_timeout = 600 # instead of the default 60
+  Capybara::Selenium::Driver.new(app,
+                                 browser: :chrome,
+                                 options: options,
+                                 desired_capabilities: capabilities,
+                                 http_client: client)
 end
 
 Capybara.javascript_driver = :selenium_chrome_headless
+
+# Uncomment below to enable verbose Chrome headless log messages
+# Capybara::Chromedriver::Logger.raise_js_errors = false
+# Capybara::Chromedriver::Logger::TestHooks.for_rspec!
+#
 Capybara.default_driver = :rack_test
+
+Capybara.app_host = 'http://localhost:5001'
+Capybara.server_port = 5001
+Capybara.server_host = '0.0.0.0'
+Capybara.server = :puma, { Silent: true, Threads: '1:1', queue_requests: true }
 
 RSpec.configure do |config|
   config.color_mode = :off if ENV['CI']

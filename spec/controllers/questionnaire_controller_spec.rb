@@ -244,7 +244,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                           protocol_subscription: protocol_subscription)
       end
 
-      it 'stops the protocol subscription', focus: true do
+      it 'stops the protocol subscription' do
         id_token = jwt_auth(the_payload, false)
         expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::ACTIVE_STATE)
         delete :destroy, params: { uuid: responseobj.uuid, auth: id_token }

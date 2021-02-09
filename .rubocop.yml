@@ -168,6 +168,8 @@ Performance/Squeeze:
 Performance/StringInclude:
   Enabled: true
 
+Naming/VariableNumber:
+  CheckSymbols: false
 
 ################################################################## DISABLED COPS
 # These cops are disabled because we think they are a Bad Idea. If you add one

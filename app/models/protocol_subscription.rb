@@ -15,7 +15,7 @@ class ProtocolSubscription < ApplicationRecord
   validates :start_date, presence: true
   validates :end_date, presence: true
 
-  # Note: this ordering is important for a number of reasons. E.g.:
+  # NOTE: this ordering is important for a number of reasons. E.g.:
   # - Response.last? uses it to determine if this is the last in the set.
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
   after_initialize :initialize_filling_out_for

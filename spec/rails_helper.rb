@@ -99,10 +99,9 @@ RSpec.configure do |config|
   # Before and after filters for the rspec runner
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner[:active_record].strategy = :truncation
-    DatabaseCleaner[:mongoid].strategy = :truncation
+    DatabaseCleaner[:mongoid].strategy = :deletion
+    DatabaseCleaner.clean
   end
 
   config.before do
@@ -134,6 +133,6 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean
   end
 end

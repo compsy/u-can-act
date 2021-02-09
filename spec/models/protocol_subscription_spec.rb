@@ -250,6 +250,15 @@ describe ProtocolSubscription do
   end
 
   describe 'cancel!' do
+    before do
+      @old_value = Delayed::Worker.delay_jobs
+      Delayed::Worker.delay_jobs = false
+    end
+
+    after do
+      Delayed::Worker.delay_jobs = @old_value
+    end
+
     it 'cancels the protocol subscription' do
       protocol_subscription = FactoryBot.create(:protocol_subscription, state: described_class::ACTIVE_STATE)
       protocol_subscription.cancel!

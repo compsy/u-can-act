@@ -29,7 +29,7 @@ class Person < ApplicationRecord
   validates_with IbanValidator
 
   validates :external_identifier,
-            format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/i,
+            format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/io,
             allow_blank: false,
             uniqueness: true
   validates :first_name, presence: true
@@ -95,7 +95,7 @@ class Person < ApplicationRecord
       :protocol
     ).joins(
       'LEFT JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
-    ).where('one_time_responses.id IS NULL')
+    ).where(one_time_responses: { id: nil })
 
     filter_for_myself(prot_subs, for_myself)
   end

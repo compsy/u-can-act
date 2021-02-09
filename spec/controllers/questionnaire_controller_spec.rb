@@ -68,8 +68,26 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'GET /:uuid' do
-    xdescribe 'with jwt auth' do
-      it 'should be tested' do
+    describe 'with jwt auth' do
+      let(:the_auth_user) { FactoryBot.create(:auth_user, person: person) }
+      let(:auth0_id_string) { the_auth_user.auth0_id_string }
+      let!(:the_payload) do
+        {
+          'sub' => auth0_id_string,
+          ENV['SITE_LOCATION'] => {
+            'access_level' => ['user']
+          }
+        }
+      end
+      it 'should status 200 when everything is correct' do
+        id_token = jwt_auth(the_payload, false)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid, auth: id_token }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/show')
       end
     end
 
@@ -205,7 +223,33 @@ RSpec.describe QuestionnaireController, type: :controller do
 
   describe 'DELETE' do
     describe 'with jwt auth' do
-      it 'should be tested' do
+      let(:the_auth_user) { FactoryBot.create(:auth_user, person: student) }
+      let(:auth0_id_string) { the_auth_user.auth0_id_string }
+      let!(:the_payload) do
+        {
+          'sub' => auth0_id_string,
+          ENV['SITE_LOCATION'] => {
+            'access_level' => ['user']
+          }
+        }
+      end
+      let!(:protocol_subscription) do
+        FactoryBot.create(:protocol_subscription,
+                          start_date: 1.week.ago.at_beginning_of_day,
+                          person: student)
+      end
+      let!(:responseobj) do
+        FactoryBot.create(:response,
+                          open_from: 1.hour.ago,
+                          protocol_subscription: protocol_subscription)
+      end
+
+      it 'stops the protocol subscription' do
+        id_token = jwt_auth(the_payload, false)
+        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::ACTIVE_STATE)
+        delete :destroy, params: { uuid: responseobj.uuid, auth: id_token }
+        responseobj.protocol_subscription.reload
+        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
       end
     end
     describe 'with cookie auth' do
@@ -575,7 +619,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'heads 400 if the jsoncontent is not a string' do
         post :interactive_render, params: {
-          content: [{ "id": 'v1', "title": 'Question', "type": 'radio', "options": %w[1 2] }]
+          content: [{ id: 'v1', title: 'Question', type: 'radio', options: %w[1 2] }]
         }
         expect(response.status).to eq 400
         expect(response.body).to eq({ error: 'no implicit conversion of Array into String' }.to_json)

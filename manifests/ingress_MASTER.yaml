@@ -1,3 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sportdatavalley-svc-questionnaires-tls
+  namespace: sdv-mvp-master
+spec:
+  secretName: sportdatavalley-svc-questionnaires-tls
+  dnsNames:
+  - svc-questionnaires.app.sportdatavalley.nl
+  - svc-questionnaires.beta.sportdatavalley.nl
+  - questionnaires.app.sportdatavalley.nl
+  - q.app.sportdatavalley.nl
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -11,34 +27,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - svc-questionnaires.beta.sportdatavalley.nl
     - svc-questionnaires.app.sportdatavalley.nl
-    - questionnaires.app.sportdatavalley.nl
-    - q.app.sportdatavalley.nl
     secretName: sportdatavalley-svc-questionnaires-tls
   rules:
-  - host: svc-questionnaires.beta.sportdatavalley.nl
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: svc-questionnaires-service
-          servicePort: 3000
   - host: svc-questionnaires.app.sportdatavalley.nl
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: svc-questionnaires-service
-          servicePort: 3000
-  - host: questionnaires.app.sportdatavalley.nl
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: svc-questionnaires-service
-          servicePort: 3000
-  - host: q.app.sportdatavalley.nl
     http:
       paths:
       - path: /

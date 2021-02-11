@@ -8,8 +8,6 @@ spec:
   dnsNames:
   - svc-questionnaires.app.sportdatavalley.dev
   - svc-questionnaires.beta.sportdatavalley.dev
-  - questionnaires.app.sportdatavalley.dev
-  - q.app.sportdatavalley.dev
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

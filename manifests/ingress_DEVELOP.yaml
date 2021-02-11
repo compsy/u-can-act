@@ -7,7 +7,6 @@ spec:
   secretName: sportdatavalley-svc-questionnaires-tls
   dnsNames:
   - svc-questionnaires.app.sportdatavalley.dev
-  - svc-questionnaires.beta.sportdatavalley.dev
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

@@ -1,4 +1,6 @@
 # Monkey patch to stop delayed job from spamming papertrail
+require 'delayed/backend/active_record'
+
 module Delayed
   module Backend
     module ActiveRecord

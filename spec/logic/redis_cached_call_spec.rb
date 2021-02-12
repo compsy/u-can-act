@@ -15,7 +15,7 @@ describe RedisCachedCall do
     it 'calls the redis service to retrieve the cache' do
       result = 'test123'
       final_result = 'somethingelse'
-      expect(RedisService).to receive(:exists).with(key).and_return(true)
+      expect(RedisService).to receive(:exists?).with(key).and_return(true)
       expect(RedisService).to receive(:get).with(key).and_return(result)
       expect(Marshal).to receive(:load).with(result).and_return(final_result)
       described_class.cache(key, bust_cache) { 'test' }
@@ -24,7 +24,7 @@ describe RedisCachedCall do
     it 'calls the block provided to the function and store its results in the cache' do
       marshalled_output = 'test123'
       expected = 'somethingelse'
-      expect(RedisService).to receive(:exists).with(key).and_return(false)
+      expect(RedisService).to receive(:exists?).with(key).and_return(false)
       expect(RedisService).not_to receive(:get)
       expect(Marshal).not_to receive(:load)
       expect(Marshal).to receive(:dump).with(expected).and_return(marshalled_output)
@@ -42,7 +42,7 @@ describe RedisCachedCall do
     it 'does not call the block provided to the function and store its results in the cache' do
       expected = 'test'
       expect(RedisService).to receive(:get).with(key).and_return(Marshal.dump(expected))
-      expect(RedisService).to receive(:exists).with(key).and_return(true)
+      expect(RedisService).to receive(:exists?).with(key).and_return(true)
       expect(Marshal).not_to receive(:dump)
       expect(RedisService).not_to receive(:set)
 

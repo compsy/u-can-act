@@ -121,9 +121,7 @@ class QuestionnaireController < ApplicationController
     return if performed?
 
     make_content_indifferent!
-  rescue JSON::ParserError => e
-    render status: :bad_request, json: { error: e.message }
-  rescue TypeError => e
+  rescue JSON::ParserError, TypeError => e
     render status: :bad_request, json: { error: e.message }
   end
 

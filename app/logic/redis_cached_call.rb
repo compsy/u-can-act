@@ -2,7 +2,7 @@
 
 class RedisCachedCall
   def self.cache(key, bust_cache, &block)
-    if !bust_cache && RedisService.exists(key)
+    if !bust_cache && RedisService.exists?(key)
       # Try to return the key from the cache
       result = RedisService.get(key)
 

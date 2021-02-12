@@ -123,7 +123,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :protocol_subscriptions, only: [:create, :destroy] do
+        resources :protocol_subscriptions, only: [:create, :destroy, :update] do
           collection do
             get :delegated_protocol_subscriptions
             delete :destroy_delegated_protocol_subscriptions

@@ -363,9 +363,6 @@ input[type="checkbox"] + label {
 }
 
 form .likert-scale {
-  p:first {
-    display:block;
-  }
   display: flex;
   justify-content: space-between;
   width: 100%;

@@ -64,7 +64,7 @@ class ExpandableGenerator < QuestionTypeGenerator
   def single_expandable_button(id, label, klass, expand)
     tag.a(
       label,
-      id: "#{id}_#{(expand ? 'expand' : 'collapse')}",
+      id: "#{id}_#{expand ? 'expand' : 'collapse'}",
       data: { belongsto: id },
       class: "btn expandable_button waves-effect waves-light #{klass}"
     )

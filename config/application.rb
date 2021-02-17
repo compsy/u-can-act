@@ -23,6 +23,10 @@ module Vsv
     config.i18n.default_locale = :nl
     config.i18n.available_locales = [:nl, :en]
 
+    # Rails 6 optimization.
+    # See https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#config-add-autoload-paths-to-load-path
+    config.add_autoload_paths_to_load_path = false
+
     config.middleware.use I18n::JS::Middleware
 
     config.active_job.queue_adapter = :delayed_job

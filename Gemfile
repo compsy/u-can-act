@@ -47,8 +47,6 @@ gem 'bcrypt'
 
 # Enable cross origin requests
 gem 'rack-cors'
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 gem 'pry-rails'
 

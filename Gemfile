@@ -24,8 +24,6 @@ gem 'sass-rails'
 gem 'haml-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
 
 # Use React for the UI
 gem 'react-rails'

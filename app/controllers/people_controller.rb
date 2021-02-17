@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PeopleController < ApplicationController
-  include Concerns::IsLoggedIn
+  include ::IsLoggedIn
   before_action :set_current_person
   before_action :set_layout
 

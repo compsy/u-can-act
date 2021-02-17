@@ -24,13 +24,13 @@ GIT
 
 GIT
   remote: https://github.com/nsarno/knock.git
-  revision: 84d3e54b9a8f1e9701097207a8d3135d5a9e64c1
-  ref: 84d3e54b9a8f1e9701097207a8d3135d5a9e64c1
+  revision: 37e403a7c6d44f585b56a086245e41566a8d6fe1
+  ref: 37e403a7c6d44f585b56a086245e41566a8d6fe1
   specs:
     knock (2.2.0)
       bcrypt (~> 3.1)
       jwt (~> 2.2.1)
-      rails (>= 4.2)
+      rails (>= 5)
 
 GEM
   remote: https://rubygems.org/

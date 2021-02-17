@@ -4,7 +4,7 @@ module Api
   module V1
     module CookieAndJwtApi
       class CookieAndJwtApiController < ApiController
-        include ::Concerns::IsLoggedInWithAnyMethod
+        include ::IsLoggedInWithAnyMethod
       end
     end
   end

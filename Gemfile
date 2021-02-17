@@ -77,7 +77,7 @@ gem 'active_model_serializers'
 gem 'jwt'
 
 # current master, using this because the version on rubygems hasn't been updated
-gem 'knock', github: 'nsarno/knock', ref: '84d3e54b9a8f1e9701097207a8d3135d5a9e64c1'
+gem 'knock', github: 'nsarno/knock', ref: '37e403a7c6d44f585b56a086245e41566a8d6fe1'
 
 # Gem for authorization
 # Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474

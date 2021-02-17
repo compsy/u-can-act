@@ -16,4 +16,3 @@ module IsBasicAuthenticated
     end
   end
 end
-

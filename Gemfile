@@ -137,9 +137,6 @@ group :test do
   # selenium for js testing
   gem 'selenium-webdriver'
   gem 'webdrivers'
-
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  # gem 'chromedriver-helper'
 end
 
 group :production, :staging do
@@ -156,7 +153,7 @@ gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

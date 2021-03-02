@@ -99,7 +99,7 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    appsignal (2.11.6)
+    appsignal (2.11.8)
       rack
     ast (2.4.2)
     autoprefixer-rails (10.2.4.0)
@@ -366,7 +366,7 @@ GEM
       redis-classy (~> 2.0)
     redis-namespace (1.8.1)
       redis (>= 3.0.4)
-    regexp_parser (2.0.3)
+    regexp_parser (2.1.1)
     remote_syslog_logger (1.0.4)
       syslog_protocol
     request_store (1.5.0)

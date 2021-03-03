@@ -28,12 +28,24 @@ module Api
 
         private
 
+        # If we are sent an empty string as an email, set it to nil instead. Because we do
+        # uniqueness checking on the email, having multiple people with an empty string as
+        # email is not allowed, but having multiple people with a nil email is allowed.
+        # The same applies to mobile phone numbers.
+        def overwritten_params
+          result = {}
+          %i[email mobile_phone].each do |param|
+            result[param] = nil if person_params.key?(param) && !person_params[param].present?
+          end
+          result
+        end
+
         def update_person
-          timestamp = person_params[:timestamp] and person_params[:timestamp].to_datetime
+          timestamp = person_params[:timestamp].present? ? Time.zone.parse(person_params[:timestamp]) : nil
           # no timestamp: request is synchronous
           # if timestamp: request is async, so check if it is the most recent one
-          if timestamp.nil? || (timestamp > current_user.updated_at)
-            return current_user.update(person_params.except(:timestamp))
+          if timestamp.blank? || timestamp > current_user.updated_at
+            return current_user.update(person_params.except(:timestamp).merge(overwritten_params))
           end
 
           nil

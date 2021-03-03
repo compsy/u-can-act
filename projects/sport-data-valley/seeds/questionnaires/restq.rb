@@ -6,7 +6,7 @@ questionnaire ||= Questionnaire.new(name: db_name1)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
 def question(id, question_en, question_nl)
-  return {
+  {
     id: id,
     type: 'likert',
     title: {
@@ -40,31 +40,34 @@ questionnaire_content = [{
 }, {
   id: :v1,
   type: :textfield,
-  title: {en: 'Name:', nl: 'Naam:'}
+  title: {en: 'Name:', nl: 'Naam:'},
+  placeholder: { nl: 'Vul uw naam in', en: 'Enter your name' },
 }, {
   id: :v2,
   type: :number,
   title: {en: 'Age', nl: 'Leeftijd'},
+  placeholder: { nl: 'Vul uw leeftijd in', en: 'Enter your age' },
   min: 0,
   max: 140
 }, {
   id: :v3,
   type: :textfield,
-  title: {en: 'Sport:', nl: 'Sport:'}
+  title: {en: 'Sport:', nl: 'Sport:'},
+  placeholder: { nl: 'Vul iets in', en: 'Enter something' },
 }, {
   id: :v4,
   type: :textfield,
-  title: {en: 'Events:', nl: 'Onderdeel:'}
+  title: {en: 'Events:', nl: 'Onderdeel:'},
+  placeholder: { nl: 'Vul iets in', en: 'Enter something' },
 }, {
   id: :v5,
-  type: :date,
-  title: {en: 'Date', nl: 'Datum'}
-}, {
-  id: :v6,
-  type: :time,
-  title: {en: 'Time', nl: 'Tijd'},
-  hours_from: 0,
-  hours_to: 24
+  type: :date_and_time,
+  hours_id: :v6_uur,
+  minutes_id: :v6_minuten,
+  today: true,
+  placeholder: { nl: 'Vul een datum en tijd in', en: 'Enter a date and time' },
+  title: { nl: 'Datum', en: 'Date' },
+  max: true
 }, {
   type: :raw,
   content: {

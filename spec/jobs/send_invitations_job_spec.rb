@@ -166,6 +166,79 @@ describe SendInvitationsJob do
         expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
         expect(responseobj.invitation_set.invitation_text).to be_nil
       end
+
+      it 'does not send an invitation if the person\'s account is no longer active' do
+        responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+        responseobj.save!
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
+        expect(responseobj.invitation_set.invitation_text).to be_nil
+        expect(GenerateInvitationText).not_to receive(:run!)
+
+        invcountbefore = Invitation.count
+        invtokcountbefore = InvitationToken.count
+        invtoksininvsetbefore = responseobj.invitation_set.invitation_tokens.count
+        ActiveJob::Base.queue_adapter = :test
+        student.update!(account_active: false)
+        expect do
+          subject.perform(responseobj.invitation_set)
+        end.not_to have_enqueued_job(SendInvitationJob)
+        responseobj.reload
+        expect(Invitation.count).to eq invcountbefore
+        expect(InvitationToken.count).to eq invtokcountbefore
+        expect(responseobj.invitation_set.invitation_tokens.count).to eq invtoksininvsetbefore
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
+        expect(responseobj.invitation_set.invitation_text).to be_nil
+      end
+
+      it 'does not send an invitation if the measurement should not invite' do
+        responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+        responseobj.save!
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
+        expect(responseobj.invitation_set.invitation_text).to be_nil
+        expect(GenerateInvitationText).not_to receive(:run!)
+
+        invcountbefore = Invitation.count
+        invtokcountbefore = InvitationToken.count
+        invtoksininvsetbefore = responseobj.invitation_set.invitation_tokens.count
+        ActiveJob::Base.queue_adapter = :test
+        responseobj.measurement.update!(should_invite: false)
+        expect do
+          subject.perform(responseobj.invitation_set)
+        end.not_to have_enqueued_job(SendInvitationJob)
+        responseobj.reload
+        expect(Invitation.count).to eq invcountbefore
+        expect(InvitationToken.count).to eq invtokcountbefore
+        expect(responseobj.invitation_set.invitation_tokens.count).to eq invtoksininvsetbefore
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
+        expect(responseobj.invitation_set.invitation_text).to be_nil
+      end
+
+      it 'does not send an invitation if the protocol subscription is not active' do
+        responseobj.measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+        responseobj.save!
+        FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
+        expect(responseobj.invitation_set.invitation_text).to be_nil
+        expect(GenerateInvitationText).not_to receive(:run!)
+
+        invcountbefore = Invitation.count
+        invtokcountbefore = InvitationToken.count
+        invtoksininvsetbefore = responseobj.invitation_set.invitation_tokens.count
+        ActiveJob::Base.queue_adapter = :test
+        responseobj.protocol_subscription.update!(state: ProtocolSubscription::COMPLETED_STATE)
+        expect_any_instance_of(Response).to receive(:expired?).and_return(true)
+        expect do
+          subject.perform(responseobj.invitation_set)
+        end.not_to have_enqueued_job(SendInvitationJob)
+        responseobj.reload
+        expect(Invitation.count).to eq invcountbefore
+        expect(InvitationToken.count).to eq invtokcountbefore
+        expect(responseobj.invitation_set.invitation_tokens.count).to eq invtoksininvsetbefore
+        expect(responseobj.invitation_set.invitations.first.invited_state).to eq Invitation::NOT_SENT_STATE
+        expect(responseobj.invitation_set.invitation_text).to be_nil
+      end
     end
 
     describe 'when a mentor is filling out' do

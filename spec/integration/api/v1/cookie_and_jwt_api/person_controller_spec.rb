@@ -59,6 +59,48 @@ describe 'Person API' do
         run_test!
       end
 
+      response '200', 'sets the person\'s mobile_phone to nil if a blank mobile_phone was given' do
+        schema type: :object,
+               properties: {
+                 first_name: { type: :string },
+                 last_name: { type: :string },
+                 gender: { type: :string },
+                 email: { type: :string },
+                 mobile_phone: { type: :string },
+                 timestamp: { type: :string }
+               }
+        let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
+        let(:person) do
+          { person: {
+            mobile_phone: ''
+          } }
+        end
+        run_test! do
+          expect(Person.find_by(email: 'male@male.com').mobile_phone).to be_nil
+        end
+      end
+
+      response '200', 'sets the person\'s email to nil if a blank email was given' do
+        schema type: :object,
+               properties: {
+                 first_name: { type: :string },
+                 last_name: { type: :string },
+                 gender: { type: :string },
+                 email: { type: :string },
+                 mobile_phone: { type: :string },
+                 timestamp: { type: :string }
+               }
+        let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
+        let(:person) do
+          { person: {
+            email: ''
+          } }
+        end
+        run_test! do
+          expect(Person.find_by(mobile_phone: '0612341234').email).to be_nil
+        end
+      end
+
       response '200', 'updates the current user if later timestamp is given' do
         schema type: :object,
                properties: {

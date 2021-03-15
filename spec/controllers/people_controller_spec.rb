@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PeopleController, type: :controller do
-  let(:person) { FactoryBot.create(:person) }
+  let(:person) { FactoryBot.create(:person, :with_email) }
 
   describe 'should not be possible to access this endpoint unauthenticated' do
     it 'does not edit' do
@@ -175,6 +175,32 @@ RSpec.describe PeopleController, type: :controller do
       expect(person.last_name).to eq person_attributes['last_name']
       expect(person.email).to eq person_attributes['email']
       expect(person.mobile_phone).to eq person_attributes['mobile_phone']
+    end
+
+    it 'sets email to nil when given an empty string' do
+      person_attributes = {}
+      person_attributes['email'] = ''
+
+      expect(person.email).not_to be_blank
+
+      put :update, params: { person: person_attributes }
+
+      person.reload
+
+      expect(person.email).to be_nil
+    end
+
+    it 'sets mobile_phone to nil when given an empty string' do
+      person_attributes = {}
+      person_attributes['mobile_phone'] = ''
+
+      expect(person.mobile_phone).not_to be_blank
+
+      put :update, params: { person: person_attributes }
+
+      person.reload
+
+      expect(person.mobile_phone).to be_nil
     end
 
     it 'does not store the iphash of the person if the person cant store it' do

@@ -17,6 +17,10 @@ FactoryBot.define do
       sequence(:last_name, 'a') { |n| "Douval#{n}" }
     end
 
+    trait :with_email do
+      email
+    end
+
     trait :with_protocol_subscriptions do
       after(:create) do |person|
         FactoryBot.create(:protocol_subscription, person: person)

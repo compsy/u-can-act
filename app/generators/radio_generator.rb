@@ -47,7 +47,7 @@ class RadioGenerator < QuestionTypeGenerator
       name: answer_name(idify(question[:id])),
       type: 'radio',
       id: elem_id,
-      value: option[:title],
+      value: option[:raw][:title],
       required: true,
       class: 'validate'
     }
@@ -65,7 +65,7 @@ class RadioGenerator < QuestionTypeGenerator
         name: answer_name(idify(question[:id])),
         type: 'radio',
         id: idify(question[:id], question[:raw][:otherwise_label]),
-        value: question[:otherwise_label],
+        value: question[:raw][:otherwise_label],
         required: true,
         class: 'otherwise-option')
   end

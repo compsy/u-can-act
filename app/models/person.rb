@@ -54,6 +54,7 @@ class Person < ApplicationRecord
   belongs_to :parent, class_name: 'Person', optional: true
   validate :not_own_parent
   validates :locale, inclusion: Rails.application.config.i18n.available_locales.map(&:to_s)
+  validates :account_active, inclusion: { in: [true, false] }
 
   after_initialize do |person|
     next if person.external_identifier

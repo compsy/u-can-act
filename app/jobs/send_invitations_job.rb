@@ -5,7 +5,15 @@ class SendInvitationsJob < ApplicationJob
 
   def perform(invitation_set)
     invitation_set.reload
+    # Since this can be the reminder notification, which is sent hours later,
+    # check again for expiration, already completed, still open, active, not
+    # ended, and so on.
     open_responses = invitation_set.responses.opened_and_not_expired
+    open_responses = open_responses.select do |response|
+      response.measurement.should_invite? &&
+        response.protocol_subscription.active? &&
+        response.person.account_active?
+    end
 
     # We don't want to invite if there are no responses that are open
     return if open_responses.blank?

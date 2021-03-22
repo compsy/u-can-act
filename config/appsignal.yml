@@ -5,7 +5,7 @@ default: &defaults
 
   ignore_actions:
     - "StatusController#show"
-
+    - "ApplicationController#page_not_found"
 
   # Your app's name
   name: "<%= ENV['PROJECT_NAME'] %>"

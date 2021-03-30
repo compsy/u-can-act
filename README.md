@@ -14,42 +14,6 @@
   <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act"></a>
 </p>
 
-Table of Contents
-=================
-
-   * [u-can-act](#u-can-act)
-      * [Reference](#reference)
-      * [Funding](#funding)
-      * [Installation](#installation)
-      * [Configuration](#configuration)
-         * [General settings](#general-settings)
-         * [(Local) development settings](#local-development-settings)
-         * [Organization-specific settings](#organization-specific-settings)
-         * [Development configuration](#development-configuration)
-      * [Background jobs](#background-jobs)
-      * [Protocols and Measurements](#protocols-and-measurements)
-      * [Importing new students and mentors](#importing-new-students-and-mentors)
-         * [The Mentor CSV](#the-mentor-csv)
-         * [The Student CSV](#the-student-csv)
-      * [Variables that can be used in texts (case-sensitive!):](#variables-that-can-be-used-in-texts-case-sensitive)
-      * [Questionnaire Syntax](#questionnaire-syntax)
-         * [Type: Checkbox](#type-checkbox)
-         * [Type: Radio](#type-radio)
-         * [Type: Likert](#type-likert)
-         * [Type: Range](#type-range)
-         * [Type: Raw](#type-raw)
-         * [Type: Textarea](#type-textarea)
-         * [Type: Textfield](#type-textfield)
-         * [Type: Number](#type-number)
-         * [Type: Expandable](#type-expandable)
-         * [Type: Time](#type-time)
-         * [Type: Date](#type-date)
-         * [Type: Unsubscribe](#type-unsubscribe)
-         * [Type: Dropdown](#type-dropdown)
-         * [Type: Drawing](#type-drawing)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc).
-
 ## Reference
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). 
 U-can-act Web-app (Version 1.0) [Web application software]. 
@@ -243,6 +207,7 @@ When using Heroku these can be scheduled via the *Heroku Scheduler*.
 
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
+To do this on Heroku, start an extra worker process and, optionally, add the [workless](https://github.com/lostboy/workless) gem to enable autoscaling.
 
 ## Protocols and Measurements
 In the system a _Questionnaire_ denotes the definition of a questionnaire.

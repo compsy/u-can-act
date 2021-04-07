@@ -2,7 +2,6 @@
 
 module Api
   class CkanResponseSerializer < ActiveModel::Serializer
-
     attributes %i[dataset resource records schema]
 
     def dataset

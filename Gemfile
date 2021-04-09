@@ -108,10 +108,10 @@ end
 
 group :test do
   # Code quality monitoring
-  gem 'rubocop'
-  gem 'rubocop-performance'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem 'rubocop', '>= 1.11.0'
+  gem 'rubocop-performance', '>= 1.10.1'
+  gem 'rubocop-rails', '>= 2.9.1'
+  gem 'rubocop-rspec', '>= 2.2.0'
 
   # Allows jumping back and forth in time
   gem 'timecop'

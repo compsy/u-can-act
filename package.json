@@ -3,7 +3,7 @@
   "dependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "@rails/webpacker": "^4.3.0",
+    "@rails/webpacker": "^5.2.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",

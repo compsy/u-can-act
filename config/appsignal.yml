@@ -3,6 +3,10 @@ default: &defaults
   # push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
   push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
 
+  ignore_actions:
+    - "StatusController#show"
+    - "ApplicationController#page_not_found"
+
   # Your app's name
   name: "<%= ENV['PROJECT_NAME'] %>"
 
@@ -12,6 +16,10 @@ default: &defaults
   enable_frontend_error_catching: false
   enable_minutely_probes: true
 
+  # The cuttoff point in ms above which a request is considered slow, default is 200
+  slow_request_threshold: 500
+
+
 # Configuration per environment, leave out an environment or set active
 # to false to not push metrics for that environment.
 development:
@@ -19,6 +27,14 @@ development:
   active: false
 
 production:
+  <<: *defaults
+  active: true
+
+master:
+  <<: *defaults
+  active: true
+
+develop:
   <<: *defaults
   active: true
 

@@ -12,9 +12,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_one_am']
             env:
             - name: API_KEY
@@ -42,9 +44,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_two_am']
             env:
             - name: API_KEY
@@ -72,9 +76,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_three_am']
             env:
             - name: API_KEY
@@ -102,9 +108,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_four_am']
             env:
             - name: API_KEY
@@ -132,9 +140,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily']
             env:
             - name: API_KEY
@@ -162,9 +172,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/hourly']
             env:
             - name: API_KEY
@@ -192,9 +204,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/thirty_minutely']
             env:
             - name: API_KEY
@@ -222,9 +236,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/five_minutely']
             env:
             - name: API_KEY
@@ -252,9 +268,11 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
           containers:
           - name: cron-container
-            image: byrnedo/alpine-curl
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/minutely']
             env:
             - name: API_KEY

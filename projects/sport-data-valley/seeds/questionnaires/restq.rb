@@ -6,7 +6,7 @@ questionnaire ||= Questionnaire.new(name: db_name1)
 questionnaire.key = File.basename(__FILE__)[0...-3]
 
 def question(id, question_en, question_nl)
-  return {
+  {
     id: id,
     type: 'likert',
     title: {
@@ -40,31 +40,34 @@ questionnaire_content = [{
 }, {
   id: :v1,
   type: :textfield,
-  title: {en: 'Name:', nl: 'Naam:'}
+  title: {en: 'Name:', nl: 'Naam:'},
+  placeholder: { nl: 'Vul uw naam in', en: 'Enter your name' },
 }, {
   id: :v2,
   type: :number,
   title: {en: 'Age', nl: 'Leeftijd'},
+  placeholder: { nl: 'Vul uw leeftijd in', en: 'Enter your age' },
   min: 0,
   max: 140
 }, {
   id: :v3,
   type: :textfield,
-  title: {en: 'Sport:', nl: 'Sport:'}
+  title: {en: 'Sport:', nl: 'Sport:'},
+  placeholder: { nl: 'Vul iets in', en: 'Enter something' },
 }, {
   id: :v4,
   type: :textfield,
-  title: {en: 'Events:', nl: 'Onderdeel:'}
+  title: {en: 'Events:', nl: 'Onderdeel:'},
+  placeholder: { nl: 'Vul iets in', en: 'Enter something' },
 }, {
   id: :v5,
-  type: :date,
-  title: {en: 'Date', nl: 'Datum'}
-}, {
-  id: :v6,
-  type: :time,
-  title: {en: 'Time', nl: 'Tijd'},
-  hours_from: 0,
-  hours_to: 24
+  type: :date_and_time,
+  hours_id: :v6_uur,
+  minutes_id: :v6_minuten,
+  today: true,
+  placeholder: { nl: 'Vul een datum en tijd in', en: 'Enter a date and time' },
+  title: { nl: 'Datum', en: 'Date' },
+  max: true
 }, {
   type: :raw,
   content: {
@@ -77,9 +80,13 @@ questionnaire_content = [{
     en: '<h4>Example</h4>',
     nl: '<h4>Voorbeeldvraag</h4>'
   }
-},
-  question(:v7, '...  I read the paper _very often_', '... heb ik de krant gelezen _heel vaak_'),
-{
+}, {
+  type: :raw,
+  content: {
+    en: '<div class="row section" style="pointer-events:none"><div class="col s12"><p class="flow-text">... I read the paper __</p><div class="likert-scale radio-group required"><div class="likert-item"><p><label for="v7_nooit"><input name="content[v7]" type="radio" id="v7_nooit" value="Never" required="required" class="validate"><span>Never</span></label></p></div><div class="likert-item"><p><label for="v7_zelden"><input name="content[v7]" type="radio" id="v7_zelden" value="Seldom" required="required" class="validate"><span>Seldom</span></label></p></div><div class="likert-item"><p><label for="v7_soms"><input name="content[v7]" type="radio" id="v7_soms" value="Sometimes" required="required" class="validate"><span>Sometimes</span></label></p></div><div class="likert-item"><p><label for="v7_regelmatig"><input name="content[v7]" type="radio" id="v7_regelmatig" value="Often" required="required" class="validate"><span>Often</span></label></p></div><div class="likert-item"><p><label for="v7_vaak"><input name="content[v7]" type="radio" id="v7_vaak" value="More often" required="required" class="validate"><span>More often</span></label></p></div><div class="likert-item"><p><label for="v7_heel_vaak"><input name="content[v7]" type="radio" id="v7_heel_vaak" value="Very often" required="required" class="validate" checked><span>Very often</span></label></p></div><div class="likert-item"><p><label for="v7_altijd"><input name="content[v7]" type="radio" id="v7_altijd" value="Always" required="required" class="validate"><span>Always</span></label></p></div></div></div></div>',
+    nl: '<div class="row section" style="pointer-events:none"><div class="col s12"><p class="flow-text">... heb ik de krant gelezen __</p><div class="likert-scale radio-group required"><div class="likert-item"><p><label for="v7_nooit"><input name="content[v7]" type="radio" id="v7_nooit" value="Nooit" required="required" class="validate"><span>Nooit</span></label></p></div><div class="likert-item"><p><label for="v7_zelden"><input name="content[v7]" type="radio" id="v7_zelden" value="Zelden" required="required" class="validate"><span>Zelden</span></label></p></div><div class="likert-item"><p><label for="v7_soms"><input name="content[v7]" type="radio" id="v7_soms" value="Soms" required="required" class="validate"><span>Soms</span></label></p></div><div class="likert-item"><p><label for="v7_regelmatig"><input name="content[v7]" type="radio" id="v7_regelmatig" value="Regelmatig" required="required" class="validate"><span>Regelmatig</span></label></p></div><div class="likert-item"><p><label for="v7_vaak"><input name="content[v7]" type="radio" id="v7_vaak" value="Vaak" required="required" class="validate"><span>Vaak</span></label></p></div><div class="likert-item"><p><label for="v7_heel_vaak"><input name="content[v7]" type="radio" id="v7_heel_vaak" value="Heel vaak" required="required" class="validate" checked><span>Heel vaak</span></label></p></div><div class="likert-item"><p><label for="v7_altijd"><input name="content[v7]" type="radio" id="v7_altijd" value="Altijd" required="required" class="validate"><span>Altijd</span></label></p></div></div></div></div>'
+  }
+},{
   type: :raw,
   content: {
     en: "<p class=\"flow-text\" style=\"font-size:medium;\"> In this example, the VERY OFTEN is marked. This means that you read a newspaper very often in the past week.</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"> If you are unsure which answer to choose, select the one that most closely applies to you.</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"> Please respond to the statements in order without interruption..</p>",

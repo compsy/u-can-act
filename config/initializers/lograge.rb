@@ -7,12 +7,10 @@ Rails.application.configure do
   config.lograge.custom_payload do |controller|
     begin
       {
-        ip: controller.request.ip,
         user_id: controller.current_user.try(:id)
       }
     rescue OpenSSL::PKey::RSAError
       {
-        ip: controller.request.ip
       }
     end
   end

@@ -4,7 +4,7 @@ class QuestionnaireController < ApplicationController
   include QuestionnaireHelper
   MAX_ANSWER_LENGTH = 2048
   MAX_DRAWING_LENGTH = 65_536
-  include Concerns::IsLoggedIn
+  include ::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]

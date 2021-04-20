@@ -92,7 +92,7 @@ class ResponseExporter
       # array are processed individually by the comparable_format method.
       r = []
       t = ''
-      key.split('').each do |c|
+      key.chars.each do |c|
         if c == '_'
           r << comparable_format(t) if t != ''
           t = ''
@@ -132,7 +132,7 @@ class ResponseExporter
     def find_first_and_last_numbers(key)
       first = -1
       last = -1
-      key.split('').each_with_index do |c, i|
+      key.chars.each_with_index do |c, i|
         if first == -1
           if c >= '0' && c <= '9'
             # if we haven't seen a digit before, and found a digit, it's both the first and last digit we found

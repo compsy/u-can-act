@@ -4,7 +4,7 @@ module Api
   module V1
     module Admin
       class AdminApiController < ApiController
-        include ::Concerns::IsJwtAuthenticated
+        include ::IsJwtAuthenticated
         before_action :check_admin_authenticated
 
         def check_admin_authenticated

@@ -78,4 +78,7 @@ Rails.application.configure do
   # Don't complain that you can't access web console
   config.web_console.whiny_requests = false
 
+  # In Rails 6 Action Pack introduced ActionDispatch::HostAuthorization and by default allows only
+  # [IPAddr.new(“0.0.0.0/0”), IPAddr.new(“::/0”), “localhost”]
+  config.hosts << 'svc-questionnaires'
 end

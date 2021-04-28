@@ -124,4 +124,8 @@ Rails.application.configure do
     api_key: ENV['MAILGUN_API_KEY'],
     domain: ENV['MAILGUN_DOMAIN'],
   }
+
+  # In Rails 6 Action Pack introduced ActionDispatch::HostAuthorization and by default allows only
+  # [IPAddr.new(“0.0.0.0/0”), IPAddr.new(“::/0”), “localhost”]
+  config.hosts << 'svc-questionnaires'
 end

@@ -93,8 +93,16 @@ dagboek_content = [
     title: 'Om welk cluster gaat het?',
     options: ['Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Weet ik niet']
 },{
-    section_start: 'Tot slot: Nieuwsbrief & vervolgonderzoek',
-    id: :v10,
+  section_start: 'Tot slot:',
+  id: :v10a,
+  type: :checkbox,
+  title: 'Hoe ben je op deze website terecht gekomen?',
+  options: ['Via Facebook of Instagram', 'Via OCRN', 'Iemand die ik ken vertelde erover', 'Via een flyer of poster', 'Via een bericht in het nieuws'],
+  show_otherwise: true,
+  otherwise_label: 'Anders, namelijk:',
+  section_end: false
+  },{
+  id: :v10,
     type: :radio,
     title: 'Ieder Kind is Anders verstuurt 4x per jaar een nieuwsbrief via e-mail. Hierin delen we nieuws en resultaten van het onderzoek. Wil je deze nieuwsbrief ontvangen?',   
     options: [{title: 'Ja, ik wil de nieuwsbrief ontvangen'}, {title: 'Nee, ik heb geen interesse'}]
@@ -104,7 +112,7 @@ dagboek_content = [
    title: 'Mogen we je na afloop van Ieder Kind is Anders uitnodigen voor vervolgonderzoek? Je krijgt dan natuurlijk eerst informatie over het onderzoek waarna je kunt beslissen of je mee wilt doen.',
    options: [{title: 'Ja, jullie mogen mij uitnodigen voor vervolgonderzoek'}, {title: 'Nee, ik heb geen interesse'}],
    section_end: true
-   }
+ }
 ]
 dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title

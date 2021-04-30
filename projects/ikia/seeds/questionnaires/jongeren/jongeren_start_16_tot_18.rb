@@ -95,12 +95,12 @@ dagboek_content = [
  },{
     section_start: 'Tot slot:',
    id: :v10a,
-  type: :checkbox,
-  title: 'Hoe ben je op deze website terecht gekomen?',
-  options: ['Via Facebook of Instagram', 'Via OCRN', 'Iemand die ik ken vertelde erover', 'Via een flyer of poster', 'Via een bericht in het nieuws'],
-  show_otherwise: true,
-  otherwise_label: 'Anders, namelijk:',
-  section_end: false
+   type: :checkbox,
+   title: 'Hoe ben je op deze website terecht gekomen?',
+   options: ['Via Facebook of Instagram', 'Via OCRN', 'Iemand die ik ken vertelde erover', 'Via een flyer of poster', 'Via een bericht in het nieuws'],
+   show_otherwise: true,
+   otherwise_label: 'Anders, namelijk:',
+   section_end: false
   },{
     id: :v10,
     type: :radio,

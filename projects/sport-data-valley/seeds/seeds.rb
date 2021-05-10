@@ -78,7 +78,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "Restq protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   puts ''
-  protocol = Protocol.find_by(name: 'squash')
+  protocol = Protocol.find_by(name: 'squash_otr')
   token = 'squash'
   OneTimeResponse.create!(token: token, protocol: protocol)
   puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"

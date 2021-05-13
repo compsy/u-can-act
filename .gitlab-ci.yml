@@ -4,7 +4,6 @@ services:
   - docker:19.03.1-dind
 
 include:
-  - template: Security/SAST.gitlab-ci.yml
     # Adds the 'semantic releases' to the release stage
   - project: 'researchable/general/templates/gitlab/semantic-release'
     ref: master
@@ -18,6 +17,7 @@ include:
 stages:
   - build
   # - test
+  - release
   - deploy
 
 variables:

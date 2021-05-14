@@ -3,10 +3,21 @@ image: tmaier/docker-compose:latest
 services:
   - docker:19.03.1-dind
 
+include:
+    # Adds the 'semantic releases' to the release stage
+  - project: 'researchable/general/templates/gitlab/semantic-release'
+    ref: master
+    file: 'semantic_release.yml'
+    # Adds the 'docker deploy' based on the versions in the semantic relase to the deploy stage
+  - project: 'researchable/general/templates/gitlab/docker-deploy'
+    ref: master
+    file: 'docker_deploy.yml'
+
 # define pipline stages
 stages:
   - build
   # - test
+  - release
   - deploy
 
 variables:
@@ -19,6 +30,12 @@ variables:
   DEPLOY_TAG: $CI_COMMIT_SHA
   PROJECT_NAME: sport-data-valley
   CI: 'true'
+
+  # TODO: (210513) Once gitlab fixes this issue:
+  #   https://gitlab.com/gitlab-org/gitlab/-/issues/293674 this variable should
+  #   be generated automatically.
+  IMAGE_NAME: ${CI_REGISTRY}/${CI_PROJECT_PATH}
+
 
 build_web_job:
   stage:

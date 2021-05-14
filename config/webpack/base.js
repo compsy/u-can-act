@@ -1,5 +1,5 @@
-const { webpackConfig } = require('@rails/webpacker');
-const webpack = require('webpack');
+const { webpackConfig, merge } = require('@rails/webpacker');
+// const webpack = require('webpack');
 const dotenv = require('dotenv');
 
 const dotenvFiles = [
@@ -12,7 +12,8 @@ dotenvFiles.forEach((dotenvFile) => {
   dotenv.config({ path: dotenvFile, silent: true });
 });
 
-webpackConfig.plugins.prepend('Environment', new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env))));
+// Is already included I think
+// webpackConfig.plugins.prepend('Environment', new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env))));
 
 // Set nested object prop using path notation
 // environment.config.set('resolve.extensions', ['.foo', '.bar'])
@@ -21,7 +22,9 @@ webpackConfig.plugins.prepend('Environment', new webpack.EnvironmentPlugin(JSON.
 // Delete a property
 // environment.config.delete('output.chunkFilename')
 
-const customConfig = require('./custom');
-webpackConfig.config.merge(customConfig);
+const scssConfigIndex = webpackConfig.module.rules.findIndex((config) => ".scss".match(config.test))
+webpackConfig.module.rules.splice(scssConfigIndex, 1)
 
-module.exports = webpackConfig;
+const customConfig = require('./custom');
+
+module.exports = merge(webpackConfig, customConfig);

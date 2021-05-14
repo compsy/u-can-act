@@ -49,7 +49,7 @@ build_web_job:
     NODE_ENV: production
   script:
     - docker build . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}
-    - docker push $RAILS_IMAGE
+    - docker push --all-tags $RAILS_IMAGE
   only:
     refs:
       - master

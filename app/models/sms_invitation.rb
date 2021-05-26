@@ -2,10 +2,19 @@
 
 class SmsInvitation < Invitation
   def send_invite(plain_text_token)
+    check_attributes
     SendSms.run!(send_sms_attributes(plain_text_token))
+  rescue RuntimeError => e
+    Appsignal.set_error(e, person_id: invitation_set.person.id)
   end
 
   private
+
+  def check_attributes
+    return unless invitation_set.person.mobile_phone
+
+    raise 'mobile_phone number required for sending text messages'
+  end
 
   def send_sms_attributes(plain_text_token)
     {

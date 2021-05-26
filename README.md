@@ -380,6 +380,8 @@ The `show_otherwise` field is optional, and determines whether or not the questi
 The `tooltip` field is also optional. 
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
+Setting `required: true` for a checkbox question has the effect that the user has to check at least one of the options, or the form cannot be submitted.
+
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
 
 Note that this (and all other question types) may have a `show_after` property. This may have the following values:

@@ -61,10 +61,10 @@ describe ProofOfParticipationExporter do
       completed = 2
       prot_subs = ProtocolSubscription.all.reject { |prot_sub| prot_sub.person.mentor? }
       export.zip(prot_subs).each do |entry, subscription|
-        expect(entry.first).to eq subscription.person.first_name
-        expect(entry.second).to eq subscription.person.last_name
-        expect(entry.third).to eq completed.to_s
-        expect(entry[5]).to eq subscription.state
+        expect(entry[1]).to eq subscription.person.first_name
+        expect(entry[2]).to eq subscription.person.last_name
+        expect(entry[5]).to eq completed.to_s
+        expect(entry[8]).to eq subscription.state
         completed += 1
       end
     end

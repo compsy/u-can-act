@@ -13,6 +13,12 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
   describe 'authorized' do
     before do
       cookie_auth(person)
+      @old = ENV['TOKEN_SIGNATURE_ALGORITHM']
+      ENV['TOKEN_SIGNATURE_ALGORITHM'] = 'HS256'
+    end
+
+    after do
+      ENV['TOKEN_SIGNATURE_ALGORITHM'] = @old
     end
 
     describe 'update' do

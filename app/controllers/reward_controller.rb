@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RewardController < ApplicationController
-  include Concerns::IsLoggedIn
+  include ::IsLoggedIn
   before_action :set_response
   before_action :set_protocol_subscription
   before_action :set_layout

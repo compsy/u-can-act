@@ -5,10 +5,10 @@ services:
 
 include:
     # Adds the 'semantic releases' to the release stage
-  - project: 'researchable/general/templates/gitlab/semantic-release'
-    ref: master
-    file: 'semantic_release.yml'
-    # Adds the 'docker deploy' based on the versions in the semantic relase to the deploy stage
+  # - project: 'researchable/general/templates/gitlab/semantic-release'
+  #   ref: master
+  #   file: 'semantic_release.yml'
+  # Adds the 'docker deploy' based on the versions in the semantic relase to the deploy stage
   - project: 'researchable/general/templates/gitlab/docker-deploy'
     ref: master
     file: 'docker_deploy.yml'
@@ -34,7 +34,7 @@ variables:
   # TODO: (210513) Once gitlab fixes this issue:
   #   https://gitlab.com/gitlab-org/gitlab/-/issues/293674 this variable should
   #   be generated automatically.
-  IMAGE_NAME: ${CI_REGISTRY}/${CI_PROJECT_PATH}
+  IMAGE: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires
 
 
 build_web_job:

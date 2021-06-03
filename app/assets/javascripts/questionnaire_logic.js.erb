@@ -176,6 +176,7 @@ function changeActiveLabel() {
       $(this).removeClass('active')
     }
   })
+  // Remove any text that was there if we don't have an exact match
   if (!foundAMatch) {
     $(rangeValueLabel).text('')
   }

@@ -51,6 +51,7 @@ days.each_with_index do |day, offset|
   general_daily_measurement.period = 1.week # every day for each questionnaire
   general_daily_measurement.open_duration = 1.days # Open for one day
   general_daily_measurement.reward_points = 0
+  general_daily_measurement.priority = 1
   general_daily_measurement.should_invite = true # send invitations
   general_daily_measurement.reminder_delay = reminder_offset
   general_daily_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
@@ -69,7 +70,8 @@ sunday_measurement.open_from_day = 'sunday'
 sunday_measurement.period = 1.week # every sunday
 sunday_measurement.open_duration = 1.days # Open for one day
 sunday_measurement.reward_points = 0
+sunday_measurement.priority = 2
 sunday_measurement.should_invite = true # send invitations
 sunday_measurement.reminder_delay = reminder_offset
-sunday_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
+sunday_measurement.redirect_url = nil # Don't redirect because we have another questionnaire to fill out
 sunday_measurement.save!

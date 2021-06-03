@@ -166,14 +166,19 @@ function changeExpansions() {
 function changeActiveLabel() {
   const value = $(this).val();
   const rangeValueLabel = $(this).closest('.range-container').find('.range-value-label').first()
+  let foundAMatch = false
   $(this).closest('.col.s12').find('.label-row .col, .range-labels-vertical .vertical-range-label').each(function (_index) {
     if (parseFloat($(this).data('value')) === parseFloat(value)) {
+      foundAMatch = true
       $(rangeValueLabel).text($(this).text())
       $(this).addClass('active')
     } else {
       $(this).removeClass('active')
     }
   })
+  if (!foundAMatch) {
+    $(rangeValueLabel).text('')
+  }
 }
 
 function disableHiddenInputs() {
@@ -310,6 +315,8 @@ function questionnaireLoaded() {
   $(document).on('click', '.vertical-range-label', updateRangeValue);
   $(document).on('input', '.range-container input[type="range"]', changeActiveLabel);
   $(document).on('input', '.range-container input[type="range"]', removeNotChanged);
+  $(document).on('click', '.range-container input[type="range"]', removeNotChanged);
+  $(document).on('click', '.range-container input[type="range"]', changeActiveLabel);
   $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');

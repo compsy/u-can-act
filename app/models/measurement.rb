@@ -39,6 +39,7 @@ class Measurement < ApplicationRecord
   validates :open_from_day, inclusion: { in: [nil] + WEEKDAYS }
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  # Highest priority = shown first
   validates :priority, numericality: { only_integer: true, allow_nil: true,
                                        greater_than_or_equal_to: MIN_PRIORITY, less_than_or_equal_to: MAX_PRIORITY }
 

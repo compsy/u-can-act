@@ -30,7 +30,7 @@ class ProofOfParticipationExporter < ObjectExporter
     # rubocop:enable Metrics/AbcSize
 
     def to_be_skipped?(protocol_subscription)
-      protocol_subscription.person.mentor? || Exporters.test_phone_number?(protocol_subscription.person.mobile_phone)
+      Exporters.test_phone_number?(protocol_subscription.person.mobile_phone)
     end
   end
 end

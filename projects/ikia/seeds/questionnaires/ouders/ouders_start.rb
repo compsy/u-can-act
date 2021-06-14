@@ -138,7 +138,15 @@ Beslis nu voor uzelf over welk kind u de vragenlijsten in wilt vullen. Als geheu
       'Adoptie-ouder of pleegouder',
       'Stiefouder of partner van biologische ouder']
   },{
-    section_start: 'Tot slot: Digitale nieuwsbrief & vervolgonderzoek',
+    section_start: 'Tot slot:',
+    id: :v10a,
+  type: :checkbox,
+  title: 'Hoe bent u op deze website terecht gekomen?',
+  options: ['Via Facebook of Instagram', 'Via OCRN', 'Iemand die ik ken vertelde erover', 'Via een flyer of poster', 'Via een bericht in het nieuws'],
+  show_otherwise: true,
+  otherwise_label: 'Anders, namelijk:',
+  section_end: false
+  },{
     id: :v10,
     type: :radio,
     title: 'Ieder Kind is Anders verstuurt 4x per jaar een nieuwsbrief via e-mail. Hierin delen we het laatste nieuws en de resultaten van het onderzoek. Wilt u deze nieuwsbrief ontvangen?',   

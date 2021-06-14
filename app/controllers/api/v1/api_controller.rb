@@ -9,7 +9,9 @@ module Api
       private
 
       def unauthorized_entity(entity_name)
-        render json: { error: "#{entity_name} Unauthorized request" },
+        # Without specifying a scope, active model serializers tries to call the method "current_user",
+        # which fails and gives a different error.
+        render json: { error: "#{entity_name} Unauthorized request" }, scope: :current_user,
                status: :unauthorized
       end
 

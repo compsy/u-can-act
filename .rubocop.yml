@@ -48,6 +48,9 @@ Style/HashEachMethods:
 Style/HashTransformKeys:
   Enabled: false
 
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+
 Style/HashTransformValues:
   Enabled: false
 

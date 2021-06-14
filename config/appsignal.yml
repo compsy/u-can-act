@@ -30,6 +30,14 @@ production:
   <<: *defaults
   active: true
 
+master:
+  <<: *defaults
+  active: true
+
+develop:
+  <<: *defaults
+  active: true
+
 staging:
   <<: *defaults
   active: true

@@ -77,6 +77,13 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Restq protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
+  # Create squash OTR
+  puts ''
+  protocol = Protocol.find_by(name: 'squash_otr')
+  token = 'squash'
+  OneTimeResponse.create!(token: token, protocol: protocol)
+  puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+
   # Create ostrc_o_h protocol instance
   protocol = Protocol.find_by(name: 'ostrc_o_h')
   person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[1]
@@ -93,4 +100,5 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "OSTRC O+H protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
 end

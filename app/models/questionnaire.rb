@@ -68,7 +68,7 @@ class Questionnaire < ApplicationRecord
   })
 
   def drawing_ids
-    content[:questions].select { |question| question[:type]&.to_sym == :drawing }.pluck(:id)
+    content[:questions].select { |question| %i[drawing gentle].include?(question[:type]&.to_sym) }.pluck(:id)
   end
 
   def recalculate_scores!

@@ -20,6 +20,7 @@ services:
     restart: on-failure
     volumes:
       - .:/app:delegated
+      - ../gentle:/gentle
       - node_modules_volume:/app/node_modules
       - gems_volume:/usr/local/bundle/ruby/2.6.0
       - /app/tmp
@@ -46,6 +47,7 @@ services:
       - RUNNING_AS_SERVICE=true # Because we don't run a delayed job server in the docker container
     volumes:
       - .:/app:delegated
+      - ../gentle:/gentle
       - node_modules_volume:/app/node_modules
       - gems_volume:/usr/local/bundle/ruby/2.6.0
       - /app/tmp

@@ -287,10 +287,10 @@ class QuestionnaireController < ApplicationController
     @protocol = @protocol_subscription.protocol
   end
 
-  def set_questionnaire_content
+  def set_questionnaire_content # rubocop:disable Metrics/AbcSize
     use_new_renderer = questionnaire_params[:new_renderer]
 
-    if use_new_renderer.present? && use_new_renderer.downcase == 'true'
+    if use_new_renderer.present? && use_new_renderer.casecmp('true').zero?
       @renderer = :new
       @content = @response.measurement.questionnaire.content
     else

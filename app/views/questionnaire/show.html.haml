@@ -1,2 +1,5 @@
 = render partial: 'shared/header'
-= @content
+- if @renderer == :new
+  = react_component('Questionnaire', props= {content: @content})
+- else
+  = @content

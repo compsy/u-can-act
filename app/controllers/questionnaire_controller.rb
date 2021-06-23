@@ -288,16 +288,23 @@ class QuestionnaireController < ApplicationController
   end
 
   def set_questionnaire_content
-    @content = QuestionnaireGenerator.new.generate_questionnaire(
-      response_id: @response.id,
-      content: @response.measurement.questionnaire.content,
-      title: @response.measurement.questionnaire.title,
-      submit_text: (@response.person.locale == 'en' ? 'Save' : 'Opslaan'),
-      action: '/',
-      unsubscribe_url: @response.unsubscribe_url,
-      locale: @response.person.locale,
-      params: default_questionnaire_params
-    )
+    use_new_renderer = questionnaire_params[:new_renderer]
+
+    if use_new_renderer.present? && use_new_renderer.downcase == 'true'
+      @renderer = :new
+      @content = @response.measurement.questionnaire.content
+    else
+      @content = QuestionnaireGenerator.new.generate_questionnaire(
+        response_id: @response.id,
+        content: @response.measurement.questionnaire.content,
+        title: @response.measurement.questionnaire.title,
+        submit_text: (@response.person.locale == 'en' ? 'Save' : 'Opslaan'),
+        action: '/',
+        unsubscribe_url: @response.unsubscribe_url,
+        locale: @response.person.locale,
+        params: default_questionnaire_params
+      )
+    end
   end
 
   def default_questionnaire_params
@@ -308,7 +315,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def questionnaire_params
-    params.permit(:uuid, :method, :callback_url)
+    params.permit(:uuid, :method, :new_renderer, :callback_url)
   end
 
   def questionnaire_create_params

@@ -383,7 +383,7 @@ class QuestionnaireController < ApplicationController
 
   def set_default_content
     @default_content = ''
-    @default_content = Base64.strict_decode64(params['content']) if params['content']
+    @default_content = Base64.strict_decode64(params['content'].tr(' ', '+')) if params['content']
   rescue ArgumentError => e
     # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
     raise e if e.message != 'invalid base64'

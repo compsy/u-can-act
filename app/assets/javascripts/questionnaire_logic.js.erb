@@ -166,14 +166,20 @@ function changeExpansions() {
 function changeActiveLabel() {
   const value = $(this).val();
   const rangeValueLabel = $(this).closest('.range-container').find('.range-value-label').first()
+  let foundAMatch = false
   $(this).closest('.col.s12').find('.label-row .col, .range-labels-vertical .vertical-range-label').each(function (_index) {
     if (parseFloat($(this).data('value')) === parseFloat(value)) {
+      foundAMatch = true
       $(rangeValueLabel).text($(this).text())
       $(this).addClass('active')
     } else {
       $(this).removeClass('active')
     }
   })
+  // Remove any text that was there if we don't have an exact match
+  if (!foundAMatch) {
+    $(rangeValueLabel).text('')
+  }
 }
 
 function disableHiddenInputs() {
@@ -270,8 +276,7 @@ function questionnaireLoaded() {
   const array_of_dom_elements = document.querySelectorAll('input[type=range]')
   M.Range.init(array_of_dom_elements)
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
-  $('.notchanged input[type=range]').change(removeNotChanged).click(removeNotChanged);
-  $(document).on('touchstart', '.notchanged input[type=range]', removeNotChanged);
+  $(document).on('touchstart mousedown click change', '.notchanged input[type=range]', removeNotChanged);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
   // The line below breaks stuff, just assume that the questionnaire visibilities are correct by default
   //$('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);
@@ -308,8 +313,8 @@ function questionnaireLoaded() {
     $(this).hide();
   });
   $(document).on('click', '.vertical-range-label', updateRangeValue);
-  $(document).on('input', '.range-container input[type="range"]', changeActiveLabel);
-  $(document).on('input', '.range-container input[type="range"]', removeNotChanged);
+  $(document).on('input click touchstart mousedown', '.range-container input[type="range"]', changeActiveLabel);
+  $(document).on('input click', '.range-container input[type="range"]', removeNotChanged);
   $(document).on('change', '.links_to_expandable>input[type="number"]', changeExpansions);
   $(document).on('click', '.erroneous', function () {
     $(this).removeClass('erroneous');

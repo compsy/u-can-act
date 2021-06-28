@@ -259,7 +259,7 @@ GEM
     marcel (1.0.1)
     materialize-sass (1.0.0)
       autoprefixer-rails (>= 6.0.3)
-    messagebird-rest (1.4.2)
+    messagebird-rest (3.0.0)
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)

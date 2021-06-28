@@ -240,7 +240,6 @@ GEM
     launchy (2.5.0)
       addressable (~> 2.7)
     libv8-node (15.14.0.1-x86_64-linux)
-    libv8-node (15.14.0.1-x86_64-linux-musl)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -357,7 +356,7 @@ GEM
       railties (>= 3.2)
       tilt
     react-source (0.13.3)
-    redis (4.2.5)
+    redis (4.3.1)
     redis-classy (2.4.1)
       redis-namespace (~> 1.0)
     redis-mutex (4.0.2)

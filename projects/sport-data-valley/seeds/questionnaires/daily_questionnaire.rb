@@ -3,7 +3,7 @@
 dagboek_content = [
   {
     type: :raw,
-    content: { nl: '<p class="flow-text">Selecteer de optie die het beste aansluit bij uw huidige welbevinden. Wanneer u niet helemaal zeker bent van uw antwoord, probeer dan zo goed als mogelijk een antwoord te geven.</p><br><img src="/sport-data-valley/daily_log_header.jpg" class="questionnaire-image" />',
+    content: { nl: '<p class="flow-text">Selecteer de optie die het beste aansluit bij jouw huidige welbevinden. Wanneer je niet helemaal zeker bent van jouw antwoord, probeer dan zo goed als mogelijk een antwoord te geven.</p><br><img src="/sport-data-valley/daily_log_header.jpg" class="questionnaire-image" />',
                en: '<p class="flow-text">Select the option that best suits your current well-being. If you are not entirely sure about your answer, try to give an answer as best as possible.</p><br><img src="/sport-data-valley/daily_log_header.jpg" class="questionnaire-image" />' }
   },
   {

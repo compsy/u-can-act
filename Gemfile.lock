@@ -71,7 +71,7 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_interaction (4.0.0)
+    active_interaction (4.0.3)
       activemodel (>= 5, < 7)
     active_model_serializers (0.10.12)
       actionpack (>= 4.1, < 6.2)

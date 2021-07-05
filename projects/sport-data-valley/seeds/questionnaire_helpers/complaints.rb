@@ -162,7 +162,7 @@ class Complaints
     end
 
     def complaint_description(letter, complaint_letter)
-      "#{complaint_descriptions(letter)[complaint_letter]} (#{complaint_code(letter, complaint_letter)})"
+      "#{complaint_descriptions(letter)[complaint_letter]}"
     end
 
     def complaint_code(letter, complaint_letter)
@@ -170,7 +170,7 @@ class Complaints
     end
 
     def complaint_options(letter)
-      complaint_list[letter].map { |complaint_letter| { title: complaint_description(letter, complaint_letter) } }
+      complaint_list[letter].map { |complaint_letter| { title: complaint_description(letter, complaint_letter), value: complaint_code(letter, complaint_letter) } }
     end
 
     def prefix(letter)
@@ -178,7 +178,7 @@ class Complaints
     end
 
     def pain_at_description(letter)
-      "de klacht aan #{location_description[letter]}"
+      "de klacht aan je <strong>#{location_description[letter]}</strong>"
     end
 
     def prefix_all(letter, *more)
@@ -194,11 +194,11 @@ class Complaints
       shown_questions_treated = prefix_all(letter, 13)
       [
         {
-          section_start: "Letsel aan #{location_description[letter]}",
+          section_start: "Letsel aan je <strong>#{location_description[letter]}</strong>",
           id: "#{prefixed}1".to_sym,
           hidden: true,
           type: :radio,
-          title: "In hoeverre heb je de afgelopen 7 dagen tijdens trainingen en/of wedstrijden hinder ondervonden van #{pain_at_description(letter)}?",
+          title: "In hoeverre heb je de afgelopen 7 dagen tijdens het sporten hinder ondervonden van #{pain_at_description(letter)}?",
           options: [
             { title: 'Ik heb volledig deelgenomen maar had wel hinder van de klacht', shows_questions: shown_questions_participation, numeric_value: 8 },
             { title: 'Ik heb verminderd deelgenomen vanwege de klacht', shows_questions: shown_questions_participation, numeric_value: 17 },
@@ -223,12 +223,12 @@ class Complaints
           id: "#{prefixed}3".to_sym,
           hidden: true,
           type: :radio,
-          title: "In hoeverre heb je in de afgelopen 7 dagen gemerkt dat #{pain_at_description(letter)} je prestatie heeft beinvloed?",
+          title: "In hoeverre heb je in de afgelopen 7 dagen gemerkt dat #{pain_at_description(letter)} je prestatie heeft beïnvloed?",
           options: [
-            { title: 'Niet beinvloed', numeric_value: 0 },
-            { title: 'Een klein beetje beinvloed', numeric_value: 8 },
-            { title: 'Redelijk beinvloed', numeric_value: 17 },
-            { title: 'Heel erg beinvloed', numeric_value: 25 }
+            { title: 'Niet beïnvloed', numeric_value: 0 },
+            { title: 'Een klein beetje beïnvloed', numeric_value: 8 },
+            { title: 'Redelijk beïnvloed', numeric_value: 17 },
+            { title: 'Heel erg beïnvloed', numeric_value: 25 }
           ],
           show_otherwise: false
         },
@@ -278,7 +278,7 @@ class Complaints
           id: "#{prefixed}7".to_sym,
           hidden: true,
           type: :radio,
-          title: "Tijdens welke activiteit is het letsel aan #{location_description[letter]} ontstaan?",
+          title: "Tijdens welke activiteit is het letsel aan je <strong>#{location_description[letter]}</strong> ontstaan?",
           options: [
             { title: 'Sportspecifieke training' },
             { title: 'Kracht & fitness training' },
@@ -303,7 +303,7 @@ class Complaints
           id: "#{prefixed}9".to_sym,
           hidden: true,
           type: :textarea,
-          title: "Wat is de oorzaak van het letsel aan #{location_description[letter]}?",
+          title: "Wat is de oorzaak van het letsel aan je <strong>#{location_description[letter]}</strong>?",
           tooltip: 'Bijvoorbeeld: Landing na een sprong / Botsing met een object / Overstrekking',
           required: true
         },
@@ -311,7 +311,7 @@ class Complaints
           id: "#{prefixed}10".to_sym,
           hidden: true,
           type: :radio,
-          title: "Wat is de aard van het letsel aan #{location_description[letter]}?",
+          title: "Wat is de aard van het letsel aan je <strong>#{location_description[letter]}</strong>?",
           options: complaint_options(letter),
           show_otherwise: false
         },

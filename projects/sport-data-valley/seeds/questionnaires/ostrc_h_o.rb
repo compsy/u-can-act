@@ -22,7 +22,7 @@ class PrefixMethods
 end
 
 shown_questions_health = PrefixMethods::prefix_all(2, 3, 4, 5, 6, 7)
-shown_questions_injury = PrefixMethods::prefix_all('_o_1', '_o_3')
+shown_questions_injury = PrefixMethods::prefix_all('_o_2', '_o_3')
 
 dagboek_content = [
   {
@@ -35,17 +35,28 @@ dagboek_content = [
     title: 'Heb je in de afgelopen 7 dagen hinder ondervonden bij het sporten ten gevolge van een blessure, ziekte of andere gezondheidsproblemen?',
     options: [
       { title: 'Nee, ik heb volledig deelgenomen zonder klachten', numeric_value: 0 },
-      { title: 'Ja, ik heb hinder ondervonden door <strong>een blessure / lichamelijke klachten</strong>', numeric_value: 8, shows_questions: shown_questions_injury },
-      { title: 'Ja, ik heb hinder ondervonden door <strong>een ziekte / gezondheidsklachten</strong>', numeric_value: 17, shows_questions: shown_questions_health },
+      {
+        title: 'Ja, ik heb hinder ondervonden door <strong>een blessure / lichamelijke klachten</strong>',
+        numeric_value: 8,
+        shows_questions: shown_questions_injury,
+        tooltip: 'Let op: de klachten betreffen alleen blessures / klachten aan het bewegingsapparaat. Denk hierbij aan een overbelaste spier, kneuzing, hersenschudding etc.'
+      },
+      {
+        title: 'Ja, ik heb hinder ondervonden door <strong>een ziekte / gezondheidsklachten</strong>',
+        numeric_value: 17,
+        shows_questions: shown_questions_health,
+        tooltip: 'Let op: de klachten betreffen alleen ziekte / gezondheidsklachten. Denk hierbij aan een buikpijn, koorts, pijn op de borst etc.'
+      },
       { title: 'Ja, ik heb hinder ondervonden door <strong>beide</strong>, zowel een blessure / lichamelijke klachten als een ziekte / gezondheidsklachten', numeric_value: 100, shows_questions: shown_questions_health + shown_questions_injury }
     ],
+    tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij praktijklessen, trainingen en wedstrijden.',
     show_otherwise: false
   },
   {
     id: :v2,
     hidden: true,
     type: :radio,
-    title: 'In welke mate heb je in de afgelopen 7 dagen je training of deelname aan wedstrijden aangepast vanwege je gezondheidsklachten?',
+    title: 'In welke mate heb je in de afgelopen 7 dagen je training of deelname aan wedstrijden aangepast vanwege je <strong>gezondheidsklachten</strong>?',
     options: [
       { title: 'Niet aangepast', numeric_value: 0 },
       { title: 'Een klein beetje aangepast', numeric_value: 8 },
@@ -58,12 +69,12 @@ dagboek_content = [
     id: :v3,
     hidden: true,
     type: :radio,
-    title: 'In hoeverre heb je in de afgelopen 7 dagen gemerkt dat je gezondheidsklachten je prestatie hebben beinvloed?',
+    title: 'In hoeverre heb je in de afgelopen 7 dagen gemerkt dat je <strong>gezondheidsklachten</strong> je prestatie hebben beïnvloed?',
     options: [
-      { title: 'Niet beinvloed', numeric_value: 0 },
-      { title: 'Een klein beetje beinvloed', numeric_value: 8 },
-      { title: 'Redelijk beinvloed', numeric_value: 17 },
-      { title: 'Heel erg beinvloed', numeric_value: 25 }
+      { title: 'Niet beïnvloed', numeric_value: 0 },
+      { title: 'Een klein beetje beïnvloed', numeric_value: 8 },
+      { title: 'Redelijk beïnvloed', numeric_value: 17 },
+      { title: 'Heel erg beïnvloed', numeric_value: 25 }
     ],
     show_otherwise: false
   },
@@ -71,7 +82,7 @@ dagboek_content = [
     id: :v4,
     hidden: true,
     type: :radio,
-    title: 'Hoeveel pijn heb je ervaren als gevolg van de gezondheidsklachten?',
+    title: 'Hoeveel pijn heb je ervaren als gevolg van de <strong>gezondheidsklachten</strong>?',
     options: [
       { title: 'Geen pijn', numeric_value: 0 },
       { title: 'Lichte pijn', numeric_value: 8 },
@@ -84,7 +95,7 @@ dagboek_content = [
     id: :v5,
     hidden: true,
     type: :number,
-    title: 'Hoeveel dagen in de week heb je niet volledig kunnen deelnemen aan een training of wedstrijd ten gevolge van je gezondheidsklachten?',
+    title: 'Hoeveel dagen in de week heb je niet volledig kunnen deelnemen aan een training of wedstrijd ten gevolge van je <strong>gezondheidsklachten</strong>?',
     required: true,
     maxlength: 1,
     min: 0,
@@ -130,12 +141,22 @@ dagboek_content = [
     id: :v7,
     hidden: true,
     type: :radio,
-    title: 'Ben je voor je gezondheidsklachten de afgelopen 7 dagen behandeld door een therapeut of arts?',
+    title: 'Ben je voor je <strong>gezondheidsklachten</strong> de afgelopen 7 dagen behandeld door een therapeut of arts?',
     options: %w[Ja Nee],
     show_otherwise: false,
   },
   {
-    id: :v_o_1,
+    id: :v_o_2,
+    hidden: true,
+    type: :checkbox,
+    title: 'In welke regio vond(en) de klacht(en) plaats?',
+    options: Complaints::all_complaint_options,
+    show_otherwise: false,
+    required: true
+  },
+  *Complaints::all_complaint_questions,
+  {
+    id: :v_o_3,
     hidden: true,
     type: :number,
     title: 'Hoeveel uur heb je de afgelopen week gesport?',
@@ -144,16 +165,6 @@ dagboek_content = [
     min: 0,
     max: 100
   },
-  {
-    id: :v_o_3,
-    hidden: true,
-    type: :checkbox,
-    title: 'In welke regio vond(en) de klacht(en) plaats?',
-    options: Complaints::all_complaint_options,
-    show_otherwise: false,
-    required: true
-  },
-  *Complaints::all_complaint_questions
 ]
 
 questionnaire.content = {

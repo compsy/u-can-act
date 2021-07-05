@@ -12,26 +12,17 @@ require File.expand_path('../questionnaire_helpers/complaints.rb', __dir__)
 dagboek_content = [
   {
     id: :v_o_1,
-    type: :number,
-    title: 'Hoeveel uur heb je de afgelopen week gesport?',
-    required: true,
-    maxlength: 3,
-    min: 0,
-    max: 100
-  },
-  {
-    id: :v_o_2,
     type: :radio,
-    title: 'Heb je de afgelopen 7 dagen hinder ondervonden van <strong>klachten aan het lichaam</strong> tijdens trainingen en/of wedstrijden?',
-    tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij trainingen, wedstrijden en fysieke lessen. Let op de klachten betreffen alleen klachten aan het musculaire stelsel. Denk hierbij aan een overbelaste spier, kneuzing, hersenschudding etc.',
+    title: 'Heb je de afgelopen 7 dagen hinder ondervonden van <strong>klachten aan je lichaam</strong> tijdens het sporten?',
+    tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij praktijklessen, trainingen en wedstrijden.',
     options: [
-      { title: 'Ja', shows_questions: %i[v_o_3], numeric_value: 1 },
-      { title: 'Nee, ik heb volledig deelgenomen zonder klachten aan het lichaam', numeric_value: 0 }
+      { title: 'Ja', shows_questions: %i[v_o_2], numeric_value: 1, tooltip: 'Let op: de klachten betreffen alleen blessures /  klachten aan het bewegingsapparaat. Denk hierbij aan een overbelaste spier, kneuzing, hersenschudding etc.' },
+      { title: 'Nee, ik heb volledig deelgenomen zonder klachten aan mijn lichaam', numeric_value: 0 }
     ],
     show_otherwise: false
   },
   {
-    id: :v_o_3,
+    id: :v_o_2,
     hidden: true,
     type: :checkbox,
     title: 'In welke regio vond(en) de klacht(en) plaats?',
@@ -39,7 +30,16 @@ dagboek_content = [
     show_otherwise: false,
     required: true
   },
-  *Complaints::all_complaint_questions
+  *Complaints::all_complaint_questions,
+  {
+    id: :v_o_3,
+    type: :number,
+    title: 'Hoeveel uur heb je de afgelopen week gesport?',
+    required: true,
+    maxlength: 3,
+    min: 0,
+    max: 100
+  },
 ]
 
 questionnaire.content = {

@@ -56,12 +56,12 @@ dagboek_content = [
     id: :v2,
     hidden: true,
     type: :radio,
-    title: 'In welke mate heb je in de afgelopen 7 dagen het sporten aangepast vanwege je <strong>gezondheidsklachten</strong>?',
+    title: "</p><h6>Vraag 2 - Aangepaste training/competitie</h6><p class='flow-text'>In welke mate heb je het sporten aangepast door <strong>ziekte/gezondheidsklachten</strong> in de afgelopen 7 dagen?</p><p>",
     options: [
       { title: 'Niet aangepast', numeric_value: 0 },
-      { title: 'Een klein beetje aangepast', numeric_value: 8 },
-      { title: 'Redelijk aangepast', numeric_value: 17 },
-      { title: 'Heel erg aangepast', numeric_value: 25 }
+      { title: 'In geringe mate aangepast', numeric_value: 8 },
+      { title: 'In redelijke mate aangepast', numeric_value: 17 },
+      { title: 'In grote mate aangepast', numeric_value: 25 }
     ],
     show_otherwise: false
   },
@@ -69,12 +69,12 @@ dagboek_content = [
     id: :v3,
     hidden: true,
     type: :radio,
-    title: 'In hoeverre heb je in de afgelopen 7 dagen gemerkt dat je <strong>gezondheidsklachten</strong> je prestatie hebben beïnvloed?',
+    title: "</p><h6>Vraag 3 - Prestatie</h6><p class='flow-text'>In welke mate heeft de <strong>ziekte/gezondheidsklachten</strong> een negatieve invloed gehad op je prestatie in de afgelopen 7 dagen?</p><p>",
     options: [
-      { title: 'Niet beïnvloed', numeric_value: 0 },
-      { title: 'Een klein beetje beïnvloed', numeric_value: 8 },
-      { title: 'Redelijk beïnvloed', numeric_value: 17 },
-      { title: 'Heel erg beïnvloed', numeric_value: 25 }
+      { title: 'Geen invloed', numeric_value: 0 },
+      { title: 'In geringe mate beïnvloed', numeric_value: 8 },
+      { title: 'In redelijke mate beïnvloed', numeric_value: 17 },
+      { title: 'In grote mate beïnvloed', numeric_value: 25 }
     ],
     show_otherwise: false
   },
@@ -82,12 +82,12 @@ dagboek_content = [
     id: :v4,
     hidden: true,
     type: :radio,
-    title: 'Hoeveel pijn heb je ervaren als gevolg van de <strong>gezondheidsklachten</strong>?',
+    title: "</p><h6>Vraag 4 - Symptomen</h6><p class='flow-text'>In welke mate heb je <strong>symptomen of gezondheidsklachten</strong> ervaren in de afgelopen 7 dagen?</p><p>",
     options: [
-      { title: 'Geen pijn', numeric_value: 0 },
-      { title: 'Lichte pijn', numeric_value: 8 },
-      { title: 'Redelijke pijn', numeric_value: 17 },
-      { title: 'Ernstige pijn', numeric_value: 25 }
+      { title: 'Geen symptomen of gezondheidsklachten', numeric_value: 0 },
+      { title: 'Geringe symptomen of gezondheidsklachten', numeric_value: 8 },
+      { title: 'Redelijke symptomen of gezondheidsklachten', numeric_value: 17 },
+      { title: 'Ernstige symptomen of gezondheidsklachten', numeric_value: 25 }
     ],
     show_otherwise: false
   },

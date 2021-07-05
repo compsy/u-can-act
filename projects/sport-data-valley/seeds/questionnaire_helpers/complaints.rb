@@ -197,11 +197,11 @@ class Complaints
           id: "#{prefixed}1".to_sym,
           hidden: true,
           type: :radio,
-          title: "In hoeverre heb je de afgelopen 7 dagen tijdens het sporten hinder ondervonden van #{pain_at_description(letter)}?",
+          title: "</p><h6>Vraag 1 - Deelname</h6><p class='flow-text'>Heb je enige moeite met deelname aan het sporten gehad door #{pain_at_description(letter)} in de afgelopen 7 dagen?</p><p>",
           options: [
-            { title: 'Ik heb volledig deelgenomen maar had wel hinder van de klacht', numeric_value: 8 },
-            { title: 'Ik heb verminderd deelgenomen vanwege de klacht', numeric_value: 17 },
-            { title: 'Ik heb helemaal niet deelgenomen vanwege de klacht', numeric_value: 100 }
+            { title: 'Volledige deelname, maar met klachten', numeric_value: 8 },
+            { title: 'Verminderde deelname door klachten', numeric_value: 17 },
+            { title: 'Kan niet deelnemen door klachten', numeric_value: 100 }
           ],
           show_otherwise: false
         },
@@ -209,12 +209,12 @@ class Complaints
           id: "#{prefixed}2".to_sym,
           hidden: true,
           type: :radio,
-          title: "In welke mate heb je in de afgelopen 7 dagen het sporten aangepast vanwege #{pain_at_description(letter)}?",
+          title: "</p><h6>Vraag 2 - Aangepaste training/competitie</h6><p class='flow-text'>In welke mate heb je het sporten aangepast door #{pain_at_description(letter)} in de afgelopen 7 dagen?</p><p>",
           options: [
-            { title: 'Niet aangepast', numeric_value: 0 },
-            { title: 'Een klein beetje aangepast', numeric_value: 8 },
-            { title: 'Redelijk aangepast', numeric_value: 17 },
-            { title: 'Heel erg aangepast', numeric_value: 25 }
+            { title: 'Geen aanpassing', numeric_value: 0 },
+            { title: 'In geringe mate aangepast', numeric_value: 8 },
+            { title: 'In redelijke mate aangepast', numeric_value: 17 },
+            { title: 'In grote mate aangepast', numeric_value: 25 }
           ],
           show_otherwise: false
         },
@@ -222,12 +222,12 @@ class Complaints
           id: "#{prefixed}3".to_sym,
           hidden: true,
           type: :radio,
-          title: "In hoeverre heb je in de afgelopen 7 dagen gemerkt dat #{pain_at_description(letter)} je prestatie heeft beïnvloed?",
+          title: "</p><h6>Vraag 3 - Prestatie</h6><p class='flow-text'>In welke mate heeft #{pain_at_description(letter)} een negatieve invloed gehad op je prestatie in de afgelopen 7 dagen?</p><p>",
           options: [
-            { title: 'Niet beïnvloed', numeric_value: 0 },
-            { title: 'Een klein beetje beïnvloed', numeric_value: 8 },
-            { title: 'Redelijk beïnvloed', numeric_value: 17 },
-            { title: 'Heel erg beïnvloed', numeric_value: 25 }
+            { title: 'Geen invloed', numeric_value: 0 },
+            { title: 'In geringe mate beïnvloed', numeric_value: 8 },
+            { title: 'In redelijke mate beïnvloed', numeric_value: 17 },
+            { title: 'In grote mate beïnvloed', numeric_value: 25 }
           ],
           show_otherwise: false
         },
@@ -235,10 +235,10 @@ class Complaints
           id: "#{prefixed}4".to_sym,
           hidden: true,
           type: :radio,
-          title: "Hoeveel pijn heb je ervaren als gevolg van #{pain_at_description(letter)}?",
+          title: "</p><h6>Vraag 4 - Symptomen</h6><p class='flow-text'>Hoeveel pijn heb je ervaren als gevolg van #{pain_at_description(letter)} de afgelopen 7 dagen?</p><p>",
           options: [
             { title: 'Geen pijn', numeric_value: 0 },
-            { title: 'Lichte pijn', numeric_value: 8 },
+            { title: 'Geringe pijn', numeric_value: 8 },
             { title: 'Redelijke pijn', numeric_value: 17 },
             { title: 'Ernstige pijn', numeric_value: 25 }
           ],

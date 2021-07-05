@@ -248,7 +248,7 @@ class Complaints
           id: "#{prefixed}5".to_sym,
           hidden: true,
           type: :likert,
-          title: "Op hoeveel van de afgelopen 7 dagen, heb je niet volledig of geheel niet kunnen deelnemen aan het sporten ten gevolge van #{pain_at_description(letter)}?",
+          title: "Op hoeveel van de afgelopen 7 dagen heb je niet volledig of geheel niet kunnen deelnemen aan het sporten ten gevolge van #{pain_at_description(letter)}?",
           options: [
             { title: '0', numeric_value: 0 },
             { title: '1', numeric_value: 1 },
@@ -301,9 +301,15 @@ class Complaints
         {
           id: "#{prefixed}9".to_sym,
           hidden: true,
-          type: :textarea,
+          type: :radio,
           title: "Wat is de oorzaak van het letsel aan je <strong>#{location_description[letter]}</strong>?",
           tooltip: 'Bijvoorbeeld: Landing na een sprong / Botsing met een object / Overstrekking',
+          options: [
+            'Wil ik niet zeggen'
+          ],
+          show_otherwise: true,
+          otherwise_label: 'De oorzaak was: ',
+          otherwise_placeholder: 'Vul oorzaak in',
           required: true
         },
         {

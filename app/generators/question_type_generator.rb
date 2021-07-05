@@ -159,7 +159,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def otherwise_textfield_label(question)
-    tag.label(OTHERWISE_PLACEHOLDER,
+    tag.label(question[:otherwise_placeholder].presence || OTHERWISE_PLACEHOLDER,
               for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
   end
 end

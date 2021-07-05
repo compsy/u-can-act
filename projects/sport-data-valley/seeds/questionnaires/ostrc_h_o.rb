@@ -139,6 +139,7 @@ dagboek_content = [
       'Urinewegproblemen of problemen met de geslachtsdelen',
       'Verstopping',
       'Verstopte neus / Loopneus / Niezen',
+      'Wil ik niet zeggen',
       'Zere keel'
     ],
     show_otherwise: true,

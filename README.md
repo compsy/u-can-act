@@ -369,6 +369,7 @@ Required and allowed options (minimal example and maximal example):
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   otherwise_tooltip: 'some tooltip',
+  otherwise_placeholder: 'Vul iets in',
   show_after: Time.new(2018, 5, 6).in_time_zone,
   section_end: true
 }]
@@ -447,6 +448,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_placeholder: 'Vul iets in',
   otherwise_tooltip: 'some tooltip',
   section_end: true
 }]

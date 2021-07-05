@@ -32,7 +32,7 @@ dagboek_content = [
   {
     id: :v1,
     type: :radio,
-    title: 'Heb je in de afgelopen 7 dagen hinder ondervonden bij het sporten ten gevolge van een blessure, ziekte of andere gezondheidsproblemen?',
+    title: 'Heb je in de afgelopen 7 dagen hinder ondervonden bij het sporten ten gevolge van een blessure, ziekte of andere gezondheidsklachten?',
     options: [
       { title: 'Nee, ik heb volledig deelgenomen zonder klachten', numeric_value: 0 },
       {

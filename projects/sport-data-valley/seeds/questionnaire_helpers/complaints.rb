@@ -187,9 +187,9 @@ class Complaints
 
     def prefixed_complaint_questions(letter)
       prefixed = prefix(letter)
-      shown_questions_first_complaint = prefix_all(letter, 7, 8)
-      acute_shown_questions = prefix_all(letter, 9, 10)
-      overloaded_shown_questions = prefix_all(letter, 10, 11)
+      shown_questions_first_complaint = prefix_all(letter, 7, 8, 10)
+      acute_shown_questions = prefix_all(letter, 9)
+      overloaded_shown_questions = prefix_all(letter, 11)
       shown_questions_treated = prefix_all(letter, 13)
       [
         {

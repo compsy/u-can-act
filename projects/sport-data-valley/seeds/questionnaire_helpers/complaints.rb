@@ -209,7 +209,7 @@ class Complaints
           id: "#{prefixed}2".to_sym,
           hidden: true,
           type: :radio,
-          title: "In welke mate heb je in de afgelopen 7 dagen je trainingen en/of deelname aan wedstrijden aangepast vanwege #{pain_at_description(letter)}?",
+          title: "In welke mate heb je in de afgelopen 7 dagen het sporten aangepast vanwege #{pain_at_description(letter)}?",
           options: [
             { title: 'Niet aangepast', numeric_value: 0 },
             { title: 'Een klein beetje aangepast', numeric_value: 8 },
@@ -248,7 +248,7 @@ class Complaints
           id: "#{prefixed}5".to_sym,
           hidden: true,
           type: :likert,
-          title: "Op hoeveel van de afgelopen 7 dagen, heb je niet volledig of geheel niet kunnen deelnemen aan een training of wedstrijd ten gevolge van #{pain_at_description(letter)}?",
+          title: "Op hoeveel van de afgelopen 7 dagen, heb je niet volledig of geheel niet kunnen deelnemen aan het sporten ten gevolge van #{pain_at_description(letter)}?",
           options: [
             { title: '0', numeric_value: 0 },
             { title: '1', numeric_value: 1 },

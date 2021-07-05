@@ -56,7 +56,7 @@ dagboek_content = [
     id: :v2,
     hidden: true,
     type: :radio,
-    title: 'In welke mate heb je in de afgelopen 7 dagen je training of deelname aan wedstrijden aangepast vanwege je <strong>gezondheidsklachten</strong>?',
+    title: 'In welke mate heb je in de afgelopen 7 dagen het sporten aangepast vanwege je <strong>gezondheidsklachten</strong>?',
     options: [
       { title: 'Niet aangepast', numeric_value: 0 },
       { title: 'Een klein beetje aangepast', numeric_value: 8 },
@@ -94,12 +94,19 @@ dagboek_content = [
   {
     id: :v5,
     hidden: true,
-    type: :number,
-    title: 'Hoeveel dagen in de week heb je niet volledig kunnen deelnemen aan een training of wedstrijd ten gevolge van je <strong>gezondheidsklachten</strong>?',
-    required: true,
-    maxlength: 1,
-    min: 0,
-    max: 7
+    type: :likert,
+    title: 'Hoeveel dagen in de week heb je niet volledig kunnen deelnemen aan het sporten ten gevolge van je <strong>gezondheidsklachten</strong>?',
+    options: [
+      { title: '0', numeric_value: 0 },
+      { title: '1', numeric_value: 1 },
+      { title: '2', numeric_value: 2 },
+      { title: '3', numeric_value: 3 },
+      { title: '4', numeric_value: 4 },
+      { title: '5', numeric_value: 5 },
+      { title: '6', numeric_value: 6 },
+      { title: '7', numeric_value: 7 }
+    ],
+    show_otherwise: false
   },
   {
     id: :v6,

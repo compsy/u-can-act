@@ -187,7 +187,6 @@ class Complaints
 
     def prefixed_complaint_questions(letter)
       prefixed = prefix(letter)
-      shown_questions_participation = prefix_all(letter, 2, 3, 4)
       shown_questions_first_complaint = prefix_all(letter, 7, 8)
       acute_shown_questions = prefix_all(letter, 9, 10)
       overloaded_shown_questions = prefix_all(letter, 11)
@@ -200,8 +199,8 @@ class Complaints
           type: :radio,
           title: "In hoeverre heb je de afgelopen 7 dagen tijdens het sporten hinder ondervonden van #{pain_at_description(letter)}?",
           options: [
-            { title: 'Ik heb volledig deelgenomen maar had wel hinder van de klacht', shows_questions: shown_questions_participation, numeric_value: 8 },
-            { title: 'Ik heb verminderd deelgenomen vanwege de klacht', shows_questions: shown_questions_participation, numeric_value: 17 },
+            { title: 'Ik heb volledig deelgenomen maar had wel hinder van de klacht', numeric_value: 8 },
+            { title: 'Ik heb verminderd deelgenomen vanwege de klacht', numeric_value: 17 },
             { title: 'Ik heb helemaal niet deelgenomen vanwege de klacht', numeric_value: 100 }
           ],
           show_otherwise: false
@@ -360,7 +359,7 @@ class Complaints
     end
 
     def prefixed_complaint_ids(letter)
-      prefix_all(letter, 1, 5, 6, 12, 14)
+      prefix_all(letter, 1, 2, 3, 4, 5, 6, 12, 14)
     end
 
     def all_complaint_questions

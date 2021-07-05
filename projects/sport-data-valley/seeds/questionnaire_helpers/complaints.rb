@@ -15,8 +15,8 @@ class Complaints
         'w' => 'Hand/Pols',
         'c' => 'Borstkas',
         'o' => 'Romp',
-        'd' => 'Wervelkolom, Thoracaal',
-        'l' => 'Wervelkolom, Lumbaal',
+        'd' => 'Wervelkolom, Thoracaal (hoge rug)',
+        'l' => 'Wervelkolom, Lumbaal (lage rug)',
         'b' => 'Bekken/Billen',
         'g' => 'Heup/Lies',
         't' => 'Bovenbeen',
@@ -189,7 +189,7 @@ class Complaints
       prefixed = prefix(letter)
       shown_questions_first_complaint = prefix_all(letter, 7, 8)
       acute_shown_questions = prefix_all(letter, 9, 10)
-      overloaded_shown_questions = prefix_all(letter, 11)
+      overloaded_shown_questions = prefix_all(letter, 10, 11)
       shown_questions_treated = prefix_all(letter, 13)
       [
         {

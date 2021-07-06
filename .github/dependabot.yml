@@ -13,6 +13,7 @@ updates:
     interval: weekly
     time: "04:00"
   open-pull-requests-limit: 99
+  insecure-external-code-execution: allow
   versioning-strategy: lockfile-only
   ignore:
   - dependency-name: mailgun-ruby

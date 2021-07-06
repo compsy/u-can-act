@@ -57,7 +57,7 @@ dagboek_content = [
     id: :v1,
     hidden: true,
     type: :radio,
-    title: "</p><h6>Vraag 1 - Deelname</h6><p class='flow-text'>Heb je enige moeite met deelname aan het sporten gehad door ziekte/gezondheidsklachten in de afgelopen 7 dagen?</p><p>",
+    title: "</p><h6>Vraag 1 - Deelname</h6><p class='flow-text'>Heb je enige moeite met deelname aan het sporten gehad door <strong>ziekte/gezondheidsklachten</strong> in de afgelopen 7 dagen?</p><p>",
     options: [
       { title: 'Volledige deelname, maar met klachten', numeric_value: 8, shows_questions: shown_questions_participated },
       { title: 'Verminderde deelname door klachten', numeric_value: 17, shows_questions: shown_questions_participated },

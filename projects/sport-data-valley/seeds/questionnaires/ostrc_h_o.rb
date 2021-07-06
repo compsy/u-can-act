@@ -21,8 +21,9 @@ class PrefixMethods
   end
 end
 
-shown_questions_health = PrefixMethods::prefix_all(2, 3, 4, 5, 6, 7)
+shown_questions_health = PrefixMethods::prefix_all(1, 5, 6, 7)
 shown_questions_injury = PrefixMethods::prefix_all('_o_2', '_o_3')
+shown_questions_participated = PrefixMethods::prefix_all(2, 3, 4)
 
 dagboek_content = [
   {
@@ -30,7 +31,7 @@ dagboek_content = [
     content: '<h4 class="header">OSTRC H+O</h4><p class="flow-text">De volgende vragen gaan over eventuele hinder die je hebt ondervonden bij het sporten fysieke en/of mentale klachten. Kies bij elke vraag het antwoord wat jouw situatie het beste omschrijft. Kies bij twijfel het meest passende antwoord.</p>'
   },
   {
-    id: :v1,
+    id: :v0,
     type: :radio,
     title: 'Heb je in de afgelopen 7 dagen hinder ondervonden bij het sporten ten gevolge van een blessure, ziekte of andere gezondheidsklachten?',
     options: [
@@ -50,6 +51,18 @@ dagboek_content = [
       { title: 'Ja, ik heb hinder ondervonden door <strong>beide</strong>, zowel een blessure / lichamelijke klachten als een ziekte / gezondheidsklachten', numeric_value: 100, shows_questions: shown_questions_health + shown_questions_injury }
     ],
     tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij praktijklessen, trainingen en wedstrijden.',
+    show_otherwise: false
+  },
+  {
+    id: :v1,
+    hidden: true,
+    type: :radio,
+    title: "</p><h6>Vraag 1 - Deelname</h6><p class='flow-text'>Heb je enige moeite met deelname aan het sporten gehad door ziekte/gezondheidsklachten in de afgelopen 7 dagen?</p><p>",
+    options: [
+      { title: 'Volledige deelname, maar met klachten', numeric_value: 8, shows_questions: shown_questions_participated },
+      { title: 'Verminderde deelname door klachten', numeric_value: 17, shows_questions: shown_questions_participated },
+      { title: 'Kan niet deelnemen door klachten', numeric_value: 100 }
+    ],
     show_otherwise: false
   },
   {

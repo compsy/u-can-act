@@ -201,6 +201,7 @@ class Complaints
       acute_shown_questions = prefix_all(letter, 9, '9a')
       overloaded_shown_questions = prefix_all(letter, 11)
       shown_questions_treated = prefix_all(letter, 13)
+      shown_questions_participated = prefix_all(letter, 2, 3, 4)
       [
         {
           id: "#{prefixed}0".to_sym,
@@ -216,8 +217,8 @@ class Complaints
           type: :radio,
           title: "</p><h6>Vraag 1 - Deelname</h6><p class='flow-text'>Heb je enige moeite met deelname aan het sporten gehad door #{pain_at_description(letter)} in de afgelopen 7 dagen?</p><p>",
           options: [
-            { title: 'Volledige deelname, maar met klachten', numeric_value: 8 },
-            { title: 'Verminderde deelname door klachten', numeric_value: 17 },
+            { title: 'Volledige deelname, maar met klachten', numeric_value: 8, shows_questions: shown_questions_participated },
+            { title: 'Verminderde deelname door klachten', numeric_value: 17, shows_questions: shown_questions_participated },
             { title: 'Kan niet deelnemen door klachten', numeric_value: 100 }
           ],
           show_otherwise: false
@@ -389,9 +390,9 @@ class Complaints
 
     def prefixed_complaint_ids(letter)
       # If the area is "Anders, namelijk..." render an extra textfield to ask for the area.
-      return prefix_all(letter, 0, 1, 2, 3, 4, 5, 6, 12, 14) if letter === 'i'
+      return prefix_all(letter, 0, 1, 5, 6, 12, 14) if letter === 'i'
 
-      prefix_all(letter, 1, 2, 3, 4, 5, 6, 12, 14)
+      prefix_all(letter, 1, 5, 6, 12, 14)
     end
 
     def all_complaint_questions

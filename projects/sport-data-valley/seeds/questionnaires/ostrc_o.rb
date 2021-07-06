@@ -16,7 +16,7 @@ dagboek_content = [
     title: 'Heb je de afgelopen 7 dagen hinder ondervonden van <strong>klachten aan je lichaam</strong> tijdens het sporten?',
     tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij praktijklessen, trainingen en wedstrijden.',
     options: [
-      { title: 'Ja', shows_questions: %i[v_o_2], numeric_value: 1, tooltip: 'Let op: de klachten betreffen alleen blessures /  klachten aan het bewegingsapparaat. Denk hierbij aan een overbelaste spier, kneuzing, hersenschudding etc.' },
+      { title: 'Ja', shows_questions: %i[v_o_2], numeric_value: 1, tooltip: 'Let op: de klachten betreffen alleen blessures / klachten aan het bewegingsapparaat. Denk hierbij aan een overbelaste spier, kneuzing, hersenschudding etc.' },
       { title: 'Nee, ik heb volledig deelgenomen zonder klachten aan mijn lichaam', numeric_value: 0 }
     ],
     show_otherwise: false

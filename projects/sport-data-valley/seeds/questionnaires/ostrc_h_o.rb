@@ -37,7 +37,7 @@ dagboek_content = [
     options: [
       { title: 'Nee, ik heb volledig deelgenomen zonder klachten', numeric_value: 0 },
       {
-        title: 'Ja, ik heb hinder ondervonden door <strong>een blessure / lichamelijke klachten</strong>',
+        title: 'Ja, ik heb hinder ondervonden door <strong>een blessure / fysieke klachten</strong>',
         numeric_value: 8,
         shows_questions: shown_questions_injury,
         tooltip: 'Let op: de klachten betreffen alleen blessures / klachten aan het bewegingsapparaat. Denk hierbij aan een overbelaste spier, kneuzing, hersenschudding etc.'
@@ -48,7 +48,7 @@ dagboek_content = [
         shows_questions: shown_questions_health,
         tooltip: 'Let op: de klachten betreffen alleen ziekte / gezondheidsklachten. Denk hierbij aan een buikpijn, koorts, pijn op de borst etc.'
       },
-      { title: 'Ja, ik heb hinder ondervonden door <strong>beide</strong>, zowel een blessure / lichamelijke klachten als een ziekte / gezondheidsklachten', numeric_value: 100, shows_questions: shown_questions_health + shown_questions_injury }
+      { title: 'Ja, ik heb hinder ondervonden door <strong>beide</strong>, zowel een blessure / fysieke klachten als een ziekte / gezondheidsklachten', numeric_value: 100, shows_questions: shown_questions_health + shown_questions_injury }
     ],
     tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij praktijklessen, trainingen en wedstrijden.',
     show_otherwise: false

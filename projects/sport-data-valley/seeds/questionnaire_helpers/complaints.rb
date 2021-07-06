@@ -1,7 +1,7 @@
 class Complaints
   class << self
     def ordered_letters
-      %w[h n s u e r w c o d l b g t k q a f x]
+      %w[h n s u e r w c o d l b g t k q a f x i]
     end
 
     def location_description
@@ -24,7 +24,8 @@ class Complaints
         'q' => 'Onderbeen',
         'a' => 'Enkel',
         'f' => 'Voet',
-        'x' => 'Locatie overstijgend/Locatie niet gespecificeerd'
+        'x' => 'Locatie overstijgend/Locatie niet gespecificeerd',
+        'i' => 'Anders, namelijk...'
       }
     end
 
@@ -131,6 +132,12 @@ class Complaints
         result['g'] = 'Posturaal syndroom'
         result['n'] = 'Neuraal'
         result['a'] = '(Osteo)artritis'
+      when 'i'
+        result['j'] = 'Verstuikingen/Ligamenten'
+        result['s'] = 'Stressfractuur'
+        result['g'] = 'Posturaal syndroom'
+        result['n'] = 'Neuraal'
+        result['a'] = '(Osteo)artritis'
       else
         # do nothing
       end
@@ -157,7 +164,8 @@ class Complaints
         'q' => %w[h k m t f s y n v z],
         'a' => %w[h k t j c d u g f s n v a z],
         'f' => %w[h k m t j c d g f s n a z],
-        'x' => %w[h k m t j c d u f s g n a]
+        'x' => %w[h k m t j c d u f s g n a],
+        'i' => %w[h k m t j c d u f s g n a]
       }
     end
 
@@ -178,6 +186,8 @@ class Complaints
     end
 
     def pain_at_description(letter)
+      return 'de klacht' if letter === 'i'
+
       "de klacht aan je <strong>#{location_description[letter]}</strong>"
     end
 
@@ -192,6 +202,13 @@ class Complaints
       overloaded_shown_questions = prefix_all(letter, 11)
       shown_questions_treated = prefix_all(letter, 13)
       [
+        {
+          id: "#{prefixed}0".to_sym,
+          hidden: true,
+          type: :textfield,
+          required: true,
+          title: 'Anders, namelijk: in welke regio vond de klacht plaats?'
+        },
         {
           section_start: "Letsel aan je <strong>#{location_description[letter]}</strong>",
           id: "#{prefixed}1".to_sym,
@@ -371,6 +388,9 @@ class Complaints
     end
 
     def prefixed_complaint_ids(letter)
+      # If the area is "Anders, namelijk..." render an extra textfield to ask for the area.
+      return prefix_all(letter, 0, 1, 2, 3, 4, 5, 6, 12, 14) if letter === 'i'
+
       prefix_all(letter, 1, 2, 3, 4, 5, 6, 12, 14)
     end
 

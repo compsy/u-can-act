@@ -188,7 +188,7 @@ class Complaints
     def prefixed_complaint_questions(letter)
       prefixed = prefix(letter)
       shown_questions_first_complaint = prefix_all(letter, 7, 8, 10)
-      acute_shown_questions = prefix_all(letter, 9)
+      acute_shown_questions = prefix_all(letter, 9, '9a')
       overloaded_shown_questions = prefix_all(letter, 11)
       shown_questions_treated = prefix_all(letter, 13)
       [
@@ -301,15 +301,20 @@ class Complaints
         {
           id: "#{prefixed}9".to_sym,
           hidden: true,
-          type: :radio,
+          type: :checkbox,
           title: "Wat is de oorzaak van het letsel aan je <strong>#{location_description[letter]}</strong>?",
           tooltip: 'Bijvoorbeeld: Landing na een sprong / Botsing met een object / Overstrekking',
           options: [
-            'Wil ik niet zeggen'
+            { title: 'Wil ik niet zeggen / Weet ik niet', hides_questions: ["#{prefixed}9a".to_sym] }
           ],
-          show_otherwise: true,
-          otherwise_label: 'De oorzaak was: ',
-          otherwise_placeholder: 'Vul oorzaak in',
+          show_otherwise: false,
+          required: false
+        },
+        {
+          id: "#{prefixed}9a".to_sym,
+          hidden: true,
+          type: :textarea,
+          title: '',
           required: true
         },
         {

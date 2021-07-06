@@ -60,7 +60,7 @@ dagboek_content = [
     type: :number,
     title: 'What is your age?',
     maxlength: 3,
-    placeholder: 'Enter something',
+    placeholder: 'Enter a number',
     min: 0,
     max: 120,
     required: true
@@ -100,7 +100,8 @@ dagboek_content = [
       'Shared living without partner and children',
       'Shared living with three or more generations'
     ],
-    otherwise_label: 'Other:'
+    otherwise_label: 'Other:',
+    otherwise_placeholder: 'Enter something'
   }, {
     id: :v6,
     type: :radio,

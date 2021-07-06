@@ -1,7 +1,9 @@
 class Complaints
   class << self
-    def ordered_letters
-      %w[h n s u e r w c o d l b g t k q a f x i]
+    def ordered_letters(with_otherwise)
+      return %w[h n s u e r w c o d l b g t k q a f x i] if with_otherwise
+
+      %w[h n s u e r w c o d l b g t k q a f x]
     end
 
     def location_description
@@ -401,17 +403,17 @@ class Complaints
       prefix_all(letter, 1, 5, 6, 12, 14, 15)
     end
 
-    def all_complaint_questions
+    def all_complaint_questions(with_otherwise = false)
       result = []
-      ordered_letters.each do |letter|
+      ordered_letters(with_otherwise).each do |letter|
         result += prefixed_complaint_questions(letter)
       end
       result
     end
 
-    def all_complaint_options
+    def all_complaint_options(with_otherwise = false)
       result = []
-      ordered_letters.each do |letter|
+      ordered_letters(with_otherwise).each do |letter|
         result << { title: location_description[letter], shows_questions: prefixed_complaint_ids(letter) }
       end
       result

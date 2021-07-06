@@ -26,11 +26,11 @@ dagboek_content = [
     hidden: true,
     type: :checkbox,
     title: 'In welke regio vond(en) de klacht(en) plaats?',
-    options: Complaints::all_complaint_options,
+    options: Complaints::all_complaint_options(true),
     show_otherwise: false,
     required: true
   },
-  *Complaints::all_complaint_questions,
+  *Complaints::all_complaint_questions(true),
   {
     id: :v_o_3,
     type: :number,

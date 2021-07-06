@@ -204,14 +204,20 @@ class Complaints
       shown_questions_participated = prefix_all(letter, 2, 3, 4)
       [
         {
+          id: "#{prefixed}15".to_sym,
+          hidden: true,
+          type: :raw,
+          section_start: "Letsel aan je <strong>#{location_description[letter]}</strong>",
+          content: '<div></div>'
+        },
+        {
           id: "#{prefixed}0".to_sym,
           hidden: true,
           type: :textfield,
           required: true,
-          title: 'Anders, namelijk: in welke regio vond de klacht plaats?'
+          title: 'Anders, namelijk:'
         },
         {
-          section_start: "Letsel aan je <strong>#{location_description[letter]}</strong>",
           id: "#{prefixed}1".to_sym,
           hidden: true,
           type: :radio,
@@ -390,9 +396,9 @@ class Complaints
 
     def prefixed_complaint_ids(letter)
       # If the area is "Anders, namelijk..." render an extra textfield to ask for the area.
-      return prefix_all(letter, 0, 1, 5, 6, 12, 14) if letter === 'i'
+      return prefix_all(letter, 0, 1, 5, 6, 12, 14, 15) if letter === 'i'
 
-      prefix_all(letter, 1, 5, 6, 12, 14)
+      prefix_all(letter, 1, 5, 6, 12, 14, 15)
     end
 
     def all_complaint_questions

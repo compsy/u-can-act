@@ -315,6 +315,7 @@ class Complaints
           hidden: true,
           type: :textarea,
           title: '',
+          placeholder: 'Vul oorzaak in',
           required: true
         },
         {

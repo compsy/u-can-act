@@ -81,7 +81,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts ''
   protocol = Protocol.find_by(name: 'squash_otr')
   token = 'squash'
-  OneTimeResponse.create!(token: token, protocol: protocol) unless OneTimeResponse.exists?(token: token)
+  OneTimeResponse.create!(token: token, protocol: protocol)
   puts "One time response: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
 
   # Create ostrc_o_h protocol instance

@@ -8566,6 +8566,11 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
+sdv-questionnaire-test-renderer@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sdv-questionnaire-test-renderer/-/sdv-questionnaire-test-renderer-1.0.0.tgz#3260f80f5490fcd41eb454525bfdd1a15fec6db7"
+  integrity sha512-m9WaJSz1BrdpXE+FPO5MtVT3noVtBQmXVxlFCRVr+X65NMYLsUEBft8wYPoud5q2BSimblMHmO2FU1gw56vM9Q==
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"

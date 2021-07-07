@@ -32,7 +32,7 @@ module Api
         private
 
         def export_questionnaire
-          filename = idify(@questionnaire.name)
+          filename = idify(@questionnaire.key)
           file_headers!(filename)
           streaming_headers!
           response.status = 200

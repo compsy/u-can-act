@@ -37,7 +37,7 @@ class LikertGenerator < QuestionTypeGenerator
       name: answer_name(idify(question[:id])),
       type: 'radio',
       id: elem_id,
-      value: option[:raw][:title],
+      value: option[:raw][:value].presence || option[:raw][:title],
       required: true,
       class: 'validate'
     }

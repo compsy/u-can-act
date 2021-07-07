@@ -55,6 +55,20 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
         expect(json['content'].as_json).to eq questionnaire.content.as_json
       end
 
+      it 'renders the correct csv' do
+        get :show, params: { key: questionnaire.key, format: 'csv' }
+        expect(response.status).to eq 200
+        expect(response.header['Content-Type']).to include 'text/csv'
+        arr = CSV.parse(response.body, headers: true, col_sep: ';')
+        expect(arr).not_to be_blank
+        expect(arr[0]['title']).to eq questionnaire.content[:questions][0][:title]
+        expect(arr[0]['question_id']).to eq questionnaire.content[:questions][0][:id].to_s
+        expect(arr[0]['options']).to(
+          eq(questionnaire.content[:questions][0][:options].to_s.tr('\'', '\\\'').tr('"', '\''))
+        )
+        expect(arr[0]['type']).to eq questionnaire.content[:questions][0][:type].to_s
+      end
+
       it 'throws a 404 if the questionnaire does not exist' do
         get :show, params: { key: 192_301 }
         expect(response.status).to eq 404

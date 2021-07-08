@@ -49,16 +49,10 @@ export default class RewardPage extends React.Component {
   }
 
   renderMentorRewardPage() {
-    if (!this.isDone()) {
-      return <div />;
-    }
     return <MentorRewardPage person={this.state.person} />;
   }
 
   renderSoloRewardPage() {
-    if (!this.isDone()) {
-      return <div />;
-    }
     return <DefaultRewardPage />;
   }
 

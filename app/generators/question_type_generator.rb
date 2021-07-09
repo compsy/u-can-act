@@ -82,7 +82,7 @@ class QuestionTypeGenerator < Generator
     option_body = wrap_toggle_in_label(
       option_body,
       option[:title].html_safe,
-      idify(question[:id], option[:raw][:title])
+      idify(question[:id], option[:raw][:value].presence || option[:raw][:title])
     )
 
     option_body = safe_join(

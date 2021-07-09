@@ -82,7 +82,7 @@ class QuestionTypeGenerator < Generator
     option_body = wrap_toggle_in_label(
       option_body,
       option[:title].html_safe,
-      idify(question[:id], option[:raw][:title])
+      idify(question[:id], option[:raw][:value].presence || option[:raw][:title])
     )
 
     option_body = safe_join(
@@ -96,7 +96,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def wrap_option_body(option_body, question_type)
-    if %i[radio checkbox].include? question_type.to_sym
+    if %i[radio checkbox days].include? question_type.to_sym
       tag.p(option_body, class: 'option-label')
     else
       tag.p(option_body)

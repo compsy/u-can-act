@@ -40,13 +40,13 @@ class DaysGenerator < QuestionTypeGenerator
       option[:shows_questions] = question[:shows_questions] if question[:shows_questions].present?
       option[:hides_questions] = question[:hides_questions] if question[:hides_questions].present?
       if question[:morning_and_afternoon]
-        option[:title] = "#{formatted_date}#{I18n.t('time.am', locale: question[:locale])}"
+        option[:title] = "#{formatted_date} #{I18n.t('time.am', locale: question[:locale])}"
         option[:value] = I18n.l(date, locale: :en, format: '%Y-%m-%d AM')
       end
       body << days_option_body(question, option.merge(raw: option.deep_dup))
       next unless question[:morning_and_afternoon]
 
-      new_option = option.merge(title: "#{formatted_date}#{I18n.t('time.pm', locale: question[:locale])}",
+      new_option = option.merge(title: "#{formatted_date} #{I18n.t('time.pm', locale: question[:locale])}",
                                 value: I18n.l(date, locale: :en, format: '%Y-%m-%d PM'))
       body << days_option_body(question, new_option.merge(raw: new_option.deep_dup))
     end

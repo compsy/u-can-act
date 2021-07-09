@@ -82,7 +82,7 @@ class QuestionTypeGenerator < Generator
     option_body = wrap_toggle_in_label(
       option_body,
       option[:title].html_safe,
-      idify(question[:id], option[:raw][:title])
+      idify(question[:id], option[:raw][:value].presence || option[:raw][:title])
     )
 
     option_body = safe_join(
@@ -159,7 +159,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def otherwise_textfield_label(question)
-    tag.label(OTHERWISE_PLACEHOLDER,
+    tag.label(question[:otherwise_placeholder].presence || OTHERWISE_PLACEHOLDER,
               for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
   end
 end

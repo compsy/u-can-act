@@ -359,7 +359,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], value: 'relatie' },
    { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', hides_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true },
@@ -369,6 +369,7 @@ Required and allowed options (minimal example and maximal example):
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   otherwise_tooltip: 'some tooltip',
+  otherwise_placeholder: 'Vul iets in',
   show_after: Time.new(2018, 5, 6).in_time_zone,
   section_end: true
 }]
@@ -383,6 +384,10 @@ When present, it will introduce a small i on which the user can click to get ext
 Setting `required: true` for a checkbox question has the effect that the user has to check at least one of the options, or the form cannot be submitted.
 
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
+
+Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of
+the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences,
+and you just want something shorter in your CSV export.
 
 Note that this (and all other question types) may have a `show_after` property. This may have the following values:
 
@@ -434,7 +439,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20 },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20, value: 'relatie' },
    { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5], numeric_value: 40 },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true, numeric_value: 60 },
@@ -443,6 +448,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_placeholder: 'Vul iets in',
   otherwise_tooltip: 'some tooltip',
   section_end: true
 }]
@@ -466,6 +472,8 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
+Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
+
 ### Type: Likert
 Required and allowed options (minimal example and maximal example):
 
@@ -483,7 +491,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Wat vind u van deze stelling?',
   tooltip: 'some tooltip',
   options: [
-    { title: 'helemaal oneens', numeric_value: 1 },
+    { title: 'helemaal oneens', numeric_value: 1, value: 'ho' },
     { title: 'oneens', numeric_value: 2 },
     { title: 'neutraal', numeric_value: 3 },
     { title: 'eens', numeric_value: 4 },
@@ -504,6 +512,10 @@ The `numeric_value` is the numerical representation of each option, used when co
 If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
+
+Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of
+the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences,
+and you just want something shorter in your CSV export.
 
 
 ### Type: Range

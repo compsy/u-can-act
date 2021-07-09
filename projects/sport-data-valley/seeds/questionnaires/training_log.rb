@@ -21,6 +21,7 @@ dagboek_content = [
     type: :dropdown,
     placeholder: { nl: 'Selecteer uw antwoord...', en: 'Select your answer...' },
     options: [
+      { nl: 'Atletiek', en: 'Athletics', i18n: 'components.dashboards.questionnaire.training_type.athletics' },
       { nl: 'Badminton', en: 'Badminton', i18n: 'components.dashboards.questionnaire.training_type.badminton' },
       { nl: 'Basketbal', en: 'Basketball', i18n: 'components.dashboards.questionnaire.training_type.basketball' },
       { nl: 'Boksen', en: 'Boxing', i18n: 'components.dashboards.questionnaire.training_type.boxing' },

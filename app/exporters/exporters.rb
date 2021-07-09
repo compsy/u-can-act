@@ -12,13 +12,14 @@ module Exporters
   end
 
   def silence_logger
+    old_logger_level = nil
     if ActiveRecord::Base.logger
       old_logger_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = Logger::ERROR
     end
     yield
   ensure
-    ActiveRecord::Base.logger&.level = old_logger_level
+    ActiveRecord::Base.logger&.level = old_logger_level if old_logger_level.present?
   end
 
   def format_hash(headers, hsh)

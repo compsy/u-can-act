@@ -94,7 +94,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # Swagger
-  gem 'rswag-specs'
+  gem 'rswag-specs', '>= 2.4.0'
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
@@ -127,8 +127,8 @@ group :test do
   gem 'database_cleaner-mongoid'
 
   # Integration testing
-  gem 'capybara'
-  gem 'capybara-screenshot'
+  gem 'capybara', '>= 3.35.3'
+  gem 'capybara-screenshot', '>= 1.0.25'
 
   # selenium for js testing
   gem 'selenium-webdriver'
@@ -143,7 +143,7 @@ group :production, :staging do
   gem 'daemons'
 end
 
-gem 'addressable'
+gem 'addressable', '>= 2.8.0'
 
 gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 

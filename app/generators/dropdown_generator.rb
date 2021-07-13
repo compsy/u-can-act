@@ -36,6 +36,6 @@ class DropdownGenerator < QuestionTypeGenerator
   end
 
   def dropdown_option_body(option)
-    tag.option(option[:title].html_safe, value: option[:raw][:title])
+    tag.option(option[:title].html_safe, value: option[:raw][:value].presence || option[:raw][:title])
   end
 end

@@ -160,7 +160,8 @@ module ApplicationHelper
     # @note We need to call this function first, and then fail. We cannot just
     #   check if it is defined, as it is generated automatically.
     current_auth_user&.person
-  rescue NameError => _e
+  rescue NameError, OpenSSL::PKey::RSAError => e
+    Appsignal.set_error(e)
     nil
   end
 

@@ -5,10 +5,10 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Specify ruby version for heroku
-ruby '2.6.3'
+ruby '3.0.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 6.1.4'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 1.1.4'
@@ -100,6 +100,10 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
+
+  # rubymine debugger
+  gem 'debase', github: 'ruby-debug/debase', tag: 'v0.2.5.beta2'
+  gem 'ruby-debug-ide'
 end
 
 group :test do
@@ -151,10 +155,15 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen'
   gem 'web-console'
+
+  # Display performance information such as SQL time and flame graphs for each request in your browser.
+  # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
+  # gem 'rack-mini-profiler'
+
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'spring-watcher-listen'
+  # gem 'spring-watcher-listen'
 end
 
 # Silence noisy requests like /status

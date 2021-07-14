@@ -51,6 +51,7 @@ services:
       - /app/tmp
     ports:
       - "3002:3000"
+      - "26168:26168"
     depends_on:
       - db
       - redis

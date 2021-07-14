@@ -343,7 +343,7 @@ describe Protocol do
     end
 
     it 'calculates the correct reward when there is a single reward' do
-      expected_value = measurement_completion.map { |entry| entry[:reward_points] if entry[:completed] }.compact.sum
+      expected_value = measurement_completion.filter_map { |entry| entry[:reward_points] if entry[:completed] }.sum
       expected_value *= 100
 
       result = protocol_single_reward.calculate_reward(measurement_completion)

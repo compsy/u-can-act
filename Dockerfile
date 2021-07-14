@@ -1,12 +1,12 @@
 # Building stage
 #===============
-FROM ruby:2.6.3
+FROM ruby:3.0.2
 
 ARG precompileassets
 
 # Needed for Yarn
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev curl software-properties-common && \
-  curl -sL https://deb.nodesource.com/setup_10.x |  bash - && \
+  curl -sL https://deb.nodesource.com/setup_15.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update && \

@@ -171,7 +171,7 @@ class Questionnaire < ApplicationRecord
     return if result.blank?
 
     errors.add(:content, 'the following questions are missing their required :options' \
-      " array attribute: #{result.pretty_inspect}")
+                         " array attribute: #{result.pretty_inspect}")
   end
 
   def non_empty_array?(question, attr)

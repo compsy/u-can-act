@@ -205,13 +205,13 @@ class QuestionnaireController < ApplicationController
       flash[:notice] = stop_protocol_subscription_notice
     end
     Rails.logger.info "[Info] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
-      "person #{@response.protocol_subscription.person_id}."
+                      "person #{@response.protocol_subscription.person_id}."
   end
 
   def stop_protocol_subscription_notice
     if @response.protocol_subscription.mentor?
       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
-                         'is gestopt.'
+        'is gestopt.'
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
       I18n.t('pages.klaar.header')
     else

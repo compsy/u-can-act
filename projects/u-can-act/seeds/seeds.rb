@@ -76,7 +76,7 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   )
   responseobj = prot_sub.responses.first # voormeting
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "mentor voormeting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -95,7 +95,7 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
       start_date: Time.zone.now.beginning_of_week
     )
     responseobj = prot_sub.responses.first
-    responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+    responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   end
   puts "mentor dagboek: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -110,9 +110,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
     informed_consent_given_at: 10.minutes.ago
   )
   responseobj = prot_sub.responses.last # nameting
-  prot_sub.responses.first.update_attributes!(open_from: 2.weeks.from_now) # make sure the voormeting is not open
+  prot_sub.responses.first.update!(open_from: 2.weeks.from_now) # make sure the voormeting is not open
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   nameting_students = Team.find_by(name: 'Default team').roles.where(title: 'nameting-student').first.people[0..-2]
   nameting_students.each do |student|
@@ -135,9 +135,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
     start_date: Time.zone.now.beginning_of_week
   )
   responseobj = student.protocol_subscriptions.first.responses.first # voormeting
-  student.protocol_subscriptions.first.responses.second.update_attributes!(open_from: 2.weeks.from_now)
+  student.protocol_subscriptions.first.responses.second.update!(open_from: 2.weeks.from_now)
   invitation_set = InvitationSet.create!(person: student)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "student voormeting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -150,9 +150,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
     informed_consent_given_at: 10.minutes.ago
   )
   responseobj = student.protocol_subscriptions.first.responses[10] # een dagboekmeting
-  student.protocol_subscriptions.first.responses.first.update_attributes!(open_from: 2.weeks.from_now)
+  student.protocol_subscriptions.first.responses.first.update!(open_from: 2.weeks.from_now)
   invitation_set = InvitationSet.create!(person: student)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "student dagboek: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -166,14 +166,14 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
   )
   responseobjs = student.protocol_subscriptions.first.responses
   responseobjs[0...3].each do |resp|
-    resp.update_attributes!(
+    resp.update!(
       open_from: (2.days.ago - 10.minutes),
       completed_at: 2.day.ago
     )
   end
   responseobj = responseobjs.fifth
   invitation_set = InvitationSet.create!(person: student)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "student dagboek (bijna in streak): #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -189,9 +189,9 @@ if Rails.env.development? && ProtocolSubscription.count.zero?
                        .select { |x| x.measurement.questionnaire.name =~ /nameting/ }.first # nameting
   voormeting = student.protocol_subscriptions.first.responses.first
   dagboekmeting = student.protocol_subscriptions.first.responses.second
-  [voormeting, dagboekmeting].each { |resp| resp.update_attributes!(open_from: 2.weeks.from_now) }
+  [voormeting, dagboekmeting].each { |resp| resp.update!(open_from: 2.weeks.from_now) }
   invitation_set = InvitationSet.create!(person: student)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "student nameting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
   puts ''

@@ -36,7 +36,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_set = InvitationSet.create!(person: person)
 
   [prot_sub.responses.first, prot_sub.responses.second].each do |responseobj|
-    responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+    responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   end
 
   invitation_token = invitation_set.invitation_tokens.create!
@@ -55,7 +55,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_set = InvitationSet.create!(person: person)
 
-  prot_sub.responses.first.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  prot_sub.responses.first.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Squash protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
@@ -72,7 +72,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_set = InvitationSet.create!(person: person)
 
-  prot_sub.responses.first.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  prot_sub.responses.first.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Restq protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
@@ -96,7 +96,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_set = InvitationSet.create!(person: person)
 
-  prot_sub.responses.first.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  prot_sub.responses.first.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "OSTRC H+O protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"

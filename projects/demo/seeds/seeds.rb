@@ -46,7 +46,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
                            future: TimeTools.increase_by_duration(prot_start, -1.second))
   responseobj = prot_sub.responses.first
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Demo informed consent: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -64,7 +64,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
                            future: TimeTools.increase_by_duration(prot_start, -1.second))
   responseobj = prot_sub.responses.first # demo
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Demo informed consent: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 

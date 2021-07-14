@@ -175,7 +175,7 @@ describe Invitation do
       myid = responseobj.protocol_subscription.person.external_identifier
       mytok = invitation_token.token_plain
       message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
-              'Vul nu de eerste wekelijkse vragenlijst in.'
+                'Vul nu de eerste wekelijkse vragenlijst in.'
       responseobj.invitation_set.update!(invitation_text: message)
       invitation_url = "#{ENV['HOST_URL']}/?q=#{myid}#{mytok}"
       allow(SendSms).to receive(:run!).with(number: mentor.mobile_phone,

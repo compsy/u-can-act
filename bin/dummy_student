@@ -15,7 +15,7 @@ mkdir -p public/dummy
 cd public/dummy
 rm -rf student
 
-bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").invitation_set.responses.first.update_attributes!(completed_at: nil)"
+bundle exec rails runner "puts InvitationToken.test_token(\"$questionnaire\").invitation_set.responses.first.update!(completed_at: nil)"
 
 rm -rf student
 wget \

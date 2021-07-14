@@ -48,7 +48,7 @@ students[0..1].each do |student|
     start_date: Time.zone.now.beginning_of_week
   )
   responseobj = prot_sub.responses.first
-  responseobj.update_attributes!(
+  responseobj.update!(
     open_from: 1.minute.ago,
     invitation_set: invitation_set)
 end
@@ -65,12 +65,12 @@ student.protocol_subscriptions.create!(
 )
 
 student.protocol_subscriptions.first.responses.each do |resp|
-  resp.update_attributes!(open_from: 10.years.from_now)
+  resp.update!(open_from: 10.years.from_now)
 end
 responseobj = student.protocol_subscriptions.first.responses[1]
 invitation_set = InvitationSet.create!(person: student)
 token = invitation_set.invitation_tokens.create!
-responseobj.update_attributes!(
+responseobj.update!(
   open_from: 1.minute.ago,
   invitation_set: invitation_set)
 tok = "#{responseobj.protocol_subscription.person.external_identifier}#{token.token_plain}"

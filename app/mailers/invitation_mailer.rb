@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class InvitationMailer < ApplicationMailer
-  add_template_helper(ApplicationHelper)
+  helper ApplicationHelper
 
   DEFAULT_INVITATION_SUBJECT = ENV['PROJECT_NAME']
   layout 'mailer'

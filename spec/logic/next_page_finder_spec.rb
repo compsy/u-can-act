@@ -7,7 +7,7 @@ describe NextPageFinder do
 
   describe 'get_next_page' do
     it 'requires a current_user' do
-      expect { described_class.get_next_page }.to raise_error(ArgumentError, 'missing keyword: current_user')
+      expect { described_class.get_next_page }.to raise_error(ArgumentError, 'missing keyword: :current_user')
     end
 
     it 'returns the redirect url if there is one in the provided measurement' do

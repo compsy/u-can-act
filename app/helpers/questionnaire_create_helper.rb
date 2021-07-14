@@ -28,7 +28,7 @@ module QuestionnaireCreateHelper
   def questionnaire_params
     load_params = params.require(:questionnaire).permit(:name, :key, :title)
 
-    # Whitelist the hash
+    # Allowlist the hash
     # see https://github.com/rails/rails/issues/9454
     load_params[:content] = params[:questionnaire][:content] if params[:questionnaire][:content]
     load_params.permit!

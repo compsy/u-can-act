@@ -17,7 +17,7 @@ function toggle_otherwise_field() {
       $(this).closest('.row').find("input[type=text].otherwise:visible").prop('disabled', false).focus();
     }
   } else {
-    $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', true);
+    $(this).closest('.row').find("input[type=text].otherwise").prop('disabled', true).removeClass('invalid');
   }
 }
 

@@ -1,6 +1,6 @@
-default_protocol_duration = 1.day  # evt eerder dynamisch afbreken
+default_protocol_duration = 1.day # evt eerder dynamisch afbreken
 
-pr_name = 'ostrc_h'
+pr_name = 'ostrc_h_o'
 protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 
@@ -9,7 +9,7 @@ protocol.informed_consent_questionnaire = nil
 protocol.invitation_text = 'Je bent uitgenodigd door je coach om een vragenlijst in te vullen.'
 protocol.save!
 
-bp_name = 'base-platform-subscription-ostrc-h'
+bp_name = 'base-platform-subscription-ostrc-h-o'
 bp_push_subscription = protocol.push_subscriptions.find_by(name: bp_name)
 bp_push_subscription ||= protocol.push_subscriptions.build(name: bp_name)
 bp_push_subscription.method = 'POST'
@@ -18,7 +18,7 @@ bp_push_subscription.save!
 
 protocol.save!
 
-name = 'ostrc_h'
+name = 'ostrc_h_o'
 squash_questionnaire_id = Questionnaire.find_by(name: name)&.id
 raise "Cannot find questionnaire: #{name}" unless squash_questionnaire_id
 

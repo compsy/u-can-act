@@ -2,7 +2,7 @@
 
 class Questionnaire < ApplicationRecord
   include ConversionHelper
-  KNOWN_OPERATIONS = %i[average].freeze
+  KNOWN_OPERATIONS = %i[average sum].freeze
   OPTIONS_REQUIRED_FOR = %i[checkbox likert radio dropdown].freeze
   QUESTIONS_WITHOUT_TITLES = %i[raw unsubscribe].freeze
   RANGE_QUESTION_TYPES = %i[range].freeze

@@ -26,7 +26,7 @@ module Api
           content = ResponseContent.create_with_scores!(content: response_content, response: @response)
           @response.update!(content: content.id)
           @response.complete!
-          head 201
+          head :created
         end
 
         def completed

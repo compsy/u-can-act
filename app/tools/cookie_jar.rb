@@ -10,7 +10,7 @@ class CookieJar
       cookie = JSON.parse(cookie)
       response_hash.each do |key, value|
         valid_cookie = cookie[key.to_s] == value
-        Rails.logger.debug "Valid cookie = #{cookie[key]} #{key} #{value}"
+        Rails.logger.debug { "Valid cookie = #{cookie[key]} #{key} #{value}" }
         return false unless valid_cookie
       end
       true

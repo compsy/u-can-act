@@ -21,7 +21,7 @@ services:
     volumes:
       - .:/app:delegated
       - node_modules_volume:/app/node_modules
-      - gems_volume:/usr/local/bundle/ruby/2.6.0
+      - gems_volume:/usr/local/bundle
       - /app/tmp
     ports:
       - "3036:3036"
@@ -47,7 +47,7 @@ services:
     volumes:
       - .:/app:delegated
       - node_modules_volume:/app/node_modules
-      - gems_volume:/usr/local/bundle/ruby/2.6.0
+      - gems_volume:/usr/local/bundle
       - /app/tmp
     ports:
       - "3002:3000"

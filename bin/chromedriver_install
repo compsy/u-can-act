@@ -7,7 +7,7 @@ sudo apt-get -y update
 sudo apt-get -y install libappindicator3-1 libgbm1
 
 # Install Chrome driver
-wget https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
+wget https://chromedriver.storage.googleapis.com/92.0.4515.43/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 sudo cp chromedriver /usr/local/bin/chromedriver
 

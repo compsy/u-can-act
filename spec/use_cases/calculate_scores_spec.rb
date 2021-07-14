@@ -58,6 +58,22 @@ describe CalculateScores do
       end
     end
 
+    context 'sum', focus: true do
+      it 'should not round the result if the round_to_decimals is not given' do
+        questionnaire[:scores] = [{ id: :s1,
+                                    label: 'average of v1 and v2',
+                                    ids: %i[v1 v2],
+                                    operation: :sum,
+                                    require_all: true }]
+        content = { 'v1' => '25', 'v2' => '27' }
+        scores = { 's1' => '52' }
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores
+        content = { 'v1' => '-17' }
+        scores = { 's1' => '-17' }
+        expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores
+      end
+    end
+
     context 'missing values' do
       it 'should still continue if one of the values is missing' do
         questionnaire[:scores][0][:ids] = %i[v3 v4 v1 v2 v5]

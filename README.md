@@ -385,9 +385,9 @@ Setting `required: true` for a checkbox question has the effect that the user ha
 
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
 
-Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of
-the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences,
-and you just want something shorter in your CSV export.
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 Note that this (and all other question types) may have a `show_after` property. This may have the following values:
 
@@ -472,7 +472,7 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
-Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
 
 ### Type: Likert
 Required and allowed options (minimal example and maximal example):
@@ -513,9 +513,9 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
-Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of
-the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences,
-and you just want something shorter in your CSV export.
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 
 ### Type: Range
@@ -888,6 +888,10 @@ The `numeric_value` is the numerical representation of each option, used when co
 If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
+
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 ### Type: Drawing
 Let's a user draw on an image. 

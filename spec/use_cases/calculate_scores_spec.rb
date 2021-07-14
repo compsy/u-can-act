@@ -58,13 +58,13 @@ describe CalculateScores do
       end
     end
 
-    context 'sum', focus: true do
+    context 'sum' do
       it 'should not round the result if the round_to_decimals is not given' do
         questionnaire[:scores] = [{ id: :s1,
                                     label: 'average of v1 and v2',
                                     ids: %i[v1 v2],
                                     operation: :sum,
-                                    require_all: true }]
+                                    require_all: false }]
         content = { 'v1' => '25', 'v2' => '27' }
         scores = { 's1' => '52' }
         expect(described_class.run!(content: content, questionnaire: questionnaire)).to eq scores

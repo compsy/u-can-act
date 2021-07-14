@@ -7,11 +7,11 @@ module Api
 
     def overview
       group = @instance_options[:group]
-      object.map do |team|
+      object.filter_map do |team|
         next if team[:data].blank?
 
         create_team_overview_hash(team, group)
-      end.compact
+      end
     end
 
     private

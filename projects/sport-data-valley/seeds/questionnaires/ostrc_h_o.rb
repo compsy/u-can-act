@@ -192,12 +192,13 @@ questionnaire.content = {
   questions: dagboek_content,
   scores: [
     {
-      id: :s1,
-      label: 'H-score',
-      ids: %i[v1],
-      operation: :average,
+      id: :s_h_1,
+      label: 'ziekte/gezondheidsklachten',
+      ids: %i[v1 v2 v3 v4],
+      operation: :sum,
       round_to_decimals: 0
-    }
+    },
+    *Complaints::all_complaint_scores
   ]
 }
 questionnaire.title = db_title

@@ -174,8 +174,8 @@ class StudentInvitationTexts < InvitationTexts
 
     def announcement_week_texts(_response)
       'Hoi {{deze_student}}, je hebt geld verdiend met je deelname aan u-can-act: dit'\
-      ' is je laatste kans om te innen! Vul de laatste vragenlijst en IBAN in,'\
-      ' alleen dan kunnen we je beloning overmaken.'
+        ' is je laatste kans om te innen! Vul de laatste vragenlijst en IBAN in,'\
+        ' alleen dan kunnen we je beloning overmaken.'
     end
   end
 end

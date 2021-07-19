@@ -187,6 +187,10 @@ class Complaints
       "v_o_#{letter}_"
     end
 
+    def prefix_score(letter)
+      "s_o_#{letter}_"
+    end
+
     def pain_at_description(letter)
       return 'de klacht' if letter === 'i'
 
@@ -417,6 +421,24 @@ class Complaints
         result << { title: location_description[letter], shows_questions: prefixed_complaint_ids(letter) }
       end
       result
+    end
+
+    def all_complaint_scores(with_otherwise = false)
+      result = []
+      ordered_letters(with_otherwise).each do |letter|
+        result << complaint_score(letter)
+      end
+      result
+    end
+
+    def complaint_score(letter)
+      {
+        id: "#{prefix_score(letter)}1".to_sym,
+        label: location_description[letter],
+        ids: prefix_all(letter, 1, 2, 3, 4),
+        operation: :sum,
+        round_to_decimals: 0
+      }
     end
   end
 end

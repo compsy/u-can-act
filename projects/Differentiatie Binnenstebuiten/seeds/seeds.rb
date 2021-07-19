@@ -63,7 +63,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   responseobj = person.protocol_subscriptions.first.responses.first
 
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie student meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -81,7 +81,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   responseobj = person.protocol_subscriptions.first.responses.first
 
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie student meting IC: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -100,7 +100,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   responseobj = person.protocol_subscriptions.first.responses.last
 
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie student meting laatste: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -119,7 +119,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   )
   responseobj = person.protocol_subscriptions.first.responses.first
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie 1e docent meting: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -144,7 +144,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   responseobj = person.protocol_subscriptions.first.responses.second
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie docent meting met eerdere vragenlijst: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
@@ -169,7 +169,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   responseobj = person.protocol_subscriptions.first.responses.second
   invitation_set = InvitationSet.create!(person: person)
-  responseobj.update_attributes!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   invitation_token = invitation_set.invitation_tokens.create!
   puts "differentiatie docent meting met eerdere vragenlijst maar geen antwoord: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 end

@@ -80,7 +80,7 @@ describe VariableEvaluator do
               '{{achternaam_begeleider}}.'
       expected = 'Heeft je begeleider al zijn/haar vragenlijsten ingevuld voor deze student  en zijn/haar vrienden? '\
                  'Of heeft hij/zij daar nog geen tijd voor gehad? Hij/zij al wel. Je begeleidingsinitiatief '\
-                  'en je begeleider .'
+                 'en je begeleider .'
       expect(described_class.evaluate_obj(given, {})).to eq expected
     end
     it 'does not make any changes when there are no variables' do

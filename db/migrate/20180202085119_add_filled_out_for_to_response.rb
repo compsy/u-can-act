@@ -14,7 +14,7 @@ class AddFilledOutForToResponse < ActiveRecord::Migration[5.0]
       filled_out_for_id = response.protocol_subscription.filling_out_for_id
       filled_out_by_id = response.protocol_subscription.person_id
 
-      response.update_attributes!(filled_out_for_id: filled_out_for_id,
+      response.update!(filled_out_for_id: filled_out_for_id,
                                   filled_out_by_id:  filled_out_by_id)
     end
   end

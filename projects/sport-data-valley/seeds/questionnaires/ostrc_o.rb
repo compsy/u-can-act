@@ -44,14 +44,7 @@ dagboek_content = [
 
 questionnaire.content = {
   questions: dagboek_content,
-  scores: [
-    { id: :s_o_1, # O-score(?)
-      label: 'O-score',
-      ids: %i[v_o_2],
-      operation: :average,
-      round_to_decimals: 0
-    }
-  ]
+  scores: Complaints::all_complaint_scores(true)
 }
 questionnaire.title = db_title
 questionnaire.save!

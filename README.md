@@ -969,7 +969,7 @@ If `require_all` is missing, it works the same as when specifying `require_all: 
 All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
 The `preprocessing` key is optional, and if provided, should be a hash with a (sub)set of the IDs in `ids` as keys. Each entry in a hash represents how this value will be preprocessed. Currently, only the following operations are supported: `multiply _with`, which multiplies the value with a given number (which can be integer or float, positive or negative), and `offset`, which adds a constant number to the value (this number can also be an integer or float, positive or negative). Both `multiply_with` and `offset` are optional. If both are provided, `multiply_with` is performed first. It is possible to chain operations by defining a new score that takes as input a previously preprocessed score (see below).
 
-- The only currently supported `operation` is `:average`.
+- The only currently supported `operation`s are `:average` and `:sum`.
 - The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:
 
 ```ruby

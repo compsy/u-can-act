@@ -24,8 +24,8 @@ describe StudentInvitationTexts do
 
       it 'returns correct text' do
         expected = 'Hoi {{deze_student}}, je hebt geld verdiend met je deelname'\
-        ' aan u-can-act: dit is je laatste kans om te innen! Vul de laatste'\
-        ' vragenlijst en IBAN in, alleen dan kunnen we je beloning overmaken.'
+                   ' aan u-can-act: dit is je laatste kans om te innen! Vul de laatste'\
+                   ' vragenlijst en IBAN in, alleen dan kunnen we je beloning overmaken.'
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                 measurement: measurement2,
                                                 completed_at: nil,
@@ -71,8 +71,8 @@ describe StudentInvitationTexts do
         { completed: false, periodical: false, reward_points: 0, future: true, streak: -1 }
       ]
       expected = 'Welkom bij de kick-off van het onderzoek \'u-can-act\'. Fijn dat je meedoet! ' \
-       'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
-       'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
+                 'Vandaag starten we met een aantal korte vragen, morgen begint de wekelijkse vragenlijst. ' \
+                 'Via de link kom je bij de vragen en een filmpje met meer info over u-can-act. Succes!'
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
@@ -84,8 +84,8 @@ describe StudentInvitationTexts do
           { completed: false, periodical: true, reward_points: 0, future: true, streak: 2 }
         ]
         expected = 'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze week ' \
-          'ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ingevuld. ' \
-          'Je beloning loopt gewoon door natuurlijk!'
+                   'ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ingevuld. ' \
+                   'Je beloning loopt gewoon door natuurlijk!'
         expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
       end
     end
@@ -209,7 +209,7 @@ describe StudentInvitationTexts do
         { completed: false, periodical: true, reward_points: 100, future: true, streak: 1 }
       ]
       expected = 'Je hebt ons al enorm geholpen met de vragenlijsten die je hebt ingevuld {{deze_student}}. ' \
-        'Wil je ons weer helpen?'
+                 'Wil je ons weer helpen?'
       expect(described_class.pooled_message(protocol, protocol_completion)).to eq expected
     end
 
@@ -333,7 +333,7 @@ describe StudentInvitationTexts do
       expect(result).not_to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
                                     'beter te kunnen doen en vul deze vragenlijst in 😃.')
       expect(result).not_to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
-                        '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
+                                    '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
 
       # Check if the begeleider at all is in the text. Note that je_begeleidingsinitiatief and begeleiding are allowed.
       result = result.join
@@ -346,7 +346,7 @@ describe StudentInvitationTexts do
       expect(result).to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
                                 'beter te kunnen doen en vul deze vragenlijst in 😃.')
       expect(result).to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
-                        '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
+                                '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
 
       # Check if the begeleieder at all is in the text
       result = result.join

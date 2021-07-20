@@ -14,42 +14,6 @@
   <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act"></a>
 </p>
 
-Table of Contents
-=================
-
-   * [u-can-act](#u-can-act)
-      * [Reference](#reference)
-      * [Funding](#funding)
-      * [Installation](#installation)
-      * [Configuration](#configuration)
-         * [General settings](#general-settings)
-         * [(Local) development settings](#local-development-settings)
-         * [Organization-specific settings](#organization-specific-settings)
-         * [Development configuration](#development-configuration)
-      * [Background jobs](#background-jobs)
-      * [Protocols and Measurements](#protocols-and-measurements)
-      * [Importing new students and mentors](#importing-new-students-and-mentors)
-         * [The Mentor CSV](#the-mentor-csv)
-         * [The Student CSV](#the-student-csv)
-      * [Variables that can be used in texts (case-sensitive!):](#variables-that-can-be-used-in-texts-case-sensitive)
-      * [Questionnaire Syntax](#questionnaire-syntax)
-         * [Type: Checkbox](#type-checkbox)
-         * [Type: Radio](#type-radio)
-         * [Type: Likert](#type-likert)
-         * [Type: Range](#type-range)
-         * [Type: Raw](#type-raw)
-         * [Type: Textarea](#type-textarea)
-         * [Type: Textfield](#type-textfield)
-         * [Type: Number](#type-number)
-         * [Type: Expandable](#type-expandable)
-         * [Type: Time](#type-time)
-         * [Type: Date](#type-date)
-         * [Type: Unsubscribe](#type-unsubscribe)
-         * [Type: Dropdown](#type-dropdown)
-         * [Type: Drawing](#type-drawing)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc).
-
 ## Reference
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). 
 U-can-act Web-app (Version 1.0) [Web application software]. 
@@ -243,6 +207,7 @@ When using Heroku these can be scheduled via the *Heroku Scheduler*.
 
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
+To do this on Heroku, start an extra worker process and, optionally, add the [workless](https://github.com/lostboy/workless) gem to enable autoscaling.
 
 ## Protocols and Measurements
 In the system a _Questionnaire_ denotes the definition of a questionnaire.
@@ -394,7 +359,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], value: 'relatie' },
    { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', hides_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true },
@@ -404,6 +369,7 @@ Required and allowed options (minimal example and maximal example):
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   otherwise_tooltip: 'some tooltip',
+  otherwise_placeholder: 'Vul iets in',
   show_after: Time.new(2018, 5, 6).in_time_zone,
   section_end: true
 }]
@@ -415,7 +381,13 @@ The `show_otherwise` field is optional, and determines whether or not the questi
 The `tooltip` field is also optional. 
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
+Setting `required: true` for a checkbox question has the effect that the user has to check at least one of the options, or the form cannot be submitted.
+
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
+
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 Note that this (and all other question types) may have a `show_after` property. This may have the following values:
 
@@ -467,7 +439,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20 },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20, value: 'relatie' },
    { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5], numeric_value: 40 },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true, numeric_value: 60 },
@@ -476,6 +448,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_placeholder: 'Vul iets in',
   otherwise_tooltip: 'some tooltip',
   section_end: true
 }]
@@ -499,6 +472,8 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
+
 ### Type: Likert
 Required and allowed options (minimal example and maximal example):
 
@@ -516,7 +491,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Wat vind u van deze stelling?',
   tooltip: 'some tooltip',
   options: [
-    { title: 'helemaal oneens', numeric_value: 1 },
+    { title: 'helemaal oneens', numeric_value: 1, value: 'ho' },
     { title: 'oneens', numeric_value: 2 },
     { title: 'neutraal', numeric_value: 3 },
     { title: 'eens', numeric_value: 4 },
@@ -537,6 +512,10 @@ The `numeric_value` is the numerical representation of each option, used when co
 If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
+
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 
 ### Type: Range
@@ -910,6 +889,10 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
+
 ### Type: Drawing
 Let's a user draw on an image. 
 Required and allowed options (minimal example and maximal example):
@@ -986,7 +969,7 @@ If `require_all` is missing, it works the same as when specifying `require_all: 
 All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
 The `preprocessing` key is optional, and if provided, should be a hash with a (sub)set of the IDs in `ids` as keys. Each entry in a hash represents how this value will be preprocessed. Currently, only the following operations are supported: `multiply _with`, which multiplies the value with a given number (which can be integer or float, positive or negative), and `offset`, which adds a constant number to the value (this number can also be an integer or float, positive or negative). Both `multiply_with` and `offset` are optional. If both are provided, `multiply_with` is performed first. It is possible to chain operations by defining a new score that takes as input a previously preprocessed score (see below).
 
-- The only currently supported `operation` is `:average`.
+- The only currently supported `operation`s are `:average` and `:sum`.
 - The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:
 
 ```ruby

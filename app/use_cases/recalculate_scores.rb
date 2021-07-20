@@ -35,7 +35,7 @@ class RecalculateScores < ActiveInteraction::Base
 
   def recalculate_distribution
     # Recalculate the distribution for this questionnaire if there are completed responses
-    response_id = questionnaire.responses.completed.limit(1).pluck(:id).first
+    response_id = questionnaire.responses.completed.limit(1).pick(:id)
     return if response_id.blank?
 
     CalculateDistributionJob.perform_later(response_id)

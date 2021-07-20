@@ -5,7 +5,8 @@ module Api
     module JwtApi
       class QuestionnaireController < JwtApiController
         include QuestionnaireCreateHelper
-        before_action :check_admin_authenticated, only: %i[create index]
+        include AdminHelper
+        before_action :check_admin_authenticated, only: %i[create]
         before_action :set_questionnaire, only: %i[show]
 
         def index
@@ -17,11 +18,26 @@ module Api
         end
 
         def show
-          # TODO: Add different formats
-          render json: @questionnaire, serializer: Api::QuestionnaireSerializer
+          respond_to do |format|
+            format.csv do
+              export_questionnaire
+            end
+            format.any do
+              headers['Content-Type'] = 'application/json; charset=utf-8'
+              render json: @questionnaire, serializer: Api::QuestionnaireSerializer
+            end
+          end
         end
 
         private
+
+        def export_questionnaire
+          filename = idify(@questionnaire.key)
+          file_headers!(filename)
+          streaming_headers!
+          response.status = 200
+          self.response_body = QuestionnaireExporter.export_lines(@questionnaire.name)
+        end
 
         def check_admin_authenticated
           return if current_auth_user.access_level == AuthUser::ADMIN_ACCESS_LEVEL

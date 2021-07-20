@@ -1,0 +1,96 @@
+version: 2
+registries:
+  git-github-com:
+    type: git
+    url: https://github.com
+    username: x-access-token
+    password: "${{secrets.GIT_GITHUB_COM_PASSWORD}}"
+
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "04:00"
+  open-pull-requests-limit: 99
+  insecure-external-code-execution: allow
+  versioning-strategy: lockfile-only
+  ignore:
+  - dependency-name: mailgun-ruby
+    versions:
+    - 1.2.4
+  - dependency-name: rubocop
+    versions:
+    - 1.12.0
+    - 1.12.1
+  - dependency-name: rspec-rails
+    versions:
+    - 5.0.0
+  - dependency-name: appsignal
+    versions:
+    - 2.11.9
+    - 3.0.1
+  - dependency-name: rubocop-performance
+    versions:
+    - 1.10.0
+    - 1.9.2
+  - dependency-name: rswag-api
+    versions:
+    - 2.3.3
+  - dependency-name: rswag-specs
+    versions:
+    - 2.3.3
+  - dependency-name: rswag-ui
+    versions:
+    - 2.3.3
+  - dependency-name: timecop
+    versions:
+    - 0.9.3
+  - dependency-name: puma
+    versions:
+    - 5.2.1
+  - dependency-name: capybara
+    versions:
+    - 3.35.3
+  - dependency-name: database_cleaner-mongoid
+    versions:
+    - 2.0.1
+  - dependency-name: rubocop-rails
+    versions:
+    - 2.9.1
+  - dependency-name: delayed_job_active_record
+    versions:
+    - 4.1.5
+  - dependency-name: bootsnap
+    versions:
+    - 1.6.0
+  - dependency-name: jbuilder
+    versions:
+    - 2.11.1
+  registries:
+  - git-github-com
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "04:00"
+  open-pull-requests-limit: 99
+  versioning-strategy: lockfile-only
+  ignore:
+  - dependency-name: "@babel/preset-env"
+    versions:
+    - 7.12.13
+  - dependency-name: "@babel/core"
+    versions:
+    - 7.12.13
+  - dependency-name: date-fns
+    versions:
+    - 2.17.0
+  - dependency-name: "@babel/plugin-transform-modules-commonjs"
+    versions:
+    - 7.12.13
+  - dependency-name: "@babel/preset-react"
+    versions:
+    - 7.12.13
+  registries:
+  - git-github-com

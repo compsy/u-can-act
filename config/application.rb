@@ -10,7 +10,7 @@ Mongo::Logger.logger.level = ::Logger::INFO
 module Vsv
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 6.1
 
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -23,14 +23,9 @@ module Vsv
     config.i18n.default_locale = :nl
     config.i18n.available_locales = [:nl, :en]
 
-    config.autoload_paths += %W(#{config.root}/app/validators)
-    config.autoload_paths += %W(#{config.root}/app/background_tasks)
-    config.autoload_paths += %W(#{config.root}/app/tools)
-    config.autoload_paths += %W(#{config.root}/app/use_cases)
-    config.autoload_paths += %W(#{config.root}/app/adapters)
-    config.autoload_paths += %W(#{config.root}/app/generators)
-    config.autoload_paths += %W(#{config.root}/app/exporters)
-    config.autoload_paths += %W(#{config.root}/app/middleware)
+    # Rails 6 optimization.
+    # See https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#config-add-autoload-paths-to-load-path
+    config.add_autoload_paths_to_load_path = false
 
     config.middleware.use I18n::JS::Middleware
 

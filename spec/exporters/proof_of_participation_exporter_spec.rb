@@ -35,8 +35,8 @@ describe ProofOfParticipationExporter do
       export = described_class.export_lines.to_a.join.split("\n")
       # -1 for the header
       # Note that it should not export the mentors
-      expect(export.size - 1).to eq number_of_students # + number_of_mentors
-      expect(export.size - 1).to eq ProtocolSubscription.count - number_of_mentors
+      expect(export.size - 1).to eq number_of_students + number_of_mentors
+      expect(export.size - 1).to eq ProtocolSubscription.count
     end
 
     it 'creates the correct export' do
@@ -57,14 +57,14 @@ describe ProofOfParticipationExporter do
         completed += 1
       end
       export = described_class.export_lines.to_a.join.split("\n")
-      export = export.last(ProtocolSubscription.count - number_of_mentors).map { |entry| entry.delete('"').split(';') }
+      export = export.last(ProtocolSubscription.count).map { |entry| entry.delete('"').split(';') }
       completed = 2
-      prot_subs = ProtocolSubscription.all.reject { |prot_sub| prot_sub.person.mentor? }
+      prot_subs = ProtocolSubscription.all
       export.zip(prot_subs).each do |entry, subscription|
-        expect(entry.first).to eq subscription.person.first_name
-        expect(entry.second).to eq subscription.person.last_name
-        expect(entry.third).to eq completed.to_s
-        expect(entry[5]).to eq subscription.state
+        expect(entry[1]).to eq subscription.person.first_name
+        expect(entry[2]).to eq subscription.person.last_name
+        expect(entry[5]).to eq completed.to_s
+        expect(entry[8]).to eq subscription.state
         completed += 1
       end
     end
@@ -82,8 +82,8 @@ describe ProofOfParticipationExporter do
 
       # -1 for the header
       # Note that it should not export the mentors
-      expect(post_export.size - 1).to eq number_of_students # + number_of_mentors
-      expect(post_export.size - 1).to eq ProtocolSubscription.count - 1 - number_of_mentors
+      expect(post_export.size - 1).to eq number_of_students + number_of_mentors
+      expect(post_export.size - 1).to eq ProtocolSubscription.count - 1
     end
   end
 end

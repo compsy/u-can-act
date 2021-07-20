@@ -9,7 +9,7 @@ organization = Organization.find_by(name: organization_name)
 puts "Running seeds for #{team_name}"
 team = Team.find_by(name: team_name)
 team ||= Team.create!(name: team_name, organization: organization)
-team.update_attributes!(organization: organization)
+team.update!(organization: organization)
 
 entry = team.roles.where(group: Person::SOLO, title: title).first
 entry ||= team.roles.create!(group: Person::SOLO, title: title)

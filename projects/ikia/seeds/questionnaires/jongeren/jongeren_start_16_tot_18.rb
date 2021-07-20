@@ -93,7 +93,15 @@ dagboek_content = [
     title: 'Om welk cluster gaat het?',
     options: ['Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Weet ik niet']
  },{
-    section_start: 'Tot slot: Digitale nieuwsbrief & vervolgonderzoek',
+    section_start: 'Tot slot:',
+   id: :v10a,
+   type: :checkbox,
+   title: 'Hoe ben je op deze website terecht gekomen?',
+   options: ['Via Facebook of Instagram', 'Via OCRN', 'Iemand die ik ken vertelde erover', 'Via een flyer of poster', 'Via een bericht in het nieuws'],
+   show_otherwise: true,
+   otherwise_label: 'Anders, namelijk:',
+   section_end: false
+  },{
     id: :v10,
     type: :radio,
     title: 'Ieder Kind is Anders verstuurt 4x per jaar een nieuwsbrief via e-mail. Hierin delen we het laatste nieuws en de resultaten van het onderzoek. Wil je deze nieuwsbrief ontvangen?',   

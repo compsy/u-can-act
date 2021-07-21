@@ -8,17 +8,21 @@ class InvitationMailer < ApplicationMailer
 
   default from: ENV['FROM_EMAIL_ADDRESS']
 
-  def invitation_mail(email_address, message, invitation_url)
+  def invitation_mail(email_address, message, invitation_url, template_name)
     @invitation_url = invitation_url
     @message = message
-    mail(subject: DEFAULT_INVITATION_SUBJECT, to: email_address)
+    mail(subject: DEFAULT_INVITATION_SUBJECT, to: email_address) do |format|
+      format.html { render template: template_name }
+    end
   end
 
+  # Only used for u-can-act symposium registration. Remove when removing the u-can-act project.
   def confirmation_mail(email_address, subject, message)
     @message = message
     mail(subject: subject, to: email_address)
   end
 
+  # Only used for the IKIA project for parents to invite children. Remove when removing the ikia project.
   def registration_mail(email_address, message, registration_url)
     @registration_url = registration_url
     @message = message

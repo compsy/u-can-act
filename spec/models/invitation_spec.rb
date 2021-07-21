@@ -183,7 +183,8 @@ describe Invitation do
                                             reference: "vsv-#{responseobj.invitation_set.id}")
       expect(InvitationMailer).to receive(:invitation_mail).with(mentor.email,
                                                                  message,
-                                                                 invitation_url).and_call_original
+                                                                 invitation_url,
+                                                                 'myprotocol').and_call_original
       smsinvitation = FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
       emailinvitation = FactoryBot.create(:email_invitation, invitation_set: responseobj.invitation_set)
       smsinvitation.send_invite(mytok)

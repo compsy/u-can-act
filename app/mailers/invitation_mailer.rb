@@ -11,7 +11,7 @@ class InvitationMailer < ApplicationMailer
   def invitation_mail(email_address, message, invitation_url, template)
     @invitation_url = invitation_url
     @message = message
-    # Only use the specified template if it exists
+    # Use the default template if the given template does not exist.
     template = lookup_context.find_all(template, []).blank? ? 'invitation_mailer/invitation_mail' : template
     mail(subject: DEFAULT_INVITATION_SUBJECT, to: email_address) do |format|
       format.html { render template: template }

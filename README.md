@@ -156,6 +156,8 @@ You can override the default email layout (= all the HTML around the actual emai
 
 You can change the invitation email template per protocol (the invitation template is rendered inside the layout) by creating a file named `<protocol_name>.html.haml` in the `views` subdirectory of the project directory. Note that such a protocol invitation layout would typically include `%p #{@message.gsub("\n", "<br>").html_safe}` somewhere as the body text of the invitation, and it would use some form of `=link_to @invitation_url` to render the given invitation link. See `app/views/invitation_mailer/invitation_mail.html.haml` for an example of this file. (You can copy this file to the `views` subdirectory of your project and rename it to the name of your protocol.)
 
+Additionally, one can set a default template for all protocols in their project that do not have their own special layout by creating a file `views/invitation_mailer/invitation_mail.html.haml` in their project subdirectory.
+
 If any of the templates, layouts, or directories are missing, the default templates and layouts will be used. SMS invitations have no layouts/templates.
 
 ### Feature toggles

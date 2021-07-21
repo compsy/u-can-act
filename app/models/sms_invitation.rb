@@ -2,7 +2,7 @@
 
 class SmsInvitation < Invitation
   def send_invite(plain_text_token)
-    return if invitation_set.person.mobile_phone.blank?
+    return if invitation_set.person.mobile_phone.blank? || invitation_set.responses.blank?
 
     SendSms.run!(send_sms_attributes(plain_text_token))
   end

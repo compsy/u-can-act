@@ -8,11 +8,13 @@ class InvitationMailer < ApplicationMailer
 
   default from: ENV['FROM_EMAIL_ADDRESS']
 
-  def invitation_mail(email_address, message, invitation_url, template_name)
+  def invitation_mail(email_address, message, invitation_url, template)
     @invitation_url = invitation_url
     @message = message
+    # Only use the specified template if it exists
+    template = lookup_context.find_all(template, []).blank? ? 'invitation_mailer/invitation_mail' : template
     mail(subject: DEFAULT_INVITATION_SUBJECT, to: email_address) do |format|
-      format.html { render template: template_name }
+      format.html { render template: template }
     end
   end
 

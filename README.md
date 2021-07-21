@@ -152,9 +152,9 @@ logo:
 ```
 The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
 
-You can override the default email layout (= all the HTML around the actual email, starting with <html><body> and so on), by creating a file named `mailer.html.haml` in the `views/layouts` subdirectory in a project's directory. The same layout is used for all email invitations for this project.
+You can override the default email layout (= all the HTML around the actual email, starting with <html><body> and so on), by creating a file named `mailer.html.haml` in the `views/layouts` subdirectory in a project's directory. The same layout is used for all email invitations for this project. See `app/views/layouts/mailer.html.haml` for an example of this file. (You can copy this file to the `views/layouts` subdirectory of your project and start editing that version to customize it for your project.)
 
-You can change the invitation email template per protocol (the invitation template is rendered inside the layout) by creating a file named `<protocol_name>.html.haml` in the `views` subdirectory of the project directory. Note that such a protocol invitation layout would typically include `%p #{@message.gsub("\n", "<br>").html_safe}` somewhere as the body text of the invitation, and it would use some form of `=link_to @invitation_url` to render the given invitation link.
+You can change the invitation email template per protocol (the invitation template is rendered inside the layout) by creating a file named `<protocol_name>.html.haml` in the `views` subdirectory of the project directory. Note that such a protocol invitation layout would typically include `%p #{@message.gsub("\n", "<br>").html_safe}` somewhere as the body text of the invitation, and it would use some form of `=link_to @invitation_url` to render the given invitation link. See `app/views/invitation_mailer/invitation_mail.html.haml` for an example of this file. (You can copy this file to the `views` subdirectory of your project and rename it to the name of your protocol.)
 
 If any of the templates, layouts, or directories are missing, the default templates and layouts will be used. SMS invitations have no layouts/templates.
 

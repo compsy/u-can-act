@@ -135,5 +135,5 @@ Rails.application.configure do
 
   # In Rails 6 Action Pack introduced ActionDispatch::HostAuthorization and by default allows only
   # [IPAddr.new(“0.0.0.0/0”), IPAddr.new(“::/0”), “localhost”]
-  config.hosts << 'svc-questionnaires'
+  config.hosts.clear
 end

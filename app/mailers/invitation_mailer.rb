@@ -18,13 +18,13 @@ class InvitationMailer < ApplicationMailer
     end
   end
 
-  # Only used for u-can-act symposium registration. Remove when removing the u-can-act project.
+  # TODO: Only used for u-can-act symposium registration. Remove when removing the u-can-act project.
   def confirmation_mail(email_address, subject, message)
     @message = message
     mail(subject: subject, to: email_address)
   end
 
-  # Only used for the IKIA project for parents to invite children. Remove when removing the ikia project.
+  # TODO: Only used for the IKIA project for parents to invite children. Remove when removing the ikia project.
   def registration_mail(email_address, message, registration_url)
     @registration_url = registration_url
     @message = message

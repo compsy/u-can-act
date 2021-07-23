@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
-module Concerns
-  module IsLoggedInAsMentor
-    extend ActiveSupport::Concern
+module IsLoggedInAsMentor
+  extend ActiveSupport::Concern
 
-    included do
-      before_action :verify_mentor
-    end
+  included do
+    before_action :verify_mentor
+  end
 
-    private
+  private
 
-    def verify_mentor
-      return current_user if current_user&.mentor?
+  def verify_mentor
+    return current_user if current_user&.mentor?
 
-      render(status: :unauthorized, html: 'Niet ingelogd als mentor.', layout: 'application')
-    end
+    render(status: :unauthorized, html: 'Niet ingelogd als mentor.', layout: 'application')
   end
 end

@@ -21,5 +21,5 @@ diary_measurement.open_duration = 7.hours     # don't allow people to fill it ou
 diary_measurement.reminder_delay = 1.hour     # send one reminder after one hour
 diary_measurement.stop_measurement = false    # filling out this measurement does not stop the protocol subscription
 diary_measurement.should_invite = true        # send invitation (SMS)
-diary_measurement.redirect_url = ENV['IKIA_CALLBACK_URL']
+diary_measurement.redirect_url = ENV['IKIA_CALLBACK_DIARY_URL']
 diary_measurement.save!

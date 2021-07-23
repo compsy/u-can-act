@@ -165,7 +165,7 @@ describe Api::ProtocolSubscriptionSerializer do
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       result = described_class.new(protocol_subscription).as_json.with_indifferent_access
       # if the title is blank, the humanized key is returned instead
-      expect(result[:questionnaires]).to match_array(['My questionnaire', 'Some Questionnaire'])
+      expect(result[:questionnaires]).to match_array(['my_questionnaire', 'Some Questionnaire'])
     end
   end
 end

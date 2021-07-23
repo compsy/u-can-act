@@ -11,7 +11,7 @@ capybara-*.html
 /tmp/db
 /tmp/*
 /db/*.sqlite3
-/db/*.sqlite3-journal
+/db/*.sqlite3-*
 /coverage/
 /spec/tmp
 # Next line is invalid according to Ripgrep
@@ -83,7 +83,12 @@ certificate.pem
 
 .DS_Store
 
-# Ignore uploaded files in development
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
 

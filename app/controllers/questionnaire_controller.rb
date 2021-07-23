@@ -4,7 +4,7 @@ class QuestionnaireController < ApplicationController
   include QuestionnaireHelper
   MAX_ANSWER_LENGTH = 2048
   MAX_DRAWING_LENGTH = 65_536
-  include Concerns::IsLoggedIn
+  include ::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
@@ -205,13 +205,13 @@ class QuestionnaireController < ApplicationController
       flash[:notice] = stop_protocol_subscription_notice
     end
     Rails.logger.info "[Info] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
-      "person #{@response.protocol_subscription.person_id}."
+                      "person #{@response.protocol_subscription.person_id}."
   end
 
   def stop_protocol_subscription_notice
     if @response.protocol_subscription.mentor?
       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
-                         'is gestopt.'
+        'is gestopt.'
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
       I18n.t('pages.klaar.header')
     else
@@ -383,7 +383,7 @@ class QuestionnaireController < ApplicationController
 
   def set_default_content
     @default_content = ''
-    @default_content = Base64.strict_decode64(params['content']) if params['content']
+    @default_content = Base64.strict_decode64(params['content'].tr(' ', '+')) if params['content']
   rescue ArgumentError => e
     # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
     raise e if e.message != 'invalid base64'

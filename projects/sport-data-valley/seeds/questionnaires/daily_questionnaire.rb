@@ -3,7 +3,7 @@
 dagboek_content = [
   {
     type: :raw,
-    content: { nl: '<p class="flow-text">Selecteer de optie die het beste aansluit bij uw huidige welbevinden. Wanneer u niet helemaal zeker bent van uw antwoord, probeer dan zo goed als mogelijk een antwoord te geven.</p><br><img src="/sport-data-valley/daily_log_header.jpg" class="questionnaire-image" />',
+    content: { nl: '<p class="flow-text">Selecteer de optie die het beste aansluit bij jouw huidige welbevinden. Wanneer je niet helemaal zeker bent van jouw antwoord, probeer dan zo goed als mogelijk een antwoord te geven.</p><br><img src="/sport-data-valley/daily_log_header.jpg" class="questionnaire-image" />',
                en: '<p class="flow-text">Select the option that best suits your current well-being. If you are not entirely sure about your answer, try to give an answer as best as possible.</p><br><img src="/sport-data-valley/daily_log_header.jpg" class="questionnaire-image" />' }
   },
   {
@@ -19,9 +19,9 @@ dagboek_content = [
     section_start: { nl: 'Welzijn', en: 'Well-being' },
     labels: [{ nl: 'Slapeloosheid', en: 'Insomnia' },
              { nl: 'Onrustige slaap', en: 'Restless sleep' },
-             { nl: 'Moeite om in slaap te komen', en: 'Difficulty falling asleep' },
-             { nl: 'Goed', en: 'Good' },
-             { nl: 'Erg uitgerust', en: 'Very rested' }]
+             { nl: 'Normaal', en: 'Normal' },
+             { nl: 'Goed geslapen', en: 'Good' },
+             { nl: 'Erg goed geslapen', en: 'Very rested' }]
   },
   {
     id: :v2,
@@ -43,11 +43,11 @@ dagboek_content = [
     required: true,
     no_initial_thumb: true,
     ticks: true,
-    labels: [{ nl: 'Altijd vermoeid', en: 'Always tired' },
+    labels: [{ nl: 'Heel vermoeid', en: 'Very tired' },
              { nl: 'Meer vermoeid dan normaal', en: 'More tired than usual' },
              { nl: 'Normaal', en: 'Normal' },
-             { nl: 'Fit', en: 'Fit' },
-             { nl: 'Erg fit', en: 'Very fit' }]
+             { nl: 'Energiek', en: 'Fit' },
+             { nl: 'Heel energiek', en: 'Very fit' }]
   },
   {
     id: :v4,
@@ -67,7 +67,7 @@ dagboek_content = [
   },
   {
     id: :v5,
-    title: { nl: 'Algemene spierpijn', en: 'General muscle pain' },
+    title: { nl: 'Algemene spierpijn', en: 'General muscle soreness' },
     type: :range,
     min: 1,
     max: 5,
@@ -75,11 +75,11 @@ dagboek_content = [
     required: true,
     no_initial_thumb: true,
     ticks: true,
-    labels: [{ nl: 'Erg veel spierpijn', en: 'A lot of muscle pain' },
-             { nl: 'Verhoogde spierspanning / spierpijn', en: 'Increased muscle tension / muscle pain' },
+    labels: [{ nl: 'Erg veel spierpijn', en: 'Very sore' },
+             { nl: 'Verhoogde spierspanning / spierpijn', en: 'Increased soreness / muscle tension' },
              { nl: 'Normaal', en: 'Normal' },
-             { nl: 'Voelt goed', en: 'Feels good' },
-             { nl: 'Voelt geweldig', en: 'Feels great' }]
+             { nl: 'Voelt goed', en: 'Feeling good' },
+             { nl: 'Voelt geweldig', en: 'Feeling great' }]
   },
   {
     id: :v6,
@@ -91,10 +91,10 @@ dagboek_content = [
     required: true,
     no_initial_thumb: true,
     ticks: true,
-    labels: [{ nl: 'Erg prikkelbaar / down', en: 'Very irritable / down' },
-             { nl: 'Kortaf tegen teamgenoten, familie en collega’s', en: 'Curtly to teammates, family and colleagues' },
-             { nl: 'Minder geïnteresseerd in anderen en/of activiteiten dan normaal', en: 'Less interested in others and/or activities than usual' },
-             { nl: 'Een overwegend goede gemoedstoestand', en: 'A predominantly good mood' },
+    labels: [{ nl: 'Erg prikkelbaar / down', en: 'Highly annoyed / irritable / down' },
+             { nl: 'Kortaf tegen teamgenoten, familie en collega’s', en: 'Snappiness at teammates, family and co-workers' },
+             { nl: 'Normaal', en: 'Normal' },
+             { nl: 'Een overwegend goede gemoedstoestand', en: 'A generally good mood' },
              { nl: 'Een erg positieve gemoedstoestand', en: 'A very positive mood' }]
   },
   {
@@ -124,6 +124,15 @@ dagboek_content = [
     maxlength: 3,
     min: 0,
     max: 400
+  },
+  {
+    id: :v8a,
+    title: { nl: 'Wat is uw lichaamsgewicht op dit moment?', en: 'What is your body weight at this moment?' },
+    placeholder: { nl: 'Vul een getal in (kg)', en: 'Enter a number (kg)' },
+    type: :number,
+    maxlength: 3,
+    min: 0,
+    max: 300
   },
   {
     id: :v9,

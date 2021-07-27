@@ -361,9 +361,12 @@ describe Response do
     it 'works when there are clones' do
       prot = FactoryBot.create(:protocol, :with_measurements)
       protsub1 = FactoryBot.create(:protocol_subscription, protocol: prot, external_identifier: 'my-ext-1')
-      protsub2 = FactoryBot.create(:protocol_subscription, person: protsub1.person, protocol: prot, external_identifier: 'my-ext-2')
-      responseobj = FactoryBot.create(:response, :completed, protocol_subscription: protsub1, measurement: prot.measurements[0])
-      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2, measurement: prot.measurements[0])
+      protsub2 = FactoryBot.create(:protocol_subscription, person: protsub1.person, protocol: prot,
+                                                           external_identifier: 'my-ext-2')
+      responseobj = FactoryBot.create(:response, :completed, protocol_subscription: protsub1,
+                                                             measurement: prot.measurements[0])
+      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2,
+                                                              measurement: prot.measurements[0])
       expect(responseobj.external_identifiers).to match_array(%w[my-ext-1 my-ext-2])
       expect(responseobj2.external_identifiers).to match_array(%w[my-ext-1 my-ext-2])
     end
@@ -372,8 +375,10 @@ describe Response do
       prot = FactoryBot.create(:protocol, :with_measurements)
       protsub1 = FactoryBot.create(:protocol_subscription, protocol: prot, external_identifier: 'my-ext-1')
       protsub2 = FactoryBot.create(:protocol_subscription, protocol: prot, external_identifier: 'my-ext-2')
-      responseobj = FactoryBot.create(:response, :completed, protocol_subscription: protsub1, measurement: prot.measurements[0])
-      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2, measurement: prot.measurements[0])
+      responseobj = FactoryBot.create(:response, :completed, protocol_subscription: protsub1,
+                                                             measurement: prot.measurements[0])
+      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2,
+                                                              measurement: prot.measurements[0])
       expect(responseobj.external_identifiers).to match_array(%w[my-ext-1])
       expect(responseobj2.external_identifiers).to match_array(%w[my-ext-2])
     end
@@ -381,9 +386,12 @@ describe Response do
     it 'does not work when dates are different is different' do
       prot = FactoryBot.create(:protocol, :with_measurements)
       protsub1 = FactoryBot.create(:protocol_subscription, protocol: prot, external_identifier: 'my-ext-1')
-      protsub2 = FactoryBot.create(:protocol_subscription, person: protsub1.person, protocol: prot, external_identifier: 'my-ext-2')
-      responseobj = FactoryBot.create(:response, :completed, open_from: Time.zone.now, protocol_subscription: protsub1, measurement: prot.measurements[0])
-      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2, measurement: prot.measurements[0])
+      protsub2 = FactoryBot.create(:protocol_subscription, person: protsub1.person, protocol: prot,
+                                                           external_identifier: 'my-ext-2')
+      responseobj = FactoryBot.create(:response, :completed, open_from: Time.zone.now, protocol_subscription: protsub1,
+                                                             measurement: prot.measurements[0])
+      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2,
+                                                              measurement: prot.measurements[0])
       expect(responseobj.external_identifiers).to match_array(%w[my-ext-1])
       expect(responseobj2.external_identifiers).to match_array(%w[my-ext-2])
     end

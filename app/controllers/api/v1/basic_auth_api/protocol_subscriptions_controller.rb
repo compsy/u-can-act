@@ -14,6 +14,7 @@ module Api
         end
 
         def create
+          # TODO: add invitation texts here and then write code to check for the invitation texts when sending the invites
           result = SubscribeToProtocol.run!(
             protocol_name: protocol_subscription_create_params[:protocol_name],
             person: @person,

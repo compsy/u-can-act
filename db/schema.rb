@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_162738) do
+ActiveRecord::Schema.define(version: 2021_07_27_180057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,8 @@ ActiveRecord::Schema.define(version: 2021_07_27_162738) do
     t.datetime "end_date", null: false
     t.string "external_identifier"
     t.string "informed_consent_content"
+    t.string "invitation_text_nl"
+    t.string "invitation_text_en"
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id"
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id"
   end

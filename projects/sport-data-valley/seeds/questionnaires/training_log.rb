@@ -21,11 +21,12 @@ dagboek_content = [
     type: :dropdown,
     placeholder: { nl: 'Selecteer uw antwoord...', en: 'Select your answer...' },
     options: [
+      { nl: 'Atletiek', en: 'Athletics', i18n: 'components.dashboards.questionnaire.training_type.athletics' },
       { nl: 'Badminton', en: 'Badminton', i18n: 'components.dashboards.questionnaire.training_type.badminton' },
       { nl: 'Basketbal', en: 'Basketball', i18n: 'components.dashboards.questionnaire.training_type.basketball' },
       { nl: 'Boksen', en: 'Boxing', i18n: 'components.dashboards.questionnaire.training_type.boxing' },
       { nl: 'Dansen', en: 'Dancing', i18n: 'components.dashboards.questionnaire.training_type.dancing' },
-      { nl: 'Fitness / Krachttraining', en: 'Fitness / Power training', i18n: 'components.dashboards.questionnaire.training_type.fitness_power_training' },
+      { nl: 'Fitness / Krachttraining', en: 'Fitness / Strength training', i18n: 'components.dashboards.questionnaire.training_type.fitness_power_training' },
       { nl: 'Golf', en: 'Golf', i18n: 'components.dashboards.questionnaire.training_type.golf' },
       { nl: 'Gymnastiek', en: 'Gymnastics', i18n: 'components.dashboards.questionnaire.training_type.gymnastics' },
       { nl: 'Handbal', en: 'Handball', i18n: 'components.dashboards.questionnaire.training_type.handball' },
@@ -39,12 +40,14 @@ dagboek_content = [
       { nl: 'Karate', en: 'Karate', i18n: 'components.dashboards.questionnaire.training_type.karate' },
       { nl: 'Klimmen', en: 'Climbing', i18n: 'components.dashboards.questionnaire.training_type.climbing' },
       { nl: 'Korfbal', en: 'Korfball', i18n: 'components.dashboards.questionnaire.training_type.korfball' },
+      { nl: 'Kunstschaatsen', en: 'Figure skating', i18n: 'components.dashboards.questionnaire.training_type.figure_skating' },
       { nl: 'Mountainbiken', en: 'Mountain biking', i18n: 'components.dashboards.questionnaire.training_type.mountain_biking' },
       { nl: 'Paardrijden', en: 'Horse riding', i18n: 'components.dashboards.questionnaire.training_type.horse_riding' },
+      { nl: 'Plyometrische training', en: 'Plyometric training', i18n: 'components.dashboards.questionnaire.training_type.plyometric_training' },
       { nl: 'Powerliften / bodybuilding', en: 'Power lifting / Body building', i18n: 'components.dashboards.questionnaire.training_type.power_lifting_body_building' },
       { nl: 'Roeien', en: 'Rowing', i18n: 'components.dashboards.questionnaire.training_type.rowing' },
       { nl: 'Rugby', en: 'Rugby', i18n: 'components.dashboards.questionnaire.training_type.rugby' },
-      { nl: 'Schaatsen', en: 'Ice skating', i18n: 'components.dashboards.questionnaire.training_type.ice_skating' },
+      { nl: 'Schaatsen', en: 'Speed skating', i18n: 'components.dashboards.questionnaire.training_type.ice_skating' },
       { nl: 'Shorttrack', en: 'Short track', i18n: 'components.dashboards.questionnaire.training_type.short_track' },
       { nl: 'Softbal', en: 'Softball', i18n: 'components.dashboards.questionnaire.training_type.softball' },
       { nl: 'Squash', en: 'Squash', i18n: 'components.dashboards.questionnaire.training_type.squash' },
@@ -53,7 +56,8 @@ dagboek_content = [
       { nl: 'Volleybal', en: 'Volleyball', i18n: 'components.dashboards.questionnaire.training_type.volleyball' },
       { nl: 'Wielrennen', en: 'Cycling', i18n: 'components.dashboards.questionnaire.training_type.cycling' },
       { nl: 'Zeilen', en: 'Sailing', i18n: 'components.dashboards.questionnaire.training_type.sailing' },
-      { nl: 'Zwemmen', en: 'Swimming', i18n: 'components.dashboards.questionnaire.training_type.swimming' }
+      { nl: 'Zwemmen', en: 'Swimming', i18n: 'components.dashboards.questionnaire.training_type.swimming' },
+      { nl: 'Anders', en: 'Other', i18n: 'components.dashboards.questionnaire.training_type.other' }
     ],
     required: true
   },
@@ -63,6 +67,7 @@ dagboek_content = [
     type: :dropdown,
     placeholder: { nl: 'Selecteer uw antwoord...', en: 'Select your answer...' },
     options: [
+      { nl: 'Circuit', en: 'Circuit', i18n: 'components.dashboards.questionnaire.session_type.circuit' },
       { nl: 'Extensieve duur', en: 'Extensive endurance', i18n: 'components.dashboards.questionnaire.session_type.extensive_endurance' },
       { nl: 'Extensieve interval', en: 'Extensive interval', i18n: 'components.dashboards.questionnaire.session_type.extensive_interval' },
       { nl: 'Extensieve tempo', en: 'Extensive tempo', i18n: 'components.dashboards.questionnaire.session_type.extensive_tempo' },
@@ -70,7 +75,8 @@ dagboek_content = [
       { nl: 'Intensieve duur', en: 'Intensive endurance', i18n: 'components.dashboards.questionnaire.session_type.intensive_endurance' },
       { nl: 'Intensieve interval', en: 'Intensive interval', i18n: 'components.dashboards.questionnaire.session_type.intensive_interval' },
       { nl: 'Intensieve tempo', en: 'Intensive tempo', i18n: 'components.dashboards.questionnaire.session_type.intensive_tempo' },
-      { nl: 'Kracht', en: 'Power', i18n: 'components.dashboards.questionnaire.session_type.power' },
+      { nl: 'Power', en: 'Power', i18n: 'components.dashboards.questionnaire.session_type.power' },
+      { nl: 'Kracht', en: 'Strength', i18n: 'components.dashboards.questionnaire.session_type.strength' },
       { nl: 'Skills', en: 'Skills', i18n: 'components.dashboards.questionnaire.session_type.skills' },
       { nl: 'Sprint', en: 'Sprint', i18n: 'components.dashboards.questionnaire.session_type.sprint' },
       { nl: 'Teamtraining', en: 'Team training', i18n: 'components.dashboards.questionnaire.session_type.team_training' },
@@ -78,42 +84,35 @@ dagboek_content = [
       { nl: 'Testen', en: 'Testing', i18n: 'components.dashboards.questionnaire.session_type.testing' },
       { nl: 'Vaartspel', en: 'Fartlek', i18n: 'components.dashboards.questionnaire.session_type.fartlek' },
       { nl: 'Wedstrijd', en: 'Match', i18n: 'components.dashboards.questionnaire.session_type.match' },
-      { nl: 'Wedstrijdvoorbereiding', en: 'Match preparation', i18n: 'components.dashboards.questionnaire.session_type.match_preparation' }
+      { nl: 'Wedstrijdvoorbereiding', en: 'Match preparation', i18n: 'components.dashboards.questionnaire.session_type.match_preparation' },
+      { nl: 'Anders', en: 'Other', i18n: 'components.dashboards.questionnaire.session_type.other' }
     ],
-    required: true
-  },
-  {
-    id: :v3,
-    type: :date,
-    today: true,
-    placeholder: { nl: 'Vul een datum in', en: 'Enter a date' },
-    title: { nl: 'Begonnen om', en: 'Started at' },
-    required: true
-  },
-  {
-    id: :v4,
-    type: :time,
-    title: '',
-    hours_from: 0,
-    hours_to: 24,
-    hours_step: 1,
-    hours_label: { nl: 'uur', en: 'hour' },
-    minutes_label: { nl: 'minuten', en: 'minutes' },
     required: true
   },
   {
     id: :v5,
     type: :number,
-    required: true,
-    placeholder: { nl: 'Vul een getal in', en: 'Enter a number' },
     title: { nl: 'Tijdsduur (min)', en: 'Duration (min)' },
+    placeholder: { nl: 'Vul een getal in', en: 'Enter a number' },
+    required: true,
     maxlength: 4,
     min: 0,
     max: 1440 # 24hrs
   },
   {
+    id: :v3,
+    type: :date_and_time,
+    hours_id: :v4_uur,
+    minutes_id: :v4_minuten,
+    today: true,
+    placeholder: { nl: 'Vul een datum en tijd in', en: 'Enter a date and time' },
+    title: { nl: 'Begonnen op', en: 'Started at' },
+    required: true,
+    max: true
+  },
+  {
     id: :v6,
-    title: 'RPE score<br><img src="/sport-data-valley/rpe.jpg" style="width:auto" class="questionnaire-image" />',
+    title: 'RPE score',
     type: :range,
     min: 1,
     max: 10,
@@ -121,6 +120,8 @@ dagboek_content = [
     required: true,
     ticks: true,
     no_initial_thumb: true,
+    vertical: true,
+    gradient: true,
     labels: [
       { nl: 'Heel licht', en: 'Really easy' },
       { nl: 'Licht', en: 'Easy' },

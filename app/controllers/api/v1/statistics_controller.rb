@@ -13,7 +13,7 @@ module Api
           number_of_completed_questionnaires: number_of_completed_questionnaires([Person::STUDENT, Person::MENTOR]),
           number_of_book_signups: number_of_book_signups
         }
-        render json: data
+        render json: data, scope: :current_user
       end
 
       private

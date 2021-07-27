@@ -13,6 +13,12 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
   describe 'authorized' do
     before do
       cookie_auth(person)
+      @old = ENV['TOKEN_SIGNATURE_ALGORITHM']
+      ENV['TOKEN_SIGNATURE_ALGORITHM'] = 'HS256'
+    end
+
+    after do
+      ENV['TOKEN_SIGNATURE_ALGORITHM'] = @old
     end
 
     describe 'update' do
@@ -79,6 +85,26 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         expect(response.status).to eq 200
         person.reload
         expect(person.locale).to eq('en')
+      end
+
+      it 'updates a user to a nil email if a blank value was given' do
+        expect(person.email).to_not be_blank
+        person_attributes = {}
+        person_attributes['email'] = ''
+        put :update, params: { person: person_attributes }
+        expect(response.status).to eq 200
+        person.reload
+        expect(person.email).to be_nil
+      end
+
+      it 'updates a user to a nil mobile_phone if a blank value was given' do
+        expect(person.mobile_phone).to_not be_blank
+        person_attributes = {}
+        person_attributes['mobile_phone'] = ''
+        put :update, params: { person: person_attributes }
+        expect(response.status).to eq 200
+        person.reload
+        expect(person.mobile_phone).to be_nil
       end
     end
 

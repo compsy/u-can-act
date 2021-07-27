@@ -103,6 +103,33 @@ describe Api::ProtocolSubscriptionSerializer do
       expect(json[:euro_delta]).to eq expected
     end
 
+    context 'state' do
+      it 'returns active states' do
+        protocol_subscription.update!(state: ProtocolSubscription::ACTIVE_STATE)
+        json = described_class.new(protocol_subscription).as_json.with_indifferent_access
+        expected = protocol_subscription.state
+        expect(json[:state]).to eq expected
+      end
+      it 'returns completed states for active prot subs past the end date' do
+        protocol_subscription.update!(end_date: 1.hour.ago)
+        json = described_class.new(protocol_subscription).as_json.with_indifferent_access
+        expected = ProtocolSubscription::COMPLETED_STATE
+        expect(json[:state]).to eq expected
+      end
+      it 'returns completed states' do
+        protocol_subscription.update!(state: ProtocolSubscription::COMPLETED_STATE)
+        json = described_class.new(protocol_subscription).as_json.with_indifferent_access
+        expected = protocol_subscription.state
+        expect(json[:state]).to eq expected
+      end
+      it 'can return canceled states' do
+        protocol_subscription.update!(state: ProtocolSubscription::CANCELED_STATE)
+        json = described_class.new(protocol_subscription).as_json.with_indifferent_access
+        expected = protocol_subscription.state
+        expect(json[:state]).to eq expected
+      end
+    end
+
     describe 'should contain the correct initial multiplier' do
       let(:current_protocol) { FactoryBot.create(:protocol) }
 
@@ -138,7 +165,7 @@ describe Api::ProtocolSubscriptionSerializer do
       protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)
       result = described_class.new(protocol_subscription).as_json.with_indifferent_access
       # if the title is blank, the humanized key is returned instead
-      expect(result[:questionnaires]).to match_array(['My questionnaire', 'Some Questionnaire'])
+      expect(result[:questionnaires]).to match_array(['my_questionnaire', 'Some Questionnaire'])
     end
   end
 end

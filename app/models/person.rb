@@ -29,7 +29,7 @@ class Person < ApplicationRecord
   validates_with IbanValidator
 
   validates :external_identifier,
-            format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/i,
+            format: /\A[a-z0-9]{#{IDENTIFIER_LENGTH}}\z/io,
             allow_blank: false,
             uniqueness: true
   validates :first_name, presence: true
@@ -54,6 +54,7 @@ class Person < ApplicationRecord
   belongs_to :parent, class_name: 'Person', optional: true
   validate :not_own_parent
   validates :locale, inclusion: Rails.application.config.i18n.available_locales.map(&:to_s)
+  validates :account_active, inclusion: { in: [true, false] }
 
   after_initialize do |person|
     next if person.external_identifier
@@ -91,19 +92,24 @@ class Person < ApplicationRecord
   def my_protocols(for_myself = true)
     return [] if protocol_subscriptions.active.blank?
 
-    prot_subs = protocol_subscriptions.active.joins(
+    prot_subs = my_inactive_and_active_protocol_subscriptions.active
+
+    filter_for_myself(prot_subs, for_myself)
+  end
+
+  def my_inactive_and_active_protocol_subscriptions
+    protocol_subscriptions.joins(
       :protocol
     ).joins(
       'LEFT JOIN one_time_responses ON one_time_responses.protocol_id = protocols.id'
-    ).where('one_time_responses.id IS NULL')
-
-    filter_for_myself(prot_subs, for_myself)
+    ).where(one_time_responses: { id: nil })
   end
 
   # For any method that only returns open responses, we want them to be sorted by descending priority first,
   # and ascending open_from second. This is because we call .first on this method to determine which is the next
   # response that should be shown to the user.
   def my_open_responses(for_myself = true)
+    active_subscriptions = nil
     active_subscriptions = protocol_subscriptions.active if for_myself.blank?
     active_subscriptions ||= my_protocols(for_myself)
     active_subscriptions.map { |prot| prot.responses.opened_and_not_expired }

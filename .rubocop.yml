@@ -4,7 +4,7 @@ require:
   - rubocop-rails
 
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.0
   NewCops: enable
   Exclude:
     - 'config/**/*'
@@ -46,6 +46,9 @@ Style/HashEachMethods:
   Enabled: false
 
 Style/HashTransformKeys:
+  Enabled: false
+
+Rails/EnvironmentVariableAccess:
   Enabled: false
 
 Style/HashTransformValues:
@@ -168,6 +171,8 @@ Performance/Squeeze:
 Performance/StringInclude:
   Enabled: true
 
+Naming/VariableNumber:
+  CheckSymbols: false
 
 ################################################################## DISABLED COPS
 # These cops are disabled because we think they are a Bad Idea. If you add one

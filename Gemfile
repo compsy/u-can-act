@@ -5,10 +5,10 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Specify ruby version for heroku
-ruby '2.6.3'
+ruby '3.0.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.1.4'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 1.1.4'
@@ -24,8 +24,6 @@ gem 'sass-rails'
 gem 'haml-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
 
 # Use React for the UI
 gem 'react-rails'
@@ -49,14 +47,12 @@ gem 'bcrypt'
 
 # Enable cross origin requests
 gem 'rack-cors'
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 gem 'pry-rails'
 
 gem 'dotenv-rails'
 
-gem 'coveralls', require: false
+gem 'coveralls_reborn', require: false
 
 # Delayed job for delayed calculation
 gem 'delayed_job_active_record'
@@ -77,7 +73,7 @@ gem 'active_model_serializers'
 gem 'jwt'
 
 # current master, using this because the version on rubygems hasn't been updated
-gem 'knock', github: 'nsarno/knock', ref: '84d3e54b9a8f1e9701097207a8d3135d5a9e64c1'
+gem 'knock', github: 'nsarno/knock', ref: '37e403a7c6d44f585b56a086245e41566a8d6fe1'
 
 # Gem for authorization
 # Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474
@@ -104,6 +100,10 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
+
+  # rubymine debugger
+  gem 'debase', github: 'ruby-debug/debase', tag: 'v0.2.5.beta2'
+  gem 'ruby-debug-ide'
 end
 
 group :test do
@@ -137,9 +137,6 @@ group :test do
   # selenium for js testing
   gem 'selenium-webdriver'
   gem 'webdrivers'
-
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  # gem 'chromedriver-helper'
 end
 
 group :production, :staging do
@@ -156,8 +153,13 @@ gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'web-console'
+
+  # Display performance information such as SQL time and flame graphs for each request in your browser.
+  # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
+  # gem 'rack-mini-profiler'
+
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'

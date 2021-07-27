@@ -17,7 +17,8 @@ module Api
                :questionnaires,
                :first_name,
                :auth0_id_string,
-               :id
+               :id,
+               :state
 
     def completion
       @completion ||= object.protocol_completion
@@ -51,13 +52,20 @@ module Api
       object.person.first_name
     end
 
+    def state
+      return ProtocolSubscription::CANCELED_STATE if object.state == ProtocolSubscription::CANCELED_STATE
+      return ProtocolSubscription::ACTIVE_STATE if object.state == ProtocolSubscription::ACTIVE_STATE && !object.ended?
+
+      ProtocolSubscription::COMPLETED_STATE
+    end
+
     def name
       object.protocol.name
     end
 
     def questionnaires
       object.protocol.measurements.map do |measurement|
-        measurement.questionnaire.title.presence || measurement.questionnaire.key.humanize
+        measurement.questionnaire.title.presence || measurement.questionnaire.key
       end
     end
 

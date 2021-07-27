@@ -7,6 +7,9 @@ default: &default
   project_title: 'u-can-feel'
   project_start_date: '2020-09-01'
   project_end_date: '2021-09-01'
+  feature_toggles:
+    google_analytics: false
+    allow_response_uuid_login: true
   logo:
     mentor_logo: 'rug_logo.png'
     student_logo: 'rug_logo.png'

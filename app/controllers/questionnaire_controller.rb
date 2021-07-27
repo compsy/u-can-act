@@ -4,7 +4,7 @@ class QuestionnaireController < ApplicationController
   include QuestionnaireHelper
   MAX_ANSWER_LENGTH = 2048
   MAX_DRAWING_LENGTH = 65_536
-  include Concerns::IsLoggedIn
+  include ::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
@@ -62,6 +62,13 @@ class QuestionnaireController < ApplicationController
   end
 
   def create_informed_consent
+    if content_present?
+      response_content = ResponseContent.create_informed_consent_with_scores!(
+        content: questionnaire_content,
+        protocol_subscription: @protocol_subscription
+      )
+      @protocol_subscription.informed_consent_content = response_content.id
+    end
     @protocol_subscription.informed_consent_given_at = Time.zone.now
     @protocol_subscription.save!
     @response.update!(opened_at: Time.zone.now)
@@ -136,9 +143,7 @@ class QuestionnaireController < ApplicationController
     return if performed?
 
     make_content_indifferent!
-  rescue JSON::ParserError => e
-    render status: :bad_request, json: { error: e.message }
-  rescue TypeError => e
+  rescue JSON::ParserError, TypeError => e
     render status: :bad_request, json: { error: e.message }
   end
 
@@ -218,15 +223,17 @@ class QuestionnaireController < ApplicationController
     # If we have a callback_url, we will redirect to it, which means the flash hash is never read out
     # until the next time that we fill out a questionnaire, and then it says "thanks for unsubscribing", which is weird.
     # Hence, don't set a flash notice if we have a callback_url.
-    flash[:notice] = stop_protocol_subscription_notice unless params[:callback_url].present?
+    unless params[:callback_url].present? || @response.measurement.redirect_url.present?
+      flash[:notice] = stop_protocol_subscription_notice
+    end
     Rails.logger.info "[Info] Protocol subscription #{@response.protocol_subscription.id} was stopped by " \
-      "person #{@response.protocol_subscription.person_id}."
+                      "person #{@response.protocol_subscription.person_id}."
   end
 
   def stop_protocol_subscription_notice
     if @response.protocol_subscription.mentor?
       "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
-                         'is gestopt.'
+        'is gestopt.'
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
       I18n.t('pages.klaar.header')
     else
@@ -249,10 +256,14 @@ class QuestionnaireController < ApplicationController
   end
 
   def check_content_empty
-    quest_content = questionnaire_content
-    return if quest_content.present? && (quest_content.keys - [Response::CSRF_FAILED]).present?
+    return if content_present?
 
     render(status: :bad_request, html: 'Cannot store blank questionnaire responses', layout: 'application')
+  end
+
+  def content_present?
+    quest_content = questionnaire_content
+    quest_content.present? && (quest_content.keys - [Response::CSRF_FAILED]).present?
   end
 
   def check_opened_at
@@ -394,7 +405,7 @@ class QuestionnaireController < ApplicationController
 
   def set_default_content
     @default_content = ''
-    @default_content = Base64.strict_decode64(params['content']) if params['content']
+    @default_content = Base64.strict_decode64(params['content'].tr(' ', '+')) if params['content']
   rescue ArgumentError => e
     # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
     raise e if e.message != 'invalid base64'

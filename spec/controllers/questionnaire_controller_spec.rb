@@ -68,8 +68,26 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'GET /:uuid' do
-    xdescribe 'with jwt auth' do
-      it 'should be tested' do
+    describe 'with jwt auth' do
+      let(:the_auth_user) { FactoryBot.create(:auth_user, person: person) }
+      let(:auth0_id_string) { the_auth_user.auth0_id_string }
+      let!(:the_payload) do
+        {
+          'sub' => auth0_id_string,
+          ENV['SITE_LOCATION'] => {
+            'access_level' => ['user']
+          }
+        }
+      end
+      it 'should status 200 when everything is correct' do
+        id_token = jwt_auth(the_payload, false)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid, auth: id_token }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/show')
       end
     end
 
@@ -121,6 +139,56 @@ RSpec.describe QuestionnaireController, type: :controller do
         Timecop.return
       end
     end
+
+    describe 'without cookie auth' do
+      before do
+        expect(Rails.application.config.settings.feature_toggles).to(
+          receive(:allow_response_uuid_login).and_return(true)
+        )
+      end
+
+      it 'shows status 200 when everything is correct' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/show')
+      end
+
+      it 'shows an informed questionnaire if there is one required' do
+        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+        expect(protocol.informed_consent_questionnaire).not_to be_nil
+        expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: person,
+                                                  protocol: protocol)
+        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response).to have_http_status(200)
+        expect(response).to render_template('questionnaire/informed_consent')
+      end
+
+      it 'saves the response in the database, with the correct timestamp' do
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  person: mentor,
+                                                  filling_out_for: person)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago)
+        date = Time.zone.now
+        Timecop.freeze(date)
+        expect(responseobj.opened_at).to be_nil
+        get :show, params: { uuid: responseobj.uuid }
+        expect(response.status).to eq 200
+        responseobj.reload
+        expect(responseobj.opened_at).to be_within(5.seconds).of(date)
+        Timecop.return
+      end
+    end
   end
 
   describe 'the @is_mentor_variable' do
@@ -155,7 +223,33 @@ RSpec.describe QuestionnaireController, type: :controller do
 
   describe 'DELETE' do
     describe 'with jwt auth' do
-      it 'should be tested' do
+      let(:the_auth_user) { FactoryBot.create(:auth_user, person: student) }
+      let(:auth0_id_string) { the_auth_user.auth0_id_string }
+      let!(:the_payload) do
+        {
+          'sub' => auth0_id_string,
+          ENV['SITE_LOCATION'] => {
+            'access_level' => ['user']
+          }
+        }
+      end
+      let!(:protocol_subscription) do
+        FactoryBot.create(:protocol_subscription,
+                          start_date: 1.week.ago.at_beginning_of_day,
+                          person: student)
+      end
+      let!(:responseobj) do
+        FactoryBot.create(:response,
+                          open_from: 1.hour.ago,
+                          protocol_subscription: protocol_subscription)
+      end
+
+      it 'stops the protocol subscription' do
+        id_token = jwt_auth(the_payload, false)
+        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::ACTIVE_STATE)
+        delete :destroy, params: { uuid: responseobj.uuid, auth: id_token }
+        responseobj.protocol_subscription.reload
+        expect(responseobj.protocol_subscription.state).to eq(ProtocolSubscription::CANCELED_STATE)
       end
     end
     describe 'with cookie auth' do
@@ -205,6 +299,63 @@ RSpec.describe QuestionnaireController, type: :controller do
           expect(query).to eq stop_response.uuid
           expect(protocol_subscription.stop_response.uuid).to eq stop_response.uuid
         end
+      end
+    end
+  end
+
+  describe 'POST /informed_consent' do
+    describe 'redirecting with a student' do
+      before do
+        cookie_auth(student)
+      end
+
+      it 'requires a response id' do
+        post :create_informed_consent
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')
+      end
+
+      it 'requires a response that exists' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        post :create_informed_consent, params: { response_id: 'something', content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
+      end
+
+      it 'requires a response that is not filled out yet' do
+        responseobj = FactoryBot.create(:response, :completed)
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        post :create_informed_consent, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:found)
+        expect(response.location).to end_with klaar_path
+      end
+
+      it 'requires a q parameter that is not expired' do
+        responseobj = FactoryBot.create(:response)
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        post :create_informed_consent, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:found)
+        expect(response.location).to end_with klaar_path
+      end
+
+      it 'shows status 200 when everything is correct' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  protocol: protocol)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
+        post :create_informed_consent, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:found)
+        responseobj.reload
+        expect(responseobj.completed_at).to be_blank
+        expect(responseobj.protocol_subscription.informed_consent_given_at).to be_within(1.minute).of(Time.zone.now)
+        expect(responseobj.content).to be_blank
+        expect(responseobj.protocol_subscription.informed_consent_content).to_not be_blank
+        expect(responseobj.protocol_subscription.informed_consent_values).to eq('v1' => 'true')
       end
     end
   end
@@ -468,7 +619,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'heads 400 if the jsoncontent is not a string' do
         post :interactive_render, params: {
-          content: [{ "id": 'v1', "title": 'Question', "type": 'radio', "options": %w[1 2] }]
+          content: [{ id: 'v1', title: 'Question', type: 'radio', options: %w[1 2] }]
         }
         expect(response.status).to eq 400
         expect(response.body).to eq({ error: 'no implicit conversion of Array into String' }.to_json)
@@ -476,7 +627,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'returns some error message' do
         post :interactive_render, params: { content: content }
-        expect(response.body).to eq({ error: "767: unexpected token at 'notjson'" }.to_json)
+        expect(response.body).to eq({ error: "809: unexpected token at 'notjson'" }.to_json)
       end
     end
   end

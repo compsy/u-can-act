@@ -2,11 +2,17 @@
 Rails.application.configure do
   config.lograge.enabled = true
   config.lograge.base_controller_class = 'ApplicationController'
+  # In some test specs, where we test JWT login without specifying a token,
+  # current_user raises an error, hence this fallback.
   config.lograge.custom_payload do |controller|
-    {
-      ip: controller.request.ip,
-      user_id: controller.current_user.try(:id)
-    }
+    begin
+      {
+        user_id: controller.current_user.try(:id)
+      }
+    rescue OpenSSL::PKey::RSAError
+      {
+      }
+    end
   end
   config.lograge.custom_options = lambda do |event|
     exceptions = %w[controller action format id]

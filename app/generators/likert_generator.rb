@@ -23,7 +23,7 @@ class LikertGenerator < QuestionTypeGenerator
   end
 
   def likert_option_body(question, option)
-    elem_id = idify(question[:id], option[:raw][:title])
+    elem_id = idify(question[:id], option[:raw][:value].presence || option[:raw][:title])
     tag_options = question_options(question, option, elem_id)
     tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
 
@@ -37,7 +37,7 @@ class LikertGenerator < QuestionTypeGenerator
       name: answer_name(idify(question[:id])),
       type: 'radio',
       id: elem_id,
-      value: option[:title],
+      value: option[:raw][:value].presence || option[:raw][:title],
       required: true,
       class: 'validate'
     }

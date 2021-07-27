@@ -17,7 +17,7 @@ dagboek_content = [
     id: :v1,
     type: :radio,
     show_otherwise: false,
-    title: 'Geloof jij in God, Allah, of een ander soort hogere macht?',
+    title: 'Ben jij gelovig?',
     options: [
       { title: 'Ja', shows_questions: %i[v5_a v5_b v5_c v5_d v5_e] },
       { title: 'Nee' },
@@ -42,41 +42,47 @@ dagboek_content = [
   }, {
     id: :v4,
     type: :range,
+    required: true,
     title: 'Op mijn school speelt geloof een belangrijke rol',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_a,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Ik geloof dat God, Allah of een andere hogere macht van mij houdt en om mij geeft',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_b,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Mijn relatie met God, Allah of een andere hogere macht betekent veel voor mij',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_c,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Ik ervaar niet veel kracht of steun van God, Allah of een andere hogere macht',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_d,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Ik geloof dat God, Allah of een andere hogere macht geeft om mijn problemen',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     id: :v5_e,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Mijn relatie met God, Allah of een andere hogere macht draagt bij aan mijn geluk',
     labels: ['Helemaal oneens', 'Helemaal eens']
   }, {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragen gaan over dingen die kunnen gebeuren in je leven. Geef voor elke gebeurtenis aan of dit <b>het afgelopen jaar</b> in jouw leven gebeurd is.
+    content: '<p class="flow-text">De volgende vragen gaan over dingen die kunnen gebeuren in je leven. Geef voor elke gebeurtenis aan of dit <u><b>het afgelopen jaar</b></u> in jouw leven gebeurd is.
     </p>'
   }, {
     id: :v6,
@@ -154,7 +160,7 @@ dagboek_content = [
     id: :v18,
     type: :radio,
     show_otherwise: false,
-    title: 'Ik ben niet toegelaten tot een groep of team waar ik graag bij wilde',
+    title: 'Ik ben niet toegelaten tot een groep vrienden of een team waar ik graag bij wilde',
     options: %w[Ja Nee]
   }, {
     id: :v19,
@@ -172,7 +178,7 @@ dagboek_content = [
     id: :v21,
     type: :radio,
     show_otherwise: false,
-    title: 'Mensen waar ik vrienden mee was, schenken geen aandacht meer aan mij',
+    title: 'Mensen waar ik vrienden mee was, besteden geen aandacht meer aan mij',
     options: %w[Ja Nee]
   }, {
     id: :v22,
@@ -217,6 +223,7 @@ dagboek_content = [
       { title: 'Pinterest', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
       { title: 'Twitter', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
       { title: 'TikTok', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
+      { title: 'Twitch', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
       { title: 'Iets anders', shows_questions: %i[v25_b v26_a v26_b v27_a v27_b v28_a v28_b v28_c] },
       { title: 'Ik gebruik helemaal geen sociale media' }
     ]
@@ -236,6 +243,7 @@ dagboek_content = [
       { title: 'Pinterest' },
       { title: 'Twitter' },
       { title: 'TikTok' },
+      { title: 'Twitch' },
       { title: 'Iets anders' },
       { title: 'Ik gebruik geen van deze sociale media dagelijks of bijna dagelijks' }
     ]
@@ -252,7 +260,7 @@ dagboek_content = [
     show_otherwise: false,
     hidden: true,
     title: 'Hoeveel tijd heb je in de afgelopen maand ongeveer per dag aan sociale media besteed?',
-    options: ['Meer dan 2 uur', '1 à 2 uur', 'Een half uur tot een uur', 'Minder dan een half uur']
+    options: ['Meer dan 6 uur', '3 à 6 uur', '1 à 3 uur', 'Minder dan een uur']
   }, {
     id: :v27_a,
     type: :radio,

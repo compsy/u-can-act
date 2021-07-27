@@ -12,6 +12,8 @@ default: &default
     allow_identifier_export: false
     allow_distribution_export: false
     realtime_distributions: true
+    google_analytics: true
+    allow_response_uuid_login: false
   distribution_export_min_responses: 200
   logo:
     favicon: 'favicon.ico'

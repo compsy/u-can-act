@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class MentorOverviewController < ApplicationController
-  include Concerns::IsLoggedIn
-  include Concerns::IsLoggedInAsMentor
+  include ::IsLoggedIn
+  include ::IsLoggedInAsMentor
   before_action :use_mentor_layout
 
   def index

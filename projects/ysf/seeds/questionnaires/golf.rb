@@ -41,7 +41,7 @@ content = [
       Op deze pagina staan 24 kubussen. Dit is het tweede onderdeel van de IQ test; het kost
       je nog ongeveer 30 minuten. De onderstaande kubussen hebben op iedere zijkant
       een andere afbeelding.<br><br>Kun je bij de onderstaande opdrachten aangeven
-      welke kubus (A, B, C, D, E, F) een gekantelde versie zou kunnen zijn van de
+      welke kubus een gekantelde versie zou kunnen zijn van de
       linker kubus (de kubus waar een X onder staat).
     </p>'
   },

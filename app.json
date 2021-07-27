@@ -23,8 +23,7 @@
   "addons": [
     "papertrail",
     "heroku-postgresql",
-    "scheduler",
-    "mongolab"
+    "scheduler"
   ],
   "buildpacks": [
 

@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class PeopleController < ApplicationController
-  include Concerns::IsLoggedIn
+  include ::IsLoggedIn
   before_action :set_current_person
   before_action :set_layout
 
   def edit; end
 
   def update
-    if @person.update(people_params)
+    if @person.update(people_params.merge(overwritten_params))
       redirect_to NextPageFinder.get_next_page(current_user: current_user), flash: { notice: 'Gegevens opgeslagen.' }
     else
       render :edit
@@ -35,6 +35,18 @@ class PeopleController < ApplicationController
 
   def set_layout
     @use_mentor_layout = @person.mentor? || @person.solo?
+  end
+
+  # If we are sent an empty string as an email, set it to nil instead. Because we do
+  # uniqueness checking on the email, having multiple people with an empty string as
+  # email is not allowed, but having multiple people with a nil email is allowed.
+  # The same applies to mobile phone numbers.
+  def overwritten_params
+    result = {}
+    %i[email mobile_phone].each do |param|
+      result[param] = nil if people_params.key?(param) && !people_params[param].present?
+    end
+    result
   end
 
   def people_params

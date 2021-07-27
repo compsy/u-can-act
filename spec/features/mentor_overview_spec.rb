@@ -103,6 +103,42 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).not_to have_link('Vragenlijst invullen voor deze student')
   end
 
+  it 'is possible to redirect to a response if the first one in the invitation set was filled out' do
+    prot_sub = FactoryBot.create(:protocol_subscription,
+                                 person: students.first,
+                                 start_date: 1.week.ago.at_beginning_of_day)
+    response_obj = FactoryBot.create(:response, :invited,
+                                     protocol_subscription: prot_sub,
+                                     open_from: 1.hour.ago)
+    inv_tok = FactoryBot.create(:invitation_token, invitation_set: response_obj.invitation_set)
+    response_obj2 = FactoryBot.create(:response,
+                                      protocol_subscription: prot_sub,
+                                      invitation_set: response_obj.invitation_set,
+                                      open_from: 1.hour.ago)
+    url = "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"
+    visit url
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    uuid = response_obj.uuid
+    expect(page).to have_current_path(questionnaire_path(uuid: uuid))
+
+    # This is the informed consent
+    page.click_on 'Opslaan'
+    sleep(1)
+    page.choose('slecht', allow_label_click: true)
+    sleep(1)
+    page.check('brood', allow_label_click: true)
+    page.check('kaas en ham', allow_label_click: true)
+    range_select('v3', '57')
+    page.click_on 'Opslaan'
+
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    uuid = response_obj2.uuid
+    expect(page).to have_current_path(questionnaire_path(uuid: uuid))
+    visit url
+    expect(page).to have_content('vragenlijst-dagboekstudie-studenten')
+    expect(page).to have_current_path(questionnaire_path(uuid: uuid))
+  end
+
   it 'is able to follow the initial link if one questionnaire has been filled out' do
     inv_tok = invitation_tokens.first
     visit "?q=#{inv_tok.invitation_set.person.external_identifier}#{inv_tok.token_plain}"

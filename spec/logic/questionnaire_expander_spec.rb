@@ -201,7 +201,7 @@ describe QuestionnaireExpander do
 
       it 'calls the correct external functions with the right parameters' do
         other_response = FactoryBot.create(:response)
-        result = { 'the': 'hash' }
+        result = { the: 'hash' }
         expected = 'the expected result'
         content = { id: :v2,
                     type: :checkbox,
@@ -230,7 +230,7 @@ describe QuestionnaireExpander do
       end
 
       it 'calls the correct external functions with the right parameters and default value' do
-        result = { 'the': 'hash' }
+        result = { the: 'hash' }
         expected = 'the expected result'
         default = 'hallo!'
         content = { id: :v2,

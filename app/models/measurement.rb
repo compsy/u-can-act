@@ -5,6 +5,15 @@ class Measurement < ApplicationRecord
   WEEKDAYS = %w[sunday monday tuesday wednesday thursday friday saturday].freeze
   MIN_PRIORITY = -10_000
   MAX_PRIORITY = 10_000
+  # How many responses will at most be scheduled at once for a single protocol subscription
+  # by the RescheduleResponses job. Since this job is ran every day, as long as this number is
+  # at least as large as the number of responses per day, it will be called again before we run
+  # out of responses, so it is all fine. The only issue here is that we use the response count
+  # to give people a measure of "completion", which we now have to add a note to that says
+  # if there are more than 500 responses to be filled out by the user, this completion count
+  # or percentage can be off. (Since it just looks at how many responses were created for
+  # a protocol subscription.)
+  MAX_RESPONSES = 500
 
   belongs_to :questionnaire
   validates :questionnaire_id, presence: true
@@ -30,6 +39,7 @@ class Measurement < ApplicationRecord
   validates :open_from_day, inclusion: { in: [nil] + WEEKDAYS }
   validates :offset_till_end, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :reward_points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  # Highest priority = shown first
   validates :priority, numericality: { only_integer: true, allow_nil: true,
                                        greater_than_or_equal_to: MIN_PRIORITY, less_than_or_equal_to: MAX_PRIORITY }
 
@@ -67,7 +77,7 @@ class Measurement < ApplicationRecord
     response_times = []
     temp_open_from = open_from(start_date)
     temp_open_till = open_till(end_date)
-    while temp_open_from < temp_open_till
+    while temp_open_from < temp_open_till && response_times.length < MAX_RESPONSES
       response_times << temp_open_from
       temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
     end

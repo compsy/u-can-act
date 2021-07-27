@@ -15,7 +15,7 @@ class ProtocolSubscription < ApplicationRecord
   validates :start_date, presence: true
   validates :end_date, presence: true
 
-  # Note: this ordering is important for a number of reasons. E.g.:
+  # NOTE: this ordering is important for a number of reasons. E.g.:
   # - Response.last? uses it to determine if this is the last in the set.
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
   after_initialize :initialize_filling_out_for
@@ -28,7 +28,7 @@ class ProtocolSubscription < ApplicationRecord
   #           uniqueness: { scope: %i[person_id state],
   #                         conditions: -> { where(state: ACTIVE_STATE) },
   #                         if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
-  scope :active, (-> { where(state: ACTIVE_STATE) })
+  scope :active, (-> { where(state: ACTIVE_STATE).where('end_date > :now', now: Time.zone.now) })
 
   def transfer!(transfer_to)
     raise('The person you transfer to should not be the same as the original person!') if transfer_to == person
@@ -46,7 +46,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def active?
-    state == ACTIVE_STATE
+    state == ACTIVE_STATE && !ended?
   end
 
   def canceled?
@@ -55,7 +55,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def cancel!
     update!(state: CANCELED_STATE, end_date: Time.zone.now)
-    responses.future.destroy_all
+    DestroyFutureResponsesJob.perform_later(id)
   end
 
   def ended?
@@ -101,6 +101,17 @@ class ProtocolSubscription < ApplicationRecord
   def needs_informed_consent?
     !(protocol.informed_consent_questionnaire.blank? ||
       informed_consent_given_at.present?)
+  end
+
+  def informed_consent_remote_content
+    ResponseContent.find(informed_consent_content) if informed_consent_content.present?
+  end
+
+  def informed_consent_values
+    rcontent = informed_consent_remote_content
+    return rcontent&.content if rcontent&.content.nil? || rcontent&.scores.blank?
+
+    rcontent&.content&.merge(rcontent&.scores)
   end
 
   def completion

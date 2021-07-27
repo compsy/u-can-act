@@ -32,8 +32,8 @@ describe MentorInvitationTexts do
                                               completed_at: nil,
                                               measurement: measurement3,
                                               open_from: 1.minute.ago)
-      expected = 'Hoi Jane, wij willen net als jij graag vsv voorkomen.' \
-      ' Wil jij ons voor de laatste keer helpen en de laatste, maar cruciale, u-can-act vragenlijst invullen?'
+      expected = 'Hoi Jane, wij willen net als jij graag vsv voorkomen. ' \
+                 'Wil jij ons voor de laatste keer helpen en de laatste, maar cruciale, u-can-act vragenlijst invullen?'
       result = described_class.message(response)
       expect(result).to eq(expected)
     end
@@ -94,7 +94,7 @@ describe MentorInvitationTexts do
                                                         open_from: 1.minute.ago)
       result = described_class.message(response)
       expect(result).to eq 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
-   'Vul nu de eerste wekelijkse vragenlijst in.'
+                           'Vul nu de eerste wekelijkse vragenlijst in.'
     end
 
     it 'returns the default text otherwise' do

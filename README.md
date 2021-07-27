@@ -14,42 +14,6 @@
   <a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=compsy/u-can-act"></a>
 </p>
 
-Table of Contents
-=================
-
-   * [u-can-act](#u-can-act)
-      * [Reference](#reference)
-      * [Funding](#funding)
-      * [Installation](#installation)
-      * [Configuration](#configuration)
-         * [General settings](#general-settings)
-         * [(Local) development settings](#local-development-settings)
-         * [Organization-specific settings](#organization-specific-settings)
-         * [Development configuration](#development-configuration)
-      * [Background jobs](#background-jobs)
-      * [Protocols and Measurements](#protocols-and-measurements)
-      * [Importing new students and mentors](#importing-new-students-and-mentors)
-         * [The Mentor CSV](#the-mentor-csv)
-         * [The Student CSV](#the-student-csv)
-      * [Variables that can be used in texts (case-sensitive!):](#variables-that-can-be-used-in-texts-case-sensitive)
-      * [Questionnaire Syntax](#questionnaire-syntax)
-         * [Type: Checkbox](#type-checkbox)
-         * [Type: Radio](#type-radio)
-         * [Type: Likert](#type-likert)
-         * [Type: Range](#type-range)
-         * [Type: Raw](#type-raw)
-         * [Type: Textarea](#type-textarea)
-         * [Type: Textfield](#type-textfield)
-         * [Type: Number](#type-number)
-         * [Type: Expandable](#type-expandable)
-         * [Type: Time](#type-time)
-         * [Type: Date](#type-date)
-         * [Type: Unsubscribe](#type-unsubscribe)
-         * [Type: Dropdown](#type-dropdown)
-         * [Type: Drawing](#type-drawing)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc).
-
 ## Reference
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). 
 U-can-act Web-app (Version 1.0) [Web application software]. 
@@ -170,6 +134,9 @@ The file structure of the `my_organization` directory in the `projects` director
    |- locales/
 |- seeds/
 |- asssets/
+|- views/
+   |- layouts/
+      |- mailer.html.haml
 ```
 
 In the project specific `settings.yml`, the following settings are required:
@@ -184,6 +151,24 @@ logo:
   company_logo: <OPTIONAL. Filename of a company logo. If missing, the header uses only one logo>
 ```
 The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
+
+You can override the default email layout (= all the HTML around the actual email, starting with <html><body> and so on), by creating a file named `mailer.html.haml` in the `views/layouts` subdirectory in a project's directory. The same layout is used for all email invitations for this project. See `app/views/layouts/mailer.html.haml` for an example of this file. (You can copy this file to the `views/layouts` subdirectory of your project and start editing that version to customize it for your project.)
+
+You can change the invitation email template per protocol (the invitation template is rendered inside the layout) by creating a file named `<protocol_name>.html.haml` in the `views` subdirectory of the project directory. Note that such a protocol invitation layout would typically include `%p #{@message.gsub("\n", "<br>").html_safe}` somewhere as the body text of the invitation, and it would use some form of `=link_to @invitation_url` to render the given invitation link. See `app/views/invitation_mailer/invitation_mail.html.haml` for an example of this file. (You can copy this file to the `views` subdirectory of your project and rename it to the name of your protocol.)
+
+Additionally, one can set a default template for all protocols in their project that do not have their own special layout by creating a file `views/invitation_mailer/invitation_mail.html.haml` in their project subdirectory.
+
+If any of the templates, layouts, or directories are missing, the default templates and layouts will be used. SMS invitations have no layouts/templates.
+
+### Feature toggles
+
+The `settings.yml` file has a `feature_toggles` section with the following entries:
+
+- `allow_identifier_export` (defaults to `false`): By default, the Person export available from the admin dashboard only exports the properties `gender` and `first_name` (along with role, title, team name and organization name) for a Person. Enabling this feature allows for exporting an additional Identifiers file with email and mobile phone numbers, tied to a person id.
+- `allow_distribution_export` (defaults to `false`): Enabling this feature allows for exporting the distributions (i.e., how often people gave a certain answer, for all possible answers, for all questionnaires) for any valid JWT token (belonging to a person) through the JWT API. This is used e.g., for the IKIA project to display distributions in graphs alongside the scores of the user.
+- `realtime_distributions` (defaults to `true`): Whether or not the distributions (see above) should be kept up-to-date in real time (i.e., updated after every filled out response). This should typically be set to true, because it introduces very little overhead. There is also a nightly job that calculates distributions (doing the same thing, but then with a day delay), so if rather have that distributions update once per day, you can set this to `false`.
+- `google_analytics` (defaults to `true`): Whether or not Google Analytics should be enabled for the site. Currently, analytics for all deploys of this repo are reported under the `UA-100060757-1` Compsy property. This should really be separate per deploy, but right now it isn't.
+- `allow_response_uuid_login` (defaults to `false`): Setting this feature toggle to true allows users to use a questionnaire uuid link to log in. This may or may not help with filling out questionnaires under Edge/Outlook where for some reason redirects are followed but cookies are not being set correctly. Since there are many UUIDs, the risk of a person randomly guessing one is low. This risk is further lowered because only UUIDs for responses that have been opened and are not yet completed are valid. And even when someone does guess a UUID, there is no information leaked: they can fill out a questionnaire but that's it.
 
 ### Development configuration
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:
@@ -233,6 +218,7 @@ When using Heroku these can be scheduled via the *Heroku Scheduler*.
 
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
+To do this on Heroku, start an extra worker process and, optionally, add the [workless](https://github.com/lostboy/workless) gem to enable autoscaling.
 
 ## Protocols and Measurements
 In the system a _Questionnaire_ denotes the definition of a questionnaire.
@@ -384,7 +370,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3] },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], value: 'relatie' },
    { title: 'Inzicht krijgen in de belevingswereld', tooltip: 'de belevingswereld van de student', hides_questions: %i[v4 v5] },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true },
@@ -394,6 +380,7 @@ Required and allowed options (minimal example and maximal example):
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
   otherwise_tooltip: 'some tooltip',
+  otherwise_placeholder: 'Vul iets in',
   show_after: Time.new(2018, 5, 6).in_time_zone,
   section_end: true
 }]
@@ -405,7 +392,13 @@ The `show_otherwise` field is optional, and determines whether or not the questi
 The `tooltip` field is also optional. 
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
+Setting `required: true` for a checkbox question has the effect that the user has to check at least one of the options, or the form cannot be submitted.
+
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
+
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 Note that this (and all other question types) may have a `show_after` property. This may have the following values:
 
@@ -457,7 +450,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Aan welke doelen heb je deze week gewerkt tijdens de begeleiding van deze student?',
   tooltip: 'some tooltip',
   options: [
-   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20 },
+   { title: 'De relatie verbeteren en/of onderhouden', shows_questions: %i[v2 v3], numeric_value: 20, value: 'relatie' },
    { title: 'Inzicht krijgen in de belevingswereld', hides_questions: %i[v4 v5], numeric_value: 40 },
    'Inzicht krijgen in de omgeving',
    { title: 'Zelfinzicht geven', shows_questions: %i[v8 v9], stop_subscription: true, numeric_value: 60 },
@@ -466,6 +459,7 @@ Required and allowed options (minimal example and maximal example):
   ],
   show_otherwise: true,
   otherwise_label: 'Nee, omdat:',
+  otherwise_placeholder: 'Vul iets in',
   otherwise_tooltip: 'some tooltip',
   section_end: true
 }]
@@ -489,6 +483,8 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
+
 ### Type: Likert
 Required and allowed options (minimal example and maximal example):
 
@@ -506,7 +502,7 @@ Required and allowed options (minimal example and maximal example):
   title: 'Wat vind u van deze stelling?',
   tooltip: 'some tooltip',
   options: [
-    { title: 'helemaal oneens', numeric_value: 1 },
+    { title: 'helemaal oneens', numeric_value: 1, value: 'ho' },
     { title: 'oneens', numeric_value: 2 },
     { title: 'neutraal', numeric_value: 3 },
     { title: 'eens', numeric_value: 4 },
@@ -527,6 +523,10 @@ The `numeric_value` is the numerical representation of each option, used when co
 If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
+
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 
 ### Type: Range
@@ -549,6 +549,8 @@ Required and allowed options (minimal example and maximal example):
   value: 50,
   required: true,
   ticks: true,
+  vertical: true,
+  gradient: true,
   no_initial_thumb: true,
   title: 'Was het voor jou duidelijk over wie je een vragenlijst invulde?',
   tooltip: 'some tooltip',
@@ -560,7 +562,9 @@ The range type supports the optional properties `min` and `max`, which are set t
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
 The `value` denotes the default location for the slider, that is, the location of the slider when it is not yet changed by the user.
 If the `ticks` attribute is `true`, the slider will show ticks and values at each `step` (the default value for `ticks` is `false`).
-if the `no_initial_thumb` attribute is `true`, then the slider does not show an initial scrollthumb for unmodified range inputs. Only when the user changes the slider to set a value will the scrollthumb appear. (the default value for `no_initial_thumb` is `false`)
+If the `no_initial_thumb` attribute is `true`, then the slider does not show an initial scrollthumb for unmodified range inputs. Only when the user changes the slider to set a value will the scrollthumb appear. (the default value for `no_initial_thumb` is `false`)
+If the `vertical` attribute is `true`, then the slider is a vertical slider, with labels on the right. This option defaults to `false`. Note that when this option is `true`, the array of `labels` must correspond to the same number of steps as provided by the `min`, `max`, and `step` arguments.
+If the `gradient` attribute is `true`, then the background of the slider is set to a gradient. Currently this only works for vertical sliders.
 If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
 
 ### Type: Raw
@@ -776,6 +780,43 @@ If the `today` property is present, then the default value for the date is set t
 
 The `default_date` property can be used to set a default date. The `default_date` and `today` properties should never both be used.
 
+### Type: Date and Time
+
+Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  hours_id: :v2_uur,
+  minutes_id: :v2_minuten,
+  type: :date_and_time,
+  title: 'Wanneer ben je gestopt?',
+}, {
+  section_start: 'Tot slot',
+  hidden: true,
+  id: :v1,
+  hours_id: :v2_uur,
+  minutes_id: :v2_minuten,
+  type: :date_and_time,
+  today: true,
+  title: 'Wanneer ben je gestopt?',
+  required: true,
+  tooltip: 'some tooltip',
+  placeholder: 'Place holder',
+  min: '2018/06/14',
+  max: '2018/07/20',
+  section_end: true
+}]
+```
+
+The `min` and `max` properties can be either strings as in the above example, or they can be of the following
+form: `min: -15, max: true` meaning that the max is today, and the minimum date is 15 days ago (max can also be set to `false`, which removes any limits).
+
+If the `today` property is present, then the default value for the date is set to today. (e.g., `today: true`)
+
+The `default_date` property can be used to set a default date. The `default_date` and `today` properties should never
+both be used.
+
 ### Type: Unsubscribe
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. 
 Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. 
@@ -859,6 +900,10 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
+
 ### Type: Drawing
 Let's a user draw on an image. 
 Required and allowed options (minimal example and maximal example):
@@ -935,7 +980,7 @@ If `require_all` is missing, it works the same as when specifying `require_all: 
 All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
 The `preprocessing` key is optional, and if provided, should be a hash with a (sub)set of the IDs in `ids` as keys. Each entry in a hash represents how this value will be preprocessed. Currently, only the following operations are supported: `multiply _with`, which multiplies the value with a given number (which can be integer or float, positive or negative), and `offset`, which adds a constant number to the value (this number can also be an integer or float, positive or negative). Both `multiply_with` and `offset` are optional. If both are provided, `multiply_with` is performed first. It is possible to chain operations by defining a new score that takes as input a previously preprocessed score (see below).
 
-- The only currently supported `operation` is `:average`.
+- The only currently supported `operation`s are `:average` and `:sum`.
 - The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:
 
 ```ruby

@@ -54,6 +54,40 @@ describe 'ProtocolSubscriptions API' do
   end
 
   path '/basic_auth_api/protocol_subscriptions/{id}' do
+    patch 'Updates a protocol subscription' do
+      tags 'ProtocolSubscription'
+      consumes 'application/json'
+      security [BasicAuth: {}]
+
+      parameter name: :id, in: :path, type: :string
+      parameter name: :query, in: :body, schema: {
+        type: :object,
+        properties: {
+          external_identifier: { type: :string },
+          end_date: { type: :string }
+        }
+      }
+      let(:protocol_subscription) do
+        FactoryBot.create(:protocol_subscription, external_identifier: 'external_identifier')
+      end
+      let(:id) { protocol_subscription.id }
+      let(:query) do
+        {
+          external_identifier: 'external_identifier',
+          end_date: Time.zone.now.to_s
+        }
+      end
+
+      response '200', 'updates a protocol subscription' do
+        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        run_test!
+      end
+
+      response '401', 'not authenticated' do
+        let(:Authorization) { 'Bearer nil' }
+        run_test!
+      end
+    end
     delete 'Cancels a protocol subscription' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
@@ -109,9 +143,14 @@ describe 'ProtocolSubscriptions API' do
                    current_multiplier: { type: :number },
                    max_streak: { type: :null },
                    initial_multiplier: { type: :number },
+                   start_date: { type: :string },
+                   end_date: { type: :string },
                    name: { type: :string },
                    questionnaires: { type: :array },
-                   first_name: { type: :string }
+                   first_name: { type: :string },
+                   auth0_id_string: { type: :string },
+                   id: { type: :integer },
+                   state: { type: :string }
                  }
                }
         let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
@@ -130,6 +169,63 @@ describe 'ProtocolSubscriptions API' do
           result = JSON.parse(response.body)
           expect(result.length).to eq protocol_subscriptions_other.length
         end
+      end
+
+      response '401', 'not authenticated' do
+        let(:Authorization) { 'Bearer nil' }
+        run_test!
+      end
+    end
+  end
+
+  path '/basic_auth_api/protocol_subscriptions/destroy_delegated_protocol_subscriptions' do
+    delete 'Cancels all protocol subscriptions with a certain external identifier for a user' do
+      tags 'ProtocolSubscription'
+      consumes 'application/json'
+      security [BasicAuth: {}]
+
+      parameter name: :query, in: :body, schema: {
+        type: :object,
+        properties: {
+          auth0_id_string: { type: :string },
+          external_identifier: { type: :string }
+        }
+      }
+      let(:auth_user) { FactoryBot.create(:auth_user) }
+      let(:person) { FactoryBot.create(:person, auth_user: auth_user) }
+      let!(:protocol_subscription) do
+        FactoryBot.create(:protocol_subscription, external_identifier: 'external_identifier', person: person)
+      end
+      let(:query) do
+        {
+          external_identifier: 'external_identifier',
+          auth0_id_string: auth_user.auth0_id_string
+        }
+      end
+
+      response '200', 'cancels protocol subscriptions' do
+        let(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        run_test!
+      end
+
+      response '422', 'external identifier not given' do
+        let(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let(:query) do
+          {
+            auth0_id_string: auth_user.auth0_id_string
+          }
+        end
+        run_test!
+      end
+
+      response '404', 'person not found' do
+        let(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let(:query) do
+          {
+            external_identifier: 'external_identifier'
+          }
+        end
+        run_test!
       end
 
       response '401', 'not authenticated' do

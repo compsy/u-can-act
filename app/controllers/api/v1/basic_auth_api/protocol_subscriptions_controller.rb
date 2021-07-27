@@ -4,9 +4,10 @@ module Api
   module V1
     module BasicAuthApi
       class ProtocolSubscriptionsController < BasicAuthApiController
-        before_action :set_person, only: %i[create]
-        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy]
-        before_action :set_protocol_subscription, only: %i[destroy]
+        before_action :set_person, only: %i[create destroy_delegated_protocol_subscriptions]
+        before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy update
+                                                         destroy_delegated_protocol_subscriptions]
+        before_action :set_protocol_subscription, only: %i[destroy update]
 
         def show_for_mentor
           mentor.my_protocols(false)
@@ -26,8 +27,15 @@ module Api
         end
 
         def delegated_protocol_subscriptions
-          render json: ProtocolSubscription.active.where(external_identifier: @external_identifier),
+          render json: ProtocolSubscription.where(external_identifier: @external_identifier)
+                                           .includes(:person, :protocol, :responses),
                  each_serializer: Api::ProtocolSubscriptionSerializer
+        end
+
+        def destroy_delegated_protocol_subscriptions
+          ProtocolSubscription.active.where(person: @person,
+                                            external_identifier: @external_identifier).each(&:cancel!)
+          destroyed
         end
 
         # This cancels the protocol subscription. Only works if the external_identifier is given.
@@ -36,11 +44,23 @@ module Api
           destroyed
         end
 
+        # This updates the protocol subscription. Only works if the external_identifier is given.
+        # We reschedule the responses with a date that is in the future, for the same reasoning
+        # as is explained in reschedule_responses.rb.
+        def update
+          res = @protocol_subscription.update(protocol_subscription_update_params)
+          return unprocessable_entity(@protocol_subscription.errors) unless res
+
+          RescheduleResponses.run!(protocol_subscription: @protocol_subscription,
+                                   future: TimeTools.increase_by_duration(Time.zone.now, 1.hour))
+          render status: :ok, json: { status: 'ok' }
+        end
+
         private
 
         def set_protocol_subscription
-          @protocol_subscription = ProtocolSubscription.find_by(id: params[:id],
-                                                                external_identifier: @external_identifier)
+          @protocol_subscription = ProtocolSubscription.active.find_by(id: params[:id],
+                                                                       external_identifier: @external_identifier)
           return if @protocol_subscription.present?
 
           not_found(protocol_subscription: 'Protocol subscription met dat ID niet gevonden')
@@ -95,6 +115,10 @@ module Api
 
         def protocol_subscription_create_params
           params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier)
+        end
+
+        def protocol_subscription_update_params
+          params.permit(:end_date)
         end
       end
     end

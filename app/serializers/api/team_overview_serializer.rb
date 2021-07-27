@@ -7,17 +7,17 @@ module Api
 
     def overview
       group = @instance_options[:group]
-      object.map do |team|
+      object.filter_map do |team|
         next if team[:data].blank?
 
         create_team_overview_hash(team, group)
-      end.compact
+      end
     end
 
     private
 
     def create_team_overview_hash(team, group)
-      return create_serializable_hash(team[:name]) unless team[:data].key?(group)
+      return create_serializable_hash(team[:name], 0.0, 0.0, 0.0, 0.0) unless team[:data].key?(group)
 
       create_hash_for_team_with_data(team, group)
     end
@@ -25,15 +25,14 @@ module Api
     def create_hash_for_team_with_data(team, group)
       create_serializable_hash(
         team[:name],
-        team[:data][group][:completed],
-        team[:data][group][:met_threshold_completion],
-        team[:data][group][:percentage_above_threshold],
-        team[:data][group][:total]
+        team[:data][group][:completed] || 0.0,
+        team[:data][group][:met_threshold_completion] || 0.0,
+        team[:data][group][:percentage_above_threshold] || 0.0,
+        team[:data][group][:total] || 0.0
       )
     end
 
-    def create_serializable_hash(name, completed = 0.0, met_threshold_completion = 0.0,
-                                 percentage_threshold = 0.0, total = 0.0)
+    def create_serializable_hash(name, completed, met_threshold_completion, percentage_threshold, total)
       {
         name: name,
         completed: completed,

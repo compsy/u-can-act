@@ -357,7 +357,7 @@ describe Response do
     end
   end
 
-  describe 'external_identifiers', focus: true do
+  describe 'external_identifiers' do
     it 'works when there are clones' do
       prot = FactoryBot.create(:protocol, :with_measurements)
       protsub1 = FactoryBot.create(:protocol_subscription, protocol: prot, external_identifier: 'my-ext-1')

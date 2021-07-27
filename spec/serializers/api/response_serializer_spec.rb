@@ -19,6 +19,7 @@ describe Api::ResponseSerializer do
       completed_at
       values
       external_identifier
+      external_identifiers
       questionnaire
     ]
   end
@@ -65,5 +66,10 @@ describe Api::ResponseSerializer do
   it 'contains the correct value for the external identifier' do
     expect(responseobj.protocol_subscription.external_identifier).not_to be_blank
     expect(json['external_identifier']).to eq responseobj.protocol_subscription.external_identifier
+  end
+
+  it 'contains the correct value for the external identifiers' do
+    expect(responseobj.protocol_subscription.external_identifiers).not_to be_blank
+    expect(json['external_identifier']).to match_array responseobj.protocol_subscription.external_identifiers
   end
 end

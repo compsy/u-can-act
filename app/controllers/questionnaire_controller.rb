@@ -84,8 +84,9 @@ class QuestionnaireController < ApplicationController
       orig_response.collapsible_duplicates.each do |response|
         # we have to override @response because it is used everywhere
         @response = response
-        # Set the opened at to the same time as the original response
-        @response.update!(opened_at: orig_response.opened_at)
+        # Set the opened at to the same time as the original response,
+        # and mark the response as not being an originally filled out response.
+        @response.update!(opened_at: orig_response.opened_at, original: false)
         complete_response
         # if the original response canceled the protocol subscription, so should this one
         # (because if it is the same measurement, it is also a stop measurement).

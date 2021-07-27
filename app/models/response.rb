@@ -21,6 +21,7 @@ class Response < ApplicationRecord
   belongs_to :invitation_set, optional: true
   validates :open_from, presence: true
   validates :uuid, presence: true, uniqueness: true
+  validates :original, inclusion: { in: [true, false] }
 
   after_initialize do |response|
     next if response.uuid.present?
@@ -137,7 +138,10 @@ class Response < ApplicationRecord
             filled_out_by: protocol_subscription.person,
             filled_out_for: protocol_subscription.filling_out_for)
     update_distribution(first_complete)
-    return unless first_complete && protocol_subscription.protocol.push_subscriptions.present? && !csrf_failed?
+
+    # Only push the subscription for this response if it was an original response
+    return unless first_complete && protocol_subscription.protocol.push_subscriptions.present? &&
+                  !csrf_failed? && original?
 
     PushSubscriptionsJob.perform_later(self)
   end
@@ -185,20 +189,40 @@ class Response < ApplicationRecord
   end
 
   # Should return the responses that have the same open_from time and belong to the same measurement and are filled out
-  # by the same person
+  # by the same person. Here we specifically look for instances that are not filled out yet, so we don't overwrite any
+  # existing data.
   def collapsible_duplicates
+    clones.where(completed_at: nil)
+  end
+
+  # Returns external identifiers in an array. Uses the cloned responses to find all external identifiers
+  # belonging to cloned responses.
+  def external_identifiers
+    result = Set.new
+    result.add(external_identifier) if external_identifier.present?
+    if measurement.collapse_duplicates?
+      clones.each do |clone_response|
+        result.add(clone_response.external_identifier) if clone_response.external_identifier.present?
+      end
+    end
+    result.to_a
+  end
+
+  delegate :external_identifier, to: :protocol_subscription
+
+  private
+
+  # Find responses scheduled at the same time of other instances of the same protocol subscription.
+  def clones
     protocol_subscription_ids = person.protocol_subscriptions.active.where.not(id: protocol_subscription_id)
 
     Response.where('open_from <= :the_future AND open_from > :the_past',
                    the_future: TimeTools.increase_by_duration(open_from, COLLAPSIBLE_WINDOW),
                    the_past: TimeTools.increase_by_duration(open_from, -1 * COLLAPSIBLE_WINDOW)).where(
-                     completed_at: nil,
                      measurement_id: measurement_id,
                      protocol_subscription_id: protocol_subscription_ids
                    )
   end
-
-  private
 
   def update_distribution(first_complete)
     return unless Rails.application.config.settings.feature_toggles.realtime_distributions

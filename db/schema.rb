@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_162321) do
+ActiveRecord::Schema.define(version: 2021_07_27_162738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_162321) do
     t.integer "filled_out_for_id"
     t.integer "filled_out_by_id"
     t.integer "invitation_set_id"
+    t.boolean "original", default: true, null: false
     t.index ["filled_out_by_id"], name: "index_responses_on_filled_out_by_id"
     t.index ["filled_out_for_id"], name: "index_responses_on_filled_out_for_id"
     t.index ["invitation_set_id"], name: "index_responses_on_invitation_set_id"

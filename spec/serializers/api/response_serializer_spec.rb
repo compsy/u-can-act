@@ -3,7 +3,11 @@
 require 'rails_helper'
 
 describe Api::ResponseSerializer do
-  let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, external_identifier: 'my-external-id') }
+  let(:protocol_subscription) do
+    FactoryBot.create(:protocol_subscription,
+                      external_identifier: 'my-external-id',
+                      invitation_text_nl: 'invitation-text-nl')
+  end
   let(:responseobj) do
     FactoryBot.create(:response, :completed, opened_at: 10.minutes.ago, protocol_subscription: protocol_subscription)
   end
@@ -21,6 +25,7 @@ describe Api::ResponseSerializer do
       external_identifier
       external_identifiers
       questionnaire
+      invitation_text
     ]
   end
 
@@ -69,7 +74,11 @@ describe Api::ResponseSerializer do
   end
 
   it 'contains the correct value for the external identifiers' do
-    expect(responseobj.protocol_subscription.external_identifiers).not_to be_blank
+    expect(responseobj.external_identifiers).not_to be_blank
     expect(json['external_identifiers']).to match_array responseobj.external_identifiers
+  end
+
+  it 'contains the correct value for the invitation_text' do
+    expect(json['invitation_text']).to eq 'invitation-text-nl'
   end
 end

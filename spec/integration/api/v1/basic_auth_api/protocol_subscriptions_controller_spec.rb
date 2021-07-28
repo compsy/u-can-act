@@ -29,7 +29,9 @@ describe 'ProtocolSubscriptions API' do
           auth0_id_string: { type: :string },
           start_date: { type: :string },
           end_date: { type: :string },
-          mentor_id: { type: :integer }
+          mentor_id: { type: :integer },
+          invitation_text_nl: { type: :string },
+          invitation_text_en: { type: :string }
         }
       }
 

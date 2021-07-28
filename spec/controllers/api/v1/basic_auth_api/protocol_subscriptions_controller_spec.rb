@@ -63,6 +63,18 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
     end
 
+    it 'sets the invitation texts if passed' do
+      post :create, params: { protocol_name: prot_name,
+                              start_date: time.to_s,
+                              invitation_text_nl: 'invitation-text-nl',
+                              invitation_text_en: 'invitation-text-en',
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
+      expect(ProtocolSubscription.last.invitation_text_nl).to eq 'invitation-text-nl'
+      expect(ProtocolSubscription.last.invitation_text_en).to eq 'invitation-text-en'
+    end
+
     it 'should be possible to call the url without a time' do
       Timecop.freeze(time)
       expect(SubscribeToProtocol).to receive(:run!).with(

@@ -81,6 +81,12 @@
                 },
                 "mentor_id": {
                   "type": "integer"
+                },
+                "invitation_text_nl": {
+                  "type": "string"
+                },
+                "invitation_text_en": {
+                  "type": "string"
                 }
               }
             }

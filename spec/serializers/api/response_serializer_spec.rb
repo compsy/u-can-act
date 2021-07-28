@@ -69,7 +69,7 @@ describe Api::ResponseSerializer do
   end
 
   it 'contains the correct value for the external identifiers' do
-    expect(responseobj.protocol_subscription.external_identifiers).not_to be_blank
+    expect(responseobj.external_identifiers).not_to be_blank
     expect(json['external_identifiers']).to match_array responseobj.external_identifiers
   end
 end

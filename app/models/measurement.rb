@@ -55,27 +55,27 @@ class Measurement < ApplicationRecord
     period.present?
   end
 
-  def response_times(start_date, end_date)
+  def response_times(start_date, end_date, open_from_day_uses_start_date_offset)
     return [1.minute.ago.in_time_zone] if protocol.otr_protocol?
 
     # A periodical measurement is one which is recorded every now and then
     # following some srt of protocol / procedure. These measurements need more
     # responses.
-    return periodical_response_times(start_date, end_date) if periodical?
+    return periodical_response_times(start_date, end_date, open_from_day_uses_start_date_offset) if periodical?
 
     # If the offset_till_end is provided, we want the measurement to be open
     # till a certain end date, instead of a start date. This only holds for non
     # periodical questionnaires
     return [open_till(end_date)] if offset_till_end.present?
 
-    [open_from(start_date)]
+    [open_from(start_date, open_from_day_uses_start_date_offset)]
   end
 
   private
 
-  def periodical_response_times(start_date, end_date)
+  def periodical_response_times(start_date, end_date, open_from_day_uses_start_date_offset)
     response_times = []
-    temp_open_from = open_from(start_date)
+    temp_open_from = open_from(start_date, open_from_day_uses_start_date_offset)
     temp_open_till = open_till(end_date)
     while temp_open_from < temp_open_till && response_times.length < MAX_RESPONSES
       response_times << temp_open_from
@@ -111,25 +111,35 @@ class Measurement < ApplicationRecord
   # Note that this may produce an open_from time that is after the end_date, but only for nonperiodical measurements.
   # This is done on purpose (we assume that if people create a measurement, they want it to run). And it will not exceed
   # the end date by more than a week.
-  def open_from(start_date)
-    return open_from_with_offset(start_date) if open_from_day.blank?
-
+  # Also note that if `open_from_day_uses_start_date_offset` is true, then we use the seconds since midnight of
+  # `start_date` instead of the `open_from_offset` as offset for measurements with a defined `open_from_day`.
+  def open_from(start_date, open_from_day_uses_start_date_offset)
     new_start_date = start_date.beginning_of_day
-    while WEEKDAYS[new_start_date.wday] != open_from_day || open_from_with_offset(new_start_date) < start_date
+    start_date_offset = start_date - new_start_date
+
+    # Regular open time if open_from_day is blank. Because we have measurements with open_from_offsets that can be
+    # much larger than 24 hours in which case this math has no point.
+    return open_from_with_offset(start_date, false, start_date_offset) if open_from_day.blank?
+
+    while WEEKDAYS[new_start_date.wday] != open_from_day ||
+          open_from_with_offset(new_start_date, open_from_day_uses_start_date_offset, start_date_offset) < start_date
       # We go to the next day, but if it's daylight savings time switches, the next day can be more or less
       # than 24 hours away, so to be sure we first go to noon the next day, and then back to the beginning
       # of that day.
       new_start_date = TimeTools.increase_by_duration(new_start_date, 36.hours).beginning_of_day
     end
-    open_from_with_offset(new_start_date)
+    open_from_with_offset(new_start_date, open_from_day_uses_start_date_offset, start_date_offset)
   end
 
-  def open_from_with_offset(start_date)
-    if open_from_offset.present?
-      TimeTools.increase_by_duration(start_date, open_from_offset)
-    else
-      start_date
+  def open_from_with_offset(start_date, open_from_day_uses_start_date_offset, start_date_offset)
+    if open_from_day_uses_start_date_offset
+      return TimeTools.increase_by_duration(start_date, start_date_offset) if start_date_offset.present?
+
+      return start_date
     end
+    return TimeTools.increase_by_duration(start_date, open_from_offset) if open_from_offset.present?
+
+    start_date
   end
 
   def either_open_from_or_offset_till_end

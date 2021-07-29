@@ -49,6 +49,10 @@ class ProtocolSubscription < ApplicationRecord
     state == ACTIVE_STATE && !ended?
   end
 
+  def canceled?
+    state == CANCELED_STATE
+  end
+
   def cancel!
     update!(state: CANCELED_STATE, end_date: Time.zone.now)
     DestroyFutureResponsesJob.perform_later(id)

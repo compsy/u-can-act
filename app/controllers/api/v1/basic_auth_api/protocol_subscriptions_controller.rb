@@ -20,7 +20,9 @@ module Api
             start_date: start_date,
             end_date: end_date,
             mentor: mentor,
-            external_identifier: external_identifier
+            external_identifier: external_identifier,
+            invitation_text_nl: protocol_subscription_create_params[:invitation_text_nl],
+            invitation_text_en: protocol_subscription_create_params[:invitation_text_en]
           )
           SendInvitations.run
           render status: :created, json: result
@@ -114,7 +116,8 @@ module Api
         end
 
         def protocol_subscription_create_params
-          params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier)
+          params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier,
+                        :invitation_text_nl, :invitation_text_en)
         end
 
         def protocol_subscription_update_params

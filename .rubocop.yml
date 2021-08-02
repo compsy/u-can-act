@@ -125,7 +125,7 @@ Metrics/ClassLength:
   Max: 768
 
 Metrics/AbcSize:
-  Max: 20
+  Max: 22
   Exclude:
     - 'spec/**/*'
 

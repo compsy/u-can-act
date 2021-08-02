@@ -210,6 +210,23 @@ class Response < ApplicationRecord
 
   delegate :external_identifier, to: :protocol_subscription
 
+  # Returns the localized and evaluated invitation text for this response.
+  def invitation_text
+    GenerateInvitationText.run!(response: self)
+  end
+
+  # Returns all the invitation texts for the group and cloned responses.
+  def invitation_texts
+    result = Set.new
+    result.add(invitation_text)
+    if measurement.collapse_duplicates?
+      clones.each do |clone_response|
+        result.add(clone_response.invitation_text)
+      end
+    end
+    result.to_a
+  end
+
   private
 
   # Find responses scheduled at the same time of other instances of the same protocol subscription.

@@ -24,6 +24,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: mentor,
+        invitation_text_en: nil,
+        invitation_text_nl: nil,
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
@@ -42,6 +44,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: nil,
+        invitation_text_en: nil,
+        invitation_text_nl: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         end_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: external_identifier
@@ -81,6 +85,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         protocol_name: prot_name,
         person: person,
         mentor: mentor,
+        invitation_text_en: nil,
+        invitation_text_nl: 'inv-text-nl',
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
@@ -88,6 +94,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
 
       post :create, params: { protocol_name: prot_name,
                               mentor_id: mentor.id,
+                              invitation_text_nl: 'inv-text-nl',
                               auth0_id_string: auth_user.auth0_id_string }
       expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(Time.zone.now)
       expect(response.status).to eq 201

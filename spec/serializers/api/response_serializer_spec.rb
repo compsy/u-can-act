@@ -25,7 +25,7 @@ describe Api::ResponseSerializer do
       external_identifier
       external_identifiers
       questionnaire
-      invitation_text
+      invitation_texts
     ]
   end
 
@@ -78,7 +78,7 @@ describe Api::ResponseSerializer do
     expect(json['external_identifiers']).to match_array responseobj.external_identifiers
   end
 
-  it 'contains the correct value for the invitation_text' do
-    expect(json['invitation_text']).to eq 'invitation-text-nl'
+  it 'contains the correct value for the invitation_texts' do
+    expect(json['invitation_texts']).to match_array ['invitation-text-nl']
   end
 end

@@ -397,6 +397,46 @@ describe Response do
     end
   end
 
+  describe 'invitation_texts' do
+    it 'works when there are clones' do
+      prot = FactoryBot.create(:protocol, :with_measurements)
+      protsub1 = FactoryBot.create(:protocol_subscription, protocol: prot, invitation_text_nl: 'my-ext-1')
+      protsub2 = FactoryBot.create(:protocol_subscription, person: protsub1.person, protocol: prot,
+                                                           invitation_text_nl: 'my-ext-2')
+      responseobj = FactoryBot.create(:response, :completed, protocol_subscription: protsub1,
+                                                             measurement: prot.measurements[0])
+      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2,
+                                                              measurement: prot.measurements[0])
+      expect(responseobj.invitation_texts).to match_array(%w[my-ext-1 my-ext-2])
+      expect(responseobj2.invitation_texts).to match_array(%w[my-ext-1 my-ext-2])
+    end
+
+    it 'does not work when person is different' do
+      prot = FactoryBot.create(:protocol, :with_measurements)
+      protsub1 = FactoryBot.create(:protocol_subscription, protocol: prot, invitation_text_nl: 'my-ext-1')
+      protsub2 = FactoryBot.create(:protocol_subscription, protocol: prot, invitation_text_nl: 'my-ext-2')
+      responseobj = FactoryBot.create(:response, :completed, protocol_subscription: protsub1,
+                                                             measurement: prot.measurements[0])
+      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2,
+                                                              measurement: prot.measurements[0])
+      expect(responseobj.invitation_texts).to match_array(%w[my-ext-1])
+      expect(responseobj2.invitation_texts).to match_array(%w[my-ext-2])
+    end
+
+    it 'does not work when dates are different is different' do
+      prot = FactoryBot.create(:protocol, :with_measurements)
+      protsub1 = FactoryBot.create(:protocol_subscription, protocol: prot, invitation_text_nl: 'my-ext-1')
+      protsub2 = FactoryBot.create(:protocol_subscription, person: protsub1.person, protocol: prot,
+                                                           invitation_text_nl: 'my-ext-2')
+      responseobj = FactoryBot.create(:response, :completed, open_from: Time.zone.now, protocol_subscription: protsub1,
+                                                             measurement: prot.measurements[0])
+      responseobj2 = FactoryBot.create(:response, :completed, protocol_subscription: protsub2,
+                                                              measurement: prot.measurements[0])
+      expect(responseobj.invitation_texts).to match_array(%w[my-ext-1])
+      expect(responseobj2.invitation_texts).to match_array(%w[my-ext-2])
+    end
+  end
+
   describe 'values' do
     it 'works when there is content' do
       responseobj = FactoryBot.create(:response, :completed)

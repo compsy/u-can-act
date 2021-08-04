@@ -4,12 +4,14 @@ class PreviewProtocol < ActiveInteraction::Base
   object :protocol
   time :future
   time :start_date
-  time :end_date # can be nil
+  time :end_date, default: nil # can be nil
   boolean :open_from_day_uses_start_date_offset, default: false
 
   # Returns the first five responses that would be scheduled for the given protocol.
   def execute
     @responses = []
+    @end_date = end_date
+    @end_date = TimeTools.increase_by_duration(start_date, protocol.duration) if @end_date.blank?
     schedule_responses
     # Return at most five responses
     @responses.sort_by! { |response| response[:open_from] }
@@ -25,7 +27,7 @@ class PreviewProtocol < ActiveInteraction::Base
   end
 
   def schedule_responses_for_measurement(measurement)
-    measurement.response_times(start_date, end_date, open_from_day_uses_start_date_offset).each do |time|
+    measurement.response_times(start_date, @end_date, open_from_day_uses_start_date_offset).each do |time|
       next if in_past? time
 
       @responses << { questionnaire: measurement.questionnaire.key,

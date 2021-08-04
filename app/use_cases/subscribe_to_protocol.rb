@@ -13,8 +13,8 @@ class SubscribeToProtocol < AsyncActiveInteraction
   # Watch out! IF you set a start date here (e.g. = Time.now.in_time_zone) it
   # will set it once, and reuse THAT time everytime. I.e., it will not update
   # the time when time passes.
-  time :start_date, default: nil
-  time :end_date, default: nil
+  time :start_date, default: nil # can be nil (if nil, uses current time)
+  time :end_date, default: nil # can be nil (if nil, uses start_date + protocol.duration in after_create of prot sub)
 
   boolean :only_if_not_subscribed, default: false
 

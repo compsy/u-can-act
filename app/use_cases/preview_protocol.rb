@@ -2,10 +2,12 @@
 
 class PreviewProtocol < ActiveInteraction::Base
   object :protocol
-  time :future
-  time :start_date
-  time :end_date, default: nil # can be nil
+  time :future # supply this as 10.minutes.ago
+  time :start_date # precondition: start_date is not in the past.
+  time :end_date, default: nil # can be nil. precondition: if not nil, then should be after start_date
   boolean :open_from_day_uses_start_date_offset, default: false
+
+  MAX_PREVIEW_RESPONSE_COUNT = 10
 
   # Returns the first ten responses that would be scheduled for the given protocol.
   def execute
@@ -15,7 +17,7 @@ class PreviewProtocol < ActiveInteraction::Base
     schedule_responses
     # Return at most ten responses
     @responses.sort_by! { |response| response[:open_from] }
-    @responses[0...10]
+    @responses[0...MAX_PREVIEW_RESPONSE_COUNT]
   end
 
   private

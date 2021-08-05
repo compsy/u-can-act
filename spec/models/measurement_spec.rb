@@ -338,26 +338,57 @@ describe Measurement do
         expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
       end
       context 'open_from_day' do
-        it 'works' do
-          start_date = Time.new(2017, 10, 10).in_time_zone
-          end_date = TimeTools.increase_by_duration(start_date, 1.week)
-          measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'saturday')
-          expected_times = [TimeTools.increase_by_duration(start_date, 4.days + 12.hours)]
-          expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
+        context 'when open_from_day_uses_start_date_offset is false' do
+          it 'works' do
+            start_date = Time.new(2017, 10, 10, 7).in_time_zone
+            end_date = TimeTools.increase_by_duration(start_date, 1.week)
+            measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'saturday')
+            expected_times = [TimeTools.increase_by_duration(start_date, 4.days + 12.hours - 7.hours)]
+            expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
+          end
+          it 'works for measurements on the same day' do
+            start_date = Time.new(2017, 10, 10, 7).in_time_zone
+            end_date = TimeTools.increase_by_duration(start_date, 1.week)
+            measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
+            expected_times = [TimeTools.increase_by_duration(start_date, 12.hours - 7.hours)]
+            expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
+          end
+          it 'reschedules measurements on the same day but before the start date one week in the future' do
+            start_date = Time.new(2017, 10, 10, 15).in_time_zone
+            # Note that it doesn't use the end date in its calculations since the measurement is not periodic.
+            # The returned response time is actually after the end_date.
+            end_date = TimeTools.increase_by_duration(start_date, 1.week)
+            measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
+            expected_times = [TimeTools.increase_by_duration(start_date.beginning_of_day, 7.days + 12.hours)]
+            expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
+          end
         end
-        it 'works for measurements on the same day' do
-          start_date = Time.new(2017, 10, 10).in_time_zone
-          end_date = TimeTools.increase_by_duration(start_date, 1.week)
-          measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
-          expected_times = [TimeTools.increase_by_duration(start_date, 12.hours)]
-          expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
-        end
-        it 'reschedules measurements on the same day but before the start date one week in the future' do
-          start_date = Time.new(2017, 10, 10, 15).in_time_zone
-          end_date = TimeTools.increase_by_duration(start_date, 1.week)
-          measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
-          expected_times = [TimeTools.increase_by_duration(start_date.beginning_of_day, 7.days + 12.hours)]
-          expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
+        context 'when open_from_day_uses_start_date_offset is true' do
+          it 'works' do
+            start_date = Time.new(2017, 10, 10, 7).in_time_zone
+            end_date = TimeTools.increase_by_duration(start_date, 1.week)
+            # it now ignores the 12.hours and usees the 7.hours from the start date as offset.
+            # hence when we increase the start date by exactly 4.days we get 7am on saturday.
+            measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'saturday')
+            expected_times = [TimeTools.increase_by_duration(start_date, 4.days)]
+            expect(measurement.response_times(start_date, end_date, true)).to eq expected_times
+          end
+          it 'works for measurements on the same day' do
+            start_date = Time.new(2017, 10, 10, 7).in_time_zone
+            end_date = TimeTools.increase_by_duration(start_date, 1.week)
+            # 2017-10-10 is a tuesday so we start the measurement right at the start date (ignoring
+            # the open_from_offset because open_from_day_uses_start_date_offset is true).
+            measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
+            expected_times = [start_date]
+            expect(measurement.response_times(start_date, end_date, true)).to eq expected_times
+          end
+          it 'reschedules measurements on the same day but before the start date at the start date' do
+            start_date = Time.new(2017, 10, 10, 15).in_time_zone
+            end_date = TimeTools.increase_by_duration(start_date, 1.week)
+            measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
+            expected_times = [start_date]
+            expect(measurement.response_times(start_date, end_date, true)).to eq expected_times
+          end
         end
       end
       it 'works with only an offset_till_end' do

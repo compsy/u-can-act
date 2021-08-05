@@ -124,9 +124,7 @@ class Measurement < ApplicationRecord
     # The second check in the guard is for periods that are less than 24 hours. The check fails for some
     # reason if the times are a few nanoseconds apart that's why we check that the difference is more than one second.
     while WEEKDAYS[new_start_date.wday] != open_from_day ||
-          (open_from_with_offset(new_start_date,
-                                 open_from_day_uses_start_date_offset, start_date_offset) < start_date &&
-           start_date - open_from_with_offset(new_start_date,
+          (start_date - open_from_with_offset(new_start_date,
                                               open_from_day_uses_start_date_offset, start_date_offset) > 1)
       # We go to the next day, but if it's daylight savings time switches, the next day can be more or less
       # than 24 hours away, so to be sure we first go to noon the next day, and then back to the beginning

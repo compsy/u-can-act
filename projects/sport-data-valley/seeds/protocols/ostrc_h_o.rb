@@ -1,4 +1,4 @@
-default_protocol_duration = 30.days # evt eerder dynamisch afbreken
+default_protocol_duration = 30.weeks # evt eerder dynamisch afbreken
 
 pr_name = 'ostrc_h_o'
 protocol = Protocol.find_by(name: pr_name)

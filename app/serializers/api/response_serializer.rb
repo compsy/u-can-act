@@ -10,11 +10,18 @@ module Api
     # protocol subscription but from the same person and scheduled at around the same time).
     attributes %i[uuid open_from expires_at opened_at completed_at
                   values external_identifier questionnaire external_identifiers
-                  invitation_texts]
+                  invitation_texts protocol_completion]
 
     # It doesn't work with has_one because for some reason it passes the wrong object
     def questionnaire
       QuestionnaireShortSerializer.new(object.measurement.questionnaire)
+    end
+
+    # Only calculate and send it when we specifically ask for it (e.g., for push subscriptions).
+    def protocol_completion
+      return object.protocol_subscription.protocol_completion if instance_options[:with_protocol_completion]
+
+      []
     end
   end
 end

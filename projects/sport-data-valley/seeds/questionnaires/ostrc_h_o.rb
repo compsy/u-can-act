@@ -29,7 +29,7 @@ shown_questions_participated = PrefixMethods::prefix_all(2, 3, 4)
 dagboek_content = [
   {
     type: :raw,
-    content: '<h4 class="header">OSTRC H+O</h4><p class="flow-text">De volgende vragen gaan over eventuele hinder die je hebt ondervonden bij het sporten door lichamelijke en/of mentale klachten. Kies bij elke vraag het antwoord wat jouw situatie het beste omschrijft. Kies bij twijfel het meest passende antwoord.</p>'
+    content: '<h4 class="header">Fysieke- & gezondheidsklachten vragenlijst</h4><p class="flow-text">De volgende vragen gaan over eventuele hinder die je hebt ondervonden bij het sporten door lichamelijke en/of mentale klachten. Kies bij elke vraag het antwoord wat jouw situatie het beste omschrijft. Kies bij twijfel het meest passende antwoord.</p>'
   },
   {
     id: :v0,

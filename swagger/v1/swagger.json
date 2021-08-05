@@ -87,6 +87,9 @@
                 },
                 "invitation_text_en": {
                   "type": "string"
+                },
+                "open_from_day_uses_start_date_offset": {
+                  "type": "boolean"
                 }
               }
             }

@@ -7,13 +7,13 @@ class PreviewProtocol < ActiveInteraction::Base
   time :end_date, default: nil # can be nil
   boolean :open_from_day_uses_start_date_offset, default: false
 
-  # Returns the first five responses that would be scheduled for the given protocol.
+  # Returns the first ten responses that would be scheduled for the given protocol.
   def execute
     @responses = []
     @end_date = end_date
     @end_date = TimeTools.increase_by_duration(start_date, protocol.duration) if @end_date.blank?
     schedule_responses
-    # Return at most five responses
+    # Return at most ten responses
     @responses.sort_by! { |response| response[:open_from] }
     @responses[0...10]
   end

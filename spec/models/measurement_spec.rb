@@ -312,7 +312,7 @@ describe Measurement do
                           TimeTools.increase_by_duration(start_date, 2.days),
                           TimeTools.increase_by_duration(start_date, 3.days),
                           TimeTools.increase_by_duration(start_date, 4.days)]
-        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+        expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
       end
       it 'works if there is is not an offset_till_end present' do
         start_date = Time.new(2017, 10, 10).in_time_zone
@@ -325,7 +325,7 @@ describe Measurement do
                           TimeTools.increase_by_duration(start_date, 4.days),
                           TimeTools.increase_by_duration(start_date, 5.days),
                           TimeTools.increase_by_duration(start_date, 6.days)]
-        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+        expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
       end
     end
 
@@ -335,7 +335,7 @@ describe Measurement do
         end_date = TimeTools.increase_by_duration(start_date, 1.week)
         measurement = FactoryBot.create(:measurement, open_from_offset: 3.days, offset_till_end: nil)
         expected_times = [TimeTools.increase_by_duration(start_date, 3.days)]
-        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+        expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
       end
       context 'open_from_day' do
         it 'works' do
@@ -343,21 +343,21 @@ describe Measurement do
           end_date = TimeTools.increase_by_duration(start_date, 1.week)
           measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'saturday')
           expected_times = [TimeTools.increase_by_duration(start_date, 4.days + 12.hours)]
-          expect(measurement.response_times(start_date, end_date)).to eq expected_times
+          expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
         end
         it 'works for measurements on the same day' do
           start_date = Time.new(2017, 10, 10).in_time_zone
           end_date = TimeTools.increase_by_duration(start_date, 1.week)
           measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
           expected_times = [TimeTools.increase_by_duration(start_date, 12.hours)]
-          expect(measurement.response_times(start_date, end_date)).to eq expected_times
+          expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
         end
         it 'reschedules measurements on the same day but before the start date one week in the future' do
           start_date = Time.new(2017, 10, 10, 15).in_time_zone
           end_date = TimeTools.increase_by_duration(start_date, 1.week)
           measurement = FactoryBot.create(:measurement, open_from_offset: 12.hours, open_from_day: 'tuesday')
           expected_times = [TimeTools.increase_by_duration(start_date.beginning_of_day, 7.days + 12.hours)]
-          expect(measurement.response_times(start_date, end_date)).to eq expected_times
+          expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
         end
       end
       it 'works with only an offset_till_end' do
@@ -365,7 +365,7 @@ describe Measurement do
         end_date = TimeTools.increase_by_duration(start_date, 1.week)
         measurement = FactoryBot.create(:measurement, open_from_offset: nil, offset_till_end: 5.days)
         expected_times = [TimeTools.increase_by_duration(start_date, 2.days)]
-        expect(measurement.response_times(start_date, end_date)).to eq expected_times
+        expect(measurement.response_times(start_date, end_date, false)).to eq expected_times
       end
     end
   end

@@ -1,4 +1,4 @@
-default_protocol_duration = 1.day # evt eerder dynamisch afbreken
+default_protocol_duration = 30.weeks # evt eerder dynamisch afbreken
 
 pr_name = 'ostrc_h_o'
 protocol = Protocol.find_by(name: pr_name)
@@ -19,17 +19,18 @@ bp_push_subscription.save!
 protocol.save!
 
 name = 'ostrc_h_o'
-squash_questionnaire_id = Questionnaire.find_by(name: name)&.id
-raise "Cannot find questionnaire: #{name}" unless squash_questionnaire_id
+ostrc_h_o_questionnaire_id = Questionnaire.find_by(name: name)&.id
+raise "Cannot find questionnaire: #{name}" unless ostrc_h_o_questionnaire_id
 
-db_measurement = protocol.measurements.where(questionnaire_id: squash_questionnaire_id).first
-db_measurement ||= protocol.measurements.build(questionnaire_id: squash_questionnaire_id)
-db_measurement.period = nil
+db_measurement = protocol.measurements.where(questionnaire_id: ostrc_h_o_questionnaire_id).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: ostrc_h_o_questionnaire_id)
+db_measurement.period = 1.week
 db_measurement.open_duration = 1.day
-db_measurement.open_from_offset = 0
+db_measurement.open_from_offset = 7.hours
+db_measurement.open_from_day = 'monday'
 db_measurement.reward_points = 0
 db_measurement.stop_measurement = true
 db_measurement.should_invite = true
-db_measurement.reminder_delay = 4.hours
+db_measurement.reminder_delay = 9.hours
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 db_measurement.save!

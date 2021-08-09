@@ -87,6 +87,9 @@
                 },
                 "invitation_text_en": {
                   "type": "string"
+                },
+                "open_from_day_uses_start_date_offset": {
+                  "type": "boolean"
                 }
               }
             }
@@ -754,6 +757,9 @@
         "consumes": [
           "application/json"
         ],
+        "produces": [
+          "application/json"
+        ],
         "security": [
           {
             "JwtAuth": {
@@ -762,7 +768,7 @@
         ],
         "responses": {
           "200": {
-            "description": "auth user created",
+            "description": "lists all protocols",
             "schema": {
               "type": "array",
               "items": {
@@ -771,20 +777,26 @@
                   "name": {
                     "type": "string"
                   },
-                  "created_at": {
+                  "duration": {
                     "type": "datetime"
                   },
-                  "duration": {
-                    "type": "integer"
+                  "created_at": {
+                    "type": "datetime"
                   },
                   "updated_at": {
                     "type": "datetime"
                   },
-                  "invitation_text": {
-                    "type": "string"
-                  },
                   "informed_consent_questionnaire_id": {
-                    "type": "integer"
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "invitation_text": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 }
               }
@@ -792,6 +804,62 @@
           },
           "401": {
             "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/protocol/{id}/preview": {
+      "post": {
+        "summary": "Preview a protocol",
+        "tags": [
+          "Protocols"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "JwtAuth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Name of the protocol to preview",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "preview a protocol",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "open_from": {
+                    "type": "datetime",
+                    "description": "The open_from date of the response"
+                  },
+                  "questionnaire": {
+                    "type": "string",
+                    "description": "The key of the questionnaire"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "not authenticated"
+          },
+          "404": {
+            "description": "no protocol found by that name"
           }
         }
       }

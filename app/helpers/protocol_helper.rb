@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module ProtocolHelper
+  MINIMUM_PROTOCOL_DURATION = 1.hour
+
   def start_date(start_date_str)
     return Time.zone.now if start_date_str.blank?
 
@@ -17,7 +19,7 @@ module ProtocolHelper
     # The limit is to make it more fool proof, i.e., there's no case in which
     # you would want to start a protocol shorter than one hour (or at least
     # if there is such a case, we don't allow it through this API).
-    minimum_end_date = TimeTools.increase_by_duration(start_date(start_date_str), 1.hour)
+    minimum_end_date = TimeTools.increase_by_duration(start_date(start_date_str), MINIMUM_PROTOCOL_DURATION)
 
     [Time.zone.parse(end_date_str), minimum_end_date].max
   end

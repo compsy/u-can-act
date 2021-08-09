@@ -26,6 +26,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         mentor: mentor,
         invitation_text_en: nil,
         invitation_text_nl: nil,
+        open_from_day_uses_start_date_offset: nil,
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
@@ -46,6 +47,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         mentor: nil,
         invitation_text_en: nil,
         invitation_text_nl: nil,
+        open_from_day_uses_start_date_offset: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         end_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: external_identifier
@@ -79,6 +81,46 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       expect(ProtocolSubscription.last.invitation_text_en).to eq 'invitation-text-en'
     end
 
+    it 'sets the open_from_day_uses_start_date_offset if passed as boolean' do
+      post :create, params: { protocol_name: prot_name,
+                              start_date: time.to_s,
+                              open_from_day_uses_start_date_offset: true,
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
+      expect(ProtocolSubscription.last.open_from_day_uses_start_date_offset).to be_truthy
+    end
+
+    it 'sets the open_from_day_uses_start_date_offset if passed as string' do
+      post :create, params: { protocol_name: prot_name,
+                              start_date: time.to_s,
+                              open_from_day_uses_start_date_offset: 'true',
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
+      expect(ProtocolSubscription.last.open_from_day_uses_start_date_offset).to be_truthy
+    end
+
+    it 'can pass false as a value to be interpreted falsely if passed as string' do
+      post :create, params: { protocol_name: prot_name,
+                              start_date: time.to_s,
+                              open_from_day_uses_start_date_offset: 'false',
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
+      expect(ProtocolSubscription.last.open_from_day_uses_start_date_offset).to be_falsey
+    end
+
+    it 'can pass false as a value to be interpreted falsely if passed as boolean' do
+      post :create, params: { protocol_name: prot_name,
+                              start_date: time.to_s,
+                              open_from_day_uses_start_date_offset: false,
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
+      expect(ProtocolSubscription.last.open_from_day_uses_start_date_offset).to be_falsey
+    end
+
     it 'should be possible to call the url without a time' do
       Timecop.freeze(time)
       expect(SubscribeToProtocol).to receive(:run!).with(
@@ -87,6 +129,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         mentor: mentor,
         invitation_text_en: nil,
         invitation_text_nl: 'inv-text-nl',
+        open_from_day_uses_start_date_offset: 'true',
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         external_identifier: nil
@@ -95,6 +138,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       post :create, params: { protocol_name: prot_name,
                               mentor_id: mentor.id,
                               invitation_text_nl: 'inv-text-nl',
+                              open_from_day_uses_start_date_offset: true,
                               auth0_id_string: auth_user.auth0_id_string }
       expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(Time.zone.now)
       expect(response.status).to eq 201

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_180057) do
+ActiveRecord::Schema.define(version: 2021_07_28_192805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_180057) do
     t.string "informed_consent_content"
     t.string "invitation_text_nl"
     t.string "invitation_text_en"
+    t.boolean "open_from_day_uses_start_date_offset", default: false, null: false
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id"
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id"
   end

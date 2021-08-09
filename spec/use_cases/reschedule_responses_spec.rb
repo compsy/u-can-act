@@ -72,8 +72,11 @@ describe RescheduleResponses do
                Time.zone.local(2017, 10, 11),
                Time.zone.local(2017, 10, 12),
                Time.zone.local(2017, 10, 13)]
-      expect_any_instance_of(Measurement).to receive(:response_times).with(protocol_subscription.start_date,
-                                                                           protocol_subscription.end_date)
+      expect_any_instance_of(Measurement).to receive(:response_times).with(
+        protocol_subscription.start_date,
+        protocol_subscription.end_date,
+        protocol_subscription.open_from_day_uses_start_date_offset
+      )
                                                                      .and_return(times)
       expect(Response.count).to eq(0)
       described_class.run!(protocol_subscription: protocol_subscription, future: future)
@@ -122,7 +125,8 @@ describe RescheduleResponses do
 
         expect_any_instance_of(Measurement).to receive(:response_times).with(
           protocol_subscription.start_date,
-          protocol_subscription.end_date
+          protocol_subscription.end_date,
+          protocol_subscription.open_from_day_uses_start_date_offset
         ).and_call_original
 
         expect(Response.count).to eq(1)
@@ -137,7 +141,8 @@ describe RescheduleResponses do
 
         expect_any_instance_of(Measurement).to receive(:response_times).with(
           protocol_subscription.start_date,
-          protocol_subscription.end_date
+          protocol_subscription.end_date,
+          protocol_subscription.open_from_day_uses_start_date_offset
         ).and_call_original
 
         expect(Response.count).to eq(0)
@@ -169,7 +174,8 @@ describe RescheduleResponses do
 
         expect_any_instance_of(Measurement).to receive(:response_times).with(
           protocol_subscription.start_date,
-          protocol_subscription.end_date
+          protocol_subscription.end_date,
+          protocol_subscription.open_from_day_uses_start_date_offset
         ).and_call_original
 
         expect(Response.count).to eq(1)

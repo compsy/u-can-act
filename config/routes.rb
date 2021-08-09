@@ -90,7 +90,11 @@ Rails.application.routes.draw do
             get :my_active_and_inactive
           end
         end
-        resources :protocol, only: [:index]
+        resources :protocol, only: [:index] do
+          member do
+            post :preview
+          end
+        end
       end
 
       # JWT and Cookie apis

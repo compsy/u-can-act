@@ -31,7 +31,8 @@ describe 'ProtocolSubscriptions API' do
           end_date: { type: :string },
           mentor_id: { type: :integer },
           invitation_text_nl: { type: :string },
-          invitation_text_en: { type: :string }
+          invitation_text_en: { type: :string },
+          open_from_day_uses_start_date_offset: { type: :boolean }
         }
       }
 

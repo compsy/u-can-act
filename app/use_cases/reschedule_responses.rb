@@ -24,7 +24,9 @@ class RescheduleResponses < ActiveInteraction::Base
   end
 
   def schedule_responses_for_measurement(measurement)
-    measurement.response_times(protocol_subscription.start_date, protocol_subscription.end_date).each do |time|
+    measurement.response_times(protocol_subscription.start_date,
+                               protocol_subscription.end_date,
+                               protocol_subscription.open_from_day_uses_start_date_offset).each do |time|
       # TODO: We can speed this up by not scheduling responses that are too far in the future
       #       But only for protocols that require rescheduling (e.g., periodical protocols).
       #       Because for other protocols we schedule all responses at once and never do rescheduling.

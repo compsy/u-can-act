@@ -8,12 +8,13 @@ class SubscribeToProtocol < AsyncActiveInteraction
   string :external_identifier, default: nil
   string :invitation_text_nl, default: nil
   string :invitation_text_en, default: nil
+  boolean :open_from_day_uses_start_date_offset, default: false
 
   # Watch out! IF you set a start date here (e.g. = Time.now.in_time_zone) it
   # will set it once, and reuse THAT time everytime. I.e., it will not update
   # the time when time passes.
-  time :start_date, default: nil
-  time :end_date, default: nil
+  time :start_date, default: nil # can be nil (if nil, uses current time)
+  time :end_date, default: nil # can be nil (if nil, uses start_date + protocol.duration in after_create of prot sub)
 
   boolean :only_if_not_subscribed, default: false
 
@@ -44,7 +45,8 @@ class SubscribeToProtocol < AsyncActiveInteraction
       end_date: end_date,
       external_identifier: external_identifier,
       invitation_text_nl: invitation_text_nl,
-      invitation_text_en: invitation_text_en
+      invitation_text_en: invitation_text_en,
+      open_from_day_uses_start_date_offset: open_from_day_uses_start_date_offset
     )
   end
 

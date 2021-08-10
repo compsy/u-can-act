@@ -12,7 +12,12 @@ class PushSubscription < ApplicationRecord
     HTTParty.send(method.downcase.to_sym,
                   url,
                   headers: { Authorization: "Bearer #{response.person.auth_user.generate_token}" },
-                  body: { raw_data: { 'serviceName' => 'u-can-act',
-                                      'data' => Api::ResponseSerializer.new(response).as_json }.to_json })
+                  body: {
+                    raw_data: {
+                      'serviceName' => 'u-can-act',
+                      'data' => Api::ResponseSerializer.new(response,
+                                                            with_protocol_completion: true).as_json
+                    }.to_json
+                  })
   end
 end

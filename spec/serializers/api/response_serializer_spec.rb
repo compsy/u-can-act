@@ -26,6 +26,7 @@ describe Api::ResponseSerializer do
       external_identifiers
       questionnaire
       invitation_texts
+      protocol_completion
     ]
   end
 
@@ -80,5 +81,20 @@ describe Api::ResponseSerializer do
 
   it 'contains the correct value for the invitation_texts' do
     expect(json['invitation_texts']).to match_array ['invitation-text-nl']
+  end
+
+  it 'contains an empty protocol completion if we do not pass a parameter' do
+    expect(json['protocol_completion']).to match_array([])
+  end
+
+  it 'contains a protocol completion if we do pass a parameter' do
+    json = described_class.new(responseobj, with_protocol_completion: true).as_json.with_indifferent_access
+    expected = [{ 'completed' => true,
+                  'future' => false,
+                  'future_or_current' => false,
+                  'periodical' => false,
+                  'reward_points' => 1,
+                  'streak' => -1 }]
+    expect(json['protocol_completion']).to match_array(expected)
   end
 end

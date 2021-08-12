@@ -19,6 +19,7 @@ stages:
   # - test
   - release
   - deploy
+  - post-deploy
 
 variables:
   # Workaround for error in DIND:

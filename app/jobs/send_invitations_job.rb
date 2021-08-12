@@ -36,9 +36,16 @@ class SendInvitationsJob < ApplicationJob
 
   private
 
+  # Generates an invitation text based on all the responses
   def create_invitation_text(responses)
-    # Generates an invitation text based on the first response
-    GenerateInvitationText.run!(response: responses.first)
+    result = Set.new
+    responses.each do |response|
+      # NOTE: If the generate invitation text spits out a random response,
+      #       and we have multiple responses for people to fill out, then you will see the same
+      #       amount of invitation texts here joined with a &.
+      result.add(response.invitation_text)
+    end
+    result.to_a.join(' & ')
   end
 
   def finalize_and_schedule_invitation_set(invitation_set)

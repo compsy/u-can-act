@@ -4,6 +4,8 @@ module Api
   module V1
     module BasicAuthApi
       class ProtocolSubscriptionsController < BasicAuthApiController
+        include ProtocolHelper
+
         before_action :set_person, only: %i[create destroy_delegated_protocol_subscriptions]
         before_action :set_external_identifier, only: %i[delegated_protocol_subscriptions destroy update
                                                          destroy_delegated_protocol_subscriptions]
@@ -17,10 +19,15 @@ module Api
           result = SubscribeToProtocol.run!(
             protocol_name: protocol_subscription_create_params[:protocol_name],
             person: @person,
-            start_date: start_date,
-            end_date: end_date,
+            start_date: start_date(protocol_subscription_create_params[:start_date]),
+            end_date: end_date(protocol_subscription_create_params[:start_date],
+                               protocol_subscription_create_params[:end_date]),
             mentor: mentor,
-            external_identifier: external_identifier
+            external_identifier: external_identifier,
+            invitation_text_nl: protocol_subscription_create_params[:invitation_text_nl],
+            invitation_text_en: protocol_subscription_create_params[:invitation_text_en],
+            open_from_day_uses_start_date_offset:
+              protocol_subscription_create_params[:open_from_day_uses_start_date_offset]
           )
           SendInvitations.run
           render status: :created, json: result
@@ -66,27 +73,6 @@ module Api
           not_found(protocol_subscription: 'Protocol subscription met dat ID niet gevonden')
         end
 
-        def start_date
-          return Time.zone.now if protocol_subscription_create_params[:start_date].blank?
-
-          # The start date cannot be in the past.
-          [Time.zone.parse(protocol_subscription_create_params[:start_date]), Time.zone.now].max
-        end
-
-        def end_date
-          return nil if protocol_subscription_create_params[:end_date].blank?
-
-          # The duration between start and end date should be at least one hour.
-          # There is no specific reason for having a one hour minimum, it's an
-          # artibtrary amount of time that should be enough to fill out any questionnaire.
-          # The limit is to make it more fool proof, i.e., there's no case in which
-          # you would want to start a protocol shorter than one hour (or at least
-          # if there is such a case, we don't allow it through this API).
-          minimum_end_date = TimeTools.increase_by_duration(start_date, 1.hour)
-
-          [Time.zone.parse(protocol_subscription_create_params[:end_date]), minimum_end_date].max
-        end
-
         def mentor
           @mentor ||= Person.find_by(id: protocol_subscription_create_params[:mentor_id])
         end
@@ -114,7 +100,8 @@ module Api
         end
 
         def protocol_subscription_create_params
-          params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier)
+          params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier,
+                        :invitation_text_nl, :invitation_text_en, :open_from_day_uses_start_date_offset)
         end
 
         def protocol_subscription_update_params

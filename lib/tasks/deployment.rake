@@ -9,7 +9,6 @@ namespace :deployment do
     @args = args
     puts "Creating project '#{@args[:project_name]}' - started"
 
-    # rubocop:disable Metrics/AbcSize
     def create_env_local_file
       if File.file?(Rails.root.join('.env.local'))
         puts 'File .env.local already exists'
@@ -26,7 +25,6 @@ namespace :deployment do
         f.puts "SITE_LOCATION:     http://#{@args[:project_name]}.io"
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     def get_relative_filenames(directory)
       Dir.glob(File.join(File.expand_path(directory), '**', '*'))

@@ -43,7 +43,6 @@ class RangeGenerator < QuestionTypeGenerator
     tag.div('', class: 'range-value-label')
   end
 
-  # rubocop:disable Metrics/AbcSize
   def range_slider(question)
     minmax = range_slider_minmax(question)
     step = question[:step] || 1
@@ -60,7 +59,6 @@ class RangeGenerator < QuestionTypeGenerator
     end
     range_slider_with_ticks(minmax: minmax, step: step, question: question, range_options: range_options)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def range_question_options(minmax:, step:, question:)
     {

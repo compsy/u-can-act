@@ -33,7 +33,62 @@ def create_ponder_question(id, title, negative, positive)
     ],
     min: 0,
     max: 100,
-    step: 1
+    step: 1,
+    value: 0
+  }
+end
+
+def create_start_recovery_question_fysiek
+  {
+    id: :herstel_fysiek,
+    type: :radio,
+    required: true,
+    title: 'Hoe goed ben je fysiek hersteld?',
+    options: [
+      '6',
+      '7 (heel, heel slecht hersteld)',
+      '8',
+      '9 (heel slecht hersteld)',
+      '10',
+      '11 (slecht hersteld)',
+      '12',
+      '13 (redelijk hersteld)',
+      '14',
+      '15 (goed hersteld)',
+      '16',
+      '17 (heel goed hersteld)',
+      '18',
+      '19 (heel, heel goed hersteld)',
+      '20'
+    ],
+    show_otherwise: false
+  }
+end
+
+def create_start_recovery_question_mentaal()
+  {
+    id: :herstel_mentaal,
+    type: :radio,
+    required: true,
+    title: 'Hoe goed ben je mentaal hersteld?',
+    options: [
+      '6',
+      '7 (heel, heel slecht hersteld)',
+      '8',
+      '9 (heel slecht hersteld)',
+      '10',
+      '11 (slecht hersteld)',
+      '12',
+      '13 (redelijk hersteld)',
+      '14',
+      '15 (goed hersteld)',
+      '16',
+      '17 (heel goed hersteld)',
+      '18',
+      '19 (heel, heel goed hersteld)',
+      '20'
+    ],
+    show_otherwise: false
   }
 end
 
@@ -65,21 +120,20 @@ def create_monday_ponder_questions()
     },
     create_ponder_question(
       :vertrouwen,
-      'Hoe zeker ben je ervan dat je de ECO kan halen?',
+      'Hoe zeker ben je ervan dat je de opleiding kan halen?',
       'helemaal niet zeker',
       'heel erg zeker'
     ),
     create_ponder_question(
       :motivatie,
-      'Hoe gemotiveerd ben je om de ECO te halen?',
+      'Hoe gemotiveerd ben je om de opleiding te halen?',
       'helemaal niet gemotiveerd',
       'heel erg gemotiveerd'
     )
   ]
 end
 
-def create_friday_ponder_questions()
-  [
+def create_inspannend_question()
     {
       id: :inspannend,
       type: :radio,
@@ -103,22 +157,123 @@ def create_friday_ponder_questions()
         '20'
       ],
       show_otherwise: false,
-    },
-    create_ponder_question(
-      :prestatie,
-      'Hoe goed heb jij deze week gepresteerd?',
-      'ver beneden je kunnen',
-      'op de top van je kunnen'
-    )
-  ]
+    }
 end
 
-def create_medic_question()
+def create_prestatie_question()
+  create_ponder_question(
+    :prestatie,
+    'Hoe goed heb je deze week gepresteerd?',
+    'ver beneden mijn kunnen',
+    'op de top van mijn kunnen'
+  )
+end
+
+def create_prestatie_future_question()
+  create_ponder_question(
+    :prestatie_future,
+    'Hoe zeker ben je ervan dat je deze week maximaal kan presteren?',
+    'helemaal niet zeker',
+    'heel erg zeker'
+  )
+end
+
+def create_fysiek_question()
+  {
+    id: :fysiek,
+    type: :radio,
+    required: true,
+    title: 'Hoe fysiek inspannend was deze week voor jou?',
+    options: [
+      '6',
+      '7 (heel, heel licht inspannend)',
+      '8',
+      '9 (heel licht inspannend)',
+      '10',
+      '11 (licht inspannend)',
+      '12',
+      '13 (redelijk inspannend)',
+      '14',
+      '15 (inspannend)',
+      '16',
+      '17 (heel inspannend)',
+      '18',
+      '19 (heel, heel inspannend)',
+      '20'
+    ],
+    show_otherwise: false,
+  }
+end
+
+def create_mentaal_question()
+  {
+    id: :mentaal,
+    type: :radio,
+    required: true,
+    title: 'Hoe mentaal inspannend was deze week voor jou?',
+    options: [
+      '6',
+      '7 (heel, heel licht inspannend)',
+      '8',
+      '9 (heel licht inspannend)',
+      '10',
+      '11 (licht inspannend)',
+      '12',
+      '13 (redelijk inspannend)',
+      '14',
+      '15 (inspannend)',
+      '16',
+      '17 (heel inspannend)',
+      '18',
+      '19 (heel, heel inspannend)',
+      '20'
+    ],
+    show_otherwise: false,
+  }
+end
+
+def create_prestatiedruk_question()
+  create_ponder_question(
+    :prestatiedruk,
+    'Hoeveel prestatiedruk heb je deze week ervaren?',
+    'helemaal geen prestatiedruk',
+    'heel veel prestatiedruk'
+  )
+end
+
+def create_leerstof_question()
+  create_ponder_question(
+    :leerstof,
+    'Hoe goed kon je deze week de leerstof verwerken?',
+    'heel erg slecht',
+    'heel erg goed'
+  )
+end
+
+def create_sfeer_question()
+  create_ponder_question(
+    :sfeer,
+    'Hoe vind je de sfeer in de groep?',
+    'heel erg slecht',
+    'heel erg goed'
+  )
+end
+
+def create_sleep_quality_question()
+  create_ponder_question(
+    :sleep_quality,
+    'Hoe goed heb je de afgelopen 3 nachten geslapen?',
+    'heel erg slecht',
+    'heel erg goed'
+  )
+end
+
+def create_medic_question(im)
   [
     {
       id: :plaats_expandable,
       type: :expandable,
-      title: 'Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je de afgelopen week klachten had en hoeveel last je had. Je kunt een plaats selecteren via de knop "Voeg plaats toe".',
+      title: 'Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je deze week klachten had en hoeveel last je had. Je kunt een plaats selecteren via de knop "Voeg plaats toe".',
       add_button_label: 'Voeg plaats toe',
       max_expansions: 5,
       remove_button_label: 'Verwijder plaats',
@@ -142,17 +297,19 @@ def create_medic_question()
           labels: ['0 = geen pijn', '10 = ergst denkbare pijn'],
           min: 0,
           max: 10,
-          step: 1
+          step: 1,
+          value: 0
         }
       ]
     },
     {
       type: :raw,
-      content: '
+      # String substitution only works for double quoted strings.
+      content: "
       <center>
-        <img src="/images/questionnaires/kct/blessures.jpg" style="width: 80%; margin-left: 3rem;" />
+        <img src=\"/images/questionnaires/kct/#{im}\" style=\"width: 80%; margin-left: 3rem;\" />
       </center>
-      '
+      "
     }
   ]
 end
@@ -162,7 +319,7 @@ def create_event_question()
     id: :gebeurd_expandable,
     type: :expandable,
     max_expansions: 5,
-    title: 'Is er in de afgelopen week iets belangrijks gebeurd? Zo ja, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
+    title: 'Is er in de deze week iets belangrijks gebeurd? Zo ja, kun je een gebeurtenis toevoegen via de knop "Voeg gebeurtenis toe".',
     add_button_label: 'Voeg gebeurtenis toe',
     remove_button_label: 'Verwijder gebeurtenis',
     content: [
@@ -190,7 +347,8 @@ def create_event_question()
         labels: ['0 = zeer negatief', '10 = zeer positief'],
         min: 0,
         max: 10,
-        step: 1
+        step: 1,
+        value: 0
       },
       {
         id: :gebeurtenis_tekst,
@@ -207,11 +365,24 @@ def create_srss_question(title, examples)
     id: title.gsub(/\s+/, "_").downcase.to_sym,
     type: :range,
     required: true,
-    title: sprintf('<b>%s</b>, bijvoorbeeld: %s.', title, examples),
+    title: sprintf('<b>%s</b>, b.v. %s.', title, examples),
     labels: ['0 = helemaal niet van toepassing', '6 = helemaal van toepassing'],
     min: 0,
     max: 6,
-    step: 1
+    step: 1,
+    value: 0
+  }
+end
+
+def create_extra_vco_questions_text()
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Hieronder vind je enkele aanvullende vragen.
+      Geef aan in welke mate ze voor jou op dit moment van toepassing zijn.
+    </p>
+    '
   }
 end
 
@@ -221,28 +392,28 @@ def create_srss_questions()
       type: :raw,
       content: '
       <p class="flow-text section-explanation">
-        Hieronder vind je een lijst met uitdrukkingen, die verschillende aspecten van jouw hersteltoestand beschrijven.
+        Hieronder vind je een lijst met uitdrukkingen die verschillende aspecten van jouw hersteltoestand beschrijven.
         Geef aan hoe jij je <b>op dit moment</b> voelt, in vergelijking met je beste hersteltoestand ooit.
       </p>
       '
     },
-    create_srss_question('Fysiek prestatievermogen', 'sterk; fysiek fit; energiek; vol energie'),
-    create_srss_question('Mentaal prestatievermogen', 'alert; ontvankelijk; mentaal scherp; geconcentreerd'),
-    create_srss_question('Emotionele balans', 'tevreden; stabiel; in een goede bui; alles onder controle hebben'),
-    create_srss_question('Algeheel herstel', 'hersteld; uitgerust; ontspannen spieren; fysiek ontspannen'),
+    create_srss_question('Fysiek prestatievermogen', 'sterk, fysiek fit, energiek, vol energie'),
+    create_srss_question('Mentaal prestatievermogen', 'alert, ontvankelijk, mentaal scherp, geconcentreerd'),
+    create_srss_question('Emotionele balans', 'tevreden, stabiel, in een goede stemming, alles onder controle'),
+    create_srss_question('Algeheel herstel', 'hersteld, uitgerust, ontspannen spieren, fysiek ontspannen'),
     {
       type: :raw,
       content: '
       <p class="flow-text section-explanation">
-        Hieronder vind je een lijst met uitdrukkingen, die verschillende aspecten van jouw stresstoestand beschrijven.
+        Hieronder vind je een lijst met uitdrukkingen die verschillende aspecten van jouw stresstoestand beschrijven.
         Geef aan hoe jij je <b>op dit moment</b> voelt, in vergelijking met je hoogste stresstoestand ooit.
       </p>
       '
     },
-    create_srss_question('Stress op spieren', 'uitgeputte spieren; vermoeide spieren; spierpijn; stijve spieren'),
-    create_srss_question('Gebrek aan bezieling', 'ongemotiveerd; sloom; niet enthousiast; gebrek aan energie'),
-    create_srss_question('Negatieve emotionele toestand', 'neerslachtig; gestressed; geïrriteerd; opvliegend'),
-    create_srss_question('Algehele stress', 'moe; versleten; overbelast; fysiek uitgeput')
+    create_srss_question('Stress op spieren', 'uitgeputte spieren, vermoeide spieren, spierpijn, stijve spieren'),
+    create_srss_question('Gebrek aan bezieling', 'ongemotiveerd, sloom, niet enthousiast, gebrek aan energie'),
+    create_srss_question('Negatieve emotionele toestand', 'neerslachtig, gestrest, geïrriteerd, lichtgeraakt (kort lontje)'),
+    create_srss_question('Algehele stress', 'vermoeid, afgemat, overbelast, fysiek uitgeput')
   ]
 end
 
@@ -255,7 +426,8 @@ def create_sleep_question(id, title)
     labels: ['1 = helemaal niet van toepassing', '5 = helemaal van toepassing'],
     min: 1,
     max: 5,
-    step: 1
+    step: 1,
+    value: 1
   }
 end
 
@@ -293,11 +465,10 @@ questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = 'start'
 
 content = [
-  create_number_question(),
   create_weight_question(),
   *create_monday_ponder_questions(),
   *create_srss_questions(),
-  *create_medic_question(),
+  *create_medic_question("blessures.jpg"),
   create_event_question()
 ]
 
@@ -315,9 +486,53 @@ questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = 'eind'
 
 content = [
-  create_number_question(),
-  *create_friday_ponder_questions(),
-  *create_sleep_questions()
+  create_inspannend_question(),
+  create_prestatie_question()
+]
+
+questionnaire.content = { questions: content, scores: [] }
+questionnaire.title = title
+questionnaire.save!
+
+###
+# Start van de week VCO
+###
+title = 'Start van de week VCO'
+name = 'KCT Start van de week VCO'
+questionnaire = Questionnaire.find_by(name: name)
+questionnaire ||= Questionnaire.new(name: name)
+questionnaire.key = 'startvco'
+
+content = [
+  create_start_recovery_question_fysiek(),
+  create_start_recovery_question_mentaal(),
+  *create_srss_questions(),
+  create_extra_vco_questions_text(),
+  create_sfeer_question(),
+  create_prestatie_future_question(),
+  create_sleep_quality_question(),
+  *create_medic_question("operator.png"),
+]
+
+questionnaire.content = { questions: content, scores: [] }
+questionnaire.title = title
+questionnaire.save!
+
+###
+# Eind van de week VCO
+###
+title = 'Eind van de week VCO'
+name = 'KCT Eind van de week VCO'
+questionnaire = Questionnaire.find_by(name: name)
+questionnaire ||= Questionnaire.new(name: name)
+questionnaire.key = 'eindvco'
+
+content = [
+  create_fysiek_question(),
+  create_mentaal_question(),
+  create_prestatiedruk_question(),
+  create_prestatie_question(),
+  create_leerstof_question()
 ]
 
 questionnaire.content = { questions: content, scores: [] }

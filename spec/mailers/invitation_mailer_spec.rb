@@ -18,7 +18,7 @@ describe InvitationMailer do
       allow(subject).to receive(:mail).and_return(true)
       expect(subject.instance_variable_get(:@invitation_url)).to be_blank
       expect(subject.instance_variable_get(:@message)).to be_blank
-      subject.invitation_mail(email_address, message, invitation_url)
+      subject.invitation_mail(email_address, message, invitation_url, 'myprotocol')
       expect(subject.instance_variable_get(:@invitation_url)).not_to be_blank
       expect(subject.instance_variable_get(:@invitation_url)).to eq invitation_url
 
@@ -28,7 +28,7 @@ describe InvitationMailer do
 
     it 'calls the mail function with the correct subject and to address' do
       allow(subject).to receive(:mail).with(subject: InvitationMailer::DEFAULT_INVITATION_SUBJECT, to: email_address)
-      subject.invitation_mail(email_address, message, invitation_url)
+      subject.invitation_mail(email_address, message, invitation_url, 'myprotocol')
     end
   end
 

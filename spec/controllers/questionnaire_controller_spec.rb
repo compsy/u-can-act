@@ -627,7 +627,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'returns some error message' do
         post :interactive_render, params: { content: content }
-        expect(response.body).to eq({ error: "767: unexpected token at 'notjson'" }.to_json)
+        expect(response.body).to eq({ error: "809: unexpected token at 'notjson'" }.to_json)
       end
     end
   end

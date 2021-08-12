@@ -16,11 +16,25 @@ class GenerateInvitationText < ActiveInteraction::Base
   private
 
   def generate_text(response)
-    invitation_text = response.protocol_subscription.protocol.invitation_text
+    invitation_text = generate_localized_text(response)
     return invitation_text if invitation_text.present?
+
     return mentor_texts(response) if response.protocol_subscription.person.mentor?
 
     student_texts(response)
+  end
+
+  def generate_localized_text(response)
+    invitation_text = response.protocol_subscription.protocol.invitation_text
+    if response.protocol_subscription.invitation_text_nl.present? &&
+       response.protocol_subscription.person.locale == 'nl'
+      invitation_text = response.protocol_subscription.invitation_text_nl
+    end
+    if response.protocol_subscription.invitation_text_en.present? &&
+       response.protocol_subscription.person.locale == 'en'
+      invitation_text = response.protocol_subscription.invitation_text_en
+    end
+    invitation_text
   end
 
   def student_texts(response)

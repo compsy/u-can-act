@@ -2,7 +2,7 @@
 
 class Questionnaire < ApplicationRecord
   include ConversionHelper
-  KNOWN_OPERATIONS = %i[average].freeze
+  KNOWN_OPERATIONS = %i[average sum].freeze
   OPTIONS_REQUIRED_FOR = %i[checkbox likert radio dropdown].freeze
   QUESTIONS_WITHOUT_TITLES = %i[raw unsubscribe].freeze
   RANGE_QUESTION_TYPES = %i[range].freeze
@@ -171,7 +171,7 @@ class Questionnaire < ApplicationRecord
     return if result.blank?
 
     errors.add(:content, 'the following questions are missing their required :options' \
-      " array attribute: #{result.pretty_inspect}")
+                         " array attribute: #{result.pretty_inspect}")
   end
 
   def non_empty_array?(question, attr)

@@ -67,4 +67,18 @@ describe SubscribeToProtocol do
     person.reload
     expect(person.protocol_subscriptions.first.external_identifier).to eq 'external_identifier'
   end
+
+  context 'open_from_day_uses_start_date_offset' do
+    it 'passes a true value' do
+      described_class.run!(protocol_name: protocol.name, person: person, open_from_day_uses_start_date_offset: true)
+      person.reload
+      expect(person.protocol_subscriptions.first.open_from_day_uses_start_date_offset).to be_truthy
+    end
+
+    it 'defaults to false' do
+      described_class.run!(protocol_name: protocol.name, person: person)
+      person.reload
+      expect(person.protocol_subscriptions.first.open_from_day_uses_start_date_offset).to be_falsey
+    end
+  end
 end

@@ -45,20 +45,20 @@ Daarnaast kan ik de gegevens die verkregen zijn uit dit onderzoek terugkrijgen, 
 </li>
 
 <li>
-De antwoorden op de vragen kunnen geen invloed hebben op mijn functie en worden niet gebruikt in een andere context dan dit onderzoek.
+Ik verklaar op een voor mij duidelijke wijze te zijn ingelicht over de aard en het doel van het onderzoek.
+Ik ben in de gelegenheid gesteld om vragen over het onderzoek te stellen en mijn vragen zijn naar tevredenheid beantwoord.
 </li>
 
 <li>
-Er wordt mij gevraagd om vragenlijsten online in te vullen en om safe houses te herkennen in bepaalde steden.
+Ik weet dat de gegevens en resultaten uit dit onderzoek op een beveiligde server worden opgeslagen en gebruikt worden in toekomstig onderzoek rondom de selectie en ontwikkeling van operators.
 </li>
 
 <li>
-Mijn gegevens zullen vertrouwelijk worden behandeld.
-Mijn persoonsgegevens worden fysiek gescheiden van mijn antwoordgegevens.
+Ik geef toestemming om de gegevens te verwerken voor de doeleinden zoals beschreven in de informatiebrief.
 </li>
 
 <li>
-Mijn geanonimiseerde antwoordgegevens kunnen worden gebruikt voor wetenschappelijk onderzoek.
+Ik begrijp dat ik mijn deelname op ieder moment, om wat voor reden dan ook, mag en kan beëindigen zonder dat hieraan enige consequenties verbonden zijn.
 </li>
 
   </ol>'

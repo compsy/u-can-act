@@ -1,17 +1,4 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: sportdatavalley-svc-questionnaires-tls
-  namespace: sdv-mvp-master
-spec:
-  secretName: sportdatavalley-svc-questionnaires-tls
-  dnsNames:
-  - svc-questionnaires.app.sportdatavalley.nl
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
----
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: svc-questionnaires
@@ -19,9 +6,11 @@ metadata:
   labels:
     app: svc-questionnaires
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
     - svc-questionnaires.app.sportdatavalley.nl
@@ -31,6 +20,10 @@ spec:
     http:
       paths:
       - path: /
+        pathType: "Prefix"
         backend:
-          serviceName: svc-questionnaires-service
-          servicePort: 3000
+          service:
+            name: svc-questionnaires-service
+            port:
+              number: 3000
+

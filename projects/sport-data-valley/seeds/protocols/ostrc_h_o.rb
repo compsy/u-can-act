@@ -27,7 +27,9 @@ db_measurement ||= protocol.measurements.build(questionnaire_id: ostrc_h_o_quest
 db_measurement.period = 1.week
 db_measurement.open_duration = 1.day
 db_measurement.open_from_offset = 7.hours
-db_measurement.open_from_day = 'monday'
+# Jelte mentioned that it should actually start from the moment you
+# start the protocol, not on mondays.
+# db_measurement.open_from_day = 'monday'
 db_measurement.reward_points = 0
 db_measurement.stop_measurement = true
 db_measurement.should_invite = true

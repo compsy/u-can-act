@@ -151,7 +151,7 @@ GEM
       thor (>= 0.20.3, < 2.0)
       tins (~> 1.16)
     crass (1.0.6)
-    daemons (1.4.0)
+    daemons (1.4.1)
     database_cleaner (2.0.1)
       database_cleaner-active_record (~> 2.0.0)
     database_cleaner-active_record (2.0.1)

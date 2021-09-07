@@ -1,7 +1,18 @@
 # frozen_string_literal: true
 
 class DaysGenerator < QuestionTypeGenerator
+  # This is the date format that the user filling out the questionnaire will see.
+  # It can be overridden with the `date_format` option in the question.
   DATE_FORMAT = '%A %e %B'
+
+  # These are the date formats sent to the backend. They are always the same, no matter
+  # the locale of the user filling out the questionnaire. For ease of parsing, they are
+  # in the year-month-date format. If there are separate morning and afternoon checkboxes
+  # (i.e., the question option `morning_and_afternoon` is set to true), then the
+  # date formats sent to the backend are postfixed by either AM or PM.
+  DATE_FORMAT_BACKEND = '%Y-%m-%d'
+  DATE_FORMAT_BACKEND_AM = '%Y-%m-%d AM'
+  DATE_FORMAT_BACKEND_PM = '%Y-%m-%d PM'
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
@@ -35,19 +46,19 @@ class DaysGenerator < QuestionTypeGenerator
       formatted_date = I18n.l(date, locale: question[:locale], format: date_format)
       option = {
         title: formatted_date,
-        value: I18n.l(date, locale: :en, format: '%Y-%m-%d')
+        value: I18n.l(date, locale: :en, format: DATE_FORMAT_BACKEND)
       }
       option[:shows_questions] = question[:shows_questions] if question[:shows_questions].present?
       option[:hides_questions] = question[:hides_questions] if question[:hides_questions].present?
       if question[:morning_and_afternoon]
         option[:title] = "#{formatted_date} #{I18n.t('time.am', locale: question[:locale])}"
-        option[:value] = I18n.l(date, locale: :en, format: '%Y-%m-%d AM')
+        option[:value] = I18n.l(date, locale: :en, format: DATE_FORMAT_BACKEND_AM)
       end
       body << days_option_body(question, option.merge(raw: option.deep_dup))
       next unless question[:morning_and_afternoon]
 
       new_option = option.merge(title: "#{formatted_date} #{I18n.t('time.pm', locale: question[:locale])}",
-                                value: I18n.l(date, locale: :en, format: '%Y-%m-%d PM'))
+                                value: I18n.l(date, locale: :en, format: DATE_FORMAT_BACKEND_PM))
       body << days_option_body(question, new_option.merge(raw: new_option.deep_dup))
     end
     safe_join(body)

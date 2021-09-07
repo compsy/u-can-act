@@ -15,6 +15,34 @@ describe GenerateInvitationText do
         expect(result).to eq protocol.invitation_text
       end
 
+      it 'returns the text of a protocol subscription if one is set' do
+        protocol = FactoryBot.create(:protocol, :with_invitation_text)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  protocol: protocol,
+                                                  invitation_text_nl: 'invitation-text-nl',
+                                                  invitation_text_en: 'invitation-text-en')
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+
+        result = described_class.run!(response: response)
+        expect(result).to be_a String
+        expect(result).to eq 'invitation-text-nl'
+      end
+
+      it 'returns the localized text of a protocol if one is set' do
+        person = FactoryBot.create(:person, locale: 'en')
+        protocol = FactoryBot.create(:protocol, :with_invitation_text)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  protocol: protocol,
+                                                  person: person,
+                                                  invitation_text_nl: 'invitation-text-nl',
+                                                  invitation_text_en: 'invitation-text-en')
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+
+        result = described_class.run!(response: response)
+        expect(result).to be_a String
+        expect(result).to eq 'invitation-text-en'
+      end
+
       it 'evaluates the values in the the text of a protocol' do
         protocol = FactoryBot.create(:protocol, :with_invitation_text)
         protocol_subscription = FactoryBot.create(:protocol_subscription, protocol: protocol)

@@ -13,7 +13,7 @@ class CreateOrganizations < ActiveRecord::Migration[5.0]
     default_organization = Organization.create!(name: 'Default organization')
 
     Team.all.each do |team|
-      team.update_attributes!(organization: default_organization)
+      team.update!(organization: default_organization)
     end
 
     change_column_null :teams, :organization_id, false

@@ -13,14 +13,14 @@ class MentorInvitationTexts < InvitationTexts
     def announcement_week_texts(response)
       if post_assessment?(response)
         return "Hoi #{target_first_name(response)}, wij willen net als jij graag vsv voorkomen."\
-          ' Wil jij ons voor de laatste keer helpen en de laatste, maar cruciale,'\
-          ' u-can-act vragenlijst invullen?'
+               ' Wil jij ons voor de laatste keer helpen en de laatste, maar cruciale,'\
+               ' u-can-act vragenlijst invullen?'
       end
       "Hoi #{target_first_name(response)}, de allerlaatste vragenlijsten"\
-      ' staan voor je klaar. Voor ons is het ontzettend belangrijk dat deze'\
-      " wordt ingevuld. Help jij ons voor de laatste keer?\n"\
-      'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
-      ' vragenlijst een stuk korter dan je gewend bent .'
+        ' staan voor je klaar. Voor ons is het ontzettend belangrijk dat deze'\
+        " wordt ingevuld. Help jij ons voor de laatste keer?\n"\
+        'Ps. Door aan te geven dat je inmiddels vakantie hebt, wordt de'\
+        ' vragenlijst een stuk korter dan je gewend bent .'
     end
 
     def normal_texts(response)
@@ -34,7 +34,7 @@ class MentorInvitationTexts < InvitationTexts
 
     def was_invited_message
       'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
-      'Vul nu de eerste wekelijkse vragenlijst in.'
+        'Vul nu de eerste wekelijkse vragenlijst in.'
     end
 
     def default_message(response)
@@ -44,12 +44,12 @@ class MentorInvitationTexts < InvitationTexts
     def pre_assessment_questionnaire_texts(response)
       if completed_some?(response)
         return 'Hartelijk dank voor je inzet! Naast de wekelijkse vragenlijst sturen we je deze ' \
-        'week ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ' \
-        'ingevuld. Na het invullen hiervan kom je weer bij de wekelijkse vragenlijst.'
+               'week ook nog even de allereerste vragenlijst (de voormeting), die had je nog niet ' \
+               'ingevuld. Na het invullen hiervan kom je weer bij de wekelijkse vragenlijst.'
       end
       "Welkom bij de kick-off van het onderzoek 'u-can-act'. Vandaag staat " \
-      'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
-      'Morgen start de eerste wekelijkse vragenlijst. Succes!'
+        'informatie over het onderzoek en een korte voormeting voor je klaar. ' \
+        'Morgen start de eerste wekelijkse vragenlijst. Succes!'
     end
 
     def open_questionnaire?(response, questionnaire_name)

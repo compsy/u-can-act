@@ -13,10 +13,13 @@ questionnaires = [
   'KCT Alfa',
   'KCT Bravo',
   'KCT Charlie',
+  'KCT Delta',
   'KCT Delta VCO',
+  'KCT Echo',
   'KCT Echo VCO',
   'KCT Foxtrot',
   'KCT Golf',
+  'KCT Hotel',
   'KCT Hotel VCO',
   'KCT India',
   'KCT Julliet',
@@ -30,9 +33,8 @@ questionnaires.each do |name|
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
-  # One-off questionnaire; not repeated.
-  db_measurement.period = 1.days
-  db_measurement.open_duration = 1.months
+  db_measurement.period = nil # Doesn't repeat. One off.
+  db_measurement.open_duration = 1.years
   db_measurement.open_from_offset = 0.days
   db_measurement.reward_points = default_reward_points
   db_measurement.stop_measurement = false
@@ -42,7 +44,9 @@ end
 
 questionnaires = [
   'KCT Start van de week',
-  'KCT Eind van de week'
+  'KCT Eind van de week',
+  'KCT Start van de week VCO',
+  'KCT Eind van de week VCO'
 ]
 
 questionnaires.each do |name|
@@ -59,7 +63,7 @@ questionnaires.each do |name|
   if name.include? "Start"
     db_measurement.open_from_day = 'sunday'
     db_measurement.open_from_offset = 6.hours # Sunday at 06:00.
-    db_measurement.open_duration = 4.days + 6.hours # Close Wednesday at 12:00.
+    db_measurement.open_duration = 3.days + 6.hours # Close Wednesday at 12:00.
   else
     db_measurement.open_from_day = 'wednesday'
     db_measurement.open_from_offset = 12.hours # Wednesday at 12:00.

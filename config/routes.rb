@@ -86,10 +86,15 @@ Rails.application.routes.draw do
         resources :protocol_subscriptions, only: [] do
           collection do
             # @note Watch out! This can be interpreted as a show route later.
-            get :mine
+            get :mine # just retrieves active protocol subscriptions that are filled out "for myself"
+            get :my_active_and_inactive
           end
         end
-        resources :protocol, only: [:index]
+        resources :protocol, only: [:index] do
+          member do
+            post :preview
+          end
+        end
       end
 
       # JWT and Cookie apis

@@ -18,7 +18,7 @@ teams.each do |team_name|
   puts "Running seeds for #{team_name}"
   team = Team.find_by(name: team_name)
   team ||= Team.create!(name: team_name, organization: organization)
-  team.update_attributes!(organization: organization)
+  team.update!(organization: organization)
 
   role_titles.each do |title|
     entry = team.roles.where(group: Person::STUDENT, title: title).first

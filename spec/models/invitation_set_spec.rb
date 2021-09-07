@@ -86,7 +86,7 @@ describe InvitationSet do
       expect(result).not_to match token.token_hash
       expect(result).to match responseobj.protocol_subscription.person.external_identifier
       expect(result).to eq "#{ENV['HOST_URL']}/"\
-        "?q=#{responseobj.protocol_subscription.person.external_identifier}#{pt_token}"
+                           "?q=#{responseobj.protocol_subscription.person.external_identifier}#{pt_token}"
     end
 
     it 'raises if called for a previously stored token' do

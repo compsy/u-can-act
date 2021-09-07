@@ -56,12 +56,12 @@ class Protocol < ApplicationRecord
   end
 
   def create_multiplier_overview(measurement_completion, check_future)
-    measurement_completion.map do |current|
+    measurement_completion.filter_map do |current|
       next unless take_current_measurement_into_account?(current[:completed], current[:future], check_future)
 
       reward_multiplier = determine_reward_multiplier(current[:periodical], current[:streak])
       { multiplier: reward_multiplier, reward_points: current[:reward_points] }
-    end.compact
+    end
   end
 
   def take_current_measurement_into_account?(is_completed, is_future, take_future_into_account)

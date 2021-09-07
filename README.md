@@ -134,6 +134,9 @@ The file structure of the `my_organization` directory in the `projects` director
    |- locales/
 |- seeds/
 |- asssets/
+|- views/
+   |- layouts/
+      |- mailer.html.haml
 ```
 
 In the project specific `settings.yml`, the following settings are required:
@@ -148,6 +151,14 @@ logo:
   company_logo: <OPTIONAL. Filename of a company logo. If missing, the header uses only one logo>
 ```
 The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
+
+You can override the default email layout (= all the HTML around the actual email, starting with <html><body> and so on), by creating a file named `mailer.html.haml` in the `views/layouts` subdirectory in a project's directory. The same layout is used for all email invitations for this project. See `app/views/layouts/mailer.html.haml` for an example of this file. (You can copy this file to the `views/layouts` subdirectory of your project and start editing that version to customize it for your project.)
+
+You can change the invitation email template per protocol (the invitation template is rendered inside the layout) by creating a file named `<protocol_name>.html.haml` in the `views` subdirectory of the project directory. Note that such a protocol invitation layout would typically include `%p #{@message.gsub("\n", "<br>").html_safe}` somewhere as the body text of the invitation, and it would use some form of `=link_to @invitation_url` to render the given invitation link. See `app/views/invitation_mailer/invitation_mail.html.haml` for an example of this file. (You can copy this file to the `views` subdirectory of your project and rename it to the name of your protocol.)
+
+Additionally, one can set a default template for all protocols in their project that do not have their own special layout by creating a file `views/invitation_mailer/invitation_mail.html.haml` in their project subdirectory.
+
+If any of the templates, layouts, or directories are missing, the default templates and layouts will be used. SMS invitations have no layouts/templates.
 
 ### Feature toggles
 
@@ -385,9 +396,9 @@ Setting `required: true` for a checkbox question has the effect that the user ha
 
 In the options array, the `stop_subscription: true` property indicates that the protocol subscription should be canceled when this option is selected.
 
-Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of
-the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences,
-and you just want something shorter in your CSV export.
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 Note that this (and all other question types) may have a `show_after` property. This may have the following values:
 
@@ -472,7 +483,7 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
-Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
 
 ### Type: Likert
 Required and allowed options (minimal example and maximal example):
@@ -513,9 +524,9 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
-Options for Radios, Likerts, and Checkboxes can have a `value` attribute. When specified, this value is used instead of
-the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences,
-and you just want something shorter in your CSV export.
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
 
 
 ### Type: Range
@@ -889,6 +900,10 @@ If the options array spans a consecutive interval whose high values should affec
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
+Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
+instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
+sentences, and you just want something shorter in your CSV export.
+
 ### Type: Drawing
 Let's a user draw on an image. 
 Required and allowed options (minimal example and maximal example):
@@ -1005,7 +1020,7 @@ If `require_all` is missing, it works the same as when specifying `require_all: 
 All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
 The `preprocessing` key is optional, and if provided, should be a hash with a (sub)set of the IDs in `ids` as keys. Each entry in a hash represents how this value will be preprocessed. Currently, only the following operations are supported: `multiply _with`, which multiplies the value with a given number (which can be integer or float, positive or negative), and `offset`, which adds a constant number to the value (this number can also be an integer or float, positive or negative). Both `multiply_with` and `offset` are optional. If both are provided, `multiply_with` is performed first. It is possible to chain operations by defining a new score that takes as input a previously preprocessed score (see below).
 
-- The only currently supported `operation` is `:average`.
+- The only currently supported `operation`s are `:average` and `:sum`.
 - The set of ids may also include ids of scores that occurred earlier in the scores array, e.g.:
 
 ```ruby

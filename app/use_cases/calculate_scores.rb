@@ -111,6 +111,8 @@ class CalculateScores < ActiveInteraction::Base
     case score[:operation]
     when :average
       perform_operation_average(data)
+    when :sum
+      perform_operation_sum(data)
     else
       raise "unknown operation: #{score[:operation]}"
     end
@@ -121,6 +123,13 @@ class CalculateScores < ActiveInteraction::Base
     return data[0] if data.size == 1 # no need to convert to float if we have just one integer
 
     data.sum(0.0) / data.size
+  end
+
+  def perform_operation_sum(data)
+    raise MyMissingDataError, 'trying to calculate the sum of an empty array' if data.size.zero?
+    return data[0] if data.size == 1 # no need to convert to float if we have just one integer
+
+    data.sum(0)
   end
 
   def round_result(value, score)

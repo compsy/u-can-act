@@ -147,7 +147,8 @@ describe Invitation do
     let(:student) { FactoryBot.create(:student) }
 
     it 'sends both sms and email invites' do
-      invitation_set = FactoryBot.create(:invitation_set, person: mentor)
+      responseobj = FactoryBot.create(:response)
+      invitation_set = FactoryBot.create(:invitation_set, person: mentor, responses: [responseobj])
       smsinvitation = FactoryBot.create(:sms_invitation, invitation_set: invitation_set)
       emailinvitation = FactoryBot.create(:email_invitation, invitation_set: invitation_set)
       expect(SendSms).to receive(:run!)
@@ -175,15 +176,18 @@ describe Invitation do
       myid = responseobj.protocol_subscription.person.external_identifier
       mytok = invitation_token.token_plain
       message = 'Fijn dat je wilt helpen om inzicht te krijgen in de ontwikkeling van jongeren! ' \
-              'Vul nu de eerste wekelijkse vragenlijst in.'
+                'Vul nu de eerste wekelijkse vragenlijst in.'
       responseobj.invitation_set.update!(invitation_text: message)
       invitation_url = "#{ENV['HOST_URL']}/?q=#{myid}#{mytok}"
       allow(SendSms).to receive(:run!).with(number: mentor.mobile_phone,
                                             text: "#{message} #{invitation_url}",
                                             reference: "vsv-#{responseobj.invitation_set.id}")
-      expect(InvitationMailer).to receive(:invitation_mail).with(mentor.email,
-                                                                 message,
-                                                                 invitation_url).and_call_original
+      expect(InvitationMailer).to receive(:invitation_mail).with(
+        mentor.email,
+        message,
+        invitation_url,
+        responseobj.protocol_subscription.protocol.name
+      ).and_call_original
       smsinvitation = FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
       emailinvitation = FactoryBot.create(:email_invitation, invitation_set: responseobj.invitation_set)
       smsinvitation.send_invite(mytok)
@@ -193,7 +197,8 @@ describe Invitation do
 
     it 'does not try to send an email if the mentor does not have an email address' do
       mentor.update!(email: nil)
-      invitation_set = FactoryBot.create(:invitation_set, person: mentor)
+      responseobj = FactoryBot.create(:response)
+      invitation_set = FactoryBot.create(:invitation_set, person: mentor, responses: [responseobj])
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 person: mentor,
                                                 filling_out_for: student,

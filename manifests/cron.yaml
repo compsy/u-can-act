@@ -11,6 +11,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -44,6 +45,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -77,6 +79,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -110,6 +113,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -143,6 +147,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -176,6 +181,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -209,6 +215,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -242,6 +249,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -275,6 +283,7 @@ spec:
     spec:
       template:
         spec:
+          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth

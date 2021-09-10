@@ -214,7 +214,7 @@ class Complaints
           hidden: true,
           type: :raw,
           section_start: "Letsel aan je <strong>#{location_description[letter]}</strong>",
-          content: '<div></div>'
+          content: "<p class='flow-text'>De volgende vragen gaan specifiek over #{pain_at_description(letter)}.</p>"
         },
         {
           id: "#{prefixed}0".to_sym,

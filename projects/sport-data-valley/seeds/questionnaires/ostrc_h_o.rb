@@ -21,7 +21,7 @@ class PrefixMethods
   end
 end
 
-shown_questions_health = PrefixMethods::prefix_all(1, 5, 6, 7)
+shown_questions_health = PrefixMethods::prefix_all(1, 5, 6, 7, '1a')
 shown_questions_injury = PrefixMethods::prefix_all('_o_2', '_o_3')
 shown_questions_hours = PrefixMethods::prefix_all('_o_3')
 shown_questions_participated = PrefixMethods::prefix_all(2, 3, 4)
@@ -57,6 +57,12 @@ dagboek_content = [
     ],
     tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij praktijklessen, trainingen en wedstrijden.',
     show_otherwise: false
+  },
+  {
+    id: :v1a,
+    hidden: true,
+    type: :raw,
+    content: '<p class="flow-text">De volgende vragen gaan specifiek over de <strong>ziekte/gezondheidsklachten</strong> die je de afgelopen 7 dagen hebt ervaren, niet over eventuele blessures.</p>'
   },
   {
     id: :v1,

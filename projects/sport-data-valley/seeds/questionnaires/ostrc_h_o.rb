@@ -25,6 +25,7 @@ shown_questions_health = PrefixMethods::prefix_all(1, 5, 6, 7, '1a')
 shown_questions_injury = PrefixMethods::prefix_all('_o_2', '_o_3')
 shown_questions_hours = PrefixMethods::prefix_all('_o_3')
 shown_questions_participated = PrefixMethods::prefix_all(2, 3, 4)
+shown_questions_health_and_injury = PrefixMethods::prefix_all('_o_2a')
 
 dagboek_content = [
   {
@@ -53,7 +54,7 @@ dagboek_content = [
         shows_questions: shown_questions_health + shown_questions_hours,
         tooltip: 'Let op: de klachten betreffen alleen ziekte / gezondheidsklachten. Denk hierbij aan een buikpijn, koorts, pijn op de borst etc.'
       },
-      { title: 'Ja, ik heb hinder ondervonden door <strong>beide</strong>, zowel een blessure / fysieke klachten als een ziekte / gezondheidsklachten', numeric_value: 100, shows_questions: shown_questions_health + shown_questions_injury }
+      { title: 'Ja, ik heb hinder ondervonden door <strong>beide</strong>, zowel een blessure / fysieke klachten als een ziekte / gezondheidsklachten', numeric_value: 100, shows_questions: shown_questions_health + shown_questions_injury + shown_questions_health_and_injury }
     ],
     tooltip: 'De volgende vragen gaan over mogelijke klachten die je hebt ondervonden tijdens het sporten. Onder sporten verstaan wij praktijklessen, trainingen en wedstrijden.',
     show_otherwise: false
@@ -176,6 +177,14 @@ dagboek_content = [
     title: 'Ben je voor je <strong>gezondheidsklachten</strong> de afgelopen 7 dagen behandeld door een therapeut of arts?',
     options: %w[Ja Nee],
     show_otherwise: false,
+    section_end: true
+  },
+  {
+    id: :v_o_2a,
+    hidden: true,
+    type: :raw,
+    content: '',
+    section_start: 'De volgende vragen gaan specifiek over de <strong>blessure/fysieke klachten</strong> die je de afgelopen 7 dagen hebt ervaren, niet over eventuele ziekte/gezondheidsklachten.'
   },
   {
     id: :v_o_2,

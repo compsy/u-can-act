@@ -8,7 +8,7 @@ def sociogram_question(id, text)
       id: id + "_1",
       type: :number,
       required: true,
-      title: "Antwoord 1 (verplicht):",
+      title: "Antwoord 1:",
       maxlength: 2,
       min: 0,
       max: 99,
@@ -18,7 +18,7 @@ def sociogram_question(id, text)
       id: id + "_2",
       type: :number,
       required: false,
-      title: "Antwoord 2 (optioneel):",
+      title: "Antwoord 2:",
       maxlength: 2,
       min: 0,
       max: 99,
@@ -28,7 +28,7 @@ def sociogram_question(id, text)
       id: id + "_3",
       type: :number,
       required: false,
-      title: "Antwoord 3 (optioneel):",
+      title: "Antwoord 3:",
       maxlength: 2,
       min: 0,
       max: 99,
@@ -44,7 +44,7 @@ content = [
     content: '
     <p class="flow-text section-explanation">
       Hieronder vind je een lijst met uitdrukkingen die verschillende aspecten van individueel en/of groepsgedrag beschrijven.
-      Geef aan welk persoon binnen jouw groep het meest voldoet aan de beschrijving per item en wie op de 2<sup>e</sup>/3<sup>e</sup> plaats staat.
+      Geef aan welke personen volgens jou het meest voldoen aan de beschrijving.
       Noteer minimaal één en maximaal drie cursist nummers per vraag.<br>
       <br>
     </p>
@@ -62,7 +62,7 @@ content = [
   *sociogram_question(:samenwerken, "Werk ik graag mee samen om een opdracht te halen."),
   *sociogram_question(:nietsamenwerken, "Werk ik liever <b>niet</b> mee samen."),
   *sociogram_question(:vertrouw, "Deze persoon vertrouw ik het meest, ook als het om persoonlijke dingen gaat."),
-  *sociogram_question(:betrouwbaar, "Is betrouwbaar en handelt altijd naar eer en geweten. Is aanspreekbaar op zijn daden en spreekt ook anderen aan.")
+  *sociogram_question(:betrouwbaar, "Handelt altijd naar eer en geweten, is betrouwbaar en aanspreekbaar; spreekt indien nodig ook anderen aan.")
 ]
 
 title = 'Sociogram'

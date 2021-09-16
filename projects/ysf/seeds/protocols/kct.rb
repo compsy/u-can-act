@@ -77,7 +77,7 @@ questionnaires.each do |name|
     db_measurement.open_from_offset = 12.hours # Wednesday at 12:00.
     db_measurement.open_duration = 4.days - 6.hours # Close Sunday at 06:00.
   else # Sociogram.
-    db_measurement.open_from_day = 'thursday'
+    db_measurement.open_from_day = 'sunday'
     db_measurement.open_from_offset = 4.hours # Sunday at 04:00.
     db_measurement.open_duration = 7.days - 2.hours # Close Sunday at 02:00.
   end

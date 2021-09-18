@@ -104,5 +104,29 @@ describe NextPageFinder do
       expect(result).to_not be_blank
       expect(result).to eq Rails.application.routes.url_helpers.questionnaire_path(uuid: response_normal.first.uuid)
     end
+
+    context 'redirect_url' do
+      it 'redirects to the redirect_url if one is specified' do
+        responses = FactoryBot.create_list(:response, 10)
+        allow(person).to receive(:my_open_responses).and_return(responses)
+        measurement = FactoryBot.create(:measurement, :with_redirect_url)
+        redirect_url = '/person/edit'
+        previous_response = FactoryBot.create(:response, :completed, measurement: measurement)
+
+        result = described_class.get_next_page(current_user: person, previous_response: previous_response)
+        expect(result).not_to be_blank
+        expect(result).to eq redirect_url
+      end
+      it 'does not redirect to the redirect_url is one is specified but a response is ready and property is set' do
+        responses = FactoryBot.create_list(:response, 10)
+        expect(person).to receive(:my_open_responses).and_return(responses)
+        measurement = FactoryBot.create(:measurement, :with_redirect_url, only_redirect_if_nothing_else_ready: true)
+        previous_response = FactoryBot.create(:response, :completed, measurement: measurement)
+
+        result = described_class.get_next_page(current_user: person, previous_response: previous_response)
+        expect(result).not_to be_blank
+        expect(result).to eq Rails.application.routes.url_helpers.questionnaire_path(uuid: responses.first.uuid)
+      end
+    end
   end
 end

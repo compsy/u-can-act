@@ -4,10 +4,7 @@ class NextPageFinder
   class << self
     include Rails.application.routes.url_helpers
 
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
-    # rubocop:disable Metrics/MethodLength
     def get_next_page(current_user:, previous_response: nil, next_response: nil, params: {})
       # if we just filled out a response
       if previous_response.present?
@@ -23,11 +20,7 @@ class NextPageFinder
           # if there is a next non otr response ready and (i am not a mentor or it is filled out for myself)
           # (my_open_responses only returns non-OTR responses)
           next_response ||= current_user.my_open_responses(current_user.mentor?).first
-          if next_response.present? && not_a_mentor_or_filled_out_for_myself?(next_response, current_user)
-            url_to_response(next_response, params)
-          else
-            url_to_exit_flow(current_user, previous_response)
-          end
+          url_to_response_or_exit_flow(current_user, previous_response, next_response, params)
         end
       else
         # we did not just fill out a response.
@@ -37,22 +30,19 @@ class NextPageFinder
         next_response ||= current_user.my_open_responses(current_user.mentor?).first
         # otherwise redirect to next otr response
         next_response ||= current_user.all_my_open_one_time_responses.first
-        if next_response.present? && not_a_mentor_or_filled_out_for_myself?(next_response, current_user)
-          url_to_response(next_response, params)
-        else
-          url_to_exit_flow(current_user, previous_response)
-        end
+        url_to_response_or_exit_flow(current_user, previous_response, next_response, params)
       end
     end
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/AbcSize
 
     private
 
-    def otr_response?(response)
-      response.protocol.otr_protocol?
+    def url_to_response_or_exit_flow(current_user, previous_response, next_response, params)
+      if next_response.present? && not_a_mentor_or_filled_out_for_myself?(next_response, current_user)
+        url_to_response(next_response, params)
+      else
+        url_to_exit_flow(current_user, previous_response)
+      end
     end
 
     def url_to_response(response, params)

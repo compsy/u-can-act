@@ -32,4 +32,5 @@ db_measurement.stop_measurement = true
 db_measurement.should_invite = true
 db_measurement.reminder_delay = 4.hours
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
+db_measurement.only_redirect_if_nothing_else_ready = true
 db_measurement.save!

@@ -32,7 +32,7 @@ db_measurement.open_from_offset = 0 # Only needed when we also specify the open_
 # start the protocol, not on mondays.
 db_measurement.open_from_day = nil
 db_measurement.reward_points = 0
-db_measurement.stop_measurement = true
+db_measurement.stop_measurement = false
 db_measurement.should_invite = true
 db_measurement.reminder_delay = 9.hours
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']

@@ -160,7 +160,14 @@ module ApplicationHelper
     # @note We need to call this function first, and then fail. We cannot just
     #   check if it is defined, as it is generated automatically.
     current_auth_user&.person
-  rescue NameError, OpenSSL::PKey::RSAError => e
+  rescue NameError => _e
+    # We don't need to let Appsignal know because this will happen every time we call current_user
+    # from a non-api route that doesn't log the user in automatically. Because the current_auth_user
+    # stuff is only defined for API routes. However, we only want to use a single current_user method
+    # for both API and non-API routes, hence we have to catch this error here and do nothing with it.
+    nil
+  rescue OpenSSL::PKey::RSAError => e
+    # Do notify appsignal if we get a weird OpenSSL error.
     Appsignal.set_error(e)
     nil
   end

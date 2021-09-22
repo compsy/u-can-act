@@ -22,6 +22,8 @@ class Measurement < ApplicationRecord
   validates :protocol_id, presence: true
   validates :stop_measurement, inclusion: { in: [true, false] }
   validates :should_invite, inclusion: { in: [true, false] }
+  # Only redirect if nothing else ready to be filled out (defaults to false).
+  validates :only_redirect_if_nothing_else_ready, inclusion: { in: [true, false] }
   # period can be nil, in which case the questionnaire is one-off and not repeated
   validates :period, numericality: { only_integer: true, allow_nil: true, greater_than: 0 }
   # open_duration can be nil, in which case the questionnaire can be filled out until the end of the protocol

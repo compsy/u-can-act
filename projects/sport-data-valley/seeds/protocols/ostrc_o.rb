@@ -26,13 +26,15 @@ db_measurement = protocol.measurements.where(questionnaire_id: ostrc_questionnai
 db_measurement ||= protocol.measurements.build(questionnaire_id: ostrc_questionnaire_id)
 db_measurement.period = 1.week
 db_measurement.open_duration = 1.day
-db_measurement.open_from_offset = 7.hours
+db_measurement.open_from_offset = 0 # Only needed when we also specify the open_from_day.
+#                                     Otherwise it just leads to confusion.
 # Jelte mentioned that it should actually start from the moment you
 # start the protocol, not on mondays.
-# db_measurement.open_from_day = 'monday'
+db_measurement.open_from_day = nil
 db_measurement.reward_points = 0
-db_measurement.stop_measurement = true
+db_measurement.stop_measurement = false
 db_measurement.should_invite = true
 db_measurement.reminder_delay = 9.hours
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
+db_measurement.only_redirect_if_nothing_else_ready = true
 db_measurement.save!

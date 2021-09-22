@@ -22,4 +22,5 @@ db_measurement.reward_points = 0
 db_measurement.stop_measurement = true # unsubscribe immediately
 db_measurement.should_invite = false # don't send invitations
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
+db_measurement.only_redirect_if_nothing_else_ready = true
 db_measurement.save!

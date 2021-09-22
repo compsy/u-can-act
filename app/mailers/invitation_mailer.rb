@@ -12,7 +12,7 @@ class InvitationMailer < ApplicationMailer
     @invitation_url = invitation_url
     @message = message
     # Use the default template if the given template does not exist.
-    template = lookup_context.find_all(template, []).blank? ? 'invitation_mailer/invitation_mail' : template
+    template = 'invitation_mailer/invitation_mail' if lookup_context.find_all(template, []).blank?
     mail(subject: DEFAULT_INVITATION_SUBJECT, to: email_address) do |format|
       format.html { render template: template }
     end

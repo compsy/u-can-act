@@ -26,6 +26,14 @@ module Api
 
     private
 
+    # We do not change thsi in the protocol subscription method itself because there are
+    # other places where we do care about the future responses. For example, when we show
+    # a progress bar for a person's protocol subscription, we do want those future responses
+    # in there to be able to say something about the percentage of completion.
+    # We simply leave out the future here because we are only interested in compliance when
+    # we send this with the exported response, i.e., how many of how many responses has a
+    # person completed. Because the protocol_completion array can be quite big, we leave
+    # out the future responses for this purpose because we have no need for them.
     def protocol_completion_without_future
       object.protocol_subscription.protocol_completion.reject { |entry| entry[:future].present? }
     end

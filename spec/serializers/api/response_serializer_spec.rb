@@ -27,6 +27,8 @@ describe Api::ResponseSerializer do
       questionnaire
       invitation_texts
       protocol_completion
+      measurement_id
+      protocol_subscription_id
     ]
   end
 
@@ -88,6 +90,22 @@ describe Api::ResponseSerializer do
   end
 
   it 'contains a protocol completion if we do pass a parameter' do
+    json = described_class.new(responseobj, with_protocol_completion: true).as_json.with_indifferent_access
+    expected = [{ 'completed' => true,
+                  'future' => false,
+                  'future_or_current' => false,
+                  'periodical' => false,
+                  'reward_points' => 1,
+                  'streak' => -1 }]
+    expect(json['protocol_completion']).to match_array(expected)
+  end
+
+  it 'removes future entries from the protocol completion' do
+    # Create a future response that should not be included in the protocol completion
+    FactoryBot.create(:response,
+                      measurement: responseobj.measurement,
+                      protocol_subscription: responseobj.protocol_subscription,
+                      open_from: 1.week.from_now)
     json = described_class.new(responseobj, with_protocol_completion: true).as_json.with_indifferent_access
     expected = [{ 'completed' => true,
                   'future' => false,

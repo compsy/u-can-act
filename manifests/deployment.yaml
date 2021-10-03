@@ -26,6 +26,11 @@ spec:
       imagePullSecrets:
         - name: gitlab-auth
       containers:
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "350Mi"
         - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__

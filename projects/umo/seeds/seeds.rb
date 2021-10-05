@@ -13,7 +13,7 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
   Person.create!(first_name: 'Janie',
                  last_name: 'Fictieva',
                  gender: 'female',
-                 mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
+                 email: 'test@default.com',
                  role: normal_role)
 
   # Create daily protocol instance

@@ -6,9 +6,9 @@ dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 
-DEELAUTO_QUESTIONS = %[v31 v32]
-DEELFIETS_QUESTIONS = %[v34]
-DEELSCOOTER_QUESTIONS = %[v36]
+DEELAUTO_QUESTIONS = %i[v31 v32]
+DEELFIETS_QUESTIONS = %i[v34]
+DEELSCOOTER_QUESTIONS = %i[v36]
 
 dagboek_content = [
   {

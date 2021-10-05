@@ -29,7 +29,7 @@ dagboek_content = [
   }, {
     id: :v31,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     title: 'Bij welke aanbieder maakt u wel eens gebruik van een deelauto?',
     options: %w[
       MyWheels
@@ -82,7 +82,7 @@ dagboek_content = [
   }, {
     id: :v34,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     title: 'Bij welke aanbieder maakt u wel eens gebruik van een deelfiets?',
     options: [
       'OV-fiets',
@@ -118,7 +118,7 @@ dagboek_content = [
   }, {
     id: :v36,
     hidden: true,
-    type: :radio,
+    type: :checkbox,
     title: 'Bij welke aanbieder maakt u wel eens gebruik van een deelscooter?',
     options: [
       'Go sharing',

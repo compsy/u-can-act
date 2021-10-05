@@ -2,8 +2,8 @@
 
 if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.env.development? || Rails.env.staging?)
   demo_organization = 'UMO'
-  demo_team = 'UMO-team'
-  normal_role_title = 'normal'
+  demo_team = 'UMO'
+  normal_role_title = 'Participant'
 
   organization = Organization.find_by(name: demo_organization)
   team = organization.teams.find_by(name: demo_team)

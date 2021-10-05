@@ -23,7 +23,7 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
     protocol: protocol,
     person: person,
     state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: Time.zone.now.beginning_of_week
+    start_date: Time.zone.now
   )
 
   invitation_set = InvitationSet.create!(person: person)

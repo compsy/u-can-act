@@ -21,7 +21,7 @@ dagboek_content = [
     title: 'Wat is uw geslacht?',
     required: true,
     show_otherwise: false,
-    labels: ['Man', 'Vrouw', 'Anders', 'Zeg ik liever niet']
+    options: ['Man', 'Vrouw', 'Anders', 'Zeg ik liever niet']
   }, {
     id: :v3,
     type: :number,

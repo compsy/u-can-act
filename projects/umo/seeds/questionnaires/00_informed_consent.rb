@@ -29,7 +29,7 @@ dagboek_content = [
     show_otherwise: false
   }, {
     id: :v0_b,
-    type: :radio,
+    type: :checkbox,
     required: false,
     title: '',
     options: [

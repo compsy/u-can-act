@@ -7,7 +7,7 @@ dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 
 WERKADRES_QUESTIONS = %i[v8_a]
-POSTCODE_WERK_QUESTIONS = %i[v8_b_a v8_b_b v8_b_c]
+POSTCODE_WERK_QUESTIONS = %i[v8_b_0 v8_b_a v8_b_b v8_b_c]
 
 dagboek_content = [
   {
@@ -104,6 +104,11 @@ dagboek_content = [
       { title: 'Ik werk/studeer altijd thuis', hides_questions: POSTCODE_WERK_QUESTIONS },
       { title: 'Ik werk/studeer op verschillende adressen', hides_questions: POSTCODE_WERK_QUESTIONS }
     ]
+  }, {
+    id: :v8_b_0,
+    hidden: true,
+    type: :raw,
+    content: '<p class="flow-text">Wat is het adres en/of de postcode van uw werk/studeeradres? Vul het adres en/of de postcode in van de plek waar u het meeste werkt/studeert als u niet vanuit huis werkt/studeert.</p>'
   }, {
     id: :v8_b_a,
     hidden: true,

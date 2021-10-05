@@ -18,7 +18,7 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
 
   # Create daily protocol instance
   protocol = Protocol.find_by(name: 'profiling')
-  person = Team.find_by(name: demo_team).roles.where(group: Person::STUDENT).first.people[1]
+  person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.first
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,

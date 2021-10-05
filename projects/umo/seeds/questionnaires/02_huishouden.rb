@@ -86,7 +86,7 @@ end
 dagboek_content = [
   {
     id: :v9,
-    type: :dropdown, # Not a radio in the original questionnaire
+    type: :radio, # Not a radio in the original questionnaire
     title: 'Uit hoeveel mensen bestaat uw huishouden (behalve u zelf)?',
     options: [
       '0',

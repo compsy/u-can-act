@@ -64,7 +64,7 @@ dagboek_content = [
     required: true
   }, {
     id: :v6,
-    type: :dropdown,
+    type: :radio,
     title: 'Wat is uw voornaamste dagelijkse bezigheid?',
     options: [
       { title: 'Student/scholier', shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS },

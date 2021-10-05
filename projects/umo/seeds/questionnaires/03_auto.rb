@@ -114,7 +114,7 @@ dagboek_content = [
     show_otherwise: false
   }, {
     id: :v15,
-    type: :dropdown,
+    type: :radio,
     title: 'Hoeveel auto’s heeft uw huishouden ter beschikking?',
     tooltip: 'We bedoelen hiermee de auto’s die u of een ander lid van het huishouden zou kunnen gebruiken',
     options: [

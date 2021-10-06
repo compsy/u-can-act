@@ -7,9 +7,9 @@ pr_name = File.basename(__FILE__)[0...-3]
 diary_protocol = Protocol.find_by(name: pr_name)
 diary_protocol ||= Protocol.new(name: pr_name)
 diary_protocol.duration = 44.weeks
-diary_protocol.invitation_text = 'Je wekelijkse vragenlijst staat voor je klaar. Klik op de volgende link om deze in te vullen.'
-# Je kunt alleen meedoen aan de dagboekstudie als je ook mee hebt gedaan aan de cross-sectionele vragenlijsten.
+diary_protocol.invitation_text = nil # Determine invitation text dynamically
 
+# Je kunt alleen meedoen aan de dagboekstudie als je ook mee hebt gedaan aan de cross-sectionele vragenlijsten.
 diary_protocol.informed_consent_questionnaire_id = nil
 # ic_name = 'informed_consent'
 # diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)

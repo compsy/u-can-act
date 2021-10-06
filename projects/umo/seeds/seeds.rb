@@ -9,14 +9,13 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
   team = organization.teams.find_by(name: demo_team)
   normal_role = team.roles.where(title: normal_role_title).first
 
-  # Create weekly protocol
   Person.create!(first_name: 'Janie',
                  last_name: 'Fictieva',
                  gender: 'female',
                  email: 'test@default.com',
                  role: normal_role)
 
-  # Create daily protocol instance
+  # Create profiling protocol instance
   protocol = Protocol.find_by(name: 'profiling')
   person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.first
   prot_sub = ProtocolSubscription.create!(
@@ -28,7 +27,7 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
 
   invitation_set = InvitationSet.create!(person: person)
 
-  [prot_sub.responses.first, prot_sub.responses.second].each do |responseobj|
+  prot_sub.responses.each do |responseobj|
     responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
   end
 

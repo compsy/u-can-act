@@ -499,7 +499,7 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2021.3)
       tzinfo (>= 1.0.0)
-    ucf_messages (0.0.2)
+    ucf_messages (0.0.3)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)

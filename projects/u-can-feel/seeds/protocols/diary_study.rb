@@ -17,6 +17,13 @@ diary_protocol.informed_consent_questionnaire_id = nil
 
 diary_protocol.save!
 
+# Add rewards
+diary_protocol.rewards.destroy_all
+reward = diary_protocol.rewards.create!(threshold: 1, reward_points: 100)
+reward.save!
+reward = diary_protocol.rewards.create!(threshold: 3, reward_points: 150)
+reward.save!
+
 questionnaire = Questionnaire.find_by(key: questionnaire_key)
 raise "Error: questionnaire for protocol #{pr_name} not found: #{questionnaire_key}" unless questionnaire
 questionnaire_id = questionnaire.id
@@ -27,6 +34,7 @@ diary_measurement.open_from_offset = 12.hours # if we schedule these at week sta
 diary_measurement.open_from_day = 'saturday' # shift to the next saturday at noon
 diary_measurement.period = 1.week # weekly for 44 weeks
 diary_measurement.open_duration = 36.hours # don't allow people to fill it out the next day
+diary_measurement.reward_points = 1
 diary_measurement.reminder_delay = 24.hours # send one reminder sunday at noon
 diary_measurement.redirect_url = '/klaar'
 diary_measurement.stop_measurement = false # filling out this measurement does not stop the protocol subscription

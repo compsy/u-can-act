@@ -85,6 +85,8 @@ deploy_job:develop:
   <<: *deploy_job
   environment:
     name: develop
+  after_script:
+    - kubectl scale --replicas=2 deployment/svc-questionnaires -n sdv-mvp-develop
   only:
     refs:
       - develop

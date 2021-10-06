@@ -14,7 +14,6 @@ export default class RewardPage extends React.Component {
   }
 
   componentDidMount () {
-    console.log('hellow world')
     this.loadRewardData(this.props.protocolSubscriptionId)
     this.loadCurrentPerson()
   }

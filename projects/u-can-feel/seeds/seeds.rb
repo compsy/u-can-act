@@ -1,45 +1,57 @@
 # frozen_string_literal: true
 
-if Rails.env.development? || Rails.env.staging?
-  # OneTimeResponse.destroy_all
-  # puts 'Questionnaire demo links:'
-  # puts ''
-  #
-  # Dir[Rails.root.join('projects',
-  #                     'u-can-feel',
-  #                     'seeds',
-  #                     'questionnaires',
-  #                     '**',
-  #                     '*.rb')].map { |x| File.basename(x, '.rb') }.each do |questionnaire_key|
-  #   questionnaire = Questionnaire.find_by(key: questionnaire_key)
-  #   next unless questionnaire
-  #
-  #   # Create the protocol for the questionnaire
-  #
-  #   pr_name = questionnaire_key
-  #   boek_protocol = Protocol.find_by(name: pr_name)
-  #   boek_protocol ||= Protocol.new(name: pr_name)
-  #   boek_protocol.duration = 1.day
-  #
-  #   boek_protocol.save!
-  #
-  #   boek_id = questionnaire.id
-  #   boek_measurement = boek_protocol.measurements.find_by(questionnaire_id: boek_id)
-  #   boek_measurement ||= boek_protocol.measurements.build(questionnaire_id: boek_id)
-  #   boek_measurement.open_from_offset = 0 # open right away
-  #   boek_measurement.period = nil # one-off and not repeated
-  #   boek_measurement.open_duration = nil # always open
-  #   boek_measurement.reward_points = 0
-  #   boek_measurement.stop_measurement = true # unsubscribe immediately
-  #   boek_measurement.should_invite = false # don't send invitations
-  #   boek_measurement.redirect_url = '/klaar' # after filling out questionnaire, go to person edit page.
-  #   boek_measurement.save!
-  #
-  #   # Create one time response
-  #   protocol = Protocol.find_by(name: pr_name)
-  #   token = questionnaire_key
-  #   OneTimeResponse.create!(token: token, protocol: protocol)
-  #   puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
-  # end
-  # puts ''
+if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.env.development? || Rails.env.staging?)
+  demo_organization = 'UCF'
+  demo_team = 'UCF'
+  normal_role_title = 'School1'
+
+  organization = Organization.find_by(name: demo_organization)
+  team = organization.teams.find_by(name: demo_team)
+  normal_role = team.roles.where(title: normal_role_title).first
+
+  Person.create!(first_name: 'Janie',
+                 last_name: 'Fictieva',
+                 gender: 'female',
+                 email: 'test@default.com',
+                 role: normal_role)
+
+  # Create diary study protocol instance
+  protocol = Protocol.find_by(name: 'diary_study')
+  person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.first
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now
+  )
+
+  invitation_set = InvitationSet.create!(person: person)
+
+  # Test out the first diary study response
+  [prot_sub.responses.first].each do |responseobj|
+    responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  end
+
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "Diary study protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  # Create cohort study protocol instance
+  protocol = Protocol.find_by(name: 'cohort_study')
+  person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.first
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now
+  )
+
+  invitation_set = InvitationSet.create!(person: person)
+
+  # Test out all questionnaires
+  prot_sub.responses.each do |responseobj|
+    responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  end
+
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "Cohort study protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 end

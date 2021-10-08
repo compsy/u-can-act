@@ -28,9 +28,9 @@ spec:
       containers:
         resources:
           limits:
-            memory: "1Gi"
+            memory: "1.5Gi"
           requests:
-            memory: "256Mi"
+            memory: "768Mi"
         - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__

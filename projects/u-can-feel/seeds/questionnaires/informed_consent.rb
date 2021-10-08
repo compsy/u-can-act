@@ -15,7 +15,7 @@ ic_content_16_min = <<~'END'
       We vragen je om mee te doen aan een onderzoek over gevoelens van geluk, angst en somberheid bij leerlingen op de
       middelbare school. Ook jouw school doet mee aan dit onderzoek, net als andere scholen in Zwolle.
     </p>
-    <p>Het onderzoek loopt van 1 september 2020 tot 1 september 2023. Het wordt gedaan door de afdeling Psychologie van de
+    <p>Het onderzoek loopt van 1 maart 2021 tot 1 maart 2024. Het wordt gedaan door de afdeling Psychologie van de
       Rijksuniversiteit Groningen. De onderzoekers zijn: Ymkje Anna de Vries (<a href='mailto:y.a.de.vries@rug.nl'>y.a.de.vries@rug.nl</a>)
       en Bert Wienen (<a href='mailto:b.wienen@windesheim.nl'>b.wienen@windesheim.nl</a>).
     </p>
@@ -44,7 +44,7 @@ ic_content_16_min = <<~'END'
     <p>
       Uit de hele groep leerlingen kiezen we een klein aantal leerlingen die we vragen om tijdens het schooljaar elke week
       een paar vragen te beantwoorden via een app op de telefoon. Dit kost ongeveer 5 minuten per week. Hiervoor krijg je
-      een vergoeding van 1 euro per ingevulde vragenlijst. Dit gebeurt pas volgend schooljaar.
+      een vergoeding van 1 euro per ingevulde vragenlijst. Dit kan dit schooljaar of pas volgend schooljaar gebeuren.
     </p>
     <p>
       We vragen ook toestemming van jou en je ouders om gegevens van de school te krijgen over jouw verzuim (afwezigheid
@@ -63,8 +63,8 @@ ic_content_16_min = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Hoe gaan we met je gegevens om?</strong></p>
     <p>
       Om het onderzoek goed uit te kunnen voeren, is het nodig dat we je leerlingnummer en je mobiele
-      telefoonnummer opslaan. Zo kunnen we later opnieuw contact met je opnemen. Na afloop van het onderzoek, op 1 september
-      2023, vernietigen we deze gegevens.
+      telefoonnummer opslaan. Zo kunnen we later opnieuw contact met je opnemen. Na afloop van het onderzoek, op 1 maart
+      2024, vernietigen we deze gegevens.
     </p>
     <p>
       Alle informatie die je aan ons geeft, wordt vertrouwelijk behandeld. Dit betekent dat we deze informatie <strong>nooit</strong>
@@ -78,7 +78,7 @@ ic_content_16_min = <<~'END'
     <p>
       Je hebt recht op toegang tot je eigen gegevens. Je ouders hebben ook het recht om ons te vragen om jouw gegevens 
       te veranderen of te verwijderen. Hiervoor kunnen jij of je ouders contact opnemen met de onderzoekers. Je hoeft 
-      niet te zeggen waarom je dat wil. Dit kan tot 1 september 2023. Als je antwoorden op de vragenlijsten al gebruikt zijn 
+      niet te zeggen waarom je dat wil. Dit kan tot 1 maart 2024. Als je antwoorden op de vragenlijsten al gebruikt zijn 
       voor wetenschappelijk onderzoek, zijn we verplicht om de antwoorden te bewaren. Je kunt ons dan wel vragen om jouw 
       antwoorden niet meer te gebruiken voor nieuw onderzoek.
     </p>
@@ -141,7 +141,7 @@ ic_content_16_plus = <<~'END'
       We vragen je om mee te doen aan een onderzoek over gevoelens van geluk, angst en somberheid bij leerlingen op de
       middelbare school. Ook jouw school doet mee aan dit onderzoek, net als andere scholen in Zwolle.
     </p>
-    <p>Het onderzoek loopt van 1 september 2020 tot 1 september 2023. Het wordt gedaan door de afdeling Psychologie van de
+    <p>Het onderzoek loopt van 1 maart 2021 tot 1 maart 2024. Het wordt gedaan door de afdeling Psychologie van de
       Rijksuniversiteit Groningen. Het onderzoeksplan is ook goed gekeurd door de ethische commissie van de afdeling
       Psychologie. De onderzoekers zijn: Ymkje Anna de Vries (<a href='mailto:y.a.de.vries@rug.nl'>y.a.de.vries@rug.nl</a>)
       en Bert Wienen (<a href='mailto:b.wienen@windesheim.nl'>b.wienen@windesheim.nl</a>).
@@ -171,7 +171,7 @@ ic_content_16_plus = <<~'END'
     <p>
       Uit de hele groep leerlingen kiezen we een klein aantal leerlingen die we vragen om tijdens het schooljaar elke week
       een paar vragen te beantwoorden via een app op de telefoon. Dit kost ongeveer 5 minuten per week en hiervoor krijg
-      je een vergoeding van 1 euro per ingevulde vragenlijst. Dit gebeurt pas volgend schooljaar.
+      je een vergoeding van 1 euro per ingevulde vragenlijst. Dit kan dit schooljaar gebeuren of pas volgend jaar.
     </p>
     <p>
       We vragen ook jouw toestemming om gegevens van de school te krijgen over jouw verzuim (afwezigheid van school). Dit
@@ -190,8 +190,8 @@ ic_content_16_plus = <<~'END'
     <p><strong><i class='material-icons'>chevron_right</i> Hoe gaan we met je gegevens om?</strong></p>
     <p>
       Om het onderzoek goed uit te kunnen voeren, is het nodig dat we je leerlingnummer en je mobiele
-      telefoonnummer opslaan. Zo kunnen we later opnieuw contact met je opnemen. Na afloop van het onderzoek, op 1 september
-      2023, vernietigen we deze gegevens.
+      telefoonnummer opslaan. Zo kunnen we later opnieuw contact met je opnemen. Na afloop van het onderzoek, op 1 maart
+      2024, vernietigen we deze gegevens.
     </p>
     <p>
       Alle informatie die je aan ons geeft, wordt vertrouwelijk behandeld. Dit betekent dat we deze informatie <strong>nooit</strong>
@@ -205,7 +205,7 @@ ic_content_16_plus = <<~'END'
     <p>
       Je hebt recht op toegang tot je eigen gegevens. Je hebt ook het recht om ons te vragen om gegevens te veranderen 
       of te verwijderen. Hiervoor kun je contact opnemen met de onderzoekers. Je hoeft niet te zeggen waarom je dat wil. 
-      Dit kan tot 1 september 2023. Als je antwoorden op de vragenlijsten al gebruikt zijn voor wetenschappelijk onderzoek, 
+      Dit kan tot 1 maart 2024. Als je antwoorden op de vragenlijsten al gebruikt zijn voor wetenschappelijk onderzoek, 
       zijn we verplicht om de antwoorden te bewaren. Je kunt ons dan wel vragen om jouw antwoorden niet meer te gebruiken 
       voor nieuw onderzoek.
     </p>
@@ -293,7 +293,7 @@ dagboek_content = [
     required: true,
     title: 'Toestemming om mee te doen aan het onderzoek',
     options: [
-      'Ja, ik geef toestemming om mee te doen aan het onderzoek. Deze toestemming loopt tot 01-09-2023, tenzij ik besluit om eerder te stoppen. Ik geef ook toestemming voor het verwerken van mijn persoonsgegevens zoals uitgelegd in de informatiebrief hierboven.'
+      'Ja, ik geef toestemming om mee te doen aan het onderzoek. Deze toestemming loopt tot 01-03-2024, tenzij ik besluit om eerder te stoppen. Ik geef ook toestemming voor het verwerken van mijn persoonsgegevens zoals uitgelegd in de informatiebrief hierboven.'
     ],
     show_otherwise: false
   }, {

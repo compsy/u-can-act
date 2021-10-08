@@ -7,11 +7,11 @@ spec:
   schedule: "0 1 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -41,11 +41,11 @@ spec:
   schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -75,11 +75,11 @@ spec:
   schedule: "0 3 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -109,11 +109,11 @@ spec:
   schedule: "0 4 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -143,11 +143,11 @@ spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -177,11 +177,11 @@ spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -211,11 +211,11 @@ spec:
   schedule: "*/30 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -245,11 +245,11 @@ spec:
   schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth
@@ -279,11 +279,11 @@ spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
         spec:
-          concurrencyPolicy: Replace
           restartPolicy: Never
           imagePullSecrets:
             - name: gitlab-auth

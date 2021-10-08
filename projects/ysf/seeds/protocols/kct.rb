@@ -25,9 +25,13 @@ questionnaires = [
   'KCT Julliet',
   'KCT Kilo',
   'KCT Lima',
-  'KCT Mike'
+  'KCT Mike',
+  'KCT Sociogram'
 ]
 
+###
+# Set metadata for all questionnaires.
+###
 questionnaires.each do |name|
   dagboekvragenlijst_id = Questionnaire.find_by(name: name)&.id
   raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id
@@ -42,11 +46,15 @@ questionnaires.each do |name|
   db_measurement.save!
 end
 
+###
+# Override metadata for start-eind and sociogram questionnaires.
+###
 questionnaires = [
   'KCT Start van de week',
   'KCT Eind van de week',
   'KCT Start van de week VCO',
-  'KCT Eind van de week VCO'
+  'KCT Eind van de week VCO',
+  'KCT Sociogram'
 ]
 
 questionnaires.each do |name|
@@ -55,19 +63,23 @@ questionnaires.each do |name|
   db_measurement = protocol.measurements.where(questionnaire_id: dagboekvragenlijst_id).first
   db_measurement ||= protocol.measurements.build(questionnaire_id: dagboekvragenlijst_id)
   db_measurement.reward_points = default_reward_points
-  db_measurement.stop_measurement = false
-  db_measurement.should_invite = true
+  db_measurement.stop_measurement = false # Filling out this measurement does not stop the protocol subscription.
+  db_measurement.should_invite = false # Send invitation (SMS).
   db_measurement.period = 1.week # Repeat weekly.
 
-  # For an example, see `differentiatie_2.rb`.
+  # For an example, see `differentiatie_2.rb` or `protocols/teens_diary.rb`.
   if name.include? "Start"
     db_measurement.open_from_day = 'sunday'
     db_measurement.open_from_offset = 6.hours # Sunday at 06:00.
     db_measurement.open_duration = 3.days + 6.hours # Close Wednesday at 12:00.
-  else
+  elsif name.include? "Eind"
     db_measurement.open_from_day = 'wednesday'
     db_measurement.open_from_offset = 12.hours # Wednesday at 12:00.
     db_measurement.open_duration = 4.days - 6.hours # Close Sunday at 06:00.
+  else # Sociogram.
+    db_measurement.open_from_day = 'sunday'
+    db_measurement.open_from_offset = 4.hours # Sunday at 04:00.
+    db_measurement.open_duration = 7.days - 2.hours # Close Sunday at 02:00.
   end
 
   db_measurement.save!

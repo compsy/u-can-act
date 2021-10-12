@@ -64,6 +64,8 @@ export default class RewardPage extends React.Component {
 
   renderStudentRewardPage () {
     let earnedEuros = this.state.result.earned_euros
+    if (earnedEuros <= 0) return <DefaultRewardPage />
+
     let name = `${this.state.person.first_name} ${this.state.person.last_name}`
     if (this.isDone()) {
       return <StudentFinalRewardPage earnedEuros={earnedEuros}

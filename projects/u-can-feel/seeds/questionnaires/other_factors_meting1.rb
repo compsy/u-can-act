@@ -10,7 +10,7 @@ dagboek_content = [
     type: :raw,
     content: '<p class="flow-text">Je bent er bijna! <br><br>
         De laatste vragen gaan over een aantal andere dingen die invloed kunnen hebben op hoe het met je gaat.<br><br>
-        De eerste vragen gaan over je geloof. Sommige kinderen geloven in God, Allah of een andere hogere macht. Andere kinderen geloven daar niet in.
+        De eerste vragen gaan over je geloof. Sommige mensen geloven in God, Allah of een andere hogere macht. Anderen geloven daar niet in.
     </p>'
   }, {
     id: :v1,

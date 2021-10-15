@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-db_title = 'Geloof, gebeurtenissen en sociale media'
-db_name1 = 'other_factors'
+db_title = 'Geloof, gebeurtenissen, alcohol/drugs en sociale media'
+db_name1 = 'other_factors_meting2'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 db_title = 'Toestemmingsverklaring'
-db_name1 = 'informed_consent'
+db_name1 = 'informed_consent_voorjaar'
 dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1

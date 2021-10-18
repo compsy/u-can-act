@@ -19,6 +19,8 @@ class GenerateInvitationText < ActiveInteraction::Base
     invitation_text = generate_localized_text(response)
     return invitation_text if invitation_text.present?
 
+    return UcfMessages.message(response) if ENV['PROJECT_NAME'] == 'u-can-feel'
+
     return mentor_texts(response) if response.protocol_subscription.person.mentor?
 
     student_texts(response)

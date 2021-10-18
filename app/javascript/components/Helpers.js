@@ -1,8 +1,10 @@
 export function printAsMoney(euroValue) {
-  const REWARD_IS_MONEY = false;
+  const REWARD_IS_MONEY = true;
   const SIGN = ' punten';
   const SIGN_SINGULAR = ' punt';
   const FRONT_PLACEMENT = false;
+
+  if (REWARD_IS_MONEY) return printAsEuros(euroValue)
 
   const precision = 2;
   const oneHundredPercent = 100;
@@ -23,4 +25,13 @@ export function printAsMoney(euroValue) {
     return sign + updatedEuroValue;
   }
   return updatedEuroValue + sign;
+}
+
+export function printAsEuros(euroValue) {
+  euroValue = parseFloat(Math.round(euroValue * 100) / 100).toFixed(2);
+  euroValue = euroValue.toString();
+  euroValue = euroValue.replace('.', ',');
+  euroValue = euroValue.replace(',00', ',-');
+  euroValue = '€' + euroValue;
+  return (euroValue);
 }

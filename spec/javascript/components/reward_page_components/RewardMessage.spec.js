@@ -11,7 +11,7 @@ describe('RewardMessage', () => {
   });
 
   it('should render the correct reward text', () => {
-    const expected = `Je hebt hiermee ${printAsMoney(123)} verdiend. Je kunt nog 2 punten verdienen.`;
+    const expected = `Je hebt hiermee ${printAsMoney(123)} verdiend. Je kunt nog €2,- verdienen.`;
     expect(wrapper.text()).toEqual(expected);
   });
 

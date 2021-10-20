@@ -56,9 +56,9 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Welk advies had je op de basisschool gekregen voor je schoolniveau? Je kunt weer meerdere niveaus aanklikken.',
     options: ['VMBO basis', 'VMBO kader', 'VMBO gemengd', 'VMBO-TL', 'Havo', 'Vwo, atheneum of gymnasium', 'Anders', 'Geen advies', 'Ik weet het niet meer']
-  },{
+  }, {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragen gaan over je thuis. Hiermee bedoelen we het huis waarin je woont. In dit huis woont ook een volwassene die voor je zorgt. Sommige jongeren hebben meer dan 1 thuis.
+    content: '<p class="flow-text">De volgende vragen gaan over je thuis. Hiermee bedoelen we het huis waarin je woont. Sommige jongeren hebben meer dan 1 thuis. Bijvoorbeeld een huis bij je vader én een huis bij je moeder. Of een huis bij je ouders en een huis bij pleegouders of in een woongroep.
 </p>'
   }, {
     id: :v5,
@@ -67,14 +67,14 @@ dagboek_content = [
     title: 'In hoeveel verschillende huizen woon je?',
     options: [
       { title: '1 huis', shows_questions: %i[v6_a v6_b] },
-      { title: '2 of meer huizen', shows_questions: %i[v7_a v7_b v7_c v7_d] }
+      { title: '2 of meer huizen', shows_questions: %i[v7_a v7_b v7_c v8_a v8_b v8_c] }
     ]
   }, {
     id: :v6_a,
     type: :radio,
     hidden: true,
     show_otherwise: false,
-    title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
+    title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders.',
     options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
   }, {
     id: :v6_b,
@@ -96,7 +96,7 @@ dagboek_content = [
     type: :radio,
     hidden: true,
     show_otherwise: false,
-    title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
+    title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders.',
     options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
   }, {
     id: :v7_c,
@@ -107,28 +107,18 @@ dagboek_content = [
     title: 'Wie wonen er nog meer bij je in dit huis? Je kunt meerdere opties aanvinken.',
     options: ['Niemand anders', 'Een stiefouder of vriend/vriendin van je ouder', '(Half)broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
   }, {
-    id: :v7_d,
-    type: :radio,
-    hidden: true,
-    show_otherwise: false,
-    title: 'Woon je hiernaast nog in een ander huis?',
-    options: [
-      { title: 'Ja', shows_questions: %i[v8_a v8_b v8_c v8_d] },
-      { title: 'Nee' }
-    ]
-  }, {
     id: :v8_a,
     type: :radio,
     hidden: true,
     show_otherwise: false,
-    title: 'Hoeveel nachten per week slaap je in dit andere huis?',
+    title: 'Hoeveel nachten per week slaap je in je andere huis? Als je 3 of meer huizen hebt, kies dan één van de andere huizen waar je woont.',
     options: ['Minder dan 1 nacht per week', '1 nacht per week', '2 nachten per week', '3 nachten per week', '4 nachten per week', '5 nachten per week', '6 nachten per week', '7 nachten per week']
   }, {
     id: :v8_b,
     type: :radio,
     hidden: true,
     show_otherwise: false,
-    title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
+    title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders.',
     options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
   }, {
     id: :v8_c,
@@ -138,39 +128,7 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Wie wonen er nog meer bij je in dit huis? Je kunt meerdere opties aanvinken.',
     options: ['Niemand anders', 'Een stiefouder of vriend/vriendin van je ouder', '(Half)broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
-  }, {
-    id: :v8_d,
-    type: :radio,
-    hidden: true,
-    show_otherwise: false,
-    title: 'Woon je hiernaast nog in een ander huis?',
-    options: [
-      { title: 'Ja', shows_questions: %i[v9_a v9_b v9_c] },
-      { title: 'Nee' }
-    ]
-  }, {
-    id: :v9_a,
-    type: :radio,
-    hidden: true,
-    show_otherwise: false,
-    title: 'Hoeveel nachten per week slaap je in dit andere huis?',
-    options: ['Minder dan 1 nacht per week', '1 nacht per week', '2 nachten per week', '3 nachten per week', '4 nachten per week', '5 nachten per week', '6 nachten per week', '7 nachten per week']
-  }, {
-    id: :v9_b,
-    type: :radio,
-    hidden: true,
-    show_otherwise: false,
-    title: 'Woon je in dit huis met je ouders? We bedoelen hiermee je vader of moeder, geen pleegouders of stiefouders',
-    options: ['Ja, beide ouders', 'Ja, een van beide ouders', 'Nee, <u>geen</u> van beide ouders']
-  }, {
-    id: :v9_c,
-    type: :checkbox,
-    hidden: true,
-    required: true,
-    show_otherwise: false,
-    title: 'Wie wonen er nog meer bij je in dit huis? Je kunt meerdere opties aanvinken.',
-    options: ['Niemand anders', 'Een stiefouder of vriend/vriendin van je ouder', '(Half)broer(tjes) of zus(jes)', 'Stiefbroer(tjes) of stiefzus(jes)', 'Opa of oma', 'Pleegouder(s)', 'Andere volwassenen', 'Andere kinderen']
-  } 
+  }
 ]
 
 

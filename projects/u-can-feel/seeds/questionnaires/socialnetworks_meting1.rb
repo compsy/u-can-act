@@ -138,10 +138,22 @@ dagboek_content = [
     Pesten is dus niet een ruzie tussen twee of meer jongeren die ongeveer even sterk zijn. Pesten is ook niet plagen om een geintje. Pesten is als je steeds opnieuw vervelend doet tegen iemand anders.
     </p>'
   }, {
-    id: :v16,
+    id: :v16_a,
     type: :radio,
     show_otherwise: false,
-    title: 'Hoe vaak ben je de afgelopen twee maanden gepest?',
+    title: 'Hoe vaak ben je de afgelopen twee maanden <u>"in het echt"</u> gepest? Bijvoorbeeld op school of op straat buiten school.',
+    options: [
+      { title: 'Ik ben niet gepest' },
+      { title: 'Ik ben één of twee keer gepest', shows_questions: %i[v17 v21 v22 v23] },
+      { title: 'Ik ben twee of drie keer per maand gepest', shows_questions: %i[v17 v21 v22 v23] },
+      { title: 'Ik ben ongeveer één keer per week gepest', shows_questions: %i[v17 v21 v22 v23] },
+      { title: 'Ik ben meerdere keren per week gepest', shows_questions: %i[v17 v21 v22 v23] }
+    ]
+  }, {
+    id: :v16_b,
+    type: :radio,
+    show_otherwise: false,
+    title: 'Hoe vaak ben je de afgelopen twee maanden <u>online</u> gepest? Bijvoorbeeld via social media.',
     options: [
       { title: 'Ik ben niet gepest' },
       { title: 'Ik ben één of twee keer gepest', shows_questions: %i[v17 v21 v22 v23] },

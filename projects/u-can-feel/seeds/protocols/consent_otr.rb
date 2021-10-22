@@ -31,5 +31,5 @@ otr ||= OneTimeResponse.new(token: token)
 otr.protocol = protocol
 otr.save!
 
-puts "#{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
+puts "Consent OTR protocol: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"
 puts ''

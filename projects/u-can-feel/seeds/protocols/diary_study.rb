@@ -31,6 +31,7 @@ questionnaire_id = questionnaire.id
 
 diary_measurement = diary_protocol.measurements.find_by(questionnaire_id: questionnaire_id)
 diary_measurement ||= diary_protocol.measurements.build(questionnaire_id: questionnaire_id)
+diary_measurement.open_from_offset = 0 # if we schedule these at week start, this is saturday noon
 # diary_measurement.open_from_offset = 12.hours # if we schedule these at week start, this is saturday noon
 # diary_measurement.open_from_day = 'saturday' # shift to the next saturday at noon
 diary_measurement.open_from_day = nil # shift to the next saturday at noon

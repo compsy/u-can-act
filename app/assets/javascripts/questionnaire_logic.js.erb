@@ -64,9 +64,32 @@ function toggle_shown_questions() {
   }
 }
 
+function toggle_shown_questions_for_dropdown () {
+  var options = $(this).closest('.row').find('option[data-shows-questions]');
+  var parentInput = $(this).closest('.row').find('select');
+
+  for (var i = 0; i < options.length; i++) {
+    var elem = $(options[i]);
+    var this_is_checked = elem.attr('value') === $(parentInput).val();
+    elem.data('shows-questions').forEach(function (entry) {
+      show_hide_entry(entry, this_is_checked);
+    });
+  }
+}
+
 function toggle_hidden_questions() {
   $(this).closest('.row').find('input[data-hides-questions]').each(function (_index) {
     var this_is_checked = $(this).is(':checked');
+    $(this).data('hides-questions').forEach(function (entry) {
+      show_hide_entry(entry, !this_is_checked);
+    });
+  });
+}
+
+function toggle_hidden_questions_for_dropdown () {
+  var parentInput = $(this).closest('.row').find('select');
+  $(this).closest('.row').find('option[data-hides-questions]').each(function (_index) {
+    var this_is_checked = $(this).attr('value') === $(parentInput).val();
     $(this).data('hides-questions').forEach(function (entry) {
       show_hide_entry(entry, !this_is_checked);
     });
@@ -276,8 +299,10 @@ function questionnaireLoaded() {
   const array_of_dom_elements = document.querySelectorAll('input[type=range]')
   M.Range.init(array_of_dom_elements)
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
+  $('select').change(toggle_shown_questions_for_dropdown).change(toggle_hidden_questions_for_dropdown);
   $(document).on('touchstart mousedown click change', '.notchanged input[type=range]', removeNotChanged);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);
+  $('option[data-shows-questions]').each(toggle_shown_questions_for_dropdown);
   // The line below breaks stuff, just assume that the questionnaire visibilities are correct by default
   //$('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);
   $('.otherwise-option').each(toggle_otherwise_field);

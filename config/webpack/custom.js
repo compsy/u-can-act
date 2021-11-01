@@ -1,3 +1,4 @@
+// NOTE: no longer used? Does jquery still work?
 module.exports = {
   resolve: {
     alias: {

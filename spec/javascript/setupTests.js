@@ -18,3 +18,6 @@ I18n.locale = 'nl';
 // comment the line below if you want the tests to spec with e.g.,  "[missing "nl.pages.klaar.header" translation]'
 // instead of the actual text.
 require('../../public/javascripts/translations')
+
+// To check if we're in a test
+process.env.TESTING = 'true'

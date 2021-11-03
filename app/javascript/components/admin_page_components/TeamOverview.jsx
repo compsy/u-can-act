@@ -51,7 +51,9 @@ export default class TeamOverview extends React.Component {
       type: 'GET',
       dataType: 'json',
       error: (_err) => {
-        console.log('Error, call failed!');
+        if (process.env.TESTING !== 'true') {
+          console.log('Error, call failed!');
+        }
       },
       beforeSend: self.setHeader
     }).done((response) => {

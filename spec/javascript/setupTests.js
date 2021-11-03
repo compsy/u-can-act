@@ -7,6 +7,9 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 
+// materialize-css is only used in the specs
+require('materialize-css')
+
 // I18n stuff
 import I18n from '../../public/javascripts/i18n';
 I18n.defaultLocale = 'nl';

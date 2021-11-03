@@ -22,6 +22,7 @@
 //= require highcharts/modules/boost-canvas
 //= require highcharts/modules/boost
 //= require study_progress_bar
+//= require rails-ujs
 //= require sketch
 //= require_tree .
 $(function(){

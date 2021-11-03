@@ -23,8 +23,10 @@
 //= require highcharts/modules/boost
 //= require study_progress_bar
 //= require rails-ujs
+//= require materialize-sprockets
 //= require sketch
 //= require_tree .
+
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})
 });

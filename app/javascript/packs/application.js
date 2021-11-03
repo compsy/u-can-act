@@ -17,9 +17,6 @@ import $ from 'jquery'
 global.$ = global.jQuery = $
 import {} from 'jquery-ujs'
 
-// Make the M function and other materialize javascript functions available
-require('materialize-css')
-
 // I18n stuff
 import I18n from '../../../public/javascripts/i18n';
 I18n.defaultLocale = 'nl' // TODO: should be: I18n.defaultLocale = "<%= I18n.default_locale %>";

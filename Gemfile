@@ -173,6 +173,7 @@ end
 gem 'silencer'
 
 # JS / CSS Frameworks
+# Materialize documentation at https://materializecss.github.io/materialize/
 gem 'materialize-sass'
 gem 'modernizr-rails'
 

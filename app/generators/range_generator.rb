@@ -75,7 +75,6 @@ class RangeGenerator < QuestionTypeGenerator
   end
 
   # Disabling this rubocop because tag.datalist is not a defined method.
-  # rubocop:disable Rails/ContentTag
   def range_slider_with_ticks(minmax:, step:, question:, range_options:)
     range_options[:list] = idify(question[:id], 'datalist')
     range_body = tag.input(**range_options)
@@ -84,7 +83,6 @@ class RangeGenerator < QuestionTypeGenerator
     body = safe_join([range_body, range_datalist])
     tag.p(body, class: 'range-field with-ticks')
   end
-  # rubocop:enable Rails/ContentTag
 
   def range_datalist(min:, max:, step:)
     body = []

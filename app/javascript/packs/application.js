@@ -10,7 +10,7 @@
 // console.log('Hello World from Webpacker')
 import 'babel-polyfill'
 
-import '../stylesheets/application'
+import '../stylesheets/application.scss'
 
 // Make jquery available
 import $ from 'jquery'

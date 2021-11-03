@@ -23,6 +23,7 @@
 //= require highcharts/modules/boost
 //= require study_progress_bar
 //= require rails-ujs
+//= # materialize-sprockets is from the materialize-sass gem.
 //= require materialize-sprockets
 //= require sketch
 //= require_tree .

@@ -5,7 +5,7 @@ questionnaire_keys = %w[demografie_meting1 wellbeing_meting1 school_meting1 soci
 pr_name = File.basename(__FILE__)[0...-3]
 cohort_protocol = Protocol.find_by(name: pr_name)
 cohort_protocol ||= Protocol.new(name: pr_name)
-cohort_protocol.duration = 4.weeks 
+cohort_protocol.duration = 4.weeks
 cohort_protocol.invitation_text = 'Je bent uitgenodigd door je school om mee te doen aan het u-can-feel onderzoek. Klik op de volgende link om een aantal vragenlijsten in te vullen.'
 
 ic_key = 'informed_consent_najaar'
@@ -27,7 +27,7 @@ questionnaire_keys.each_with_index do |questionnaire_key, idx|
   measurement.open_from_day = nil # don't wait for a specific day
   measurement.period = nil # one-off and not repeated
   measurement.open_duration = nil # open for the entire duration of the protocol
-  measurement.reminder_delay = 168.hours # send a reminder after 1 week
+  measurement.reminder_delay = 1.week # send a reminder after 1 week
   measurement.priority = questionnaire_keys.count - idx # ensure that the questionnaires are shown in the specified order
   measurement.stop_measurement = (questionnaire_key == questionnaire_keys.last) # stop the protocol after filling out
   measurement.should_invite = true # send invitations                    # the last questionnaire

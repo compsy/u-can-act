@@ -59,31 +59,33 @@ export default class ProgressBar extends React.Component {
   renderGraph(valueEuro, percentageStreak, awardable, totalAvailable) {
     let radial = {};
     const firstElement = 1;
+    // Because the progress radial only works with integers, since we have amounts of 50 cents,
+    // we have multiply everytyhing by 2 and then divide by 2 when we show it.
     if (this.state.radial) {
       radial = this.state.radial;
       radial.update({
         series: [
           {
-            value: percentageStreak
+            value: percentageStreak * 2
           }, {
-            value: valueEuro
+            value: valueEuro * 2
           }
         ]
       });
     } else {
       radial = new RadialProgressChart('.progressRadial', {
         diameter: 250,
-        max: totalAvailable,
+        max: totalAvailable * 2,
         round: true,
         series: [ {
           labelStart: '\u2605',
-          value: percentageStreak,
+          value: percentageStreak * 2,
           color: this.totalAvailableColor
         }, {
           labelStart: '\u2714',
 
           // labelStart: '€',
-          value: valueEuro,
+          value: valueEuro * 2,
           color: this.valueEuroColor
         } ],
         center: {
@@ -91,7 +93,7 @@ export default class ProgressBar extends React.Component {
             (value, _unused, series) => {
               // Only update the label when the euro value is being displayed
               if (series.index === firstElement) {
-                return printAsMoney(value);
+                return printAsMoney(value / 2);
               }
               return printAsMoney(valueEuro);
             }

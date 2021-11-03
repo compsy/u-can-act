@@ -45,15 +45,6 @@ Capybara.ignore_hidden_elements = false
 # Webdrivers.logger.level = :DEBUG
 Webdrivers.cache_time = 86_400
 
-capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-  chromeOptions: {
-    args: %w[
-      headless disable-gpu no-sandbox
-      --window-size=1980,1080 --enable-features=NetworkService,NetworkServiceInProcess
-    ]
-  }
-)
-
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   [
@@ -65,15 +56,15 @@ Capybara.register_driver :selenium_chrome_headless do |app|
     'disable-dev-shm-usage',
     # We need to specify the window size, otherwise it is to small and
     # collapses everything in the admin panel.
-    'window-size=1280x1280'
+    'window-size=1920x1080',
+    'enable-features=NetworkService,NetworkServiceInProcess'
   ].each { |arg| options.add_argument(arg) }
   client = Selenium::WebDriver::Remote::Http::Default.new
   client.read_timeout = 600 # instead of the default 60
   client.open_timeout = 600 # instead of the default 60
   Capybara::Selenium::Driver.new(app,
                                  browser: :chrome,
-                                 options: options,
-                                 desired_capabilities: capabilities,
+                                 capabilities: options,
                                  http_client: client)
 end
 

@@ -20,13 +20,12 @@ class DateGenerator < QuestionTypeGenerator
   end
 
   def mydate_tag(question)
-    tag(:input,
-        type: 'text',
-        id: idify(question[:id]),
-        name: answer_name(question[:id]),
-        required: question[:required].present?,
-        class: 'datepicker',
-        data: mydate_data(question))
+    tag.input(type: 'text',
+              id: idify(question[:id]),
+              name: answer_name(question[:id]),
+              required: question[:required].present?,
+              class: 'datepicker',
+              data: mydate_data(question))
   end
 
   def mydate_data(question)

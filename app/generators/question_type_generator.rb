@@ -22,7 +22,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def tooltip_duration(tooltip_content)
-    TOOLTIP_MIN_DURATION + tooltip_content.length * MILLISEC_PER_CHARACTER
+    TOOLTIP_MIN_DURATION + (tooltip_content.length * MILLISEC_PER_CHARACTER)
   end
 
   def placeholder(question, default_placeholder)
@@ -56,9 +56,9 @@ class QuestionTypeGenerator < Generator
   def stop_subscription_token(option, answer_key, answer_value, response_id)
     return nil unless option[:stop_subscription]
 
-    tag(:input, name: stop_subscription_name(answer_key),
-                type: 'hidden',
-                value: Response.stop_subscription_token(answer_key, answer_value, response_id))
+    tag.input(name: stop_subscription_name(answer_key),
+              type: 'hidden',
+              value: Response.stop_subscription_token(answer_key, answer_value, response_id))
   end
 
   def stop_subscription_name(name)
@@ -146,13 +146,13 @@ class QuestionTypeGenerator < Generator
   def otherwise_textfield(question)
     # Used for both radios and checkboxes
     option_field = safe_join([
-                               tag(:input,
-                                   id: idify(question[:id], question[:raw][:otherwise_label], 'text'),
-                                   name: answer_name(idify(question[:id], question[:raw][:otherwise_label], 'text')),
-                                   type: 'text',
-                                   disabled: true,
-                                   required: true,
-                                   class: 'validate otherwise'),
+                               tag.input(id: idify(question[:id], question[:raw][:otherwise_label], 'text'),
+                                         name: answer_name(idify(question[:id], question[:raw][:otherwise_label],
+                                                                 'text')),
+                                         type: 'text',
+                                         disabled: true,
+                                         required: true,
+                                         class: 'validate otherwise'),
                                otherwise_textfield_label(question)
                              ])
     tag.div(option_field, class: 'input-field inline')

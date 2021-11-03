@@ -33,7 +33,7 @@ class NumberGenerator < QuestionTypeGenerator
     end
     tag_options[:min] = question[:min] if question[:min].present?
     tag_options[:max] = question[:max] if question[:max].present?
-    tag(:input, tag_options)
+    tag.input(tag_options)
   end
 
   def minimal_tag_options(question)

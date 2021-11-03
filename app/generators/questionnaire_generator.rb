@@ -68,9 +68,9 @@ class QuestionnaireGenerator
 
   def questionnaire_hidden_fields(params)
     hidden_body = []
-    hidden_body << tag(:input, name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
+    hidden_body << tag.input(name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
     params.each do |key, value|
-      hidden_body << tag(:input, name: key.to_s, type: 'hidden', value: value) if value.present?
+      hidden_body << tag.input(name: key.to_s, type: 'hidden', value: value) if value.present?
     end
     safe_join(hidden_body)
   end

@@ -27,7 +27,7 @@ class LikertGenerator < QuestionTypeGenerator
     tag_options = question_options(question, option, elem_id)
     tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
 
-    option_body = tag(:input, tag_options)
+    option_body = tag.input(tag_options)
     option_body = decorate_with_label(question, option_body, option)
     tag.div(option_body, class: 'likert-item')
   end

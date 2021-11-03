@@ -43,6 +43,7 @@ class RangeGenerator < QuestionTypeGenerator
     tag.div('', class: 'range-value-label')
   end
 
+  # rubocop:disable Metrics/AbcSize
   def range_slider(question)
     minmax = range_slider_minmax(question)
     step = question[:step] || 1
@@ -50,15 +51,16 @@ class RangeGenerator < QuestionTypeGenerator
     range_options[:value] = question[:value] if question[:value].present?
     if question[:vertical].present?
       range_options[:class] = 'vranger'
-      range_body = tag(:input, range_options)
+      range_body = tag.input(range_options)
       return tag.p(range_body, class: 'range-field')
     end
     unless question[:ticks].present?
-      range_body = tag(:input, range_options)
+      range_body = tag.input(range_options)
       return tag.p(range_body, class: 'range-field')
     end
     range_slider_with_ticks(minmax: minmax, step: step, question: question, range_options: range_options)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def range_question_options(minmax:, step:, question:)
     {
@@ -147,7 +149,7 @@ class RangeGenerator < QuestionTypeGenerator
                               class: 'vertical-range-label',
                               style: "height: #{col_width}%",
                               data: { value: value })
-      labels_body << tag('br')
+      labels_body << tag.br
     end
     labels_body << tag.span('')
     labels_body = tag.div(safe_join(labels_body), class: 'vertical-range-label-wrapper')

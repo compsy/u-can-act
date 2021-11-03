@@ -359,7 +359,7 @@ describe Protocol do
     it 'caluclates the correct reward for a subset of items' do
       current_measurement_completion = measurement_completion[4..8]
       expected = current_measurement_completion.reduce(0) do |tot, val|
-        tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
+        tot + ((val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100)
       end
       result = protocol.calculate_reward(current_measurement_completion, false)
       expect(result).to eq expected
@@ -368,7 +368,7 @@ describe Protocol do
     it 'calculates the max possible future score when the flag check_future is set' do
       current_measurement_completion = measurement_completion[-2..]
       expected = current_measurement_completion.reduce(0) do |tot, val|
-        tot + (val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100
+        tot + ((val[:streak] > 0 ? 1 * val[:reward_points] : 0) * 100)
       end
       result = protocol.calculate_reward(current_measurement_completion, true)
       expect(result).to eq expected

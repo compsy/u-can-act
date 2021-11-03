@@ -10,15 +10,12 @@
 // console.log('Hello World from Webpacker')
 import 'babel-polyfill'
 
-import '../stylesheets/application'
+import '../stylesheets/application.scss'
 
 // Make jquery available
 import $ from 'jquery'
 global.$ = global.jQuery = $
 import {} from 'jquery-ujs'
-
-// Make the M function and other materialize javascript functions available
-require('materialize-css')
 
 // I18n stuff
 import I18n from '../../../public/javascripts/i18n';

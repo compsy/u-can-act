@@ -28,7 +28,7 @@ class RadioGenerator < QuestionTypeGenerator
     tag_options = question_options(question, option, elem_id)
     tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
 
-    option_body = tag(:input, tag_options)
+    option_body = tag.input(**tag_options)
     option_body = decorate_with_label(question, option_body, option)
     decorate_with_stop_subscription(question, option_body, option)
   end
@@ -61,12 +61,11 @@ class RadioGenerator < QuestionTypeGenerator
   end
 
   def radio_otherwise_option(question)
-    tag(:input,
-        name: answer_name(idify(question[:id])),
-        type: 'radio',
-        id: idify(question[:id], question[:raw][:otherwise_label]),
-        value: question[:raw][:otherwise_label],
-        required: true,
-        class: 'otherwise-option')
+    tag.input(name: answer_name(idify(question[:id])),
+              type: 'radio',
+              id: idify(question[:id], question[:raw][:otherwise_label]),
+              value: question[:raw][:otherwise_label],
+              required: true,
+              class: 'otherwise-option')
   end
 end

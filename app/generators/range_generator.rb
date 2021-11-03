@@ -51,11 +51,11 @@ class RangeGenerator < QuestionTypeGenerator
     range_options[:value] = question[:value] if question[:value].present?
     if question[:vertical].present?
       range_options[:class] = 'vranger'
-      range_body = tag.input(range_options)
+      range_body = tag.input(**range_options)
       return tag.p(range_body, class: 'range-field')
     end
     unless question[:ticks].present?
-      range_body = tag.input(range_options)
+      range_body = tag.input(**range_options)
       return tag.p(range_body, class: 'range-field')
     end
     range_slider_with_ticks(minmax: minmax, step: step, question: question, range_options: range_options)
@@ -78,7 +78,7 @@ class RangeGenerator < QuestionTypeGenerator
   # rubocop:disable Rails/ContentTag
   def range_slider_with_ticks(minmax:, step:, question:, range_options:)
     range_options[:list] = idify(question[:id], 'datalist')
-    range_body = tag(:input, range_options)
+    range_body = tag.input(**range_options)
     datalist = range_datalist(min: minmax[:min], max: minmax[:max], step: step)
     range_datalist = content_tag(:datalist, datalist, id: idify(question[:id], 'datalist'))
     body = safe_join([range_body, range_datalist])
@@ -149,7 +149,8 @@ class RangeGenerator < QuestionTypeGenerator
                               class: 'vertical-range-label',
                               style: "height: #{col_width}%",
                               data: { value: value })
-      labels_body << tag.br
+      # because tag.br doesn't close the tag
+      labels_body << '<br />'.html_safe
     end
     labels_body << tag.span('')
     labels_body = tag.div(safe_join(labels_body), class: 'vertical-range-label-wrapper')

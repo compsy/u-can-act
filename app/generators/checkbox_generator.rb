@@ -41,7 +41,7 @@ class CheckboxGenerator < QuestionTypeGenerator
     elem_id = idify(question[:id], option[:raw][:value].presence || option[:raw][:title])
     tag_options = question_options(elem_id)
     tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
-    option_body = tag.input(tag_options)
+    option_body = tag.input(**tag_options)
 
     safe_join(
       [

@@ -4,6 +4,16 @@ db_name1 = 'other_factors_meting2'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
+
+def generate_up_to_options(max)
+  result = []
+  (max - 1).times do |index|
+    result << { title: "#{index + 1}", shows_questions: %i[v25_substance8a v25_substance8b v25_substance8c v25_substance8d v25_substance8e v25_substance8f] }
+  end
+  result
+end
+
+
 social_media_options = ['Nooit of bijna nooit', 'Zo nu en dan', 'Soms', 'Vaak', 'Heel vaak']
 dagboek_content = [
   {
@@ -219,19 +229,19 @@ dagboek_content = [
     type: :dropdown,
     show_otherwise: false,
     title: 'Hoeveel dagen dronk je 1 of 2 glazen alcohol?',
-    options: (0..30).to_a.map(&:to_s)
+    options: ['0', *generate_up_to_options(30)]
   }, {
     id: :v25_substance3,
     type: :dropdown,
     show_otherwise: false,
     title: 'Hoeveel dagen dronk je 3 of 4 glazen alcohol?',
-    options: (0..30).to_a.map(&:to_s)
+    options: ['0', *generate_up_to_options(30)]
   }, {
     id: :v25_substance4,
     type: :dropdown,
     show_otherwise: false,
     title: 'Hoeveel dagen dronk je 5 of meer glazen alcohol?',
-    options: (0..30).to_a.map(&:to_s)
+    options: ['0', *generate_up_to_options(30)]
   }, {
     id: :v25_substance5,
     type: :dropdown,
@@ -243,13 +253,13 @@ dagboek_content = [
     type: :dropdown,
     show_otherwise: false,
     title: 'Hoeveel dagen gebruikte je cannabis (hasj, wiet)?',
-    options: (0..30).to_a.map(&:to_s)
+    options: ['0', *generate_up_to_options(30)]
   }, {
     id: :v25_substance7,
     type: :dropdown,
     show_otherwise: false,
     title: "Hoeveel dagen gebruikte je een andere drug? Bijvoorbeeld cocaïne, speed, XTC, GHB of paddo's.",
-    options: (0..30).to_a.map(&:to_s)
+    options: ['0', *generate_up_to_options(30)]
   }, {
     id: :v25_substance8a,
     type: :radio,
@@ -321,7 +331,7 @@ dagboek_content = [
     show_otherwise: false,
     required: true,
     hidden: true,
-    title: 'Welke sociale media gebruik jij <b>dagelijks of bijna dagelijks</b>?',
+    title: 'Welke sociale media gebruik jij <u>dagelijks of bijna dagelijks</u>?',
     options: [
       { title: 'WhatsApp' },
       { title: 'Instagram' },
@@ -368,7 +378,7 @@ dagboek_content = [
     type: :radio,
     show_otherwise: false,
     hidden: true,
-    title: 'Heb je in de afgelopen maand je ontevreden gevoeld omdat je <b>meer</b> tijd aan sociale media had willen besteden?',
+    title: 'Heb je in de afgelopen maand je ontevreden gevoeld omdat je <u>meer</u> tijd aan sociale media had willen besteden?',
     options: social_media_options
   }, {
     id: :v28_b,

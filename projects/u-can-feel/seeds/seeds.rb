@@ -15,6 +15,18 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
                  email: 'test@default.com',
                  role: normal_role)
 
+  Person.create!(first_name: 'Janie2',
+                 last_name: 'Fictieva2',
+                 gender: 'female',
+                 email: 'test2@default.com',
+                 role: normal_role)
+
+  Person.create!(first_name: 'Janie3',
+                 last_name: 'Fictieva3',
+                 gender: 'female',
+                 email: 'test3@default.com',
+                 role: normal_role)
+
   # Create diary study protocol instance
   protocol = Protocol.find_by(name: 'diary_study')
   person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.first
@@ -37,7 +49,7 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
 
   # Create cohort study protocol instance
   protocol = Protocol.find_by(name: 'cohort_study')
-  person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.first
+  person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.second
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -54,4 +66,24 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Cohort study protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  # Create cohort study fall protocol instance
+  protocol = Protocol.find_by(name: 'cohort_study_spring_participants')
+  person = Team.find_by(name: demo_team).roles.where(title: normal_role_title).first.people.third
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now
+  )
+
+  invitation_set = InvitationSet.create!(person: person)
+
+  # Test out all questionnaires
+  prot_sub.responses.each do |responseobj|
+    responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  end
+
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "Cohort study spring participants protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 end

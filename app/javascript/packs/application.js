@@ -15,7 +15,6 @@ import '../stylesheets/application.scss'
 // Make jquery available
 import $ from 'jquery'
 global.$ = global.jQuery = $
-import {} from 'jquery-ujs'
 
 // I18n stuff
 import I18n from '../../../public/javascripts/i18n';

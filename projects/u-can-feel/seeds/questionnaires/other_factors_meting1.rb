@@ -7,7 +7,7 @@ dagboek1.name = db_name1
 
 def generate_up_to_options(max)
   result = []
-  (max - 1).times do |index|
+  max.times do |index|
     result << { title: "#{index + 1}", shows_questions: %i[v25_substance8a v25_substance8b v25_substance8c v25_substance8d v25_substance8e v25_substance8f] }
   end
   result

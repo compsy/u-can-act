@@ -44,6 +44,19 @@ function sort_inputs_by_checked(inputs) {
   return result;
 }
 
+function sort_options_by_checked(options, parentInput) {
+  var result = [];
+
+  options.each(function (index) {
+    if ($(this).attr('value') === $(parentInput).val()) {
+      return result.push(options[index]);
+    }
+    result.unshift(options[index]);
+  })
+
+  return result;
+}
+
 function toggle_shown_questions() {
   var inputs = $(this).closest('.row').find('input[data-shows-questions]');
 
@@ -68,8 +81,9 @@ function toggle_shown_questions_for_dropdown () {
   var options = $(this).closest('.row').find('option[data-shows-questions]');
   var parentInput = $(this).closest('.row').find('select');
 
-  for (var i = 0; i < options.length; i++) {
-    var elem = $(options[i]);
+  var sorted_options = sort_options_by_checked(options, parentInput);
+  for (var i = 0; i < sorted_options.length; i++) {
+    var elem = $(sorted_options[i]);
     var this_is_checked = elem.attr('value') === $(parentInput).val();
     elem.data('shows-questions').forEach(function (entry) {
       show_hide_entry(entry, this_is_checked);

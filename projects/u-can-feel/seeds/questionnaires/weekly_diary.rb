@@ -146,19 +146,19 @@ dagboek_content = [
     title: 'Heb je afgelopen week druk gevoeld om goed te presteren vanuit je leraren?',
     labels: ['Helemaal niet', 'Heel veel']
   }, {
-    id: :v14,
+    id: :v15,
     type: :range,
     required: true,
     title: 'Heb je afgelopen week druk gevoeld om goed te presteren vanuit je ouders?',
     labels: ['Helemaal niet', 'Heel veel']
   }, {
-    id: :v15,
+    id: :v16,
     type: :range,
     required: true,
     title: 'Heb je afgelopen week druk gevoeld om goed te presteren vanuit jezelf?',
     labels: ['Helemaal niet', 'Heel veel']
   }, {
-    id: :v16,
+    id: :v17,
     type: :range,
     required: true,
     title: 'Hoe zeker ben je dat je dit jaar over zal gaan?',
@@ -168,12 +168,12 @@ dagboek_content = [
     content: '<p class="flow-text">De volgende vragen gaan over de mensen om je heen.
   </p>'
   }, {
-    id: :v17,
+    id: :v18,
     type: :radio,
     show_otherwise: false,
     title: ' Had je afgelopen week verkering met iemand?',
     options: [
-      { title: 'Ja', shows_questions: %i[v22] }, 
+      { title: 'Ja', shows_questions: %i[v23] }, 
       { title: 'Nee' } 
     ]
   }, {
@@ -181,31 +181,31 @@ dagboek_content = [
     content: '<p class="flow-text">Hoe goed kon je de afgelopen week opschieten met ...
   </p>'
   }, {
-    id: :v18,
+    id: :v19,
     type: :range,
     required: true,
     title: 'Je leraren?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
-    id: :v19,
+    id: :v20,
     type: :range,
     required: true,
     title: 'Je klasgenoten?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
-    id: :v20,
+    id: :v21,
     type: :range,
     required: true,
     title: 'Je vrienden?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
-    id: :v21,
+    id: :v22,
     type: :range,
     required: true,
     title: 'Je ouders?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
-    id: :v22,
+    id: :v23,
     type: :range,
     hidden: true,
     required: true,
@@ -216,7 +216,7 @@ dagboek_content = [
     content: '<p class="flow-text"><br><br>
   </p>'
   }, {
-    id: :v23,
+    id: :v24,
     type: :checkbox,
     show_otherwise: false,
     required: true,
@@ -228,7 +228,7 @@ dagboek_content = [
       { title: 'Ja, iets vervelends' }
     ]
   }, {
-    id: :v24,
+    id: :v25,
     type: :checkbox,
     show_otherwise: false,
     required: true,

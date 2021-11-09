@@ -13,49 +13,57 @@ dagboek_content = [
   }, {
     id: :v1,
     type: :range,
+    required: true,
     title: 'Hoe ging het afgelopen week met je?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
     type: :raw,
     content: '<p class="flow-text">Ongeveer hoe vaak voelde je je in de afgelopen week ...
-    </p>'
+  </p>'
   }, {
     id: :v2,
     type: :range,
+    required: true,
     title: 'Zenuwachtig?',
     labels: ['Nooit', 'Hele tijd']
   }, {
     id: :v3,
     type: :range,
+    required: true,
     title: 'Hopeloos?',
     labels: ['Nooit', 'Hele tijd']
   }, {
     id: :v4,
     type: :range,
+    required: true,
     title: 'Rusteloos of ongedurig?',
     labels: ['Nooit', 'Hele tijd']
   }, {
     id: :v5,
     type: :range,
+    required: true,
     title: 'Zo somber dat niets je kon opvrolijken?',
     labels: ['Nooit', 'Hele tijd']
   }, {
     id: :v6,
     type: :range,
+    required: true,
     title: 'Dat alles veel moeite kostte?',
     labels: ['Nooit', 'Hele tijd']
   }, {
     id: :v7,
     type: :range,
+    required: true,
     title: 'Waardeloos?',
     labels: ['Nooit', 'Hele tijd']
   }, {
     type: :raw,
     content: '<p class="flow-text"><br><br>
-    </p>'
+  </p>'
   }, {
     id: :v8,
     type: :range,
+    required: true,
     title: 'Hoe goed heb je in de afgelopen week geslapen?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
@@ -64,8 +72,8 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Ben je afgelopen week naar school geweest?',
     options: [
-      { title: 'Ja', shows_questions: %i[v10_a v11 v12 v13] },
-      { title: 'Nee, helemaal niet', shows_questions: %i[v9_b] }
+      {title: 'Ja', shows_questions: %i[v10_a v11 v12 v13] },
+      {title: 'Nee, helemaal niet', shows_questions: %i[v9_b] }
     ]
   }, {
     id: :v9_b,
@@ -100,7 +108,7 @@ dagboek_content = [
     required: true,
     title: 'Waarom heb je lessen gemist?',
     options: [
-    { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' },
+    { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
     { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
     { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
     { title: 'Ik was aan het spijbelen' },
@@ -120,12 +128,14 @@ dagboek_content = [
     id: :v11,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Hoe ging het afgelopen week in het algemeen op school?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
     id: :v12,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Hoeveel moeite had je afgelopen week met je schoolwerk of met toetsen?',
     labels: ['Geen moeite', 'Heel veel moeite']
   }, {
@@ -138,65 +148,79 @@ dagboek_content = [
   }, {
     id: :v14,
     type: :range,
-    title: 'Heb je afgelopen week druk gevoeld om goed te presteren vanuit je leraren of je ouders?',
+    required: true,
+    title: 'Heb je afgelopen week druk gevoeld om goed te presteren vanuit je leraren?',
+    labels: ['Helemaal niet', 'Heel veel']
+  }, {
+    id: :v14,
+    type: :range,
+    required: true,
+    title: 'Heb je afgelopen week druk gevoeld om goed te presteren vanuit je ouders?',
     labels: ['Helemaal niet', 'Heel veel']
   }, {
     id: :v15,
     type: :range,
+    required: true,
     title: 'Heb je afgelopen week druk gevoeld om goed te presteren vanuit jezelf?',
     labels: ['Helemaal niet', 'Heel veel']
   }, {
     id: :v16,
     type: :range,
+    required: true,
     title: 'Hoe zeker ben je dat je dit jaar over zal gaan?',
     labels: ['Helemaal niet zeker', 'Heel zeker']
   }, {
     type: :raw,
     content: '<p class="flow-text">De volgende vragen gaan over de mensen om je heen.
-    </p>'
+  </p>'
   }, {
     id: :v17,
     type: :radio,
     show_otherwise: false,
     title: ' Had je afgelopen week verkering met iemand?',
     options: [
-      { title: 'Ja', shows_questions: %i[v22] },
-      { title: 'Nee' }
+      { title: 'Ja', shows_questions: %i[v22] }, 
+      { title: 'Nee' } 
     ]
   }, {
     type: :raw,
     content: '<p class="flow-text">Hoe goed kon je de afgelopen week opschieten met ...
-    </p>'
+  </p>'
   }, {
     id: :v18,
     type: :range,
+    required: true,
     title: 'Je leraren?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
     id: :v19,
     type: :range,
+    required: true,
     title: 'Je klasgenoten?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
     id: :v20,
     type: :range,
+    required: true,
     title: 'Je vrienden?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
     id: :v21,
     type: :range,
+    required: true,
     title: 'Je ouders?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
     id: :v22,
     type: :range,
     hidden: true,
+    required: true,
     title: 'Degene met wie je verkering hebt?',
     labels: ['Heel slecht', 'Heel goed']
   }, {
     type: :raw,
     content: '<p class="flow-text"><br><br>
-    </p>'
+  </p>'
   }, {
     id: :v23,
     type: :checkbox,

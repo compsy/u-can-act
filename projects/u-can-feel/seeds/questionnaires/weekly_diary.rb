@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 db_title = 'De afgelopen week'
 db_name1 = 'weekly_diary'
 dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
@@ -92,7 +91,7 @@ dagboek_content = [
     id: :v10_a,
     type: :days,
     hidden: true,
-    title: 'Je gaf aan dat je de afgelopen week naar school bent geweest. Heb je in de afgelopen week wel lessen gemist? Vink de dagdelen aan waarop je <strong>niet</strong> naar school bent geweest.',
+    title: 'Zijn er in de afgelopen week wel dagdelen geweest waarop je niet naar school bent geweest? Vink de dagdelen aan waarop je <u>niet</u> naar school bent geweest of waarop je minstens 1 lesuur hebt gemist.',
     tooltip: 'Het maakt niet uit wat de reden was. Als je alleen een paar minuten te laat was, hoef je het niet mee te tellen.',
     shows_questions: %i[v10_b],
     required: false,
@@ -106,21 +105,16 @@ dagboek_content = [
     show_otherwise: false,
     hidden: true,
     required: true,
-    title: 'Waarom heb je lessen gemist?',
+    title: 'Waarom was je niet naar school of heb je lessen gemist? Je kunt meerdere redenen aanvinken.',
     options: [
     { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
     { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
     { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
     { title: 'Ik was aan het spijbelen' },
-    { title: 'Ik had vrij gekregen van mijn ouders (bijvoorbeeld om rust te krijgen)' },
-    { title: 'Ik mocht om andere redenen thuisblijven van mijn ouders (bijvoorbeeld om thuis te helpen)' },
-    { title: 'Mijn ouders hadden vakantie geregeld onder schooltijd' },
-    { title: 'Ons gezin had iets dringends (bijvoorbeeld een begrafenis of iemand moest naar het ziekenhuis)' },
-    { title: 'Ons gezin had andere problemen (bijvoorbeeld een kapotte auto of fiets, of iemand in het gezin moest naar een afspraak)' },
-    { title: 'Ons gezin had een religieuze feestdag' },
-    { title: 'De school was gesloten (bijvoorbeeld vanwege een staking of een studiedag voor leraren)' },
+    { title: 'De school was gesloten (bijvoorbeeld vanwege een studiedag of feestdag' },
+    { title: 'Ik had vrij gekregen van mijn ouders (bijvoorbeeld om rust te krijgen of op vakantie te gaan' },    
+    { title: 'Ons gezin had iets dringends (bijvoorbeeld een begrafenis of een kapotte auto)' },  
     { title: 'Ik was naar huis gestuurd vanwege mijn gedrag (bijvoorbeeld een schorsing)' },
-    { title: 'De school had mijn ouders gevraagd om mij thuis te houden' },
     { title: 'Er was zwaar weer (bijvoorbeeld een storm)' },
     { title: 'Ik had een andere reden' }
   ]

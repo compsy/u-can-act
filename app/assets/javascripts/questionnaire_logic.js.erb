@@ -4,6 +4,7 @@ var id_b = null;
 var timestamp_b = null;
 var id_c = null;
 var timestamp_c = null;
+var google_analytics = <%= Rails.application.config.settings.feature_toggles.google_analytics  %>;
 var rails_env = '<%= Rails.env.to_s %>';
 
 // This is really a const but we are not ES6 quite yet
@@ -121,7 +122,7 @@ function time_element() {
     timestamp_c = new Date().getTime();
     if (timestamp_a !== null && id_b !== null && id_b !== undefined) {
       var duration = timestamp_b - timestamp_a;
-      if (rails_env === 'production') {
+      if (rails_env === 'production' && google_analytics) {
         ga('send', 'timing', 'Time to answer question', id_b, duration);
       } else {
         if (rails_env !== 'test') {

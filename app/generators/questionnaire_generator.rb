@@ -36,7 +36,7 @@ class QuestionnaireGenerator
                        questionnaire_hidden_fields(params),
                        questionnaire_questions_html(content[:questions], response,
                                                     raw_content, unsubscribe_url, locale),
-                       submit_button(submit_text)
+                       submit_button(submit_text, locale)
                      ])
     tag.form(body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
   end
@@ -98,11 +98,11 @@ class QuestionnaireGenerator
     body
   end
 
-  def submit_button(submit_text)
+  def submit_button(submit_text, locale)
     submit_body = tag.button(submit_text,
                              type: 'submit',
                              class: 'btn waves-effect waves-light',
-                             data: { disable_with: 'Bezig...' })
+                             data: { disable_with: I18n.t('questionnaires.busy', locale: locale) })
     submit_body = tag.div(submit_body, class: 'col s12')
     tag.div(submit_body, class: 'row section')
   end

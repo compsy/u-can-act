@@ -37,6 +37,7 @@
 }
 
 @import "materialize/components/color-variables";
+@import "materialize/components/color-classes";
 
 $primary-color: color("blue", "lighten-2");
 $input-border-color: color("grey", "darken-2");
@@ -104,6 +105,7 @@ $unchanged-range-thumb: #c2c0c2;
   @import "materialize/components/materialbox";
   @import "materialize/components/forms/forms";
   @import "materialize/components/table_of_contents";
+  @import "materialize/components/sidenav";
   @import "materialize/components/preloader";
   @import "materialize/components/slider";
   @import "materialize/components/carousel";
@@ -150,6 +152,7 @@ $unchanged-range-thumb: #c2c0c2;
   @import "materialize/components/materialbox";
   @import "materialize/components/forms/forms";
   @import "materialize/components/table_of_contents";
+  @import "materialize/components/sidenav";
   @import "materialize/components/preloader";
   @import "materialize/components/slider";
   @import "materialize/components/carousel";

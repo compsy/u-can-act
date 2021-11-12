@@ -6,7 +6,7 @@ metadata:
   labels:
     worker: "no"
 spec:
-  replicas: 2
+  replicas: 10
   selector:
     matchLabels:
       app: svc-questionnaires
@@ -29,6 +29,11 @@ spec:
         - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
+          resources:
+            limits:
+              memory: "1.5Gi"
+            requests:
+              memory: "768Mi"
           env:
           - name: RAILS_ENV
             value: production

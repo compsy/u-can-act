@@ -865,7 +865,7 @@ Required and allowed options (minimal example and maximal example):
   placeholder: 'Selecteer uw antwoord...',
   tooltip: 'some tooltip',
   options: [
-    { title: 'hobby/sport', numeric_value: 0 },
+    { title: 'hobby/sport', numeric_value: 0, shows_questions: %i[v3] },
     { title: 'werk', numeric_value: 25 },
     { title: 'vriendschap', numeric_value: 50 },
     { title: 'romantische relatie', numeric_value: 75 },
@@ -903,6 +903,8 @@ Note that this attribute is only a requirement for score calculation, not for di
 Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
 instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
 sentences, and you just want something shorter in your CSV export.
+
+Dropdowns can have `shows_questions` and `hides_questions` attributes, but they do not support an `otherwise` option.
 
 ### Type: Drawing
 Let's a user draw on an image. 

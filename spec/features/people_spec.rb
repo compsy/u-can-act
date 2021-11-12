@@ -159,10 +159,10 @@ describe 'GET /edit', type: :feature, js: true do
       sleep(1)
       all('button[type="submit"]').first.click
       sleep(10)
-      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst, je antwoorden zijn opgeslagen.')
+      expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
       expect(page).to have_content('Gegevens opgeslagen')
-      expect(page).not_to have_content('Disclaimer')
-      expect(page).not_to have_content('Gegevens aanpassen')
+      expect(page).to have_content('Disclaimer')
+      expect(page).to have_content('Gegevens aanpassen')
     end
     it 'requires a valid email' do
       visit edit_person_path

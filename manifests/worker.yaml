@@ -27,6 +27,11 @@ spec:
         - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
+          resources:
+            limits:
+              memory: "1.5Gi"
+            requests:
+              memory: "768Mi"
           command: ['bundle', 'exec', 'rake', 'jobs:work']
           env:
           - name: RAILS_ENV

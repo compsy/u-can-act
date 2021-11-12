@@ -41,7 +41,7 @@ class CheckboxGenerator < QuestionTypeGenerator
     elem_id = idify(question[:id], option[:raw][:value].presence || option[:raw][:title])
     tag_options = question_options(elem_id)
     tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
-    option_body = tag(:input, tag_options)
+    option_body = tag.input(**tag_options)
 
     safe_join(
       [
@@ -59,11 +59,10 @@ class CheckboxGenerator < QuestionTypeGenerator
   end
 
   def checkbox_otherwise_option(question)
-    tag(:input,
-        type: 'checkbox',
-        id: idify(question[:id], question[:raw][:otherwise_label]),
-        name: answer_name(idify(question[:id], question[:raw][:otherwise_label])),
-        value: true,
-        class: 'otherwise-option')
+    tag.input(type: 'checkbox',
+              id: idify(question[:id], question[:raw][:otherwise_label]),
+              name: answer_name(idify(question[:id], question[:raw][:otherwise_label])),
+              value: true,
+              class: 'otherwise-option')
   end
 end

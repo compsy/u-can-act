@@ -6,7 +6,7 @@ metadata:
   labels:
     worker: "no"
 spec:
-  replicas: 2
+  replicas: 10
   selector:
     matchLabels:
       app: svc-questionnaires
@@ -29,6 +29,11 @@ spec:
         - name: svc-questionnaires
           imagePullPolicy: Always
           image: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires:__CI_COMMIT_SHA__
+          resources:
+            limits:
+              memory: "1.5Gi"
+            requests:
+              memory: "768Mi"
           env:
           - name: RAILS_ENV
             value: production
@@ -262,23 +267,32 @@ spec:
           ports:
           - containerPort: 3000
             protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /status
-              port: 3000
-              scheme: HTTP
-            initialDelaySeconds: 200
-            timeoutSeconds: 5
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
+          # The readiness probe is triggered after the startup probe. We
+          # already found that the pod was ready, hence 1 initial delay. After
+          # that it will poll every 30 seconds, and if it fails twice, the pod
+          # is killed.
           readinessProbe:
             httpGet:
               path: /status
               port: 3000
               scheme: HTTP
-            initialDelaySeconds: 200
+            initialDelaySeconds: 1
             timeoutSeconds: 5
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 2
+          # The startup probe is triggered when starting up the application. It
+          # waits for 20 seconds before it starts polling. The polling will
+          # happen every 5 seconds, and will continue for 60 tries. That is, if
+          # the pod is not ready within 60*5+20 seconds, it wont be started.
+          startupProbe:
+            httpGet:
+              path: /status
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 20
+            timeoutSeconds: 4
             periodSeconds: 5
             successThreshold: 1
-            failureThreshold: 3
+            failureThreshold: 60
+

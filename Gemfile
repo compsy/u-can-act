@@ -89,6 +89,9 @@ gem 'iban-tools'
 gem 'rswag-api'
 gem 'rswag-ui'
 
+# Custom message for u-can-feel
+gem 'ucf_messages'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -170,10 +173,11 @@ end
 gem 'silencer'
 
 # JS / CSS Frameworks
+# Materialize documentation at https://materializecss.github.io/materialize/
 gem 'materialize-sass'
 gem 'modernizr-rails'
 
-gem 'webpacker'
+gem 'webpacker', '>=6.0.0.rc.5'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'

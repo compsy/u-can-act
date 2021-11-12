@@ -1,9 +1,7 @@
 import React from 'react';
 import RewardFooter from './RewardFooter';
-import {
-  printAsMoney
-} from '../Helpers';
-import I18n from 'i18n';
+import { printAsMoney } from '../Helpers';
+import I18n from '../../../../public/javascripts/i18n';
 import I18nRaw from '../I18nRaw';
 
 export default class StudentFinalRewardPage extends React.Component {

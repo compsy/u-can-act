@@ -96,7 +96,9 @@ describe Api::ResponseSerializer do
                   'future_or_current' => false,
                   'periodical' => false,
                   'reward_points' => 1,
-                  'streak' => -1 }]
+                  'streak' => -1,
+                  'open_from' => responseobj.open_from,
+                  'protocol_name' => responseobj.protocol.name}]
     expect(json['protocol_completion']).to match_array(expected)
   end
 
@@ -112,7 +114,9 @@ describe Api::ResponseSerializer do
                   'future_or_current' => false,
                   'periodical' => false,
                   'reward_points' => 1,
-                  'streak' => -1 }]
+                  'streak' => -1,
+                  'open_from' => responseobj.open_from,
+                  'protocol_name' => responseobj.protocol.name}]
     expect(json['protocol_completion']).to match_array(expected)
   end
 end

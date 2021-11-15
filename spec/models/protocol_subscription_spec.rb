@@ -596,7 +596,9 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: true, periodical: true, reward_points: 1, future: false, future_or_current: false, streak: resp }
+        response = protocol_subscription.responses[resp - 1]
+        { completed: true, periodical: true, reward_points: 1, future: false, future_or_current: false, streak: resp,
+          open_from: response.open_from, protocol_name: response.protocol.name }
       end
       expected.unshift(completed: false,
                        periodical: true,
@@ -627,7 +629,9 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
+        response = protocol_subscription.responses[resp - 1]
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
+          open_from: response.open_from, protocol_name: response.protocol.name }
       end
       expected.unshift(completed: false,
                        periodical: true,
@@ -649,7 +653,9 @@ describe ProtocolSubscription do
       expect(result.length).to eq protocol_subscription.responses.length
 
       expected = (1..protocol_subscription.responses.length).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
+        response = protocol_subscription.responses[resp - 1]
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
+          open_from: response.open_from, protocol_name: response.protocol.name }
       end
 
       expect(result).to eq expected
@@ -669,7 +675,9 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
+        response = protocol_subscription.responses[resp - 1]
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
+          open_from: response.open_from, protocol_name: response.protocol.name }
       end
       expected.unshift(completed: false,
                        periodical: true,

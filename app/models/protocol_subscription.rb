@@ -85,7 +85,8 @@ class ProtocolSubscription < ApplicationRecord
                                        response.measurement.reward_points,
                                        response.still_possible?,
                                        current_streak,
-                                       response.future_or_current?)
+                                       response.future_or_current?,
+                                       response.open_from)
     end
   end
 
@@ -143,7 +144,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def create_protocol_completion_entry(is_completed, is_periodical,
-                                       reward_points, is_in_future, streak, future_or_current)
+                                       reward_points, is_in_future, streak, future_or_current, open_from)
     result = {}
     result[:completed] = is_completed
     result[:periodical] = is_periodical
@@ -151,6 +152,7 @@ class ProtocolSubscription < ApplicationRecord
     result[:future] = is_in_future
     result[:streak] = streak
     result[:future_or_current] = future_or_current
+    result[:open_from] = open_from
 
     result
   end

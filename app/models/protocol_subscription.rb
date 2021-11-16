@@ -141,14 +141,14 @@ class ProtocolSubscription < ApplicationRecord
 
   def create_protocol_completion_entry(response, streak)
     result = {}
-    result[:completed] = response.is_completed
+    result[:completed] = response.completed?
     result[:periodical] = response.measurement.periodical?
-    result[:reward_points] = response.measurement.reward_points,
+    result[:reward_points] = response.measurement.reward_points
     result[:future] = response.still_possible?
     result[:streak] = streak
     result[:future_or_current] = response.future_or_current?
     result[:open_from] = response.open_from
-    result[:protocol_name] = response.protocol.name
+    result[:questionnaire_key] = response.measurement.questionnaire.key
 
     result
   end

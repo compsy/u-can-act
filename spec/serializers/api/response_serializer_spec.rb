@@ -98,7 +98,7 @@ describe Api::ResponseSerializer do
                   'reward_points' => 1,
                   'streak' => -1,
                   'open_from' => responseobj.open_from,
-                  'protocol_name' => responseobj.protocol.name}]
+                  'questionnaire_key' => responseobj.measurement.questionnaire.key }]
     expect(json['protocol_completion']).to match_array(expected)
   end
 
@@ -116,7 +116,7 @@ describe Api::ResponseSerializer do
                   'reward_points' => 1,
                   'streak' => -1,
                   'open_from' => responseobj.open_from,
-                  'protocol_name' => responseobj.protocol.name}]
+                  'questionnaire_key' => responseobj.measurement.questionnaire.key }]
     expect(json['protocol_completion']).to match_array(expected)
   end
 end

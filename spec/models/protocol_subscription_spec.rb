@@ -596,16 +596,18 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        response = protocol_subscription.responses[resp - 1]
+        response = protocol_subscription.responses[resp]
         { completed: true, periodical: true, reward_points: 1, future: false, future_or_current: false, streak: resp,
-          open_from: response.open_from, protocol_name: response.protocol.name }
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
       expected.unshift(completed: false,
                        periodical: true,
                        reward_points: 1,
                        future: false,
                        future_or_current: false,
-                       streak: 0)
+                       streak: 0,
+                       open_from: protocol_subscription.responses.first.open_from,
+                       questionnaire_key: protocol_subscription.responses.first.measurement.questionnaire.key)
       expect(result).to eq expected
       Timecop.return
     end
@@ -629,16 +631,18 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        response = protocol_subscription.responses[resp - 1]
+        response = protocol_subscription.responses[resp]
         { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
-          open_from: response.open_from, protocol_name: response.protocol.name }
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
       expected.unshift(completed: false,
                        periodical: true,
                        reward_points: 1,
                        future_or_current: false,
                        future: false,
-                       streak: 0)
+                       streak: 0,
+                       open_from: protocol_subscription.responses.first.open_from,
+                       questionnaire_key: protocol_subscription.responses.first.measurement.questionnaire.key)
       expect(result).to eq expected
       Timecop.return
     end
@@ -655,7 +659,7 @@ describe ProtocolSubscription do
       expected = (1..protocol_subscription.responses.length).map do |resp|
         response = protocol_subscription.responses[resp - 1]
         { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
-          open_from: response.open_from, protocol_name: response.protocol.name }
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
 
       expect(result).to eq expected
@@ -675,16 +679,18 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        response = protocol_subscription.responses[resp - 1]
+        response = protocol_subscription.responses[resp]
         { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
-          open_from: response.open_from, protocol_name: response.protocol.name }
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
       expected.unshift(completed: false,
                        periodical: true,
                        reward_points: 1,
                        future_or_current: false,
                        future: false,
-                       streak: 0)
+                       streak: 0,
+                       open_from: protocol_subscription.responses.first.open_from,
+                       questionnaire_key: protocol_subscription.responses.first.measurement.questionnaire.key)
 
       expect(result).to eq expected
       Timecop.return

@@ -80,12 +80,9 @@ class ProtocolSubscription < ApplicationRecord
     responses.map do |response|
       on_streak, current_streak = retrieve_periodical_streak(on_streak, response)
 
-      create_protocol_completion_entry(response.completed?,
-                                       response.measurement.periodical?,
-                                       response.measurement.reward_points,
-                                       response.still_possible?,
-                                       current_streak,
-                                       response.future_or_current?)
+      # NOTE: in the future we might want to remove the still_possible? and future_or_current? from the serialized
+      # object in favor of open_from to cut down on transfer time
+      create_protocol_completion_entry(response, current_streak)
     end
   end
 
@@ -142,15 +139,16 @@ class ProtocolSubscription < ApplicationRecord
     0
   end
 
-  def create_protocol_completion_entry(is_completed, is_periodical,
-                                       reward_points, is_in_future, streak, future_or_current)
+  def create_protocol_completion_entry(response, streak)
     result = {}
-    result[:completed] = is_completed
-    result[:periodical] = is_periodical
-    result[:reward_points] = reward_points
-    result[:future] = is_in_future
+    result[:completed] = response.completed?
+    result[:periodical] = response.measurement.periodical?
+    result[:reward_points] = response.measurement.reward_points
+    result[:future] = response.still_possible?
     result[:streak] = streak
-    result[:future_or_current] = future_or_current
+    result[:future_or_current] = response.future_or_current?
+    result[:open_from] = response.open_from
+    result[:questionnaire_key] = response.measurement.questionnaire.key
 
     result
   end

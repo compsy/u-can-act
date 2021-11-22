@@ -11,10 +11,10 @@ diary_protocol.duration = 4.weeks
 diary_protocol.invitation_text = nil # Determine invitation text dynamically
 
 # Je kunt alleen meedoen aan de dagboekstudie als je ook mee hebt gedaan aan de cross-sectionele vragenlijsten.
-diary_protocol.informed_consent_questionnaire_id = nil
-# ic_name = 'informed_consent'
-# diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
-# raise "informed consent questionnaire #{ic_name} not found" unless diary_protocol.informed_consent_questionnaire
+# Dus geen echte informed consent maar wel een kleine disclaimer over de beloning vooraf
+ic_name = 'disclaimer_rewards'
+diary_protocol.informed_consent_questionnaire = Questionnaire.find_by(key: ic_name)
+raise "informed consent questionnaire #{ic_name} not found" unless diary_protocol.informed_consent_questionnaire
 
 diary_protocol.save!
 

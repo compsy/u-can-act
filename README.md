@@ -32,8 +32,8 @@ Make sure that Docker Compose is installed, it will allow you to run the applica
 
 Clone the codebase and step into the directory.
 ```bash
-  git clone git@github.com:compsy/vsv.git
-  cd vsv
+  git clone git@github.com:compsy/u-can-act.git
+  cd u-can-act
 ```
 Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 ```

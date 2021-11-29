@@ -131,6 +131,7 @@ dagboek_content = [
     placeholder: { nl: 'Vul een getal in (kg)', en: 'Enter a number (kg)' },
     type: :number,
     maxlength: 3,
+    step: 0.01,
     min: 0,
     max: 300
   },

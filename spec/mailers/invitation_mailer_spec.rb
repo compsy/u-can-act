@@ -18,7 +18,7 @@ describe InvitationMailer do
       allow(subject).to receive(:mail).and_return(true)
       expect(subject.instance_variable_get(:@invitation_url)).to be_blank
       expect(subject.instance_variable_get(:@message)).to be_blank
-      subject.invitation_mail(email_address, message, invitation_url, 'myprotocol')
+      subject.invitation_mail(email_address, message, invitation_url, 'myprotocol', 'nl', Time.zone.now)
       expect(subject.instance_variable_get(:@invitation_url)).not_to be_blank
       expect(subject.instance_variable_get(:@invitation_url)).to eq invitation_url
 
@@ -27,8 +27,9 @@ describe InvitationMailer do
     end
 
     it 'calls the mail function with the correct subject and to address' do
-      allow(subject).to receive(:mail).with(subject: InvitationMailer::DEFAULT_INVITATION_SUBJECT, to: email_address)
-      subject.invitation_mail(email_address, message, invitation_url, 'myprotocol')
+      allow(subject).to receive(:mail).with(subject: "Vragenlijst demo #{Time.zone.now.strftime('%d-%m-%Y')}",
+                                            to: email_address)
+      subject.invitation_mail(email_address, message, invitation_url, 'myprotocol', 'nl', Time.zone.now)
     end
   end
 

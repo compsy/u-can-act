@@ -186,7 +186,9 @@ describe Invitation do
         mentor.email,
         message,
         invitation_url,
-        responseobj.protocol_subscription.protocol.name
+        responseobj.protocol_subscription.protocol.name,
+        'nl',
+        instance_of(ActiveSupport::TimeWithZone)
       ).and_call_original
       smsinvitation = FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
       emailinvitation = FactoryBot.create(:email_invitation, invitation_set: responseobj.invitation_set)

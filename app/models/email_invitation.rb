@@ -9,6 +9,7 @@ class EmailInvitation < Invitation
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   # Email invitations use the layout of the project and the template of the protocol,
   # if these files exist (see the explanation in README.md under "Organization-specific settings").
   def send_invite_email(plain_text_token)
@@ -17,7 +18,10 @@ class EmailInvitation < Invitation
     mailer = InvitationMailer.invitation_mail(invitation_set.person.email,
                                               invitation_set.invitation_text,
                                               invitation_set.invitation_url(plain_text_token),
-                                              template)
+                                              template,
+                                              invitation_set.person.locale,
+                                              invitation_set.responses.first.open_from)
     mailer.deliver_now
   end
+  # rubocop:enable Metrics/AbcSize
 end

@@ -26,7 +26,7 @@ class TimeGenerator < QuestionTypeGenerator
 
   def time_dropdown(question_id, from_time, to_time, step, label, raw_label)
     elem_id = idify(question_id, raw_label)
-    options = generate_dropdown((from_time...to_time).step(step), elem_id)
+    options = generate_dropdown((from_time...to_time).step(BigDecimal(step.to_s)), elem_id)
     options = safe_join([
                           options,
                           tag.label(label)

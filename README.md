@@ -32,8 +32,8 @@ Make sure that Docker Compose is installed, it will allow you to run the applica
 
 Clone the codebase and step into the directory.
 ```bash
-  git clone git@github.com:compsy/vsv.git
-  cd vsv
+  git clone git@github.com:compsy/u-can-act.git
+  cd u-can-act
 ```
 Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 ```
@@ -659,12 +659,13 @@ Required and allowed options (minimal example and maximal example):
   links_to_expandable: :v3,
   min: 0,
   max: 9999,
+  step: 0.01,
   required: true,
   section_end: true
 }]
 ```
 
-Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known).
+Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known). If specified, the `step` property is used to set the number of decimals. For example, `step: 0.01` will mean up to two decimals is allowed.
 
 The `required` property is also supported. 
 The default is that numbers are not required.

@@ -112,7 +112,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    appsignal (3.0.15)
+    appsignal (3.0.17)
       rack
     ast (2.4.2)
     autoprefixer-rails (10.3.3.0)
@@ -123,7 +123,7 @@ GEM
       execjs (~> 2.0)
     bcrypt (3.1.16)
     bindex (0.8.1)
-    bootsnap (1.9.1)
+    bootsnap (1.9.3)
       msgpack (~> 1.0)
     bson (4.12.1)
     builder (3.2.4)
@@ -460,7 +460,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.0.3)
+    selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
@@ -502,7 +502,7 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2021.5)
       tzinfo (>= 1.0.0)
-    ucf_messages (0.0.3)
+    ucf_messages (0.0.4)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)

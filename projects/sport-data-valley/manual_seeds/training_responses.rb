@@ -1,27 +1,10 @@
 # frozen_string_literal: true
+require_relative 'helpers/people_helper'
 srand(123)
 
-def find_or_create_person(email)
-
-  demo_organization = 'sport-data-valley'
-  demo_team = 'sdv-team'
-  normal_role_title = 'normal'
-
-  organization = Organization.find_by(name: demo_organization)
-  team = organization.teams.find_by(name: demo_team)
-  normal_role = team.roles.where(title: normal_role_title).first
-
-  person = Person.find_by(email: email)
-  person ||= Person.new(email: email)
-
-  person.first_name = 'Voornaam'
-  person.last_name = 'Achternaam'
-  person.role = normal_role
-  person.account_active = true
-
-  person.save!
-  person
-end
+START_DATE = Time.zone.parse('2021-08-01').beginning_of_day
+END_DATE = START_DATE + 10.weeks
+N_PARTICIPANTS = 5
 
 def training_type
   types = %w[voetballen MTB hardlopen kracht]
@@ -253,14 +236,13 @@ def create_daily_response(person, timestamp)
   end
 end
 
-(1..3).each do |idx|
-  email = "questionnaire_participant_#{idx}@researchable.nl"
-  person = find_or_create_person(email)
+(1..N_PARTICIPANTS).each do |idx|
+  person = find_or_create_person("questionnaire_participant_#{idx}@researchable.nl")
 
-  n_days = ((Time.zone.now - 2.months.ago)/1.day).floor
-  (1..n_days).each do |days|
-    date = days.days.ago.beginning_of_day + 20.hours
+  date = START_DATE
+  while date <= END_DATE
     create_training_log_response(person, date)
-    # create_daily_response(person, date)
+
+    date = date + 1.day
   end
 end

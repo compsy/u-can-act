@@ -176,6 +176,19 @@ In order to run the Capybara specs of the VSV project, you need to install the c
   brew install chromedriver
 ```
 
+### Development seeds
+At some point you might need pre-existing questionnaire responses in order to test the applications that integrate 
+with the questionnaire engine. You can pre-seed the database with fake data using manual seeds. At the moment this 
+feature is only available for the `sport-data-valley` project. To run the manual seeds, simply call:
+```bash
+rails db:seed:<name of manual seed>
+```
+A list of available seeds can be found through the following command:
+```bash
+rails --tasks | grep db:seed:
+```
+Additionally, you can check the files under `projects/sport-data-valley/manual-seeds` to see their implementation.
+
 ## Background jobs
 The workings of the app rely on the following background jobs:
 

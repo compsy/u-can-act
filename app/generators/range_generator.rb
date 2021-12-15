@@ -86,7 +86,8 @@ class RangeGenerator < QuestionTypeGenerator
 
   def range_datalist(min:, max:, step:)
     body = []
-    (min..max).step(step).each do |option|
+    # We use BigDecimal with step to avoid rounding errors.
+    (min..max).step(BigDecimal(step.to_s)).each do |option|
       body << tag.option(number_to_string(option))
     end
     safe_join(body)
@@ -136,7 +137,7 @@ class RangeGenerator < QuestionTypeGenerator
     labels_body = []
     labels_body << tag.span('')
     space = raw('&nbsp;')
-    (minmax[:min]..minmax[:max]).step(step).each_with_index do |value, idx|
+    (minmax[:min]..minmax[:max]).step(BigDecimal(step.to_s)).each_with_index do |value, idx|
       label = []
       label << tag.span("- #{number_to_string(value)} ", class: 'vertical-range-tick') if question[:ticks].present?
       label << tag.span(
@@ -146,7 +147,7 @@ class RangeGenerator < QuestionTypeGenerator
       labels_body << tag.span(safe_join(label),
                               class: 'vertical-range-label',
                               style: "height: #{col_width}%",
-                              data: { value: value })
+                              data: { value: number_to_string(value) })
       # because tag.br doesn't close the tag
       labels_body << '<br />'.html_safe
     end

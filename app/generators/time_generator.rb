@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TimeGenerator < QuestionTypeGenerator
+  include ConversionHelper
+
   def generate(question)
     body = time_body(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
@@ -37,7 +39,8 @@ class TimeGenerator < QuestionTypeGenerator
   def generate_dropdown(items, id)
     body = []
     items.each do |option|
-      body << tag.option(option, value: option)
+      option_string = number_to_string(option)
+      body << tag.option(option_string, value: option_string)
     end
     body = safe_join(body)
     tag.select(body, name: answer_name(id), id: id, required: true, class: 'browser-default')

@@ -147,7 +147,7 @@ class RangeGenerator < QuestionTypeGenerator
       labels_body << tag.span(safe_join(label),
                               class: 'vertical-range-label',
                               style: "height: #{col_width}%",
-                              data: { value: value })
+                              data: { value: number_to_string(value) })
       # because tag.br doesn't close the tag
       labels_body << '<br />'.html_safe
     end

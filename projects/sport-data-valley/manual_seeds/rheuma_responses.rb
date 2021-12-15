@@ -19,6 +19,8 @@ def n_hours
 end
 
 def create_rheuma_responses(person, date)
+  return if rand > 0.9
+
   protocol_name = 'daily_protocol_rheumatism'
   puts "Creating responses for #{protocol_name}"
   protocol = Protocol.find_by(name: protocol_name)

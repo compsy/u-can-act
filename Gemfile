@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.0.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 6.1.4', '>= 6.1.4.2'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '= 1.1.4'
@@ -19,18 +19,18 @@ gem 'redis'
 # Use Puma as the app server
 gem 'puma'
 # Use SCSS for stylesheets
-gem 'sass-rails'
+gem 'sass-rails', '>= 6.0.0'
 # Use HAML for templates
-gem 'haml-rails'
+gem 'haml-rails', '>= 2.0.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 
 # Use React for the UI
-gem 'react-rails'
+gem 'react-rails', '>= 2.6.1'
 gem 'react-source'
 
 # Use highcharts
-gem 'highcharts-rails'
+gem 'highcharts-rails', '>= 6.0.3'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
@@ -50,7 +50,7 @@ gem 'rack-cors'
 
 gem 'pry-rails'
 
-gem 'dotenv-rails'
+gem 'dotenv-rails', '>= 2.7.6'
 
 gem 'coveralls_reborn', require: false
 
@@ -67,7 +67,7 @@ gem 'messagebird-rest', require: 'messagebird'
 gem 'mailgun-ruby'
 
 gem 'active_interaction'
-gem 'active_model_serializers'
+gem 'active_model_serializers', '>= 0.10.12'
 
 # Gem for JWT / Authentication
 gem 'jwt'
@@ -86,8 +86,8 @@ gem 'snitcher'
 gem 'iban-tools'
 
 # Swagger
-gem 'rswag-api'
-gem 'rswag-ui'
+gem 'rswag-api', '>= 2.4.0'
+gem 'rswag-ui', '>= 2.4.0'
 
 # Custom message for u-can-feel
 gem 'ucf_messages'
@@ -97,12 +97,12 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # Swagger
-  gem 'rswag-specs'
+  gem 'rswag-specs', '>= 2.4.0'
 
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 5.0.2'
 
   # rubymine debugger
   gem 'debase', github: 'ruby-debug/debase', tag: 'v0.2.5.beta2'
@@ -123,10 +123,10 @@ group :test do
   gem 'simplecov'
 
   # Used for gem mocking
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 6.2.0'
 
   # Test which template was rendered
-  gem 'rails-controller-testing'
+  gem 'rails-controller-testing', '>= 1.0.5'
 
   # Cleans the database after specs
   gem 'database_cleaner'
@@ -157,7 +157,7 @@ gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen'
-  gem 'web-console'
+  gem 'web-console', '>= 4.2.0'
 
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
@@ -183,9 +183,9 @@ gem 'webpacker', '>=6.0.0.rc.5'
 gem 'tzinfo-data'
 
 gem 'i18n-js' # We still need this gem because it generates translations.js for us.
-gem 'rails-i18n'
+gem 'rails-i18n', '>= 6.0.0'
 
-gem 'lograge'
+gem 'lograge', '>= 0.11.2'
 gem 'remote_syslog_logger'
 
 gem 'appsignal'

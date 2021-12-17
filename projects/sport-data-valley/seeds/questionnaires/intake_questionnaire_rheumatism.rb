@@ -11,7 +11,7 @@ dagboek_content = [
     id: :v1,
     type: :dropdown,
     title: 'Wat is uw geboortejaar?',
-    options: 1910...2010.map(&:to_s)
+    options: (1910..2010).map(&:to_s)
   }, {
     id: :v2,
     type: :radio,

@@ -74,7 +74,7 @@ dagboek_content = [
     id: :v6,
     type: :range,
     title: 'We willen weten hoe goed of slecht uw gezondheid VANDAAG is. De onderstaande meetschaal loopt van 0 tot 100. 100 staat voor de <strong>beste</strong> gezondheid die u zich kunt voorstellen. 0 staat voor de <strong>slechtste</strong> gezondheid die u zich kunt voorstellen. Klik hieronder op de meetschaal om aan te geven hoe uw gezondheid VANDAAG is.',
-    labels: ['De slechtste gezondheid die u zich kunt voorstellen', 'De beste gezondheid die us zich kunt voorstellen'],
+    labels: ['De slechtste gezondheid die u zich kunt voorstellen', 'De beste gezondheid die u zich kunt voorstellen'],
     no_initial_thumb: true,
     required: true
   }

@@ -114,7 +114,7 @@ dagboek_content = [
   }), RheumatismBrafMethods::DEFAULT_QUESTION_OPTIONS.merge(
   {
     id: :v20,
-    title: 'Hebt u zich somder of depressief gevoeld vanwege vermoeidheid?',
+    title: 'Hebt u zich somber of depressief gevoeld vanwege vermoeidheid?',
     section_end: true
   })
 ]

@@ -84,6 +84,7 @@ dagboek_content = [
     options: [
       { title: 'Het was vakantie' },
       { title: 'Ik was ziek' },
+      { title: 'Ik moest thuisblijven wegens corona (bijvoorbeeld quarantaine)' },
       { title: 'Ik vond het te moeilijk om naar school te gaan' },
       { title: 'Ik had een andere reden' }
     ]
@@ -109,6 +110,7 @@ dagboek_content = [
     options: [
     { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
     { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
+    { title: 'Ik moest thuisblijven wegens corona (bijvoorbeeld quarantaine)' },
     { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
     { title: 'Ik was aan het spijbelen' },
     { title: 'De school was gesloten (bijvoorbeeld vanwege een studiedag of feestdag' },

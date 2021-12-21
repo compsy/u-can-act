@@ -33,7 +33,7 @@ dagboek_content = [
     section_start: 'Vink voor elk van de volgende vragen <strong>één</strong> antwoord aan dat het best op u van toepassing is.',
     id: :v2,
     type: :radio,
-    title: 'Hoeveel dagen hebt u vermoeidheid ervaren in de afgelopen week (7 dagen)',
+    title: 'Hoeveel dagen hebt u vermoeidheid ervaren in de afgelopen week (7 dagen)?',
     options: ['0', '1', '2', '3', '4', '5', '6', 'Elke dag'],
     show_otherwise: false
   }, {
@@ -77,7 +77,7 @@ dagboek_content = [
   }), RheumatismBrafMethods::DEFAULT_QUESTION_OPTIONS.merge(
   {
     id: :v11,
-    title: 'Hebt u  uitnodigingen afgeslagen vanweged vermoeidheid?',
+    title: 'Hebt u uitnodigingen afgeslagen vanwege vermoeidheid?',
     tooltip: 'Bijvoorbeeld: afspreken met een vriend(in).'
   }), RheumatismBrafMethods::DEFAULT_QUESTION_OPTIONS.merge(
   {

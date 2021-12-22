@@ -96,11 +96,11 @@ class RangeGenerator < QuestionTypeGenerator
   # rubocop:disable Metrics/AbcSize
   def range_labels(question)
     labels_body = []
-    label_count = [question[:labels].size, 1].max
+    label_count = [question[:labels].size, 2].max
     col_class = 12 / label_count
     col_width = col_width_from_label_count(label_count)
     minmax = range_slider_minmax(question)
-    step = (1.0 + minmax[:max] - minmax[:min]) / label_count
+    step = BigDecimal(((minmax[:max] - minmax[:min]) / (label_count - 1.0)).to_s)
     cur = minmax[:min]
     return vertical_range_labels(minmax, step, question) if question[:vertical].present?
 
@@ -128,7 +128,7 @@ class RangeGenerator < QuestionTypeGenerator
     tag.div(label,
             class: "col #{alignment} s#{col_class}",
             style: "width: #{col_width}%",
-            data: { value: value })
+            data: { value: number_to_string(value) })
   end
 
   # rubocop:disable Metrics/AbcSize

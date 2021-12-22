@@ -13,7 +13,7 @@ dagboek_content = [
   }, {
     id: :v1,
     type: :radio,
-    title: 'Ik voel me de laatste tijd gespannen',
+    title: 'Ik voel me de laatste tijd gespannen.',
     options: [
       { title: 'meestal', numeric_value: 3 },
       { title: 'vaak', numeric_value: 2 },
@@ -60,7 +60,7 @@ dagboek_content = [
   }, {
     id: :v6,
     type: :radio,
-    title: 'Ik voel me de laatste tijd opgewekt',
+    title: 'Ik voel me de laatste tijd opgewekt.',
     options: [{ title: 'helemaal niet', numeric_value: 3 },
               { title: 'niet vaak', numeric_value: 2 },
               { title: 'soms', numeric_value: 1 },
@@ -69,7 +69,7 @@ dagboek_content = [
   }, {
     id: :v7,
     type: :radio,
-    title: 'Ik kan de laatste tijd rustig zitten en me ontspannen',
+    title: 'Ik kan de laatste tijd rustig zitten en me ontspannen.',
     options: [{ title: 'zeker', numeric_value: 0 },
               { title: 'meestal', numeric_value: 1 },
               { title: 'niet vaak', numeric_value: 2 },
@@ -132,7 +132,7 @@ dagboek_content = [
   }, {
     id: :v14,
     type: :radio,
-    title: 'Ik kan van een goed boek genieten of een radio- of televisieprogramma',
+    title: 'Ik kan van een goed boek genieten of een radio- of televisieprogramma.',
     options: [{ title: 'vaak', numeric_value: 0 },
               { title: 'soms', numeric_value: 1 },
               { title: 'niet vaak', numeric_value: 2 },

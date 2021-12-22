@@ -368,6 +368,9 @@ form .likert-scale {
   width: 100%;
   margin: 0 0 1.25rem 0;
   padding: 0 0 0 0;
+  &.erroneous {
+    width: calc(100% + 8px);
+  }
 }
 
 .input-field.col.no-padding {

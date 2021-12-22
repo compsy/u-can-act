@@ -86,7 +86,8 @@ class RangeGenerator < QuestionTypeGenerator
 
   def range_datalist(min:, max:, step:)
     body = []
-    (min..max).step(step).each do |option|
+    # We use BigDecimal with step to avoid rounding errors.
+    (min..max).step(BigDecimal(step.to_s)).each do |option|
       body << tag.option(number_to_string(option))
     end
     safe_join(body)
@@ -95,11 +96,11 @@ class RangeGenerator < QuestionTypeGenerator
   # rubocop:disable Metrics/AbcSize
   def range_labels(question)
     labels_body = []
-    label_count = [question[:labels].size, 1].max
+    label_count = [question[:labels].size, 2].max
     col_class = 12 / label_count
     col_width = col_width_from_label_count(label_count)
     minmax = range_slider_minmax(question)
-    step = (1.0 + minmax[:max] - minmax[:min]) / label_count
+    step = BigDecimal(((minmax[:max] - minmax[:min]) / (label_count - 1.0)).to_s)
     cur = minmax[:min]
     return vertical_range_labels(minmax, step, question) if question[:vertical].present?
 
@@ -127,7 +128,7 @@ class RangeGenerator < QuestionTypeGenerator
     tag.div(label,
             class: "col #{alignment} s#{col_class}",
             style: "width: #{col_width}%",
-            data: { value: value })
+            data: { value: number_to_string(value) })
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -136,7 +137,7 @@ class RangeGenerator < QuestionTypeGenerator
     labels_body = []
     labels_body << tag.span('')
     space = raw('&nbsp;')
-    (minmax[:min]..minmax[:max]).step(step).each_with_index do |value, idx|
+    (minmax[:min]..minmax[:max]).step(BigDecimal(step.to_s)).each_with_index do |value, idx|
       label = []
       label << tag.span("- #{number_to_string(value)} ", class: 'vertical-range-tick') if question[:ticks].present?
       label << tag.span(
@@ -146,7 +147,7 @@ class RangeGenerator < QuestionTypeGenerator
       labels_body << tag.span(safe_join(label),
                               class: 'vertical-range-label',
                               style: "height: #{col_width}%",
-                              data: { value: value })
+                              data: { value: number_to_string(value) })
       # because tag.br doesn't close the tag
       labels_body << '<br />'.html_safe
     end

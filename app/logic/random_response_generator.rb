@@ -63,7 +63,7 @@ class RandomResponseGenerator
 
     def generate_answer_for_range(question)
       minmax = determine_min_max_step(question)
-      (minmax[:min]..minmax[:max]).step(minmax[:step]).to_a.sample
+      number_to_string((minmax[:min]..minmax[:max]).step(BigDecimal(minmax[:step].to_s)).to_a.sample)
     end
 
     def generate_answer_for_number(question)

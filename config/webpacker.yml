@@ -38,7 +38,7 @@ development:
     compress: true
     # Note that apps that do not check the host are vulnerable to DNS rebinding attacks
     allowed_hosts: "all"
-    pretty: true
+    pretty: false
     headers:
       'Access-Control-Allow-Origin': '*'
     static:

@@ -6,7 +6,9 @@ describe 'complete protocol subscriptions and cleanup invitation tokens', type: 
   it 'works without mocking the method' do
     protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 4.weeks.ago.at_beginning_of_day)
     responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription)
-    FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set, created_at: 8.days.ago)
+    FactoryBot.create(:invitation_token,
+                      invitation_set: responseobj.invitation_set,
+                      created_at: (8.days + (6 * 4).weeks).ago)
     expect(protocol_subscription).to be_ended
     responsecountprev = Response.count
     invtokencountprev = InvitationToken.count

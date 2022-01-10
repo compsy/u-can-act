@@ -211,13 +211,6 @@ describe InvitationToken do
 
   describe 'calculate_expires_at' do
     context 'without responses' do
-      it 'returns now if it was created more than 7 days ago' do
-        invitation_set = FactoryBot.create(:invitation_set)
-        invitation_token = FactoryBot.create(:invitation_token,
-                                             invitation_set: invitation_set,
-                                             created_at: 8.days.ago)
-        expect(invitation_token.calculate_expires_at).to be_within(1.minute).of(Time.zone.now)
-      end
       it 'returns 7 days since created_at if it was created in the past week' do
         invitation_set = FactoryBot.create(:invitation_set)
         invitation_token = FactoryBot.create(:invitation_token,

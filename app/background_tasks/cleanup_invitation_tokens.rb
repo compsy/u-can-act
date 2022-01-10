@@ -5,7 +5,8 @@ class CleanupInvitationTokens
   # they've been expired for 6 months. That way, if someone clicks a (less than six months old)
   # recent link for a questionnaire that has expired, they don't get a "you are not allowed to
   # see this questionnaire", but they'll see a "this questionnaire has expired" message instead.
-  EXPIRATION_GRACE_PERIOD = 6.months
+  # This number cannot be in months because then it changes the time.
+  EXPIRATION_GRACE_PERIOD = (6 * 4).weeks
 
   class << self
     def run

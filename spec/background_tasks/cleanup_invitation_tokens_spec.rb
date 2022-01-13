@@ -12,14 +12,16 @@ describe CleanupInvitationTokens do
     describe 'loops through all invitation tokens' do
       # This is also tested without mocking the expired? function in a feature test.
       it 'destroys invitation tokens if they are expired' do
-        FactoryBot.create_list(:invitation_token, 17, created_at: (8.days + described_class::EXPIRATION_GRACE_PERIOD).ago)
+        FactoryBot.create_list(:invitation_token, 17,
+                               created_at: (8.days + described_class::EXPIRATION_GRACE_PERIOD).ago)
         expect(InvitationToken.count).to eq 17
         described_class.run
         expect(InvitationToken.count).to be_zero
       end
 
       it 'does not destroy invitation tokens if they are not expired' do
-        FactoryBot.create_list(:invitation_token, 17, created_at: (6.days + described_class::EXPIRATION_GRACE_PERIOD).ago)
+        FactoryBot.create_list(:invitation_token, 17,
+                               created_at: (6.days + described_class::EXPIRATION_GRACE_PERIOD).ago)
         expect(InvitationToken.count).to eq 17
         described_class.run
         expect(InvitationToken.count).to eq 17

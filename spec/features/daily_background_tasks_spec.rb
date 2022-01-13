@@ -8,7 +8,7 @@ describe 'complete protocol subscriptions and cleanup invitation tokens', type: 
     responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription)
     FactoryBot.create(:invitation_token,
                       invitation_set: responseobj.invitation_set,
-                      created_at: (8.days + (6 * 4).weeks).ago)
+                      created_at: (8.days + CleanupInvitationTokens::EXPIRATION_GRACE_PERIOD).ago)
     expect(protocol_subscription).to be_ended
     responsecountprev = Response.count
     invtokencountprev = InvitationToken.count

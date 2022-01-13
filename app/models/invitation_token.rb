@@ -86,7 +86,7 @@ class InvitationToken < ApplicationRecord
   end
 
   def calculate_expires_at
-    expiresat = [Time.zone.now, TimeTools.increase_by_duration(created_at, OPEN_TIME_FOR_INVITATION)].max
+    expiresat = TimeTools.increase_by_duration(created_at, OPEN_TIME_FOR_INVITATION)
     invitation_set.responses.each do |response|
       next if response.completed?
 

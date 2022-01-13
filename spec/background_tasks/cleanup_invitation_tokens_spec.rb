@@ -19,7 +19,7 @@ describe CleanupInvitationTokens do
       end
 
       it 'does not destroy invitation tokens if they are not expired' do
-        FactoryBot.create_list(:invitation_token, 17, created_at: (6.days + (6 * 4).weeks).ago)
+        FactoryBot.create_list(:invitation_token, 17, created_at: (6.days + described_class::EXPIRATION_GRACE_PERIOD).ago)
         expect(InvitationToken.count).to eq 17
         described_class.run
         expect(InvitationToken.count).to eq 17

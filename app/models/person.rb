@@ -34,7 +34,6 @@ class Person < ApplicationRecord
             uniqueness: true
   validates :first_name, presence: true
   belongs_to :role
-  validates :role_id, presence: true
   validates :gender, inclusion: { in: [MALE, FEMALE, nil] }
   has_many :protocol_subscriptions, -> { order created_at: :desc }, dependent: :destroy, inverse_of: :person
   has_many :responses, through: :protocol_subscriptions

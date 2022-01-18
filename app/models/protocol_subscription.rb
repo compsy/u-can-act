@@ -7,10 +7,7 @@ class ProtocolSubscription < ApplicationRecord
   COMPLETED_STATE = 'completed'
   belongs_to :person
   belongs_to :filling_out_for, class_name: 'Person', inverse_of: false
-  validates :person_id, presence: true # The person who receives the SMS (Mentor)
-  validates :filling_out_for_id, presence: true # Student ID
   belongs_to :protocol
-  validates :protocol_id, presence: true
   validates :state, inclusion: { in: [ACTIVE_STATE, CANCELED_STATE, COMPLETED_STATE] }
   validates :start_date, presence: true
   validates :end_date, presence: true

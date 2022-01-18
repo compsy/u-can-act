@@ -8,7 +8,6 @@ class Role < ApplicationRecord
   validates :title, uniqueness: { scope: :team_id }
   belongs_to :team
   has_many :people, dependent: :destroy
-  validates :team_id, presence: true
 
   def stats(week_number, year, threshold_percentage)
     all_person_stats = { met_threshold_completion: 0, completed: 0, total: 0 }

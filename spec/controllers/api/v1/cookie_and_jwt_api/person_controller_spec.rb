@@ -50,7 +50,7 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         person_attributes = {}
         person_attributes['email'] = 'email@test.com'
         person_attributes['locale'] = 'en'
-        person_attributes['timestamp'] = (Time.current - 1.minute).to_s
+        person_attributes['timestamp'] = 1.minute.ago.to_s
         person.update!(locale: 'nl')
 
         put :update, params: { person: person_attributes }
@@ -65,7 +65,7 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         person_attributes['email'] = 'email@test.com'
         person_attributes['locale'] = 'en'
         person.update!(locale: 'nl')
-        person_attributes['timestamp'] = (Time.current + 1.minute).to_s
+        person_attributes['timestamp'] = 1.minute.from_now.to_s
 
         put :update, params: { person: person_attributes }
 

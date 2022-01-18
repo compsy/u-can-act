@@ -116,7 +116,7 @@ describe 'Person API' do
           { person: {
             email: 'test@example.com',
             mobile_phone: '0612341234',
-            timestamp: (Time.current + 1.minute).to_s
+            timestamp: 1.minute.from_now.to_s
           } }
         end
 
@@ -138,7 +138,7 @@ describe 'Person API' do
           { person: {
             email: 'test@example.com',
             mobile_phone: '0612341234',
-            timestamp: (Time.current - 1.minute).to_s
+            timestamp: 1.minute.ago.to_s
           } }
         end
 

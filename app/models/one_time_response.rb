@@ -2,7 +2,6 @@
 
 class OneTimeResponse < ApplicationRecord
   belongs_to :protocol
-  validates :protocol_id, presence: true
   validates :token, presence: true, uniqueness: true
 
   TOKEN_LENGTH = 8

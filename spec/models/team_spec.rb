@@ -179,7 +179,7 @@ describe Team, type: :model do
         end
         let!(:response4) do
           FactoryBot.create(:response,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: student2.protocol_subscriptions.first)
         end
 
@@ -195,7 +195,7 @@ describe Team, type: :model do
         end
         let!(:response7) do
           FactoryBot.create(:response,
-                            open_from: Time.zone.now - 1.day,
+                            open_from: 1.day.ago,
                             protocol_subscription: mentor1.protocol_subscriptions.first)
         end
         let!(:response8) do
@@ -211,7 +211,7 @@ describe Team, type: :model do
 
         let!(:response10) do
           FactoryBot.create(:response,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: mentor2.protocol_subscriptions.first)
         end
 
@@ -223,7 +223,7 @@ describe Team, type: :model do
 
         let!(:response12) do
           FactoryBot.create(:response,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: mentor3.protocol_subscriptions.first)
         end
 
@@ -269,15 +269,15 @@ describe Team, type: :model do
         it 'lists the correct threshold completion based on the provided threshold' do
           mentor4 = FactoryBot.create(:person, :with_protocol_subscriptions, role: role5)
           FactoryBot.create(:response, :completed,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: mentor3.protocol_subscriptions.first)
 
           FactoryBot.create(:response, :completed,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: mentor3.protocol_subscriptions.first)
 
           FactoryBot.create(:response, :completed,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: mentor4.protocol_subscriptions.first)
 
           result = described_class.overview(week_number: nil,
@@ -306,11 +306,11 @@ describe Team, type: :model do
 
         it 'lists the correct threshold completion based on the default threshold' do
           FactoryBot.create(:response, :completed,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: mentor3.protocol_subscriptions.first)
 
           FactoryBot.create(:response, :completed,
-                            open_from: Time.zone.now - 10.minutes,
+                            open_from: 10.minutes.ago,
                             protocol_subscription: mentor3.protocol_subscriptions.first)
 
           expect(Person::DEFAULT_PERCENTAGE).not_to be_nil

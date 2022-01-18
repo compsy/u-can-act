@@ -2,7 +2,6 @@
 
 class InvitationSet < ApplicationRecord
   belongs_to :person
-  validates :person_id, presence: true
   has_many :invitations, dependent: :destroy
   has_many :responses, dependent: :nullify # no dependent destroy relation needed,
   # responses are already destroyed through person->protocol_subscriptions->responses

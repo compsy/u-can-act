@@ -7,7 +7,6 @@ class InvitationToken < ApplicationRecord
   TOKEN_LENGTH = 4
   OPEN_TIME_FOR_INVITATION = 7.days
   belongs_to :invitation_set
-  validates :invitation_set_id, presence: true
   validates :expires_at, presence: true
   # Don't supply a token on initialize, it will be generated.
   validates :token_hash, presence: true

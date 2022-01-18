@@ -8,7 +8,6 @@ class Invitation < ApplicationRecord
   REMINDER_SENT_STATE = 'reminder_sent'
 
   belongs_to :invitation_set
-  validates :invitation_set_id, presence: true
   validates :type, presence: true
   validates :invited_state, inclusion: { in: [NOT_SENT_STATE,
                                               SENDING_STATE,

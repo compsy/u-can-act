@@ -190,7 +190,7 @@ describe 'GET /admin', type: :feature, js: true do
     end
     let!(:response4) do
       FactoryBot.create(:response,
-                        open_from: Time.zone.now + 1.day,
+                        open_from: 1.day.from_now,
                         protocol_subscription: student2.protocol_subscriptions.first)
     end
 
@@ -206,7 +206,7 @@ describe 'GET /admin', type: :feature, js: true do
     end
     let!(:response7) do
       FactoryBot.create(:response,
-                        open_from: Time.zone.now + 1.day,
+                        open_from: 1.day.from_now,
                         protocol_subscription: mentor1.protocol_subscriptions.first)
     end
     let!(:response8) do

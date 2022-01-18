@@ -243,7 +243,7 @@ describe Response do
       end
       it 'finds all responses for a given year' do
         Timecop.freeze(2017, 12, 0o6)
-        date = Time.zone.now - 2.years
+        date = 2.years.ago
         expected_response = FactoryBot.create(:response, open_from: date)
 
         FactoryBot.create(:response, open_from: 1.hour.ago.in_time_zone)

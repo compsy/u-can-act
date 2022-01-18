@@ -16,10 +16,8 @@ class Measurement < ApplicationRecord
   MAX_RESPONSES = 500
 
   belongs_to :questionnaire
-  validates :questionnaire_id, presence: true
   belongs_to :protocol # , autosave: true, validate: true
   validate :at_most_one_stop_measurement_per_protocol
-  validates :protocol_id, presence: true
   validates :stop_measurement, inclusion: { in: [true, false] }
   validates :should_invite, inclusion: { in: [true, false] }
   # Only redirect if nothing else ready to be filled out (defaults to false).

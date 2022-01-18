@@ -578,8 +578,8 @@ describe Response do
       responseobj = FactoryBot.create(:response)
       responseobj.protocol_subscription_id = nil
       expect(responseobj).not_to be_valid
-      expect(responseobj.errors.messages).to have_key :protocol_subscription_id
-      expect(responseobj.errors.messages[:protocol_subscription_id]).to include('moet opgegeven zijn')
+      expect(responseobj.errors.messages).to have_key :protocol_subscription
+      expect(responseobj.errors.messages[:protocol_subscription]).to include('moet opgegeven zijn')
     end
     it 'works to retrieve a ProtocolSubscription' do
       responseobj = FactoryBot.create(:response)
@@ -592,8 +592,8 @@ describe Response do
       responseobj = FactoryBot.create(:response)
       responseobj.measurement_id = nil
       expect(responseobj).not_to be_valid
-      expect(responseobj.errors.messages).to have_key :measurement_id
-      expect(responseobj.errors.messages[:measurement_id]).to include('moet opgegeven zijn')
+      expect(responseobj.errors.messages).to have_key :measurement
+      expect(responseobj.errors.messages[:measurement]).to include('moet opgegeven zijn')
     end
     it 'works to retrieve a Measurement' do
       responseobj = FactoryBot.create(:response)

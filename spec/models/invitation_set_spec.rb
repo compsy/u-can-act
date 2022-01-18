@@ -13,8 +13,8 @@ describe InvitationSet do
       invitation_set = FactoryBot.create(:invitation_set)
       invitation_set.person_id = nil
       expect(invitation_set).not_to be_valid
-      expect(invitation_set.errors.messages).to have_key :person_id
-      expect(invitation_set.errors.messages[:person_id]).to include('moet opgegeven zijn')
+      expect(invitation_set.errors.messages).to have_key :person
+      expect(invitation_set.errors.messages[:person]).to include('moet opgegeven zijn')
     end
     it 'works to retrieve a Person' do
       invitation_set = FactoryBot.create(:invitation_set)

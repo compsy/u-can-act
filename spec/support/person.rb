@@ -192,8 +192,8 @@ shared_examples_for 'a person object' do
       person = FactoryBot.create(:person)
       person.role_id = nil
       expect(person).not_to be_valid
-      expect(person.errors.messages).to have_key :role_id
-      expect(person.errors.messages[:role_id]).to include('moet opgegeven zijn')
+      expect(person.errors.messages).to have_key :role
+      expect(person.errors.messages[:role]).to include('moet opgegeven zijn')
     end
     it 'works to retrieve an role' do
       person = FactoryBot.create(:person)

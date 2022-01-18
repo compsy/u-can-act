@@ -163,7 +163,7 @@ describe InvitationToken do
       invitation_token.invitation_set_id = nil
       expect(invitation_token).not_to be_valid
       expect(invitation_token.errors.messages).to have_key :invitation_set
-      expect(invitation_token.errors.messages[:invitation_set]).to include('moet opgegeven zijn')
+      expect(invitation_token.errors.messages[:invitation_set]).to include('moet bestaan')
     end
     it 'works to retrieve an InvitationSet' do
       invitation_token = FactoryBot.create(:invitation_token)

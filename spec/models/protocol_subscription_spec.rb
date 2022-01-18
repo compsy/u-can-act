@@ -26,7 +26,7 @@ describe ProtocolSubscription do
       protocol_subscription.person_id = nil
       expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :person
-      expect(protocol_subscription.errors.messages[:person]).to include('moet opgegeven zijn')
+      expect(protocol_subscription.errors.messages[:person]).to include('moet bestaan')
     end
     it 'works to retrieve a Person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
@@ -40,7 +40,7 @@ describe ProtocolSubscription do
       protocol_subscription.filling_out_for_id = nil
       expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :filling_out_for
-      expect(protocol_subscription.errors.messages[:filling_out_for]).to include('moet opgegeven zijn')
+      expect(protocol_subscription.errors.messages[:filling_out_for]).to include('moet bestaan')
     end
     it 'works to retrieve a Person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
@@ -84,7 +84,7 @@ describe ProtocolSubscription do
       protocol_subscription.protocol_id = nil
       expect(protocol_subscription).not_to be_valid
       expect(protocol_subscription.errors.messages).to have_key :protocol
-      expect(protocol_subscription.errors.messages[:protocol]).to include('moet opgegeven zijn')
+      expect(protocol_subscription.errors.messages[:protocol]).to include('moet bestaan')
     end
     it 'works to retrieve a Protocol' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)

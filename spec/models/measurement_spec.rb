@@ -42,7 +42,7 @@ describe Measurement do
       measurement.questionnaire_id = nil
       expect(measurement).not_to be_valid
       expect(measurement.errors.messages).to have_key :questionnaire
-      expect(measurement.errors.messages[:questionnaire]).to include('moet opgegeven zijn')
+      expect(measurement.errors.messages[:questionnaire]).to include('moet bestaan')
     end
     it 'works to retrieve a Questionnaire' do
       measurement = FactoryBot.create(:measurement)
@@ -56,7 +56,7 @@ describe Measurement do
       measurement.protocol_id = nil
       expect(measurement).not_to be_valid
       expect(measurement.errors.messages).to have_key :protocol
-      expect(measurement.errors.messages[:protocol]).to include('moet opgegeven zijn')
+      expect(measurement.errors.messages[:protocol]).to include('moet bestaan')
     end
     it 'works to retrieve a Protocol' do
       measurement = FactoryBot.create(:measurement)

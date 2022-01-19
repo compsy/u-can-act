@@ -71,7 +71,9 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Ben je afgelopen week naar school geweest?',
     options: [
-      {title: 'Ja', shows_questions: %i[v10_a v11 v12 v13] },
+      {title: 'Ja, alleen in het echt', shows_questions: %i[v10_a v11 v12 v13 v24] },
+      {title: 'Ja, alleen online', shows_questions: %i[v10_a v11 v12 v13 v24] },
+      {title: 'Ja, zowel in het echt als online', shows_questions: %i[v10_a v11 v12 v13 v24] },
       {title: 'Nee, helemaal niet', shows_questions: %i[v9_b] }
     ]
   }, {
@@ -92,7 +94,7 @@ dagboek_content = [
     id: :v10_a,
     type: :days,
     hidden: true,
-    title: 'Zijn er in de afgelopen week wel dagdelen geweest waarop je niet naar school bent geweest? Vink de dagdelen aan waarop je <u>niet</u> naar school bent geweest of waarop je minstens 1 lesuur hebt gemist.',
+    title: 'Zijn er in de afgelopen week wel dagdelen geweest waarop je niet naar school bent geweest of online lessen hebt gemist? Vink de dagdelen aan waarop je <u>niet</u> naar school bent geweest of waarop je minstens 1 lesuur hebt gemist.',
     tooltip: 'Het maakt niet uit wat de reden was. Als je alleen een paar minuten te laat was, hoef je het niet mee te tellen.',
     shows_questions: %i[v10_b],
     required: false,
@@ -220,6 +222,7 @@ dagboek_content = [
   }, {
     id: :v24,
     type: :checkbox,
+    hidden: true,
     show_otherwise: false,
     required: true,
     title: 'Is er de afgelopen week iets bijzonders gebeurd op school? Je kunt meerdere opties aankruisen.',
@@ -243,6 +246,7 @@ dagboek_content = [
     ]
   }
 ]
+
 
 dagboek1.content = { questions: dagboek_content, scores: [] }
 dagboek1.title = db_title

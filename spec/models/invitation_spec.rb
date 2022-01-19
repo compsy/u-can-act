@@ -17,8 +17,8 @@ describe Invitation do
       invitation = FactoryBot.create(:sms_invitation)
       invitation.invitation_set_id = nil
       expect(invitation).not_to be_valid
-      expect(invitation.errors.messages).to have_key :invitation_set_id
-      expect(invitation.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
+      expect(invitation.errors.messages).to have_key :invitation_set
+      expect(invitation.errors.messages[:invitation_set]).to include('moet bestaan')
     end
     it 'works to retrieve an InvitationSet' do
       invitation = FactoryBot.create(:sms_invitation)

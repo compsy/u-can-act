@@ -6,7 +6,7 @@ OneTimeResponse.find_by(token: 'weekly_diary')&.destroy if Rails.env.development
 pr_name = File.basename(__FILE__)[0...-3]
 diary_protocol = Protocol.find_by(name: pr_name)
 diary_protocol ||= Protocol.new(name: pr_name)
-diary_protocol.duration = 28.weeks
+diary_protocol.duration = 38.weeks
 diary_protocol.invitation_text = nil # Determine invitation text dynamically
 
 # Je kunt alleen meedoen aan de dagboekstudie als je ook mee hebt gedaan aan de cross-sectionele vragenlijsten.

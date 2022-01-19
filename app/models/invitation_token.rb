@@ -7,7 +7,6 @@ class InvitationToken < ApplicationRecord
   TOKEN_LENGTH = 4
   OPEN_TIME_FOR_INVITATION = 7.days
   belongs_to :invitation_set
-  validates :invitation_set_id, presence: true
   validates :expires_at, presence: true
   # Don't supply a token on initialize, it will be generated.
   validates :token_hash, presence: true
@@ -86,7 +85,7 @@ class InvitationToken < ApplicationRecord
   end
 
   def calculate_expires_at
-    expiresat = [Time.zone.now, TimeTools.increase_by_duration(created_at, OPEN_TIME_FOR_INVITATION)].max
+    expiresat = TimeTools.increase_by_duration(created_at, OPEN_TIME_FOR_INVITATION)
     invitation_set.responses.each do |response|
       next if response.completed?
 

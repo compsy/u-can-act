@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-# db_title = 'Demo vragenlijst' # Dagboekvragenlijst moet geen titel hebben alleen een logo
+# db_title = '' # Shown to users as a big text, but cannot be localized, so often left empty.
 #
-# db_name1 = 'demo'
-# dagboek1 = Questionnaire.find_by(name: db_name1)
-# dagboek1 ||= Questionnaire.new(name: db_name1)
-# dagboek1.key = File.basename(__FILE__)[0...-3]
+# db_name1 = 'demo' # Internal name to identify this questionnaire by. Should be unique.
+# dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
+# dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+# dagboek1.name = db_name1
 # dagboek_content = [
 #   {
 #     type: :raw,

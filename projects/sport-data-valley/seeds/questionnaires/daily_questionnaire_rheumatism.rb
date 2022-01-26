@@ -23,7 +23,6 @@ dagboek_content = [
     max: 10,
     step: 0.1,
     required: true,
-    no_initial_thumb: true,
     labels: ['geen vermoeidheid', 'meest voorstelbare vermoeidheid']
   }, {
     id: :v2,
@@ -41,7 +40,6 @@ dagboek_content = [
     max: 10,
     step: 0.1,
     required: true,
-    no_initial_thumb: true,
     labels: ['geen pijn', 'meest voorstelbare pijn']
   }, {
     id: :v4,
@@ -51,7 +49,6 @@ dagboek_content = [
     max: 10,
     step: 0.1,
     required: true,
-    no_initial_thumb: true,
     labels: ['geen stress', 'meest voorstelbare stress']
   }, {
     id: :v5,

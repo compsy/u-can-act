@@ -13,7 +13,6 @@ class RheumatismAsesMethods
     max: 10,
     step: 1,
     required: true,
-    no_initial_thumb: true,
     labels: ['erg onzeker', 'erg zeker']
   }
 end

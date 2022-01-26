@@ -26,7 +26,6 @@ dagboek_content = [
     max: 10,
     step: 1,
     required: true,
-    no_initial_thumb: true,
     labels: ['Geen vermoeidheid', 'Volledig uitgeput'],
     section_end: true
   }, {

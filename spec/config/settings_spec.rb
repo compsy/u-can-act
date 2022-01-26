@@ -6,6 +6,7 @@ describe Rails do
   describe 'settings' do
     let(:settings) { YAML.load_file(File.join(described_class.root, 'config', 'settings.yml')) }
 
+    # rubocop:disable Style/OpenStructUse
     it 'has settings' do
       expect(described_class.application.config.settings).not_to be_blank
       expect(described_class.application.config.settings).to be_a OpenStruct
@@ -27,6 +28,7 @@ describe Rails do
       expect(described_class.application.config.settings.logo.fallback_logo)
         .to eq 'logo.png'
     end
+    # rubocop:enable Style/OpenStructUse
 
     it 'has application-name settings when the ENV defines this' do
       expect(described_class.application.config.settings.application_name).not_to be_blank

@@ -25,6 +25,7 @@ class NumberGenerator < QuestionTypeGenerator
     tag.div(body, class: 'row')
   end
 
+  # rubocop:disable Metrics/AbcSize
   def number_tag(question)
     tag_options = minimal_tag_options(question)
     if question[:maxlength].present?
@@ -33,8 +34,10 @@ class NumberGenerator < QuestionTypeGenerator
     end
     tag_options[:min] = question[:min] if question[:min].present?
     tag_options[:max] = question[:max] if question[:max].present?
-    tag(:input, tag_options)
+    tag_options[:step] = question[:step] if question[:step].present?
+    tag.input(**tag_options)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def minimal_tag_options(question)
     { type: 'number',

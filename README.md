@@ -32,8 +32,8 @@ Make sure that Docker Compose is installed, it will allow you to run the applica
 
 Clone the codebase and step into the directory.
 ```bash
-  git clone git@github.com:compsy/vsv.git
-  cd vsv
+  git clone git@github.com:compsy/u-can-act.git
+  cd u-can-act
 ```
 Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 ```
@@ -175,6 +175,18 @@ In order to run the Capybara specs of the VSV project, you need to install the c
 ```
   brew install chromedriver
 ```
+
+### Development seeds
+At some point you might need pre-existing questionnaire responses in order to test the applications that integrate 
+with the questionnaire engine. You can pre-seed the database with fake data using manual seeds. To run it simply call:
+```bash
+rails db:seed:<name of manual seed>
+```
+A list of available seeds can be found through the following command:
+```bash
+rails --tasks | grep db:seed:
+```
+Additionally, you can check the files under `projects/sport-data-valley/manual-seeds` to see their implementation.
 
 ## Background jobs
 The workings of the app rely on the following background jobs:
@@ -659,12 +671,13 @@ Required and allowed options (minimal example and maximal example):
   links_to_expandable: :v3,
   min: 0,
   max: 9999,
+  step: 0.01,
   required: true,
   section_end: true
 }]
 ```
 
-Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known).
+Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known). If specified, the `step` property is used to set the number of decimals. For example, `step: 0.01` will mean up to two decimals is allowed.
 
 The `required` property is also supported. 
 The default is that numbers are not required.
@@ -865,7 +878,7 @@ Required and allowed options (minimal example and maximal example):
   placeholder: 'Selecteer uw antwoord...',
   tooltip: 'some tooltip',
   options: [
-    { title: 'hobby/sport', numeric_value: 0 },
+    { title: 'hobby/sport', numeric_value: 0, shows_questions: %i[v3] },
     { title: 'werk', numeric_value: 25 },
     { title: 'vriendschap', numeric_value: 50 },
     { title: 'romantische relatie', numeric_value: 75 },
@@ -903,6 +916,8 @@ Note that this attribute is only a requirement for score calculation, not for di
 Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used
 instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
 sentences, and you just want something shorter in your CSV export.
+
+Dropdowns can have `shows_questions` and `hides_questions` attributes, but they do not support an `otherwise` option.
 
 ### Type: Drawing
 Let's a user draw on an image. 

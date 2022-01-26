@@ -43,6 +43,7 @@ class RangeGenerator < QuestionTypeGenerator
     tag.div('', class: 'range-value-label')
   end
 
+  # rubocop:disable Metrics/AbcSize
   def range_slider(question)
     minmax = range_slider_minmax(question)
     step = question[:step] || 1
@@ -50,15 +51,16 @@ class RangeGenerator < QuestionTypeGenerator
     range_options[:value] = question[:value] if question[:value].present?
     if question[:vertical].present?
       range_options[:class] = 'vranger'
-      range_body = tag(:input, range_options)
+      range_body = tag.input(**range_options)
       return tag.p(range_body, class: 'range-field')
     end
     unless question[:ticks].present?
-      range_body = tag(:input, range_options)
+      range_body = tag.input(**range_options)
       return tag.p(range_body, class: 'range-field')
     end
     range_slider_with_ticks(minmax: minmax, step: step, question: question, range_options: range_options)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def range_question_options(minmax:, step:, question:)
     {
@@ -73,20 +75,19 @@ class RangeGenerator < QuestionTypeGenerator
   end
 
   # Disabling this rubocop because tag.datalist is not a defined method.
-  # rubocop:disable Rails/ContentTag
   def range_slider_with_ticks(minmax:, step:, question:, range_options:)
     range_options[:list] = idify(question[:id], 'datalist')
-    range_body = tag(:input, range_options)
+    range_body = tag.input(**range_options)
     datalist = range_datalist(min: minmax[:min], max: minmax[:max], step: step)
     range_datalist = content_tag(:datalist, datalist, id: idify(question[:id], 'datalist'))
     body = safe_join([range_body, range_datalist])
     tag.p(body, class: 'range-field with-ticks')
   end
-  # rubocop:enable Rails/ContentTag
 
   def range_datalist(min:, max:, step:)
     body = []
-    (min..max).step(step).each do |option|
+    # We use BigDecimal with step to avoid rounding errors.
+    (min..max).step(BigDecimal(step.to_s)).each do |option|
       body << tag.option(number_to_string(option))
     end
     safe_join(body)
@@ -95,11 +96,11 @@ class RangeGenerator < QuestionTypeGenerator
   # rubocop:disable Metrics/AbcSize
   def range_labels(question)
     labels_body = []
-    label_count = [question[:labels].size, 1].max
+    label_count = [question[:labels].size, 2].max
     col_class = 12 / label_count
     col_width = col_width_from_label_count(label_count)
     minmax = range_slider_minmax(question)
-    step = (1.0 + minmax[:max] - minmax[:min]) / label_count
+    step = BigDecimal(((minmax[:max] - minmax[:min]) / (label_count - 1.0)).to_s)
     cur = minmax[:min]
     return vertical_range_labels(minmax, step, question) if question[:vertical].present?
 
@@ -127,7 +128,7 @@ class RangeGenerator < QuestionTypeGenerator
     tag.div(label,
             class: "col #{alignment} s#{col_class}",
             style: "width: #{col_width}%",
-            data: { value: value })
+            data: { value: number_to_string(value) })
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -136,7 +137,7 @@ class RangeGenerator < QuestionTypeGenerator
     labels_body = []
     labels_body << tag.span('')
     space = raw('&nbsp;')
-    (minmax[:min]..minmax[:max]).step(step).each_with_index do |value, idx|
+    (minmax[:min]..minmax[:max]).step(BigDecimal(step.to_s)).each_with_index do |value, idx|
       label = []
       label << tag.span("- #{number_to_string(value)} ", class: 'vertical-range-tick') if question[:ticks].present?
       label << tag.span(
@@ -146,8 +147,9 @@ class RangeGenerator < QuestionTypeGenerator
       labels_body << tag.span(safe_join(label),
                               class: 'vertical-range-label',
                               style: "height: #{col_width}%",
-                              data: { value: value })
-      labels_body << tag('br')
+                              data: { value: number_to_string(value) })
+      # because tag.br doesn't close the tag
+      labels_body << '<br />'.html_safe
     end
     labels_body << tag.span('')
     labels_body = tag.div(safe_join(labels_body), class: 'vertical-range-label-wrapper')

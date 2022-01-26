@@ -4,7 +4,6 @@ class Team < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_many :roles, dependent: :destroy
   belongs_to :organization
-  validates :organization_id, presence: true
   TEAM_OVERVIEW_BASE_KEY = 'team_overview'
 
   def self.overview(week_number: nil, year: nil, threshold_percentage: nil, bust_cache: false)

@@ -17,8 +17,8 @@ describe Invitation do
       invitation = FactoryBot.create(:sms_invitation)
       invitation.invitation_set_id = nil
       expect(invitation).not_to be_valid
-      expect(invitation.errors.messages).to have_key :invitation_set_id
-      expect(invitation.errors.messages[:invitation_set_id]).to include('moet opgegeven zijn')
+      expect(invitation.errors.messages).to have_key :invitation_set
+      expect(invitation.errors.messages[:invitation_set]).to include('moet bestaan')
     end
     it 'works to retrieve an InvitationSet' do
       invitation = FactoryBot.create(:sms_invitation)
@@ -186,7 +186,9 @@ describe Invitation do
         mentor.email,
         message,
         invitation_url,
-        responseobj.protocol_subscription.protocol.name
+        responseobj.protocol_subscription.protocol.name,
+        'nl',
+        instance_of(ActiveSupport::TimeWithZone)
       ).and_call_original
       smsinvitation = FactoryBot.create(:sms_invitation, invitation_set: responseobj.invitation_set)
       emailinvitation = FactoryBot.create(:email_invitation, invitation_set: responseobj.invitation_set)

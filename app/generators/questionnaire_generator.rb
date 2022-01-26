@@ -36,7 +36,7 @@ class QuestionnaireGenerator
                        questionnaire_hidden_fields(params),
                        questionnaire_questions_html(content[:questions], response,
                                                     raw_content, unsubscribe_url, locale),
-                       submit_button(submit_text)
+                       submit_button(submit_text, locale)
                      ])
     tag.form(body, action: action, class: 'col s12', 'accept-charset': 'UTF-8', method: 'post')
   end
@@ -68,9 +68,9 @@ class QuestionnaireGenerator
 
   def questionnaire_hidden_fields(params)
     hidden_body = []
-    hidden_body << tag(:input, name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
+    hidden_body << tag.input(name: 'utf8', type: 'hidden', value: '&#x2713;'.html_safe)
     params.each do |key, value|
-      hidden_body << tag(:input, name: key.to_s, type: 'hidden', value: value) if value.present?
+      hidden_body << tag.input(name: key.to_s, type: 'hidden', value: value) if value.present?
     end
     safe_join(hidden_body)
   end
@@ -98,11 +98,11 @@ class QuestionnaireGenerator
     body
   end
 
-  def submit_button(submit_text)
+  def submit_button(submit_text, locale)
     submit_body = tag.button(submit_text,
                              type: 'submit',
                              class: 'btn waves-effect waves-light',
-                             data: { disable_with: 'Bezig...' })
+                             data: { disable_with: I18n.t('questionnaires.busy', locale: locale) })
     submit_body = tag.div(submit_body, class: 'col s12')
     tag.div(submit_body, class: 'row section')
   end

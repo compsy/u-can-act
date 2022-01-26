@@ -13,11 +13,9 @@ class Response < ApplicationRecord
   belongs_to :protocol_subscription
   has_one :person, through: :protocol_subscription
   has_one :protocol, through: :protocol_subscription
-  validates :protocol_subscription_id, presence: true
   belongs_to :filled_out_for, class_name: 'Person', optional: true
   belongs_to :filled_out_by, class_name: 'Person', optional: true
   belongs_to :measurement
-  validates :measurement_id, presence: true
   belongs_to :invitation_set, optional: true
   validates :open_from, presence: true
   validates :uuid, presence: true, uniqueness: true

@@ -25,8 +25,8 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.person_id = nil
       expect(protocol_subscription).not_to be_valid
-      expect(protocol_subscription.errors.messages).to have_key :person_id
-      expect(protocol_subscription.errors.messages[:person_id]).to include('moet opgegeven zijn')
+      expect(protocol_subscription.errors.messages).to have_key :person
+      expect(protocol_subscription.errors.messages[:person]).to include('moet bestaan')
     end
     it 'works to retrieve a Person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
@@ -39,8 +39,8 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.filling_out_for_id = nil
       expect(protocol_subscription).not_to be_valid
-      expect(protocol_subscription.errors.messages).to have_key :filling_out_for_id
-      expect(protocol_subscription.errors.messages[:filling_out_for_id]).to include('moet opgegeven zijn')
+      expect(protocol_subscription.errors.messages).to have_key :filling_out_for
+      expect(protocol_subscription.errors.messages[:filling_out_for]).to include('moet bestaan')
     end
     it 'works to retrieve a Person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
@@ -83,8 +83,8 @@ describe ProtocolSubscription do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.protocol_id = nil
       expect(protocol_subscription).not_to be_valid
-      expect(protocol_subscription.errors.messages).to have_key :protocol_id
-      expect(protocol_subscription.errors.messages[:protocol_id]).to include('moet opgegeven zijn')
+      expect(protocol_subscription.errors.messages).to have_key :protocol
+      expect(protocol_subscription.errors.messages[:protocol]).to include('moet bestaan')
     end
     it 'works to retrieve a Protocol' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
@@ -105,8 +105,8 @@ describe ProtocolSubscription do
     # person: prot1.person)
     # prot2.filling_out_for_id = prot1.filling_out_for_id
     # expect(prot2).not_to be_valid
-    # expect(prot2.errors.messages).to have_key :filling_out_for_id
-    # expect(prot2.errors.messages[:filling_out_for_id]).to include('is al in gebruik')
+    # expect(prot2.errors.messages).to have_key :filling_out_for
+    # expect(prot2.errors.messages[:filling_out_for]).to include('is al in gebruik')
     # expect { prot2.save! }.to raise_error(ActiveRecord::RecordInvalid,
     # 'Validatie mislukt: Filling out for is al in gebruik')
     # end
@@ -596,14 +596,18 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: true, periodical: true, reward_points: 1, future: false, future_or_current: false, streak: resp }
+        response = protocol_subscription.responses[resp]
+        { completed: true, periodical: true, reward_points: 1, future: false, future_or_current: false, streak: resp,
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
       expected.unshift(completed: false,
                        periodical: true,
                        reward_points: 1,
                        future: false,
                        future_or_current: false,
-                       streak: 0)
+                       streak: 0,
+                       open_from: protocol_subscription.responses.first.open_from,
+                       questionnaire_key: protocol_subscription.responses.first.measurement.questionnaire.key)
       expect(result).to eq expected
       Timecop.return
     end
@@ -627,14 +631,18 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
+        response = protocol_subscription.responses[resp]
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
       expected.unshift(completed: false,
                        periodical: true,
                        reward_points: 1,
                        future_or_current: false,
                        future: false,
-                       streak: 0)
+                       streak: 0,
+                       open_from: protocol_subscription.responses.first.open_from,
+                       questionnaire_key: protocol_subscription.responses.first.measurement.questionnaire.key)
       expect(result).to eq expected
       Timecop.return
     end
@@ -649,7 +657,9 @@ describe ProtocolSubscription do
       expect(result.length).to eq protocol_subscription.responses.length
 
       expected = (1..protocol_subscription.responses.length).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
+        response = protocol_subscription.responses[resp - 1]
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
 
       expect(result).to eq expected
@@ -669,14 +679,18 @@ describe ProtocolSubscription do
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
       expected = (1..protocol_subscription.responses.length - 1).map do |resp|
-        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp }
+        response = protocol_subscription.responses[resp]
+        { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
+          open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
       end
       expected.unshift(completed: false,
                        periodical: true,
                        reward_points: 1,
                        future_or_current: false,
                        future: false,
-                       streak: 0)
+                       streak: 0,
+                       open_from: protocol_subscription.responses.first.open_from,
+                       questionnaire_key: protocol_subscription.responses.first.measurement.questionnaire.key)
 
       expect(result).to eq expected
       Timecop.return

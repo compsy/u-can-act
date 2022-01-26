@@ -99,7 +99,8 @@ describe('ProgressBar', () => {
       const result = wrapper.instance().renderGraph(valueEuro, percentageStreak, 3, 4);
       expect(dummy).toHaveBeenCalledTimes(1);
       expect(result).not.toEqual(undefined);
-      const callargs = { series: [ { value: 123 }, { value: 321 } ] };
+      // times two because we multiply everything by 2 because we sometimes have 50 cents and it can only handle integer
+      const callargs = { series: [ { value: 246 }, { value: 642 } ] };
       expect(dummy).toHaveBeenLastCalledWith(callargs);
     });
 
@@ -120,14 +121,14 @@ describe('ProgressBar', () => {
 
       // Check if some of the options are set correctly
       expect(result.options.diameter).toEqual(250);
-      expect(result.options.max).toEqual(totalAvailable);
+      expect(result.options.max).toEqual(2 * totalAvailable);
       expect(result.options.round).toBeTruthy();
       expect(result.options.series[0].labelStart).toEqual('★');
-      expect(result.options.series[0].value).toEqual(percentageStreak);
+      expect(result.options.series[0].value).toEqual(2 * percentageStreak);
 
       // expect(result.options.series[1].labelStart).toEqual('€');
       expect(result.options.series[1].labelStart).toEqual('✔');
-      expect(result.options.series[1].value).toEqual(valueEuro);
+      expect(result.options.series[1].value).toEqual(2 * valueEuro);
     });
   });
 

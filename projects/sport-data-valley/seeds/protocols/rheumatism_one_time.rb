@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-questionnaire_keys = %w[intake_questionnaire_rheumatism ases_rheumatism braf_rheumatism eq5d5l_rheumatism hads_rheumatism]
+questionnaire_keys = %w[intake_questionnaire_rheumatism ases_rheumatism braf_rheumatism eq5d5l_rheumatism hads_rheumatism squash]
 
 pr_name = File.basename(__FILE__)[0...-3]
 protocol = Protocol.find_by(name: pr_name)

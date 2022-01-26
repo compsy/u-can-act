@@ -175,7 +175,7 @@ dagboek_content << {
   hidden: true,
   type: :radio,
   show_otherwise: false,
-  title: 'Volgt u op dit moment een van de onderstaande opleidingen?',
+  title: '[optioneel] Volgt u op dit moment een van de onderstaande opleidingen?',
   options: [
     {title: 'Basisonderwijs (inclusief speciaal onderwijs)', shows_questions: [:v38a, :v38b]},
     {title: 'Praktijkonderwijs', shows_questions: [:v38a, :v38b]},
@@ -184,7 +184,8 @@ dagboek_content << {
     {title: 'Vwo, gymnasium, atheneum', shows_questions: [:v38a, :v38b]},
     {title: 'Mbo (pdb, mba)', shows_questions: [:v38a, :v38b]},
     {title: 'Nee'},
-  ]
+  ],
+  required: false
 }
 
 dagboek_content << {

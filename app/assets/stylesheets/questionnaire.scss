@@ -86,6 +86,13 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -16px;
 }
 
+// Increase the font size of the balloon popup for the scroll thumb
+input[type=range] + .thumb.active .value {
+  font-size: 1.2rem;
+  margin-left: 0;
+  margin-top: 2px;
+}
+
 // Fix "the flattening" of input controls in IE.
 input[type=range]::-ms-track {
   background: transparent;

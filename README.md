@@ -640,6 +640,7 @@ Required and allowed options (minimal example and maximal example):
   pattern: '[a-z]{1,10}',
   hint: 'Must be a lowercase word between 1 and 10 characters in length',
   placeholder: 'Place holder',
+  required: true,
   section_end: true
 }]
 ```
@@ -652,6 +653,8 @@ The `hint` property is the error message shown to the user when the input does n
 
 Textfields also support a `default_value` property, which is a default value used to fill out the text field. 
 This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
+
+The attribute `required` is `false` by default, but can be set to `true`.
 
 ### Type: Number
 Type for integer(?) numbers. 

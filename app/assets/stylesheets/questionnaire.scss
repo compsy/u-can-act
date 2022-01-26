@@ -295,6 +295,9 @@ $vertical-range-padding-top: 8px;
     font-weight: 600;
     font-size: 15px;
     text-align: center;
+    position: relative;
+    margin-bottom: -36.5px;
+    min-height: 22.5px;
   }
   .col .row.label-row {
     .col {

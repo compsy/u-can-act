@@ -115,7 +115,10 @@ dagboek_content = [
     id: :v20,
     title: 'Hebt u zich somber of depressief gevoeld vanwege vermoeidheid?',
     section_end: true
-  })
+  }), {
+    type: :raw,
+    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst.</p>'
+  }
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

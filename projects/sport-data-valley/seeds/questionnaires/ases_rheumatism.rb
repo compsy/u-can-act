@@ -41,7 +41,10 @@ dagboek_content = [
   {
     id: :v5,
     title: 'Ik ben er zeker van dat ik de frustraties die ik door mijn reumatische aandoening ondervind, aankan.'
-  })
+  }), {
+    type: :raw,
+    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst.</p>'
+  }
 ]
 
 dagboek1.content = { questions: dagboek_content, scores: [] }

@@ -102,6 +102,9 @@ dagboek_content = [
     id: :v10,
     type: :textarea,
     title: RheumatismMethods.category_title('Opmerkingen', 'Heeft u nog aanvullende opmerkingen?')
+  }, {
+    type: :raw,
+    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren.</p>'
   }
 ]
 

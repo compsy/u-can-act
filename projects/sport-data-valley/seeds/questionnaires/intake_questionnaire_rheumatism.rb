@@ -11,7 +11,7 @@ EMAIL_REGEX = '^[^@\s]+@[^@\s]+$'
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Nu volgen enkele vragenlijsten die u maar één keer in hoeft te vullen. Het invullen hiervan kost ongeveer 40 minuten. Daarna ontvangt u dagelijks een vragenlijst die 2 minuten zal kosten.</p>',
+    content: '<p class="flow-text">Nu volgen enkele vragenlijsten die u maar één keer in hoeft te vullen. Het invullen hiervan kost ongeveer 40 minuten. Daarna ontvangt u dagelijks een vragenlijst die 2 minuten zal kosten.</p>'
   }, {
     id: :v1,
     type: :dropdown,
@@ -138,6 +138,9 @@ dagboek_content = [
     placeholder: 'Vul uw e-mailadres in',
     hint: 'Vul a.u.b. een geldig e-mailadres in.',
     required: true
+  }, {
+    type: :raw,
+    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst.</p>'
   }
 ]
 

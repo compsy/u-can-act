@@ -8,10 +8,13 @@ dagboek1.name = db_name1
 
 dagboek_content = [
   {
+    type: :raw,
+    content: '<p class="flow-text">Nu volgen enkele vragenlijsten die u maar één keer in hoeft te vullen. Het invullen hiervan kost ongeveer 40 minuten. Daarna ontvangt u dagelijks een vragenlijst die 2 minuten zal kosten.</p>',
+  }, {
     id: :v1,
     type: :dropdown,
     title: 'Wat is uw geboortejaar?',
-    options: (1910..2010).map(&:to_s)
+    options: (2005.downto(1910)).map(&:to_s)
   }, {
     id: :v2,
     type: :radio,

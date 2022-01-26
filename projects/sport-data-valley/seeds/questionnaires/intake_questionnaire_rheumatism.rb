@@ -76,14 +76,23 @@ dagboek_content = [
     otherwise_label: 'veranderd<br />Indien veranderd: wat is er veranderd qua dosis en soort medicatie?',
     otherwise_placeholder: 'Vul iets in'
   }, {
+    id: :v8a,
+    type: :radio,
+    title: 'Heeft u in de afgelopen week ontstekingen ervaren in uw gewrichten?',
+    options: [
+      { title: 'ja', shows_questions: %i[v8] },
+      'nee'
+    ],
+    show_otherwise: false
+  }, {
     id: :v8,
+    hidden: true,
     type: :checkbox,
     title: 'In welke gewrichten heeft u afgelopen week voornamelijk ontstekingen ervaren? <em>Meedere antwoorden mogelijk</em>',
     options: [
       'Voornamelijk in de handen, polsen, ellebogen of schouders',
       'Voornamelijk in de voeten, enkels, knieën of heupen',
       'Voornamelijk in de nek of wervelkolom',
-      'Geen'
     ],
     show_otherwise: false,
     required: true

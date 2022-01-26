@@ -159,7 +159,11 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_set = InvitationSet.create!(person: person)
 
-  prot_sub.responses.first.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  # NOTE: for non-periodic (one-off) protocols that have multiple questionnaires,
+  #       set all of them to opened (like below), instead of just the first response.
+  prot_sub.responses.each do |responseobj|
+    responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  end
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Rheumatism one time protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"

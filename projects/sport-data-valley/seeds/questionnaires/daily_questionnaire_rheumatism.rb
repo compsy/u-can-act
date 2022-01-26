@@ -55,48 +55,52 @@ dagboek_content = [
     labels: ['geen stress', 'meest voorstelbare stress']
   }, {
     id: :v5,
-    type: :number,
+    type: :time,
     title: RheumatismMethods.category_title('Activiteit', 'Hoeveel uur van de afgelopen 24 uur heeft u besteed aan fysieke activiteiten?'),
     tooltip: 'Benoem hier het aantal uren waarin u lichamelijk actief was. Denk hierbij aan fietsen, wandelen, het huishouden, etc.<br /><br />Als u tegelijkertijd fysiek en cognitief actief was (bijvoorbeeld een intensief gesprek voeren tijdens een wandeling), mag deze bij beide categorieën meetellen.',
-    maxlength: 2,
-    min: 0,
-    max: 24,
-    step: 0.5,
-    placeholder: '',
+    hours_from: 0,
+    hours_to: 24,
+    hours_step: 1,
+    hours_label: { nl: 'Uren', en: 'Hours' },
+    minutes_label: { nl: 'Minuten', en: 'Minutes' },
     required: true
   }, {
     id: :v6,
-    type: :number,
+    type: :time,
     title: RheumatismMethods.category_title('Activiteit', 'Hoeveel uur van de afgelopen 24 uur heeft u besteed aan cognitieve activiteiten?'),
     tooltip: 'Benoem hier het aantal uren waarin u cognitief actief was. Denk hierbij aan vergaderingen of taken voor school/werk waarbij u veel moet nadenken, lezen of puzzelen, etc.<br /><br />Als u tegelijkertijd fysiek en cognitief actief was (bijvoorbeeld een intensief gesprek voeren tijdens een wandeling), mag deze bij beide categorieën meetellen.',
-    maxlength: 2,
-    min: 0,
-    max: 24,
-    step: 0.5,
-    placeholder: '',
+    hours_from: 0,
+    hours_to: 24,
+    hours_step: 1,
+    hours_label: { nl: 'Uren', en: 'Hours' },
+    minutes_label: { nl: 'Minuten', en: 'Minutes' },
     required: true
   }, {
     id: :v7,
-    type: :number,
+    type: :time,
     title: RheumatismMethods.category_title('Activiteit', 'Hoeveel uur van de afgelopen 24 uur heeft u besteed aan rust?'),
     tooltip: 'Benoem hier het aantal uren dat u heeft gerust. Dit zijn alle uren waarin u niet fysiek of cognitief actief was, maar ook niet geslapen heeft.',
-    maxlength: 2,
-    min: 0,
-    max: 24,
-    step: 0.5,
-    placeholder: '',
+    hours_from: 0,
+    hours_to: 24,
+    hours_step: 1,
+    hours_label: { nl: 'Uren', en: 'Hours' },
+    minutes_label: { nl: 'Minuten', en: 'Minutes' },
     required: true
   }, {
     id: :v8,
-    type: :number,
+    type: :time,
     title: RheumatismMethods.category_title('Activiteit', 'Hoeveel uur van de afgelopen 24 uur heeft u besteed aan slaap?'),
     tooltip: 'Schat hier het aantal uren dat u heeft geslapen. Onder slaap verstaan wij alle uren die u echt geslapen heeft, dus niet de hoeveelheid tijd die u in bed heeft doorgebracht.',
-    maxlength: 2,
-    min: 0,
-    max: 24,
-    step: 0.5,
-    placeholder: '',
+    hours_from: 0,
+    hours_to: 24,
+    hours_step: 1,
+    hours_label: { nl: 'Uren', en: 'Hours' },
+    minutes_label: { nl: 'Minuten', en: 'Minutes' },
     required: true
+  }, {
+    id: :v9,
+    type: :textarea,
+    title: RheumatismMethods.category_title('Opmerkingen', 'Was er vandaag iets aan de hand (bv ziekte) wat invloed had op één van bovenstaande antwoorden? Zo ja, wat? Of wil je verder nog iets benoemen?')
   }
 ]
 

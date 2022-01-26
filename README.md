@@ -610,6 +610,7 @@ Required and allowed options (minimal example and maximal example):
   type: :textarea,
   title: 'Wat zou jij willen verbeteren aan de webapp die je de afgelopen drie weken hebt gebruikt?',
   tooltip: 'some tooltip',
+  required: true,
   placeholder: 'Place holder',
   section_end: true
 }]
@@ -617,6 +618,8 @@ Required and allowed options (minimal example and maximal example):
 
 The `tooltip' field is optional. 
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
+
+The attribute `required` is `false` by default, but can be set to `true`.
 
 ### Type: Textfield
 Required and allowed options (minimal example and maximal example):

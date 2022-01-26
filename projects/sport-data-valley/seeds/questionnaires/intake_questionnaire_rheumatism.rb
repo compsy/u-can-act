@@ -73,7 +73,7 @@ dagboek_content = [
     title: 'Mijn medicatie is in het afgelopen jaar',
     options: ['gelijk gebleven'],
     show_otherwise: true,
-    otherwise_label: 'veranderd<br />Indien veranderd: Wat is er veranderd qua dosis en soort medicatie?',
+    otherwise_label: 'veranderd<br />Indien veranderd: wat is er veranderd qua dosis en soort medicatie?',
     otherwise_placeholder: 'Vul iets in'
   }, {
     id: :v8,

@@ -11,7 +11,7 @@ class PersonExporter < ObjectExporter
     end
 
     def formatted_fields
-      %w[person_id created_at updated_at role title team_name organization_name]
+      %w[person_id created_at updated_at role title team_name organization_name parent_id]
     end
 
     def format_fields(person)
@@ -29,6 +29,7 @@ class PersonExporter < ObjectExporter
 
     def person_properties(person, vals)
       vals['person_id'] = person.external_identifier
+      vals['parent_id'] = person.parent&.external_identifier
       vals['created_at'] = format_datetime(person.created_at)
       vals['updated_at'] = format_datetime(person.updated_at)
       vals

@@ -485,7 +485,7 @@ When present, it will introduce a small i on which the user can click to get ext
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
 
-Radios are always required.
+Radios are always required, unless `required: false` is specified in the question syntax.
 
 Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
 This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.

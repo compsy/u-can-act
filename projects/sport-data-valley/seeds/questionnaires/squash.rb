@@ -170,23 +170,24 @@ dagboek_content << {
 dagboek_content += combined_day_time_question(34, 'Licht en matig inspannend huishoudelijk werk (staand werk, zoals koken, afwassen, strijken, kind eten geven/in bad doen en lopend werk, zoals stofzuigen, boodschappen doen)')
 dagboek_content += combined_day_time_question(36, 'Zwaar inspannend huishoudelijk werk (vloer schrobben, tapijt uitkloppen, met zware boodschappen lopen) ')
 
-dagboek_content << {
-  id: :v38,
-  hidden: true,
-  type: :radio,
-  show_otherwise: false,
-  title: '[optioneel] Volgt u op dit moment een van de onderstaande opleidingen?',
-  options: [
-    {title: 'Basisonderwijs (inclusief speciaal onderwijs)', shows_questions: [:v38a, :v38b]},
-    {title: 'Praktijkonderwijs', shows_questions: [:v38a, :v38b]},
-    {title: 'Vmbo, lwoo, vso', shows_questions: [:v38a, :v38b]},
-    {title: 'Havo', shows_questions: [:v38a, :v38b]},
-    {title: 'Vwo, gymnasium, atheneum', shows_questions: [:v38a, :v38b]},
-    {title: 'Mbo (pdb, mba)', shows_questions: [:v38a, :v38b]},
-    {title: 'Nee'},
-  ],
-  required: false
-}
+# NOTE: Dennis requested to remove this question altogether.
+# dagboek_content << {
+#   id: :v38,
+#   hidden: true,
+#   type: :radio,
+#   show_otherwise: false,
+#   title: '[optioneel] Volgt u op dit moment een van de onderstaande opleidingen?',
+#   options: [
+#     {title: 'Basisonderwijs (inclusief speciaal onderwijs)', shows_questions: [:v38a, :v38b]},
+#     {title: 'Praktijkonderwijs', shows_questions: [:v38a, :v38b]},
+#     {title: 'Vmbo, lwoo, vso', shows_questions: [:v38a, :v38b]},
+#     {title: 'Havo', shows_questions: [:v38a, :v38b]},
+#     {title: 'Vwo, gymnasium, atheneum', shows_questions: [:v38a, :v38b]},
+#     {title: 'Mbo (pdb, mba)', shows_questions: [:v38a, :v38b]},
+#     {title: 'Nee'},
+#   ],
+#   required: false
+# }
 
 dagboek_content << {
   id: :v38a,

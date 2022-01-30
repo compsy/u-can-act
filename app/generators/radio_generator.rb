@@ -10,7 +10,13 @@ class RadioGenerator < QuestionTypeGenerator
                               answer_options(question),
                               radio_otherwise(question)
                             ])
-    tag.div(radio_group, class: 'radio-group required')
+    tag.div(radio_group, class: radio_group_klasses(question))
+  end
+
+  def radio_group_klasses(question)
+    klasses = 'radio-group'
+    klasses += ' required' unless question.key?(:required) && question[:required] == false
+    klasses
   end
 
   private
@@ -48,7 +54,7 @@ class RadioGenerator < QuestionTypeGenerator
       type: 'radio',
       id: elem_id,
       value: option[:raw][:value].presence || option[:raw][:title],
-      required: true,
+      required: !(question.key?(:required) && question[:required] == false),
       class: 'validate'
     }
   end

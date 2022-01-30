@@ -42,7 +42,7 @@ dagboek_content = [
     title: 'Vult u deze lijst in voor iemand jonger of ouder dan 12 jaar?',
     options: [
       { title: 'Jonger', shows_questions: (2..23).map{|x| "v#{x}".to_sym} },
-      { title: 'Ouder', shows_questions: (24..48).map{|x| "v#{x}".to_sym}  }
+      { title: 'Ouder', shows_questions: ((24..37).to_a + (39..48).to_a).map{|x| "v#{x}".to_sym}  }
     ]
   }, {
     id: :v2,
@@ -189,29 +189,29 @@ dagboek_content += combined_day_time_question(36, 'Zwaar inspannend huishoudelij
 #   required: false
 # }
 
-dagboek_content << {
-  id: :v38a,
-  type: :number,
-  required: true,
-  title: "Gymlessen op school<br><em>Dagen/week</em>",
-  placeholder: 'Vul het aantal dagen in',
-  maxlength: 1,
-  min: 0,
-  max: 7,
-  hidden: true
-}
-dagboek_content << {
-  id: :v38b,
-  type: :time,
-  title: '<em>Uren en Minuten / dag</em>',
-  hours_from: 0,
-  hours_to: 24,
-  hours_step: 1,
-  hours_label: 'uren',
-  minutes_label: 'minuten',
-  required: true,
-  hidden: true
-}
+# dagboek_content << {
+#   id: :v38a,
+#   type: :number,
+#   required: true,
+#   title: "Gymlessen op school<br><em>Dagen/week</em>",
+#   placeholder: 'Vul het aantal dagen in',
+#   maxlength: 1,
+#   min: 0,
+#   max: 7,
+#   hidden: true
+# }
+# dagboek_content << {
+#   id: :v38b,
+#   type: :time,
+#   title: '<em>Uren en Minuten / dag</em>',
+#   hours_from: 0,
+#   hours_to: 24,
+#   hours_step: 1,
+#   hours_label: 'uren',
+#   minutes_label: 'minuten',
+#   required: true,
+#   hidden: true
+# }
 
 dagboek_content << {
   id: :v39,

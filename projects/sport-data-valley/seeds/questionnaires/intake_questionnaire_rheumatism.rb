@@ -6,12 +6,17 @@ dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 
+EMAIL_REGEX = '^[^@\s]+@[^@\s]+$'
+
 dagboek_content = [
   {
+    type: :raw,
+    content: '<p class="flow-text">Nu volgen enkele vragenlijsten die u maar één keer in hoeft te vullen. Het invullen hiervan kost ongeveer 40 minuten. Daarna ontvangt u dagelijks een vragenlijst die 2 minuten zal kosten.</p>'
+  }, {
     id: :v1,
     type: :dropdown,
     title: 'Wat is uw geboortejaar?',
-    options: (1910..2010).map(&:to_s)
+    options: (2005.downto(1910)).map(&:to_s)
   }, {
     id: :v2,
     type: :radio,
@@ -70,30 +75,72 @@ dagboek_content = [
     title: 'Mijn medicatie is in het afgelopen jaar',
     options: ['gelijk gebleven'],
     show_otherwise: true,
-    otherwise_label: 'veranderd<br />Indien veranderd: Wat is er veranderd qua dosis en soort medicatie?',
+    otherwise_label: 'veranderd<br />Indien veranderd: wat is er veranderd qua dosis en soort medicatie?',
     otherwise_placeholder: 'Vul iets in'
   }, {
+    id: :v8a,
+    type: :radio,
+    title: 'Heeft u in de afgelopen week ontstekingen ervaren in uw gewrichten?',
+    options: [
+      { title: 'ja', shows_questions: %i[v8] },
+      'nee'
+    ],
+    show_otherwise: false
+  }, {
     id: :v8,
+    hidden: true,
     type: :checkbox,
     title: 'In welke gewrichten heeft u afgelopen week voornamelijk ontstekingen ervaren? <em>Meedere antwoorden mogelijk</em>',
     options: [
       'Voornamelijk in de handen, polsen, ellebogen of schouders',
       'Voornamelijk in de voeten, enkels, knieën of heupen',
       'Voornamelijk in de nek of wervelkolom',
-      'Geen'
     ],
     show_otherwise: false,
     required: true
   }, {
-    id: :v9,
-    type: :textarea,
+    id: :v9a,
+    type: :radio,
     title: 'Heeft u naast reumatoïde artritis andere aandoeningen (gehad) die volgens u invloed hebben op uw vermoeidheid op dit moment?',
+    options: [
+      { title: 'ja', shows_questions: %i[v9] },
+      'nee'
+    ],
+    show_otherwise: false
+  }, {
+    id: :v9,
+    hidden: true,
+    type: :textarea,
+    title: 'Zo ja, welke?',
     required: true
   }, {
     id: :v10,
     type: :textarea,
     title: 'Heeft u verdere opmerkingen?',
     required: false
+  }, {
+    id: :v11,
+    type: :checkbox,
+    title: '[optioneel] Mogen wij u benaderen voor één of meerdere van onderstaande opties?',
+    options: [
+      { title: 'Ja, ik ontvang graag een samenvatting van de resultaten van dit onderzoek.', shows_questions: %i[v12] },
+      { title: 'Ja, ik vind het goed als de onderzoekers contact met mij opnemen als daar noodzaak voor is (bijvoorbeeld als het invullen van de vragenlijsten niet goed gaat).', shows_questions: %i[v12] },
+      { title: 'Ja, ik vind het goed om benaderd te worden voor vervolgonderzoek. (Wij sturen u in de toekomst eventueel informatie over nieuw onderzoek. U kunt op dat moment zelf beslissen of u wel of niet mee wilt werken aan dat onderzoek.)', shows_questions: %i[v12] }
+    ],
+    show_otherwise: false,
+    required: false
+  }, {
+    id: :v12,
+    hidden: true,
+    type: :textfield,
+    title: 'Zo ja, vul hier uw emailadres in. Uw emailadres wordt alléén gebruikt voor de opties die u hierboven hebt aangegeven. De antwoorden op de vragenlijst worden niet gekoppeld aan uw emailadres.',
+    pattern: EMAIL_REGEX,
+    placeholder: 'Vul uw e-mailadres in',
+    hint: 'Vul a.u.b. een geldig e-mailadres in.',
+    required: true
+  }, {
+    type: :raw,
+    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst.</p>'
   }
 ]
 

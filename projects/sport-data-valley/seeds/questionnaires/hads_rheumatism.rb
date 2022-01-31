@@ -138,6 +138,9 @@ dagboek_content = [
               { title: 'niet vaak', numeric_value: 2 },
               { title: 'heel zelden', numeric_value: 3 }],
     show_otherwise: false
+  }, {
+    type: :raw,
+    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst.</p>'
   }
 ]
 

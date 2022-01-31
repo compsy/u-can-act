@@ -672,19 +672,15 @@ describe Questionnaire do
       expect(questionnaire.errors.messages).to have_key :key
       expect(questionnaire.errors.messages[:key]).to include('is ongeldig')
     end
-    it 'does not allow a key that starts with a number' do
+    it 'allows a key that starts with a number' do
       questionnaire = FactoryBot.create(:questionnaire)
       questionnaire.key = '0nietgoed'
-      expect(questionnaire).not_to be_valid
-      expect(questionnaire.errors.messages).to have_key :key
-      expect(questionnaire.errors.messages[:key]).to include('is ongeldig')
+      expect(questionnaire).to be_valid
     end
-    it 'does not allow a key that starts with a _' do
+    it 'allows a key that starts with a _' do
       questionnaire = FactoryBot.create(:questionnaire)
       questionnaire.key = '_nietgoed'
-      expect(questionnaire).not_to be_valid
-      expect(questionnaire.errors.messages).to have_key :key
-      expect(questionnaire.errors.messages[:key]).to include('is ongeldig')
+      expect(questionnaire).to be_valid
     end
     it 'allows a key that starts with a char and contains _ and number' do
       questionnaire = FactoryBot.create(:questionnaire)

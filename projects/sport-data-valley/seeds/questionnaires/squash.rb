@@ -42,7 +42,7 @@ dagboek_content = [
     title: 'Vult u deze lijst in voor iemand jonger of ouder dan 12 jaar?',
     options: [
       { title: 'Jonger', shows_questions: (2..23).map{|x| "v#{x}".to_sym} },
-      { title: 'Ouder', shows_questions: (24..48).map{|x| "v#{x}".to_sym}  }
+      { title: 'Ouder', shows_questions: ((24..37).to_a + (39..48).to_a).map{|x| "v#{x}".to_sym}  }
     ]
   }, {
     id: :v2,
@@ -170,46 +170,48 @@ dagboek_content << {
 dagboek_content += combined_day_time_question(34, 'Licht en matig inspannend huishoudelijk werk (staand werk, zoals koken, afwassen, strijken, kind eten geven/in bad doen en lopend werk, zoals stofzuigen, boodschappen doen)')
 dagboek_content += combined_day_time_question(36, 'Zwaar inspannend huishoudelijk werk (vloer schrobben, tapijt uitkloppen, met zware boodschappen lopen) ')
 
-dagboek_content << {
-  id: :v38,
-  hidden: true,
-  type: :radio,
-  show_otherwise: false,
-  title: 'Volgt u op dit moment een van de onderstaande opleidingen?',
-  options: [
-    {title: 'Basisonderwijs (inclusief speciaal onderwijs)', shows_questions: [:v38a, :v38b]},
-    {title: 'Praktijkonderwijs', shows_questions: [:v38a, :v38b]},
-    {title: 'Vmbo, lwoo, vso', shows_questions: [:v38a, :v38b]},
-    {title: 'Havo', shows_questions: [:v38a, :v38b]},
-    {title: 'Vwo, gymnasium, atheneum', shows_questions: [:v38a, :v38b]},
-    {title: 'Mbo (pdb, mba)', shows_questions: [:v38a, :v38b]},
-    {title: 'Nee'},
-  ]
-}
+# NOTE: Dennis requested to remove this question altogether.
+# dagboek_content << {
+#   id: :v38,
+#   hidden: true,
+#   type: :radio,
+#   show_otherwise: false,
+#   title: '[optioneel] Volgt u op dit moment een van de onderstaande opleidingen?',
+#   options: [
+#     {title: 'Basisonderwijs (inclusief speciaal onderwijs)', shows_questions: [:v38a, :v38b]},
+#     {title: 'Praktijkonderwijs', shows_questions: [:v38a, :v38b]},
+#     {title: 'Vmbo, lwoo, vso', shows_questions: [:v38a, :v38b]},
+#     {title: 'Havo', shows_questions: [:v38a, :v38b]},
+#     {title: 'Vwo, gymnasium, atheneum', shows_questions: [:v38a, :v38b]},
+#     {title: 'Mbo (pdb, mba)', shows_questions: [:v38a, :v38b]},
+#     {title: 'Nee'},
+#   ],
+#   required: false
+# }
 
-dagboek_content << {
-  id: :v38a,
-  type: :number,
-  required: true,
-  title: "Gymlessen op school<br><em>Dagen/week</em>",
-  placeholder: 'Vul het aantal dagen in',
-  maxlength: 1,
-  min: 0,
-  max: 7,
-  hidden: true
-}
-dagboek_content << {
-  id: :v38b,
-  type: :time,
-  title: '<em>Uren en Minuten / dag</em>',
-  hours_from: 0,
-  hours_to: 24,
-  hours_step: 1,
-  hours_label: 'uren',
-  minutes_label: 'minuten',
-  required: true,
-  hidden: true
-}
+# dagboek_content << {
+#   id: :v38a,
+#   type: :number,
+#   required: true,
+#   title: "Gymlessen op school<br><em>Dagen/week</em>",
+#   placeholder: 'Vul het aantal dagen in',
+#   maxlength: 1,
+#   min: 0,
+#   max: 7,
+#   hidden: true
+# }
+# dagboek_content << {
+#   id: :v38b,
+#   type: :time,
+#   title: '<em>Uren en Minuten / dag</em>',
+#   hours_from: 0,
+#   hours_to: 24,
+#   hours_step: 1,
+#   hours_label: 'uren',
+#   minutes_label: 'minuten',
+#   required: true,
+#   hidden: true
+# }
 
 dagboek_content << {
   id: :v39,

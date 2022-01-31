@@ -35,7 +35,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         responseobj.destroy!
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)
-        expect(response.body).to include('Deze link is niet (meer) geldig.')
+        expect(response.body).to include('Je hebt deze vragenlijst(en) al ingevuld.')
       end
     end
 

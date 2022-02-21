@@ -761,7 +761,8 @@ Required and allowed options (minimal example):
   hours_from: 0,
   hours_to: 6,
   hours_step: 1,
-  title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?'
+  title: 'Hoeveel tijd heb je deze week besteed aan de begeleiding van deze student?',
+  hidden: true
 }]
 ```
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.

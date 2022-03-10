@@ -204,7 +204,7 @@ Wilt je hieronder aangeven in hoeverre je het met de volgende stellingen eens be
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-Waarom volg je de ECO?
+Wat is voor jou de belangrijkste reden om deze opleiding te volgen?
 <ul class="flow-text section-explanation">
 
 <li>

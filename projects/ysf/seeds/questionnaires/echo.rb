@@ -42,14 +42,14 @@ content = [
   create_question(:v4, 'Pijn te lijden in de komende periode?'),
   create_question(:v5, 'Goed te presteren na twee dagen zonder eten?'),
   create_question(:v6, 'Het beste in jezelf naar boven te halen in de komende periode?'),
-  create_question(:v7, 'Boven verwachting te presteren in de ECO op de momenten die er toe doen?'),
+  create_question(:v7, 'Boven verwachting te presteren in de opleiding op de momenten die er toe doen?'),
   create_question(:v8, 'Kalm te blijven in moeilijke situaties?'),
   create_question(:v9, 'Te vertrouwen op je vermogen om problemen op te lossen?'),
   create_question(:v10, 'Je doelen te behalen als je een blessure of andere fysieke ongemakken hebt?'),
   create_question(:v11, 'Te weten wat je moet doen als het de komende weken tegen zit?'),
-  create_question(:v12, 'Meerdere oplossingen te bedenken als je in de ECO met een probleem wordt geconfronteerd?'),
+  create_question(:v12, 'Meerdere oplossingen te bedenken als je in de opleiding met een probleem wordt geconfronteerd?'),
   create_question(:v13, 'Vast te houden aan je plannen om je doel te bereiken?'),
-  create_question(:v14, 'De ECO met succes af te ronden?')
+  create_question(:v14, 'De opleiding met succes af te ronden?')
 ]
 questionnaire.content = { questions: content, scores: [] }
 questionnaire.title = title

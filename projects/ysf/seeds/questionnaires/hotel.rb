@@ -204,7 +204,7 @@ Wilt je hieronder aangeven in hoeverre je het met de volgende stellingen eens be
     type: :raw,
     content: '
 <p class="flow-text section-explanation">
-Waarom volg je de ECO?
+Wat is voor jou de belangrijkste reden om deze opleiding te volgen?
 <ul class="flow-text section-explanation">
 
 <li>
@@ -239,24 +239,24 @@ Waarom volg je de ECO?
 </p>
 '
   },
-  create_question_seven(:v44, 'Omdat de ECO de kern weergeeft van de persoon die ik ben.'),
-  create_question_seven(:v45, 'Omdat ik het leuk vind om te leren in het kader van de ECO.'),
-  create_question_seven(:v46, 'Ik had m\'n redenen om de ECO te volgen, maar nu vraag ik me af of ik er wel mee door moet gaan.'),
-  create_question_seven(:v47, 'Omdat mensen om wie ik geef het me kwalijk zouden nemen als ik <i>niet</i> de ECO zou doen.'),
-  create_question_seven(:v48, 'Omdat de ECO een manier is om me verder te ontwikkelen.'),
-  create_question_seven(:v49, 'Omdat de ECO past bij alle andere dingen die ik belangrijk vind in het leven.'),
-  create_question_seven(:v50, 'Omdat ik een slecht gevoel over mijzelf zou hebben als ik de ECO <i>niet</i> zou doen.'),
-  create_question_seven(:v51, 'Omdat mensen uit mijn directe omgeving hun afkeuring naar mij zouden uitspreken als ik <i>niet</i> de ECO doe.'),
-  create_question_seven(:v52, 'Omdat de ECO een goede manier is om aspecten van mijzelf te ontwikkelen die ik waardevol vind.'),
-  create_question_seven(:v53, 'Omdat ik er plezier aan beleef om nieuwe acties en strategieën in de ECO te ontdekken.'),
-  create_question_seven(:v54, 'Ik weet het niet meer; ik heb de indruk dat ik niet de kwaliteiten heb om de ECO succesvol te volbrengen.'),
-  create_question_seven(:v55, 'Omdat ik een beter gevoel heb over mijzelf als ik de ECO volg.'),
-  create_question_seven(:v56, 'Omdat mensen uit mijn directe omgeving laten merken dat ze het waarderen dat ik de ECO doe.'),
-  create_question_seven(:v57, 'Omdat het interessant is om te leren hoe ik mijzelf tijdens de ECO kan verbeteren.'),
-  create_question_seven(:v58, 'Omdat de ECO één van de beste manieren is om verschillende aspecten van mijzelf te ontwikkelen'),
-  create_question_seven(:v59, 'Ik weet het niet meer; ik denk dat de ECO niet echt iets voor mij is.'),
-  create_question_seven(:v60, 'Omdat ik door de ECO het leven leidt dat helemaal bij mij past.'),
-  create_question_seven(:v61, 'Omdat ik me niet waardevol zou voelen als ik de ECO niet zou doen.'),
+  create_question_seven(:v44, 'Omdat de opleiding de kern weergeeft van de persoon die ik ben.'),
+  create_question_seven(:v45, 'Omdat ik het leuk vind om te leren in het kader van de opleiding.'),
+  create_question_seven(:v46, 'Ik had m\'n redenen om de opleiding te volgen, maar nu vraag ik me af of ik er wel mee door moet gaan.'),
+  create_question_seven(:v47, 'Omdat mensen om wie ik geef het me kwalijk zouden nemen als ik <i>niet</i> de opleiding zou doen.'),
+  create_question_seven(:v48, 'Omdat de opleiding een manier is om me verder te ontwikkelen.'),
+  create_question_seven(:v49, 'Omdat de opleiding past bij alle andere dingen die ik belangrijk vind in het leven.'),
+  create_question_seven(:v50, 'Omdat ik een slecht gevoel over mijzelf zou hebben als ik de opleiding <i>niet</i> zou doen.'),
+  create_question_seven(:v51, 'Omdat mensen uit mijn directe omgeving hun afkeuring naar mij zouden uitspreken als ik <i>niet</i> de opleiding doe.'),
+  create_question_seven(:v52, 'Omdat de opleiding een goede manier is om aspecten van mijzelf te ontwikkelen die ik waardevol vind.'),
+  create_question_seven(:v53, 'Omdat ik er plezier aan beleef om nieuwe acties en strategieën in de opleiding te ontdekken.'),
+  create_question_seven(:v54, 'Ik weet het niet meer; ik heb de indruk dat ik niet de kwaliteiten heb om de opleiding succesvol te volbrengen.'),
+  create_question_seven(:v55, 'Omdat ik een beter gevoel heb over mijzelf als ik de opleiding volg.'),
+  create_question_seven(:v56, 'Omdat mensen uit mijn directe omgeving laten merken dat ze het waarderen dat ik de opleiding doe.'),
+  create_question_seven(:v57, 'Omdat het interessant is om te leren hoe ik mijzelf tijdens de opleiding kan verbeteren.'),
+  create_question_seven(:v58, 'Omdat de opleiding één van de beste manieren is om verschillende aspecten van mijzelf te ontwikkelen'),
+  create_question_seven(:v59, 'Ik weet het niet meer; ik denk dat de opleiding niet echt iets voor mij is.'),
+  create_question_seven(:v60, 'Omdat ik door de opleiding het leven leidt dat helemaal bij mij past.'),
+  create_question_seven(:v61, 'Omdat ik me niet waardevol zou voelen als ik de opleiding niet zou doen.'),
   #
   # Approach-avoidance temperament
   #

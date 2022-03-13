@@ -54,7 +54,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Create daily protocol instance
   protocol = Protocol.find_by(name: 'daily_protocol')
-  person = Team.find_by(name: demo_team).roles.where(group: Person::STUDENT).first.people[1]
+  person = Team.find_by(name: demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[1]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -74,7 +74,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Create squash protocol instance
   protocol = Protocol.find_by(name: 'squash')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[2]
+  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[2]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -91,7 +91,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Create restq protocol instance
   protocol = Protocol.find_by(name: 'restq')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[3]
+  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[3]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -115,7 +115,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Create ostrc_o_h protocol instance
   protocol = Protocol.find_by(name: 'ostrc_h_o')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[4]
+  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[4]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -132,7 +132,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Create rheumatism daily questionnaire protocol instance
   protocol = Protocol.find_by(name: 'daily_protocol_rheumatism')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[5]
+  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[5]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,
@@ -149,7 +149,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Create rheumatism one time protocol instance
   protocol = Protocol.find_by(name: 'rheumatism_one_time')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people[6]
+  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[6]
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
     person: person,

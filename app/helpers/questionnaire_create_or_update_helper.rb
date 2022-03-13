@@ -3,13 +3,25 @@
 # The methods of this helper are tested two controllers:
 # - api/v1/basic_auth_api/questionnaires_controller
 # - api/v1/jwt_api/questionnaire_controller
-module QuestionnaireCreateHelper
+module QuestionnaireCreateOrUpdateHelper
   def create_questionnaire
     fqparams = questionnaire_params.to_hash.with_indifferent_access
     fqparams[:content] = full_content(fqparams[:content]) if fqparams.key?(:content)
     questionnaire = Questionnaire.new(fqparams)
     if questionnaire.save
       render status: :created, json: { result: 'Questionnaire created.' }
+    else
+      result = { result: questionnaire.errors }
+      render(status: :bad_request, json: result)
+    end
+  end
+
+  def update_questionnaire(questionnaire)
+    fqparams = questionnaire_params.to_hash.with_indifferent_access
+    fqparams[:content] = full_content(fqparams[:content]) if fqparams.key?(:content)
+
+    if questionnaire.update(fqparams)
+      render status: :ok, json: { result: 'Questionnaire updated.' }
     else
       result = { result: questionnaire.errors }
       render(status: :bad_request, json: result)

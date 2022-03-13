@@ -4,7 +4,7 @@ module Api
   module V1
     module BasicAuthApi
       class QuestionnairesController < BasicAuthApiController
-        include QuestionnaireCreateHelper
+        include QuestionnaireCreateOrUpdateHelper
 
         def create
           create_questionnaire

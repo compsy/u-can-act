@@ -11,7 +11,7 @@ EMAIL_REGEX = '^[^@\s]+@[^@\s]+$'
 dagboek_content = [
   {
     type: :raw,
-    content: '<p class="flow-text">Nu volgen enkele vragenlijsten die u maar één keer in hoeft te vullen. Het invullen hiervan kost ongeveer 40 minuten. Daarna ontvangt u dagelijks een vragenlijst die 2 minuten zal kosten.</p>'
+    content: '<p class="flow-text">Nu volgen enkele vragenlijsten die u maar één keer in hoeft te vullen. Het invullen hiervan kost ongeveer 15 tot 20 minuten. Daarna ontvangt u dagelijks een vragenlijst die 2 minuten zal kosten.</p>'
   }, {
     id: :v1,
     type: :dropdown,
@@ -80,7 +80,7 @@ dagboek_content = [
   }, {
     id: :v8a,
     type: :radio,
-    title: 'Heeft u in de afgelopen week ontstekingen ervaren in uw gewrichten?',
+    title: 'Heeft u ontstekingen in uw gewrichten?',
     options: [
       { title: 'ja', shows_questions: %i[v8] },
       'nee'
@@ -90,7 +90,7 @@ dagboek_content = [
     id: :v8,
     hidden: true,
     type: :checkbox,
-    title: 'In welke gewrichten heeft u afgelopen week voornamelijk ontstekingen ervaren? <em>Meedere antwoorden mogelijk</em>',
+    title: 'In welke gewrichten heeft u voornamelijk ontstekingen? <em>Meerdere antwoorden mogelijk</em>',
     options: [
       'Voornamelijk in de handen, polsen, ellebogen of schouders',
       'Voornamelijk in de voeten, enkels, knieën of heupen',

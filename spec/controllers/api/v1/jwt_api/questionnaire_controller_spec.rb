@@ -181,4 +181,76 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
       end
     end
   end
+
+  describe 'update' do
+    let!(:the_auth_user) { FactoryBot.create(:auth_user) }
+    let(:protocol) { FactoryBot.create(:protocol) }
+    let(:team) { FactoryBot.create(:team, :with_roles) }
+    let!(:the_payload) do
+      { ENV['SITE_LOCATION'] => {
+        'access_level' => ['user'],
+        'team' => team.name,
+        'protocol' => protocol.name
+      } }
+    end
+
+    describe 'general' do
+      let!(:the_auth_user) { FactoryBot.create(:auth_user, :admin) }
+      let!(:questionnaire) { FactoryBot.build(:questionnaire) }
+      let!(:the_params) { { questionnaire: questionnaire.attributes } }
+      it_behaves_like 'a jwt authenticated route', 'post', :create
+    end
+
+    describe 'specific' do
+      let!(:questionnaire) { FactoryBot.create(:questionnaire) }
+      let!(:the_params) do
+        attrs = { key: questionnaire.key, questionnaire: questionnaire.attributes }
+        attrs[:questionnaire]['title'] = 'A brand new title'
+        attrs
+      end
+
+      it 'should head 200 if the questionnaire was updated' do
+        the_payload[:sub] = FactoryBot.create(:auth_user, :admin).auth0_id_string
+        jwt_auth the_payload
+
+        patch :update, params: the_params
+        expect(response.status).to eq 200
+
+        questionnaire.reload
+        expect(questionnaire.title).to eq 'A brand new title'
+      end
+
+      it 'should render a 400 if the provided questionnaire is incorrect' do
+        the_payload[:sub] = FactoryBot.create(:auth_user, :admin).auth0_id_string
+        jwt_auth the_payload
+
+        patch :update, params: { key: questionnaire.key, questionnaire: { key: nil } }
+        expect(response.status).to eq 400
+        expected = {
+          result: {
+            key: ['moet opgegeven zijn', 'is ongeldig']
+          }
+        }.to_json
+        expect(response.body).to eq expected
+      end
+
+      it 'should render a 404 if the questionnaire could not be found by key' do
+        the_payload[:sub] = FactoryBot.create(:auth_user, :admin).auth0_id_string
+        jwt_auth the_payload
+
+        patch :update, params: { key: 'non_existing_key' }
+        expect(response.status).to eq 404
+      end
+
+      it 'should throw a 403 if person is not an admin' do
+        the_payload[:sub] = the_auth_user.auth0_id_string
+        jwt_auth the_payload
+
+        patch :update, params: the_params
+        expect(response.status).to eq 403
+        expected = { result: 'User is not an admin' }.to_json
+        expect(response.body).to eq expected
+      end
+    end
+  end
 end

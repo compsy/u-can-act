@@ -4,10 +4,10 @@ module Api
   module V1
     module JwtApi
       class QuestionnaireController < JwtApiController
-        include QuestionnaireCreateHelper
+        include QuestionnaireCreateOrUpdateHelper
         include AdminHelper
-        before_action :check_admin_authenticated, only: %i[create]
-        before_action :set_questionnaire, only: %i[show]
+        before_action :check_admin_authenticated, only: %i[create update]
+        before_action :set_questionnaire, only: %i[show update]
 
         def index
           render json: Questionnaire.all, each_serializer: QuestionnaireShortSerializer
@@ -15,6 +15,10 @@ module Api
 
         def create
           create_questionnaire
+        end
+
+        def update
+          update_questionnaire(@questionnaire)
         end
 
         def show

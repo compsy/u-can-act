@@ -6,6 +6,11 @@ module Api
     attributes :title,
                :key,
                :name,
-               :content
+               :content,
+               :response_count
+
+    def response_count
+      object.responses.count
+    end
   end
 end

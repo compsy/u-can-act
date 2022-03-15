@@ -7,10 +7,10 @@ module Api
                :key,
                :name,
                :content,
-               :response_count
+               :live
 
-    def response_count
-      object.responses.count
+    def live
+      object.responses.count.positive?
     end
   end
 end

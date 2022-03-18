@@ -8,21 +8,23 @@ module Api
         before_action :set_mentor_role, only: %i[change_to_mentor]
 
         def create
-          auth_user = AuthUser.from_token_payload(new_person_params)
+          begin
+            auth_user = AuthUser.from_token_payload(new_person_params)
+          rescue RuntimeError => e
+            return validation_error(e.message) if team_error?(e)
+            # If we don't recognize the error raise it so AppSignal notifies us about it
+            raise e
+          end
           # This endpoint was added for UMO, where we need to sync users and we need their real emails stored so we can
           # invite them to fill in questionnaires. AuthUser.from_token_payload creates a new anonymous user (with no
           # email), so we need to add it manually
-          auth_user.person.update!(email: new_person_params[Rails.application.config.settings.metadata_field][:email])
+          auth_user.person.update(email: new_person_params[Rails.application.config.settings.metadata_field][:email])
 
-          render status: :created, json: auth_user
+          return created(auth_user.person) if auth_user.person.valid?
+
+          validation_error(auth_user.person.errors)
         rescue ActionController::ParameterMissing => e
-          # Do we have a standardized way of presenting errors?
-          render status: :bad_request, json: { error: e.message }.to_json
-        rescue StandardError => e
-          status = :internal_server_error
-          status = :bad_request if team_error?(e)
-
-          render status: status, json: { error: e.message }.to_json
+          validation_error(e.message)
         end
 
         def show_list

@@ -56,8 +56,24 @@ describe 'Person API' do
         run_test!
       end
 
-      response '400', 'bad request', document: false do
+      response '400', 'validates request body', document: false do
         let(:person) { {} }
+        run_test!
+      end
+
+      response '400', 'validates person model', document: false do
+        let!(:person) do
+          {
+            person: {
+              sub: 'sub1',
+              Rails.application.config.settings.metadata_field => {
+                team: team.name,
+                role: team.roles.first.title,
+                email: 'invalid email'
+              }
+            }
+          }
+        end
         run_test!
       end
 

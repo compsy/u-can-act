@@ -355,6 +355,36 @@ Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
 ```
 
 Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{begeleider}}` or `jouw {{begeleider}}`.
+  
+### Questionnaire seeds
+
+## About the questionnaire key, name, and title
+**key:**
+  
+ - unique
+ - required (is not null or empty string)
+ - specific format (/\A[a-z_0-9]+\Z/), i.e.: it can be symbolized if needed.
+ - typically, the file that a questionnaire resides in is the questionnaire key (minus the .rb extension part)
+
+**name:**
+  
+ - unique
+ - required (is not null or empty string)
+ - can be any format (including spaces)
+ - the intended use was for an "internal naming" of a questionnaire (i.e., not something that someone filling out the questionnaire would see), something that can be more verbose than a "key".
+   (e.g., the only use of the name attribute that I can think of the admin questionnaire preview page, where you select a questionnaire from a dropdown and then press a button to preview it: here we use the name of the questionnaires in the dropdown).
+ - For historic reasons, these names have to be unique, because in an old seeds we used to look up questionnaires by their name to update their other properties (nowadays, good-behaving seeds will use the key).
+ - In most seeds created nowadays, the name is set to be equal to the key, so then this whole point is moot. (but in theory it can be more verbose)
+
+**title:**
+
+ - optional, can be an empty string or nil
+ - if you set a title, it will be rendered in a large size (like h2 or something) at the top of the questionnaire when it is filled out. So this is something that the user filling out the questionnaire sees. The questionnaire title is a separate attribute from the "content" property because we don't really have a "title" question type (perhaps we should add that), and because every questionnaire has a title, we decided to just add it as an attribute.
+ - However, in most seeds these days, the title field is left empty and unused, and the reason is because the title field cannot be localized.
+   so for questionnaires that are available in multiple languages, what we do instead is start with a :raw question type that has some `<h2>` or whatever with the title in it, but this can be localized, like so:
+   `{ type: :raw, content: { en: '<h2>Title</h2>', nl: '<h2>Titel</h2>' } }`
+   and have that as the first "question" in the questionnaire so it shows up as the questionnaire title, but it can be localized. (because it is part of the questionnaire questions array that gets parsed through by the questionnaire engine, leaving only the appropriate strings in place wherever a `{ nl: ..., en: ...}` struct is found. But this can't be done for the title field since it's a simple string.
+ - the title field isn't used for anything else, so leaving it empty has no bad effects.
 
 ## Questionnaire Syntax
 The `content` attribute of a `Questionnaire` is a Hash with two keys, `:questions` and `:scores`. `content[:questions]` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`, `:unsubscribe`, `:drawing`, `:date_and_time`, `:days`.

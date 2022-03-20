@@ -5,13 +5,16 @@ module Api
     module BasicAuthApi
       class PersonController < BasicAuthApiController
         before_action :set_person, only: %i[change_to_mentor]
+        before_action :set_person_by_auth0_id_string, only: %i[destroy]
         before_action :set_mentor_role, only: %i[change_to_mentor]
 
+        # rubocop:disable Metrics/AbcSize
         def create
           begin
             auth_user = AuthUser.from_token_payload(new_person_params)
           rescue RuntimeError => e
             return validation_error(e.message) if team_error?(e)
+
             # If we don't recognize the error raise it so AppSignal notifies us about it
             raise e
           end
@@ -25,6 +28,11 @@ module Api
           validation_error(auth_user.person.errors)
         rescue ActionController::ParameterMissing => e
           validation_error(e.message)
+        end
+        # rubocop:enable Metrics/AbcSize
+
+        def destroy
+          @person.destroy
         end
 
         def show_list
@@ -51,6 +59,13 @@ module Api
           render json: { error: 'No such person found' }, status: :not_found
         end
 
+        def set_person_by_auth0_id_string
+          @person = AuthUser.find_by(auth0_id_string: params[:id])&.person
+          return if @person.present?
+
+          render json: { error: 'No such person found' }, status: :not_found
+        end
+
         def set_mentor_role
           @mentor_role = Organization.first&.teams&.first&.roles&.where(group: Person::MENTOR)&.first
           return if @mentor_role
@@ -63,13 +78,13 @@ module Api
                                          Rails.application.config.settings.metadata_field => %i[team role email]
         end
 
-        def team_error?(e)
-          %r{
-             (Team\s\'.*\'\snot\sfound)|
-             (Team\s\'.*\'\shas\sno\sroles)|
-             (Specified\srole\s\'.*\'\snot\sfound\sin\steam)|
+        def team_error?(error)
+          /
+             (Team\s'.*'\snot\sfound)|
+             (Team\s'.*'\shas\sno\sroles)|
+             (Specified\srole\s'.*'\snot\sfound\sin\steam)|
              (Required\spayload\sattribute\steam\snot\sspecified)
-          }x.match?(e.message)
+          /x.match?(error.message)
         end
       end
     end

@@ -52,7 +52,7 @@ describe 'Person API' do
       end
 
       response '400', 'bad request' do
-        let(:person) { { person: { sub: 'sub1'  } } }
+        let(:person) { { person: { sub: 'sub1' } } }
         run_test!
       end
 

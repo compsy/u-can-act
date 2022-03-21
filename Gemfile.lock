@@ -507,7 +507,7 @@ GEM
       sync
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2021.5)
+    tzinfo-data (1.2022.1)
       tzinfo (>= 1.0.0)
     ucf_messages (0.0.5)
     uglifier (4.2.0)

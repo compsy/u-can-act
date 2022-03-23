@@ -134,7 +134,7 @@ Rails.application.routes.draw do
             delete :destroy_delegated_protocol_subscriptions
           end
         end
-        resources :person, only: [] do
+        resources :person, only: [:destroy] do
           collection do
             get :show_list
           end

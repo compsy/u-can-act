@@ -4,8 +4,14 @@ module Api
   module V1
     module BasicAuthApi
       class PersonController < BasicAuthApiController
-        before_action :set_person, only: %i[change_to_mentor]
+        before_action :set_person, only: %i[change_to_mentor destroy]
         before_action :set_mentor_role, only: %i[change_to_mentor]
+
+        def destroy
+          # Note we are using the @person object here, to make sure the person
+          # actually exists
+          DestroyPersonJob.perform_later(@person.id)
+        end
 
         def show_list
           auth_users = AuthUser.where(auth0_id_string: person_params[:person_auth0_ids])

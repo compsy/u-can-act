@@ -31,4 +31,25 @@ describe 'Person API' do
       end
     end
   end
+  path '/basic_auth_api/person/{id}' do
+    destroy 'destroys a user' do
+      tags 'Person'
+      produces 'application/json'
+      security [BasicAuth: {}]
+      parameter name: :id, in: :query, schema: { type: :number }
+      let(:person) { { person_auth0_ids: [] } }
+
+      response '200', 'destroys a person' do
+        let!(:id) {FactoryBot.create(:person).id}
+        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        run_test!
+      end
+
+      response '401', 'not authenticated' do
+        let!(:id) {FactoryBot.create(:person).id}
+        let(:Authorization) { 'Bearer nil' }
+        run_test!
+      end
+    end
+  end
 end

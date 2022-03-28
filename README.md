@@ -189,7 +189,7 @@ rails --tasks | grep db:seed:
 Additionally, you can check the files under `projects/sport-data-valley/manual-seeds` to see their implementation.
 
 ## Background jobs
-The workings of the app rely on the following background jobs.
+The workings of the app rely on the following background jobs:
 
 Daily (e.g., at 2:30am), the following rake task should run:
 ```

@@ -90,7 +90,7 @@ Rails.application.routes.draw do
             get :my_active_and_inactive
           end
         end
-        resources :protocol, only: [:index] do
+        resources :protocol, only: %i[index create] do
           member do
             post :preview
           end
@@ -144,8 +144,6 @@ Rails.application.routes.draw do
             post :change_to_mentor
           end
         end
-
-        resources :questionnaires, only: [:create]
       end
 
       # Admin APIs

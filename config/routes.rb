@@ -128,6 +128,8 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :protocols, only: %i[create]
+
         resources :protocol_subscriptions, only: [:create, :destroy, :update] do
           collection do
             get :delegated_protocol_subscriptions

@@ -13,10 +13,10 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
       string :key
       hash :measurement do
         integer :open_from_offset
-        string :open_from_day
-        integer :period
-        integer :open_duration
-        integer :reminder_delay
+        string :open_from_day, default: nil
+        integer :period, default: nil
+        integer :open_duration, default: nil
+        integer :reminder_delay, default: nil
         integer :priority
         boolean :stop_measurement
         boolean :should_invite

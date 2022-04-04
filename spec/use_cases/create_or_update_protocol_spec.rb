@@ -160,7 +160,6 @@ describe CreateOrUpdateProtocol do
       it 'combines the errors' do
         res = subject
         expect(res).not_to be_valid
-        byebug
       end
     end
   end

@@ -275,6 +275,24 @@ describe Measurement do
     end
   end
 
+  describe 'prefilled' do
+    let(:measurement) { FactoryBot.build :measurement }
+    context 'when the value is true or false' do
+      it 'is valid' do
+        measurement.prefilled = true
+        expect(measurement).to be_valid
+        measurement.prefilled = false
+        expect(measurement).to be_valid
+      end
+    end
+    context 'when the value is nil' do
+      it 'is invalid' do
+        measurement.prefilled = nil
+        expect(measurement).not_to be_valid
+      end
+    end
+  end
+
   describe 'responses' do
     it 'deletes the responses when destroying the measurement' do
       measurement = FactoryBot.create(:measurement)

@@ -21,6 +21,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
         boolean :stop_measurement
         boolean :should_invite
         boolean :only_redirect_if_nothing_else_ready
+        boolean :prefilled
       end
     end
   end
@@ -90,6 +91,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     @measurement.stop_measurement = params[:stop_measurement]
     @measurement.should_invite = params[:should_invite]
     @measurement.only_redirect_if_nothing_else_ready = params[:only_redirect_if_nothing_else_ready]
+    @measurement.prefilled = params[:prefilled]
 
     # TODO: do not ! here either
     @measurement.save

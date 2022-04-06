@@ -29,11 +29,16 @@ class TextfieldGenerator < QuestionTypeGenerator
   end
 
   def minimal_tag_options(question)
-    { type: 'text',
-      id: idify(question[:id]),
-      name: answer_name(question[:id]),
-      required: question[:required].present?,
-      class: 'validate' }
+    decorate_with_previous_value(
+      question,
+      idify(question[:id]),
+      { type: 'text',
+        id: idify(question[:id]),
+        name: answer_name(question[:id]),
+        required: question[:required].present?,
+        class: 'validate'
+      }
+    )
   end
 
   def textfield_label(question)

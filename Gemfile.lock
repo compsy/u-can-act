@@ -244,7 +244,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.9.1)
+    i18n-js (3.9.2)
       i18n (>= 0.6.6)
     iban-tools (1.1.0)
     jbuilder (2.11.5)

@@ -25,6 +25,6 @@ module Prefillable
     prev_response = previous_response(response)
     return nil unless prev_response.present?
 
-    prev_response.remote_content.content[question_id]
+    prev_response.remote_content&.content&.[](question_id)
   end
 end

@@ -5,14 +5,10 @@ require 'rails_helper'
 shared_examples_for 'prefillable' do
   let(:person) { FactoryBot.create :person }
   let(:measurement) { FactoryBot.create :measurement, :prefilled }
-  let!(:response_content) { FactoryBot.create :response_content }
   let!(:old_response) do
-    FactoryBot.create :response, :completed, person: person, filled_out_by: person, measurement: measurement,
-                      content: response_content.id.to_s
+    FactoryBot.create :response, :completed, person: person, filled_out_by: person, measurement: measurement
   end
   let(:new_response) { FactoryBot.create :response, person: person, measurement: measurement }
-  let(:another_person_response) do
-  end
 
   describe 'previous_response' do
     context 'when the measurement needs prefilling' do
@@ -39,8 +35,22 @@ shared_examples_for 'prefillable' do
   end
 
   describe 'previous_value' do
+    context 'when the previous response has a response_content' do
+      let!(:old_response) do
+        FactoryBot.create :response, :completed, person: person, filled_out_by: person, measurement: measurement
+      end
+    end
     it 'returns the previous value of the given response and question' do
       expect(subject.previous_value(new_response, 'v1')).to eq 'slecht'
+    end
+    context 'when the previous response does not have a response_content' do
+      let!(:old_response) do
+        FactoryBot.create :response, :completed, person: person, filled_out_by: person, measurement: measurement,
+                          content: ''
+      end
+      it 'returns nil' do
+        expect(subject.previous_value(new_response, 'v1')).to be_nil
+      end
     end
   end
 end

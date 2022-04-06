@@ -53,7 +53,7 @@ describe CreateOrUpdateProtocol do
       end
     end
     context 'when a questionnaire is missing an attribute' do
-      let(:questionnaires) { [ { another_attr: 'value'} ] }
+      let(:questionnaires) { [{ another_attr: 'value' }] }
       it 'is not valid' do
         expect(subject).not_to be_valid
       end
@@ -70,12 +70,12 @@ describe CreateOrUpdateProtocol do
     context 'when the protocol doesn\'t exist' do
       let!(:protocol) { nil }
       it 'creates it' do
-        expect{ subject }.to change(Protocol, :count).by(1)
+        expect { subject }.to change(Protocol, :count).by(1)
       end
     end
     context 'when the protocol exists' do
       it 'updates it' do
-        expect{ subject }.not_to change(Protocol, :count)
+        expect { subject }.not_to change(Protocol, :count)
         protocol.reload
         expect(protocol.invitation_text).to eq invitation_text
       end

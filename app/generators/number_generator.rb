@@ -48,8 +48,7 @@ class NumberGenerator < QuestionTypeGenerator
         id: id,
         name: answer_name(question[:id]),
         required: question[:required].present?,
-        class: 'validate',
-      }
+        class: 'validate' }
     )
   end
 

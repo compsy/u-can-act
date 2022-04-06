@@ -29,7 +29,7 @@ describe 'Protocols API' do
                   properties: {
                     key: { type: :string },
                     measurement: {
-                      type: :object ,
+                      type: :object,
                       properties: {
                         open_from_offset: { type: :integer },
                         open_from_day: { type: :string },
@@ -41,7 +41,7 @@ describe 'Protocols API' do
                         should_invite: { type: :boolean },
                         only_redirect_if_nothing_else_ready: { type: :boolean }
                       }
-                    },
+                    }
                   }
                 }
               }

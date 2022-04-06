@@ -156,7 +156,7 @@ class QuestionTypeGenerator < Generator
     id = idify(question[:id], question[:raw][:otherwise_label], 'text')
     decorate_with_previous_value(
       question,
-       id, {
+      id, {
         id: id,
         name: answer_name(idify(question[:id], question[:raw][:otherwise_label], 'text')),
         type: 'text',

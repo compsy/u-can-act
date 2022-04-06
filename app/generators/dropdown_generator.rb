@@ -45,7 +45,7 @@ class DropdownGenerator < QuestionTypeGenerator
       question,
       idify(question[:id]),
       option_options
-    ) { |previous_value| [:selected, previous_value == value]}
+    ) { |previous_value| [:selected, previous_value == value] }
     tag.option(option[:title].html_safe, **option_options)
   end
 end

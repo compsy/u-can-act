@@ -47,7 +47,7 @@ shared_examples_for 'prefillable' do
     context 'when the previous response does not have a response_content' do
       let!(:old_response) do
         FactoryBot.create :response, :completed, person: person, filled_out_by: person, measurement: measurement,
-                          content: ''
+                                                 content: ''
       end
       it 'returns nil' do
         expect(subject.previous_response_content(new_response)).to be_nil

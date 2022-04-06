@@ -82,9 +82,8 @@ class RadioGenerator < QuestionTypeGenerator
           id: idify(question[:id], question[:raw][:otherwise_label]),
           value: value,
           required: true,
-          class: 'otherwise-option'
-        }
-      ) { |previous_value| [:checked, previous_value == value]}
+          class: 'otherwise-option' }
+      ) { |previous_value| [:checked, previous_value == value] }
     )
   end
 end

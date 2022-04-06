@@ -36,8 +36,7 @@ class TextfieldGenerator < QuestionTypeGenerator
         id: idify(question[:id]),
         name: answer_name(question[:id]),
         required: question[:required].present?,
-        class: 'validate'
-      }
+        class: 'validate' }
     )
   end
 

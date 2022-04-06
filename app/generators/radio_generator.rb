@@ -49,11 +49,13 @@ class RadioGenerator < QuestionTypeGenerator
   end
 
   def question_options(question, option, elem_id)
+    value = option[:raw][:value].presence || option[:raw][:title]
     {
       name: answer_name(idify(question[:id])),
       type: 'radio',
       id: elem_id,
-      value: option[:raw][:value].presence || option[:raw][:title],
+      value: value,
+      checked: question[:previous_value].present? ? question[:previous_value] == value : nil,
       required: !(question.key?(:required) && question[:required] == false),
       class: 'validate'
     }

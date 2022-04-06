@@ -16,6 +16,7 @@ require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec'
+Dir[Rails.root.join('spec/generators/concerns/**/*.rb')].sort.each { |f| require f }
 
 # Start coverage report on CircleCI
 if ENV['CI']

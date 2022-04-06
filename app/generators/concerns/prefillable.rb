@@ -21,10 +21,10 @@ module Prefillable
             .first
   end
 
-  def previous_value(response, question_id)
+  def previous_response_content(response)
     prev_response = previous_response(response)
     return nil unless prev_response.present?
 
-    prev_response.remote_content&.content&.[](question_id)
+    prev_response.remote_content&.content
   end
 end

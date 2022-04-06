@@ -34,14 +34,15 @@ shared_examples_for 'prefillable' do
     end
   end
 
-  describe 'previous_value' do
+  describe 'previous_response_content' do
     context 'when the previous response has a response_content' do
       let!(:old_response) do
         FactoryBot.create :response, :completed, person: person, filled_out_by: person, measurement: measurement
       end
     end
+    let(:expected_content) { { 'v1' => 'slecht', 'v2_brood' => 'true', 'v3' => '23' } }
     it 'returns the previous value of the given response and question' do
-      expect(subject.previous_value(new_response, 'v1')).to eq 'slecht'
+      expect(subject.previous_response_content(new_response)).to eq expected_content
     end
     context 'when the previous response does not have a response_content' do
       let!(:old_response) do
@@ -49,7 +50,7 @@ shared_examples_for 'prefillable' do
                           content: ''
       end
       it 'returns nil' do
-        expect(subject.previous_value(new_response, 'v1')).to be_nil
+        expect(subject.previous_response_content(new_response)).to be_nil
       end
     end
   end

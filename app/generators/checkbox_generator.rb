@@ -28,18 +28,20 @@ class CheckboxGenerator < QuestionTypeGenerator
     safe_join(body)
   end
 
-  def question_options(elem_id)
+  def question_options(question, elem_id)
+    previous_value = question[:previous_response]&.[](elem_id)
     {
       type: 'checkbox',
       id: elem_id,
       name: answer_name(elem_id),
-      value: true
+      value: true,
+      checked: previous_value.presence || nil
     }
   end
 
   def checkbox_option_body(question, option)
     elem_id = idify(question[:id], option[:raw][:value].presence || option[:raw][:title])
-    tag_options = question_options(elem_id)
+    tag_options = question_options(question, elem_id)
     tag_options = add_shows_hides_questions(tag_options, option[:shows_questions], option[:hides_questions])
     option_body = tag.input(**tag_options)
 

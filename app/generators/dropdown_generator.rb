@@ -29,17 +29,23 @@ class DropdownGenerator < QuestionTypeGenerator
     placeholder = question[:placeholder] || DROPDOWN_PLACEHOLDER
     body << tag.option(placeholder, disabled: true, selected: true, value: '')
     question[:options].each_with_index do |option, idx|
-      body << dropdown_option_body(add_raw_to_option(option, question, idx))
+      body << dropdown_option_body(question, add_raw_to_option(option, question, idx))
     end
     body = safe_join(body)
     tag.select(body, name: answer_name(id), id: id, required: true, class: 'browser-default')
   end
 
-  def dropdown_option_body(option)
+  def dropdown_option_body(question, option)
+    value = option[:raw][:value].presence || option[:raw][:title]
     option_options = {
-      value: option[:raw][:value].presence || option[:raw][:title]
+      value: value
     }
     option_options = add_shows_hides_questions(option_options, option[:shows_questions], option[:hides_questions])
+    option_options = decorate_with_previous_value(
+      question,
+      idify(question[:id]),
+      option_options
+    ) { |previous_value| [:selected, previous_value == value]}
     tag.option(option[:title].html_safe, **option_options)
   end
 end

@@ -40,11 +40,17 @@ class NumberGenerator < QuestionTypeGenerator
   # rubocop:enable Metrics/AbcSize
 
   def minimal_tag_options(question)
-    { type: 'number',
-      id: idify(question[:id]),
-      name: answer_name(question[:id]),
-      required: question[:required].present?,
-      class: 'validate' }
+    id = idify(question[:id])
+    decorate_with_previous_value(
+      question,
+      id,
+      { type: 'number',
+        id: id,
+        name: answer_name(question[:id]),
+        required: question[:required].present?,
+        class: 'validate',
+      }
+    )
   end
 
   def number_label(question)

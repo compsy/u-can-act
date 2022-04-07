@@ -182,7 +182,7 @@ describe CreateOrUpdateProtocol do
         ]
       end
       let!(:protocol) { nil } # Override the protocol above so no protocol exists so we can test if it was created
-      fit 'rolls back the protocol, no protocol gets created, action is atomic' do
+      it 'rolls back the protocol, no protocol gets created, action is atomic' do
         expect { subject }.not_to change(Protocol, :count)
       end
     end

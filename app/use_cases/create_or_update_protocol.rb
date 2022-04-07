@@ -28,14 +28,18 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
 
   def execute
     ActiveRecord::Base.transaction do
-      return errors.merge!(@protocol.errors) unless initialize_protocol
-
-      return if create_measurements
-
-      raise ActiveRecord::Rollback
+      if initialize_protocol
+        unless create_measurements
+          errors.merge!(@measurement.errors) if @measurement.present?
+          # If we reach this point the protocol has been created but a measurement couldn't be. The user expects the
+          # action to be atomic, so we must rollback the creation of the protocol and all the other measurements that
+          # succeeded
+          raise ActiveRecord::Rollback
+        end
+      else
+        errors.merge!(@protocol.errors)
+      end
     end
-
-    errors.merge!(@measurement.errors) if @measurement.present?
   end
 
   private

@@ -162,5 +162,29 @@ describe CreateOrUpdateProtocol do
         expect(res).not_to be_valid
       end
     end
+    context 'when the measurement is not valid' do
+      let(:questionnaires) do
+        [
+          {
+            key: 'non_existing_key', # This makes the measurement invalid and should cancel the transaction
+            measurement: {
+              open_from_offset: 1,
+              open_from_day: 'monday',
+              period: 1,
+              open_duration: 1,
+              reminder_delay: 1,
+              priority: 1,
+              stop_measurement: true,
+              should_invite: true,
+              only_redirect_if_nothing_else_ready: true
+            }
+          }
+        ]
+      end
+      let!(:protocol) { nil } # Override the protocol above so no protocol exists so we can test if it was created
+      fit 'rolls back the protocol, no protocol gets created, action is atomic' do
+        expect { subject }.not_to change(Protocol, :count)
+      end
+    end
   end
 end

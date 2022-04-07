@@ -25,12 +25,6 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     end
   end
 
-  validates :name, presence: true
-  validates :duration, presence: true
-  validates :invitation_text, presence: true
-
-  validates :questionnaires, presence: true
-
   def execute
     return errors.merge!(@protocol.errors) unless initialize_protocol
 

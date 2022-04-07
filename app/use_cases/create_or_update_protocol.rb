@@ -85,7 +85,6 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     @measurement.should_invite = params[:should_invite]
     @measurement.only_redirect_if_nothing_else_ready = params[:only_redirect_if_nothing_else_ready]
 
-    # TODO: do not ! here either
     @measurement.save
   end
 end

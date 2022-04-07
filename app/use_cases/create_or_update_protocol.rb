@@ -30,7 +30,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     ActiveRecord::Base.transaction do
       return errors.merge!(@protocol.errors) unless initialize_protocol
 
-      return if set_measurements
+      return if create_measurements
 
       raise ActiveRecord::Rollback
     end
@@ -57,15 +57,15 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     false
   end
 
-  def set_measurements
+  def create_measurements
     questionnaires.each do |questionnaire|
-      return false unless set_questionnaire(params: questionnaire)
+      return false unless process_questionnaire(params: questionnaire)
     end
 
     true
   end
 
-  def set_questionnaire(params:)
+  def process_questionnaire(params:)
     questionnaire = Questionnaire.find_by key: params[:key]
 
     unless questionnaire.present?
@@ -73,10 +73,11 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
       return false
     end
 
-    set_measurement(params: params[:measurement], questionnaire: questionnaire)
+    create_measurement(params: params[:measurement], questionnaire: questionnaire)
   end
 
-  def set_measurement(params:, questionnaire:)
+  # rubocop:disable Metrics/AbcSize
+  def create_measurement(params:, questionnaire:)
     @measurement = @protocol.measurements.find_by(questionnaire_id: questionnaire.id)
     @measurement ||= @protocol.measurements.build(questionnaire_id: questionnaire.id)
 
@@ -93,4 +94,5 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
 
     @measurement.save
   end
+  # rubocop:enable Metrics/AbcSize
 end

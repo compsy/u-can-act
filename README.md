@@ -227,7 +227,12 @@ rake scheduler:generate_questionnaire_headers
 ```
 
 When using Heroku these can be scheduled via the *Heroku Scheduler*.
-
+These jobs can also be executed via a scheduled CI job on GitLab or GitHub.
+Via GitLab or GitHub, use the Heroku CLI via, for example
+  
+```
+heroku run --app=my-app-name --exit-code --size=hobby rails runner CompleteProtocolSubscriptions.run
+```
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 To do this on Heroku, start an extra worker process and, optionally, add the [workless](https://github.com/lostboy/workless) gem to enable autoscaling.

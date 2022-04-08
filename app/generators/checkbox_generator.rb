@@ -29,14 +29,16 @@ class CheckboxGenerator < QuestionTypeGenerator
   end
 
   def question_options(question, elem_id)
-    previous_value = question[:previous_response]&.[](elem_id)
-    {
-      type: 'checkbox',
-      id: elem_id,
-      name: answer_name(elem_id),
-      value: true,
-      checked: previous_value.presence || nil
-    }
+    decorate_with_previous_value(
+      question,
+      elem_id,
+      {
+        type: 'checkbox',
+        id: elem_id,
+        name: answer_name(elem_id),
+        value: true
+      }
+    ) { |previous_value| [:checked, previous_value] }
   end
 
   def checkbox_option_body(question, option)
@@ -61,10 +63,17 @@ class CheckboxGenerator < QuestionTypeGenerator
   end
 
   def checkbox_otherwise_option(question)
-    tag.input(type: 'checkbox',
-              id: idify(question[:id], question[:raw][:otherwise_label]),
-              name: answer_name(idify(question[:id], question[:raw][:otherwise_label])),
-              value: true,
-              class: 'otherwise-option')
+    id = idify(question[:id], question[:raw][:otherwise_label])
+    tag.input(**decorate_with_previous_value(
+      question,
+      id,
+      {
+        type: 'checkbox',
+        id: id,
+        name: answer_name(id),
+        value: true,
+        class: 'otherwise-option'
+      }
+    ) { |previous_value| [:checked, previous_value] })
   end
 end

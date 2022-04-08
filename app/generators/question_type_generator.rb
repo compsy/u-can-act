@@ -158,7 +158,7 @@ class QuestionTypeGenerator < Generator
       question,
       id, {
         id: id,
-        name: answer_name(idify(question[:id], question[:raw][:otherwise_label], 'text')),
+        name: answer_name(id),
         type: 'text',
         disabled: true,
         required: true,

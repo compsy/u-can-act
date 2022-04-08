@@ -74,17 +74,15 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::FileUpdateChecker
 
-  # config.action_mailer.smtp_settings = {
-  #   address: 'localhost',
-  #   port: '1025',
-  #   domain: 'vsv.io'
+  # config.action_mailer.delivery_method = :mailgun
+  # config.action_mailer.mailgun_settings = {
+  #   api_host: ENV['MAILGUN_API_HOST'],
+  #   api_key: ENV['MAILGUN_API_KEY'],
+  #   domain: ENV['MAILGUN_DOMAIN'],
   # }
-  config.action_mailer.delivery_method = :mailgun
-  config.action_mailer.mailgun_settings = {
-    api_host: ENV['MAILGUN_API_HOST'],
-    api_key: ENV['MAILGUN_API_KEY'],
-    domain: ENV['MAILGUN_DOMAIN'],
-  }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address: 'mailcatcher', port: 1025 }
 
   # Don't complain that you can't access web console
   config.web_console.whiny_requests = false

@@ -21,23 +21,26 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
         boolean :stop_measurement
         boolean :should_invite
         boolean :only_redirect_if_nothing_else_ready
+        string :redirect_url, default: nil
         boolean :prefilled
       end
     end
   end
 
-  validates :name, presence: true
-  validates :duration, presence: true
-  validates :invitation_text, presence: true
-
-  validates :questionnaires, presence: true
-
   def execute
-    return errors.merge!(@protocol.errors) unless initialize_protocol
-
-    return if set_measurements
-
-    errors.merge!(@measurement.errors) if @measurement.present?
+    ActiveRecord::Base.transaction do
+      if initialize_protocol
+        unless create_measurements
+          errors.merge!(@measurement.errors) if @measurement.present?
+          # If we reach this point the protocol has been created but a measurement couldn't be. The user expects the
+          # action to be atomic, so we must rollback the creation of the protocol and all the other measurements that
+          # succeeded
+          raise ActiveRecord::Rollback
+        end
+      else
+        errors.merge!(@protocol.errors)
+      end
+    end
   end
 
   private
@@ -59,15 +62,15 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     false
   end
 
-  def set_measurements
+  def create_measurements
     questionnaires.each do |questionnaire|
-      return false unless set_questionnaire(params: questionnaire)
+      return false unless process_questionnaire(params: questionnaire)
     end
 
     true
   end
 
-  def set_questionnaire(params:)
+  def process_questionnaire(params:)
     questionnaire = Questionnaire.find_by key: params[:key]
 
     unless questionnaire.present?
@@ -75,10 +78,11 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
       return false
     end
 
-    set_measurement(params: params[:measurement], questionnaire: questionnaire)
+    create_measurement(params: params[:measurement], questionnaire: questionnaire)
   end
 
-  def set_measurement(params:, questionnaire:)
+  # rubocop:disable Metrics/AbcSize
+  def create_measurement(params:, questionnaire:)
     @measurement = @protocol.measurements.find_by(questionnaire_id: questionnaire.id)
     @measurement ||= @protocol.measurements.build(questionnaire_id: questionnaire.id)
 
@@ -91,9 +95,10 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     @measurement.stop_measurement = params[:stop_measurement]
     @measurement.should_invite = params[:should_invite]
     @measurement.only_redirect_if_nothing_else_ready = params[:only_redirect_if_nothing_else_ready]
+    @measurement.redirect_url = params[:redirect_url]
     @measurement.prefilled = params[:prefilled]
 
-    # TODO: do not ! here either
     @measurement.save
   end
+  # rubocop:enable Metrics/AbcSize
 end

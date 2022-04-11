@@ -486,7 +486,7 @@ GEM
     semantic_range (3.0.0)
     sexp_processor (4.16.0)
     shellany (0.0.1)
-    silencer (1.0.1)
+    silencer (1.1.0)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)

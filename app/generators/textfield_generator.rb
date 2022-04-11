@@ -23,7 +23,7 @@ class TextfieldGenerator < QuestionTypeGenerator
   def textfield_tag(question)
     tag_options = minimal_tag_options(question)
     tag_options[:title] = question[:hint] if question[:hint].present?
-    tag_options[:value] = question[:default_value] if question[:default_value].present?
+    tag_options[:value] ||= question[:default_value] if question[:default_value].present?
     tag_options[:pattern] = question[:pattern] if question[:pattern].present?
     tag.input(**tag_options)
   end

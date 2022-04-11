@@ -173,7 +173,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def decorate_with_previous_value(question, id, option_body)
-    previous_value = question[:previous_response]&.[](id)
+    previous_value = question[:previous_response]&.with_indifferent_access&.[](id)
     return option_body unless previous_value.present?
 
     if block_given?

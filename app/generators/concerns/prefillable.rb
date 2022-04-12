@@ -14,7 +14,7 @@ module Prefillable
     # need profiling. If set to false, the method will always try to find the previous response. This switch was added
     # for compatibility with the {PreviousResponseFinder#find} method
     # @return nil if the measurement doesn't need prefilling or no previous response exists, {#Response} otherwise
-    def previous_response(response, check_prefilling=true)
+    def previous_response(response, check_prefilling = true)
       return nil if check_prefilling && !response&.needs_prefilling?
 
       Response.joins(:measurement)

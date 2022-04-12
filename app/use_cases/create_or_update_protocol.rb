@@ -22,7 +22,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
         boolean :should_invite
         boolean :only_redirect_if_nothing_else_ready
         string :redirect_url, default: nil
-        boolean :prefilled
+        boolean :prefilled, default: false
       end
     end
   end

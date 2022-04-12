@@ -22,6 +22,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
         boolean :should_invite
         boolean :only_redirect_if_nothing_else_ready
         string :redirect_url, default: nil
+        boolean :prefilled, default: false
       end
     end
   end
@@ -95,6 +96,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     @measurement.should_invite = params[:should_invite]
     @measurement.only_redirect_if_nothing_else_ready = params[:only_redirect_if_nothing_else_ready]
     @measurement.redirect_url = params[:redirect_url]
+    @measurement.prefilled = params[:prefilled]
 
     @measurement.save
   end

@@ -20,5 +20,9 @@ describe NumberGenerator do
     }
   end
 
+  let(:previous_value) { 2 }
+  let(:previous_response) { { v2: previous_value } }
+
   it_behaves_like 'a generator'
+  it_behaves_like 'a generator with value'
 end

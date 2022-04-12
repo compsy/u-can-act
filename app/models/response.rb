@@ -225,6 +225,10 @@ class Response < ApplicationRecord
     result.to_a
   end
 
+  def needs_prefilling?
+    measurement.prefilled?
+  end
+
   private
 
   # Find responses scheduled at the same time of other instances of the same protocol subscription.

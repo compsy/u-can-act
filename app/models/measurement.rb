@@ -46,6 +46,10 @@ class Measurement < ApplicationRecord
   validates :reminder_delay, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :collapse_duplicates, inclusion: [true, false]
 
+  # When set to true, if there are previous responses for a similar measurement for the person, the questions will be
+  # presented to the user prefilled with the most recent response
+  validates :prefilled, inclusion: [true, false]
+
   validate :either_open_from_or_offset_till_end
   validate :no_otr_and_should_invite
 

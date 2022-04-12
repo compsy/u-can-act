@@ -19,5 +19,9 @@ describe TextfieldGenerator do
     }
   end
 
+  let(:previous_value) { 'old text value' }
+  let(:previous_response) { { v2: previous_value } }
+
   it_behaves_like 'a generator'
+  it_behaves_like 'a generator with value'
 end

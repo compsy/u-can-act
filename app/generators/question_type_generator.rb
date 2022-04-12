@@ -146,20 +146,43 @@ class QuestionTypeGenerator < Generator
   def otherwise_textfield(question)
     # Used for both radios and checkboxes
     option_field = safe_join([
-                               tag.input(id: idify(question[:id], question[:raw][:otherwise_label], 'text'),
-                                         name: answer_name(idify(question[:id], question[:raw][:otherwise_label],
-                                                                 'text')),
-                                         type: 'text',
-                                         disabled: true,
-                                         required: true,
-                                         class: 'validate otherwise'),
+                               tag.input(**otherwise_textfield_options(question)),
                                otherwise_textfield_label(question)
                              ])
     tag.div(option_field, class: 'input-field inline')
   end
 
+  def otherwise_textfield_options(question)
+    id = idify(question[:id], question[:raw][:otherwise_label], 'text')
+    decorate_with_previous_value(
+      question,
+      id, {
+        id: id,
+        name: answer_name(id),
+        type: 'text',
+        disabled: true,
+        required: true,
+        class: 'validate otherwise'
+      }
+    )
+  end
+
   def otherwise_textfield_label(question)
     tag.label(question[:otherwise_placeholder].presence || OTHERWISE_PLACEHOLDER,
               for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
+  end
+
+  def decorate_with_previous_value(question, id, option_body)
+    previous_value = question[:previous_response]&.with_indifferent_access&.[](id)
+    return option_body unless previous_value.present?
+
+    if block_given?
+      key, value = yield(previous_value)
+      option_body[key] = value
+    else
+      option_body[:value] = previous_value
+    end
+
+    option_body
   end
 end

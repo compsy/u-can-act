@@ -10,6 +10,10 @@ FactoryBot.define do
     should_invite { true }
     collapse_duplicates { true }
     stop_measurement { false }
+    prefilled { false }
+    trait :prefilled do
+      prefilled { true }
+    end
     trait :stop_measurement do
       stop_measurement { true }
     end

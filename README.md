@@ -258,6 +258,24 @@ Variable | Description
 `q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
+### Prefilled measurements
+A measurement in a protocol can be configured to be prefilled with past responses. This can be activated by 
+switching the `prefilled` property of the measurement to `true`. When creating protocols programmatically via the basic
+auth api, the option is called `prefilled` under the measurement properties:
+```ruby
+questionnaires = [
+  {
+    key: 'key',
+    measurement: {
+      prefilled: true # set this to true to activate the prefilling feature
+    }
+  }
+]
+```
+When prefilling is activated, the existing response used to prefill the new response will be the last completed 
+response by the user from a measurement that uses the same questionnaire. Note that this response might be from a
+different protocol.
+
 ## Importing new students and mentors
 New mentors and students can be imported using the `echo_people` use case. 
 

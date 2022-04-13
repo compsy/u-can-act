@@ -14,6 +14,15 @@ FactoryBot.define do
                     content: '<p class="flow-text">Geef toestemming bla bla</p>'
                   }], scores: [] }
     end
+    trait :with_language_questionnaire do
+      association :language_questionnaire,
+                  factory: :questionnaire,
+                  title: 'Language Questionnaire',
+                  content: { questions: [{
+                    type: :raw,
+                    content: '<p class="flow-text">Geef toestemming bla bla</p>'
+                  }], scores: [] }
+    end
   end
 
   trait :with_invitation_text do

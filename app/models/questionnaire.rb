@@ -43,6 +43,9 @@ class Questionnaire < ApplicationRecord
   has_many :informed_consent_protocols, class_name: 'Protocol', dependent: :nullify,
                                         foreign_key: 'informed_consent_questionnaire_id',
                                         inverse_of: :informed_consent_questionnaire
+  has_many :language_protocols, class_name: 'Protocol', dependent: :nullify,
+                                foreign_key: 'language_questionnaire_id',
+                                inverse_of: :language_questionnaire
   has_many :responses, through: :measurements
 
   scope :pilot, (lambda {

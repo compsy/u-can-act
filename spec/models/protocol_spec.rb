@@ -180,6 +180,74 @@ describe Protocol do
     end
   end
 
+  describe 'language_questionnaire' do
+    it 'is able to set a language questionnaire' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      protocol = FactoryBot.create(:protocol, language_questionnaire: questionnaire)
+      questionnaire.reload
+      expect(questionnaire).to be_valid
+      expect(protocol).to be_valid
+      expect(protocol.language_questionnaire).to eq questionnaire
+      expect(protocol.language_questionnaire_id).to eq questionnaire.id
+      expect(questionnaire.language_protocols.count).to eq 1
+      expect(questionnaire.language_protocols.first).to eq protocol
+      expect(questionnaire.language_protocols.first.id).to eq protocol.id
+    end
+    it 'is able to have multiple protocols with the same language questionnaire' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      protocols = FactoryBot.create_list(:protocol, 3, language_questionnaire: questionnaire)
+      questionnaire.reload
+      expect(questionnaire).to be_valid
+      protocols.each do |protocol|
+        expect(protocol).to be_valid
+        expect(protocol.language_questionnaire).to eq questionnaire
+        expect(protocol.language_questionnaire_id).to eq questionnaire.id
+      end
+      expect(questionnaire.language_protocols.count).to eq 3
+      expect(questionnaire.language_protocols.first).to eq protocols.first
+      expect(questionnaire.language_protocols.first.id).to eq protocols.first.id
+    end
+    it 'does not have a language questionnaire by default and still be valid' do
+      protocol = FactoryBot.create(:protocol)
+      expect(protocol).to be_valid
+      expect(protocol.language_questionnaire).to be_nil
+      expect(protocol.language_questionnaire_id).to be_nil
+    end
+    it 'nullifies the attribute when deleting the language questionnaire' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      protocol_id = FactoryBot.create(:protocol, language_questionnaire: questionnaire).id
+      protocol = described_class.find_by(id: protocol_id)
+      expect(protocol).not_to be_nil
+      expect(protocol.language_questionnaire).to eq questionnaire
+      expect(protocol.language_questionnaire_id).to eq questionnaire.id
+      questionnairecountbef = Questionnaire.count
+      protocolcountbef = described_class.count
+      questionnaire.destroy!
+      expect(Questionnaire.count).to eq(questionnairecountbef - 1)
+      expect(described_class.count).to eq protocolcountbef
+      protocol = described_class.find_by(id: protocol_id)
+      expect(protocol).not_to be_nil
+      expect(protocol.language_questionnaire).to be_nil
+      expect(protocol.language_questionnaire_id).to be_nil
+    end
+    it 'noes longer return the protocol once it has been destroyed' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      questionnaire_id = questionnaire.id
+      protocol = FactoryBot.create(:protocol, language_questionnaire: questionnaire)
+      questionnaire = Questionnaire.find_by(id: questionnaire_id)
+      expect(questionnaire).not_to be_nil
+      expect(questionnaire.language_protocols.count).to eq 1
+      questionnairecountbef = Questionnaire.count
+      protocolcountbef = described_class.count
+      protocol.destroy!
+      expect(Questionnaire.count).to eq questionnairecountbef
+      expect(described_class.count).to eq(protocolcountbef - 1)
+      questionnaire = Questionnaire.find_by(id: questionnaire_id)
+      expect(questionnaire).not_to be_nil
+      expect(questionnaire.language_protocols.count).to eq 0
+    end
+  end
+
   describe 'invitation_text' do
     it 'is possible to define an invitation text' do
       protocol = FactoryBot.create(:protocol)

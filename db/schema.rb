@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_062828) do
+ActiveRecord::Schema.define(version: 2022_04_13_230502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,7 +164,9 @@ ActiveRecord::Schema.define(version: 2022_04_05_062828) do
     t.datetime "updated_at", null: false
     t.integer "informed_consent_questionnaire_id"
     t.string "invitation_text"
+    t.bigint "language_questionnaire_id"
     t.index ["informed_consent_questionnaire_id"], name: "index_protocols_on_informed_consent_questionnaire_id"
+    t.index ["language_questionnaire_id"], name: "index_protocols_on_language_questionnaire_id"
     t.index ["name"], name: "index_protocols_on_name", unique: true
   end
 
@@ -253,6 +255,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_062828) do
   add_foreign_key "protocol_transfers", "people", column: "to_id"
   add_foreign_key "protocol_transfers", "protocol_subscriptions"
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
+  add_foreign_key "protocols", "questionnaires", column: "language_questionnaire_id"
   add_foreign_key "push_subscriptions", "protocols"
   add_foreign_key "responses", "invitation_sets"
   add_foreign_key "responses", "measurements"

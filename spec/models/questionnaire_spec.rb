@@ -772,6 +772,17 @@ describe Questionnaire do
     end
   end
 
+  describe 'informed_consent_protocols' do
+    it 'is able to create a language_protocol' do
+      questionnaire = FactoryBot.create(:questionnaire)
+      expect(questionnaire.language_protocols.count).to eq 0
+      protocol = FactoryBot.create(:protocol, language_questionnaire: questionnaire)
+      questionnaire.reload
+      expect(questionnaire.language_protocols.count).to eq 1
+      expect(questionnaire.language_protocols.first).to eq protocol
+    end
+  end
+
   describe 'timestamps' do
     it 'has timestamps for created objects' do
       questionnaire = FactoryBot.create(:questionnaire)

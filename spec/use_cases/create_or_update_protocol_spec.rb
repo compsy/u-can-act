@@ -6,7 +6,8 @@ describe CreateOrUpdateProtocol do
   let(:name) { 'name' }
   let(:duration) { 1 }
   let(:invitation_text) { 'you are invited' }
-  let(:informed_consent_questionnaire_key) { nil } # It should be okay for this to be not blank
+  let(:informed_consent_questionnaire_key) { nil } # It should be okay for this to be blank
+  let(:language_questionnaire_key) { nil } # It should be okay for this to be blank
 
   let(:questionnaire1_key) { 'questionnaire1_key' }
   let!(:questionnaire1) { FactoryBot.create :questionnaire, key: questionnaire1_key }
@@ -37,6 +38,7 @@ describe CreateOrUpdateProtocol do
                         duration: duration,
                         invitation_text: invitation_text,
                         informed_consent_questionnaire_key: informed_consent_questionnaire_key,
+                        language_questionnaire_key: language_questionnaire_key,
                         questionnaires: questionnaires
   end
 
@@ -94,6 +96,26 @@ describe CreateOrUpdateProtocol do
     context 'when an invalid informed_consent_questionnaire_key is given' do
       let!(:ic_questionnaire) { FactoryBot.create :questionnaire, key: 'ic_key' }
       let(:informed_consent_questionnaire_key) { 'non_existent_key' }
+      it 'returns an error' do
+        res = subject
+        expect(res).not_to be_valid
+        expect(res.errors).not_to be_empty
+      end
+    end
+    context 'when the language_questionnaire_key key is given' do
+      let!(:lang_questionnaire) { FactoryBot.create :questionnaire }
+      let(:language_questionnaire_key) { lang_questionnaire.key }
+
+      it 'is assigned to the protocol' do
+        expect { subject }.to change {
+          protocol.reload
+          protocol.language_questionnaire&.id
+        }.to(lang_questionnaire.id)
+      end
+    end
+    context 'when an invalid language_questionnaire_key is given' do
+      let!(:lang_questionnaire) { FactoryBot.create :questionnaire, key: 'lang_key' }
+      let(:language_questionnaire_key) { 'non_existent_key' }
       it 'returns an error' do
         res = subject
         expect(res).not_to be_valid

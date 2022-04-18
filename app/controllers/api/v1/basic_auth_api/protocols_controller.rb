@@ -19,6 +19,7 @@ module Api
              :duration,
              :invitation_text,
              :informed_consent_questionnaire_key,
+             :language_questionnaire_key,
              { questionnaires:
                [:key,
                 { measurement:

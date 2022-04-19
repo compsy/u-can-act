@@ -47,7 +47,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                   start_date: 1.week.ago.at_beginning_of_day,
                                                   person: mentor)
         responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
-                                                             open_from: 1.hour.ago)
+                                        open_from: 1.hour.ago)
         get :index
         expect(response).to have_http_status(:found)
         expect(response.location).not_to eq(mentor_overview_index_path)
@@ -167,7 +167,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                     person: person,
                                                     protocol: protocol)
           responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                                     open_from: 1.hour.ago)
+                                          open_from: 1.hour.ago)
           get :show, params: { uuid: responseobj.uuid }
           expect(response).to have_http_status(200)
           expect(response).to render_template('questionnaire/informed_consent')
@@ -183,7 +183,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                     person: person,
                                                     protocol: protocol)
           responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
-                                                     open_from: 1.hour.ago)
+                                          open_from: 1.hour.ago)
           get :show, params: { uuid: responseobj.uuid }
           expect(response).to have_http_status(200)
           expect(response).to render_template('questionnaire/language')
@@ -219,7 +219,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
     let(:responseobj) do
       FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                   open_from: 1.hour.ago)
+                        open_from: 1.hour.ago)
     end
 
     # let(:invitation_token) { FactoryBot.create(:invitation_token, response: responseobj) }
@@ -379,6 +379,63 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
   end
 
+  fdescribe 'POST /language' do
+    describe 'redirecting with a student' do
+      before do
+        cookie_auth(student)
+      end
+
+      it 'requires a response id' do
+        post :set_language_preference
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')
+      end
+
+      it 'requires a response that exists' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        post :set_language_preference, params: { response_id: 'something', content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
+      end
+
+      it 'requires a response that is not filled out yet' do
+        responseobj = FactoryBot.create(:response, :completed)
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        post :set_language_preference, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:found)
+        expect(response.location).to end_with klaar_path
+      end
+
+      it 'requires a q parameter that is not expired' do
+        responseobj = FactoryBot.create(:response)
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        post :set_language_preference, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+        expect(response).to have_http_status(:found)
+        expect(response.location).to end_with klaar_path
+      end
+
+      it 'shows status 200 when everything is correct' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  protocol: protocol)
+        responseobj = FactoryBot.create(:response,
+                                        :invited,
+                                        person: student,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
+        post :set_language_preference, params: { response_id: responseobj.id, content: { 'v0' => 'English' } }
+        expect(response).to have_http_status(:found)
+        responseobj.reload
+        expect(responseobj.completed_at).to be_blank
+        expect(responseobj.content).to be_blank
+        expect(responseobj.protocol_subscription.person.locale).to eq 'en'
+      end
+    end
+  end
+
   describe 'POST /' do
     describe 'redirecting with a student' do
       before do
@@ -528,11 +585,11 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'redirects to the mentor overview page if the person is a mentor filling out for him/herself' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, person: mentor,
-                                                                          filling_out_for: mentor,
-                                                                          start_date: 1.week.ago.at_beginning_of_day)
+                                                  filling_out_for: mentor,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                                   open_from: 1.hour.ago,
-                                                   opened_at: 5.minutes.ago)
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
 
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)
@@ -541,11 +598,11 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'redirects to the mentor overview page if the person is a mentor filling out for someone else' do
         protocol_subscription = FactoryBot.create(:protocol_subscription, person: mentor,
-                                                                          filling_out_for: student,
-                                                                          start_date: 1.week.ago.at_beginning_of_day)
+                                                  filling_out_for: student,
+                                                  start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
-                                                   open_from: 1.hour.ago,
-                                                   opened_at: 5.minutes.ago)
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
 
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:found)

@@ -12,7 +12,7 @@ class QuestionnaireController < ApplicationController
   before_action :set_locale, only: %i[show]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
-  before_action :verify_cookie, only: %i[create create_informed_consent]
+  before_action :verify_cookie, only: %i[create create_informed_consent set_language_preference]
   before_action :set_layout, only: [:show]
   before_action :check_informed_consent, only: [:show]
   before_action :check_language, only: [:show]

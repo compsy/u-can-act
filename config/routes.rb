@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
 
   post '/informed_consent' => 'questionnaire#create_informed_consent'
+  post '/language' => 'questionnaire#set_language_preference'
   get '/klaar' => 'reward#index'
   post '/' => 'questionnaire#create'
   root to: 'token_authentication#show'

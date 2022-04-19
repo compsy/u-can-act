@@ -31,5 +31,9 @@ if Rails.env.development?
   Questionnaire.all.each(&:recalculate_scores!)
 end
 
+Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].each do |file|
+  require file
+end
+
 # Remember to use create!/save! instead of create/save everywhere in seeds
 puts 'Seeds loaded!'

@@ -15,8 +15,9 @@ class QuestionnaireController < ApplicationController
   before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :set_layout, only: [:show]
   before_action :check_informed_consent, only: [:show]
+  before_action :check_language, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
-  before_action :set_create_response, only: %i[create create_informed_consent]
+  before_action :set_create_response, only: %i[create create_informed_consent set_language_preference]
   before_action :check_opened_at, only: [:create]
   before_action :check_content_empty, only: [:create]
   before_action :check_content_hash, only: [:create]
@@ -73,6 +74,13 @@ class QuestionnaireController < ApplicationController
     @protocol_subscription.save!
     @response.update!(opened_at: Time.zone.now)
     redirect_to questionnaire_path(uuid: @response.uuid)
+  end
+
+  def set_language_preference
+    selected_locale = questionnaire_content['v0']
+    current_user.update! locale: selected_locale == 'Nederlands' ? 'nl' : 'en'
+    @response.invitation_set.update! locale_retrieved: true
+    redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
   def create
@@ -276,6 +284,11 @@ class QuestionnaireController < ApplicationController
 
   def check_informed_consent
     render :informed_consent if @protocol_subscription.needs_informed_consent?
+  end
+
+  def check_language
+    # TODO: decide whether to present the questionnaire every time or when language is not set
+    render :language if @protocol.language_questionnaire.present? && !@response.invitation_set.locale_retrieved
   end
 
   def verify_cookie

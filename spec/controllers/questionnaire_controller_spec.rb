@@ -157,18 +157,37 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(response).to render_template('questionnaire/show')
       end
 
-      it 'shows an informed questionnaire if there is one required' do
-        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
-        expect(protocol.informed_consent_questionnaire).not_to be_nil
-        expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
-        protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                  start_date: 1.week.ago.at_beginning_of_day,
-                                                  person: person,
-                                                  protocol: protocol)
-        responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
-        get :show, params: { uuid: responseobj.uuid }
-        expect(response).to have_http_status(200)
-        expect(response).to render_template('questionnaire/informed_consent')
+      context 'when the protocol requires an informed_consent' do
+        let(:protocol) { FactoryBot.create(:protocol, :with_informed_consent_questionnaire) }
+        it 'shows an informed questionnaire' do
+          expect(protocol.informed_consent_questionnaire).not_to be_nil
+          expect(protocol.informed_consent_questionnaire.title).to eq 'Informed Consent'
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day,
+                                                    person: person,
+                                                    protocol: protocol)
+          responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                     open_from: 1.hour.ago)
+          get :show, params: { uuid: responseobj.uuid }
+          expect(response).to have_http_status(200)
+          expect(response).to render_template('questionnaire/informed_consent')
+        end
+      end
+
+      context 'when the protocol requires a language questionnaire' do
+        let(:protocol) { FactoryBot.create :protocol, :with_language_questionnaire }
+        it 'shows the language questionnaire' do
+          expect(protocol.language_questionnaire.title).to eq 'Language Questionnaire'
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day,
+                                                    person: person,
+                                                    protocol: protocol)
+          responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                     open_from: 1.hour.ago)
+          get :show, params: { uuid: responseobj.uuid }
+          expect(response).to have_http_status(200)
+          expect(response).to render_template('questionnaire/language')
+        end
       end
 
       it 'saves the response in the database, with the correct timestamp' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_13_230502) do
+ActiveRecord::Schema.define(version: 2022_04_19_115953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2022_04_13_230502) do
     t.string "invitation_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "locale_retrieved", default: false, null: false
     t.index ["person_id"], name: "index_invitation_sets_on_person_id"
   end
 

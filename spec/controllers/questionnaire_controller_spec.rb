@@ -379,7 +379,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
   end
 
-  fdescribe 'POST /language' do
+  describe 'POST /language' do
     describe 'redirecting with a student' do
       before do
         cookie_auth(student)

@@ -182,7 +182,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                                     start_date: 1.week.ago.at_beginning_of_day,
                                                     person: person,
                                                     protocol: protocol)
-          responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+          responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
                                                      open_from: 1.hour.ago)
           get :show, params: { uuid: responseobj.uuid }
           expect(response).to have_http_status(200)

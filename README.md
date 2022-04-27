@@ -97,6 +97,10 @@ Below is a list of all required ENV variables for production servers.
   REGISTRATION_URL: <url for sending invites to for person email registration>
 
   WORKLESS_ENABLED: <set to 'true' if you want to enable workless>
+  
+  ELASTIC_APM_URL: <the url to push APM metrics to>
+  ELASTIC_APM_SECRET_TOKEN: <the agent token as obtained from /app/apm/settings/agent-keys when creating a new token>
+  ELASTIC_APM_SERVICE_NAME: <set this to how you want the service to show up on the elastic observability stack>
 ```
 
 ### (Local) development settings

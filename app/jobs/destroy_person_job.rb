@@ -4,7 +4,7 @@ class DestroyPersonJob < ApplicationJob
   queue_as :default
 
   def perform(id)
-    person(id)&.destroy
+    person(id)&.destroy!
   end
 
   def max_attempts

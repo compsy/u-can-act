@@ -28,18 +28,29 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     end
   end
 
+  array :push_subscriptions, default: nil do
+    hash do
+      string :name
+      string :url
+      string :method
+    end
+  end
+
   def execute
     ActiveRecord::Base.transaction do
-      if initialize_protocol
-        unless create_measurements
-          errors.merge!(@measurement.errors) if @measurement.present?
-          # If we reach this point the protocol has been created but a measurement couldn't be. The user expects the
-          # action to be atomic, so we must rollback the creation of the protocol and all the other measurements that
-          # succeeded
-          raise ActiveRecord::Rollback
-        end
-      else
-        errors.merge!(@protocol.errors)
+      return errors.merge!(@protocol.errors) unless initialize_protocol
+
+      unless create_measurements
+        errors.merge!(@measurement.errors) if @measurement.present?
+        # If we reach this point the protocol has been created but a measurement couldn't be. The user expects the
+        # action to be atomic, so we must rollback the creation of the protocol and all the other measurements that
+        # succeeded
+        raise ActiveRecord::Rollback
+      end
+
+      unless create_push_subscriptions
+        @created_push_subscriptions.each { |ps| errors.merge!(ps.errors) }
+        raise ActiveRecord::Rollback
       end
     end
   end
@@ -65,6 +76,18 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     )
 
     @protocol.save
+  end
+
+  def create_push_subscriptions
+    return true if push_subscriptions.blank?
+
+    push_subscriptions.map { |ps| create_push_subscription(ps) }.all?
+  end
+
+  def create_push_subscription(params)
+    @created_push_subscriptions ||= []
+    @created_push_subscriptions << @protocol.push_subscriptions.build(**params)
+    @created_push_subscriptions.last.save
   end
 
   def add_special_questionnaire(key_name, key_value, attr_name)

@@ -84,7 +84,7 @@ describe CreateOrUpdateProtocol do
       end
     end
     context 'when a push_subscription is passed but one of the parameters is missing' do
-      let(:push_subscriptions) { [{ name: nil, url: nil, method: nil}]}
+      let(:push_subscriptions) { [{ name: nil, url: nil, method: nil }] }
       it 'is not valid' do
         expect(subject).not_to be_valid
       end

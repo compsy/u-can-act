@@ -258,27 +258,27 @@ describe CreateOrUpdateProtocol do
           expect(subject.errors).not_to be_empty
         end
       end
-      fcontext 'and there are existing push subscriptions' do
+      context 'and there are existing push subscriptions' do
         let!(:existing_push_subscriptions) do
           [
             FactoryBot.create(:push_subscription, protocol: protocol),
-            FactoryBot.create(:push_subscription, protocol: protocol),
+            FactoryBot.create(:push_subscription, protocol: protocol)
           ]
         end
         it 'overrides the subscriptions with the new ones' do
-          expect { subject }.to change { protocol.push_subscriptions.pluck(:id) }
+          expect { subject }.to(change { protocol.push_subscriptions.pluck(:id) })
           expect(protocol.push_subscriptions.first.url).to eq push_subscriptions.first[:url]
         end
       end
     end
 
-    fcontext 'when push_subscriptions are not given' do
+    context 'when push_subscriptions are not given' do
       let(:push_subscriptions) { nil }
       context 'and there is an existing protocol with existing push_subscriptions' do
         let!(:existing_push_subscriptions) do
           [
             FactoryBot.create(:push_subscription, protocol: protocol),
-            FactoryBot.create(:push_subscription, protocol: protocol),
+            FactoryBot.create(:push_subscription, protocol: protocol)
           ]
         end
         it 'deletes the existing subscriptions' do

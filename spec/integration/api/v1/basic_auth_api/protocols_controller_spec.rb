@@ -44,6 +44,17 @@ describe 'Protocols API' do
                     }
                   }
                 }
+              },
+              push_subscriptions: {
+                type: :array,
+                items: {
+                  type: :object,
+                  properties: {
+                    name: { type: :string },
+                    url: { type: :string },
+                    method: { type: :string }
+                  }
+                }
               }
             },
             required: %i[name duration invitation_text questionnaires]
@@ -51,15 +62,19 @@ describe 'Protocols API' do
         }
       }
 
+      let(:protocol_name) { 'a protocol' }
+      let(:questionnaire_key) { 'a_key' }
+      let(:push_subscription_name) { 'push-1' }
+
       let(:protocol) do
         {
           protocol: {
-            name: 'a protocol',
+            name: protocol_name,
             duration: 1,
             invitation_text: 'you have been invited',
             questionnaires: [
               {
-                key: 'a_key',
+                key: questionnaire_key,
                 measurement: {
                   open_from_offset: 0,
                   open_from_day: 'monday',
@@ -72,6 +87,13 @@ describe 'Protocols API' do
                   only_redirect_if_nothing_else_ready: true
                 }
               }
+            ],
+            push_subscriptions: [
+              {
+                name: push_subscription_name,
+                url: 'http://localhost:6000',
+                method: 'POST'
+              }
             ]
           }
         }
@@ -80,7 +102,12 @@ describe 'Protocols API' do
       let!(:questionnaire) { FactoryBot.create :questionnaire, key: 'a_key' }
 
       response '201', 'creates a protocol subscription' do
-        run_test!
+        run_test! do
+          protocol = Protocol.find_by name: protocol_name
+          expect(protocol).to be_present
+          expect(protocol.measurements.first.questionnaire.key).to eq questionnaire_key
+          expect(protocol.push_subscriptions.first.name).to eq push_subscription_name
+        end
       end
 
       response '400', 'bad request' do

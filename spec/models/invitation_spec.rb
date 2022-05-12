@@ -179,9 +179,10 @@ describe Invitation do
                 'Vul nu de eerste wekelijkse vragenlijst in.'
       responseobj.invitation_set.update!(invitation_text: message)
       invitation_url = "#{ENV.fetch('HOST_URL', nil)}/?q=#{myid}#{mytok}"
-      allow(SendSms).to receive(:run!).with(number: mentor.mobile_phone,
-                                            text: "#{message} #{invitation_url}",
-                                            reference: "vsv-#{responseobj.invitation_set.id}")
+      # Fix against Rails 6.1/Ruby 3.1 deserialization adding an extra argument.
+      allow(SendSms).to receive(:run!).with(hash_including(number: mentor.mobile_phone,
+                                                           text: "#{message} #{invitation_url}",
+                                                           reference: "vsv-#{responseobj.invitation_set.id}"))
       expect(InvitationMailer).to receive(:invitation_mail).with(
         mentor.email,
         message,

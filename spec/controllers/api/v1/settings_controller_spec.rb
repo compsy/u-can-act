@@ -13,7 +13,7 @@ describe Api::V1::SettingsController, type: :controller do
 
     let(:settings) { YAML.load_file(Rails.root.join('config/settings.yml')) }
     let(:specific_settings) do
-      YAML.load_file(Rails.root.join('projects', ENV['PROJECT_NAME'], 'config', 'settings.yml'))
+      YAML.load_file(Rails.root.join('projects', ENV.fetch('PROJECT_NAME', nil), 'config', 'settings.yml'))
     end
 
     let(:current_settings) { settings[Rails.env].deep_merge(specific_settings[Rails.env]) }
@@ -39,8 +39,8 @@ describe Api::V1::SettingsController, type: :controller do
           cur = hash[key]
           cur_yaml = yaml[key]
           if cur_yaml.is_a?(String)
-            cur_yaml.gsub!("<%=ENV['PROJECT_NAME']%>", ENV['PROJECT_NAME'])
-            cur_yaml.gsub!("<%=ENV['SITE_LOCATION']%>", ENV['SITE_LOCATION'])
+            cur_yaml.gsub!("<%=ENV['PROJECT_NAME']%>", ENV.fetch('PROJECT_NAME', nil))
+            cur_yaml.gsub!("<%=ENV['SITE_LOCATION']%>", ENV.fetch('SITE_LOCATION', nil))
           end
           # Company logo is an optional setting
           expect(cur).not_to be_nil unless optional_settings.include?(key)

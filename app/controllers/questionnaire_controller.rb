@@ -39,7 +39,7 @@ class QuestionnaireController < ApplicationController
 
   # This method is used to post results from the interactive questionnaire previewer
   def from_json
-    flash[:success] = 'Success! If this were an actual questionnaire, your response would have been saved.'
+    flash[:success] = I18n.t('questionnaires.preview_saved')
     redirect_to :interactive_questionnaire_index
   end
 
@@ -379,7 +379,7 @@ class QuestionnaireController < ApplicationController
     # A person should always be able to fill out a stop measurement
     return if !response.expired? || response.measurement.stop_measurement
 
-    flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
+    flash[:notice] = I18n.t('questionnaires.questionnaire_expired')
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 

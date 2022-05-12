@@ -7,7 +7,7 @@ describe EmailRegistration do
   let!(:person) { FactoryBot.create(:person, email: email) }
 
   before do
-    @old_value = ENV['REGISTRATION_URL']
+    @old_value = ENV.fetch('REGISTRATION_URL', nil)
     ENV['REGISTRATION_URL'] = 'http://registration-url.nl'
   end
 

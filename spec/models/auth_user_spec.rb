@@ -30,7 +30,7 @@ describe AuthUser, type: :model do
     let(:correct_payload) do
       {
         described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0',
-        ENV['SITE_LOCATION'] => {
+        ENV.fetch('SITE_LOCATION', nil) => {
           'access_level' => ['admin'],
           'role' => 'Studenttitle',
           'email' => 'test@example.com',
@@ -43,7 +43,7 @@ describe AuthUser, type: :model do
     let(:deprecated_payload) do
       {
         described_class::AUTH0_KEY_LOCATION => 'thesubprovidedbyauth0',
-        ENV['SITE_LOCATION'] => {
+        ENV.fetch('SITE_LOCATION', nil) => {
           'roles' => ['admin'], # The roles param is deprecated
           'team' => 'kct',
           'protocol' => 'KCT'
@@ -72,9 +72,9 @@ describe AuthUser, type: :model do
       expect(CreateAnonymousUser)
         .to receive(:run!)
         .with(auth0_id_string: correct_payload[described_class::AUTH0_KEY_LOCATION],
-              team_name: correct_payload[ENV['SITE_LOCATION']]['team'],
-              role_title: correct_payload[ENV['SITE_LOCATION']]['role'],
-              email: correct_payload[ENV['SITE_LOCATION']]['email'],
+              team_name: correct_payload[ENV.fetch('SITE_LOCATION', nil)]['team'],
+              role_title: correct_payload[ENV.fetch('SITE_LOCATION', nil)]['role'],
+              email: correct_payload[ENV.fetch('SITE_LOCATION', nil)]['email'],
               access_level: AuthUser::ADMIN_ACCESS_LEVEL)
         .and_raise('stop_execution')
       expect { described_class.from_token_payload(correct_payload) }.to raise_error 'stop_execution'
@@ -82,10 +82,10 @@ describe AuthUser, type: :model do
 
     it 'should return the created auth_user' do
       FactoryBot.create(:protocol,
-                        name: correct_payload[ENV['SITE_LOCATION']]['protocol'])
+                        name: correct_payload[ENV.fetch('SITE_LOCATION', nil)]['protocol'])
       FactoryBot.create(:team,
                         :with_roles,
-                        name: correct_payload[ENV['SITE_LOCATION']]['team'])
+                        name: correct_payload[ENV.fetch('SITE_LOCATION', nil)]['team'])
       result = described_class.from_token_payload(correct_payload)
       expect(result).to be_a described_class
     end
@@ -107,7 +107,7 @@ describe AuthUser, type: :model do
           .and_return(auth_user)
         expect(SubscribeToProtocol)
           .to receive(:run!)
-          .with(protocol_name: correct_payload[ENV['SITE_LOCATION']]['protocol'],
+          .with(protocol_name: correct_payload[ENV.fetch('SITE_LOCATION', nil)]['protocol'],
                 person: auth_user.person)
           .and_raise('stop_execution')
         expect(auth_user.person.protocol_subscriptions).to be_blank
@@ -117,7 +117,7 @@ describe AuthUser, type: :model do
       it 'should not create new protocol subscriptions for users already subscribed to this protocol' do
         auth_user = FactoryBot.create(:auth_user, :with_person)
         protocol = FactoryBot.create(:protocol,
-                                     name: correct_payload[ENV['SITE_LOCATION']]['protocol'])
+                                     name: correct_payload[ENV.fetch('SITE_LOCATION', nil)]['protocol'])
         FactoryBot.create(:protocol_subscription, person: auth_user.person, protocol: protocol)
 
         expect(CreateAnonymousUser)

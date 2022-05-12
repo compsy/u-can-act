@@ -74,7 +74,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       let!(:the_payload) do
         {
           'sub' => auth0_id_string,
-          ENV['SITE_LOCATION'] => {
+          ENV.fetch('SITE_LOCATION', nil) => {
             'access_level' => ['user']
           }
         }
@@ -228,7 +228,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       let!(:the_payload) do
         {
           'sub' => auth0_id_string,
-          ENV['SITE_LOCATION'] => {
+          ENV.fetch('SITE_LOCATION', nil) => {
             'access_level' => ['user']
           }
         }

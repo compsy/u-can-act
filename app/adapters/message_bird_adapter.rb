@@ -4,7 +4,7 @@ class MessageBirdAdapter
   attr_reader :client, :test_mode
 
   def initialize(test_mode)
-    @client = ::MessageBird::Client.new(ENV['MESSAGEBIRD_ACCESS_KEY'])
+    @client = ::MessageBird::Client.new(ENV.fetch('MESSAGEBIRD_ACCESS_KEY', nil))
     @test_mode = test_mode
   end
 

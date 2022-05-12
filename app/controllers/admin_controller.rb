@@ -2,7 +2,7 @@
 
 class AdminController < ApplicationController
   include AdminHelper
-  http_basic_authenticate_with name: ENV['ADMIN_USERNAME'], password: ENV['ADMIN_PASSWORD']
+  http_basic_authenticate_with name: ENV.fetch('ADMIN_USERNAME', nil), password: ENV.fetch('ADMIN_PASSWORD', nil)
   before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
   before_action :set_locale, only: %i[preview]
   before_action :set_questionnaire_content, only: %i[preview]

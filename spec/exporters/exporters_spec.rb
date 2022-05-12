@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Exporters do
   before do
-    @old_env = ENV['TEST_PHONE_NUMBERS']
+    @old_env = ENV.fetch('TEST_PHONE_NUMBERS', nil)
   end
 
   after do

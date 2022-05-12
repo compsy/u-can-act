@@ -19,7 +19,7 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
   let!(:the_payload) do
     {
       'sub' => the_auth_user.auth0_id_string,
-      ENV['SITE_LOCATION'] => {
+      ENV.fetch('SITE_LOCATION', nil) => {
         'access_level' => ['user']
       }
     }

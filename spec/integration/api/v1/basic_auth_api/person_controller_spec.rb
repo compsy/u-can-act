@@ -26,7 +26,7 @@ describe 'Person API' do
         }
       }
 
-      let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+      let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
       let!(:team) { FactoryBot.create :team, :with_roles }
 
       let!(:person) do
@@ -100,7 +100,7 @@ describe 'Person API' do
       let(:person) { { person_auth0_ids: [] } }
 
       response '200', 'lists all people' do
-        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         run_test!
       end
 

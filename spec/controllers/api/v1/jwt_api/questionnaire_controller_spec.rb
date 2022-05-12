@@ -11,7 +11,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     let(:protocol) { FactoryBot.create(:protocol) }
     let(:team) { FactoryBot.create(:team, :with_roles) }
     let!(:the_payload) do
-      { ENV['SITE_LOCATION'] => {
+      { ENV.fetch('SITE_LOCATION', nil) => {
         'access_level' => ['user'],
         'team' => team.name,
         'protocol' => protocol.name
@@ -84,7 +84,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     let(:team) { FactoryBot.create(:team, :with_roles) }
     let(:questionnaires) { FactoryBot.create_list(:questionnaire, 10) }
     let!(:the_payload) do
-      { ENV['SITE_LOCATION'] => {
+      { ENV.fetch('SITE_LOCATION', nil) => {
         'access_level' => ['user'],
         'team' => team.name,
         'protocol' => protocol.name
@@ -128,7 +128,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     let(:protocol) { FactoryBot.create(:protocol) }
     let(:team) { FactoryBot.create(:team, :with_roles) }
     let!(:the_payload) do
-      { ENV['SITE_LOCATION'] => {
+      { ENV.fetch('SITE_LOCATION', nil) => {
         'access_level' => ['user'],
         'team' => team.name,
         'protocol' => protocol.name
@@ -187,7 +187,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     let(:protocol) { FactoryBot.create(:protocol) }
     let(:team) { FactoryBot.create(:team, :with_roles) }
     let!(:the_payload) do
-      { ENV['SITE_LOCATION'] => {
+      { ENV.fetch('SITE_LOCATION', nil) => {
         'access_level' => ['user'],
         'team' => team.name,
         'protocol' => protocol.name

@@ -9,7 +9,7 @@ describe Api::V1::JwtApi::AuthUserController, type: :controller do
 
   describe 'unauthorized' do
     let!(:the_payload) do
-      { ENV['SITE_LOCATION'] => {
+      { ENV.fetch('SITE_LOCATION', nil) => {
         'access_level' => ['user'],
         'team' => team.name,
         'protocol' => protocol.name
@@ -22,7 +22,7 @@ describe Api::V1::JwtApi::AuthUserController, type: :controller do
     let(:auth0_id_string) { 'some-auth0-id' }
     describe 'create' do
       let!(:the_payload) do
-        { ENV['SITE_LOCATION'] => {
+        { ENV.fetch('SITE_LOCATION', nil) => {
           'access_level' => ['user'],
           'team' => team.name,
           'protocol' => protocol.name

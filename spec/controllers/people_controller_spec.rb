@@ -227,11 +227,11 @@ RSpec.describe PeopleController, type: :controller do
         person.reload
         expect(person.gender).to eq person_attributes['gender']
         expect(person.ip_hash).not_to be_blank
-        expect(person.ip_hash).to eq HashGenerator.generate(request.remote_ip, salt: ENV['IP_HASH_SALT'])
+        expect(person.ip_hash).to eq HashGenerator.generate(request.remote_ip, salt: ENV.fetch('IP_HASH_SALT', nil))
       end
 
       it 'crashes if the salt is not set in the ENV' do
-        pre = ENV['IP_HASH_SALT']
+        pre = ENV.fetch('IP_HASH_SALT', nil)
         ENV['IP_HASH_SALT'] = nil
         person_attributes = { 'gender' => 'female' }
         expect { put :update, params: { person: person_attributes } }

@@ -36,7 +36,7 @@ describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
   let(:team) { FactoryBot.create(:team, :with_roles) }
 
   let!(:the_payload) do
-    { ENV['SITE_LOCATION'] => {
+    { ENV.fetch('SITE_LOCATION', nil) => {
       'access_level' => ['user'],
       'team' => team.name
     } }

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
 
   post '/informed_consent' => 'questionnaire#create_informed_consent'
-  post '/language' => 'questionnaire#set_language_preference'
+  # post '/language' => 'questionnaire#set_language_preference'
   get '/klaar' => 'reward#index'
   post '/' => 'questionnaire#create'
   root to: 'token_authentication#show'
@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   end
   resource :person, only: %i[edit update] do
     get 'unsubscribe'
+  end
+  resource :language, only: %i[show] do
+    collection do
+      post :change
+    end
   end
 
   get 'o', to: 'one_time_response#show', as: 'one_time_response'

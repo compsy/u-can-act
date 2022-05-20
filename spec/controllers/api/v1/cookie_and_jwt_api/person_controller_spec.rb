@@ -13,7 +13,7 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
   describe 'authorized' do
     before do
       cookie_auth(person)
-      @old = ENV['TOKEN_SIGNATURE_ALGORITHM']
+      @old = ENV.fetch('TOKEN_SIGNATURE_ALGORITHM', nil)
       ENV['TOKEN_SIGNATURE_ALGORITHM'] = 'HS256'
     end
 

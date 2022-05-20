@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = 'SQUASH'
+db_title = 'Short QUestionnaire to ASsess Health'
 
 db_name1 = 'squash'
 questionnaire = Questionnaire.find_by(name: db_name1)

@@ -58,7 +58,7 @@ class Response < ApplicationRecord
   })
 
   def self.stop_subscription_token(answer_key, answer_value, response_id)
-    Digest::SHA256.hexdigest("#{answer_key}|#{answer_value}|#{response_id}|#{ENV['STOP_SUBSCRIPTION_SALT']}")
+    Digest::SHA256.hexdigest("#{answer_key}|#{answer_value}|#{response_id}|#{ENV.fetch('STOP_SUBSCRIPTION_SALT', nil)}")
   end
 
   # rubocop:disable Metrics/AbcSize

@@ -15,7 +15,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
   # the_payload automatically gets used by the shared example
   let(:team) { FactoryBot.create(:team, :with_roles) }
   let!(:the_payload) do
-    { ENV['SITE_LOCATION'] => {
+    { ENV.fetch('SITE_LOCATION', nil) => {
       'access_level' => ['user'],
       'team' => team.name,
       'protocol' => response1.protocol_subscription.protocol.name

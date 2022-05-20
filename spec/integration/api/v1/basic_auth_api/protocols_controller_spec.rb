@@ -3,7 +3,7 @@
 require 'swagger_helper'
 
 describe 'Protocols API' do
-  let(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+  let(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
 
   path '/basic_auth_api/protocols' do
     post 'Creates a new protocol subscription' do

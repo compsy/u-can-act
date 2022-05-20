@@ -80,7 +80,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
 
   def create_push_subscriptions
     # Note that if this use case was called for an existing protocol with existing push subscriptions but with an
-    # empty push subscription definition the existing push subscriptions would be deleted. This is intended, since this
+    # empty push subscription definition, the existing push subscriptions would be deleted. This is intended, since this
     # use case is meant to create a new protocol OR update an existing one. (Consider this endpoint to be a PUT rather
     # than PATCH)
     @protocol.push_subscriptions.destroy_all

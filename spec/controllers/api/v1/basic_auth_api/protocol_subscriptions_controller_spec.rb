@@ -29,7 +29,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         open_from_day_uses_start_date_offset: nil,
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
-        external_identifier: nil
+        external_identifier: nil,
+        needs_language_input: nil
       ).and_call_original
 
       post :create, params: { protocol_name: prot_name,
@@ -50,7 +51,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         open_from_day_uses_start_date_offset: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         end_date: instance_of(ActiveSupport::TimeWithZone),
-        external_identifier: external_identifier
+        external_identifier: external_identifier,
+        needs_language_input: nil
       ).and_return true
 
       post :create, params: { protocol_name: prot_name,
@@ -132,7 +134,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         open_from_day_uses_start_date_offset: 'true',
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
-        external_identifier: nil
+        external_identifier: nil,
+        needs_language_input: nil
       ).and_call_original
 
       post :create, params: { protocol_name: prot_name,

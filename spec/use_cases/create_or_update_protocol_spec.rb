@@ -6,7 +6,7 @@ describe CreateOrUpdateProtocol do
   let(:name) { 'name' }
   let(:duration) { 1 }
   let(:invitation_text) { 'you are invited' }
-  let(:informed_consent_questionnaire_key) { nil } # It should be okay for this to be not blank
+  let(:informed_consent_questionnaire_key) { nil } # It should be okay for this to be blank
 
   let(:questionnaire1_key) { 'questionnaire1_key' }
   let!(:questionnaire1) { FactoryBot.create :questionnaire, key: questionnaire1_key }

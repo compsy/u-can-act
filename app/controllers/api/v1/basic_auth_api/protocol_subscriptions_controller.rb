@@ -15,6 +15,7 @@ module Api
           mentor.my_protocols(false)
         end
 
+        # rubocop:disable Metrics/AbcSize
         def create
           result = SubscribeToProtocol.run!(
             protocol_name: protocol_subscription_create_params[:protocol_name],
@@ -27,11 +28,13 @@ module Api
             invitation_text_nl: protocol_subscription_create_params[:invitation_text_nl],
             invitation_text_en: protocol_subscription_create_params[:invitation_text_en],
             open_from_day_uses_start_date_offset:
-              protocol_subscription_create_params[:open_from_day_uses_start_date_offset]
+              protocol_subscription_create_params[:open_from_day_uses_start_date_offset],
+            needs_language_input: protocol_subscription_create_params[:needs_language_input]
           )
           SendInvitations.run
           render status: :created, json: result
         end
+        # rubocop:enable Metrics/AbcSize
 
         def delegated_protocol_subscriptions
           render json: ProtocolSubscription.where(external_identifier: @external_identifier)
@@ -101,7 +104,8 @@ module Api
 
         def protocol_subscription_create_params
           params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier,
-                        :invitation_text_nl, :invitation_text_en, :open_from_day_uses_start_date_offset)
+                        :invitation_text_nl, :invitation_text_en, :open_from_day_uses_start_date_offset,
+                        :needs_language_input)
         end
 
         def protocol_subscription_update_params

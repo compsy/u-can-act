@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   resource :person, only: %i[edit update] do
     get 'unsubscribe'
   end
+  resource :language, only: %i[show] do
+    collection do
+      post :change
+    end
+  end
 
   get 'o', to: 'one_time_response#show', as: 'one_time_response'
 

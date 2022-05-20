@@ -37,7 +37,7 @@
   - flash.each do |name, msg|
     .row.flash-notice
       .col.s12
-        .card-panel.green{class: name}
+        .card-panel{class: "#{name == 'notice' ? 'green' : 'red'} #{name}"}
           %span.white-text= msg
   .container
     .row

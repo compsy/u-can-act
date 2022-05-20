@@ -9,6 +9,7 @@ class SubscribeToProtocol < AsyncActiveInteraction
   string :invitation_text_nl, default: nil
   string :invitation_text_en, default: nil
   boolean :open_from_day_uses_start_date_offset, default: false
+  boolean :needs_language_input, default: false
 
   # Watch out! IF you set a start date here (e.g. = Time.now.in_time_zone) it
   # will set it once, and reuse THAT time everytime. I.e., it will not update
@@ -46,7 +47,8 @@ class SubscribeToProtocol < AsyncActiveInteraction
       external_identifier: external_identifier,
       invitation_text_nl: invitation_text_nl,
       invitation_text_en: invitation_text_en,
-      open_from_day_uses_start_date_offset: open_from_day_uses_start_date_offset
+      open_from_day_uses_start_date_offset: open_from_day_uses_start_date_offset,
+      needs_language_input: needs_language_input
     )
   end
 

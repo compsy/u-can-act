@@ -27,7 +27,8 @@ module Api
             invitation_text_nl: protocol_subscription_create_params[:invitation_text_nl],
             invitation_text_en: protocol_subscription_create_params[:invitation_text_en],
             open_from_day_uses_start_date_offset:
-              protocol_subscription_create_params[:open_from_day_uses_start_date_offset]
+              protocol_subscription_create_params[:open_from_day_uses_start_date_offset],
+            needs_language_input: protocol_subscription_create_params[:needs_language_input]
           )
           SendInvitations.run
           render status: :created, json: result
@@ -101,7 +102,8 @@ module Api
 
         def protocol_subscription_create_params
           params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier,
-                        :invitation_text_nl, :invitation_text_en, :open_from_day_uses_start_date_offset)
+                        :invitation_text_nl, :invitation_text_en, :open_from_day_uses_start_date_offset,
+                        :needs_language_input)
         end
 
         def protocol_subscription_update_params

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_19_115953) do
+ActiveRecord::Schema.define(version: 2022_05_19_094533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 2022_04_19_115953) do
     t.string "invitation_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "locale_retrieved", default: false, null: false
     t.index ["person_id"], name: "index_invitation_sets_on_person_id"
   end
 
@@ -143,6 +142,8 @@ ActiveRecord::Schema.define(version: 2022_04_19_115953) do
     t.string "invitation_text_nl"
     t.string "invitation_text_en"
     t.boolean "open_from_day_uses_start_date_offset", default: false, null: false
+    t.boolean "needs_language_input", default: false, null: false
+    t.boolean "has_language_input", default: false, null: false
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id"
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id"
   end
@@ -165,9 +166,7 @@ ActiveRecord::Schema.define(version: 2022_04_19_115953) do
     t.datetime "updated_at", null: false
     t.integer "informed_consent_questionnaire_id"
     t.string "invitation_text"
-    t.bigint "language_questionnaire_id"
     t.index ["informed_consent_questionnaire_id"], name: "index_protocols_on_informed_consent_questionnaire_id"
-    t.index ["language_questionnaire_id"], name: "index_protocols_on_language_questionnaire_id"
     t.index ["name"], name: "index_protocols_on_name", unique: true
   end
 
@@ -256,7 +255,6 @@ ActiveRecord::Schema.define(version: 2022_04_19_115953) do
   add_foreign_key "protocol_transfers", "people", column: "to_id"
   add_foreign_key "protocol_transfers", "protocol_subscriptions"
   add_foreign_key "protocols", "questionnaires", column: "informed_consent_questionnaire_id"
-  add_foreign_key "protocols", "questionnaires", column: "language_questionnaire_id"
   add_foreign_key "push_subscriptions", "protocols"
   add_foreign_key "responses", "invitation_sets"
   add_foreign_key "responses", "measurements"

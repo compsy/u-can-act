@@ -5,7 +5,6 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
   integer :duration
   string :invitation_text
   string :informed_consent_questionnaire_key, default: nil
-  string :language_questionnaire_key, default: nil
 
   attr_reader :protocol
 
@@ -52,32 +51,14 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     @protocol.duration = duration
     @protocol.invitation_text = invitation_text
 
-    return false unless add_special_questionnaire(
-      :informed_consent_questionnaire_key,
-      informed_consent_questionnaire_key,
-      'informed_consent_questionnaire'
-    )
+    return @protocol.save if informed_consent_questionnaire_key.blank?
 
-    return false unless add_special_questionnaire(
-      :language_questionnaire_key,
-      language_questionnaire_key,
-      'language_questionnaire'
-    )
+    @protocol.informed_consent_questionnaire = Questionnaire.find_by(key: informed_consent_questionnaire_key)
 
-    @protocol.save
-  end
+    return @protocol.save if @protocol.informed_consent_questionnaire.present?
 
-  def add_special_questionnaire(key_name, key_value, attr_name)
-    return true if key_value.blank?
-
-    questionnaire = Questionnaire.find_by key: key_value
-
-    if questionnaire.present?
-      @protocol.send("#{attr_name}=", questionnaire)
-      return true
-    end
-
-    errors.add key_name, "key '#{key_value}' not found"
+    errors.add :informed_consent_questionnaire_key,
+               "key '#{informed_consent_questionnaire_key}' not found"
     false
   end
 
@@ -119,6 +100,5 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
 
     @measurement.save
   end
-
   # rubocop:enable Metrics/AbcSize
 end

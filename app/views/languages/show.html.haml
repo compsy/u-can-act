@@ -2,7 +2,7 @@
 = render partial: 'shared/header'
 
 .container
-  = form_with url: '/language/change', method: 'post' do
+  = form_with url: change_language_path(cb: @callback, r_id: @response_id), method: 'post' do
     .row
       .col.s12
         - locales.each do |locale|

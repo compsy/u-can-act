@@ -17,8 +17,15 @@ class LanguagesController < ApplicationController
 
   def change
     @locale = change_params[:locale]
-    current_user.update! locale: @locale == 'nl' ? 'nl' : 'en'
-    @response.protocol_subscription.update! has_language_input: true
+    unless current_user.update locale: @locale == 'nl' ? 'nl' : 'en'
+      Rails.logger.error "invalid user: #{current_user.errors.full_messages}"
+      flash.alert = I18n.t('pages.languages.flash_messages.alert.locale_update_error')
+    end
+
+    unless @response.protocol_subscription.update has_language_input: true
+      Rails.logger.error "invalid protocol_subscription: #{@response.errors.full_messages}"
+      flash.alert = I18n.t('pages.languages.flash_messages.alert.locale_update_error')
+    end
 
     redirect_to change_params[:cb], notice: I18n.t('pages.languages.flash_messages.notice.locale_updated')
   end

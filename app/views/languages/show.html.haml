@@ -12,4 +12,4 @@
               %span=locale
     .row
       .col.s12
-        = button_tag('Submit', type: 'submit', class: 'btn waves-effect waves-light')
+        = button_tag(@locale == 'en' ? 'Save' : 'Opslaan', type: 'submit', class: 'btn waves-effect waves-light')

@@ -27,7 +27,10 @@ class LanguagesController < ApplicationController
       return flash.alert = I18n.t('pages.languages.flash_messages.alert.locale_update_error')
     end
 
-    redirect_to change_params[:cb], notice: I18n.t('pages.languages.flash_messages.notice.locale_updated')
+    flash.notice = I18n.t('pages.languages.flash_messages.notice.locale_updated')
+    return redirect_to change_params[:cb] if params[:cb].present?
+
+    redirect_to language_path show_params
   end
 
   private
@@ -41,7 +44,7 @@ class LanguagesController < ApplicationController
   end
 
   def set_response
-    @response = Response.find_by id: change_params[:r_id]
+    @response = current_user.responses.find_by id: change_params[:r_id]
 
     alert_msg = I18n.t('pages.languages.flash_messages.alert.response_not_found')
     redirect_to language_path, alert: alert_msg if @response.blank?

@@ -9,6 +9,7 @@ class LanguagesController < ApplicationController
     @response_id = show_params[:r_id]
   end
 
+  # rubocop:disable Metrics/AbcSize
   def change
     @locale = change_params[:locale]
     unless current_user.update locale: @locale == 'nl' ? 'nl' : 'en'
@@ -26,6 +27,7 @@ class LanguagesController < ApplicationController
 
     redirect_to language_path show_params
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 

@@ -15,6 +15,7 @@ module Api
           mentor.my_protocols(false)
         end
 
+        # rubocop:disable Metrics/AbcSize
         def create
           result = SubscribeToProtocol.run!(
             protocol_name: protocol_subscription_create_params[:protocol_name],
@@ -33,6 +34,7 @@ module Api
           SendInvitations.run
           render status: :created, json: result
         end
+        # rubocop:enable Metrics/AbcSize
 
         def delegated_protocol_subscriptions
           render json: ProtocolSubscription.where(external_identifier: @external_identifier)

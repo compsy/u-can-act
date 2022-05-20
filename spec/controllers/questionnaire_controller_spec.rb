@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-include Rails.application.routes.url_helpers
+# include Rails.application.routes.url_helpers
 
 RSpec.describe QuestionnaireController, type: :controller do
   render_views

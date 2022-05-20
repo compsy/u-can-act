@@ -6,6 +6,63 @@
   },
   "basePath": "/api/v1",
   "paths": {
+    "/basic_auth_api/person": {
+      "post": {
+        "summary": "Create a person",
+        "tags": [
+          "Person"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "person",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sub": {
+                  "type": "string"
+                },
+                "metadata": {
+                  "type": "object",
+                  "properties": {
+                    "team": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
     "/basic_auth_api/person/show_list": {
       "get": {
         "summary": "Shows a list of persons",
@@ -325,6 +382,132 @@
           },
           "404": {
             "description": "person not found"
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
+    "/basic_auth_api/protocols": {
+      "post": {
+        "summary": "Creates a new protocol subscription",
+        "tags": [
+          "Protocols"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "protocol",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "protocol": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "duration": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "invitation_text": {
+                      "type": "string"
+                    },
+                    "informed_consent_questionnaire_key": {
+                      "type": "string"
+                    },
+                    "questionnaires": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "measurement": {
+                            "type": "object",
+                            "properties": {
+                              "open_from_offset": {
+                                "type": "integer"
+                              },
+                              "open_from_day": {
+                                "type": "string"
+                              },
+                              "period": {
+                                "type": "integer"
+                              },
+                              "open_duration": {
+                                "type": "integer"
+                              },
+                              "reminder_delay": {
+                                "type": "integer"
+                              },
+                              "priority": {
+                                "type": "integer"
+                              },
+                              "stop_measurement": {
+                                "type": "boolean"
+                              },
+                              "should_invite": {
+                                "type": "boolean"
+                              },
+                              "only_redirect_if_nothing_else_ready": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "push_subscriptions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "duration",
+                    "invitation_text",
+                    "questionnaires"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "creates a protocol subscription"
+          },
+          "400": {
+            "description": "bad request"
           },
           "401": {
             "description": "not authenticated"

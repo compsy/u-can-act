@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 class LanguagesController < ApplicationController
-  # protect_from_forgery prepend: true, with: :exception, except: :create
-  # skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
-  # before_action :log_csrf_error, only: %i[create]
-  # before_action :set_response, only: %i[show preference destroy]
-  # before_action :set_locale, only: %i[show]
-
   before_action :set_response, only: %i[change]
 
   def show

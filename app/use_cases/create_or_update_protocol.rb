@@ -37,7 +37,10 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
 
   def execute
     ActiveRecord::Base.transaction do
-      return errors.merge!(@protocol.errors) unless initialize_protocol
+      unless initialize_protocol
+        errors.merge!(@protocol.errors)
+        raise ActiveRecord::Rollback
+      end
 
       unless create_measurements
         errors.merge!(@measurement.errors) if @measurement.present?

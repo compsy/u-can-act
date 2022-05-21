@@ -85,7 +85,7 @@ describe InvitationSet do
       expect(result).to match pt_token
       expect(result).not_to match token.token_hash
       expect(result).to match responseobj.protocol_subscription.person.external_identifier
-      expect(result).to eq "#{ENV['HOST_URL']}/"\
+      expect(result).to eq "#{ENV.fetch('HOST_URL', nil)}/"\
                            "?q=#{responseobj.protocol_subscription.person.external_identifier}#{pt_token}"
     end
 

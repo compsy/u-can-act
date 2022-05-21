@@ -14,8 +14,8 @@ describe SnitchJob do
 
   describe 'perform' do
     it 'calls the snitch function with the correct parameters' do
-      expect(ENV['SNITCH_KEY']).not_to be_blank
-      expect(Snitcher).to receive(:snitch).with(ENV['SNITCH_KEY'])
+      expect(ENV.fetch('SNITCH_KEY', nil)).not_to be_blank
+      expect(Snitcher).to receive(:snitch).with(ENV.fetch('SNITCH_KEY', nil))
       described_class.perform_now
     end
   end

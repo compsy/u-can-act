@@ -9,7 +9,8 @@ class PeopleController < ApplicationController
 
   def update
     if @person.update(people_params.merge(overwritten_params))
-      redirect_to NextPageFinder.get_next_page(current_user: current_user), flash: { notice: 'Gegevens opgeslagen.' }
+      redirect_to NextPageFinder.get_next_page(current_user: current_user),
+                  flash: { notice: I18n.t('questionnaires.data_saved') }
     else
       render :edit
     end

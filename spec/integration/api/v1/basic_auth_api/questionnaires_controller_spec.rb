@@ -23,7 +23,7 @@ describe 'Questionnaires API' do
       let(:questionnaire) { FactoryBot.build(:questionnaire).attributes }
 
       response '201', 'A questionnaire was created.' do
-        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         run_test!
       end
 

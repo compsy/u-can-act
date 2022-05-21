@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+# include Rails.application.routes.url_helpers
 
 RSpec.describe QuestionnaireController, type: :controller do
   render_views
@@ -74,7 +75,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       let!(:the_payload) do
         {
           'sub' => auth0_id_string,
-          ENV['SITE_LOCATION'] => {
+          ENV.fetch('SITE_LOCATION', nil) => {
             'access_level' => ['user']
           }
         }
@@ -174,19 +175,21 @@ RSpec.describe QuestionnaireController, type: :controller do
         end
       end
 
-      context 'when the protocol requires a language questionnaire' do
-        let(:protocol) { FactoryBot.create :protocol, :with_language_questionnaire }
-        it 'shows the language questionnaire' do
-          expect(protocol.language_questionnaire.title).to eq 'Language Questionnaire'
-          protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                    start_date: 1.week.ago.at_beginning_of_day,
-                                                    person: person,
-                                                    protocol: protocol)
-          responseobj = FactoryBot.create(:response, :invited, protocol_subscription: protocol_subscription,
-                                                               open_from: 1.hour.ago)
+      context 'when the protocol subscription requires language input' do
+        let(:protocol_subscription) do
+          FactoryBot.create :protocol_subscription,
+                            :requires_language_input,
+                            start_date: 1.week.ago.at_beginning_of_day,
+                            person: person
+        end
+        it 'redirects to the language page' do
+          responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                     open_from: 1.hour.ago)
           get :show, params: { uuid: responseobj.uuid }
-          expect(response).to have_http_status(200)
-          expect(response).to render_template('questionnaire/language')
+          expect(response).to redirect_to(action: 'show',
+                                          controller: 'languages',
+                                          cb: questionnaire_path(responseobj.uuid),
+                                          r_id: responseobj.id)
         end
       end
 
@@ -247,7 +250,7 @@ RSpec.describe QuestionnaireController, type: :controller do
       let!(:the_payload) do
         {
           'sub' => auth0_id_string,
-          ENV['SITE_LOCATION'] => {
+          ENV.fetch('SITE_LOCATION', nil) => {
             'access_level' => ['user']
           }
         }
@@ -375,63 +378,6 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(responseobj.content).to be_blank
         expect(responseobj.protocol_subscription.informed_consent_content).to_not be_blank
         expect(responseobj.protocol_subscription.informed_consent_values).to eq('v1' => 'true')
-      end
-    end
-  end
-
-  describe 'POST /language' do
-    describe 'redirecting with a student' do
-      before do
-        cookie_auth(student)
-      end
-
-      it 'requires a response id' do
-        post :set_language_preference
-        expect(response).to have_http_status(:unauthorized)
-        expect(response.body).to include('Je hebt geen toegang tot deze vragenlijst.')
-      end
-
-      it 'requires a response that exists' do
-        expect_any_instance_of(described_class).to receive(:verify_cookie)
-        post :set_language_preference, params: { response_id: 'something', content: { 'v1' => 'true' } }
-        expect(response).to have_http_status(:not_found)
-        expect(response.body).to include('De vragenlijst kon niet gevonden worden.')
-      end
-
-      it 'requires a response that is not filled out yet' do
-        responseobj = FactoryBot.create(:response, :completed)
-        expect_any_instance_of(described_class).to receive(:verify_cookie)
-        post :set_language_preference, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
-        expect(response).to have_http_status(:found)
-        expect(response.location).to end_with klaar_path
-      end
-
-      it 'requires a q parameter that is not expired' do
-        responseobj = FactoryBot.create(:response)
-        expect_any_instance_of(described_class).to receive(:verify_cookie)
-        post :set_language_preference, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
-        expect(response).to have_http_status(:found)
-        expect(response.location).to end_with klaar_path
-      end
-
-      it 'shows status 200 when everything is correct' do
-        expect_any_instance_of(described_class).to receive(:verify_cookie)
-        protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
-        protocol_subscription = FactoryBot.create(:protocol_subscription,
-                                                  start_date: 1.week.ago.at_beginning_of_day,
-                                                  protocol: protocol)
-        responseobj = FactoryBot.create(:response,
-                                        :invited,
-                                        person: student,
-                                        protocol_subscription: protocol_subscription,
-                                        open_from: 1.hour.ago,
-                                        opened_at: 5.minutes.ago)
-        post :set_language_preference, params: { response_id: responseobj.id, content: { 'v0' => 'English' } }
-        expect(response).to have_http_status(:found)
-        responseobj.reload
-        expect(responseobj.completed_at).to be_blank
-        expect(responseobj.content).to be_blank
-        expect(responseobj.protocol_subscription.person.locale).to eq 'en'
       end
     end
   end

@@ -34,7 +34,7 @@ describe ProtocolTransferExporter do
     end
 
     it 'filters out some numbers' do
-      old_env = ENV['TEST_PHONE_NUMBERS']
+      old_env = ENV.fetch('TEST_PHONE_NUMBERS', nil)
       ENV['TEST_PHONE_NUMBERS'] = '0653415423,0621312311'
 
       student = FactoryBot.create(:student)

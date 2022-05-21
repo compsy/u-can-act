@@ -1,0 +1,5 @@
+enabled: <%= ENV["ELASTIC_APM_ENABLED"] == 'true'%>
+server_url: <%= ENV["ELASTIC_APM_URL"] %>
+secret_token: <%= ENV["ELASTIC_APM_SECRET_TOKEN"] %>
+service_name: <%= ENV["ELASTIC_APM_SERVICE_NAME"] %>
+environment: <%= ENV["APPSIGNAL_APP_ENV"] %>

@@ -7,7 +7,6 @@ class Protocol < ApplicationRecord
   validate :at_most_one_stop_measurement
   has_many :protocol_subscriptions, dependent: :destroy
   belongs_to :informed_consent_questionnaire, class_name: 'Questionnaire', optional: true # can be nil
-  belongs_to :language_questionnaire, class_name: 'Questionnaire', optional: true # can be nil
   has_many :rewards, -> { order threshold: :asc }, dependent: :destroy, inverse_of: :protocol
   has_many :push_subscriptions, dependent: :destroy
   has_many :one_time_responses, dependent: :destroy

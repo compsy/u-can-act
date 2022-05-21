@@ -12,12 +12,12 @@ class QuestionnaireController < ApplicationController
   before_action :set_locale, only: %i[show]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
-  before_action :verify_cookie, only: %i[create create_informed_consent set_language_preference]
+  before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :set_layout, only: [:show]
+  before_action :check_language, only: %i[show]
   before_action :check_informed_consent, only: [:show]
-  before_action :check_language, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
-  before_action :set_create_response, only: %i[create create_informed_consent set_language_preference]
+  before_action :set_create_response, only: %i[create create_informed_consent]
   before_action :check_opened_at, only: [:create]
   before_action :check_content_empty, only: [:create]
   before_action :check_content_hash, only: [:create]
@@ -40,7 +40,7 @@ class QuestionnaireController < ApplicationController
 
   # This method is used to post results from the interactive questionnaire previewer
   def from_json
-    flash[:success] = 'Success! If this were an actual questionnaire, your response would have been saved.'
+    flash[:success] = I18n.t('questionnaires.preview_saved')
     redirect_to :interactive_questionnaire_index
   end
 
@@ -74,13 +74,6 @@ class QuestionnaireController < ApplicationController
     @protocol_subscription.save!
     @response.update!(opened_at: Time.zone.now)
     redirect_to questionnaire_path(uuid: @response.uuid)
-  end
-
-  def set_language_preference
-    selected_locale = questionnaire_content['v0']
-    current_user.update! locale: selected_locale == 'Nederlands' ? 'nl' : 'en'
-    @response.invitation_set.update! locale_retrieved: true
-    redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
   def create
@@ -286,11 +279,6 @@ class QuestionnaireController < ApplicationController
     render :informed_consent if @protocol_subscription.needs_informed_consent?
   end
 
-  def check_language
-    # TODO: decide whether to present the questionnaire every time or when language is not set
-    render :language if @protocol.language_questionnaire.present? && !@response.invitation_set.locale_retrieved
-  end
-
   def verify_cookie
     return if AuthenticationVerifier.valid? questionnaire_create_params[:response_id], current_user
 
@@ -392,7 +380,7 @@ class QuestionnaireController < ApplicationController
     # A person should always be able to fill out a stop measurement
     return if !response.expired? || response.measurement.stop_measurement
 
-    flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
+    flash[:notice] = I18n.t('questionnaires.questionnaire_expired')
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
@@ -423,5 +411,11 @@ class QuestionnaireController < ApplicationController
   rescue ArgumentError => e
     # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
     raise e if e.message != 'invalid base64'
+  end
+
+  def check_language
+    subscription = @response.protocol_subscription
+    language_must_be_set = subscription.needs_language_input && !subscription.has_language_input
+    redirect_to language_path(r_id: @response.id, cb: questionnaire_path(@response.uuid)) if language_must_be_set
   end
 end

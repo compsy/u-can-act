@@ -1,4 +1,7 @@
 nl:
   questionnaires:
+    data_saved: Gegevens opgeslagen.
+    preview_saved: Succes! Als dit een echte vragenlijst was, dan was je respons nu opgeslagen.
+    questionnaire_expired: Deze vragenlijst kan niet meer ingevuld worden.
     busy: Bezig...
     questionnaire: Vragenlijst

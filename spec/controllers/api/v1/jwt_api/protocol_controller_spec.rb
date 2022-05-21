@@ -9,7 +9,7 @@ describe Api::V1::JwtApi::ProtocolController, type: :controller do
   let!(:protocols) { FactoryBot.create_list(:protocol, no_protocols) }
 
   let!(:the_payload) do
-    { ENV['SITE_LOCATION'] => {} }
+    { ENV.fetch('SITE_LOCATION', nil) => {} }
   end
 
   describe 'unauthorized index' do

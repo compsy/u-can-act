@@ -30,6 +30,16 @@ describe CreateOrUpdateProtocol do
     ]
   end
 
+  let(:push_subscriptions) do
+    [
+      {
+        name: 'subscription1',
+        url: 'http://localhost:6000',
+        method: 'POST'
+      }
+    ]
+  end
+
   let!(:protocol) { FactoryBot.create :protocol, name: name }
 
   subject do
@@ -37,7 +47,8 @@ describe CreateOrUpdateProtocol do
                         duration: duration,
                         invitation_text: invitation_text,
                         informed_consent_questionnaire_key: informed_consent_questionnaire_key,
-                        questionnaires: questionnaires
+                        questionnaires: questionnaires,
+                        push_subscriptions: push_subscriptions
   end
 
   describe 'validations' do
@@ -60,6 +71,18 @@ describe CreateOrUpdateProtocol do
     end
     context 'when a measurement is missing an attribute' do
       let(:questionnaires) { [{ key: questionnaire1.key, measurement: { another_attr: 'value' } }] }
+      it 'is not valid' do
+        expect(subject).not_to be_valid
+      end
+    end
+    context 'when the push_subscriptions are missing' do
+      let(:push_subscriptions) { nil }
+      it 'is valid' do
+        expect(subject).to be_valid
+      end
+    end
+    context 'when a push_subscription is passed but one of the parameters is missing' do
+      let(:push_subscriptions) { [{ name: nil, url: nil, method: nil }] }
       it 'is not valid' do
         expect(subject).not_to be_valid
       end
@@ -184,6 +207,61 @@ describe CreateOrUpdateProtocol do
       let!(:protocol) { nil } # Override the protocol above so no protocol exists so we can test if it was created
       it 'rolls back the protocol, no protocol gets created, action is atomic' do
         expect { subject }.not_to change(Protocol, :count)
+      end
+    end
+    context 'when push_subscriptions are given' do
+      let(:push_subscriptions) do
+        [
+          { name: 'subscription1', url: 'http://localhost:6000', method: 'POST' },
+          { name: 'subscription2', url: 'http://localhost:7000', method: 'GET' }
+        ]
+      end
+      it 'creates the push subscriptions for the protocol' do
+        expect { subject }.to change { protocol.push_subscriptions.count }.from(0).to(2)
+      end
+      context 'and the subscription creation fails' do
+        let(:push_subscriptions) do
+          [
+            { name: 'subscription1', url: 'http://localhost:6000', method: 'POST' },
+            # The following 2 subscriptions should fail because they violate the uniqueness constraint on the name
+            { name: 'subscription1', url: 'http://localhost:6000', method: 'POST' },
+            { name: 'subscription1', url: 'http://localhost:6000', method: 'POST' }
+          ]
+        end
+        it 'rolls back the protocol and the measurement' do
+          expect { subject }.not_to change(Protocol, :count)
+        end
+
+        it 'merges the errors' do
+          expect(subject.errors).not_to be_empty
+        end
+      end
+      context 'and there are existing push subscriptions' do
+        let!(:existing_push_subscriptions) do
+          [
+            FactoryBot.create(:push_subscription, protocol: protocol),
+            FactoryBot.create(:push_subscription, protocol: protocol)
+          ]
+        end
+        it 'overrides the subscriptions with the new ones' do
+          expect { subject }.to(change { protocol.push_subscriptions.pluck(:id) })
+          expect(protocol.push_subscriptions.first.url).to eq push_subscriptions.first[:url]
+        end
+      end
+    end
+
+    context 'when push_subscriptions are not given' do
+      let(:push_subscriptions) { nil }
+      context 'and there is an existing protocol with existing push_subscriptions' do
+        let!(:existing_push_subscriptions) do
+          [
+            FactoryBot.create(:push_subscription, protocol: protocol),
+            FactoryBot.create(:push_subscription, protocol: protocol)
+          ]
+        end
+        it 'deletes the existing subscriptions' do
+          expect { subject }.to change { protocol.push_subscriptions.count }.from(2).to(0)
+        end
       end
     end
   end

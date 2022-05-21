@@ -27,18 +27,32 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     end
   end
 
+  array :push_subscriptions, default: nil do
+    hash do
+      string :name
+      string :url
+      string :method
+    end
+  end
+
   def execute
     ActiveRecord::Base.transaction do
-      if initialize_protocol
-        unless create_measurements
-          errors.merge!(@measurement.errors) if @measurement.present?
-          # If we reach this point the protocol has been created but a measurement couldn't be. The user expects the
-          # action to be atomic, so we must rollback the creation of the protocol and all the other measurements that
-          # succeeded
-          raise ActiveRecord::Rollback
-        end
-      else
+      unless initialize_protocol
         errors.merge!(@protocol.errors)
+        raise ActiveRecord::Rollback
+      end
+
+      unless create_measurements
+        errors.merge!(@measurement.errors) if @measurement.present?
+        # If we reach this point the protocol has been created but a measurement couldn't be. The user expects the
+        # action to be atomic, so we must rollback the creation of the protocol and all the other measurements that
+        # succeeded
+        raise ActiveRecord::Rollback
+      end
+
+      unless create_push_subscriptions
+        @created_push_subscriptions.each { |ps| errors.merge!(ps.errors) }
+        raise ActiveRecord::Rollback
       end
     end
   end
@@ -60,6 +74,24 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     errors.add :informed_consent_questionnaire_key,
                "key '#{informed_consent_questionnaire_key}' not found"
     false
+  end
+
+  def create_push_subscriptions
+    # Note that if this use case was called for an existing protocol with existing push subscriptions but with an
+    # empty push subscription definition, the existing push subscriptions would be deleted. This is intended, since this
+    # use case is meant to create a new protocol OR update an existing one. (Consider this endpoint to be a PUT rather
+    # than PATCH)
+    @protocol.push_subscriptions.destroy_all
+
+    return true if push_subscriptions.blank?
+
+    push_subscriptions.map { |ps| create_push_subscription(ps) }.all?
+  end
+
+  def create_push_subscription(params)
+    @created_push_subscriptions ||= []
+    @created_push_subscriptions << @protocol.push_subscriptions.build(**params)
+    @created_push_subscriptions.last.save
   end
 
   def create_measurements

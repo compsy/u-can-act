@@ -23,7 +23,8 @@ module Api
                [:key,
                 { measurement:
                   %i[open_from_offset open_from_day period open_duration reminder_delay priority stop_measurement
-                     should_invite only_redirect_if_nothing_else_ready prefilled redirect_url] }] }]
+                     should_invite only_redirect_if_nothing_else_ready prefilled redirect_url] }] },
+             { push_subscriptions: %i[name url method] }]
           )
         end
       end

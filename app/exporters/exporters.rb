@@ -4,7 +4,7 @@ require 'digest/bubblebabble'
 
 module Exporters
   def self.test_phone_number?(phone_number)
-    test_phone_numbers = ENV['TEST_PHONE_NUMBERS']
+    test_phone_numbers = ENV.fetch('TEST_PHONE_NUMBERS', nil)
     return false if test_phone_numbers.blank?
 
     test_phone_numbers = test_phone_numbers.split(',')

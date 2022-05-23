@@ -1,0 +1,9 @@
+en:
+  pages:
+    languages:
+      flash_messages:
+        alert:
+          response_not_found: Response not found
+          locale_udpate_error: Unable to update the language preferences
+        notice:
+          locale_updated: Language preference has been changed

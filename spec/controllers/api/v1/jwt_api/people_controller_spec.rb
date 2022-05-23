@@ -7,7 +7,7 @@ describe Api::V1::JwtApi::PeopleController, type: :controller do
   let(:person) { the_auth_user.person }
 
   let!(:the_payload) do
-    { ENV['SITE_LOCATION'] => {} }
+    { ENV.fetch('SITE_LOCATION', nil) => {} }
   end
 
   describe 'unauthorized' do

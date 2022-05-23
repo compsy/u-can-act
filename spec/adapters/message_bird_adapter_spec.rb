@@ -12,7 +12,7 @@ describe MessageBirdAdapter do
       result = described_class.new(false)
       expect(result.instance_variable_get(:@client)).not_to be_blank
       expect(result.client).to be_a MessageBird::Client
-      expect(result.client.access_key).to eq ENV['MESSAGEBIRD_ACCESS_KEY']
+      expect(result.client.access_key).to eq ENV.fetch('MESSAGEBIRD_ACCESS_KEY', nil)
     end
 
     it 'stores whether the object is in testmode' do

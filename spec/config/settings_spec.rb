@@ -33,11 +33,11 @@ describe Rails do
     it 'has application-name settings when the ENV defines this' do
       expect(described_class.application.config.settings.application_name).not_to be_blank
       expect(described_class.application.config.settings.application_name)
-        .to eq ENV['PROJECT_NAME']
+        .to eq ENV.fetch('PROJECT_NAME', nil)
     end
 
     it 'merges the settings from the project specific settings' do
-      expect(ENV['PROJECT_NAME']).to eq 'demo'
+      expect(ENV.fetch('PROJECT_NAME', nil)).to eq 'demo'
       expect(described_class.application.config.settings.test_setting).not_to be_blank
       expect(described_class.application.config.settings.test_setting)
         .to eq 'test123'

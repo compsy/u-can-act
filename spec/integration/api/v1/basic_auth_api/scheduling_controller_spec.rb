@@ -7,7 +7,7 @@ module Api
     module BasicAuthApi
       describe 'Scheduling API', type: :request do
         let(:auth_string) { 'admin:admin' }
-        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
 
         path '/basic_auth_api/scheduling/daily_at_one_am' do
           post 'Runs the daily at 3 am jobs' do

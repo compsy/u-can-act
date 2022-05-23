@@ -49,14 +49,19 @@ class RadioGenerator < QuestionTypeGenerator
   end
 
   def question_options(question, option, elem_id)
-    {
-      name: answer_name(idify(question[:id])),
-      type: 'radio',
-      id: elem_id,
-      value: option[:raw][:value].presence || option[:raw][:title],
-      required: !(question.key?(:required) && question[:required] == false),
-      class: 'validate'
-    }
+    value = option[:raw][:value].presence || option[:raw][:title]
+    decorate_with_previous_value(
+      question,
+      question[:id],
+      {
+        name: answer_name(idify(question[:id])),
+        type: 'radio',
+        id: elem_id,
+        value: value,
+        required: !(question.key?(:required) && question[:required] == false),
+        class: 'validate'
+      }
+    ) { |previous_value| [:checked, previous_value == value] }
   end
 
   def radio_otherwise(question)
@@ -67,11 +72,18 @@ class RadioGenerator < QuestionTypeGenerator
   end
 
   def radio_otherwise_option(question)
-    tag.input(name: answer_name(idify(question[:id])),
-              type: 'radio',
-              id: idify(question[:id], question[:raw][:otherwise_label]),
-              value: question[:raw][:otherwise_label],
-              required: true,
-              class: 'otherwise-option')
+    value = question[:raw][:otherwise_label]
+    tag.input(
+      **decorate_with_previous_value(
+        question,
+        question[:id],
+        { name: answer_name(idify(question[:id])),
+          type: 'radio',
+          id: idify(question[:id], question[:raw][:otherwise_label]),
+          value: value,
+          required: true,
+          class: 'otherwise-option' }
+      ) { |previous_value| [:checked, previous_value == value] }
+    )
   end
 end

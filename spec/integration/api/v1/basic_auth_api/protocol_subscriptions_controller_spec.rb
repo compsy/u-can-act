@@ -10,7 +10,7 @@ describe 'ProtocolSubscriptions API' do
   let!(:the_payload) do
     {
       'sub' => auth_user.auth0_id_string,
-      ENV['SITE_LOCATION'] => {
+      ENV.fetch('SITE_LOCATION', nil) => {
         'access_level' => ['user']
       }
     }
@@ -45,7 +45,7 @@ describe 'ProtocolSubscriptions API' do
       end
 
       response '201', 'creates a protocol subscription' do
-        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         run_test!
       end
 
@@ -82,7 +82,7 @@ describe 'ProtocolSubscriptions API' do
       end
 
       response '200', 'updates a protocol subscription' do
-        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         run_test!
       end
 
@@ -114,7 +114,7 @@ describe 'ProtocolSubscriptions API' do
       end
 
       response '200', 'cancels a protocol subscription' do
-        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         run_test!
       end
 
@@ -156,7 +156,7 @@ describe 'ProtocolSubscriptions API' do
                    state: { type: :string }
                  }
                }
-        let!(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let!(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         let!(:protocol_subscriptions) do
           FactoryBot.create_list(:protocol_subscription, 3,
                                  person: auth_user.person,
@@ -207,12 +207,12 @@ describe 'ProtocolSubscriptions API' do
       end
 
       response '200', 'cancels protocol subscriptions' do
-        let(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         run_test!
       end
 
       response '422', 'external identifier not given' do
-        let(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         let(:query) do
           {
             auth0_id_string: auth_user.auth0_id_string
@@ -222,7 +222,7 @@ describe 'ProtocolSubscriptions API' do
       end
 
       response '404', 'person not found' do
-        let(:Authorization) { basic_encode(ENV['API_KEY'], ENV['API_SECRET']) }
+        let(:Authorization) { basic_encode(ENV.fetch('API_KEY', nil), ENV.fetch('API_SECRET', nil)) }
         let(:query) do
           {
             external_identifier: 'external_identifier'

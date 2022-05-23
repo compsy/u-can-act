@@ -9,9 +9,9 @@ include:
   #   ref: master
   #   file: 'semantic_release.yml'
   # Adds the 'docker deploy' based on the versions in the semantic relase to the deploy stage
-  - project: 'researchable/general/templates/gitlab/docker-deploy'
-    ref: master
-    file: 'docker_deploy.yml'
+  # - project: 'researchable/general/templates/gitlab/docker-deploy'
+  #   ref: master
+  #   file: 'docker_deploy.yml'
 
 # define pipline stages
 stages:

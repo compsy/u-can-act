@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 shared_examples_for 'a generator' do
-  before do
-    question[:raw] = question.deep_dup
-  end
+  include_context 'with raw'
 
   describe 'generate' do
     it 'generates something' do

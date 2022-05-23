@@ -1,22 +1,14 @@
 # frozen_string_literal: true
 
 class PreviousResponseFinder
+  include Prefillable
+
   class << self
     def find(response)
       return nil if response.blank?
       return nil unless response.measurement.periodical?
 
-      completed_responses = response.protocol_subscription.responses.completed
-
-      # Note that we only want responses of the same questionnaire. We should not check for
-      # measurements here, as the questionnaire could span multiple measurements.
-      completed_responses = completed_responses.select do |resp|
-        resp.measurement.questionnaire_id == response.measurement.questionnaire_id
-      end
-
-      return nil if completed_responses.blank?
-
-      completed_responses.last
+      previous_response(response, false)
     end
 
     def find_value(response, question_id)

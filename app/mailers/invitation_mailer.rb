@@ -5,7 +5,7 @@ class InvitationMailer < ApplicationMailer
 
   layout 'mailer'
 
-  default from: ENV['FROM_EMAIL_ADDRESS']
+  default from: ENV.fetch('FROM_EMAIL_ADDRESS', nil)
 
   def invitation_mail(email_address, message, invitation_url, template, locale, open_from_date)
     @invitation_url = invitation_url
@@ -33,7 +33,7 @@ class InvitationMailer < ApplicationMailer
   private
 
   def default_invitation_subject(locale, open_from_date)
-    project_name = ENV['PROJECT_NAME']
+    project_name = ENV.fetch('PROJECT_NAME', nil)
     questionnaire_localized = I18n.t('questionnaires.questionnaire', locale: locale)
     date_string = open_from_date.strftime('%d-%m-%Y')
     "#{questionnaire_localized} #{project_name} #{date_string}"

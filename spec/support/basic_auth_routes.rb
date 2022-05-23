@@ -27,10 +27,10 @@ shared_examples_for 'a basic authenticated route' do |method, route|
   end
 
   it 'heads 401 without an api secret' do
-    pre_secret = ENV['API_SECRET']
+    pre_secret = ENV.fetch('API_SECRET', nil)
     ENV['API_SECRET'] = ''
-    expect(ENV['API_SECRET']).to be_blank
-    basic_api_auth name: ENV['API_KEY'], password: ''
+    expect(ENV.fetch('API_SECRET', nil)).to be_blank
+    basic_api_auth name: ENV.fetch('API_KEY', nil), password: ''
 
     call_url(method, route)
     expect(response.status).to eq 401
@@ -39,7 +39,7 @@ shared_examples_for 'a basic authenticated route' do |method, route|
   end
 
   it 'returns a 2xx if the route is authenticated' do
-    basic_api_auth name: ENV['API_KEY'], password: ENV['API_SECRET']
+    basic_api_auth name: ENV.fetch('API_KEY', nil), password: ENV.fetch('API_SECRET', nil)
     call_url(method, route)
     expect(response.status).to be < 300
     expect(response.status).to be >= 200

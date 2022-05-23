@@ -20,5 +20,10 @@ FactoryBot.define do
       end_date { 1.hour.ago }
       state { ProtocolSubscription::COMPLETED_STATE }
     end
+
+    trait :requires_language_input do
+      needs_language_input { true }
+      has_language_input { false }
+    end
   end
 end

@@ -28,7 +28,7 @@ class JwtAuthenticator
     def decoded_token_from_params(params)
       if token_from_params(params).present?
         return JWT.decode(token_from_params(params), Knock.token_public_key, true,
-                          algorithms: [ENV['TOKEN_SIGNATURE_ALGORITHM']])
+                          algorithms: [ENV.fetch('TOKEN_SIGNATURE_ALGORITHM', nil)])
       end
       nil
     rescue JWT::DecodeError => e # if the argument passed is not a JWT token

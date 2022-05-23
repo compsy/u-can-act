@@ -14,6 +14,7 @@ class QuestionnaireController < ApplicationController
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]
   before_action :set_layout, only: [:show]
+  before_action :check_language, only: %i[show]
   before_action :check_informed_consent, only: [:show]
   before_action :set_questionnaire_content, only: [:show]
   before_action :set_create_response, only: %i[create create_informed_consent]
@@ -39,7 +40,7 @@ class QuestionnaireController < ApplicationController
 
   # This method is used to post results from the interactive questionnaire previewer
   def from_json
-    flash[:success] = 'Success! If this were an actual questionnaire, your response would have been saved.'
+    flash[:success] = I18n.t('questionnaires.preview_saved')
     redirect_to :interactive_questionnaire_index
   end
 
@@ -379,7 +380,7 @@ class QuestionnaireController < ApplicationController
     # A person should always be able to fill out a stop measurement
     return if !response.expired? || response.measurement.stop_measurement
 
-    flash[:notice] = 'Deze vragenlijst kan niet meer ingevuld worden.'
+    flash[:notice] = I18n.t('questionnaires.questionnaire_expired')
     redirect_to NextPageFinder.get_next_page current_user: current_user
   end
 
@@ -410,5 +411,11 @@ class QuestionnaireController < ApplicationController
   rescue ArgumentError => e
     # Check if the parsing was wrong, if it was, we don't do anything. If it was something else, reraise.
     raise e if e.message != 'invalid base64'
+  end
+
+  def check_language
+    subscription = @response.protocol_subscription
+    language_must_be_set = subscription.needs_language_input && !subscription.has_language_input
+    redirect_to language_path(r_id: @response.id, cb: questionnaire_path(@response.uuid)) if language_must_be_set
   end
 end

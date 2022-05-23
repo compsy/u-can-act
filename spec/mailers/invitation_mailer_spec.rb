@@ -5,7 +5,7 @@ require 'rails_helper'
 describe InvitationMailer do
   describe 'sets the default from' do
     it 'has a from address' do
-      expect(ENV['FROM_EMAIL_ADDRESS']).not_to be_blank
+      expect(ENV.fetch('FROM_EMAIL_ADDRESS', nil)).not_to be_blank
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_17_103012) do
+ActiveRecord::Schema.define(version: 2022_05_19_094533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2021_09_17_103012) do
     t.integer "priority"
     t.boolean "collapse_duplicates", default: true, null: false
     t.boolean "only_redirect_if_nothing_else_ready", default: false, null: false
+    t.boolean "prefilled", default: false, null: false
     t.index ["protocol_id"], name: "index_measurements_on_protocol_id"
     t.index ["questionnaire_id"], name: "index_measurements_on_questionnaire_id"
   end
@@ -141,6 +142,8 @@ ActiveRecord::Schema.define(version: 2021_09_17_103012) do
     t.string "invitation_text_nl"
     t.string "invitation_text_en"
     t.boolean "open_from_day_uses_start_date_offset", default: false, null: false
+    t.boolean "needs_language_input", default: false, null: false
+    t.boolean "has_language_input", default: false, null: false
     t.index ["person_id"], name: "index_protocol_subscriptions_on_person_id"
     t.index ["protocol_id"], name: "index_protocol_subscriptions_on_protocol_id"
   end

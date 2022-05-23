@@ -15,7 +15,8 @@ describe AsyncActiveInteractionJob do
   describe 'perform' do
     it 'calls the sself argument with args and run with the correct parameters' do
       tim = Time.zone.now.change(usec: 0)
-      expect(AsyncActiveInteraction).to receive(:run!).with(one: 2, three: 4, four: tim)
+      # Fix against Rails 6.1/Ruby 3.1 deserialization adding an extra argument.
+      expect(AsyncActiveInteraction).to receive(:run!).with(hash_including(one: 2, three: 4, four: tim))
       args = Marshal.dump([{ one: 2, three: 4, four: tim }])
       described_class.perform_now('AsyncActiveInteraction', args)
     end

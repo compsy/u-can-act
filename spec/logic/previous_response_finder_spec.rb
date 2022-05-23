@@ -84,12 +84,12 @@ describe PreviousResponseFinder do
   end
 
   describe 'find' do
-    it 'should return nil if the provided respoonse is nil' do
+    it 'should return nil if the provided response is nil' do
       result = described_class.find(nil)
       expect(result).to be_nil
     end
 
-    it 'should return nil if the provided respoonse is not periodcal' do
+    it 'should return nil if the provided response is not periodcal' do
       response = FactoryBot.create(:response)
       expect(response.measurement.periodical?).to be_falsey
 

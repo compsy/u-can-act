@@ -13,7 +13,7 @@ class InvitationSet < ApplicationRecord
     concatenated_token = "#{person.external_identifier}#{plain_text_token}"
     return "?q=#{concatenated_token}" unless full
 
-    "#{ENV['HOST_URL']}/?q=#{concatenated_token}"
+    "#{ENV.fetch('HOST_URL', nil)}/?q=#{concatenated_token}"
   end
 
   def reminder_delay

@@ -5,6 +5,8 @@ require 'rails_helper'
 describe QuestionnaireGenerator do
   let(:responseobj) { FactoryBot.create(:response) }
 
+  it_behaves_like 'prefillable'
+
   describe 'generate_questionnaire' do # This is the only public method
     it 'generates a questionnaire' do
       result = subject

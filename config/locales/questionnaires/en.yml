@@ -1,4 +1,7 @@
 en:
   questionnaires:
+    data_saved: Data saved.
+    preview_saved: Success! If this were an actual questionnaire, your response would have been saved.
+    questionnaire_expired: This questionnaire can no longer be filled out.
     busy: Busy...
     questionnaire: Questionnaire

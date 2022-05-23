@@ -4,7 +4,7 @@ class SnitchJob < ApplicationJob
   queue_as :default
 
   def perform
-    Snitcher.snitch(ENV['SNITCH_KEY'])
+    Snitcher.snitch(ENV.fetch('SNITCH_KEY', nil))
   end
 
   def max_attempts

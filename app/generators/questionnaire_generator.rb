@@ -2,6 +2,7 @@
 
 class QuestionnaireGenerator
   include ActionView::Helpers
+  include ::Prefillable
 
   def initialize
     @questionnaire_question_qenerator = QuestionnaireQuestionGenerator.new
@@ -76,11 +77,13 @@ class QuestionnaireGenerator
   end
 
   def questionnaire_questions_html(content, response, raw_content, unsubscribe_url, locale)
+    prev_content = previous_response_content(response)
     body = questionnaire_questions(content, response) do |quest, idx|
       quest[:response_id] = response&.id
       quest[:raw] = raw_content[idx]
       quest[:unsubscribe_url] = unsubscribe_url
       quest[:locale] = locale
+      quest[:previous_response] = prev_content
       @questionnaire_question_qenerator.generate(quest)
     end
     safe_join(body)

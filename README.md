@@ -97,6 +97,11 @@ Below is a list of all required ENV variables for production servers.
   REGISTRATION_URL: <url for sending invites to for person email registration>
 
   WORKLESS_ENABLED: <set to 'true' if you want to enable workless>
+  
+  ELASTIC_APM_ENABLED: <set to 'true' if you want to report APM metrics to the elastic cluster>
+  ELASTIC_APM_URL: <the url to push APM metrics to>
+  ELASTIC_APM_SECRET_TOKEN: <the agent token as obtained from /app/apm/settings/agent-keys when creating a new token>
+  ELASTIC_APM_SERVICE_NAME: <set this to how you want the service to show up on the elastic observability stack>
 ```
 
 ### (Local) development settings
@@ -227,7 +232,12 @@ rake scheduler:generate_questionnaire_headers
 ```
 
 When using Heroku these can be scheduled via the *Heroku Scheduler*.
-
+These jobs can also be executed via a scheduled CI job on GitLab or GitHub.
+Via GitLab or GitHub, use the Heroku CLI via, for example
+  
+```
+heroku run --app=my-app-name --exit-code --size=hobby rails runner CompleteProtocolSubscriptions.run
+```
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
 To do this on Heroku, start an extra worker process and, optionally, add the [workless](https://github.com/lostboy/workless) gem to enable autoscaling.
@@ -257,6 +267,24 @@ Variable | Description
 `q.open_from_offset` | What offset to apply before opening the protocol. 
 `q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
+
+### Prefilled measurements
+A measurement in a protocol can be configured to be prefilled with past responses. This can be activated by 
+switching the `prefilled` property of the measurement to `true`. When creating protocols programmatically via the basic
+auth api, the option is called `prefilled` under the measurement properties:
+```ruby
+questionnaires = [
+  {
+    key: 'key',
+    measurement: {
+      prefilled: true # set this to true to activate the prefilling feature
+    }
+  }
+]
+```
+When prefilling is activated, the existing response used to prefill the new response will be the last completed 
+response by the user from a measurement that uses the same questionnaire. Note that this response might be from a
+different protocol.
 
 ## Importing new students and mentors
 New mentors and students can be imported using the `echo_people` use case. 
@@ -355,6 +383,36 @@ Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
 ```
 
 Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{begeleider}}` or `jouw {{begeleider}}`.
+  
+### Questionnaire seeds
+
+## About the questionnaire key, name, and title
+**key:**
+  
+ - unique
+ - required (is not null or empty string)
+ - specific format (/\A[a-z_0-9]+\Z/), i.e.: it can be symbolized if needed.
+ - typically, the file that a questionnaire resides in is the questionnaire key (minus the .rb extension part)
+
+**name:**
+  
+ - unique
+ - required (is not null or empty string)
+ - can be any format (including spaces)
+ - the intended use was for an "internal naming" of a questionnaire (i.e., not something that someone filling out the questionnaire would see), something that can be more verbose than a "key".
+   (e.g., the only use of the name attribute that I can think of the admin questionnaire preview page, where you select a questionnaire from a dropdown and then press a button to preview it: here we use the name of the questionnaires in the dropdown).
+ - For historic reasons, these names have to be unique, because in an old seeds we used to look up questionnaires by their name to update their other properties (nowadays, good-behaving seeds will use the key).
+ - In most seeds created nowadays, the name is set to be equal to the key, so then this whole point is moot. (but in theory it can be more verbose)
+
+**title:**
+
+ - optional, can be an empty string or nil
+ - if you set a title, it will be rendered in a large size (like h2 or something) at the top of the questionnaire when it is filled out. So this is something that the user filling out the questionnaire sees. The questionnaire title is a separate attribute from the "content" property because we don't really have a "title" question type (perhaps we should add that), and because every questionnaire has a title, we decided to just add it as an attribute.
+ - However, in most seeds these days, the title field is left empty and unused, and the reason is because the title field cannot be localized.
+   so for questionnaires that are available in multiple languages, what we do instead is start with a :raw question type that has some `<h2>` or whatever with the title in it, but this can be localized, like so:
+   `{ type: :raw, content: { en: '<h2>Title</h2>', nl: '<h2>Titel</h2>' } }`
+   and have that as the first "question" in the questionnaire so it shows up as the questionnaire title, but it can be localized. (because it is part of the questionnaire questions array that gets parsed through by the questionnaire engine, leaving only the appropriate strings in place wherever a `{ nl: ..., en: ...}` struct is found. But this can't be done for the title field since it's a simple string.
+ - the title field isn't used for anything else, so leaving it empty has no bad effects.
 
 ## Questionnaire Syntax
 The `content` attribute of a `Questionnaire` is a Hash with two keys, `:questions` and `:scores`. `content[:questions]` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`, `:unsubscribe`, `:drawing`, `:date_and_time`, `:days`.

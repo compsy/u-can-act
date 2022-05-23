@@ -14,19 +14,17 @@ questionnaires = [
   'KCT Bravo',
   'KCT Charlie',
   'KCT Delta',
-  'KCT Delta VCO',
   'KCT Echo',
-  'KCT Echo VCO',
   'KCT Foxtrot',
   'KCT Golf',
   'KCT Hotel',
-  'KCT Hotel VCO',
   'KCT India',
   'KCT Julliet',
   'KCT Kilo',
   'KCT Lima',
   'KCT Mike',
-  'KCT Sociogram'
+  'KCT Sociogram',
+  'KCT Ontbijt'
 ]
 
 ###
@@ -52,9 +50,8 @@ end
 questionnaires = [
   'KCT Start van de week',
   'KCT Eind van de week',
-  'KCT Start van de week VCO',
-  'KCT Eind van de week VCO',
-  'KCT Sociogram'
+  'KCT Sociogram',
+  'KCT Ontbijt'
 ]
 
 questionnaires.each do |name|
@@ -72,7 +69,7 @@ questionnaires.each do |name|
     db_measurement.open_from_day = 'sunday'
     db_measurement.open_from_offset = 6.hours # Sunday at 06:00.
     db_measurement.open_duration = 3.days + 6.hours # Close Wednesday at 12:00.
-  elsif name.include? "Eind"
+  elsif name.include?("Eind") || name.include?("Ontbijt")
     db_measurement.open_from_day = 'wednesday'
     db_measurement.open_from_offset = 12.hours # Wednesday at 12:00.
     db_measurement.open_duration = 4.days - 6.hours # Close Sunday at 06:00.

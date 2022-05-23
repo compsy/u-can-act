@@ -13,5 +13,8 @@ describe RadioGenerator do
     }
   end
 
+  let(:previous_response) { { v1: 'slecht' } }
+
   it_behaves_like 'a generator'
+  it_behaves_like 'a checkable generator'
 end

@@ -6,6 +6,11 @@ module Api
     attributes :title,
                :key,
                :name,
-               :content
+               :content,
+               :live
+
+    def live
+      object.responses.count.positive?
+    end
   end
 end

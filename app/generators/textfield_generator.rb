@@ -23,17 +23,21 @@ class TextfieldGenerator < QuestionTypeGenerator
   def textfield_tag(question)
     tag_options = minimal_tag_options(question)
     tag_options[:title] = question[:hint] if question[:hint].present?
-    tag_options[:value] = question[:default_value] if question[:default_value].present?
+    tag_options[:value] ||= question[:default_value] if question[:default_value].present?
     tag_options[:pattern] = question[:pattern] if question[:pattern].present?
     tag.input(**tag_options)
   end
 
   def minimal_tag_options(question)
-    { type: 'text',
-      id: idify(question[:id]),
-      name: answer_name(question[:id]),
-      required: question[:required].present?,
-      class: 'validate' }
+    decorate_with_previous_value(
+      question,
+      idify(question[:id]),
+      { type: 'text',
+        id: idify(question[:id]),
+        name: answer_name(question[:id]),
+        required: question[:required].present?,
+        class: 'validate' }
+    )
   end
 
   def textfield_label(question)

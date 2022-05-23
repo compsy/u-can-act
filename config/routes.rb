@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   resource :person, only: %i[edit update] do
     get 'unsubscribe'
   end
+  resource :language, only: %i[show] do
+    collection do
+      post :change
+    end
+  end
 
   get 'o', to: 'one_time_response#show', as: 'one_time_response'
 
@@ -128,13 +133,15 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :protocols, only: %i[create]
+
         resources :protocol_subscriptions, only: [:create, :destroy, :update] do
           collection do
             get :delegated_protocol_subscriptions
             delete :destroy_delegated_protocol_subscriptions
           end
         end
-        resources :person, only: [] do
+        resources :person, only: %i[create] do
           collection do
             get :show_list
           end

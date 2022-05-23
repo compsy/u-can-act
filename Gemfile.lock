@@ -186,7 +186,7 @@ GEM
       dry-configurable (~> 0.13, >= 0.13.0)
     dry-core (0.7.1)
       concurrent-ruby (~> 1.0)
-    elastic-apm (4.5.0)
+    elastic-apm (4.5.1)
       concurrent-ruby (~> 1.0)
       http (>= 3.0)
     erubi (1.10.0)

@@ -23,6 +23,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
         boolean :only_redirect_if_nothing_else_ready
         string :redirect_url, default: nil
         boolean :prefilled, default: false
+        boolean :collapse_duplicates, default: false
       end
     end
   end
@@ -129,6 +130,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     @measurement.only_redirect_if_nothing_else_ready = params[:only_redirect_if_nothing_else_ready]
     @measurement.redirect_url = params[:redirect_url]
     @measurement.prefilled = params[:prefilled]
+    @measurement.collapse_duplicates = params[:collapse_duplicates]
 
     @measurement.save
   end

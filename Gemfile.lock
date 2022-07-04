@@ -469,7 +469,7 @@ GEM
     rubocop-performance (1.14.2)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.14.2)
+    rubocop-rails (2.15.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
@@ -544,7 +544,7 @@ GEM
       unf_ext
     unf_ext (0.0.8.1)
     unf_ext (0.0.8.1-x64-mingw32)
-    unicode-display_width (2.1.0)
+    unicode-display_width (2.2.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     warden-jwt_auth (0.6.0)

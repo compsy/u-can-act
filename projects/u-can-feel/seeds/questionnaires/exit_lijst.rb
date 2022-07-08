@@ -46,7 +46,7 @@ info_over_stoppen = <<~'END'
     We hebben voor de betalingstool ook een handleiding geschreven. Die kun je hier vinden: <a href='https://u-can-feel.nl/img/handleiding.pdf' target='_blank' rel='noopener noreferrer'>https://u-can-feel.nl/img/handleiding.pdf</a>.
    </p>
    <p>
-   <strong>Het kan even duren voordat je de beloning op je bankrekening hebt.</strong> Heb je half september je beloning nog niet ontvangen? Neem dan contact met ons op.
+   <strong>Het kan even duren voordat je de beloning op je bankrekening hebt.</strong> We moeten eerst van alle deelnemers de gegevens ontvangen. We streven ernaar de beloning uiterlijk half september uit te betalen. Als we jouw gegevens niet kunnen vinden in de betalingstool, zullen we opnieuw contact met je zoeken.
   </p>
     <p>
       Heb je op dit moment nog vragen? Je kunt ons altijd mailen: Ymkje Anna de Vries (<a href='mailto:y.a.de.vries@rug.nl' target='_blank' rel='noopener noreferrer'>y.a.de.vries@rug.nl</a>) of Bert Wienen (<a href='mailto:b.wienen@windesheim.nl' target='_blank' rel='noopener noreferrer'>b.wienen@windesheim.nl</a>).

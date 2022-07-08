@@ -40,7 +40,7 @@ info_over_stoppen = <<~'END'
       Om je beloning uit te kunnen betalen, heeft de universiteit wat extra gegevens van je nodig, zoals je bankrekeningnummer en je BSN. Dit moet je invullen in de betalingstool van de universiteit. 
     </p>
     <p>
-    De betalingstool kun je hier vinden: <a href='https://rbpreg.gai.rug.nl/sys/account/login' target='_blank' rel='noopener noreferrer'>https://rbpreg.gai.rug.nl/sys/account/login</a>. <strong>Het is belangrijk dat je het telefoonnummer en emailadres invult dat je nu ook gebruikt, zodat we je kunnen vinden in het systeem.</strong>
+    De betalingstool kun je hier vinden: <a href='https://rbpreg.gai.rug.nl/sys/account/login' target='_blank' rel='noopener noreferrer'>https://rbpreg.gai.rug.nl/sys/account/login</a>. <strong>Het is belangrijk dat je het telefoonnummer en emailadres invult dat je nu ook gebruikt voor de dagboekstudie, zodat we je kunnen vinden in het systeem.</strong>
   </p>
   <p>
     We hebben voor de betalingstool ook een handleiding geschreven. Die kun je hier vinden: <a href='https://u-can-feel.nl/img/handleiding.pdf' target='_blank' rel='noopener noreferrer'>https://u-can-feel.nl/img/handleiding.pdf</a>.

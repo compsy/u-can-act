@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: circleci/ruby:3.1.2-node-browsers
+    - image: circleci/ruby:3.1.2-browsers
     - image: circleci/redis
       command: redis-server --requirepass redispassword
       environment:
@@ -22,7 +22,7 @@ defaults: &defaults
 
 build_defaults: &build_defaults
   docker:
-    - image: circleci/ruby:3.1.2-node-browsers
+    - image: circleci/ruby:3.1.2-browsers
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test

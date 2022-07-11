@@ -45,6 +45,9 @@ gem 'redis-mutex'
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
 
+# Required apparently
+gem 'net-smtp'
+
 # Enable cross origin requests
 gem 'rack-cors'
 

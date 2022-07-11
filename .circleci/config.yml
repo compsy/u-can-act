@@ -5,7 +5,7 @@ defaults: &defaults
       command: redis-server --requirepass redispassword
       environment:
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
-    - image: cimg/postgres:10-alpine
+    - image: cimg/postgres:10.20
       environment:
         POSTGRES_USER: circleci
         POSTGRES_PASSWORD: ""

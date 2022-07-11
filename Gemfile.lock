@@ -199,6 +199,7 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.5)
+    ffi (1.15.5-x64-mingw-ucrt)
     ffi (1.15.5-x64-mingw32)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
@@ -268,6 +269,7 @@ GEM
     jwt (2.2.3)
     launchy (2.5.0)
       addressable (~> 2.7)
+    libv8-node (16.10.0.0)
     libv8-node (16.10.0.0-aarch64-linux)
     libv8-node (16.10.0.0-arm64-darwin)
     libv8-node (16.10.0.0-x86_64-linux)
@@ -321,6 +323,8 @@ GEM
     nokogiri (1.13.6-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.13.6-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.6-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.13.6-x64-mingw32)
       racc (~> 1.4)
@@ -578,6 +582,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-21
+  x64-mingw-ucrt
   x64-mingw32
   x86_64-linux
 
@@ -661,7 +666,7 @@ DEPENDENCIES
   workless!
 
 RUBY VERSION
-   ruby 3.0.2p107
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.3.9

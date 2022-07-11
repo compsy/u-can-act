@@ -1,7 +1,7 @@
 defaults: &defaults
   docker:
     - image: cimg/ruby:3.1.2-browsers
-    - image: cimg/redis
+    - image: cimg/redis:7.0
       command: redis-server --requirepass redispassword
       environment:
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"

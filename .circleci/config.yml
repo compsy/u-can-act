@@ -10,7 +10,7 @@ defaults: &defaults
         POSTGRES_USER: circleci
         POSTGRES_PASSWORD: ""
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
-    - image: circleci/mongo:4.4
+    - image: mongo:4.4
       environment:
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
   environment:

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Start coverage report on CircleCI. Calling Coveralls.wear starts SimpleCov.
+# Start coverage report on CircleCI. Calling Coveralls.wear! runs SimpleCov.start!, so no need to start it separately.
 if ENV['CI']
   require 'simplecov'
   require 'coveralls'

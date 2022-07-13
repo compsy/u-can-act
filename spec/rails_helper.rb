@@ -1,4 +1,8 @@
 # frozen_string_literal: true
+if ENV['CI']
+  require 'simplecov'
+  SimpleCov.start
+end
 
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
@@ -22,8 +26,6 @@ Dir[Rails.root.join('spec/generators/concerns/**/*.rb')].each { |f| require f }
 if ENV['CI']
   require 'coveralls'
   Coveralls.wear!
-  require 'simplecov'
-  SimpleCov.start
 end
 
 # Also require the support files for testing

@@ -123,7 +123,7 @@ group :test do
   gem 'timecop'
 
   # Code coverage reporter
-  gem 'simplecov'
+  gem 'simplecov', require: false
 
   # Used for gem mocking
   gem 'factory_bot_rails'

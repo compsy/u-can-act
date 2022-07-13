@@ -1,7 +1,10 @@
 # frozen_string_literal: true
+
+# Start coverage report on CircleCI. Calling Coveralls.wear starts SimpleCov.
 if ENV['CI']
   require 'simplecov'
-  SimpleCov.start
+  require 'coveralls'
+  Coveralls.wear!
 end
 
 ENV['RAILS_ENV'] ||= 'test'
@@ -21,12 +24,6 @@ require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec'
 Dir[Rails.root.join('spec/generators/concerns/**/*.rb')].each { |f| require f }
-
-# Start coverage report on CircleCI
-if ENV['CI']
-  require 'coveralls'
-  Coveralls.wear!
-end
 
 # Also require the support files for testing
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

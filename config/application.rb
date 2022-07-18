@@ -27,7 +27,7 @@ module Vsv
     # See https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#config-add-autoload-paths-to-load-path
     config.add_autoload_paths_to_load_path = false
 
-    config.active_record.yaml_column_permitted_classes = [Symbol, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
+    config.active_record.yaml_column_permitted_classes = [Symbol, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone, ActiveSupport::HashWithIndifferentAccess]
 
     config.middleware.use I18n::JS::Middleware
 

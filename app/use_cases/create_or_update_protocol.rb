@@ -129,8 +129,8 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
     @measurement.should_invite = params[:should_invite]
     @measurement.only_redirect_if_nothing_else_ready = params[:only_redirect_if_nothing_else_ready]
     @measurement.redirect_url = params[:redirect_url]
-    @measurement.prefilled = params[:prefilled]
-    @measurement.collapse_duplicates = params[:collapse_duplicates]
+    @measurement.prefilled = params[:prefilled].present? ? params[:prefilled] : false
+    @measurement.collapse_duplicates = params[:collapse_duplicates].present? ? params[:collapse_duplicates] : false
 
     @measurement.save
   end

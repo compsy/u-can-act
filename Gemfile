@@ -108,8 +108,9 @@ group :development, :test do
   gem 'rspec-rails'
 
   # rubymine debugger
-  gem 'debase', github: 'ruby-debug/debase', tag: 'v0.2.5.beta2'
-  gem 'ruby-debug-ide'
+  # I disabled it for now because it was giving errors with Ruby 3.1
+  # gem 'debase', github: 'ruby-debug/debase', tag: 'v0.2.5.beta2'
+  # gem 'ruby-debug-ide'
 end
 
 group :test do

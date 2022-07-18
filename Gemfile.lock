@@ -32,14 +32,6 @@ GIT
       jwt (~> 2.2.1)
       rails (>= 5)
 
-GIT
-  remote: https://github.com/ruby-debug/debase.git
-  revision: a90f2270351ae0f48370d60809ecd82d6110c85c
-  tag: v0.2.5.beta2
-  specs:
-    debase (0.2.5.beta2)
-      debase-ruby_core_source (>= 0.10.12)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -161,7 +153,6 @@ GEM
     database_cleaner-mongoid (2.0.1)
       database_cleaner-core (~> 2.0.0)
       mongoid
-    debase-ruby_core_source (0.10.16)
     delayed_job (4.1.10)
       activesupport (>= 3.0, < 8.0)
     delayed_job_active_record (4.1.7)
@@ -476,8 +467,6 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
     rubocop-rspec (2.12.1)
       rubocop (~> 1.31)
-    ruby-debug-ide (0.7.3)
-      rake (>= 0.8.1)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     ruby_parser (3.19.1)
@@ -599,7 +588,6 @@ DEPENDENCIES
   database_cleaner
   database_cleaner-active_record
   database_cleaner-mongoid
-  debase!
   delayed_job_active_record
   dotenv-rails
   elastic-apm
@@ -643,7 +631,6 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
-  ruby-debug-ide
   sass-rails
   selenium-webdriver
   silencer

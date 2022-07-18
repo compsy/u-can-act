@@ -1301,14 +1301,14 @@
   integrity sha512-nkalE/f1RvRGChwBnEIoBfSEYOXnCRdleKuv6+lePbMDrMZXeDQnqak5XDOeBgrPPyPfAdcCu/B5z+v3VhplGg==
 
 "@rails/actioncable@latest":
-  version "7.0.2-4"
-  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.0.2-4.tgz#24a31bde761ee7652b2567d267699c17c7e725a6"
-  integrity sha512-EPTZ0U/KBlaJKPAyLuvPBSZMojyHVgCqwMDkwTfm4TDPyp5f0hTBsOsolQxqeOJmoTafK+7pJi7hO9eCjBEhTA==
+  version "7.0.3-1"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.0.3-1.tgz#041a5c81cdf0c68b70a783fdc3ffad0835c3da02"
+  integrity sha512-c2TEL1hLjgSZLqTD6US25nYWv3zKaY2VVzJSqiDIlV6EkEEBirf1REOz6gPbC9Eb+5e0wI/Fp0IbAHL+86eKxg==
 
 "@rails/activestorage@latest":
-  version "7.0.2-4"
-  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-7.0.2-4.tgz#f41ec154ef06408d62b8852a7516eacc2b754785"
-  integrity sha512-hlR8SZdNwV2Reu5qrlCYbVNEwFGcTPgfgDiy0i9xd3LuwHa6WIgy9oVDshdcoLn18zdNz1pf/DMrxkONKK/B1A==
+  version "7.0.3-1"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-7.0.3-1.tgz#1b17d830fe065b2f73cc7aaea4dd1a4177bee6cf"
+  integrity sha512-8tDzsfVyJtkq/nxRT8dHuyYaZMfWQy8Qkm/InIBmf/e3vZ3kyLMF7yJ88qZf6ghbNgjHbjrJdh6wNoXnJjvKjw==
   dependencies:
     spark-md5 "^3.0.1"
 

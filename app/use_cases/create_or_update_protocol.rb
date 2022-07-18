@@ -97,7 +97,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
 
   def create_measurements
     questionnaires.each do |questionnaire|
-      return false unless process_questionnaire(params: questionnaire)
+      return false unless process_questionnaire(params: questionnaire.with_indifferent_access)
     end
 
     true
@@ -111,7 +111,7 @@ class CreateOrUpdateProtocol < ActiveInteraction::Base
       return false
     end
 
-    create_measurement(params: params[:measurement], questionnaire: questionnaire)
+    create_measurement(params: params[:measurement].with_indifferent_access, questionnaire: questionnaire)
   end
 
   # rubocop:disable Metrics/AbcSize

@@ -467,7 +467,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.19.1)
       parser (>= 3.1.1.0)
-    rubocop-performance (1.14.2)
+    rubocop-performance (1.14.3)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rails (2.15.2)
@@ -507,6 +507,7 @@ GEM
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
+    simplecov-lcov (0.8.0)
     simplecov_json_formatter (0.1.4)
     snitcher (0.4.2)
     spring (2.1.1)
@@ -646,7 +647,7 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver
   silencer
-  simplecov
+  simplecov-lcov
   snitcher
   spring
   spring-commands-rspec

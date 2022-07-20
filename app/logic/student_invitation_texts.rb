@@ -100,9 +100,9 @@ class StudentInvitationTexts < InvitationTexts
       ]
 
       if protocol&.name != 'studenten_control'
-        invite_texts << 'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
+        invite_texts << 'Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk ' \
                         'beter te kunnen doen en vul deze vragenlijst in 😃.'
-        invite_texts << 'Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
+        invite_texts << 'Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} ' \
                         '{{zijn_haar_begeleider}} begeleiding te verbeteren!'
       end
       invite_texts
@@ -173,9 +173,9 @@ class StudentInvitationTexts < InvitationTexts
     private
 
     def announcement_week_texts(_response)
-      'Hoi {{deze_student}}, je hebt geld verdiend met je deelname aan u-can-act: dit'\
-        ' is je laatste kans om te innen! Vul de laatste vragenlijst en IBAN in,'\
-        ' alleen dan kunnen we je beloning overmaken.'
+      'Hoi {{deze_student}}, je hebt geld verdiend met je deelname aan u-can-act: dit ' \
+        'is je laatste kans om te innen! Vul de laatste vragenlijst en IBAN in, ' \
+        'alleen dan kunnen we je beloning overmaken.'
     end
   end
 end

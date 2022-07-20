@@ -55,31 +55,31 @@ describe VariableEvaluator do
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
     it 'replaces all the words correctly' do
-      given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}}::'\
-              '{{achternaam_student}} en '\
-              '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
+      given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}}::' \
+              '{{achternaam_student}} en ' \
+              '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? ' \
               '{{hij_zij_student}} al wel voor {{hem_haar_student}}.'
-      expected = 'Heeft je stamhoofd al haar vragenlijsten ingevuld voor William Sealy::Gosset en zijn vrienden? '\
+      expected = 'Heeft je stamhoofd al haar vragenlijsten ingevuld voor William Sealy::Gosset en zijn vrienden? ' \
                  'Of heeft zij daar nog geen tijd voor gehad? hij al wel voor hem.'
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
     it 'works with capitalization' do
-      given = 'Heeft je {{Begeleider}} al {{Zijn_haar_begeleider}} vragenlijsten ingevuld voor {{Deze_student}} en '\
-              '{{Zijn_haar_student}} vrienden? Of heeft {{Hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
-              '{{Hij_zij_student}} al wel. {{Je_begeleidingsinitiatief}} en {{naam_begeleider}}::'\
+      given = 'Heeft je {{Begeleider}} al {{Zijn_haar_begeleider}} vragenlijsten ingevuld voor {{Deze_student}} en ' \
+              '{{Zijn_haar_student}} vrienden? Of heeft {{Hij_zij_begeleider}} daar nog geen tijd voor gehad? ' \
+              '{{Hij_zij_student}} al wel. {{Je_begeleidingsinitiatief}} en {{naam_begeleider}}::' \
               '{{achternaam_begeleider}}.'
-      expected = 'Heeft je Stamhoofd al Haar vragenlijsten ingevuld voor William Sealy en Zijn vrienden? '\
+      expected = 'Heeft je Stamhoofd al Haar vragenlijsten ingevuld voor William Sealy en Zijn vrienden? ' \
                  'Of heeft Zij daar nog geen tijd voor gehad? Hij al wel. De Hondsrug en Elsa::Minnertsma.'
       expect(described_class.evaluate_obj(given, subs_hash)).to eq expected
     end
     it 'replaces with default values when values are missing' do
-      given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} '\
-              '{{achternaam_student}} en '\
-              '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? '\
-              '{{Hij_zij_student}} al wel. {{Je_begeleidingsinitiatief}} en {{naam_begeleider}} '\
+      given = 'Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor {{deze_student}} ' \
+              '{{achternaam_student}} en ' \
+              '{{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad? ' \
+              '{{Hij_zij_student}} al wel. {{Je_begeleidingsinitiatief}} en {{naam_begeleider}} ' \
               '{{achternaam_begeleider}}.'
-      expected = 'Heeft je begeleider al zijn/haar vragenlijsten ingevuld voor deze student  en zijn/haar vrienden? '\
-                 'Of heeft hij/zij daar nog geen tijd voor gehad? Hij/zij al wel. Je begeleidingsinitiatief '\
+      expected = 'Heeft je begeleider al zijn/haar vragenlijsten ingevuld voor deze student  en zijn/haar vrienden? ' \
+                 'Of heeft hij/zij daar nog geen tijd voor gehad? Hij/zij al wel. Je begeleidingsinitiatief ' \
                  'en je begeleider .'
       expect(described_class.evaluate_obj(given, {})).to eq expected
     end

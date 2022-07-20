@@ -32,79 +32,70 @@ GIT
       jwt (~> 2.2.1)
       rails (>= 5)
 
-GIT
-  remote: https://github.com/ruby-debug/debase.git
-  revision: a90f2270351ae0f48370d60809ecd82d6110c85c
-  tag: v0.2.5.beta2
-  specs:
-    debase (0.2.5.beta2)
-      debase-ruby_core_source (>= 0.10.12)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (6.1.6)
-      actionpack (= 6.1.6)
-      activesupport (= 6.1.6)
+    actioncable (6.1.6.1)
+      actionpack (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailbox (6.1.6)
-      actionpack (= 6.1.6)
-      activejob (= 6.1.6)
-      activerecord (= 6.1.6)
-      activestorage (= 6.1.6)
-      activesupport (= 6.1.6)
+    actionmailbox (6.1.6.1)
+      actionpack (= 6.1.6.1)
+      activejob (= 6.1.6.1)
+      activerecord (= 6.1.6.1)
+      activestorage (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       mail (>= 2.7.1)
-    actionmailer (6.1.6)
-      actionpack (= 6.1.6)
-      actionview (= 6.1.6)
-      activejob (= 6.1.6)
-      activesupport (= 6.1.6)
+    actionmailer (6.1.6.1)
+      actionpack (= 6.1.6.1)
+      actionview (= 6.1.6.1)
+      activejob (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (6.1.6)
-      actionview (= 6.1.6)
-      activesupport (= 6.1.6)
+    actionpack (6.1.6.1)
+      actionview (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       rack (~> 2.0, >= 2.0.9)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
-    actiontext (6.1.6)
-      actionpack (= 6.1.6)
-      activerecord (= 6.1.6)
-      activestorage (= 6.1.6)
-      activesupport (= 6.1.6)
+    actiontext (6.1.6.1)
+      actionpack (= 6.1.6.1)
+      activerecord (= 6.1.6.1)
+      activestorage (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       nokogiri (>= 1.8.5)
-    actionview (6.1.6)
-      activesupport (= 6.1.6)
+    actionview (6.1.6.1)
+      activesupport (= 6.1.6.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_interaction (4.1.0)
-      activemodel (>= 5, < 8)
-      activesupport (>= 5, < 8)
+    active_interaction (5.0.0)
+      rails (>= 5.2, < 8)
     active_model_serializers (0.10.13)
       actionpack (>= 4.1, < 7.1)
       activemodel (>= 4.1, < 7.1)
       case_transform (>= 0.2)
       jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
-    activejob (6.1.6)
-      activesupport (= 6.1.6)
+    activejob (6.1.6.1)
+      activesupport (= 6.1.6.1)
       globalid (>= 0.3.6)
-    activemodel (6.1.6)
-      activesupport (= 6.1.6)
-    activerecord (6.1.6)
-      activemodel (= 6.1.6)
-      activesupport (= 6.1.6)
-    activestorage (6.1.6)
-      actionpack (= 6.1.6)
-      activejob (= 6.1.6)
-      activerecord (= 6.1.6)
-      activesupport (= 6.1.6)
+    activemodel (6.1.6.1)
+      activesupport (= 6.1.6.1)
+    activerecord (6.1.6.1)
+      activemodel (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
+    activestorage (6.1.6.1)
+      actionpack (= 6.1.6.1)
+      activejob (= 6.1.6.1)
+      activerecord (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
-    activesupport (6.1.6)
+    activesupport (6.1.6.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -162,13 +153,13 @@ GEM
     database_cleaner-mongoid (2.0.1)
       database_cleaner-core (~> 2.0.0)
       mongoid
-    debase-ruby_core_source (0.10.15)
     delayed_job (4.1.10)
       activesupport (>= 3.0, < 8.0)
     delayed_job_active_record (4.1.7)
       activerecord (>= 3.0, < 8.0)
       delayed_job (>= 3.0, < 5)
     diff-lcs (1.5.0)
+    digest (3.1.0)
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -181,9 +172,8 @@ GEM
     dry-configurable (0.15.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.6)
-    dry-container (0.9.0)
+    dry-container (0.10.0)
       concurrent-ruby (~> 1.0)
-      dry-configurable (~> 0.13, >= 0.13.0)
     dry-core (0.7.1)
       concurrent-ruby (~> 1.0)
     elastic-apm (4.5.1)
@@ -199,7 +189,7 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.5)
-    ffi (1.15.5-x64-mingw32)
+    ffi (1.15.5-x64-mingw-ucrt)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -242,19 +232,19 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
-    http (5.0.4)
+    http (5.1.0)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
       llhttp-ffi (~> 0.4.0)
     http-accept (1.7.0)
-    http-cookie (1.0.4)
+    http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
     httparty (0.20.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.10.0)
+    i18n (1.11.0)
       concurrent-ruby (~> 1.0)
     i18n-js (3.9.2)
       i18n (>= 0.6.6)
@@ -262,6 +252,7 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json (2.6.2)
     json-schema (2.8.1)
       addressable (>= 2.4)
     jsonapi-renderer (0.2.2)
@@ -312,19 +303,33 @@ GEM
       activemodel (>= 5.1, < 7.1, != 7.0.0)
       mongo (>= 2.10.5, < 3.0.0)
       ruby2_keywords (~> 0.0.5)
-    msgpack (1.5.2)
+    msgpack (1.5.3)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     nenv (0.3.0)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
+    net-protocol (0.1.3)
+      timeout
+    net-smtp (0.3.1)
+      digest
+      net-protocol
+      timeout
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.6-aarch64-linux)
+    nokogiri (1.13.7-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.13.6-arm64-darwin)
+    nokogiri (1.13.7-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.6-x64-mingw32)
+    nokogiri (1.13.7-x64-mingw-ucrt)
       racc (~> 1.4)
-    nokogiri (1.13.6-x86_64-linux)
+    nokogiri (1.13.7-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -353,20 +358,20 @@ GEM
       rack
     rack-test (2.0.2)
       rack (>= 1.3)
-    rails (6.1.6)
-      actioncable (= 6.1.6)
-      actionmailbox (= 6.1.6)
-      actionmailer (= 6.1.6)
-      actionpack (= 6.1.6)
-      actiontext (= 6.1.6)
-      actionview (= 6.1.6)
-      activejob (= 6.1.6)
-      activemodel (= 6.1.6)
-      activerecord (= 6.1.6)
-      activestorage (= 6.1.6)
-      activesupport (= 6.1.6)
+    rails (6.1.6.1)
+      actioncable (= 6.1.6.1)
+      actionmailbox (= 6.1.6.1)
+      actionmailer (= 6.1.6.1)
+      actionpack (= 6.1.6.1)
+      actiontext (= 6.1.6.1)
+      actionview (= 6.1.6.1)
+      activejob (= 6.1.6.1)
+      activemodel (= 6.1.6.1)
+      activerecord (= 6.1.6.1)
+      activestorage (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       bundler (>= 1.15.0)
-      railties (= 6.1.6)
+      railties (= 6.1.6.1)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.5)
       actionpack (>= 5.0.1.rc1)
@@ -380,9 +385,9 @@ GEM
     rails-i18n (7.0.5)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
-    railties (6.1.6)
-      actionpack (= 6.1.6)
-      activesupport (= 6.1.6)
+    railties (6.1.6.1)
+      actionpack (= 6.1.6.1)
+      activesupport (= 6.1.6.1)
       method_source
       rake (>= 12.2)
       thor (~> 1.0)
@@ -412,12 +417,6 @@ GEM
     request_store (1.5.1)
       rack (>= 1.4)
     rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
-    rest-client (2.1.0-x64-mingw32)
-      ffi (~> 1.9)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -455,7 +454,8 @@ GEM
     rswag-ui (2.5.1)
       actionpack (>= 3.1, < 7.1)
       railties (>= 3.1, < 7.1)
-    rubocop (1.30.1)
+    rubocop (1.31.2)
+      json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -469,14 +469,12 @@ GEM
     rubocop-performance (1.14.3)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.14.2)
+    rubocop-rails (2.15.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
-    rubocop-rspec (2.11.1)
-      rubocop (~> 1.19)
-    ruby-debug-ide (0.7.3)
-      rake (>= 0.8.1)
+    rubocop-rspec (2.12.1)
+      rubocop (~> 1.31)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     ruby_parser (3.19.1)
@@ -485,8 +483,6 @@ GEM
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
-      ffi (~> 1.9)
-    sassc (2.4.0-x64-mingw32)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
       railties (>= 4.0.0)
@@ -508,6 +504,7 @@ GEM
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
+    simplecov-lcov (0.8.0)
     simplecov_json_formatter (0.1.4)
     snitcher (0.4.2)
     spring (2.1.1)
@@ -516,13 +513,14 @@ GEM
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
-    sprockets (4.0.3)
+    sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    strscan (3.0.3)
     sync (0.5.0)
     syslog_protocol (0.9.2)
     temple (0.8.2)
@@ -531,6 +529,7 @@ GEM
     thor (1.2.1)
     tilt (2.0.10)
     timecop (0.9.5)
+    timeout (0.3.0)
     tins (1.31.1)
       sync
     tzinfo (2.0.4)
@@ -542,8 +541,8 @@ GEM
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8.1)
-    unf_ext (0.0.8.1-x64-mingw32)
+    unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.2.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -578,7 +577,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-21
-  x64-mingw32
+  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES
@@ -598,7 +597,6 @@ DEPENDENCIES
   database_cleaner
   database_cleaner-active_record
   database_cleaner-mongoid
-  debase!
   delayed_job_active_record
   dotenv-rails
   elastic-apm
@@ -620,6 +618,9 @@ DEPENDENCIES
   mini_racer
   modernizr-rails
   mongoid
+  net-imap
+  net-pop
+  net-smtp
   pg (= 1.1.4)
   pry-rails
   puma
@@ -641,11 +642,10 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
-  ruby-debug-ide
   sass-rails
   selenium-webdriver
   silencer
-  simplecov
+  simplecov-lcov
   snitcher
   spring
   spring-commands-rspec
@@ -661,7 +661,7 @@ DEPENDENCIES
   workless!
 
 RUBY VERSION
-   ruby 3.0.2p107
+   ruby 3.1.2p20
 
 BUNDLED WITH
-   2.3.9
+   2.3.17

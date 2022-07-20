@@ -17,8 +17,8 @@ class QuestionTypeGenerator < Generator
 
     tooltip_body = tag.i('info', class: 'tooltip flow-text material-icons info-outline')
     tag.a(tooltip_body,
-          onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}'," \
-                   " displayLength: #{tooltip_duration(tooltip_content)}});autoResizeImages();")
+          onclick: "M.toast({html: '#{tooltip_content.gsub("'", %q(\\\'))}', " \
+                   "displayLength: #{tooltip_duration(tooltip_content)}});autoResizeImages();")
   end
 
   def tooltip_duration(tooltip_content)

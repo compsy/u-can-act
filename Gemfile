@@ -45,8 +45,10 @@ gem 'redis-mutex'
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
 
-# Required apparently
-gem 'net-smtp'
+# Required by Ruby 3.1, fixed in Rails >= 7.0.1 (then the below three are no longer required)
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
 
 # Enable cross origin requests
 gem 'rack-cors'

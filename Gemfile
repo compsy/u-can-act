@@ -46,9 +46,9 @@ gem 'redis-mutex'
 gem 'bcrypt'
 
 # Required by Ruby 3.1, fixed in Rails >= 7.0.1 (then the below three are no longer required)
-gem 'net-smtp', require: false
 gem 'net-imap', require: false
 gem 'net-pop', require: false
+gem 'net-smtp', require: false
 
 # Enable cross origin requests
 gem 'rack-cors'

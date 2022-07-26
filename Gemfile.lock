@@ -189,6 +189,7 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.5)
+    ffi (1.15.5-x64-mingw-ucrt)
     ffi (1.15.5-x64-unknown)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
@@ -259,6 +260,7 @@ GEM
     jwt (2.2.3)
     launchy (2.5.0)
       addressable (~> 2.7)
+    libv8-node (16.10.0.0)
     libv8-node (16.10.0.0-aarch64-linux)
     libv8-node (16.10.0.0-arm64-darwin)
     libv8-node (16.10.0.0-x86_64-linux)
@@ -326,6 +328,8 @@ GEM
     nokogiri (1.13.7-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.13.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.7-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.13.7-x64-unknown)
       racc (~> 1.4)
@@ -542,6 +546,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unf_ext (0.0.8.2-x64-unknown)
     unicode-display_width (2.2.0)
     warden (1.2.9)
@@ -577,6 +582,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-21
+  x64-mingw-ucrt
   x64-unknown
   x86_64-linux
 

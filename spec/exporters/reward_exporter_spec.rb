@@ -33,7 +33,7 @@ describe RewardExporter do
       expect(header).to match_array expected
     end
 
-    it 'onlies export the students' do
+    it 'exports only the students' do
       export = described_class.export_lines.to_a.join.split("\n")
       # -1 for the header
       expect(export.size - 1).to eq number_of_students
@@ -52,10 +52,13 @@ describe RewardExporter do
       export = export.last(number_of_students).map { |entry| entry.delete('"').split(';') }
       reward = 0
       export.zip(students).each do |entry, student|
-        expect(entry.first).to eq reward.to_s
-        expect(entry.second).to eq student.first_name
-        expect(entry.third).to eq student.last_name
-        expect(entry.fourth).to eq student.iban
+        expect(entry[0]).to eq reward.to_s
+        expect(entry[1]).to eq student.external_identifier
+        expect(entry[2]).to eq student.first_name
+        expect(entry[3]).to eq student.last_name
+        expect(entry[4]).to eq student.iban
+        expect(entry[5]).to eq student.mobile_phone
+        expect(entry[6]).to eq student.email
         reward += 10
       end
     end

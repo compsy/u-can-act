@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Specify ruby version for heroku
-ruby '3.0.2'
+ruby '3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.4'
@@ -44,6 +44,11 @@ gem 'redis-mutex'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
+
+# Required by Ruby 3.1, fixed in Rails >= 7.0.1 (then the below three are no longer required)
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 
 # Enable cross origin requests
 gem 'rack-cors'
@@ -105,8 +110,9 @@ group :development, :test do
   gem 'rspec-rails'
 
   # rubymine debugger
-  gem 'debase', github: 'ruby-debug/debase', tag: 'v0.2.5.beta2'
-  gem 'ruby-debug-ide'
+  # I disabled it for now because it was giving errors with Ruby 3.1
+  # gem 'debase', github: 'ruby-debug/debase', tag: 'v0.2.5.beta2'
+  # gem 'ruby-debug-ide'
 end
 
 group :test do
@@ -120,7 +126,7 @@ group :test do
   gem 'timecop'
 
   # Code coverage reporter
-  gem 'simplecov'
+  gem 'simplecov-lcov', require: false
 
   # Used for gem mocking
   gem 'factory_bot_rails'

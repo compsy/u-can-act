@@ -7,16 +7,17 @@ class RewardExporter < ObjectExporter
     end
 
     def default_fields
-      %w[first_name last_name iban]
+      %w[first_name last_name iban mobile_phone email]
     end
 
     def formatted_fields
-      %w[earned]
+      %w[earned person_id]
     end
 
     def format_fields(person)
       vals = {}
       vals['earned'] = CalculateEarnedEurosByPerson.run!(person: person)
+      vals['person_id'] = person.external_identifier
       vals
     end
 

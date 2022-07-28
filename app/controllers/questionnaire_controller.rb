@@ -239,8 +239,8 @@ class QuestionnaireController < ApplicationController
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
       I18n.t('pages.klaar.header')
     else
-      "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek."\
-        ' Bedankt voor je inzet!'
+      "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek. " \
+        'Bedankt voor je inzet!'
     end
   end
 

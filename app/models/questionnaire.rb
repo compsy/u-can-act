@@ -160,8 +160,8 @@ class Questionnaire < ApplicationRecord
                                 .pluck(:id)
     return if result.blank?
 
-    errors.add(:content, 'the following range type questions are missing the required :labels' \
-                         " array attribute: #{result.pretty_inspect}")
+    errors.add(:content, 'the following range type questions are missing the required :labels ' \
+                         "array attribute: #{result.pretty_inspect}")
   end
 
   def all_likert_radio_checkbox_dropdown_have_options
@@ -170,8 +170,8 @@ class Questionnaire < ApplicationRecord
                                 .pluck(:id)
     return if result.blank?
 
-    errors.add(:content, 'the following questions are missing their required :options' \
-                         " array attribute: #{result.pretty_inspect}")
+    errors.add(:content, 'the following questions are missing their required :options ' \
+                         "array attribute: #{result.pretty_inspect}")
   end
 
   def non_empty_array?(question, attr)

@@ -80,8 +80,8 @@ class AuthUser < ApplicationRecord
 
       if role_admin
         ActiveSupport::Deprecation
-          .warn('roles should not be used in the payload anymore. '\
-                'This was renamed to access_level. '\
+          .warn('roles should not be used in the payload anymore. ' \
+                'This was renamed to access_level. ' \
                 'Please update the payload.')
       end
 

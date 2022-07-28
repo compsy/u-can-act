@@ -150,7 +150,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :questionnaires, only: [:create]
+        resources :questionnaires, only: [:create, :show]
       end
 
       # Admin APIs

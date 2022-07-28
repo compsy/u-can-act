@@ -515,6 +515,43 @@
         }
       }
     },
+    "/basic_auth_api/questionnaires/{id}": {
+      "get": {
+        "summary": "Shows a questionnaire",
+        "tags": [
+          "Questionnaire"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Questionnaire key",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A questionnaire"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "401": {
+            "description": "Not authenticated."
+          }
+        }
+      }
+    },
     "/basic_auth_api/questionnaires": {
       "post": {
         "summary": "Creates a new questionnaire",

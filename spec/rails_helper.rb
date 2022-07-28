@@ -1,11 +1,29 @@
 # frozen_string_literal: true
 
 ENV['RAILS_ENV'] ||= 'test'
+ENV['TZ'] = 'Europe/Amsterdam' # Fix for the selenium webbrowser not being in the correct timezone
+
+if ENV['CI']
+  # Start coverage
+  require 'simplecov'
+  require 'coveralls'
+  Coveralls.wear! 'rails' do
+    require 'simplecov-lcov'
+
+    SimpleCov::Formatter::LcovFormatter.config do |c|
+      c.report_with_single_file = true
+      c.single_report_path = 'coverage/lcov.info'
+    end
+
+    formatter SimpleCov::Formatter::LcovFormatter
+
+    add_filter %w[version.rb initializer.rb]
+  end
+end
+
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
-
-ENV['TZ'] = 'Europe/Amsterdam' # Fix for the selenium webbrowser not being in the correct timezone
 
 require 'rspec/rails'
 require 'database_cleaner'
@@ -17,14 +35,6 @@ require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec'
 Dir[Rails.root.join('spec/generators/concerns/**/*.rb')].each { |f| require f }
-
-# Start coverage report on CircleCI
-if ENV['CI']
-  require 'coveralls'
-  Coveralls.wear!
-  require 'simplecov'
-  SimpleCov.start
-end
 
 # Also require the support files for testing
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

@@ -23,9 +23,9 @@ describe StudentInvitationTexts do
       end
 
       it 'returns correct text' do
-        expected = 'Hoi {{deze_student}}, je hebt geld verdiend met je deelname'\
-                   ' aan u-can-act: dit is je laatste kans om te innen! Vul de laatste'\
-                   ' vragenlijst en IBAN in, alleen dan kunnen we je beloning overmaken.'
+        expected = 'Hoi {{deze_student}}, je hebt geld verdiend met je deelname ' \
+                   'aan u-can-act: dit is je laatste kans om te innen! Vul de laatste ' \
+                   'vragenlijst en IBAN in, alleen dan kunnen we je beloning overmaken.'
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
                                                 measurement: measurement2,
                                                 completed_at: nil,
@@ -330,9 +330,9 @@ describe StudentInvitationTexts do
     it 'nevers include the begeleider specific texts if the protocol has the name studenten_control' do
       protocol = FactoryBot.create(:protocol, name: 'studenten_control')
       result = described_class.default_pool(protocol)
-      expect(result).not_to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
+      expect(result).not_to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk ' \
                                     'beter te kunnen doen en vul deze vragenlijst in 😃.')
-      expect(result).not_to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
+      expect(result).not_to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} ' \
                                     '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
 
       # Check if the begeleider at all is in the text. Note that je_begeleidingsinitiatief and begeleiding are allowed.
@@ -343,9 +343,9 @@ describe StudentInvitationTexts do
     it 'includes the begeleider specific texts for other protocol names' do
       protocol = FactoryBot.create(:protocol, name: 'other_protocol')
       result = described_class.default_pool(protocol)
-      expect(result).to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk '\
+      expect(result).to include('Help {{naam_begeleider}} om {{zijn_haar_begeleider}} werk ' \
                                 'beter te kunnen doen en vul deze vragenlijst in 😃.')
-      expect(result).to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} '\
+      expect(result).to include('Heel fijn dat je meedoet, hiermee help je {{naam_begeleider}} ' \
                                 '{{zijn_haar_begeleider}} begeleiding te verbeteren!')
 
       # Check if the begeleieder at all is in the text

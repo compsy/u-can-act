@@ -26,24 +26,25 @@ dagboek_content = [
     min: 1,
     max: 5,
     step: 0.5,
+    required: true,
+    no_initial_thumb: true,
+    ticks: true,
     labels: [{ nl: 'Slapeloosheid', en: 'Insomnia' },
              { nl: 'Onrustige slaap', en: 'Restless sleep' },
              { nl: 'Normaal', en: 'Normal' },
-             { nl: 'Goed geslapen', en: 'Slept well' },
-             { nl: 'Erg goed geslapen', en: 'Slept very well' }],
-    required: true
+             { nl: 'Goed geslapen', en: 'Good' },
+             { nl: 'Erg goed geslapen', en: 'Very rested' }]
   },
   {
     id: :v2,
     title: { nl: 'Wat was <strong>de afgelopen 7 dagen</strong> je gemiddelde slaapduur?',
              en: 'What was your average sleep duration during <strong>the past 7 days</strong>?' },
-    type: :number,
-    maxlength: 2,
-    min: 0,
-    max: 24,
-    step: 0.25,
-    required: true,
-    placeholder: { nl: 'Aantal uur', en: 'Number of hours' }
+    type: :time,
+    hours_from: 0,
+    hours_to: 24,
+    hours_step: 1,
+    hours_label: { nl: 'Uren', en: 'Hours' },
+    minutes_label: { nl: 'Minuten', en: 'Minutes' }
   },
   {
     id: :v3,
@@ -53,12 +54,14 @@ dagboek_content = [
     min: 1,
     max: 5,
     step: 0.5,
+    required: true,
+    no_initial_thumb: true,
+    ticks: true,
     labels: [{ nl: 'Heel vermoeid', en: 'Very tired' },
              { nl: 'Meer vermoeid dan normaal', en: 'More tired than usual' },
              { nl: 'Normaal', en: 'Normal' },
-             { nl: 'Energiek', en: 'Energetic' },
-             { nl: 'Heel energiek', en: 'Very energetic' }],
-    required: true
+             { nl: 'Energiek', en: 'Fit' },
+             { nl: 'Heel energiek', en: 'Very fit' }]
   },
   {
     id: :v4,
@@ -68,12 +71,14 @@ dagboek_content = [
     min: 1,
     max: 5,
     step: 0.5,
-    labels: [{ nl: 'Erg gestrest', en: 'Very stressed' },
-             { nl: 'Gestrest', en: 'Stressed' },
+    required: true,
+    no_initial_thumb: true,
+    ticks: true,
+    labels: [{ nl: 'Erg gestresst', en: 'Very stressed' },
+             { nl: 'Gestresst', en: 'Stressed' },
              { nl: 'Normaal', en: 'Normal' },
              { nl: 'Relaxed', en: 'Relaxed' },
-             { nl: 'Erg relaxed', en: 'Very relaxed' }],
-    required: true
+             { nl: 'Erg relaxed', en: 'Very relaxed' }]
   },
   {
     id: :v5,
@@ -83,17 +88,19 @@ dagboek_content = [
     min: 1,
     max: 5,
     step: 0.5,
-    labels: [{ nl: 'Erg prikkelbaar / down', en: 'Very irritable / down' },
-             { nl: 'Kortaf tegen teamgenoten, familie en collega\'s', en: 'Curt with teammates, family and colleagues' },
+    required: true,
+    no_initial_thumb: true,
+    ticks: true,
+    labels: [{ nl: 'Erg prikkelbaar / down', en: 'Highly annoyed / irritable / down' },
+             { nl: 'Kortaf tegen teamgenoten, familie en collega’s', en: 'Snappiness at teammates, family and co-workers' },
              { nl: 'Normaal', en: 'Normal' },
-             { nl: 'Een overwegend goede gemoedstoestand', en: 'A mostly good mood' },
+             { nl: 'Een overwegend goede gemoedstoestand', en: 'A generally good mood' },
              { nl: 'Een erg positieve gemoedstoestand', en: 'A very positive mood' }],
-    required: true
   },
   {
     id: :v6,
-    title: { nl: 'Opmerking', en: 'Note' },
-    placeholder: { nl: 'Vul iets in (optioneel)', en: 'Enter something (optional)' },
+    title: { nl: 'Opmerking', en: 'Comment' },
+    placeholder: { nl: 'Vul iets in (optioneel)', en: 'Enter some text (optional)' },
     type: :textarea
   }
 ]

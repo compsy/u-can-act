@@ -329,7 +329,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.13.8-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.8-x64-mingw-ucrt)
+    nokogiri (1.13.8-x64-unknown)
       racc (~> 1.4)
     nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
@@ -536,7 +536,7 @@ GEM
       sync
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2022.1)
+    tzinfo-data (1.2022.2)
       tzinfo (>= 1.0.0)
     ucf_messages (0.0.5)
     uglifier (4.2.0)

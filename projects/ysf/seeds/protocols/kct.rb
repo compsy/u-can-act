@@ -22,7 +22,6 @@ questionnaires = [
   'KCT Julliet',
   'KCT Kilo',
   'KCT Lima',
-  'KCT Mike',
   'KCT Sociogram',
   'KCT Ontbijt'
 ]

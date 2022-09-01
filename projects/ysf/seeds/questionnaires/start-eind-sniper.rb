@@ -437,8 +437,8 @@ end
 ###
 # Start van de week Sniper
 ###
-title = 'Start van de week Sniper'
-name = 'KCT Start van de week Sniper'
+title = 'Start van de week CT-Sniper'
+name = 'KCT Start van de week CT-Sniper'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = 'startsniper'
@@ -468,20 +468,13 @@ content = [
     '
   },
   create_ponder_question(
-    :fysiek_belastend,
+    :fysiek_belastend_instructeur,
     'Hoe fysiek belastend wordt deze week voor de leerlingen?',
     'Helemaal niet belastend',
     'Zeer belastend'
   ),
-  {
-    type: :raw,
-    content: '
-    <p class="flow-text section-explanation">
-    </p>
-    '
-  },
   create_ponder_question(
-    :cognitief_belastend,
+    :cognitief_belastend_instructeur,
     'Hoe cognitief belastend wordt deze week voor de leerlingen?
       (kernwoorden/beschrijving cognitieve belasting:
       keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
@@ -491,7 +484,7 @@ content = [
     'Zeer belastend'
   ),
   create_ponder_question(
-    :stressvol,
+    :stressvol_instructeur,
     'Hoe stressvol wordt deze week voor de leerlingen?',
     'Helemaal niet stressvol',
     'Zeer stressvol'
@@ -503,17 +496,94 @@ questionnaire.title = title
 questionnaire.save!
 
 ###
-# Eind van de week
+# Eind van de week Sniper
 ###
-title = 'Eind van de week'
-name = 'KCT Eind van de week'
+title = 'Eind van de week CT-Sniper'
+name = 'KCT Eind van de week CT-Sniper'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
 questionnaire.key = 'eindsniper'
 
 content = [
-  create_inspannend_question(),
-  create_prestatie_question()
+  *create_srss_questions(),
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Hieronder vind je aanvullende vragen, geef aan in welke mate ze voor jou <b>op dit moment</b> van toepassing zijn:
+    </p>
+    '
+  },
+  create_ponder_question(
+    :fysiek_belastend,
+    'Hoe <b>fysiek belastend</b> was deze opleidingsweek voor jou?',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :cognitief_belastend,
+    'Hoe <b>cognitief belastend</b> was deze opleidingsweek voor jou?
+      (kernwoorden/beschrijving cognitieve belasting:
+      keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
+      kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
+    ',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :stressvol,
+    'Hoe <b>stressvol</b> was deze opleidingweek voor jou?',
+    'Helemaal niet stressvol',
+    'Zeer stressvol'
+  ),
+  create_ponder_question(
+    :leerstof,
+    'Hoe heb je de hoeveelheid <b>leerstof</b> de afgelopen week ervaren?',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :enthousiast,
+    'Hoe enthousiast ben je op dit moment over de CT-Sniper opleiding?',
+    'Helemaal niet enthousiast',
+    'Zeer enthousiast'
+  ),
+  {
+    id: :algemene_opmerkingen,
+    type: :textfield,
+    required: false,
+    title: 'Heb je algemene opmerkingen / feedback over afgelopen week? (optioneel)'
+  },
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Aanvullende vragen <b>alleen voor de instructeurs</b> van de CT Sniper opleiding:
+    </p>
+    '
+  },
+  create_ponder_question(
+    :fysiek_belastend_instructeur,
+    'Hoe fysiek belastend was deze week voor de leerlingen?',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :cognitief_belastend_instructeur,
+    'Hoe cognitief belastend was deze opleidingsweek voor de leerlingen?
+      (kernwoorden/beschrijving cognitieve belasting:
+      keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
+      kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
+    ',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :stressvol_instructeur,
+    'Hoe stressvol was deze week voor de leerlingen?',
+    'Helemaal niet stressvol',
+    'Zeer stressvol'
+  )
 ]
 
 questionnaire.content = { questions: content, scores: [] }

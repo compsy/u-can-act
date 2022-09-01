@@ -449,7 +449,7 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-      Aanvullende vraag: geef aan het welke mate deze voor jou <b>op dit moment</b> van toepassing is:
+      Aanvullende vraag, geef aan het welke mate deze voor jou <b>op dit moment</b> van toepassing is:
     </p>
     '
   },
@@ -477,15 +477,16 @@ content = [
     type: :raw,
     content: '
     <p class="flow-text section-explanation">
-      We kunnen cognitieve belasting beschrijven als:
-      keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
-      kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.
     </p>
     '
   },
   create_ponder_question(
     :cognitief_belastend,
-    'Hoe cognitief belastend wordt deze week voor de leerlingen?',
+    'Hoe cognitief belastend wordt deze week voor de leerlingen?
+      (kernwoorden/beschrijving cognitieve belasting:
+      keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
+      kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
+    ',
     'Helemaal niet belastend',
     'Zeer belastend'
   ),

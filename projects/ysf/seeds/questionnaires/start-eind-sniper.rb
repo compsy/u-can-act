@@ -396,41 +396,49 @@ def create_srss_questions()
   ]
 end
 
-def create_sleep_question(id, title)
-  {
-    id: id,
-    type: :range,
-    required: true,
-    title: title,
-    labels: ['1 = helemaal niet van toepassing', '5 = helemaal van toepassing'],
-    min: 1,
-    max: 5,
-    step: 1,
-    value: 1
-  }
-end
-
-def create_sleep_questions()
+def create_medic_question(im)
   [
     {
-      type: :raw,
-      content: '
-      <p class="flow-text section-explanation">
-        Hieronder volgen enkele vragen over je slaap.
-        Wil je voor elk van de uitspraken aangeven in hoeverre deze op jou van toepassing was <b>in de afgelopen week</b>?
-      </p>
-      '
+      id: :plaats_expandable,
+      type: :expandable,
+      title: 'Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je deze week klachten had en hoeveel last je had. Je kunt een plaats selecteren via de knop "Voeg plaats toe".',
+      add_button_label: 'Voeg plaats toe',
+      max_expansions: 5,
+      remove_button_label: 'Verwijder plaats',
+      content: [
+        {
+          id: :plaats,
+          type: :dropdown,
+          title: 'Waar had je last?',
+          placeholder: 'Selecteer je antwoord...',
+          required: true,
+          options: ['Hoofd', 'Hals/nek', 'Borst', 'Pols/hand', 'Buik', 'Lies', 'Scheenbeen', 'Schouder',
+            'Rug thoracaal (ter hoogte borst)', 'Arm/elleboog', 'Lage rug', 'Bekken', 'Bovenbeen', 'Hamstring',
+            'Knie', 'Kuit', 'Onderbeen', 'Enkel', 'Voet']
+        },
+        {
+          id: :pijn,
+          type: :range,
+          required: true,
+          title: 'Hoeveel last had je?',
+          # https://behandelaar.pijnbijkanker.nl/chronische-pijn/onderzoek/meet-methodes/vas
+          labels: ['0 = geen pijn', '10 = ergst denkbare pijn'],
+          min: 0,
+          max: 10,
+          step: 1,
+          value: 0
+        }
+      ]
     },
-    create_sleep_question(:s_vermoeidheid, 'Ik heb overdag last van vermoeidheid.'),
-    create_sleep_question(:s_wakker_worden, 'Ik val pas tegen de ochtend in slaap en heb dan grote moeite om \'s morgens bijtijds wakker te worden. In het weekeinde slaap ik lang uit.'),
-    create_sleep_question(:s_kwaliteit, 'De kwaliteit van mijn slaap is slecht en ik voel me \'s morgens dan ook niet uitgerust.'),
-    create_sleep_question(:s_wakker_liggen, 'Ik lig \'s nachts lang wakker.'),
-    create_sleep_question(:s_moeilijk, 'Ik kan \'s avonds moeilijk in slaap komen.'),
-    create_sleep_question(:s_gevolgen, 'Vooral na een slechte nacht heb ik overdag last van één of meer van deze gevolgen: vermoeidheid, slaperigheid, slecht humeur, zwakke concentratie, geheugenproblemen of gebrek aan energie.'),
-    create_sleep_question(:s_onvoldoende, 'Ik krijg onvoldoende slaap.'),
-    create_sleep_question(:s_nachtmerries, 'Ik heb last van nachtmerries of angstige dromen.'),
-    create_sleep_question(:s_functioneren, 'Omdat ik te weinig slaap krijg, functioneer ik overdag minder goed.'),
-    create_sleep_question(:s_schema, 'Ik slaap slecht omdat het me niet lukt om op een normale tijd in slaap te vallen en \'s morgens op een normale tijd wakker te worden.')
+    {
+      type: :raw,
+      # String substitution only works for double quoted strings.
+      content: "
+      <center>
+        <img src=\"/images/questionnaires/kct/#{im}\" style=\"width: 80%; margin-left: 3rem;\" />
+      </center>
+      "
+    }
   ]
 end
 
@@ -459,6 +467,7 @@ content = [
     'Helemaal geen zin',
     'Heel veel zin'
   ),
+  *create_medic_question("blessures.jpg"),
   {
     type: :raw,
     content: '

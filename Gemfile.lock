@@ -406,12 +406,9 @@ GEM
       railties (>= 3.2)
       tilt
     react-source (0.13.3)
-    redis (5.0.2)
-      redis-client (~> 0.7)
+    redis (4.8.0)
     redis-classy (2.4.1)
       redis-namespace (~> 1.0)
-    redis-client (0.7.3)
-      connection_pool
     redis-mutex (4.0.2)
       redis-classy (~> 2.0)
     redis-namespace (1.8.2)
@@ -636,7 +633,7 @@ DEPENDENCIES
   rails-i18n
   react-rails
   react-source
-  redis
+  redis (~> 4.7)
   redis-mutex
   remote_syslog_logger
   rspec-rails

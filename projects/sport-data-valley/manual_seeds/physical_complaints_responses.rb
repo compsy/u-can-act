@@ -42,41 +42,42 @@ class PhysicalComplaintsResponses
 
     def v6
       options = [
-      'Angstig / Onrustig',
-      'Buikpijn',
-      'Diarree',
-      'Flauwvallen',
-      'Gevoel van slapte / Vermoeidheid',
-      'Hoesten',
-      'Hoofdpijn',
-      'Jeuk / Uitslag',
-      'Koorts',
-      'Kortademig / Benauwd',
-      'Misselijkheid',
-      'Onregelmatige pols / Palpitaties',
-      'Oogklachten',
-      'Oorklachten',
-      'Opgezette lymfeklieren',
-      'Overgeven',
-      'Pijn elders',
-      'Pijn op de borst',
-      'Prikkelbaar',
-      'Slapeloosheid',
-      'Stijf / Gevoelloos',
-      'Teneergeslagen / Depressief',
-      'Urinewegproblemen of problemen met de geslachtsdelen',
-      'Verstopping',
-      'Verstopte neus / Loopneus / Niezen',
-      'Wil ik niet zeggen',
-      'Zere keel'
-    ]
+        'Angstig / Onrustig',
+        'Buikpijn',
+        'Diarree',
+        'Flauwvallen',
+        'Gevoel van slapte / Vermoeidheid',
+        'Hoesten',
+        'Hoofdpijn',
+        'Jeuk / Uitslag',
+        'Koorts',
+        'Kortademig / Benauwd',
+        'Misselijkheid',
+        'Onregelmatige pols / Palpitaties',
+        'Oogklachten',
+        'Oorklachten',
+        'Opgezette lymfeklieren',
+        'Overgeven',
+        'Pijn elders',
+        'Pijn op de borst',
+        'Prikkelbaar',
+        'Slapeloosheid',
+        'Stijf / Gevoelloos',
+        'Teneergeslagen / Depressief',
+        'Urinewegproblemen of problemen met de geslachtsdelen',
+        'Verstopping',
+        'Verstopte neus / Loopneus / Niezen',
+        'Wil ik niet zeggen',
+        'Zere keel'
+      ]
       options[rand(options.count)]
     end
 
     def v7
-      %w[Ja Nee][rand(1)]
+      %w[Ja Nee][rand(2)]
     end
 
+    # rubocop:disable Naming/VariableNumber
     def v_0_2
       rand > 0.5
     end
@@ -84,6 +85,7 @@ class PhysicalComplaintsResponses
     def v_0_3
       rand(100).to_s
     end
+    # rubocop:enable Naming/VariableNumber
 
     def create_ostrc_h_o_responses(person, date)
       return if rand > 0.95

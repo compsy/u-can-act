@@ -59,7 +59,7 @@ module DailyResponses
       ]
       v[rand(v.count)]
     end
-    
+
     def performance
       inj = [
         '0. Geen vermindering',
@@ -70,7 +70,7 @@ module DailyResponses
       ]
       inj[rand(inj.count)]
     end
-    
+
     def complaints
       c = [
         '0. Geen symptomen of gezondheidsklachten',

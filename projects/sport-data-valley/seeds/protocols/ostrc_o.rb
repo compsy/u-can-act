@@ -25,7 +25,7 @@ raise "Cannot find questionnaire: #{name}" unless ostrc_questionnaire_id
 db_measurement = protocol.measurements.where(questionnaire_id: ostrc_questionnaire_id).first
 db_measurement ||= protocol.measurements.build(questionnaire_id: ostrc_questionnaire_id)
 db_measurement.period = 1.week
-db_measurement.open_duration = 1.day
+db_measurement.open_duration = 5.days
 db_measurement.open_from_offset = 7.hours # Only needed when we also specify the open_from_day.
 db_measurement.open_from_day = 'monday'
 db_measurement.reward_points = 0

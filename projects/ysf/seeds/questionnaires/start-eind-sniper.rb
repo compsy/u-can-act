@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-def create_ponder_question(id, title, negative, positive)
+def create_ponder_question(id, title, negative, positive, required = false)
   {
     id: id,
     type: :range,
-    required: true,
+    required: required,
     title: title,
     labels: [
       sprintf('0 = %s', negative),
@@ -480,7 +480,8 @@ content = [
     :fysiek_belastend_instructeur,
     'Hoe fysiek belastend wordt deze week voor de leerlingen?',
     'Helemaal niet belastend',
-    'Zeer belastend'
+    'Zeer belastend',
+    false
   ),
   create_ponder_question(
     :cognitief_belastend_instructeur,
@@ -490,13 +491,15 @@ content = [
       kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
     ',
     'Helemaal niet belastend',
-    'Zeer belastend'
+    'Zeer belastend',
+    false
   ),
   create_ponder_question(
     :stressvol_instructeur,
     'Hoe stressvol wordt deze week voor de leerlingen?',
     'Helemaal niet stressvol',
-    'Zeer stressvol'
+    'Zeer stressvol',
+    false
   )
 ]
 
@@ -575,7 +578,8 @@ content = [
     :fysiek_belastend_instructeur,
     'Hoe fysiek belastend was deze week voor de leerlingen?',
     'Helemaal niet belastend',
-    'Zeer belastend'
+    'Zeer belastend',
+    false
   ),
   create_ponder_question(
     :cognitief_belastend_instructeur,
@@ -585,13 +589,15 @@ content = [
       kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
     ',
     'Helemaal niet belastend',
-    'Zeer belastend'
+    'Zeer belastend',
+    false
   ),
   create_ponder_question(
     :stressvol_instructeur,
     'Hoe stressvol was deze week voor de leerlingen?',
     'Helemaal niet stressvol',
-    'Zeer stressvol'
+    'Zeer stressvol',
+    false
   )
 ]
 

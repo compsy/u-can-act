@@ -9,7 +9,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: "<p class='flow-text'>Bedankt dat je hebt meegedaan aan ons onderzoek! We willen graag je beloning uitbetalen. Maar daarvoor moet je een account hebben in de betalingstool van de RUG. Volgens onze gegevens heb je die nog niet. <strong>Als je niet voor 9 september een account hebt aangemaakt, is het mogelijk dat we je beloning niet meer uit kunnen betalen.</strong>
+    content: "<p class='flow-text'>Bedankt dat je hebt meegedaan aan ons onderzoek! We hebben de beloning uitbetaald aan iedereen die een account heeft gemaakt in de betalingstool van de RUG. We willen jou graag ook nog je beloning geven. Daarvoor moet je een account maken in de betalingstool van de RUG. Volgens onze gegevens heb je die nog niet. <strong>We gaan in de tweede helft van oktober de laatste beloningen uitbetalen. Maak daarom snel een account, zodat jij ook je beloning krijgt.</strong>
 </p>
 <p class='flow-text'>
 <strong>Lees deze informatie goed door. Je kunt dit ook op de website terug vinden bij het laatste nieuws: 
@@ -25,7 +25,7 @@ De betalingstool kun je hier vinden: <a href='https://rbpreg.gai.rug.nl/sys/acco
 We hebben voor de betalingstool ook een handleiding geschreven. Die kun je hier vinden: <a href='https://u-can-feel.nl/img/handleiding.pdf' target='_blank' rel='noopener noreferrer'>https://u-can-feel.nl/img/handleiding.pdf</a>.
 </p>
 <p class='flow-text'>
-<strong>Het kan even duren voordat je de beloning op je bankrekening hebt.</strong> We streven ernaar de beloning uiterlijk half september uit te betalen. 
+<strong>Het kan even duren voordat je de beloning op je bankrekening hebt.</strong> We streven ernaar de beloning uiterlijk eind oktober uit te betalen. 
 </p>
 <p class='flow-text'>
   Heb je op dit moment nog vragen? Je kunt ons altijd mailen: Ymkje Anna de Vries (<a href='mailto:y.a.de.vries@rug.nl' target='_blank' rel='noopener noreferrer'>y.a.de.vries@rug.nl</a>).

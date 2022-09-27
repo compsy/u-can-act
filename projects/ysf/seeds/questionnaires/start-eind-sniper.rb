@@ -377,7 +377,7 @@ def create_srss_questions()
       '
     },
     create_srss_question('Fysiek prestatievermogen', 'sterk, fysiek fit, energiek, vol energie'),
-    create_srss_question('Mentaal prestatievermogen', 'alert, ontvankelijk, mentaal scherp, geconcentreerd'),
+    create_srss_question('Mentaal prestatievermogen', 'alert, mentaal scherp, geconcentreerd'),
     create_srss_question('Emotionele balans', 'tevreden, stabiel, in een goede stemming, alles onder controle'),
     create_srss_question('Algeheel herstel', 'hersteld, uitgerust, ontspannen spieren, fysiek ontspannen'),
     {

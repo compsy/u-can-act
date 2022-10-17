@@ -396,9 +396,12 @@ GEM
       railties (>= 3.2)
       tilt
     react-source (0.13.3)
-    redis (4.8.0)
+    redis (5.0.5)
+      redis-client (>= 0.9.0)
     redis-classy (2.4.1)
       redis-namespace (~> 1.0)
+    redis-client (0.10.0)
+      connection_pool
     redis-mutex (4.0.2)
       redis-classy (~> 2.0)
     redis-namespace (1.8.2)

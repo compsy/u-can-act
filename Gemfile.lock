@@ -104,7 +104,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
-    appsignal (3.1.4)
+    appsignal (3.1.5)
       rack
     ast (2.4.2)
     autoprefixer-rails (10.4.7.0)

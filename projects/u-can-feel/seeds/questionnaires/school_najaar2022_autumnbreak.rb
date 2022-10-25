@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 db_title = 'Over school'
-db_name1 = 'school_voorjaar2022'
+db_name1 = 'school_najaar2022_autumnbreak'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
@@ -188,7 +188,7 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Denk even na over de afgelopen weken sinds de herfstvakantie. Welke dagdelen ben je sinds de herfstvakantie niet naar school geweest? Het maakt niet uit wat de reden was. Als je minder dan een halve dag hebt gemist (bijvoorbeeld één lesuur), geef dan aan dat je een halve dag hebt gemist. Als je alleen een paar minuten te laat was, hoef je het niet mee te tellen.',
     shows_questions: %i[v29_a v29_b],
-    from_days_ago: 10,
+    from_days_ago: 11,
     exclude_weekends: true,
     include_today: false,
     morning_and_afternoon: true

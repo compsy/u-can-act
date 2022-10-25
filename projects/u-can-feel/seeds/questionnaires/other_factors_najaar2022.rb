@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 db_title = 'Andere dingen in je leven'
-db_name1 = 'other_factors_voorjaar2022'
+db_name1 = 'other_factors_najaar2022'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
@@ -11,7 +11,7 @@ dagboek_content = [
   {
     type: :raw,
     content: '<p class="flow-text">Je bent er bijna! <br><br>
-        De laatste vragen gaan over een aantal andere dingen die invloed kunnen hebben op hoe het met je gaat.<br><br>
+        We willen nog een paar vragen stellen over andere dingen die invloed kunnen hebben op hoe het met je gaat.<br><br>
         De eerste vragen gaan over je geloof. Sommige mensen geloven in God, Allah of een andere hogere macht. Anderen geloven daar niet in.
     </p>'
   }, {
@@ -102,7 +102,7 @@ dagboek_content = [
     id: :v8,
     type: :radio,
     show_otherwise: false,
-    title: 'Mijn ouders zijn dit jaar gescheiden',
+    title: 'Mijn ouders zijn gescheiden',
     options: %w[Ja Nee]
   }, {
     id: :v9,

@@ -358,7 +358,7 @@ dagboek_content = [
     show_otherwise: false,
     hidden: true,
     title: 'Weet je nog hoe oud je ongeveer was toen je de eerste keer zo bang werd door dit soort dingen?',
-    options: ['Voor de basisschool', 'Voor de middelbare school', 'Tijdens de middelbare school', 'Dat weet ik niet meer']
+    options: ['Voor de basisschool', 'Tijdens de basisschool', 'Tijdens de middelbare school', 'Dat weet ik niet meer']
   }, {
     id: :v43,
     type: :radio,

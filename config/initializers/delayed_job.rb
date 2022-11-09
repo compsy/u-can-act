@@ -9,7 +9,7 @@ if Rails.env.production? || Rails.env.staging?
   end
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
+    logger.formatter = Rails.application.config.log_formatter
     Delayed::Worker.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 else

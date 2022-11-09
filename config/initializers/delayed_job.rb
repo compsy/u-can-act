@@ -7,6 +7,11 @@ if Rails.env.production? || Rails.env.staging?
                                            ENV['PAPERTRAIL_PORT'].to_i,
                                            program: "rails-#{ENV['PAPERTRAIL_PROGRAM']}")
   end
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = Rails.application.config.log_formatter
+    Delayed::Worker.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
 else
   Delayed::Worker.logger = Logger.new(Rails.root.join('log', 'dj.log'))
 end

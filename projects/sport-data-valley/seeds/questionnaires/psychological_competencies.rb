@@ -59,10 +59,9 @@ dagboek_content = [
     show_otherwise: false,
     required: true
   }, {
-    section_start: 'Ik weet dat de gegevens en resultaten van het onderzoek verder alleen anoniem en vertrouwelijk aan derden bekend gemaakt zullen worden. Ik geef toestemming om mijn gegevens nog 10 jaar na dit onderzoek te bewaren.',
     id: :v2,
     type: :radio,
-    title: 'Hoeveel dagen hebt u vermoeidheid ervaren in de afgelopen week (7 dagen)?',
+    title: 'Ik weet dat de gegevens en resultaten van het onderzoek verder alleen anoniem en vertrouwelijk aan derden bekend gemaakt zullen worden. Ik geef toestemming om mijn gegevens nog 10 jaar na dit onderzoek te bewaren.',
     options: ['Ja', { title: 'Nee', hides_questions: after_informed_consent, shows_questions: %i[v3a] }],
     show_otherwise: false,
     required: true

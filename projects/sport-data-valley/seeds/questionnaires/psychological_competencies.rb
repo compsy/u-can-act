@@ -9,27 +9,46 @@ dagboek1.name = db_name1
 class PsychologicalCompetenciesMethods
   DEFAULT_QUESTION_OPTIONS = {
     type: :likert,
-    options: ['Helemaal mee oneens', 'Mee oneens', 'Neutraal', 'Mee eens', 'Helemaal mee eens'],
+    options: [
+      { title: 'Helemaal mee oneens', numeric_value: 0 },
+      { title: 'Mee oneens', numeric_value: 25 },
+      { title: 'Neutraal', numeric_value: 50 },
+      { title: 'Mee eens', numeric_value: 75 },
+      { title: 'Helemaal mee eens', numeric_value: 100 }
+    ],
+    hidden: false,
   }
   FREQUENCY_QUESTION_OPTIONS = {
     type: :likert,
-    options: ['Bijna nooit', 'Soms', 'Vaak', 'Bijna altijd'],
+    options: [
+      { title: 'Bijna nooit', numeric_value: 0 },
+      { title: 'Soms', numeric_value: 33 },
+      { title: 'Vaak', numeric_value: 67 },
+      { title: 'Bijna altijd', numeric_value: 100 }
+    ],
+    hidden: false,
   }
   ABSOLUTE_FREQUENCY_QUESTION_OPTIONS = {
     type: :likert,
-    options: %w[Nooit Zelden Soms Vaak Altijd],
+    options: [
+      { title: 'Nooit', numeric_value: 0 },
+      { title: 'Zelden', numeric_value: 25 },
+      { title: 'Soms', numeric_value: 50 },
+      { title: 'Vaak', numeric_value: 75 },
+      { title: 'Altijd', numeric_value: 100 }
+    ],
+    hidden: false,
   }
 end
 
-# TODO: fixme
-after_informed_consent = %i[v4]
+after_informed_consent = %i[v3b v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14 v15 v16 v17 v18 v19 v20 v21 v22 v23 v24 v25 v26 v27 v28 v29 v30 v31 v32 v32a v33 v34 v35 v36 v37 v38 v39 v40 v40a v41 v42 v43 v44 v45 v46 v47 v48 v49 v49a v50 v51 v52 v53 v54 v55 v56 v57 v58 v59]
 
 dagboek_content = [
   {
     type: :raw,
     content: {
-      en: "<h2>Vragenlijst psychologische competenties - generiek</h2>\n<p class=\"flow-text\" style=\"font-size:medium;\">Beste deelnemer,</p>\n<p class=\"flow-text\" style=\"font-size:medium;\">Welkom bij de vragenlijst psychologische competenties.</p><p class=\"flow-text\" style=\"font-size:medium;\">Deze vragenlijst is ontwikkeld om inzicht te krijgen in de psychologische competenties van deelnemers die actief zijn in een bepaald prestatiedomein. Hierbij kan onder andere gedacht worden aan: sport, muziek, dans, ALO of de politie. Psychologische competenties zijn relatief stabiele vaardigheden die van belang zijn om op hoog niveau te kunnen presteren. Voorbeelden hiervan zijn focus, veerkracht en commitment. Ook kan het beheersen van deze vaardigheden het risico op gezondheidsproblemen verkleinen en het algeheel welzijn verbeteren. De vragen in deze vragenlijst hebben betrekking op jouw ervaringen en perspectieven binnen jouw prestatiedomein.</p>\n<h3>Privacy</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\">Als je de vragenlijst invult dan zijn de resultaten in eerste instantie voor jou persoonlijk en je eigen ontwikkeling. Er wordt vertrouwelijk omgegaan met jouw gegevens. De resultaten zullen niet zomaar gedeeld worden met docenten, coaches, trainers of derden. De resultaten kunnen gebruikt worden voor wetenschappelijk onderzoek en voor verdere ontwikkeling, prestatieverbetering, of verbetering van training en onderwijs. Onderzoek kan bijvoorbeeld gaan om verschillen in psychologische competenties tussen groepen (bv. klassen, of jaarlagen, mannen en vrouwen) of om de ontwikkeling van psychologische competenties in de tijd (tijdens een seizoen of schooljaar, of zelfs over verschillende jaren in een opleiding of talentprogramma). Persoonlijke gegevens die gebruikt worden voor wetenschappelijk onderzoek zullen te allen tijde worden geanonimiseerd. Hierdoor zal hetgeen dat jij hebt ingevuld, nooit naar jou terug te herleiden zijn. Hiervoor moet wel een geïnformeerde toestemming worden ondertekend, waarin je hier toestemming voor geeft.</p>\n<h3>Procedure</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul><li>Het invullen van de vragenlijst duurt ongeveer 15 minuten.</li><li>Zorg ervoor dat je op een rustige plek bent waar je ongestoord kunt werken zonder te overleggen met anderen.</li><li>Zet je telefoon op ‘niet storen’ zodat je geen berichtjes ontvangt.</li><li>Laat je niet afleiden tijdens het invullen, probeer je volledige aandacht bij de vragenlijst te houden.</li></ul><h3>Uitleg vragenlijst</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul><li>Let goed op de instructie die boven de vragen en stellingen staat. Hierin wordt meer informatie gegeven over de bijbehorende stellingen.</li><li>Je kunt steeds maar één antwoord kiezen.</li><li>Het is van belang om alle vragen te beantwoorden en alle stellingen van een antwoord te voorzien.</li><li>Beantwoord de vragen zo eerlijk mogelijk en geef je eigen mening.</li><li>Er zijn geen 'goede' of 'foute' antwoorden!</li></ul>\n<p class=\"flow-text\" style=\"font-size:medium;\"> Alvast bedankt voor je deelname!</p>",
-      nl: "<h2>Welkom bij de Recovery-Stress Questionnaire (RESTQ)!</h2>\n<p class=\"flow-text\" style=\"font-size:medium;\"></p>"
+      nl: "<h2>Vragenlijst psychologische competenties - generiek</h2>\n<p class=\"flow-text\" style=\"font-size:medium;\">Beste deelnemer,</p>\n<p class=\"flow-text\" style=\"font-size:medium;\">Welkom bij de vragenlijst psychologische competenties.</p><p class=\"flow-text\" style=\"font-size:medium;\">Deze vragenlijst is ontwikkeld om inzicht te krijgen in de psychologische competenties van deelnemers die actief zijn in een bepaald prestatiedomein. Hierbij kan onder andere gedacht worden aan: sport, muziek, dans, ALO of de politie. Psychologische competenties zijn relatief stabiele vaardigheden die van belang zijn om op hoog niveau te kunnen presteren. Voorbeelden hiervan zijn focus, veerkracht en commitment. Ook kan het beheersen van deze vaardigheden het risico op gezondheidsproblemen verkleinen en het algeheel welzijn verbeteren. De vragen in deze vragenlijst hebben betrekking op jouw ervaringen en perspectieven binnen jouw prestatiedomein.</p>\n<h3>Privacy</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\">Als je de vragenlijst invult dan zijn de resultaten in eerste instantie voor jou persoonlijk en je eigen ontwikkeling. Er wordt vertrouwelijk omgegaan met jouw gegevens. De resultaten zullen niet zomaar gedeeld worden met docenten, coaches, trainers of derden. De resultaten kunnen gebruikt worden voor wetenschappelijk onderzoek en voor verdere ontwikkeling, prestatieverbetering, of verbetering van training en onderwijs. Onderzoek kan bijvoorbeeld gaan om verschillen in psychologische competenties tussen groepen (bv. klassen, of jaarlagen, mannen en vrouwen) of om de ontwikkeling van psychologische competenties in de tijd (tijdens een seizoen of schooljaar, of zelfs over verschillende jaren in een opleiding of talentprogramma). Persoonlijke gegevens die gebruikt worden voor wetenschappelijk onderzoek zullen te allen tijde worden geanonimiseerd. Hierdoor zal hetgeen dat jij hebt ingevuld, nooit naar jou terug te herleiden zijn. Hiervoor moet wel een geïnformeerde toestemming worden ondertekend, waarin je hier toestemming voor geeft.</p>\n<h3>Procedure</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul class='browser-default'><li>Het invullen van de vragenlijst duurt ongeveer 15 minuten.</li><li>Zorg ervoor dat je op een rustige plek bent waar je ongestoord kunt werken zonder te overleggen met anderen.</li><li>Zet je telefoon op ‘niet storen’ zodat je geen berichtjes ontvangt.</li><li>Laat je niet afleiden tijdens het invullen, probeer je volledige aandacht bij de vragenlijst te houden.</li></ul><h3>Uitleg vragenlijst</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul class='browser-default'><li>Let goed op de instructie die boven de vragen en stellingen staat. Hierin wordt meer informatie gegeven over de bijbehorende stellingen.</li><li>Je kunt steeds maar één antwoord kiezen.</li><li>Het is van belang om alle vragen te beantwoorden en alle stellingen van een antwoord te voorzien.</li><li>Beantwoord de vragen zo eerlijk mogelijk en geef je eigen mening.</li><li>Er zijn geen 'goede' of 'foute' antwoorden!</li></ul>\n<p class=\"flow-text\" style=\"font-size:medium;\"> Alvast bedankt voor je deelname!</p>",
+      en: ""
     }
   }, {
     section_start: 'Psychologische competentievragenlijst',
@@ -64,6 +83,7 @@ dagboek_content = [
     section_start: "",
     id: :v3b,
     type: :raw,
+    hidden: false,
     content: {
       nl: "<p class=\"flow-text\" style=\"font-size:medium;\">De volgende 29 uitspraken gaan over jezelf in jouw prestatiedomein. Als er in de stelling staat 'mijn activiteit' dan wordt er dus gedoeld op jouw specifieke prestatiedomein. Is jouw prestatiedomein bijvoorbeeld basketbal, dan vul je hier voor jezelf ‘basketbal’ in. Doe je een dansopleiding? Dan vul je hier voor jezelf ‘dans’ in, etc.</p>\n<p class=\"flow-text\" style=\"font-size:medium;\">Het is van belang om de vragen zo eerlijk mogelijk in te vullen en je eigen mening te geven. Bij deze vragen kun je uit 5 antwoorden kiezen. Lees de vragen goed door en sla geen vragen over. Kies het antwoord dat het beste bij je past. Er zijn geen 'goede' of 'foute' antwoorden! Je kunt kiezen uit de volgende antwoorden:</p><p class=\"flow-text\" style=\"font-size:medium;\"><strong>Helemaal mee oneens</strong><br />Als je het helemaal oneens bent met de uitspraak, of als de uitspraak helemaal niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Mee oneens</strong><br />Als je het oneens bent met de uitspraak, of als de uitspraak niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Neutraal</strong><br />Als je niet kunt beslissen, of als de uitspraak wel en niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Mee eens</strong><br />Als je het eens bent met de uitspraak, of als de uitspraak wel bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Helemaal mee eens</strong><br />Als je het helemaal eens bent met de uitspraak, of als de uitspraak helemaal bij je past</p>"
     }
@@ -187,6 +207,7 @@ dagboek_content = [
   }), {
     section_start: "",
     id: :v32a,
+    hidden: false,
     type: :raw,
     content: {
       nl: "<p class=\"flow-text\" style=\"font-size:medium;\">Hieronder staan 8 uitspraken die kunnen worden gebruikt om ervaringen in jouw prestatiedomein te beschrijven. Als er in de stelling staat 'mijn activiteit' dan wordt er dus gedoeld op jouw specifieke prestatiedomein. Is jouw prestatiedomein bijvoorbeeld basketbal, dan vul je hier voor jezelf ‘basketbal’ in. Doe je een dansopleiding? Dan vul je hier voor jezelf ‘dans’ in, etc. Als er in de stelling staat trainer/ coach/ docent, dan kies je de rol die in jouw prestatiedomein van toepassing is. Doe je een opleiding? Dan kies je hier ‘docent’. Werk je voornamelijk met een coach? Dan vul je hier voor jezelf ‘coach’ in.</p><p class=\"flow-text\" style=\"font-size:medium;\">Lees elke uitspraak zorgvuldig en herinner je zo nauwkeurig mogelijk hoe vaak jij hetzelfde ervaart. Kies het antwoord dat <strong>het beste bij je past, ook hier zijn geen 'goede' of 'foute' antwoorden</strong>. Besteed niet te veel tijd aan een bepaalde uitspraak. Je kunt kiezen uit de volgende antwoorden:</p><p class=\"flow-text\" style=\"font-size:medium;\"><strong>Bijna nooit</strong><br />Als je dit bijna nooit doet, of als deze uitspraak bijna niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Soms</strong><br />Als je dit soms doet, of als deze uitspraak een beetje bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Vaak</strong><br />Als je dit vaak doet, of als deze uitspraak goed bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Bijna altijd</strong><br />Als je dit bijna altijd doet, of als deze uitspraak bijna helemaal bij je past</p>"
@@ -198,7 +219,7 @@ dagboek_content = [
   }), PsychologicalCompetenciesMethods::FREQUENCY_QUESTION_OPTIONS.merge(
   {
     id: :v34,
-    title: 'Als ik bezig ben met mijn activiteit, kan ik mijn aandacht richten en afleiding blokkeren'
+    title: 'Als ik bezig ben met <em>mijn activiteit</em>, kan ik mijn aandacht richten en afleiding blokkeren'
   }), PsychologicalCompetenciesMethods::FREQUENCY_QUESTION_OPTIONS.merge(
   {
     id: :v35,
@@ -214,7 +235,7 @@ dagboek_content = [
   }), PsychologicalCompetenciesMethods::FREQUENCY_QUESTION_OPTIONS.merge(
   {
     id: :v38,
-    title: 'Ik ga heel goed om met onverwachte situaties in mijn activiteit'
+    title: 'Ik ga heel goed om met onverwachte situaties in <em>mijn activiteit</em>'
   }), PsychologicalCompetenciesMethods::FREQUENCY_QUESTION_OPTIONS.merge(
   {
     id: :v39,
@@ -227,6 +248,7 @@ dagboek_content = [
   }), {
     section_start: "",
     id: :v40a,
+    hidden: false,
     type: :raw,
     content: {
       nl: "<p class=\"flow-text\" style=\"font-size:medium;\">De volgende 9 uitspraken gaan over jezelf in jouw prestatiedomein. Lees elke uitspraak zorgvuldig en kies het antwoord <strong>dat het beste bij je past, ook hier zijn geen 'goede' of 'foute' antwoorden</strong>. Besteed niet te veel tijd aan een bepaalde stelling. Je kunt kiezen uit de volgende antwoorden:</p><p class=\"flow-text\" style=\"font-size:medium;\"><strong>Nooit</strong><br />Als je dit nooit doet, of als de uitspraak helemaal niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Zelden</strong><br />Als je dit zelden doet, of als de uitspraak niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Soms</strong><br />Als je dit soms doet, of als de uitspraak wel en niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Vaak</strong><br />Als je dit vaak doet, of als de uitspraak bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Altijd</strong><br />Als je dit altijd doet, of als de uitspraak helemaal bij je past</p>"
@@ -271,6 +293,7 @@ dagboek_content = [
   }), {
     section_start: "",
     id: :v49a,
+    hidden: false,
     type: :raw,
     content: {
       nl: "<p class=\"flow-text\" style=\"font-size:medium;\">De volgende 10 uitspraken gaan over jezelf binnen jouw prestatiedomein. Geef aan of deze uitspraken bij jou passen. Lees elke uitspraak zorgvuldig en kies het antwoord <strong>dat het beste bij je past, er zijn geen 'goede' of 'foute' antwoorden</strong>. Besteed niet te veel tijd aan een bepaalde uitspraak. Je kunt kiezen uit de volgende antwoorden:</p><p class=\"flow-text\" style=\"font-size:medium;\"><strong>Nooit</strong><br />Als je dit nooit doet, of als de uitspraak helemaal niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Zelden</strong><br />Als je dit zelden doet, of als de uitspraak niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Soms</strong><br />Als je dit soms doet, of als de uitspraak wel en niet bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Vaak</strong><br />Als je dit vaak doet, of als de uitspraak bij je past</p>\n<p class=\"flow-text\" style=\"font-size:medium;\"><strong>Altijd</strong><br />Als je dit altijd doet, of als de uitspraak helemaal bij je past</p>"
@@ -318,7 +341,77 @@ dagboek_content = [
     section_end: true
   })
 ]
-
-dagboek1.content = { questions: dagboek_content, scores: [] }
+invert = { multiply_with: -1, offset: 100 }
+dagboek1.content = {
+  questions: dagboek_content,
+  scores: [
+    { id: :s1,
+      label: 'Coachbaarheid',
+      ids: %i[v33 v35 v37 v40],
+      preprocessing: {
+        v33: invert,
+        v35: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s2,
+      label: 'Reflectie',
+      ids: %i[v5 v11 v19 v28 v32],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s3,
+      label: 'Groeimindset',
+      ids: %i[v4 v6 v9 v10 v12 v13 v16 v18 v21 v23 v27 v30],
+      preprocessing: {
+        v4: invert,
+        v9: invert,
+        v10: invert,
+        v16: invert,
+        v23: invert,
+        v27: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s4,
+      label: 'Commitment',
+      ids: %i[v7 v14 v17 v24 v26 v29],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s5,
+      label: 'Zelfvertrouwen',
+      ids: %i[v43 v46 v49],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s6,
+      label: 'Focus',
+      ids: %i[v34 v36 v38 v39],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s7,
+      label: 'Veerkracht',
+      ids: %i[v8 v15 v20 v22 v25 v31],
+      preprocessing: {
+        v15: invert,
+        v22: invert,
+        v31: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s8,
+      label: 'Doorzettingsvermogen',
+      ids: %i[v41 v42 v44 v45 v47 v48],
+      operation: :average,
+      round_to_decimals: 0 },
+    { id: :s9,
+      label: 'Grenzen stellen bewaken',
+      ids: %i[v50 v51 v52 v53 v54 v55 v56 v57 v58 v59],
+      preprocessing: {
+        v52: invert,
+        v53: invert
+      },
+      operation: :average,
+      round_to_decimals: 0 }
+  ]
+}
 dagboek1.title = db_title
 dagboek1.save!

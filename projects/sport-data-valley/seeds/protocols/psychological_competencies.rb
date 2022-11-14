@@ -6,6 +6,8 @@ protocol ||= Protocol.new(name: pr_name)
 
 protocol.duration = default_protocol_duration
 protocol.informed_consent_questionnaire = nil
+# The text below is overridden when starting the protocol from the base platform.
+# From the base platform web UI one can specify both an English and a Dutch prompt.
 protocol.invitation_text = 'Je bent uitgenodigd door je coach om een vragenlijst in te vullen.'
 protocol.save!
 

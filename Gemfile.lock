@@ -599,7 +599,7 @@ DEPENDENCIES
   haml-rails
   highcharts-rails
   httparty
-  i18n-js
+  i18n-js (= 3.9.2)
   iban-tools
   jbuilder
   jwt

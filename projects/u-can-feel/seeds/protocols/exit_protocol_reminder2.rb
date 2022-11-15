@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Uitsturen eind september 2022
-questionnaire_keys = %w[exit_lijst_reminder]
+# Uitsturen begin november 2022
+questionnaire_keys = %w[exit_lijst_reminder2]
 
 pr_name = File.basename(__FILE__)[0...-3]
 exit_protocol = Protocol.find_by(name: pr_name)

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 # Uitsturen eind september 2022
-questionnaire_keys = %w[exit_lijst_reminder]
+questionnaire_keys = %w[exit_lijst_continuers]
 
 pr_name = File.basename(__FILE__)[0...-3]
 exit_protocol = Protocol.find_by(name: pr_name)
 exit_protocol ||= Protocol.new(name: pr_name)
 exit_protocol.duration = 1.week
-exit_protocol.invitation_text = 'Bedankt dat je mee hebt gedaan aan ons onderzoek! We hebben je beloning nog niet kunnen betalen. Wil je je beloning krijgen? Kijk bij het laatste nieuws op onze website (u-can-feel.nl) voor informatie over wat je moet doen. Of klik op de link!'
+exit_protocol.invitation_text = 'Bedankt dat je mee doet aan ons onderzoek! Het onderzoek is bijna afgelopen. Wil je straks je beloning krijgen? Kijk bij het laatste nieuws op onze website (u-can-feel.nl) voor informatie over wat je moet doen. Of klik op de link!'
 
 # geen informed consent
 exit_protocol.informed_consent_questionnaire_id = nil
@@ -27,7 +27,7 @@ questionnaire_keys.each_with_index do |questionnaire_key, idx|
   measurement.open_from_day = nil # don't wait for a specific day
   measurement.period = nil # one-off and not repeated
   measurement.open_duration = nil # open for the entire duration of the protocol
-  measurement.reminder_delay = 48.hours # send a reminder after 24 hours
+  measurement.reminder_delay = 48.hours # send a reminder after 48 hours
   measurement.priority = questionnaire_keys.count - idx # ensure that the questionnaires are shown in the specified order
   measurement.stop_measurement = (questionnaire_key == questionnaire_keys.last) # stop the protocol after filling out
   measurement.should_invite = true # send invitations                    # the last questionnaire

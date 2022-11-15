@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 db_title = 'Informatie over het krijgen van je beloning'
-db_name1 = 'exit_lijst_reminder'
+db_name1 = 'exit_lijst_continuers'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
@@ -9,7 +9,7 @@ dagboek1.name = db_name1
 dagboek_content = [
   {
     type: :raw,
-    content: "<p class='flow-text'>Bedankt dat je hebt meegedaan aan ons onderzoek! We hebben de beloning uitbetaald aan iedereen die een account heeft gemaakt in de betalingstool van de RUG. We willen jou graag ook nog je beloning geven. Daarvoor moet je een account maken in de betalingstool van de RUG. Volgens onze gegevens heb je die nog niet. <strong>We gaan in de tweede helft van oktober de laatste beloningen uitbetalen. Maak daarom snel een account, zodat jij ook je beloning krijgt.</strong>
+    content: "<p class='flow-text'>Bedankt dat je mee doet aan ons onderzoek! Het onderzoek is bijna afgelopen en we willen jou straks graag je beloning geven. Daarvoor moet je een account maken in de betalingstool van de RUG. We streven ernaar om de beloning uiterlijk eind oktober uit te betalen.
 </p>
 <p class='flow-text'>
 <strong>Lees deze informatie goed door. Je kunt dit ook op de website terug vinden bij het laatste nieuws: 

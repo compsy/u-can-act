@@ -1,6 +1,6 @@
 default_protocol_duration = 30.weeks # evt eerder dynamisch afbreken
 
-pr_name = 'ostrc_h_o'
+pr_name = 'weekly_wellbeing'
 protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 
@@ -9,7 +9,7 @@ protocol.informed_consent_questionnaire = nil
 protocol.invitation_text = 'Je bent uitgenodigd door je coach om een vragenlijst in te vullen.'
 protocol.save!
 
-bp_name = 'base-platform-subscription-ostrc-h-o'
+bp_name = 'base-platform-subscription-weekly-wellbeing'
 bp_push_subscription = protocol.push_subscriptions.find_by(name: bp_name)
 bp_push_subscription ||= protocol.push_subscriptions.build(name: bp_name)
 bp_push_subscription.method = 'POST'
@@ -18,12 +18,12 @@ bp_push_subscription.save!
 
 protocol.save!
 
-name = 'ostrc_h_o'
-ostrc_h_o_questionnaire_id = Questionnaire.find_by(name: name)&.id
-raise "Cannot find questionnaire: #{name}" unless ostrc_h_o_questionnaire_id
+name = 'weekly_wellbeing'
+weekly_wellbeing_qid = Questionnaire.find_by(name: name)&.id
+raise "Cannot find questionnaire: #{name}" unless weekly_wellbeing_qid
 
-db_measurement = protocol.measurements.where(questionnaire_id: ostrc_h_o_questionnaire_id).first
-db_measurement ||= protocol.measurements.build(questionnaire_id: ostrc_h_o_questionnaire_id)
+db_measurement = protocol.measurements.where(questionnaire_id: weekly_wellbeing_qid).first
+db_measurement ||= protocol.measurements.build(questionnaire_id: weekly_wellbeing_qid)
 db_measurement.period = 1.week
 db_measurement.open_duration = 5.days
 db_measurement.open_from_offset = 7.hours # Only needed when we also specify the open_from_day.

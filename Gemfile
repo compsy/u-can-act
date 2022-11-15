@@ -14,7 +14,9 @@ gem 'rails', '~> 6.1.4'
 gem 'pg', '= 1.1.4'
 
 # Driver for Redis datastore
-gem 'redis'
+# NOTE: we can upgrade to v5, but then authentication fails with redis
+# labs, we need to fix that first.
+gem 'redis', '~> 4.7'
 
 # Use Puma as the app server
 gem 'puma'
@@ -190,7 +192,8 @@ gem 'webpacker', '>=6.0.0.rc.5'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
-gem 'i18n-js' # We still need this gem because it generates translations.js for us.
+# TODO: do this: https://github.com/fnando/i18n-js/blob/main/MIGRATING_FROM_V3_TO_V4.md
+gem 'i18n-js', '=3.9.2' # We still need this gem because it generates translations.js for us.
 gem 'rails-i18n'
 
 gem 'lograge'

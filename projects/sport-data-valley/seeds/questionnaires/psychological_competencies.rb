@@ -41,43 +41,10 @@ class PsychologicalCompetenciesMethods
   }
 end
 
-after_informed_consent = %i[v3b v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14 v15 v16 v17 v18 v19 v20 v21 v22 v23 v24 v25 v26 v27 v28 v29 v30 v31 v32 v32a v33 v34 v35 v36 v37 v38 v39 v40 v40a v41 v42 v43 v44 v45 v46 v47 v48 v49 v49a v50 v51 v52 v53 v54 v55 v56 v57 v58 v59]
-
 dagboek_content = [
   {
     type: :raw,
-    content: {
-      nl: "<h2>Vragenlijst psychologische competenties - generiek</h2>\n<p class=\"flow-text\" style=\"font-size:medium;\">Beste deelnemer,</p>\n<p class=\"flow-text\" style=\"font-size:medium;\">Welkom bij de vragenlijst psychologische competenties.</p><p class=\"flow-text\" style=\"font-size:medium;\">Deze vragenlijst is ontwikkeld om inzicht te krijgen in de psychologische competenties van deelnemers die actief zijn in een bepaald prestatiedomein. Hierbij kan onder andere gedacht worden aan: sport, muziek, dans, ALO of de politie. Psychologische competenties zijn relatief stabiele vaardigheden die van belang zijn om op hoog niveau te kunnen presteren. Voorbeelden hiervan zijn focus, veerkracht en commitment. Ook kan het beheersen van deze vaardigheden het risico op gezondheidsproblemen verkleinen en het algeheel welzijn verbeteren. De vragen in deze vragenlijst hebben betrekking op jouw ervaringen en perspectieven binnen jouw prestatiedomein.</p>\n<h3>Privacy</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\">Als je de vragenlijst invult dan zijn de resultaten in eerste instantie voor jou persoonlijk en je eigen ontwikkeling. Er wordt vertrouwelijk omgegaan met jouw gegevens. De resultaten zullen niet zomaar gedeeld worden met docenten, coaches, trainers of derden. De resultaten kunnen gebruikt worden voor wetenschappelijk onderzoek en voor verdere ontwikkeling, prestatieverbetering, of verbetering van training en onderwijs. Onderzoek kan bijvoorbeeld gaan om verschillen in psychologische competenties tussen groepen (bv. klassen, of jaarlagen, mannen en vrouwen) of om de ontwikkeling van psychologische competenties in de tijd (tijdens een seizoen of schooljaar, of zelfs over verschillende jaren in een opleiding of talentprogramma). Persoonlijke gegevens die gebruikt worden voor wetenschappelijk onderzoek zullen te allen tijde worden geanonimiseerd. Hierdoor zal hetgeen dat jij hebt ingevuld, nooit naar jou terug te herleiden zijn. Hiervoor moet wel een geïnformeerde toestemming worden ondertekend, waarin je hier toestemming voor geeft.</p>\n<h3>Procedure</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul class='browser-default'><li>Het invullen van de vragenlijst duurt ongeveer 15 minuten.</li><li>Zorg ervoor dat je op een rustige plek bent waar je ongestoord kunt werken zonder te overleggen met anderen.</li><li>Zet je telefoon op ‘niet storen’ zodat je geen berichtjes ontvangt.</li><li>Laat je niet afleiden tijdens het invullen, probeer je volledige aandacht bij de vragenlijst te houden.</li></ul><h3>Uitleg vragenlijst</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul class='browser-default'><li>Let goed op de instructie die boven de vragen en stellingen staat. Hierin wordt meer informatie gegeven over de bijbehorende stellingen.</li><li>Je kunt steeds maar één antwoord kiezen.</li><li>Het is van belang om alle vragen te beantwoorden en alle stellingen van een antwoord te voorzien.</li><li>Beantwoord de vragen zo eerlijk mogelijk en geef je eigen mening.</li><li>Er zijn geen 'goede' of 'foute' antwoorden!</li></ul>\n<p class=\"flow-text\" style=\"font-size:medium;\"> Alvast bedankt voor je deelname!</p>",
-      en: ""
-    }
-  }, {
-    section_start: 'Psychologische competentievragenlijst',
-    id: :v1,
-    type: :radio,
-    title: 'Ik verklaar op een voor mij duidelijke wijze te zijn ingelicht over aard, methode, doel, risico’s en de belasting van het onderzoek. Ik ga ermee akkoord dat de verzamelde gegevens en resultaten gebruikt kunnen worden voor wetenschappelijk onderzoek.',
-    options: ['Ja', { title: 'Nee', hides_questions: after_informed_consent, shows_questions: %i[v3a] }],
-    show_otherwise: false,
-    required: true
-  }, {
-    id: :v2,
-    type: :radio,
-    title: 'Ik weet dat de gegevens en resultaten van het onderzoek verder alleen anoniem en vertrouwelijk aan derden bekend gemaakt zullen worden. Ik geef toestemming om mijn gegevens nog 10 jaar na dit onderzoek te bewaren.',
-    options: ['Ja', { title: 'Nee', hides_questions: after_informed_consent, shows_questions: %i[v3a] }],
-    show_otherwise: false,
-    required: true
-  }, {
-    id: :v3,
-    type: :radio,
-    title: 'Ik begrijp dat ik mijn deelname aan dit onderzoek te allen tijde kan stop zetten en dat ik hierdoor verder geen nadelige gevolgen zal ondervinden. Mijn vragen zijn naar tevredenheid beantwoord. Ik wil meedoen aan dit onderzoek.',
-    options: ['Ja', { title: 'Nee', hides_questions: after_informed_consent, shows_questions: %i[v3a] }],
-    show_otherwise: false,
-    required: true,
-    section_end: true,
-  }, {
-    id: :v3a,
-    type: :raw,
-    hidden: true,
-    content: '<p>Error: Je geeft aan niet deel te willen nemen aan het onderzoek. Klopt dit? Dan kun je hieronder op de knop drukken om de vragenlijst te sluiten.</p>'
+    content: "<h2>Vragenlijst psychologische competenties</h2>\n<p class=\"flow-text\" style=\"font-size:medium;\">Beste deelnemer,</p>\n<p class=\"flow-text\" style=\"font-size:medium;\">Welkom bij de vragenlijst psychologische competenties.</p><p class=\"flow-text\" style=\"font-size:medium;\">Deze vragenlijst is ontwikkeld om inzicht te krijgen in de psychologische competenties van deelnemers die actief zijn in een bepaald prestatiedomein. Hierbij kan onder andere gedacht worden aan: sport, muziek, dans, ALO of de politie. Psychologische competenties zijn relatief stabiele vaardigheden die van belang zijn om op hoog niveau te kunnen presteren. Voorbeelden hiervan zijn focus, veerkracht en commitment. Ook kan het beheersen van deze vaardigheden het risico op gezondheidsproblemen verkleinen en het algeheel welzijn verbeteren. De vragen in deze vragenlijst hebben betrekking op jouw ervaringen en perspectieven binnen jouw prestatiedomein.</p>\n<h3>Procedure</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul class='browser-default'><li>Het invullen van de vragenlijst duurt ongeveer 15 minuten.</li><li>Zorg ervoor dat je op een rustige plek bent waar je ongestoord kunt werken zonder te overleggen met anderen.</li><li>Zet je telefoon op ‘niet storen’ zodat je geen berichtjes ontvangt.</li><li>Laat je niet afleiden tijdens het invullen, probeer je volledige aandacht bij de vragenlijst te houden.</li></ul><h3>Uitleg vragenlijst</h3>\n<p class=\"flow-text\" style=\"font-size:medium;\"><ul class='browser-default'><li>Let goed op de instructie die boven de vragen en stellingen staat. Hierin wordt meer informatie gegeven over de bijbehorende stellingen.</li><li>Je kunt steeds maar één antwoord kiezen.</li><li>Het is van belang om alle vragen te beantwoorden en alle stellingen van een antwoord te voorzien.</li><li>Beantwoord de vragen zo eerlijk mogelijk en geef je eigen mening.</li><li>Er zijn geen 'goede' of 'foute' antwoorden!</li></ul>"
   }, {
     section_start: "",
     id: :v3b,

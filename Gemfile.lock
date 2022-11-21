@@ -276,7 +276,7 @@ GEM
     lumberjack (1.2.8)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    mailgun-ruby (1.2.5)
+    mailgun-ruby (1.2.6)
       rest-client (>= 2.0.2)
     marcel (1.0.2)
     materialize-sass (1.0.0.1)
@@ -535,7 +535,6 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unf_ext (0.0.8.2-x64-mingw-ucrt)
-    unf_ext (0.0.8.2-x64-unknown)
     unicode-display_width (2.3.0)
     warden (1.2.9)
       rack (>= 2.0.9)

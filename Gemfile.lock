@@ -406,7 +406,7 @@ GEM
       redis-classy (~> 2.0)
     redis-namespace (1.8.2)
       redis (>= 3.0.4)
-    regexp_parser (2.6.0)
+    regexp_parser (2.6.1)
     remote_syslog_logger (1.0.4)
       syslog_protocol
     request_store (1.5.1)
@@ -462,7 +462,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.23.0)
       parser (>= 3.1.1.0)
-    rubocop-performance (1.15.0)
+    rubocop-performance (1.15.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rails (2.15.2)

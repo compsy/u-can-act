@@ -27,7 +27,7 @@ class CalculateScores < ActiveInteraction::Base
     # recorded in nl, and here we match the response values (which are nl strings), against the
     # options in the questionnaire definition, in order to find their numeric_value property. So, after
     # leaving just the nl (or i18n) strings in the questionnaire definitions, we know that we can match
-    # the options in the definitions against those in the response.
+    # the options in the definitions against the answers in the response.
     @questionnaire_content = QuestionnaireTranslator.translate_content(questionnaire.deep_dup, 'i18n')
     @questionnaire_content = QuestionnaireTranslator.translate_content(
       @questionnaire_content,

@@ -15,7 +15,19 @@ class CalculateScores < ActiveInteraction::Base
   # @param questionnaire [Hash] the questionnaire definition hash (keys can be symbols)
   def execute
     @scores = {}
-    # Do the translation of the labels and titles so that we have the default language options remaining
+    # Do the translation of the labels and titles so that we have the default language options remaining.
+    # This procedure is explained in full in questionnaire_generator.rb, but what it comes down to is that
+    # it goes through the entire content hash for a questionnaire (which contains question and score definitions),
+    # and replaces everything that looks like:
+    # { nl: "iets", en: "something" }
+    # with:
+    # "iets".
+    # If there is an i18n key, then that is used instead of nl (which is the system default language).
+    # We need to make this translation here because the recorded values in a response are also always
+    # recorded in nl, and here we match the response values (which are nl strings), against the
+    # options in the questionnaire definition, in order to find their numeric_value property. So, after
+    # leaving just the nl (or i18n) strings in the questionnaire definitions, we know that we can match
+    # the options in the definitions against those in the response.
     @questionnaire_content = QuestionnaireTranslator.translate_content(questionnaire.deep_dup, 'i18n')
     @questionnaire_content = QuestionnaireTranslator.translate_content(
       @questionnaire_content,

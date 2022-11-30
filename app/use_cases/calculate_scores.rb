@@ -15,7 +15,14 @@ class CalculateScores < ActiveInteraction::Base
   # @param questionnaire [Hash] the questionnaire definition hash (keys can be symbols)
   def execute
     @scores = {}
-    questionnaire[:scores].each do |score|
+    # Do the translation of the labels and titles so that we have the default language options remaining
+    @questionnaire_content = QuestionnaireTranslator.translate_content(questionnaire.deep_dup, 'i18n')
+    @questionnaire_content = QuestionnaireTranslator.translate_content(
+      @questionnaire_content,
+      Rails.application.config.i18n.default_locale.to_s
+    )
+
+    @questionnaire_content[:scores].each do |score|
       calculate_and_add_score(score)
     end
     @scores
@@ -39,7 +46,7 @@ class CalculateScores < ActiveInteraction::Base
   # check if this option has the `numeric_value` attribute, and if so, return
   # this numeric_value. Otherwise, return the guveb value unchanged.
   def possibly_substitute_for_number(value, qids)
-    question = questionnaire[:questions].find { |quest| quest[:id] == qids.to_sym }
+    question = @questionnaire_content[:questions].find { |quest| quest[:id] == qids.to_sym }
     return value unless question.present? && question.key?(:options)
 
     unified_options = unify_options(question[:options])

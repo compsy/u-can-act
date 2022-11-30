@@ -15,7 +15,26 @@ class CalculateScores < ActiveInteraction::Base
   # @param questionnaire [Hash] the questionnaire definition hash (keys can be symbols)
   def execute
     @scores = {}
-    questionnaire[:scores].each do |score|
+    # Do the translation of the labels and titles so that we have the default language options remaining.
+    # This procedure is explained in full in questionnaire_generator.rb, but what it comes down to is that
+    # it goes through the entire content hash for a questionnaire (which contains question and score definitions),
+    # and replaces everything that looks like:
+    # { nl: "iets", en: "something" }
+    # with:
+    # "iets".
+    # If there is an i18n key, then that is used instead of nl (which is the system default language).
+    # We need to make this translation here because the recorded values in a response are also always
+    # recorded in nl, and here we match the response values (which are nl strings), against the
+    # options in the questionnaire definition, in order to find their numeric_value property. So, after
+    # leaving just the nl (or i18n) strings in the questionnaire definitions, we know that we can match
+    # the options in the definitions against the answers in the response.
+    @questionnaire_content = QuestionnaireTranslator.translate_content(questionnaire.deep_dup, 'i18n')
+    @questionnaire_content = QuestionnaireTranslator.translate_content(
+      @questionnaire_content,
+      Rails.application.config.i18n.default_locale.to_s
+    )
+
+    @questionnaire_content[:scores].each do |score|
       calculate_and_add_score(score)
     end
     @scores
@@ -39,7 +58,7 @@ class CalculateScores < ActiveInteraction::Base
   # check if this option has the `numeric_value` attribute, and if so, return
   # this numeric_value. Otherwise, return the guveb value unchanged.
   def possibly_substitute_for_number(value, qids)
-    question = questionnaire[:questions].find { |quest| quest[:id] == qids.to_sym }
+    question = @questionnaire_content[:questions].find { |quest| quest[:id] == qids.to_sym }
     return value unless question.present? && question.key?(:options)
 
     unified_options = unify_options(question[:options])

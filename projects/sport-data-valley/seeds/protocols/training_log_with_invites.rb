@@ -15,8 +15,6 @@ bp_push_subscription.method = 'POST'
 bp_push_subscription.url = ENV['PUSH_SUBSCRIPTION_URL']
 bp_push_subscription.save!
 
-protocol.save!
-
 name = 'training_log'
 dagboekvragenlijst_id = Questionnaire.find_by(name: name)&.id
 raise "Cannot find questionnaire: #{name}" unless dagboekvragenlijst_id

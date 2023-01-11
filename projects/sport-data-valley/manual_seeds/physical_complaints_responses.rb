@@ -153,7 +153,7 @@ class PhysicalComplaintsResponses
 
         date = START_DATE
         while date <= END_DATE
-          create_rheuma_responses(person, date)
+          create_ostrc_h_o_responses(person, date)
 
           date += 1.week
         end
@@ -164,4 +164,4 @@ end
 # rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/MethodLength
 
-RheumaResponses.create
+PhysicalComplaintsResponses.create

@@ -195,8 +195,8 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       expect(response.status).to eq 200
       json_data = JSON.parse(response.body)
       expect(json_data.length).to eq(2)
-      expect(json_data.map { |entry| entry['id'] }).to match_array([protocol_subscription1.id,
-                                                                    protocol_subscription2.id])
+      expect(json_data.pluck('id')).to match_array([protocol_subscription1.id,
+                                                    protocol_subscription2.id])
     end
   end
 

@@ -13,14 +13,6 @@ module Api
           render json: Questionnaire.all, each_serializer: QuestionnaireShortSerializer
         end
 
-        def create
-          create_questionnaire
-        end
-
-        def update
-          update_questionnaire(@questionnaire)
-        end
-
         def show
           respond_to do |format|
             format.csv do
@@ -31,6 +23,14 @@ module Api
               render json: @questionnaire, serializer: Api::QuestionnaireSerializer
             end
           end
+        end
+
+        def create
+          create_questionnaire
+        end
+
+        def update
+          update_questionnaire(@questionnaire)
         end
 
         private

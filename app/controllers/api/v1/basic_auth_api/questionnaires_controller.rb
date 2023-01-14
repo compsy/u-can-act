@@ -7,12 +7,12 @@ module Api
         include QuestionnaireCreateOrUpdateHelper
         before_action :set_questionnaire, only: %i[show]
 
-        def create
-          create_questionnaire
-        end
-
         def show
           render json: @questionnaire, serializer: Api::QuestionnaireSerializer
+        end
+
+        def create
+          create_questionnaire
         end
 
         private

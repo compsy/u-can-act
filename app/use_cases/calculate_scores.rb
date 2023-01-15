@@ -138,17 +138,17 @@ class CalculateScores < ActiveInteraction::Base
   end
 
   def perform_operation_average(data)
-    raise MyMissingDataError, 'trying to calculate the average of an empty array' if data.size.zero?
+    raise MyMissingDataError, 'trying to calculate the average of an empty array' if data.empty?
     return data[0] if data.size == 1 # no need to convert to float if we have just one integer
 
     data.sum(0.0) / data.size
   end
 
   def perform_operation_sum(data)
-    raise MyMissingDataError, 'trying to calculate the sum of an empty array' if data.size.zero?
+    raise MyMissingDataError, 'trying to calculate the sum of an empty array' if data.empty?
     return data[0] if data.size == 1 # no need to convert to float if we have just one integer
 
-    data.sum(0)
+    data.sum
   end
 
   def round_result(value, score)

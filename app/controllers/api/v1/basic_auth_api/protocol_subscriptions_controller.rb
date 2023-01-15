@@ -48,12 +48,6 @@ module Api
           destroyed
         end
 
-        # This cancels the protocol subscription. Only works if the external_identifier is given.
-        def destroy
-          @protocol_subscription.cancel!
-          destroyed
-        end
-
         # This updates the protocol subscription. Only works if the external_identifier is given.
         # We reschedule the responses with a date that is in the future, for the same reasoning
         # as is explained in reschedule_responses.rb.
@@ -64,6 +58,12 @@ module Api
           RescheduleResponses.run!(protocol_subscription: @protocol_subscription,
                                    future: TimeTools.increase_by_duration(Time.zone.now, 1.hour))
           render status: :ok, json: { status: 'ok' }
+        end
+
+        # This cancels the protocol subscription. Only works if the external_identifier is given.
+        def destroy
+          @protocol_subscription.cancel!
+          destroyed
         end
 
         private

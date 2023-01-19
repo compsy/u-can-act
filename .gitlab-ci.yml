@@ -1,7 +1,7 @@
-# load docker image & start docker engine
-image: docker/compose:alpine-1.29.2
-services:
-  - docker:20.10.21-dind-alpine3.17
+include:
+  - project: researchable/general/templates/gitlab/base
+    ref: master
+    file: docker/template.yml
 
 # include:
     # Adds the 'semantic releases' to the release stage
@@ -22,35 +22,24 @@ stages:
   - post-deploy
 
 variables:
-  # Workaround for error in DIND:
   KUBE_NAMESPACE: sdv-mvp-$CI_COMMIT_REF_NAME
-  DOCKER_TLS_CERTDIR: ''
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_DRIVER: overlay2
-  RAILS_IMAGE: ${CI_REGISTRY}/${CI_PROJECT_PATH}
-  DEPLOY_TAG: $CI_COMMIT_SHA
   PROJECT_NAME: sport-data-valley
   CI: 'true'
 
-  # TODO: (210513) Once gitlab fixes this issue:
-  #   https://gitlab.com/gitlab-org/gitlab/-/issues/293674 this variable should
-  #   be generated automatically.
-  IMAGE: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires
+  # docker build variables
+  IMAGE_NAME: researchableuser/sdv-svc-questionnaires
+  IMAGE_TAGS: $CI_COMMIT_SHA
+  REGISTRY_USERNAME: $DOCKER_HUB_USERNAME
+  REGISTRY_PASSWORD: $DOCKER_HUB_PASSWORD
+  REGISTRY_HOST: docker.io
+
 
 
 build_web_job:
-  stage:
-    build
-  before_script:
-    - touch .env # TODO: These two lines can be removed, right?
-    - echo "PROJECT_NAME=${PROJECT_NAME}" > .env
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  extends: .docker_build_job
   variables:
-    RAILS_ENV: production
-    NODE_ENV: production
-  script:
-    - docker build . -t ${RAILS_IMAGE}:${CI_COMMIT_SHA}
-    - docker push --all-tags $RAILS_IMAGE
+    BUILD_ARG_RAILS_ENV: production
+    BUILD_ARG_NODE_ENV: production
   only:
     refs:
       - master

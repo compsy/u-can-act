@@ -22,7 +22,6 @@ questionnaires = [
   'KCT Julliet',
   'KCT Kilo',
   'KCT Lima',
-  'KCT Mike',
   'KCT Sociogram',
   'KCT Ontbijt'
 ]
@@ -50,6 +49,8 @@ end
 questionnaires = [
   'KCT Start van de week',
   'KCT Eind van de week',
+  'KCT Start van de week CT-Sniper',
+  'KCT Eind van de week CT-Sniper',
   'KCT Sociogram',
   'KCT Ontbijt'
 ]

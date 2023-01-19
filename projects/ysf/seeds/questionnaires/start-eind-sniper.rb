@@ -1,31 +1,10 @@
 # frozen_string_literal: true
 
-def create_number_question()
-  {
-    id: :number,
-    type: :textfield,
-    required: false,
-    title: 'Wat is je cursist nummer?'
-  }
-end
-
-def create_weight_question()
-  {
-    id: :gewicht,
-    type: :textfield,
-    required: true,
-    title: 'Wat is je gewicht?',
-    placeholder: '... kilogram'
-    # pattern: '[0-9]{2,3}(,[0-9]{1,2})?',
-    # hint: 'Moet een getal zijn met 2 of 3 nummers, bijvoorbeeld 86 of 104'
-  }
-end
-
-def create_ponder_question(id, title, negative, positive)
+def create_ponder_question(id, title, negative, positive, required = false)
   {
     id: id,
     type: :range,
-    required: true,
+    required: required,
     title: title,
     labels: [
       sprintf('0 = %s', negative),
@@ -417,59 +396,111 @@ def create_srss_questions()
   ]
 end
 
-def create_sleep_question(id, title)
-  {
-    id: id,
-    type: :range,
-    required: true,
-    title: title,
-    labels: ['1 = helemaal niet van toepassing', '5 = helemaal van toepassing'],
-    min: 1,
-    max: 5,
-    step: 1,
-    value: 1
-  }
-end
-
-def create_sleep_questions()
+def create_medic_question(im)
   [
     {
-      type: :raw,
-      content: '
-      <p class="flow-text section-explanation">
-        Hieronder volgen enkele vragen over je slaap.
-        Wil je voor elk van de uitspraken aangeven in hoeverre deze op jou van toepassing was <b>in de afgelopen week</b>?
-      </p>
-      '
+      id: :plaats_expandable,
+      type: :expandable,
+      title: 'Geef, met behulp van onderstaande afbeelding, zo nauwkeurig mogelijk de plaats(en) op het lichaam aan waar je deze week klachten had en hoeveel last je had. Je kunt een plaats selecteren via de knop "Voeg plaats toe".',
+      add_button_label: 'Voeg plaats toe',
+      max_expansions: 5,
+      remove_button_label: 'Verwijder plaats',
+      content: [
+        {
+          id: :plaats,
+          type: :dropdown,
+          title: 'Waar had je last?',
+          placeholder: 'Selecteer je antwoord...',
+          required: true,
+          options: ['Hoofd', 'Hals/nek', 'Borst', 'Pols/hand', 'Buik', 'Lies', 'Scheenbeen', 'Schouder',
+            'Rug thoracaal (ter hoogte borst)', 'Arm/elleboog', 'Lage rug', 'Bekken', 'Bovenbeen', 'Hamstring',
+            'Knie', 'Kuit', 'Onderbeen', 'Enkel', 'Voet']
+        },
+        {
+          id: :pijn,
+          type: :range,
+          required: true,
+          title: 'Hoeveel last had je?',
+          # https://behandelaar.pijnbijkanker.nl/chronische-pijn/onderzoek/meet-methodes/vas
+          labels: ['0 = geen pijn', '10 = ergst denkbare pijn'],
+          min: 0,
+          max: 10,
+          step: 1,
+          value: 0
+        }
+      ]
     },
-    create_sleep_question(:s_vermoeidheid, 'Ik heb overdag last van vermoeidheid.'),
-    create_sleep_question(:s_wakker_worden, 'Ik val pas tegen de ochtend in slaap en heb dan grote moeite om \'s morgens bijtijds wakker te worden. In het weekeinde slaap ik lang uit.'),
-    create_sleep_question(:s_kwaliteit, 'De kwaliteit van mijn slaap is slecht en ik voel me \'s morgens dan ook niet uitgerust.'),
-    create_sleep_question(:s_wakker_liggen, 'Ik lig \'s nachts lang wakker.'),
-    create_sleep_question(:s_moeilijk, 'Ik kan \'s avonds moeilijk in slaap komen.'),
-    create_sleep_question(:s_gevolgen, 'Vooral na een slechte nacht heb ik overdag last van één of meer van deze gevolgen: vermoeidheid, slaperigheid, slecht humeur, zwakke concentratie, geheugenproblemen of gebrek aan energie.'),
-    create_sleep_question(:s_onvoldoende, 'Ik krijg onvoldoende slaap.'),
-    create_sleep_question(:s_nachtmerries, 'Ik heb last van nachtmerries of angstige dromen.'),
-    create_sleep_question(:s_functioneren, 'Omdat ik te weinig slaap krijg, functioneer ik overdag minder goed.'),
-    create_sleep_question(:s_schema, 'Ik slaap slecht omdat het me niet lukt om op een normale tijd in slaap te vallen en \'s morgens op een normale tijd wakker te worden.')
+    {
+      type: :raw,
+      # String substitution only works for double quoted strings.
+      content: "
+      <center>
+        <img src=\"/images/questionnaires/kct/#{im}\" style=\"width: 80%; margin-left: 3rem;\" />
+      </center>
+      "
+    }
   ]
 end
 
 ###
-# Start van de week
+# Start van de week Sniper
 ###
-title = 'Start van de week'
-name = 'KCT Start van de week'
+title = 'Start van de week CT-Sniper'
+name = 'KCT Start van de week CT-Sniper'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
-questionnaire.key = 'start'
+questionnaire.key = 'startsniper'
 
 content = [
-  create_weight_question(),
-  *create_monday_ponder_questions(),
   *create_srss_questions(),
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Aanvullende vraag, geef aan het welke mate deze voor jou <b>op dit moment</b> van toepassing is:
+    </p>
+    '
+  },
+  create_ponder_question(
+    :zin,
+    'Hoeveel zin heb je in aankomende week?',
+    'Helemaal geen zin',
+    'Heel veel zin'
+  ),
   *create_medic_question("blessures.jpg"),
-  create_event_question()
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Aanvullende vragen <b>alleen voor de instructeurs</b> van de CT Sniper opleiding:
+    </p>
+    '
+  },
+  create_ponder_question(
+    :fysiek_belastend_instructeur,
+    'Hoe fysiek belastend wordt deze week voor de leerlingen?',
+    'Helemaal niet belastend',
+    'Zeer belastend',
+    false
+  ),
+  create_ponder_question(
+    :cognitief_belastend_instructeur,
+    'Hoe cognitief belastend wordt deze week voor de leerlingen?
+      (kernwoorden/beschrijving cognitieve belasting:
+      keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
+      kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
+    ',
+    'Helemaal niet belastend',
+    'Zeer belastend',
+    false
+  ),
+  create_ponder_question(
+    :stressvol_instructeur,
+    'Hoe stressvol wordt deze week voor de leerlingen?',
+    'Helemaal niet stressvol',
+    'Zeer stressvol',
+    false
+  )
 ]
 
 questionnaire.content = { questions: content, scores: [] }
@@ -477,62 +508,97 @@ questionnaire.title = title
 questionnaire.save!
 
 ###
-# Eind van de week
+# Eind van de week Sniper
 ###
-title = 'Eind van de week'
-name = 'KCT Eind van de week'
+title = 'Eind van de week CT-Sniper'
+name = 'KCT Eind van de week CT-Sniper'
 questionnaire = Questionnaire.find_by(name: name)
 questionnaire ||= Questionnaire.new(name: name)
-questionnaire.key = 'eind'
+questionnaire.key = 'eindsniper'
 
 content = [
-  create_inspannend_question(),
-  create_prestatie_question()
-]
-
-questionnaire.content = { questions: content, scores: [] }
-questionnaire.title = title
-questionnaire.save!
-
-###
-# Start van de week VCO
-###
-title = 'Start van de week VCO'
-name = 'KCT Start van de week VCO'
-questionnaire = Questionnaire.find_by(name: name)
-questionnaire ||= Questionnaire.new(name: name)
-questionnaire.key = 'startvco'
-
-content = [
-  create_start_recovery_question_fysiek(),
-  create_start_recovery_question_mentaal(),
   *create_srss_questions(),
-  create_extra_vco_questions_text(),
-  create_sfeer_question(),
-  create_prestatie_future_question(),
-  create_sleep_quality_question(),
-  *create_medic_question("operator.png"),
-]
-
-questionnaire.content = { questions: content, scores: [] }
-questionnaire.title = title
-questionnaire.save!
-
-###
-# Eind van de week VCO
-###
-title = 'Eind van de week VCO'
-name = 'KCT Eind van de week VCO'
-questionnaire = Questionnaire.find_by(name: name)
-questionnaire ||= Questionnaire.new(name: name)
-questionnaire.key = 'eindvco'
-
-content = [
-  create_fysiek_question(),
-  create_mentaal_question(),
-  create_prestatiedruk_question(),
-  create_prestatie_question(),
-  create_leerstof_question()
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Hieronder vind je aanvullende vragen, geef aan in welke mate ze voor jou <b>op dit moment</b> van toepassing zijn:
+    </p>
+    '
+  },
+  create_ponder_question(
+    :fysiek_belastend,
+    'Hoe <b>fysiek belastend</b> was deze opleidingsweek voor jou?',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :cognitief_belastend,
+    'Hoe <b>cognitief belastend</b> was deze opleidingsweek voor jou?
+      (kernwoorden/beschrijving cognitieve belasting:
+      keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
+      kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
+    ',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :stressvol,
+    'Hoe <b>stressvol</b> was deze opleidingweek voor jou?',
+    'Helemaal niet stressvol',
+    'Zeer stressvol'
+  ),
+  create_ponder_question(
+    :leerstof,
+    'Hoe heb je de hoeveelheid <b>leerstof</b> de afgelopen week ervaren?',
+    'Helemaal niet belastend',
+    'Zeer belastend'
+  ),
+  create_ponder_question(
+    :enthousiast,
+    'Hoe enthousiast ben je op dit moment over de CT-Sniper opleiding?',
+    'Helemaal niet enthousiast',
+    'Zeer enthousiast'
+  ),
+  {
+    id: :algemene_opmerkingen,
+    type: :textfield,
+    required: false,
+    title: 'Heb je algemene opmerkingen / feedback over afgelopen week? (optioneel)'
+  },
+  {
+    type: :raw,
+    content: '
+    <p class="flow-text section-explanation">
+      Aanvullende vragen <b>alleen voor de instructeurs</b> van de CT Sniper opleiding:
+    </p>
+    '
+  },
+  create_ponder_question(
+    :fysiek_belastend_instructeur,
+    'Hoe fysiek belastend was deze week voor de leerlingen?',
+    'Helemaal niet belastend',
+    'Zeer belastend',
+    false
+  ),
+  create_ponder_question(
+    :cognitief_belastend_instructeur,
+    'Hoe cognitief belastend was deze opleidingsweek voor de leerlingen?
+      (kernwoorden/beschrijving cognitieve belasting:
+      keuzes maken, dingen herinneren, uitvoeren van complexe taken, stimulusverwerking, denkvermogen,
+      kennis opnemen, wisselende aandacht (switchen/schakelen), zintuigelijke belasting en vasthouden van concentratie/aandacht.)
+    ',
+    'Helemaal niet belastend',
+    'Zeer belastend',
+    false
+  ),
+  create_ponder_question(
+    :stressvol_instructeur,
+    'Hoe stressvol was deze week voor de leerlingen?',
+    'Helemaal niet stressvol',
+    'Zeer stressvol',
+    false
+  )
 ]
 
 questionnaire.content = { questions: content, scores: [] }

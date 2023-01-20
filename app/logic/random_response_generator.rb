@@ -51,7 +51,7 @@ class RandomResponseGenerator
 
     def generate_answer_for_radio(question)
       cur_titles = titles(question, :options)
-      raise "This question does not have any options: #{question.pretty_inspect}" if cur_titles.size.zero?
+      raise "This question does not have any options: #{question.pretty_inspect}" if cur_titles.empty?
 
       idx = rand(0...cur_titles.size)
       cur_titles[idx]
@@ -96,7 +96,7 @@ class RandomResponseGenerator
 
     def generate_answer_for_checkbox(question)
       cur_titles = titles(question, :options)
-      raise "This question does not have any options: #{question.pretty_inspect}" if cur_titles.size.zero?
+      raise "This question does not have any options: #{question.pretty_inspect}" if cur_titles.empty?
 
       if question[:required].blank? && rand < 1.0 / cur_titles.size
         # don't fill out anything

@@ -102,7 +102,7 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # This should be false for selenium / capybara (https://github.com/plataformatec/devise/wiki/How-To:-Test-with-Capybara)
   config.use_transactional_fixtures = false
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = Rails.root.join('spec/fixtures')
 
   # Include controller macros in the controllers (support/controller_macros)
   # config.extend ControllerMacros

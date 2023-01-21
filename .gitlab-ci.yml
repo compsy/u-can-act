@@ -1,7 +1,7 @@
 include:
   - project: researchable/general/templates/gitlab/base
     ref: master
-    file: docker/template.yml
+    file: docker/build.yml
 
 # include:
     # Adds the 'semantic releases' to the release stage

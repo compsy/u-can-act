@@ -24,7 +24,7 @@ spec:
         tier: web
     spec:
       imagePullSecrets:
-        - name: gitlab-auth
+        - name: docker-auth
       containers:
         - name: svc-questionnaires
           imagePullPolicy: Always

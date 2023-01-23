@@ -35,7 +35,7 @@ variables:
   # TODO: (210513) Once gitlab fixes this issue:
   #   https://gitlab.com/gitlab-org/gitlab/-/issues/293674 this variable should
   #   be generated automatically.
-  IMAGE: registry.gitlab.com/researchable/sport-data-valley/mvp/svc-questionnaires
+  IMAGE: researchableuser/sdv-svc-questionnaires
 
 
 build_web_job:
@@ -44,7 +44,7 @@ build_web_job:
   before_script:
     - touch .env # TODO: These two lines can be removed, right?
     - echo "PROJECT_NAME=${PROJECT_NAME}" > .env
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD docker.io
   variables:
     RAILS_ENV: production
     NODE_ENV: production

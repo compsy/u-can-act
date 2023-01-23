@@ -44,6 +44,7 @@ build_web_job:
   before_script:
     - touch .env # TODO: These two lines can be removed, right?
     - echo "PROJECT_NAME=${PROJECT_NAME}" > .env
+    - until docker info; do sleep 1; done
     - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD docker.io
   variables:
     RAILS_ENV: production

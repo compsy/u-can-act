@@ -27,7 +27,7 @@ variables:
   DOCKER_TLS_CERTDIR: ''
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
-  RAILS_IMAGE: ${CI_REGISTRY}/${CI_PROJECT_PATH}
+  RAILS_IMAGE: researchableuser/sdv-svc-questionnaires
   DEPLOY_TAG: $CI_COMMIT_SHA
   PROJECT_NAME: sport-data-valley
   CI: 'true'

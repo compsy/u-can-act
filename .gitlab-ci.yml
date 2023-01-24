@@ -1,9 +1,9 @@
 # load docker image & start docker engine
-image: tmaier/docker-compose:latest
+image: docker/compose:alpine-1.29.2
 services:
-  - docker:19.03.1-dind
+  - docker:20.10.21-dind-alpine3.17
 
-include:
+# include:
     # Adds the 'semantic releases' to the release stage
   # - project: 'researchable/general/templates/gitlab/semantic-release'
   #   ref: master

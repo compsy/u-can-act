@@ -33,13 +33,12 @@ variables:
   REGISTRY_PASSWORD: $DOCKER_HUB_PASSWORD
   REGISTRY_HOST: docker.io
 
-
-
 build_web_job:
   extends: .docker_build_job
   variables:
     BUILD_ARG_RAILS_ENV: production
     BUILD_ARG_NODE_ENV: production
+
   only:
     refs:
       - master

@@ -89,7 +89,7 @@ module Api
     end
 
     def initial_multiplier
-      object.protocol.rewards&.find_by(threshold: 1)&.reward_points || 1
+      object.protocol.rewards.find { |reward| reward.threshold == 1 }&.reward_points || 1
     end
 
     def no_streak_detected

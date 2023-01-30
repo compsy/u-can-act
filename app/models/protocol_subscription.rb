@@ -116,7 +116,8 @@ class ProtocolSubscription < ApplicationRecord
 
   def max_still_earnable_reward_points
     from = latest_streak_value_index + 1
-    to = from + responses.future.length
+    now = Time.zone.now
+    to = from + responses.count { |response| response.open_from > now }
     sliced_completion = completion.slice((from...to))
     protocol.calculate_reward(sliced_completion, true)
   end
@@ -157,8 +158,9 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def initialize_end_date
-    self.end_date ||= TimeTools.increase_by_duration(start_date, protocol.duration) if
-      start_date.present? && protocol.present?
+    puts protocol.present?
+    #self.end_date ||= Time.zone.now#TimeTools.increase_by_duration(start_date, protocol.duration) if
+    #start_date.present? && protocol.present?
   end
 
   def schedule_responses

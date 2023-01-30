@@ -165,6 +165,8 @@ gem 'addressable'
 gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
+  gem 'server_timing'
+
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen'
   gem 'web-console'

@@ -158,7 +158,6 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def initialize_end_date
-    puts "initializing end date"
     self.end_date ||= TimeTools.increase_by_duration(start_date, protocol.duration) if
       start_date.present? && protocol.present?
   end

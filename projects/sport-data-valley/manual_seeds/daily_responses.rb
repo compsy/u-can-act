@@ -218,7 +218,7 @@ module DailyResponses
     end
 
     def create
-      (3..N_PARTICIPANTS).each do |idx|
+      (1..N_PARTICIPANTS).each do |idx|
         person = find_or_create_person("questionnaire_participant_#{idx}@researchable.nl")
 
         date = START_DATE

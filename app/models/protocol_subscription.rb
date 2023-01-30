@@ -16,8 +16,8 @@ class ProtocolSubscription < ApplicationRecord
   # NOTE: this ordering is important for a number of reasons. E.g.:
   # - Response.last? uses it to determine if this is the last in the set.
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
-  after_initialize :initialize_filling_out_for
-  before_save :initialize_end_date
+  before_validation :initialize_filling_out_for
+  before_validation :initialize_end_date
   after_create :schedule_responses
   has_many :protocol_transfers, dependent: :destroy
 
@@ -158,6 +158,7 @@ class ProtocolSubscription < ApplicationRecord
   end
 
   def initialize_end_date
+    puts "initializing end date"
     self.end_date ||= TimeTools.increase_by_duration(start_date, protocol.duration) if
       start_date.present? && protocol.present?
   end

@@ -55,6 +55,8 @@ class Person < ApplicationRecord
   validates :locale, inclusion: Rails.application.config.i18n.available_locales.map(&:to_s)
   validates :account_active, inclusion: { in: [true, false] }
 
+  before_destroy :destroy_filling_out_for
+
   after_initialize do |person|
     next if person.external_identifier
 
@@ -208,5 +210,11 @@ class Person < ApplicationRecord
     return if id.blank? || parent_id.blank? || id != parent_id
 
     errors.add(:parent, 'cannot be parent of yourself')
+  end
+
+  def destroy_filling_out_for
+    ProtocolSubscription.where(filling_out_for_id: id).find_each do |protsub|
+      protsub.update(filling_out_for_id: protsub.person_id)
+    end
   end
 end

@@ -86,17 +86,7 @@ class TokenAuthenticationController < ApplicationController
   def check_params
     return if identifier_param.present? && token_param.present?
 
-    protsubs = ProtocolSubscription.where(external_identifier: '23')
-                                   .includes(person: %i[auth_user role],
-                                             protocol: [:rewards, { measurements: :questionnaire }],
-                                             responses: { measurement: :questionnaire })
-    a = ActiveModelSerializers::SerializableResource.new(
-      protsubs,
-      each_serializer: Api::ProtocolSubscriptionSerializer,
-      adapter: :json,
-      root: 'protocol_subscriptions'
-    ).as_json
-    render(status: :unauthorized, html: "Gebruiker / Vragenlijst niet gevonden. #{a}", layout: 'application')
+    render(status: :unauthorized, html: 'Gebruiker / Vragenlijst niet gevonden.', layout: 'application')
   end
 
   def questionnaire_params

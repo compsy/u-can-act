@@ -40,7 +40,8 @@ build_web_job:
     - echo "PROJECT_NAME=${PROJECT_NAME}" > .env
     - echo "RAILS_ENV=production" >> .env
     - echo "NODE_ENV=production" >> .env
-
+    - until docker info; do sleep 1; done;
+    - docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $REGISTRY_HOST
   only:
     refs:
       - master

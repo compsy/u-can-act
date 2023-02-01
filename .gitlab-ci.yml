@@ -35,13 +35,10 @@ variables:
 
 build_web_job:
   extends: .docker_build_job
-  before_script:
-    - touch .env
-    - echo "PROJECT_NAME=${PROJECT_NAME}" > .env
-    - echo "RAILS_ENV=production" >> .env
-    - echo "NODE_ENV=production" >> .env
-    - until docker info; do sleep 1; done;
-    - docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $REGISTRY_HOST
+  variables:
+    BUILD_ARG_PROJECT_NAME: $PROJECT_NAME
+    BUILD_ARG_RAILS_ENV: production
+    BUILD_ARG_NODE_ENV: production
   only:
     refs:
       - master

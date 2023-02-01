@@ -16,5 +16,5 @@ spec:
         name: memory
         target:
           type: Utilization
-          averageUtilization: 50 
+          averageUtilization: 150 # equals 1,5 x requests.memory = 1152Mi
           

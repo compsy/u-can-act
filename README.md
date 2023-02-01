@@ -11,6 +11,7 @@
   <a href="https://zenodo.org/badge/latestdoi/84442919"><img src="https://zenodo.org/badge/84442919.svg"></a>
   <a href="https://circleci.com/gh/compsy/u-can-act"><img src="https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a"></a>
   <a href="https://coveralls.io/github/compsy/u-can-act?branch=master"><img src="https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master"></a>
+  
 </p>
 
 ## Reference

@@ -4,7 +4,7 @@
 
 <p align="center">
   Ruby Application for the Vroegtijdig School Verlaten Dagboekonderzoek.
-  Ook in gebruik als <i>back end</i> voor <a href="https://iederkindisanders.nl">Ieder Kind is Anders</a> en <a href="https://yourspecialforces.nl">Your Special Forces</a>.
+  Ook in gebruik als <i>back end</i> voor <a href="https://iederkindisanders.nl">Ieder Kind is Anders</a>, <a href="https://u-can-feel.nl">U Can Feel</a> en <a href="https://yourspecialforces.nl">Your Special Forces</a>.
 </p>
 
 <p align="center">

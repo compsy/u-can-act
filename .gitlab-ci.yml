@@ -36,6 +36,7 @@ variables:
 build_web_job:
   extends: .docker_build_job
   variables:
+    BUILD_ARG_PROJECT_NAME: $PROJECT_NAME
     BUILD_ARG_RAILS_ENV: production
     BUILD_ARG_NODE_ENV: production
     BUILD_ARG_SECRET_KEY_BASE: 3dfd3556ee07900fdf08fac96a1f7fa6b8b930b8ee63b6b5c6fef5168b78769f2159ec90d0717c201913ce13147fdf54c0d444001b413b885142b75e9a689458

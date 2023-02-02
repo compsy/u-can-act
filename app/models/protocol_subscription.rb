@@ -16,8 +16,34 @@ class ProtocolSubscription < ApplicationRecord
   # NOTE: this ordering is important for a number of reasons. E.g.:
   # - Response.last? uses it to determine if this is the last in the set.
   has_many :responses, -> { order open_from: :asc }, dependent: :destroy, inverse_of: :protocol_subscription
+
+  # These two methods used to be after_initialize callbacks, but that gave performance
+  # issues because when you're serializing a bunch of protocol subscriptions and using
+  # a .includes() directive to make the query more efficient. That .includes() gets ignored
+  # if you have an after_initialize callback that references one of the objects in that
+  # .includes().
+  # This is because after_initialize is not smart enough to make use of .includes()
+  # and so when it has to initialize a linked object in an after_initialize filter,
+  # it does so with a query per instantiated object.
+  # Moreover, because Rails then sees that the object we were trying to include is now
+  # cached, it will no longer perform any nested .includes() that we may have had for
+  # these objects.
+  # Because there's no way to do smart db queries that use .includes() from within
+  # an after_initialize filter (because by definition, the after_initialize is called
+  # for every single object, not for a collection of objects), the result is that
+  # the .includes() relating to the linked object and any nested objects therein
+  # get ignored and will be executed will N+1 queries instead when referenced.
+  # The solution we use here is to use before_validation actions instead. These actions
+  # are called when validating the object, which is typically before saving the object
+  # due to an update or create, rather than on every instantiation. This simple change
+  # makes response times for the API easily 10 times as fast in cases of nested
+  # .includes().
+  # So to summarize: don't use after_initialize actions that reference other objects
+  # (i.e., those that the current object is linked to through a belongs_to, has_one,
+  # or has_many).
   before_validation :initialize_filling_out_for
   before_validation :initialize_end_date
+
   after_create :schedule_responses
   has_many :protocol_transfers, dependent: :destroy
 

@@ -142,6 +142,7 @@ class ProtocolSubscription < ApplicationRecord
 
   def max_still_earnable_reward_points
     from = latest_streak_value_index + 1
+    # Put the "now" time in a variable so Time.zone.now is not different for every response.
     now = Time.zone.now
     to = from + responses.count { |response| response.open_from > now }
     sliced_completion = completion.slice((from...to))

@@ -38,19 +38,15 @@ module Api
 
         def delegated_protocol_subscriptions
           render json: ProtocolSubscription.where(external_identifier: @external_identifier)
-                                           .includes(:person, :protocol, :responses),
+                                           .includes(person: %i[auth_user role],
+                                                     protocol: [:rewards, { measurements: :questionnaire }],
+                                                     responses: { measurement: :questionnaire }),
                  each_serializer: Api::ProtocolSubscriptionSerializer
         end
 
         def destroy_delegated_protocol_subscriptions
           ProtocolSubscription.active.where(person: @person,
                                             external_identifier: @external_identifier).each(&:cancel!)
-          destroyed
-        end
-
-        # This cancels the protocol subscription. Only works if the external_identifier is given.
-        def destroy
-          @protocol_subscription.cancel!
           destroyed
         end
 
@@ -64,6 +60,12 @@ module Api
           RescheduleResponses.run!(protocol_subscription: @protocol_subscription,
                                    future: TimeTools.increase_by_duration(Time.zone.now, 1.hour))
           render status: :ok, json: { status: 'ok' }
+        end
+
+        # This cancels the protocol subscription. Only works if the external_identifier is given.
+        def destroy
+          @protocol_subscription.cancel!
+          destroyed
         end
 
         private

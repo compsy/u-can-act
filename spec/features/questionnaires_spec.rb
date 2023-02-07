@@ -376,7 +376,7 @@ describe 'GET and POST /', type: :feature, js: true do
     expect(page).not_to have_css('a', text: '-')
 
     # All hidden question options should be disabled
-    (0..10).each do |q_id|
+    11.times do |q_id|
       (1..5).each do |sub_q_id|
         id = "v4_#{q_id}_#{sub_q_id}"
         result = page.all("textarea[id^=#{id}],input[id^=#{id}]")

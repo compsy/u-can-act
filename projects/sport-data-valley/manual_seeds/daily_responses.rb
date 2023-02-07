@@ -122,6 +122,10 @@ module DailyResponses
       protsub ||= ProtocolSubscription.new(person: person, protocol: protocol)
 
       protsub.state = ProtocolSubscription::COMPLETED_STATE
+      # Uncomment the line below to have the protocol subscriptions show up in
+      # the questionnaire manager for the "Running training Mon, Wed 20:00-22:00" group,
+      # which should have group id 23 in most cases.
+      # protsub.external_identifier = '23'
       protsub.start_date = Time.new(2016).in_time_zone
       protsub.end_date = Time.new(2017).in_time_zone
       protsub.save!

@@ -34,7 +34,7 @@ describe Api::OrganizationOverviewSerializer do
   end
 
   describe 'overview' do
-    let(:names_in_json) { json['overview'].map { |org| org['name'] } }
+    let(:names_in_json) { json['overview'].pluck('name') }
     let(:instance_var) do
       [
         {
@@ -112,7 +112,7 @@ describe Api::OrganizationOverviewSerializer do
         result = described_class.new(overview_no_mentors, group: group).as_json.with_indifferent_access
         result = result['overview']
         expect(result.length).to eq 2
-        (0..1).each do |idx|
+        2.times do |idx|
           expect(result[idx][:name]).to eq overview_no_mentors[idx][:name]
 
           if overview_no_mentors[idx][:data].key?(group)
@@ -150,7 +150,7 @@ describe Api::OrganizationOverviewSerializer do
         result = described_class.new(instance_var, group: group).as_json.with_indifferent_access
         result = result['overview']
         expect(result.length).to eq 2
-        (0..1).each do |idx|
+        2.times do |idx|
           expect(result[idx][:name]).to eq instance_var[idx][:name]
           expect(result[idx][:completed]).to eq instance_var[idx][:data][group][:completed]
           percentage = instance_var[idx][:data][group][:completed].to_d /

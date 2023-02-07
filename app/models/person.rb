@@ -22,7 +22,7 @@ class Person < ApplicationRecord
             uniqueness: true
 
   validates :email,
-            format: /\A([\w+\-]\.?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
+            format: /\A([\w+-]\.?)+@[a-z\d-]+(\.[a-z]+)*\.[a-z]+\z/i,
             allow_blank: true,
             uniqueness: true
 
@@ -54,6 +54,8 @@ class Person < ApplicationRecord
   validate :not_own_parent
   validates :locale, inclusion: Rails.application.config.i18n.available_locales.map(&:to_s)
   validates :account_active, inclusion: { in: [true, false] }
+
+  before_destroy :update_filling_out_for
 
   after_initialize do |person|
     next if person.external_identifier
@@ -208,5 +210,13 @@ class Person < ApplicationRecord
     return if id.blank? || parent_id.blank? || id != parent_id
 
     errors.add(:parent, 'cannot be parent of yourself')
+  end
+
+  # This method is called when a person is destroyed. It updates all protocol subscriptions
+  # that were filling out for this person to fill out for themselves instead.
+  def update_filling_out_for
+    ProtocolSubscription.where(filling_out_for_id: id).find_each do |protsub|
+      protsub.update(filling_out_for_id: protsub.person_id)
+    end
   end
 end

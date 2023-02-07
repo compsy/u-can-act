@@ -3,6 +3,10 @@
 FROM ruby:3.1.2
 
 ARG precompileassets
+# set from --build-arg
+ARG PROJECT_NAME
+ARG RAILS_ENV
+ARG NODE_ENV
 
 # Needed for Yarn
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev curl software-properties-common && \

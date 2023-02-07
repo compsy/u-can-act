@@ -10,12 +10,12 @@ namespace :deployment do
     puts "Creating project '#{@args[:project_name]}' - started"
 
     def create_env_local_file
-      if File.file?(Rails.root.join('.env.local'))
+      if Rails.root.join('.env.local').file?
         puts 'File .env.local already exists'
         return
       end
       puts 'Creating .env.local file...'
-      File.open(Rails.root.join('.env.local'), 'w') do |f|
+      Rails.root.join('.env.local').open('w') do |f|
         f.puts "PROJECT_NAME:      #{@args[:project_name]}"
         f.puts ''
         f.puts "HOST_URL:          http://#{@args[:project_name]}.io"

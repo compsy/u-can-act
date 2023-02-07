@@ -38,9 +38,7 @@ describe ProtocolSubscription do
     it 'has one' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.filling_out_for_id = nil
-      expect(protocol_subscription).not_to be_valid
-      expect(protocol_subscription.errors.messages).to have_key :filling_out_for
-      expect(protocol_subscription.errors.messages[:filling_out_for]).to include('moet bestaan')
+      expect(protocol_subscription).to be_valid # because it is re-set before validation
     end
     it 'works to retrieve a Person' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
@@ -56,9 +54,7 @@ describe ProtocolSubscription do
     it 'has one' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)
       protocol_subscription.end_date = nil
-      expect(protocol_subscription).not_to be_valid
-      expect(protocol_subscription.errors.messages).to have_key :end_date
-      expect(protocol_subscription.errors.messages[:end_date]).to include('moet opgegeven zijn')
+      expect(protocol_subscription).to be_valid # because it is re-set before validation
     end
     it 'works to retrieve a Time object' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)

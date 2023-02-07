@@ -89,7 +89,13 @@ module Api
     end
 
     def initial_multiplier
-      object.protocol.rewards&.find_by(threshold: 1)&.reward_points || 1
+      # Note that we use .find instead of .find_by here, because .find_by is a method on
+      # ActiveRecord::Relation, which causes the line below to send a query to the database
+      # and for the whole thing to cause an N+1 query. The .find method on the other hand
+      # works on an array, and so it takes the rewards (which are cached by virtue of a
+      # .includes() syntax), and then finds the first one that matches the condition. So
+      # it doesn't trigger a new query to the database and avoids N+1 queries.
+      object.protocol.rewards.find { |reward| reward.threshold == 1 }&.reward_points || 1
     end
 
     def no_streak_detected

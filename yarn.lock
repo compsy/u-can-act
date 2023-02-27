@@ -217,7 +217,7 @@
   dependencies:
     "@babel/types" "^7.18.6"
 
-"@babel/helper-module-transforms@^7.18.6", "@babel/helper-module-transforms@^7.19.0", "@babel/helper-module-transforms@^7.20.11", "@babel/helper-module-transforms@^7.21.0":
+"@babel/helper-module-transforms@^7.18.6", "@babel/helper-module-transforms@^7.19.0", "@babel/helper-module-transforms@^7.20.11", "@babel/helper-module-transforms@^7.21.0", "@babel/helper-module-transforms@^7.21.2":
   version "7.21.2"
   resolved "https://registry.yarnpkg.com/@babel/helper-module-transforms/-/helper-module-transforms-7.21.2.tgz#160caafa4978ac8c00ac66636cb0fa37b024e2d2"
   integrity sha512-79yj2AR4U/Oqq/WOV7Lx6hUjau1Zfo4cI+JLAVYeMV5XIlbOhmjEk5ulbTc9fMpmlojzZHkUUxAiK+UKn+hNQQ==
@@ -846,11 +846,11 @@
     "@babel/helper-plugin-utils" "^7.20.2"
 
 "@babel/plugin-transform-modules-commonjs@^7.18.6", "@babel/plugin-transform-modules-commonjs@^7.19.6", "@babel/plugin-transform-modules-commonjs@^7.5.0":
-  version "7.20.11"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.20.11.tgz#8cb23010869bf7669fd4b3098598b6b2be6dc607"
-  integrity sha512-S8e1f7WQ7cimJQ51JkAaDrEtohVEitXjgCGAS2N8S31Y42E+kWwfSz83LYz57QdBm7q9diARVqanIaH2oVgQnw==
+  version "7.21.2"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.21.2.tgz#6ff5070e71e3192ef2b7e39820a06fb78e3058e7"
+  integrity sha512-Cln+Yy04Gxua7iPdj6nOV96smLGjpElir5YwzF0LBPKoPlLDNJePNlrGGaybAJkd0zKRnOVXOgizSqPYMNYkzA==
   dependencies:
-    "@babel/helper-module-transforms" "^7.20.11"
+    "@babel/helper-module-transforms" "^7.21.2"
     "@babel/helper-plugin-utils" "^7.20.2"
     "@babel/helper-simple-access" "^7.20.2"
 

@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-daily-at-2-am
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          imagePullSecrets:
+            - name: gitlab-auth
+          containers:
+          - name: cron-container
+            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            imagePullPolicy: IfNotPresent
+            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_two_am']
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: svc-questionnaires-secret
+                  key: __CI_COMMIT_REF_NAME___API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: svc-questionnaires-secret
+                  key: __CI_COMMIT_REF_NAME___API_SECRET

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-worker
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      tier: worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 100%
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        track: stable
+        tier: worker
+    spec:
+      imagePullSecrets:
+      {{ toYaml .Values.imagePullSecrets | indent 4 }}
+      containers:
+        - name: {{ .Release.Name }}
+          imagePullPolicy: Always
+          image: {{ .Values.image }}
+          resources:
+            limits:
+              memory: "1.5Gi"
+            requests:
+              memory: "768Mi"
+          command: ['bundle', 'exec', 'rake', 'jobs:work']
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-config
+          - secretRef:
+              name: {{ .Values.secretName }} 

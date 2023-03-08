@@ -2,6 +2,10 @@ include:
   - project: researchable/general/templates/gitlab/base
     ref: master
     file: docker/build.yml
+  - project: 'researchable/general/templates/gitlab/base'
+    ref: master
+    file: 'helm/trigger.yml'
+
 
 # include:
     # Adds the 'semantic releases' to the release stage
@@ -20,6 +24,7 @@ stages:
   - release
   - deploy
   - post-deploy
+  - gitops
 
 variables:
   KUBE_NAMESPACE: sdv-mvp-$CI_COMMIT_REF_NAME
@@ -32,6 +37,11 @@ variables:
   REGISTRY_USERNAME: $DOCKER_HUB_USERNAME
   REGISTRY_PASSWORD: $DOCKER_HUB_PASSWORD
   REGISTRY_HOST: docker.io
+
+  GITOPS_FILE_PATH: chart/$CI_COMMIT_BRANCH/values.yaml
+  GITOPS_YQ_KEY: image
+  GITOPS_YQ_VALUE: $REGISTRY_HOST/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+
 
 build_web_job:
   extends: .docker_build_job

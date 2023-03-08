@@ -1,0 +1,36 @@
+{{ $name := .Release.Name }}
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+  - hosts:
+    {{- range $key, $value := .Values.ingress.hosts }}
+      - {{ $value }}
+    {{- end}}
+
+    secretName: {{ .Values.ingress.tls.secretName }}
+  {{- end }}
+  rules:
+  {{- range $key, $value := .Values.ingress.hosts }}
+  - host: {{ $value }}
+    http:
+      paths:
+      - path: /
+        pathType: "Prefix"
+        backend:
+          service:
+            name: {{ $name }}
+            port:
+              number: 3000
+  {{- end}}              
+{{- end }}

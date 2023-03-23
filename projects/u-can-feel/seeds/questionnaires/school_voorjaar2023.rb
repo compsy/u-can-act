@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 db_title = 'Over school'
-db_name1 = 'school_najaar2022'
+db_name1 = 'school_voorjaar2023'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
@@ -200,7 +200,7 @@ dagboek_content = [
     required: true,
     title: 'Wat is <u>de belangrijkste reden</u> dat je in de afgelopen 2 weken lessen hebt gemist?',
     options: [
-        { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
+        { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' },
         { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
         { title: 'Ik moest thuisblijven wegens corona (bijvoorbeeld quarantaine)' },
         { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
@@ -225,7 +225,7 @@ dagboek_content = [
     required: true,
     title: 'Waren er nog <u>andere redenen</u> dat je in de afgelopen 2 weken lessen hebt gemist?',
     options: [
-        { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' }, 
+        { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' },
         { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
         { title: 'Ik moest thuisblijven wegens corona (bijvoorbeeld quarantaine)' },
         { title: 'Ik vond het moeilijk om naar school te gaan of daar te blijven (bijvoorbeeld omdat je bang was)' },
@@ -250,10 +250,10 @@ dagboek_content = [
     required: true,
     title: 'Heb je in het afgelopen half jaar extra ondersteuning voor je schoolwerk gehad? Je kunt meerdere dingen aankruisen.',
     options: [
-      { title: 'Ja, huiswerkbegeleiding' }, 
-      { title: 'Ja, bijles' }, 
-      { title: 'Ja, examentraining' }, 
-      { title: 'Ja, iets anders' }, 
+      { title: 'Ja, huiswerkbegeleiding' },
+      { title: 'Ja, bijles' },
+      { title: 'Ja, examentraining' },
+      { title: 'Ja, iets anders' },
       { title: 'Nee' }
     ]
   }, {
@@ -264,7 +264,7 @@ dagboek_content = [
     options: ['Nee', 'Ja, een beetje minder tijd', 'Ja, veel minder tijd']
   },  {
     type: :raw,
-    content: '<p class="flow-text">De volgende vragen gaan over hoeveel druk je voelt om goed te presteren op school. Verschuif de slider om aan te geven hoe eens of oneens je het bent met elke zin. 
+    content: '<p class="flow-text">De volgende vragen gaan over hoeveel druk je voelt om goed te presteren op school. Verschuif de slider om aan te geven hoe eens of oneens je het bent met elke zin.
 </p>'
   }, {
     id: :v35,

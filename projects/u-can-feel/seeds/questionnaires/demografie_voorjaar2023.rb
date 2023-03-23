@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 db_title = 'Start'
-db_name1 = 'demografie_najaar2022'
+db_name1 = 'demografie_voorjaar2023'
 dagboek1 = Questionnaire.find_by_key(File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1

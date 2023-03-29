@@ -431,7 +431,7 @@ dagboek_content = [
     options: social_media_options
   }, {
     type: :raw,
-    content: '<p class="flow-text">Dat was het! Erg bedankt voor je hulp!
+    content: '<p class="flow-text">Dat was het! Erg bedankt voor je hulp! Vergeet niet om hieronder nog even op de Opslaan knop te drukken. 
     </p>'
   } 
 ]

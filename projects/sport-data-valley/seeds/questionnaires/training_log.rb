@@ -35,7 +35,7 @@ dagboek_content = [
       { nl: 'Hockey', en: 'Field hockey', i18n: 'components.dashboards.questionnaire.training_type.field_hockey' },
       { nl: 'Honkbal', en: 'Baseball', i18n: 'components.dashboards.questionnaire.training_type.baseball' },
       { nl: 'IJshockey', en: 'Ice hockey', i18n: 'components.dashboards.questionnaire.training_type.ice_hockey' },
-      { nl: 'Immitatietraining', en: 'Downtime skating', i18n: 'components.dashboards.questionnaire.training_type.downtime_skating' },
+      { nl: 'Imitatietraining', en: 'Downtime skating', i18n: 'components.dashboards.questionnaire.training_type.downtime_skating' },
       { nl: 'Judo', en: 'Judo', i18n: 'components.dashboards.questionnaire.training_type.judo' },
       { nl: 'Karate', en: 'Karate', i18n: 'components.dashboards.questionnaire.training_type.karate' },
       { nl: 'Klimmen', en: 'Climbing', i18n: 'components.dashboards.questionnaire.training_type.climbing' },

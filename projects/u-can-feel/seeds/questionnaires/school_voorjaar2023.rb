@@ -200,6 +200,7 @@ dagboek_content = [
     required: true,
     title: 'Wat is <u>de belangrijkste reden</u> dat je in de afgelopen 2 weken lessen hebt gemist?',
     options: [
+        { title: 'Ik heb al eindexamen gedaan' },
         { title: 'Ik had een afspraak (bijvoorbeeld met de huisarts of een specialist)' },
         { title: 'Ik was ziek (bijvoorbeeld grieperig) of lag in het ziekenhuis' },
         { title: 'Ik moest thuisblijven wegens corona (bijvoorbeeld quarantaine)' },

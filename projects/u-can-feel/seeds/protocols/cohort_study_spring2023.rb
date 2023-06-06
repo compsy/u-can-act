@@ -6,7 +6,7 @@ pr_name = File.basename(__FILE__)[0...-3]
 cohort_protocol = Protocol.find_by(name: pr_name)
 cohort_protocol ||= Protocol.new(name: pr_name)
 cohort_protocol.duration = 2.weeks 
-cohort_protocol.invitation_text = 'Doe je weer mee aan het u-can-feel onderzoek? Alvast erg bedankt! Klik op de volgende link om een aantal vragenlijsten in te vullen.'
+cohort_protocol.invitation_text = 'Het u-can-feel onderzoek is bijna afgelopen! Help je nog 1 keer mee door een aantal vragenlijsten in te vullen? Klik daarvoor op de volgende link. Alvast bedankt!'
 
 cohort_protocol.informed_consent_questionnaire_id = nil  # these participants have already consented in the spring
 

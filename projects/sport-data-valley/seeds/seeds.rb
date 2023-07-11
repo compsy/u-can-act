@@ -167,4 +167,11 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Rheumatism one time protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+  # Create move mood and motivation one time protocol instance
+  mmm_protocol = Protocol.find_by(name: MMM_PROTOCOL_NAME)
+  mmm_token = MMM_PROTOCOL_NAME
+  otr = OneTimeResponse.find_by(token: mmm_token)
+  otr ||= OneTimeResponse.create!(token: mmm_token, protocol: mmm_protocol)
+  puts "Move, Mood and Motivation (One Time Response): #{Rails.application.routes.url_helpers.one_time_response_url(q: mmm_token)}"
 end

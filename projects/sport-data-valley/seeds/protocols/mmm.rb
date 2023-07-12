@@ -3,8 +3,7 @@ require_relative '../questionnaires/mmm_questionnaire'
 
 MMM_PROTOCOL_NAME = 'move_mood_motivation'
 MMM_NOTIFICATION_NAME = 'base-platform-subscription-move-mood-motivation'
-MMM_DEFAULT_PROTOCOL_DURATION = 1.day #TODO Change this to many days
-
+MMM_DEFAULT_PROTOCOL_DURATION = 30.days
 
 protocol = create_or_update_protocol(MMM_PROTOCOL_NAME, MMM_DEFAULT_PROTOCOL_DURATION)
 

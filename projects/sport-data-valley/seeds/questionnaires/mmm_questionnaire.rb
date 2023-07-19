@@ -105,8 +105,9 @@ question_content = [
         title: {  nl: "Ja, ik blijf mijn eigen activity tracker gedurende het onderzoek dragen.",
                 en: "Yes, and I will keep using my own activity tracker during this study." },
         value: "yes-and-will-use-throughout-the-study"
-      },
-    ]
+      }
+    ],
+    show_otherwise: false
   },
   {
     id: 'lifestyle',
@@ -184,7 +185,8 @@ question_content = [
                 en: "None" },
         value: "none"
       }
-    ]
+    ],
+    show_otherwise: false
   },
   {
     id: 'moderate_physical_activity',
@@ -213,7 +215,8 @@ question_content = [
                 en: "None" },
         value: "none"
       }
-    ]
+    ],
+    show_otherwise: false
   },
   {
     id: 'study_motivation',
@@ -272,7 +275,8 @@ question_content = [
                 en: "No" },
         value: "no"
       },
-    ]
+    ],
+    show_otherwise: false
   },
   {
     #TODO Make sure the top is 10 and bottom is 0
@@ -289,6 +293,7 @@ question_content = [
         nl: "slechtst",
         en: "worst"
       },
+      *(Array.new(9) { { nl: '', en: ''} }),
       {
         nl: "best",
         en: "best"
@@ -307,7 +312,8 @@ question_content = [
     required: true,
     title: {  nl: "Door mijn studie voel ik me geestelijk uitgeput.",
               en: "I feel mentally drained by my studies." },
-    options: frequency_options
+    options: frequency_options,
+    show_otherwise: false
   },
   {
     id: 'energy_recovery',
@@ -315,7 +321,8 @@ question_content = [
     required: true,
     title: {  nl: "Ik raak maar niet uitgerust nadat ik een dag gestudeerd heb.",
               en: "After a day of school(work), I find it hard to recover my energy." },
-    options: frequency_options
+    options: frequency_options,
+    show_otherwise: false
   },
   {
     id: 'physical_exhaustion',
@@ -323,7 +330,8 @@ question_content = [
     required: true,
     title: {  nl: "Na een dag op de hogeschool voel ik mij lichamelijk uitgeput.",
               en: "After a day of school(work), I feel physically exhausted." },
-    options: frequency_options
+    options: frequency_options,
+    show_otherwise: false
   },
   {
     id: 'morning_energy',
@@ -331,7 +339,8 @@ question_content = [
     required: true,
     title: {  nl: "Als ik ‘s morgens opsta, mis ik de energie om aan de schooldag te beginnen.",
               en: "When I get up in the morning, I lack the energy to start a new day at school." },
-    options: frequency_options
+    options: frequency_options,
+    show_otherwise: false
   },
   {
     type: :raw,
@@ -344,7 +353,8 @@ question_content = [
     required: true,
     title: {  nl: "Ik vind het moeilijk om me door stressvolle gebeurtenissen heen te slaan.",
               en: "I have trouble moving past stressful experiences." },
-    options: agreement_options
+    options: agreement_options,
+    show_otherwise: false
   },
   {
     id: 'time_recovering_from_stressful_experiences',
@@ -352,7 +362,8 @@ question_content = [
     required: true,
     title: {  nl: "Het kost me veel tijd om te herstellen van een stressvolle gebeurtenis",
               en: "It takes a long time for me to recover from a stressful experience." },
-    options: agreement_options
+    options: agreement_options,
+    show_otherwise: false
   },
   {
     id: 'getting_over_setbacks',
@@ -360,7 +371,8 @@ question_content = [
     required: true,
     title: {  nl: "Het kost me meestal veel tijd om over tegenslagen in mijn leven heen te komen",
               en: "It usually takes a long time for me to get over setbacks in my life." },
-    options: agreement_options
+    options: agreement_options,
+    show_otherwise: false
   },
   {
     id: 'study_participation_experience',
@@ -387,7 +399,8 @@ question_content = [
                 en: "No" },
         value: "no"
       }
-    ]
+    ],
+    show_otherwise: false
   },
   {
     id: 'how_questionnaire_affects',
@@ -414,8 +427,9 @@ question_content = [
         title: {  nl: "Nee",
                 en: "No" },
         value: "no"
-      },
-    ]
+      }
+    ],
+    show_otherwise: false
   },
   {
     id: 'how_tracker_affects',

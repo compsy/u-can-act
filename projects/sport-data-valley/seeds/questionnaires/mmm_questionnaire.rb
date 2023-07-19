@@ -82,7 +82,7 @@ question_content = [
   },
   {
     # TODO This question should only be filled in the first time!
-    id: :'activity-tracker',
+    id: 'activity_tracker',
     type: :radio,
     title: {  nl: "Gebruik je een eigen activity tracker (b.v. Garmin, Fitbit)?",
               en: "Do you use your own activity tracker (i.e. Garmin, Fitbit)?" },
@@ -110,7 +110,7 @@ question_content = [
     ]
   },
   {
-    id: :lifestyle,
+    id: 'lifestyle',
     type: :likert,
     required: true,
     title: {  nl: "Hoe zou jij je levensstijl over het algemeen beschrijven? (Neem hierbij in overweging: voeding, beweging, nachtrust, roken, alcohol, drugs)",
@@ -144,7 +144,7 @@ question_content = [
     ]
   },
   {
-    id: :'sleep-quality',
+    id: 'sleep_quality',
     type: :range,
     required: true,
     title: {  nl: "Over de laatste 7 dagen, hoe zou je jouw slaapkwaliteit over het algemeen beoordelen op een schaal van 0 (vreselijk) tot 10 (uitstekend)?",
@@ -164,7 +164,7 @@ question_content = [
     step: 1
   },
   {
-    id: :'vigorous-physical-activity',
+    id: 'vigorous_physical_activity',
     type: :radio,
     required: true,
     title: {  nl: "Hoeveel keer per week voer je gewoonlijk gedurende 20 minuten of meer een fysiek zware activiteit uit? (bv. hardlopen, spinnen, squash)",
@@ -188,7 +188,7 @@ question_content = [
     ]
   },
   {
-    id: :'moderate-physical-activity',
+    id: 'moderate_physical_activity',
     type: :radio,
     required: true,
     title: {  nl: "Hoeveel keer per week voer je gewoonlijk gedurende 30 minuten of meer een matig-intense fysieke activiteit uit? (bv. wandelen, rustig fietsen, roeien)",
@@ -217,7 +217,7 @@ question_content = [
     ]
   },
   {
-    id: :'study-motivation',
+    id: 'study_motivation',
     type: :range,
     required: true,
     title: {  nl: "Op een schaal van 0 tot 10, waarbij 0 het laagst mogelijke en 10 het hoogst mogelijke is, geef aan hoe je jezelf scoort op je studiemotivatie:",
@@ -237,7 +237,7 @@ question_content = [
     step: 1
   },
   {
-    id: :'study-stress',
+    id: 'study_stress',
     type: :range,
     required: true,
     title: {  nl: "Op een schaal van 0 tot 10, waarbij 0 het laagst mogelijke en 10 het hoogst mogelijke is, geef aan hoe je jezelf scoort op de mate van ervaren stress door de studie:",
@@ -257,7 +257,7 @@ question_content = [
     step: 1
   },
   {
-    id: :'considered-discontinuing',
+    id: 'considered_discontinuing',
     type: :radio,
     required: true,
     title: {  nl: "Heb je in de afgelopen 7 dagen overwogen om te stoppen met je opleiding?",
@@ -277,7 +277,7 @@ question_content = [
   },
   {
     #TODO Make sure the top is 10 and bottom is 0
-    id: :'general-life-satisfaction',
+    id: 'general_life_satisfaction',
     type: :range,
     required: true,
     title: {  nl: "Neem aan dat de volgende ladder een manier is om je leven voor te stellen. De top van de ladder (nummer 10) staat voor het best mogelijke leven voor jou. De onderste tree van de ladder (nummer 0) staat voor het slechtst mogelijke leven voor jou. Op welke trede van de ladder sta je op dit moment?",
@@ -303,7 +303,7 @@ question_content = [
               en: '<p class="flow-text">Please indicate how often these statements are applicable to you:</p>' }
   },
   {
-    id: :'mental-drainage',
+    id: 'mental_drainage',
     type: :radio,
     required: true,
     title: {  nl: "Door mijn studie voel ik me geestelijk uitgeput.",
@@ -311,7 +311,7 @@ question_content = [
     options: frequency_options
   },
   {
-    id: :'energy-recovery',
+    id: 'energy_recovery',
     type: :radio,
     required: true,
     title: {  nl: "Ik raak maar niet uitgerust nadat ik een dag gestudeerd heb.",
@@ -319,7 +319,7 @@ question_content = [
     options: frequency_options
   },
   {
-    id: :'physical-exhaustion',
+    id: 'physical_exhaustion',
     type: :radio,
     required: true,
     title: {  nl: "Na een dag op de hogeschool voel ik mij lichamelijk uitgeput.",
@@ -327,7 +327,7 @@ question_content = [
     options: frequency_options
   },
   {
-    id: :'morning-energy',
+    id: 'morning_energy',
     type: :radio,
     required: true,
     title: {  nl: "Als ik ‘s morgens opsta, mis ik de energie om aan de schooldag te beginnen.",
@@ -340,7 +340,7 @@ question_content = [
               en: '<p class="flow-text">Please indicate to which extent you agree or disagree to the following statements:</p>' }
   },
   {
-    id: :'trouble-moving-past-stressful-experiences',
+    id: 'trouble_moving_past_stressful_experiences',
     type: :radio,
     required: true,
     title: {  nl: "Ik vind het moeilijk om me door stressvolle gebeurtenissen heen te slaan.",
@@ -348,7 +348,7 @@ question_content = [
     options: agreement_options
   },
   {
-    id: :'time-recovering-from-stressful-experiences',
+    id: 'time_recovering_from_stressful_experiences',
     type: :radio,
     required: true,
     title: {  nl: "Het kost me veel tijd om te herstellen van een stressvolle gebeurtenis",
@@ -356,7 +356,7 @@ question_content = [
     options: agreement_options
   },
   {
-    id: :'getting-over-setbacks',
+    id: 'getting_over_setbacks',
     type: :radio,
     required: true,
     title: {  nl: "Het kost me meestal veel tijd om over tegenslagen in mijn leven heen te komen",
@@ -364,14 +364,14 @@ question_content = [
     options: agreement_options
   },
   {
-    id: :'study-participation-experience',
+    id: 'study_participation_experience',
     type: :textarea,
     required: true,
     title: {  nl: "Hoe ervaar je momenteel je deelname aan dit onderzoek?",
               en: "How do you currently experience your participation in this study?" }
   },
   {
-    id: :'does-questionnaire-affect',
+    id: 'does_questionnaire_affect',
     type: :radio,
     required: true,
     title: {  nl: "Heeft het invullen van de vragenlijsten invloed op wat je doet en/of hoe je je voelt?",
@@ -381,7 +381,7 @@ question_content = [
         title: {  nl: "Ja",
                 en: "Yes" },
         value: "yes",
-        shows_questions: [:'how-questionnaire-affects']
+        shows_questions: ['how_questionnaire_affects']
       },
       {
         title: {  nl: "Nee",
@@ -391,7 +391,7 @@ question_content = [
     ]
   },
   {
-    id: :'how-questionnaire-affects',
+    id: 'how_questionnaire_affects',
     type: :textarea,
     hidden: true,
     required: true,
@@ -399,7 +399,7 @@ question_content = [
               en: "If so, please indicate how it affects you." },
   },
   {
-    id: :'does-tracker-affect',
+    id: 'does_tracker_affect',
     type: :radio,
     required: false,
     title: {  nl: "Heeft het dragen van de activity tracker invloed op wat je doet en/of hoe je je voelt?",
@@ -409,7 +409,7 @@ question_content = [
         title: {  nl: "Ja",
                 en: "Yes" },
         value: "yes",
-        shows_questions: [:'how-tracker-affects']
+        shows_questions: ['how_tracker_affects']
       },
       {
         title: {  nl: "Nee",
@@ -419,7 +419,7 @@ question_content = [
     ]
   },
   {
-    id: :'how-tracker-affects',
+    id: 'how_tracker_affects',
     type: :textarea,
     required: true,
     hidden: true,
@@ -427,7 +427,7 @@ question_content = [
               en: "If so, please indicate how it affects you." },
   },
   {
-    id: :'last-remarks',
+    id: 'last_remarks',
     type: :textarea,
     title: {  nl: "Is er nog iets anders dat je kwijt wil? Zo niet, dan kan je dit antwoordveld leeg laten.",
               en: "Is there anything else you would like to share? If not, you can leave this answer field empty." },

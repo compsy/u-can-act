@@ -81,7 +81,6 @@ question_content = [
                 en: "<h4 class=\"header\">Move, Mood & Motivation questionnaire</h4>" }
   },
   {
-    # TODO This question should only be filled in the first time!
     id: 'activity_tracker',
     type: :radio,
     title: {  nl: "Gebruik je een eigen activity tracker (b.v. Garmin, Fitbit)?",

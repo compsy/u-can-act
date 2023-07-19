@@ -9,3 +9,13 @@ def create_or_update_protocol(protocol_name, default_duration)
   protocol.save!
   protocol
 end
+
+def add_push_subscription(protocol, push_subscription_name)
+  bp_push_subscription = protocol.push_subscriptions.find_by(name: push_subscription_name)
+  bp_push_subscription ||= protocol.push_subscriptions.build(name: push_subscription_name)
+  bp_push_subscription.method = 'POST'
+  bp_push_subscription.url = ENV['PUSH_SUBSCRIPTION_URL']
+  bp_push_subscription.save!
+
+  protocol.save!
+end

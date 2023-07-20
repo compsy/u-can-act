@@ -228,12 +228,12 @@ question_content = [
     max: 10,
     labels: [
       {
-        nl: "laagst",
-        en: "lowest"
+        nl: "laag",
+        en: "low"
       },
       {
-        nl: "hoogst",
-        en: "highest"
+        nl: "hoog",
+        en: "high"
       },
     ],
     step: 1
@@ -248,12 +248,12 @@ question_content = [
     max: 10,
     labels: [
       {
-        nl: "laagst",
-        en: "lowest"
+        nl: "laag",
+        en: "low"
       },
       {
-        nl: "hoogst",
-        en: "highest"
+        nl: "hoog",
+        en: "high"
       },
     ],
     step: 1

@@ -328,12 +328,13 @@ question_content = [
     min: 0,
     max: 10,
     step: 1,
+    ticks: true,
     labels: [
       {
         nl: "slechtst",
         en: "worst"
       },
-      *(Array.new(9) { { nl: '', en: ''} }),
+      *(Array.new(9) { { nl: '', en: ''} }), # Necessary for the labels to show on the right place
       {
         nl: "best",
         en: "best"

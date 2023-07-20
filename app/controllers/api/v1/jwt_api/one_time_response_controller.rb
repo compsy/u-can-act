@@ -7,12 +7,12 @@ module Api
         before_action :load_one_time_response, only: :show
         before_action :subscribe_person, only: :show
 
-        def show
-          redirect_to @one_time_response.redirect_url(current_user)
-        end
-
         def index
           render json: OneTimeResponse.all
+        end
+
+        def show
+          redirect_to @one_time_response.redirect_url(current_user)
         end
 
         private

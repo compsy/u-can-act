@@ -61,7 +61,7 @@ module DistributionHelper
   def generate_checkbox_options(question)
     options = []
     cur_titles = titles(question, :options)
-    return options if cur_titles.size.zero?
+    return options if cur_titles.empty?
 
     cur_titles.each do |title|
       options << idify(question[:id], title)

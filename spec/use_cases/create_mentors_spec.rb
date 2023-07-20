@@ -251,7 +251,7 @@ describe CreateMentors do
 
     it 'assigns the correct protocol subscriptions to a mentor' do
       subject.send(:create_mentors, parsed_mentors)
-      (0..1).each do |idx|
+      2.times do |idx|
         hash = parsed_mentors[idx]
         act = Person.find_by(mobile_phone: hash[:mobile_phone])
         expect(act.protocol_subscriptions.count).to eq 2

@@ -10,12 +10,12 @@ module Api
         before_action :set_my_responses, only: %i[all]
         before_action :check_empty_response, only: %i[create]
 
-        def show
-          render json: @response, serializer: Api::PersonalizedQuestionnaireSerializer
-        end
-
         def index
           render json: @responses, each_serializer: Api::ResponseSerializer
+        end
+
+        def show
+          render json: @response, serializer: Api::PersonalizedQuestionnaireSerializer
         end
 
         def all

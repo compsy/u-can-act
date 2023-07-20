@@ -165,6 +165,8 @@ gem 'addressable'
 gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
+  gem 'server_timing'
+
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen'
   gem 'web-console'
@@ -192,7 +194,8 @@ gem 'webpacker', '>=6.0.0.rc.5'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
-gem 'i18n-js' # We still need this gem because it generates translations.js for us.
+# TODO: do this: https://github.com/fnando/i18n-js/blob/main/MIGRATING_FROM_V3_TO_V4.md
+gem 'i18n-js', '=3.9.2' # We still need this gem because it generates translations.js for us.
 gem 'rails-i18n'
 
 gem 'lograge'

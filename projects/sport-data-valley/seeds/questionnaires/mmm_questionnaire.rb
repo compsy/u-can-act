@@ -284,7 +284,7 @@ question_content = [
     type: :range,
     required: true,
     title: {  nl: "Neem aan dat de volgende ladder een manier is om je leven voor te stellen. De top van de ladder (nummer 10) staat voor het best mogelijke leven voor jou. De onderste tree van de ladder (nummer 0) staat voor het slechtst mogelijke leven voor jou. Op welke trede van de ladder sta je op dit moment?",
-              en: "Assume that this ladder is a way of picturing your life. The top of the ladder (number 10) represents the best possible life for you. The bottom rung of the ladder represents the worst possible life for you. Indicate where on the ladder you feel you personally stand right now." },
+              en: "Assume that this ladder is a way of picturing your life. The top of the ladder (number 10) represents the best possible life for you. The bottom rung of the ladder represents the worst possible life for you. Indicate where on the ladder you feel you personally stand right now:" },
     min: 0,
     max: 10,
     step: 1,
@@ -407,8 +407,8 @@ question_content = [
     type: :textarea,
     hidden: true,
     required: true,
-    title: {  nl: "Zo ja, geef dan aan wat voor invloed het op jou heeft.",
-              en: "If so, please indicate how it affects you." },
+    title: {  nl: "Zo ja, geef dan aan wat voor invloed het op jou heeft:",
+              en: "If so, please indicate how it affects you:" },
   },
   {
     id: 'does_tracker_affect',
@@ -436,14 +436,14 @@ question_content = [
     type: :textarea,
     required: true,
     hidden: true,
-    title: {  nl: "Zo ja, geef dan aan wat voor invloed het op jou heeft.",
-              en: "If so, please indicate how it affects you." },
+    title: {  nl: "Zo ja, geef dan aan wat voor invloed het op jou heeft:",
+              en: "If so, please indicate how it affects you:" },
   },
   {
     id: 'last_remarks',
     type: :textarea,
-    title: {  nl: "Is er nog iets anders dat je kwijt wil? Zo niet, dan kan je dit antwoordveld leeg laten.",
-              en: "Is there anything else you would like to share? If not, you can leave this answer field empty." },
+    title: {  nl: "Is er nog iets anders dat je kwijt wil? (Zo niet, dan kan je dit antwoordveld leeg laten)",
+              en: "Is there anything else you would like to share? (If not, you can leave this answer field empty)" },
   }
 ]
 

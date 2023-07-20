@@ -165,15 +165,15 @@ question_content = [
   },
   {
     id: 'vigorous_physical_activity',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Hoeveel keer per week voer je gewoonlijk gedurende 20 minuten of meer een fysiek zware activiteit uit? (bv. hardlopen, spinnen, squash)",
               en: "How many times a week do you usually perform a vigorous physical activity for 20 minutes or more? (e.g. running, spinning, squash)" },
     options: [
       {
-        title: {  nl: "3 keer per week of vaker",
-                en: "3 times a week or more" },
-        value: "3-or-more"
+        title: {  nl: "Niet",
+                en: "None" },
+        value: "none"
       },
       {
         title: {  nl: "1 tot 2 keer per week",
@@ -181,24 +181,29 @@ question_content = [
         value: "1-or-2"
       },
       {
-        title: {  nl: "Niet",
-                en: "None" },
-        value: "none"
+        title: {  nl: "3 keer per week of vaker",
+                en: "3 times a week or more" },
+        value: "3-or-more"
       }
     ],
     show_otherwise: false
   },
   {
     id: 'moderate_physical_activity',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Hoeveel keer per week voer je gewoonlijk gedurende 30 minuten of meer een matig-intense fysieke activiteit uit? (bv. wandelen, rustig fietsen, roeien)",
               en: "How many times a week do you usually perform moderate physical activity for 30 minutes or more? (e.g. walking, cycling, rowing)" },
     options: [
       {
-        title: {  nl: "5 keer per week of vaker",
-                en: "5 times a week or more" },
-        value: "5-or-more"
+        title: {  nl: "Niet",
+                en: "None" },
+        value: "none"
+      },
+      {
+        title: {  nl: "1 tot 2 keer per week",
+                en: "1 or 2 times a week" },
+        value: "1-or-2"
       },
       {
         title: {  nl: "3 tot 4 keer per week",
@@ -206,15 +211,10 @@ question_content = [
         value: "3-or-4"
       },
       {
-        title: {  nl: "1 tot 2 keer per week",
-                en: "1 or 2 times a week" },
-        value: "1-or-2"
+        title: {  nl: "5 keer per week of vaker",
+                en: "5 times a week or more" },
+        value: "5-or-more"
       },
-      {
-        title: {  nl: "Niet",
-                en: "None" },
-        value: "none"
-      }
     ],
     show_otherwise: false
   },
@@ -308,7 +308,7 @@ question_content = [
   },
   {
     id: 'mental_drainage',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Door mijn studie voel ik me geestelijk uitgeput.",
               en: "I feel mentally drained by my studies." },
@@ -317,7 +317,7 @@ question_content = [
   },
   {
     id: 'energy_recovery',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Ik raak maar niet uitgerust nadat ik een dag gestudeerd heb.",
               en: "After a day of school(work), I find it hard to recover my energy." },
@@ -326,7 +326,7 @@ question_content = [
   },
   {
     id: 'physical_exhaustion',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Na een dag op de hogeschool voel ik mij lichamelijk uitgeput.",
               en: "After a day of school(work), I feel physically exhausted." },
@@ -335,7 +335,7 @@ question_content = [
   },
   {
     id: 'morning_energy',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Als ik ‘s morgens opsta, mis ik de energie om aan de schooldag te beginnen.",
               en: "When I get up in the morning, I lack the energy to start a new day at school." },
@@ -349,7 +349,7 @@ question_content = [
   },
   {
     id: 'trouble_moving_past_stressful_experiences',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Ik vind het moeilijk om me door stressvolle gebeurtenissen heen te slaan.",
               en: "I have trouble moving past stressful experiences." },
@@ -358,7 +358,7 @@ question_content = [
   },
   {
     id: 'time_recovering_from_stressful_experiences',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Het kost me veel tijd om te herstellen van een stressvolle gebeurtenis",
               en: "It takes a long time for me to recover from a stressful experience." },
@@ -367,7 +367,7 @@ question_content = [
   },
   {
     id: 'getting_over_setbacks',
-    type: :radio,
+    type: :likert,
     required: true,
     title: {  nl: "Het kost me meestal veel tijd om over tegenslagen in mijn leven heen te komen",
               en: "It usually takes a long time for me to get over setbacks in my life." },

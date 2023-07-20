@@ -83,6 +83,11 @@ question_content = [
   {
     id: 'activity_tracker',
     type: :radio,
+    section_start: {
+      nl: "Check op gebruik eigen activity tracker",
+      en: "Check whether you use your own activity tracker"
+    },
+    section_end: true,
     title: {  nl: "Gebruik je een eigen activity tracker (b.v. Garmin, Fitbit)?",
               en: "Do you use your own activity tracker (i.e. Garmin, Fitbit)?" },
     options: [
@@ -113,6 +118,11 @@ question_content = [
     id: 'lifestyle',
     type: :likert,
     required: true,
+    section_start: {
+      nl: "Algemene gezondheid/ levenstijl",
+      en: "General health/lifestyle"
+    },
+    section_end: true,
     title: {  nl: "Hoe zou jij je levensstijl over het algemeen beschrijven? (Neem hierbij in overweging: voeding, beweging, nachtrust, roken, alcohol, drugs)",
               en: "How would you generally describe your lifestyle? (take into account: nutrition, exercise, sleep, smoking, alcohol, drug use)" },
     options: [
@@ -147,6 +157,11 @@ question_content = [
     id: 'sleep_quality',
     type: :range,
     required: true,
+    section_start: {
+      nl: "Slaapkwaliteit",
+      en: "Sleep quality"
+    },
+    section_end: true,
     title: {  nl: "Over de laatste 7 dagen, hoe zou je jouw slaapkwaliteit over het algemeen beoordelen op een schaal van 0 (vreselijk) tot 10 (uitstekend)?",
               en: "During the past 7 days, how would you rate your sleep quality overall on a scale from 0 (terrible) to 10 (excellent)?" },
     labels: [
@@ -167,6 +182,10 @@ question_content = [
     id: 'vigorous_physical_activity',
     type: :likert,
     required: true,
+    section_start: {
+      nl: "Beweeggedrag",
+      en: "Physical activity behaviour"
+    },
     title: {  nl: "Hoeveel keer per week voer je gewoonlijk gedurende 20 minuten of meer een fysiek zware activiteit uit? (bv. hardlopen, spinnen, squash)",
               en: "How many times a week do you usually perform a vigorous physical activity for 20 minutes or more? (e.g. running, spinning, squash)" },
     options: [
@@ -192,6 +211,7 @@ question_content = [
     id: 'moderate_physical_activity',
     type: :likert,
     required: true,
+    section_end: true,
     title: {  nl: "Hoeveel keer per week voer je gewoonlijk gedurende 30 minuten of meer een matig-intense fysieke activiteit uit? (bv. wandelen, rustig fietsen, roeien)",
               en: "How many times a week do you usually perform moderate physical activity for 30 minutes or more? (e.g. walking, cycling, rowing)" },
     options: [
@@ -222,6 +242,11 @@ question_content = [
     id: 'study_motivation',
     type: :range,
     required: true,
+    section_start: {
+      nl: "Studiemotivatie",
+      en: "Study motivation"
+    },
+    section_end: true,
     title: {  nl: "Op een schaal van 0 tot 10, waarbij 0 het laagst mogelijke en 10 het hoogst mogelijke is, geef aan hoe je jezelf scoort op je studiemotivatie:",
               en: "On a scale of 0 to 10, where 0 is the lowest possible, and 10 is the highest possible score, please indicate how you rank yourself on your study motivation:" },
     min: 0,
@@ -242,6 +267,11 @@ question_content = [
     id: 'study_stress',
     type: :range,
     required: true,
+    section_start: {
+      nl: "Studiestress",
+      en: "Study stress"
+    },
+    section_end: true,
     title: {  nl: "Op een schaal van 0 tot 10, waarbij 0 het laagst mogelijke en 10 het hoogst mogelijke is, geef aan hoe je jezelf scoort op de mate van ervaren stress door de studie:",
               en: "On a scale of 0 to 10, where 0 is the lowest possible, and 10 is the highest possible score, please indicate how you rank yourself on the level of study related stress:" },
     min: 0,
@@ -260,6 +290,11 @@ question_content = [
   },
   {
     id: 'considered_discontinuing',
+    section_start: {
+      nl: "Intentie stoppen opleiding",
+      en: "Intention to stop training"
+    },
+    section_end: true,
     type: :radio,
     required: true,
     title: {  nl: "Heb je in de afgelopen 7 dagen overwogen om te stoppen met je opleiding?",
@@ -283,6 +318,11 @@ question_content = [
     id: 'general_life_satisfaction',
     type: :range,
     required: true,
+    section_start: {
+      nl: "Algemene levenstevredenheid",
+      en: "General life satisfaction"
+    },
+    section_end: true,
     title: {  nl: "Neem aan dat de volgende ladder een manier is om je leven voor te stellen. De top van de ladder (nummer 10) staat voor het best mogelijke leven voor jou. De onderste tree van de ladder (nummer 0) staat voor het slechtst mogelijke leven voor jou. Op welke trede van de ladder sta je op dit moment?",
               en: "Assume that this ladder is a way of picturing your life. The top of the ladder (number 10) represents the best possible life for you. The bottom rung of the ladder represents the worst possible life for you. Indicate where on the ladder you feel you personally stand right now:" },
     min: 0,
@@ -303,6 +343,10 @@ question_content = [
   },
   {
     type: :raw,
+    section_start: {
+      nl: "Emotionele uitputting",
+      en: "Emotional exhaustion"
+    },
     content: { nl: '<p class="flow-text">In hoeverre zijn deze uitspraken op jou van toepassing?</p>',
               en: '<p class="flow-text">Please indicate how often these statements are applicable to you:</p>' }
   },
@@ -337,6 +381,7 @@ question_content = [
     id: 'morning_energy',
     type: :likert,
     required: true,
+    section_end: true,
     title: {  nl: "Als ik ‘s morgens opsta, mis ik de energie om aan de schooldag te beginnen.",
               en: "When I get up in the morning, I lack the energy to start a new day at school." },
     options: frequency_options,
@@ -344,6 +389,10 @@ question_content = [
   },
   {
     type: :raw,
+    section_start: {
+      nl: "Veerkracht",
+      en: "Resilience"
+    },
     content: { nl: '<p class="flow-text">Geef aan in hoeverre je het eens bent met de volgende stellingen:</p>',
               en: '<p class="flow-text">Please indicate to which extent you agree or disagree to the following statements:</p>' }
   },
@@ -369,6 +418,7 @@ question_content = [
     id: 'getting_over_setbacks',
     type: :likert,
     required: true,
+    section_end: true,
     title: {  nl: "Het kost me meestal veel tijd om over tegenslagen in mijn leven heen te komen",
               en: "It usually takes a long time for me to get over setbacks in my life." },
     options: agreement_options,
@@ -378,6 +428,10 @@ question_content = [
     id: 'study_participation_experience',
     type: :textarea,
     required: true,
+    section_start: {
+      nl: "Open vragen",
+      en: "Open questions"
+    },
     title: {  nl: "Hoe ervaar je momenteel je deelname aan dit onderzoek?",
               en: "How do you currently experience your participation in this study?" }
   },
@@ -442,6 +496,7 @@ question_content = [
   {
     id: 'last_remarks',
     type: :textarea,
+    section_end: true,
     title: {  nl: "Is er nog iets anders dat je kwijt wil? (Zo niet, dan kan je dit antwoordveld leeg laten)",
               en: "Is there anything else you would like to share? (If not, you can leave this answer field empty)" },
   }

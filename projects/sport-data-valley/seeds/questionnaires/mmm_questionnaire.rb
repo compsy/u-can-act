@@ -339,8 +339,7 @@ question_content = [
         nl: "best",
         en: "best"
       },
-    ],
-    vertical: true
+    ]
   },
   {
     type: :raw,

@@ -83,6 +83,7 @@ question_content = [
   {
     id: 'activity_tracker',
     type: :radio,
+    required: true,
     section_start: {
       nl: "Check op gebruik eigen activity tracker",
       en: "Check whether you use your own activity tracker"

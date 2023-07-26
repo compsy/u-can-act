@@ -119,7 +119,7 @@ question_content = [
     type: :likert,
     required: true,
     section_start: {
-      nl: "Algemene gezondheid/ levenstijl",
+      nl: "Algemene gezondheid/levensstijl",
       en: "General health/lifestyle"
     },
     section_end: true,
@@ -323,8 +323,8 @@ question_content = [
       en: "General life satisfaction"
     },
     section_end: true,
-    title: {  nl: "Neem aan dat de volgende ladder een manier is om je leven voor te stellen. De top van de ladder (nummer 10) staat voor het best mogelijke leven voor jou. De onderste tree van de ladder (nummer 0) staat voor het slechtst mogelijke leven voor jou. Op welke trede van de ladder sta je op dit moment?",
-              en: "Assume that this ladder is a way of picturing your life. The top of the ladder (number 10) represents the best possible life for you. The bottom rung of the ladder represents the worst possible life for you. Indicate where on the ladder you feel you personally stand right now:" },
+    title: {  nl: "Neem aan dat de schaal hieronder een manier is om je leven voor te stellen. Links (nummer 0) staat voor het slechtst mogelijke leven voor jou. Rechts (nummer 10) staat voor het best mogelijke leven voor jou. Waar op de schaal sta je op dit moment?",
+              en: "Assume that this scale is a way of picturing your life. The left (number 0) represents the worst possible life for you. The right (number 10) represents the best possible life for you. Indicate where on the scale you feel you personally stand right now:" },
     min: 0,
     max: 10,
     step: 1,

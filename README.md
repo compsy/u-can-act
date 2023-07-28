@@ -27,6 +27,26 @@ This application has been made possible by funding from The Netherlands Initiati
 
 ![NRO](https://u-can-act.nl/wp-content/uploads/2018/01/NRO-2.png)
 
+## Index
+1. [Protocols and Measurements](#protocols-and-measurements)
+2. [Questionnaire Syntax](#questionnaire-syntax)
+    1. [Type: Checkbox](#type-checkbox)
+    2. [Type: Radio](#type-radio)
+    3. [Type: Likert](#type-likert)
+    4. [Type: Range](#type-range)
+    5. [Type: Raw](#type-raw)
+    6. [Type: Textarea](#type-textarea)
+    7. [Type: Textfield](#type-textfield)
+    8. [Type: Number](#type-number)
+    9. [Type: Expandable](#type-expandable)
+    10. [Type: Time](#type-time)
+    11. [Type: Date](#type-date)
+    12. [Type: Date and Time](#type-date-and-time)
+    13. [Type: Unsubscribe](#type-unsubscribe)
+    14. [Type: Dropdown](#type-dropdown)
+    15. [Type: Drawing](#type-drawing)
+    16. [Type: Days](#type-days)
+3. [Questionnaire Scores](#questionnaire-scores)
 ## Installation
 Make sure that Docker Compose is installed, it will allow you to run the application with Postgress, Redis and MongoDB.
 
@@ -1129,4 +1149,13 @@ The `preprocessing` key is optional, and if provided, should be a hash with a (s
 }
 ```
 
+## Developing new questionnaires
+When creating a new questionnaire (or questionnaires), these are the steps you should follow:
+1. Define the questions of the questionnaire 
+2. Create a protocol
+3. Define the measurements of that protocol
 
+### Defining the questionnaire
+To define which questions compose the new questionnaire, you should create a new .rb file under `projects/<project-name>/seeds/questionnaires/`.
+In this file, you should create a new `Questionnaire` object on the DB, the define which questions appear in the questionnaire, and finally save that object.
+For more information on which question types are allowed, check the [section about questionnaire syntax](#questionnaire-syntax).

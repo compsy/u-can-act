@@ -1150,12 +1150,12 @@ The `preprocessing` key is optional, and if provided, should be a hash with a (s
 ```
 
 ## Developing new questionnaires
-When creating a new questionnaire(or questionnaires), these are the steps you should follow:
+When creating a new questionnaire (or questionnaires), these are the steps you should follow:
 1. Define the questions of the questionnaire 
 2. Create a protocol
 3. Define the measurements of that protocol
 
 ### Defining the questionnaire
-To define which questions compose the new questionnaire, you should create a new .rb file under `projects/sport-data-valley/seeds/questionnaires/`.
-In this file, you should create a new `Questionnaire` object on the DB, the define which questions appear in the questionnaire, and finally save that object.\
+To define which questions compose the new questionnaire, you should create a new .rb file under `projects/<project-name>/seeds/questionnaires/`.
+In this file, you should create a new `Questionnaire` object on the DB, the define which questions appear in the questionnaire, and finally save that object.
 For more information on which question types are allowed, check the [section about questionnaire syntax](#questionnaire-syntax).

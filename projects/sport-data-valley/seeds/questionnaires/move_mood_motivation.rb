@@ -3,9 +3,9 @@
 MMM_QUESTIONNAIRE_NAME = 'move_mood_motivation'
 
 db_name = MMM_QUESTIONNAIRE_NAME
-questionnaire = Questionnaire.find_by(name: db_name)
-questionnaire ||= Questionnaire.new(name: db_name)
-questionnaire.key = db_name
+questionnaire = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
+questionnaire ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
+questionnaire.name = db_name
 
 frequency_options = [
   {

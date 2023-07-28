@@ -315,7 +315,6 @@ question_content = [
     show_otherwise: false
   },
   {
-    #TODO Make sure the top is 10 and bottom is 0
     id: 'general_life_satisfaction',
     type: :range,
     required: true,

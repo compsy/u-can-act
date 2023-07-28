@@ -81,7 +81,7 @@ question_content = [
                 en: "<h4 class=\"header\">Move, Mood & Motivation questionnaire</h4>" }
   },
   {
-    id: 'activity_tracker',
+    id: 'v1_activity_tracker',
     type: :radio,
     required: true,
     section_start: {
@@ -116,7 +116,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'lifestyle',
+    id: 'v2_lifestyle',
     type: :likert,
     required: true,
     section_start: {
@@ -155,7 +155,7 @@ question_content = [
     ]
   },
   {
-    id: 'sleep_quality',
+    id: 'v3_sleep_quality',
     type: :range,
     required: true,
     section_start: {
@@ -180,7 +180,7 @@ question_content = [
     step: 1
   },
   {
-    id: 'vigorous_physical_activity',
+    id: 'v4_vigorous_physical_activity',
     type: :likert,
     required: true,
     section_start: {
@@ -209,7 +209,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'moderate_physical_activity',
+    id: 'v5_moderate_physical_activity',
     type: :likert,
     required: true,
     section_end: true,
@@ -240,7 +240,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'study_motivation',
+    id: 'v6_study_motivation',
     type: :range,
     required: true,
     section_start: {
@@ -265,7 +265,7 @@ question_content = [
     step: 1
   },
   {
-    id: 'study_stress',
+    id: 'v7_study_stress',
     type: :range,
     required: true,
     section_start: {
@@ -290,7 +290,7 @@ question_content = [
     step: 1
   },
   {
-    id: 'considered_discontinuing',
+    id: 'v8_considered_discontinuing',
     section_start: {
       nl: "Intentie stoppen opleiding",
       en: "Intention to stop training"
@@ -315,7 +315,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'general_life_satisfaction',
+    id: 'v9_general_life_satisfaction',
     type: :range,
     required: true,
     section_start: {
@@ -351,7 +351,7 @@ question_content = [
               en: '<p class="flow-text">Please indicate how often these statements are applicable to you:</p>' }
   },
   {
-    id: 'mental_drainage',
+    id: 'v10_mental_drainage',
     type: :likert,
     required: true,
     title: {  nl: "Door mijn studie voel ik me geestelijk uitgeput.",
@@ -360,7 +360,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'energy_recovery',
+    id: 'v11_energy_recovery',
     type: :likert,
     required: true,
     title: {  nl: "Ik raak maar niet uitgerust nadat ik een dag gestudeerd heb.",
@@ -369,7 +369,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'physical_exhaustion',
+    id: 'v12_physical_exhaustion',
     type: :likert,
     required: true,
     title: {  nl: "Na een dag op de hogeschool voel ik mij lichamelijk uitgeput.",
@@ -378,7 +378,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'morning_energy',
+    id: 'v13_morning_energy',
     type: :likert,
     required: true,
     section_end: true,
@@ -397,7 +397,7 @@ question_content = [
               en: '<p class="flow-text">Please indicate to which extent you agree or disagree to the following statements:</p>' }
   },
   {
-    id: 'trouble_moving_past_stressful_experiences',
+    id: 'v14_trouble_moving_past_stressful_experiences',
     type: :likert,
     required: true,
     title: {  nl: "Ik vind het moeilijk om me door stressvolle gebeurtenissen heen te slaan.",
@@ -406,7 +406,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'time_recovering_from_stressful_experiences',
+    id: 'v15_time_recovering_from_stressful_experiences',
     type: :likert,
     required: true,
     title: {  nl: "Het kost me veel tijd om te herstellen van een stressvolle gebeurtenis",
@@ -415,7 +415,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'getting_over_setbacks',
+    id: 'v16_getting_over_setbacks',
     type: :likert,
     required: true,
     section_end: true,
@@ -425,7 +425,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'study_participation_experience',
+    id: 'v17_study_participation_experience',
     type: :textarea,
     required: true,
     section_start: {
@@ -436,7 +436,7 @@ question_content = [
               en: "How do you currently experience your participation in this study?" }
   },
   {
-    id: 'does_questionnaire_affect',
+    id: 'v18_does_questionnaire_affect',
     type: :radio,
     required: true,
     title: {  nl: "Heeft het invullen van de vragenlijsten invloed op wat je doet en/of hoe je je voelt?",
@@ -446,7 +446,7 @@ question_content = [
         title: {  nl: "Ja",
                 en: "Yes" },
         value: "yes",
-        shows_questions: ['how_questionnaire_affects']
+        shows_questions: ['v19_how_questionnaire_affects']
       },
       {
         title: {  nl: "Nee",
@@ -457,7 +457,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'how_questionnaire_affects',
+    id: 'v19_how_questionnaire_affects',
     type: :textarea,
     hidden: true,
     required: true,
@@ -465,7 +465,7 @@ question_content = [
               en: "If so, please indicate how it affects you:" },
   },
   {
-    id: 'does_tracker_affect',
+    id: 'v20_does_tracker_affect',
     type: :radio,
     required: false,
     title: {  nl: "Heeft het dragen van de activity tracker invloed op wat je doet en/of hoe je je voelt?",
@@ -475,7 +475,7 @@ question_content = [
         title: {  nl: "Ja",
                 en: "Yes" },
         value: "yes",
-        shows_questions: ['how_tracker_affects']
+        shows_questions: ['v21_how_tracker_affects']
       },
       {
         title: {  nl: "Nee",
@@ -486,7 +486,7 @@ question_content = [
     show_otherwise: false
   },
   {
-    id: 'how_tracker_affects',
+    id: 'v21_how_tracker_affects',
     type: :textarea,
     required: true,
     hidden: true,
@@ -494,7 +494,7 @@ question_content = [
               en: "If so, please indicate how it affects you:" },
   },
   {
-    id: 'last_remarks',
+    id: 'v22_last_remarks',
     type: :textarea,
     section_end: true,
     title: {  nl: "Is er nog iets anders dat je kwijt wil? (Zo niet, dan kan je dit antwoordveld leeg laten)",

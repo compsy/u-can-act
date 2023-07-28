@@ -8,8 +8,7 @@ MMM_DEFAULT_PROTOCOL_DURATION = 30.days
 protocol = create_or_update_protocol(MMM_PROTOCOL_NAME, MMM_DEFAULT_PROTOCOL_DURATION)
 
 # Necessary to send the filled in response to the SDV platform
-bp_name = 'base-platform-subscription-mmm'
-add_push_subscription(protocol, bp_name)
+add_push_subscription(protocol, MMM_NOTIFICATION_NAME)
 
 q_name = MMM_QUESTIONNAIRE_NAME
 mmm_questionnaire_id = Questionnaire.find_by(name: q_name)&.id

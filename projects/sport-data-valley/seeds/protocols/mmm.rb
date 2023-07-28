@@ -1,5 +1,5 @@
 require_relative '../protocol_helper'
-require_relative '../questionnaires/mmm_questionnaire'
+require_relative '../questionnaires/move_mood_motivation'
 
 MMM_PROTOCOL_NAME = 'move_mood_motivation'
 MMM_NOTIFICATION_NAME = 'base-platform-subscription-move-mood-motivation'

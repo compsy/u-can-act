@@ -32,7 +32,6 @@ require 'database_cleaner/mongoid'
 require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
-require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec'
 Dir[Rails.root.join('spec/generators/concerns/**/*.rb')].each { |f| require f }
 
@@ -51,10 +50,6 @@ ActiveRecord::Migration.maintain_test_schema!
 Capybara.default_selector = :css
 Capybara.default_max_wait_time = 4
 Capybara.ignore_hidden_elements = false
-
-# Uncomment for debugging headless chrome errors:
-# Webdrivers.logger.level = :DEBUG
-Webdrivers.cache_time = 86_400
 
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new

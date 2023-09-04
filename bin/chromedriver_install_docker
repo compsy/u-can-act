@@ -7,9 +7,10 @@ apt-get -y update
 apt-get -y install libappindicator3-1 curl fonts-liberation libasound2 libnspr4 libnss3 libxss1 lsb-release xdg-utils libgbm1 libu2f-udev
 
 # Install Chrome driver
-wget https://chromedriver.storage.googleapis.com/92.0.4515.43/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-cp chromedriver /usr/local/bin/chromedriver
+# This is from https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json
+wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/115.0.5790.102/linux64/chromedriver-linux64.zip
+unzip -o chromedriver-linux64.zip
+cp -f chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 
 # Install Chrome
 curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb

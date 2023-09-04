@@ -24,6 +24,7 @@ dagboek_content = [
       { nl: 'Atletiek', en: 'Athletics', i18n: 'components.dashboards.questionnaire.training_type.athletics' },
       { nl: 'Badminton', en: 'Badminton', i18n: 'components.dashboards.questionnaire.training_type.badminton' },
       { nl: 'Basketbal', en: 'Basketball', i18n: 'components.dashboards.questionnaire.training_type.basketball' },
+      { nl: 'BMX racen', en: 'BMX racing', i18n: 'components.dashboards.questionnaire.training_type.bmx_racing' },
       { nl: 'Boksen', en: 'Boxing', i18n: 'components.dashboards.questionnaire.training_type.boxing' },
       { nl: 'Dansen', en: 'Dancing', i18n: 'components.dashboards.questionnaire.training_type.dancing' },
       { nl: 'Fitness / Krachttraining', en: 'Fitness / Strength training', i18n: 'components.dashboards.questionnaire.training_type.fitness_power_training' },

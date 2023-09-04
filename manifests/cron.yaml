@@ -32,7 +32,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-two-am
@@ -66,7 +66,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-three-am
@@ -100,7 +100,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-four-am
@@ -134,7 +134,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily
@@ -168,7 +168,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-hourly
@@ -202,7 +202,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-thirty-minutely
@@ -236,7 +236,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-five-minutely
@@ -270,7 +270,7 @@ spec:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-minutely

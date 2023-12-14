@@ -8,7 +8,7 @@ apt-get -y install libappindicator3-1 curl fonts-liberation libasound2 libnspr4 
 
 # Install Chrome driver
 # This is from https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json
-wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/115.0.5790.102/linux64/chromedriver-linux64.zip
+wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chromedriver-linux64.zip
 unzip -o chromedriver-linux64.zip
 cp -f chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 

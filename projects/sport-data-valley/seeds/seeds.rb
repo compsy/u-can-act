@@ -51,7 +51,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
                  gender: 'female',
                  mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
                  role: normal_role)
-  
+
   Person.create!(first_name: 'Din',
                   last_name: 'Djarin',
                   gender: 'male',
@@ -196,21 +196,4 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Move, Mood and Motivation: #{invitation_set.invitation_url(invitation_token.token_plain)}"
-
-  # Create move mood and motivation one time protocol instance
-  protocol = Protocol.find_by(name: CLIMBING_ACCIDENT_PROTOCOL_NAME)
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[8]
-  prot_sub = ProtocolSubscription.create!(
-    protocol: protocol,
-    person: person,
-    state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: Time.zone.now
-  )
-
-  invitation_set = InvitationSet.create!(person: person)
-
-  prot_sub.responses.first.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
-
-  invitation_token = invitation_set.invitation_tokens.create!
-  puts "Climbing Accident: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 end

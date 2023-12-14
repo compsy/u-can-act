@@ -7,8 +7,9 @@ questionnaire = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 questionnaire ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 questionnaire.name = db_name
 
-PHONE_REGEX = "^\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,9}[-.\s]?\d{1,9}$"
-EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+# TODO: @Jose These regexes don't work yet. Please preview the questionnaire, try to fill out the fields that contain the regexes and see the errors in the console. Then fix these.
+PHONE_REGEX_CLIMBING = "^\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,9}[-.\s]?\d{1,9}$"
+EMAIL_REGEX_CLIMBING = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
 question_content = [
   {
@@ -159,7 +160,7 @@ question_content = [
       {
         title: {  nl: "Botsing (persoon)",
                 en: "Collision (with person)" },
-        value: "collision_with_person"  
+        value: "collision_with_person"
       },
     ],
     show_otherwise: false,
@@ -182,22 +183,22 @@ question_content = [
       {
         title: {  nl: "Distortie (kneuzen, verzwikken, verdraaien)",
                 en: "Distortion (bruising, spraining, twisting)" },
-        value: "distortion"  
+        value: "distortion"
       },
       {
         title: {  nl: "Luxatie (uit de kom)",
                 en: "Luxation (dislocation)" },
-        value: "luxation"  
+        value: "luxation"
       },
       {
         title: {  nl: "Fractuur (gebroken)",
                 en: "Fracture (broken)" },
-        value: "fracture"  
+        value: "fracture"
       },
       {
         title: {  nl: "Oppervlakkig letsel (schaafwonden, blauwe plekken etc)",
                 en: "Superficial injury (scrapes, bruises, etc)" },
-        value: "superficial_injury"  
+        value: "superficial_injury"
       }
     ],
     show_otherwise: true,
@@ -302,7 +303,7 @@ question_content = [
       en: "Victim's data"
     },
     type: :raw,
-    content: { 
+    content: {
       nl: "<p><strong>Vul deze zo compleet mogelijk in zodat wij contact kunnen opnemen met het slachtoffer voor nazorg.</strong></p>",
       en: "<p><strong>Please report this as completely as possible so we can contact the victim for aftercare.</strong></p>"
     }
@@ -357,7 +358,7 @@ question_content = [
       nl: "Telefoonnummer",
       en: "Phone number"
     },
-    pattern: PHONE_REGEX
+    pattern: PHONE_REGEX_CLIMBING
   },
   {
     id: "v14_climber_email",
@@ -367,7 +368,7 @@ question_content = [
       nl: "E-mailadres",
       en: "E-mail address"
     },
-    pattern: EMAIL_REGEX
+    pattern: EMAIL_REGEX_CLIMBING
   },
   {
     id: "v15_climber_age",
@@ -409,7 +410,7 @@ question_content = [
     required: true,
     hidden: true,
     title: {
-      nl: "Vul hier het klant-  en/of pasnummer in", 
+      nl: "Vul hier het klant-  en/of pasnummer in",
       en: "Enter customer and/or card number here"
     },
     section_end: true

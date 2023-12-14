@@ -18,10 +18,18 @@ db_measurement = protocol.measurements.where(questionnaire_id: questionnaire_id)
 db_measurement ||= protocol.measurements.build(questionnaire_id: questionnaire_id)
 db_measurement.open_from_offset = 0 # open right away
 db_measurement.period = nil # one-off and not repeated
-db_measurement.open_duration = nil # always open until the end of the protocol
+db_measurement.open_duration = 1.day # Expire after one day.
 db_measurement.reward_points = 0
-db_measurement.stop_measurement = false # unsubscribe immediately
-db_measurement.should_invite = true # Send invitation
+db_measurement.stop_measurement = false # Don't unsubscribe from protocol
+db_measurement.should_invite = false # Send invitation
 db_measurement.redirect_url = ENV['BASE_PLATFORM_URL']
 db_measurement.only_redirect_if_nothing_else_ready = true
 db_measurement.save!
+
+# Create one time response
+protocol = Protocol.find_by(name: CLIMBING_ACCIDENT_PROTOCOL_NAME)
+token = CLIMBING_ACCIDENT_PROTOCOL_NAME
+otr = OneTimeResponse.find_by(token: token)
+otr ||= OneTimeResponse.create!(token: token, protocol: protocol)
+otr.update!(restricted: true)
+puts "Climbing accident: #{Rails.application.routes.url_helpers.one_time_response_url(q: token)}"

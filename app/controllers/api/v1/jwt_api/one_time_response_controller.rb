@@ -6,19 +6,28 @@ module Api
       class OneTimeResponseController < JwtApiController
         before_action :load_one_time_response, only: :show
         before_action :subscribe_person, only: :show
+        before_action :set_redirect_url, only: :show
 
         def index
           render json: OneTimeResponse.all
         end
 
         def show
-          redirect_to @one_time_response.redirect_url(current_user)
+          redirect_to @redirect_url
         end
 
         private
 
         def subscribe_person
           @one_time_response.subscribe_person(current_user, mentor)
+        end
+
+        def set_redirect_url
+          @redirect_url = @one_time_response.redirect_url(current_user)
+          return if @redirect_url.present?
+
+          render(status: :not_found,
+                 json: 'You must have an active protocol subscription to this protocol to be allowed to fill it out.')
         end
 
         def mentor

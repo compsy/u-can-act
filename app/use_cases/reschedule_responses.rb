@@ -14,7 +14,7 @@ class RescheduleResponses < ActiveInteraction::Base
 
     ActiveRecord::Base.transaction do
       protocol_subscription.responses.not_completed.after_date(future).destroy_all
-      schedule_responses #TODO: ONLY DO THIS IF THIS IS NOT A RESTRICTED OTR PROTOCOL
+      schedule_responses
     end
   end
 

@@ -155,8 +155,6 @@ group :production, :staging do
 
   # Required by Delayed Job
   gem 'daemons'
-
-  gem 'elastic-apm'
 end
 
 gem 'addressable'

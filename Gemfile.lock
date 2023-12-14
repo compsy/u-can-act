@@ -176,10 +176,6 @@ GEM
     dry-core (1.0.0)
       concurrent-ruby (~> 1.0)
       zeitwerk (~> 2.6)
-    elastic-apm (4.7.0)
-      concurrent-ruby (~> 1.0)
-      http (>= 3.0)
-      ruby2_keywords
     erubi (1.12.0)
     erubis (2.7.0)
     excon (0.97.1)
@@ -191,9 +187,6 @@ GEM
       railties (>= 5.0.0)
     ffi (1.15.5)
     ffi (1.15.5-x64-mingw-ucrt)
-    ffi-compiler (1.0.1)
-      ffi (>= 1.0.0)
-      rake
     formatador (1.1.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -228,15 +221,9 @@ GEM
       webrick
     highcharts-rails (6.0.3)
       railties (>= 3.1)
-    http (5.1.1)
-      addressable (~> 2.8)
-      http-cookie (~> 1.0)
-      http-form_data (~> 2.2)
-      llhttp-ffi (~> 0.4.0)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
-    http-form_data (2.3.0)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -263,9 +250,6 @@ GEM
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    llhttp-ffi (0.4.0)
-      ffi-compiler (~> 1.0)
-      rake (~> 13.0)
     lograge (0.13.0)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -607,7 +591,6 @@ DEPENDENCIES
   database_cleaner-mongoid
   delayed_job_active_record
   dotenv-rails
-  elastic-apm
   factory_bot_rails
   guard-rspec
   haml-rails

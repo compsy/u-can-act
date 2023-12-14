@@ -161,8 +161,7 @@ GEM
       delayed_job (>= 3.0, < 5)
     diff-lcs (1.5.0)
     docile (1.4.0)
-    domain_name (0.5.20190701)
-      unf (>= 0.0.5, < 1.0.0)
+    domain_name (0.6.20231109)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -264,7 +263,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    mailgun-ruby (1.2.10)
+    mailgun-ruby (1.2.13)
       rest-client (>= 2.0.2)
     marcel (1.0.2)
     materialize-sass (1.0.0.1)
@@ -273,9 +272,9 @@ GEM
     messagebird-rest (3.1.1)
       jwt (~> 2.2.3)
     method_source (1.0.0)
-    mime-types (3.4.1)
+    mime-types (3.5.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.0218.1)
+    mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
     mini_racer (0.8.0)
@@ -534,10 +533,6 @@ GEM
     ucf_messages (0.0.5)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.8.2)
-    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.4.2)
     warden (1.2.9)
       rack (>= 2.0.9)

@@ -5,7 +5,10 @@ require 'rails_helper'
 describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
   let(:the_auth_user) { FactoryBot.create(:auth_user, :with_person) }
   let(:person) { the_auth_user.person }
-  let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, person: the_auth_user.person) }
+  let(:protocol) { FactoryBot.create(:protocol, :with_measurements) }
+  let(:protocol_subscription) do
+    FactoryBot.create(:protocol_subscription, person: the_auth_user.person, protocol: protocol)
+  end
   let(:test_response) do
     FactoryBot.create(:response,
                       protocol_subscription: protocol_subscription,
@@ -34,10 +37,11 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
 
     describe 'GET /:token' do
       let(:thetoken) { 'theotrtoken' }
-      let!(:otr) { FactoryBot.create(:one_time_response, token: thetoken) }
+      let!(:otr) { FactoryBot.create(:one_time_response, token: thetoken, protocol: protocol) }
 
       it 'should redirect the user to the correct page' do
         get :show, params: { otr: thetoken }
+        puts response.body
         expect(response.status).to eq 302
         expect(response.location).to start_with 'http://test.host?q='
       end
@@ -52,9 +56,31 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
         expect(person.protocol_subscriptions).to be_blank
         get :show, params: { otr: thetoken }
         person.reload
+        expect(response.status).to_not eq 404
         expect(person.protocol_subscriptions).to_not be_blank
         expect(person.protocol_subscriptions.length).to eq 1
         expect(person.protocol_subscriptions.first.protocol).to eq otr.protocol
+      end
+
+      it 'should not subscribe the person if the OTR protocol is restricted' do
+        person.protocol_subscriptions.destroy_all
+        expect(person.protocol_subscriptions).to be_blank
+        otr.update!(restricted: true)
+        get :show, params: { otr: thetoken }
+        person.reload
+        expect(response.status).to eq 404
+        expect(response.body).to match 'You must have an active protocol subscription to this protocol ' \
+                                       'to be allowed to fill it out.'
+        expect(person.protocol_subscriptions).to be_blank
+      end
+
+      it 'should redirect if a person is already subscribed for a restricted OTR protocol' do
+        otr.update!(restricted: true)
+        expect(person.protocol_subscriptions).to_not be_blank
+        get :show, params: { otr: thetoken }
+        person.reload
+        puts response.body
+        expect(response.status).to_not eq 404
       end
     end
 

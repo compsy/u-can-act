@@ -292,7 +292,7 @@ Variable | Description
 
 A One Time Response (or OTR for short), is a way to start a protocol from a URL, rather than it being scheduled. You can specify a token to be used in the URL, so the OTR link is always the same, or you can leave it blank and it will come up with its own random token for the link.
 
-When a OTR URL is given a session token as a `token` parameter, the filled out response will be linked to the user with that session.
+Other than a token in the URL, OTRs also use a token in the query parameters for the URL. This token is used to set the session. When a OTR URL is given a session token as a `token` parameter, the filled out response will be linked to the user with that session.
 
 An OTR can be marked as a `restricted` OTR, which means that the link will only function if it is also given a `token` parameter and that there is a running protocol subscription started for that user. Note that protocols that have a restricted OTR do not schedule their measurements like other protocols. This is because starting a protocol subscription to a restricted OTR means that you are eligible for clicking the link, rather than subscribing to the protocol.
 

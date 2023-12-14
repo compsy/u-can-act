@@ -20,3 +20,5 @@ MAILGUN_API_KEY=SOMEHEXNUMBERHERE
 MAILGUN_DOMAIN=invite.researchable.nl
 MAILGUN_API_HOST=api.eu.mailgun.net
 ```
+
+This mayh break some of the jwt-auth specs. If you want to run these while having this configuration, you need to uncomment some lines in `config/environments/test.rb`. See that file for more information.

@@ -14,6 +14,12 @@ describe RescheduleResponses do
       described_class.run!(protocol_subscription: protocol_subscription, future: future)
     end
 
+    it 'does nothing if the protocol has a restricted OTR' do
+      FactoryBot.create(:one_time_response, protocol: protocol_subscription.protocol, restricted: true)
+      expect(ActiveRecord::Base).not_to receive(:transaction)
+      described_class.run!(protocol_subscription: protocol_subscription, future: future)
+    end
+
     describe 'should destroy all future responses' do
       it 'with the default future date' do
         responses = []

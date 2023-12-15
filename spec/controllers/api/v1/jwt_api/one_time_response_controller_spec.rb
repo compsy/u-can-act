@@ -41,7 +41,6 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
 
       it 'should redirect the user to the correct page' do
         get :show, params: { otr: thetoken }
-        puts response.body
         expect(response.status).to eq 302
         expect(response.location).to start_with 'http://test.host?q='
       end

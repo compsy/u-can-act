@@ -26,7 +26,7 @@ RSpec.describe OneTimeResponseController, type: :controller do
       get :show, params: { q: one_time_response.token }
       expect(response.status).to eq 404
       post_count = ProtocolSubscription.count
-      expect(pre_count).to eq post_count
+      expect(post_count).to eq pre_count
     end
 
     it 'creates the person when called' do

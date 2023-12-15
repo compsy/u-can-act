@@ -20,7 +20,7 @@ RSpec.describe OneTimeResponseController, type: :controller do
       expect(pre_count + 1).to eq post_count
     end
 
-    it 'does not subscribe to a protocol the otr is restricted' do
+    it 'does not subscribe to a protocol if the otr is restricted' do
       one_time_response.update!(restricted: true)
       pre_count = ProtocolSubscription.count
       get :show, params: { q: one_time_response.token }

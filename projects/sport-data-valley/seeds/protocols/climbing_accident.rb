@@ -3,7 +3,7 @@ require_relative '../questionnaires/climbing_accident'
 
 CLIMBING_ACCIDENT_PROTOCOL_NAME = 'climbing_accident'
 CLIMBING_ACCIDENT_NOTIFICATION_NAME = 'base-platform-subscription-climbing-accident'
-CLIMBING_ACCIDENT_DEFAULT_PROTOCOL_DURATION = 30.days # TODO check if this is the case
+CLIMBING_ACCIDENT_DEFAULT_PROTOCOL_DURATION = 1.year
 
 protocol = create_or_update_protocol(CLIMBING_ACCIDENT_PROTOCOL_NAME, CLIMBING_ACCIDENT_DEFAULT_PROTOCOL_DURATION)
 

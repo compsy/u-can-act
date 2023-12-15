@@ -78,7 +78,6 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
         expect(person.protocol_subscriptions).to_not be_blank
         get :show, params: { otr: thetoken }
         person.reload
-        puts response.body
         expect(response.status).to_not eq 404
       end
     end

@@ -288,6 +288,14 @@ Variable | Description
 `q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
+### One Time Responses
+
+A One Time Response (or OTR for short), is a way to start a protocol from a URL, rather than it being scheduled. You can specify a token to be used in the URL, so the OTR link is always the same, or you can leave it blank and it will come up with its own random token for the link.
+
+Other than a token in the URL, OTRs also use a token in the query parameters for the URL. This token is used to set the session. When a OTR URL is given a session token as a `token` parameter, the filled out response will be linked to the user with that session.
+
+An OTR can be marked as a `restricted` OTR, which means that the link will only function if it is also given a `token` parameter and that there is a running protocol subscription started for that user. Note that protocols that have a restricted OTR do not schedule their measurements like other protocols. This is because starting a protocol subscription to a restricted OTR means that you are eligible for clicking the link, rather than subscribing to the protocol.
+
 ### Prefilled measurements
 A measurement in a protocol can be configured to be prefilled with past responses. This can be activated by 
 switching the `prefilled` property of the measurement to `true`. When creating protocols programmatically via the basic

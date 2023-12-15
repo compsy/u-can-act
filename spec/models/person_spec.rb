@@ -59,6 +59,32 @@ describe Person do
     end
   end
 
+  describe 'my_open_restricted_otr_prot_subs' do
+    let(:person) { FactoryBot.create(:person) }
+
+    it 'returns the correct protocol subscriptions' do
+      protocol = FactoryBot.create(:protocol, :with_measurements)
+      FactoryBot.create(:one_time_response, protocol: protocol, restricted: true)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, person: person, protocol: protocol)
+      expect(person.my_open_restricted_otr_prot_subs).to eq([protocol_subscription])
+    end
+
+    it 'does not return unrestricted otrs' do
+      protocol = FactoryBot.create(:protocol, :with_measurements)
+      FactoryBot.create(:one_time_response, protocol: protocol, restricted: false)
+      FactoryBot.create(:protocol_subscription, person: person, protocol: protocol)
+      expect(person.my_open_restricted_otr_prot_subs).to be_blank
+    end
+
+    it 'does not return protocol subscriptions that are not active' do
+      protocol = FactoryBot.create(:protocol, :with_measurements)
+      FactoryBot.create(:one_time_response, protocol: protocol, restricted: true)
+      protocol_subscription = FactoryBot.create(:protocol_subscription, person: person, protocol: protocol)
+      protocol_subscription.cancel!
+      expect(person.my_open_restricted_otr_prot_subs).to be_blank
+    end
+  end
+
   describe 'stats' do
     let(:person) { FactoryBot.create(:person) }
 

@@ -6,7 +6,7 @@ dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 dagboek1.name = db_name1
 
-EMAIL_REGEX = '^[^@\s]+@[^@\s]+$'
+EMAIL_REGEX_RHEUMATISM = '^[^@\s]+@[^@\s]+$'
 
 dagboek_content = [
   {
@@ -134,7 +134,7 @@ dagboek_content = [
     hidden: true,
     type: :textfield,
     title: 'Zo ja, vul hier uw emailadres in. Uw emailadres wordt alléén gebruikt voor de opties die u hierboven hebt aangegeven. De antwoorden op de vragenlijst worden niet gekoppeld aan uw emailadres.',
-    pattern: EMAIL_REGEX,
+    pattern: EMAIL_REGEX_RHEUMATISM,
     placeholder: 'Vul uw e-mailadres in',
     hint: 'Vul a.u.b. een geldig e-mailadres in.',
     required: true

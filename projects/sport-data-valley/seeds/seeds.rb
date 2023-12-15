@@ -51,9 +51,15 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
                  gender: 'female',
                  mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
                  role: normal_role)
-  
+
   Person.create!(first_name: 'Din',
                   last_name: 'Djarin',
+                  gender: 'male',
+                  mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
+                  role: normal_role)
+
+  Person.create!(first_name: 'Anakin',
+                  last_name: 'Skywalker',
                   gender: 'male',
                   mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
                   role: normal_role)

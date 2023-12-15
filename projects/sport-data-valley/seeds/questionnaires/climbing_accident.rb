@@ -7,9 +7,10 @@ questionnaire = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 questionnaire ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
 questionnaire.name = db_name
 
-# TODO: @Jose These regexes don't work yet. Please preview the questionnaire, try to fill out the fields that contain the regexes and see the errors in the console. Then fix these.
-PHONE_REGEX_CLIMBING = "^\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,9}[-.\s]?\d{1,9}$"
-EMAIL_REGEX_CLIMBING = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+# All \ must be escaped so Ruby knows we actually want a \ in our string instead of escaping the character right after
+# Also, inside character classes [], we must escape the character - if we want it to match, otherwise it will be interpreted as a range.
+PHONE_REGEX_CLIMBING = "^\\+?\\d{1,4}[\\-.\\s]?\\(?\\d{1,4}\\)?[\\-.\\s]?\\d{1,9}[\\-.\\s]?\\d{1,9}$"
+EMAIL_REGEX_CLIMBING = '^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$'
 
 question_content = [
   {

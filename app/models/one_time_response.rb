@@ -3,6 +3,7 @@
 class OneTimeResponse < ApplicationRecord
   belongs_to :protocol
   validates :token, presence: true, uniqueness: true
+  validates :restricted, inclusion: [true, false]
 
   TOKEN_LENGTH = 8
 
@@ -16,9 +17,12 @@ class OneTimeResponse < ApplicationRecord
   end
 
   def redirect_url(person)
+    create_response(person) if restricted?
     responses = person.all_my_open_one_time_responses.select do |elem|
       elem.protocol_subscription.protocol.id == protocol.id
     end
+    return nil if restricted? && responses.blank?
+
     invitation_set = InvitationSet.create!(person_id: person.id,
                                            responses: responses)
 
@@ -27,6 +31,9 @@ class OneTimeResponse < ApplicationRecord
   end
 
   def subscribe_person(person, mentor = nil)
+    # For restricted OTRs, the person already needs to be subscribed.
+    return if restricted?
+
     protocol_subscription = SubscribeToProtocol.run!(
       protocol: protocol,
       mentor: mentor,
@@ -38,5 +45,21 @@ class OneTimeResponse < ApplicationRecord
       protocol_subscription: protocol_subscription,
       future: 10.minutes.ago
     )
+  end
+
+  private
+
+  def create_response(person)
+    protocol_subscriptions = ProtocolSubscription.active.where(person: person, protocol: protocol)
+    # If we are not subscribed, don't create a response.
+    return if protocol_subscriptions.blank?
+
+    responses = Response.where(protocol_subscription: protocol_subscriptions).opened_and_not_expired
+    # If we already have an open response, don't create a new one.
+    return if responses.present?
+
+    Response.create(protocol_subscription: protocol_subscriptions.first,
+                    measurement: protocol.measurements.first,
+                    open_from: 1.second.ago)
   end
 end

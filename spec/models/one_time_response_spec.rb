@@ -102,6 +102,51 @@ RSpec.describe OneTimeResponse, type: :model do
       expect(result).to start_with '?q='
     end
 
+    it 'does not create a response if restricted and an open response exists' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                protocol: protocol,
+                                                person: person,
+                                                start_date: 1.day.ago)
+      response = FactoryBot.create(:response,
+                                   protocol_subscription: protocol_subscription,
+                                   measurement: protocol.measurements.first,
+                                   open_from: 1.minute.ago)
+      response_count = Response.count
+      otr.update!(restricted: true)
+      result = otr.redirect_url(person)
+      expect(Response.count).to eq response_count
+      invitation_set = InvitationSet.last
+      expect(invitation_set.responses).to_not be_blank
+      expect(invitation_set.responses.first).to eq(response)
+      expect(result).to_not be_blank
+      expect(result).to start_with '?q='
+    end
+
+    it 'creates a response if restricted and no open response exists but we are subscribed to the protocol' do
+      FactoryBot.create(:protocol_subscription,
+                        protocol: protocol,
+                        person: person,
+                        start_date: 1.day.ago)
+      response_count = Response.count
+      otr.update!(restricted: true)
+      result = otr.redirect_url(person)
+      expect(Response.count).to eq(response_count + 1)
+      invitation_set = InvitationSet.last
+      expect(invitation_set.responses).to_not be_blank
+      expect(result).to_not be_blank
+      expect(result).to start_with '?q='
+    end
+
+    it 'does not create a response and returns nil if restricted but we are not subscribed to the protocol' do
+      response_count = Response.count
+      invitation_set_count = InvitationSet.count
+      otr.update!(restricted: true)
+      result = otr.redirect_url(person)
+      expect(InvitationSet.count).to eq(invitation_set_count)
+      expect(Response.count).to eq(response_count)
+      expect(result).to be_nil
+    end
+
     it 'also creates a url if not subscribed' do
       protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                 protocol: protocol,
@@ -154,6 +199,13 @@ RSpec.describe OneTimeResponse, type: :model do
       expect(person.protocol_subscriptions).to_not be_blank
       expect(person.protocol_subscriptions.length).to eq 1
       expect(person.protocol_subscriptions.first.protocol).to eq otr.protocol
+    end
+
+    it 'should do nothing if the otr is restricted' do
+      otr.update!(restricted: true)
+      otr.subscribe_person(person)
+      person.reload
+      expect(person.protocol_subscriptions).to be_blank
     end
 
     it 'should also set the mentor' do

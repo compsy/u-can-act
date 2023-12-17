@@ -154,6 +154,14 @@ class Person < ApplicationRecord
     end.positive?
   end
 
+  def my_open_restricted_otr_prot_subs
+    protocol_subscriptions
+      .active
+      .joins(protocol: :one_time_responses)
+      .where(one_time_responses: { restricted: true })
+      .distinct(:id)
+  end
+
   def mentor
     # Introduce caching because otherwise it does a (cached) database query for every question in a questionnaire
     return @mentor if @mentorcached

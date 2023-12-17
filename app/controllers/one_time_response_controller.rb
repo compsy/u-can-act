@@ -23,7 +23,8 @@ class OneTimeResponseController < ApplicationController
 
   def load_one_time_response
     token = one_time_response_params[:q]
-    @one_time_response = OneTimeResponse.find_by(token: token)
+    # This route only works for non-restricted OTRs, because the restricted ones cannot be filled out anonymously.
+    @one_time_response = OneTimeResponse.find_by(token: token, restricted: false)
     return @one_time_response if @one_time_response.present?
 
     render(status: :not_found, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')

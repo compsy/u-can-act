@@ -34,6 +34,18 @@ describe Protocol do
     end
   end
 
+  describe 'restricted_otr_protocol?' do
+    let(:protocol) { FactoryBot.create(:protocol) }
+    it 'returns true if there are restricted one time responses' do
+      FactoryBot.create(:one_time_response, protocol: protocol, restricted: true)
+      expect(protocol.restricted_otr_protocol?).to be_truthy
+    end
+    it 'should not return true if there are unrestricted one time responses' do
+      FactoryBot.create(:one_time_response, protocol: protocol, restricted: false)
+      expect(protocol.restricted_otr_protocol?).to be_falsey
+    end
+  end
+
   describe 'duration' do
     it 'is a zero or positive integer' do
       protocol = FactoryBot.create(:protocol)

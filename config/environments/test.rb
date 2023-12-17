@@ -7,6 +7,14 @@ require "active_support/core_ext/integer/time"
 # your test database is "scratch space" for the test suite and is wiped
 # and recreated between test runs. Don't rely on the data there!
 
+# Uncomment this to make jwt-api specs work if you have an .env.local file for sport-data-valley.
+# ENV['TOKEN_SIGNATURE_ALGORITHM'] = 'RS256'
+# ENV['AUTH0_CLIENT_ID'] = 'CCMYoMGi6mApMRFdnqpAHFtjeFceFGPr'
+# ENV['AUTH0_DOMAIN'] = 'ikia-development.eu.auth0.com'
+# ENV['AUTH0_CLIENT_SECRET'] = '-opwFYMuXOWCvDzTpRmVrEkPqTvSD4dZps0u2RMZpSwmEfmLmoj20DVdEDUOnZwt'
+# ENV['AUTH0_REDIRECT_URL'] = 'http://localhost:3002/admin/callback'
+# ENV['AUTH0_AUDIENCE'] = 'https://ikia-development.eu.auth0.com/api/v2/'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

@@ -70,7 +70,7 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   client.open_timeout = 600 # instead of the default 60
   Capybara::Selenium::Driver.new(app,
                                  browser: :chrome,
-                                 capabilities: options,
+                                 options: options,
                                  http_client: client)
 end
 

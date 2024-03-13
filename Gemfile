@@ -5,13 +5,13 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Specify ruby version for heroku
-ruby '3.1.2'
+ruby '3.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.4'
 
 # Use Postgres as the database for Active Record
-gem 'pg', '= 1.1.4'
+gem 'pg'
 
 # Driver for Redis datastore
 # NOTE: we can upgrade to v5, but then authentication fails with redis

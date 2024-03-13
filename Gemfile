@@ -147,6 +147,7 @@ group :test do
 
   # selenium for js testing
   gem 'selenium-webdriver'
+  gem 'webdrivers'
 end
 
 group :production, :staging do

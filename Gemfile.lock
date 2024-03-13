@@ -113,7 +113,6 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
-    base64 (0.2.0)
     bcrypt (3.1.20)
     bindex (0.8.1)
     bootsnap (1.15.0)
@@ -488,8 +487,7 @@ GEM
       tilt
     scout_apm (5.3.3)
       parser
-    selenium-webdriver (4.17.0)
-      base64 (~> 0.2)
+    selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -550,10 +548,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (5.2.0)
+    webdrivers (5.3.1)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0)
+      selenium-webdriver (~> 4.0, < 4.11)
     webpacker (6.0.0.rc.6)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -651,7 +649,7 @@ DEPENDENCIES
   uglifier
   warden-jwt_auth
   web-console
-  webdrivers
+  webdrivers (= 5.3.1)
   webpacker (>= 6.0.0.rc.5)
   workless!
 

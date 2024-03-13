@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: cimg/ruby:3.1.2-browsers
+    - image: cimg/ruby:3.2.3-browsers
     - image: cimg/redis:7.0
       command: redis-server --requirepass redispassword
       environment:
@@ -22,7 +22,7 @@ defaults: &defaults
 
 build_defaults: &build_defaults
   docker:
-    - image: cimg/ruby:3.1.2-browsers
+    - image: cimg/ruby:3.2.3-browsers
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test

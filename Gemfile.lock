@@ -113,7 +113,6 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
-    base64 (0.2.0)
     bcrypt (3.1.20)
     bindex (0.8.1)
     bootsnap (1.15.0)
@@ -323,7 +322,8 @@ GEM
     parser (3.3.0.3)
       ast (~> 2.4.1)
       racc
-    pg (1.1.4)
+    pg (1.5.6)
+    pg (1.5.6-x64-mingw-ucrt)
     platform-api (3.5.0)
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)
@@ -487,8 +487,7 @@ GEM
       tilt
     scout_apm (5.3.3)
       parser
-    selenium-webdriver (4.17.0)
-      base64 (~> 0.2)
+    selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -549,6 +548,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webdrivers (5.3.1)
+      nokogiri (~> 1.6)
+      rubyzip (>= 1.3.0)
+      selenium-webdriver (~> 4.0, < 4.11)
     webpacker (6.0.0.rc.6)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -610,7 +613,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  pg (= 1.1.4)
+  pg
   pry-rails
   puma
   rack-cors
@@ -646,11 +649,12 @@ DEPENDENCIES
   uglifier
   warden-jwt_auth
   web-console
+  webdrivers (= 5.3.1)
   webpacker (>= 6.0.0.rc.5)
   workless!
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 3.2.3p157
 
 BUNDLED WITH
    2.3.17

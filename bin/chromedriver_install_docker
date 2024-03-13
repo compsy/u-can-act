@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # New chromedriver from https://discuss.circleci.com/t/update-chromedriver/9358
 # and https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5
 
 # Install dependencies
-apt-get -y update
-apt-get -y install libappindicator3-1 curl fonts-liberation libasound2 libnspr4 libnss3 libxss1 lsb-release xdg-utils libgbm1 libu2f-udev
+apt-get update -qq
+apt-get install -y curl fonts-liberation libxss1 lsb-release libgbm1 libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcups2 libdrm2 libgbm1 libgtk-3-0 libnspr4 libnss3 libxcomposite1 libxdamage1 libxfixes3 libxkbcommon0 libxrandr2 xdg-utils libu2f-udev
 
 # Install Chrome driver
 # This is from https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json
-wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chromedriver-linux64.zip
+wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/121.0.6167.85/linux64/chromedriver-linux64.zip
 unzip -o chromedriver-linux64.zip
 cp -f chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 

@@ -20,6 +20,15 @@ RSpec.describe OneTimeResponseController, type: :controller do
       expect(pre_count + 1).to eq post_count
     end
 
+    it 'does not subscribe to a protocol if the otr is restricted' do
+      one_time_response.update!(restricted: true)
+      pre_count = ProtocolSubscription.count
+      get :show, params: { q: one_time_response.token }
+      expect(response.status).to eq 404
+      post_count = ProtocolSubscription.count
+      expect(post_count).to eq pre_count
+    end
+
     it 'creates the person when called' do
       pre_count = Person.count
       get :show, params: { q: one_time_response.token }

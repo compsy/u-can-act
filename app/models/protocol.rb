@@ -15,6 +15,10 @@ class Protocol < ApplicationRecord
     one_time_responses.present?
   end
 
+  def restricted_otr_protocol?
+    one_time_responses.where(restricted: true).present?
+  end
+
   def calculate_reward(measurement_completion, check_future = false)
     return 0 if measurement_completion.blank?
 

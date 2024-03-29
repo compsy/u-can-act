@@ -9,6 +9,9 @@ class RescheduleResponses < ActiveInteraction::Base
   # @param protocol_subscription [ProtocolSubscription] the current protocol
   #   subscription
   def execute
+    # Don't reschedule responses for restricted OTR protocols
+    return if protocol_subscription.protocol.restricted_otr_protocol?
+
     ActiveRecord::Base.transaction do
       protocol_subscription.responses.not_completed.after_date(future).destroy_all
       schedule_responses

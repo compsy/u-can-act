@@ -12,6 +12,8 @@ class ProtocolSubscription < ApplicationRecord
   validates :start_date, presence: true
   validates :end_date, presence: true
   validates :open_from_day_uses_start_date_offset, inclusion: [true, false]
+  validates :needs_language_input, inclusion: [true, false]
+  validates :has_language_input, inclusion: [true, false]
 
   # NOTE: this ordering is important for a number of reasons. E.g.:
   # - Response.last? uses it to determine if this is the last in the set.

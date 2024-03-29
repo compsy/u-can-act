@@ -52,10 +52,6 @@ Capybara.default_selector = :css
 Capybara.default_max_wait_time = 4
 Capybara.ignore_hidden_elements = false
 
-# Uncomment for debugging headless chrome errors:
-# Webdrivers.logger.level = :DEBUG
-Webdrivers.cache_time = 86_400
-
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   [
@@ -75,7 +71,7 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   client.open_timeout = 600 # instead of the default 60
   Capybara::Selenium::Driver.new(app,
                                  browser: :chrome,
-                                 capabilities: options,
+                                 options: options,
                                  http_client: client)
 end
 

@@ -8,6 +8,9 @@ describe Api::PersonSerializer do
   let!(:response) do
     FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.minute.ago)
   end
+  let!(:one_time_response) do
+    FactoryBot.create(:one_time_response, protocol: protocol_subscription.protocol, restricted: true)
+  end
   subject(:json) { JSON.parse(described_class.new(person).to_json) }
 
   describe 'renders the correct json' do
@@ -24,6 +27,7 @@ describe Api::PersonSerializer do
         email
         mobile_phone
         my_open_responses
+        my_open_restricted_otrs
       ]
     end
 
@@ -68,6 +72,9 @@ describe Api::PersonSerializer do
     end
 
     it 'contains the correct open responses' do
+      # It doesn't count responses if the protocol is an OTR protocol
+      one_time_response.destroy
+      json = JSON.parse(described_class.new(person).to_json)
       expect(json['my_open_responses'].length).to eq(1)
       expect(json['my_open_responses'][0]['uuid']).to eq(response.uuid)
     end
@@ -75,6 +82,10 @@ describe Api::PersonSerializer do
     it 'contains the correct value for the auth0_id_string' do
       expect(person.auth_user.auth0_id_string).not_to be_blank
       expect(json['auth0_id_string']).to eq person.auth_user.auth0_id_string
+    end
+
+    it 'contains the correct value for the my_open_restricted_otrs' do
+      expect(json['my_open_restricted_otrs']).to eq [one_time_response.protocol.name]
     end
   end
 end

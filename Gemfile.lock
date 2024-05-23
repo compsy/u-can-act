@@ -614,7 +614,7 @@ DEPENDENCIES
   mailgun-ruby
   materialize-sass
   messagebird-rest
-  mini_racer
+  mini_racer (= 0.9.0)
   modernizr-rails
   mongoid
   net-imap

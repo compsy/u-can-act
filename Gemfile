@@ -200,7 +200,7 @@ gem 'rails-i18n'
 gem 'lograge'
 gem 'remote_syslog_logger'
 
-gem 'appsignal'
+gem 'appsignal', platforms: :ruby
 
 # push subscriptions
 gem 'httparty'

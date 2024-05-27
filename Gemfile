@@ -200,7 +200,7 @@ gem 'rails-i18n'
 gem 'lograge'
 gem 'remote_syslog_logger'
 
-gem 'appsignal', platforms: :ruby
+gem 'appsignal', platforms: :ruby # Fixes an error when installing native extensions for the Appsignal gem.
 
 # push subscriptions
 gem 'httparty'

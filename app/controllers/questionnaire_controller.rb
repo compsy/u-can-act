@@ -38,6 +38,8 @@ class QuestionnaireController < ApplicationController
 
   def interactive; end
 
+  def interactive_post; end
+
   # This method is used to post results from the interactive questionnaire previewer
   def from_json
     flash[:success] = I18n.t('questionnaires.preview_saved')

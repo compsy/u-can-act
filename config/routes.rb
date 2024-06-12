@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     collection do
       get 'preference/:uuid', to: 'questionnaire#preference', as: 'preference'
       get :interactive
+      post :interactive_post
       post :interactive_render
       post :from_json
     end

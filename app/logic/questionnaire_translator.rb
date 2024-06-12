@@ -7,6 +7,32 @@ class QuestionnaireTranslator
       translate_content_aux(content)
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
+    def multi_language?(content)
+      return false if content.blank?
+
+      if content.is_a?(Hash)
+        return true if (content.key?('nl') && content.key?('en')) || (content.key?(:nl) && content.key?(:en))
+
+        content.keys.each do |key|
+          return true if multi_language?(content[key])
+        end
+        return false
+      end
+
+      if content.is_a?(Array)
+        content.each do |value|
+          return true if multi_language?(value)
+        end
+        return false
+      end
+
+      false
+    end
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity
+
     private
 
     def translate_content_aux(content)

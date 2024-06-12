@@ -32,6 +32,61 @@ describe QuestionnaireGenerator do
       expect(result).to include('<form')
       expect(result).to include('Jane')
     end
+
+    context 'language switch' do
+      it 'generates a language switch when given a multi-language questionnaire' do
+        questionnaire_content = { questions: [{
+          section_start: 'Algemeen',
+          id: :v1,
+          type: :range,
+          title: { en: 'How are you today?',
+                   nl: 'Hoe voelt {{deze_student}} zich vandaag?' },
+          labels: %w[slecht goed]
+        }], scores: [] }
+        result = subject
+                 .generate_questionnaire(
+                   response_id: responseobj.id,
+                   content: questionnaire_content,
+                   title: 'Dit is een titel {{deze_student}}',
+                   submit_text: 'Opslaan',
+                   action: '/',
+                   unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: responseobj.uuid),
+                   locale: Rails.application.config.i18n.default_locale.to_s,
+                   params: {
+                     authenticity_token: 'authenticity-token'
+                   }
+                 )
+        expect(result).to include('EN')
+        expect(result).to include('language-switch')
+      end
+
+      it 'does not generate a language switch when given a single language questionnaire' do
+        questionnaire_content = { questions: [{
+          section_start: 'Algemeen',
+          id: :v1,
+          type: :range,
+          title: 'Hoe voelt {{deze_student}} zich vandaag?',
+          labels: %w[slecht goed]
+        }], scores: [] }
+        result = subject
+                 .generate_questionnaire(
+                   response_id: responseobj.id,
+                   content: questionnaire_content,
+                   title: 'Dit is een titel {{deze_student}}',
+                   submit_text: 'Opslaan',
+                   action: '/',
+                   unsubscribe_url: Rails.application.routes.url_helpers.questionnaire_path(uuid: responseobj.uuid),
+                   locale: Rails.application.config.i18n.default_locale.to_s,
+                   params: {
+                     authenticity_token: 'authenticity-token'
+                   }
+                 )
+        expect(result).to_not include('EN')
+        expect(result).to_not include('NL')
+        expect(result).to_not include('language-switch')
+      end
+    end
+
     it 'raises an error when given a question of unknown type' do
       questionnaire_content = [{
         section_start: 'Algemeen',
@@ -66,7 +121,7 @@ describe QuestionnaireGenerator do
         id: :v1,
         type: :range,
         title: 'Hoe voelt {{deze_student}} zich vandaag?',
-        options: %w[slecht goed]
+        labels: %w[slecht goed]
       }], scores: [] }
       @result = subject.generate_hash_questionnaire(responseobj.id,
                                                     questionnaire_content,

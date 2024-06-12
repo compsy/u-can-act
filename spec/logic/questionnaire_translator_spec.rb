@@ -47,4 +47,21 @@ describe QuestionnaireTranslator do
       expect(result).to eq mockresult
     end
   end
+
+  describe 'multi_language?' do
+    it 'returns false for empty content' do
+      content = nil
+      expect(described_class.multi_language?(content)).to eq false
+    end
+    it 'returns false for non-multi-language content' do
+      content = { id: :v1, type: :range, title: 'How are you today?', labels: %w[slecht goed] }
+      expect(described_class.multi_language?(content)).to eq false
+    end
+    it 'returns true for multi-language content' do
+      content = { id: :v1, type: :range, title: {
+        en: 'How are you today?', nl: 'Hoe voelt {{deze_student}} zich vandaag?'
+      }, labels: %w[slecht goed] }
+      expect(described_class.multi_language?(content)).to eq true
+    end
+  end
 end

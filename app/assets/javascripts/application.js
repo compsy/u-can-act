@@ -28,8 +28,27 @@
 //= require sketch
 //= require_tree .
 
+const switchLanguage = function() {
+  // check the data-locale attribute from the current element.
+  // if it is 'nl' then change it to 'en' and vice versa.
+  // Change it to a new value by putting ?locale=nl or ?locale=en at the end of the URL,
+  // but check if it's already in there.
+  var newLocale = 'nl';
+  if ($(this).data('locale') === 'nl') {
+    newLocale = 'en';
+  }
+  var newUrl = window.location.href;
+  if (newUrl.includes('?')) {
+    newUrl = newUrl.replace(/locale=(en|nl)/, 'locale=' + newLocale);
+  } else {
+    newUrl = newUrl + '?locale=' + newLocale;
+  }
+  window.location.assign(newUrl);
+};
+
 $(function(){
   $('.download-button').click(function() { $(this).attr('disabled', true)})
+  $('#language-switch').click(switchLanguage);
 });
 
 printAsMoney = function(euroValue) {

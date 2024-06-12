@@ -1,0 +1,27 @@
+:javascript
+  $(document).ready( function() {
+    $( "#questionnaire_content #action" ).click(function( event ) {
+      event.preventDefault();
+      $('#action').addClass('disabled').text('Bezig...');
+      var data = {'content': $('#content').val()};
+      $.post( "/questionnaire/interactive_render", data, function( data ) {
+        $( ".result" ).html( data );
+        $('#action').removeClass('disabled').text('Submit');
+        $('html,body').animate({scrollTop: $('#action').offset().top}, 500);
+        questionnaireLoaded();
+      }).fail(function(err) {
+        console.log(err);
+        $( ".result" ).html( err.responseText );
+        $('#action').removeClass('disabled').text('Submit');
+      });
+    });
+  });
+.row
+  %form.col.s12#questionnaire_content
+    .row
+      .input-field.col.s12
+        %textarea#content.materialize-textarea #{@default_content}
+        %label{for: "content"} Questionnaire JSON
+    .row
+      %button.btn.waves-effect.waves-light{name: 'action', id: 'action'} Submit
+.result.mentor

@@ -28,22 +28,23 @@
 //= require sketch
 //= require_tree .
 
-const switchLanguage = function() {
-  // check the data-locale attribute from the current element.
-  // if it is 'nl' then change it to 'en' and vice versa.
-  // Change it to a new value by putting ?locale=nl or ?locale=en at the end of the URL,
-  // but check if it's already in there.
-  var newLocale = 'nl';
-  if ($(this).data('locale') === 'nl') {
-    newLocale = 'en';
-  }
-  var newUrl = window.location.href;
-  if (newUrl.includes('?')) {
-    newUrl = newUrl.replace(/locale=(en|nl)/, 'locale=' + newLocale);
-  } else {
-    newUrl = newUrl + '?locale=' + newLocale;
-  }
-  window.location.assign(newUrl);
+const switchLanguage = function () {
+  // Check the data-locale attribute from the current element.
+  // If it is 'nl' then change it to 'en' and vice versa.
+  var newLocale = $(this).data('locale') === 'nl' ? 'en' : 'nl';
+
+  // Use the URL and URLSearchParams interfaces to handle the URL and its parameters.
+  var currentUrl = new URL(window.location.href);
+  var params = new URLSearchParams(currentUrl.search);
+
+  // Set the new locale parameter.
+  params.set('locale', newLocale);
+
+  // Update the URL with the new query parameters.
+  currentUrl.search = params.toString();
+
+  // Redirect to the new URL.
+  window.location.assign(currentUrl.toString());
 };
 
 $(function(){

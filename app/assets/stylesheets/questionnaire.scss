@@ -464,6 +464,18 @@ p.option-label, div.otherwise-textfield {
   left: -40px;
 }
 
+// Language switch
+#language-switch {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background-color: $u-can-act-light-grey;
+  border-bottom-left-radius: 0.5rem;
+  cursor: pointer;
+}
+
 // Make labels more clickable
 label {
   padding-bottom: 8px;

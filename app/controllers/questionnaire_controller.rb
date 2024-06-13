@@ -8,8 +8,8 @@ class QuestionnaireController < ApplicationController
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json interactive_post]
   before_action :log_csrf_error, only: %i[create]
-  before_action :set_response, only: %i[show preference destroy]
   before_action :set_locale, only: %i[show]
+  before_action :set_response, only: %i[show preference destroy]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]
@@ -128,6 +128,10 @@ class QuestionnaireController < ApplicationController
 
   def set_locale
     person = current_user
+    if person && questionnaire_params[:locale].present? &&
+       (questionnaire_params[:locale] == 'en' || questionnaire_params[:locale] == 'nl')
+      person.update!(locale: questionnaire_params[:locale])
+    end
     I18n.locale = if person
                     person.locale
                   else
@@ -334,7 +338,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def questionnaire_params
-    params.permit(:uuid, :method, :callback_url)
+    params.permit(:uuid, :method, :callback_url, :locale)
   end
 
   def questionnaire_create_params

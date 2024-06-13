@@ -6,7 +6,7 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include ::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
-  skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
+  skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json interactive_post]
   before_action :log_csrf_error, only: %i[create]
   before_action :set_locale, only: %i[show]
   before_action :set_response, only: %i[show preference destroy]
@@ -24,7 +24,7 @@ class QuestionnaireController < ApplicationController
   before_action :check_interactive_content, only: %i[interactive_render]
   before_action :set_interactive_content, only: %i[interactive_render]
   before_action :verify_interactive_content, only: %i[interactive_render]
-  before_action :set_default_content, only: %i[interactive]
+  before_action :set_default_content, only: %i[interactive interactive_post]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
@@ -37,6 +37,8 @@ class QuestionnaireController < ApplicationController
   end
 
   def interactive; end
+
+  def interactive_post; end
 
   # This method is used to post results from the interactive questionnaire previewer
   def from_json

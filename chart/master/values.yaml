@@ -1,0 +1,29 @@
+# -- number of replicas for both the deployment and worker
+replicaCount: 2
+# -- container image to use
+image: docker.io/researchableuser/sdv-svc-questionnaires:e59561a50db7f3dda971b13de24bdd779eb24901
+# -- secret containing credentials for the registry of `image`
+imagePullSecrets:
+  - name: docker-auth
+ingress:
+  # -- enable the ingress
+  enabled: true
+  # -- annotations added to the ingress
+  annotations:
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+  # -- secure with TLS
+  tls:
+    enabled: true
+    # -- name of the kubernetes secret that stores the certificate
+    secretName: sportdatavalley-svc-questionnaires-tls
+  # -- host for the ingress (also used for TLS) excluding protocol
+  hosts:
+    - ''
+# -- Name of the secret that contains the env vars
+secretName: ""
+configmap:
+  RACK_ENV: production
+  RAILS_ENV: production
+  NODE_ENV: production

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::SettingsController, type: :controller do
+describe Api::V1::SettingsController, type: :controller, focus: true do
   describe 'index' do
     def flat_hash(hash, final = [], res = {})
       return res.update(final => hash) unless hash.is_a? Hash
@@ -11,9 +11,10 @@ describe Api::V1::SettingsController, type: :controller do
       res
     end
 
-    let(:settings) { YAML.load_file(Rails.root.join('config/settings.yml')) }
+    let(:settings) { YAML.load_file(Rails.root.join('config/settings.yml'), aliases: true) }
     let(:specific_settings) do
-      YAML.load_file(Rails.root.join('projects', ENV.fetch('PROJECT_NAME', nil), 'config', 'settings.yml'))
+      YAML.load_file(Rails.root.join('projects', ENV.fetch('PROJECT_NAME', nil), 'config', 'settings.yml'),
+                     aliases: true)
     end
 
     let(:current_settings) { settings[Rails.env].deep_merge(specific_settings[Rails.env]) }

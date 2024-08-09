@@ -1,6 +1,6 @@
 -# App title is used for the launch title of the application in iOS
 %meta{name: "apple-mobile-web-app-title", content: "#{ENV['PROJECT_NAME']}"}
 -# Removes the border of the app on iOS
-%meta{name: "apple-mobile-web-app-capable", content: "yes"}
+%meta{name: "mobile-web-app-capable", content: "yes"}
 - icon_sizes.each do |size|
   %link{rel: "apple-touch-icon-precomposed", sizes: "#{size}x#{size}", href: "/images/#{prefix}-#{size}.png"}

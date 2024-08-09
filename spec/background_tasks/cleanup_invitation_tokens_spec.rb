@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe CleanupInvitationTokens do
   describe 'run' do
-    it 'calls the active scope', focus: true do
+    it 'calls the active scope' do
       expect(InvitationToken).to receive(:find_each).and_return [].each
       described_class.run
     end

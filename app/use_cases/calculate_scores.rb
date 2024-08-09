@@ -69,15 +69,13 @@ class CalculateScores < ActiveInteraction::Base
   end
 
   def unify_options(question_options)
-    roptions = []
-    question_options.each do |question_option|
-      roptions << if question_option.is_a?(Hash)
-                    question_option
-                  else
-                    { title: question_option }
-                  end
+    question_options.map do |question_option|
+      if question_option.is_a?(Hash)
+        question_option
+      else
+        { title: question_option }
+      end
     end
-    roptions
   end
 
   def calculate_and_add_score(score)

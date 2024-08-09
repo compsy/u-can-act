@@ -163,7 +163,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
     it 'should not give an error' do
       get :delegated_protocol_subscriptions, params: { external_identifier: external_identifier }
       expect(response.status).to eq 200
-      json_data = JSON.parse(response.body)
+      json_data = response.parsed_body
       expect(json_data).to eq([])
     end
 
@@ -177,7 +177,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       protocol_subscription = FactoryBot.create(:protocol_subscription, external_identifier: external_identifier)
       get :delegated_protocol_subscriptions, params: { external_identifier: external_identifier }
       expect(response.status).to eq 200
-      json_data = JSON.parse(response.body)
+      json_data = response.parsed_body
       expect(json_data.length).to eq(1)
       expect(json_data[0]['person_type']).to eq(protocol_subscription.person.role.group)
       expect(json_data[0]['name']).to eq(protocol_subscription.protocol.name)
@@ -193,7 +193,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
                                                  external_identifier: external_identifier)
       get :delegated_protocol_subscriptions, params: { external_identifier: external_identifier }
       expect(response.status).to eq 200
-      json_data = JSON.parse(response.body)
+      json_data = response.parsed_body
       expect(json_data.length).to eq(2)
       expect(json_data.pluck('id')).to match_array([protocol_subscription1.id,
                                                     protocol_subscription2.id])

@@ -92,7 +92,7 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
 
       it 'should list all OTRs' do
         get :index
-        result = JSON.parse(response.body)
+        result = response.parsed_body
         expect(result.length).to eq number_of_otrs
         tokens = otrs.map(&:token)
         result.each do |otr_result|

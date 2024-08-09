@@ -1,5 +1,5 @@
 import Enzyme from 'enzyme'
-import EnzymeAdapter from 'enzyme-adapter-react-16'
+import EnzymeAdapter from '@cfaester/enzyme-adapter-react-18'
 
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 
@@ -14,6 +14,11 @@ require('materialize-css')
 import I18n from '../../public/javascripts/i18n';
 I18n.defaultLocale = 'nl';
 I18n.locale = 'nl';
+
+import util from 'util';
+Object.defineProperty(global, 'TextEncoder', {
+  value: util.TextEncoder,
+});
 
 // comment the line below if you want the tests to spec with e.g.,  "[missing "nl.pages.klaar.header" translation]'
 // instead of the actual text.

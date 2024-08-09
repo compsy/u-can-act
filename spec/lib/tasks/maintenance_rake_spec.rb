@@ -95,7 +95,7 @@ describe 'rake maintenance:scramble', type: :task do
       pre_people.each_with_index do |person, idx|
         id = ids[idx]
         other_person = Person.find(id)
-        if  person.mentor?
+        if person.mentor?
           expect(other_person.iban).to be_blank
         else
           expect(other_person.iban).not_to eq person.iban

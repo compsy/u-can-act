@@ -53,7 +53,7 @@ describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
       it 'returns all my active protocol subscriptions' do
         get :mine
         expect(response.status).to eq 200
-        expect(JSON.parse(response.body).length).to eq(protocol_subscriptions.length + 1)
+        expect(response.parsed_body.length).to eq(protocol_subscriptions.length + 1)
       end
     end
   end
@@ -68,7 +68,7 @@ describe Api::V1::JwtApi::ProtocolSubscriptionsController, type: :controller do
       it 'returns all my protocol subscriptions' do
         get :my_active_and_inactive
         expect(response.status).to eq 200
-        expect(JSON.parse(response.body).length).to eq(protocol_subscriptions.length + 1 +
+        expect(response.parsed_body.length).to eq(protocol_subscriptions.length + 1 +
                                                          protocol_subscriptions_completed.length +
                                                          protocol_subscriptions_canceled.length)
       end

@@ -138,7 +138,7 @@ describe RescheduleResponses do
         expect(Response.count).to eq(1)
         described_class.run!(protocol_subscription: protocol_subscription, future: future)
         expect(Response.count).to eq(1)
-        expect(Response.all.first).to eq finished_response
+        expect(Response.first).to eq finished_response
       end
 
       it 'reschedules future responses for non periodical measurements if there are none completed' do
@@ -154,8 +154,8 @@ describe RescheduleResponses do
         expect(Response.count).to eq(0)
         described_class.run!(protocol_subscription: protocol_subscription, future: future)
         expect(Response.count).to eq(1)
-        expect(Response.all.first.measurement).to eq measurement
-        expect(Response.all.first.protocol_subscription).to eq protocol_subscription
+        expect(Response.first.measurement).to eq measurement
+        expect(Response.first.protocol_subscription).to eq protocol_subscription
       end
 
       it 'reschedules not future responses for non periodical measurements if they is one completed' do
@@ -189,8 +189,8 @@ describe RescheduleResponses do
 
         described_class.run!(protocol_subscription: protocol_subscription, future: future)
         expect(Response.count).to eq(2)
-        expect(Response.all.first.protocol_subscription).to eq protocol_subscription
-        expect(Response.all.second.protocol_subscription).to eq protocol_subscription
+        expect(Response.first.protocol_subscription).to eq protocol_subscription
+        expect(Response.second.protocol_subscription).to eq protocol_subscription
       end
     end
   end

@@ -102,11 +102,11 @@ class ExpandableGenerator < QuestionTypeGenerator
     id = id.to_s
 
     # We don't want to inject the id if no _ is present
-    return "#{id}_#{sub_id}".to_sym unless id.include? '_'
+    return :"#{id}_#{sub_id}" unless id.include? '_'
 
     id = id.split('_')
     start = id.first
     endd = id[1..].join('_')
-    "#{start}_#{sub_id}_#{endd}".to_sym
+    :"#{start}_#{sub_id}_#{endd}"
   end
 end

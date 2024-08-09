@@ -27,7 +27,7 @@ describe Api::V1::StatisticsController, type: :controller do
                     number_of_completed_questionnaires
                     number_of_book_signups]
       get :index
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response.keys.length).to eq 5
       expect(json_response.keys).to match_array(expected)
     end
@@ -56,7 +56,7 @@ describe Api::V1::StatisticsController, type: :controller do
       # an informed consent given.
       expected = studs1.count + studs2.count
       get :index
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['number_of_students']).to eq expected
     end
 
@@ -83,7 +83,7 @@ describe Api::V1::StatisticsController, type: :controller do
       # an informed consent given.
       expected = mentors1.count + mentors2.count
       get :index
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['number_of_mentors']).to eq expected
     end
 
@@ -94,7 +94,7 @@ describe Api::V1::StatisticsController, type: :controller do
         expect(Rails.application.config.settings).to receive(:project_end_date)
           .once.and_return('2018-08-06')
         get :index
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expected = 7 + 1 # we also count the active week
         expect(json_response['duration_of_project_in_weeks']).to eq expected
       end
@@ -105,7 +105,7 @@ describe Api::V1::StatisticsController, type: :controller do
         expect(Rails.application.config.settings).to receive(:project_end_date)
           .once.and_return('2017-03-27')
         get :index
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expected = 2 # we also count the active week
         expect(json_response['duration_of_project_in_weeks']).to eq expected
       end
@@ -116,7 +116,7 @@ describe Api::V1::StatisticsController, type: :controller do
         expect(Rails.application.config.settings).to receive(:project_end_date)
           .once.and_return('2017-03-17')
         get :index
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['duration_of_project_in_weeks']).to eq 0
       end
     end
@@ -133,7 +133,7 @@ describe Api::V1::StatisticsController, type: :controller do
       counted_responses += FactoryBot.create_list(:response, 13, :completed, measurement: counted_measurement3)
       expected = responses.count + counted_responses.count
       get :index
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['number_of_completed_questionnaires']).to eq expected
     end
 
@@ -145,7 +145,7 @@ describe Api::V1::StatisticsController, type: :controller do
       FactoryBot.create_list(:response, 5, measurement: measurement)
       expected = responses.count
       get :index
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['number_of_book_signups']).to eq expected
     end
   end

@@ -36,7 +36,7 @@ describe Api::V1::JwtApi::ProtocolController, type: :controller do
 
       it 'renders all available protocols in the platform' do
         get :index
-        result = JSON.parse(response.body)
+        result = response.parsed_body
         expect(result.length).to eq(no_protocols)
       end
     end
@@ -64,7 +64,7 @@ describe Api::V1::JwtApi::ProtocolController, type: :controller do
                           TimeTools.increase_by_duration(start_date, 6.days)]
         get :preview, params: { id: protocol.name, start_date: start_date, end_date: end_date }
         expect(response.status).to eq 200
-        result = JSON.parse(response.body)
+        result = response.parsed_body
         result.each_with_index do |entry, idx|
           expected_time = expected_times[idx]
           expect(entry).to eq({ 'open_from' => expected_time.to_json[1..-2], # strip the quotes
@@ -81,7 +81,7 @@ describe Api::V1::JwtApi::ProtocolController, type: :controller do
         noww = Time.zone.now
         get :preview, params: { id: protocol.name, start_date: start_date, end_date: end_date }
         expect(response.status).to eq 200
-        result = JSON.parse(response.body)
+        result = response.parsed_body
         expect(result.length).to eq 1
         expect(result[0]['questionnaire']).to eq measurement.questionnaire.key
         expect(Time.zone.parse(result[0]['open_from'])).to be_within(5.seconds).of(noww)

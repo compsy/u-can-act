@@ -259,7 +259,7 @@ describe Protocol do
       FactoryBot.create(:reward, protocol: protocol, threshold: 1000, reward_points: 100)
       FactoryBot.create(:reward, protocol: protocol, threshold: 94, reward_points: 100)
       FactoryBot.create(:reward, protocol: protocol, threshold: 991, reward_points: 100)
-      Reward.all.each do |reward|
+      Reward.find_each do |reward|
         expect(protocol.find_correct_multiplier(reward.threshold)).to eq reward.reward_points
       end
     end

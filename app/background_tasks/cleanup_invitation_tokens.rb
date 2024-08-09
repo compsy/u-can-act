@@ -12,7 +12,7 @@ class CleanupInvitationTokens
     def run
       # Since we're modifying the object, find_each would probably not work.
       # find_each isn't needed, since the scope should always be sufficiently small.
-      InvitationToken.all.each do |invitation_token|
+      InvitationToken.find_each do |invitation_token|
         cleanup_invitation_token(invitation_token)
       end
     end

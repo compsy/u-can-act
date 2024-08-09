@@ -47,7 +47,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
         get :show, params: { key: questionnaire.key }
         expect(response.status).to eq 200
         expect(response.header['Content-Type']).to include 'application/json'
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).not_to be_nil
         expect(json['title']).to eq questionnaire.title
         expect(json['key']).to eq questionnaire.key
@@ -99,7 +99,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     it 'returns the correct keys' do
       get :index
       expect(response.status).to eq 200
-      parsed = JSON.parse(response.body)
+      parsed = response.parsed_body
       parsed.each do |quest|
         expect(quest.keys).to match_array %w[key title]
       end
@@ -108,15 +108,15 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
     it 'should have the correct list (based on length)' do
       get :index
       expect(response.status).to eq 200
-      parsed = JSON.parse(response.body)
+      parsed = response.parsed_body
       expect(parsed.length).to eq Questionnaire.all.length
     end
 
     it 'returns the correct keys' do
       get :index
       expect(response.status).to eq 200
-      parsed = JSON.parse(response.body)
-      Questionnaire.all.each do |expected|
+      parsed = response.parsed_body
+      Questionnaire.find_each do |expected|
         expect(parsed.any? { |result| result['key'] == expected.key }).to be_truthy
         expect(parsed.any? { |result| result['title'] == expected.title }).to be_truthy
       end

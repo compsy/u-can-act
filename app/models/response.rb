@@ -30,32 +30,32 @@ class Response < ApplicationRecord
     end
   end
 
-  scope :recently_opened_and_not_invited, (lambda {
+  scope :recently_opened_and_not_invited, lambda {
     where(
       'open_from <= :time_now AND open_from > :recent_past AND invitation_set_id IS NULL ' \
       'AND completed_at IS NULL',
       time_now: Time.zone.now,
       recent_past: RECENT_PAST.ago.in_time_zone
     )
-  })
-  scope :completed, (-> { where.not(completed_at: nil) })
-  scope :not_completed, (-> { where(completed_at: nil) })
-  scope :invited, (lambda {
+  }
+  scope :completed, -> { where.not(completed_at: nil) }
+  scope :not_completed, -> { where(completed_at: nil) }
+  scope :invited, lambda {
     where.not(invitation_set_id: nil)
-  })
+  }
 
   # De expired check hiervoor staat in de view:
-  scope :opened, (lambda {
+  scope :opened, lambda {
     where('open_from <= :time_now AND completed_at IS NULL', time_now: Time.zone.now)
-  })
+  }
 
   def self.opened_and_not_expired
     opened.reject(&:expired?)
   end
 
-  scope :future, (lambda {
+  scope :future, lambda {
     where('open_from > :time_now', time_now: Time.zone.now)
-  })
+  }
 
   def self.stop_subscription_token(answer_key, answer_value, response_id)
     Digest::SHA256.hexdigest("#{answer_key}|#{answer_value}|#{response_id}|#{ENV.fetch('STOP_SUBSCRIPTION_SALT', nil)}")

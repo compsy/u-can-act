@@ -32,8 +32,8 @@ describe CleanupInvitationTokens do
       measurement = FactoryBot.create(:measurement, open_duration: 10.days)
       invitation_set = FactoryBot.create(:invitation_set)
       FactoryBot.create(:response, open_from: 1.hour.ago,
-                        invitation_set: invitation_set,
-                        measurement: measurement)
+                                   invitation_set: invitation_set,
+                                   measurement: measurement)
       FactoryBot.create(:invitation_token, invitation_set: invitation_set)
       described_class.run
       expect(InvitationToken.count).to eq 1
@@ -45,8 +45,8 @@ describe CleanupInvitationTokens do
       measurement = FactoryBot.create(:measurement, open_duration: 6.days)
       invitation_set = FactoryBot.create(:invitation_set)
       FactoryBot.create(:response, open_from: 1.hour.ago,
-                        invitation_set: invitation_set,
-                        measurement: measurement)
+                                   invitation_set: invitation_set,
+                                   measurement: measurement)
       FactoryBot.create(:invitation_token, invitation_set: invitation_set)
       described_class.run
       expect(InvitationToken.count).to eq 1

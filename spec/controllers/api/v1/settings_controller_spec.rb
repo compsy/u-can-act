@@ -21,7 +21,7 @@ describe Api::V1::SettingsController, type: :controller do
 
     before do
       get :index
-      @json_response = JSON.parse(response.body)
+      @json_response = response.parsed_body
     end
 
     it 'renders a json file with the correct entries' do

@@ -59,7 +59,7 @@ namespace :scheduler do
     # Does not need to be called unless score definitions were updated
     # of a questionnaire that was already filled out by some people.
     Rails.logger.info('Recalculating questionnaires - started')
-    Questionnaire.all.each(&:recalculate_scores!)
+    Questionnaire.find_each(&:recalculate_scores!)
     Rails.logger.info('Recalculating questionnaires - done')
   end
 

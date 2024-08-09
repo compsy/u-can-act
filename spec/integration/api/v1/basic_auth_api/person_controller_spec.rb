@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-describe 'Person API' do
+describe 'Person API', focus: true do
   let!(:people) { FactoryBot.create_list(:auth_user, 10, :with_person) }
 
   path '/basic_auth_api/person' do

@@ -85,10 +85,9 @@ class RangeGenerator < QuestionTypeGenerator
   end
 
   def range_datalist(min:, max:, step:)
-    body = []
     # We use BigDecimal with step to avoid rounding errors.
-    (min..max).step(BigDecimal(step.to_s)).each do |option|
-      body << tag.option(number_to_string(option))
+    body = (min..max).step(BigDecimal(step.to_s)).map do |option|
+      tag.option(number_to_string(option))
     end
     safe_join(body)
   end

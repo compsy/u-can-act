@@ -139,7 +139,7 @@ module ApplicationHelper
 
   # Method to render no content in a consistent way
   def no_content
-    render json: nil, status: :no_content
+    head :no_content
   end
 
   private

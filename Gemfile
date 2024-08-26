@@ -147,7 +147,7 @@ group :test do
 
   # selenium for js testing
   gem 'selenium-webdriver'
-  gem 'webdrivers', '=5.3.1'
+  gem 'webdrivers', '=5.2.0'
 end
 
 group :production, :staging do

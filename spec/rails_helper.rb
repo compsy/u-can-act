@@ -34,10 +34,10 @@ require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec'
-Dir[Rails.root.join('spec/generators/concerns/**/*.rb')].each { |f| require f }
+Rails.root.glob('spec/generators/concerns/**/*.rb').each { |f| require f }
 
 # Also require the support files for testing
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.

@@ -34,10 +34,10 @@ require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec'
-Dir[Rails.root.join('spec/generators/concerns/**/*.rb')].each { |f| require f }
+Rails.root.glob('spec/generators/concerns/**/*.rb').each { |f| require f }
 
 # Also require the support files for testing
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -52,11 +52,16 @@ Capybara.default_selector = :css
 Capybara.default_max_wait_time = 4
 Capybara.ignore_hidden_elements = false
 
+# At some point, the headless=old option will stop working. In the new headless mode, it will
+# show a dialog box when asking for Basic Auth (I think), so at that point we can no longer
+# check for the HTTP Basic Access denied message (because it will have popped up a dialog box
+# before we can see that text. At least that's what I think). But other Basic Auth tests
+# will still work then. So at that point just change that spec to expect the body to be empty.
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   [
     'no-sandbox',
-    'headless',
+    'headless=old',
     'disable-gpu',
     'disable-infobars',
     'disable-extensions',
@@ -140,6 +145,11 @@ RSpec.configure do |config|
   config.before(type: :feature) do
     Rails.application.config.action_dispatch.show_exceptions = true
   end
+
+  # When changing to the new headless mode, uncomment the below lines.
+  # config.before(:each, js: true) do
+  #   Capybara.page.driver.browser.manage.window.resize_to(1920, 1080)
+  # end
 
   if ENV['CI']
     config.before(:example, :focus) do

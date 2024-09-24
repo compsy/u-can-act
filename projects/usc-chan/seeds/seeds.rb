@@ -26,7 +26,9 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
     Person.create!(first_name: student_hash[:first_name],
                    last_name: student_hash[:last_name],
                    gender: student_hash[:gender],
-                   mobile_phone: phone, role: student_hash[:role])
+                   mobile_phone: phone,
+                   role: student_hash[:role],
+                   locale: 'en')
   end
   puts 'Generating people - Finished'
 

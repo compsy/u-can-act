@@ -76,11 +76,6 @@ dagboek_content = [
     required: true
   }, {
     id: :v10,
-    type: :textfield,
-    placeholder: 'This is default text',
-    title: 'Example of a small free text field'
-  }, {
-    id: :v11,
     title: 'Example of an expandable',
     remove_button_label: 'Remove',
     add_button_label: 'Add',
@@ -89,7 +84,7 @@ dagboek_content = [
     max_expansions: 10,
     content: [
       {
-        id: :v11_1,
+        id: :v10_1,
         type: :checkbox,
         title: 'With a checkbox question',
         options: [
@@ -103,7 +98,7 @@ dagboek_content = [
       }
     ]
   }, {
-    id: :v12,
+    id: :v11,
     type: :dropdown,
     title: 'What were the main events related to?',
     options: ['hobby/sport', 'work', 'friendship', 'romantic relationship', 'home']

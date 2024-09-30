@@ -13,7 +13,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   organization = Organization.find_by(name: usc_organization)
   team = organization.teams.find_by(name: usc_team)
-  solo_role = team.roles.where(title: solo_role_title).first
+  solo_role = team.roles.find_by(title: solo_role_title)
 
   students = [
     { first_name: 'Solo', last_name: 'Demo', gender: 'male', role: solo_role },
@@ -35,7 +35,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   # Solo
   puts ''
   protocol = Protocol.find_by(name: solo_protocol)
-  person = Team.find_by(name: usc_team).roles.where(group: Person::SOLO).first.people[0]
+  person = Team.find_by(name: usc_team).roles.find_by(group: Person::SOLO).people[0]
   prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,
@@ -54,7 +54,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # USC informed consent
   protocol = Protocol.find_by(name: solo_protocol)
-  person = Team.find_by(name: usc_team).roles.where(group: Person::SOLO).first.people[1]
+  person = Team.find_by(name: usc_team).roles.find_by(group: Person::SOLO).people[1]
   prot_start = Time.zone.now.beginning_of_day
   prot_sub = ProtocolSubscription.create!(
     protocol: protocol,

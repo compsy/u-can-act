@@ -1,0 +1,7 @@
+secretName: svc-questionnaires-secret
+gitlabAuthSecretName: gitlab-auth
+dockerAuthSecretName: docker-auth
+tag: latest
+namespace: usc-chan
+commitSha: some-commit-sha
+appsignalAppEnv: production

@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-one-am
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "0 1 * * *"
   successfulJobsHistoryLimit: 1
@@ -17,7 +16,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_one_am']
             env:
@@ -36,7 +35,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-two-am
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 1
@@ -51,7 +49,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_two_am']
             env:
@@ -70,7 +68,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-three-am
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "0 3 * * *"
   successfulJobsHistoryLimit: 1
@@ -85,7 +82,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_three_am']
             env:
@@ -104,7 +101,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-four-am
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "0 4 * * *"
   successfulJobsHistoryLimit: 1
@@ -119,7 +115,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_four_am']
             env:
@@ -138,7 +134,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 1
@@ -153,7 +148,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily']
             env:
@@ -172,7 +167,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-hourly
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
@@ -187,7 +181,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/hourly']
             env:
@@ -206,7 +200,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-thirty-minutely
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "*/30 * * * *"
   successfulJobsHistoryLimit: 1
@@ -221,7 +214,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/thirty_minutely']
             env:
@@ -240,7 +233,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-five-minutely
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 1
@@ -255,7 +247,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/five_minutely']
             env:
@@ -274,7 +266,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-minutely
-  namespace: {{ .Values.namespace }}
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
@@ -289,7 +280,7 @@ spec:
             - name: {{ .Values.gitlabAuthSecretName }}
           containers:
           - name: cron-container
-            image: registry.gitlab.com/researchable/general/docker-images/curl:latest
+            image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
             args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/minutely']
             env:

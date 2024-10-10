@@ -1,0 +1,22 @@
+secretName: svc-questionnaires-secret
+gitlabAuthSecretName: gitlab-auth
+dockerAuthSecretName: docker-auth
+tag: latest
+commitSha: some-commit-sha
+appsignalAppEnv: staging
+curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest
+configmap:
+  PUSH_SUBSCRIPTION_URL: 'http://web:3000/api/v1/data/create_raw'
+  BASE_PLATFORM_URL: 'http://localhost:3000'
+  HOST_URL: 'http://localhost:3002'
+  HOST_DOMAIN: localhost
+  INFO_EMAIL: info@vsv.io
+  FEEDBACK_EMAIL: feedback@u-can-act.nl
+  MESSAGEBIRD_SEND_FROM: u-can-act
+  FROM_EMAIL_ADDRESS: info@u-can-act.nl
+  INFO_SITE_URL: 'https://u-can-act.nl'
+  RAILS_SERVE_STATIC_FILES: 'true'
+  PROJECT_NAME: 'u-can-act'
+  SITE_LOCATION: 'https://u-can-act.nl'
+  WEB_CONCURRENCY: '2'
+  RAILS_MAX_THREADS: '5'

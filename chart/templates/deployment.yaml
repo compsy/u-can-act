@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: svc-questionnaires
-  namespace: {{ .Values.namespace }}
   labels:
     worker: "no"
 spec:
@@ -35,6 +34,9 @@ spec:
               memory: "1.5Gi"
             requests:
               memory: "768Mi"
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
           env:
           - name: RAILS_ENV
             value: production
@@ -48,23 +50,11 @@ spec:
             value: {{ .Values.appsignalAppEnv }}
           - name: APPSIGNAL_ACTIVE
             value: "true"
-          - name: PAPERTRAIL_PROGRAM
-            value: questionnaires
           - name: APPSIGNAL_PUSH_API_KEY
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: APPSIGNAL_PUSH_API_KEY
-          - name: PUSH_SUBSCRIPTION_URL
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: PUSH_SUBSCRIPTION_URL
-          - name: BASE_PLATFORM_URL
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: BASE_PLATFORM_URL
           - name: DATABASE_URL
             valueFrom:
               secretKeyRef:
@@ -75,36 +65,11 @@ spec:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: SECRET_KEY_BASE
-          - name: HOST_URL
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: HOST_URL
-          - name: HOST_DOMAIN
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: HOST_URL
-          - name: INFO_EMAIL
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: INFO_EMAIL
-          - name: FEEDBACK_EMAIL
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: FEEDBACK_EMAIL
           - name: MESSAGEBIRD_ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: MESSAGEBIRD_ACCESS_KEY
-          - name: MESSAGEBIRD_SEND_FROM
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: MESSAGEBIRD_SEND_FROM
           - name: PERSON_SALT
             valueFrom:
               secretKeyRef:
@@ -135,11 +100,6 @@ spec:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: MAILGUN_DOMAIN
-          - name: FROM_EMAIL_ADDRESS
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: FROM_EMAIL_ADDRESS
           - name: AUTH0_CLIENT_ID
             valueFrom:
               secretKeyRef:
@@ -200,31 +160,11 @@ spec:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: IP_HASH_SALT
-          - name: INFO_SITE_URL
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: INFO_SITE_URL
           - name: TOKEN_SIGNATURE_ALGORITHM
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: TOKEN_SIGNATURE_ALGORITHM
-          - name: PAPERTRAIL_PORT
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: PAPERTRAIL_PORT
-          - name: PAPERTRAIL_HOST
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: PAPERTRAIL_HOST
-          - name: RAILS_SERVE_STATIC_FILES
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: RAILS_SERVE_STATIC_FILES
           - name: MAILGUN_API_HOST
             valueFrom:
               secretKeyRef:
@@ -235,36 +175,6 @@ spec:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: MONGODB_URI
-          - name: PROJECT_START_DATE
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: PROJECT_START_DATE
-          - name: PROJECT_END_DATE
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: PROJECT_END_DATE
-          - name: PROJECT_NAME
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: PROJECT_NAME
-          - name: SITE_LOCATION
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: SITE_LOCATION
-          - name: WEB_CONCURRENCY
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: WEB_CONCURRENCY
-          - name: RAILS_MAX_THREADS
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: RAILS_MAX_THREADS
           ports:
           - containerPort: 3000
             protocol: TCP

@@ -5,6 +5,15 @@ tag: latest
 commitSha: some-commit-sha
 appsignalAppEnv: staging
 curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest
+
+memory:
+  web:
+    request: "768Mi"
+    limit: "1.5Gi"
+  worker:
+    request: "768Mi"
+    limit: "1.5Gi"
+
 configmap:
   PUSH_SUBSCRIPTION_URL: 'http://web:3000/api/v1/data/create_raw'
   BASE_PLATFORM_URL: 'http://localhost:3000'

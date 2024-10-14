@@ -31,9 +31,9 @@ spec:
           image: docker.io/researchableuser/sdv-svc-questionnaires:{{ .Values.tag }}
           resources:
             limits:
-              memory: "1.5Gi"
+              memory: {{ .Values.memory.web.limit }}
             requests:
-              memory: "768Mi"
+              memory: {{ .Values.memory.web.request }}
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-config

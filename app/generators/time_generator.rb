@@ -11,6 +11,7 @@ class TimeGenerator < QuestionTypeGenerator
 
   private
 
+  # rubocop:disable Metrics/PerceivedComplexity
   def time_body(question)
     from = question[:hours_from] || 0
     to = question[:hours_to] || 6
@@ -26,7 +27,9 @@ class TimeGenerator < QuestionTypeGenerator
 
     safe_join([hours, minutes])
   end
+  # rubocop:enable Metrics/PerceivedComplexity
 
+  # rubocop:disable Metrics/ParameterLists
   def time_dropdown(question_id, from_time, to_time, step, label, raw_label, am_pm)
     elem_id = idify(question_id, raw_label)
     options = generate_dropdown((from_time...to_time).step(BigDecimal(step.to_s)), elem_id, am_pm)
@@ -36,6 +39,7 @@ class TimeGenerator < QuestionTypeGenerator
                         ])
     tag.div(options, class: "col m6 l1 no-padding #{elem_id}")
   end
+  # rubocop:enable Metrics/ParameterLists
 
   def generate_dropdown(items, id, am_pm)
     body = []

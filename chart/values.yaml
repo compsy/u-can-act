@@ -1,10 +1,11 @@
 secretName: svc-questionnaires-secret
-gitlabAuthSecretName: gitlab-auth
-dockerAuthSecretName: docker-auth
 tag: latest
-commitSha: some-commit-sha
 appsignalAppEnv: staging
 curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest
+
+imagePullSecrets:
+  - gitlab-auth
+  - docker-auth
 
 memory:
   web:

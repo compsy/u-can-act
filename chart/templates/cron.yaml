@@ -12,8 +12,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -48,8 +52,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -84,8 +92,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -120,8 +132,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -156,8 +172,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -192,8 +212,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -228,8 +252,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -264,8 +292,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}
@@ -300,8 +332,12 @@ spec:
       template:
         spec:
           restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.gitlabAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
           containers:
           - name: cron-container
             image: {{ .Values.curlImage }}

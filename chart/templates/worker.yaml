@@ -20,9 +20,12 @@ spec:
         track: stable
         tier: worker
     spec:
+{{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-        - name: {{ .Values.gitlabAuthSecretName }}
-        - name: {{ .Values.dockerAuthSecretName }}
+{{- range .Values.imagePullSecrets }}
+        - name: {{ . | quote }}
+{{- end }}
+{{- end }}
       containers:
         - name: {{ .Release.Name }}
           imagePullPolicy: Always
@@ -44,7 +47,7 @@ spec:
           - name: NODE_ENV
             value: production
           - name: REVISION
-            value: {{ .Values.commitSha }}
+            value: {{ .Release.Revision }}
           - name: APPSIGNAL_APP_ENV
             value: {{ .Values.appsignalAppEnv }}
           - name: APPSIGNAL_ACTIVE

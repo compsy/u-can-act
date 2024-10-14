@@ -1,10 +1,10 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ .Release.Name }}-budget
+  name: {{ .Release.Name }}-worker-budget
 spec:
   minAvailable: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name}}
-      tier: web
+      app: {{ .Release.Name }}
+      tier: worker

@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-daily-at-one-am
+  name: {{ .Release.Name }}-scheduler-daily-at-one-am
 spec:
   schedule: "0 1 * * *"
   successfulJobsHistoryLimit: 1
@@ -18,7 +18,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_one_am']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_one_am'
             env:
             - name: API_KEY
               valueFrom:
@@ -34,7 +37,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-daily-at-two-am
+  name: {{ .Release.Name }}-scheduler-daily-at-two-am
 spec:
   schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 1
@@ -51,7 +54,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_two_am']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_two_am'
             env:
             - name: API_KEY
               valueFrom:
@@ -67,7 +73,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-daily-at-three-am
+  name: {{ .Release.Name }}-scheduler-daily-at-three-am
 spec:
   schedule: "0 3 * * *"
   successfulJobsHistoryLimit: 1
@@ -84,7 +90,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_three_am']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_three_am'
             env:
             - name: API_KEY
               valueFrom:
@@ -100,7 +109,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-daily-at-four-am
+  name: {{ .Release.Name }}-scheduler-daily-at-four-am
 spec:
   schedule: "0 4 * * *"
   successfulJobsHistoryLimit: 1
@@ -117,7 +126,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily_at_four_am']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_four_am'
             env:
             - name: API_KEY
               valueFrom:
@@ -133,7 +145,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-daily
+  name: {{ .Release.Name }}-scheduler-daily
 spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 1
@@ -150,7 +162,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/daily']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily'
             env:
             - name: API_KEY
               valueFrom:
@@ -166,7 +181,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-hourly
+  name: {{ .Release.Name }}-scheduler-hourly
 spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
@@ -183,7 +198,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/hourly']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/hourly'
             env:
             - name: API_KEY
               valueFrom:
@@ -199,7 +217,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-thirty-minutely
+  name: {{ .Release.Name }}-scheduler-thirty-minutely
 spec:
   schedule: "*/30 * * * *"
   successfulJobsHistoryLimit: 1
@@ -216,7 +234,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/thirty_minutely']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/thirty_minutely'
             env:
             - name: API_KEY
               valueFrom:
@@ -232,7 +253,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-five-minutely
+  name: {{ .Release.Name }}-scheduler-five-minutely
 spec:
   schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 1
@@ -249,7 +270,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/five_minutely']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/five_minutely'
             env:
             - name: API_KEY
               valueFrom:
@@ -265,7 +289,7 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: svc-questionnaire-scheduler-minutely
+  name: {{ .Release.Name }}-scheduler-minutely
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
@@ -282,7 +306,10 @@ spec:
           - name: cron-container
             image: {{ .Values.curlImage }}
             imagePullPolicy: IfNotPresent
-            args: ['-X', 'POST', 'http://$(API_KEY):$(API_SECRET)@svc-questionnaires-service:3000/api/v1/basic_auth_api/scheduling/minutely']
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/minutely'
             env:
             - name: API_KEY
               valueFrom:
@@ -294,4 +321,3 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretName }}
                   key: API_SECRET
-

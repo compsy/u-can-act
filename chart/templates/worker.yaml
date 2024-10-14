@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: svc-questionnaires-worker
+  name: {{ .Release.Name }}-worker
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: svc-questionnaires
+      app: {{ .Release.Name }}
       tier: worker
   strategy:
     type: RollingUpdate
@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: svc-questionnaires
+        app: {{ .Release.Name }}
         track: stable
         tier: worker
     spec:
@@ -24,7 +24,7 @@ spec:
         - name: {{ .Values.gitlabAuthSecretName }}
         - name: {{ .Values.dockerAuthSecretName }}
       containers:
-        - name: svc-questionnaires
+        - name: {{ .Release.Name }}
           imagePullPolicy: Always
           image: docker.io/researchableuser/sdv-svc-questionnaires:{{ .Values.tag }}
           resources:

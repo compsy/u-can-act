@@ -411,6 +411,13 @@ form .likert-scale {
     margin-top: 0;
     margin-bottom: 0;
   }
+  &>.col>.checkbox-group>p.flow-text:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .range-field, input[type=range] {
+    margin-top: 0;
+  }
 }
 
 // Fix balloons sticking on mobile

@@ -855,6 +855,8 @@ The dropdown will start from `hours_from` and will offer options until `hours_to
 
 Optional properties are `hours_label` and `minutes_label`, to override the default label texts.
 
+If the attribute `am_pm` is set to `true`, then the hours will be displayed in 12-hour format, with an AM/PM selector.
+
 ### Type: Date
 Required and allowed options (minimal example and maximal example):
 

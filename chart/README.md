@@ -9,11 +9,10 @@ A Helm chart for SVC Questionnaires
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | secretName | string | `"svc-questionnaires-secret"` | The main secret for reading the environment variables for the questionnaire engine. |
-| gitlabAuthSecretName | string | `"gitlab-auth"` | The secret used for pulling the curl image from docker-images on Researchable GitLab. |
-| dockerAuthSecretName | string | `"docker-auth"` | The secret used for pulling the questionnaire engine image from DockerHub. |
 | tag | string | `"latest"` | The tag of the questionnaire engine image to deploy. |
-| curlImage | string | `"registry.gitlab.com/researchable/general/docker-images/curl:latest"` | The Docker image for the curl command used in the init container. |
 | appsignalAppEnv | string | `"staging"` | The environment of the AppSignal application. |
+| curlImage | string | `"registry.gitlab.com/researchable/general/docker-images/curl:latest"` | The Docker image for the curl command used in the init container. |
+| imagePullSecrets | list | `["gitlab-auth", "docker-auth"]` | List of image pull secrets used for pulling images from private registries. |
 | memory.web.request | string | `"768Mi"` | The memory request for the web container. |
 | memory.web.limit | string | `"1.5Gi"` | The memory limit for the web container. |
 | memory.worker.request | string | `"768Mi"` | The memory request for the worker container. |
@@ -32,3 +31,11 @@ A Helm chart for SVC Questionnaires
 | configmap.SITE_LOCATION | string | `"https://u-can-act.nl"` | Site location URL. |
 | configmap.WEB_CONCURRENCY | string | `"2"` | Number of web processes to run. |
 | configmap.RAILS_MAX_THREADS | string | `"5"` | Maximum number of Rails threads. |
+
+## Testing the chart after changes
+
+To test the chart after changes, run the following command in the root of the chart directory:
+
+```bash
+helm template svc-questionnaires . --namespace usc-chan-develop --values values.yaml > output.yaml
+```

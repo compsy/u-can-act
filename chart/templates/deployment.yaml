@@ -48,7 +48,7 @@ spec:
           - name: NODE_ENV
             value: production
           - name: REVISION
-            value: {{ .Release.Revision }}
+            value: {{ .Release.Revision | quote }}
           - name: APPSIGNAL_APP_ENV
             value: {{ .Values.appsignalAppEnv }}
           - name: APPSIGNAL_ACTIVE

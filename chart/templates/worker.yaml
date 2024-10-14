@@ -1,0 +1,179 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      tier: worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 100%
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        track: stable
+        tier: worker
+    spec:
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+        - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+      containers:
+        - name: {{ .Release.Name }}
+          imagePullPolicy: Always
+          image: docker.io/researchableuser/sdv-svc-questionnaires:{{ .Values.tag }}
+          resources:
+            limits:
+              memory: {{ .Values.memory.worker.limit }}
+            requests:
+              memory: {{ .Values.memory.worker.request }}
+          command: ['bundle', 'exec', 'rake', 'jobs:work']
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+          env:
+          - name: RAILS_ENV
+            value: production
+          - name: RACK_ENV
+            value: production
+          - name: NODE_ENV
+            value: production
+          - name: REVISION
+            value: {{ .Release.Revision | quote }}
+          - name: APPSIGNAL_APP_ENV
+            value: {{ .Values.appsignalAppEnv }}
+          - name: APPSIGNAL_ACTIVE
+            value: "true"
+          - name: APPSIGNAL_PUSH_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: APPSIGNAL_PUSH_API_KEY
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: DATABASE_URL
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: SECRET_KEY_BASE
+          - name: MESSAGEBIRD_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: MESSAGEBIRD_ACCESS_KEY
+          - name: PERSON_SALT
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: PERSON_SALT
+          - name: STOP_SUBSCRIPTION_SALT
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: STOP_SUBSCRIPTION_SALT
+          - name: ADMIN_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: ADMIN_USERNAME
+          - name: ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: ADMIN_PASSWORD
+          - name: MAILGUN_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: MAILGUN_API_KEY
+          - name: MAILGUN_DOMAIN
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: MAILGUN_DOMAIN
+          - name: AUTH0_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: AUTH0_CLIENT_ID
+          - name: AUTH0_DOMAIN
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: AUTH0_DOMAIN
+          - name: AUTH0_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: AUTH0_CLIENT_SECRET
+          - name: AUTH0_REDIRECT_URL
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: AUTH0_REDIRECT_URL
+          - name: AUTH0_AUDIENCE
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: AUTH0_AUDIENCE
+          - name: AUTH0_SIGNING_CERTIFICATE
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: AUTH0_SIGNING_CERTIFICATE
+          - name: REDIS_URL
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: REDIS_URL
+          - name: TEST_PHONE_NUMBERS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: TEST_PHONE_NUMBERS
+          - name: SNITCH_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: SNITCH_KEY
+          - name: API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: API_KEY
+          - name: API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: API_SECRET
+          - name: IP_HASH_SALT
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: IP_HASH_SALT
+          - name: TOKEN_SIGNATURE_ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: TOKEN_SIGNATURE_ALGORITHM
+          - name: MAILGUN_API_HOST
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: MAILGUN_API_HOST
+          - name: MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.secretName }}
+                key: MONGODB_URI

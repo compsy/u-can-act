@@ -28,7 +28,7 @@ dagboek_content = [
     type: :time,
     title: 'What time did you go to bed?',
     hours_from: 0,
-    hours_to: 24, # TODO: fix AM/PM notation for the US.
+    hours_to: 24,
     hours_step: 1,
     hours_label: 'Hours',
     minutes_label: 'Minutes',

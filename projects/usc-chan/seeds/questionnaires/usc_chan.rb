@@ -51,7 +51,7 @@ dagboek_content = [
     required: true,
     type: :range,
     title: 'Right now, how well rested do you feel?',
-    labels: ['Not al all rested', 'Extremely rested'], # TODO: say we can do sliders without initial thumb
+    labels: ['Not at all rested', 'Extremely rested'], # TODO: say we can do sliders without initial thumb
   }, {
     id: :v5,
     hidden: true,

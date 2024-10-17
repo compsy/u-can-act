@@ -19,7 +19,7 @@ class RangeGenerator < QuestionTypeGenerator
   def range_slider_minmax(question)
     range_min = 0
     range_max = 100
-    range_min = [range_min, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
+    range_min = [-100, question[:min]].max if question[:min].present? && question[:min].is_a?(Integer)
     range_max = [range_min + 1, question[:max]].max if question[:max].present? && question[:max].is_a?(Integer)
     { min: range_min, max: range_max }
   end

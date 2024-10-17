@@ -1,4 +1,5 @@
 secretName: svc-questionnaires-secret
+databaseSecretName: svc-questionnaires-database-credentials
 tag: latest
 appsignalAppEnv: staging
 curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest

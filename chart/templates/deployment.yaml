@@ -136,7 +136,7 @@ spec:
           - name: REDIS_URL
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secretName }}
+                name: {{ .Values.redisSecretName | default .Values.secretName }}
                 key: REDIS_URL
           - name: TEST_PHONE_NUMBERS
             valueFrom:
@@ -176,7 +176,7 @@ spec:
           - name: MONGODB_URI
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secretName }}
+                name: {{ .Values.mongoSecretName | default .Values.secretName }}
                 key: MONGODB_URI
           ports:
           - containerPort: 3000

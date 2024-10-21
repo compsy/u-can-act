@@ -9,6 +9,12 @@ A Helm chart for SVC Questionnaires
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | secretName | string | `"svc-questionnaires-secret"` | The main secret for reading the environment variables for the questionnaire engine. |
+| databaseSecretName | string | reference to `secretName`| The secret for storing the database credentials. Defaults to the secret as stored in `secretName`. Must have a key defined in `databaseSecretKey` that contains a connection string. |
+| databaseSecretKey | string | DATABASE_URL | The name of the connection string in the `databaseSecretName` secret. |
+| redisSecretName | string | reference to `secretName`| The secret for storing the redis credentials. Defaults to the same secret as stored in `secretName`. Must have a key defined in `redisSecretKey` that contains a connection string. |
+| redisSecretKey | string | REDIS_URL | The name of the connection string in the `redisSecretName` secret. |
+| mongoSecretName | string | reference to `secretName`| The secret for storing the mongodb credentials. Defaults to the same secret as stored in `secretName`. Must have a key defined in `mongoSecretKey` that contains a connection string. |
+| mongoSecretKey | string | MONGODB_URI | The name of the connection string in the `mongoSecretName` secret. |
 | tag | string | `"latest"` | The tag of the questionnaire engine image to deploy. |
 | appsignalAppEnv | string | `"staging"` | The environment of the AppSignal application. |
 | curlImage | string | `"registry.gitlab.com/researchable/general/docker-images/curl:latest"` | The Docker image for the curl command used in the init container. |

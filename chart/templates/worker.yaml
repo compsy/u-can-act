@@ -60,8 +60,8 @@ spec:
           - name: DATABASE_URL
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: DATABASE_URL
+                name: {{ .Values.databaseSecretName | default .Values.secretName }}
+                key: {{ .Values.databaseSecretKey }}
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:
@@ -135,8 +135,8 @@ spec:
           - name: REDIS_URL
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: REDIS_URL
+                name: {{ .Values.redisSecretName | default .Values.secretName }}
+                key: {{ .Values.redisSecretKey }}
           - name: TEST_PHONE_NUMBERS
             valueFrom:
               secretKeyRef:
@@ -175,5 +175,5 @@ spec:
           - name: MONGODB_URI
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: MONGODB_URI
+                name: {{ .Values.mongoSecretName | default .Values.secretName }}
+                key: {{ .Values.mongoSecretKey }}

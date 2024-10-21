@@ -1,5 +1,7 @@
 secretName: svc-questionnaires-secret
-databaseSecretName: svc-questionnaires-database-credentials
+# databaseSecretName: svc-questionnaires-database-credentials
+# redisSecretName: svc-questionnaires-redis-credentials
+# mongoSecretName: svc-questionnaires-mongo-credentials
 tag: latest
 appsignalAppEnv: staging
 curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest

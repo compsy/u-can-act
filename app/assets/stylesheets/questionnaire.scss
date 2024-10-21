@@ -61,6 +61,10 @@ input[type=range] {
   border: 1px solid transparent;
 }
 
+strong {
+  font-weight: bold;
+}
+
 .notchanged {
   input[type=range]::-ms-thumb, input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
     background: $unchanged-range-thumb;
@@ -410,6 +414,13 @@ form .likert-scale {
   &>.col>p.flow-text:first-child {
     margin-top: 0;
     margin-bottom: 0;
+  }
+  &>.col>.checkbox-group>p.flow-text:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .range-field, input[type=range] {
+    margin-top: 0;
   }
 }
 

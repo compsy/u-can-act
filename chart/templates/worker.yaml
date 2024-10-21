@@ -61,7 +61,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.databaseSecretName | default .Values.secretName }}
-                key: DATABASE_URL
+                key: {{ .Values.databaseSecretKey }}
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:
@@ -136,7 +136,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.redisSecretName | default .Values.secretName }}
-                key: REDIS_URL
+                key: {{ .Values.redisSecretKey }}
           - name: TEST_PHONE_NUMBERS
             valueFrom:
               secretKeyRef:
@@ -176,4 +176,4 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.mongoSecretName | default .Values.secretName }}
-                key: MONGODB_URI
+                key: {{ .Values.mongoSecretKey }}

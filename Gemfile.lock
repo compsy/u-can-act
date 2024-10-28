@@ -336,8 +336,8 @@ GEM
     parser (3.3.5.0)
       ast (~> 2.4.1)
       racc
-    pg (1.5.8)
-    pg (1.5.8-x64-mingw-ucrt)
+    pg (1.5.9)
+    pg (1.5.9-x64-mingw-ucrt)
     platform-api (3.7.0)
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)

@@ -140,7 +140,8 @@ class Measurement < ApplicationRecord
 
   def open_from_with_offset(start_date, open_from_day_uses_start_date_offset, start_date_offset)
     if open_from_day_uses_start_date_offset
-      return TimeTools.increase_by_duration(start_date, start_date_offset) if start_date_offset.present?
+      accumulated_offset = start_date_offset + open_from_offset
+      return TimeTools.increase_by_duration(start_date, accumulated_offset) if accumulated_offset.present?
 
       return start_date
     end

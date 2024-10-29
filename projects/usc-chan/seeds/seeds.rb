@@ -70,12 +70,11 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_token = invitation_set.invitation_tokens.create!
   puts "USC informed consent: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
-  puts 'Generating onetime response'
-  OneTimeResponse.destroy_all
-  protocol = Protocol.find_by(name: solo_protocol)
-  token = 'uscsolo'
-  OneTimeResponse.create!(token: token, protocol: protocol)
-
-  puts Rails.application.routes.url_helpers.one_time_response_url(q: token)
-  puts 'Generated onetime response'
+  # puts 'Generating onetime response'
+  # OneTimeResponse.destroy_all
+  # protocol = Protocol.find_by(name: solo_protocol)
+  # token = 'uscsolo'
+  # OneTimeResponse.create!(token: token, protocol: protocol)
+  # puts Rails.application.routes.url_helpers.one_time_response_url(q: token)
+  # puts 'Generated onetime response'response
 end

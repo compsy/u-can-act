@@ -1406,9 +1406,9 @@
     "@parcel/watcher-win32-x64" "2.4.1"
 
 "@rails/actioncable@latest":
-  version "7.2.102"
-  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.2.102.tgz#0ad6214681f2fdadf5baeee2dbba4ad229612a41"
-  integrity sha512-cqgfFwU8bFye53jkzJRVErbIFUnbWSJSccbY3EZvyOxatpcUEuuYGvLv/It6gT1/HNgweiARllmVbnegcAN3Lg==
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.0.0.tgz#b12d87d4c2bb152c4445e2c168df93b585068e7c"
+  integrity sha512-9IXyJeaBggOzlD3pF4/yWELdyUWZm/KTyKBRqxNf9laLBXPqxJt3t6fO+X4s0WajMR8cIhzkxvq1gxsXVbn3LA==
 
 "@rails/activestorage@latest":
   version "7.2.102"

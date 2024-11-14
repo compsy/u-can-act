@@ -28,7 +28,7 @@ dagboek_content = [
     title: 'Is this your first questionnaire of the day?',
     show_otherwise: false,
     options: [
-      { title: 'Yes', shows_questions: %i[v2 v3 v4 v5 v6] },
+      { title: 'Yes', shows_questions: %i[v2 v3 v4 v5] },
       { title: 'No', shows_questions: %i[v7] }
     ],
   }, {
@@ -72,33 +72,6 @@ dagboek_content = [
     title: 'How disrupted was your sleep last night?',
     labels: ['Not at all disrupted', 'Extremely disrupted'],
   }, {
-    id: :v6,
-    hidden: true,
-    required: false,
-    type: :checkbox,
-    show_otherwise: false,
-    title: 'What activities do you plan to do today? <em>(select all that apply)</em>',
-    options: [
-      { title: 'Work/school', tooltip: 'Activities such as paid work, volunteering, attending class, or studying.' },
-      { title: 'Driving a car', tooltip: 'Operating a vehicle to get to another location.' },
-      { title: 'Riding in a vehicle', tooltip: 'Taking a car/bus/train to get to another location.' },
-      { title: 'Active transportation', tooltip: 'Using a bike, scooter or walking to get to another location.' },
-      { title: 'Napping', tooltip: 'Sleeping during the day in between other activities.' },
-      { title: 'Rest/relax', tooltip: 'Activities that help you take a break or recover, such as meditation or yoga.' },
-      { title: 'Socialize', tooltip: 'Activities where the main focus is spending time with others, such as parties or hanging out with friends and family.' },
-      { title: 'Dining/eating', tooltip: 'Times when your main activity is eating, rather than eating while doing another task.' },
-      { title: 'Exercise', tooltip: 'Physical activities you do primarily for health rather than for fun, such as strength training, stretching, or cardiovascular exercise.' },
-      { title: 'Care for myself', tooltip: 'Activities such as brushing your teeth, showering, shaving, or combing your hair.' },
-      { title: 'Care for others', tooltip: 'Activities such as taking care of a child or dependent adult, or caring for pets.' },
-      { title: 'Household tasks - active', tooltip: 'Household activities that require movement and energy, such as cooking and cleaning.' },
-      { title: 'Household tasks - sedentary', tooltip: 'Household activities that don\'t require movement or energy, such as paying bills and online shopping.' },
-      { title: 'Running errands', tooltip: 'Activities done outside the home such as shopping at a store or going to the post office.' },
-      { title: '"Zoning out"', tooltip: 'Times when you are distracted or not fully present and aware of what you are doing.' },
-      { title: 'Play/leisure - sedentary', tooltip: 'Activities you do for fun that don\'t require movement or energy, such as social media, watching TV, or reading.' },
-      { title: 'Play/leisure - active', tooltip: 'Activities you do for fun that require movement and energy, such as hobbies and sports.' },
-      { title: 'Manage my health', tooltip: 'Activities such as attending health appointments, managing medications or supplies, and navigating the healthcare system.' },
-    ],
-  }, {
     id: :v7,
     hidden: true,
     required: true,
@@ -106,7 +79,7 @@ dagboek_content = [
     show_otherwise: false,
     title: 'Is this your last questionnaire of the day?',
     options: [
-      { title: 'Yes', shows_questions: %i[v18 v19 v20 v21 v22 v23 v24 v25 v26 v27 v28 v29 v30 v31 v32 v33 v34 v35 v36 v37] },
+      { title: 'Yes', shows_questions: %i[v18 v19 v20 v21 v22 v23 v24 v25 v26 v27 v28 v29 v30 v31 v32 v33 v34 v35 v36] },
       { title: 'No' }
     ],
   }, {
@@ -121,7 +94,7 @@ dagboek_content = [
     type: :checkbox,
     show_otherwise: false,
     title: '',
-    options: [{ title: 'Work/school', shows_questions: %i[v19a], tooltip: 'Activities such as paid work, volunteering, attending class, or studying.' }],
+    options: [{ title: 'Work/school', shows_questions: %i[v19a v19b], tooltip: 'Activities such as paid work, volunteering, attending class, or studying.' }],
   }, {
     id: :v19a,
     **time_options,
@@ -147,7 +120,7 @@ dagboek_content = [
   }, {
     id: :v21a,
     **time_options,
-  }, {
+  },  {
     id: :v22,
     hidden: true,
     required: false,
@@ -313,20 +286,14 @@ dagboek_content = [
     id: :v36a,
     **time_options,
   }, {
-    id: :v37,
-    hidden: true,
-    required: true,
-    type: :radio,
-    show_otherwise: true,
-    title: 'Did diabetes get in the way of doing any of these activities today?',
-    options: [
-      'No',
-      'Yes, I was feeling unwell',
-      'Yes, self-management tasks interfered',
-    ],
-    otherwise_label: 'Yes, for another reason',
-    otherwise_placeholder: 'Please specify',
-  }, {
+  id: :v19b,
+  hidden: true,
+  required: true,
+  type: :radio,
+  show_otherwise: false,
+  title: 'Did your illness get in the way of or keep you from doing Work/school?',
+  options: ['No', 'Yes, I was feeling unwell', 'Yes, self-management tasks interfered']
+}, {
     id: :v38, # TODO: maybe add a separator here
     required: true,
     type: :range,

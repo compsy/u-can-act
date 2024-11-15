@@ -8,7 +8,7 @@ usc_protocol.informed_consent_questionnaire = Questionnaire.find_by(name: 'usc_c
 raise 'informed consent questionnaire not found' unless usc_protocol.informed_consent_questionnaire
 
 usc_protocol.duration = 8.weeks
-usc_protocol.invitation_text = 'Your next VitaMAPS questionnaire is ready to be filled out.'
+usc_protocol.invitation_text = 'Your next vitaMAPS questionnaire is ready to be filled out.'
 usc_protocol.save!
 
 # Add questionnaires

@@ -97,11 +97,12 @@ shared_examples_for 'a person object' do
   describe 'mobile_phone' do
     let(:person) { FactoryBot.create(:person) }
 
-    it 'calls the mobile phone validator' do
-      expect_any_instance_of(MobilePhoneValidator).to receive(:validate).with(person).and_call_original
-      person.mobile_phone = '123'
-      expect(person).not_to be_valid
-    end
+    # The MobilePhoneValidator is not being used anymore because we need to validate US phone numbers as well
+    # it 'calls the mobile phone validator' do
+    #   expect_any_instance_of(MobilePhoneValidator).to receive(:validate).with(person).and_call_original
+    #   person.mobile_phone = '123'
+    #   expect(person).not_to be_valid
+    # end
 
     it 'accepts an empty number' do
       person.mobile_phone = ''
@@ -113,23 +114,25 @@ shared_examples_for 'a person object' do
       expect(person).to be_valid
     end
 
-    it 'does not accept numbers that are not length 10' do
-      person.mobile_phone = '061234567'
-      expect(person).not_to be_valid
-      expect(person.errors.messages).to have_key :mobile_phone
-      expect(person.errors.messages[:mobile_phone]).to include('is te kort (minimaal 10 tekens)')
-      person.mobile_phone = '06123456789'
-      expect(person).not_to be_valid
-      expect(person.errors.messages).to have_key :mobile_phone
-      expect(person.errors.messages[:mobile_phone]).to include('is te lang (maximaal 10 tekens)')
-    end
+    # All phone numbers should be accepted, not just Dutch ones
+    # it 'does not accept numbers that are not length 10' do
+    #   person.mobile_phone = '061234567'
+    #   expect(person).not_to be_valid
+    #   expect(person.errors.messages).to have_key :mobile_phone
+    #   expect(person.errors.messages[:mobile_phone]).to include('is te kort (minimaal 10 tekens)')
+    #   person.mobile_phone = '06123456789'
+    #   expect(person).not_to be_valid
+    #   expect(person.errors.messages).to have_key :mobile_phone
+    #   expect(person.errors.messages[:mobile_phone]).to include('is te lang (maximaal 10 tekens)')
+    # end
 
-    it 'does not accept numbers that do not start with 06' do
-      person.mobile_phone = '0112345678'
-      expect(person).not_to be_valid
-      expect(person.errors.messages).to have_key :mobile_phone
-      expect(person.errors.messages[:mobile_phone]).to include('mag alleen een Nederlands nummer zijn')
-    end
+    # All phone numbers should be accepted, not just Dutch ones
+    # it 'does not accept numbers that do not start with 06' do
+    #   person.mobile_phone = '0112345678'
+    #   expect(person).not_to be_valid
+    #   expect(person.errors.messages).to have_key :mobile_phone
+    #   expect(person.errors.messages[:mobile_phone]).to include('mag alleen een Nederlands nummer zijn')
+    # end
 
     it 'has a uniqueness constraint on phone numbers' do
       student = FactoryBot.create(:student, mobile_phone: '0611111111')

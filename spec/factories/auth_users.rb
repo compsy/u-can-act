@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  sequence(:auth0_id_string) { |n| "id_#{format('%<number>10d', number: n)}" }
+  sequence(:auth0_id_string) { |n| "id_#{format('%<number>010d', number: n)}" }
   factory :auth_user do
     auth0_id_string
     password_digest { 'thepasswordwhicisrandom' }

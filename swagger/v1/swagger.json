@@ -17,8 +17,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -63,6 +62,104 @@
         }
       }
     },
+    "/basic_auth_api/person/{id}": {
+      "delete": {
+        "summary": "Delete a person",
+        "tags": [
+          "Person"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {}
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted"
+          },
+          "404": {
+            "description": "not found"
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a person",
+        "tags": [
+          "Person"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BasicAuth": {}
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "person",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "mobile_phone": {
+                      "type": "string",
+                      "format": "mobile_phone"
+                    },
+                    "first_name": {
+                      "type": "string",
+                      "format": "first_name"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "format": "last_name"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "updated"
+          },
+          "404": {
+            "description": "not found"
+          },
+          "401": {
+            "description": "not authenticated"
+          }
+        }
+      }
+    },
     "/basic_auth_api/person/show_list": {
       "get": {
         "summary": "Shows a list of persons",
@@ -74,8 +171,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -113,8 +209,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -173,8 +268,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -219,8 +313,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -264,8 +357,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -352,8 +444,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -403,8 +494,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -526,8 +616,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -563,8 +652,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "parameters": [
@@ -611,8 +699,7 @@
         "summary": "Runs the daily at 3 am jobs",
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "tags": [
@@ -636,8 +723,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -658,8 +744,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -680,8 +765,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -702,8 +786,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -724,8 +807,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -746,8 +828,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -768,8 +849,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -790,8 +870,7 @@
         ],
         "security": [
           {
-            "BasicAuth": {
-            }
+            "BasicAuth": {}
           }
         ],
         "consumes": [
@@ -835,8 +914,7 @@
         ],
         "security": [
           {
-            "JwtAuth": {
-            }
+            "JwtAuth": {}
           }
         ],
         "responses": {
@@ -909,8 +987,7 @@
         ],
         "security": [
           {
-            "JwtAuth": {
-            }
+            "JwtAuth": {}
           }
         ],
         "responses": {
@@ -954,8 +1031,7 @@
         ],
         "security": [
           {
-            "JwtAuth": {
-            }
+            "JwtAuth": {}
           }
         ],
         "responses": {
@@ -982,8 +1058,7 @@
         ],
         "security": [
           {
-            "JwtAuth": {
-            }
+            "JwtAuth": {}
           }
         ],
         "responses": {
@@ -1042,8 +1117,7 @@
         ],
         "security": [
           {
-            "JwtAuth": {
-            }
+            "JwtAuth": {}
           }
         ],
         "parameters": [
@@ -1095,8 +1169,7 @@
         ],
         "security": [
           {
-            "JwtAuth": {
-            }
+            "JwtAuth": {}
           }
         ],
         "responses": {
@@ -1161,8 +1234,7 @@
         ],
         "security": [
           {
-            "JwtAuth": {
-            }
+            "JwtAuth": {}
           }
         ],
         "responses": {

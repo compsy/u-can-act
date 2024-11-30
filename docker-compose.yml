@@ -59,12 +59,6 @@ services:
       - db
       - redis
       - mongo
-      - mailcatcher
-  mailcatcher:
-    image: yappabe/mailcatcher
-    ports:
-      - "1025:1025"
-      - "1080:1080"
 volumes:
   node_modules_volume:
   gems_volume:

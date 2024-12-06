@@ -1,3 +1,199 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+// colors
+$black: #202022;
+$black-light: #76767b;
+$grey: #DDDBDC;
+$light-gray: #f5f5f5;
+$dark-blue-bg: #102357;
+$dark-blue-bg-hover: #273C75;
+$light-blue-bg: #f8fbfc;
+$white: #ffffff;
+
+// breakpoints
+$breakpoint-sm: 601px;
+$breakpoint-lg: 993px;
+
+body {
+  font-family: "Inter", sans-serif;
+  color: $black;
+  background-color: $light-blue-bg;
+}
+
 .logo-image {
-  max-width: 80px;
+  width: 88px;
+  margin: 20px;
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .logo-image {
+    width: 120px;
+  }
+}
+
+body.student > .container,
+body.mentor > .container {
+  // make the container full width to allow the header to be full width
+  width: 100%;
+  max-width: inherit;
+
+  button, input, optgroup, select, textarea {
+    font-family: 'Inter', sans-serif;
+  }
+
+  // header
+  & > .row > .row {
+    background-color: $dark-blue-bg;
+    margin-bottom: 0;
+  }
+
+  // title
+  form > .row.section:first-of-type {
+    font-weight: 700;
+  }
+
+  // apply .container width to form, since the styles were overwritten to allow
+  // the header to be full width
+  & > .row > form.col.s12 {
+    max-width: 1280px;
+    width: 90%;
+    margin: 0 auto;
+    float: none;
+  }
+
+  @media only screen and (min-width: $breakpoint-lg) {
+    & > .row > form.col.s12 {
+      width: 70%;
+    }
+  }
+
+  @media only screen and (min-width: $breakpoint-sm) {
+    & > .row > form.col.s12 {
+      width: 85%;
+    }
+  }
+
+  // radio button
+  [type="radio"]:checked + span:after,
+  .with-gap[type="radio"]:checked + span:after {
+    background-color: $black;
+  }
+
+  [type="radio"]:checked + span:after,
+  .with-gap[type="radio"]:checked + span:before,
+  .with-gap[type="radio"]:checked + span:after {
+    border-color: $black;
+  }
+
+  [type="radio"]:not(:checked) + span:before,
+  [type="radio"]:not(:checked) + span:after {
+    border: 1.5px solid $grey;
+  }
+
+  // form elements
+  label {
+    color: $black;
+    font-size: 1rem;
+  }
+
+  select {
+    background-color: $white;
+    border: 1.5px solid $grey;
+    border-radius: 12px;
+    &:focus {
+      outline-color: $black-light;
+    }
+  }
+
+  // time dropdowns
+  div[class$="hours"], div[class$="minutes"] {
+    margin-right: 10px;
+    width: 8rem !important; // !important to override breakpoints
+    label {
+      text-align: center;
+      display: inline-block;
+      width: 100%;
+    }
+
+    select {
+      text-align: center;
+    }
+  }
+
+  input[type="range"] {
+    width: 100%;
+    border: none;
+
+    // track styles
+    &::-webkit-slider-runnable-track {
+      background-color: $grey;
+    }
+
+    &::-moz-range-track {
+      background-color: $grey;
+    }
+
+    // slider styles
+    &::-webkit-slider-thumb {
+      appearance: none;
+      width: 44px;
+      background: $black;
+      border-radius: 12px;
+    }
+
+    &::-moz-range-thumb {
+      width: 44px;
+      background: $black;
+      border-radius: 12px;
+    }
+
+    &::-ms-thumb {
+      width: 44px;
+      background: $black;
+      border-radius: 16px;
+    }
+
+    & + .thumb .value {
+      color: $white;
+    }
+
+    & + .thumb.active {
+      background-color: $black;
+    }
+  }
+
+  // checkbox
+  input[type="checkbox"] {
+    & + span:not(.lever:before) {
+      border-color: $grey;
+      border-radius: 8px;
+    }
+
+    &:checked + span:not(.lever:before) {
+      background-color: $black;
+      border-color: $black;
+    }
+  }
+
+  i.tooltip {
+    color: $black-light;
+  }
+
+  .btn {
+    background-color: $dark-blue-bg;
+    border-radius: 12px;
+    padding: 6px 32px;
+    height: auto;
+    width: 100%;
+
+    &:hover {
+      background-color: $dark-blue-bg-hover;
+    }
+  }
+
+  @media only screen and (min-width: $breakpoint-sm) {
+    .btn {
+      width: 240px;
+    }
+  }
 }

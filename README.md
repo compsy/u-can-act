@@ -96,8 +96,8 @@ Below is a list of all required ENV variables for production servers.
   AUTH0_AUDIENCE: <The auth0 audience>
   AUTH0_SIGNING_CERTIFICATE: <the BASE64 encoded certificate>
 
-  WARDEN_JWT_PRIVATE_KEY: <the private key for the JWT tokens>
-  WARDEN_JWT_PUBLIC_KEY: <the public key for the JWT tokens>
+  DEVISE_JWT_SECRET_KEY: <the private key for the JWT tokens>
+  JWT_DECODING_SECRET: <the public key for the JWT tokens>
 
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>

@@ -11,12 +11,12 @@
   <a href="https://zenodo.org/badge/latestdoi/84442919"><img src="https://zenodo.org/badge/84442919.svg"></a>
   <a href="https://circleci.com/gh/compsy/u-can-act"><img src="https://circleci.com/gh/compsy/u-can-act.svg?style=svg&circle-token=482ba30c54a4a181d02f22c3342112d11d6e0e8a"></a>
   <a href="https://coveralls.io/github/compsy/u-can-act?branch=master"><img src="https://coveralls.io/repos/github/compsy/u-can-act/badge.svg?branch=master"></a>
-  
+
 </p>
 
 ## Reference
-Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017). 
-U-can-act Web-app (Version 1.0) [Web application software]. 
+Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017).
+U-can-act Web-app (Version 1.0) [Web application software].
 Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
 
 Frank J. Blaauw, Mandy A. E. van der Gaag, Nick R. Snell, Ando C. Emerencia, E. Saskia Kunnen and Peter de Jonge (2018).
@@ -61,7 +61,7 @@ Then fill in the `.env` or `.env.local` files (see [Configuration](#configuratio
 ```
 
 ## Configuration
-The `.env` file is used for storing all ENV variables. 
+The `.env` file is used for storing all ENV variables.
 Below is a list of all required ENV variables for production servers.
 
 ### General settings
@@ -96,6 +96,9 @@ Below is a list of all required ENV variables for production servers.
   AUTH0_AUDIENCE: <The auth0 audience>
   AUTH0_SIGNING_CERTIFICATE: <the BASE64 encoded certificate>
 
+  WARDEN_JWT_PRIVATE_KEY: <the private key for the JWT tokens>
+  WARDEN_JWT_PUBLIC_KEY: <the public key for the JWT tokens>
+
   REDIS_HOST: <the url of the redis host>
   REDIS_PORT: <the port of the redis host>
   REDIS_PASSWORD: <the password of the redis host>
@@ -110,14 +113,14 @@ Below is a list of all required ENV variables for production servers.
 
   INFO_SITE_URL: <site for more information about the u-can-act project, typically https://u-can-act.nl>
 
-  PUSH_SUBSCRIPTION_URL: <for pushing results back to the base platform, e.g., 'http://web:3000/api/v1/data/create_raw'> 
+  PUSH_SUBSCRIPTION_URL: <for pushing results back to the base platform, e.g., 'http://web:3000/api/v1/data/create_raw'>
   BASE_PLATFORM_URL: <the external url of the base platform for redirecting the user, e.g., 'http://localhost:3000'>
 
   SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
   REGISTRATION_URL: <url for sending invites to for person email registration>
 
   WORKLESS_ENABLED: <set to 'true' if you want to enable workless>
-  
+
   ELASTIC_APM_ENABLED: <set to 'true' if you want to report APM metrics to the elastic cluster>
   ELASTIC_APM_URL: <the url to push APM metrics to>
   ELASTIC_APM_SECRET_TOKEN: <the agent token as obtained from /app/apm/settings/agent-keys when creating a new token>
@@ -125,8 +128,8 @@ Below is a list of all required ENV variables for production servers.
 ```
 
 ### (Local) development settings
-For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development. 
-However, a `.env.local` file is **not** included in the repository, and should be created by the developer. 
+For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development.
+However, a `.env.local` file is **not** included in the repository, and should be created by the developer.
 Since this file determines which project will run, it should at minimum have the following settings:
 
 `.env.local` minimum settings:
@@ -146,8 +149,8 @@ After cloning the repo, be sure to create an `.env.local` file with at least the
 When using the rake task to generate a new project (`bundle exec rake "deployment:create_project[myproject]"`), a `.env.local` file is automatically generated for you. But when switching to one of the existing projects in the repo, you need to set the above variables in `.env.local`.
 
 ### Organization-specific settings
-Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`. 
-One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`. 
+Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`.
+One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`.
 This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
 
 The file structure of the `my_organization` directory in the `projects` directory should be as follows:
@@ -202,7 +205,7 @@ In order to run the Capybara specs of the VSV project, you need to install the c
 ```
 
 ### Development seeds
-At some point you might need pre-existing questionnaire responses in order to test the applications that integrate 
+At some point you might need pre-existing questionnaire responses in order to test the applications that integrate
 with the questionnaire engine. You can pre-seed the database with fake data using manual seeds. To run it simply call:
 ```bash
 rails db:seed:<name of manual seed>
@@ -254,7 +257,7 @@ rake scheduler:generate_questionnaire_headers
 When using Heroku these can be scheduled via the *Heroku Scheduler*.
 These jobs can also be executed via a scheduled CI job on GitLab or GitHub.
 Via GitLab or GitHub, use the Heroku CLI via, for example
-  
+
 ```
 heroku run --app=my-app-name --exit-code --size=hobby rails runner CompleteProtocolSubscriptions.run
 ```
@@ -265,13 +268,13 @@ To do this on Heroku, start an extra worker process and, optionally, add the [wo
 ## Protocols and Measurements
 In the system a _Questionnaire_ denotes the definition of a questionnaire.
 A _Protocol_ is the overarching type which contains questionnaires.
-To obtain data from people filling in the questionnaires, each questionnaire should contain _Measurements_. 
-The measurements define when the user should (be nudged to) fill in the questionnaire. 
+To obtain data from people filling in the questionnaires, each questionnaire should contain _Measurements_.
+The measurements define when the user should (be nudged to) fill in the questionnaire.
 The filled in questionnaires are stored as _Responses_.
 
-There are two types of measurements. 
-Periodical and one-time measurements. 
-Periodical measurements are measurements that have a `period` that is not nil. 
+There are two types of measurements.
+Periodical and one-time measurements.
+Periodical measurements are measurements that have a `period` that is not nil.
 Periodical measurements are repeated each `period` from `protocol_subscription.start_date + measurement.open_from_offset` until `protocol_subscription.end_date - measurement.offset_until_end`. The `protocol_subscription.end_date` can be specified when creating a protocol subscription, or if it is not specified, it is initialized with a default value of `protocol_subscription.start_date + protocol.duration`.
 **See the measurement model for the most up to date documentation**.
 
@@ -284,7 +287,7 @@ Variable | Description
 `p.duration` | Duration of protocol. After _protocol start date_ + _protocol duration_ the protocol will be closed.
 `q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.
 `q.period` | Time between measurements.
-`q.open_from_offset` | What offset to apply before opening the protocol. 
+`q.open_from_offset` | What offset to apply before opening the protocol.
 `q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
 `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
 
@@ -297,7 +300,7 @@ Other than a token in the URL, OTRs also use a token in the query parameters for
 An OTR can be marked as a `restricted` OTR, which means that the link will only function if it is also given a `token` parameter and that there is a running protocol subscription started for that user. Note that protocols that have a restricted OTR do not schedule their measurements like other protocols. This is because starting a protocol subscription to a restricted OTR means that you are eligible for clicking the link, rather than subscribing to the protocol.
 
 ### Prefilled measurements
-A measurement in a protocol can be configured to be prefilled with past responses. This can be activated by 
+A measurement in a protocol can be configured to be prefilled with past responses. This can be activated by
 switching the `prefilled` property of the measurement to `true`. When creating protocols programmatically via the basic
 auth api, the option is called `prefilled` under the measurement properties:
 ```ruby
@@ -310,19 +313,19 @@ questionnaires = [
   }
 ]
 ```
-When prefilling is activated, the existing response used to prefill the new response will be the last completed 
+When prefilling is activated, the existing response used to prefill the new response will be the last completed
 response by the user from a measurement that uses the same questionnaire. Note that this response might be from a
 different protocol.
 
 ## Importing new students and mentors
-New mentors and students can be imported using the `echo_people` use case. 
+New mentors and students can be imported using the `echo_people` use case.
 
 ```ruby
   be rake "maintenance:echo_people[CSV_NAME]"
 ```
 
-in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data. 
-It is important that the format of the CSV is ordered as follows. 
+in which `CSV_NAME` should be replaced with the file name of the CSV containing the mentor / student data.
+It is important that the format of the CSV is ordered as follows.
 
 ### The Mentor CSV
 For the Mentor data this should be:
@@ -330,7 +333,7 @@ For the Mentor data this should be:
 | type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | end_date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
-In this case: 
+In this case:
  - `type` should equal `Mentor`
  - `team_name`: the name of the team the mentor belongs to
  - `role_title`: the role the mentor has in the team ('mentor', 'maatje', or 'S-teamer')
@@ -351,7 +354,7 @@ For the Student data this should be:
 | Type | team_name | role_title | first_name | last_name | gender | mobile_phone | e-mail | protocol_name | start_date | end_date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
-In this case: 
+In this case:
  - `type` should equal `Student`
  - `team_name`: the name of the team the student belongs to
  - `first_name`: the first name of the person
@@ -411,19 +414,19 @@ Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
 ```
 
 Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{begeleider}}` or `jouw {{begeleider}}`.
-  
+
 ### Questionnaire seeds
 
 ## About the questionnaire key, name, and title
 **key:**
-  
+
  - unique
  - required (is not null or empty string)
  - specific format (/\A[a-z_0-9]+\Z/), i.e.: it can be symbolized if needed.
  - typically, the file that a questionnaire resides in is the questionnaire key (minus the .rb extension part)
 
 **name:**
-  
+
  - unique
  - required (is not null or empty string)
  - can be any format (including spaces)
@@ -445,7 +448,7 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 ## Questionnaire Syntax
 The `content` attribute of a `Questionnaire` is a Hash with two keys, `:questions` and `:scores`. `content[:questions]` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`, `:unsubscribe`, `:drawing`, `:date_and_time`, `:days`.
 
-For all questions, it is allowed to use HTML tags in the texts. 
+For all questions, it is allowed to use HTML tags in the texts.
 Also, you may use any of the special variables defined in the previous section.
 
 All questions except checkboxes now support a `combines_with` attribute. The value of this attribute should be an array of (other) questionnaire IDs. This is used to indicate to the distributions engine that an additional conditional distribution histogram, combining the values of the question and the ones that it combines with, should also be calculated.
@@ -484,10 +487,10 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can contain either hashes or strings. 
-If it is just a string, it is used as the `title` element. 
-The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. 
-The `tooltip` field is also optional. 
+The options array can contain either hashes or strings.
+If it is just a string, it is used as the `title` element.
+The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field.
+The `tooltip` field is also optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Setting `required: true` for a checkbox question has the effect that the user has to check at least one of the options, or the form cannot be submitted.
@@ -563,9 +566,9 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can contain either hashes or strings. 
+The options array can contain either hashes or strings.
 If it is just a string, it is used as the `title` element.
-The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field. 
+The `show_otherwise` field is optional, and determines whether or not the question should have an 'otherwise' field.
 The `tooltip` field is also optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
@@ -610,8 +613,8 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array can currently only contain strings. 
-The strings in the array are used as answer options. 
+The options array can currently only contain strings.
+The strings in the array are used as answer options.
 Likert questions are always required.
 
 Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for entries in their `option` array.
@@ -656,14 +659,14 @@ Required and allowed options (minimal example and maximal example):
   section_end: true
 }]
 ```
-The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively. 
+The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively.
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
 The `value` denotes the default location for the slider, that is, the location of the slider when it is not yet changed by the user.
 If the `ticks` attribute is `true`, the slider will show ticks and values at each `step` (the default value for `ticks` is `false`).
 If the `no_initial_thumb` attribute is `true`, then the slider does not show an initial scrollthumb for unmodified range inputs. Only when the user changes the slider to set a value will the scrollthumb appear. (the default value for `no_initial_thumb` is `false`)
 If the `vertical` attribute is `true`, then the slider is a vertical slider, with labels on the right. This option defaults to `false`. Note that when this option is `true`, the array of `labels` must correspond to the same number of steps as provided by the `min`, `max`, and `step` arguments.
 If the `gradient` attribute is `true`, then the background of the slider is set to a gradient. Currently this only works for vertical sliders.
-If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted. 
+If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted.
 
 ### Type: Raw
 **Raw questionnaire types should not have an id!**
@@ -702,7 +705,7 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The `tooltip' field is optional. 
+The `tooltip' field is optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 The attribute `required` is `false` by default, but can be set to `true`.
@@ -731,19 +734,19 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The `tooltip' field is optional. 
+The `tooltip' field is optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
-The property `pattern` is a regex that limits what the user can enter. 
+The property `pattern` is a regex that limits what the user can enter.
 The `hint` property is the error message shown to the user when the input does not satisfy the pattern.
 
-Textfields also support a `default_value` property, which is a default value used to fill out the text field. 
+Textfields also support a `default_value` property, which is a default value used to fill out the text field.
 This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
 
 The attribute `required` is `false` by default, but can be set to `true`.
 
 ### Type: Number
-Type for integer(?) numbers. 
+Type for integer(?) numbers.
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -771,7 +774,7 @@ Required and allowed options (minimal example and maximal example):
 
 Properties specific to `number` are `min` and `max`, for numerical limits, and `maxlength`, which can be used to restrict long numerical inputs (should probably be used in conjunction with pattern if the exact format of the number is known). If specified, the `step` property is used to set the number of decimals. For example, `step: 0.01` will mean up to two decimals is allowed.
 
-The `required` property is also supported. 
+The `required` property is also supported.
 The default is that numbers are not required.
 
 The `number` type does not support `pattern` or `hint` because these properties are not supported by the html 5 `number` input type.
@@ -782,7 +785,7 @@ If the user manually adds or removes expandable iterations with the + or - butto
 Also, the `placeholder` property is supported for numbers.
 
 ### Type: Expandable
-Expandable questionnaire questions are essentially mini questionnaires within each questionnaire. 
+Expandable questionnaire questions are essentially mini questionnaires within each questionnaire.
 They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
 
 ```ruby
@@ -833,8 +836,8 @@ They can introduce `max_expansions` new sub-questionnaires within the question (
   }]
 }]
 ```
-If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs. 
-(E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion). 
+If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs.
+(E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion).
 Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
 
 ### Type: Time
@@ -926,12 +929,12 @@ The `default_date` property can be used to set a default date. The `default_date
 both be used.
 
 ### Type: Unsubscribe
-Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol. 
-Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire. 
+Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol.
+Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire.
 You may want to control its visibility by specifying a `show_after` property.
 
-Including an unsubscribe type "question" in a questionnaire will show a card with a button. 
-Clicking this button will redirect the user to the unsubscribe route for the protocol subscription to which the current questionnaire belongs. 
+Including an unsubscribe type "question" in a questionnaire will show a card with a button.
+Clicking this button will redirect the user to the unsubscribe route for the protocol subscription to which the current questionnaire belongs.
 If the protocol has a stop measurement, the user is first redirected to fill out this questionnaire, after which they will be unsubscribed from the protocol.
 
 Required and allowed options (minimal example):
@@ -950,8 +953,8 @@ Unsubscribe questions do not need an `id`.
 
 Usable properties for an unsubscribe `question` type are `title`, `content`, `button_text`, and `data_method` (all are optional).
 
-The default `data_method` is `delete`. 
-The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator. 
+The default `data_method` is `delete`.
+The `data_method` should typically not be specified as it should correspond with the `unsubscribe_url` that is supplied by the system when calling the questionnaire generator.
 Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
 ### Type: Dropdown
@@ -983,19 +986,19 @@ Required and allowed options (minimal example and maximal example):
 }]
 ```
 
-The options array must contain of strings. 
+The options array must contain of strings.
 Currently, there is no support for `shows_questions` or `hides_questions` triggers based on selected options in a dropdown.
 
 The dropdown does not support a `show_otherwise` option.
 
 Dropdowns are always required.
 
-A dropdown can have a `placeholder` property which is the text used when no option is selected. 
+A dropdown can have a `placeholder` property which is the text used when no option is selected.
 If no `placeholder` is specified, a default text is used.
 
 A dropdown can have a `label` property which is a small text that is always visible and is printed directly above the dropdown.
 
-The `tooltip' field is optional. 
+The `tooltip' field is optional.
 When present, it will introduce a small i on which the user can click to get extra information (the information in the tooltip variable).
 
 Note that the `shows_questions`, `hides_questions`, and `stop_subscription` option properties here work identically to those described above in the Type: Checkbox section.
@@ -1015,7 +1018,7 @@ sentences, and you just want something shorter in your CSV export.
 Dropdowns can have `shows_questions` and `hides_questions` attributes, but they do not support an `otherwise` option.
 
 ### Type: Drawing
-Let's a user draw on an image. 
+Let's a user draw on an image.
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -1161,7 +1164,7 @@ The `preprocessing` key is optional, and if provided, should be a hash with a (s
 
 ## Developing new questionnaires
 When creating a new questionnaire (or questionnaires), these are the steps you should follow:
-1. Define the questions of the questionnaire 
+1. Define the questions of the questionnaire
 2. Create a protocol
 3. Define the measurements of that protocol
 

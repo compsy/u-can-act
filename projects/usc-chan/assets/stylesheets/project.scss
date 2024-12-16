@@ -42,7 +42,7 @@ body.mentor > .container {
   }
 
   // header
-  & > .row > .row {
+  & > .row > .row:first-child {
     background-color: $dark-blue-bg;
     margin-bottom: 0;
   }

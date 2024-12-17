@@ -11,9 +11,17 @@ usc_protocol.duration = 8.weeks
 usc_protocol.invitation_text = 'Your next vitaMAPS questionnaire is ready to be filled out.'
 usc_protocol.save!
 
+# Add push subscription
+push_subscription_name = 'usc-chan-push-subscription'
+push_subscription = usc_protocol.push_subscriptions.find_by(name: push_subscription_name)
+push_subscription ||= usc_protocol.push_subscriptions.build(name: push_subscription_name)
+push_subscription.method = 'POST'
+push_subscription.url = ENV.fetch('PUSH_SUBSCRIPTION_URL')
+push_subscription.save!
+
 # Add questionnaires
 reminder_offset = 15.minutes
-redirect_url = '/person/edit' # after filling out questionnaire, go to person edit page.
+redirect_url = "#{ENV.fetch('BASE_PLATFORM_URL')}/?source=questionnaire"
 
 questionnaire_name = 'usc_chan'
 questionnaire_id = Questionnaire.find_by(name: questionnaire_name)&.id

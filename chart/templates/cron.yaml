@@ -10,6 +10,8 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          app.kubernetes.io/name: svc-questionnaires
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}

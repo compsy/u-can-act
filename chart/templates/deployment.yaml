@@ -21,6 +21,7 @@ spec:
         app: {{ .Release.Name }}
         track: stable
         tier: web
+        app.kubernetes.io/name: svc-questionnaires
     spec:
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -178,6 +179,21 @@ spec:
               secretKeyRef:
                 name: {{ .Values.mongoSecretName | default .Values.secretName }}
                 key: {{ .Values.mongoSecretKey }}
+          - name: TOKEN_SIGNATURE_ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.authSecretName | default .Values.secretName }}
+                key: {{ .Values.authSignatureAlgorithmKey | default "TOKEN_SIGNATURE_ALGORITHM" }}
+          - name: DEVISE_JWT_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.authSigningSecretName | default .Values.authSecretName | default .Values.secretName }}
+                key: {{ .Values.authSigningSecretKey | default "DEVISE_JWT_SECRET_KEY" }}
+          - name: JWT_DECODING_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.authDecodingSecretName | default .Values.authSecretName | default .Values.secretName }}
+                key: {{ .Values.authDecodingSecretKey | default "JWT_DECODING_SECRET"}}
           ports:
           - containerPort: 3000
             protocol: TCP

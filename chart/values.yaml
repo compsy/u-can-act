@@ -5,6 +5,12 @@ databaseSecretKey: DATABASE_URL
 redisSecretKey: REDIS_URL
 # mongoSecretName: svc-questionnaires-mongo-credentials
 mongoSecretKey: MONGODB_URI
+# authSecretName: jwt-shared-secret
+# authSigningSecretName:
+# authDecodingSecretName:
+# authSignatureAlgorithmKey:
+# authSigningSecretKey:
+# authDecodingSecretKey:
 tag: latest
 appsignalAppEnv: staging
 curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest

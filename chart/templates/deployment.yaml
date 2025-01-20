@@ -164,11 +164,6 @@ spec:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: IP_HASH_SALT
-          - name: TOKEN_SIGNATURE_ALGORITHM
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secretName }}
-                key: TOKEN_SIGNATURE_ALGORITHM
           - name: MAILGUN_API_HOST
             valueFrom:
               secretKeyRef:

@@ -52,23 +52,18 @@ Capybara.default_selector = :css
 Capybara.default_max_wait_time = 4
 Capybara.ignore_hidden_elements = false
 
-# At some point, the headless=old option will stop working. In the new headless mode, it will
-# show a dialog box when asking for Basic Auth (I think), so at that point we can no longer
-# check for the HTTP Basic Access denied message (because it will have popped up a dialog box
-# before we can see that text. At least that's what I think). But other Basic Auth tests
-# will still work then. So at that point just change that spec to expect the body to be empty.
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   [
     'no-sandbox',
-    'headless=old',
+    'headless=new',
     'disable-gpu',
     'disable-infobars',
     'disable-extensions',
     'disable-dev-shm-usage',
     # We need to specify the window size, otherwise it is to small and
     # collapses everything in the admin panel.
-    'window-size=1920x1080',
+    'window-size=1920,1080',
     'enable-features=NetworkService,NetworkServiceInProcess'
   ].each { |arg| options.add_argument(arg) }
   client = Selenium::WebDriver::Remote::Http::Default.new

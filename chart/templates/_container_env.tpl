@@ -35,6 +35,11 @@ env:
       secretKeyRef:
         name: {{ .Values.secretName }}
         key: MESSAGEBIRD_ACCESS_KEY
+  - name: MESSAGEBIRD_SEND_FROM
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.secretName }}
+        key: MESSAGEBIRD_SEND_FROM
   - name: PERSON_SALT
     valueFrom:
       secretKeyRef:

@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-worker
+  labels:
+    app: {{ .Release.Name }}
+    observability.researchable.nl/app: svc-questionnaires-worker
 spec:
   replicas: 2
   selector:
@@ -20,6 +23,7 @@ spec:
         track: stable
         tier: worker
         app.kubernetes.io/name: svc-questionnaires
+        observability.researchable.nl/app: svc-questionnaires-worker
     spec:
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:

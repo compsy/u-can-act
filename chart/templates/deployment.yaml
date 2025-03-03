@@ -4,6 +4,8 @@ metadata:
   name: {{ .Release.Name }}
   labels:
     worker: "no"
+    app: {{ .Release.Name }}
+    observability.researchable.nl/app: svc-questionnaires
 spec:
   replicas: 2
   selector:
@@ -22,6 +24,7 @@ spec:
         track: stable
         tier: web
         app.kubernetes.io/name: svc-questionnaires
+        observability.researchable.nl/app: svc-questionnaires
     spec:
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -70,4 +73,3 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 60
-

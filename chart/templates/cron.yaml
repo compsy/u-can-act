@@ -2,16 +2,26 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-one-am
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-one-am
 spec:
   schedule: "0 1 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-one-am
     spec:
       template:
         metadata:
-          app.kubernetes.io/name: svc-questionnaires
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-one-am
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -44,14 +54,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-two-am
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-two-am
 spec:
   schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-two-am
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-two-am
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -84,14 +105,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-three-am
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-three-am
 spec:
   schedule: "0 3 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-three-am
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-three-am
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -124,14 +156,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-four-am
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-four-am
 spec:
   schedule: "0 4 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-four-am
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily-at-four-am
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -164,14 +207,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-daily
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily
 spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-daily
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -204,14 +258,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-hourly
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-hourly
 spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-hourly
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-hourly
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -244,14 +309,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-thirty-minutely
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-thirty-minutely
 spec:
   schedule: "*/30 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-thirty-minutely
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-thirty-minutely
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -284,14 +360,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-five-minutely
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-five-minutely
 spec:
   schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-five-minutely
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-five-minutely
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -324,14 +411,25 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-scheduler-minutely
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: {{ .Release.Name }}-scheduler-minutely
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: {{ .Release.Name }}-scheduler-minutely
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: {{ .Release.Name }}-scheduler-minutely
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}

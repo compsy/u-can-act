@@ -3,14 +3,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-one-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-one-am
 spec:
   schedule: "0 1 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-one-am
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-one-am
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -37,14 +48,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-two-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-two-am
 spec:
   schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-two-am
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-two-am
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -71,14 +93,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-three-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-three-am
 spec:
   schedule: "0 3 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-three-am
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-three-am
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -105,14 +138,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-four-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-four-am
 spec:
   schedule: "0 4 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-four-am
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-daily-at-four-am
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -139,14 +183,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-daily
 spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-daily
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-daily
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -173,14 +228,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-hourly
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-hourly
 spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-hourly
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-hourly
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -207,14 +273,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-thirty-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-thirty-minutely
 spec:
   schedule: "*/30 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-thirty-minutely
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-thirty-minutely
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -241,14 +318,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-five-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-five-minutely
 spec:
   schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-five-minutely
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-five-minutely
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -275,14 +363,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app: svc-questionnaires-scheduler
+    observability.researchable.nl/job: svc-questionnaire-scheduler-minutely
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app: svc-questionnaires-scheduler
+        observability.researchable.nl/job: svc-questionnaire-scheduler-minutely
     spec:
       template:
+        metadata:
+          labels:
+            app: svc-questionnaires-scheduler
+            observability.researchable.nl/job: svc-questionnaire-scheduler-minutely
         spec:
           restartPolicy: Never
           imagePullSecrets:
@@ -303,4 +402,3 @@ spec:
                 secretKeyRef:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
-

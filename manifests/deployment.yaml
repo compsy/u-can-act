@@ -5,6 +5,8 @@ metadata:
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
   labels:
     worker: "no"
+    app: svc-questionnaires
+    observability.researchable.nl/app: svc-questionnaires
 spec:
   replicas: 2
   selector:
@@ -22,6 +24,7 @@ spec:
         app: svc-questionnaires
         track: stable
         tier: web
+        observability.researchable.nl/app: svc-questionnaires
     spec:
       imagePullSecrets:
         - name: gitlab-auth
@@ -296,4 +299,3 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 60
-

@@ -1,3 +1,5 @@
+replicaCount: 2
+workerReplicaCount: 2
 secretName: svc-questionnaires-secret
 # databaseSecretName: svc-questionnaires-database-credentials
 databaseSecretKey: DATABASE_URL

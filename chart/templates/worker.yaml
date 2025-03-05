@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-worker
 spec:
-  replicas: 2
+  replicas: {{ .Values.workerReplicaCount }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}

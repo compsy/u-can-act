@@ -21,7 +21,7 @@ describe 'Person API' do
               team: { type: :string },
               role: { type: :string },
               email: { type: :string, format: :email },
-              locale: { type: :string },
+              locale: { type: :string }
             }
           }
         }

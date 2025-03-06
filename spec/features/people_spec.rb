@@ -231,6 +231,7 @@ describe 'GET /edit', type: :feature, js: true do
         page.choose('Man', allow_label_click: true)
 
         all('button[type="submit"]').first.click
+        sleep(2) # To avoid race condition, make sure that the click propagated before loading the person page.
         visit edit_person_path
 
         expect(page).to have_selector("input[value='0698417312']")

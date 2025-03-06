@@ -20,7 +20,8 @@ describe 'Person API' do
             properties: {
               team: { type: :string },
               role: { type: :string },
-              email: { type: :string, format: :email }
+              email: { type: :string, format: :email },
+              locale: { type: :string }
             }
           }
         }
@@ -36,7 +37,8 @@ describe 'Person API' do
             Rails.application.config.settings.metadata_field => {
               team: team.name,
               role: team.roles.first.title,
-              email: 'email1@example.com'
+              email: 'email1@example.com',
+              locale: 'en'
             }
           }
         }
@@ -48,6 +50,7 @@ describe 'Person API' do
           expect(auth_user).to be_present
           p = Person.find_by email: 'email1@example.com'
           expect(p).to be_present
+          expect(p.locale).to eq 'en'
         end
       end
 

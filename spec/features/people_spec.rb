@@ -247,7 +247,7 @@ describe 'GET /edit', type: :feature, js: true do
         page.fill_in('person_mobile_phone', with: '0698417312')
         page.choose('Man', allow_label_click: true)
         all('button[type="submit"]').first.click
-
+        sleep(2) # to try and prevent that it reloads the student before it has processed the button click.
         student.reload
 
         expect(student.mobile_phone).to eq '0698417312'

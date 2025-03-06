@@ -238,7 +238,7 @@ describe 'GET /edit', type: :feature, js: true do
         expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
         visit edit_person_path
 
-        expect(page).to have_selector("input[value='0698417312']"), wait: 10
+        expect(page).to have_selector("input[value='0698417312']")
         expect(find("[name='person[gender]'][checked]").value).to eq 'male'
       end
 

@@ -1315,7 +1315,7 @@ describe 'GET and POST /', type: :feature, js: true do
       # v1
       page.choose('Nee', allow_label_click: true)
       page.click_on 'Opslaan'
-      expect(page).to have_content('Webapp Begeleiders')
+      expect(page).to have_content('Webapp Begeleiders', wait: 10)
       expect(page).not_to have_content('Succes: De begeleiding voor Jane is gestopt.')
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)

@@ -314,7 +314,7 @@ describe 'GET /edit', type: :feature, js: true do
         page.fill_in('person_iban', with: 'NL13RTEF0518590011')
         page.choose('Man', allow_label_click: true)
         all('button[type="submit"]').first.click
-
+        sleep(2) # Try to avoid a race condition
         student.reload
 
         expect(student.first_name).to eq 'new_first'

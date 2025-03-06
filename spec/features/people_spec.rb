@@ -53,6 +53,8 @@ describe 'GET /edit', type: :feature, js: true do
       page.choose('Man', allow_label_click: true)
 
       all('button[type="submit"]').first.click
+      expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
+
       visit edit_person_path
 
       expect(page).to have_selector("input[value='new_first']")
@@ -79,7 +81,8 @@ describe 'GET /edit', type: :feature, js: true do
       page.fill_in('person_email', with: 'anew@email.com')
       page.choose('Man', allow_label_click: true)
       all('button[type="submit"]').first.click
-      sleep(2)
+      expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
+
       mentor.reload
 
       expect(mentor.first_name).to eq 'new_first'
@@ -146,7 +149,8 @@ describe 'GET /edit', type: :feature, js: true do
 
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
-      sleep(2)
+      expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
+
       solo.reload
 
       expect(solo.email).to eq 'anew@email.com'
@@ -231,7 +235,7 @@ describe 'GET /edit', type: :feature, js: true do
         page.choose('Man', allow_label_click: true)
 
         all('button[type="submit"]').first.click
-        sleep(2) # To avoid race condition, make sure that the click propagated before loading the person page.
+        expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
         visit edit_person_path
 
         expect(page).to have_selector("input[value='0698417312']")
@@ -248,7 +252,8 @@ describe 'GET /edit', type: :feature, js: true do
         page.fill_in('person_mobile_phone', with: '0698417312')
         page.choose('Man', allow_label_click: true)
         all('button[type="submit"]').first.click
-        sleep(2) # to try and prevent that it reloads the student before it has processed the button click.
+        expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
+
         student.reload
 
         expect(student.mobile_phone).to eq '0698417312'
@@ -290,6 +295,8 @@ describe 'GET /edit', type: :feature, js: true do
         page.choose('Man', allow_label_click: true)
 
         all('button[type="submit"]').first.click
+        expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
+
         visit edit_person_path
 
         expect(page).to have_selector("input[value='new_first']")
@@ -315,7 +322,8 @@ describe 'GET /edit', type: :feature, js: true do
         page.fill_in('person_iban', with: 'NL13RTEF0518590011')
         page.choose('Man', allow_label_click: true)
         all('button[type="submit"]').first.click
-        sleep(2) # Try to avoid a race condition
+        expect(page).to have_content 'Algemeen', wait: 10 # wait for the form to be submitted
+
         student.reload
 
         expect(student.first_name).to eq 'new_first'

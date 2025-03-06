@@ -21,7 +21,11 @@ module Api
           # This endpoint was added for UMO, where we need to sync users and we need their real emails stored so we can
           # invite them to fill in questionnaires. AuthUser.from_token_payload creates a new anonymous user (with no
           # email), so we need to add it manually
-          auth_user.person.update(email: new_person_params[Rails.application.config.settings.metadata_field][:email])
+          auth_user.person.email = new_person_params[Rails.application.config.settings.metadata_field][:email]
+          if new_person_params[Rails.application.config.settings.metadata_field][:locale].present?
+            auth_user.person.locale = new_person_params[Rails.application.config.settings.metadata_field][:locale]
+          end
+          auth_user.person.save
 
           return created(auth_user.person) if auth_user.person.valid?
 
@@ -85,7 +89,7 @@ module Api
 
         def new_person_params
           params.require(:person).permit :sub,
-                                         Rails.application.config.settings.metadata_field => %i[team role email]
+                                         Rails.application.config.settings.metadata_field => %i[team role email locale]
         end
 
         def team_error?(error)

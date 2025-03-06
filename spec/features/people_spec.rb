@@ -79,7 +79,7 @@ describe 'GET /edit', type: :feature, js: true do
       page.fill_in('person_email', with: 'anew@email.com')
       page.choose('Man', allow_label_click: true)
       all('button[type="submit"]').first.click
-
+      sleep(2)
       mentor.reload
 
       expect(mentor.first_name).to eq 'new_first'
@@ -146,7 +146,7 @@ describe 'GET /edit', type: :feature, js: true do
 
       page.fill_in('person_email', with: 'anew@email.com')
       all('button[type="submit"]').first.click
-
+      sleep(2)
       solo.reload
 
       expect(solo.email).to eq 'anew@email.com'

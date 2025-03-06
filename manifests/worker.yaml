@@ -4,8 +4,8 @@ metadata:
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
   name: svc-questionnaires-worker
   labels:
-    app: svc-questionnaires-worker
-    observability.researchable.nl/app: svc-questionnaires-worker
+    app.kubernetes.io/name: svc-questionnaires-worker
+    app.kubernetes.io/component: job
 spec:
   replicas: 2
   selector:
@@ -23,7 +23,8 @@ spec:
         app: svc-questionnaires
         track: stable
         tier: worker
-        observability.researchable.nl/app: svc-questionnaires-worker
+        app.kubernetes.io/name: svc-questionnaires-worker
+        app.kubernetes.io/component: job
     spec:
       imagePullSecrets:
         - name: gitlab-auth

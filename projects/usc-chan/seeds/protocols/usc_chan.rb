@@ -39,5 +39,6 @@ raise "Cannot find questionnaire: #{questionnaire_name}" unless questionnaire_id
   meas.reminder_delay = reminder_offset
   meas.redirect_url = redirect_url
   meas.only_redirect_if_nothing_else_ready = true
+  meas.stop_measurement = false
   meas.save!
 end

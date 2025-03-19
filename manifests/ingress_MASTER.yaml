@@ -4,7 +4,7 @@ metadata:
   name: svc-questionnaires
   namespace: sdv-mvp-master
   labels:
-    app: svc-questionnaires
+    app.kubernetes.io/name: svc-questionnaires
   annotations:
     acme.cert-manager.io/http01-edit-in-place: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -26,4 +26,3 @@ spec:
             name: svc-questionnaires-service
             port:
               number: 3000
-

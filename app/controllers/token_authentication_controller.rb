@@ -24,7 +24,7 @@ class TokenAuthenticationController < ApplicationController
       else
         # A regular user however has no dashboard to go to, so if there are no more responses to fill out,
         # their invitation link will render a 404 error.
-        render(status: :not_found, html: 'Je hebt deze vragenlijst(en) al ingevuld.', layout: 'application')
+        render(status: :not_found, html: I18n.t('questionnaires.already_completed'), layout: 'application')
       end
       return
     end
@@ -47,7 +47,7 @@ class TokenAuthenticationController < ApplicationController
     @attached_responses = InvitationToken.find_attached_responses(questionnaire_params[:q], false)
     return if @attached_responses.present?
 
-    render(status: :not_found, html: 'Je hebt deze vragenlijst(en) al ingevuld.', layout: 'application')
+    render(status: :not_found, html: I18n.t('questionnaires.already_completed'), layout: 'application')
   end
 
   def set_response_to_redirect_to
@@ -60,12 +60,12 @@ class TokenAuthenticationController < ApplicationController
   def check_invitation_token
     invitation_token = InvitationToken.test_identifier_token_combination(identifier_param, token_param)
     if invitation_token.nil?
-      render(status: :unauthorized, html: 'Je bent niet bevoegd om deze vragenlijst te zien.', layout: 'application')
+      render(status: :unauthorized, html: I18n.t('questionnaires.not_authorized'), layout: 'application')
       return
     end
 
     if invitation_token.expired?
-      render(status: :not_found, html: 'Deze link is niet meer geldig.', layout: 'application')
+      render(status: :not_found, html: I18n.t('questionnaires.link_not_valid'), layout: 'application')
       return
     end
     store_person_cookie(identifier_param)
@@ -86,7 +86,7 @@ class TokenAuthenticationController < ApplicationController
   def check_params
     return if identifier_param.present? && token_param.present?
 
-    render(status: :unauthorized, html: 'Gebruiker / Vragenlijst niet gevonden.', layout: 'application')
+    render(status: :unauthorized, html: I18n.t('questionnaires.not_found'), layout: 'application')
   end
 
   def questionnaire_params

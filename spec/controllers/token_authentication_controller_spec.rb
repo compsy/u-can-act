@@ -43,7 +43,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
-                responseobj.destroy!
+        responseobj.destroy!
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Je hebt deze vragenlijst(en) al ingevuld.')

@@ -28,6 +28,17 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response.body).to include('Deze link is niet meer geldig.')
       end
 
+      it 'requires a q parameter that is not expired (english locale)' do
+        responseobj = FactoryBot.create(:response, :invited)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        responseobj.protocol_subscription.person.update!(locale: 'en')
+        expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
+        get :show, params: { q: identifier }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('This link is no longer valid.')
+      end
+
       it 'requires a q parameter that has responses attached' do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
@@ -36,6 +47,17 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Je hebt deze vragenlijst(en) al ingevuld.')
+      end
+
+      it 'requires a q parameter that has responses attached (english locale)' do
+        responseobj = FactoryBot.create(:response, :invited)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        responseobj.protocol_subscription.person.update!(locale: 'en')
+        responseobj.destroy!
+        get :show, params: { q: identifier }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('You have already completed this questionnaire.')
       end
     end
 

@@ -2,6 +2,7 @@
 
 class TokenAuthenticationController < ApplicationController
   before_action :check_params
+  before_action :set_locale
   before_action :check_invitation_token
   before_action :set_attached_responses
   before_action :set_response_to_redirect_to
@@ -91,5 +92,10 @@ class TokenAuthenticationController < ApplicationController
 
   def questionnaire_params
     params.permit(:q)
+  end
+
+  def set_locale
+    person = Person.find_by(external_identifier: identifier_param)
+    I18n.locale = person ? person.locale : I18n.default_locale
   end
 end

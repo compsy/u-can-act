@@ -9,16 +9,16 @@ RSpec.describe TokenAuthenticationController, type: :controller do
       it 'returns http not found when not given any params' do
         get :show
         expect(response).to have_http_status(:unauthorized)
-        expect(response.body).to include('Gebruiker / Vragenlijst niet gevonden.')
+        expect(response.body).to include('User / Questionnaire not found.')
       end
 
       it 'requires a q parameter that is valid' do
         get :show, params: { q: 'something' }
         expect(response).to have_http_status(:unauthorized)
-        expect(response.body).to include('Je bent niet bevoegd om deze vragenlijst te zien.')
+        expect(response.body).to include('You are not authorized to view this questionnaire.')
       end
 
-      it 'requires a q parameter that is not expired' do
+      it 'requires a q parameter that is not expired (Person with Dutch locale)' do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
@@ -28,32 +28,32 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response.body).to include('Deze link is niet meer geldig.')
       end
 
-      it 'requires a q parameter that is not expired (english locale)' do
+      it 'requires a q parameter that is not expired (Person with English locale)' do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
-        responseobj.protocol_subscription.person.update!(locale: 'en')
+        responseobj.protocol_subscription.person.update!(locale: :en)
         expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('This link is no longer valid.')
       end
 
-      it 'requires a q parameter that has responses attached' do
+      it 'requires a q parameter that has responses attached (Person with Dutch locale)' do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
-        responseobj.destroy!
+                responseobj.destroy!
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Je hebt deze vragenlijst(en) al ingevuld.')
       end
 
-      it 'requires a q parameter that has responses attached (english locale)' do
+      it 'requires a q parameter that has responses attached (Person with English locale)' do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
-        responseobj.protocol_subscription.person.update!(locale: 'en')
+        responseobj.protocol_subscription.person.update!(locale: :en)
         responseobj.destroy!
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)

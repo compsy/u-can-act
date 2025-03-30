@@ -21,10 +21,16 @@ test:
 staging:
   adapter: postgresql
   url:  <%= ENV["DATABASE_URL"] %>
+  database: <%= ENV['POSTGRES_DATABASE'] || 'vsv' %>
+  username: <%= ENV['POSTGRES_USERNAME'] || '' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 5 %>
 
 production:
   adapter: postgresql
   url:  <%= ENV["DATABASE_URL"] %>
+  database: <%= ENV['POSTGRES_DATABASE'] || 'vsv' %>
+  username: <%= ENV['POSTGRES_USERNAME'] || '' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
   pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 3 %>
   encoding: utf8

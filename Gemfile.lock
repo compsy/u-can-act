@@ -116,7 +116,7 @@ GEM
       execjs (~> 2.0)
     base64 (0.2.0)
     bcrypt (3.1.20)
-    bigdecimal (3.1.8)
+    bigdecimal (3.1.9)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -148,7 +148,7 @@ GEM
       thor (~> 1.2)
       tins (~> 1.32)
     crass (1.0.6)
-    csv (3.3.0)
+    csv (3.3.3)
     daemons (1.4.1)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
@@ -236,7 +236,7 @@ GEM
       webrick
     highcharts-rails (6.0.3)
       railties (>= 3.1)
-    httparty (0.22.0)
+    httparty (0.23.1)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)

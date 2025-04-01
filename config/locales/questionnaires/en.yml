@@ -6,3 +6,7 @@ en:
     busy: Busy...
     questionnaire: Questionnaire
     language_switch: NL
+    already_completed: You have already completed this questionnaire.
+    not_authorized: You are not authorized to view this questionnaire.
+    link_not_valid: This link is no longer valid.
+    not_found: User / Questionnaire not found.

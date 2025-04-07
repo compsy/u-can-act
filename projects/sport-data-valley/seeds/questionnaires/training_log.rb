@@ -26,7 +26,6 @@ dagboek_content = [
       { nl: 'Basketbal', en: 'Basketball', i18n: 'components.dashboards.questionnaire.training_type.basketball' },
       { nl: 'BMX racen', en: 'BMX racing', i18n: 'components.dashboards.questionnaire.training_type.bmx_racing' },
       { nl: 'Boksen', en: 'Boxing', i18n: 'components.dashboards.questionnaire.training_type.boxing' },
-      { nl: 'Combitraining', en: 'Combination training', i18n: 'components.dashboards.questionnaire.training_type.combination_training' },
       { nl: 'Dansen', en: 'Dancing', i18n: 'components.dashboards.questionnaire.training_type.dancing' },
       { nl: 'Fitness / Krachttraining', en: 'Fitness / Strength training', i18n: 'components.dashboards.questionnaire.training_type.fitness_power_training' },
       { nl: 'Golf', en: 'Golf', i18n: 'components.dashboards.questionnaire.training_type.golf' },
@@ -70,6 +69,7 @@ dagboek_content = [
     placeholder: { nl: 'Selecteer uw antwoord...', en: 'Select your answer...' },
     options: [
       { nl: 'Circuit', en: 'Circuit', i18n: 'components.dashboards.questionnaire.session_type.circuit' },
+      { nl: 'Combitraining', en: 'Combination training', i18n: 'components.dashboards.questionnaire.session_type.combination_training' },
       { nl: 'Extensieve duur', en: 'Extensive endurance', i18n: 'components.dashboards.questionnaire.session_type.extensive_endurance' },
       { nl: 'Extensieve interval', en: 'Extensive interval', i18n: 'components.dashboards.questionnaire.session_type.extensive_interval' },
       { nl: 'Extensieve tempo', en: 'Extensive tempo', i18n: 'components.dashboards.questionnaire.session_type.extensive_tempo' },

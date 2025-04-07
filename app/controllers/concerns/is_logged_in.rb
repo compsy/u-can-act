@@ -5,7 +5,7 @@ module IsLoggedIn
 
   # rubocop:disable Rails/LexicallyScopedActionFilter
   included do
-    before_action :verify_current_user, except: %i[interactive interactive_render from_json]
+    before_action :verify_current_user, except: %i[interactive interactive_render interactive_post from_json]
   end
   # rubocop:enable Rails/LexicallyScopedActionFilter
 

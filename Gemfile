@@ -152,7 +152,8 @@ end
 
 group :production, :staging do
   # See https://github.com/rails/execjs#readme for more supported runtimes
-  gem 'mini_racer', platforms: :ruby
+  # See https://github.com/rubyjs/mini_racer/issues/300 for why we need this version
+  gem 'mini_racer', '=0.9.0', platforms: :ruby
 
   # Required by Delayed Job
   gem 'daemons'
@@ -199,7 +200,7 @@ gem 'rails-i18n'
 gem 'lograge'
 gem 'remote_syslog_logger'
 
-gem 'appsignal'
+gem 'appsignal', platforms: :ruby # Fixes an error when installing native extensions for the Appsignal gem.
 
 # push subscriptions
 gem 'httparty'

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-worker
+spec:
+  replicas: {{ .Values.workerReplicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      tier: worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 100%
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        track: stable
+        tier: worker
+        app.kubernetes.io/name: svc-questionnaires
+    spec:
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+        - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+      containers:
+        - name: {{ .Release.Name }}
+          imagePullPolicy: Always
+          image: docker.io/researchableuser/sdv-svc-questionnaires:{{ .Values.tag }}
+          resources:
+            limits:
+              memory: {{ .Values.memory.worker.limit }}
+            requests:
+              memory: {{ .Values.memory.worker.request }}
+          command: ['bundle', 'exec', 'rake', 'jobs:work']
+          {{- include "container.env" . | indent 10 }}

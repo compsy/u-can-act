@@ -19,7 +19,7 @@ bp_push_subscription.save!
 protocol.save!
 
 # Add questionnaires
-start_time = 7.hours
+start_time = 0 # because we want it to use the offset of the start date
 reminder_offset = 9.hours # (start time + offset is the time at which the reminder is sent)
 
 # Create a different measurement for each day

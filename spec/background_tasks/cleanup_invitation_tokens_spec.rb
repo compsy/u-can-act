@@ -5,7 +5,7 @@ require 'rails_helper'
 describe CleanupInvitationTokens do
   describe 'run' do
     it 'calls the active scope' do
-      expect(InvitationToken).to receive(:all).and_return []
+      expect(InvitationToken).to receive(:find_each).and_return [].each
       described_class.run
     end
 
@@ -40,6 +40,7 @@ describe CleanupInvitationTokens do
       expect(InvitationToken.first.expires_at).to(be_within(1.minute)
         .of(TimeTools.increase_by_duration(Time.zone.now, 10.days - 1.hour)))
     end
+
     it 'sets the expiry to 7 days from now if the response expire time is less than that' do
       measurement = FactoryBot.create(:measurement, open_duration: 6.days)
       invitation_set = FactoryBot.create(:invitation_set)

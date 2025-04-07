@@ -41,7 +41,7 @@ describe ProofOfParticipationExporter do
 
     it 'creates the correct export' do
       completed = 2
-      ProtocolSubscription.all.each do |protocol_subscription|
+      ProtocolSubscription.find_each do |protocol_subscription|
         (1..completed).map do |day|
           FactoryBot.create(:response,
                             :completed,

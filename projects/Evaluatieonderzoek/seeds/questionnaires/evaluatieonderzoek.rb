@@ -242,7 +242,7 @@ evaluatie.content = { questions: [{
 }, {
   section_start: '',
   type: :raw,
-  content: '<div class="divider"></div><p class="flow-text"><em>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</em></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="M.toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Afdeling Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;, displayLength: 19380});autoResizeImages();"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>'
+  content: '<div class="divider"></div><p class="flow-text"><em>Wilt u onderstaande deel-maatregelen op enkele aspecten evalueren?</em></p><p class="flow-text"><strong>Maatregel 1</strong>: de regionale samenwerking wordt geïntensiveerd en uitgebreid om een sluitend vangnet te creëren voor jongeren in een kwetsbare positie, afkomstig uit het praktijkonderwijs en voortgezet speciaal onderwijs. <a onclick="new window.M.Toast({html: &#39;Voor deze jongeren moet in de regio een sluitend vangnet zijn tussen gemeenten (RMC en Afdeling Werk &amp; Inkomen), onderwijs (PrO, VSO, VO, MBO), (jeugd)zorg en werkgevers/arbeidsmarktdomein (zoals UWV, jongerenloket, servicepunt arbeid).&#39;, displayLength: 19380});autoResizeImages();"><i class="tooltip flow-text material-icons info-outline">info</i></a></p>'
 }, {
   id: :v17,
   type: :range,

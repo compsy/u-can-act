@@ -27,7 +27,7 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         put :update, params: { person: { email: new_email } }
         expect(response.status).to eq 422
         expect(response.header['Content-Type']).to include 'application/json'
-        json = JSON.parse(response.body)['errors'][0]
+        json = response.parsed_body['errors'][0]
         expect(json['status']).to eq '422'
         expect(json['title']).to eq 'unprocessable'
         expect(json['detail']).to include 'email'
@@ -39,7 +39,7 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         put :update, params: { person: { email: new_email } }
         expect(response.status).to eq 200
         expect(response.header['Content-Type']).to include 'application/json'
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).not_to be_nil
         expect(json['status']).to eq 'ok'
         person.reload
@@ -128,7 +128,7 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         expect(AuthUser.count + 1).to eq auc
         expect(response.status).to eq 200
         expect(response.header['Content-Type']).to include 'application/json'
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).not_to be_nil
         expect(json['status']).to eq 'ok'
         person = Person.where(id: person_id).first
@@ -148,7 +148,7 @@ describe Api::V1::CookieAndJwtApi::PersonController, type: :controller do
         get :me
         expect(response.status).to eq 200
         expect(response.header['Content-Type']).to include 'application/json'
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).not_to be_nil
         expect(json['first_name']).to eq person.first_name
         expect(json['last_name']).to eq person.last_name

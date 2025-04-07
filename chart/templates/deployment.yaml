@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    worker: "no"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      tier: web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0%
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        track: stable
+        tier: web
+        app.kubernetes.io/name: svc-questionnaires
+    spec:
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+        - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+      containers:
+        - name: {{ .Release.Name }}
+          imagePullPolicy: Always
+          image: docker.io/researchableuser/sdv-svc-questionnaires:{{ .Values.tag }}
+          resources:
+            limits:
+              memory: {{ .Values.memory.web.limit }}
+            requests:
+              memory: {{ .Values.memory.web.request }}
+          {{- include "container.env" . | indent 10 }}
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          # The readiness probe is triggered after the startup probe. We
+          # already found that the pod was ready, hence 1 initial delay. After
+          # that it will poll every 30 seconds, and if it fails twice, the pod
+          # is killed.
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 1
+            timeoutSeconds: 5
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 2
+          # The startup probe is triggered when starting up the application. It
+          # waits for 20 seconds before it starts polling. The polling will
+          # happen every 5 seconds, and will continue for 60 tries. That is, if
+          # the pod is not ready within 60*5+20 seconds, it wont be started.
+          startupProbe:
+            httpGet:
+              path: /status
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 20
+            timeoutSeconds: 4
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 60
+

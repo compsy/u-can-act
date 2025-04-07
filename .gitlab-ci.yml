@@ -107,7 +107,6 @@ deploy_job:master:
     export APPLICATION_SECRET_NAME=svc-questionnaires-secret
 
     env | sed -n "s/^K8S_SECRET_\(.*\)$/\1/p" > k8s_prefixed_variables
-    cat k8s_prefixed_variables
     echo "Creating secret $APPLICATION_SECRET_NAME in namespace $KUBE_NAMESPACE on track $track"
     kubectl create secret \
       -n "$KUBE_NAMESPACE" generic "$APPLICATION_SECRET_NAME" \

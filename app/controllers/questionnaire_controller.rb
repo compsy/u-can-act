@@ -6,10 +6,10 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include ::IsLoggedIn
   protect_from_forgery prepend: true, with: :exception, except: :create
-  skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json]
+  skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json interactive_post]
   before_action :log_csrf_error, only: %i[create]
-  before_action :set_response, only: %i[show preference destroy]
   before_action :set_locale, only: %i[show]
+  before_action :set_response, only: %i[show preference destroy]
   # TODO: verify cookie for show as well
   before_action :store_response_cookie, only: %i[show]
   before_action :verify_cookie, only: %i[create create_informed_consent]
@@ -24,7 +24,7 @@ class QuestionnaireController < ApplicationController
   before_action :check_interactive_content, only: %i[interactive_render]
   before_action :set_interactive_content, only: %i[interactive_render]
   before_action :verify_interactive_content, only: %i[interactive_render]
-  before_action :set_default_content, only: %i[interactive]
+  before_action :set_default_content, only: %i[interactive interactive_post]
 
   def index
     redirect_to NextPageFinder.get_next_page current_user: current_user
@@ -37,6 +37,8 @@ class QuestionnaireController < ApplicationController
   end
 
   def interactive; end
+
+  def interactive_post; end
 
   # This method is used to post results from the interactive questionnaire previewer
   def from_json
@@ -126,6 +128,10 @@ class QuestionnaireController < ApplicationController
 
   def set_locale
     person = current_user
+    if person && questionnaire_params[:locale].present? &&
+       (questionnaire_params[:locale] == 'en' || questionnaire_params[:locale] == 'nl')
+      person.update!(locale: questionnaire_params[:locale])
+    end
     I18n.locale = if person
                     person.locale
                   else
@@ -332,7 +338,7 @@ class QuestionnaireController < ApplicationController
   end
 
   def questionnaire_params
-    params.permit(:uuid, :method, :callback_url)
+    params.permit(:uuid, :method, :callback_url, :locale)
   end
 
   def questionnaire_create_params

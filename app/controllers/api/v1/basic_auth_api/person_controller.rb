@@ -5,7 +5,7 @@ module Api
     module BasicAuthApi
       class PersonController < BasicAuthApiController
         before_action :set_person, only: %i[change_to_mentor]
-        before_action :set_person_by_auth0_id_string, only: %i[destroy]
+        before_action :set_person_by_auth0_id_string, only: %i[destroy update]
         before_action :set_mentor_role, only: %i[change_to_mentor]
 
         # rubocop:disable Metrics/AbcSize
@@ -21,7 +21,11 @@ module Api
           # This endpoint was added for UMO, where we need to sync users and we need their real emails stored so we can
           # invite them to fill in questionnaires. AuthUser.from_token_payload creates a new anonymous user (with no
           # email), so we need to add it manually
-          auth_user.person.update(email: new_person_params[Rails.application.config.settings.metadata_field][:email])
+          auth_user.person.email = new_person_params[Rails.application.config.settings.metadata_field][:email]
+          if new_person_params[Rails.application.config.settings.metadata_field][:locale].present?
+            auth_user.person.locale = new_person_params[Rails.application.config.settings.metadata_field][:locale]
+          end
+          auth_user.person.save
 
           return created(auth_user.person) if auth_user.person.valid?
 
@@ -31,8 +35,14 @@ module Api
         end
         # rubocop:enable Metrics/AbcSize
 
+        def update
+          @person.update(updateable_person_params)
+          render_resource(@person)
+        end
+
         def destroy
           @person.destroy
+          destroyed
         end
 
         def show_list
@@ -47,6 +57,10 @@ module Api
         end
 
         private
+
+        def updateable_person_params
+          params.require(:person).permit(:mobile_phone, :first_name, :last_name, :email)
+        end
 
         def person_params
           params.permit(person_auth0_ids: [])
@@ -75,7 +89,7 @@ module Api
 
         def new_person_params
           params.require(:person).permit :sub,
-                                         Rails.application.config.settings.metadata_field => %i[team role email]
+                                         Rails.application.config.settings.metadata_field => %i[team role email locale]
         end
 
         def team_error?(error)

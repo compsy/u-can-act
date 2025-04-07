@@ -7,9 +7,9 @@ shared_examples_for 'a basic authenticated route' do |method, route|
   def call_url(method, route)
     case method
     when 'get'
-      get route, params: (params || {}) if method == 'get'
+      get route, params: params || {} if method == 'get'
     when 'post'
-      post route, params: (params || {}) if method == 'post'
+      post route, params: params || {} if method == 'post'
     end
   end
 

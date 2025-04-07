@@ -125,13 +125,28 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  # Setup mailgun mailing
-  config.action_mailer.delivery_method = :mailgun
-  config.action_mailer.mailgun_settings = {
-    api_host: ENV['MAILGUN_API_HOST'],
-    api_key: ENV['MAILGUN_API_KEY'],
-    domain: ENV['MAILGUN_DOMAIN'],
-  }
+  # Setup mailing
+  if ENV['MAILER_SMTP_HOST'].present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address:         ENV.fetch('MAILER_SMTP_HOST'),
+      port:            ENV.fetch('MAILER_SMTP_PORT'),
+      domain:          ENV.fetch('MAILER_SMTP_DOMAIN'),
+      user_name:       ENV.fetch('MAILER_SMTP_USERNAME'),
+      password:        ENV.fetch('MAILER_SMTP_PASSWORD'),
+      authentication:  "plain",
+      enable_starttls: true,
+      open_timeout:    5,
+      read_timeout:    5
+    }
+  else
+    config.action_mailer.delivery_method = :mailgun
+    config.action_mailer.mailgun_settings = {
+      api_host: ENV['MAILGUN_API_HOST'],
+      api_key: ENV['MAILGUN_API_KEY'],
+      domain: ENV['MAILGUN_DOMAIN'],
+    }
+  end
 
   # In Rails 6 Action Pack introduced ActionDispatch::HostAuthorization and by default allows only
   # [IPAddr.new(“0.0.0.0/0”), IPAddr.new(“::/0”), “localhost”]

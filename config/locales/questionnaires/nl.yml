@@ -5,3 +5,8 @@ nl:
     questionnaire_expired: Deze vragenlijst kan niet meer ingevuld worden.
     busy: Bezig...
     questionnaire: Vragenlijst
+    language_switch: EN
+    already_completed: Je hebt deze vragenlijst(en) al ingevuld.
+    not_authorized: Je bent niet bevoegd om deze vragenlijst te zien.
+    link_not_valid: Deze link is niet meer geldig.
+    not_found: Gebruiker / Vragenlijst niet gevonden.

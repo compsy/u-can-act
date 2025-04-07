@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-service
   labels:
-    app: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: web
 spec:
   ports:
     - name: http
@@ -11,5 +12,5 @@ spec:
       targetPort: 3000
       protocol: TCP
   selector:
-    app: {{ .Release.Name }}
-    tier: web
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: web

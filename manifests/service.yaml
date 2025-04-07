@@ -4,7 +4,8 @@ metadata:
   name: svc-questionnaires-service
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
   labels:
-    app: svc-questionnaires
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: web
 spec:
   ports:
     - name: http
@@ -12,6 +13,5 @@ spec:
       targetPort: 3000
       protocol: TCP
   selector:
-    app: svc-questionnaires
-    tier: web
-
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: web

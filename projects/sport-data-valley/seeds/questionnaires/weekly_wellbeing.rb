@@ -96,7 +96,7 @@ dagboek_content = [
   {
     id: :v6,
     title: { nl: 'Opmerking', en: 'Comment' },
-    placeholder: { nl: 'Vul iets in (optioneel)', en: 'Enter some text (optional)' },
+    placeholder: { nl: 'Wat wil je nog delen (optioneel)?', en: 'What else would you like to share (optional)?' },
     type: :textarea
   }
 ]

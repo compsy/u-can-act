@@ -15,9 +15,8 @@ class Person < ApplicationRecord
   IDENTIFIER_LENGTH = 4
 
   validates :mobile_phone,
-            length: { minimum: 10, maximum: 10 },
-            format: /\A\d{10}\z/,
-            mobile_phone: true,
+            format: /\A[ \d+-]+\z/,
+            # mobile_phone: true,
             allow_blank: true,
             uniqueness: true
 

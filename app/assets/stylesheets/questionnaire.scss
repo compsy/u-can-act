@@ -61,6 +61,10 @@ input[type=range] {
   border: 1px solid transparent;
 }
 
+strong {
+  font-weight: bold;
+}
+
 .notchanged {
   input[type=range]::-ms-thumb, input[type=range]::-moz-range-thumb, input[type=range]::-webkit-slider-thumb {
     background: $unchanged-range-thumb;
@@ -411,6 +415,13 @@ form .likert-scale {
     margin-top: 0;
     margin-bottom: 0;
   }
+  &>.col>.checkbox-group>p.flow-text:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .range-field, input[type=range] {
+    margin-top: 0;
+  }
 }
 
 // Fix balloons sticking on mobile
@@ -462,6 +473,18 @@ p.option-label, div.otherwise-textfield {
 [type="checkbox"]:checked + span:not(.lever):before {
   top: -0.5rem;
   left: -40px;
+}
+
+// Language switch
+#language-switch {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background-color: $u-can-act-light-grey;
+  border-bottom-left-radius: 0.5rem;
+  cursor: pointer;
 }
 
 // Make labels more clickable

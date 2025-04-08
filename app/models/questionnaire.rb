@@ -45,7 +45,7 @@ class Questionnaire < ApplicationRecord
                                         inverse_of: :informed_consent_questionnaire
   has_many :responses, through: :measurements
 
-  scope :pilot, (lambda {
+  scope :pilot, lambda {
     where('name = :name1 OR name = :name2 OR name = :name3 OR name = :name4 OR ' \
           'name = :name5 OR name = :name6 OR name = :name7 OR name = :name8 OR ' \
           'name = :name9 OR name = :name10 OR name = :name11 OR name = :name12 OR ' \
@@ -65,7 +65,7 @@ class Questionnaire < ApplicationRecord
           name13: 'dagboek studenten 2x per week donderdag',
           name14: 'dagboek studenten 5x per week dinsdag, woensdag, vrijdag',
           name15: 'dagboek studenten 5x per week donderdag')
-  })
+  }
 
   def drawing_ids
     content[:questions].select { |question| question[:type]&.to_sym == :drawing }.pluck(:id)

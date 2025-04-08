@@ -134,7 +134,7 @@ module DailyResponses
       filled_out_by_id = protsub.person.id
       filled_out_for_id = protsub.filling_out_for.id
 
-      Response.where(protocol_subscription_id: protsub_id).each do |response|
+      Response.where(protocol_subscription_id: protsub_id).find_each do |response|
         ResponseContent.find(response.content).destroy if response.content.present?
         response.destroy
       end

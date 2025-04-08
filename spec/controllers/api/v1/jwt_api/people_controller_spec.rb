@@ -94,7 +94,7 @@ describe Api::V1::JwtApi::PeopleController, type: :controller do
         person = FactoryBot.create(:person, parent: the_auth_user.person)
         get :list_children
         expect(response.status).to eq 200
-        result = JSON.parse(response.body)
+        result = response.parsed_body
         expect(result.length).to eq(1)
         expect(result[0]['id']).to eq person.id
         expect(result[0]['first_name']).to eq person.first_name
@@ -103,7 +103,7 @@ describe Api::V1::JwtApi::PeopleController, type: :controller do
       it 'works when there are no children' do
         get :list_children
         expect(response.status).to eq 200
-        result = JSON.parse(response.body)
+        result = response.parsed_body
         expect(result.length).to eq(0)
       end
     end

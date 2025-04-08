@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   db:
     image: postgres:10.5
@@ -64,8 +63,8 @@ services:
   mailcatcher:
     image: yappabe/mailcatcher
     ports:
-      - "1025:1025"
-      - "1080:1080"
+      - "1026:1025"
+      - "1081:1080"
 volumes:
   node_modules_volume:
   gems_volume:

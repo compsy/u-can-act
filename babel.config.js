@@ -60,7 +60,7 @@ module.exports = function(api) {
         }
       ],
       [
-        '@babel/plugin-proposal-object-rest-spread',
+        '@babel/plugin-transform-object-rest-spread',
         {
           useBuiltIns: true
         }
@@ -72,7 +72,7 @@ module.exports = function(api) {
         }
       ],
       [
-        '@babel/plugin-proposal-private-property-in-object',
+        '@babel/plugin-transform-private-property-in-object',
         {
           loose: true
         }

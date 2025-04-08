@@ -11,9 +11,10 @@ describe Api::V1::SettingsController, type: :controller do
       res
     end
 
-    let(:settings) { YAML.load_file(Rails.root.join('config/settings.yml')) }
+    let(:settings) { YAML.load_file(Rails.root.join('config/settings.yml'), aliases: true) }
     let(:specific_settings) do
-      YAML.load_file(Rails.root.join('projects', ENV.fetch('PROJECT_NAME', nil), 'config', 'settings.yml'))
+      YAML.load_file(Rails.root.join('projects', ENV.fetch('PROJECT_NAME', nil), 'config', 'settings.yml'),
+                     aliases: true)
     end
 
     let(:current_settings) { settings[Rails.env].deep_merge(specific_settings[Rails.env]) }
@@ -21,7 +22,7 @@ describe Api::V1::SettingsController, type: :controller do
 
     before do
       get :index
-      @json_response = JSON.parse(response.body)
+      @json_response = response.parsed_body
     end
 
     it 'renders a json file with the correct entries' do

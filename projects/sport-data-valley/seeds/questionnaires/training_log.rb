@@ -69,6 +69,7 @@ dagboek_content = [
     placeholder: { nl: 'Selecteer uw antwoord...', en: 'Select your answer...' },
     options: [
       { nl: 'Circuit', en: 'Circuit', i18n: 'components.dashboards.questionnaire.session_type.circuit' },
+      { nl: 'Combitraining', en: 'Combination training', i18n: 'components.dashboards.questionnaire.session_type.combination_training' },
       { nl: 'Extensieve duur', en: 'Extensive endurance', i18n: 'components.dashboards.questionnaire.session_type.extensive_endurance' },
       { nl: 'Extensieve interval', en: 'Extensive interval', i18n: 'components.dashboards.questionnaire.session_type.extensive_interval' },
       { nl: 'Extensieve tempo', en: 'Extensive tempo', i18n: 'components.dashboards.questionnaire.session_type.extensive_tempo' },
@@ -125,15 +126,15 @@ dagboek_content = [
     gradient: true,
     labels: [
       { nl: 'Heel licht', en: 'Really easy' },
-      { nl: 'Licht', en: 'Easy' },
+      { nl: 'Licht 😁', en: 'Easy 😁' },
       { nl: 'Gemiddeld', en: 'Moderate' },
-      { nl: 'Pittig', en: 'Sort of hard' },
+      { nl: 'Pittig 😐', en: 'Sort of hard 😐' },
       { nl: 'Zwaar', en: 'Hard' },
-      { nl: '', en: '' },
+      { nl: '😕', en: '😕' },
       { nl: 'Heel zwaar', en: 'Really hard' },
-      { nl: '', en: '' },
+      { nl: '😣', en: '😣' },
       { nl: 'Heel, heel zwaar', en: 'Really, really hard' },
-      { nl: 'Maximaal', en: 'Maximal' }
+      { nl: 'Maximaal 😖', en: 'Maximal 😖' }
     ]
   },
   {
@@ -158,7 +159,25 @@ dagboek_content = [
     id: :v8,
     type: :textarea,
     title: { nl: 'Opmerkingen', en: 'Comments' },
-    placeholder: { nl: 'Vul iets in (optioneel)', en: 'Enter some text (optional)' }
+    placeholder: { nl: 'Wat wil je nog delen? (optioneel)', en: 'What else would you like to share? (optional)' },
+  },
+  {
+    id: :v9,
+    title: { nl: 'Plezier tijdens training (optioneel)', en: 'Fun during training (optional)' },
+    type: :range,
+    min: 1,
+    max: 5,
+    step: 0.5,
+    required: false,
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
+      { nl: 'Geen', en: 'None' },
+      { nl: 'Weinig', en: 'Little' },
+      { nl: 'Normaal', en: 'Normal' },
+      { nl: 'Veel', en: 'A lot' },
+      { nl: 'Heel veel', en: 'Very much' }
+    ]
   }
 ]
 

@@ -24,6 +24,7 @@ if [ "$RESET_DB_ON_FAIL" == "true" ]; then
   fi
 else
   echo not resetting db on fail
+  bundle exec rails assets:precompile
   bundle exec rails db:migrate && bundle exec rails db:seed || { bundle exec rails db:setup; }
 fi
 

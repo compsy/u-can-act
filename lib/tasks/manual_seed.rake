@@ -6,7 +6,7 @@ return unless ENV['PROJECT_NAME'].present?
 
 namespace :db do
   namespace :seed do
-    Dir[Rails.root.join('projects', ENV.fetch('PROJECT_NAME', nil), 'manual_seeds', '*.rb')].each do |filename|
+    Rails.root.glob("projects/#{ENV.fetch('PROJECT_NAME', nil)}/manual_seeds/*.rb").each do |filename|
       task_name = File.basename(filename, '.rb')
       desc "Seed #{task_name}, based on the file with the same name in `db/seeds/*.rb`"
       task task_name.to_sym => :environment do

@@ -46,7 +46,7 @@ module Api
 
         def destroy_delegated_protocol_subscriptions
           ProtocolSubscription.active.where(person: @person,
-                                            external_identifier: @external_identifier).each(&:cancel!)
+                                            external_identifier: @external_identifier).find_each(&:cancel!)
           destroyed
         end
 

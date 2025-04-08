@@ -71,7 +71,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         expect(response.header['Content-Type']).to include 'application/json'
 
         expect(response.body).not_to be_nil
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).not_to be_nil
         expect(json['uuid']).to eq response1.uuid
         expect(json['questionnaire_title']).to eq response1.measurement.questionnaire.title
@@ -112,7 +112,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         expect(response.header['Content-Type']).to include 'application/json'
 
         expect(response.body).not_to be_nil
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json.length).to eq 2
         [response1, response2].each_with_index do |resp, index|
           expect(json[index]['uuid']).to eq(resp.uuid)
@@ -192,7 +192,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         expect(response.header['Content-Type']).to include 'application/json'
 
         expect(response.body).not_to be_nil
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json.length).to eq 1
         [response4].each_with_index do |resp, index|
           expect(json[index]['uuid']).to eq(resp.uuid)
@@ -235,7 +235,7 @@ describe Api::V1::JwtApi::ResponseController, type: :controller do
         expect(response.header['Content-Type']).to include 'application/json'
 
         expect(response.body).not_to be_nil
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json.length).to eq 4
         [response4, response1, response2, response3].each_with_index do |resp, index|
           expect(json[index]['uuid']).to eq(resp.uuid)

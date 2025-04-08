@@ -1,0 +1,361 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-daily-at-one-am
+spec:
+  schedule: "0 1 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          app.kubernetes.io/name: svc-questionnaires
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_one_am'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-daily-at-two-am
+spec:
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_two_am'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-daily-at-three-am
+spec:
+  schedule: "0 3 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_three_am'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-daily-at-four-am
+spec:
+  schedule: "0 4 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily_at_four_am'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-daily
+spec:
+  schedule: "0 0 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/daily'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-hourly
+spec:
+  schedule: "0 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/hourly'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-thirty-minutely
+spec:
+  schedule: "*/30 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/thirty_minutely'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-five-minutely
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/five_minutely'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-scheduler-minutely
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+{{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+          containers:
+          - name: cron-container
+            image: {{ .Values.curlImage }}
+            imagePullPolicy: IfNotPresent
+            args:
+              - '-X'
+              - 'POST'
+              - 'http://$(API_KEY):$(API_SECRET)@{{ .Release.Name }}-service:3000/api/v1/basic_auth_api/scheduling/minutely'
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_KEY
+            - name: API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: API_SECRET

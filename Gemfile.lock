@@ -289,8 +289,8 @@ GEM
     materialize-sass (1.0.0.1)
       autoprefixer-rails (>= 6.0.3)
     matrix (0.4.2)
-    messagebird-rest (3.1.1)
-      jwt (~> 2.2.3)
+    messagebird-rest (5.0.0)
+      jwt (< 4)
     method_source (1.1.0)
     mime-types (3.6.2)
       logger

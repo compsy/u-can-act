@@ -3,14 +3,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-one-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "0 1 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -35,14 +46,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-two-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -67,14 +89,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-three-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "0 3 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -99,14 +132,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily-at-four-am
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "0 4 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -131,14 +175,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-daily
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -163,14 +218,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-hourly
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -195,14 +261,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-thirty-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "*/30 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -227,14 +304,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-five-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -259,14 +347,25 @@ kind: CronJob
 metadata:
   name: svc-questionnaire-scheduler-minutely
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
+  labels:
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: job
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Replace
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: job
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: job
         spec:
           restartPolicy: Never
           containers:
@@ -285,4 +384,3 @@ spec:
                 secretKeyRef:
                   name: svc-questionnaires-secret
                   key: __CI_COMMIT_REF_NAME___API_SECRET
-

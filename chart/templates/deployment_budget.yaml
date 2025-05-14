@@ -6,5 +6,5 @@ spec:
   minAvailable: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
-      tier: web
+      app.kubernetes.io/name: {{ .Release.Name }}
+      app.kubernetes.io/component: web

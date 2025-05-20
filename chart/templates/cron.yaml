@@ -11,7 +11,9 @@ spec:
     spec:
       template:
         metadata:
-          app.kubernetes.io/name: svc-questionnaires
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -52,6 +54,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -92,6 +98,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -132,6 +142,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -172,6 +186,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -212,6 +230,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -252,6 +274,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -292,6 +318,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -332,6 +362,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: svc-questionnaires
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}

@@ -132,14 +132,12 @@ describe 'GET /edit', type: :feature, js: true do
       expect(page).not_to have_content('Gegevens aanpassen')
     end
 
-    it 'stores data after clicking the update button' do
+    it 'stores data after clicking the update button', focus: true do
       visit edit_person_path
       page.fill_in('person_email', with: 'anew@email.com')
-
       all('button[type="submit"]').first.click
       sleep(1) 
       visit edit_person_path
-
       expect(page).to have_selector("input[value='anew@email.com']")
     end
 

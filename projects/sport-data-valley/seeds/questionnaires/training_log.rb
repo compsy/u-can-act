@@ -139,12 +139,12 @@ dagboek_content = [
   },
   {
     id: :v7,
-    title: { nl: 'Tevredenheid over training', en: 'Training satisfaction' },
+    title: { nl: 'Tevredenheid over training (optioneel)', en: 'Training satisfaction (optional)' },
     type: :range,
     min: 1,
     max: 5,
     step: 0.5,
-    required: true,
+    required: false,
     ticks: true,
     no_initial_thumb: true,
     labels: [
@@ -158,6 +158,7 @@ dagboek_content = [
   {
     id: :v8,
     type: :textarea,
+    required: false,
     title: { nl: 'Opmerkingen', en: 'Comments' },
     placeholder: { nl: 'Wat wil je nog delen? (optioneel)', en: 'What else would you like to share? (optional)' },
   },
@@ -166,7 +167,7 @@ dagboek_content = [
     title: { nl: 'Plezier tijdens training (optioneel)', en: 'Fun during training (optional)' },
     type: :range,
     min: 1,
-    max: 5,
+    max: 5, 
     step: 0.5,
     required: false,
     ticks: true,

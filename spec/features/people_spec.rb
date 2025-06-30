@@ -137,6 +137,7 @@ describe 'GET /edit', type: :feature, js: true do
       page.fill_in('person_email', with: 'anew@email.com')
 
       all('button[type="submit"]').first.click
+      sleep(1) 
       visit edit_person_path
 
       expect(page).to have_selector("input[value='anew@email.com']")

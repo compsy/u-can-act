@@ -167,7 +167,7 @@ dagboek_content = [
     title: { nl: 'Plezier tijdens training (optioneel)', en: 'Fun during training (optional)' },
     type: :range,
     min: 1,
-    max: 5, 
+    max: 5,
     step: 0.5,
     required: false,
     ticks: true,

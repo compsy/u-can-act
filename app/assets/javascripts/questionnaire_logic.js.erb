@@ -269,7 +269,7 @@ function check_required_controls(event) {
     }, 200);
   } else {
   // remove the name attribute from all the sliders that have not changed
-  $('div.range-container.notchanged').each(function (_sub_index) {
+  $('div.range-container.notchanged.optional').each(function () {
     $(this).find('input[type=range]').removeAttr('name');
   });
   }

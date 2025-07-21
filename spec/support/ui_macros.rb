@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module UiMacros
+  # Used JS because the range input is not a standard select element
+  # and Capybara does not support it natively.
+  # This function simulates a user changing the value of a range input.
   def range_select(id, value)
     page.execute_script(<<~JS)
       const input = document.querySelector('input[type="range"][name="content[#{id}]"]');

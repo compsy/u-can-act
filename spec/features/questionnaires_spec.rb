@@ -1154,6 +1154,7 @@ describe 'GET and POST /', type: :feature, js: true do
       # v1
       page.check('goed', allow_label_click: true)
       page.choose('pizza', allow_label_click: true)
+      range_select('v3', '50') # Simulate a slider change
       page.click_on 'Opslaan'
       # expect(page).to have_http_status(200)
       # The page didn't change because we didn't select a radio for v5:

@@ -23,6 +23,9 @@ module Api
         end
 
         def daily_at_four_am
+          key = 'redis-keep-alive'
+          RedisService.del(key) if RedisService.exists?(key)
+          RedisService.set(key, Time.now.to_i)
           no_content
         end
 

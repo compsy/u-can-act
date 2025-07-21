@@ -4,10 +4,7 @@ pr_name = 'usc_chan'
 usc_protocol = Protocol.find_by(name: pr_name)
 usc_protocol ||= Protocol.new(name: pr_name)
 
-usc_protocol.informed_consent_questionnaire = Questionnaire.find_by(name: 'usc_chan_ic')
-raise 'informed consent questionnaire not found' unless usc_protocol.informed_consent_questionnaire
-
-usc_protocol.duration = 8.weeks
+usc_protocol.duration = 12.weeks
 usc_protocol.invitation_text = 'Your next vitaMAPS questionnaire is ready to be filled out.'
 usc_protocol.save!
 

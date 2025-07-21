@@ -52,24 +52,6 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_token = invitation_set.invitation_tokens.create!
   puts "USC questionnaire: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
-  # USC informed consent
-  protocol = Protocol.find_by(name: solo_protocol)
-  person = Team.find_by(name: usc_team).roles.find_by(group: Person::SOLO).people[1]
-  prot_start = Time.zone.now.beginning_of_day
-  prot_sub = ProtocolSubscription.create!(
-    protocol: protocol,
-    person: person,
-    state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: prot_start
-  )
-  RescheduleResponses.run!(protocol_subscription: prot_sub,
-                           future: TimeTools.increase_by_duration(prot_start, -1.second))
-  responseobj = prot_sub.responses.first
-  invitation_set = InvitationSet.create!(person: person)
-  responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
-  invitation_token = invitation_set.invitation_tokens.create!
-  puts "USC informed consent: #{invitation_set.invitation_url(invitation_token.token_plain)}"
-
   # puts 'Generating onetime response'
   # OneTimeResponse.destroy_all
   # protocol = Protocol.find_by(name: solo_protocol)

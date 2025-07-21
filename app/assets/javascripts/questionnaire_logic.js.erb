@@ -267,6 +267,11 @@ function check_required_controls(event) {
     $('html, body').animate({
       scrollTop: topOffset
     }, 200);
+  } else {
+  // remove the name attribute from all the sliders that have not changed
+  $('div.range-container.notchanged.optional').each(function () {
+    $(this).find('input[type=range]').removeAttr('name');
+  });
   }
   return returnval;
 }

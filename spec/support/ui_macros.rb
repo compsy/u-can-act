@@ -2,6 +2,7 @@
 
 module UiMacros
   def range_select(id, value)
+    page.find("input[type=range][id=\"#{id}\"]").click
     selector = %(input[type=range][id=\\"#{id}\\"])
     script = %-$("#{selector}").val(#{value})-
     page.execute_script(script)

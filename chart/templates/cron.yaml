@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-one-am
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "0 1 * * *"
   successfulJobsHistoryLimit: 1
@@ -14,13 +14,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -55,7 +55,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-two-am
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 1
@@ -65,13 +65,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -106,7 +106,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-three-am
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "0 3 * * *"
   successfulJobsHistoryLimit: 1
@@ -116,13 +116,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -157,7 +157,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-daily-at-four-am
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "0 4 * * *"
   successfulJobsHistoryLimit: 1
@@ -167,13 +167,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -208,7 +208,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-daily
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 1
@@ -218,13 +218,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -259,7 +259,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-hourly
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
@@ -269,13 +269,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -310,7 +310,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-thirty-minutely
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "*/30 * * * *"
   successfulJobsHistoryLimit: 1
@@ -320,13 +320,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -361,7 +361,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-five-minutely
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 1
@@ -371,13 +371,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}
@@ -412,7 +412,7 @@ metadata:
   name: {{ .Release.Name }}-scheduler-minutely
   labels:
     app.kubernetes.io/name: svc-questionnaires
-    app.kubernetes.io/component: job
+    app.kubernetes.io/component: cron
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
@@ -422,13 +422,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: svc-questionnaires
-        app.kubernetes.io/component: job
+        app.kubernetes.io/component: cron
     spec:
       template:
         metadata:
           labels:
             app.kubernetes.io/name: svc-questionnaires
-            app.kubernetes.io/component: job
+            app.kubernetes.io/component: cron
         spec:
           restartPolicy: Never
 {{- if .Values.imagePullSecrets }}

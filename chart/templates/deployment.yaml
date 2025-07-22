@@ -4,12 +4,14 @@ metadata:
   name: {{ .Release.Name }}
   labels:
     worker: "no"
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: web
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
-      tier: web
+      app.kubernetes.io/name: {{ .Release.Name }}
+      app.kubernetes.io/component: web
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,10 +20,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
         track: stable
-        tier: web
-        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/name: {{ .Release.Name }}
+        app.kubernetes.io/component: web
     spec:
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -70,4 +71,3 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 60
-

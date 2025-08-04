@@ -536,7 +536,7 @@ GEM
     temple (0.10.3)
     term-ansicolor (1.11.2)
       tins (~> 1.0)
-    thor (1.3.2)
+    thor (1.4.0)
     tilt (2.4.0)
     timecop (0.9.10)
     timeout (0.4.3)

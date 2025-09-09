@@ -13,6 +13,7 @@ mongoSecretKey: MONGODB_URI
 # authSignatureAlgorithmKey:
 # authSigningSecretKey:
 # authDecodingSecretKey:
+image: docker.io/researchableuser/sdv-svc-questionnaires
 tag: latest
 appsignalAppEnv: staging
 curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest

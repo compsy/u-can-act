@@ -32,7 +32,7 @@ spec:
       containers:
         - name: {{ .Release.Name }}
           imagePullPolicy: Always
-          image: docker.io/researchableuser/sdv-svc-questionnaires:{{ .Values.tag }}
+          image: {{ .Values.image }}:{{ .Values.tag }}
           resources:
             limits:
               memory: {{ .Values.memory.worker.limit }}

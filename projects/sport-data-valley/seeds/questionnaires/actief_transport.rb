@@ -63,7 +63,7 @@ dagboek_content = [
   # Question 4: How long did you move?
   {
     id: :v4,
-    type: :radio,
+    type: :checkbox,
     hidden: true,
     title: 'Hoe lang heb je bewogen?',
     options: [

@@ -8,8 +8,8 @@ dagboek1.name = db_name1
 
 ic_content = <<~'END'
   <div class='informed-consent'>
-    <h4>Welkom bij de eerste UMO vragenlijst</h4>
-    <p>In deze vragenlijst stellen we enkele vragen over kenmerken van uzelf en uw huishouden en over uw beschikbare vervoersopties. Het doel hiervan is om verschillen in reisgedrag en transportmogelijkheden van verschillende groepen mensen te kunnen onderzoeken.</p>
+    <h4>Welkom bij deze UMO vragenlijst</h4>
+    <p>In de UMO vragenlijsten stellen we u vragen over uw reisgedrag, uw beschikbare vervoersopties en uw mening over verschillende vervoersmiddelen en over verkeer- en vervoersbeleid. Het doel hiervan is om verschillen in reisgedrag en transportmogelijkheden van verschillende groepen mensen te kunnen onderzoeken.</p>
     <p>Deze gegevens kunnen in de toekomst beschikbaar gesteld worden aan derden voor wetenschappelijk onderzoek. Gegevens die het mogelijk zouden maken om u te identificeren (zoals uw adres) zullen echter nooit worden gedeeld, en worden gescheiden van de overige gegevens opgeslagen.</p>
   </div>
 END

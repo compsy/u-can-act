@@ -24,7 +24,7 @@ dagboek_content = [
     required: true,
     title: 'Ik ga akkoord met de volgende:',
     options: [
-      'Ik begrijp de bovenstaande uitleg en stem ermee in om deel te nemen aan deze vragenlijst, zoals hierboven en op de <a href="https://umo-nwo.nl/umo-panel/" target="_blank" rel="noopener noreferrer">informatiepagina</a> uitgelegd.'
+      'Ik begrijp de bovenstaande uitleg en stem ermee in om deel te nemen aan deze vragenlijst, zoals hierboven en op de <a href="https://umo-facility.nl/informatieformulier-umo-2025/" target="_blank" rel="noopener noreferrer">informatiepagina</a> uitgelegd.'
     ],
     show_otherwise: false
   }, {
@@ -33,7 +33,7 @@ dagboek_content = [
     required: false,
     title: '',
     options: [
-      'Ik geef toestemming om mijn antwoorden op de vragenlijst te delen met andere onderzoekers, zoals hierboven en op de <a href="https://umo-nwo.nl/umo-panel/" target="_blank" rel="noopener noreferrer">informatiepagina</a> uitgelegd.'
+      'Ik geef toestemming om mijn antwoorden op de vragenlijst te delen met andere onderzoekers, zoals hierboven en op de <a href="https://umo-facility.nl/informatieformulier-umo-2025/" target="_blank" rel="noopener noreferrer">informatiepagina</a> uitgelegd.'
     ],
     show_otherwise: false
   }

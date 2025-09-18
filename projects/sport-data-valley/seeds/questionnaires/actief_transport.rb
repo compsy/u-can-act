@@ -18,11 +18,11 @@ dagboek_content = [
     type: :radio,
     title: 'Heb je vandaag gefietst of gewandeld?',
     options: [
-      { 
+      {
         title: 'Ja',
         shows_questions: %i[v2 v3 v4 v5]
       },
-      { 
+      {
         title: 'Nee',
         shows_questions: %i[v6]
       }
@@ -125,11 +125,11 @@ dagboek_content = [
     type: :radio,
     title: 'Had je vandaag gymles?',
     options: [
-      { 
+      {
         title: 'Ja',
         shows_questions: %i[v8 v9]
       },
-      { 
+      {
         title: 'Nee'
       }
     ],
@@ -174,11 +174,11 @@ dagboek_content = [
     type: :radio,
     title: 'Heb je vandaag gesport buiten school?',
     options: [
-      { 
+      {
         title: 'Ja',
         shows_questions: %i[v11 v12 v13 v14]
       },
-      { 
+      {
         title: 'Nee',
         shows_questions: %i[v15]
       }
@@ -276,7 +276,25 @@ dagboek_content = [
   {
     id: :v16,
     type: :range,
-    title: 'Hoe tevreden ben je over hoeveel je vandaag hebt gesport en bewogen?',
+    title: 'Hoe tevreden ben je over hoeveel je vandaag hebt gesport?',
+    min: 1,
+    max: 5,
+    step: 1,
+    required: true,
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
+      'Zeer ontevreden',
+      'Ontevreden',
+      'Gemiddeld',
+      'Tevreden',
+      'Zeer tevreden'
+    ]
+  },
+  {
+    id: :v17,
+    type: :range,
+    title: 'Hoe tevreden ben je over hoeveel je vandaag hebt bewogen?',
     min: 1,
     max: 5,
     step: 1,

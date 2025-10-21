@@ -34,7 +34,6 @@ sportpro_content = [
   {
     id: :weekly_activities,
     type: :checkbox,
-    max_selections: 3,
     title: '2. Welke van onderstaande activiteiten heb je deze week binnen deze rol uitgevoerd? Geef daarna hieronder aan welk percentage van je totale werktijd in deze functie je hier deze week ongeveer aan hebt besteed.',
     options: [
       { title: 'Organiseren van activiteiten/evenementen', shows_questions: %i[perc_activities] },

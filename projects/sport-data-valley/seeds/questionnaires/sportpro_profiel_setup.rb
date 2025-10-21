@@ -16,49 +16,13 @@ questionnaire.key = questionnaire_key
 sportpro_profile_content = [
   {
     type: :raw,
-    content: '<div class="consent-section">
-      <p>Beste deelnemer,</p>
-      <p> Bedankt dat je meedoet aan dit onderzoek naar de rol van sportprofessionals in sportverenigingen en sportparken. 
-      Jij vult dit logboek in voor jouw rol als sportparkmanager of verenigingsmanager. Met jouw antwoorden krijgen we 
-      inzicht in de werkzaamheden, samenwerkingen, uitdagingen en successen van sportprofessionals. Het doel is om beter 
-      te begrijpen hoe sportprofessionals sportverenigingen en sportparken versterken, welke competenties daarvoor nodig 
-      zijn en hoe opleidingen en beleid hier beter op kunnen aansluiten.</p>
-      
-      <p>Het logboek bestaat uit een aantal korte vragen en kost ongeveer 30 minuten per keer om in te vullen. 
-      Je antwoorden worden vertrouwelijk behandeld en uitsluitend gebruikt voor dit onderzoek. De gegevens worden 
-      geanalyseerd en anoniem verwerkt in de eindrapportage en andere publicaties.</p>
-      
-      <p>Daarnaast kunnen je antwoorden, in overleg, worden gebruikt als voorbereiding op andere onderzoeksactiviteiten 
-      binnen jouw casestudie.</p>
-      
-      <p>Voor al je vragen of opmerkingen, neem contact op met jouw SportPro casestudie onderzoeker.</p>
-      
-      <p>Alvast bedankt voor je tijd en inzet!<br/>
-      SportPro onderzoeksteam</p>
-    </div>'
-  },
-  {
-    id: :consent,
-    type: :radio,
-    title: 'Ik geef toestemming dat mijn antwoorden worden gebruikt voor onderzoeksdoeleinden',
-    options: [
-      { title: 'Ja', shows_questions: %i[birth_year gender highest_education relevant_education experience_specific_role experience_total employer job_title employment_scope funding_sources work_location main_assignments additional_context] },
-      'Nee'
-    ],
-    required: true,
-    show_otherwise: false
-  },
-  {
-    type: :raw,
-    content: '<h4>Persoonskenmerken</h4>',
-    hidden: true
+    content: '<h5>Persoonskenmerken</h5>',
   },
   {
     id: :birth_year,
     type: :dropdown,
     title: '1. Wat is je geboortejaar?',
     options: (1920..2025).map(&:to_s).reverse,
-    hidden: true
   },
   {
     id: :gender,
@@ -69,12 +33,10 @@ sportpro_profile_content = [
       'vrouw',
       'wil ik liever niet zeggen'
     ],
-    hidden: true
   },
   {
     type: :raw,
     content: '<h4>Opleiding & ervaring</h4>',
-    hidden: true
   },
   {
     id: :highest_education,
@@ -85,13 +47,11 @@ sportpro_profile_content = [
       'hbo',
       'wo',
     ],
-    hidden: true
   },
   {
     id: :relevant_education,
     type: :textarea,
     title: '4. Welke functierelevante opleiding(en) en cursussen heb je gevolgd?',
-    hidden: true
   },
   {
     id: :experience_specific_role,
@@ -103,9 +63,8 @@ sportpro_profile_content = [
       '4–6',
       '>7 jaar'
     ],
-    show_otherwise: false,
-    hidden: true
-  },
+    show_otherwise: false, 
+ },
   {
     id: :experience_total,
     type: :radio,
@@ -117,12 +76,10 @@ sportpro_profile_content = [
       '>7 jaar'
     ],
     show_otherwise: false,
-    hidden: true
   },
   {
     type: :raw,
     content: '<h4>Werkcontext</h4>',
-    hidden: true
   },
   {
     id: :employer,
@@ -133,13 +90,11 @@ sportpro_profile_content = [
       'gemeente',
       'sportserviceorganisatie',
     ],
-        hidden: true
   },
   {
     id: :job_title,
     type: :textarea,
     title: '8. Wat is je huidige functiebenaming?',
-    hidden: true
   },
   {
     id: :employment_scope,
@@ -152,7 +107,6 @@ sportpro_profile_content = [
       '>0,8 fte'
     ],
     show_otherwise: false,
-    hidden: true
   },
   {
     id: :funding_sources,
@@ -165,13 +119,11 @@ sportpro_profile_content = [
       'een vereniging',
       'meerdere verenigingen',
     ],
-    hidden: true
   },
   {
     id: :work_location,
     type: :textarea,
     title: '11. In welke plaats/gemeente werk je voornamelijk binnen deze functie?',
-    hidden: true
   },
   {
     id: :main_assignments,
@@ -190,13 +142,11 @@ sportpro_profile_content = [
       'Het versterken van de identiteit van de vereniging',
       'Het versterken van de sociale cohesie binnen de vereniging',
     ],
-    hidden: true
   },
   {
     id: :additional_context,
     type: :textarea,
     title: '13. Zijn er nog andere zaken die interessant zijn in relatie tot je werkcontext die je wil delen?',
-    hidden: true,
     section_end: true
   }
 ]

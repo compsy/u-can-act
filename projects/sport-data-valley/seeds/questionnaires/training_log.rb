@@ -25,6 +25,7 @@ dagboek_content = [
       { nl: 'Badminton', en: 'Badminton', i18n: 'components.dashboards.questionnaire.training_type.badminton' },
       { nl: 'Basketbal', en: 'Basketball', i18n: 'components.dashboards.questionnaire.training_type.basketball' },
       { nl: 'BMX racen', en: 'BMX racing', i18n: 'components.dashboards.questionnaire.training_type.bmx_racing' },
+      { nl: 'Combitraining', en: 'Combination training', i18n: 'components.dashboards.questionnaire.training_type.combination_training' },
       { nl: 'Boksen', en: 'Boxing', i18n: 'components.dashboards.questionnaire.training_type.boxing' },
       { nl: 'Dansen', en: 'Dancing', i18n: 'components.dashboards.questionnaire.training_type.dancing' },
       { nl: 'Fitness / Krachttraining', en: 'Fitness / Strength training', i18n: 'components.dashboards.questionnaire.training_type.fitness_power_training' },
@@ -69,7 +70,6 @@ dagboek_content = [
     placeholder: { nl: 'Selecteer uw antwoord...', en: 'Select your answer...' },
     options: [
       { nl: 'Circuit', en: 'Circuit', i18n: 'components.dashboards.questionnaire.session_type.circuit' },
-      { nl: 'Combitraining', en: 'Combination training', i18n: 'components.dashboards.questionnaire.session_type.combination_training' },
       { nl: 'Extensieve duur', en: 'Extensive endurance', i18n: 'components.dashboards.questionnaire.session_type.extensive_endurance' },
       { nl: 'Extensieve interval', en: 'Extensive interval', i18n: 'components.dashboards.questionnaire.session_type.extensive_interval' },
       { nl: 'Extensieve tempo', en: 'Extensive tempo', i18n: 'components.dashboards.questionnaire.session_type.extensive_tempo' },
@@ -139,12 +139,12 @@ dagboek_content = [
   },
   {
     id: :v7,
-    title: { nl: 'Tevredenheid over training', en: 'Training satisfaction' },
+    title: { nl: 'Tevredenheid over training (optioneel)', en: 'Training satisfaction (optional)' },
     type: :range,
     min: 1,
     max: 5,
     step: 0.5,
-    required: true,
+    required: false,
     ticks: true,
     no_initial_thumb: true,
     labels: [
@@ -154,12 +154,6 @@ dagboek_content = [
       { nl: 'Tevreden', en: 'Satisfied' },
       { nl: 'Totaal tevreden', en: 'Completely satisfied' }
     ]
-  },
-  {
-    id: :v8,
-    type: :textarea,
-    title: { nl: 'Opmerkingen', en: 'Comments' },
-    placeholder: { nl: 'Wat wil je nog delen? (optioneel)', en: 'What else would you like to share? (optional)' },
   },
   {
     id: :v9,
@@ -178,7 +172,14 @@ dagboek_content = [
       { nl: 'Veel', en: 'A lot' },
       { nl: 'Heel veel', en: 'Very much' }
     ]
-  }
+  },
+  {
+    id: :v8,
+    type: :textarea,
+    required: false,
+    title: { nl: 'Opmerkingen', en: 'Comments' },
+    placeholder: { nl: 'Wat wil je nog delen? (optioneel)', en: 'What else would you like to share? (optional)' },
+    },
 ]
 
 questionnaire.content = { questions: dagboek_content, scores: [] }

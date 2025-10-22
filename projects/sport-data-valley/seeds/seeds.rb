@@ -83,6 +83,53 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Daily protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
+  # Create korte vragenlijst protocol instance
+  protocol = Protocol.find_by(name: 'korte_vragenlijst')
+  person = Team.find_by(name: demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[1]
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week
+  )
+
+  invitation_set = InvitationSet.create!(person: person)
+
+  if prot_sub.responses.any?
+    prot_sub.responses.each do |responseobj|
+      responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+    end
+
+    invitation_token = invitation_set.invitation_tokens.create!
+    puts "Korte Vragenlijst: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+  else
+    # In the later stage add a response for also testing.
+    puts "ERROR: No responses created for korte_vragenlijst protocol!"
+  end
+
+  # Create actief transport protocol instance
+  protocol = Protocol.find_by(name: 'actief_transport')
+  person = Team.find_by(name: demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[1]
+  prot_sub = ProtocolSubscription.create!(
+    protocol: protocol,
+    person: person,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now.beginning_of_week
+  )
+
+  invitation_set = InvitationSet.create!(person: person)
+
+  if prot_sub.responses.any?
+    prot_sub.responses.each do |responseobj|
+      responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+    end
+
+    invitation_token = invitation_set.invitation_tokens.create!
+    puts "Actief Transport: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+  else
+    # In the later stage add a response for also testing.
+    puts "ERROR: No responses created for actief_transport protocol!"
+  end
 
   # Create squash protocol instance
   protocol = Protocol.find_by(name: 'squash')

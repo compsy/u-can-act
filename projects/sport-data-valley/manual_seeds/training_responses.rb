@@ -42,6 +42,11 @@ module TrainingResponses
       scores[rand(scores.count)]
     end
 
+    def fun
+      scores = %w[2 2.5 3 3.5 3.5 4 4.5 5]
+      scores[rand(scores.count)]
+    end
+
     def duration
       durations = %w[30 45 60 120]
       durations[rand(4)]
@@ -115,6 +120,7 @@ module TrainingResponses
       content[:v6] = rpe_score
       content[:v7] = satisfaction
       content[:v8] = 'a comment'
+      content[:v9] = fun
 
       response_content = ResponseContent.create_with_scores!(
         content: content,

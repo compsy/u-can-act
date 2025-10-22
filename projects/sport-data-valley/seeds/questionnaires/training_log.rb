@@ -156,13 +156,6 @@ dagboek_content = [
     ]
   },
   {
-    id: :v8,
-    type: :textarea,
-    required: false,
-    title: { nl: 'Opmerkingen', en: 'Comments' },
-    placeholder: { nl: 'Wat wil je nog delen? (optioneel)', en: 'What else would you like to share? (optional)' },
-  },
-  {
     id: :v9,
     title: { nl: 'Plezier tijdens training (optioneel)', en: 'Fun during training (optional)' },
     type: :range,
@@ -179,7 +172,14 @@ dagboek_content = [
       { nl: 'Veel', en: 'A lot' },
       { nl: 'Heel veel', en: 'Very much' }
     ]
-  }
+  },
+  {
+    id: :v8,
+    type: :textarea,
+    required: false,
+    title: { nl: 'Opmerkingen', en: 'Comments' },
+    placeholder: { nl: 'Wat wil je nog delen? (optioneel)', en: 'What else would you like to share? (optional)' },
+    },
 ]
 
 questionnaire.content = { questions: dagboek_content, scores: [] }

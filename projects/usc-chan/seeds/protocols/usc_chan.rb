@@ -18,7 +18,7 @@ push_subscription.save!
 
 # Add questionnaires
 reminder_offset = 15.minutes
-redirect_url = "#{ENV.fetch('INFO_SITE_URL')}/?source=questionnaire"
+redirect_url = "#{ENV.fetch('INFO_SITE_URL')}/completed-survey"
 
 questionnaire_name = 'usc_chan'
 questionnaire_id = Questionnaire.find_by(name: questionnaire_name)&.id

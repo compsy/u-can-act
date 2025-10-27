@@ -10,3 +10,4 @@ nl:
     not_authorized: Je bent niet bevoegd om deze vragenlijst te zien.
     link_not_valid: Deze link is niet meer geldig.
     not_found: Gebruiker / Vragenlijst niet gevonden.
+    not_found_questionnaire: De vragenlijst kon niet gevonden worden.

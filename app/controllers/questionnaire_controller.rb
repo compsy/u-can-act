@@ -373,7 +373,9 @@ class QuestionnaireController < ApplicationController
 
   def check_response(response)
     unless response
-      render(status: :not_found, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
+      locale = current_user&.locale || I18n.default_locale
+      message = I18n.t('questionnaires.not_found_questionnaire', locale: locale)
+      render(status: :not_found, html: message, layout: 'application')
       return
     end
 

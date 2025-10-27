@@ -10,3 +10,4 @@ en:
     not_authorized: You are not authorized to view this questionnaire.
     link_not_valid: This link is no longer valid.
     not_found: User / Questionnaire not found.
+    not_found_questionnaire: The questionnaire could not be found.

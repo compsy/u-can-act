@@ -3,10 +3,10 @@
 # SportPro Profile Setup Questionnaire (One-time)
 # Profile information and consent for sport professionals
 
-db_title = 'SportPro Profiel Setup'
-questionnaire_key = 'sportpro_profiel_setup'
+db_title = 'SportPro Profiel'
+questionnaire_key = 'sportpro_profiel'
 
-db_name1 = 'SportPro Profiel Setup'
+db_name1 = 'sportpro_profiel'
 questionnaire = Questionnaire.find_by(name: db_name1)
 questionnaire ||= Questionnaire.find_by(key: questionnaire_key)
 questionnaire ||= Questionnaire.new(name: db_name1)
@@ -29,23 +29,23 @@ sportpro_profile_content = [
     type: :radio,
     title: '2. Wat is je geslacht?',
     options: [
-      'man',
-      'vrouw',
-      'wil ik liever niet zeggen'
+      'Man',
+      'Vrouw',
+      'Wil ik liever niet zeggen'
     ],
   },
   {
     type: :raw,
-    content: '<h4>Opleiding & ervaring</h4>',
+    content: '<h5>Opleiding & ervaring</h5>',
   },
   {
     id: :highest_education,
     type: :radio,
     title: '3. Wat is je hoogst afgeronde opleiding?',
     options: [
-      'mbo',
-      'hbo',
-      'wo',
+      'MBO',
+      'HBO',
+      'WO',
     ],
   },
   {
@@ -79,16 +79,16 @@ sportpro_profile_content = [
   },
   {
     type: :raw,
-    content: '<h4>Werkcontext</h4>',
+    content: '<h5>Werkcontext</h5>',
   },
   {
     id: :employer,
     type: :radio,
     title: '7. Wie is je werkgever?',
     options: [
-      'sportvereniging',
-      'gemeente',
-      'sportserviceorganisatie',
+      'Sportvereniging',
+      'Gemeente',
+      'Sportserviceorganisatie',
     ],
   },
   {
@@ -113,11 +113,11 @@ sportpro_profile_content = [
     type: :checkbox,
     title: '10. Hoe wordt je functie gefinancierd? (meerdere antwoorden mogelijk)',
     options: [
-      'gemeente',
-      'sportbond',
-      'sportbedrijf',
-      'een vereniging',
-      'meerdere verenigingen',
+      'Gemeente',
+      'Sportbond',
+      'Sportbedrijf',
+      'Een vereniging',
+      'Meerdere verenigingen',
     ],
   },
   {

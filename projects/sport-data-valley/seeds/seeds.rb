@@ -245,7 +245,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   puts "Move, Mood and Motivation: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Create SportPro Profile Setup protocol instance
-  profile_protocol = Protocol.find_by(name: 'sportpro_profiel_setup_protocol')
+  profile_protocol = Protocol.find_by(name: 'sportpro_profiel')
   available_people = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)
   person_profile = available_people[7] || available_people.first
   profile_prot_sub = ProtocolSubscription.create!(
@@ -262,7 +262,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   end
 
   invitation_token = invitation_set.invitation_tokens.create!
-  puts "SportPro Profile Setup: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+  puts "SportPro Profile: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
   # Create SportPro Weekly Logbook protocol instance
   weekly_protocol = Protocol.find_by(name: 'sportpro_wekelijks_logboek_protocol')

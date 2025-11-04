@@ -2,54 +2,48 @@ class RenameSportproProfielRecords < ActiveRecord::Migration[6.1]
   def up
     # Rename Protocol
     protocol = Protocol.find_by(name: 'sportpro_profiel_setup_protocol')
-    existing_protocol = Protocol.find_by(name: 'sportpro_profiel')
-    
-    if protocol && !existing_protocol
+    if protocol
       protocol.update!(name: 'sportpro_profiel')
       puts "Renamed protocol"
-    elsif existing_protocol
-      puts "Protocol 'sportpro_profiel' already exists - skipping"
     else
-      puts "Protocol 'sportpro_profiel_setup_protocol' not found - skipping"
+      puts "Protocol 'sportpro_profiel_setup_protocol' not found"
     end
 
     # Rename Push Subscription
     push_subscription = PushSubscription.find_by(name: 'base-platform-subscription-sportpro-profiel-setup')
-    existing_push_subscription = PushSubscription.find_by(name: 'base-platform-subscription-sportpro-profiel')
-    
-    if push_subscription && !existing_push_subscription
+    if push_subscription
       push_subscription.update!(name: 'base-platform-subscription-sportpro-profiel')
       puts "Renamed push subscription"
-    elsif existing_push_subscription
-      puts "Push subscription 'base-platform-subscription-sportpro-profiel' already exists - skipping"
     else
-      puts "Push subscription 'base-platform-subscription-sportpro-profiel-setup' not found - skipping"
+      puts "Push subscription 'base-platform-subscription-sportpro-profiel-setup' not found"
     end
 
-    # Handle Questionnaire - check by name first, then by key
+    # Rename Questionnaire by name
     questionnaire_by_name = Questionnaire.find_by(name: 'SportPro Profiel Setup')
-    questionnaire_by_key = Questionnaire.find_by(key: 'sportpro_profiel_setup')
-    existing_questionnaire = Questionnaire.find_by(key: 'sportpro_profiel')
-    existing_by_name = Questionnaire.find_by(name: 'SportPro Profiel')
-    
-    if existing_questionnaire || existing_by_name
-      puts "Questionnaire 'SportPro Profiel' already exists - skipping"
-    elsif questionnaire_by_name
+    if questionnaire_by_name
       questionnaire_by_name.update!(
         name: 'SportPro Profiel',
         title: 'SportPro Profiel',
         key: 'sportpro_profiel'
       )
       puts "Renamed questionnaire by name"
-    elsif questionnaire_by_key
+    else
+      puts "Questionnaire 'SportPro Profiel Setup' not found by name"
+    end
+
+    # Rename Questionnaire by key
+    questionnaire_by_key = Questionnaire.find_by(key: 'sportpro_profiel_setup')
+    if questionnaire_by_key && questionnaire_by_key != questionnaire_by_name
       questionnaire_by_key.update!(
         name: 'SportPro Profiel',
         title: 'SportPro Profiel',
         key: 'sportpro_profiel'
       )
       puts "Renamed questionnaire by key"
+    elsif questionnaire_by_key
+      puts "Questionnaire with key 'sportpro_profiel_setup' already updated"
     else
-      puts "No questionnaire to rename found - skipping"
+      puts "Questionnaire with key 'sportpro_profiel_setup' not found"
     end
 
     puts "\nMigration completed successfully!"

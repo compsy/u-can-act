@@ -6,7 +6,9 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/component: worker
 spec:
+{{- if not .Values.autoscaling.worker.enabled }}
   replicas: {{ .Values.workerReplicaCount }}
+{{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Release.Name }}

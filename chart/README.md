@@ -23,8 +23,10 @@ A Helm chart for SVC Questionnaires
 | memory.web.limit | string | `"1.5Gi"` | The memory limit for the web container. |
 | memory.worker.request | string | `"768Mi"` | The memory request for the worker container. |
 | memory.worker.limit | string | `"1.5Gi"` | The memory limit for the worker container. |
-| replicaCount | int | `2` | The number of replicas for the web service. |
-| workerReplicaCount | int | `2` | The number of replicas for the worker service. |
+| replicaCount | int | `2` | The number of replicas for the web service. Only used when `autoscaling.web.enabled` is `false`. |
+| workerReplicaCount | int | `2` | The number of replicas for the worker service. Only used when `autoscaling.worker.enabled` is `false`. |
+| autoscaling.web.enabled | bool | `true` | Enable HorizontalPodAutoscaler for the web deployment. When enabled, the HPA will automatically scale web pods between 1-10 replicas based on memory utilization (target: 150%). |
+| autoscaling.worker.enabled | bool | `true` | Enable HorizontalPodAutoscaler for the worker deployment. When enabled, the HPA will automatically scale worker pods between 1-5 replicas based on memory utilization (target: 150%). |
 | configmap.PUSH_SUBSCRIPTION_URL | string | `"http://web:3000/api/v1/data/create_raw"` | URL to push subscription data. |
 | configmap.BASE_PLATFORM_URL | string | `"http://localhost:3000"` | Base platform URL. |
 | configmap.HOST_URL | string | `"http://localhost:3002"` | Host URL. |

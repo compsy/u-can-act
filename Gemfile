@@ -188,6 +188,8 @@ gem 'silencer'
 gem 'materialize-sass'
 gem 'modernizr-rails'
 
+gem 'concurrent-ruby', '=1.3.4' # TODO: Remove this line from Gemfile after upgrading to Rails 7.1
+
 gem 'webpacker', '>=6.0.0.rc.5'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

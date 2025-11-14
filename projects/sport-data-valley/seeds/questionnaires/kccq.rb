@@ -14,7 +14,7 @@ dagboek_content = [
     content: '<p class="flow-text">The following questions refer to your heart failure and how it may affect your life. Please read and complete the following questions. There are no right or wrong answers. Please mark the answer that best applies to you.</p>'
   },
   {
-    id: :q1_table,
+    id: :v1_table,
     title: '1. Heart failure affects different people in different ways. Some feel shortness of breath while others feel fatigue. Please indicate how much you are limited by heart failure (shortness of breath or fatigue) in your ability to do the following activities over the past 2 weeks.',
     type: :table,
     required: true,
@@ -29,21 +29,21 @@ dagboek_content = [
     show_otherwise: false,
     rows: [
       {
-        id: :q1a,
+        id: :v1a,
         title: 'a. Showering/Bathing'
       },
       {
-        id: :q1b,
+        id: :v1b,
         title: 'b. Walking 1 block on level ground'
       },
       {
-        id: :q1c,
+        id: :v1c,
         title: 'c. Hurrying or jogging (as if to catch a bus)'
       }
     ]
   },
   {
-    id: :q2,
+    id: :v2,
     title: '2. Over the past 2 weeks, how many times did you have swelling in your feet, ankles or legs when you woke up in the morning?',
     type: :likert,
     options: [
@@ -57,7 +57,7 @@ dagboek_content = [
     show_otherwise: false
   },
   {
-    id: :q3,
+    id: :v3,
     title: '3. Over the past 2 weeks, on average, how many times has fatigue limited your ability to do what you wanted?',
     type: :likert,
     options: [
@@ -73,7 +73,7 @@ dagboek_content = [
     show_otherwise: false
   },
   {
-    id: :q4,
+    id: :v4,
     title: '4. Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?',
     type: :likert,
     options: [
@@ -89,7 +89,7 @@ dagboek_content = [
     show_otherwise: false
   },
   {
-    id: :q5,
+    id: :v5,
     title: '5. Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of shortness of breath?',
     type: :likert,
     options: [
@@ -103,7 +103,7 @@ dagboek_content = [
     show_otherwise: false
   },
   {
-    id: :q6,
+    id: :v6,
     title: '6. Over the past 2 weeks, how much has your heart failure limited your enjoyment of life?',
     type: :likert,
     options: [
@@ -117,7 +117,7 @@ dagboek_content = [
     show_otherwise: false
   },
   {
-    id: :q7,
+    id: :v7,
     title: '7. If you had to spend the rest of your life with your heart failure the way it is right now, how would you feel about this?',
     type: :likert,
     options: [
@@ -131,7 +131,7 @@ dagboek_content = [
     show_otherwise: false
   },
   {
-    id: :q8_table,
+    id: :v8_table,
     title: '8. How much does your heart failure affect your lifestyle? Please indicate how your heart failure may have limited your participation in the following activities over the past 2 weeks.',
     type: :likert,
     required: true,
@@ -146,15 +146,15 @@ dagboek_content = [
     show_otherwise: false,
     rows: [
       {
-        id: :q8a,
+        id: :v8a,
         title: 'a. Hobbies, recreational activities'
       },
       {
-        id: :q8b,
+        id: :v8b,
         title: 'b. Working or doing household chores'
       },
       {
-        id: :q8c,
+        id: :v8c,
         title: 'c. Visiting family or friends out of your home'
       }
     ]

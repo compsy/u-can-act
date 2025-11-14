@@ -21,7 +21,7 @@ bp_push_subscription.save!
 protocol.save!
 
 # Add the one-time profile setup questionnaire
-profile_questionnaire_name = 'SportPro Profiel'
+profile_questionnaire_name = 'sportpro_profiel'
 profile_questionnaire = Questionnaire.find_by(name: profile_questionnaire_name)
 raise "Cannot find questionnaire: #{profile_questionnaire_name}" unless profile_questionnaire
 

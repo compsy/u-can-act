@@ -282,4 +282,25 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "SportPro Weekly Logbook: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
+
+  profile_protocol = Protocol.find_by(name: 'kccq')
+  available_people = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)
+  person_profile = available_people[7] || available_people.first
+  profile_prot_sub = ProtocolSubscription.create!(
+    protocol: profile_protocol,
+    person: person_profile,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now,
+    end_date: Time.zone.now + 4.weeks
+  )
+
+  invitation_set = InvitationSet.create!(person: person_profile)
+  profile_prot_sub.responses.each do |response|
+    response.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  end
+
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "kccq: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
 end

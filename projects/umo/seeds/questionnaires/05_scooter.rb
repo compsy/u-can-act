@@ -12,10 +12,24 @@ dagboek_content = [
   {
     id: :v25,
     type: :radio,
-    title: 'Heeft u een scooter/bromfiets/snorfiets?',
+    title: {
+      nl: 'Heeft u een scooter/bromfiets/snorfiets?',
+      en: 'Do you own a moped?'
+    },
     options: [
-      { title: 'Ja', shows_questions: SCOOTER_QUESTIONS },
-      { title: 'Nee' }
+      { 
+        title: {
+          nl: 'Ja',
+          en: 'Yes'
+        }, 
+        shows_questions: SCOOTER_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Nee',
+          en: 'No'
+        }
+      }
     ],
     required: true,
     show_otherwise: false
@@ -23,15 +37,39 @@ dagboek_content = [
     id: :v26,
     hidden: true,
     type: :radio,
-    title: 'Welke brandstof gebruikt uw scooter/bromfiets/snorfiets?',
-    options: %w[Elektrisch Benzine],
+    title: {
+      nl: 'Welke brandstof gebruikt uw scooter/bromfiets/snorfiets?',
+      en: 'Which type of fuel does this moped use?'
+    },
+    options: [
+      {
+        nl: 'Elektrisch',
+        en: 'Electric'
+      },
+      {
+        nl: 'Benzine',
+        en: 'Petrol/gasoline'
+      }
+    ],
     required: true,
     show_otherwise: true
   }, {
     id: :v27,
     type: :radio,
-    title: 'Heeft u een motor?',
-    options: %w[Ja Nee],
+    title: {
+      nl: 'Heeft u een motor?',
+      en: 'Do you own a motorcycle?'
+    },
+    options: [
+      {
+        nl: 'Ja',
+        en: 'Yes'
+      },
+      {
+        nl: 'Nee',
+        en: 'No'
+      }
+    ],
     required: true,
     show_otherwise: false
   }

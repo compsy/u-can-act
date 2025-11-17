@@ -14,34 +14,76 @@ dagboek_content = [
   {
     id: :v30,
     type: :radio,
-    title: 'Hoe vaak maakt u gemiddeld gebruik van een auto via een deelautoaanbieder?',
+    title: {
+      nl: 'Hoe vaak maakt u gemiddeld gebruik van een auto via een deelautoaanbieder?',
+      en: 'On average, how often do you use a car from a car-sharing platform?'
+    },
     options: [
-      'Nooit',
-      { title: 'Minder dan een keer per jaar', shows_questions: DEELAUTO_QUESTIONS },
-      { title: 'Enkele keren per jaar', shows_questions: DEELAUTO_QUESTIONS },
-      { title: 'Eens per maand', shows_questions: DEELAUTO_QUESTIONS },
-      { title: 'Een paar keer per maand', shows_questions: DEELAUTO_QUESTIONS },
-      { title: 'Iedere week', shows_questions: DEELAUTO_QUESTIONS }
+      {
+        nl: 'Nooit',
+        en: 'Never'
+      },
+      { 
+        title: {
+          nl: 'Minder dan een keer per jaar',
+          en: 'Less than once per year'
+        }, 
+        shows_questions: DEELAUTO_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Enkele keren per jaar',
+          en: 'Multiple times per year'
+        }, 
+        shows_questions: DEELAUTO_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Eens per maand',
+          en: 'Once per month'
+        }, 
+        shows_questions: DEELAUTO_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Een paar keer per maand',
+          en: 'Multiple times per month'
+        }, 
+        shows_questions: DEELAUTO_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Iedere week',
+          en: 'Every week'
+        }, 
+        shows_questions: DEELAUTO_QUESTIONS 
+      }
     ],
     required: true,
     show_otherwise: false,
-    section_start: 'Deelauto'
+    section_start: {
+      nl: 'Deelauto',
+      en: 'Car-sharing'
+    }
   }, {
     id: :v31,
     hidden: true,
     type: :checkbox,
-    title: 'Bij welke aanbieder maakt u wel eens gebruik van een deelauto?',
-    options: %w[
-      MyWheels
-      ConnectCar
-      StudentCar
-      SnappCar
-      Greenwheels
-      Stapp.in
-      Oproepauto
-      Witkar
-      Car2go
-      Juuve
+    title: {
+      nl: 'Bij welke aanbieder maakt u wel eens gebruik van een deelauto?',
+      en: 'Which car-sharing platforms do you use?'
+    },
+    options: [
+      'MyWheels',
+      'ConnectCar',
+      'StudentCar',
+      'SnappCar',
+      'Greenwheels',
+      'Stapp.in',
+      'Oproepauto',
+      'Witkar',
+      'Car2go',
+      'Juuve'
     ],
     required: true,
     show_otherwise: true
@@ -49,14 +91,35 @@ dagboek_content = [
     id: :v32,
     hidden: true,
     type: :radio,
-    title: 'Wat is de afstand van uw huis tot de deelauto ongeveer?',
+    title: {
+      nl: 'Wat is de afstand van uw huis tot de deelauto ongeveer?',
+      en: 'Approximately, what is the distance between your home and the shared car?'
+    },
     options: [
-      '1 - 25 meter',
-      '25 - 100 meter',
-      '100 - 200 meter',
-      '200 - 500 meter',
-      '500 - 1000 meter',
-      'Meer dan 1000 meter'
+      {
+        nl: '1 - 25 meter',
+        en: '1 - 25 meters'
+      },
+      {
+        nl: '25 - 100 meter',
+        en: '25 - 100 meters'
+      },
+      {
+        nl: '100 - 200 meter',
+        en: '100 - 200 meters'
+      },
+      {
+        nl: '200 - 500 meter',
+        en: '200 - 500 meters'
+      },
+      {
+        nl: '500 - 1000 meter',
+        en: '500 - 1000 meters'
+      },
+      {
+        nl: 'Meer dan 1000 meter',
+        en: 'More than 1000 meters'
+      }
     ],
     required: true,
     show_otherwise: false
@@ -67,23 +130,65 @@ dagboek_content = [
   }, {
     id: :v33,
     type: :radio,
-    title: 'Hoe vaak maakt u gemiddeld gebruik van een fiets via een deelfietsaanbieder (ook OV-fiets)?',
+    title: {
+      nl: 'Hoe vaak maakt u gemiddeld gebruik van een fiets via een deelfietsaanbieder (ook OV-fiets)?',
+      en: 'On average, how often do you use a shared bicycle through a bicycle-sharing platform (including OV-Fiets)?'
+    },
     options: [
-      'Nooit',
-      { title: 'Minder dan een keer per jaar', shows_questions: DEELFIETS_QUESTIONS },
-      { title: 'Enkele keren per jaar', shows_questions: DEELFIETS_QUESTIONS },
-      { title: 'Eens per maand', shows_questions: DEELFIETS_QUESTIONS },
-      { title: 'Een paar keer per maand', shows_questions: DEELFIETS_QUESTIONS },
-      { title: 'Iedere week', shows_questions: DEELFIETS_QUESTIONS }
+      {
+        nl: 'Nooit',
+        en: 'Never'
+      },
+      { 
+        title: {
+          nl: 'Minder dan een keer per jaar',
+          en: 'Less than once per year'
+        }, 
+        shows_questions: DEELFIETS_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Enkele keren per jaar',
+          en: 'Multiple times per year'
+        }, 
+        shows_questions: DEELFIETS_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Eens per maand',
+          en: 'Once per month'
+        }, 
+        shows_questions: DEELFIETS_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Een paar keer per maand',
+          en: 'Multiple times per month'
+        }, 
+        shows_questions: DEELFIETS_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Iedere week',
+          en: 'Every week'
+        }, 
+        shows_questions: DEELFIETS_QUESTIONS 
+      }
     ],
     required: true,
     show_otherwise: false,
-    section_start: 'Deelfiets'
+    section_start: {
+      nl: 'Deelfiets',
+      en: 'Bike-sharing'
+    }
   }, {
     id: :v34,
     hidden: true,
     type: :checkbox,
-    title: 'Bij welke aanbieder maakt u wel eens gebruik van een deelfiets?',
+    title: {
+      nl: 'Bij welke aanbieder maakt u wel eens gebruik van een deelfiets?',
+      en: 'Which bicycle-sharing platforms do you use?'
+    },
     options: [
       'OV-fiets',
       'NextBike',
@@ -103,23 +208,65 @@ dagboek_content = [
   }, {
     id: :v35,
     type: :radio,
-    title: 'Hoe vaak maakt u gemiddeld gebruik van een scooter via een deelscooteraanbieder?',
+    title: {
+      nl: 'Hoe vaak maakt u gemiddeld gebruik van een scooter via een deelscooteraanbieder?',
+      en: 'On average, how often do you use a shared scooter?'
+    },
     options: [
-      'Nooit',
-      { title: 'Minder dan een keer per jaar', shows_questions: DEELSCOOTER_QUESTIONS },
-      { title: 'Enkele keren per jaar', shows_questions: DEELSCOOTER_QUESTIONS },
-      { title: 'Eens per maand', shows_questions: DEELSCOOTER_QUESTIONS },
-      { title: 'Een paar keer per maand', shows_questions: DEELSCOOTER_QUESTIONS },
-      { title: 'Iedere week', shows_questions: DEELSCOOTER_QUESTIONS }
+      {
+        nl: 'Nooit',
+        en: 'Never'
+      },
+      { 
+        title: {
+          nl: 'Minder dan een keer per jaar',
+          en: 'Less than once per year'
+        }, 
+        shows_questions: DEELSCOOTER_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Enkele keren per jaar',
+          en: 'Multiple times per year'
+        }, 
+        shows_questions: DEELSCOOTER_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Eens per maand',
+          en: 'Once per month'
+        }, 
+        shows_questions: DEELSCOOTER_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Een paar keer per maand',
+          en: 'Multiple times per month'
+        }, 
+        shows_questions: DEELSCOOTER_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Iedere week',
+          en: 'Every week'
+        }, 
+        shows_questions: DEELSCOOTER_QUESTIONS 
+      }
     ],
     required: true,
     show_otherwise: false,
-    section_start: 'Deelscooter'
+    section_start: {
+      nl: 'Deelscooter',
+      en: 'Scooter-sharing'
+    }
   }, {
     id: :v36,
     hidden: true,
     type: :checkbox,
-    title: 'Bij welke aanbieder maakt u wel eens gebruik van een deelscooter?',
+    title: {
+      nl: 'Bij welke aanbieder maakt u wel eens gebruik van een deelscooter?',
+      en: 'Which platforms do you use to access a shared moped?'
+    },
     options: [
       'Go sharing',
       'Felyx'

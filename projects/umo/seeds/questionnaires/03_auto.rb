@@ -35,32 +35,92 @@ class AutoMethods
           id: "v16_#{idx}".to_sym,
           hidden: true,
           type: :radio,
-          title: "Voor auto #{idx}: Van wie is die auto?",
+          title: {
+            nl: "Voor auto #{idx}: Van wie is die auto?",
+            en: "For car #{idx}: who owns this car?"
+          },
           options: [
-            'Van een lid van mijn huishouden',
-            'Leaseauto via de werkgever',
-            'Private lease',
-            'Bedrijfsauto',
-            'Van mij samen met 1 of meerdere personen buiten mijn huishouden',
-            'Van iemand buiten mijn huishouden',
-            'Anders'
+            {
+              nl: 'Van een lid van mijn huishouden',
+              en: 'My household'
+            },
+            {
+              nl: 'Leaseauto via de werkgever',
+              en: 'Leased car via employer'
+            },
+            {
+              nl: 'Private lease',
+              en: 'Private lease'
+            },
+            {
+              nl: 'Bedrijfsauto',
+              en: 'Company car'
+            },
+            {
+              nl: 'Van mij samen met 1 of meerdere personen buiten mijn huishouden',
+              en: 'Myself, together with one or more people from outside of my household'
+            },
+            {
+              nl: 'Van iemand buiten mijn huishouden',
+              en: 'Someone outside of my household'
+            },
+            {
+              nl: 'Anders',
+              en: 'Other'
+            }
           ],
           required: true,
           show_otherwise: false,
-          section_start: "Voor auto #{idx}"
+          section_start: {
+            nl: "Voor auto #{idx}",
+            en: "For car #{idx}"
+          }
         }, {
           id: "v17_#{idx}".to_sym,
           hidden: true,
           type: :radio,
-          title: "Voor auto #{idx}: Welke brandstof gebruikt deze auto?",
+          title: {
+            nl: "Voor auto #{idx}: Welke brandstof gebruikt deze auto?",
+            en: "For car #{idx}: which fuel type does this car use?"
+          },
           options: [
-            'Benzine',
-            'Diesel',
-            { title: 'Elektriciteit', shows_questions: CHARGING_QUESTIONS },
-            { title: 'Hybride benzine', shows_questions: CHARGING_QUESTIONS },
-            { title: 'Hybride diesel', shows_questions: CHARGING_QUESTIONS },
-            'Waterstof',
-            'Anders'
+            {
+              nl: 'Benzine',
+              en: 'Petrol/gasoline'
+            },
+            {
+              nl: 'Diesel',
+              en: 'Diesel'
+            },
+            { 
+              title: {
+                nl: 'Elektriciteit',
+                en: 'Electric'
+              }, 
+              shows_questions: CHARGING_QUESTIONS 
+            },
+            { 
+              title: {
+                nl: 'Hybride benzine',
+                en: 'Hybrid petrol/gasoline'
+              }, 
+              shows_questions: CHARGING_QUESTIONS 
+            },
+            { 
+              title: {
+                nl: 'Hybride diesel',
+                en: 'Hybrid diesel'
+              }, 
+              shows_questions: CHARGING_QUESTIONS 
+            },
+            {
+              nl: 'Waterstof',
+              en: 'Hydrogen'
+            },
+            {
+              nl: 'Anders',
+              en: 'Other'
+            }
           ],
           required: true,
           show_otherwise: false
@@ -68,11 +128,22 @@ class AutoMethods
           id: "v18_#{idx}".to_sym,
           hidden: true,
           type: :radio,
-          title: "Voor auto #{idx}: Wat is het bouwjaar van deze auto?",
-          options: ['Weet ik niet'],
+          title: {
+            nl: "Voor auto #{idx}: Wat is het bouwjaar van deze auto?",
+            en: "For car #{idx}: what is the build year of this car?"
+          },
+          options: [
+            {
+              nl: 'Weet ik niet',
+              en: "Don't know"
+            }
+          ],
           required: true,
           show_otherwise: true,
-          otherwise_label: 'Jaar',
+          otherwise_label: {
+            nl: 'Jaar',
+            en: 'Year'
+          },
           section_end: true
         }
       ]
@@ -92,10 +163,24 @@ dagboek_content = [
   {
     id: :v13,
     type: :radio,
-    title: 'Beschikt u over een geldig rijbewijs?',
+    title: {
+      nl: 'Beschikt u over een geldig rijbewijs?',
+      en: 'Do you possess a valid driver\'s license?'
+    },
     options: [
-      { title: 'Ja', shows_questions: RIJBEWIJS_QUESTIONS },
-      { title: 'Nee' }
+      { 
+        title: {
+          nl: 'Ja',
+          en: 'Yes'
+        }, 
+        shows_questions: RIJBEWIJS_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Nee',
+          en: 'No'
+        }
+      }
     ],
     required: true,
     show_otherwise: false
@@ -103,12 +188,27 @@ dagboek_content = [
     id: :v14,
     hidden: true,
     type: :checkbox,
-    title: 'Over welk rijbewijs beschikt u? (meerdere keuzes mogelijk).',
+    title: {
+      nl: 'Over welk rijbewijs beschikt u? (meerdere keuzes mogelijk).',
+      en: 'Which driver\'s license do you possess? (Multiple answers possible)'
+    },
     options: [
-      'AM: Bromfiets, scooter, speed-pedelec, snorfiets en brommobiel',
-      'A, A1, A2: Motor',
-      'B, BE, B+: Autorijbewijs',
-      'Andere rijbewijzen'
+      {
+        nl: 'AM: Bromfiets, scooter, speed-pedelec, snorfiets en brommobiel',
+        en: 'AM: Moped, speed-pedelec'
+      },
+      {
+        nl: 'A, A1, A2: Motor',
+        en: 'A, A1, A2: Motorcycle'
+      },
+      {
+        nl: 'B, BE, B+: Autorijbewijs',
+        en: 'B, BE, B+: car driver\'s license'
+      },
+      {
+        nl: 'Andere rijbewijzen',
+        en: 'Other licenses'
+      }
     ],
     required: true,
     show_otherwise: false
@@ -138,9 +238,18 @@ dagboek_content = [
     type: :radio,
     title: 'Waar parkeert u uw meest gebruikte auto? (in geval van meerdere auto’s: de auto die u het meest gebruikt).',
     options: [
-      'Op eigen terrein/in eigen garage/op eigen plek in parkeergarage',
-      'Vrij parkeren op straat',
-      'Met een parkeervergunning op straat of in een garage'
+      {
+        nl: 'Op eigen terrein/in eigen garage/op eigen plek in parkeergarage',
+        en: 'Own parking space/garage/own space in shared parking garage'
+      },
+      {
+        nl: 'Vrij parkeren op straat',
+        en: 'Free parking on the street'
+      },
+      {
+        nl: 'Met een parkeervergunning op straat of in een garage',
+        en: 'With a permit on the street or in a shared garage'
+      }
     ],
     required: true,
     show_otherwise: true
@@ -148,12 +257,27 @@ dagboek_content = [
     id: :v20,
     hidden: true,
     type: :radio,
-    title: 'Waar laadt u uw elektrische/hybride auto doorgaans op?',
+    title: {
+      nl: 'Waar laadt u uw elektrische/hybride auto doorgaans op?',
+      en: 'Where do you charge your electric or hybrid vehicle?'
+    },
     options: [
-      'Laadpaal thuis',
-      'Openbare laadpaal in de buurt bij de woning',
-      'Laadpaal op het werk',
-      'Laadpaal elders'
+      {
+        nl: 'Laadpaal thuis',
+        en: 'Charging station at home'
+      },
+      {
+        nl: 'Openbare laadpaal in de buurt bij de woning',
+        en: 'A public charging station near my home'
+      },
+      {
+        nl: 'Laadpaal op het werk',
+        en: 'A charging station at work'
+      },
+      {
+        nl: 'Laadpaal elders',
+        en: 'A charging station elsewhere'
+      }
     ],
     required: true,
     show_otherwise: false

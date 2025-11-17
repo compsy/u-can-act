@@ -13,119 +13,274 @@ dagboek_content = [
   {
     id: :v1,
     type: :textfield,
-    title: 'Wat is uw naam?',
+    title: {
+      nl: 'Wat is uw naam?',
+      en: 'What is your name?'
+    },
     required: true
   }, {
     id: :v2,
     type: :radio,
-    title: 'Wat is uw geslacht?',
+    title: {
+      nl: 'Wat is uw geslacht?',
+      en: 'What is your gender identity?'
+    },
     required: true,
     show_otherwise: false,
-    options: ['Man', 'Vrouw', 'Anders', 'Zeg ik liever niet']
+    options: [
+      {
+        nl: 'Man',
+        en: 'Male'
+      },
+      {
+        nl: 'Vrouw',
+        en: 'Female'
+      },
+      {
+        nl: 'Anders',
+        en: 'Other'
+      },
+      {
+        nl: 'Zeg ik liever niet',
+        en: 'Prefer not to say'
+      }
+    ]
   }, {
     id: :v3,
     type: :number,
-    title: 'In welk jaar bent u geboren?',
+    title: {
+      nl: 'In welk jaar bent u geboren?',
+      en: 'What is your year of birth?'
+    },
     min: 1900,
     max: 2030,
     required: true,
     maxlength: 4
   }, {
     type: :raw,
-    content: '<p class="flow-text">Om eventuele verhuizingen van mensen bij te houden, willen wij graag uw woonadres en/of postcode weten. Wilt u hieronder uw adres en/of postcode invullen? Uw adresgegevens zullen nooit gedeeld worden met mensen buiten het onderzoeksteam.</p>'
+    content: {
+      nl: '<p class="flow-text">Om eventuele verhuizingen van mensen bij te houden, willen wij graag uw woonadres en/of postcode weten. Wilt u hieronder uw adres en/of postcode invullen? Uw adresgegevens zullen nooit gedeeld worden met mensen buiten het onderzoeksteam.</p>',
+      en: '<p class="flow-text">To keep track of any possible moves, we would like to ask you for your residence address and/or postal code. This information will never be shared with anyone outside of the research team.</p>'
+    }
   }, {
     id: :v4_a,
     type: :textfield,
-    title: 'Straat',
+    title: {
+      nl: 'Straat',
+      en: 'Street'
+    },
     required: false
   }, {
     id: :v4_b,
     type: :number,
-    title: 'Huisnummer',
+    title: {
+      nl: 'Huisnummer',
+      en: 'Number'
+    },
     required: false
   }, {
     id: :v4_c,
     type: :textfield,
-    title: 'Postcode',
+    title: {
+      nl: 'Postcode',
+      en: 'Postal code'
+    },
     required: true
   }, {
     id: :v5,
     type: :dropdown,
-    title: 'Wat is uw hoogst voltooide opleiding?',
+    title: {
+      nl: 'Wat is uw hoogst voltooide opleiding?',
+      en: 'What is your highest achieved education level?'
+    },
     options: [
-      'Geen opleiding',
-      'Basisschool',
-      'Middelbare school',
-      'Middelbaar beroepsonderwijs (MBO)',
-      'Hoger beroepsonderwijs (HBO)',
-      'Universiteit (WO)',
-      'Anders'
+      {
+        nl: 'Geen opleiding',
+        en: 'No education'
+      },
+      {
+        nl: 'Basisschool',
+        en: 'Elementary school'
+      },
+      {
+        nl: 'Middelbare school',
+        en: 'High school'
+      },
+      {
+        nl: 'Middelbaar beroepsonderwijs (MBO)',
+        en: 'Vocational education (mbo)'
+      },
+      {
+        nl: 'Hoger beroepsonderwijs (HBO)',
+        en: 'Higher vocational education/university of applied sciences (hbo)'
+      },
+      {
+        nl: 'Universiteit (WO)',
+        en: 'University (wo)'
+      },
+      {
+        nl: 'Anders',
+        en: 'Other'
+      }
     ],
     required: true
   }, {
     id: :v6,
     type: :radio,
-    title: 'Wat is uw voornaamste dagelijkse bezigheid?',
+    title: {
+      nl: 'Wat is uw voornaamste dagelijkse bezigheid?',
+      en: 'What is your primary daily occupation?'
+    },
     options: [
-      { title: 'Student/scholier', shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS },
-      { title: 'Zelfstandig ondernemer', shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS },
-      { title: 'Werkzaam in loondienst', shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS },
-      { title: 'Vrijwilligerswerk', shows_questions: WERKADRES_QUESTIONS },
-      'De zorg voor gezin',
-      'Geen werk',
-      'Anders'
+      { 
+        title: {
+          nl: 'Student/scholier',
+          en: 'Student/in school'
+        }, 
+        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Zelfstandig ondernemer',
+          en: 'Entrepreneur'
+        }, 
+        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Werkzaam in loondienst',
+          en: 'Employed'
+        }, 
+        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Vrijwilligerswerk',
+          en: 'Volunteer'
+        }, 
+        shows_questions: WERKADRES_QUESTIONS 
+      },
+      {
+        nl: 'De zorg voor gezin',
+        en: 'Caring for the family'
+      },
+      {
+        nl: 'Geen werk',
+        en: 'Unemployed'
+      },
+      {
+        nl: 'Anders',
+        en: 'Other'
+      }
     ],
     required: true
   }, {
     id: :v7,
     type: :radio,
-    title: 'Wat is uw netto maandelijks huishoudensinkomen?',
+    title: {
+      nl: 'Wat is uw netto maandelijks huishoudensinkomen?',
+      en: 'What is your net monthly household income?'
+    },
     required: true,
     show_otherwise: false,
     options: [
-      'Minder dan 980€',
-      'Tussen 980€ en 1870€',
-      'Tussen 1870€ en 2680€',
-      'Tussen 2680€ en 3800€',
-      'Tussen 3800€ en 5460€',
-      'Meer dan 5460€',
-      'Weet ik niet/zeg ik liever niet'
+      {
+        nl: 'Minder dan 980€',
+        en: 'Less than 980€'
+      },
+      {
+        nl: 'Tussen 980€ en 1870€',
+        en: 'Between 980€ and 1870€'
+      },
+      {
+        nl: 'Tussen 1870€ en 2680€',
+        en: 'Between 1870€ and 2680€'
+      },
+      {
+        nl: 'Tussen 2680€ en 3800€',
+        en: 'Between 2680€ and 3800€'
+      },
+      {
+        nl: 'Tussen 3800€ en 5460€',
+        en: 'Between 3800€ and 5460€'
+      },
+      {
+        nl: 'Meer dan 5460€',
+        en: 'More than 5460€'
+      },
+      {
+        nl: 'Weet ik niet/zeg ik liever niet',
+        en: "Don't know/prefer not to say"
+      }
     ]
   }, {
     id: :v8_a,
     hidden: true,
     type: :radio,
-    title: 'Wat is het meest op u van toepassing (in een situatie zonder corona pandemie)?',
+    title: {
+      nl: 'Wat is het meest op u van toepassing (in een situatie zonder corona pandemie)?',
+      en: 'Which situation applies the most to you?'
+    },
     required: true,
     show_otherwise: false,
     options: [
-      'Ik werk/studeer altijd op een vast adres (anders dan thuis)',
-      'Ik werk/studeer meestal op een vast adres (anders dan thuis)',
-      { title: 'Ik werk/studeer altijd thuis', hides_questions: POSTCODE_WERK_QUESTIONS },
-      { title: 'Ik werk/studeer op verschillende adressen', hides_questions: POSTCODE_WERK_QUESTIONS }
+      {
+        nl: 'Ik werk/studeer altijd op een vast adres (anders dan thuis)',
+        en: 'I always work or study from a fixed location (other than at home)'
+      },
+      {
+        nl: 'Ik werk/studeer meestal op een vast adres (anders dan thuis)',
+        en: 'I often work or study from a fixed location (other than at home)'
+      },
+      { 
+        title: {
+          nl: 'Ik werk/studeer altijd thuis',
+          en: 'I always work or study from home'
+        }, 
+        hides_questions: POSTCODE_WERK_QUESTIONS 
+      },
+      { 
+        title: {
+          nl: 'Ik werk/studeer op verschillende adressen',
+          en: 'I work or study at different locations'
+        }, 
+        hides_questions: POSTCODE_WERK_QUESTIONS 
+      }
     ]
   }, {
     id: :v8_b_0,
     hidden: true,
     type: :raw,
-    content: '<p class="flow-text">Wat is het adres en/of de postcode van uw werk/studeeradres? Vul het adres en/of de postcode in van de plek waar u het meeste werkt/studeert als u niet vanuit huis werkt/studeert.</p>'
+    content: {
+      nl: '<p class="flow-text">Wat is het adres en/of de postcode van uw werk/studeeradres? Vul het adres en/of de postcode in van de plek waar u het meeste werkt/studeert als u niet vanuit huis werkt/studeert.</p>',
+      en: '<p class="flow-text">If you do not work or study from home, what is the address and/or postal code for your location of work or study?</p>'
+    }
   }, {
     id: :v8_b_a,
     hidden: true,
     type: :textfield,
-    title: 'Straat',
+    title: {
+      nl: 'Straat',
+      en: 'Street'
+    },
     required: false
   }, {
     id: :v8_b_b,
     hidden: true,
     type: :number,
-    title: 'Huisnummer',
+    title: {
+      nl: 'Huisnummer',
+      en: 'Number'
+    },
     required: false
   }, {
     id: :v8_b_c,
     hidden: true,
     type: :textfield,
-    title: 'Postcode',
+    title: {
+      nl: 'Postcode',
+      en: 'Postal code'
+    },
     required: true
   }
 ]

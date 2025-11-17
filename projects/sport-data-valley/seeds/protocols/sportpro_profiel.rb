@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-# SportPro Profile Setup Protocol
+# SportPro Profile Protocol
 
 default_protocol_duration = 4.weeks   
 default_open_duration = 4.weeks      
 
-pr_name = 'sportpro_profiel_setup_protocol'
+pr_name = 'sportpro_profiel'
 protocol = Protocol.find_by(name: pr_name)
 protocol ||= Protocol.new(name: pr_name)
 protocol.duration = default_protocol_duration
 protocol.save!
 
-bp_name = 'base-platform-subscription-sportpro-profiel-setup'
+bp_name = 'base-platform-subscription-sportpro-profiel'
 bp_push_subscription = protocol.push_subscriptions.find_by(name: bp_name)
 bp_push_subscription ||= protocol.push_subscriptions.build(name: bp_name)
 bp_push_subscription.method = 'POST'
@@ -21,7 +21,7 @@ bp_push_subscription.save!
 protocol.save!
 
 # Add the one-time profile setup questionnaire
-profile_questionnaire_name = 'SportPro Profiel Setup'
+profile_questionnaire_name = 'sportpro_profiel'
 profile_questionnaire = Questionnaire.find_by(name: profile_questionnaire_name)
 raise "Cannot find questionnaire: #{profile_questionnaire_name}" unless profile_questionnaire
 

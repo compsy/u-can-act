@@ -2,7 +2,7 @@
 
 # SportPro Weekly Logboek Questionnaire
 
-db_title = 'SportPro Wekelijks Logboek'
+db_title = 'SportPro wekelijks logboek'
 questionnaire_key = 'sportpro_wekelijks_logboek'
 
 db_name1 = 'SportPro Wekelijks Logboek'
@@ -16,7 +16,7 @@ sportpro_content = [
   {
     section_start: 'Activiteiten en tijdsbesteding',
     type: :raw,
-    content: '<p>Welkom bij je wekelijkse SportPro logboek. Vul onderstaande vragen in over je werk van de afgelopen week.</p>'
+    content: '<p>Welkom bij je wekelijkse Sportpro-logboek. Vul onderstaande vragen in over je werk van de afgelopen week.</p>'
   },
   {
     id: :hours_worked,
@@ -32,130 +32,187 @@ sportpro_content = [
     show_otherwise: false
   },
   {
-    id: :weekly_activities,
-    type: :checkbox,
-    title: '2. Welke van onderstaande activiteiten heb je deze week binnen deze rol uitgevoerd? Geef daarna hieronder aan welk percentage van je totale werktijd in deze functie je hier deze week ongeveer aan hebt besteed.',
-    options: [
-      { title: 'Organiseren van activiteiten/evenementen', shows_questions: %i[perc_activities] },
-      { title: 'Ondersteunen van vrijwilligers', shows_questions: %i[perc_volunteers] },
-      { title: 'Ondersteunen van bestuur', shows_questions: %i[perc_board] },
-      { title: 'Beheer/accommodatiezaken', shows_questions: %i[perc_facility] },
-      { title: 'Contact met gemeente', shows_questions: %i[perc_municipality] },
-      { title: 'Contact met sportbond', shows_questions: %i[perc_sportbond] },
-      { title: 'Samenwerking met maatschappelijke organisaties', shows_questions: %i[perc_social_orgs] },
-      { title: 'Communicatie/PR/promotie', shows_questions: %i[perc_communication] },
-      { title: 'Financiën/fondsen/subsidies', shows_questions: %i[perc_finance] },
-      { title: 'Versterken van de sociale cohesie', shows_questions: %i[perc_cohesion] },
-      { title: 'Versterken van de identiteit', shows_questions: %i[perc_identity] },
-    ],
-    show_otherwise: false
-  },
-  {
-    id: :perc_activities,
-    type: :range,
-    title: 'Percentage tijd besteed aan organiseren van activiteiten/evenementen:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_volunteers,
-    type: :range,
-    title: 'Percentage tijd besteed aan ondersteunen van vrijwilligers:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_board,
-    type: :range,
-    title: 'Percentage tijd besteed aan ondersteunen van bestuur:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_facility,
-    type: :range,
-    title: 'Percentage tijd besteed aan beheer/accommodatiezaken:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_municipality,
-    type: :range,
-    title: 'Percentage tijd besteed aan contact met gemeente:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_sportbond,
-    type: :range,
-    title: 'Percentage tijd besteed aan contact met sportbond:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_social_orgs,
-    type: :range,
-    title: 'Percentage tijd besteed aan samenwerking met maatschappelijke organisaties:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_communication,
-    type: :range,
-    title: 'Percentage tijd besteed aan communicatie/PR/promotie:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_finance,
-    type: :range,
-    title: 'Percentage tijd besteed aan financiën/fondsen/subsidies:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_cohesion,
-    type: :range,
-    title: 'Percentage tijd besteed aan versterken van de sociale cohesie:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :perc_identity,
-    type: :range,
-    title: 'Percentage tijd besteed aan versterken van de identiteit:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
-  {
-    id: :activities_other,
-    type: :textarea,
-    title: 'Specificeer andere activiteiten:',
-    hidden: true
-  },
-  {
-    id: :perc_other,
-    type: :range,
-    title: 'Percentage tijd besteed aan andere activiteiten:',
-    labels: ['0%', '100%'],
-    max: 100,
-    hidden: true
-  },
+  id: :weekly_activities_intro,
+  type: :raw,
+  content: '<h5 class="flow-text" style="margin:0 0 .5rem;">2. Welke van onderstaande activiteiten heb je deze week binnen deze rol uitgevoerd? Geef daarna hieronder aan welk percentage van je totale werktijd in deze functie je hier deze week ongeveer aan hebt besteed.</h5>' \
+},
+{
+  id: :act_activities,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Organiseren van activiteiten/evenementen', shows_questions: %i[perc_activities] }],
+  show_otherwise: false
+},
+{
+  id: :perc_activities,
+  type: :range,
+  title: 'Percentage tijd besteed aan organiseren van activiteiten/evenementen:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_volunteers,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Ondersteunen van vrijwilligers', shows_questions: %i[perc_volunteers] }],
+  show_otherwise: false
+},
+{
+  id: :perc_volunteers,
+  type: :range,
+  title: 'Percentage tijd besteed aan ondersteunen van vrijwilligers:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_board,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Ondersteunen van bestuur', shows_questions: %i[perc_board] }],
+  show_otherwise: false
+},
+{
+  id: :perc_board,
+  type: :range,
+  title: 'Percentage tijd besteed aan ondersteunen van bestuur:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_facility,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Beheer/accommodatiezaken', shows_questions: %i[perc_facility] }],
+  show_otherwise: false
+},
+{
+  id: :perc_facility,
+  type: :range,
+  title: 'Percentage tijd besteed aan beheer/accommodatiezaken:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_municipality,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Contact met gemeente', shows_questions: %i[perc_municipality] }],
+  show_otherwise: false
+},
+{
+  id: :perc_municipality,
+  type: :range,
+  title: 'Percentage tijd besteed aan contact met gemeente:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_sportbond,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Contact met sportbond', shows_questions: %i[perc_sportbond] }],
+  show_otherwise: false
+},
+{
+  id: :perc_sportbond,
+  type: :range,
+  title: 'Percentage tijd besteed aan contact met sportbond:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_social_orgs,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Samenwerking met maatschappelijke organisaties', shows_questions: %i[perc_social_orgs] }],
+  show_otherwise: false
+},
+{
+  id: :perc_social_orgs,
+  type: :range,
+  title: 'Percentage tijd besteed aan samenwerking met maatschappelijke organisaties:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_communication,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Communicatie/PR/promotie', shows_questions: %i[perc_communication] }],
+  show_otherwise: false
+},
+{
+  id: :perc_communication,
+  type: :range,
+  title: 'Percentage tijd besteed aan communicatie/PR/promotie:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_finance,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Financiën/fondsen/subsidies', shows_questions: %i[perc_finance] }],
+  show_otherwise: false
+},
+{
+  id: :perc_finance,
+  type: :range,
+  title: 'Percentage tijd besteed aan financiën/fondsen/subsidies:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_cohesion,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Versterken van de sociale cohesie', shows_questions: %i[perc_cohesion] }],
+  show_otherwise: false
+},
+{
+  id: :perc_cohesion,
+  type: :range,
+  title: 'Percentage tijd besteed aan versterken van de sociale cohesie:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :act_identity,
+  type: :checkbox,
+  title: '',
+  options: [{ title: 'Versterken van de identiteit', shows_questions: %i[perc_identity] }],
+  show_otherwise: false
+},
+{
+  id: :perc_identity,
+  type: :range,
+  title: 'Percentage tijd besteed aan versterken van de identiteit:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
+{
+  id: :perc_other,
+  type: :range,
+  title: 'Percentage tijd besteed aan andere activiteiten:',
+  labels: ['0%', '100%'],
+  max: 100,
+  hidden: true
+},
   {
     id: :contact_parties,
     type: :checkbox,
-    title: '3. Met welke partijen had je deze week contact (meerdere antwoorden mogelijk)',
+    title: '3. Met welke partijen had je deze week contact? (meerdere antwoorden mogelijk)',
     options: [
       'Leden',
       'Vrijwilligers',
@@ -186,9 +243,9 @@ sportpro_content = [
 {
   id: :challenging_activities,
   type: :expandable,
-  section_start: 'Uitdagende activiteiten',
-  title: '5. Wat was/waren voor jou de meest uitdagende activiteit(en) die je hebt ingevuld bij vraag 2? ' \
-         '(Kies minimaal 1 en maximaal 3 activiteiten.)',
+  section_start: 'Uitdagende situaties',
+  title: '5. Wat was/waren voor jou de meest uitdagende situatie(s) deze week? Dit kan gelinkt zijn aan de bovenstaande activiteiten en/of partijen, maar kan ook een andere situatie zijn.' \
+         '(Kies minimaal 1 en maximaal 3.)',
   add_button_label: 'Activiteit toevoegen',
   remove_button_label: 'Verwijder activiteit',
   default_expansions: 0, 
@@ -199,7 +256,7 @@ sportpro_content = [
       id: :challenge_title,
       type: :textarea,
       required: true,
-      title: 'Welke activiteit was dit? (Kopieer de naam uit vraag 2)',
+      title: 'Welke situatie was dit?',
       placeholder: 'Bijv. “Organiseren van activiteiten/evenementen”'
     },
     {
@@ -308,7 +365,7 @@ sportpro_content = [
     section_end: true
   },
   {
-    section_start: '3. Overige werkzaamheden deze week',
+    section_start: 'Overige werkzaamheden deze week',
     type: :raw,
     content: '<p></p>'
   },

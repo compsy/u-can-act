@@ -616,18 +616,15 @@ blockquote {
   isolation: isolate;
 }
 
-/* === Radio + cell visuals (restored) + layout tweaks === */
 .table-question .questionnaire-table {
   /* make table wider than container so it can scroll */
   width: max-content;
   min-width: 100%;
   table-layout: fixed;
 
-  /* responsive track widths */
-  --label-col-w: clamp(120px, 34vw, 200px);  /* narrower, wraps text */
-  --opt-col-w: clamp(64px, 14vw, 112px);     /* small readable options */
+  --label-col-w: clamp(120px, 34vw, 200px);
+  --opt-col-w: clamp(64px, 14vw, 112px);
 
-  /* option cell padding / centering */
   td.table-option-cell { padding: 0; }
 
   .table-radio-cell {
@@ -635,16 +632,10 @@ blockquote {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 44px; /* was 40 — adjust if you like */
+    height: 44px;
   }
 
-  /* hide native radio but keep it accessible */
-  .table-radio-input {
-    position: absolute;
-    opacity: 0;
-  }
-
-  /* custom dot */
+  /* radio style */
   .table-radio-label {
     position: relative;
     display: inline-block;
@@ -665,12 +656,6 @@ blockquote {
     }
   }
 
-  /* hover hint */
-  .table-radio-label:hover::before {
-    border-color: #26a69a;
-    transform: scale(1);
-  }
-
   /* checked state */
   .table-radio-input:checked + .table-radio-label::before {
     border-color: #26a69a;
@@ -686,20 +671,12 @@ blockquote {
     transform: translate(-50%, -50%);
   }
 
-  /* keyboard focus */
-  .table-radio-input:focus-visible + .table-radio-label::before {
-    outline: 2px solid #26a69a;
-    outline-offset: 2px;
-  }
-
-  /* cell visuals (keep) */
   th, td {
     text-align: center;
     vertical-align: middle;
     border: 1px solid #e0e0e0;
   }
 
-  /* FIRST COLUMN: narrower + dynamic + (optional) sticky */
   th.table-row-label,
   td.table-row-label {
     text-align: left;
@@ -711,22 +688,14 @@ blockquote {
     overflow-wrap: anywhere;
     hyphens: auto;
 
-    /* fixed track so it doesn’t expand the table */
     min-width: var(--label-col-w);
     max-width: var(--label-col-w);
 
-    position: sticky;   /* keep visible while scrolling */
+    position: sticky;
     left: 0;
     z-index: 3;
   }
 
-  /* OPTION COLUMNS: small tracks so they appear and scroll */
-  td:not(.table-row-label) {
-    min-width: var(--opt-col-w);
-    white-space: nowrap;
-  }
-
-  /* headers: allow wrapping so long texts don’t force huge columns */
   .table-header-row th {
     background: #f5f5f5;
     font-weight: 600;
@@ -736,17 +705,5 @@ blockquote {
     white-space: normal;
     overflow-wrap: anywhere;
     hyphens: auto;
-    /* optional: keep header from being *too* tall */
-    line-height: 1.2;
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-
-  /* mobile size adjustments (radio dots, row height) */
-  @media (max-width: 768px) {
-    .table-radio-cell { height: 36px; }
-    .table-radio-label { width: 16px; height: 16px; }
-    .table-radio-label::before { transform: none; }
-    .table-radio-input:checked + .table-radio-label::after { width: 6px; height: 6px; }
   }
 }

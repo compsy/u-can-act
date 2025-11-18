@@ -24,7 +24,7 @@ questionnaire_id = questionnaire.id
 
 measurement = protocol.measurements.find_by(questionnaire_id: questionnaire_id)
 measurement ||= protocol.measurements.build(questionnaire_id: questionnaire_id)
-measurement.open_from_offset = 2.minutes
+measurement.open_from_offset = 1.minute
 measurement.period = nil
 measurement.open_duration = default_open_duration
 measurement.reward_points = 0

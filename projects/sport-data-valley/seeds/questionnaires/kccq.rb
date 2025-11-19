@@ -14,32 +14,64 @@ dagboek_content = [
     content: '<p class="flow-text">The following questions refer to your heart failure and how it may affect your life. Please read and complete the following questions. There are no right or wrong answers. Please mark the answer that best applies to you.</p>'
   },
   {
-    id: :v1_table,
-    title: '1. Heart failure affects different people in different ways. Some feel shortness of breath while others feel fatigue. Please indicate how much you are limited by heart failure (shortness of breath or fatigue) in your ability to do the following activities over the past 2 weeks.',
-    type: :table,
+    type: :raw,
+    content: '<p class="flow-text">1. Heart failure affects different people in different ways. Some feel shortness of breath while others feel fatigue. Please indicate how much you are limited by heart failure (shortness of breath or fatigue) in your ability to do the following activities over the past 2 weeks.</p>'
+  },
+  {
+    id: :v1a,
+    title: 'Showering/Bathing',
+    type: :range,
+    min: 0,
+    max: 5,
+    step: 1,
     required: true,
-    options: [
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
       'Extremely Limited',
       'Quite a bit Limited',
       'Moderately Limited',
       'Slightly Limited',
       'Not at all Limited',
       'Limited for other reasons or did not do the activity'
-    ],
-    show_otherwise: false,
-    rows: [
-      {
-        id: :v1a,
-        title: 'a. Showering/Bathing'
-      },
-      {
-        id: :v1b,
-        title: 'b. Walking 1 block on level ground'
-      },
-      {
-        id: :v1c,
-        title: 'c. Hurrying or jogging (as if to catch a bus)'
-      }
+    ]
+  },
+  {
+    id: :v1b,
+    title: 'Walking 1 block on level ground',
+    type: :range,
+    min: 0,
+    max: 5,
+    step: 1,
+    required: true,
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
+      'Extremely Limited',
+      'Quite a bit Limited',
+      'Moderately Limited', 
+      'Slightly Limited',
+      'Not at all Limited',
+      'Limited for other reasons or did not do the activity'
+    ]
+  },
+  {
+    id: :v1c,
+    title: 'Hurrying or jogging (as if to catch a bus)',
+    type: :range,
+    min: 0,
+    max: 5,
+    step: 1,
+    required: true,
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
+      'Extremely Limited',
+      'Quite a bit Limited',
+      'Moderately Limited',
+      'Slightly Limited', 
+      'Not at all Limited',
+      'Limited for other reasons or did not do the activity'
     ]
   },
   {
@@ -58,7 +90,7 @@ dagboek_content = [
   },
   {
     id: :v3,
-    title: '3. Over the past 2 weeks, on average, how many times has fatigue limited your ability to do what you wanted?',
+    title: '<br>3. Over the past 2 weeks, on average, how many times has fatigue limited your ability to do what you wanted?',
     type: :likert,
     options: [
       'All of the time',
@@ -74,7 +106,7 @@ dagboek_content = [
   },
   {
     id: :v4,
-    title: '4. Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?',
+    title: '<br>4. Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?',
     type: :likert,
     options: [
       'All of the time',
@@ -90,7 +122,7 @@ dagboek_content = [
   },
   {
     id: :v5,
-    title: '5. Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of shortness of breath?',
+    title: '<br>5. Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of shortness of breath?',
     type: :likert,
     options: [
       'Every night',
@@ -104,7 +136,7 @@ dagboek_content = [
   },
   {
     id: :v6,
-    title: '6. Over the past 2 weeks, how much has your heart failure limited your enjoyment of life?',
+    title: '<br>6. Over the past 2 weeks, how much has your heart failure limited your enjoyment of life?',
     type: :likert,
     options: [
       'It has extremely limited my enjoyment of life',
@@ -118,7 +150,7 @@ dagboek_content = [
   },
   {
     id: :v7,
-    title: '7. If you had to spend the rest of your life with your heart failure the way it is right now, how would you feel about this?',
+    title: '<br>7. If you had to spend the rest of your life with your heart failure the way it is right now, how would you feel about this?',
     type: :likert,
     options: [
       'Not at all satisfied',
@@ -131,32 +163,64 @@ dagboek_content = [
     show_otherwise: false
   },
   {
-    id: :v8_table,
-    title: '8. How much does your heart failure affect your lifestyle? Please indicate how your heart failure may have limited your participation in the following activities over the past 2 weeks.',
-    type: :likert,
+    type: :raw,
+    content: '<p class="flow-text">8. How much does your heart failure affect your lifestyle? Please indicate how your heart failure may have limited your participation in the following activities over the past 2 weeks.</p>'
+  },
+  {
+    id: :v8a,
+    title: 'Hobbies, recreational activities',
+    type: :range,
+    min: 0,
+    max: 5,
+    step: 1,
     required: true,
-    options: [
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
       'Severely Limited',
       'Limited quite a bit',
       'Moderately limited',
       'Slightly limited',
       'Did not limit at all',
       'Does not apply or did not do for other reasons'
-    ],
-    show_otherwise: false,
-    rows: [
-      {
-        id: :v8a,
-        title: 'a. Hobbies, recreational activities'
-      },
-      {
-        id: :v8b,
-        title: 'b. Working or doing household chores'
-      },
-      {
-        id: :v8c,
-        title: 'c. Visiting family or friends out of your home'
-      }
+    ]
+  },
+  {
+    id: :v8b,
+    title: 'Working or doing household chores',
+    type: :range,
+    min: 0,
+    max: 5,
+    step: 1,
+    required: true,
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
+      'Severely Limited',
+      'Limited quite a bit',
+      'Moderately limited',
+      'Slightly limited',
+      'Did not limit at all',
+      'Does not apply or did not do for other reasons'
+    ]
+  },
+  {
+    id: :v8c,
+    title: 'Visiting family or friends out of your home',
+    type: :range,
+    min: 0,
+    max: 5,
+    step: 1,
+    required: true,
+    ticks: true,
+    no_initial_thumb: true,
+    labels: [
+      'Severely Limited',
+      'Limited quite a bit',
+      'Moderately limited',
+      'Slightly limited',
+      'Did not limit at all',
+      'Does not apply or did not do for other reasons'
     ]
   }
 ]

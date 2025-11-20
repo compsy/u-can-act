@@ -21,10 +21,13 @@ module DistributionHelper
     return [] unless @questionnaire_content.is_a?(Hash) &&
                      @questionnaire_content.key?(:questions) && @questionnaire_content.key?(:scores)
 
-    raw_content = QuestionnaireTranslator.translate_content(@questionnaire_content[:questions].deep_dup, 'i18n')
+    @questionnaire_content[:questions] = QuestionnaireTranslator.translate_content(
+      @questionnaire_content[:questions].deep_dup,
+      'i18n'
+    )
     # Translate a second time to get rid of any remaining translation hashes because the i18n translation is optional
     @questionnaire_content = QuestionnaireTranslator.translate_content(
-      raw_content,
+      @questionnaire_content,
       Rails.application.config.i18n.default_locale.to_s
     )
 

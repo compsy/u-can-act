@@ -23,40 +23,40 @@ dagboek_content = [
         nl: 'Nooit',
         en: 'Never'
       },
-      { 
+      {
         title: {
           nl: 'Minder dan een keer per jaar',
           en: 'Less than once per year'
-        }, 
-        shows_questions: DEELAUTO_QUESTIONS 
+        },
+        shows_questions: DEELAUTO_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Enkele keren per jaar',
           en: 'Multiple times per year'
-        }, 
-        shows_questions: DEELAUTO_QUESTIONS 
+        },
+        shows_questions: DEELAUTO_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Eens per maand',
           en: 'Once per month'
-        }, 
-        shows_questions: DEELAUTO_QUESTIONS 
+        },
+        shows_questions: DEELAUTO_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Een paar keer per maand',
           en: 'Multiple times per month'
-        }, 
-        shows_questions: DEELAUTO_QUESTIONS 
+        },
+        shows_questions: DEELAUTO_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Iedere week',
           en: 'Every week'
-        }, 
-        shows_questions: DEELAUTO_QUESTIONS 
+        },
+        shows_questions: DEELAUTO_QUESTIONS
       }
     ],
     required: true,
@@ -75,18 +75,29 @@ dagboek_content = [
     },
     options: [
       'MyWheels',
-      'ConnectCar',
-      'StudentCar',
       'SnappCar',
       'Greenwheels',
-      'Stapp.in',
-      'Oproepauto',
-      'Witkar',
-      'Car2go',
-      'Juuve'
+      'Hely',
+      'Sixt',
+      'Disk',
+      'Free2Move',
+      'Green Mobility',
+      'Check',
+      'Ready2Share/Mr. Green',
+      'Vloto Cars',
+      'Just Go',
+      'Onze Auto'
     ],
     required: true,
-    show_otherwise: true
+    show_otherwise: true,
+    otherwise_label: {
+      nl: 'Anders, namelijk:',
+      en: 'Other (please specify):'
+    },
+    otherwise_placeholder: {
+      nl: 'Vul iets in',
+      en: 'Enter something'
+    }
   }, {
     id: :v32,
     hidden: true,
@@ -139,40 +150,40 @@ dagboek_content = [
         nl: 'Nooit',
         en: 'Never'
       },
-      { 
+      {
         title: {
           nl: 'Minder dan een keer per jaar',
           en: 'Less than once per year'
-        }, 
-        shows_questions: DEELFIETS_QUESTIONS 
+        },
+        shows_questions: DEELFIETS_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Enkele keren per jaar',
           en: 'Multiple times per year'
-        }, 
-        shows_questions: DEELFIETS_QUESTIONS 
+        },
+        shows_questions: DEELFIETS_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Eens per maand',
           en: 'Once per month'
-        }, 
-        shows_questions: DEELFIETS_QUESTIONS 
+        },
+        shows_questions: DEELFIETS_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Een paar keer per maand',
           en: 'Multiple times per month'
-        }, 
-        shows_questions: DEELFIETS_QUESTIONS 
+        },
+        shows_questions: DEELFIETS_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Iedere week',
           en: 'Every week'
-        }, 
-        shows_questions: DEELFIETS_QUESTIONS 
+        },
+        shows_questions: DEELFIETS_QUESTIONS
       }
     ],
     required: true,
@@ -191,16 +202,22 @@ dagboek_content = [
     },
     options: [
       'OV-fiets',
-      'NextBike',
-      'Hello-Bike',
       'Donkey Republic',
-      'Flickbike',
-      'Ofo',
-      'MoBike',
-      'oBike'
+      'Dott',
+      'Hely',
+      'Felyx',
+      'Bolt'
     ],
     required: true,
-    show_otherwise: true
+    show_otherwise: true,
+    otherwise_label: {
+      nl: 'Anders, namelijk:',
+      en: 'Other (please specify):'
+    },
+    otherwise_placeholder: {
+      nl: 'Vul iets in',
+      en: 'Enter something'
+    }
   }, {
     type: :raw,
     content: '<div></div>',
@@ -217,40 +234,40 @@ dagboek_content = [
         nl: 'Nooit',
         en: 'Never'
       },
-      { 
+      {
         title: {
           nl: 'Minder dan een keer per jaar',
           en: 'Less than once per year'
-        }, 
-        shows_questions: DEELSCOOTER_QUESTIONS 
+        },
+        shows_questions: DEELSCOOTER_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Enkele keren per jaar',
           en: 'Multiple times per year'
-        }, 
-        shows_questions: DEELSCOOTER_QUESTIONS 
+        },
+        shows_questions: DEELSCOOTER_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Eens per maand',
           en: 'Once per month'
-        }, 
-        shows_questions: DEELSCOOTER_QUESTIONS 
+        },
+        shows_questions: DEELSCOOTER_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Een paar keer per maand',
           en: 'Multiple times per month'
-        }, 
-        shows_questions: DEELSCOOTER_QUESTIONS 
+        },
+        shows_questions: DEELSCOOTER_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Iedere week',
           en: 'Every week'
-        }, 
-        shows_questions: DEELSCOOTER_QUESTIONS 
+        },
+        shows_questions: DEELSCOOTER_QUESTIONS
       }
     ],
     required: true,
@@ -268,11 +285,19 @@ dagboek_content = [
       en: 'Which platforms do you use to access a shared moped?'
     },
     options: [
-      'Go sharing',
+      'Check',
       'Felyx'
     ],
     required: true,
-    show_otherwise: true
+    show_otherwise: true,
+    otherwise_label: {
+      nl: 'Anders, namelijk:',
+      en: 'Other (please specify):'
+    },
+    otherwise_placeholder: {
+      nl: 'Vul iets in',
+      en: 'Enter something'
+    }
   }, {
     type: :raw,
     content: '<div></div>',

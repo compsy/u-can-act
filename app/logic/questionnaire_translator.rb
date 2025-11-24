@@ -33,6 +33,8 @@ class QuestionnaireTranslator
     # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/CyclomaticComplexity
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     # Recursively checks if all hashes with language keys have both 'nl' and 'en' keys
     # Returns true if valid, false if any hash has only one language key
     def valid_translations?(content)
@@ -62,6 +64,8 @@ class QuestionnaireTranslator
 
       true
     end
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     private
 

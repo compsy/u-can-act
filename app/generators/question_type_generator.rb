@@ -131,7 +131,10 @@ class QuestionTypeGenerator < Generator
       question[:raw][:otherwise_label] =
         I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
     end
-    question[:otherwise_label] = I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale]) if question[:otherwise_label].blank?
+    if question[:otherwise_label].blank?
+      question[:otherwise_label] =
+        I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
+    end
     question
   end
 
@@ -169,7 +172,8 @@ class QuestionTypeGenerator < Generator
   end
 
   def otherwise_textfield_label(question)
-    tag.label(question[:otherwise_placeholder].presence || I18n.t('questionnaires.placeholders.fill_something_in', locale: question[:locale]),
+    tag.label(question[:otherwise_placeholder].presence || I18n.t('questionnaires.placeholders.fill_something_in',
+                                                                  locale: question[:locale]),
               for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
   end
 

@@ -39,7 +39,7 @@ class TextfieldGenerator < QuestionTypeGenerator
   end
 
   def textfield_label(question)
-    tag.label(placeholder(question, I18n.t('questionnaires.placeholders.fill_something_in')),
+    tag.label(placeholder(question, I18n.t('questionnaires.placeholders.fill_something_in', locale: question[:locale])),
               for: idify(question[:id]),
               class: 'flow-text')
   end

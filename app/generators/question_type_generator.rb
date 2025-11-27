@@ -129,9 +129,9 @@ class QuestionTypeGenerator < Generator
   def add_otherwise_label(question)
     if question[:raw][:otherwise_label].blank?
       question[:raw][:otherwise_label] =
-        I18n.t('questionnaires.placeholders.otherwise')
+        I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
     end
-    question[:otherwise_label] = I18n.t('questionnaires.placeholders.otherwise') if question[:otherwise_label].blank?
+    question[:otherwise_label] = I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale]) if question[:otherwise_label].blank?
     question
   end
 
@@ -169,7 +169,7 @@ class QuestionTypeGenerator < Generator
   end
 
   def otherwise_textfield_label(question)
-    tag.label(question[:otherwise_placeholder].presence || I18n.t('questionnaires.placeholders.fill_something_in'),
+    tag.label(question[:otherwise_placeholder].presence || I18n.t('questionnaires.placeholders.fill_something_in', locale: question[:locale]),
               for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
   end
 

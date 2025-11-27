@@ -87,7 +87,7 @@ module DistributionHelper
   def otherwise_label(question)
     return question[:otherwise_label] if question[:otherwise_label].present?
 
-    QuestionTypeGenerator::OTHERWISE_TEXT
+    I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
   end
 
   def scores(questionnaire_content)

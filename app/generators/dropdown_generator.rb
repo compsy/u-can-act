@@ -24,7 +24,7 @@ class DropdownGenerator < QuestionTypeGenerator
 
   def generate_dropdown(question, id)
     body = []
-    placeholder = question[:placeholder] || I18n.t('questionnaires.placeholders.select_your_answer')
+    placeholder = question[:placeholder] || I18n.t('questionnaires.placeholders.select_your_answer', locale: question[:locale])
     body << tag.option(placeholder, disabled: true, selected: true, value: '')
     question[:options].each_with_index do |option, idx|
       body << dropdown_option_body(question, add_raw_to_option(option, question, idx))

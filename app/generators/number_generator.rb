@@ -51,7 +51,7 @@ class NumberGenerator < QuestionTypeGenerator
   end
 
   def number_label(question)
-    tag.label(placeholder(question, I18n.t('questionnaires.placeholders.enter_a_number')),
+    tag.label(placeholder(question, I18n.t('questionnaires.placeholders.enter_a_number', locale: question[:locale])),
               for: idify(question[:id]),
               class: 'flow-text')
   end

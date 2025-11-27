@@ -17,14 +17,14 @@ dagboek_content = [
       en: 'Do you own a moped?'
     },
     options: [
-      { 
+      {
         title: {
           nl: 'Ja',
           en: 'Yes'
-        }, 
-        shows_questions: SCOOTER_QUESTIONS 
+        },
+        shows_questions: SCOOTER_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Nee',
           en: 'No'
@@ -52,7 +52,7 @@ dagboek_content = [
       }
     ],
     required: true,
-    show_otherwise: true
+    show_otherwise: true,
   }, {
     id: :v27,
     type: :radio,

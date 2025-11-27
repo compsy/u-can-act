@@ -132,33 +132,33 @@ dagboek_content = [
       en: 'What is your primary daily occupation?'
     },
     options: [
-      { 
+      {
         title: {
           nl: 'Student/scholier',
           en: 'Student/in school'
-        }, 
-        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS 
+        },
+        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Zelfstandig ondernemer',
           en: 'Entrepreneur'
-        }, 
-        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS 
+        },
+        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Werkzaam in loondienst',
           en: 'Employed'
-        }, 
-        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS 
+        },
+        shows_questions: WERKADRES_QUESTIONS + POSTCODE_WERK_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Vrijwilligerswerk',
           en: 'Volunteer'
-        }, 
-        shows_questions: WERKADRES_QUESTIONS 
+        },
+        shows_questions: WERKADRES_QUESTIONS
       },
       {
         nl: 'De zorg voor gezin',
@@ -168,11 +168,8 @@ dagboek_content = [
         nl: 'Geen werk',
         en: 'Unemployed'
       },
-      {
-        nl: 'Anders',
-        en: 'Other'
-      }
     ],
+    show_otherwise: true,
     required: true
   }, {
     id: :v7,
@@ -232,19 +229,19 @@ dagboek_content = [
         nl: 'Ik werk/studeer meestal op een vast adres (anders dan thuis)',
         en: 'I often work or study from a fixed location (other than at home)'
       },
-      { 
+      {
         title: {
           nl: 'Ik werk/studeer altijd thuis',
           en: 'I always work or study from home'
-        }, 
-        hides_questions: POSTCODE_WERK_QUESTIONS 
+        },
+        hides_questions: POSTCODE_WERK_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Ik werk/studeer op verschillende adressen',
           en: 'I work or study at different locations'
-        }, 
-        hides_questions: POSTCODE_WERK_QUESTIONS 
+        },
+        hides_questions: POSTCODE_WERK_QUESTIONS
       }
     ]
   }, {

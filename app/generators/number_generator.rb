@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class NumberGenerator < QuestionTypeGenerator
-  NUMBER_PLACEHOLDER = 'Vul een getal in'
-
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     safe_join([tag.p(title, class: 'flow-text'), number_field(question)])
@@ -53,7 +51,7 @@ class NumberGenerator < QuestionTypeGenerator
   end
 
   def number_label(question)
-    tag.label(placeholder(question, NUMBER_PLACEHOLDER),
+    tag.label(placeholder(question, I18n.t('questionnaires.placeholders.enter_a_number')),
               for: idify(question[:id]),
               class: 'flow-text')
   end

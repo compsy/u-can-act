@@ -92,26 +92,26 @@ class AutoMethods
               nl: 'Diesel',
               en: 'Diesel'
             },
-            { 
+            {
               title: {
                 nl: 'Elektriciteit',
                 en: 'Electric'
-              }, 
-              shows_questions: CHARGING_QUESTIONS 
+              },
+              shows_questions: CHARGING_QUESTIONS
             },
-            { 
+            {
               title: {
                 nl: 'Hybride benzine',
                 en: 'Hybrid petrol/gasoline'
-              }, 
-              shows_questions: CHARGING_QUESTIONS 
+              },
+              shows_questions: CHARGING_QUESTIONS
             },
-            { 
+            {
               title: {
                 nl: 'Hybride diesel',
                 en: 'Hybrid diesel'
-              }, 
-              shows_questions: CHARGING_QUESTIONS 
+              },
+              shows_questions: CHARGING_QUESTIONS
             },
             {
               nl: 'Waterstof',
@@ -144,6 +144,10 @@ class AutoMethods
             nl: 'Jaar',
             en: 'Year'
           },
+          otherwise_placeholder: {
+            nl: 'Vul een jaar in',
+            en: 'Enter a year'
+          },
           section_end: true
         }
       ]
@@ -168,14 +172,14 @@ dagboek_content = [
       en: 'Do you possess a valid driver\'s license?'
     },
     options: [
-      { 
+      {
         title: {
           nl: 'Ja',
           en: 'Yes'
-        }, 
-        shows_questions: RIJBEWIJS_QUESTIONS 
+        },
+        shows_questions: RIJBEWIJS_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Nee',
           en: 'No'
@@ -215,8 +219,14 @@ dagboek_content = [
   }, {
     id: :v15,
     type: :radio,
-    title: 'Hoeveel auto’s heeft uw huishouden ter beschikking?',
-    tooltip: 'We bedoelen hiermee de auto’s die u of een ander lid van het huishouden zou kunnen gebruiken',
+    title: {
+      nl: 'Hoeveel auto’s heeft uw huishouden ter beschikking?',
+      en: 'How many cars does your household have at its disposal?'
+    },
+    tooltip: {
+      nl: 'We bedoelen hiermee de auto’s die u of een ander lid van het huishouden zou kunnen gebruiken',
+      en: 'By this we mean the cars that you or another member of the household could use.'
+    },
     options: [
       '0',
       { title: '1', shows_questions: AutoMethods::car_up_to_x_questions(1) },
@@ -236,7 +246,10 @@ dagboek_content = [
     id: :v19,
     hidden: true,
     type: :radio,
-    title: 'Waar parkeert u uw meest gebruikte auto? (in geval van meerdere auto’s: de auto die u het meest gebruikt).',
+    title: {
+      nl: 'Waar parkeert u uw meest gebruikte auto? (in geval van meerdere auto’s: de auto die u het meest gebruikt).',
+      en: 'Where do you park the car you use most? (If there are multiple cars: the car you use the most).'
+    },
     options: [
       {
         nl: 'Op eigen terrein/in eigen garage/op eigen plek in parkeergarage',
@@ -252,7 +265,7 @@ dagboek_content = [
       }
     ],
     required: true,
-    show_otherwise: true
+    show_otherwise: true,
   }, {
     id: :v20,
     hidden: true,

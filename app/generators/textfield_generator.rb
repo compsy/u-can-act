@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class TextfieldGenerator < QuestionTypeGenerator
-  TEXTFIELD_PLACEHOLDER = 'Vul iets in'
-
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     safe_join([tag.p(title, class: 'flow-text'), textfield_field(question)])
@@ -41,7 +39,7 @@ class TextfieldGenerator < QuestionTypeGenerator
   end
 
   def textfield_label(question)
-    tag.label(placeholder(question, TEXTFIELD_PLACEHOLDER),
+    tag.label(placeholder(question, I18n.t('questionnaires.placeholders.fill_something_in')),
               for: idify(question[:id]),
               class: 'flow-text')
   end

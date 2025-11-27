@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DropdownGenerator < QuestionTypeGenerator
-  DROPDOWN_PLACEHOLDER = 'Selecteer uw antwoord...'
-
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     safe_join([
@@ -26,7 +24,7 @@ class DropdownGenerator < QuestionTypeGenerator
 
   def generate_dropdown(question, id)
     body = []
-    placeholder = question[:placeholder] || DROPDOWN_PLACEHOLDER
+    placeholder = question[:placeholder] || I18n.t('questionnaires.placeholders.select_your_answer')
     body << tag.option(placeholder, disabled: true, selected: true, value: '')
     question[:options].each_with_index do |option, idx|
       body << dropdown_option_body(question, add_raw_to_option(option, question, idx))

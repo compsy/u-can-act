@@ -17,14 +17,14 @@ dagboek_content = [
       en: 'Do you own a moped?'
     },
     options: [
-      { 
+      {
         title: {
           nl: 'Ja',
           en: 'Yes'
-        }, 
-        shows_questions: SCOOTER_QUESTIONS 
+        },
+        shows_questions: SCOOTER_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Nee',
           en: 'No'

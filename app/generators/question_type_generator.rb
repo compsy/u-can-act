@@ -3,8 +3,6 @@
 class QuestionTypeGenerator < Generator
   TOOLTIP_MIN_DURATION = 3000
   MILLISEC_PER_CHARACTER = 70
-  OTHERWISE_TEXT = 'Anders, namelijk:'
-  OTHERWISE_PLACEHOLDER = 'Vul iets in'
 
   def generate(_question)
     raise 'Generate not implemented!'
@@ -129,8 +127,14 @@ class QuestionTypeGenerator < Generator
   end
 
   def add_otherwise_label(question)
-    question[:raw][:otherwise_label] = OTHERWISE_TEXT if question[:raw][:otherwise_label].blank?
-    question[:otherwise_label] = OTHERWISE_TEXT if question[:otherwise_label].blank?
+    if question[:raw][:otherwise_label].blank?
+      question[:raw][:otherwise_label] =
+        I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
+    end
+    if question[:otherwise_label].blank?
+      question[:otherwise_label] =
+        I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
+    end
     question
   end
 
@@ -168,7 +172,8 @@ class QuestionTypeGenerator < Generator
   end
 
   def otherwise_textfield_label(question)
-    tag.label(question[:otherwise_placeholder].presence || OTHERWISE_PLACEHOLDER,
+    tag.label(question[:otherwise_placeholder].presence || I18n.t('questionnaires.placeholders.fill_something_in',
+                                                                  locale: question[:locale]),
               for: idify(question[:id], question[:raw][:otherwise_label], 'text'))
   end
 

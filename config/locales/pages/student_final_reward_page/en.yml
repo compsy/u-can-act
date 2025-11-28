@@ -1,0 +1,18 @@
+en:
+  pages:
+    student_final_reward_page:
+      header: Thank you for completing the questionnaire!
+      body:
+        top: >
+          <div class='section'>
+            <p class='flow-text'>
+              Thank you very much for your dedication to this research!
+            </p>
+          </div>
+        bottom: >
+          <div class='section'>
+            <p class='flow-text'>
+              You can safely close this page.
+            </p>
+          </div>
+

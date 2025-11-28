@@ -90,14 +90,6 @@ dagboek_content = [
     ],
     required: true,
     show_otherwise: true,
-    otherwise_label: {
-      nl: 'Anders, namelijk:',
-      en: 'Other (please specify):'
-    },
-    otherwise_placeholder: {
-      nl: 'Vul iets in',
-      en: 'Enter something'
-    }
   }, {
     id: :v32,
     hidden: true,
@@ -210,14 +202,6 @@ dagboek_content = [
     ],
     required: true,
     show_otherwise: true,
-    otherwise_label: {
-      nl: 'Anders, namelijk:',
-      en: 'Other (please specify):'
-    },
-    otherwise_placeholder: {
-      nl: 'Vul iets in',
-      en: 'Enter something'
-    }
   }, {
     type: :raw,
     content: '<div></div>',
@@ -290,14 +274,6 @@ dagboek_content = [
     ],
     required: true,
     show_otherwise: true,
-    otherwise_label: {
-      nl: 'Anders, namelijk:',
-      en: 'Other (please specify):'
-    },
-    otherwise_placeholder: {
-      nl: 'Vul iets in',
-      en: 'Enter something'
-    }
   }, {
     type: :raw,
     content: '<div></div>',

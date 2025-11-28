@@ -36,12 +36,12 @@ dagboek_content = [
       en: 'Do you have a public transit subscription? (Including NS Flex/NS Flex Basis)'
     },
     options: [
-      { 
+      {
         title: {
           nl: 'Ja',
           en: 'Yes'
-        }, 
-        shows_questions: OV_ABONNEMENT_QUESTIONS 
+        },
+        shows_questions: OV_ABONNEMENT_QUESTIONS
       },
       {
         nl: 'Nee',

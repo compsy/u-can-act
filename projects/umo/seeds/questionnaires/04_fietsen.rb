@@ -17,14 +17,14 @@ dagboek_content = [
       en: 'Do you use a bicycle?'
     },
     options: [
-      { 
+      {
         title: {
           nl: 'Ja',
           en: 'Yes'
-        }, 
-        shows_questions: BIKING_QUESTIONS 
+        },
+        shows_questions: BIKING_QUESTIONS
       },
-      { 
+      {
         title: {
           nl: 'Nee',
           en: 'No'
@@ -116,6 +116,10 @@ dagboek_content = [
     otherwise_label: {
       nl: 'Jaren',
       en: 'Years'
+    },
+    otherwise_placeholder: {
+      nl: 'Vul een getal in',
+      en: 'Enter a number'
     }
   }
 ]

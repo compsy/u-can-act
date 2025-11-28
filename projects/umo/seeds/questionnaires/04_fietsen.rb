@@ -56,7 +56,7 @@ dagboek_content = [
       }
     ],
     required: true,
-    show_otherwise: true,
+    show_otherwise: true
   }, {
     id: :v23,
     hidden: true,

@@ -52,7 +52,7 @@ dagboek_content = [
       }
     ],
     required: true,
-    show_otherwise: true,
+    show_otherwise: true
   }, {
     id: :v27,
     type: :radio,

@@ -26,7 +26,7 @@ variables:
 
   # docker build variables
   IMAGE_NAME: researchableuser/sdv-svc-questionnaires
-  IMAGE_TAGS: $CI_COMMIT_SHA
+  IMAGE_TAGS: $CI_COMMIT_SHA,latest
   REGISTRY_USERNAME: $DOCKER_HUB_USERNAME
   REGISTRY_PASSWORD: $DOCKER_HUB_PASSWORD
   REGISTRY_HOST: docker.io

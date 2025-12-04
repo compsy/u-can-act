@@ -20,11 +20,6 @@ dagboek_content = [
   },
   {
     type: :raw,
-    content: { nl: '<p class="flow-text">De volgende vragen hebben betrekking op uw hartfalen en hoe dit uw leven kan beïnvloeden. Lees en beantwoord de volgende vragen. Er zijn geen juiste of foute antwoorden. Kruis het antwoord aan dat het beste bij u past.</p>',
-               en: '<p class="flow-text">The following questions refer to your heart failure and how it may affect your life. Please read and complete the following questions. There are no right or wrong answers. Please mark the answer that best applies to you.</p>' }
-  },
-  {
-    type: :raw,
     content: { nl: '<p class="flow-text">1. Hartfalen beïnvloedt verschillende mensen op verschillende manieren. Sommigen zijn voornamelijk kortademig, anderen voelen zich voornamelijk moe en lusteloos. Geef aan in welke mate hartfalen (bijvoorbeeld kortademigheid of vermoeidheid en lusteloosheid) u heeft beperkt in uw vermogen om de volgende bezigheden te doen gedurende de afgelopen 2 weken.</p>',
                en: '<p class="flow-text">1. Heart failure affects different people in different ways. Some feel shortness of breath while others feel fatigue. Please indicate how much you are limited by heart failure (shortness of breath or fatigue) in your ability to do the following activities over the past 2 weeks.</p>' }
   },

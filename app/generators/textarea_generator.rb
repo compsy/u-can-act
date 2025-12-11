@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class TextareaGenerator < QuestionTypeGenerator
-  TEXTAREA_PLACEHOLDER = 'Vul iets in'
-
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     safe_join([tag.p(title, class: 'flow-text'), textarea_field(question)])
@@ -28,7 +26,7 @@ class TextareaGenerator < QuestionTypeGenerator
   end
 
   def textarea_label(question)
-    tag.label(placeholder(question, TEXTAREA_PLACEHOLDER),
+    tag.label(placeholder(question, I18n.t('questionnaire.placeholders.fill_something_in', locale: question[:locale])),
               for: idify(question[:id]),
               class: 'flow-text')
   end

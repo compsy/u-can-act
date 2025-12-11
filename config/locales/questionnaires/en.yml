@@ -11,3 +11,8 @@ en:
     link_not_valid: This link is no longer valid.
     not_found: User / Questionnaire not found.
     not_found_questionnaire: The questionnaire could not be found.
+    placeholders:
+      fill_something_in: Enter something
+      otherwise: "Otherwise (please specify):"
+      enter_a_number: Enter a number
+      select_your_answer: Select your answer...

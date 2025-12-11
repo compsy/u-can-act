@@ -11,3 +11,8 @@ nl:
     link_not_valid: Deze link is niet meer geldig.
     not_found: Gebruiker / Vragenlijst niet gevonden.
     not_found_questionnaire: De vragenlijst kon niet gevonden worden.
+    placeholders:
+      fill_something_in: Vul iets in
+      otherwise: "Anders, namelijk:"
+      enter_a_number: Vul een getal in
+      select_your_answer: Selecteer uw antwoord...

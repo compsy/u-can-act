@@ -46,7 +46,7 @@ sportpro_content = [
 {
   id: :perc_activities,
   type: :range,
-  title: 'Percentage tijd besteed aan organiseren van activiteiten/evenementen:',
+  title: '2. Percentage tijd besteed aan organiseren van activiteiten/evenementen:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -61,7 +61,7 @@ sportpro_content = [
 {
   id: :perc_volunteers,
   type: :range,
-  title: 'Percentage tijd besteed aan ondersteunen van vrijwilligers:',
+  title: '2. Percentage tijd besteed aan ondersteunen van vrijwilligers:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -76,7 +76,7 @@ sportpro_content = [
 {
   id: :perc_board,
   type: :range,
-  title: 'Percentage tijd besteed aan ondersteunen van bestuur:',
+  title: '2. Percentage tijd besteed aan ondersteunen van bestuur:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -91,7 +91,7 @@ sportpro_content = [
 {
   id: :perc_facility,
   type: :range,
-  title: 'Percentage tijd besteed aan beheer/accommodatiezaken:',
+  title: '2. Percentage tijd besteed aan beheer/accommodatiezaken:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -106,7 +106,7 @@ sportpro_content = [
 {
   id: :perc_municipality,
   type: :range,
-  title: 'Percentage tijd besteed aan contact met gemeente:',
+  title: '2. Percentage tijd besteed aan contact met gemeente:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -121,7 +121,7 @@ sportpro_content = [
 {
   id: :perc_sportbond,
   type: :range,
-  title: 'Percentage tijd besteed aan contact met sportbond:',
+  title: '2. Percentage tijd besteed aan contact met sportbond:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -136,7 +136,7 @@ sportpro_content = [
 {
   id: :perc_social_orgs,
   type: :range,
-  title: 'Percentage tijd besteed aan samenwerking met maatschappelijke organisaties:',
+  title: '2. Percentage tijd besteed aan samenwerking met maatschappelijke organisaties:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -151,7 +151,7 @@ sportpro_content = [
 {
   id: :perc_communication,
   type: :range,
-  title: 'Percentage tijd besteed aan communicatie/PR/promotie:',
+  title: '2. Percentage tijd besteed aan communicatie/PR/promotie:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -166,7 +166,7 @@ sportpro_content = [
 {
   id: :perc_finance,
   type: :range,
-  title: 'Percentage tijd besteed aan financiën/fondsen/subsidies:',
+  title: '2. Percentage tijd besteed aan financiën/fondsen/subsidies:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -181,7 +181,7 @@ sportpro_content = [
 {
   id: :perc_cohesion,
   type: :range,
-  title: 'Percentage tijd besteed aan versterken van de sociale cohesie:',
+  title: '2. Percentage tijd besteed aan versterken van de sociale cohesie:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -196,7 +196,7 @@ sportpro_content = [
 {
   id: :perc_identity,
   type: :range,
-  title: 'Percentage tijd besteed aan versterken van de identiteit:',
+  title: '2. Percentage tijd besteed aan versterken van de identiteit:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -204,7 +204,7 @@ sportpro_content = [
 {
   id: :perc_other,
   type: :range,
-  title: 'Percentage tijd besteed aan andere activiteiten:',
+  title: '2. Percentage tijd besteed aan andere activiteiten:',
   labels: ['0%', '100%'],
   max: 100,
   hidden: true
@@ -372,27 +372,27 @@ sportpro_content = [
   {
     id: :insufficient_time,
     type: :textarea,
-    title: '8. Waar had je deze week te weinig tijd voor?'
+    title: '6. Waar had je deze week te weinig tijd voor?'
   },
   {
     id: :obstacles,
     type: :textarea,
-    title: '9. Welke andere knelpunten of belemmeringen kwam je deze week tegen?'
+    title: '7. Welke andere knelpunten of belemmeringen kwam je deze week tegen?'
   },
   {
     id: :skills_needed,
     type: :textarea,
-    title: '10. Waar had je deze week meer kennis of vaardigheden in willen hebben?'
+    title: '8. Waar had je deze week meer kennis of vaardigheden in willen hebben?'
   },
   {
     id: :success_experience,
     type: :textarea,
-    title: '11. Welke succeservaring had je deze week?'
+    title: '9. Welke succeservaring had je deze week?'
   },
   {
     id: :takeaways,
     type: :textarea,
-    title: '12. Wat neem je mee uit deze week naar de volgende?',
+    title: '10. Wat neem je mee uit deze week naar de volgende?',
     section_end: true
   }
 ]

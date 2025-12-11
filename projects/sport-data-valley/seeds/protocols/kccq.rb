@@ -1,4 +1,4 @@
-default_protocol_duration = 1.day
+default_protocol_duration = 5.years
 default_open_duration = 30.days
 
 pr_name = 'kccq'
@@ -24,8 +24,8 @@ questionnaire_id = questionnaire.id
 
 measurement = protocol.measurements.find_by(questionnaire_id: questionnaire_id)
 measurement ||= protocol.measurements.build(questionnaire_id: questionnaire_id)
-measurement.open_from_offset = 1.minute
-measurement.period = nil
+measurement.open_from_offset = 0.days
+measurement.period = 6.months
 measurement.open_duration = default_open_duration
 measurement.reward_points = 0
 measurement.redirect_url = ENV['BASE_PLATFORM_URL']

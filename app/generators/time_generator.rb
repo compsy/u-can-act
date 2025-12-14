@@ -42,10 +42,7 @@ class TimeGenerator < QuestionTypeGenerator
   # rubocop:enable Metrics/ParameterLists
 
   def generate_dropdown(items, id, am_pm)
-    if am_pm
-      items = items.sort_by { |h| h < 12 ? h + 24 : h }
-    end
-
+    items = items.sort_by { |h| h < 12 ? h + 24 : h } if am_pm
     body = []
     items.each do |option|
       option_value = number_to_string(option)

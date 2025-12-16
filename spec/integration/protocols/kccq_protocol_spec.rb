@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'KCCQ Protocol', type: :integration, focus: true do
+describe 'KCCQ Protocol', type: :integration do
   let(:protocol) { Protocol.find_by(name: 'kccq') }
   let(:questionnaire) { Questionnaire.find_by(name: 'kccq') }
   let(:person) { FactoryBot.create(:person) }

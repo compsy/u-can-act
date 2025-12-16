@@ -41,6 +41,7 @@ class TimeGenerator < QuestionTypeGenerator
   end
   # rubocop:enable Metrics/ParameterLists
 
+  # rubocop:disable Metrics/PerceivedComplexity
   def generate_dropdown(items, id, am_pm)
     items = items.sort_by { |h| h < 12 ? h + 24 : h } if am_pm
     body = []
@@ -64,3 +65,4 @@ class TimeGenerator < QuestionTypeGenerator
     tag.select(body, name: answer_name(id), id: id, required: true, class: 'browser-default')
   end
 end
+# rubocop:enable Metrics/PerceivedComplexity

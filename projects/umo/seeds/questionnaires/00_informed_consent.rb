@@ -9,14 +9,14 @@ dagboek1.name = db_name1
 ic_content = {
   nl: <<~'END',
     <div class='informed-consent'>
-      <h4>Welkom bij de eerste UMO vragenlijst</h4>
+      <h4>Welkom bij deze UMO vragenlijst</h4>
       <p>In deze vragenlijst stellen we enkele vragen over kenmerken van uzelf en uw huishouden en over uw beschikbare vervoersopties. Het doel hiervan is om verschillen in reisgedrag en transportmogelijkheden van verschillende groepen mensen te kunnen onderzoeken.</p>
       <p>Deze gegevens kunnen in de toekomst beschikbaar gesteld worden aan derden voor wetenschappelijk onderzoek. Gegevens die het mogelijk zouden maken om u te identificeren (zoals uw adres) zullen echter nooit worden gedeeld, en worden gescheiden van de overige gegevens opgeslagen.</p>
     </div>
 END
   en: <<~'END'
     <div class='informed-consent'>
-      <h4>Welcome to the first UMO questionnaire</h4>
+      <h4>Welcome to this UMO questionnaire</h4>
       <p>In this questionnaire we will ask you some questions about yourself and your household, and your available mobility options. This is so we can look at the travel behaviour and mobility opportunities of diverse groups of people.</p>
       <p>The data from these questionnaires may be made available to third parties for scientific research. Data that would possibly identify you (such as your address), however, will never be shared and will be stored separately from any other data.</p>
     </div>

@@ -81,15 +81,15 @@ class Measurement < ApplicationRecord
     response_times = []
     temp_open_from = open_from(start_date, open_from_day_uses_start_date_offset)
     temp_open_till = open_till(end_date)
-
-    original_hour = temp_open_from.hour
-    original_min = temp_open_from.min
-    original_sec = temp_open_from.sec
-
     while temp_open_from < temp_open_till && response_times.length < MAX_RESPONSES
       response_times << temp_open_from
-      temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
-      temp_open_from = temp_open_from.change(hour: original_hour, min: original_min, sec: original_sec)
+      one_month_seconds = 1.month.to_i
+      if one_month_seconds.positive? && (period % one_month_seconds).zero?
+        months = period / one_month_seconds
+        temp_open_from = temp_open_from.in_time_zone.advance(months: months)
+      else
+        temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
+      end
     end
 
     response_times
@@ -129,10 +129,7 @@ class Measurement < ApplicationRecord
 
     # Regular open time if open_from_day is blank. Because we have measurements with open_from_offsets that can be
     # much larger than 24 hours in which case this math has no point.
-    if open_from_day.blank?
-      return open_from_with_offset(start_date, open_from_day_uses_start_date_offset,
-                                   start_date_offset)
-    end
+    return open_from_with_offset(start_date, false, start_date_offset) if open_from_day.blank?
 
     # The second check in the guard is for periods that are less than 24 hours. The check fails for some
     # reason if the times are a few nanoseconds apart that's why we check that the difference is more than one second.

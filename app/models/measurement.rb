@@ -92,7 +92,14 @@ class Measurement < ApplicationRecord
         temp_open_from2 = temp_open_from2.change(hour: original_hour, min: original_min, sec: original_sec)
       end
       response_times << temp_open_from2
-      temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
+
+      one_month_seconds = 1.month.to_i
+      if one_month_seconds.positive? && (period % one_month_seconds).zero?
+        months = period / one_month_seconds
+        temp_open_from = temp_open_from.in_time_zone.advance(months: months)
+      else
+        temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
+      end
     end
 
     response_times

@@ -88,7 +88,9 @@ class Measurement < ApplicationRecord
 
     while temp_open_from < temp_open_till && response_times.length < MAX_RESPONSES
       temp_open_from2 = temp_open_from.dup
-      temp_open_from2 = temp_open_from2.change(hour: original_hour, min: original_min, sec: original_sec) if period >= 1.day
+      if period >= 1.day
+        temp_open_from2 = temp_open_from2.change(hour: original_hour, min: original_min, sec: original_sec)
+      end
       response_times << temp_open_from2
       temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
     end

@@ -239,7 +239,7 @@ GEM
       webrick
     highcharts-rails (6.0.3)
       railties (>= 3.1)
-    httparty (0.24.0)
+    httparty (0.24.2)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -317,7 +317,7 @@ GEM
       mongo (>= 2.18.0, < 3.0.0)
     msgpack (1.8.0)
     multi_json (1.15.0)
-    multi_xml (0.8.0)
+    multi_xml (0.8.1)
       bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
     nenv (0.3.0)

@@ -11,7 +11,7 @@ questionnaire.key = questionnaire_key if questionnaire.key.blank?
 dagboek_content = [
   {
     type: :raw,
-    content: { nl: '<h4>De Hartfalen Vragenlijst (Kansas City) (KCCQ-12)</h4>', en: '<h4>Kansas City Cardiomyopathy Questionnaire (KCCQ-12)</h4>' }
+    content: { nl: '<h4>KCCQ</h4>', en: '<h4>KCCQ</h4>' }
   },
   {
     type: :raw,

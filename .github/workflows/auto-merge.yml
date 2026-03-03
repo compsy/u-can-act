@@ -1,16 +1,18 @@
-name: 'Merge Dependencies'
+name: 'Auto-merge Dependabot PRs'
 
-on: [pull_request_target]
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # Guarantee that commit comes from Dependabot (don't blindly trust external GitHub Actions)
     if: github.actor == 'dependabot[bot]'
     steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v2.3.4
-      - name: 'Automerge dependency updates from Dependabot'
-        uses: ahmadnassri/action-dependabot-auto-merge@v2.4.0
-        with:
-          github-token: ${{ secrets.GIT_GITHUB_COM_PASSWORD }}
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

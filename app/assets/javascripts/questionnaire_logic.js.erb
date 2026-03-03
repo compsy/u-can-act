@@ -142,6 +142,51 @@ function time_element() {
   }
 }
 
+function updateSleepDuration() {
+  var bedHours = $('#v2_hours');
+  var bedMinutes = $('#v2_minutes');
+  var wakeHours = $('#v3_hours');
+  var wakeMinutes = $('#v3_minutes');
+  var durationText = $('#sleep-duration-text');
+  var durationInput = $('#sleep_duration_minutes');
+
+  if (durationText.length === 0 || durationInput.length === 0) return;
+
+  var sleepQuestionsVisible = $('.v2_toggle').not('.hidden').length > 0 && $('.v3_toggle').not('.hidden').length > 0;
+  if (!sleepQuestionsVisible) {
+    durationText.text('-');
+    durationInput.val('');
+    return;
+  }
+
+  if (bedHours.length === 0 || bedMinutes.length === 0 || wakeHours.length === 0 || wakeMinutes.length === 0) {
+    durationText.text('-');
+    durationInput.val('');
+    return;
+  }
+
+  var bedtime = (parseInt(bedHours.val(), 10) * 60) + parseInt(bedMinutes.val(), 10);
+  var waketime = (parseInt(wakeHours.val(), 10) * 60) + parseInt(wakeMinutes.val(), 10);
+
+  if (Number.isNaN(bedtime) || Number.isNaN(waketime)) {
+    durationText.text('-');
+    durationInput.val('');
+    return;
+  }
+
+  var durationMinutes = waketime - bedtime;
+  if (durationMinutes < 0) {
+    durationMinutes += 24 * 60;
+  }
+
+  var hours = Math.floor(durationMinutes / 60);
+  var minutes = durationMinutes % 60;
+  var durationLabel = hours + 'h ' + (minutes < 10 ? ('0' + minutes) : minutes) + 'm';
+
+  durationText.text(durationLabel);
+  durationInput.val(durationMinutes);
+}
+
 function addRemoveDisabledClass(buttons, element_class) {
   var currentButton;
   var questionnaireId;
@@ -348,6 +393,9 @@ function questionnaireLoaded() {
   // The line below breaks stuff, just assume that the questionnaire visibilities are correct by default
   //$('input[type=radio][data-hides-questions],input[type=checkbox][data-hides-questions]').each(toggle_hidden_questions);
   $('.otherwise-option').each(toggle_otherwise_field);
+  updateSleepDuration();
+  $('input[type=radio],input[type=checkbox]').change(updateSleepDuration);
+  $('#v2_hours,#v2_minutes,#v3_hours,#v3_minutes').change(updateSleepDuration);
   $('label + div.input-field.inline').click(function () {
     if ($(this).find('input[type=text][disabled]').length) {
       $(this).prev().click();

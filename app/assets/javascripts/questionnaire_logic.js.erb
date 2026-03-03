@@ -177,6 +177,8 @@ function updateSleepDuration() {
   var durationMinutes = waketime - bedtime;
   if (durationMinutes < 0) {
     durationMinutes += 24 * 60;
+  } else if (durationMinutes === 0) {
+    durationMinutes = 24 * 60;
   }
 
   var hours = Math.floor(durationMinutes / 60);

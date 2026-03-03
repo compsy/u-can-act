@@ -6,7 +6,11 @@ module Api
       class ProtocolController < JwtApiController
         include ProtocolHelper
 
-        BLOCKED_PROTOCOL_NAMES = %w[move_mood_motivation sportpro_profiel sportpro_wekelijks_logboek_protocol].freeze
+        BLOCKED_PROTOCOL_NAMES = %w[
+          move_mood_motivation
+          sportpro_profiel
+          sportpro_wekelijks_logboek_protocol
+        ].freeze
 
         before_action :set_protocol, only: %i[preview]
 

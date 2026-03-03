@@ -62,6 +62,12 @@ describe SubscribeToProtocol do
       .to raise_error(RuntimeError, 'Protocol not found')
   end
 
+  it 'raises if the protocol is blocked' do
+    blocked_protocol = FactoryBot.create(:protocol, name: 'sportpro_profiel')
+    expect { described_class.run!(protocol_name: blocked_protocol.name, person: person) }
+      .to raise_error(RuntimeError, 'Protocol is no longer available')
+  end
+
   it 'sets the external identifier' do
     described_class.run!(protocol_name: protocol.name, person: person, external_identifier: 'external_identifier')
     person.reload

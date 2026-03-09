@@ -63,7 +63,7 @@ describe SubscribeToProtocol do
   end
 
   it 'raises if the protocol is blocked' do
-    blocked_protocol = FactoryBot.create(:protocol, name: 'sportpro_profiel')
+    blocked_protocol = FactoryBot.create(:protocol, name: 'daily_protocol_rheumatism')
     expect { described_class.run!(protocol_name: blocked_protocol.name, person: person) }
       .to raise_error(RuntimeError, 'Protocol is no longer available')
   end

@@ -5,6 +5,7 @@ class SubscribeToProtocol < AsyncActiveInteraction
     move_mood_motivation
     sportpro_profiel
     sportpro_wekelijks_logboek_protocol
+    daily_protocol_rheumatism
   ].freeze
 
   string :protocol_name, default: nil

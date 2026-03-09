@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 namespace :maintenance do
-  TARGET_PROTOCOL_NAMES = %w[move_mood_motivation sportpro_profiel sportpro_wekelijks_logboek_protocol].freeze
-
   # Run with
   # be rake "maintenance:echo_people[people.csv]"
   desc 'Echo people from a csv file'
@@ -42,11 +40,12 @@ namespace :maintenance do
 
   desc 'Cancel active subscriptions for target protocols'
   task cancel_target_protocols: :environment do
+    target_protocol_names = %w[move_mood_motivation sportpro_profiel sportpro_wekelijks_logboek_protocol].freeze
     dry_run = ENV['DRY_RUN'] == 'true'
-    puts "Canceling active subscriptions for: #{TARGET_PROTOCOL_NAMES.join(', ')}"
+    puts "Canceling active subscriptions for: #{target_protocol_names.join(', ')}"
     puts "Dry run: #{dry_run}"
 
-    TARGET_PROTOCOL_NAMES.each do |protocol_name|
+    target_protocol_names.each do |protocol_name|
       protocol = Protocol.find_by(name: protocol_name)
       unless protocol
         puts "- #{protocol_name}: protocol not found"

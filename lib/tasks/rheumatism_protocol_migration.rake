@@ -1,26 +1,25 @@
 # frozen_string_literal: true
 
 namespace :rheumatism do
-  LEGACY_ONE_TIME_PROTOCOL = 'rheumatism_one_time'
-  STANDALONE_PROTOCOL_TARGETS = %w[
-    ases_rheumatism
-    braf_rheumatism
-    eq5d5l_rheumatism
-    hads_rheumatism
-  ].freeze
-
   desc 'Migrate rheumatism_one_time subscriptions into standalone rheumatism protocols'
   task migrate_one_time_protocol_subscriptions: :environment do
+    legacy_one_time_protocol = 'rheumatism_one_time'
+    standalone_protocol_targets = %w[
+      ases_rheumatism
+      braf_rheumatism
+      eq5d5l_rheumatism
+      hads_rheumatism
+    ].freeze
     dry_run = ENV.fetch('DRY_RUN', 'true') == 'true'
     cancel_legacy = ENV.fetch('CANCEL_LEGACY', 'true') == 'true'
 
-    legacy_protocol = Protocol.find_by(name: LEGACY_ONE_TIME_PROTOCOL)
+    legacy_protocol = Protocol.find_by(name: legacy_one_time_protocol)
     if legacy_protocol.blank?
-      puts "Protocol '#{LEGACY_ONE_TIME_PROTOCOL}' not found"
+      puts "Protocol '#{legacy_one_time_protocol}' not found"
       next
     end
 
-    target_protocols = STANDALONE_PROTOCOL_TARGETS.index_with do |protocol_name|
+    target_protocols = standalone_protocol_targets.index_with do |protocol_name|
       Protocol.find_by(name: protocol_name)
     end
 
@@ -31,7 +30,7 @@ namespace :rheumatism do
       next
     end
 
-    puts "Migrating subscriptions from '#{LEGACY_ONE_TIME_PROTOCOL}'"
+    puts "Migrating subscriptions from '#{legacy_one_time_protocol}'"
     puts "Dry run: #{dry_run}"
     puts "Cancel legacy active subscriptions: #{cancel_legacy}"
 
@@ -137,13 +136,23 @@ namespace :rheumatism do
   end
 
   def copy_response_data!(source_response, target_response)
-    if target_response.open_from == source_response.open_from &&
-       target_response.completed_at == source_response.completed_at &&
-       target_response.content.present? == source_response.content.present?
-      return
-    end
+    return if response_data_synced?(source_response, target_response)
 
-    target_attributes = {
+    target_response.update!(build_response_attributes(source_response))
+  end
+
+  def response_data_synced?(source_response, target_response)
+    target_response.open_from == source_response.open_from &&
+      target_response.completed_at == source_response.completed_at &&
+      target_response.content.present? == source_response.content.present?
+  end
+
+  def build_response_attributes(source_response)
+    base_response_attributes(source_response).merge(content: duplicated_content_id(source_response))
+  end
+
+  def base_response_attributes(source_response)
+    {
       open_from: source_response.open_from,
       completed_at: source_response.completed_at,
       filled_out_by: source_response.filled_out_by,
@@ -151,19 +160,16 @@ namespace :rheumatism do
       invitation_set: source_response.invitation_set,
       original: source_response.original
     }
+  end
 
+  def duplicated_content_id(source_response)
     source_content = source_response.remote_content
-    if source_content.present?
-      copied_content = ResponseContent.create!(
-        content: source_content.content,
-        scores: source_content.scores
-      )
-      target_attributes[:content] = copied_content.id.to_s
-    else
-      target_attributes[:content] = nil
-    end
+    return nil if source_content.blank?
 
-    target_response.update!(target_attributes)
+    ResponseContent.create!(
+      content: source_content.content,
+      scores: source_content.scores
+    ).id.to_s
   end
 
   def synchronize_subscription_state!(legacy_subscription, target_subscription)

@@ -3,7 +3,12 @@
 namespace :maintenance do
   desc 'Cancel active subscriptions for target protocols'
   task cancel_target_protocols: :environment do
-    target_protocol_names = %w[move_mood_motivation sportpro_profiel sportpro_wekelijks_logboek_protocol].freeze
+    target_protocol_names = %w[
+      move_mood_motivation
+      sportpro_profiel
+      sportpro_wekelijks_logboek_protocol
+      daily_protocol_rheumatism
+    ].freeze
     dry_run = ENV['DRY_RUN'] == 'true'
     puts "Canceling active subscriptions for: #{target_protocol_names.join(', ')}"
     puts "Dry run: #{dry_run}"

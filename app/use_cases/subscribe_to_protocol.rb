@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 class SubscribeToProtocol < AsyncActiveInteraction
-  BLOCKED_PROTOCOL_NAMES = %w[move_mood_motivation sportpro_profiel sportpro_wekelijks_logboek_protocol].freeze
+  BLOCKED_PROTOCOL_NAMES = %w[
+    move_mood_motivation
+    sportpro_profiel
+    sportpro_wekelijks_logboek_protocol
+    daily_protocol_rheumatism
+  ].freeze
 
   string :protocol_name, default: nil
   object :protocol, default: nil

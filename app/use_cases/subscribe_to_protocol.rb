@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class SubscribeToProtocol < AsyncActiveInteraction
+  BLOCKED_PROTOCOL_NAMES = %w[
+    move_mood_motivation
+    sportpro_profiel
+    sportpro_wekelijks_logboek_protocol
+  ].freeze
+
   string :protocol_name, default: nil
   object :protocol, default: nil
   object :person
@@ -28,6 +34,8 @@ class SubscribeToProtocol < AsyncActiveInteraction
   # - start_date: the date when the subscription should start
   def execute
     the_protocol = find_protocol
+    raise 'Protocol is no longer available' if blocked_protocol?(the_protocol)
+
     the_start_date = find_start_date
     Rails.logger.warn("Protocol #{the_protocol.id} does not have any measurements") if the_protocol.measurements.blank?
 
@@ -67,5 +75,9 @@ class SubscribeToProtocol < AsyncActiveInteraction
     return the_protocol if the_protocol.present?
 
     raise 'Protocol not found'
+  end
+
+  def blocked_protocol?(the_protocol)
+    BLOCKED_PROTOCOL_NAMES.include?(the_protocol.name)
   end
 end

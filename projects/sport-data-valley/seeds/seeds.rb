@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.development? || Rails.env.staging?)
+if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.env.development? || Rails.env.staging?)
   demo_organization = 'sport-data-valley'
   demo_team = 'sdv-team'
   normal_role_title = 'normal'
@@ -11,58 +11,58 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   # Create weekly protocol
   Person.create!(first_name: 'Jan',
-                last_name: 'Fictief',
-                gender: 'male',
-                mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
-                role: normal_role)
+                 last_name: 'Fictief',
+                 gender: 'male',
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
+                 role: normal_role)
 
   Person.create!(first_name: 'Janiee',
-                last_name: 'Fictieva',
-                gender: 'female',
-                mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
-                role: normal_role)
+                 last_name: 'Fictieva',
+                 gender: 'female',
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
+                 role: normal_role)
 
   Person.create!(first_name: 'Janiea',
                  last_name: 'Fictieva',
                  gender: 'female',
-                 mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
                  role: normal_role)
 
   Person.create!(first_name: 'Janieb',
                  last_name: 'Fictieva',
                  gender: 'female',
-                 mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
                  role: normal_role)
 
   Person.create!(first_name: 'Janied',
                  last_name: 'Fictieva',
                  gender: 'female',
-                 mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
                  role: normal_role)
 
   Person.create!(first_name: 'Janiee',
                  last_name: 'Fictieva',
                  gender: 'female',
-                 mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
                  role: normal_role)
 
   Person.create!(first_name: 'Janief',
                  last_name: 'Fictieva',
                  gender: 'female',
-                 mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
                  role: normal_role)
 
   Person.create!(first_name: 'Din',
-                  last_name: 'Djarin',
-                  gender: 'male',
-                  mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
-                  role: normal_role)
+                 last_name: 'Djarin',
+                 gender: 'male',
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
+                 role: normal_role)
 
   Person.create!(first_name: 'Anakin',
-                  last_name: 'Skywalker',
-                  gender: 'male',
-                  mobile_phone: "06#{rand(10 ** 8).to_s.rjust(8, '0')}",
-                  role: normal_role)
+                 last_name: 'Skywalker',
+                 gender: 'male',
+                 mobile_phone: "06#{rand(10**8).to_s.rjust(8, '0')}",
+                 role: normal_role)
 
   # Create daily protocol instance
   protocol = Protocol.find_by(name: 'daily_protocol')
@@ -104,7 +104,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
     puts "Korte Vragenlijst: #{invitation_set.invitation_url(invitation_token.token_plain)}"
   else
     # In the later stage add a response for also testing.
-    puts "ERROR: No responses created for korte_vragenlijst protocol!"
+    puts 'ERROR: No responses created for korte_vragenlijst protocol!'
   end
 
   # Create actief transport protocol instance
@@ -128,7 +128,7 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
     puts "Actief Transport: #{invitation_set.invitation_url(invitation_token.token_plain)}"
   else
     # In the later stage add a response for also testing.
-    puts "ERROR: No responses created for actief_transport protocol!"
+    puts 'ERROR: No responses created for actief_transport protocol!'
   end
 
   # Create squash protocol instance
@@ -206,27 +206,6 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
   invitation_token = invitation_set.invitation_tokens.create!
   puts "Daily rheumatism protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
-  # Create rheumatism one time protocol instance
-  protocol = Protocol.find_by(name: 'rheumatism_one_time')
-  person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[6]
-  prot_sub = ProtocolSubscription.create!(
-    protocol: protocol,
-    person: person,
-    state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: Time.zone.now
-  )
-
-  invitation_set = InvitationSet.create!(person: person)
-
-  # NOTE: for non-periodic (one-off) protocols that have multiple questionnaires,
-  #       set all of them to opened (like below), instead of just the first response.
-  prot_sub.responses.each do |responseobj|
-    responseobj.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
-  end
-
-  invitation_token = invitation_set.invitation_tokens.create!
-  puts "Rheumatism one time protocol: #{invitation_set.invitation_url(invitation_token.token_plain)}"
-
   # Create move mood and motivation one time protocol instance
   protocol = Protocol.find_by(name: MMM_PROTOCOL_NAME)
   person = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)[7]
@@ -282,7 +261,6 @@ if Person.all.select{|person| person.auth_user.blank?}.count == 0 && (Rails.env.
 
   invitation_token = invitation_set.invitation_tokens.create!
   puts "SportPro Weekly Logbook: #{invitation_set.invitation_url(invitation_token.token_plain)}"
-
 
   profile_protocol = Protocol.find_by(name: 'kccq')
   available_people = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)

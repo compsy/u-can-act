@@ -39,6 +39,13 @@ describe Api::V1::JwtApi::ProtocolController, type: :controller do
         result = response.parsed_body
         expect(result.length).to eq(no_protocols)
       end
+
+      it 'does not render blocked protocols' do
+        blocked_protocol = FactoryBot.create(:protocol, name: 'move_mood_motivation')
+        get :index
+        result_names = response.parsed_body.map { |entry| entry['name'] }
+        expect(result_names).not_to include(blocked_protocol.name)
+      end
     end
 
     describe 'preview' do

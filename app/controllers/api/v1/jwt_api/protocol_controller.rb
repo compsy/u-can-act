@@ -11,6 +11,7 @@ module Api
           sportpro_profiel
           sportpro_wekelijks_logboek_protocol
           daily_protocol_rheumatism
+          rheumatism_one_time
         ].freeze
 
         before_action :set_protocol, only: %i[preview]

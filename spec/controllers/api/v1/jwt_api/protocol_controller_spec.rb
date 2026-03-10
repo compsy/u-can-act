@@ -43,10 +43,12 @@ describe Api::V1::JwtApi::ProtocolController, type: :controller do
       it 'does not render blocked protocols' do
         blocked_protocol = FactoryBot.create(:protocol, name: 'move_mood_motivation')
         blocked_rheumatism_protocol = FactoryBot.create(:protocol, name: 'daily_protocol_rheumatism')
+        blocked_rheumatism_one_time_protocol = FactoryBot.create(:protocol, name: 'rheumatism_one_time')
         get :index
         result_names = response.parsed_body.map { |entry| entry['name'] }
         expect(result_names).not_to include(blocked_protocol.name)
         expect(result_names).not_to include(blocked_rheumatism_protocol.name)
+        expect(result_names).not_to include(blocked_rheumatism_one_time_protocol.name)
       end
     end
 

@@ -8,6 +8,7 @@ namespace :maintenance do
       sportpro_profiel
       sportpro_wekelijks_logboek_protocol
       daily_protocol_rheumatism
+      rheumatism_one_time
     ].freeze
     dry_run = ENV['DRY_RUN'] == 'true'
     puts "Canceling active subscriptions for: #{target_protocol_names.join(', ')}"

@@ -1,4 +1,8 @@
 {
+  "engines": {
+    "node": "20.9.0",
+    "yarn": "1.22.19"
+  },
   "name": "u-can-act",
   "private": true,
   "version": "0.1.0",

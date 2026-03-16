@@ -37,12 +37,12 @@ module Api
         # rubocop:enable Metrics/AbcSize
 
         def delegated_protocol_subscriptions
-          subscriptions = ProtocolSubscription.where(external_identifier: @external_identifier)
-                                              .includes(person: %i[auth_user role],
-                                                        protocol: [:rewards,
-                                                                   { measurements: :questionnaire }],
-                                                        responses: { measurement: :questionnaire })
-          render json: subscriptions, each_serializer: Api::ProtocolSubscriptionSerializer
+          render json: ProtocolSubscription.where(external_identifier: @external_identifier)
+                       .includes(person: %i[auth_user role],
+                                 protocol: [:rewards,
+                                            { measurements: :questionnaire }],
+                                 responses: { measurement: :questionnaire }),
+                 each_serializer: Api::ProtocolSubscriptionSerializer
         end
 
         def destroy_delegated_protocol_subscriptions

@@ -209,4 +209,4 @@ gem 'httparty'
 gem 'warden-jwt_auth'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', require: false
+gem 'bootsnap', '< 1.23.0', require: false

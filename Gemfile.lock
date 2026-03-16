@@ -288,10 +288,11 @@ GEM
       net-imap
       net-pop
       net-smtp
-    mailgun-ruby (1.3.5)
+    mailgun-ruby (1.4.2)
       faraday (~> 2.1)
-      faraday-multipart (~> 1.1.0)
-      mime-types
+      faraday-multipart (< 2)
+      mini_mime
+      zeitwerk
     marcel (1.0.4)
     materialize-sass (1.0.0.1)
       autoprefixer-rails (>= 6.0.3)

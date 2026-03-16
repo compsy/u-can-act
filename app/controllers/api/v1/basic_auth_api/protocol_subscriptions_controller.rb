@@ -39,9 +39,9 @@ module Api
         def delegated_protocol_subscriptions
           render json: ProtocolSubscription.where(external_identifier: @external_identifier)
                        .includes(person: %i[auth_user role],
-                                protocol: [:rewards,
-                                           { measurements: :questionnaire }],
-                                responses: { measurement: :questionnaire }),
+                                 protocol: [:rewards,
+                                            { measurements: :questionnaire }],
+                                 responses: { measurement: :questionnaire }),
                  each_serializer: Api::ProtocolSubscriptionSerializer
         end
 
@@ -80,7 +80,7 @@ module Api
         end
 
         def mentor
-          @mentor ||= Person.find_by(id: protocol_subscription_create_params[:mentor_id])
+          @mentor = Person.find_by(id: protocol_subscription_create_params[:mentor_id])
         end
 
         def external_identifier
@@ -97,7 +97,7 @@ module Api
         end
 
         def set_person
-          @auth_user ||= AuthUser.find_by(auth0_id_string: protocol_subscription_create_params[:auth0_id_string])
+          @auth_user = AuthUser.find_by(auth0_id_string: protocol_subscription_create_params[:auth0_id_string])
           @person = @auth_user&.person
 
           return if @person.present?

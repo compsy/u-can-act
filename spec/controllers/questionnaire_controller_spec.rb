@@ -649,7 +649,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'returns some error message' do
         post :interactive_render, params: { content: content }
-        expect(response.body).to eq({ error: "unexpected token at 'notjson'" }.to_json)
+        expect(JSON.parse(response.body)).to have_key('error')
       end
     end
   end

@@ -4,6 +4,7 @@ require 'csv'
 
 class ResponseExporter
   extend Exporters
+
   QUESTIONNAIRE_HEADERS_KEY = 'questionnaire_headers'
 
   class << self
@@ -118,7 +119,7 @@ class ResponseExporter
       len.times do
         t += '0' # add the zero padding
       end
-      t += key[first..(key.size - 1)] # add the number and the rest of the string
+      t += key[first..-1] # add the number and the rest of the string
       t
     end
 
@@ -134,12 +135,12 @@ class ResponseExporter
       last = -1
       key.chars.each_with_index do |c, i|
         if first == -1
-          if c >= '0' && c <= '9'
+          if c.between?('0', '9')
             # if we haven't seen a digit before, and found a digit, it's both the first and last digit we found
             first = i
             last = i
           end
-        elsif c >= '0' && c <= '9'
+        elsif c.between?('0', '9')
           # if we already found a digit before, this is the new last digit.
           last = i
         else

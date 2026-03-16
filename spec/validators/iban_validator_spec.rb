@@ -5,6 +5,7 @@ require 'rails_helper'
 describe IbanValidator do
   class Validatable
     include ActiveModel::Validations
+
     validates_with IbanValidator
     attr_accessor :iban
   end

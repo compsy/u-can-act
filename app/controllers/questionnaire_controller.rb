@@ -2,9 +2,11 @@
 
 class QuestionnaireController < ApplicationController
   include QuestionnaireHelper
+
   MAX_ANSWER_LENGTH = 2048
   MAX_DRAWING_LENGTH = 65_536
   include ::IsLoggedIn
+
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json interactive_post]
   before_action :log_csrf_error, only: %i[create]
@@ -129,7 +131,7 @@ class QuestionnaireController < ApplicationController
   def set_locale
     person = current_user
     if person && questionnaire_params[:locale].present? &&
-       (questionnaire_params[:locale] == 'en' || questionnaire_params[:locale] == 'nl')
+       %w[en nl].include?(questionnaire_params[:locale])
       person.update!(locale: questionnaire_params[:locale])
     end
     I18n.locale = if person

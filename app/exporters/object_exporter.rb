@@ -4,6 +4,7 @@ require 'csv'
 
 class ObjectExporter
   extend Exporters
+
   class << self
     def export_lines
       Enumerator.new do |enum|

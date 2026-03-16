@@ -649,7 +649,7 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'returns some error message' do
         post :interactive_render, params: { content: content }
-        expect(JSON.parse(response.body)).to have_key('error')
+        expect(response.parsed_body).to have_key('error')
       end
     end
   end

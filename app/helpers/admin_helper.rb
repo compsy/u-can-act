@@ -2,6 +2,7 @@
 
 module AdminHelper
   include ActionView::Helpers::NumberHelper
+
   def file_headers!(name)
     file_name = "#{name}.csv"
     headers['Content-Type'] = 'text/csv'

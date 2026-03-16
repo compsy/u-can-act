@@ -209,4 +209,5 @@ gem 'httparty'
 gem 'warden-jwt_auth'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '< 1.23.0', require: false
+gem 'bootsnap', require: false
+gem 'logger', '~> 1.6.0' # logger 1.7+ breaks Rails 6.1

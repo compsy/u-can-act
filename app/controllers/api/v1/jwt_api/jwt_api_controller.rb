@@ -5,6 +5,7 @@ module Api
     module JwtApi
       class JwtApiController < ApiController
         include ::IsJwtAuthenticated
+
         before_action :set_person
 
         private

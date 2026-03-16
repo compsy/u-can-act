@@ -2,6 +2,7 @@
 
 class ProtocolSubscription < ApplicationRecord
   include ActiveModel::Validations
+
   ACTIVE_STATE = 'active'
   CANCELED_STATE = 'canceled'
   COMPLETED_STATE = 'completed'
@@ -147,7 +148,7 @@ class ProtocolSubscription < ApplicationRecord
     # Put the "now" time in a variable so Time.zone.now is not different for every response.
     now = Time.zone.now
     to = from + responses.count { |response| response.open_from > now }
-    sliced_completion = completion.slice((from...to))
+    sliced_completion = completion.slice(from...to)
     protocol.calculate_reward(sliced_completion, true)
   end
 

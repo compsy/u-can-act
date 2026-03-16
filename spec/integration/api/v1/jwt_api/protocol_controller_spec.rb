@@ -21,7 +21,7 @@ describe 'Protocol api' do
       tags 'Protocols'
       consumes 'application/json'
       produces 'application/json'
-      security [JwtAuth: {}]
+      security [{ JwtAuth: {} }]
 
       response '200', 'lists all protocols' do
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
@@ -65,7 +65,7 @@ describe 'Protocol api' do
       tags 'Protocols'
       consumes 'application/json'
       produces 'application/json'
-      security [JwtAuth: {}]
+      security [{ JwtAuth: {} }]
 
       parameter name: :id, in: :path, type: :string, description: 'Name of the protocol to preview'
       let!(:id) { protocol.name }

@@ -34,7 +34,7 @@ describe 'ProtocolSubscription api' do
     get 'Lists all my active protocolsubscriptions filled out for myself' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [JwtAuth: {}]
+      security [{ JwtAuth: {} }]
 
       response '200', 'all my protocol subscriptions returned' do
         schema type: :array,
@@ -72,7 +72,7 @@ describe 'ProtocolSubscription api' do
     get 'Lists all my protocolsubscriptions' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [JwtAuth: {}]
+      security [{ JwtAuth: {} }]
 
       response '200', 'all my protocol subscriptions returned' do
         schema type: :array,

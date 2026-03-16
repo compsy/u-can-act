@@ -64,6 +64,10 @@
   "browserslist": [
     "defaults"
   ],
+  "engines": {
+    "node": ">= 20",
+    "yarn": "1.x"
+  },
   "scripts": {
     "test": "jest"
   },

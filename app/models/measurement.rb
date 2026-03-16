@@ -87,9 +87,12 @@ class Measurement < ApplicationRecord
     original_sec = temp_open_from.sec
 
     while temp_open_from < temp_open_till && response_times.length < MAX_RESPONSES
-      response_times << temp_open_from
+      temp_open_from2 = temp_open_from.dup
+      if period >= 1.day
+        temp_open_from2 = temp_open_from2.change(hour: original_hour, min: original_min, sec: original_sec)
+      end
+      response_times << temp_open_from2
       temp_open_from = TimeTools.increase_by_duration(temp_open_from, period)
-      temp_open_from = temp_open_from.change(hour: original_hour, min: original_min, sec: original_sec)
     end
 
     response_times
@@ -129,10 +132,7 @@ class Measurement < ApplicationRecord
 
     # Regular open time if open_from_day is blank. Because we have measurements with open_from_offsets that can be
     # much larger than 24 hours in which case this math has no point.
-    if open_from_day.blank?
-      return open_from_with_offset(start_date, open_from_day_uses_start_date_offset,
-                                   start_date_offset)
-    end
+    return open_from_with_offset(start_date, false, start_date_offset) if open_from_day.blank?
 
     # The second check in the guard is for periods that are less than 24 hours. The check fails for some
     # reason if the times are a few nanoseconds apart that's why we check that the difference is more than one second.

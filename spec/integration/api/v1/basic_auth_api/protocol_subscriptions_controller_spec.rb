@@ -169,7 +169,7 @@ describe 'ProtocolSubscriptions API' do
         end
 
         run_test! do |response|
-          result = response.parsed_body
+          result = JSON.parse(response.body)
           expect(result.length).to eq protocol_subscriptions_other.length
         end
       end

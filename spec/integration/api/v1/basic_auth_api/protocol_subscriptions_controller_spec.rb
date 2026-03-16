@@ -20,7 +20,7 @@ describe 'ProtocolSubscriptions API' do
     post 'Creates a new protocol subscription' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :protocol_subscription, in: :body, schema: {
         type: :object,
@@ -60,7 +60,7 @@ describe 'ProtocolSubscriptions API' do
     patch 'Updates a protocol subscription' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :id, in: :path, type: :string
       parameter name: :query, in: :body, schema: {
@@ -94,7 +94,7 @@ describe 'ProtocolSubscriptions API' do
     delete 'Cancels a protocol subscription' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :id, in: :path, type: :string
       parameter name: :external_identifier, in: :body, schema: {
@@ -129,7 +129,7 @@ describe 'ProtocolSubscriptions API' do
     get 'Lists all my students their protocolsubscriptions' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
       parameter name: :external_identifier, in: :query, type: :string
       let(:external_identifier) { 'external_identifier' }
 
@@ -185,7 +185,7 @@ describe 'ProtocolSubscriptions API' do
     delete 'Cancels all protocol subscriptions with a certain external identifier for a user' do
       tags 'ProtocolSubscription'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :query, in: :body, schema: {
         type: :object,

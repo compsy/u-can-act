@@ -572,6 +572,118 @@ describe Questionnaire do
         expect(questionnaire).to be_valid
       end
     end
+
+    describe 'valid_content_translations' do
+      it 'is not valid when a hash has nl key but no en key' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { nl: 'Hoe voelt u zich vandaag?' },
+            options: [
+              { title: { nl: 'Goed' }, tooltip: 'Some tooltip' },
+              { title: { nl: 'Slecht' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('has incomplete translations - all language keys must have both nl and en translations')
+        )
+      end
+
+      it 'is not valid when a hash has en key but no nl key' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { en: 'How do you feel today?' },
+            options: [
+              { title: { en: 'Good' } },
+              { title: { en: 'Bad' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('has incomplete translations - all language keys must have both nl and en translations')
+        )
+      end
+
+      it 'is not valid when nested options have incomplete translations' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { nl: 'Hoe voelt u zich vandaag?', en: 'How do you feel today?' },
+            options: [
+              { title: { nl: 'Goed', en: 'Good' } },
+              { title: { nl: 'Slecht' } } # Missing en key
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages).to have_key :content
+        expect(questionnaire.errors.messages[:content]).to(
+          include('has incomplete translations - all language keys must have both nl and en translations')
+        )
+      end
+
+      it 'is valid when all language keys are properly paired' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { nl: 'Hoe voelt u zich vandaag?', en: 'How do you feel today?' },
+            options: [
+              { title: { nl: 'Goed', en: 'Good' } },
+              { title: { nl: 'Slecht', en: 'Bad' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is valid when using symbol keys for languages' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { nl: 'Hoe voelt u zich vandaag?', en: 'How do you feel today?' },
+            options: [
+              { title: { nl: 'Goed', en: 'Good' } },
+              { title: { nl: 'Slecht', en: 'Bad' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is valid when content has no language keys' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :number,
+            title: 'A simple title without translations'
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+    end
   end
 
   describe 'recalculate_scores!' do

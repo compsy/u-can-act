@@ -11,6 +11,7 @@ module DistributionHelper
   OTHER_QUESTION_TYPES = %i[number radio likert dropdown date].freeze
   CHECKBOX_QUESTION_TYPE = %i[checkbox].freeze
 
+  # rubocop:disable Metrics/AbcSize
   # Consider these as private methods that are (and can only be) tested in their own
   # context, hence there is no specific test suite for this file.
   def usable_questions
@@ -20,11 +21,22 @@ module DistributionHelper
     return [] unless @questionnaire_content.is_a?(Hash) &&
                      @questionnaire_content.key?(:questions) && @questionnaire_content.key?(:scores)
 
+    @questionnaire_content[:questions] = QuestionnaireTranslator.translate_content(
+      @questionnaire_content[:questions].deep_dup,
+      'i18n'
+    )
+    # Translate a second time to get rid of any remaining translation hashes because the i18n translation is optional
+    @questionnaire_content = QuestionnaireTranslator.translate_content(
+      @questionnaire_content,
+      Rails.application.config.i18n.default_locale.to_s
+    )
+
     range_questions(@questionnaire_content[:questions]) +
       other_questions(@questionnaire_content[:questions]) +
       checkbox_questions(@questionnaire_content[:questions]) +
       scores(@questionnaire_content[:scores])
   end
+  # rubocop:enable Metrics/AbcSize
 
   def range_questions(questionnaire_content)
     rg_instance = RangeGenerator.new
@@ -75,7 +87,7 @@ module DistributionHelper
   def otherwise_label(question)
     return question[:otherwise_label] if question[:otherwise_label].present?
 
-    QuestionTypeGenerator::OTHERWISE_TEXT
+    I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
   end
 
   def scores(questionnaire_content)

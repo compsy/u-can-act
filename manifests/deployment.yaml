@@ -5,12 +5,14 @@ metadata:
   namespace: sdv-mvp-__CI_COMMIT_DOWN_REF_NAME__
   labels:
     worker: "no"
+    app.kubernetes.io/name: svc-questionnaires
+    app.kubernetes.io/component: web
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: svc-questionnaires
-      tier: web
+      app.kubernetes.io/name: svc-questionnaires
+      app.kubernetes.io/component: web
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,9 +21,9 @@ spec:
   template:
     metadata:
       labels:
-        app: svc-questionnaires
         track: stable
-        tier: web
+        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/component: web
     spec:
       imagePullSecrets:
         - name: gitlab-auth
@@ -296,4 +298,3 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 60
-

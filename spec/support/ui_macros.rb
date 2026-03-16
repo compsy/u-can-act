@@ -1,11 +1,28 @@
 # frozen_string_literal: true
 
 module UiMacros
+  # Used JS because the range input is not a standard select element
+  # and Capybara does not support it natively.
+  # This function simulates a user changing the value of a range input.
   def range_select(id, value)
-    page.find("input[type=range][id=\"#{id}\"]").click
-    selector = %(input[type=range][id=\\"#{id}\\"])
-    script = %-$("#{selector}").val(#{value})-
-    page.execute_script(script)
+    page.execute_script(<<~JS)
+      const input = document.querySelector('input[type="range"][name="content[#{id}]"]');
+      if (!input) {
+        console.warn("No slider input found for content[#{id}]");
+        return;
+      }
+
+      input.value = #{value};
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+
+      const container = input.closest('.range-container');
+      if (container) {
+        container.classList.remove('notchanged');
+      }
+
+      input.setAttribute('name', 'content[#{id}]'); // reapply just in case
+    JS
   end
 
   def materialize_select(prompt, option, superelement = nil)

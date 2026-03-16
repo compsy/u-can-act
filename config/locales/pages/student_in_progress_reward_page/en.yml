@@ -1,0 +1,12 @@
+en:
+  pages:
+    student_in_progress_reward_page:
+      header: Thank you for completing the questionnaire!
+      body:
+        bottom: >
+          <div class='section'>
+          <p class='flow-text'>
+          The circle above shows how much you have earned (the outer ring) and how far along you are towards the bonus streak (the inner ring).
+          </p>
+          </div>
+

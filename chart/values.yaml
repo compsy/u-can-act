@@ -1,5 +1,12 @@
 replicaCount: 2
 workerReplicaCount: 2
+
+autoscaling:
+  web:
+    enabled: true
+  worker:
+    enabled: true
+
 secretName: svc-questionnaires-secret
 # databaseSecretName: svc-questionnaires-database-credentials
 databaseSecretKey: DATABASE_URL

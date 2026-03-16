@@ -269,7 +269,7 @@ function check_required_controls(event) {
     }, 200);
   } else {
   // remove the name attribute from all the sliders that have not changed
-  $('div.range-container.notchanged.optional').each(function () {
+  $('div.range-container.notchanged').each(function (_sub_index) {
     $(this).find('input[type=range]').removeAttr('name');
   });
   }
@@ -314,11 +314,33 @@ const updateRangeValue = (e) => {
   changeActiveLabel.call(rangeObj)
 }
 
+// This is to have a limit in the checkbox typed questions.
+function enforce_max_selections() {
+  var checkboxGroup = $(this).closest('.checkbox-group');
+  var maxSelections = checkboxGroup.data('max-selections');
+  
+  if (maxSelections) {
+    var checkedBoxes = checkboxGroup.find('input[type=checkbox]:checked');
+    
+    if (checkedBoxes.length > maxSelections) {
+      $(this).prop('checked', false);
+      
+      // To not show any associated questions if there is for the unchecked item
+      var dataShowsQuestions = $(this).data('shows-questions');
+      if (dataShowsQuestions) {
+        dataShowsQuestions.forEach(function(questionId) {
+          $('.' + questionId + '_toggle').addClass('hidden').find('input,textarea,select').prop('disabled', true);
+        });
+      }
+    }
+  }
+}
+
 function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
   const array_of_dom_elements = document.querySelectorAll('input[type=range]')
   M.Range.init(array_of_dom_elements)
-  $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions);
+  $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions).change(enforce_max_selections);
   $('select').change(toggle_shown_questions_for_dropdown).change(toggle_hidden_questions_for_dropdown);
   $(document).on('touchstart mousedown click change', '.notchanged input[type=range]', removeNotChanged);
   $('input[type=radio][data-shows-questions],input[type=checkbox][data-shows-questions]').each(toggle_shown_questions);

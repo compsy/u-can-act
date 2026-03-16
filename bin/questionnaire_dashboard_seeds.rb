@@ -183,6 +183,7 @@ def create_responses(protocol_name, person, file_name)
     content[:v6] = convert_rpe_score(row['RPE score'])
     content[:v7] = convert_satisfaction(row['Training satisfaction'])
     content[:v8] = convert_comments(row['Comments'])
+    content[:v9] = convert_fun(row['Fun during training'])
 
     response_content = ResponseContent.create_with_scores!(
       content: content,
@@ -212,6 +213,23 @@ def convert_day(day)
     'zondag'
   else
     raise "unknown day: #{day}"
+  end
+end
+
+def convert_fun(fun)
+  case fun
+  when '1'
+    'geen'
+  when '2'
+    'weinig'
+  when '3'
+    'normaal'
+  when '4'
+    'veel'
+  when '5'
+    'heel veel'
+  else
+    raise "unknown fun value: #{fun}"
   end
 end
 

@@ -2,12 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-worker
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: worker
 spec:
+{{- if not .Values.autoscaling.worker.enabled }}
   replicas: {{ .Values.workerReplicaCount }}
+{{- end }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
-      tier: worker
+      app.kubernetes.io/name: {{ .Release.Name }}
+      app.kubernetes.io/component: worker
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,10 +21,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
         track: stable
-        tier: worker
-        app.kubernetes.io/name: svc-questionnaires
+        app.kubernetes.io/name: {{ .Release.Name }}
+        app.kubernetes.io/component: worker
     spec:
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:

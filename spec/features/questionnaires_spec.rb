@@ -170,6 +170,7 @@ describe 'GET and POST /', type: :feature, js: true do
     page.check('v2_anders_namelijk', allow_label_click: true)
     page.fill_in('v2_anders_namelijk_text', with: 'dit is een waarde')
     # v3
+    range_select('v3', '50') # Simulate a slider change
     page.click_on 'Opslaan'
     # expect(page).to have_http_status(200)
     expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -259,6 +260,8 @@ describe 'GET and POST /', type: :feature, js: true do
       page.check('brood', allow_label_click: true)
       page.fill_in('v4_0_1', with: 'dit is een doel')
 
+      range_select('v3', '50') # Simulate a slider change
+      range_select('v4_0_5', '50') # Simulate a slider change
       page.click_on 'Opslaan'
       # expect(page).to have_http_status(200)
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -297,16 +300,15 @@ describe 'GET and POST /', type: :feature, js: true do
         # Required questions
         page.choose('slecht', allow_label_click: true)
         page.check('brood', allow_label_click: true)
-
         page.click_on 'Opslaan'
         # expect(page).to have_http_status(200)
         expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
         responseobj.reload
         expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
         expect(responseobj.content).not_to be_nil
+        expect(responseobj.values).not_to have_key('v3')
         expect(responseobj.values).to include('v1' => 'slecht',
-                                              'v2_brood' => 'true',
-                                              'v3' => '50')
+                                              'v2_brood' => 'true')
 
         not_allowed_keys = (0..10).map do |q_id|
           (1..5).map { |sub_q_id| "v4_#{q_id}_#{sub_q_id}" }
@@ -337,6 +339,7 @@ describe 'GET and POST /', type: :feature, js: true do
         add = page.find('a', text: 'Voeg doel toe')
         10.times { |_x| add.click }
         10.times { |_x| remove.click }
+        range_select('v3', '50') # Simulate a slider change
 
         page.click_on 'Opslaan'
         # expect(page).to have_http_status(200)
@@ -774,6 +777,8 @@ describe 'GET and POST /', type: :feature, js: true do
       # expect(page).to have_http_status(200)
       # v5
       page.choose('Hihaho', allow_label_click: true)
+      # v3
+      range_select('v3', '50') # Simulate a slider change
       page.click_on 'Opslaan'
       # expect(page).to have_http_status(200)
       expect(page).to have_content('Bedankt voor het invullen van de vragenlijst!')
@@ -1149,6 +1154,7 @@ describe 'GET and POST /', type: :feature, js: true do
       # v1
       page.check('goed', allow_label_click: true)
       page.choose('pizza', allow_label_click: true)
+      range_select('v3', '50') # Simulate a slider change
       page.click_on 'Opslaan'
       # expect(page).to have_http_status(200)
       # The page didn't change because we didn't select a radio for v5:

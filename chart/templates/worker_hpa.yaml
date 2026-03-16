@@ -1,3 +1,4 @@
+{{- if .Values.autoscaling.worker.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -16,3 +17,4 @@ spec:
         target:
           type: Utilization
           averageUtilization: 150 # equals 1,5 x requests.memory = 1152Mi
+{{- end }}

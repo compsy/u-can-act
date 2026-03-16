@@ -39,7 +39,8 @@ module Api
         def delegated_protocol_subscriptions
           render json: ProtocolSubscription.where(external_identifier: @external_identifier)
                                            .includes(person: %i[auth_user role],
-                                                     protocol: [:rewards, { measurements: :questionnaire }],
+                                                     protocol: [:rewards,
+                                                                { measurements: :questionnaire }],
                                                      responses: { measurement: :questionnaire }),
                  each_serializer: Api::ProtocolSubscriptionSerializer
         end

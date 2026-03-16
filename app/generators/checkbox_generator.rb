@@ -9,7 +9,9 @@ class CheckboxGenerator < QuestionTypeGenerator
                                  answer_options(question),
                                  checkbox_otherwise(question)
                                ])
-    tag.div(checkbox_group, class: checkbox_group_klasses(question))
+    div_options = { class: checkbox_group_klasses(question) }
+    div_options['data-max-selections'] = question[:max_selections] if question[:max_selections].present?
+    tag.div(checkbox_group, **div_options)
   end
 
   private

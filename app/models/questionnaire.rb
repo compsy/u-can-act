@@ -19,6 +19,7 @@ class Questionnaire < ApplicationRecord
   validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z_0-9]+\Z/ }
   serialize :content # Don't specify Hash type because otherwise databases with existing questionnaires won't work
   validate :questionnaire_structure, if: -> { content.present? }
+  validate :valid_content_translations, if: -> { content.present? }
   with_options if: :content_has_questions do
     validate :all_questions_have_types
     validate :all_questions_have_titles
@@ -79,6 +80,12 @@ class Questionnaire < ApplicationRecord
   end
 
   private
+
+  def valid_content_translations
+    return if QuestionnaireTranslator.valid_translations?(content)
+
+    errors.add(:content, 'has incomplete translations - all language keys must have both nl and en translations')
+  end
 
   def questionnaire_structure
     return if content.is_a?(Hash) && content.key?(:scores) && content.key?(:questions) &&

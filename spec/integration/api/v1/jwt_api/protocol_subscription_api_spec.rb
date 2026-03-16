@@ -56,7 +56,7 @@ describe 'ProtocolSubscription api' do
                }
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
         run_test! do |response|
-          result = JSON.parse(response.body)
+          result = response.parsed_body
           expect(result.length).to eq protocol_subscriptions.length
         end
       end
@@ -94,7 +94,7 @@ describe 'ProtocolSubscription api' do
                }
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }
         run_test! do |response|
-          result = JSON.parse(response.body)
+          result = response.parsed_body
           expect(result.length).to eq(protocol_subscriptions.length +
                                         protocol_subscriptions_completed.length +
                                         protocol_subscriptions_canceled.length)

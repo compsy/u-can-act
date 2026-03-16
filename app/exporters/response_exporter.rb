@@ -119,7 +119,7 @@ class ResponseExporter
       len.times do
         t += '0' # add the zero padding
       end
-      t += key[first..-1] # add the number and the rest of the string
+      t += key[first..] # add the number and the rest of the string
       t
     end
 

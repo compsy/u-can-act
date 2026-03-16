@@ -2,6 +2,7 @@
 
 class DateAndTimeGenerator < QuestionTypeGenerator
   include React::Rails::ViewHelper
+
   DATETIMEFIELD_PLACEHOLDER = { nl: 'Vul een datum en tijd in', en: 'Fill out a date and time' }.freeze
 
   def generate(question)

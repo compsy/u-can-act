@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe RandomResponseGenerator do
   include ConversionHelper
+
   # The following types are currently unsupported/not tested:
   # :drawing, :time, :expandable
   let(:questions) do

@@ -7,7 +7,7 @@ describe 'Questionnaires API' do
     get 'Shows a questionnaire' do
       tags 'Questionnaire'
       produces 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :id, in: :path, type: :string, description: 'Questionnaire key'
 
@@ -35,7 +35,7 @@ describe 'Questionnaires API' do
     post 'Creates a new questionnaire' do
       tags 'Questionnaire'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :questionnaire, in: :body, schema: {
         type: :object,

@@ -2,6 +2,7 @@
 
 module DistributionHelper
   include ConversionHelper
+
   # This is just the default value for the structure. Imagine the structure not being a hash but just
   # a single value, it would be this value. The reason that everything has to be a hash is so that we
   # can nest combined scores into combined histograms that are constructed recursively. In order for

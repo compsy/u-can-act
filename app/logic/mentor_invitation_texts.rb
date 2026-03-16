@@ -27,7 +27,7 @@ class MentorInvitationTexts < InvitationTexts
       return pre_assessment_questionnaire_texts(response) if open_questionnaire?(response, 'voormeting mentoren')
 
       # voormeting is in different protsub
-      return was_invited_message if response.protocol_subscription.responses.invited.count == 1
+      return was_invited_message if response.protocol_subscription.responses.invited.one?
 
       default_message(response)
     end
@@ -57,7 +57,7 @@ class MentorInvitationTexts < InvitationTexts
     end
 
     def completed_some?(response)
-      get_person(response).responses.completed.count.positive?
+      get_person(response).responses.completed.any?
     end
 
     def target_first_name(response)

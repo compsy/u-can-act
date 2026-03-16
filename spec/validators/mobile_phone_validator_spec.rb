@@ -5,6 +5,7 @@ require 'rails_helper'
 describe MobilePhoneValidator do
   class Validatable
     include ActiveModel::Validations
+
     validates :mobile_phone, mobile_phone: true
     attr_accessor :mobile_phone
   end

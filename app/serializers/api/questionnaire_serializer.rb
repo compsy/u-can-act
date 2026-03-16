@@ -10,7 +10,7 @@ module Api
                :live
 
     def live
-      object.responses.count.positive?
+      object.responses.any?
     end
   end
 end

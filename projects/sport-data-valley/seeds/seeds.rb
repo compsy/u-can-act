@@ -281,4 +281,24 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
   invitation_token = invitation_set.invitation_tokens.create!
   puts "kccq: #{invitation_set.invitation_url(invitation_token.token_plain)}"
 
+  # Create PROMIS protocol instance
+  promis_protocol = Protocol.find_by(name: 'promis')
+  available_people = Team.find_by_name(demo_team).roles.where(group: Person::STUDENT).first.people.where(email: nil)
+  person_promis = available_people[8] || available_people.first
+  promis_prot_sub = ProtocolSubscription.create!(
+    protocol: promis_protocol,
+    person: person_promis,
+    state: ProtocolSubscription::ACTIVE_STATE,
+    start_date: Time.zone.now,
+    end_date: 4.weeks.from_now
+  )
+
+  invitation_set = InvitationSet.create!(person: person_promis)
+  promis_prot_sub.responses.each do |response|
+    response.update!(open_from: 1.minute.ago, invitation_set: invitation_set)
+  end
+
+  invitation_token = invitation_set.invitation_tokens.create!
+  puts "promis: #{invitation_set.invitation_url(invitation_token.token_plain)}"
+
 end

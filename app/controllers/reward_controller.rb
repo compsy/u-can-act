@@ -2,6 +2,7 @@
 
 class RewardController < ApplicationController
   include ::IsLoggedIn
+
   before_action :set_response
   before_action :set_protocol_subscription
   before_action :set_layout

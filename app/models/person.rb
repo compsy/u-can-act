@@ -2,6 +2,7 @@
 
 class Person < ApplicationRecord
   include ActiveModel::Validations
+
   MALE = 'male'
   FEMALE = 'female'
 
@@ -61,7 +62,7 @@ class Person < ApplicationRecord
 
     loop do
       person.external_identifier = RandomStringGenerator.generate_alpha_numeric(Person::IDENTIFIER_LENGTH)
-      break if Person.where(external_identifier: person.external_identifier).count.zero?
+      break if Person.where(external_identifier: person.external_identifier).none?
     end
   end
 
@@ -148,9 +149,9 @@ class Person < ApplicationRecord
   end
 
   def open_questionnaire?(questionnaire_name)
-    my_open_responses.count do |resp|
+    my_open_responses.any? do |resp|
       resp.measurement.questionnaire.name == questionnaire_name
-    end.positive?
+    end
   end
 
   def my_open_restricted_otr_prot_subs
@@ -210,7 +211,7 @@ class Person < ApplicationRecord
 
   def warn_for_multiple_mentors
     Rails.logger.warn "[Attention] retrieving one of multiple mentors for student: #{id}" if
-    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).count > 1
+    ProtocolSubscription.active.where(filling_out_for_id: id).where.not(person_id: id).many?
   end
 
   def not_own_parent

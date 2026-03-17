@@ -334,8 +334,8 @@ dagboek_content = [
   },
   {
     id: :global07,
-    title: { nl: 'Hoe zou u gemiddeld uw pijn beoordelen?',
-             en: 'How would you rate your pain on average?' },
+    title: { nl: 'Hoe zou u gemiddeld uw pijn beoordelen? (0 = Geen pijn, 10 = Ergst denkbare pijn)',
+             en: 'How would you rate your pain on average? (0 = No pain, 10 = Worst imaginable pain)' },
     type: :range,
     min: 0,
     max: 10,
@@ -344,7 +344,6 @@ dagboek_content = [
     ticks: true,
     no_initial_thumb: true,
     labels: [
-      { nl: 'Geen pijn', en: 'No pain' },
       { nl: '', en: '' },
       { nl: '', en: '' },
       { nl: '', en: '' },
@@ -354,7 +353,8 @@ dagboek_content = [
       { nl: '', en: '' },
       { nl: '', en: '' },
       { nl: '', en: '' },
-      { nl: 'Ergst denkbare pijn', en: 'Worst imaginable pain' }
+      { nl: '', en: '' },
+      { nl: '', en: '' }
     ]
   },
 

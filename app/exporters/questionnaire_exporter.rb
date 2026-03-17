@@ -4,6 +4,7 @@ require 'csv'
 
 class QuestionnaireExporter
   extend Exporters
+
   class << self
     def export_lines(questionnaire_name)
       questionnaire = Questionnaire.find_by(name: questionnaire_name)

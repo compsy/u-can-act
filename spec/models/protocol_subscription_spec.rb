@@ -591,7 +591,7 @@ describe ProtocolSubscription do
       end
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
-      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+      expected = (1..(protocol_subscription.responses.length - 1)).map do |resp|
         response = protocol_subscription.responses[resp]
         { completed: true, periodical: true, reward_points: 1, future: false, future_or_current: false, streak: resp,
           open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
@@ -626,7 +626,7 @@ describe ProtocolSubscription do
       Timecop.freeze(2017, 4, 1, 12)
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
-      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+      expected = (1..(protocol_subscription.responses.length - 1)).map do |resp|
         response = protocol_subscription.responses[resp]
         { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
           open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }
@@ -674,7 +674,7 @@ describe ProtocolSubscription do
       Timecop.freeze(2017, 4, 3, 0, 0, 0)
       result = protocol_subscription.protocol_completion
       expect(result.length).to eq protocol_subscription.responses.length
-      expected = (1..protocol_subscription.responses.length - 1).map do |resp|
+      expected = (1..(protocol_subscription.responses.length - 1)).map do |resp|
         response = protocol_subscription.responses[resp]
         { completed: false, periodical: true, reward_points: 1, future: true, future_or_current: true, streak: resp,
           open_from: response.open_from, questionnaire_key: response.measurement.questionnaire.key }

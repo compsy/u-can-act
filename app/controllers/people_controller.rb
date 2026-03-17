@@ -2,6 +2,7 @@
 
 class PeopleController < ApplicationController
   include ::IsLoggedIn
+
   before_action :set_current_person
   before_action :set_layout
 

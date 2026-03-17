@@ -37,7 +37,7 @@ describe 'Person API' do
           timestamp: { type: :string }
         }
       }
-      security [JwtAuth: {}]
+      security [{ JwtAuth: {} }]
 
       let(:person) do
         { person: {
@@ -156,7 +156,7 @@ describe 'Person API' do
     get 'Gets the current person' do
       tags 'Person'
       consumes 'application/json'
-      security [JwtAuth: {}]
+      security [{ JwtAuth: {} }]
 
       response '200', 'returns the current person' do
         let(:Authorization) { "Bearer #{jwt_auth(the_payload, false)}" }

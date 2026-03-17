@@ -2,6 +2,7 @@
 
 class Questionnaire < ApplicationRecord
   include ConversionHelper
+
   KNOWN_OPERATIONS = %i[average sum].freeze
   OPTIONS_REQUIRED_FOR = %i[checkbox likert radio dropdown].freeze
   QUESTIONS_WITHOUT_TITLES = %i[raw unsubscribe].freeze
@@ -74,7 +75,7 @@ class Questionnaire < ApplicationRecord
 
   def recalculate_scores!
     # if there are no completed responses, we don't need to recalculate scores
-    return if responses.completed.count.zero?
+    return if responses.completed.none?
 
     RecalculateScoresJob.perform_later(id)
   end

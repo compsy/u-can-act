@@ -4,6 +4,7 @@ require 'bcrypt'
 
 class InvitationToken < ApplicationRecord
   include BCrypt
+
   TOKEN_LENGTH = 4
   OPEN_TIME_FOR_INVITATION = 7.days
   belongs_to :invitation_set

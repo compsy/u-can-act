@@ -5,6 +5,7 @@ module Api
     module BasicAuthApi
       class QuestionnairesController < BasicAuthApiController
         include QuestionnaireCreateOrUpdateHelper
+
         before_action :set_questionnaire, only: %i[show]
 
         def show

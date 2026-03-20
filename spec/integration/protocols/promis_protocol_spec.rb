@@ -68,9 +68,6 @@ describe 'PROMIS Protocol', type: :integration do
       expect(measurement.redirect_url).to eq(ENV.fetch('BASE_PLATFORM_URL', nil))
     end
 
-    it 'has a 24-hour reminder delay' do
-      expect(measurement.reminder_delay).to eq(24.hours)
-    end
   end
 
   describe 'protocol subscription' do

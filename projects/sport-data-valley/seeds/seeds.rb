@@ -289,8 +289,7 @@ if Person.all.select { |person| person.auth_user.blank? }.count == 0 && (Rails.e
     protocol: promis_protocol,
     person: person_promis,
     state: ProtocolSubscription::ACTIVE_STATE,
-    start_date: Time.zone.now,
-    end_date: 4.weeks.from_now
+    start_date: Time.zone.now
   )
 
   invitation_set = InvitationSet.create!(person: person_promis)

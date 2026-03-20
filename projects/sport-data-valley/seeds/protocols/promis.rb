@@ -31,5 +31,4 @@ measurement.reward_points = 0
 measurement.redirect_url = ENV.fetch('BASE_PLATFORM_URL', nil)
 measurement.stop_measurement = false
 measurement.should_invite = true
-measurement.reminder_delay = 24.hours
 measurement.save!

@@ -113,7 +113,7 @@ module DailyResponses
 
     def create_daily_response(person, timestamp)
       protocol_name = 'daily_protocol'
-      puts "Creating responses for #{protocol_name}"
+      Rails.logger.debug { "Creating responses for #{protocol_name}" }
 
       protocol = Protocol.find_by(name: protocol_name)
       raise "Error: protocol named #{protocol_name} not found" unless protocol
@@ -187,7 +187,7 @@ module DailyResponses
 
       questionnaire_name = 'sunday_questionnaire'
 
-      puts "Creating responses for #{questionnaire_name}"
+      Rails.logger.debug { "Creating responses for #{questionnaire_name}" }
 
       questionnaire_id = Questionnaire.find_by(name: questionnaire_name).id
       measurement = protocol.measurements.where(questionnaire_id: questionnaire_id).first

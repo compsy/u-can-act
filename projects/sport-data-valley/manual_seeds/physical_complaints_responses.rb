@@ -91,7 +91,7 @@ class PhysicalComplaintsResponses
       return if rand > 0.95
 
       protocol_name = 'ostrc_h_o'
-      puts "Creating responses for #{protocol_name}"
+      Rails.logger.debug { "Creating responses for #{protocol_name}" }
       protocol = Protocol.find_by(name: protocol_name)
       raise "Error: protocol named #{protocol_name} not found" unless protocol
 

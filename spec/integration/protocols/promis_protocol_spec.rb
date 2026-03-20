@@ -67,7 +67,6 @@ describe 'PROMIS Protocol', type: :integration do
     it 'has redirect URL configured' do
       expect(measurement.redirect_url).to eq(ENV.fetch('BASE_PLATFORM_URL', nil))
     end
-
   end
 
   describe 'protocol subscription' do

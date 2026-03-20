@@ -29,7 +29,7 @@ shared_examples_for 'a jwt authenticated route' do |method, route|
     payload[:sub] = auth_user.auth0_id_string
     jwt_auth payload
     call_url(method, route)
-    puts response.body if response.status >= 300 || response.status < 200
+    Rails.logger.debug response.body if response.status >= 300 || response.status < 200
     expect(response.status).to be < 300
     expect(response.status).to be >= 200
   end

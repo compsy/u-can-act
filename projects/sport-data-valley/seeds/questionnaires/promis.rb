@@ -388,8 +388,8 @@ dagboek_content = [
   },
   {
     id: :an3,
-    title: { nl: 'Het kost me moeite om met dingen te beginnen omdat ik zo moe ben.',
-             en: 'I have trouble starting things because I am tired.' },
+    title: { nl: 'Het kost me moeite om met dingen te <u>beginnen</u> omdat ik zo moe ben.',
+              en: 'I have trouble starting things because I am tired.' },
     type: :likert,
     options: [
       { nl: 'Helemaal niet', en: 'Not at all' },

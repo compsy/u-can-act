@@ -22,11 +22,11 @@ dagboek_content = [
              en: 'In general, how would you rate your health?' },
     type: :likert,
     options: [
-      { nl: 'Uitstekend', en: 'Excellent' },
-      { nl: 'Heel goed', en: 'Very good' },
-      { nl: 'Goed', en: 'Good' },
-      { nl: 'Redelijk', en: 'Fair' },
-      { nl: 'Slecht', en: 'Poor' }
+      { title: { nl: 'Uitstekend', en: 'Excellent' }, value: '1' },
+      { title: { nl: 'Heel goed', en: 'Very good' }, value: '2' },
+      { title: { nl: 'Goed', en: 'Good' }, value: '3' },
+      { title: { nl: 'Redelijk', en: 'Fair' }, value: '4' },
+      { title: { nl: 'Slecht', en: 'Poor' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -37,11 +37,11 @@ dagboek_content = [
              en: 'In general, how would you rate your quality of life?' },
     type: :likert,
     options: [
-      { nl: 'Uitstekend', en: 'Excellent' },
-      { nl: 'Heel goed', en: 'Very good' },
-      { nl: 'Goed', en: 'Good' },
-      { nl: 'Redelijk', en: 'Fair' },
-      { nl: 'Slecht', en: 'Poor' }
+      { title: { nl: 'Uitstekend', en: 'Excellent' }, value: '1' },
+      { title: { nl: 'Heel goed', en: 'Very good' }, value: '2' },
+      { title: { nl: 'Goed', en: 'Good' }, value: '3' },
+      { title: { nl: 'Redelijk', en: 'Fair' }, value: '4' },
+      { title: { nl: 'Slecht', en: 'Poor' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -61,11 +61,11 @@ dagboek_content = [
              en: 'Are you able to do chores such as vacuuming or yard work?' },
     type: :likert,
     options: [
-      { nl: 'Zonder moeite', en: 'Without any difficulty' },
-      { nl: 'Met een beetje moeite', en: 'With a little difficulty' },
-      { nl: 'Met enige moeite', en: 'With some difficulty' },
-      { nl: 'Met veel moeite', en: 'With much difficulty' },
-      { nl: 'Kan het niet', en: 'Unable to do' }
+      { title: { nl: 'Zonder moeite', en: 'Without any difficulty' }, value: '1' },
+      { title: { nl: 'Met een beetje moeite', en: 'With a little difficulty' }, value: '2' },
+      { title: { nl: 'Met enige moeite', en: 'With some difficulty' }, value: '3' },
+      { title: { nl: 'Met veel moeite', en: 'With much difficulty' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Unable to do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -76,11 +76,11 @@ dagboek_content = [
              en: 'Are you able to go up and down stairs at a normal pace?' },
     type: :likert,
     options: [
-      { nl: 'Zonder moeite', en: 'Without any difficulty' },
-      { nl: 'Met een beetje moeite', en: 'With a little difficulty' },
-      { nl: 'Met enige moeite', en: 'With some difficulty' },
-      { nl: 'Met veel moeite', en: 'With much difficulty' },
-      { nl: 'Kan het niet', en: 'Unable to do' }
+      { title: { nl: 'Zonder moeite', en: 'Without any difficulty' }, value: '1' },
+      { title: { nl: 'Met een beetje moeite', en: 'With a little difficulty' }, value: '2' },
+      { title: { nl: 'Met enige moeite', en: 'With some difficulty' }, value: '3' },
+      { title: { nl: 'Met veel moeite', en: 'With much difficulty' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Unable to do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -91,11 +91,11 @@ dagboek_content = [
              en: 'Are you able to go for a walk of at least 15 minutes?' },
     type: :likert,
     options: [
-      { nl: 'Zonder moeite', en: 'Without any difficulty' },
-      { nl: 'Met een beetje moeite', en: 'With a little difficulty' },
-      { nl: 'Met enige moeite', en: 'With some difficulty' },
-      { nl: 'Met veel moeite', en: 'With much difficulty' },
-      { nl: 'Kan het niet', en: 'Unable to do' }
+      { title: { nl: 'Zonder moeite', en: 'Without any difficulty' }, value: '1' },
+      { title: { nl: 'Met een beetje moeite', en: 'With a little difficulty' }, value: '2' },
+      { title: { nl: 'Met enige moeite', en: 'With some difficulty' }, value: '3' },
+      { title: { nl: 'Met veel moeite', en: 'With much difficulty' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Unable to do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -106,11 +106,11 @@ dagboek_content = [
              en: 'Are you able to run errands and shop?' },
     type: :likert,
     options: [
-      { nl: 'Zonder moeite', en: 'Without any difficulty' },
-      { nl: 'Met een beetje moeite', en: 'With a little difficulty' },
-      { nl: 'Met enige moeite', en: 'With some difficulty' },
-      { nl: 'Met veel moeite', en: 'With much difficulty' },
-      { nl: 'Kan het niet', en: 'Unable to do' }
+      { title: { nl: 'Zonder moeite', en: 'Without any difficulty' }, value: '1' },
+      { title: { nl: 'Met een beetje moeite', en: 'With a little difficulty' }, value: '2' },
+      { title: { nl: 'Met enige moeite', en: 'With some difficulty' }, value: '3' },
+      { title: { nl: 'Met veel moeite', en: 'With much difficulty' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Unable to do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -121,11 +121,11 @@ dagboek_content = [
              en: 'Does your health now limit you in doing two hours of physical labor?' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Heel weinig', en: 'Very little' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'Behoorlijk', en: 'Quite a lot' },
-      { nl: 'Kan het niet', en: 'Cannot do' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Heel weinig', en: 'Very little' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'Behoorlijk', en: 'Quite a lot' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Cannot do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -136,11 +136,11 @@ dagboek_content = [
              en: 'Does your health now limit you in doing moderate work around the house, like vacuuming, sweeping floors or carrying in groceries?' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Heel weinig', en: 'Very little' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'Behoorlijk', en: 'Quite a lot' },
-      { nl: 'Kan het niet', en: 'Cannot do' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Heel weinig', en: 'Very little' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'Behoorlijk', en: 'Quite a lot' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Cannot do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -151,11 +151,11 @@ dagboek_content = [
              en: 'Does your health now limit you in lifting or carrying groceries?' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Heel weinig', en: 'Very little' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'Behoorlijk', en: 'Quite a lot' },
-      { nl: 'Kan het niet', en: 'Cannot do' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Heel weinig', en: 'Very little' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'Behoorlijk', en: 'Quite a lot' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Cannot do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -166,11 +166,11 @@ dagboek_content = [
              en: 'Does your health now limit you in doing heavy work around the house like scrubbing floors, or lifting or moving heavy furniture?' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Heel weinig', en: 'Very little' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'Behoorlijk', en: 'Quite a lot' },
-      { nl: 'Kan het niet', en: 'Cannot do' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Heel weinig', en: 'Very little' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'Behoorlijk', en: 'Quite a lot' }, value: '4' },
+      { title: { nl: 'Kan het niet', en: 'Cannot do' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -195,11 +195,11 @@ dagboek_content = [
              en: 'I felt worthless.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -210,11 +210,11 @@ dagboek_content = [
              en: 'I felt helpless.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -225,11 +225,11 @@ dagboek_content = [
              en: 'I felt depressed.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -240,11 +240,11 @@ dagboek_content = [
              en: 'I felt hopeless.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -264,11 +264,11 @@ dagboek_content = [
              en: 'I have trouble doing all of my regular leisure activities with others.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Meestal', en: 'Usually' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Meestal', en: 'Usually' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -279,11 +279,11 @@ dagboek_content = [
              en: 'I have trouble doing all of the family activities that I want to do.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Meestal', en: 'Usually' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Meestal', en: 'Usually' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -294,11 +294,11 @@ dagboek_content = [
              en: 'I have trouble doing all of my usual work (include work at home).' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Meestal', en: 'Usually' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Meestal', en: 'Usually' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -309,11 +309,11 @@ dagboek_content = [
              en: 'I have trouble doing all of the activities with friends that I want to do.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Meestal', en: 'Usually' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Meestal', en: 'Usually' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -377,11 +377,11 @@ dagboek_content = [
              en: 'I feel fatigued.' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Een beetje', en: 'A little bit' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'In vrij hoge mate', en: 'Quite a bit' },
-      { nl: 'In zeer hoge mate', en: 'Very much' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Een beetje', en: 'A little bit' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'In vrij hoge mate', en: 'Quite a bit' }, value: '4' },
+      { title: { nl: 'In zeer hoge mate', en: 'Very much' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -392,11 +392,11 @@ dagboek_content = [
              en: 'I have trouble starting things because I am tired.' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Een beetje', en: 'A little bit' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'In vrij hoge mate', en: 'Quite a bit' },
-      { nl: 'In zeer hoge mate', en: 'Very much' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Een beetje', en: 'A little bit' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'In vrij hoge mate', en: 'Quite a bit' }, value: '4' },
+      { title: { nl: 'In zeer hoge mate', en: 'Very much' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -407,11 +407,11 @@ dagboek_content = [
              en: 'How run-down did you feel on average?' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Een beetje', en: 'A little bit' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'Behoorlijk', en: 'Quite a bit' },
-      { nl: 'Heel erg', en: 'Very much' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Een beetje', en: 'A little bit' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'Behoorlijk', en: 'Quite a bit' }, value: '4' },
+      { title: { nl: 'Heel erg', en: 'Very much' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -422,11 +422,11 @@ dagboek_content = [
              en: 'How fatigued were you on average?' },
     type: :likert,
     options: [
-      { nl: 'Helemaal niet', en: 'Not at all' },
-      { nl: 'Een beetje', en: 'A little bit' },
-      { nl: 'Enigszins', en: 'Somewhat' },
-      { nl: 'Behoorlijk', en: 'Quite a bit' },
-      { nl: 'Heel erg', en: 'Very much' }
+      { title: { nl: 'Helemaal niet', en: 'Not at all' }, value: '1' },
+      { title: { nl: 'Een beetje', en: 'A little bit' }, value: '2' },
+      { title: { nl: 'Enigszins', en: 'Somewhat' }, value: '3' },
+      { title: { nl: 'Behoorlijk', en: 'Quite a bit' }, value: '4' },
+      { title: { nl: 'Heel erg', en: 'Very much' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -451,11 +451,11 @@ dagboek_content = [
              en: 'I felt fearful.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -466,11 +466,11 @@ dagboek_content = [
              en: 'I found it hard to focus on anything other than my anxiety.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -481,11 +481,11 @@ dagboek_content = [
              en: 'My worries overwhelmed me.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -496,11 +496,11 @@ dagboek_content = [
              en: 'I felt uneasy.' },
     type: :likert,
     options: [
-      { nl: 'Nooit', en: 'Never' },
-      { nl: 'Zelden', en: 'Rarely' },
-      { nl: 'Soms', en: 'Sometimes' },
-      { nl: 'Vaak', en: 'Often' },
-      { nl: 'Altijd', en: 'Always' }
+      { title: { nl: 'Nooit', en: 'Never' }, value: '1' },
+      { title: { nl: 'Zelden', en: 'Rarely' }, value: '2' },
+      { title: { nl: 'Soms', en: 'Sometimes' }, value: '3' },
+      { title: { nl: 'Vaak', en: 'Often' }, value: '4' },
+      { title: { nl: 'Altijd', en: 'Always' }, value: '5' }
     ],
     required: true,
     show_otherwise: false

@@ -29,6 +29,7 @@ measurement.period = 6.months
 measurement.open_duration = default_open_duration
 measurement.reward_points = 0
 measurement.redirect_url = ENV['BASE_PLATFORM_URL']
+measurement.only_redirect_if_nothing_else_ready = true
 measurement.stop_measurement = false
 measurement.should_invite = true
 measurement.save!

@@ -9,6 +9,10 @@ questionnaire ||= Questionnaire.new(name: db_name1)
 questionnaire.key = questionnaire_key if questionnaire.key.blank?
 
 dagboek_content = [
+  {
+    type: :raw,
+    content: { nl: '<h4>PROMIS</h4>', en: '<h4>PROMIS</h4>' }
+  },
   # ===========================================================================
   # Section 1: Algemeen (Global01 + Global02)
   # ===========================================================================

@@ -77,8 +77,7 @@ dagboek_content = [
     labels: ['De slechtste gezondheid die u zich kunt voorstellen', 'De beste gezondheid die u zich kunt voorstellen'],
     required: true
   }, {
-    type: :raw,
-    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst.</p>'
+    type: :next_questionnaire_notice
   }
 ]
 

@@ -206,6 +206,9 @@ dagboek_content = [
     min: 0,
     max: 100
   },
+  {
+    type: :next_questionnaire_notice
+  }
 ]
 
 questionnaire.content = {

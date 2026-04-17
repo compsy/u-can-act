@@ -13,6 +13,7 @@ class QuestionnaireQuestionGenerator < Generator
       textfield: TextfieldGenerator.new,
       number: NumberGenerator.new,
       raw: RawGenerator.new,
+      next_questionnaire_notice: NextQuestionnaireNoticeGenerator.new,
       unsubscribe: UnsubscribeGenerator.new,
       date: DateGenerator.new,
       dropdown: DropdownGenerator.new,

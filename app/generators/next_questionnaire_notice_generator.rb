@@ -5,8 +5,8 @@ class NextQuestionnaireNoticeGenerator < QuestionTypeGenerator
   WITH_NEXT_SUFFIX = ' en door te gaan naar de volgende vragenlijst'
 
   def generate(question)
-    text = BASE_TEXT + (next_response?(question[:response_id]) ? WITH_NEXT_SUFFIX : '') + '.'
-    tag.p(text, class: 'flow-text')
+    suffix = next_response?(question[:response_id]) ? WITH_NEXT_SUFFIX : ''
+    tag.p("#{BASE_TEXT}#{suffix}.", class: 'flow-text')
   end
 
   private

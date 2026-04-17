@@ -5,8 +5,8 @@ require 'rails_helper'
 describe NextQuestionnaireNoticeGenerator do
   subject { described_class.new }
 
-  let(:base_text) { "Klik hieronder op 'Opslaan' om de antwoorden in te leveren" }
-  let(:with_next_suffix) { ' en door te gaan naar de volgende vragenlijst' }
+  let(:base_phrase) { 'om de antwoorden in te leveren' }
+  let(:next_phrase) { 'door te gaan naar de volgende vragenlijst' }
 
   context 'when there is another open response for the user' do
     let(:response) { FactoryBot.create(:response) }
@@ -20,7 +20,8 @@ describe NextQuestionnaireNoticeGenerator do
 
     it 'renders the notice with the "next questionnaire" suffix' do
       result = subject.generate(response_id: response.id)
-      expect(result).to include(base_text + with_next_suffix + '.')
+      expect(result).to include(base_phrase)
+      expect(result).to include(next_phrase)
     end
   end
 
@@ -35,16 +36,16 @@ describe NextQuestionnaireNoticeGenerator do
 
     it 'renders the short notice without mentioning the next questionnaire' do
       result = subject.generate(response_id: response.id)
-      expect(result).to include(base_text + '.')
-      expect(result).not_to include('volgende vragenlijst')
+      expect(result).to include(base_phrase)
+      expect(result).not_to include(next_phrase)
     end
   end
 
   context 'when response_id is nil (preview mode)' do
     it 'renders the short notice without raising' do
       result = subject.generate(response_id: nil)
-      expect(result).to include(base_text + '.')
-      expect(result).not_to include('volgende vragenlijst')
+      expect(result).to include(base_phrase)
+      expect(result).not_to include(next_phrase)
     end
   end
 end

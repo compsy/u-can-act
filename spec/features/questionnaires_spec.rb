@@ -937,6 +937,7 @@ describe 'GET and POST /', type: :feature, js: true do
       # v1
       page.check('Nee', allow_label_click: true)
       page.click_on 'Opslaan'
+      expect(page).to have_current_path(mentor_overview_index_path, wait: 10)
       expect(page).to have_content('Webapp Begeleiders')
       expect(page).not_to have_content('Succes: De begeleiding voor Jane is gestopt.')
       responseobj.reload

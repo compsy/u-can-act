@@ -159,7 +159,7 @@ group :production, :staging do
   gem 'daemons'
 end
 
-gem 'addressable'
+gem 'addressable', '>= 2.8.10'
 
 gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 

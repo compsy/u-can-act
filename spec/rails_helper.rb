@@ -98,7 +98,7 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # This should be false for selenium / capybara (https://github.com/plataformatec/devise/wiki/How-To:-Test-with-Capybara)
   config.use_transactional_fixtures = false
-  config.fixture_path = Rails.root.join('spec/fixtures')
+  config.fixture_paths = [Rails.root.join('spec/fixtures').to_s]
 
   # Include controller macros in the controllers (support/controller_macros)
   # config.extend ControllerMacros
@@ -138,7 +138,7 @@ RSpec.configure do |config|
   end
 
   config.before(type: :feature) do
-    Rails.application.config.action_dispatch.show_exceptions = true
+    Rails.application.config.action_dispatch.show_exceptions = :all
   end
 
   # When changing to the new headless mode, uncomment the below lines.
@@ -153,7 +153,7 @@ RSpec.configure do |config|
   end
 
   config.after(type: :feature) do
-    Rails.application.config.action_dispatch.show_exceptions = false
+    Rails.application.config.action_dispatch.show_exceptions = :none
   end
 
   config.append_after do

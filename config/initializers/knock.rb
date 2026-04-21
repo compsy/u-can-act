@@ -1,5 +1,9 @@
-Knock.setup do |config|
+# frozen_string_literal: true
 
+require 'knock/authenticable/getter_name'
+require 'knock/authenticable'
+
+Knock.setup do |config|
   ## Expiration claim
   ## ----------------
   ##
@@ -24,21 +28,20 @@ Knock.setup do |config|
   ##
   ## Configure the algorithm used to encode the token
   # 'RS256' or 'HS256'
-  config.token_signature_algorithm = ENV['TOKEN_SIGNATURE_ALGORITHM']
-
+  config.token_signature_algorithm = ENV.fetch('TOKEN_SIGNATURE_ALGORITHM', nil)
 
   ## Signature key
   ## -------------
   ##
   ## Configure the key used to sign tokens.
   if config.token_signature_algorithm == 'RS256'
-    config.token_secret_signature_key = -> {
+    config.token_secret_signature_key = lambda {
       OpenSSL::PKey::RSA.new(
         OpenSSL::X509::Certificate.new(Base64.strict_decode64(Rails.application.secrets.signing_certificate))
       )
     }
   else
-    config.token_secret_signature_key = -> {
+    config.token_secret_signature_key = lambda {
       Rails.application.secrets.signing_certificate
     }
   end
@@ -47,9 +50,9 @@ Knock.setup do |config|
   ## ----------
   ##
   ## Configure the public key used to decode tokens, if required.
-  #jwks_raw = Net::HTTP.get URI(ENV['AUTH0_RSA_DOMAIN'])
-  #jwks_keys = Array(JSON.parse(jwks_raw)['keys'])
-  #config.token_public_key = OpenSSL::X509::Certificate.new(Base64.decode64(jwks_keys[0]['x5c'].first)).public_key
+  # jwks_raw = Net::HTTP.get URI(ENV['AUTH0_RSA_DOMAIN'])
+  # jwks_keys = Array(JSON.parse(jwks_raw)['keys'])
+  # config.token_public_key = OpenSSL::X509::Certificate.new(Base64.decode64(jwks_keys[0]['x5c'].first)).public_key
 
   # Only set the public key if we use cert based auth
   if ENV['TOKEN_SIGNATURE_ALGORITHM'] == 'RS256'
@@ -60,6 +63,5 @@ Knock.setup do |config|
     config.token_public_key = Rails.application.secrets.signing_certificate
   end
 
-  #Rails.application.secrets.auth0_client_secret
-
+  # Rails.application.secrets.auth0_client_secret
 end

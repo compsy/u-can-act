@@ -23,7 +23,7 @@ class LanguagesController < ApplicationController
     end
 
     flash.notice = I18n.t('pages.languages.flash_messages.notice.locale_updated')
-    return redirect_to change_params[:cb] if params[:cb].present?
+    return redirect_to change_params[:cb], allow_other_host: true if params[:cb].present?
 
     redirect_to language_path show_params
   end

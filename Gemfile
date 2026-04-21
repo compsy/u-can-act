@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.8', '>= 7.0.8.7'
+gem 'rails', '~> 7.1.6'
 
 # Use Postgres as the database for Active Record
 gem 'pg'
@@ -62,6 +62,7 @@ gem 'dotenv-rails'
 gem 'coveralls_reborn', require: false
 
 # Delayed job for delayed calculation
+gem 'delayed_job', '~> 4.1.13'
 gem 'delayed_job_active_record'
 
 # Used to scroll to top
@@ -109,7 +110,7 @@ group :development, :test do
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 6.1'
 
   # rubymine debugger
   # I disabled it for now because it was giving errors with Ruby 3.1
@@ -210,4 +211,5 @@ gem 'warden-jwt_auth'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
+gem 'cgi', '< 0.5'
 gem 'logger', '~> 1.6.0' # logger 1.7+ breaks Rails 6.1

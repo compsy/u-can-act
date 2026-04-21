@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "active_support/core_ext/integer/time"
+require 'active_support/core_ext/integer/time'
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -38,7 +38,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = :none
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
@@ -65,9 +65,9 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
   config.action_mailer.default_url_options = {
-    host: ENV['HOST_DOMAIN'],
+    host: ENV.fetch('HOST_DOMAIN', nil),
     protocol: 'http',
-    domain: ENV['HOST_DOMAIN']
+    domain: ENV.fetch('HOST_DOMAIN', nil)
   }
 
   # Annotate rendered view with file names.

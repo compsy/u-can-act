@@ -138,6 +138,9 @@ dagboek_content = [
       'Tevreden',
       'Zeer tevreden'
     ]
+  },
+  {
+    type: :next_questionnaire_notice
   }
 ]
 

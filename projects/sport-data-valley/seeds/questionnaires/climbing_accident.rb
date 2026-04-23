@@ -512,6 +512,9 @@ question_content = [
       nl: "Heb je nog op- of aanmerkingen aan de hand van deze melding? (optional)",
       en: "Do you have any comments or remarks based on this report? (optional)"
     }
+  },
+  {
+    type: :next_questionnaire_notice
   }
 ]
 

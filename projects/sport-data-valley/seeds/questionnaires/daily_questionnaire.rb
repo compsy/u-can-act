@@ -168,6 +168,7 @@ days.each_with_index do |day, idx|
                                     content: { nl: "<h4 class=\"header\">Dagelijkse vragenlijst #{day}</h4>",
                                                en: "<h4 class=\"header\">Daily questionnaire #{english_day}</h4>" }
                                   })
+  current_dagboek_content.push({ type: :next_questionnaire_notice })
   db_name1 = "daily_questionnaire_#{day}"
   questionnaire = Questionnaire.find_by(name: db_name1)
   questionnaire ||= Questionnaire.new(name: db_name1)

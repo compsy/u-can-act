@@ -19,8 +19,8 @@ Knock.setup do |config|
   ## Configure the audience claim to identify the recipients that the token
   ## is intended for.
   ## If using Auth0:
-  if ENV['AUTH0_CLIENT_ID'].present? && Rails.application.secrets.auth0_client_id.present?
-    config.token_audience = -> { Rails.application.secrets.auth0_client_id }
+  if ENV['AUTH0_CLIENT_ID'].present? && ENV['AUTH0_CLIENT_ID'].present?
+    config.token_audience = -> { ENV['AUTH0_CLIENT_ID'] }
   end
 
   ## Signature algorithm
@@ -37,7 +37,7 @@ Knock.setup do |config|
   if config.token_signature_algorithm == 'RS256'
     config.token_secret_signature_key = lambda {
       OpenSSL::PKey::RSA.new(
-        OpenSSL::X509::Certificate.new(Base64.strict_decode64(Rails.application.secrets.signing_certificate))
+        OpenSSL::X509::Certificate.new(Base64.strict_decode64(ENV['AUTH0_SIGNING_CERTIFICATE']))
       )
     }
   else
@@ -56,12 +56,10 @@ Knock.setup do |config|
 
   # Only set the public key if we use cert based auth
   if ENV['TOKEN_SIGNATURE_ALGORITHM'] == 'RS256'
-    config.token_public_key = OpenSSL::X509::Certificate.new(Base64.strict_decode64(Rails.application.secrets.signing_certificate)).public_key
+    config.token_public_key = OpenSSL::X509::Certificate.new(Base64.strict_decode64(ENV['AUTH0_SIGNING_CERTIFICATE'])).public_key
   else
     # If we have a no-certificate based authentication, the private key is used
     # to verify the signatures.
-    config.token_public_key = Rails.application.secrets.signing_certificate
+    config.token_public_key = ENV['AUTH0_SIGNING_CERTIFICATE']
   end
-
-  # Rails.application.secrets.auth0_client_secret
 end

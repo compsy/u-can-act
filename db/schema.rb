@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_12_14_170609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,8 +19,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.string "password_digest"
     t.string "access_level"
     t.integer "person_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["auth0_id_string"], name: "index_auth_users_on_auth0_id_string", unique: true
     t.index ["person_id"], name: "index_auth_users_on_person_id"
   end
@@ -31,29 +30,29 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.integer "attempts", default: 0, null: false
     t.text "handler", null: false
     t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
+    t.datetime "run_at", precision: nil
+    t.datetime "locked_at", precision: nil
+    t.datetime "failed_at", precision: nil
     t.string "locked_by"
     t.string "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "invitation_sets", id: :serial, force: :cascade do |t|
     t.integer "person_id", null: false
     t.string "invitation_text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["person_id"], name: "index_invitation_sets_on_person_id"
   end
 
   create_table "invitation_tokens", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "token_hash", null: false
-    t.datetime "expires_at", null: false
+    t.datetime "expires_at", precision: nil, null: false
     t.integer "invitation_set_id", null: false
     t.index ["invitation_set_id"], name: "index_invitation_tokens_on_invitation_set_id"
   end
@@ -62,8 +61,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.integer "invitation_set_id", null: false
     t.string "type", null: false
     t.string "invited_state", default: "not_sent", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["invitation_set_id"], name: "index_invitations_on_invitation_set_id"
   end
 
@@ -74,8 +73,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.integer "open_from_offset"
     t.integer "open_duration"
     t.integer "reward_points", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "offset_till_end"
     t.boolean "stop_measurement", default: false, null: false
     t.boolean "should_invite", default: true, null: false
@@ -93,8 +92,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
   create_table "one_time_responses", id: :serial, force: :cascade do |t|
     t.string "token", null: false
     t.integer "protocol_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "restricted", default: false, null: false
     t.index ["protocol_id"], name: "index_one_time_responses_on_protocol_id"
     t.index ["token"], name: "one_time_response_token", unique: true
@@ -102,8 +101,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
 
   create_table "organizations", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
 
@@ -111,8 +110,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.string "mobile_phone"
     t.string "first_name", null: false
     t.string "last_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "gender"
     t.string "email"
     t.integer "role_id", null: false
@@ -132,12 +131,12 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.integer "person_id", null: false
     t.integer "protocol_id", null: false
     t.string "state", null: false
-    t.datetime "start_date", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "informed_consent_given_at"
+    t.datetime "start_date", precision: nil, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "informed_consent_given_at", precision: nil
     t.integer "filling_out_for_id", null: false
-    t.datetime "end_date", null: false
+    t.datetime "end_date", precision: nil, null: false
     t.string "external_identifier"
     t.string "informed_consent_content"
     t.string "invitation_text_nl"
@@ -153,8 +152,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.integer "from_id", null: false
     t.integer "to_id", null: false
     t.integer "protocol_subscription_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["from_id"], name: "index_protocol_transfers_on_from_id"
     t.index ["protocol_subscription_id"], name: "index_protocol_transfers_on_protocol_subscription_id"
     t.index ["to_id"], name: "index_protocol_transfers_on_to_id"
@@ -163,8 +162,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
   create_table "protocols", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.integer "duration", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "informed_consent_questionnaire_id"
     t.string "invitation_text"
     t.index ["informed_consent_questionnaire_id"], name: "index_protocols_on_informed_consent_questionnaire_id"
@@ -176,8 +175,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.string "url", null: false
     t.string "name", null: false
     t.string "method", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["protocol_id", "name"], name: "index_push_subscriptions_on_protocol_id_and_name", unique: true
     t.index ["protocol_id"], name: "index_push_subscriptions_on_protocol_id"
   end
@@ -185,8 +184,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
   create_table "questionnaires", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.text "content", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "title"
     t.string "key", null: false
     t.index ["key"], name: "questionnaires_key", unique: true
@@ -197,11 +196,11 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.integer "protocol_subscription_id", null: false
     t.integer "measurement_id", null: false
     t.string "content"
-    t.datetime "open_from", null: false
-    t.datetime "opened_at"
-    t.datetime "completed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "open_from", precision: nil, null: false
+    t.datetime "opened_at", precision: nil
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "uuid", limit: 36, null: false
     t.integer "filled_out_for_id"
     t.integer "filled_out_by_id"
@@ -219,8 +218,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.integer "threshold", null: false
     t.integer "reward_points", null: false
     t.integer "protocol_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["protocol_id"], name: "index_rewards_on_protocol_id"
     t.index ["threshold", "protocol_id"], name: "index_rs_on_threshold_and_protocol_id", unique: true
   end
@@ -229,16 +228,16 @@ ActiveRecord::Schema[6.1].define(version: 2023_12_14_170609) do
     t.string "group", null: false
     t.string "title", null: false
     t.integer "team_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["team_id", "title"], name: "index_roles_on_team_id_and_title", unique: true
     t.index ["team_id"], name: "index_roles_on_team_id"
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "organization_id", null: false
     t.index ["name"], name: "index_teams_on_name", unique: true
   end

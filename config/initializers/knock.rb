@@ -42,7 +42,7 @@ Knock.setup do |config|
     }
   else
     config.token_secret_signature_key = lambda {
-      Rails.application.secrets.signing_certificate
+      ENV['AUTH0_SIGNING_CERTIFICATE']
     }
   end
 

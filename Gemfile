@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0.0'
 
 # Use Postgres as the database for Active Record
 gem 'pg'
@@ -111,7 +111,7 @@ group :development, :test do
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '~> 6.1'
+  gem 'rspec-rails', '~> 8.0'
 
   # rubymine debugger
   # I disabled it for now because it was giving errors with Ruby 3.1
@@ -198,7 +198,8 @@ gem 'tzinfo-data'
 
 # TODO: do this: https://github.com/fnando/i18n-js/blob/main/MIGRATING_FROM_V3_TO_V4.md
 gem 'i18n-js', '=3.9.2' # We still need this gem because it generates translations.js for us.
-gem 'rails-i18n'
+# not pinning this was causing dependency resolution to be extremely slow when running `bundle update`
+gem 'rails-i18n', '~> 8.0'
 
 gem 'lograge'
 gem 'remote_syslog_logger'

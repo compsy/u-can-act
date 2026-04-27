@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.1.6'
+gem 'rails', '~> 7.2.0'
 
 # Use Postgres as the database for Active Record
 gem 'pg'
@@ -28,7 +28,8 @@ gem 'haml-rails'
 gem 'uglifier'
 
 # Use React for the UI
-gem 'react-rails'
+# Earlier versions are no longer compatible with rails 7.2 because of connection_pool API change
+gem 'react-rails', '>= 3.3.0'
 gem 'react-source'
 
 # Use highcharts
@@ -189,7 +190,6 @@ gem 'silencer'
 gem 'materialize-sass'
 gem 'modernizr-rails'
 
-gem 'concurrent-ruby', '=1.3.4' # TODO: Remove this line from Gemfile after upgrading to Rails 7.1
 
 gem 'webpacker', '>=6.0.0.rc.5'
 

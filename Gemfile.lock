@@ -102,7 +102,7 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.8.9)
+    addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     appsignal (4.8.4)
       logger
@@ -116,7 +116,7 @@ GEM
       execjs (~> 2.0)
     base64 (0.3.0)
     bcrypt (3.1.22)
-    bigdecimal (4.0.1)
+    bigdecimal (4.1.2)
     bindex (0.8.1)
     bootsnap (1.23.0)
       msgpack (~> 1.2)
@@ -201,6 +201,10 @@ GEM
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
     ffi (1.17.3)
+    ffi (1.17.3-aarch64-linux-gnu)
+    ffi (1.17.3-arm64-darwin)
+    ffi (1.17.3-x64-mingw-ucrt)
+    ffi (1.17.3-x86_64-linux-gnu)
     formatador (1.1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -293,7 +297,7 @@ GEM
     materialize-sass (1.0.0.1)
       autoprefixer-rails (>= 6.0.3)
     matrix (0.4.3)
-    mcp (0.9.0)
+    mcp (0.13.0)
       json-schema (>= 4.1)
     messagebird-rest (5.0.0)
       jwt (< 4)
@@ -335,6 +339,14 @@ GEM
     nokogiri (1.19.1)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    nokogiri (1.19.1-aarch64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.19.1-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.19.1-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nokogiri (1.19.1-x86_64-linux-gnu)
+      racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -361,7 +373,7 @@ GEM
     puma (7.2.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (2.2.22)
+    rack (2.2.23)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
     rack-proxy (0.7.7)
@@ -595,6 +607,7 @@ PLATFORMS
   arm64-darwin-21
   arm64-darwin-23
   arm64-darwin-24
+  arm64-darwin-25
   x64-mingw-ucrt
   x64-unknown
   x86_64-linux
@@ -602,7 +615,7 @@ PLATFORMS
 DEPENDENCIES
   active_interaction
   active_model_serializers
-  addressable
+  addressable (>= 2.8.10)
   animate-rails!
   appsignal
   bcrypt

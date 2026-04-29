@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 8.0.0'
+gem 'rails', '~> 8.1.0'
 
 # Use Postgres as the database for Active Record
 gem 'pg'
@@ -162,8 +162,6 @@ group :production, :staging do
 end
 
 gem 'addressable'
-
-gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
 
 group :development do
   gem 'server_timing'

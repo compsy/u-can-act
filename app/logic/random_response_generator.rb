@@ -73,7 +73,7 @@ class RandomResponseGenerator
 
     def generate_answer_for_date(question)
       minmax = determine_min_max_date(question)
-      rand(minmax[:min]..minmax[:max]).to_formatted_s(:db)
+      rand(minmax[:min]..minmax[:max]).to_fs(:db)
     end
 
     def determine_min_max_date(question)

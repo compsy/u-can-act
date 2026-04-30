@@ -20,8 +20,8 @@ module AuthHelper
 
   def jwt_auth(payload, set_header = true)
     private_key ||= OpenSSL::PKey::RSA.new(
-      Base64.strict_decode64(ENV['PRIVATE_KEY']),
-      ENV['PRIVATE_KEY_PASSPHRASE']
+      Base64.strict_decode64(ENV.fetch('PRIVATE_KEY', nil)),
+      ENV.fetch('PRIVATE_KEY_PASSPHRASE', nil)
     )
 
     payload['aud'] = Knock.token_audience.call

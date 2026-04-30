@@ -54,7 +54,7 @@ class PeopleController < ApplicationController
   end
 
   def people_params
-    base_params = params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
+    base_params = params.expect(person: %i[first_name last_name email gender mobile_phone iban])
     return base_params if cannot? :update, Person, :ip_hash
 
     base_params.merge(ip_hash: calculate_ip_hash)

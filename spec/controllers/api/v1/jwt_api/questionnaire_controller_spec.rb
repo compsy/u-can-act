@@ -6,7 +6,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
   def streamed_response_body
     return response.body if response.body.is_a?(String)
 
-    response.body.each_with_object(+"") do |chunk, result|
+    response.body.each_with_object(+'') do |chunk, result|
       result << chunk.to_s
     end
   end

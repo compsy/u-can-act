@@ -15,8 +15,6 @@ require 'active_support/core_ext/integer/time'
 # ENV['AUTH0_REDIRECT_URL'] = 'http://localhost:3002/admin/callback'
 # ENV['AUTH0_AUDIENCE'] = 'https://ikia-development.eu.auth0.com/api/v2/'
 
-# These secrets used to be defined on config/secrets.yml but rails dropped support so now we hardcode them here via env vars
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

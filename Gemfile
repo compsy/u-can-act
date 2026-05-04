@@ -161,7 +161,7 @@ group :production, :staging do
   gem 'daemons'
 end
 
-gem 'addressable'
+gem 'addressable', '>= 2.8.10'
 
 group :development do
   gem 'server_timing'

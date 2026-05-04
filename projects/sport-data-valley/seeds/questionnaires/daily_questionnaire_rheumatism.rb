@@ -99,8 +99,7 @@ dagboek_content = [
     type: :textarea,
     title: RheumatismMethods.category_title('Opmerkingen', 'Was er vandaag iets aan de hand (bv ziekte) wat invloed had op één van bovenstaande antwoorden? Zo ja, wat? Of wil je verder nog iets benoemen?')
   }, {
-    type: :raw,
-    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren.</p>'
+    type: :next_questionnaire_notice
   }
 ]
 

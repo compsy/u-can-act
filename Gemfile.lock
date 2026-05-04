@@ -107,7 +107,7 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.8.9)
+    addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     appsignal (4.8.4)
       logger
@@ -633,7 +633,7 @@ PLATFORMS
 DEPENDENCIES
   active_interaction
   active_model_serializers
-  addressable
+  addressable (>= 2.8.10)
   animate-rails!
   appsignal
   bcrypt

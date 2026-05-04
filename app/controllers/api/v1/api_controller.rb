@@ -16,10 +16,12 @@ module Api
                status: :unauthorized
       end
 
+      # This is called by knock. Knock used to dynamically define this but since rails 7.1 that's broken.
       def authenticate_auth_user
         unauthorized_entity('auth_user') unless authenticate_entity('auth_user')
       end
 
+      # This is called by knock. Knock used to dynamically define this but since rails 7.1 that's broken.
       def current_auth_user
         authenticate_entity('auth_user')
       end

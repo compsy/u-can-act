@@ -642,7 +642,7 @@ DEPENDENCIES
   cancancan!
   capybara
   capybara-screenshot
-  cgi (< 0.5)
+  cgi
   coveralls_reborn
   daemons
   database_cleaner
@@ -662,7 +662,7 @@ DEPENDENCIES
   jwt
   knock!
   listen
-  logger (~> 1.6.0)
+  logger
   lograge
   mailgun-ruby
   materialize-sass

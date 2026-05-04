@@ -29,14 +29,13 @@ class QuestionnaireController < ApplicationController
   before_action :set_default_content, only: %i[interactive interactive_post]
 
   def index
-    redirect_to NextPageFinder.get_next_page(current_user: current_user), allow_other_host: true
+    redirect_to NextPageFinder.get_next_page(current_user: current_user)
   end
 
   # Allows users to be redirected to the correct questionnaire with preference
   # for a certain response
   def preference
-    redirect_to NextPageFinder.get_next_page(current_user: current_user, next_response: @response),
-                allow_other_host: true
+    redirect_to NextPageFinder.get_next_page(current_user: current_user, next_response: @response)
   end
 
   def interactive; end
@@ -104,8 +103,7 @@ class QuestionnaireController < ApplicationController
       @response = orig_response
     end
     redirect_to questionnaire_create_params[:callback_url] ||
-                NextPageFinder.get_next_page(current_user: current_user, previous_response: @response),
-                allow_other_host: true
+                NextPageFinder.get_next_page(current_user: current_user, previous_response: @response)
   end
 
   def destroy
@@ -119,8 +117,7 @@ class QuestionnaireController < ApplicationController
     # Note, we don't unsubscribe yet. If a person clicks the 'stop' link, the
     # person is redirected to the stop questionnaire. However, as long as the
     # student does not submit that questionnaire, he or she is not unsubscribed
-    redirect_to NextPageFinder.get_next_page(current_user: current_user, next_response: stop_response),
-                allow_other_host: true
+    redirect_to NextPageFinder.get_next_page(current_user: current_user, next_response: stop_response)
   end
 
   private
@@ -386,7 +383,7 @@ class QuestionnaireController < ApplicationController
 
     # Instead of throwing a 404, just redirect to the next page in line if one is already completed.
     if response.completed_at
-      redirect_to NextPageFinder.get_next_page(current_user: current_user), allow_other_host: true
+      redirect_to NextPageFinder.get_next_page(current_user: current_user)
       return
     end
 
@@ -394,7 +391,7 @@ class QuestionnaireController < ApplicationController
     return if !response.expired? || response.measurement.stop_measurement
 
     flash[:notice] = I18n.t('questionnaires.questionnaire_expired')
-    redirect_to NextPageFinder.get_next_page(current_user: current_user), allow_other_host: true
+    redirect_to NextPageFinder.get_next_page(current_user: current_user)
   end
 
   def log_csrf_error

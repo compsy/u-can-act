@@ -9,6 +9,12 @@ if [ -f /app/tmp/pids/server.pid ]; then
 fi
 
 cd /app
+
+# Unfreeze Gemfile.lock if running on development mode so we can install new gems
+if [ "$RESET_DB_ON_FAIL" == "true" ]; then
+  bundle config unset frozen
+fi
+
 bundle install
 yarn install
 bundle exec rails i18n:js:export

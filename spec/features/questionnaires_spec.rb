@@ -937,6 +937,7 @@ describe 'GET and POST /', type: :feature, js: true do
       # v1
       page.check('Nee', allow_label_click: true)
       page.click_on 'Opslaan'
+      expect(page).to have_current_path(mentor_overview_index_path, wait: 10)
       expect(page).to have_content('Webapp Begeleiders')
       expect(page).not_to have_content('Succes: De begeleiding voor Jane is gestopt.')
       responseobj.reload
@@ -2232,7 +2233,7 @@ describe 'GET and POST /', type: :feature, js: true do
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
-      expect(responseobj.values).to include('v1' => Time.zone.today.to_formatted_s(:db))
+      expect(responseobj.values).to include('v1' => Time.zone.today.to_fs(:db))
     end
     it 'supports the today property, which sets the default value to today' do
       # Don't test min and max right now because they are bugged
@@ -2264,7 +2265,7 @@ describe 'GET and POST /', type: :feature, js: true do
       responseobj.reload
       expect(responseobj.completed_at).to be_within(1.minute).of(Time.zone.now)
       expect(responseobj.content).not_to be_nil
-      expect(responseobj.values).to include('v1' => Time.zone.today.to_formatted_s(:db))
+      expect(responseobj.values).to include('v1' => Time.zone.today.to_fs(:db))
     end
   end
 

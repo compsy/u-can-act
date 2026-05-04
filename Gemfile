@@ -8,7 +8,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 8.1.0'
 
 # Use Postgres as the database for Active Record
 gem 'pg'
@@ -28,7 +28,8 @@ gem 'haml-rails'
 gem 'uglifier'
 
 # Use React for the UI
-gem 'react-rails'
+# Earlier versions are no longer compatible with rails 7.2 because of connection_pool API change
+gem 'react-rails', '>= 3.3.0'
 gem 'react-source'
 
 # Use highcharts
@@ -62,6 +63,7 @@ gem 'dotenv-rails'
 gem 'coveralls_reborn', require: false
 
 # Delayed job for delayed calculation
+gem 'delayed_job', '~> 4.1.13'
 gem 'delayed_job_active_record'
 
 # Used to scroll to top
@@ -109,7 +111,7 @@ group :development, :test do
   # Needed for Circleci to pretty format the output
   gem 'guard-rspec'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 8.0'
 
   # rubymine debugger
   # I disabled it for now because it was giving errors with Ruby 3.1
@@ -161,8 +163,6 @@ end
 
 gem 'addressable', '>= 2.8.10'
 
-gem 'workless', git: 'https://github.com/compsy/workless.git', branch: 'fixes'
-
 group :development do
   gem 'server_timing'
 
@@ -188,8 +188,6 @@ gem 'silencer'
 gem 'materialize-sass'
 gem 'modernizr-rails'
 
-gem 'concurrent-ruby', '=1.3.4' # TODO: Remove this line from Gemfile after upgrading to Rails 7.1
-
 gem 'webpacker', '>=6.0.0.rc.5'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -197,7 +195,8 @@ gem 'tzinfo-data'
 
 # TODO: do this: https://github.com/fnando/i18n-js/blob/main/MIGRATING_FROM_V3_TO_V4.md
 gem 'i18n-js', '=3.9.2' # We still need this gem because it generates translations.js for us.
-gem 'rails-i18n'
+# not pinning this was causing dependency resolution to be extremely slow when running `bundle update`
+gem 'rails-i18n', '~> 8.0'
 
 gem 'lograge'
 gem 'remote_syslog_logger'
@@ -210,4 +209,5 @@ gem 'warden-jwt_auth'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
-gem 'logger', '~> 1.6.0' # logger 1.7+ breaks Rails 6.1
+gem 'cgi'
+gem 'logger'

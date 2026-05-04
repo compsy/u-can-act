@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery prepend: true, with: :exception, except: :options
-  before_action :work_off_delayed_jobs
 
   TEST_COOKIE = :test_cookie
   TEST_COOKIE_ENTRY = 'TRUE'

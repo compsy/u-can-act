@@ -15,6 +15,7 @@
 </p>
 
 ## Reference
+
 Emerencia, A.C., Blaauw, F.J., Snell, N.R., Blijlevens, T., Kunnen, E.S., De Jonge, P. & Van der Gaag, M.A.E. (2017).
 U-can-act Web-app (Version 1.0) [Web application software].
 Retrieved from [www.u-can-act.nl](www.u-can-act.nl)
@@ -23,48 +24,57 @@ Frank J. Blaauw, Mandy A. E. van der Gaag, Nick R. Snell, Ando C. Emerencia, E. 
 The u-can-act Platform: A Tool to Study Intra-individual Processes of Early School Leaving and Its Prevention Using Multiple Informants. [Frontiers in Psychology](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.01808/full)
 
 ## Funding
+
 This application has been made possible by funding from The Netherlands Initiative for Education Research (NRO) under projectnumber 405-16-401.
 
 ![NRO](https://u-can-act.nl/wp-content/uploads/2018/01/NRO-2.png)
 
 ## Index
+
 1. [Protocols and Measurements](#protocols-and-measurements)
 2. [Questionnaire Syntax](#questionnaire-syntax)
-    1. [Type: Checkbox](#type-checkbox)
-    2. [Type: Radio](#type-radio)
-    3. [Type: Likert](#type-likert)
-    4. [Type: Range](#type-range)
-    5. [Type: Raw](#type-raw)
-    6. [Type: Textarea](#type-textarea)
-    7. [Type: Textfield](#type-textfield)
-    8. [Type: Number](#type-number)
-    9. [Type: Expandable](#type-expandable)
-    10. [Type: Time](#type-time)
-    11. [Type: Date](#type-date)
-    12. [Type: Date and Time](#type-date-and-time)
-    13. [Type: Unsubscribe](#type-unsubscribe)
-    14. [Type: Dropdown](#type-dropdown)
-    15. [Type: Drawing](#type-drawing)
-    16. [Type: Days](#type-days)
+   1. [Type: Checkbox](#type-checkbox)
+   2. [Type: Radio](#type-radio)
+   3. [Type: Likert](#type-likert)
+   4. [Type: Range](#type-range)
+   5. [Type: Raw](#type-raw)
+   6. [Type: Textarea](#type-textarea)
+   7. [Type: Textfield](#type-textfield)
+   8. [Type: Number](#type-number)
+   9. [Type: Expandable](#type-expandable)
+   10. [Type: Time](#type-time)
+   11. [Type: Date](#type-date)
+   12. [Type: Date and Time](#type-date-and-time)
+   13. [Type: Unsubscribe](#type-unsubscribe)
+   14. [Type: Dropdown](#type-dropdown)
+   15. [Type: Drawing](#type-drawing)
+   16. [Type: Days](#type-days)
 3. [Questionnaire Scores](#questionnaire-scores)
+
 ## Installation
+
 Make sure that Docker Compose is installed, it will allow you to run the application with Postgress, Redis and MongoDB.
 
 Clone the codebase and step into the directory.
+
 ```bash
   git clone git@github.com:compsy/u-can-act.git
   cd u-can-act
 ```
+
 Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
+
 ```
   docker-compose up
 ```
 
 ## Configuration
+
 The `.env` file is used for storing all ENV variables.
 Below is a list of all required ENV variables for production servers.
 
 ### General settings
+
 ```
   PROJECT_NAME:      <name of the project (e.g., vsv)>
   POSTGRES_DATABASE: <prefix for the database used in development (e.g., vsv)>
@@ -119,8 +129,6 @@ Below is a list of all required ENV variables for production servers.
   SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
   REGISTRATION_URL: <url for sending invites to for person email registration>
 
-  WORKLESS_ENABLED: <set to 'true' if you want to enable workless>
-
   ELASTIC_APM_ENABLED: <set to 'true' if you want to report APM metrics to the elastic cluster>
   ELASTIC_APM_URL: <the url to push APM metrics to>
   ELASTIC_APM_SECRET_TOKEN: <the agent token as obtained from /app/apm/settings/agent-keys when creating a new token>
@@ -128,6 +136,7 @@ Below is a list of all required ENV variables for production servers.
 ```
 
 ### (Local) development settings
+
 For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development.
 However, a `.env.local` file is **not** included in the repository, and should be created by the developer.
 Since this file determines which project will run, it should at minimum have the following settings:
@@ -149,6 +158,7 @@ After cloning the repo, be sure to create an `.env.local` file with at least the
 When using the rake task to generate a new project (`bundle exec rake "deployment:create_project[myproject]"`), a `.env.local` file is automatically generated for you. But when switching to one of the existing projects in the repo, you need to set the above variables in `.env.local`.
 
 ### Organization-specific settings
+
 Organization specific settings can be found in the `projects/<project-name>` folder. `config/settings.yml`.
 One of the variables that should be defined is the `PROJECT_NAME` environment variable, which will translate to `application_name` in `config/settings.yml`.
 This variable is used in determining the directory for organization specific configuration files such as locales (e.g., files in the directory `projects/my_organization/*` are used if `application_name` is `my_organization`).
@@ -168,16 +178,18 @@ The file structure of the `my_organization` directory in the `projects` director
 ```
 
 In the project specific `settings.yml`, the following settings are required:
+
 ```yaml
-default_team_name:  <Name of the default team>
+default_team_name: <Name of the default team>
 project_start_date: <Date that the project started in the format yyyy-mm-dd, e.g., '2017-10-01'>
-project_end_date:   <Date that the project ended in the format yyyy-mm-dd, e.g., '2018-08-06'>
+project_end_date: <Date that the project ended in the format yyyy-mm-dd, e.g., '2018-08-06'>
 logo:
   mentor_logo: <Filename of the mentor logo, e.g., 'mentor_logo.png'>
   student_logo: <Filename of the student logo, e.g., 'student_logo.png'>
   fallback_logo: <Default logo when there is no student or mentor, e.g., 'logo.png'>
   company_logo: <OPTIONAL. Filename of a company logo. If missing, the header uses only one logo>
 ```
+
 The settings in `settings.yml` should be sectioned under `development`, `production`, `test`, and `staging`. See the relevant files in this repository for examples.
 
 You can override the default email layout (= all the HTML around the actual email, starting with <html><body> and so on), by creating a file named `mailer.html.haml` in the `views/layouts` subdirectory in a project's directory. The same layout is used for all email invitations for this project. See `app/views/layouts/mailer.html.haml` for an example of this file. (You can copy this file to the `views/layouts` subdirectory of your project and start editing that version to customize it for your project.)
@@ -199,62 +211,77 @@ The `settings.yml` file has a `feature_toggles` section with the following entri
 - `allow_response_uuid_login` (defaults to `false`): Setting this feature toggle to true allows users to use a questionnaire uuid link to log in. This may or may not help with filling out questionnaires under Edge/Outlook where for some reason redirects are followed but cookies are not being set correctly. Since there are many UUIDs, the risk of a person randomly guessing one is low. This risk is further lowered because only UUIDs for responses that have been opened and are not yet completed are valid. And even when someone does guess a UUID, there is no information leaked: they can fill out a questionnaire but that's it.
 
 ### Development configuration
+
 In order to run the Capybara specs of the VSV project, you need to install the chrome headless browser. In MacOS you can do this using Homebrew:
+
 ```
   brew install chromedriver
 ```
 
 ### Development seeds
+
 At some point you might need pre-existing questionnaire responses in order to test the applications that integrate
 with the questionnaire engine. You can pre-seed the database with fake data using manual seeds. To run it simply call:
+
 ```bash
 rails db:seed:<name of manual seed>
 ```
+
 A list of available seeds can be found through the following command:
+
 ```bash
 rails --tasks | grep db:seed:
 ```
+
 Additionally, you can check the files under `projects/sport-data-valley/manual-seeds` to see their implementation.
 
 ## Background jobs
+
 The workings of the app rely on the following background jobs:
 
 Daily (e.g., at 2:30am), the following rake task should run:
+
 ```
 rake scheduler:complete_protocol_subscriptions
 ```
 
 Daily (e.g., at 3am), the following rake task should run:
+
 ```
 rake scheduler:cleanup_invitation_tokens
 ```
 
 Every 10 minutes, the following rake task should run:
+
 ```
 rake scheduler:send_invitations
 ```
 
 Every hour, the following rake task should run:
+
 ```
 rake scheduler:cache_overview
 ```
 
 Daily (e.g., at 3pm), the following rake task should run:
+
 ```
 rake scheduler:monitoring
 ```
 
 Daily (e.g., at 3:30am), the following rake task should run:
+
 ```
 rake scheduler:rescheduling
 ```
 
 Daily (e.g., at 4am), the following rake task should run:
+
 ```
 rake scheduler:generate_questionnaire_headers
 ```
 
-When using Heroku these can be scheduled via the *Heroku Scheduler*.
+When using Heroku these can be scheduled via the _Heroku Scheduler_.
 These jobs can also be executed via a scheduled CI job on GitLab or GitHub.
 Via GitLab or GitHub, use the Heroku CLI via, for example
 
@@ -263,9 +290,10 @@ heroku run --app=my-app-name --exit-code --size=hobby rails runner CompleteProto
 ```
 
 In addition, a `delayed_job` worker should be available at all times. These can be started with `bin/delayed_job start`.
-To do this on Heroku, start an extra worker process and, optionally, add the [workless](https://github.com/lostboy/workless) gem to enable autoscaling.
+To do this on Heroku, start an extra worker process.
 
 ## Protocols and Measurements
+
 In the system a _Questionnaire_ denotes the definition of a questionnaire.
 A _Protocol_ is the overarching type which contains questionnaires.
 To obtain data from people filling in the questionnaires, each questionnaire should contain _Measurements_.
@@ -282,14 +310,14 @@ For non-periodical measurements, the `offset_until_end` is ignored.
 
 The protocol specification contains multiple variables for some protocol `p` and questionnaire `q`.
 
-Variable | Description
---- | ---
-`p.duration` | Duration of protocol. After _protocol start date_ + _protocol duration_ the protocol will be closed.
-`q.open_duration` | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.
-`q.period` | Time between measurements.
-`q.open_from_offset` | What offset to apply before opening the protocol.
-`q.open_from_day` | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.
-`q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available.
+| Variable             | Description                                                                                                                                                                                        |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `p.duration`         | Duration of protocol. After _protocol start date_ + _protocol duration_ the protocol will be closed.                                                                                               |
+| `q.open_duration`    | Time before a measurement is closed. If the user does not fill in the questionnaire before this time, an empty response remains in the database.                                                   |
+| `q.period`           | Time between measurements.                                                                                                                                                                         |
+| `q.open_from_offset` | What offset to apply before opening the protocol.                                                                                                                                                  |
+| `q.open_from_day`    | By default `open_from_offset` offsets from the moment when the users logs in for the first time. This option can override that start moment. See the measurement model for more information.       |
+| `q.stop_measurement` | If `true` this will end the protocol after user completes `q`. This overrides `p.duration`. This can be useful in diary studies where users receive reminders when new measurements are available. |
 
 ### One Time Responses
 
@@ -300,9 +328,11 @@ Other than a token in the URL, OTRs also use a token in the query parameters for
 An OTR can be marked as a `restricted` OTR, which means that the link will only function if it is also given a `token` parameter and that there is a running protocol subscription started for that user. Note that protocols that have a restricted OTR do not schedule their measurements like other protocols. This is because starting a protocol subscription to a restricted OTR means that you are eligible for clicking the link, rather than subscribing to the protocol.
 
 ### Prefilled measurements
+
 A measurement in a protocol can be configured to be prefilled with past responses. This can be activated by
 switching the `prefilled` property of the measurement to `true`. When creating protocols programmatically via the basic
 auth api, the option is called `prefilled` under the measurement properties:
+
 ```ruby
 questionnaires = [
   {
@@ -313,11 +343,13 @@ questionnaires = [
   }
 ]
 ```
+
 When prefilling is activated, the existing response used to prefill the new response will be the last completed
 response by the user from a measurement that uses the same questionnaire. Note that this response might be from a
 different protocol.
 
 ## Importing new students and mentors
+
 New mentors and students can be imported using the `echo_people` use case.
 
 ```ruby
@@ -328,42 +360,46 @@ in which `CSV_NAME` should be replaced with the file name of the CSV containing 
 It is important that the format of the CSV is ordered as follows.
 
 ### The Mentor CSV
+
 For the Mentor data this should be:
 
 | type | team_name | role_title | first_name | last_name | gender | mobile_phone | email | protocol_name | start_date | filling_out_for | filling_out_for_protocol | end_date |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ---- | --------- | ---------- | ---------- | --------- | ------ | ------------ | ----- | ------------- | ---------- | --------------- | ------------------------ | -------- |
 
 In this case:
- - `type` should equal `Mentor`
- - `team_name`: the name of the team the mentor belongs to
- - `role_title`: the role the mentor has in the team ('mentor', 'maatje', or 'S-teamer')
- - `first_name`: the first name of the person
- - `last_name`: the last name of the person
- - `gender`: the gender of the person
- - `mobile_phone`: the mobile phone number of the person
- - `email`: the email address of the mentor
- - `protocol_name`: the name of the protocol the person will participate in (for mentors this is `mentoren voormeting/nameting`
- - `start_date`: the date at which the person should start
- - `filling_out_for`: the phone number for which the mentor is filling out the questionnaire
- - `filling_out_for_protocol`: the protocol the person is filling out for (this is `mentoren dagboek` for mentors)
- - `end_date`: the end date of the protocol subscription
+
+- `type` should equal `Mentor`
+- `team_name`: the name of the team the mentor belongs to
+- `role_title`: the role the mentor has in the team ('mentor', 'maatje', or 'S-teamer')
+- `first_name`: the first name of the person
+- `last_name`: the last name of the person
+- `gender`: the gender of the person
+- `mobile_phone`: the mobile phone number of the person
+- `email`: the email address of the mentor
+- `protocol_name`: the name of the protocol the person will participate in (for mentors this is `mentoren voormeting/nameting`
+- `start_date`: the date at which the person should start
+- `filling_out_for`: the phone number for which the mentor is filling out the questionnaire
+- `filling_out_for_protocol`: the protocol the person is filling out for (this is `mentoren dagboek` for mentors)
+- `end_date`: the end date of the protocol subscription
 
 ### The Student CSV
+
 For the Student data this should be:
 
 | Type | team_name | role_title | first_name | last_name | gender | mobile_phone | e-mail | protocol_name | start_date | end_date |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ---- | --------- | ---------- | ---------- | --------- | ------ | ------------ | ------ | ------------- | ---------- | -------- |
 
 In this case:
- - `type` should equal `Student`
- - `team_name`: the name of the team the student belongs to
- - `first_name`: the first name of the person
- - `last_name`: the last name of the person
- - `gender`: the gender of the person
- - `mobile_phone`: the mobile phone number of the person
- - `protocol_name`: the name of the protocol the person will participate in (for students this is `studenten`)
- - `start_date`: the date at which the person should start
- - `end_date`: the end date of the protocol subscription
+
+- `type` should equal `Student`
+- `team_name`: the name of the team the student belongs to
+- `first_name`: the first name of the person
+- `last_name`: the last name of the person
+- `gender`: the gender of the person
+- `mobile_phone`: the mobile phone number of the person
+- `protocol_name`: the name of the protocol the person will participate in (for students this is `studenten`)
+- `start_date`: the date at which the person should start
+- `end_date`: the end date of the protocol subscription
 
 ## Variables that can be used in texts (case-sensitive!):
 
@@ -400,6 +436,7 @@ In this case:
         datum                       <vandaag>                   01-11-2018
         datum_lang                  <vandaag>                    1 november 2018
 ```
+
 So you can write a sentence as follows:
 
 ```
@@ -407,7 +444,9 @@ Heeft je {{begeleider}} al {{zijn_haar_begeleider}} vragenlijsten ingevuld voor 
 {{zijn_haar_student}} vrienden? Of heeft {{hij_zij_begeleider}} daar nog geen tijd voor gehad.
 {{Hij_zij_student}} al wel.
 ```
+
 and expect output like so:
+
 ```
 Heeft je S-team captain al haar vragenlijsten ingevuld voor Rik en zijn vrienden?
 Of heeft zij daar nog geen tijd voor gehad. Hij al wel.
@@ -418,34 +457,36 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 ### Questionnaire seeds
 
 ## About the questionnaire key, name, and title
+
 **key:**
 
- - unique
- - required (is not null or empty string)
- - specific format (/\A[a-z_0-9]+\Z/), i.e.: it can be symbolized if needed.
- - typically, the file that a questionnaire resides in is the questionnaire key (minus the .rb extension part)
+- unique
+- required (is not null or empty string)
+- specific format (/\A[a-z_0-9]+\Z/), i.e.: it can be symbolized if needed.
+- typically, the file that a questionnaire resides in is the questionnaire key (minus the .rb extension part)
 
 **name:**
 
- - unique
- - required (is not null or empty string)
- - can be any format (including spaces)
- - the intended use was for an "internal naming" of a questionnaire (i.e., not something that someone filling out the questionnaire would see), something that can be more verbose than a "key".
-   (e.g., the only use of the name attribute that I can think of the admin questionnaire preview page, where you select a questionnaire from a dropdown and then press a button to preview it: here we use the name of the questionnaires in the dropdown).
- - For historic reasons, these names have to be unique, because in an old seeds we used to look up questionnaires by their name to update their other properties (nowadays, good-behaving seeds will use the key).
- - In most seeds created nowadays, the name is set to be equal to the key, so then this whole point is moot. (but in theory it can be more verbose)
+- unique
+- required (is not null or empty string)
+- can be any format (including spaces)
+- the intended use was for an "internal naming" of a questionnaire (i.e., not something that someone filling out the questionnaire would see), something that can be more verbose than a "key".
+  (e.g., the only use of the name attribute that I can think of the admin questionnaire preview page, where you select a questionnaire from a dropdown and then press a button to preview it: here we use the name of the questionnaires in the dropdown).
+- For historic reasons, these names have to be unique, because in an old seeds we used to look up questionnaires by their name to update their other properties (nowadays, good-behaving seeds will use the key).
+- In most seeds created nowadays, the name is set to be equal to the key, so then this whole point is moot. (but in theory it can be more verbose)
 
 **title:**
 
- - optional, can be an empty string or nil
- - if you set a title, it will be rendered in a large size (like h2 or something) at the top of the questionnaire when it is filled out. So this is something that the user filling out the questionnaire sees. The questionnaire title is a separate attribute from the "content" property because we don't really have a "title" question type (perhaps we should add that), and because every questionnaire has a title, we decided to just add it as an attribute.
- - However, in most seeds these days, the title field is left empty and unused, and the reason is because the title field cannot be localized.
-   so for questionnaires that are available in multiple languages, what we do instead is start with a :raw question type that has some `<h2>` or whatever with the title in it, but this can be localized, like so:
-   `{ type: :raw, content: { en: '<h2>Title</h2>', nl: '<h2>Titel</h2>' } }`
-   and have that as the first "question" in the questionnaire so it shows up as the questionnaire title, but it can be localized. (because it is part of the questionnaire questions array that gets parsed through by the questionnaire engine, leaving only the appropriate strings in place wherever a `{ nl: ..., en: ...}` struct is found. But this can't be done for the title field since it's a simple string.
- - the title field isn't used for anything else, so leaving it empty has no bad effects.
+- optional, can be an empty string or nil
+- if you set a title, it will be rendered in a large size (like h2 or something) at the top of the questionnaire when it is filled out. So this is something that the user filling out the questionnaire sees. The questionnaire title is a separate attribute from the "content" property because we don't really have a "title" question type (perhaps we should add that), and because every questionnaire has a title, we decided to just add it as an attribute.
+- However, in most seeds these days, the title field is left empty and unused, and the reason is because the title field cannot be localized.
+  so for questionnaires that are available in multiple languages, what we do instead is start with a :raw question type that has some `<h2>` or whatever with the title in it, but this can be localized, like so:
+  `{ type: :raw, content: { en: '<h2>Title</h2>', nl: '<h2>Titel</h2>' } }`
+  and have that as the first "question" in the questionnaire so it shows up as the questionnaire title, but it can be localized. (because it is part of the questionnaire questions array that gets parsed through by the questionnaire engine, leaving only the appropriate strings in place wherever a `{ nl: ..., en: ...}` struct is found. But this can't be done for the title field since it's a simple string.
+- the title field isn't used for anything else, so leaving it empty has no bad effects.
 
 ## Questionnaire Syntax
+
 The `content` attribute of a `Questionnaire` is a Hash with two keys, `:questions` and `:scores`. `content[:questions]` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`, `:unsubscribe`, `:drawing`, `:date_and_time`, `:days`.
 
 For all questions, it is allowed to use HTML tags in the texts.
@@ -454,6 +495,7 @@ Also, you may use any of the special variables defined in the previous section.
 All questions except checkboxes now support a `combines_with` attribute. The value of this attribute should be an array of (other) questionnaire IDs. This is used to indicate to the distributions engine that an additional conditional distribution histogram, combining the values of the question and the ones that it combines with, should also be calculated.
 
 ### Type: Checkbox
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -535,6 +577,7 @@ Note that the `shows_questions` and `hides_questions` option properties require 
 ```
 
 ### Type: Radio
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -580,13 +623,14 @@ Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for
 This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
 In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
 The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
-If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa), simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
 Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attribute. When specified, this value is used instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long sentences, and you just want something shorter in your CSV export.
 
 ### Type: Likert
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -621,7 +665,7 @@ Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for
 This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
 In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
 The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
-If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa), simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
@@ -629,8 +673,8 @@ Options for Radios, Likerts, Dropdowns, and Checkboxes can have a `value` attrib
 instead of the title for encoding the option in the CSV export. It is of use e.g., when the selected option(s) are long
 sentences, and you just want something shorter in your CSV export.
 
-
 ### Type: Range
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -659,6 +703,7 @@ Required and allowed options (minimal example and maximal example):
   section_end: true
 }]
 ```
+
 The range type supports the optional properties `min` and `max`, which are set to 0 and 100 by default, respectively.
 It also supports `step`, which sets the step size of the slider (set to 1 by default, can also be a fraction).
 The `value` denotes the default location for the slider, that is, the location of the slider when it is not yet changed by the user.
@@ -669,6 +714,7 @@ If the `gradient` attribute is `true`, then the background of the slider is set 
 If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted.
 
 ### Type: Raw
+
 **Raw questionnaire types should not have an id!**
 Required and allowed options (minimal example and maximal example):
 
@@ -685,6 +731,7 @@ Required and allowed options (minimal example and maximal example):
 ```
 
 ### Type: Textarea
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -711,6 +758,7 @@ When present, it will introduce a small i on which the user can click to get ext
 The attribute `required` is `false` by default, but can be set to `true`.
 
 ### Type: Textfield
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -746,6 +794,7 @@ This can contain a variable, e.g., `default_value: '{{deze_student}}'`.
 The attribute `required` is `false` by default, but can be set to `true`.
 
 ### Type: Number
+
 Type for integer(?) numbers.
 Required and allowed options (minimal example and maximal example):
 
@@ -785,6 +834,7 @@ If the user manually adds or removes expandable iterations with the + or - butto
 Also, the `placeholder` property is supported for numbers.
 
 ### Type: Expandable
+
 Expandable questionnaire questions are essentially mini questionnaires within each questionnaire.
 They can introduce `max_expansions` new sub-questionnaires within the question (if not specified, this is 10). Furthermore, one can specify a number of `default_expansions`, which is the number of times the sub-questionnaire should be injected in the main questionnaire (if not specified this is 0).
 
@@ -836,11 +886,13 @@ They can introduce `max_expansions` new sub-questionnaires within the question (
   }]
 }]
 ```
+
 If the `content` of an expandable question contains questions with options that have the `shows_questions` or `hides_questions` attribute, the IDs will be dynamically adjusted so that it works for both static and dynamic IDs.
 (E.g., if you say `shows_questions: %i[v3_5]`, it will toggle the questions `v3_5` and `v3_<id>_5`, where `<id>` is the index of the current iteration in the expansion).
 Note that questions can only toggle ids in the same iteration, or normal static questions (outside of the expandable area).
 
 ### Type: Time
+
 Required and allowed options (minimal example):
 
 ```ruby
@@ -854,6 +906,7 @@ Required and allowed options (minimal example):
   hidden: true
 }]
 ```
+
 The dropdown will start from `hours_from` and will offer options until `hours_to`, with a stepsize of `hour_step`.
 
 Optional properties are `hours_label` and `minutes_label`, to override the default label texts.
@@ -861,6 +914,7 @@ Optional properties are `hours_label` and `minutes_label`, to override the defau
 If the attribute `am_pm` is set to `true`, then the hours will be displayed in 12-hour format, with an AM/PM selector.
 
 ### Type: Date
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -929,6 +983,7 @@ The `default_date` property can be used to set a default date. The `default_date
 both be used.
 
 ### Type: Unsubscribe
+
 Including an unsubscribe question type will display a card that allows the user to unsubscribe from the protocol.
 Typically, you want only one `unsubscribe` question in your questionnaire, as the first item in the questionnaire.
 You may want to control its visibility by specifying a `show_after` property.
@@ -958,6 +1013,7 @@ The `data_method` should typically not be specified as it should correspond with
 Only when we call this private function with `send` to show a card on the mentor dashboard is when we override both the `unsubscribe_url` and the `data_method` but it's a bit of a hack.
 
 ### Type: Dropdown
+
 Required and allowed options (minimal example and maximal example):
 
 ```ruby
@@ -1007,7 +1063,7 @@ Radios, Likerts, and Dropdowns can have a `numeric_value` property attribute for
 This value can be a float or integer, but the convention is integer, and that the options span a range from 0 to 100.
 In particular, one would want the `numeric_value`s of different questions in the same questionnaire to be in the same scale, so that their average can be calculated in scores.
 The `numeric_value` is the numerical representation of each option, used when combining multiple of this of questions to calculate an average score.
-If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa),  simply assign numeric_value the options from 100 down to 0 instead of the other way around.
+If the options array spans a consecutive interval whose high values should affect the average negatively (and vice versa), simply assign numeric_value the options from 100 down to 0 instead of the other way around.
 This attribute is optional, and there is no default value. If the chosen answer option does not have a `numeric_value`, it will be treated as missing for purposes of score calculation.
 Note that this attribute is only a requirement for score calculation, not for distribution calculations. For distribution calculations, we only keep frequency counts per option per question, and we don't combine anything so it doesn't matter that the options themselves aren't numbers.
 
@@ -1018,6 +1074,7 @@ sentences, and you just want something shorter in your CSV export.
 Dropdowns can have `shows_questions` and `hides_questions` attributes, but they do not support an `otherwise` option.
 
 ### Type: Drawing
+
 Let's a user draw on an image.
 Required and allowed options (minimal example and maximal example):
 
@@ -1052,7 +1109,6 @@ Height and width should be specified as integers, without any postfix such as `p
 Image can be the URL of an image, or the filename of an image that exists in the asset pipeline.
 
 The only optional parameters are `radius` and `density`. They default to 15 and 40, respectively.
-
 
 ### Type: Days
 
@@ -1093,20 +1149,22 @@ If `required` (defaults to `false`) is `true` then the user is required to selec
 
 The setting `date_format` can be overridden to specify a different date format. The formatted date is appended by "morning" and "afternoon" if `morning_and_afternoon` is set to `true`.
 
-
 ## Questionnaire Scores
 
 Questionnaire scores are automatically calculated and stored with the questionnaire results. The realtime distribution calculations also calculate distributions for questionnaire scores.
 
 Questionnaire content has the following format:
+
 ```ruby
 { questions: [], scores: [] }
 ```
+
 Both these entries are required, but they may be empty.
 
 Scores is an array of scores with the following properties.
 
 Minimal example:
+
 ```ruby
 [{ id: :s1,
    label: 'The average of v1 and v2',
@@ -1114,10 +1172,12 @@ Minimal example:
    operation: :average
 }]
 ```
+
 Each score should have a unique `id` property. That means that these ids should be different from any other score id or question id in this questionnaire.
 `ids` is the list of IDs that the `operation` should be performed over. It may include ids of scores that occurred earlier in the `scores` array.
 
 Maximal example:
+
 ```ruby
 [{ id: :s1,
    label: 'The average of v1 and v2',
@@ -1128,6 +1188,7 @@ Maximal example:
    round_to_decimals: 0
 }]
 ```
+
 If `round_to_decimals` is missing, the result is not rounded, and the realtime distribution calculation will **not** calculate a distribution for this score. Analogously, if you specify the `round_to_decimals` attribute, the realtime distribution calculation will automatically calculate the distribution for this score. If you're only dealing with integers, you can use `round_to_decimals: 0`.
 If `require_all` is missing, it works the same as when specifying `require_all: false`.
 All other attributes are required. If `require_all` is `true`, it means that the score is only calculated for responses where all of the IDs in the list of ids are present. The default for `require_all` is false, meaning that if a user didn't fill out certain questions in the ids list for a score, we still try to calculate the average over the ones that are present.
@@ -1163,12 +1224,15 @@ The `preprocessing` key is optional, and if provided, should be a hash with a (s
 ```
 
 ## Developing new questionnaires
+
 When creating a new questionnaire (or questionnaires), these are the steps you should follow:
+
 1. Define the questions of the questionnaire
 2. Create a protocol
 3. Define the measurements of that protocol
 
 ### Defining the questionnaire
+
 To define which questions compose the new questionnaire, you should create a new .rb file under `projects/<project-name>/seeds/questionnaires/`.
 In this file, you should create a new `Questionnaire` object on the DB, the define which questions appear in the questionnaire, and finally save that object.
 For more information on which question types are allowed, check the [section about questionnaire syntax](#questionnaire-syntax).

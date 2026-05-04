@@ -432,6 +432,47 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(responseobj.values).to eq('v1' => 'true')
       end
 
+      it 'redirects to an external callback_url when one is supplied' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
+
+        post :create, params: {
+          response_id: responseobj.id,
+          callback_url: 'https://example.com/completed',
+          content: { 'v1' => 'true' }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response.location).to eq('https://example.com/completed')
+      end
+
+      it 'redirects to an external measurement redirect_url after completion' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol = FactoryBot.create(:protocol)
+        questionnaire = FactoryBot.create(:questionnaire, :minimal)
+        measurement = FactoryBot.create(:measurement,
+                                        protocol: protocol,
+                                        questionnaire: questionnaire,
+                                        redirect_url: 'https://example.com/finished')
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  protocol: protocol)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        measurement: measurement,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
+
+        post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+
+        expect(response).to have_http_status(:found)
+        expect(response.location).to eq('https://example.com/finished')
+      end
+
       it 'refuses to store empty responses' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
@@ -591,7 +632,7 @@ RSpec.describe QuestionnaireController, type: :controller do
     it 'should redirect to interactive' do
       post :from_json, params: {}
       expect(response.status).to eq 302
-      expect(response.body).to match %r{/questionnaire/interactive}
+      expect(response.location).to end_with('/questionnaire/interactive')
     end
   end
 

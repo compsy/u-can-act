@@ -11,6 +11,7 @@ class PeopleController < ApplicationController
   def update
     if @person.update(people_params.merge(overwritten_params))
       redirect_to NextPageFinder.get_next_page(current_user: current_user),
+                  allow_other_host: true,
                   flash: { notice: I18n.t('questionnaires.data_saved') }
     else
       render :edit
@@ -24,9 +25,10 @@ class PeopleController < ApplicationController
       if stop_response.blank? || stop_response.completed?
         protocol_subscription.cancel!
       else
-        redirect_to NextPageFinder.get_next_page current_user: current_user,
+        redirect_to NextPageFinder.get_next_page(current_user: current_user,
                                                  next_response: stop_response,
-                                                 params: { callback_url: '/person/unsubscribe' }
+                                                 params: { callback_url: '/person/unsubscribe' }),
+                    allow_other_host: true
         break
       end
     end
@@ -52,7 +54,7 @@ class PeopleController < ApplicationController
   end
 
   def people_params
-    base_params = params.require(:person).permit(:first_name, :last_name, :email, :gender, :mobile_phone, :iban)
+    base_params = params.expect(person: %i[first_name last_name email gender mobile_phone iban])
     return base_params if cannot? :update, Person, :ip_hash
 
     base_params.merge(ip_hash: calculate_ip_hash)
@@ -70,7 +72,7 @@ class PeopleController < ApplicationController
     return if performed?
 
     flash[:notice] = unsubscribe_notice
-    redirect_to NextPageFinder.get_next_page current_user: current_user
+    redirect_to NextPageFinder.get_next_page(current_user: current_user), allow_other_host: true
   end
 
   def unsubscribe_notice

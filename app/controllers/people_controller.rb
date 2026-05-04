@@ -11,6 +11,7 @@ class PeopleController < ApplicationController
   def update
     if @person.update(people_params.merge(overwritten_params))
       redirect_to NextPageFinder.get_next_page(current_user: current_user),
+                  allow_other_host: true,
                   flash: { notice: I18n.t('questionnaires.data_saved') }
     else
       render :edit
@@ -26,7 +27,8 @@ class PeopleController < ApplicationController
       else
         redirect_to NextPageFinder.get_next_page(current_user: current_user,
                                                  next_response: stop_response,
-                                                 params: { callback_url: '/person/unsubscribe' })
+                                                 params: { callback_url: '/person/unsubscribe' }),
+                    allow_other_host: true
         break
       end
     end

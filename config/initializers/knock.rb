@@ -19,7 +19,7 @@ Knock.setup do |config|
   ## Configure the audience claim to identify the recipients that the token
   ## is intended for.
   ## If using Auth0:
-  if ENV['AUTH0_CLIENT_ID'].present? && ENV['AUTH0_CLIENT_ID'].present?
+  if ENV['AUTH0_CLIENT_ID'].present?
     config.token_audience = -> { ENV['AUTH0_CLIENT_ID'] }
   end
 

@@ -50,7 +50,8 @@ jobs:
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - run: gem install bundler
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run: bundle config set path 'vendor/bundle'
+      - run: bundle install --jobs=4 --retry=3
       - save_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
           paths:
@@ -90,7 +91,7 @@ jobs:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: gem install bundler
-      - run: bundle --path vendor/bundle
+      - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: echo 127.0.0.1 docker.io db redis mongo | sudo tee -a /etc/hosts
@@ -137,7 +138,7 @@ jobs:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: gem install bundler
-      - run: bundle --path vendor/bundle
+      - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: yarn test
@@ -154,7 +155,7 @@ jobs:
   #          keys:
   #            - yarn-packages-{{ checksum "yarn.lock" }}
   #      - run: gem install bundler:2.1.4
-  #      - run: bundle --path vendor/bundle
+  #      - run: bundle config set path 'vendor/bundle'
   #      - run: yarn install
   #      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
   #      - run: RAILS_ENV=development bin/check_translations.sh
@@ -167,7 +168,7 @@ jobs:
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - run: gem install bundler
-      - run: bundle --path vendor/bundle
+      - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rubocop
 
   coverage_report:

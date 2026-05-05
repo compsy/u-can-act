@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: cimg/ruby:3.2.3-browsers
+    - image: cimg/ruby:3.4.9-browsers
     - image: cimg/redis:7.0
       command: redis-server --requirepass redispassword
       environment:
@@ -22,7 +22,7 @@ defaults: &defaults
 
 build_defaults: &build_defaults
   docker:
-    - image: cimg/ruby:3.2.3-browsers
+    - image: cimg/ruby:3.4.9-browsers
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
@@ -49,7 +49,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler:2.1.4 # Later version might give problems installing libv8, see https://github.com/rubyjs/libv8/issues/310
+      - run: gem install bundler
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
@@ -78,7 +78,7 @@ jobs:
       TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
       RAILS_ENV: test
       RACK_ENV: test
-      COVERALLS_PARALLEL: 'true'
+      COVERALLS_PARALLEL: "true"
     parallelism: 3
     steps:
       - restore_cache:
@@ -89,7 +89,7 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: gem install bundler:2.1.4
+      - run: gem install bundler
       - run: bundle --path vendor/bundle
       - run: bundle exec rake i18n:js:export
       - run: yarn install
@@ -111,7 +111,7 @@ jobs:
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
                               -- $(echo "${TEST_FILES}" | sed -e 's/\n/\\n/' -e 's/ /\ /')
-      - store_test_results:   # TEST_FILES contains newlines, replace by spaces or we get errors
+      - store_test_results: # TEST_FILES contains newlines, replace by spaces or we get errors
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
@@ -136,28 +136,28 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: gem install bundler:2.1.4
+      - run: gem install bundler
       - run: bundle --path vendor/bundle
       - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: yarn test
 
-#  test_translations:
-#    <<: *build_defaults
-#    steps:
-#      - restore_cache:
-#          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-#      - restore_cache:
-#          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-#      - restore_cache:
-#          name: Restore Yarn Package Cache
-#          keys:
-#            - yarn-packages-{{ checksum "yarn.lock" }}
-#      - run: gem install bundler:2.1.4
-#      - run: bundle --path vendor/bundle
-#      - run: yarn install
-#      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
-#      - run: RAILS_ENV=development bin/check_translations.sh
+  #  test_translations:
+  #    <<: *build_defaults
+  #    steps:
+  #      - restore_cache:
+  #          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+  #      - restore_cache:
+  #          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+  #      - restore_cache:
+  #          name: Restore Yarn Package Cache
+  #          keys:
+  #            - yarn-packages-{{ checksum "yarn.lock" }}
+  #      - run: gem install bundler:2.1.4
+  #      - run: bundle --path vendor/bundle
+  #      - run: yarn install
+  #      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
+  #      - run: RAILS_ENV=development bin/check_translations.sh
 
   test_rubocop:
     <<: *build_defaults
@@ -166,7 +166,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler:2.1.4
+      - run: gem install bundler
       - run: bundle --path vendor/bundle
       - run: bundle exec rubocop
 

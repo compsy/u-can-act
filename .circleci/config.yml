@@ -48,12 +48,15 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - run: gem install bundler:2.3.17
       - run: bundle config set path 'vendor/bundle'
-      - run: bundle install --jobs=1 --retry=3 --verbose
+      - run:
+          name: bundle install
+          command: bundle install --jobs=1 --retry=3 --verbose
+          no_output_timeout: 30m
       - save_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
           paths:
             - ~/test/vendor/bundle
 
@@ -85,7 +88,7 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -132,12 +135,12 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: gem install bundler
+      - run: gem install bundler:2.3.17
       - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rake i18n:js:export
       - run: yarn install
@@ -166,8 +169,8 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler
+          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler:2.3.17
       - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rubocop
 

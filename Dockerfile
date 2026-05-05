@@ -1,6 +1,6 @@
 # Building stage
 #===============
-FROM ruby:3.2.3
+FROM ruby:3.3.11
 
 ARG precompileassets
 # set from --build-arg
@@ -8,14 +8,12 @@ ARG PROJECT_NAME
 ARG RAILS_ENV
 ARG NODE_ENV
 
-# Needed for Yarn
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev curl software-properties-common && \
+# Needed for Node and Yarn Classic
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev curl && \
   curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update && \
-  apt-get install -y nodejs yarn && \
-  apt-get remove -y --purge software-properties-common &&\
+  apt-get install -y nodejs && \
+  corepack enable && corepack prepare yarn@1.22.22 --activate && \
   rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
@@ -28,7 +26,7 @@ RUN yarn install --check-files
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
-RUN bundle config --global frozen 1 \
+RUN bundle config set --global frozen 1 \
   && bundle install \
   && rm -rf /usr/local/bundle/bundler/gems/*/.git \
     /usr/local/bundle/cache/

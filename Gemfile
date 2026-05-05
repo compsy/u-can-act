@@ -24,8 +24,8 @@ gem 'puma'
 gem 'sass-rails'
 # Use HAML for templates
 gem 'haml-rails'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier'
+# Use Terser as compressor for JavaScript assets. We used to rely on Uglifier but it doesn't support modern js
+gem 'terser'
 
 # Use React for the UI
 # Earlier versions are no longer compatible with rails 7.2 because of connection_pool API change

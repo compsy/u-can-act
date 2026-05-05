@@ -49,7 +49,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler:2.3.17
+      - run: gem install bundler:2.1.4
       - run: bundle config set path 'vendor/bundle'
       - run:
           name: bundle install

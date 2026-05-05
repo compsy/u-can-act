@@ -571,6 +571,8 @@ GEM
     temple (0.10.4)
     term-ansicolor (1.11.2)
       tins (~> 1.0)
+    terser (1.2.7)
+      execjs (>= 0.3.0, < 3)
     thor (1.5.0)
     tilt (2.7.0)
     timecop (0.9.10)
@@ -584,8 +586,6 @@ GEM
     tzinfo-data (1.2026.1)
       tzinfo (>= 1.0.0)
     ucf_messages (0.0.5)
-    uglifier (4.2.1)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
@@ -703,10 +703,10 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   spring-watcher-listen
+  terser
   timecop
   tzinfo-data
   ucf_messages
-  uglifier
   warden-jwt_auth
   web-console
   webdrivers (= 5.3.1)

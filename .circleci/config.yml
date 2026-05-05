@@ -51,7 +51,7 @@ jobs:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
       - run: gem install bundler:2.3.17
       - run: bundle config set path 'vendor/bundle'
-      - run: bundle install --jobs=4 --retry=3
+      - run: bundle install --jobs=1 --retry=3 --verbose
       - save_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}
           paths:
@@ -90,7 +90,7 @@ jobs:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: gem install bundler
+      - run: gem install bundler:2.3.17
       - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rake i18n:js:export
       - run: yarn install

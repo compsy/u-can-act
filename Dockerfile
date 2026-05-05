@@ -1,6 +1,6 @@
 # Building stage
 #===============
-FROM ruby:3.3.11
+FROM ruby:3.4.9
 
 ARG precompileassets
 # set from --build-arg

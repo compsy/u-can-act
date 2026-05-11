@@ -13,6 +13,7 @@ defaults: &defaults
     - image: mongo:4.4
       environment:
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+  resource_class: large
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
@@ -24,6 +25,7 @@ defaults: &defaults
 build_defaults: &build_defaults
   docker:
     - image: cimg/ruby:3.4.9-browsers
+  resource_class: large
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test

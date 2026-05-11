@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: cimg/ruby:3.2.3-browsers
+    - image: cimg/ruby:3.4.9-browsers
     - image: cimg/redis:7.0
       command: redis-server --requirepass redispassword
       environment:
@@ -13,21 +13,25 @@ defaults: &defaults
     - image: mongo:4.4
       environment:
         TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
+  resource_class: large
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
     RACK_ENV: test
     NODE_ENV: test
+    BUNDLE_WITHOUT: "production staging"
   working_directory: ~/test
 
 build_defaults: &build_defaults
   docker:
-    - image: cimg/ruby:3.2.3-browsers
+    - image: cimg/ruby:3.4.9-browsers
+  resource_class: large
   environment:
     TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
     RAILS_ENV: test
     RACK_ENV: test
     NODE_ENV: test
+    BUNDLE_WITHOUT: "production staging"
   working_directory: ~/test
 
 version: 2.1
@@ -48,11 +52,15 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler:2.1.4 # Later version might give problems installing libv8, see https://github.com/rubyjs/libv8/issues/310
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler:2.3.17
+      - run: bundle config set path 'vendor/bundle'
+      - run:
+          name: bundle install
+          command: bundle install --jobs=1 --retry=3 --verbose
+          no_output_timeout: 30m
       - save_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
           paths:
             - ~/test/vendor/bundle
 
@@ -78,19 +86,20 @@ jobs:
       TZ: "/usr/share/zoneinfo/Europe/Amsterdam"
       RAILS_ENV: test
       RACK_ENV: test
-      COVERALLS_PARALLEL: 'true'
+      COVERALLS_PARALLEL: "true"
+      BUNDLE_WITHOUT: "production staging"
     parallelism: 3
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: gem install bundler:2.1.4
-      - run: bundle --path vendor/bundle
+      - run: gem install bundler:2.3.17
+      - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: echo 127.0.0.1 docker.io db redis mongo | sudo tee -a /etc/hosts
@@ -111,7 +120,7 @@ jobs:
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
                               -- $(echo "${TEST_FILES}" | sed -e 's/\n/\\n/' -e 's/ /\ /')
-      - store_test_results:   # TEST_FILES contains newlines, replace by spaces or we get errors
+      - store_test_results: # TEST_FILES contains newlines, replace by spaces or we get errors
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
@@ -131,33 +140,33 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: gem install bundler:2.1.4
-      - run: bundle --path vendor/bundle
+      - run: gem install bundler:2.3.17
+      - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rake i18n:js:export
       - run: yarn install
       - run: yarn test
 
-#  test_translations:
-#    <<: *build_defaults
-#    steps:
-#      - restore_cache:
-#          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-#      - restore_cache:
-#          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-#      - restore_cache:
-#          name: Restore Yarn Package Cache
-#          keys:
-#            - yarn-packages-{{ checksum "yarn.lock" }}
-#      - run: gem install bundler:2.1.4
-#      - run: bundle --path vendor/bundle
-#      - run: yarn install
-#      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
-#      - run: RAILS_ENV=development bin/check_translations.sh
+  #  test_translations:
+  #    <<: *build_defaults
+  #    steps:
+  #      - restore_cache:
+  #          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+  #      - restore_cache:
+  #          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+  #      - restore_cache:
+  #          name: Restore Yarn Package Cache
+  #          keys:
+  #            - yarn-packages-{{ checksum "yarn.lock" }}
+  #      - run: gem install bundler:2.1.4
+  #      - run: bundle config set path 'vendor/bundle'
+  #      - run: yarn install
+  #      - run: 'echo PROJECT_NAME: \''Evaluatieonderzoek\'' | tee -a .env.local'
+  #      - run: RAILS_ENV=development bin/check_translations.sh
 
   test_rubocop:
     <<: *build_defaults
@@ -165,9 +174,9 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler:2.1.4
-      - run: bundle --path vendor/bundle
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler:2.3.17
+      - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rubocop
 
   coverage_report:

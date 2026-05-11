@@ -18,6 +18,7 @@ defaults: &defaults
     RAILS_ENV: test
     RACK_ENV: test
     NODE_ENV: test
+    BUNDLE_WITHOUT: "production staging"
   working_directory: ~/test
 
 build_defaults: &build_defaults
@@ -28,6 +29,7 @@ build_defaults: &build_defaults
     RAILS_ENV: test
     RACK_ENV: test
     NODE_ENV: test
+    BUNDLE_WITHOUT: "production staging"
   working_directory: ~/test
 
 version: 2.1
@@ -48,15 +50,15 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
-      - run: gem install bundler:2.1.4
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+      - run: gem install bundler:2.3.17
       - run: bundle config set path 'vendor/bundle'
       - run:
           name: bundle install
           command: bundle install --jobs=1 --retry=3 --verbose
           no_output_timeout: 30m
       - save_cache:
-          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
           paths:
             - ~/test/vendor/bundle
 
@@ -83,12 +85,13 @@ jobs:
       RAILS_ENV: test
       RACK_ENV: test
       COVERALLS_PARALLEL: "true"
+      BUNDLE_WITHOUT: "production staging"
     parallelism: 3
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -135,7 +138,7 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -169,7 +172,7 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v2-bundle-ruby34-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-ruby34-{{ checksum "Gemfile.lock" }}
       - run: gem install bundler:2.3.17
       - run: bundle config set path 'vendor/bundle'
       - run: bundle exec rubocop

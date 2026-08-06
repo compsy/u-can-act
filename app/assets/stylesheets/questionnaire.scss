@@ -315,33 +315,6 @@ $vertical-range-padding-top: 8px;
       }
     }
   }
-
-  // Ranges with 3+ labels (e.g. KCCQ): hiding the middle labels loses the
-  // meaning of the intermediate values, so list every label as a
-  // "value – text" legend instead. The slider JS toggles .active on the
-  // label matching the current value.
-  .col .row.label-row .col:first-child:nth-last-child(n + 3),
-  .col .row.label-row .col:first-child:nth-last-child(n + 3) ~ .col {
-    display: block;
-    // !important to beat the generator's inline width style
-    width: 100% !important;
-    float: none;
-    text-align: left;
-    padding: 1px 0;
-    // The desktop layout nudges the edge labels outward to line up with the
-    // slider ends; in a stacked list that just skews the first and last rows.
-    transform: none;
-
-    &:before {
-      content: attr(data-value) ' – ';
-      font-weight: 600;
-    }
-
-    &.active {
-      color: $accent-color;
-      font-weight: 700;
-    }
-  }
 }
 
 

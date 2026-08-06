@@ -1,7 +1,5 @@
 include:
-  - project: researchable/general/templates/gitlab/base
-    ref: master
-    file: docker/build.yml
+  - component: $CI_SERVER_FQDN/researchable/general/cicd-components/buildah@1
 
 # include:
     # Adds the 'semantic releases' to the release stage
@@ -32,7 +30,7 @@ variables:
   REGISTRY_HOST: docker.io
 
 build_web_job:
-  extends: .docker_build_job
+  extends: .buildah:build
   variables:
     BUILD_ARG_PROJECT_NAME: $PROJECT_NAME
     BUILD_ARG_RAILS_ENV: production

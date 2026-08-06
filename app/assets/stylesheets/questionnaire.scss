@@ -542,6 +542,44 @@ button[type="submit"] {
        width: 100%;
       text-align: center;
       vertical-align: center;
+      // Materialize gives radio spans a fixed 25px height; without this,
+      // labels that wrap onto multiple lines paint over the question below.
+      // !important because Materialize's [type="radio"] + span selector
+      // outweighs this one, like the display/padding overrides above.
+      height: auto !important;
+    }
+  }
+}
+
+// A full likert row of 5-7 options cannot fit on narrow screens (it overflows
+// the viewport), so stack the options vertically like a regular radio list.
+@media only screen and (max-width: 700px) {
+  form .likert-scale {
+    display: block;
+  }
+
+  .likert-item {
+    text-align: left;
+
+    p {
+      padding-left: 35px;
+    }
+
+    label span {
+      display: inline !important;
+      width: auto;
+      padding: 0 !important;
+      text-align: left;
+
+      &:before, &:after {
+        position: absolute;
+        top: -0.2rem !important;
+        left: -35px !important;
+        bottom: auto;
+        right: auto;
+        margin: 0;
+        padding: 0;
+      }
     }
   }
 }

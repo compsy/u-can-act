@@ -31,12 +31,12 @@ variables:
 
 build_web_job:
   extends: .buildah:build
+  stage: build
   variables:
     BUILD_ARG_PROJECT_NAME: $PROJECT_NAME
     BUILD_ARG_RAILS_ENV: production
     BUILD_ARG_NODE_ENV: production
-  only:
-    refs:
-      - master
-      - production
-      - develop
+  # rules (not only/except) because the buildah component defines rules, and
+  # GitLab forbids mixing rules with only/except in one job.
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "production" || $CI_COMMIT_REF_NAME == "develop"'

@@ -146,6 +146,27 @@ RSpec.describe Reward, type: :model do
           expect(Reward.total_earned_euros(bust_cache: true)).to eq 0.04
         end
       end
+      it 'ignores mentors and protocol subscriptions filled out for someone else' do
+        protocol = FactoryBot.create(:protocol)
+        FactoryBot.create(:measurement, protocol: protocol, open_from_offset: 0)
+        FactoryBot.create(:measurement, :periodical, protocol: protocol)
+        protocol.rewards.create!(threshold: 1, reward_points: 2)
+        student = FactoryBot.create(:student)
+        mentor = FactoryBot.create(:mentor)
+        subscriptions = [
+          FactoryBot.create(:protocol_subscription, protocol: protocol, person: student,
+                                                    start_date: Time.zone.now.beginning_of_day),
+          FactoryBot.create(:protocol_subscription, protocol: protocol, person: mentor,
+                                                    start_date: Time.zone.now.beginning_of_day),
+          FactoryBot.create(:protocol_subscription, protocol: protocol, person: student,
+                                                    filling_out_for: FactoryBot.create(:student),
+                                                    start_date: Time.zone.now.beginning_of_day)
+        ]
+        subscriptions.each { |subscription| subscription.responses.first.complete! }
+        Timecop.freeze(1.week.from_now) do
+          expect(Reward.total_earned_euros(bust_cache: true)).to eq 0.02
+        end
+      end
     end
   end
 end

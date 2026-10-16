@@ -85,6 +85,30 @@ describe QuestionnaireGenerator do
         expect(result).to_not include('NL')
         expect(result).to_not include('language-switch')
       end
+
+      def generate_with_title(title, locale)
+        questionnaire_content = { questions: [{ id: :v1, type: :range, title: title, labels: %w[slecht goed] }],
+                                  scores: [] }
+        subject.generate_questionnaire(response_id: responseobj.id, content: questionnaire_content, title: 'Titel',
+                                       submit_text: 'Opslaan', action: '/', unsubscribe_url: nil, locale: locale)
+      end
+
+      it 'generates a language switch for en users of an nl/en questionnaire' do
+        result = generate_with_title({ nl: 'Hoe gaat het?', en: 'How are you?' }, 'en')
+        expect(result).to include('language-switch')
+        expect(result).to include('NL')
+      end
+
+      it 'does not generate a language switch when the questionnaire has more than two languages' do
+        result = generate_with_title({ nl: 'Hoe gaat het?', en: 'How are you?', fi: 'Mitä kuuluu?' }, 'nl')
+        expect(result).to_not include('language-switch')
+      end
+
+      it 'does not generate a language switch for users with another locale than nl or en' do
+        result = generate_with_title({ nl: 'Hoe gaat het?', en: 'How are you?' }, 'fi')
+        expect(result).to_not include('language-switch')
+        expect(result).to include('How are you?')
+      end
     end
 
     it 'raises an error when given a question of unknown type' do

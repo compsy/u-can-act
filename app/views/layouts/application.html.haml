@@ -25,18 +25,18 @@
 %body{class: student_mentor_class}
   .cookie-warning{style: 'display: none;'}
     .card-panel.alert.red.lighten-2
-      %strong Let op:
-      Uw browser staat momenteel geen cookies toe. Daardoor werkt deze app niet goed.
+      %strong= I18n.t('questionnaires.warnings.attention')
+      = I18n.t('questionnaires.warnings.cookies')
   %noscript
     .notices
       .card-panel.alert.red.lighten-2
-        %strong Let op:
-        Uw browser heeft momenteel JavaScript uitstaan. Daardoor werkt deze app niet goed.
+        %strong= I18n.t('questionnaires.warnings.attention')
+        = I18n.t('questionnaires.warnings.javascript')
   #noscript
     .notices
       .card-panel.alert.red.lighten-2
-        %strong Let op:
-        Uw browser is Internet Explorer versie &lt; 10. Daardoor werkt deze webpagina niet. Gebruik a.u.b. een recentere browser.
+        %strong= I18n.t('questionnaires.warnings.attention')
+        = I18n.t('questionnaires.warnings.old_browser')
   - flash.each do |name, msg|
     .row.flash-notice
       .col.s12

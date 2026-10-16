@@ -12,6 +12,19 @@ fi:
     link_not_valid: Tämä linkki ei ole enää voimassa.
     not_found: Käyttäjää / kyselyä ei löytynyt.
     not_found_questionnaire: Kyselyä ei löytynyt.
+    next_questionnaire_notice: "Lähetä vastauksesi napsauttamalla alla olevaa '%{save}'-painiketta"
+    next_questionnaire_notice_with_next: "Lähetä vastauksesi ja siirry seuraavaan kyselyyn napsauttamalla alla olevaa '%{save}'-painiketta"
+    unsubscribe: Lopeta osallistuminen
+    thanks_for_participating: Kiitos osallistumisestasi!
+    drawing:
+      clear: Tyhjennä
+      lock: Valmis (seuraava kysymys)
+      unlock: Muokkaa
+    warnings:
+      attention: "Huomio:"
+      cookies: Selaimesi ei tällä hetkellä salli evästeitä. Tämän vuoksi sovellus ei toimi kunnolla.
+      javascript: Selaimessasi on JavaScript poistettu käytöstä. Tämän vuoksi sovellus ei toimi kunnolla.
+      old_browser: Selaimesi on Internet Explorer -versio < 10. Tämä verkkosivu ei toimi sillä. Käytä uudempaa selainta.
     placeholders:
       fill_something_in: Kirjoita vastaus
       otherwise: "Muu, mikä:"

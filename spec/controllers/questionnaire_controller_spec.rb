@@ -153,6 +153,7 @@ RSpec.describe QuestionnaireController, type: :controller do
           expect(response.body).to include('v1_brood')
           expect(response.body).to include('v1_kaas')
           expect(response.body).to include('Tallenna')
+          expect(response.body).to include('Selaimesi ei tällä hetkellä salli evästeitä.')
           expect(response.body).to include('<meta content="fi" name="i18n-locale">')
         end
 

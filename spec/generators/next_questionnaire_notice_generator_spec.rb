@@ -41,6 +41,26 @@ describe NextQuestionnaireNoticeGenerator do
     end
   end
 
+  context 'with a locale' do
+    it 'renders the notice in nl with the nl save button text' do
+      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'nl')))
+        .to include("Klik hieronder op 'Opslaan' om de antwoorden in te leveren.")
+    end
+
+    it 'renders the notice in en with the en save button text' do
+      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'en')))
+        .to include("Click 'Save' below to submit your answers.")
+    end
+
+    it 'renders the notice in fi with the fi save button text' do
+      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'fi'))).to include("'Tallenna'-painiketta.")
+    end
+
+    it 'falls back to en for other locales' do
+      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'de'))).to include("Click 'Save' below")
+    end
+  end
+
   context 'when response_id is nil (preview mode)' do
     it 'renders the short notice without raising' do
       result = subject.generate(response_id: nil)

@@ -13,6 +13,19 @@ en:
     link_not_valid: This link is no longer valid.
     not_found: User / Questionnaire not found.
     not_found_questionnaire: The questionnaire could not be found.
+    next_questionnaire_notice: "Click '%{save}' below to submit your answers"
+    next_questionnaire_notice_with_next: "Click '%{save}' below to submit your answers and continue to the next questionnaire"
+    unsubscribe: Unsubscribe
+    thanks_for_participating: Thank you for participating!
+    drawing:
+      clear: Clear
+      lock: Done (next question)
+      unlock: Edit
+    warnings:
+      attention: "Note:"
+      cookies: Your browser does not allow cookies at the moment. Because of this, this app does not work properly.
+      javascript: Your browser has JavaScript turned off. Because of this, this app does not work properly.
+      old_browser: Your browser is Internet Explorer version < 10. This web page does not work in it. Please use a more recent browser.
     placeholders:
       fill_something_in: Enter something
       otherwise: "Otherwise (please specify):"

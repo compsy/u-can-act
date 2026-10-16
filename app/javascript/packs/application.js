@@ -21,6 +21,9 @@ import I18n from '../../../public/javascripts/i18n';
 I18n.defaultLocale = 'nl' // TODO: should be: I18n.defaultLocale = "<%= I18n.default_locale %>";
 I18n.locale = 'nl' // TODO: should be: I18n.locale = "<%= I18n.locale %>";
 require('../../../public/javascripts/translations')
+// Questionnaire content can be in more languages than the interface, so fall back to English for those
+// (same as config.i18n.fallbacks in config/application.rb). nl and en keep their own behaviour.
+;['fi', 'de', 'es', 'pt'].forEach(locale => { I18n.locales[locale] = [locale, 'en', 'nl'] })
 
 // Support component names relative to this directory:
 const componentRequireContext = require.context('components', true)

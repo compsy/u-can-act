@@ -7,19 +7,36 @@ RSpec.describe LanguagesController, type: :controller do
   let(:person) { FactoryBot.create(:person) }
   let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, :requires_language_input, person: person) }
   let(:responseobj) { FactoryBot.create(:response, protocol_subscription: protocol_subscription) }
+  let(:fi_questionnaire) do
+    FactoryBot.create(:questionnaire, content: {
+                        questions: [{ id: :v1, type: :number,
+                                      title: { nl: 'Hoe oud ben je?', fi: 'Kuinka vanha olet?' } }],
+                        scores: []
+                      })
+  end
+  let(:fi_responseobj) do
+    measurement = FactoryBot.create(:measurement, questionnaire: fi_questionnaire,
+                                                  protocol: protocol_subscription.protocol)
+    FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement)
+  end
 
   before do
     cookie_auth(person)
   end
 
   describe 'GET #show' do
-    it 'lists all available locales' do
+    it 'offers nl and en by default' do
       get :show
       expect(response).to have_http_status(200)
-      %w[nl en fi de es pt].each do |locale|
-        expect(response.body).to include("value=\"#{locale}\"")
-      end
+      %w[nl en].each { |locale| expect(response.body).to include("value=\"#{locale}\"") }
+      %w[fi de es pt].each { |locale| expect(response.body).not_to include("value=\"#{locale}\"") }
       expect(response.body).to include('Opslaan')
+    end
+
+    it 'also offers the languages of the questionnaire of the response' do
+      get :show, params: { r_id: fi_responseobj.id }
+      %w[nl en fi].each { |locale| expect(response.body).to include("value=\"#{locale}\"") }
+      %w[de es pt].each { |locale| expect(response.body).not_to include("value=\"#{locale}\"") }
     end
 
     it 'shows the save button in Finnish for fi' do
@@ -36,10 +53,15 @@ RSpec.describe LanguagesController, type: :controller do
   end
 
   describe 'POST #change' do
-    it 'sets the locale of the person to any available locale' do
-      post :change, params: { locale: 'fi', r_id: responseobj.id }
+    it 'sets the locale of the person to a language of the questionnaire' do
+      post :change, params: { locale: 'fi', r_id: fi_responseobj.id }
       expect(person.reload.locale).to eq 'fi'
       expect(protocol_subscription.reload.has_language_input).to be true
+    end
+
+    it 'does not set a locale that the questionnaire is not available in' do
+      post :change, params: { locale: 'fi', r_id: responseobj.id }
+      expect(person.reload.locale).to eq 'en'
     end
 
     it 'keeps nl and en working' do

@@ -15,6 +15,9 @@
   = csrf_meta_tags
   = csp_meta_tag
   = stylesheet_pack_tag 'application', media: 'all'
+  -# Read by app/javascript/packs/application.js to set the locale of i18n-js.
+  %meta{name: 'i18n-locale', content: I18n.locale}
+  %meta{name: 'i18n-default-locale', content: I18n.default_locale}
   = javascript_pack_tag 'application', defer: false
   = stylesheet_link_tag    'application', media: 'all'
   = javascript_include_tag 'application'

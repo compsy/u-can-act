@@ -153,6 +153,7 @@ RSpec.describe QuestionnaireController, type: :controller do
           expect(response.body).to include('v1_brood')
           expect(response.body).to include('v1_kaas')
           expect(response.body).to include('Tallenna')
+          expect(response.body).to include('<meta content="fi" name="i18n-locale">')
         end
 
         it 'still renders the questionnaire in nl for nl users' do

@@ -26,17 +26,15 @@ class GenerateInvitationText < ActiveInteraction::Base
     student_texts(response)
   end
 
+  # There are only nl and en invitation texts, so every locale other than nl gets the en text.
   def generate_localized_text(response)
-    invitation_text = response.protocol_subscription.protocol.invitation_text
-    if response.protocol_subscription.invitation_text_nl.present? &&
-       response.protocol_subscription.person.locale == 'nl'
-      invitation_text = response.protocol_subscription.invitation_text_nl
-    end
-    if response.protocol_subscription.invitation_text_en.present? &&
-       response.protocol_subscription.person.locale == 'en'
-      invitation_text = response.protocol_subscription.invitation_text_en
-    end
-    invitation_text
+    protocol_subscription = response.protocol_subscription
+    localized_text = if protocol_subscription.person.locale == 'nl'
+                       protocol_subscription.invitation_text_nl
+                     else
+                       protocol_subscription.invitation_text_en
+                     end
+    localized_text.presence || protocol_subscription.protocol.invitation_text
   end
 
   def student_texts(response)

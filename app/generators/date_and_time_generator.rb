@@ -30,7 +30,7 @@ class DateAndTimeGenerator < QuestionTypeGenerator
       required: question[:required].present?,
       today: question[:today].present?,
       default_date: question[:default_date].present?,
-      placeholder: placeholder(question, DATETIMEFIELD_PLACEHOLDER[locale]),
+      placeholder: placeholder(question, DATETIMEFIELD_PLACEHOLDER.fetch(locale, DATETIMEFIELD_PLACEHOLDER[:en])),
       min: question[:min],
       max: question[:max],
       locale: question[:locale]

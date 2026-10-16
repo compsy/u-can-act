@@ -1,3 +1,14 @@
+var datepickerI18nNl = {
+  months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+  monthsShort: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+  weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+  weekdaysShort: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+  weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
+  clear: 'Wissen',
+  cancel: 'Annuleren',
+  close: 'Ok'
+};
+
 $(function() {
   // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
   // var collapsibleElem = document.querySelector('.collapsible');
@@ -38,6 +49,10 @@ $(function() {
     var default_date = null;
     if ($(self).data('default-date'))
       default_date = new Date(Date.parse($(self).data('default-date')));
+    // The Dutch texts are used for nl (and when no locale is given). Other locales get the English defaults of
+    // materialize.
+    var locale = $(self).data('locale');
+    var i18n = (!locale || locale === 'nl') ? datepickerI18nNl : {};
     $(self).datepicker({
       firstDay: 1,
       minDate: new Date(Date.parse($(self).data('min'))),
@@ -45,16 +60,7 @@ $(function() {
       defaultDate: default_date,                         // This is so we can set a default date already filled out,
       setDefaultDate: $(self).data('set-default-date'),  // allowing the user to skip the input
       format: 'yyyy-mm-dd',
-      i18n: {
-        months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-        monthsShort: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-        weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-        weekdaysShort: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-        weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
-        clear: 'Wissen',
-        cancel: 'Annuleren',
-        close: 'Ok'
-      }
+      i18n: i18n
     });
   });
 });

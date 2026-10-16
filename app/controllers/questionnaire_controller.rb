@@ -54,7 +54,7 @@ class QuestionnaireController < ApplicationController
       response_id: nil,
       content: @raw_questionnaire_content,
       title: 'Test questionnaire',
-      submit_text: (Rails.application.config.i18n.default_locale.to_s == 'en' ? 'Save' : 'Opslaan'),
+      submit_text: I18n.t('questionnaires.save', locale: Rails.application.config.i18n.default_locale),
       action: '/questionnaire/from_json',
       unsubscribe_url: nil,
       locale: Rails.application.config.i18n.default_locale.to_s
@@ -134,7 +134,7 @@ class QuestionnaireController < ApplicationController
   def set_locale
     person = current_user
     if person && questionnaire_params[:locale].present? &&
-       %w[en nl].include?(questionnaire_params[:locale])
+       I18n.available_locales.map(&:to_s).include?(questionnaire_params[:locale])
       person.update!(locale: questionnaire_params[:locale])
     end
     I18n.locale = if person
@@ -327,7 +327,7 @@ class QuestionnaireController < ApplicationController
       response_id: @response.id,
       content: @response.measurement.questionnaire.content,
       title: @response.measurement.questionnaire.title,
-      submit_text: (@response.person.locale == 'en' ? 'Save' : 'Opslaan'),
+      submit_text: I18n.t('questionnaires.save', locale: @response.person.locale),
       action: '/',
       unsubscribe_url: @response.unsubscribe_url,
       locale: @response.person.locale,

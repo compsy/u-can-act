@@ -4,6 +4,8 @@ en:
     preview_saved: Success! If this were an actual questionnaire, your response would have been saved.
     questionnaire_expired: This questionnaire can no longer be filled out.
     busy: Busy...
+    save: Save
+    next: Next
     questionnaire: Questionnaire
     language_switch: NL
     already_completed: You have already completed this questionnaire.

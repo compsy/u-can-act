@@ -39,6 +39,17 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response.body).to include('This link is no longer valid.')
       end
 
+      it 'falls back to English for a locale without interface translations (Person with Finnish locale)' do
+        responseobj = FactoryBot.create(:response, :invited)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        responseobj.protocol_subscription.person.update!(locale: :fi)
+        expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
+        get :show, params: { q: identifier }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('This link is no longer valid.')
+      end
+
       it 'requires a q parameter that has responses attached (Person with Dutch locale)' do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)

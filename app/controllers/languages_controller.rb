@@ -12,7 +12,8 @@ class LanguagesController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def change
     @locale = change_params[:locale]
-    unless current_user.update locale: @locale == 'nl' ? 'nl' : 'en'
+    locale = I18n.available_locales.map(&:to_s).include?(@locale) ? @locale : 'en'
+    unless current_user.update locale: locale
       Rails.logger.error "invalid user: #{current_user.errors.full_messages}"
       return flash.alert = I18n.t('pages.languages.flash_messages.alert.locale_update_error')
     end

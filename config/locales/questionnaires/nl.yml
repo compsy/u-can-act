@@ -4,6 +4,8 @@ nl:
     preview_saved: Succes! Als dit een echte vragenlijst was, dan was je respons nu opgeslagen.
     questionnaire_expired: Deze vragenlijst kan niet meer ingevuld worden.
     busy: Bezig...
+    save: Opslaan
+    next: Volgende
     questionnaire: Vragenlijst
     language_switch: EN
     already_completed: Je hebt deze vragenlijst(en) al ingevuld.

@@ -94,7 +94,7 @@ class AdminController < ApplicationController
       response_id: nil,
       content: @questionnaire.content,
       title: @questionnaire.title,
-      submit_text: (@locale == 'en' ? 'Save' : 'Opslaan'),
+      submit_text: I18n.t('questionnaires.save', locale: @locale),
       action: '/admin/preview_done',
       unsubscribe_url: nil,
       locale: @locale,

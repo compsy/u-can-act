@@ -719,6 +719,46 @@ describe Questionnaire do
     end
   end
 
+  describe 'available_for_locale?' do
+    def questionnaire_with_title(title)
+      FactoryBot.build(:questionnaire, content: { questions: [{ id: :v1, type: :number, title: title }], scores: [] })
+    end
+
+    it 'is available in the languages it has' do
+      questionnaire = questionnaire_with_title(nl: 'Hoe gaat het?', fi: 'Mitä kuuluu?')
+      expect(questionnaire.available_for_locale?('nl')).to be true
+      expect(questionnaire.available_for_locale?(:fi)).to be true
+    end
+
+    it 'is available in every locale when it has an en translation' do
+      questionnaire = questionnaire_with_title(nl: 'Hoe gaat het?', en: 'How are you?')
+      expect(questionnaire.available_for_locale?('fi')).to be true
+      expect(questionnaire.available_for_locale?('de')).to be true
+    end
+
+    it 'is not available in a locale it does not have without an en translation' do
+      questionnaire = questionnaire_with_title(nl: 'Hoe gaat het?', fi: 'Mitä kuuluu?')
+      expect(questionnaire.available_for_locale?('en')).to be false
+      expect(questionnaire.available_for_locale?('de')).to be false
+    end
+
+    it 'is not available when only part of the texts are in the locale or en' do
+      content = { questions: [{ id: :v1, type: :number, title: { nl: 'Hoe gaat het?', fi: 'Mitä kuuluu?' } },
+                              { id: :v2, type: :number, title: { nl: 'Hoe oud ben je?' } }],
+                  scores: [] }
+      questionnaire = FactoryBot.build(:questionnaire, content: content)
+      expect(questionnaire.available_for_locale?('fi')).to be false
+      expect(questionnaire.available_for_locale?('nl')).to be true
+    end
+
+    it 'treats a questionnaire without language keys as nl only' do
+      questionnaire = questionnaire_with_title('Hoe gaat het?')
+      expect(questionnaire.available_for_locale?('nl')).to be true
+      expect(questionnaire.available_for_locale?('en')).to be false
+      expect(questionnaire.available_for_locale?('fi')).to be false
+    end
+  end
+
   describe 'recalculate_scores!' do
     it 'should call the recalculate_scores job' do
       questionnaire = FactoryBot.create(:questionnaire)

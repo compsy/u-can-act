@@ -104,6 +104,26 @@ describe QuestionnaireGenerator do
         expect(result).to_not include('language-switch')
       end
 
+      def generate_with_otherwise(locale)
+        questionnaire_content = { questions: [{ id: :v1, type: :checkbox, title: { nl: 'Wat?', en: 'What?' },
+                                                options: [{ title: { nl: 'brood', en: 'bread' } }] }],
+                                  scores: [] }
+        subject.generate_questionnaire(response_id: responseobj.id, content: questionnaire_content, title: 'Titel',
+                                       submit_text: 'Opslaan', action: '/', unsubscribe_url: nil, locale: locale)
+      end
+
+      it 'shows the otherwise option in fi but stores it with the Dutch key' do
+        result = generate_with_otherwise('fi')
+        expect(result).to include('Muu, mikä:')
+        expect(result).to include('v1_anders_namelijk')
+        expect(result).not_to include('v1_muu')
+      end
+
+      it 'keeps the otherwise keys of nl and en unchanged' do
+        expect(generate_with_otherwise('nl')).to include('v1_anders_namelijk')
+        expect(generate_with_otherwise('en')).to include('v1_otherwise_please_specify')
+      end
+
       it 'does not generate a language switch for users with another locale than nl or en' do
         result = generate_with_title({ nl: 'Hoe gaat het?', en: 'How are you?' }, 'fi')
         expect(result).to_not include('language-switch')

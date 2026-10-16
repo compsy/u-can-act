@@ -15,7 +15,11 @@ describe DateAndTimeGenerator do
     expect(described_class.new.generate(question.merge(locale: 'en'))).to include('Fill out a date and time')
   end
 
+  it 'uses the Finnish placeholder for fi' do
+    expect(described_class.new.generate(question.merge(locale: 'fi'))).to include('Valitse päivämäärä ja aika')
+  end
+
   it 'falls back to the English placeholder for other locales' do
-    expect(described_class.new.generate(question.merge(locale: 'fi'))).to include('Fill out a date and time')
+    expect(described_class.new.generate(question.merge(locale: 'de'))).to include('Fill out a date and time')
   end
 end

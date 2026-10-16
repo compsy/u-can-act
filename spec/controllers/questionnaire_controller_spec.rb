@@ -152,7 +152,7 @@ RSpec.describe QuestionnaireController, type: :controller do
           expect(response.body).not_to include('Wat heb je gegeten?')
           expect(response.body).to include('v1_brood')
           expect(response.body).to include('v1_kaas')
-          expect(response.body).to include('Save')
+          expect(response.body).to include('Tallenna')
         end
 
         it 'still renders the questionnaire in nl for nl users' do

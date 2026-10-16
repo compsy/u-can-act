@@ -22,8 +22,14 @@ RSpec.describe LanguagesController, type: :controller do
       expect(response.body).to include('Opslaan')
     end
 
-    it 'shows the save button in English for a locale without interface translations' do
+    it 'shows the save button in Finnish for fi' do
       person.update!(locale: 'fi')
+      get :show
+      expect(response.body).to include('Tallenna')
+    end
+
+    it 'shows the save button in English for a locale without interface translations' do
+      person.update!(locale: 'de')
       get :show
       expect(response.body).to include('Save')
     end

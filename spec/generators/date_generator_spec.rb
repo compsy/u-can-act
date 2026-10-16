@@ -16,10 +16,15 @@ describe DateGenerator do
     expect(result).to include('Fill out a date')
   end
 
-  it 'falls back to the English placeholder for other locales' do
+  it 'uses the Finnish placeholder for fi' do
     result = described_class.new.generate(question.merge(locale: 'fi'))
-    expect(result).to include('Fill out a date')
+    expect(result).to include('Valitse päivämäärä')
     expect(result).to include('data-locale="fi"')
+  end
+
+  it 'falls back to the English placeholder for other locales' do
+    result = described_class.new.generate(question.merge(locale: 'de'))
+    expect(result).to include('Fill out a date')
   end
 
   it 'uses the Dutch placeholder when no locale is given' do

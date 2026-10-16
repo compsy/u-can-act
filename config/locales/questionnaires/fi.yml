@@ -1,0 +1,22 @@
+fi:
+  questionnaires:
+    data_saved: Tiedot tallennettu.
+    preview_saved: Onnistui! Jos tämä olisi oikea kysely, vastauksesi olisi nyt tallennettu.
+    questionnaire_expired: Tähän kyselyyn ei voi enää vastata.
+    busy: Odota...
+    save: Tallenna
+    next: Seuraava
+    questionnaire: Kysely
+    already_completed: Olet jo vastannut tähän kyselyyn.
+    not_authorized: Sinulla ei ole oikeutta nähdä tätä kyselyä.
+    link_not_valid: Tämä linkki ei ole enää voimassa.
+    not_found: Käyttäjää / kyselyä ei löytynyt.
+    not_found_questionnaire: Kyselyä ei löytynyt.
+    placeholders:
+      fill_something_in: Kirjoita vastaus
+      otherwise: "Muu, mikä:"
+      enter_a_number: Syötä numero
+      select_your_answer: Valitse vastauksesi...
+  # The other date and time texts come from the rails-i18n gem.
+  time:
+    time: Aika

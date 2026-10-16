@@ -49,6 +49,12 @@ RSpec.describe LanguagesController, type: :controller do
       expect(person.reload.locale).to eq 'nl'
     end
 
+    it 'shows an error message when the locale cannot be updated' do
+      allow_any_instance_of(Person).to receive(:update).and_return(false)
+      post :change, params: { locale: 'en', r_id: responseobj.id }
+      expect(flash[:alert]).to eq 'Kan de taalinstellingen niet bijwerken'
+    end
+
     it 'falls back to en for an unavailable locale' do
       post :change, params: { locale: 'fr', r_id: responseobj.id }
       expect(person.reload.locale).to eq 'en'

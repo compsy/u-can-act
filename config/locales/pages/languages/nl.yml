@@ -4,6 +4,6 @@ nl:
       flash_messages:
         alert:
           response_not_found: Antwoord niet gevonden
-          locale_udpate_error: Kan de taalinstellingen niet bijwerken
+          locale_update_error: Kan de taalinstellingen niet bijwerken
         notice:
           locale_updated: Taalinstelling opgeslagen

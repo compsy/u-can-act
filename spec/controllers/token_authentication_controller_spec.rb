@@ -5,6 +5,14 @@ require 'rails_helper'
 RSpec.describe TokenAuthenticationController, type: :controller do
   render_views
   describe 'GET #show' do
+    describe 'locale' do
+      it 'does not use a locale left behind by an earlier request on the same thread' do
+        I18n.with_locale(:fi) { get :show }
+        expect(response.body).to include('Let op:')
+        expect(response.body).not_to include('Huomio:')
+      end
+    end
+
     describe 'Error checking' do
       it 'returns http not found when not given any params' do
         get :show

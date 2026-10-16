@@ -701,7 +701,8 @@ RSpec.describe QuestionnaireController, type: :controller do
     end
 
     it 'uses the busy text of the current locale in interactive_post' do
-      I18n.with_locale(:en) { post :interactive_post }
+      allow(I18n).to receive(:default_locale).and_return(:en)
+      post :interactive_post
       expect(response.body).to include("text('Busy...')")
     end
   end

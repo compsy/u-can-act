@@ -574,7 +574,7 @@ describe Questionnaire do
     end
 
     describe 'valid_content_translations' do
-      it 'is not valid when a hash has nl key but no en key' do
+      it 'is valid when a hash has nl key but no en key' do
         content = {
           questions: [{
             id: :v1,
@@ -588,10 +588,43 @@ describe Questionnaire do
           scores: []
         }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is valid when a hash has nl and other languages but no en key' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { nl: 'Hoe voelt u zich vandaag?', fi: 'Miltä sinusta tuntuu tänään?' },
+            options: [
+              { title: { nl: 'Goed', fi: 'Hyvä', de: 'Gut' } },
+              { title: { nl: 'Slecht', fi: 'Huono', de: 'Schlecht' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is not valid when a hash has other languages but no nl key' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { en: 'How do you feel today?', fi: 'Miltä sinusta tuntuu tänään?' },
+            options: [
+              { title: { nl: 'Goed', en: 'Good' } },
+              { title: { nl: 'Slecht', en: 'Bad' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
-        expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('has incomplete translations - all language keys must have both nl and en translations')
+          include('has incomplete translations - every translated text must have an nl translation')
         )
       end
 
@@ -612,7 +645,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('has incomplete translations - all language keys must have both nl and en translations')
+          include('has incomplete translations - every translated text must have an nl translation')
         )
       end
 
@@ -624,7 +657,7 @@ describe Questionnaire do
             title: { nl: 'Hoe voelt u zich vandaag?', en: 'How do you feel today?' },
             options: [
               { title: { nl: 'Goed', en: 'Good' } },
-              { title: { nl: 'Slecht' } } # Missing en key
+              { title: { en: 'Bad' } } # Missing nl key
             ]
           }],
           scores: []
@@ -633,7 +666,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('has incomplete translations - all language keys must have both nl and en translations')
+          include('has incomplete translations - every translated text must have an nl translation')
         )
       end
 

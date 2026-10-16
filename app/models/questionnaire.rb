@@ -86,7 +86,7 @@ class Questionnaire < ApplicationRecord
   def valid_content_translations
     return if QuestionnaireTranslator.valid_translations?(content)
 
-    errors.add(:content, 'has incomplete translations - all language keys must have both nl and en translations')
+    errors.add(:content, 'has incomplete translations - every translated text must have an nl translation')
   end
 
   def questionnaire_structure

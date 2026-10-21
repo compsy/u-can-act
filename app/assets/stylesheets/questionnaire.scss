@@ -451,7 +451,7 @@ form .likert-scale {
     width: 100%;
     height: 30px;
   }
-  .col .row.label-row {
+  .row.label-row {
     margin-top: 12px;
     .col {
       overflow-wrap: break-word;
@@ -464,6 +464,7 @@ form .likert-scale {
     max-width: 110px;
     text-align: center;
     font-weight: bold;
+    overflow-wrap: anywhere;
   }
   .affective-slider-icon {
     width: 48px;
@@ -674,4 +675,3 @@ blockquote {
     }
   }
 }
-

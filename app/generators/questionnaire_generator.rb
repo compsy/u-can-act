@@ -115,10 +115,12 @@ class QuestionnaireGenerator
   end
 
   # The language switch toggles between nl and en, so it is only shown for questionnaires in exactly those
-  # languages, to users with one of those locales.
+  # languages, to users with one of those locales. It is hidden if the nl and en texts are the same, e.g. when the nl
+  # texts are a placeholder with the en texts.
   def language_switch?(questions, locale)
     QuestionnaireTranslator.languages(questions).sort == LANGUAGE_SWITCH_LOCALES &&
-      LANGUAGE_SWITCH_LOCALES.include?(locale.to_s)
+      LANGUAGE_SWITCH_LOCALES.include?(locale.to_s) &&
+      LANGUAGE_SWITCH_LOCALES.map { |lang| QuestionnaireTranslator.translate_content(questions, lang) }.uniq.size > 1
   end
 
   def questionnaire_language_switch(locale, show_language_switch)

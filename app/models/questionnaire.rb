@@ -29,6 +29,7 @@ class Questionnaire < ApplicationRecord
     validate :all_hides_questions_ids_valid
     validate :all_questions_have_ids
     validate :all_ranges_have_labels
+    validate :all_affective_sliders_have_valid_variants
     validate :all_likert_radio_checkbox_dropdown_have_options
   end
   with_options if: :content_has_scores do
@@ -179,6 +180,17 @@ class Questionnaire < ApplicationRecord
 
     errors.add(:content, 'the following range type questions are missing the required :labels ' \
                          "array attribute: #{result.pretty_inspect}")
+  end
+
+  def all_affective_sliders_have_valid_variants
+    variants = AffectiveSliderGenerator::VARIANT_IMAGES.keys
+    result = content[:questions].select { |question| question[:type]&.to_sym == :affective_slider }
+                                .reject { |question| variants.include?(question[:variant]&.to_sym) }
+                                .pluck(:id)
+    return if result.blank?
+
+    errors.add(:content, 'the following affective slider questions have a missing or unknown :variant ' \
+                         "(expected one of #{variants.inspect}): #{result.pretty_inspect}")
   end
 
   def all_likert_radio_checkbox_dropdown_have_options

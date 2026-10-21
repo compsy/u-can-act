@@ -36,7 +36,7 @@ class RandomResponseGenerator
         generate_answer_for_radio(question)
       when :checkbox
         generate_answer_for_checkbox(question)
-      when :range
+      when *Questionnaire::RANGE_QUESTION_TYPES
         generate_answer_for_range(question)
       when :textfield, :textarea
         generate_answer_for_text(question)

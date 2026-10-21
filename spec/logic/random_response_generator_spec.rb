@@ -64,6 +64,13 @@ describe RandomResponseGenerator do
         id: :v9,
         type: :date,
         title: 'Is dit een date?'
+      },
+      {
+        id: :v10,
+        type: :affective_slider,
+        variant: :pleasure,
+        title: 'Is dit een affective slider?',
+        labels: %w[slider-a slider-b]
       }
     ]
   end
@@ -71,7 +78,7 @@ describe RandomResponseGenerator do
 
   describe 'generate' do
     it 'generates a random response' do
-      ids_with_numerical_answers = %w[v5 v8 v9]
+      ids_with_numerical_answers = %w[v5 v8 v9 v10]
       ids_with_text_answers = %w[v1_check_a v2 v3 v4 v6 v7]
       cnt = 0
       10.times do

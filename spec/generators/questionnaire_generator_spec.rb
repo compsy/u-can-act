@@ -99,6 +99,14 @@ describe QuestionnaireGenerator do
         expect(result).to include('NL')
       end
 
+      it 'does not generate a language switch when the nl and en texts are the same' do
+        %w[nl en].each do |locale|
+          result = generate_with_title({ nl: 'How are you?', en: 'How are you?' }, locale)
+          expect(result).to_not include('language-switch')
+          expect(result).to include('How are you?')
+        end
+      end
+
       it 'does not generate a language switch when the questionnaire has more than two languages' do
         result = generate_with_title({ nl: 'Hoe gaat het?', en: 'How are you?', fi: 'Mitä kuuluu?' }, 'nl')
         expect(result).to_not include('language-switch')

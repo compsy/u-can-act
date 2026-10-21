@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 20" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="wedge-left" x1="0" x2="1">
+      <stop offset="0" stop-color="#1a1a1a"/>
+      <stop offset="1" stop-color="#1a1a1a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="wedge-right" x1="1" x2="0">
+      <stop offset="0" stop-color="#1a1a1a"/>
+      <stop offset="1" stop-color="#1a1a1a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 0 L98 10 L0 20 Z" fill="url(#wedge-left)"/>
+  <path d="M200 0 L102 10 L200 20 Z" fill="url(#wedge-right)"/>
+</svg>

@@ -487,7 +487,7 @@ Please never use `de {{begeleider}}` or `het {{begeleider}}`, but always `je {{b
 
 ## Questionnaire Syntax
 
-The `content` attribute of a `Questionnaire` is a Hash with two keys, `:questions` and `:scores`. `content[:questions]` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`, `:unsubscribe`, `:drawing`, `:date_and_time`, `:days`.
+The `content` attribute of a `Questionnaire` is a Hash with two keys, `:questions` and `:scores`. `content[:questions]` is a serialized array that stores the questionnaire definition. The following types of questions are supported: `:checkbox`, `:radio`, `:range`, `:affective_slider`, `:raw`, `:textarea`, `:textfield`, `:expandable`, `:time`, `:date`, `:dropdown`, `:unsubscribe`, `:drawing`, `:date_and_time`, `:days`.
 
 For all questions, it is allowed to use HTML tags in the texts.
 Also, you may use any of the special variables defined in the previous section.
@@ -712,6 +712,47 @@ If the `no_initial_thumb` attribute is `true`, then the slider does not show an 
 If the `vertical` attribute is `true`, then the slider is a vertical slider, with labels on the right. This option defaults to `false`. Note that when this option is `true`, the array of `labels` must correspond to the same number of steps as provided by the `min`, `max`, and `step` arguments.
 If the `gradient` attribute is `true`, then the background of the slider is set to a gradient. Currently this only works for vertical sliders.
 If `required: true` is set for a question with type `range`, it means that the slider has to be clicked before the response can be submitted.
+
+### Type: Affective slider
+
+An affective slider is a horizontal range with a gradient wedge underneath it and an image plus label at both ends. Required and allowed options (minimal example and maximal example):
+
+```ruby
+[{
+  id: :v1,
+  type: :affective_slider,
+  variant: :pleasure,
+  title: 'Move the slider to rate your level of Pleasure',
+  labels: ['Unhappy', 'Happy']
+}, {
+  section_start: 'Affect',
+  hidden: true,
+  id: :v2,
+  type: :affective_slider,
+  variant: :activation,
+  min: 0,
+  max: 100,
+  step: 1,
+  value: 50,
+  required: true,
+  no_initial_thumb: true,
+  title: { nl: 'Titel', en: 'Title' },
+  tooltip: 'some tooltip',
+  labels: [{ nl: 'Links', en: 'Left' }, { nl: 'Rechts', en: 'Right' }],
+  section_end: true
+}]
+```
+
+The `variant` determines the images at the ends of the slider and is required:
+
+- `:pleasure` shows an unhappy face on the left and a happy face on the right.
+- `:activation` shows a calm heart (flat line) on the left and a racing heart (heartbeat line) on the right.
+
+The images are in `app/assets/images/affective_slider/`. To add a variant, add its images there and add it to `AffectiveSliderGenerator::VARIANT_IMAGES`.
+The first and the last of the `labels` are shown under the images at the ends, and like other texts they can be translated.
+The stored answer is the numeric value of the slider, so it is the same in every language.
+The affective slider supports the same options as the range type (`min`, `max`, `step`, `value`, `ticks`, `required`, `no_initial_thumb`), except `vertical` and `gradient`.
+If no `value` is given, the slider starts in the middle.
 
 ### Type: Raw
 

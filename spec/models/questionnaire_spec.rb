@@ -355,6 +355,38 @@ describe Questionnaire do
       end
     end
 
+    describe 'all_affective_sliders_have_valid_variants' do
+      let(:slider) { { id: :v1, type: :affective_slider, title: 'hoi', labels: %w[links rechts] } }
+      let(:error) { 'the following affective slider questions have a missing or unknown :variant' }
+
+      it 'is valid with a known variant' do
+        %i[pleasure activation].each do |variant|
+          content = { questions: [slider.merge(variant: variant)], scores: [] }
+          expect(FactoryBot.build(:questionnaire, content: content)).to be_valid
+        end
+      end
+
+      it 'is valid with a known variant as a string' do
+        content = { questions: [slider.merge(variant: 'pleasure')], scores: [] }
+        expect(FactoryBot.build(:questionnaire, content: content)).to be_valid
+      end
+
+      it 'is not valid with an unknown variant' do
+        content = { questions: [slider.merge(variant: :pleasur)], scores: [] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages[:content]).to include(a_string_starting_with(error))
+        expect(questionnaire.errors.messages[:content]).to include(a_string_ending_with("[:v1]\n"))
+      end
+
+      it 'is not valid without a variant' do
+        content = { questions: [slider], scores: [] }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).not_to be_valid
+        expect(questionnaire.errors.messages[:content]).to include(a_string_starting_with(error))
+      end
+    end
+
     describe 'questionnaire_structure' do
       it 'does accept an array' do
         # Right now it still needs to work with existing databases, who raises an serialization error

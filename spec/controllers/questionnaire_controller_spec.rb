@@ -107,6 +107,64 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(response).to render_template('questionnaire/show')
       end
 
+      describe 'locales' do
+        let(:questionnaire) do
+          FactoryBot.create(:questionnaire, content: {
+                              questions: [{
+                                id: :v1,
+                                type: :checkbox,
+                                title: { nl: 'Wat heb je gegeten?', en: 'What did you eat?', fi: 'Mitä söit?' },
+                                options: [{ title: { nl: 'brood', en: 'bread', fi: 'leipä' } },
+                                          { title: { nl: 'kaas', en: 'cheese' } }]
+                              }],
+                              scores: []
+                            })
+        end
+        let(:responseobj) do
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day,
+                                                    person: person)
+          measurement = FactoryBot.create(:measurement, questionnaire: questionnaire,
+                                                        protocol: protocol_subscription.protocol)
+          FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+                                       open_from: 1.hour.ago)
+        end
+
+        it 'updates the locale of the person to any available locale' do
+          get :show, params: { uuid: responseobj.uuid, locale: 'fi' }
+          expect(response).to have_http_status(200)
+          expect(person.reload.locale).to eq 'fi'
+        end
+
+        it 'does not update the locale of the person to an unavailable locale' do
+          get :show, params: { uuid: responseobj.uuid, locale: 'fr' }
+          expect(response).to have_http_status(200)
+          expect(person.reload.locale).to eq 'nl'
+        end
+
+        it 'renders the questionnaire in fi, with en as fallback, and keeps the Dutch answer names' do
+          person.update!(locale: 'fi')
+          get :show, params: { uuid: responseobj.uuid }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Mitä söit?')
+          expect(response.body).to include('leipä')
+          expect(response.body).to include('cheese')
+          expect(response.body).not_to include('Wat heb je gegeten?')
+          expect(response.body).to include('v1_brood')
+          expect(response.body).to include('v1_kaas')
+          expect(response.body).to include('Tallenna')
+          expect(response.body).to include('Selaimesi ei tällä hetkellä salli evästeitä.')
+          expect(response.body).to include('<meta content="fi" name="i18n-locale">')
+        end
+
+        it 'still renders the questionnaire in nl for nl users' do
+          get :show, params: { uuid: responseobj.uuid }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Wat heb je gegeten?')
+          expect(response.body).to include('Opslaan')
+        end
+      end
+
       it 'shows an informed questionnaire if there is one required' do
         protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
         expect(protocol.informed_consent_questionnaire).not_to be_nil
@@ -633,6 +691,19 @@ RSpec.describe QuestionnaireController, type: :controller do
       post :from_json, params: {}
       expect(response.status).to eq 302
       expect(response.location).to end_with('/questionnaire/interactive')
+    end
+  end
+
+  describe 'interactive' do
+    it 'uses the busy text of the current locale' do
+      get :interactive
+      expect(response.body).to include("text('Bezig...')")
+    end
+
+    it 'uses the busy text of the current locale in interactive_post' do
+      allow(I18n).to receive(:default_locale).and_return(:en)
+      post :interactive_post
+      expect(response.body).to include("text('Busy...')")
     end
   end
 

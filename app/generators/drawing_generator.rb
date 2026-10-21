@@ -40,7 +40,9 @@ class DrawingGenerator < QuestionTypeGenerator
       image: drawing_data_image(question),
       color: question[:color],
       radius: question[:radius].presence || 15,
-      density: question[:density].presence || 40
+      density: question[:density].presence || 40,
+      'lock-text': I18n.t('questionnaires.drawing.lock', locale: question[:locale]),
+      'unlock-text': I18n.t('questionnaires.drawing.unlock', locale: question[:locale])
     }
   end
 
@@ -77,7 +79,7 @@ class DrawingGenerator < QuestionTypeGenerator
 
   def drawing_buttons(question)
     body = []
-    body << tag.button('Opnieuw',
+    body << tag.button(I18n.t('questionnaires.drawing.clear', locale: question[:locale]),
                        class: 'btn waves-effect waves-light drawing-clear',
                        id: idify(question[:id], 'clear'))
     body << tag.button('Ok', class: 'btn drawing-ok', id: idify(question[:id], 'ok'))

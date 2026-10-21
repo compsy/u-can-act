@@ -4,6 +4,8 @@ nl:
     preview_saved: Succes! Als dit een echte vragenlijst was, dan was je respons nu opgeslagen.
     questionnaire_expired: Deze vragenlijst kan niet meer ingevuld worden.
     busy: Bezig...
+    save: Opslaan
+    next: Volgende
     questionnaire: Vragenlijst
     language_switch: EN
     already_completed: Je hebt deze vragenlijst(en) al ingevuld.
@@ -11,6 +13,19 @@ nl:
     link_not_valid: Deze link is niet meer geldig.
     not_found: Gebruiker / Vragenlijst niet gevonden.
     not_found_questionnaire: De vragenlijst kon niet gevonden worden.
+    next_questionnaire_notice: "Klik hieronder op '%{save}' om de antwoorden in te leveren"
+    next_questionnaire_notice_with_next: "Klik hieronder op '%{save}' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst"
+    unsubscribe: Uitschrijven
+    thanks_for_participating: Bedankt voor je deelname!
+    drawing:
+      clear: Opnieuw
+      lock: Klaar (volgende vraag)
+      unlock: Aanpassen
+    warnings:
+      attention: "Let op:"
+      cookies: Uw browser staat momenteel geen cookies toe. Daardoor werkt deze app niet goed.
+      javascript: Uw browser heeft momenteel JavaScript uitstaan. Daardoor werkt deze app niet goed.
+      old_browser: Uw browser is Internet Explorer versie < 10. Daardoor werkt deze webpagina niet. Gebruik a.u.b. een recentere browser.
     placeholders:
       fill_something_in: Vul iets in
       otherwise: "Anders, namelijk:"

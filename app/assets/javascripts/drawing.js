@@ -7,8 +7,13 @@ function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-var LOCK_TEXT = "<i class=\"material-icons left\">lock_open</i>Klaar (volgende vraag)";
-var UNLOCK_TEXT = "<i class=\"material-icons left\">lock</i>Aanpassen";
+// The button texts come from data attributes set by the DrawingGenerator; these are the Dutch defaults.
+var DEFAULT_LOCK_TEXT = 'Klaar (volgende vraag)';
+var DEFAULT_UNLOCK_TEXT = 'Aanpassen';
+
+function buttonHtml(icon, text) {
+  return '<i class="material-icons left">' + icon + '</i>' + $('<span>').text(text).html();
+}
 
 function readDataProperty(elem, property) {
   // abstracted in its own version so we can more easily factor out jQuery later
@@ -23,6 +28,8 @@ function initializeDrawing(elem, idx) {
   const color = readDataProperty(elem, 'color');
   const radius = readDataProperty(elem, 'radius');
   const density = readDataProperty(elem, 'density');
+  const lockHtml = buttonHtml('lock_open', readDataProperty(elem, 'lock-text') || DEFAULT_LOCK_TEXT);
+  const unlockHtml = buttonHtml('lock', readDataProperty(elem, 'unlock-text') || DEFAULT_UNLOCK_TEXT);
 
   const logelem = $(elem).closest('.drawing').find('.drawing-log')[0];
   const okelem = $(elem).closest('.drawing').find('.drawing-ok')[0];
@@ -175,18 +182,18 @@ function initializeDrawing(elem, idx) {
   });
   $(okelem).click(function(e) {
     e.preventDefault();
-    if ($(this).html() === LOCK_TEXT) {
-      $(this).html(UNLOCK_TEXT);
+    if ($(this).html() === lockHtml) {
+      $(this).html(unlockHtml);
       $(clearelem).prop("disabled", true);
       mydrawing.lockDrawing();
       $(this).blur();
     } else {
-      $(this).html(LOCK_TEXT);
+      $(this).html(lockHtml);
       $(clearelem).prop("disabled", false);
       mydrawing.unlockDrawing();
       $(this).blur();
     }
-  }).html(LOCK_TEXT);
+  }).html(lockHtml);
   $(window).resize(function() {
     mydrawing.clear();
     mydrawing.drawCurrentPoints();

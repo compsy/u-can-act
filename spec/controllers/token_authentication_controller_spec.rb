@@ -5,6 +5,14 @@ require 'rails_helper'
 RSpec.describe TokenAuthenticationController, type: :controller do
   render_views
   describe 'GET #show' do
+    describe 'locale' do
+      it 'does not use a locale left behind by an earlier request on the same thread' do
+        I18n.with_locale(:fi) { get :show }
+        expect(response.body).to include('Let op:')
+        expect(response.body).not_to include('Huomio:')
+      end
+    end
+
     describe 'Error checking' do
       it 'returns http not found when not given any params' do
         get :show
@@ -33,6 +41,28 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
         responseobj.protocol_subscription.person.update!(locale: :en)
+        expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
+        get :show, params: { q: identifier }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('This link is no longer valid.')
+      end
+
+      it 'requires a q parameter that is not expired (Person with Finnish locale)' do
+        responseobj = FactoryBot.create(:response, :invited)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        responseobj.protocol_subscription.person.update!(locale: :fi)
+        expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
+        get :show, params: { q: identifier }
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('Tämä linkki ei ole enää voimassa.')
+      end
+
+      it 'falls back to English for a locale without interface translations (Person with German locale)' do
+        responseobj = FactoryBot.create(:response, :invited)
+        invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
+        identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
+        responseobj.protocol_subscription.person.update!(locale: :de)
         expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)

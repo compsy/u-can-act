@@ -74,6 +74,14 @@ class Questionnaire < ApplicationRecord
     content[:questions].select { |question| question[:type]&.to_sym == :drawing }.pluck(:id)
   end
 
+  # Returns true if the questionnaire can be shown to a user with this locale: every text is available in the locale
+  # or in English. Questionnaires without language keys are treated as nl-only, since their texts are Dutch.
+  def available_for_locale?(locale)
+    return locale.to_s == QuestionnaireTranslator::REQUIRED_LOCALE if QuestionnaireTranslator.languages(content).empty?
+
+    QuestionnaireTranslator.available_in?(content, locale)
+  end
+
   def recalculate_scores!
     # if there are no completed responses, we don't need to recalculate scores
     return if responses.completed.none?
@@ -86,7 +94,7 @@ class Questionnaire < ApplicationRecord
   def valid_content_translations
     return if QuestionnaireTranslator.valid_translations?(content)
 
-    errors.add(:content, 'has incomplete translations - all language keys must have both nl and en translations')
+    errors.add(:content, 'has incomplete translations - every translated text must have an nl translation')
   end
 
   def questionnaire_structure

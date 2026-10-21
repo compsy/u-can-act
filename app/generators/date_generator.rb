@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DateGenerator < QuestionTypeGenerator
-  DATEFIELD_PLACEHOLDER = 'Vul een datum in'
+  DATEFIELD_PLACEHOLDER = { nl: 'Vul een datum in', en: 'Fill out a date', fi: 'Valitse päivämäärä' }.freeze
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
@@ -29,7 +29,7 @@ class DateGenerator < QuestionTypeGenerator
   end
 
   def mydate_data(question)
-    data = { min: question[:min], max: question[:max], 'set-default-date': false }
+    data = { min: question[:min], max: question[:max], 'set-default-date': false, locale: question[:locale] }
     if question[:today].present?
       data[:'default-date'] = Time.zone.today
       data[:'set-default-date'] = true
@@ -42,7 +42,8 @@ class DateGenerator < QuestionTypeGenerator
   end
 
   def mydate_label(question)
-    tag.label(placeholder(question, DATEFIELD_PLACEHOLDER),
+    locale = (question[:locale].presence || Rails.application.config.i18n.default_locale).to_sym
+    tag.label(placeholder(question, DATEFIELD_PLACEHOLDER.fetch(locale, DATEFIELD_PLACEHOLDER[:en])),
               for: idify(question[:id]),
               class: 'flow-text')
   end

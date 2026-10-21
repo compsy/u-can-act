@@ -574,7 +574,7 @@ describe Questionnaire do
     end
 
     describe 'valid_content_translations' do
-      it 'is not valid when a hash has nl key but no en key' do
+      it 'is valid when a hash has nl key but no en key' do
         content = {
           questions: [{
             id: :v1,
@@ -588,10 +588,43 @@ describe Questionnaire do
           scores: []
         }
         questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is valid when a hash has nl and other languages but no en key' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { nl: 'Hoe voelt u zich vandaag?', fi: 'Miltä sinusta tuntuu tänään?' },
+            options: [
+              { title: { nl: 'Goed', fi: 'Hyvä', de: 'Gut' } },
+              { title: { nl: 'Slecht', fi: 'Huono', de: 'Schlecht' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
+        expect(questionnaire).to be_valid
+      end
+
+      it 'is not valid when a hash has other languages but no nl key' do
+        content = {
+          questions: [{
+            id: :v1,
+            type: :radio,
+            title: { en: 'How do you feel today?', fi: 'Miltä sinusta tuntuu tänään?' },
+            options: [
+              { title: { nl: 'Goed', en: 'Good' } },
+              { title: { nl: 'Slecht', en: 'Bad' } }
+            ]
+          }],
+          scores: []
+        }
+        questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).not_to be_valid
-        expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('has incomplete translations - all language keys must have both nl and en translations')
+          include('has incomplete translations - every translated text must have an nl translation')
         )
       end
 
@@ -612,7 +645,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('has incomplete translations - all language keys must have both nl and en translations')
+          include('has incomplete translations - every translated text must have an nl translation')
         )
       end
 
@@ -624,7 +657,7 @@ describe Questionnaire do
             title: { nl: 'Hoe voelt u zich vandaag?', en: 'How do you feel today?' },
             options: [
               { title: { nl: 'Goed', en: 'Good' } },
-              { title: { nl: 'Slecht' } } # Missing en key
+              { title: { en: 'Bad' } } # Missing nl key
             ]
           }],
           scores: []
@@ -633,7 +666,7 @@ describe Questionnaire do
         expect(questionnaire).not_to be_valid
         expect(questionnaire.errors.messages).to have_key :content
         expect(questionnaire.errors.messages[:content]).to(
-          include('has incomplete translations - all language keys must have both nl and en translations')
+          include('has incomplete translations - every translated text must have an nl translation')
         )
       end
 
@@ -683,6 +716,46 @@ describe Questionnaire do
         questionnaire = FactoryBot.build(:questionnaire, content: content)
         expect(questionnaire).to be_valid
       end
+    end
+  end
+
+  describe 'available_for_locale?' do
+    def questionnaire_with_title(title)
+      FactoryBot.build(:questionnaire, content: { questions: [{ id: :v1, type: :number, title: title }], scores: [] })
+    end
+
+    it 'is available in the languages it has' do
+      questionnaire = questionnaire_with_title(nl: 'Hoe gaat het?', fi: 'Mitä kuuluu?')
+      expect(questionnaire.available_for_locale?('nl')).to be true
+      expect(questionnaire.available_for_locale?(:fi)).to be true
+    end
+
+    it 'is available in every locale when it has an en translation' do
+      questionnaire = questionnaire_with_title(nl: 'Hoe gaat het?', en: 'How are you?')
+      expect(questionnaire.available_for_locale?('fi')).to be true
+      expect(questionnaire.available_for_locale?('de')).to be true
+    end
+
+    it 'is not available in a locale it does not have without an en translation' do
+      questionnaire = questionnaire_with_title(nl: 'Hoe gaat het?', fi: 'Mitä kuuluu?')
+      expect(questionnaire.available_for_locale?('en')).to be false
+      expect(questionnaire.available_for_locale?('de')).to be false
+    end
+
+    it 'is not available when only part of the texts are in the locale or en' do
+      content = { questions: [{ id: :v1, type: :number, title: { nl: 'Hoe gaat het?', fi: 'Mitä kuuluu?' } },
+                              { id: :v2, type: :number, title: { nl: 'Hoe oud ben je?' } }],
+                  scores: [] }
+      questionnaire = FactoryBot.build(:questionnaire, content: content)
+      expect(questionnaire.available_for_locale?('fi')).to be false
+      expect(questionnaire.available_for_locale?('nl')).to be true
+    end
+
+    it 'treats a questionnaire without language keys as nl only' do
+      questionnaire = questionnaire_with_title('Hoe gaat het?')
+      expect(questionnaire.available_for_locale?('nl')).to be true
+      expect(questionnaire.available_for_locale?('en')).to be false
+      expect(questionnaire.available_for_locale?('fi')).to be false
     end
   end
 

@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class NextQuestionnaireNoticeGenerator < QuestionTypeGenerator
-  BASE_TEXT = "Klik hieronder op 'Opslaan' om de antwoorden in te leveren"
-  WITH_NEXT_SUFFIX = ' en door te gaan naar de volgende vragenlijst'
-
   def generate(question)
-    suffix = next_response?(question[:response_id]) ? WITH_NEXT_SUFFIX : ''
-    tag.p("#{BASE_TEXT}#{suffix}.", class: 'flow-text')
+    locale = question[:locale]
+    key = next_response?(question[:response_id]) ? 'next_questionnaire_notice_with_next' : 'next_questionnaire_notice'
+    text = I18n.t("questionnaires.#{key}", save: I18n.t('questionnaires.save', locale: locale), locale: locale)
+    tag.p("#{text}.", class: 'flow-text')
   end
 
   private

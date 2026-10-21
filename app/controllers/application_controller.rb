@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery prepend: true, with: :exception, except: :options
+  # I18n.locale is stored per thread, so a locale set in one request (e.g. by the questionnaire page) would otherwise
+  # leak into the next request served by the same thread. Controllers can still set their own locale inside this.
+  around_action :use_default_locale
 
   TEST_COOKIE = :test_cookie
   TEST_COOKIE_ENTRY = 'TRUE'
@@ -38,5 +41,11 @@ class ApplicationController < ActionController::Base
       key
       # end
     end
+  end
+
+  private
+
+  def use_default_locale(&block)
+    I18n.with_locale(I18n.default_locale, &block)
   end
 end

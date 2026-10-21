@@ -5,6 +5,21 @@ require 'rails_helper'
 describe Person do
   it_behaves_like 'a person object'
 
+  describe 'locale' do
+    %w[nl en fi de es pt].each do |locale|
+      it "accepts #{locale}" do
+        person = FactoryBot.build(:person, locale: locale)
+        expect(person).to be_valid
+      end
+    end
+
+    it 'rejects an unknown locale' do
+      person = FactoryBot.build(:person, locale: 'fr')
+      expect(person).not_to be_valid
+      expect(person.errors.attribute_names).to include(:locale)
+    end
+  end
+
   describe 'last_completed_response' do
     it 'returns nil if no response has been completed so far' do
       person = FactoryBot.create(:person, :with_protocol_subscriptions)

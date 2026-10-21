@@ -23,9 +23,10 @@ module Vsv
     config.i18n.default_locale = :nl
     # Questionnaire content can be in any of these languages. The interface is only translated in nl and en.
     config.i18n.available_locales = %i[nl en fi de es pt]
-    # Fall back to English first, so a user with e.g. locale fi sees an English interface and not a Dutch one.
+    # The new locales fall back to English first, so a user with e.g. locale fi sees an English interface and not a
+    # Dutch one. nl and en keep their previous behaviour: nl has no fallback, en falls back to nl.
     # This is set explicitly instead of `fallbacks = true`, because that falls back to the default locale (nl).
-    config.i18n.fallbacks = %i[en nl]
+    config.i18n.fallbacks = (config.i18n.available_locales - %i[nl en]).index_with { %i[en nl] }.merge(en: [:nl])
 
     # Rails 6 optimization.
     # See https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#config-add-autoload-paths-to-load-path

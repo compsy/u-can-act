@@ -39,10 +39,19 @@ RSpec.describe LanguagesController, type: :controller do
       %w[de es pt].each { |locale| expect(response.body).not_to include("value=\"#{locale}\"") }
     end
 
-    it 'shows the save button in Finnish for fi' do
+    it 'selects the locale of the person and shows the save button in Finnish for fi' do
+      person.update!(locale: 'fi')
+      get :show, params: { r_id: fi_responseobj.id }
+      expect(response.body).to include('<input checked name="locale" type="radio" value="fi">')
+      expect(response.body).to include('Tallenna')
+    end
+
+    it 'selects en when the locale of the person is not offered' do
       person.update!(locale: 'fi')
       get :show
-      expect(response.body).to include('Tallenna')
+      expect(response.body).to include('<input checked name="locale" type="radio" value="en">')
+      expect(response.body).not_to include('Tallenna')
+      expect(response.body).to include('Save')
     end
 
     it 'shows the save button in English for a locale without interface translations' do

@@ -6,7 +6,7 @@ var datepickerI18nNl = {
   weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
   clear: 'Wissen',
   cancel: 'Annuleren',
-  close: 'Ok'
+  done: 'Ok'
 };
 
 var datepickerI18nFi = {

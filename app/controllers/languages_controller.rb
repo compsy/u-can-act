@@ -12,6 +12,8 @@ class LanguagesController < ApplicationController
     @callback = show_params[:cb]
     @response_id = show_params[:r_id]
     @locales = selectable_locales(current_user.responses.find_by(id: @response_id))
+    # Preselect en when the user's locale is not offered (e.g. fi on an nl/en questionnaire), like the fallbacks do.
+    @locale = 'en' unless @locales.include?(@locale)
   end
 
   # rubocop:disable Metrics/AbcSize

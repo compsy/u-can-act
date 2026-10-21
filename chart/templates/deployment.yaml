@@ -26,6 +26,17 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}
         app.kubernetes.io/component: web
     spec:
+      # Spread replicas over nodes so a node drain does not take all of them down
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: {{ .Release.Name }}
+                    app.kubernetes.io/component: web
+                topologyKey: kubernetes.io/hostname
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{- range .Values.imagePullSecrets }}

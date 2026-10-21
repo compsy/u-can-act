@@ -8,6 +8,7 @@ class QuestionnaireQuestionGenerator < Generator
       time: TimeGenerator.new,
       checkbox: CheckboxGenerator.new,
       range: RangeGenerator.new,
+      affective_slider: AffectiveSliderGenerator.new,
       likert: LikertGenerator.new,
       textarea: TextareaGenerator.new,
       textfield: TextfieldGenerator.new,

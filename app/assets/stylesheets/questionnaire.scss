@@ -443,6 +443,35 @@ form .likert-scale {
     overflow-wrap: break-word;
   }
 }
+
+// The wedge spans the track of the slider. The labels are aligned like the labels of a normal range.
+.affective-slider {
+  .affective-slider-wedge img {
+    display: block;
+    width: 100%;
+    height: 30px;
+  }
+  .col .row.label-row {
+    margin-top: 12px;
+    .col {
+      overflow-wrap: break-word;
+    }
+  }
+  .affective-slider-end {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 110px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .affective-slider-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 8px;
+  }
+}
+
 h4, h5, .flow-text {
   overflow: hidden;
 }

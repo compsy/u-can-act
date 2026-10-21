@@ -42,7 +42,7 @@ module DistributionHelper
   def range_questions(questionnaire_content)
     rg_instance = RangeGenerator.new
     questionnaire_content
-      .select { |question| question[:type] == :range }
+      .select { |question| Questionnaire::RANGE_QUESTION_TYPES.include?(question[:type]) }
       .map do |question|
       rg_instance.range_slider_minmax(question).merge(id: question[:id].to_s,
                                                       type: question[:type],
@@ -135,7 +135,7 @@ module DistributionHelper
 
   def add_to_distribution_aux(question, value, distribution)
     add_method = case question[:type]
-                 when :range
+                 when *Questionnaire::RANGE_QUESTION_TYPES
                    :add_range_to_distribution
                  when :date
                    :add_date_to_distribution

@@ -4,7 +4,7 @@ workerReplicaCount: 2
 autoscaling:
   web:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
   worker:
     enabled: true
     minReplicas: 1

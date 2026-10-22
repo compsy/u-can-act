@@ -8,7 +8,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Release.Name }}
-  minReplicas: {{ .Values.autoscaling.web.minReplicas | default 1 }}
+  minReplicas: {{ .Values.autoscaling.web.minReplicas | default 2 }}
   maxReplicas: 10
   metrics:
     - type: Resource

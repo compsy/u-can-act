@@ -4,8 +4,10 @@ workerReplicaCount: 2
 autoscaling:
   web:
     enabled: true
+    minReplicas: 2
   worker:
     enabled: true
+    minReplicas: 1
 
 secretName: svc-questionnaires-secret
 # databaseSecretName: svc-questionnaires-database-credentials

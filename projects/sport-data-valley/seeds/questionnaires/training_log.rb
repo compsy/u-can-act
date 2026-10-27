@@ -180,6 +180,9 @@ dagboek_content = [
     title: { nl: 'Opmerkingen', en: 'Comments' },
     placeholder: { nl: 'Wat wil je nog delen? (optioneel)', en: 'What else would you like to share? (optional)' },
     },
+  {
+    type: :next_questionnaire_notice
+  }
 ]
 
 questionnaire.content = { questions: dagboek_content, scores: [] }

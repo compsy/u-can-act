@@ -68,6 +68,9 @@
     "node": ">= 20",
     "yarn": "1.x"
   },
+  "resolutions": {
+    "webpack-dev-server/express/path-to-regexp": "0.1.12"
+  },
   "scripts": {
     "test": "jest"
   },

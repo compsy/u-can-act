@@ -86,11 +86,11 @@ dagboek_content = [
              en: '<br>2. Over the past 2 weeks, how many times did you have swelling in your feet, ankles or legs when you woke up in the morning?' },
     type: :likert,
     options: [
-      { nl: 'Elke morgen', en: 'Every morning' },
-      { nl: '3 keer of meer per week, maar niet elke dag', en: '3 or more times per week but not every day' },
-      { nl: '1 tot 2 keer per week', en: '1-2 times per week' },
-      { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' },
-      { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }
+      { title: { nl: 'Elke morgen', en: 'Every morning' }, value: '1' },
+      { title: { nl: '3 keer of meer per week, maar niet elke dag', en: '3 or more times per week but not every day' }, value: '2' },
+      { title: { nl: '1 tot 2 keer per week', en: '1-2 times per week' }, value: '3' },
+      { title: { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' }, value: '4' },
+      { title: { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -101,13 +101,13 @@ dagboek_content = [
              en: '<br>3. Over the past 2 weeks, on average, how many times has fatigue limited your ability to do what you wanted?' },
     type: :likert,
     options: [
-      { nl: 'Voortdurend', en: 'All of the time' },
-      { nl: 'Meerdere keren per dag', en: 'Several times per day' },
-      { nl: 'Tenminste 1 keer per dag', en: 'At least once a day' },
-      { nl: '3 keer of meer per week, maar niet elke dag', en: '3 or more times per week but not every day' },
-      { nl: '1 tot 2 keer per week', en: '1-2 times per week' },
-      { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' },
-      { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }
+      { title: { nl: 'Voortdurend', en: 'All of the time' }, value: '1' },
+      { title: { nl: 'Meerdere keren per dag', en: 'Several times per day' }, value: '2' },
+      { title: { nl: 'Tenminste 1 keer per dag', en: 'At least once a day' }, value: '3' },
+      { title: { nl: '3 keer of meer per week, maar niet elke dag', en: '3 or more times per week but not every day' }, value: '4' },
+      { title: { nl: '1 tot 2 keer per week', en: '1-2 times per week' }, value: '5' },
+      { title: { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' }, value: '6' },
+      { title: { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }, value: '7' }
     ],
     required: true,
     show_otherwise: false
@@ -118,15 +118,15 @@ dagboek_content = [
              en: '<br>4. Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?' },
     type: :likert,
     options: [
-      { nl: 'Voortdurend', en: 'All of the time' },
-      { nl: 'Meerdere keren per dag', en: 'Several times per day' },
-      { nl: 'Tenminste 1 keer per dag', en: 'At least once a day' },
-      { nl: '3 keer of meer per week, maar niet elke dag', en: '3 or more times per week but not every day' },
-      { nl: '1 tot 2 keer per week', en: '1-2 times per week' },
-      { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' },
-      { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }
+      { title: { nl: 'Voortdurend', en: 'All of the time' }, value: '1' },
+      { title: { nl: 'Meerdere keren per dag', en: 'Several times per day' }, value: '2' },
+      { title: { nl: 'Tenminste 1 keer per dag', en: 'At least once a day' }, value: '3' },
+      { title: { nl: '3 keer of meer per week, maar niet elke dag', en: '3 or more times per week but not every day' }, value: '4' },
+      { title: { nl: '1 tot 2 keer per week', en: '1-2 times per week' }, value: '5' },
+      { title: { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' }, value: '6' },
+      { title: { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }, value: '7' }
     ],
-    required: true, 
+    required: true,
     show_otherwise: false
   },
   {
@@ -135,11 +135,11 @@ dagboek_content = [
              en: '<br>5. Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of shortness of breath?' },
     type: :likert,
     options: [
-      { nl: 'Elke nacht', en: 'Every night' },
-      { nl: '3 keer of meer per week, maar niet elke nacht', en: '3 or more times per week but not every day' },
-      { nl: '1 tot 2 keer per week', en: '1-2 times per week' },
-      { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' },
-      { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }
+      { title: { nl: 'Elke nacht', en: 'Every night' }, value: '1' },
+      { title: { nl: '3 keer of meer per week, maar niet elke nacht', en: '3 or more times per week but not every day' }, value: '2' },
+      { title: { nl: '1 tot 2 keer per week', en: '1-2 times per week' }, value: '3' },
+      { title: { nl: 'Minder dan 1 keer per week', en: 'Less than once a week' }, value: '4' },
+      { title: { nl: 'Nooit gedurende de afgelopen 2 weken', en: 'Never over the past 2 weeks' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -150,11 +150,11 @@ dagboek_content = [
              en: '<br>6. Over the past 2 weeks, how much has your heart failure limited your enjoyment of life?' },
     type: :likert,
     options: [
-      { nl: 'Heel erg beperkt', en: 'It has extremely limited my enjoyment of life' },
-      { nl: 'Vrij beperkt', en: 'It has limited my enjoyment of life quite a bit' },
-      { nl: 'Matig beperkt', en: 'It has moderately limited my enjoyment of life' },
-      { nl: 'Een klein beetje beperkt', en: 'It has slightly limited my enjoyment of life' },
-      { nl: 'Helemaal niet beperkt', en: 'It has not limited my enjoyment of life at all' }
+      { title: { nl: 'Heel erg beperkt', en: 'It has extremely limited my enjoyment of life' }, value: '1' },
+      { title: { nl: 'Vrij beperkt', en: 'It has limited my enjoyment of life quite a bit' }, value: '2' },
+      { title: { nl: 'Matig beperkt', en: 'It has moderately limited my enjoyment of life' }, value: '3' },
+      { title: { nl: 'Een klein beetje beperkt', en: 'It has slightly limited my enjoyment of life' }, value: '4' },
+      { title: { nl: 'Helemaal niet beperkt', en: 'It has not limited my enjoyment of life at all' }, value: '5' }
     ],
     required: true,
     show_otherwise: false
@@ -165,11 +165,11 @@ dagboek_content = [
              en: '<br>7. If you had to spend the rest of your life with your heart failure the way it is right now, how would you feel about this?' },
     type: :likert,
     options: [
-      { nl: 'Helemaal ontevreden', en: 'Not at all satisfied' },
-      { nl: 'Grotendeels ontevreden', en: 'Mostly dissatisfied' },
-      { nl: 'Enigszins tevreden', en: 'Somewhat satisfied' },
-      { nl: 'Grotendeels tevreden', en: 'Mostly satisfied' },
-      { nl: 'Helemaal tevreden', en: 'Completely satisfied' }
+      { title: { nl: 'Helemaal ontevreden', en: 'Not at all satisfied' }, value: '1' },
+      { title: { nl: 'Grotendeels ontevreden', en: 'Mostly dissatisfied' }, value: '2' },
+      { title: { nl: 'Enigszins tevreden', en: 'Somewhat satisfied' }, value: '3' },
+      { title: { nl: 'Grotendeels tevreden', en: 'Mostly satisfied' }, value: '4' },
+      { title: { nl: 'Helemaal tevreden', en: 'Completely satisfied' }, value: '5' }
     ],
     required: true,
     show_otherwise: false

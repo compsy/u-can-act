@@ -11,7 +11,7 @@ module Api
 
         path '/basic_auth_api/scheduling/daily_at_one_am' do
           post 'Runs the daily at 3 am jobs' do
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             tags 'Scheduling'
             consumes 'application/json'
             response '201', 'Created' do
@@ -22,7 +22,7 @@ module Api
         path '/basic_auth_api/scheduling/daily_at_two_am' do
           post 'Runs the daily at 3 am jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '201', 'Created' do
               run_test!
@@ -33,7 +33,7 @@ module Api
         path '/basic_auth_api/scheduling/daily_at_three_am' do
           post 'Runs the daily at 3 am jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '201', 'Created' do
               run_test!
@@ -44,7 +44,7 @@ module Api
         path '/basic_auth_api/scheduling/daily_at_four_am' do
           post 'Runs the daily at 4 am jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '204', 'No content' do
               run_test!
@@ -55,7 +55,7 @@ module Api
         path '/basic_auth_api/scheduling/daily' do
           post 'Runs the daily jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '204', 'No content' do
               run_test!
@@ -66,7 +66,7 @@ module Api
         path '/basic_auth_api/scheduling/hourly' do
           post 'Runs the hourly jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '204', 'No content' do
               run_test!
@@ -77,7 +77,7 @@ module Api
         path '/basic_auth_api/scheduling/thirty_minutely' do
           post 'Runs the 30 minutely jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '204', 'No content' do
               run_test!
@@ -88,7 +88,7 @@ module Api
         path '/basic_auth_api/scheduling/five_minutely' do
           post 'Runs the 5 minutely jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '201', 'Created' do
               run_test!
@@ -99,7 +99,7 @@ module Api
         path '/basic_auth_api/scheduling/minutely' do
           post 'Runs the minutely jobs' do
             tags 'Scheduling'
-            security [BasicAuth: {}]
+            security [{ BasicAuth: {} }]
             consumes 'application/json'
             response '204', 'No content' do
               run_test!

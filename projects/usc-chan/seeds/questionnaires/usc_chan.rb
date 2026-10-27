@@ -40,7 +40,7 @@ dagboek_content = [
     title: 'Is this your first questionnaire of the day?',
     show_otherwise: false,
     options: [
-      { title: 'Yes', shows_questions: %i[v2 v3 v4 v5] },
+      { title: 'Yes', shows_questions: %i[v2 v3 v3a v4 v5] },
       { title: 'No', shows_questions: %i[v6] }
     ],
   }, {
@@ -67,6 +67,11 @@ dagboek_content = [
     hours_label: 'Hours',
     minutes_label: 'Minutes',
     am_pm: true,
+  }, {
+    id: :v3a,
+    hidden: true,
+    type: :raw,
+    content: '<p class="flow-text">Sleep duration: <strong><span id="sleep-duration-text">-</span></strong></p><input type="hidden" id="sleep_duration_minutes" name="content[sleep_duration_minutes]" />',
   }, {
     id: :v4,
     hidden: true,

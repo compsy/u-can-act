@@ -52,7 +52,7 @@ module Api
         end
 
         def person_params
-          params.require(:person).permit(:mobile_phone, :email, :account_active, :locale, :timestamp)
+          params.expect(person: %i[mobile_phone email account_active locale timestamp])
         end
       end
     end

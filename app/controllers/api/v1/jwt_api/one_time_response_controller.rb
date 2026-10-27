@@ -33,7 +33,7 @@ module Api
         def mentor
           return nil if one_time_response_params[:mentor_id].blank?
 
-          @mentor ||= Person.find_by(id: one_time_response_params[:mentor_id])
+          @mentor = Person.find_by(id: one_time_response_params[:mentor_id])
         end
 
         def load_one_time_response

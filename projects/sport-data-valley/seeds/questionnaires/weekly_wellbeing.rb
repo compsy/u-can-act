@@ -98,6 +98,9 @@ dagboek_content = [
     title: { nl: 'Opmerking', en: 'Comment' },
     placeholder: { nl: 'Wat wil je nog delen (optioneel)?', en: 'What else would you like to share (optional)?' },
     type: :textarea
+  },
+  {
+    type: :next_questionnaire_notice
   }
 ]
 

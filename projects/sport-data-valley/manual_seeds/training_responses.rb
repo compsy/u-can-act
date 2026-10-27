@@ -71,7 +71,7 @@ module TrainingResponses
 
     def create_training_log_response(person, timestamp)
       protocol_name = 'training_log'
-      puts "Creating responses for #{protocol_name}"
+      Rails.logger.debug { "Creating responses for #{protocol_name}" }
       protocol = Protocol.find_by(name: protocol_name)
       raise "Error: protocol named #{protocol_name} not found" unless protocol
 

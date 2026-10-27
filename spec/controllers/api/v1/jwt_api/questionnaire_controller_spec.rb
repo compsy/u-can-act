@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
+  def streamed_response_body
+    return response.body if response.body.is_a?(String)
+
+    response.body.each_with_object(+'') do |chunk, result|
+      result << chunk.to_s
+    end
+  end
+
   let(:questionnaire) { FactoryBot.create(:questionnaire) }
   let(:other_response) { FactoryBot.create(:response) }
 
@@ -59,7 +67,7 @@ describe Api::V1::JwtApi::QuestionnaireController, type: :controller do
         get :show, params: { key: questionnaire.key, format: 'csv' }
         expect(response.status).to eq 200
         expect(response.header['Content-Type']).to include 'text/csv'
-        arr = CSV.parse(response.body, headers: true, col_sep: ';')
+        arr = CSV.parse(streamed_response_body, headers: true, col_sep: ';')
         expect(arr).not_to be_blank
         expect(arr[0]['title']).to eq questionnaire.content[:questions][0][:title]
         expect(arr[0]['question_id']).to eq questionnaire.content[:questions][0][:id].to_s

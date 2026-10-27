@@ -79,10 +79,10 @@ class AuthUser < ApplicationRecord
       access_level_admin = metadata_from_payload(payload)['access_level']&.include?(ADMIN_ACCESS_LEVEL)
 
       if role_admin
-        ActiveSupport::Deprecation
-          .warn('roles should not be used in the payload anymore. ' \
-                'This was renamed to access_level. ' \
-                'Please update the payload.')
+        ActiveSupport::Deprecation.new
+                                  .warn('roles should not be used in the payload anymore. ' \
+                                        'This was renamed to access_level. ' \
+                                        'Please update the payload.')
       end
 
       return ADMIN_ACCESS_LEVEL if role_admin || access_level_admin

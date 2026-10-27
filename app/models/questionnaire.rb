@@ -2,10 +2,11 @@
 
 class Questionnaire < ApplicationRecord
   include ConversionHelper
+
   KNOWN_OPERATIONS = %i[average sum].freeze
   OPTIONS_REQUIRED_FOR = %i[checkbox likert radio dropdown].freeze
-  QUESTIONS_WITHOUT_TITLES = %i[raw unsubscribe].freeze
-  RANGE_QUESTION_TYPES = %i[range].freeze
+  QUESTIONS_WITHOUT_TITLES = %i[raw unsubscribe next_questionnaire_notice].freeze
+  RANGE_QUESTION_TYPES = %i[range affective_slider].freeze
 
   # This is an ordered array of known preprocessing steps
   PREPROCESSING_STEPS = [
@@ -17,7 +18,8 @@ class Questionnaire < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :content, presence: true
   validates :key, presence: true, uniqueness: true, format: { with: /\A[a-z_0-9]+\Z/ }
-  serialize :content # Don't specify Hash type because otherwise databases with existing questionnaires won't work
+  # Don't specify Hash type because otherwise databases with existing questionnaires won't work
+  serialize :content, coder: YAML
   validate :questionnaire_structure, if: -> { content.present? }
   validate :valid_content_translations, if: -> { content.present? }
   with_options if: :content_has_questions do
@@ -27,6 +29,7 @@ class Questionnaire < ApplicationRecord
     validate :all_hides_questions_ids_valid
     validate :all_questions_have_ids
     validate :all_ranges_have_labels
+    validate :all_affective_sliders_have_valid_variants
     validate :all_likert_radio_checkbox_dropdown_have_options
   end
   with_options if: :content_has_scores do
@@ -72,9 +75,17 @@ class Questionnaire < ApplicationRecord
     content[:questions].select { |question| question[:type]&.to_sym == :drawing }.pluck(:id)
   end
 
+  # Returns true if the questionnaire can be shown to a user with this locale: every text is available in the locale
+  # or in English. Questionnaires without language keys are treated as nl-only, since their texts are Dutch.
+  def available_for_locale?(locale)
+    return locale.to_s == QuestionnaireTranslator::REQUIRED_LOCALE if QuestionnaireTranslator.languages(content).empty?
+
+    QuestionnaireTranslator.available_in?(content, locale)
+  end
+
   def recalculate_scores!
     # if there are no completed responses, we don't need to recalculate scores
-    return if responses.completed.count.zero?
+    return if responses.completed.none?
 
     RecalculateScoresJob.perform_later(id)
   end
@@ -84,7 +95,7 @@ class Questionnaire < ApplicationRecord
   def valid_content_translations
     return if QuestionnaireTranslator.valid_translations?(content)
 
-    errors.add(:content, 'has incomplete translations - all language keys must have both nl and en translations')
+    errors.add(:content, 'has incomplete translations - every translated text must have an nl translation')
   end
 
   def questionnaire_structure
@@ -169,6 +180,17 @@ class Questionnaire < ApplicationRecord
 
     errors.add(:content, 'the following range type questions are missing the required :labels ' \
                          "array attribute: #{result.pretty_inspect}")
+  end
+
+  def all_affective_sliders_have_valid_variants
+    variants = AffectiveSliderGenerator::VARIANT_IMAGES.keys
+    result = content[:questions].select { |question| question[:type]&.to_sym == :affective_slider }
+                                .reject { |question| variants.include?(question[:variant]&.to_sym) }
+                                .pluck(:id)
+    return if result.blank?
+
+    errors.add(:content, 'the following affective slider questions have a missing or unknown :variant ' \
+                         "(expected one of #{variants.inspect}): #{result.pretty_inspect}")
   end
 
   def all_likert_radio_checkbox_dropdown_have_options

@@ -2,6 +2,7 @@
 
 class AdminController < ApplicationController
   include AdminHelper
+
   http_basic_authenticate_with name: ENV.fetch('ADMIN_USERNAME', nil), password: ENV.fetch('ADMIN_PASSWORD', nil)
   before_action :set_questionnaire, only: %i[response_export questionnaire_export preview]
   before_action :set_locale, only: %i[preview]
@@ -93,7 +94,7 @@ class AdminController < ApplicationController
       response_id: nil,
       content: @questionnaire.content,
       title: @questionnaire.title,
-      submit_text: (@locale == 'en' ? 'Save' : 'Opslaan'),
+      submit_text: I18n.t('questionnaires.save', locale: @locale),
       action: '/admin/preview_done',
       unsubscribe_url: nil,
       locale: @locale,

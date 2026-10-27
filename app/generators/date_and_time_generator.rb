@@ -2,7 +2,10 @@
 
 class DateAndTimeGenerator < QuestionTypeGenerator
   include React::Rails::ViewHelper
-  DATETIMEFIELD_PLACEHOLDER = { nl: 'Vul een datum en tijd in', en: 'Fill out a date and time' }.freeze
+
+  DATETIMEFIELD_PLACEHOLDER = {
+    nl: 'Vul een datum en tijd in', en: 'Fill out a date and time', fi: 'Valitse päivämäärä ja aika'
+  }.freeze
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
@@ -29,7 +32,7 @@ class DateAndTimeGenerator < QuestionTypeGenerator
       required: question[:required].present?,
       today: question[:today].present?,
       default_date: question[:default_date].present?,
-      placeholder: placeholder(question, DATETIMEFIELD_PLACEHOLDER[locale]),
+      placeholder: placeholder(question, DATETIMEFIELD_PLACEHOLDER.fetch(locale, DATETIMEFIELD_PLACEHOLDER[:en])),
       min: question[:min],
       max: question[:max],
       locale: question[:locale]

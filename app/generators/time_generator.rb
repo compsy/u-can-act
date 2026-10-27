@@ -32,7 +32,8 @@ class TimeGenerator < QuestionTypeGenerator
   # rubocop:disable Metrics/ParameterLists
   def time_dropdown(question_id, from_time, to_time, step, label, raw_label, am_pm)
     elem_id = idify(question_id, raw_label)
-    options = generate_dropdown((from_time...to_time).step(BigDecimal(step.to_s)), elem_id, am_pm)
+    invert = question_id == :v2
+    options = generate_dropdown((from_time...to_time).step(BigDecimal(step.to_s)), elem_id, am_pm, invert)
     options = safe_join([
                           options,
                           tag.label(label)
@@ -41,7 +42,9 @@ class TimeGenerator < QuestionTypeGenerator
   end
   # rubocop:enable Metrics/ParameterLists
 
-  def generate_dropdown(items, id, am_pm)
+  # rubocop:disable Metrics/PerceivedComplexity
+  def generate_dropdown(items, id, am_pm, invert)
+    items = items.sort_by { |h| h < 12 ? h + 24 : h } if am_pm && invert
     body = []
     items.each do |option|
       option_value = number_to_string(option)
@@ -49,6 +52,8 @@ class TimeGenerator < QuestionTypeGenerator
       if am_pm
         option_string = if option == 12
                           '12 PM'
+                        elsif option.zero?
+                          '12 AM'
                         elsif option > 12
                           "#{number_to_string(option - 12)} PM"
                         else
@@ -61,3 +66,4 @@ class TimeGenerator < QuestionTypeGenerator
     tag.select(body, name: answer_name(id), id: id, required: true, class: 'browser-default')
   end
 end
+# rubocop:enable Metrics/PerceivedComplexity

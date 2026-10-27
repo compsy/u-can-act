@@ -9,22 +9,29 @@ module Api
           return created(res.protocol) if res.valid?
 
           validation_error res.errors
+          # Rubocop is forcing use to use params.expect instead of the old
+          # require.permit but with the new method it raises an exception when
+          # a params has invalid value or properties, that we need to handle
+          # manually
+        rescue ActionController::ParameterMissing => e
+          validation_error(e.message)
         end
 
         private
 
         def update_protocol_params
-          params.require(:protocol).permit(
-            [:name,
-             :duration,
-             :invitation_text,
-             :informed_consent_questionnaire_key,
-             { questionnaires:
-               [:key,
-                { measurement:
-                  %i[open_from_offset open_from_day period open_duration reminder_delay priority stop_measurement
-                     should_invite only_redirect_if_nothing_else_ready prefilled redirect_url collapse_duplicates] }] },
-             { push_subscriptions: %i[name url method] }]
+          params.expect(
+            protocol: [:name,
+                       :duration,
+                       :invitation_text,
+                       :informed_consent_questionnaire_key,
+                       { questionnaires:
+                         [[:key,
+                           { measurement:
+                             %i[open_from_offset open_from_day period open_duration reminder_delay priority
+                                stop_measurement should_invite only_redirect_if_nothing_else_ready prefilled
+                                redirect_url collapse_duplicates] }]] },
+                       { push_subscriptions: [%i[name url method]] }]
           )
         end
       end

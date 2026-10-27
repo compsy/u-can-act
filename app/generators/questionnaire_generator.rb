@@ -4,6 +4,8 @@ class QuestionnaireGenerator
   include ActionView::Helpers
   include ::Prefillable
 
+  LANGUAGE_SWITCH_LOCALES = %w[en nl].freeze
+
   def initialize
     @questionnaire_question_qenerator = QuestionnaireQuestionGenerator.new
   end
@@ -21,11 +23,11 @@ class QuestionnaireGenerator
     # checkboxes are determined by their raw labels, hence we make sure that the raw labels are language independent
     # (note: this is not the label that is shown to the user, it is merely used for the name/id of the elements on the
     # page).
-    # We translate the raw content twice because the i18n language is optional, and if a translated string only has an
-    # 'nl' and 'en' component, it will be left untranslated in the string, which will give errors down the line when
-    # it expects a string and finds a hash. This is why after using the i18n translated strings wherever we can, we do a
-    # second pass to translate any remaining untranslated strings to the default language.
-    is_multi_language = QuestionnaireTranslator.multi_language?(content[:questions])
+    # We translate the raw content twice because the i18n language is optional, and if a translated string only has
+    # language components (e.g. 'nl' and 'en'), it will be left untranslated in the string, which will give errors down
+    # the line when it expects a string and finds a hash. This is why after using the i18n translated strings wherever
+    # we can, we do a second pass to translate any remaining untranslated strings to the default language.
+    show_language_switch = language_switch?(content[:questions], locale)
     raw_content = QuestionnaireTranslator.translate_content(content[:questions].deep_dup, 'i18n')
     # Translate a second time to get rid of any remaining translation hashes because the i18n translation is optional
     raw_content = QuestionnaireTranslator.translate_content(raw_content,
@@ -34,7 +36,7 @@ class QuestionnaireGenerator
     content = QuestionnaireTranslator.translate_content(content, locale)
     title = substitute_variables(response, title).first
     body = safe_join([
-                       questionnaire_language_switch(locale, is_multi_language),
+                       questionnaire_language_switch(locale, show_language_switch),
                        questionnaire_header(title),
                        questionnaire_hidden_fields(params),
                        questionnaire_questions_html(content[:questions], response,
@@ -112,8 +114,17 @@ class QuestionnaireGenerator
     tag.div(submit_body, class: 'row section')
   end
 
-  def questionnaire_language_switch(locale, is_multi_language)
-    return ''.html_safe unless is_multi_language
+  # The language switch toggles between nl and en, so it is only shown for questionnaires in exactly those
+  # languages, to users with one of those locales. It is hidden if the nl and en texts are the same, e.g. when the nl
+  # texts are a placeholder with the en texts.
+  def language_switch?(questions, locale)
+    QuestionnaireTranslator.languages(questions).sort == LANGUAGE_SWITCH_LOCALES &&
+      LANGUAGE_SWITCH_LOCALES.include?(locale.to_s) &&
+      LANGUAGE_SWITCH_LOCALES.map { |lang| QuestionnaireTranslator.translate_content(questions, lang) }.uniq.size > 1
+  end
+
+  def questionnaire_language_switch(locale, show_language_switch)
+    return ''.html_safe unless show_language_switch
 
     tag.div(
       tag.div(

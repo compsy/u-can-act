@@ -179,6 +179,9 @@ questionnaire_content = [{
   {
     type: :raw,
     content: {en: '<h4>Thank you very much!</h4>', nl: '<h4>Bedankt voor het invullen!</h4>'}
+  },
+  {
+    type: :next_questionnaire_notice
   }
 ]
 

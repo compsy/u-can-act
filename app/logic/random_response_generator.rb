@@ -36,7 +36,7 @@ class RandomResponseGenerator
         generate_answer_for_radio(question)
       when :checkbox
         generate_answer_for_checkbox(question)
-      when :range
+      when *Questionnaire::RANGE_QUESTION_TYPES
         generate_answer_for_range(question)
       when :textfield, :textarea
         generate_answer_for_text(question)
@@ -73,7 +73,7 @@ class RandomResponseGenerator
 
     def generate_answer_for_date(question)
       minmax = determine_min_max_date(question)
-      rand(minmax[:min]..minmax[:max]).to_formatted_s(:db)
+      rand(minmax[:min]..minmax[:max]).to_fs(:db)
     end
 
     def determine_min_max_date(question)

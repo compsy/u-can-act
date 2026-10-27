@@ -6,6 +6,7 @@ module Api
       class QuestionnaireController < JwtApiController
         include QuestionnaireCreateOrUpdateHelper
         include AdminHelper
+
         before_action :check_admin_authenticated, only: %i[create update]
         before_action :set_questionnaire, only: %i[show update]
 

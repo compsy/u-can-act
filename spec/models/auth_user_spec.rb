@@ -62,7 +62,7 @@ describe AuthUser, type: :model do
         .with(any_args)
         .and_raise('stop_execution')
 
-      expect(ActiveSupport::Deprecation)
+      expect_any_instance_of(ActiveSupport::Deprecation)
         .to receive(:warn)
         .with(any_args)
       expect { described_class.from_token_payload(deprecated_payload) }.to raise_error 'stop_execution'

@@ -25,8 +25,10 @@ A Helm chart for SVC Questionnaires
 | memory.worker.limit | string | `"1.5Gi"` | The memory limit for the worker container. |
 | replicaCount | int | `2` | The number of replicas for the web service. Only used when `autoscaling.web.enabled` is `false`. |
 | workerReplicaCount | int | `2` | The number of replicas for the worker service. Only used when `autoscaling.worker.enabled` is `false`. |
-| autoscaling.web.enabled | bool | `true` | Enable HorizontalPodAutoscaler for the web deployment. When enabled, the HPA will automatically scale web pods between 1-10 replicas based on memory utilization (target: 150%). |
-| autoscaling.worker.enabled | bool | `true` | Enable HorizontalPodAutoscaler for the worker deployment. When enabled, the HPA will automatically scale worker pods between 1-5 replicas based on memory utilization (target: 150%). |
+| autoscaling.web.enabled | bool | `true` | Enable HorizontalPodAutoscaler for the web deployment. When enabled, the HPA will automatically scale web pods between `autoscaling.web.minReplicas` and 10 replicas based on memory utilization (target: 150%). |
+| autoscaling.worker.enabled | bool | `true` | Enable HorizontalPodAutoscaler for the worker deployment. When enabled, the HPA will automatically scale worker pods between `autoscaling.worker.minReplicas` and 5 replicas based on memory utilization (target: 150%). |
+| autoscaling.web.minReplicas | int | `2` | Minimum number of web replicas kept by the HPA. At least 2 keeps the web service up during node drains, since the PDB allows one pod to be evicted. |
+| autoscaling.worker.minReplicas | int | `1` | Minimum number of worker replicas kept by the HPA. With 1, a node drain briefly pauses job processing; jobs wait in the queue. |
 | configmap.PUSH_SUBSCRIPTION_URL | string | `"http://web:3000/api/v1/data/create_raw"` | URL to push subscription data. |
 | configmap.BASE_PLATFORM_URL | string | `"http://localhost:3000"` | Base platform URL. |
 | configmap.HOST_URL | string | `"http://localhost:3002"` | Host URL. |

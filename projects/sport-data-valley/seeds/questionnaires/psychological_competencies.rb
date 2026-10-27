@@ -564,7 +564,10 @@ dagboek_content = [
       en: 'I actively communicate to other people when they are crossing my boundaries'
     },
     section_end: true
-  })
+  }),
+  {
+    type: :next_questionnaire_notice
+  }
 ]
 invert = { multiply_with: -1, offset: 100 }
 dagboek1.content = {

@@ -18,7 +18,7 @@ class CalculateDistributionsJob < ApplicationJob
 
       # Delete the distribution unless it is a known questionnaire. Here we strip the prefix 'distribution_'
       # from the redis key to get the key of the questionnaire.
-      RedisService.del(key) unless Questionnaire.where(key: key[('distribution_'.length)..]).count.positive?
+      RedisService.del(key) unless Questionnaire.where(key: key[('distribution_'.length)..]).any?
     end
   end
 

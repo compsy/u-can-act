@@ -6,6 +6,7 @@ end
 # Calculate scores given the content of a completed response and its questionnaire definition
 class CalculateScores < ActiveInteraction::Base
   include ConversionHelper
+
   hash :content, strip: false # strip: false means allow all keys
   hash :questionnaire, strip: false
 

@@ -265,6 +265,7 @@ dagboek_content << {
   }]
 }
 
+dagboek_content << { type: :next_questionnaire_notice }
 
 questionnaire.content = { questions: dagboek_content, scores: [] }
 questionnaire.title = db_title

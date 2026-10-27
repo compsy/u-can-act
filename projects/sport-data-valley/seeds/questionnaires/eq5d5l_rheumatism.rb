@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-db_title = ''
+db_title = 'EQ5D'
 db_name1 = 'eq5d5l_rheumatism'
 dagboek1 = Questionnaire.find_by(key: File.basename(__FILE__)[0...-3])
 dagboek1 ||= Questionnaire.new(key: File.basename(__FILE__)[0...-3])
@@ -77,8 +77,7 @@ dagboek_content = [
     labels: ['De slechtste gezondheid die u zich kunt voorstellen', 'De beste gezondheid die u zich kunt voorstellen'],
     required: true
   }, {
-    type: :raw,
-    content: '<p class="flow-text">Klik hieronder op \'Opslaan\' om de antwoorden in te leveren en door te gaan naar de volgende vragenlijst.</p>'
+    type: :next_questionnaire_notice
   }
 ]
 

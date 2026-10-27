@@ -55,21 +55,21 @@ describe EchoPeople do
 
       it 'returns an array with all people (except the header)' do
         expected_output = "people = [];nil\n"
-        expected_output += 'people << {:team_name=>"mijnschool", :role_title=>"x", :first_name=>"a", ' \
-                           ':last_name=>"e", :gender=>"male", :mobile_phone=>"0612345679", ' \
-                           ':email=>"email1@email.com", ' \
-                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:team_name=>"mijnschool", :role_title=>"y", :first_name=>"b", ' \
-                           ':last_name=>"f", :gender=>"female", :mobile_phone=>"06-12345670", ' \
-                           ':email=>"email2@email.com", ' \
-                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:team_name=>"mijnschool", :role_title=>"z", :first_name=>"c", ' \
-                           ':last_name=>"g", :gender=>"male", :mobile_phone=>"0612345671", ' \
-                           ':email=>"email3@email.com", ' \
-                           ":protocol_name=>\"protname\", :start_date=>\"#{dateinfuture}\", " \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "mijnschool", role_title: "x", first_name: "a", ' \
+                           'last_name: "e", gender: "male", mobile_phone: "0612345679", ' \
+                           'email: "email1@email.com", ' \
+                           "protocol_name: \"protname\", start_date: \"#{dateinfuture}\", " \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "mijnschool", role_title: "y", first_name: "b", ' \
+                           'last_name: "f", gender: "female", mobile_phone: "06-12345670", ' \
+                           'email: "email2@email.com", ' \
+                           "protocol_name: \"protname\", start_date: \"#{dateinfuture}\", " \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "mijnschool", role_title: "z", first_name: "c", ' \
+                           'last_name: "g", gender: "male", mobile_phone: "0612345671", ' \
+                           'email: "email3@email.com", ' \
+                           "protocol_name: \"protname\", start_date: \"#{dateinfuture}\", " \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
         expect { subject.send(:echo_people, 'test.csv') }.to output(expected_output).to_stdout
       end
     end
@@ -99,41 +99,41 @@ describe EchoPeople do
 
       it 'returns an array with all mentors (except the header)' do
         expected_output = "people = [];nil\n"
-        expected_output += 'people << {:team_name=>"jouwschool", ' \
-                           ':role_title=>"Mentor", :first_name=>"a", :last_name=>"e", ' \
-                           ':gender=>"male", :mobile_phone=>"0612345679", ' \
-                           ':email=>"mentor1@test.com", :protocol_name=>"protname", ' \
-                           ":start_date=>\"#{dateinfuture}\", " \
-                           ':filling_out_for=>"06-12345670", :filling_out_for_protocol=>"pilot", ' \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:team_name=>"jouwschool", ' \
-                           ':role_title=>"Mentor", :first_name=>"a", :last_name=>"e", ' \
-                           ':gender=>"female", :mobile_phone=>"0612345679", ' \
-                           ':email=>"mentor2@test.com", :protocol_name=>"protname", ' \
-                           ":start_date=>\"#{dateinfuture}\", " \
-                           ':filling_out_for=>"0676543219", :filling_out_for_protocol=>"pilot", ' \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:team_name=>"jouwschool", ' \
-                           ':role_title=>"Mentor", :first_name=>"b", :last_name=>"f", ' \
-                           ':gender=>"male", :mobile_phone=>"06-12345670", ' \
-                           ':email=>"mentor3@test.com", :protocol_name=>"protname", ' \
-                           ":start_date=>\"#{dateinfuture}\", " \
-                           ':filling_out_for=>"0676543219", :filling_out_for_protocol=>"pilot", ' \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:team_name=>"jouwschool", ' \
-                           ':role_title=>"Mentor", :first_name=>"b", :last_name=>"f", ' \
-                           ':gender=>"female", :mobile_phone=>"06-12345670", ' \
-                           ':email=>"mentor4@test.com", :protocol_name=>"protname", ' \
-                           ":start_date=>\"#{dateinfuture}\", " \
-                           ':filling_out_for=>"0676543266", :filling_out_for_protocol=>"pilot", ' \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
-        expected_output += 'people << {:team_name=>"jouwschool", ' \
-                           ':role_title=>"Mentor", :first_name=>"b", :last_name=>"f", ' \
-                           ':gender=>"male", :mobile_phone=>"06-12345670", ' \
-                           ':email=>"mentor5@test.com", :protocol_name=>"protname", ' \
-                           ":start_date=>\"#{dateinfuture}\", " \
-                           ':filling_out_for=>"0676543227", :filling_out_for_protocol=>"pilot", ' \
-                           ":end_date=>\"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "jouwschool", ' \
+                           'role_title: "Mentor", first_name: "a", last_name: "e", ' \
+                           'gender: "male", mobile_phone: "0612345679", ' \
+                           'email: "mentor1@test.com", protocol_name: "protname", ' \
+                           "start_date: \"#{dateinfuture}\", " \
+                           'filling_out_for: "06-12345670", filling_out_for_protocol: "pilot", ' \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "jouwschool", ' \
+                           'role_title: "Mentor", first_name: "a", last_name: "e", ' \
+                           'gender: "female", mobile_phone: "0612345679", ' \
+                           'email: "mentor2@test.com", protocol_name: "protname", ' \
+                           "start_date: \"#{dateinfuture}\", " \
+                           'filling_out_for: "0676543219", filling_out_for_protocol: "pilot", ' \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "jouwschool", ' \
+                           'role_title: "Mentor", first_name: "b", last_name: "f", ' \
+                           'gender: "male", mobile_phone: "06-12345670", ' \
+                           'email: "mentor3@test.com", protocol_name: "protname", ' \
+                           "start_date: \"#{dateinfuture}\", " \
+                           'filling_out_for: "0676543219", filling_out_for_protocol: "pilot", ' \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "jouwschool", ' \
+                           'role_title: "Mentor", first_name: "b", last_name: "f", ' \
+                           'gender: "female", mobile_phone: "06-12345670", ' \
+                           'email: "mentor4@test.com", protocol_name: "protname", ' \
+                           "start_date: \"#{dateinfuture}\", " \
+                           'filling_out_for: "0676543266", filling_out_for_protocol: "pilot", ' \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
+        expected_output += 'people << {team_name: "jouwschool", ' \
+                           'role_title: "Mentor", first_name: "b", last_name: "f", ' \
+                           'gender: "male", mobile_phone: "06-12345670", ' \
+                           'email: "mentor5@test.com", protocol_name: "protname", ' \
+                           "start_date: \"#{dateinfuture}\", " \
+                           'filling_out_for: "0676543227", filling_out_for_protocol: "pilot", ' \
+                           "end_date: \"#{enddateinfuture}\"};nil\n"
 
         expect { subject.send(:echo_people, 'test.csv') }.to output(expected_output).to_stdout
       end

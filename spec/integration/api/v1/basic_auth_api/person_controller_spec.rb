@@ -9,7 +9,7 @@ describe 'Person API' do
     post 'Create a person' do
       tags 'Person'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :person, in: :body, schema: {
         type: :object,
@@ -91,7 +91,7 @@ describe 'Person API' do
     delete 'Delete a person' do
       tags 'Person'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :id, in: :path, type: :string
 
@@ -119,7 +119,7 @@ describe 'Person API' do
     patch 'Update a person' do
       tags 'Person'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :id, in: :path, type: :string
       parameter name: :person, in: :body, schema: {
@@ -192,7 +192,7 @@ describe 'Person API' do
     get 'Shows a list of persons' do
       tags 'Person'
       consumes 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :person, in: :body, schema: {
         type: :object,

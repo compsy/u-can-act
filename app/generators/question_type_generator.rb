@@ -3,6 +3,10 @@
 class QuestionTypeGenerator < Generator
   TOOLTIP_MIN_DURATION = 3000
   MILLISEC_PER_CHARACTER = 70
+  # The raw otherwise label defines the key of the stored answer. nl and en keep using their own label for backwards
+  # compatibility with existing exports. Other locales use the default locale (nl), so their answers are stored with
+  # Dutch values.
+  RAW_OTHERWISE_LABEL_LOCALES = %w[nl en].freeze
 
   def generate(_question)
     raise 'Generate not implemented!'
@@ -129,13 +133,19 @@ class QuestionTypeGenerator < Generator
   def add_otherwise_label(question)
     if question[:raw][:otherwise_label].blank?
       question[:raw][:otherwise_label] =
-        I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
+        I18n.t('questionnaires.placeholders.otherwise', locale: raw_otherwise_label_locale(question[:locale]))
     end
     if question[:otherwise_label].blank?
       question[:otherwise_label] =
         I18n.t('questionnaires.placeholders.otherwise', locale: question[:locale])
     end
     question
+  end
+
+  def raw_otherwise_label_locale(locale)
+    return locale if locale.blank? || RAW_OTHERWISE_LABEL_LOCALES.include?(locale.to_s)
+
+    Rails.application.config.i18n.default_locale
   end
 
   def add_raw_to_option(option, question, idx)

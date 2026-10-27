@@ -3,6 +3,7 @@
 class MentorOverviewController < ApplicationController
   include ::IsLoggedIn
   include ::IsLoggedInAsMentor
+
   before_action :use_mentor_layout
 
   def index

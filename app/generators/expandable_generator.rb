@@ -11,7 +11,7 @@ class ExpandableGenerator < QuestionTypeGenerator
 
   def expandables(question)
     default_expansions = question[:default_expansions] || 0
-    Array.new((question[:max_expansions] || 10)) do |id|
+    Array.new(question[:max_expansions] || 10) do |id|
       is_hidden = id >= default_expansions
       sub_question_body = []
       question[:content].each_with_index do |sub_question, idx|
@@ -21,7 +21,7 @@ class ExpandableGenerator < QuestionTypeGenerator
       sub_question_body = safe_join(sub_question_body)
       tag.div(
         sub_question_body,
-        class: " col s12 expandable_wrapper #{is_hidden ? 'hidden' : ''} #{question[:id]}"
+        class: " col s12 expandable_wrapper #{'hidden' if is_hidden} #{question[:id]}"
       )
     end
   end

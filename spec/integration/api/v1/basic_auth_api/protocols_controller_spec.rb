@@ -10,7 +10,7 @@ describe 'Protocols API' do
       tags 'Protocols'
       consumes 'application/json'
       produces 'application/json'
-      security [BasicAuth: {}]
+      security [{ BasicAuth: {} }]
 
       parameter name: :protocol, in: :body, schema: {
         type: :object,

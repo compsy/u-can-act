@@ -9,6 +9,12 @@ if [ -f /app/tmp/pids/server.pid ]; then
 fi
 
 cd /app
+
+# Unfreeze Gemfile.lock if running on development mode so we can install new gems
+if [ "$RESET_DB_ON_FAIL" == "true" ]; then
+  bundle config unset frozen
+fi
+
 bundle install
 yarn install
 bundle exec rails i18n:js:export
@@ -25,7 +31,10 @@ if [ "$RESET_DB_ON_FAIL" == "true" ]; then
 else
   echo not resetting db on fail
   bundle exec rails assets:precompile
-  bundle exec rails db:migrate && bundle exec rails db:seed || { bundle exec rails db:setup; }
+  # db:prepare creates and loads the schema only when the database does not exist yet,
+  # otherwise it migrates. A failing seed must stop the container, never reload the schema.
+  bundle exec rails db:prepare
+  bundle exec rails db:seed
 fi
 
 exec bundle exec "$@"

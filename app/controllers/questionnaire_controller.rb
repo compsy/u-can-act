@@ -2,9 +2,11 @@
 
 class QuestionnaireController < ApplicationController
   include QuestionnaireHelper
+
   MAX_ANSWER_LENGTH = 2048
   MAX_DRAWING_LENGTH = 65_536
   include ::IsLoggedIn
+
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json interactive_post]
   before_action :log_csrf_error, only: %i[create]
@@ -27,13 +29,14 @@ class QuestionnaireController < ApplicationController
   before_action :set_default_content, only: %i[interactive interactive_post]
 
   def index
-    redirect_to NextPageFinder.get_next_page current_user: current_user
+    redirect_to NextPageFinder.get_next_page(current_user: current_user), allow_other_host: true
   end
 
   # Allows users to be redirected to the correct questionnaire with preference
   # for a certain response
   def preference
-    redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: @response
+    redirect_to NextPageFinder.get_next_page(current_user: current_user, next_response: @response),
+                allow_other_host: true
   end
 
   def interactive; end
@@ -51,7 +54,7 @@ class QuestionnaireController < ApplicationController
       response_id: nil,
       content: @raw_questionnaire_content,
       title: 'Test questionnaire',
-      submit_text: (Rails.application.config.i18n.default_locale.to_s == 'en' ? 'Save' : 'Opslaan'),
+      submit_text: I18n.t('questionnaires.save', locale: Rails.application.config.i18n.default_locale),
       action: '/questionnaire/from_json',
       unsubscribe_url: nil,
       locale: Rails.application.config.i18n.default_locale.to_s
@@ -100,8 +103,9 @@ class QuestionnaireController < ApplicationController
       end
       @response = orig_response
     end
-    redirect_to questionnaire_create_params[:callback_url] || NextPageFinder.get_next_page(current_user: current_user,
-                                                                                           previous_response: @response)
+    redirect_to questionnaire_create_params[:callback_url] ||
+                NextPageFinder.get_next_page(current_user: current_user, previous_response: @response),
+                allow_other_host: true
   end
 
   def destroy
@@ -115,7 +119,8 @@ class QuestionnaireController < ApplicationController
     # Note, we don't unsubscribe yet. If a person clicks the 'stop' link, the
     # person is redirected to the stop questionnaire. However, as long as the
     # student does not submit that questionnaire, he or she is not unsubscribed
-    redirect_to NextPageFinder.get_next_page current_user: current_user, next_response: stop_response
+    redirect_to NextPageFinder.get_next_page(current_user: current_user, next_response: stop_response),
+                allow_other_host: true
   end
 
   private
@@ -129,7 +134,7 @@ class QuestionnaireController < ApplicationController
   def set_locale
     person = current_user
     if person && questionnaire_params[:locale].present? &&
-       (questionnaire_params[:locale] == 'en' || questionnaire_params[:locale] == 'nl')
+       I18n.available_locales.map(&:to_s).include?(questionnaire_params[:locale])
       person.update!(locale: questionnaire_params[:locale])
     end
     I18n.locale = if person
@@ -322,7 +327,7 @@ class QuestionnaireController < ApplicationController
       response_id: @response.id,
       content: @response.measurement.questionnaire.content,
       title: @response.measurement.questionnaire.title,
-      submit_text: (@response.person.locale == 'en' ? 'Save' : 'Opslaan'),
+      submit_text: I18n.t('questionnaires.save', locale: @response.person.locale),
       action: '/',
       unsubscribe_url: @response.unsubscribe_url,
       locale: @response.person.locale,
@@ -381,7 +386,7 @@ class QuestionnaireController < ApplicationController
 
     # Instead of throwing a 404, just redirect to the next page in line if one is already completed.
     if response.completed_at
-      redirect_to NextPageFinder.get_next_page current_user: current_user
+      redirect_to NextPageFinder.get_next_page(current_user: current_user), allow_other_host: true
       return
     end
 
@@ -389,7 +394,7 @@ class QuestionnaireController < ApplicationController
     return if !response.expired? || response.measurement.stop_measurement
 
     flash[:notice] = I18n.t('questionnaires.questionnaire_expired')
-    redirect_to NextPageFinder.get_next_page current_user: current_user
+    redirect_to NextPageFinder.get_next_page(current_user: current_user), allow_other_host: true
   end
 
   def log_csrf_error

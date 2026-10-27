@@ -59,7 +59,7 @@ module Api
         private
 
         def updateable_person_params
-          params.require(:person).permit(:mobile_phone, :first_name, :last_name, :email)
+          params.expect(person: %i[mobile_phone first_name last_name email])
         end
 
         def person_params
@@ -88,8 +88,8 @@ module Api
         end
 
         def new_person_params
-          params.require(:person).permit :sub,
-                                         Rails.application.config.settings.metadata_field => %i[team role email locale]
+          params.expect person: [:sub,
+                                 { Rails.application.config.settings.metadata_field => %i[team role email locale] }]
         end
 
         def team_error?(error)

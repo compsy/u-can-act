@@ -28,7 +28,7 @@ class RheumaResponses
       return if rand > 0.9
 
       protocol_name = 'daily_protocol_rheumatism'
-      puts "Creating responses for #{protocol_name}"
+      Rails.logger.debug { "Creating responses for #{protocol_name}" }
       protocol = Protocol.find_by(name: protocol_name)
       raise "Error: protocol named #{protocol_name} not found" unless protocol
 

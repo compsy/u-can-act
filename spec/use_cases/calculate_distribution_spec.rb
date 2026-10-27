@@ -58,5 +58,28 @@ describe CalculateDistribution do
                                                  expected.to_json)
       expect(described_class.run!(questionnaire: response_obj.measurement.questionnaire))
     end
+
+    it 'should treat an affective slider as a range' do
+      slider = questionnaire.content[:questions].find { |question| question[:id] == :v3 }
+      slider[:type] = :affective_slider
+      slider[:variant] = :pleasure
+      questionnaire.save!
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire)
+      response_content = FactoryBot.create(:response_content, content: { 'v3' => '68' })
+      response_obj = FactoryBot.create(:response, :completed, measurement: measurement)
+      response_obj.content = response_content.id
+      response_obj.save!
+      expected = {
+        'total' => 1,
+        'v3' => {
+          '_min' => 0,
+          '_max' => 100,
+          '_step' => 1,
+          '68' => { '_' => 1 }
+        }
+      }
+      expect(RedisService).to receive(:set).with("distribution_#{questionnaire.key}", expected.to_json)
+      expect(described_class.run!(questionnaire: questionnaire))
+    end
   end
 end

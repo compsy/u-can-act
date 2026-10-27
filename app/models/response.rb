@@ -26,7 +26,7 @@ class Response < ApplicationRecord
 
     loop do
       response.uuid = SecureRandom.uuid
-      break if Response.where(uuid: response.uuid).count.zero?
+      break if Response.where(uuid: response.uuid).none?
     end
   end
 

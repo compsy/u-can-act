@@ -1,3 +1,25 @@
+var datepickerI18nNl = {
+  months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+  monthsShort: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+  weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+  weekdaysShort: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+  weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
+  clear: 'Wissen',
+  cancel: 'Annuleren',
+  done: 'Ok'
+};
+
+var datepickerI18nFi = {
+  months: ['tammikuu', 'helmikuu', 'maaliskuu', 'huhtikuu', 'toukokuu', 'kesäkuu', 'heinäkuu', 'elokuu', 'syyskuu', 'lokakuu', 'marraskuu', 'joulukuu'],
+  monthsShort: ['tammi', 'helmi', 'maalis', 'huhti', 'touko', 'kesä', 'heinä', 'elo', 'syys', 'loka', 'marras', 'joulu'],
+  weekdays: ['sunnuntai', 'maanantai', 'tiistai', 'keskiviikko', 'torstai', 'perjantai', 'lauantai'],
+  weekdaysShort: ['su', 'ma', 'ti', 'ke', 'to', 'pe', 'la'],
+  weekdaysAbbrev: ['S', 'M', 'T', 'K', 'T', 'P', 'L'],
+  clear: 'Tyhjennä',
+  cancel: 'Peruuta',
+  done: 'OK'
+};
+
 $(function() {
   // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
   // var collapsibleElem = document.querySelector('.collapsible');
@@ -38,6 +60,12 @@ $(function() {
     var default_date = null;
     if ($(self).data('default-date'))
       default_date = new Date(Date.parse($(self).data('default-date')));
+    // The Dutch texts are used for nl (and when no locale is given), the Finnish texts for fi. Other locales get the
+    // English defaults of materialize.
+    var locale = $(self).data('locale');
+    var i18n = {};
+    if (!locale || locale === 'nl') i18n = datepickerI18nNl;
+    if (locale === 'fi') i18n = datepickerI18nFi;
     $(self).datepicker({
       firstDay: 1,
       minDate: new Date(Date.parse($(self).data('min'))),
@@ -45,16 +73,7 @@ $(function() {
       defaultDate: default_date,                         // This is so we can set a default date already filled out,
       setDefaultDate: $(self).data('set-default-date'),  // allowing the user to skip the input
       format: 'yyyy-mm-dd',
-      i18n: {
-        months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-        monthsShort: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-        weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-        weekdaysShort: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-        weekdaysAbbrev: ['z', 'm', 'd', 'w', 'd', 'v', 'z'],
-        clear: 'Wissen',
-        cancel: 'Annuleren',
-        close: 'Ok'
-      }
+      i18n: i18n
     });
   });
 });

@@ -26,6 +26,17 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}
         app.kubernetes.io/component: web
     spec:
+      # Spread replicas over nodes so a node drain does not take all of them down
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: {{ .Release.Name }}
+                    app.kubernetes.io/component: web
+                topologyKey: kubernetes.io/hostname
 {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{- range .Values.imagePullSecrets }}
@@ -35,7 +46,7 @@ spec:
       containers:
         - name: {{ .Release.Name }}
           imagePullPolicy: Always
-          image: docker.io/researchableuser/sdv-svc-questionnaires:{{ .Values.tag }}
+          image: {{ .Values.image }}:{{ .Values.tag }}
           resources:
             limits:
               memory: {{ .Values.memory.web.limit }}

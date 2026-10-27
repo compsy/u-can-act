@@ -107,6 +107,64 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(response).to render_template('questionnaire/show')
       end
 
+      describe 'locales' do
+        let(:questionnaire) do
+          FactoryBot.create(:questionnaire, content: {
+                              questions: [{
+                                id: :v1,
+                                type: :checkbox,
+                                title: { nl: 'Wat heb je gegeten?', en: 'What did you eat?', fi: 'Mitä söit?' },
+                                options: [{ title: { nl: 'brood', en: 'bread', fi: 'leipä' } },
+                                          { title: { nl: 'kaas', en: 'cheese' } }]
+                              }],
+                              scores: []
+                            })
+        end
+        let(:responseobj) do
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day,
+                                                    person: person)
+          measurement = FactoryBot.create(:measurement, questionnaire: questionnaire,
+                                                        protocol: protocol_subscription.protocol)
+          FactoryBot.create(:response, protocol_subscription: protocol_subscription, measurement: measurement,
+                                       open_from: 1.hour.ago)
+        end
+
+        it 'updates the locale of the person to any available locale' do
+          get :show, params: { uuid: responseobj.uuid, locale: 'fi' }
+          expect(response).to have_http_status(200)
+          expect(person.reload.locale).to eq 'fi'
+        end
+
+        it 'does not update the locale of the person to an unavailable locale' do
+          get :show, params: { uuid: responseobj.uuid, locale: 'fr' }
+          expect(response).to have_http_status(200)
+          expect(person.reload.locale).to eq 'nl'
+        end
+
+        it 'renders the questionnaire in fi, with en as fallback, and keeps the Dutch answer names' do
+          person.update!(locale: 'fi')
+          get :show, params: { uuid: responseobj.uuid }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Mitä söit?')
+          expect(response.body).to include('leipä')
+          expect(response.body).to include('cheese')
+          expect(response.body).not_to include('Wat heb je gegeten?')
+          expect(response.body).to include('v1_brood')
+          expect(response.body).to include('v1_kaas')
+          expect(response.body).to include('Tallenna')
+          expect(response.body).to include('Selaimesi ei tällä hetkellä salli evästeitä.')
+          expect(response.body).to include('<meta content="fi" name="i18n-locale">')
+        end
+
+        it 'still renders the questionnaire in nl for nl users' do
+          get :show, params: { uuid: responseobj.uuid }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Wat heb je gegeten?')
+          expect(response.body).to include('Opslaan')
+        end
+      end
+
       it 'shows an informed questionnaire if there is one required' do
         protocol = FactoryBot.create(:protocol, :with_informed_consent_questionnaire)
         expect(protocol.informed_consent_questionnaire).not_to be_nil
@@ -432,6 +490,47 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(responseobj.values).to eq('v1' => 'true')
       end
 
+      it 'redirects to an external callback_url when one is supplied' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
+
+        post :create, params: {
+          response_id: responseobj.id,
+          callback_url: 'https://example.com/completed',
+          content: { 'v1' => 'true' }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response.location).to eq('https://example.com/completed')
+      end
+
+      it 'redirects to an external measurement redirect_url after completion' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol = FactoryBot.create(:protocol)
+        questionnaire = FactoryBot.create(:questionnaire, :minimal)
+        measurement = FactoryBot.create(:measurement,
+                                        protocol: protocol,
+                                        questionnaire: questionnaire,
+                                        redirect_url: 'https://example.com/finished')
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  start_date: 1.week.ago.at_beginning_of_day,
+                                                  protocol: protocol)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        measurement: measurement,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
+
+        post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
+
+        expect(response).to have_http_status(:found)
+        expect(response.location).to eq('https://example.com/finished')
+      end
+
       it 'refuses to store empty responses' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
@@ -591,7 +690,20 @@ RSpec.describe QuestionnaireController, type: :controller do
     it 'should redirect to interactive' do
       post :from_json, params: {}
       expect(response.status).to eq 302
-      expect(response.body).to match %r{/questionnaire/interactive}
+      expect(response.location).to end_with('/questionnaire/interactive')
+    end
+  end
+
+  describe 'interactive' do
+    it 'uses the busy text of the current locale' do
+      get :interactive
+      expect(response.body).to include("text('Bezig...')")
+    end
+
+    it 'uses the busy text of the current locale in interactive_post' do
+      allow(I18n).to receive(:default_locale).and_return(:en)
+      post :interactive_post
+      expect(response.body).to include("text('Busy...')")
     end
   end
 
@@ -649,7 +761,8 @@ RSpec.describe QuestionnaireController, type: :controller do
 
       it 'returns some error message' do
         post :interactive_render, params: { content: content }
-        expect(response.body).to eq({ error: "unexpected token at 'notjson'" }.to_json)
+        expect(response.parsed_body).to have_key('error')
+        expect(response.parsed_body['error']).to match(/unexpected token/)
       end
     end
   end

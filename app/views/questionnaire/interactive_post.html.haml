@@ -2,7 +2,7 @@
   $(document).ready( function() {
     $( "#questionnaire_content #action" ).click(function( event ) {
       event.preventDefault();
-      $('#action').addClass('disabled').text('Bezig...');
+      $('#action').addClass('disabled').text('#{j I18n.t('questionnaires.busy')}');
       var data = {'content': $('#content').val()};
       $.post( "/questionnaire/interactive_render", data, function( data ) {
         $( ".result" ).html( data );

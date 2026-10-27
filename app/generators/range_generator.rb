@@ -7,8 +7,8 @@ class RangeGenerator < QuestionTypeGenerator
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])
     slider_body = safe_join([range_value_label(question), range_slider(question)])
     slider_body = tag.div(slider_body,
-                          class: "range-container notchanged#{question[:required].present? ? ' required' : ''}" \
-                                 "#{question[:no_initial_thumb].present? ? ' no-initial-thumb' : ''}")
+                          class: "range-container notchanged#{' required' if question[:required].present?}" \
+                                 "#{' no-initial-thumb' if question[:no_initial_thumb].present?}")
     body_and_labels = join_body_and_labels(slider_body, range_labels(question), question)
     safe_join([
                 tag.p(title, class: 'flow-text'),
@@ -29,7 +29,7 @@ class RangeGenerator < QuestionTypeGenerator
   def join_body_and_labels(slider_body, labels, question)
     if question[:vertical].present?
       slider_body = tag.div(slider_body,
-                            class: "col s3#{question[:gradient].present? ? ' gradient-bg' : ''}")
+                            class: "col s3#{' gradient-bg' if question[:gradient].present?}")
       labels = tag.div(labels,
                        class: 'col s9')
       return tag.div(safe_join([slider_body, labels]), class: 'row vertical-range')
@@ -152,7 +152,7 @@ class RangeGenerator < QuestionTypeGenerator
     end
     labels_body << tag.span('')
     labels_body = tag.div(safe_join(labels_body), class: 'vertical-range-label-wrapper')
-    tag.div(labels_body, class: "range-labels-vertical#{question[:gradient].present? ? ' gradient-bg' : ''}")
+    tag.div(labels_body, class: "range-labels-vertical#{' gradient-bg' if question[:gradient].present?}")
   end
   # rubocop:enable Metrics/AbcSize
 end

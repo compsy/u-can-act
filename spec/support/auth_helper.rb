@@ -20,8 +20,8 @@ module AuthHelper
 
   def jwt_auth(payload, set_header = true)
     private_key ||= OpenSSL::PKey::RSA.new(
-      Base64.strict_decode64(Rails.application.secrets.private_key),
-      Rails.application.secrets.private_key_passphrase
+      Base64.strict_decode64(ENV.fetch('PRIVATE_KEY', nil)),
+      ENV.fetch('PRIVATE_KEY_PASSPHRASE', nil)
     )
 
     payload['aud'] = Knock.token_audience.call

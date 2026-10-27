@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: Only the English text of the affective slider exists. Since nl is required, the nl slots contain the English
-# text as a placeholder. Replace them, and add the fi, de, es and pt texts, as soon as the client delivers the official
-# translations. Do not translate these texts ourselves.
-
 slider_min = 0
 slider_max = 100
 slider_start = (slider_min + slider_max) / 2
@@ -24,10 +20,14 @@ dagboek_content = [
     min: slider_min,
     max: slider_max,
     value: slider_start,
-    title: { nl: 'Move the slider to rate your level of Pleasure',
-             en: 'Move the slider to rate your level of Pleasure' },
-    labels: [{ nl: 'Unhappy', en: 'Unhappy' },
-             { nl: 'Happy', en: 'Happy' }]
+    title: { nl: 'Verplaats de slider om aan te geven hoe prettig je je voelt.',
+             de: 'Bewege den Schieberegler, um anzugeben wie du dich gerade fühlst.',
+             en: 'Move the slider to rate your level of Pleasure.',
+             fi: 'Arvioi liukusäätimellä, kuinka miellyttävältä olosi tuntuu.',
+             es: 'Mueve la barra para valorar tu nivel de satisfacción.',
+             pt: 'Mova o cursor para indicar o seu nível de satisfação.' },
+    labels: [{ nl: 'Ongelukkig', de: 'Unglücklich', en: 'Unhappy', fi: 'Tyytymätön', es: 'Infeliz', pt: 'Infeliz' },
+             { nl: 'Gelukkig', de: 'Glücklich', en: 'Happy', fi: 'Tyytyväinen', es: 'Feliz', pt: 'Feliz' }]
   },
   {
     id: :v2,
@@ -37,10 +37,16 @@ dagboek_content = [
     min: slider_min,
     max: slider_max,
     value: slider_start,
-    title: { nl: 'Move the slider to rate how Activated your body feels right now',
-             en: 'Move the slider to rate how Activated your body feels right now' },
-    labels: [{ nl: 'Calm / resting', en: 'Calm / resting' },
-             { nl: 'Racing / highly activated', en: 'Racing / highly activated' }]
+    title: { nl: 'Verplaats de slider om aan te geven hoe actief of geactiveerd je lichaam zich op dit moment voelt.',
+             de: 'Bewege den Schieberegler, um anzugeben, wie aktiviert sich dein Körper anfühlt.',
+             en: 'Move the slider to rate how Activated your body feels right now.',
+             fi: 'Arvioi liukusäätimellä vireystasoasi juuri tällä hetkellä.',
+             es: 'Mueve la barra para calificar cómo de activado se siente tu cuerpo ahora mismo.',
+             pt: 'Mova o cursor para indicar o nível de ativação do seu corpo neste momento.' },
+    labels: [{ nl: 'Kalm / in rust', de: 'Im Ruhezustand', en: 'Calm / resting', fi: 'Rauhallinen / levossa',
+               es: 'Calmado, relajado', pt: 'Calmo/em repouso' },
+             { nl: 'Opgejaagd / zeer geactiveerd', de: 'Sehr aktiviert', en: 'Racing / highly activated',
+               fi: 'Kiihtynyt / hyvin aktivoitunut', es: 'Acelerado, muy activado', pt: 'Acelerado/muito ativado' }]
   },
   {
     type: :next_questionnaire_notice

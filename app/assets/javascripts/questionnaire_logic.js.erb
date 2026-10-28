@@ -385,7 +385,7 @@ function enforce_max_selections() {
 
 function questionnaireLoaded() {
   timestamp_c = new Date().getTime();
-  const array_of_dom_elements = document.querySelectorAll('input[type=range]')
+  const array_of_dom_elements = $('input[type=range]').not('.affective-slider input')
   M.Range.init(array_of_dom_elements)
   $('input[type=radio],input[type=checkbox]').change(toggle_shown_questions).change(toggle_otherwise_field).change(toggle_hidden_questions).change(enforce_max_selections);
   $('select').change(toggle_shown_questions_for_dropdown).change(toggle_hidden_questions_for_dropdown);

@@ -28,7 +28,7 @@ $(function() {
   // Or with jQuery
 
   // Enable ranges - the thumb element does not show when this is deleted
-  var array_of_dom_elements = document.querySelectorAll("input[type=range]");
+  var array_of_dom_elements = $("input[type=range]").not(".affective-slider input");
   M.Range.init(array_of_dom_elements);
 
   // Enable the sidenav

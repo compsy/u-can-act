@@ -108,6 +108,40 @@ describe JwtAuthenticator do
       result = described_class.auth_from_params(cookies, auth: 'valid auth')
       expect(result).to eql person
     end
+
+    def signed_token(payload)
+      private_key = OpenSSL::PKey::RSA.new(
+        Base64.strict_decode64(ENV.fetch('PRIVATE_KEY', nil)),
+        ENV.fetch('PRIVATE_KEY_PASSPHRASE', nil)
+      )
+      JWT.encode(payload.merge('sub' => person.auth_user.auth0_id_string, 'aud' => Knock.token_audience.call),
+                 private_key, 'RS256')
+    end
+
+    it 'should return a person for a signed token that lives 24 hours' do
+      cookies = double('cookies')
+      allow(CookieJar).to receive(:set_or_update_cookie)
+      allow(CookieJar).to receive(:delete_cookie)
+
+      token = signed_token('iat' => Time.now.to_i, 'exp' => 24.hours.from_now.to_i)
+      expect(described_class.auth_from_params(cookies, auth: token)).to eql person
+    end
+
+    it 'should not return a person for a signed token that lives longer than 24 hours' do
+      cookies = double('cookies')
+      expect(CookieJar).not_to receive(:set_or_update_cookie)
+
+      token = signed_token('iat' => Time.now.to_i, 'exp' => (24.hours.from_now + 1.minute).to_i)
+      expect(described_class.auth_from_params(cookies, auth: token)).to be_nil
+    end
+
+    it 'should not return a person for a signed token without exp' do
+      cookies = double('cookies')
+      expect(CookieJar).not_to receive(:set_or_update_cookie)
+
+      token = signed_token('iat' => Time.now.to_i)
+      expect(described_class.auth_from_params(cookies, auth: token)).to be_nil
+    end
   end
 
   describe 'auth_from_platform_cookie' do

@@ -38,7 +38,8 @@ class JwtAuthenticator
     end
 
     def find_auth_user(payload, create_auth_user)
-      return AuthUser.find_by(auth0_id_string: payload['sub']) unless create_auth_user
+      auth_user = AuthUser.find_by(auth0_id_string: payload['sub'])
+      return auth_user if auth_user.present? || !create_auth_user
 
       AuthUser.from_token_payload(payload) if payload['sub'].present?
     end

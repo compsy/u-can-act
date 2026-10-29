@@ -40,6 +40,12 @@ describe 'SDV launch', type: :request do
       expect(response).to have_http_status(:bad_request)
     end
 
+    it 'does not run the AuthUser creation for a known user' do
+      expect(AuthUser).not_to receive(:from_token_payload)
+      get '/sdv/launch'
+      expect(response.location).to eq 'http://www.example.com/questionnaire'
+    end
+
     it 'redirects to the questionnaire overview without return_to' do
       get '/sdv/launch'
       expect(response).to have_http_status(:see_other)

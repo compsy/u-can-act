@@ -86,7 +86,7 @@ describe JwtAuthenticator do
 
     it 'should strip the Bearer prefix and store the token in a cookie' do
       cookies = double('cookies')
-      token = [{ 'sub' => person.auth_user.auth0_id_string }]
+      token = [{ 'sub' => person.auth_user.auth0_id_string, 'iat' => Time.now.to_i, 'exp' => 1.hour.from_now.to_i }]
       expect(JWT).to receive(:decode).with('the.jwt', any_args).and_return(token)
       expect(CookieJar).to receive(:set_or_update_cookie)
         .with(cookies, { TokenAuthenticationController::JWT_TOKEN_COOKIE => token })

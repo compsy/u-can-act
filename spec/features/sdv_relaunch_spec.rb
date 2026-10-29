@@ -33,8 +33,12 @@ describe 'Answers survive an SDV session expiry', type: :feature, js: true do
 
     Timecop.travel(10.minutes.from_now)
     set_platform_cookie
+    page.execute_script('window.beforeRelaunch = true')
     page.find('button[type=submit]').click
 
+    page.document.synchronize do
+      raise Capybara::ExpectationNotMet, 'page did not reload' if page.evaluate_script('window.beforeRelaunch')
+    end
     expect(page).to have_current_path("/questionnaire/#{responseobj.uuid}")
     expect(page).to have_checked_field('slecht', visible: :all)
     expect(page).to have_field('v2', with: 'Halverwege ingevuld')

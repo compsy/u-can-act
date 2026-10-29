@@ -50,18 +50,22 @@ class ApplicationController < ActionController::Base
   end
 
   def sdv_session_lost?
-    return false if request.xhr? || ENV.fetch('BASE_PLATFORM_URL', nil).blank?
+    return false if params[:relaunched].present? || request.xhr? || !request.format.html?
+    return false if ENV.fetch('BASE_PLATFORM_URL', nil).blank?
 
     CookieJar.read_entry(cookies.signed, TokenAuthenticationController::JWT_TOKEN_COOKIE).present? ||
       cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE].present?
   end
 
   def sdv_relaunch_path
-    sdv_launch_path(return_to: relaunch_return_to)
+    sdv_launch_path(return_to: relaunch_return_to, relaunch: 1)
   end
 
   def relaunch_return_to
-    request.get? ? request.fullpath : questionnaire_index_path
+    return questionnaire_index_path unless request.get?
+
+    query = request.query_parameters.except('relaunched', 'token', 'auth')
+    query.empty? ? request.path : "#{request.path}?#{query.to_query}"
   end
 
   def use_default_locale(&block)

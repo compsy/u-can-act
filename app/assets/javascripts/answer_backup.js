@@ -34,18 +34,32 @@ function saveAnswerBackup() {
       touched: $(this).closest('.notchanged').length === 0
     };
   }).get();
+  var expansions = {};
+  $('.expand_expandable').each(function () {
+    var expandableId = $(this).attr('data-belongsto');
+    expansions[expandableId] = $('.expandable_wrapper:not(.hidden).' + expandableId).length;
+  });
   try {
-    storage.setItem(key, JSON.stringify(fields));
+    storage.setItem(key, JSON.stringify({ fields: fields, expansions: expansions }));
   } catch (_error) {
     return;
   }
 }
 
 function findAnswerBackupField(field) {
-  if (field.id) return $(document.getElementById(field.id));
+  var $element = field.id ? $(document.getElementById(field.id)) : $();
+  if ($element.length) return $element;
   return answerBackupFields().filter(function () {
     return this.name === field.name && (field.checked === null || this.value === field.value);
   }).first();
+}
+
+function restoreAnswerExpansions(expansions) {
+  Object.keys(expansions || {}).forEach(function (expandableId) {
+    var $button = $(document.getElementById(expandableId + '_expand'));
+    var open = $('.expandable_wrapper:not(.hidden).' + expandableId).length;
+    for (; $button.length && open < expansions[expandableId]; open++) expandExpandable.call($button[0]);
+  });
 }
 
 function removeAnswerBackups(keep) {
@@ -59,7 +73,8 @@ function removeAnswerBackups(keep) {
 
 function resetAnswerTimings() {
   id_a = id_b = id_c = null;
-  timestamp_a = timestamp_b = timestamp_c = null;
+  timestamp_a = timestamp_b = null;
+  timestamp_c = new Date().getTime();
   $('form input[type=hidden][id$=_timing]').remove();
 }
 
@@ -70,12 +85,14 @@ function restoreAnswerBackup() {
 
   removeAnswerBackups(key);
 
-  var fields;
+  var backup;
   try {
-    fields = JSON.parse(storage.getItem(key) || '[]');
+    backup = JSON.parse(storage.getItem(key) || '{}');
   } catch (_error) {
     return;
   }
+  var fields = backup.fields || [];
+  restoreAnswerExpansions(backup.expansions);
   var checkables = fields.filter(function (field) { return field.checked !== null; });
   var others = fields.filter(function (field) { return field.checked === null; });
 
@@ -95,11 +112,20 @@ function restoreAnswerBackup() {
   resetAnswerTimings();
 }
 
+function removeRelaunchMarker() {
+  if (!window.history || !history.replaceState || !window.URLSearchParams) return;
+
+  var params = new URLSearchParams(window.location.search);
+  if (!params.has('relaunched')) return;
+
+  params.delete('relaunched');
+  var query = params.toString();
+  history.replaceState(history.state, '', window.location.pathname + (query ? '?' + query : '') + window.location.hash);
+}
+
 $(function () {
-  if (!answerBackupKey()) {
-    removeAnswerBackups(null);
-    return;
-  }
+  removeRelaunchMarker();
+  if (!answerBackupKey()) return;
 
   setTimeout(function () {
     restoreAnswerBackup();

@@ -22,7 +22,7 @@ describe 'SDV relaunch after the session expires', type: :request do
   end
 
   def relaunch_location(return_to)
-    "http://www.example.com/sdv/launch?#{{ return_to: return_to }.to_query}"
+    "http://www.example.com/sdv/launch?#{{ relaunch: 1, return_to: return_to }.to_query}"
   end
 
   describe 'when the engine session has expired' do
@@ -34,6 +34,11 @@ describe 'SDV relaunch after the session expires', type: :request do
     it 'redirects a page request to the launch route with the current path' do
       get questionnaire_url, params: { locale: 'nl' }
       expect(response).to have_http_status(:see_other)
+      expect(response.location).to eq relaunch_location("#{questionnaire_url}?locale=nl")
+    end
+
+    it 'leaves engine tokens in the query out of the return path' do
+      get questionnaire_url, params: { locale: 'nl', token: 'a-token', auth: 'an-auth', relaunched: '' }
       expect(response.location).to eq relaunch_location("#{questionnaire_url}?locale=nl")
     end
 
@@ -62,11 +67,22 @@ describe 'SDV relaunch after the session expires', type: :request do
       expect(response).to have_http_status(:unauthorized)
     end
 
+    it 'keeps a 401 for JSON requests' do
+      get questionnaire_url, headers: { 'Accept' => 'application/json' }
+      expect(response).to have_http_status(:unauthorized)
+    end
+
     it 'opens the questionnaire again after a relaunch with a fresh platform token' do
-      launch
-      expect(response.location).to eq "http://www.example.com#{questionnaire_url}"
+      cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = platform_cookie
+      get '/sdv/launch', params: { return_to: questionnaire_url, relaunch: 1 }
+      expect(response.location).to eq "http://www.example.com#{questionnaire_url}?relaunched=1"
       get questionnaire_url
       expect(response).to have_http_status(:ok)
+    end
+
+    it 'stops with a 401 when the relaunch did not give a session' do
+      get questionnaire_url, params: { relaunched: 1 }
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 
@@ -86,6 +102,15 @@ describe 'SDV relaunch after the session expires', type: :request do
       get '/sdv/launch', params: { return_to: questionnaire_url }
       expect(response).to have_http_status(:see_other)
       relaunch_url = "https://engine.example/sdv/launch?#{{ retry: 1, return_to: questionnaire_url }.to_query}"
+      expect(response.location).to eq "https://platform.example/login?#{{ redirect_uri: relaunch_url }.to_query}"
+    end
+
+    it 'keeps the relaunch marker on the way back from the platform login' do
+      allow(ENV).to receive(:fetch).with('BASE_PLATFORM_URL', nil).and_return('https://platform.example')
+      allow(ENV).to receive(:fetch).with('HOST_URL', nil).and_return(nil)
+      get '/sdv/launch', params: { return_to: questionnaire_url, relaunch: 1 }
+      launch_query = { relaunch: 1, retry: 1, return_to: questionnaire_url }.to_query
+      relaunch_url = "http://www.example.com/sdv/launch?#{launch_query}"
       expect(response.location).to eq "https://platform.example/login?#{{ redirect_uri: relaunch_url }.to_query}"
     end
 

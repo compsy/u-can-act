@@ -14,7 +14,7 @@ class SdvLaunchController < ApplicationController
       return
     end
 
-    redirect_to return_to, status: :see_other
+    redirect_to params[:relaunch] ? relaunched_return_to : return_to, status: :see_other
   end
 
   private
@@ -26,8 +26,14 @@ class SdvLaunchController < ApplicationController
   end
 
   def platform_login_url
-    relaunch_url = "#{ENV.fetch('HOST_URL', nil)}#{sdv_launch_path(return_to: return_to, retry: 1)}"
+    launch_path = sdv_launch_path({ return_to: return_to, retry: 1, relaunch: params[:relaunch].presence }.compact)
+    relaunch_url = "#{ENV.fetch('HOST_URL', nil).presence || request.base_url}#{launch_path}"
     "#{ENV.fetch('BASE_PLATFORM_URL', nil)}/login?#{{ redirect_uri: relaunch_url }.to_query}"
+  end
+
+  def relaunched_return_to
+    path, query = return_to.split('?', 2)
+    "#{path}?#{[query.presence, 'relaunched=1'].compact.join('&')}"
   end
 
   def return_to

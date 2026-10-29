@@ -14,20 +14,26 @@ class JwtAuthenticator
 
     def auth_from_platform_cookie(cookies_signed, platform_cookie)
       token = decode_token(platform_cookie.to_s.sub(/\ABearer[+\s]+/, ''))
-      auth_with_token(token, cookies_signed)
+      auth_with_token(token, cookies_signed, create_auth_user: true)
     end
 
     private
 
-    def auth_with_token(token, cookies_signed)
+    def auth_with_token(token, cookies_signed, create_auth_user: false)
       return if token.blank?
 
       # TODO: token opslaan in session ipv cookies
-      auth_user = AuthUser.find_by(auth0_id_string: token.first['sub'])
+      auth_user = find_auth_user(token.first, create_auth_user)
       return if auth_user.blank?
 
       store_token_in_cookie(token, cookies_signed)
       auth_user.person
+    end
+
+    def find_auth_user(payload, create_auth_user)
+      return AuthUser.find_by(auth0_id_string: payload['sub']) unless create_auth_user
+
+      AuthUser.from_token_payload(payload) if payload['sub'].present?
     end
 
     def decoded_token_from_params(params)

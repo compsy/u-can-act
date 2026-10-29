@@ -23,30 +23,59 @@ describe 'Answers survive an SDV session expiry', type: :feature, js: true do
     page.driver.browser.manage.add_cookie(name: SdvLaunchController::PLATFORM_SESSION_COOKIE, value: "Bearer #{token}")
   end
 
-  it 'restores the answers after the relaunch and stores them on the next submit' do
+  def answer_backups
+    page.evaluate_script("Object.keys(sessionStorage).filter(function (k) { return k.indexOf('answer_backup_') === 0 }).length")
+  end
+
+  def launch_and_fill_in
     visit '/status'
     set_platform_cookie
     visit "/sdv/launch?return_to=/questionnaire/#{responseobj.uuid}"
     expect(page).to have_content('Hoe voelt u zich vandaag?')
     page.choose('slecht', allow_label_click: true)
     page.fill_in('v2', with: 'Halverwege ingevuld')
+  end
+
+  it 'restores the answers after the relaunch and stores them on the next submit' do
+    launch_and_fill_in
+    expect(answer_backups).to eq 0
 
     Timecop.travel(10.minutes.from_now)
     set_platform_cookie
-    page.execute_script('window.beforeRelaunch = true')
+    page.execute_script("$('body').append('<div id=\"before-relaunch\"></div>')")
     page.find('button[type=submit]').click
 
-    page.document.synchronize do
-      raise Capybara::ExpectationNotMet, 'page did not reload' if page.evaluate_script('window.beforeRelaunch')
-    end
+    expect(page).to have_no_css('#before-relaunch')
     expect(page).to have_current_path("/questionnaire/#{responseobj.uuid}")
     expect(page).to have_checked_field('slecht', visible: :all)
     expect(page).to have_field('v2', with: 'Halverwege ingevuld')
     expect(responseobj.reload.completed_at).to be_nil
+    expect(answer_backups).to eq 0
 
     page.find('button[type=submit]').click
     expect(page).not_to have_current_path("/questionnaire/#{responseobj.uuid}")
     expect(responseobj.reload.completed_at).to be_present
     expect(responseobj.values).to include('v1' => 'slecht', 'v2' => 'Halverwege ingevuld')
+    expect(answer_backups).to eq 0
+  end
+
+  it 'keeps no answers in the browser after a submit with a valid session' do
+    launch_and_fill_in
+    page.find('button[type=submit]').click
+
+    expect(page).to have_current_path('/klaar')
+    expect(responseobj.reload.completed_at).to be_present
+    expect(answer_backups).to eq 0
+  end
+
+  it 'clears answer backups on the done page' do
+    launch_and_fill_in
+    page.find('button[type=submit]').click
+    expect(page).to have_current_path('/klaar')
+
+    page.execute_script("sessionStorage.setItem('answer_backup_#{responseobj.id}', '{}')")
+    visit '/klaar'
+    expect(page).to have_css('[data-clear-answer-backup]', visible: :all)
+    expect(answer_backups).to eq 0
   end
 end

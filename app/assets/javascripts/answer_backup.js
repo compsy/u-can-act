@@ -56,9 +56,11 @@ function findAnswerBackupField(field) {
 
 function restoreAnswerExpansions(expansions) {
   Object.keys(expansions || {}).forEach(function (expandableId) {
-    var $button = $(document.getElementById(expandableId + '_expand'));
+    var expand = document.getElementById(expandableId + '_expand');
+    var collapse = document.getElementById(expandableId + '_collapse');
     var open = $('.expandable_wrapper:not(.hidden).' + expandableId).length;
-    for (; $button.length && open < expansions[expandableId]; open++) expandExpandable.call($button[0]);
+    for (; expand && open < expansions[expandableId]; open++) expandExpandable.call(expand);
+    for (; collapse && open > expansions[expandableId]; open--) collapseExpandable.call(collapse);
   });
 }
 
@@ -83,11 +85,13 @@ function restoreAnswerBackup() {
   var key = answerBackupKey();
   if (!storage || !key) return;
 
-  removeAnswerBackups(key);
+  var stored = storage.getItem(key);
+  removeAnswerBackups(null);
+  if (!stored) return;
 
   var backup;
   try {
-    backup = JSON.parse(storage.getItem(key) || '{}');
+    backup = JSON.parse(stored);
   } catch (_error) {
     return;
   }
@@ -123,13 +127,25 @@ function removeRelaunchMarker() {
   history.replaceState(history.state, '', window.location.pathname + (query ? '?' + query : '') + window.location.hash);
 }
 
+function submitWithAnswerBackup(event) {
+  var form = this;
+  if ($(form).data('answerBackupChecked')) return;
+
+  event.preventDefault();
+  $(form).data('answerBackupChecked', true);
+  $.ajax({ url: '/api/v1/person/me', dataType: 'json', timeout: 5000 })
+    .done(function () { removeAnswerBackups(null); })
+    .fail(saveAnswerBackup)
+    .always(function () { HTMLFormElement.prototype.submit.call(form); });
+}
+
 $(function () {
   removeRelaunchMarker();
+  if ($('[data-clear-answer-backup]').length) removeAnswerBackups(null);
   if (!answerBackupKey()) return;
 
   setTimeout(function () {
     restoreAnswerBackup();
-    $(document).on('input change', 'form input, form textarea, form select', saveAnswerBackup);
-    $(document).on('submit', 'form', saveAnswerBackup);
+    $(document).on('submit', 'form:has(input[name=response_id])', submitWithAnswerBackup);
   }, 0);
 });

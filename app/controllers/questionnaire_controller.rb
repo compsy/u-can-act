@@ -290,6 +290,11 @@ class QuestionnaireController < ApplicationController
     render :informed_consent if @protocol_subscription.needs_informed_consent?
   end
 
+  def relaunch_return_to
+    response = Response.find_by(id: questionnaire_create_params[:response_id]) unless request.get?
+    response.present? ? questionnaire_path(uuid: response.uuid) : super
+  end
+
   def verify_cookie
     return if AuthenticationVerifier.valid? questionnaire_create_params[:response_id], current_user
 

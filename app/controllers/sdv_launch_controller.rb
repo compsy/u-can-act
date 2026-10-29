@@ -8,7 +8,9 @@ class SdvLaunchController < ApplicationController
 
   def show
     if platform_user.blank?
-      redirect_to "#{ENV.fetch('BASE_PLATFORM_URL', nil)}/login", allow_other_host: true, status: :see_other
+      return render(status: :unauthorized, html: 'Je bent niet ingelogd.', layout: 'application') if params[:retry]
+
+      redirect_to platform_login_url, allow_other_host: true, status: :see_other
       return
     end
 
@@ -21,6 +23,11 @@ class SdvLaunchController < ApplicationController
     return if cross_site_request?
 
     JwtAuthenticator.auth_from_platform_cookie(cookies.signed, cookies[PLATFORM_SESSION_COOKIE])
+  end
+
+  def platform_login_url
+    relaunch_url = "#{ENV.fetch('HOST_URL', nil)}#{sdv_launch_path(return_to: return_to, retry: 1)}"
+    "#{ENV.fetch('BASE_PLATFORM_URL', nil)}/login?#{{ redirect_uri: relaunch_url }.to_query}"
   end
 
   def return_to

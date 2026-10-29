@@ -13,6 +13,7 @@ module IsLoggedIn
 
   def verify_current_user
     return current_user unless current_user.nil?
+    return redirect_to(sdv_relaunch_path, status: :see_other) if sdv_session_lost?
 
     log_cookie
     render(status: :unauthorized, html: 'Je bent niet ingelogd.', layout: 'application')

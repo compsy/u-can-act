@@ -59,7 +59,7 @@ describe 'SDV launch', type: :request do
     it 'does not start a session for a cross-site request' do
       get '/sdv/launch', params: { return_to: '/questionnaire' }, headers: { 'Sec-Fetch-Site' => 'cross-site' }
       expect(response).to have_http_status(:see_other)
-      expect(response.location).to eq "#{platform_url}/login"
+      expect(response.location).to start_with "#{platform_url}/login?redirect_uri="
       expect(engine_cookie).not_to have_key(TokenAuthenticationController::JWT_TOKEN_COOKIE.to_s)
     end
   end
@@ -67,7 +67,7 @@ describe 'SDV launch', type: :request do
   it 'redirects to the platform login without a platform session cookie' do
     get '/sdv/launch', params: { return_to: '/questionnaire' }
     expect(response).to have_http_status(:see_other)
-    expect(response.location).to eq "#{platform_url}/login"
+    expect(response.location).to start_with "#{platform_url}/login?redirect_uri="
     expect(engine_cookie).not_to have_key(TokenAuthenticationController::JWT_TOKEN_COOKIE.to_s)
   end
 
@@ -76,14 +76,14 @@ describe 'SDV launch', type: :request do
     allow(Knock).to receive(:token_audience).and_return(-> { 'another-audience' })
     cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = "Bearer #{jwt_auth(payload, false)}"
     get '/sdv/launch', params: { return_to: '/questionnaire' }
-    expect(response.location).to eq "#{platform_url}/login"
+    expect(response.location).to start_with "#{platform_url}/login?redirect_uri="
   end
 
   it 'redirects to the platform login with an invalid platform session cookie' do
     cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = 'Bearer not-a-jwt'
     get '/sdv/launch', params: { return_to: '/questionnaire' }
     expect(response).to have_http_status(:see_other)
-    expect(response.location).to eq "#{platform_url}/login"
+    expect(response.location).to start_with "#{platform_url}/login?redirect_uri="
   end
 
   describe 'with an invitation session' do

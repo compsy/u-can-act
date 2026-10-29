@@ -65,15 +65,7 @@ class JwtAuthenticator
     end
 
     def token_from_cookies(cookies_signed)
-      token = CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
-      return if expired_cookie_token?(token)
-
-      token
-    end
-
-    def expired_cookie_token?(token)
-      expires_at = token.is_a?(Array) && token.first.is_a?(Hash) ? token.first['exp'] : nil
-      expires_at.present? && Time.zone.at(expires_at.to_i).past?
+      CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
     end
 
     def token_from_params(params)

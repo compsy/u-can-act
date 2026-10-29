@@ -44,6 +44,19 @@ describe 'SDV relaunch after the session expires', type: :request do
       expect(responseobj.reload.completed_at).to be_nil
     end
 
+    it 'returns a submit for a response of another person to the questionnaire overview' do
+      other_response = FactoryBot.create(:response, :invited, open_from: 10.minutes.ago)
+      post '/', params: { response_id: other_response.id, content: { v1: 'slecht' } }
+      expect(response.location).to eq relaunch_location('/questionnaire')
+    end
+
+    it 'keeps a 401 when the platform URL is not configured' do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('BASE_PLATFORM_URL', nil).and_return(nil)
+      get questionnaire_url
+      expect(response).to have_http_status(:unauthorized)
+    end
+
     it 'keeps a 401 for XHR requests' do
       get questionnaire_url, xhr: true
       expect(response).to have_http_status(:unauthorized)
@@ -59,6 +72,8 @@ describe 'SDV relaunch after the session expires', type: :request do
 
   it 'keeps a 401 without any SDV or engine session' do
     get questionnaire_url
+    expect(response).to have_http_status(:unauthorized)
+    post '/', params: { response_id: responseobj.id, content: { v1: 'slecht' } }
     expect(response).to have_http_status(:unauthorized)
   end
 

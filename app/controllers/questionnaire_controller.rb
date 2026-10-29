@@ -291,8 +291,12 @@ class QuestionnaireController < ApplicationController
   end
 
   def relaunch_return_to
-    response = Response.find_by(id: questionnaire_create_params[:response_id]) unless request.get?
-    response.present? ? questionnaire_path(uuid: response.uuid) : super
+    return super if request.get?
+
+    response = Response.find_by(id: questionnaire_create_params[:response_id])
+    return super unless response.present? && response.person == JwtAuthenticator.engine_cookie_person(cookies.signed)
+
+    questionnaire_path(uuid: response.uuid)
   end
 
   def verify_cookie

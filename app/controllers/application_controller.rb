@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sdv_session_lost?
-    return false if request.xhr?
+    return false if request.xhr? || ENV.fetch('BASE_PLATFORM_URL', nil).blank?
 
     CookieJar.read_entry(cookies.signed, TokenAuthenticationController::JWT_TOKEN_COOKIE).present? ||
       cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE].present?

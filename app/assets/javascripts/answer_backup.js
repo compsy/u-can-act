@@ -26,7 +26,13 @@ function saveAnswerBackup() {
 
   var fields = answerBackupFields().map(function () {
     var checkable = this.type === 'radio' || this.type === 'checkbox';
-    return { id: this.id, name: this.name, value: $(this).val(), checked: checkable ? this.checked : null };
+    return {
+      id: this.id,
+      name: this.name,
+      value: $(this).val(),
+      checked: checkable ? this.checked : null,
+      touched: $(this).closest('.notchanged').length === 0
+    };
   }).get();
   try {
     storage.setItem(key, JSON.stringify(fields));
@@ -42,14 +48,27 @@ function findAnswerBackupField(field) {
   }).first();
 }
 
+function removeAnswerBackups(keep) {
+  var storage = answerBackupStorage();
+  if (!storage) return;
+
+  Object.keys(storage).forEach(function (storedKey) {
+    if (storedKey.indexOf(ANSWER_BACKUP_PREFIX) === 0 && storedKey !== keep) storage.removeItem(storedKey);
+  });
+}
+
+function resetAnswerTimings() {
+  id_a = id_b = id_c = null;
+  timestamp_a = timestamp_b = timestamp_c = null;
+  $('form input[type=hidden][id$=_timing]').remove();
+}
+
 function restoreAnswerBackup() {
   var storage = answerBackupStorage();
   var key = answerBackupKey();
   if (!storage || !key) return;
 
-  Object.keys(storage).forEach(function (storedKey) {
-    if (storedKey.indexOf(ANSWER_BACKUP_PREFIX) === 0 && storedKey !== key) storage.removeItem(storedKey);
-  });
+  removeAnswerBackups(key);
 
   var fields;
   try {
@@ -68,15 +87,19 @@ function restoreAnswerBackup() {
   });
   others.forEach(function (field) {
     var $element = findAnswerBackupField(field);
-    if ($element.length && $element.val() !== field.value) {
-      $element.val(field.value).trigger('input').trigger('change');
-    }
+    if (!$element.length) return;
+    if ($element.val() !== field.value) $element.val(field.value).trigger('input').trigger('change');
+    if (field.touched) $element.closest('.notchanged').removeClass('notchanged');
   });
   if (window.M && M.updateTextFields) M.updateTextFields();
+  resetAnswerTimings();
 }
 
 $(function () {
-  if (!answerBackupKey()) return;
+  if (!answerBackupKey()) {
+    removeAnswerBackups(null);
+    return;
+  }
 
   setTimeout(function () {
     restoreAnswerBackup();

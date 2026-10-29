@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class JwtAuthenticator
+  MAX_TOKEN_LIFETIME = 24.hours.to_i
+
   class << self
     def auth_from_cookies(cookies_signed)
       token = token_from_cookies(cookies_signed)
@@ -20,7 +22,7 @@ class JwtAuthenticator
     private
 
     def auth_with_token(token, cookies_signed)
-      return if token.blank?
+      return if token.blank? || expired?(token.first)
 
       # TODO: token opslaan in session ipv cookies
       auth_user = AuthUser.find_by(auth0_id_string: token.first['sub'])
@@ -28,6 +30,11 @@ class JwtAuthenticator
 
       store_token_in_cookie(token, cookies_signed)
       auth_user.person
+    end
+
+    def expired?(payload)
+      lifetime = payload['exp'].to_i - payload['iat'].to_i
+      payload['exp'].to_i <= Time.now.to_i || !lifetime.between?(1, MAX_TOKEN_LIFETIME)
     end
 
     def decoded_token_from_params(params)

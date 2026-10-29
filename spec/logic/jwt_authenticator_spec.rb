@@ -5,12 +5,14 @@ require 'rails_helper'
 describe JwtAuthenticator do
   describe 'auth_from_cookies' do
     let(:person) { FactoryBot.create(:person, :with_auth_user) }
+    let(:iat) { Time.now.to_i }
+    let(:exp) { iat + 3600 }
 
     it 'should use the auth from the cookiejar if available' do
       cookies = double('cookies')
       expect(CookieJar).to receive(:read_entry)
         .with(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
-        .and_return([{ 'sub' => person.auth_user.auth0_id_string }])
+        .and_return([{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat, 'exp' => exp }])
       expect(JWT).to_not receive(:decode)
 
       # Mock away this function
@@ -23,7 +25,7 @@ describe JwtAuthenticator do
 
     it 'should store the token in a cookie' do
       cookies = double('cookies')
-      token = [{ 'sub' => person.auth_user.auth0_id_string }]
+      token = [{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat, 'exp' => exp }]
       expect(CookieJar).to receive(:read_entry)
         .with(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
         .and_return(token)
@@ -37,6 +39,39 @@ describe JwtAuthenticator do
 
       result = described_class.auth_from_cookies(cookies)
       expect(result).to eql person
+    end
+
+    it 'should not return a person for an expired stored token' do
+      cookies = double('cookies')
+      expect(CookieJar).to receive(:read_entry)
+        .with(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+        .and_return([{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat - 86_400, 'exp' => iat - 1 }])
+      expect(CookieJar).not_to receive(:set_or_update_cookie)
+
+      result = described_class.auth_from_cookies(cookies)
+      expect(result).to be_nil
+    end
+
+    it 'should not return a person for a stored token without exp' do
+      cookies = double('cookies')
+      expect(CookieJar).to receive(:read_entry)
+        .with(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+        .and_return([{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat }])
+      expect(CookieJar).not_to receive(:set_or_update_cookie)
+
+      result = described_class.auth_from_cookies(cookies)
+      expect(result).to be_nil
+    end
+
+    it 'should not return a person for a stored token that lives longer than 24 hours' do
+      cookies = double('cookies')
+      expect(CookieJar).to receive(:read_entry)
+        .with(cookies, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+        .and_return([{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat, 'exp' => iat + 30.days.to_i }])
+      expect(CookieJar).not_to receive(:set_or_update_cookie)
+
+      result = described_class.auth_from_cookies(cookies)
+      expect(result).to be_nil
     end
   end
 
@@ -60,7 +95,7 @@ describe JwtAuthenticator do
 
     it 'should store the token in a cookie' do
       cookies = double('cookies')
-      token = [{ 'sub' => person.auth_user.auth0_id_string }]
+      token = [{ 'sub' => person.auth_user.auth0_id_string, 'iat' => Time.now.to_i, 'exp' => 1.hour.from_now.to_i }]
       expect(CookieJar).not_to receive(:read_entry)
       expect(JWT).to receive(:decode).and_return(token)
 

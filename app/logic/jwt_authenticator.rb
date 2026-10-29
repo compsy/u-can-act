@@ -14,13 +14,18 @@ class JwtAuthenticator
       auth_with_token(token, cookies_signed)
     end
 
+    def auth_from_platform_cookie(cookies_signed, platform_cookie)
+      token = decode_token(platform_cookie.to_s.sub(/\ABearer[+\s]+/, ''))
+      auth_with_token(token, cookies_signed, create_auth_user: true)
+    end
+
     private
 
-    def auth_with_token(token, cookies_signed)
+    def auth_with_token(token, cookies_signed, create_auth_user: false)
       return if token.blank? || expired?(token.first)
 
       # TODO: token opslaan in session ipv cookies
-      auth_user = AuthUser.find_by(auth0_id_string: token.first['sub'])
+      auth_user = find_auth_user(token.first, create_auth_user)
       return if auth_user.blank?
 
       store_token_in_cookie(token, cookies_signed)
@@ -32,19 +37,43 @@ class JwtAuthenticator
       payload['exp'].to_i <= Time.now.to_i || !lifetime.between?(1, MAX_TOKEN_LIFETIME)
     end
 
+    def find_auth_user(payload, create_auth_user)
+      return AuthUser.find_by(auth0_id_string: payload['sub']) unless create_auth_user
+
+      AuthUser.from_token_payload(payload) if payload['sub'].present?
+    end
+
     def decoded_token_from_params(params)
-      if token_from_params(params).present?
-        return JWT.decode(token_from_params(params), Knock.token_public_key, true,
-                          algorithms: [ENV.fetch('TOKEN_SIGNATURE_ALGORITHM', nil)])
-      end
-      nil
+      decode_token(token_from_params(params))
+    end
+
+    def decode_token(raw_token)
+      return if raw_token.blank?
+
+      JWT.decode(raw_token, Knock.token_public_key, true, decode_options)
     rescue JWT::DecodeError => e # if the argument passed is not a JWT token
       Rails.logger.info "Decoding failed: #{e.message}"
       nil
     end
 
+    def decode_options
+      options = { algorithms: [ENV.fetch('TOKEN_SIGNATURE_ALGORITHM', nil)] }
+      audience = ENV.fetch('AUTH0_CLIENT_ID', nil)
+      return options if audience.blank?
+
+      options.merge(aud: audience, verify_aud: true)
+    end
+
     def token_from_cookies(cookies_signed)
-      CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+      token = CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+      return if expired_cookie_token?(token)
+
+      token
+    end
+
+    def expired_cookie_token?(token)
+      expires_at = token.is_a?(Array) && token.first.is_a?(Hash) ? token.first['exp'] : nil
+      expires_at.present? && Time.zone.at(expires_at.to_i).past?
     end
 
     def token_from_params(params)

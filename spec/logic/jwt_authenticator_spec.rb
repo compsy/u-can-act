@@ -123,7 +123,8 @@ describe JwtAuthenticator do
       allow(CookieJar).to receive(:set_or_update_cookie)
       allow(CookieJar).to receive(:delete_cookie)
 
-      token = signed_token('iat' => Time.now.to_i, 'exp' => 24.hours.from_now.to_i)
+      iat = Time.now.to_i
+      token = signed_token('iat' => iat, 'exp' => iat + 24.hours.to_i)
       expect(described_class.auth_from_params(cookies, auth: token)).to eql person
     end
 
@@ -131,7 +132,8 @@ describe JwtAuthenticator do
       cookies = double('cookies')
       expect(CookieJar).not_to receive(:set_or_update_cookie)
 
-      token = signed_token('iat' => Time.now.to_i, 'exp' => (24.hours.from_now + 1.minute).to_i)
+      iat = Time.now.to_i
+      token = signed_token('iat' => iat, 'exp' => iat + 24.hours.to_i + 60)
       expect(described_class.auth_from_params(cookies, auth: token)).to be_nil
     end
 

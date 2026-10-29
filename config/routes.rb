@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   get 'o', to: 'one_time_response#show', as: 'one_time_response'
   get 'sdv/launch', to: 'sdv_launch#show', as: 'sdv_launch'
+  get 'sdv/session', to: 'sdv_session#show', as: 'sdv_session'
 
   # Admin panel
   scope path: :admin do

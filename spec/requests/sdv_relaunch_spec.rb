@@ -93,6 +93,27 @@ describe 'SDV relaunch after the session expires', type: :request do
     expect(response).to have_http_status(:unauthorized)
   end
 
+  describe 'the session check' do
+    it 'answers 204 with a valid engine session' do
+      launch
+      get '/sdv/session', xhr: true
+      expect(response).to have_http_status(:no_content)
+      expect(response.headers['Cache-Control']).to eq 'no-store'
+    end
+
+    it 'answers 401 when the engine session has expired' do
+      launch
+      Timecop.travel(10.minutes.from_now)
+      get '/sdv/session', xhr: true
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'answers 401 without a session' do
+      get '/sdv/session', xhr: true
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe 'when the platform session has expired too' do
     before { allow(ENV).to receive(:fetch).and_call_original }
 

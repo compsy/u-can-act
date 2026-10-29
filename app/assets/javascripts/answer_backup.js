@@ -133,7 +133,7 @@ function submitWithAnswerBackup(event) {
 
   event.preventDefault();
   $(form).data('answerBackupChecked', true);
-  $.ajax({ url: '/api/v1/person/me', dataType: 'json', timeout: 5000 })
+  $.ajax({ url: '/sdv/session', timeout: 5000 })
     .done(function () { removeAnswerBackups(null); })
     .fail(saveAnswerBackup)
     .always(function () { HTMLFormElement.prototype.submit.call(form); });

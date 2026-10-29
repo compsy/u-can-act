@@ -41,7 +41,8 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
 
     describe 'when the launch cookie is set' do
       before do
-        cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => [the_payload] }
+        payload = the_payload.merge('iat' => Time.now.to_i, 'exp' => 1.hour.from_now.to_i)
+        cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => [payload] }
         CookieJar.set_or_update_cookie(cookies.signed, cookie)
       end
 

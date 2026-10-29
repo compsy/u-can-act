@@ -12,6 +12,11 @@ class JwtAuthenticator
       auth_with_token(token, cookies_signed)
     end
 
+    def auth_from_platform_cookie(cookies_signed, platform_cookie)
+      token = decode_token(platform_cookie.to_s.sub(/\ABearer[+\s]+/, ''))
+      auth_with_token(token, cookies_signed)
+    end
+
     private
 
     def auth_with_token(token, cookies_signed)
@@ -26,18 +31,36 @@ class JwtAuthenticator
     end
 
     def decoded_token_from_params(params)
-      if token_from_params(params).present?
-        return JWT.decode(token_from_params(params), Knock.token_public_key, true,
-                          algorithms: [ENV.fetch('TOKEN_SIGNATURE_ALGORITHM', nil)])
-      end
-      nil
+      decode_token(token_from_params(params))
+    end
+
+    def decode_token(raw_token)
+      return if raw_token.blank?
+
+      JWT.decode(raw_token, Knock.token_public_key, true, decode_options)
     rescue JWT::DecodeError => e # if the argument passed is not a JWT token
       Rails.logger.info "Decoding failed: #{e.message}"
       nil
     end
 
+    def decode_options
+      options = { algorithms: [ENV.fetch('TOKEN_SIGNATURE_ALGORITHM', nil)] }
+      audience = ENV.fetch('AUTH0_CLIENT_ID', nil)
+      return options if audience.blank?
+
+      options.merge(aud: audience, verify_aud: true)
+    end
+
     def token_from_cookies(cookies_signed)
-      CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+      token = CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+      return if expired?(token)
+
+      token
+    end
+
+    def expired?(token)
+      expires_at = token.is_a?(Array) && token.first.is_a?(Hash) ? token.first['exp'] : nil
+      expires_at.present? && Time.zone.at(expires_at.to_i).past?
     end
 
     def token_from_params(params)

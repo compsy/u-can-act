@@ -24,7 +24,9 @@ describe 'Answers survive an SDV session expiry', type: :feature, js: true do
   end
 
   def answer_backups
-    page.evaluate_script("Object.keys(sessionStorage).filter(function (k) { return k.indexOf('answer_backup_') === 0 }).length")
+    page.evaluate_script(
+      "Object.keys(sessionStorage).filter(function (k) { return k.indexOf('answer_backup_') === 0 }).length"
+    )
   end
 
   def launch_and_fill_in

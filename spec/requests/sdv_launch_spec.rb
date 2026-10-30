@@ -85,7 +85,7 @@ describe 'SDV launch', type: :request do
     token = jwt_auth({ 'exp' => 1.hour.from_now.to_i }, false)
     cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = "Bearer #{token}"
     expect { get '/sdv/launch', params: { return_to: '/questionnaire' } }.not_to change(AuthUser, :count)
-    expect(response.location).to eq "#{platform_url}/login"
+    expect(response.location).to start_with "#{platform_url}/login?redirect_uri="
   end
 
   it 'redirects to the platform login without a platform session cookie' do

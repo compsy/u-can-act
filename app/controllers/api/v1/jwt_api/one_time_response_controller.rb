@@ -4,6 +4,8 @@ module Api
   module V1
     module JwtApi
       class OneTimeResponseController < JwtApiController
+        SAME_SITE_FETCH_SITES = %w[same-origin same-site none].freeze
+
         skip_before_action :authenticate_auth_user, only: :show
         prepend_before_action :authenticate_with_header_or_launch_cookie, only: :show
         before_action :load_one_time_response, only: :show
@@ -28,8 +30,12 @@ module Api
         end
 
         def launched_from_platform?
-          request.headers['Authorization'].blank? && params[:token].blank? && !cross_site_request? &&
+          request.headers['Authorization'].blank? && params[:token].blank? && same_site_request? &&
             JwtAuthenticator.auth_from_cookies(cookies.signed).present?
+        end
+
+        def same_site_request?
+          SAME_SITE_FETCH_SITES.include?(request.headers['Sec-Fetch-Site'])
         end
 
         def subscribe_person

@@ -44,12 +44,28 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
         payload = the_payload.merge('iat' => Time.now.to_i, 'exp' => 1.hour.from_now.to_i)
         cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => [payload] }
         CookieJar.set_or_update_cookie(cookies.signed, cookie)
+        request.headers['Sec-Fetch-Site'] = 'same-site'
       end
 
       it 'redirects the user to the correct page' do
         get :show, params: { otr: thetoken }
         expect(response.status).to eq 302
         expect(response.location).to start_with 'http://test.host?q='
+      end
+
+      %w[same-origin none].each do |fetch_site|
+        it "redirects the user for Sec-Fetch-Site #{fetch_site}" do
+          request.headers['Sec-Fetch-Site'] = fetch_site
+          get :show, params: { otr: thetoken }
+          expect(response.status).to eq 302
+        end
+      end
+
+      it 'returns a 401 and does not subscribe without a Sec-Fetch-Site header' do
+        request.headers['Sec-Fetch-Site'] = nil
+        expect(SubscribeToProtocol).not_to receive(:run!)
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
       end
 
       it 'ignores the mentor_id parameter' do

@@ -40,6 +40,12 @@ describe 'SDV launch', type: :request do
       expect(response).to have_http_status(:bad_request)
     end
 
+    it 'does not run the AuthUser creation for a known user' do
+      expect(AuthUser).not_to receive(:from_token_payload)
+      get '/sdv/launch'
+      expect(response.location).to eq 'http://www.example.com/questionnaire'
+    end
+
     it 'redirects to the questionnaire overview without return_to' do
       get '/sdv/launch'
       expect(response).to have_http_status(:see_other)
@@ -62,6 +68,24 @@ describe 'SDV launch', type: :request do
       expect(response.location).to start_with "#{platform_url}/login?redirect_uri="
       expect(engine_cookie).not_to have_key(TokenAuthenticationController::JWT_TOKEN_COOKIE.to_s)
     end
+  end
+
+  it 'creates the AuthUser for a valid token of a user that never called the API' do
+    FactoryBot.create(:team, :with_roles, name: Rails.application.config.settings.default_team_name)
+    payload = { 'sub' => 'auth0|new-platform-user', 'iat' => Time.now.to_i, 'exp' => 1.hour.from_now.to_i }
+    cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = "Bearer #{jwt_auth(payload, false)}"
+    expect { get '/sdv/launch', params: { return_to: '/questionnaire' } }.to change(AuthUser, :count).by(1)
+    expect(response.location).to eq 'http://www.example.com/questionnaire'
+    expect(AuthUser.find_by(auth0_id_string: 'auth0|new-platform-user').person).to be_present
+    expect(engine_cookie[TokenAuthenticationController::JWT_TOKEN_COOKIE.to_s].first['sub'])
+      .to eq 'auth0|new-platform-user'
+  end
+
+  it 'redirects to the platform login for a valid token without sub' do
+    token = jwt_auth({ 'exp' => 1.hour.from_now.to_i }, false)
+    cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = "Bearer #{token}"
+    expect { get '/sdv/launch', params: { return_to: '/questionnaire' } }.not_to change(AuthUser, :count)
+    expect(response.location).to eq "#{platform_url}/login"
   end
 
   it 'redirects to the platform login without a platform session cookie' do

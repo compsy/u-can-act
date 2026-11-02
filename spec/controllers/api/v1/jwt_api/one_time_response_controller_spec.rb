@@ -44,7 +44,10 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
         payload = the_payload.merge('iat' => Time.now.to_i, 'exp' => 1.hour.from_now.to_i)
         cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => [payload] }
         CookieJar.set_or_update_cookie(cookies.signed, cookie)
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('BASE_PLATFORM_URL', nil).and_return('https://app.example.nl')
         request.headers['Sec-Fetch-Site'] = 'same-site'
+        request.headers['Referer'] = 'https://app.example.nl/'
       end
 
       it 'redirects the user to the correct page' do
@@ -83,6 +86,32 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
       it 'returns a 401 when the stored token has expired' do
         cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => [the_payload.merge('exp' => 1.minute.ago.to_i)] }
         CookieJar.set_or_update_cookie(cookies.signed, cookie)
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns a 401 and does not subscribe for a same-site request from another subdomain' do
+        request.headers['Referer'] = 'https://jupyterhub.app.example.nl/'
+        expect(SubscribeToProtocol).not_to receive(:run!)
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns a 401 for a same-site request without a Referer or Origin' do
+        request.headers['Referer'] = nil
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'redirects the user for a same-site request with the platform Origin' do
+        request.headers['Referer'] = nil
+        request.headers['Origin'] = 'https://app.example.nl'
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 302
+      end
+
+      it 'returns a 401 for a same-site request with an Origin of another subdomain' do
+        request.headers['Origin'] = 'https://jupyterhub.app.example.nl'
         get :show, params: { otr: thetoken }
         expect(response.status).to eq 401
       end

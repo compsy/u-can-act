@@ -4,8 +4,6 @@ module Api
   module V1
     module JwtApi
       class OneTimeResponseController < JwtApiController
-        SAME_SITE_FETCH_SITES = %w[same-origin same-site none].freeze
-
         skip_before_action :authenticate_auth_user, only: :show
         prepend_before_action :authenticate_with_header_or_launch_cookie, only: :show
         before_action :load_one_time_response, only: :show
@@ -35,7 +33,18 @@ module Api
         end
 
         def same_site_request?
-          SAME_SITE_FETCH_SITES.include?(request.headers['Sec-Fetch-Site'])
+          case request.headers['Sec-Fetch-Site']
+          when 'same-origin', 'none' then true
+          when 'same-site' then from_platform?
+          else false
+          end
+        end
+
+        def from_platform?
+          platform_host = URI.parse(ENV.fetch('BASE_PLATFORM_URL', nil).to_s).host
+          platform_host.present? && URI.parse((request.origin || request.referer).to_s).host == platform_host
+        rescue URI::InvalidURIError
+          false
         end
 
         def subscribe_person

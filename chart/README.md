@@ -17,7 +17,7 @@ A Helm chart for SVC Questionnaires
 | mongoSecretKey | string | MONGODB_URI | The name of the connection string in the `mongoSecretName` secret. |
 | tag | string | `"latest"` | The tag of the questionnaire engine image to deploy. |
 | appsignalAppEnv | string | `"staging"` | The environment of the AppSignal application. |
-| curlImage | string | `"registry.gitlab.com/researchable/general/docker-images/curl:latest"` | The Docker image for the curl command used in the init container. |
+| curlImage | string | `"curlimages/curl:8.23.0"` | The Docker image for the curl command used in the init container. |
 | imagePullSecrets | list | `["gitlab-auth", "docker-auth"]` | List of image pull secrets used for pulling images from private registries. |
 | memory.web.request | string | `"768Mi"` | The memory request for the web container. |
 | memory.web.limit | string | `"1.5Gi"` | The memory limit for the web container. |

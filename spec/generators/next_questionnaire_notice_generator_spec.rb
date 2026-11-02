@@ -56,8 +56,13 @@ describe NextQuestionnaireNoticeGenerator do
       expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'fi'))).to include("'Tallenna'-painiketta.")
     end
 
-    it 'falls back to en for other locales' do
-      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'de'))).to include("Click 'Save' below")
+    it 'renders the notice in de, es and pt with their own save button text' do
+      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'de')))
+        .to include("Klicken Sie unten auf 'Speichern', um Ihre Antworten abzusenden.")
+      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'es')))
+        .to include("Haga clic en 'Guardar' abajo para enviar sus respuestas.")
+      expect(CGI.unescapeHTML(subject.generate(response_id: nil, locale: 'pt')))
+        .to include("Clique em 'Guardar' abaixo para enviar as suas respostas.")
     end
   end
 

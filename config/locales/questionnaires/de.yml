@@ -1,0 +1,35 @@
+de:
+  questionnaires:
+    data_saved: Daten gespeichert.
+    preview_saved: Erfolgreich! Wenn dies ein echter Fragebogen wäre, wären Ihre Antworten jetzt gespeichert.
+    questionnaire_expired: Dieser Fragebogen kann nicht mehr ausgefüllt werden.
+    busy: Bitte warten...
+    save: Speichern
+    next: Weiter
+    questionnaire: Fragebogen
+    already_completed: Sie haben diesen Fragebogen bereits ausgefüllt.
+    not_authorized: Sie sind nicht berechtigt, diesen Fragebogen anzusehen.
+    link_not_valid: Dieser Link ist nicht mehr gültig.
+    not_found: Benutzer / Fragebogen nicht gefunden.
+    not_found_questionnaire: Der Fragebogen wurde nicht gefunden.
+    next_questionnaire_notice: "Klicken Sie unten auf '%{save}', um Ihre Antworten abzusenden"
+    next_questionnaire_notice_with_next: "Klicken Sie unten auf '%{save}', um Ihre Antworten abzusenden und mit dem nächsten Fragebogen fortzufahren"
+    unsubscribe: Teilnahme beenden
+    thanks_for_participating: Vielen Dank für Ihre Teilnahme!
+    drawing:
+      clear: Löschen
+      lock: Fertig (nächste Frage)
+      unlock: Bearbeiten
+    warnings:
+      attention: "Achtung:"
+      cookies: Ihr Browser lässt derzeit keine Cookies zu. Deshalb funktioniert diese App nicht richtig.
+      javascript: In Ihrem Browser ist JavaScript deaktiviert. Deshalb funktioniert diese App nicht richtig.
+      old_browser: Ihr Browser ist Internet Explorer Version < 10. Diese Webseite funktioniert damit nicht. Bitte verwenden Sie einen neueren Browser.
+    placeholders:
+      fill_something_in: Antwort eingeben
+      otherwise: "Sonstiges, und zwar:"
+      enter_a_number: Zahl eingeben
+      select_your_answer: Antwort auswählen...
+  # The other date and time texts come from the rails-i18n gem.
+  time:
+    time: Uhrzeit

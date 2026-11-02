@@ -1,0 +1,9 @@
+de:
+  pages:
+    languages:
+      flash_messages:
+        alert:
+          response_not_found: Antwort nicht gefunden
+          locale_update_error: Die Spracheinstellung konnte nicht geändert werden
+        notice:
+          locale_updated: Spracheinstellung gespeichert

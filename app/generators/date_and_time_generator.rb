@@ -4,7 +4,8 @@ class DateAndTimeGenerator < QuestionTypeGenerator
   include React::Rails::ViewHelper
 
   DATETIMEFIELD_PLACEHOLDER = {
-    nl: 'Vul een datum en tijd in', en: 'Fill out a date and time', fi: 'Valitse päivämäärä ja aika'
+    nl: 'Vul een datum en tijd in', en: 'Fill out a date and time', fi: 'Valitse päivämäärä ja aika',
+    de: 'Datum und Uhrzeit auswählen', es: 'Seleccione una fecha y una hora', pt: 'Selecione uma data e uma hora'
   }.freeze
 
   def generate(question)

@@ -54,10 +54,23 @@ RSpec.describe LanguagesController, type: :controller do
       expect(response.body).to include('Save')
     end
 
-    it 'shows the save button in English for a locale without interface translations' do
-      person.update!(locale: 'de')
-      get :show
-      expect(response.body).to include('Save')
+    it 'shows the save button in the language of the person for de, es and pt' do
+      questionnaire = FactoryBot.create(:questionnaire, content: {
+                                          questions: [{ id: :v1, type: :number,
+                                                        title: { nl: 'Leeftijd?', de: 'Alter?', es: 'Edad?',
+                                                                 pt: 'Idade?' } }],
+                                          scores: []
+                                        })
+      measurement = FactoryBot.create(:measurement, questionnaire: questionnaire,
+                                                    protocol: protocol_subscription.protocol)
+      responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription,
+                                                 measurement: measurement)
+      { 'de' => 'Speichern', 'es' => 'Guardar', 'pt' => 'Guardar' }.each do |locale, save|
+        person.update!(locale: locale)
+        get :show, params: { r_id: responseobj.id }
+        expect(response.body).to include("<input checked name=\"locale\" type=\"radio\" value=\"#{locale}\">")
+        expect(response.body).to include(save)
+      end
     end
   end
 

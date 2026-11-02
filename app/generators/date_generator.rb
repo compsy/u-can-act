@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class DateGenerator < QuestionTypeGenerator
-  DATEFIELD_PLACEHOLDER = { nl: 'Vul een datum in', en: 'Fill out a date', fi: 'Valitse päivämäärä' }.freeze
+  DATEFIELD_PLACEHOLDER = {
+    nl: 'Vul een datum in', en: 'Fill out a date', fi: 'Valitse päivämäärä',
+    de: 'Datum auswählen', es: 'Seleccione una fecha', pt: 'Selecione uma data'
+  }.freeze
 
   def generate(question)
     title = safe_join([question[:title].html_safe, generate_tooltip(question[:tooltip])])

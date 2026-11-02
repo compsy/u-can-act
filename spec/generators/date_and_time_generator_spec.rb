@@ -19,7 +19,13 @@ describe DateAndTimeGenerator do
     expect(described_class.new.generate(question.merge(locale: 'fi'))).to include('Valitse päivämäärä ja aika')
   end
 
+  it 'uses the German, Spanish and Portuguese placeholders for de, es and pt' do
+    expect(described_class.new.generate(question.merge(locale: 'de'))).to include('Datum und Uhrzeit auswählen')
+    expect(described_class.new.generate(question.merge(locale: 'es'))).to include('Seleccione una fecha y una hora')
+    expect(described_class.new.generate(question.merge(locale: 'pt'))).to include('Selecione uma data e uma hora')
+  end
+
   it 'falls back to the English placeholder for other locales' do
-    expect(described_class.new.generate(question.merge(locale: 'de'))).to include('Fill out a date and time')
+    expect(described_class.new.generate(question.merge(locale: 'sv'))).to include('Fill out a date and time')
   end
 end

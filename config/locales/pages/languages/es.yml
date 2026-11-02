@@ -1,0 +1,9 @@
+es:
+  pages:
+    languages:
+      flash_messages:
+        alert:
+          response_not_found: Respuesta no encontrada
+          locale_update_error: No se pudo cambiar el idioma
+        notice:
+          locale_updated: Idioma guardado

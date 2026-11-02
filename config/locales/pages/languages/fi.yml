@@ -1,0 +1,9 @@
+fi:
+  pages:
+    languages:
+      flash_messages:
+        alert:
+          response_not_found: Vastausta ei löytynyt
+          locale_update_error: Kieliasetusta ei voitu muuttaa
+        notice:
+          locale_updated: Kieliasetus tallennettu

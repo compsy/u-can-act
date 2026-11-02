@@ -23,7 +23,7 @@ describe 'translations of the questionnaire interface' do
     end
   end
 
-  %i[de es pt].each do |locale|
+  %i[fi de es pt].each do |locale|
     it "has every language page and klaar page key that en has in #{locale}" do
       en_keys = leaf_keys(own_translations(:en)[:pages].slice(:languages, :klaar))
       locale_keys = leaf_keys(own_translations(locale)[:pages].slice(:languages, :klaar))

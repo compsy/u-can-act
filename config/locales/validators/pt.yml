@@ -1,0 +1,4 @@
+pt:
+  validators:
+    only_dutch_number: só pode ser um número neerlandês
+    only_start_of_day: só pode ser meia-noite

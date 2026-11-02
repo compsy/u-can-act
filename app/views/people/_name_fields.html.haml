@@ -3,10 +3,10 @@
     - if can? :update, Person, :first_name
       .col.s6
         .input-field
-          = f.text_field :first_name, required: true, title: 'Voornaam'
+          = f.text_field :first_name, required: true, title: Person.human_attribute_name(:first_name)
           = f.label :first_name
     - if can? :update, Person, :last_name
       .col.s6
         .input-field
-          = f.text_field :last_name, required: false, title: 'Achternaam'
+          = f.text_field :last_name, required: false, title: Person.human_attribute_name(:last_name)
           = f.label :last_name

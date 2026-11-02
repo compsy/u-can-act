@@ -15,19 +15,27 @@ describe 'translations of the questionnaire interface' do
     I18n.backend.send(:translations)[locale]
   end
 
-  %i[fi de es pt].each do |locale|
-    it "has every questionnaires key that en has in #{locale}, except the nl/en language switch" do
-      en_keys = leaf_keys(own_translations(:en)[:questionnaires]) - %w[language_switch]
-      locale_keys = leaf_keys(own_translations(locale)[:questionnaires])
-      expect(en_keys - locale_keys).to be_empty
-    end
+  # The custom interface keys; the standard Rails keys come from the rails-i18n gem
+  def interface_roots
+    %w[questionnaires pages.languages pages.klaar pages.reward pages.person pages.student_final_reward_page
+       pages.student_in_progress_reward_page activerecord.attributes.person activerecord.models.person validators
+       misc.error misc.gender]
   end
 
-  %i[fi de es pt].each do |locale|
-    it "has every language page and klaar page key that en has in #{locale}" do
-      en_keys = leaf_keys(own_translations(:en)[:pages].slice(:languages, :klaar))
-      locale_keys = leaf_keys(own_translations(locale)[:pages].slice(:languages, :klaar))
-      expect(en_keys - locale_keys).to be_empty
+  def interface_keys(locale)
+    interface_roots.flat_map do |root|
+      subtree = own_translations(locale).dig(*root.split('.').map(&:to_sym))
+      subtree.is_a?(Hash) ? leaf_keys(subtree, root) : []
+    end - %w[questionnaires.language_switch]
+  end
+
+  it 'has no interface keys in nl that en does not have' do
+    expect(interface_keys(:nl) - interface_keys(:en)).to be_empty
+  end
+
+  %i[nl fi de es pt].each do |locale|
+    it "has every interface key that en has in #{locale}, except the nl/en language switch" do
+      expect(interface_keys(:en) - interface_keys(locale)).to be_empty
     end
   end
 

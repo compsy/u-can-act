@@ -1,0 +1,4 @@
+fi:
+  validators:
+    only_dutch_number: voi olla vain hollantilainen numero
+    only_start_of_day: voi olla vain keskiyö

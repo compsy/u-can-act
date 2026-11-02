@@ -1,0 +1,17 @@
+fi:
+  pages:
+    student_final_reward_page:
+      header: Kiitos kyselyyn vastaamisesta!
+      body:
+        top: |
+          <div class='section'>
+            <p class='flow-text'>
+              Kiitos paljon panoksestasi tähän tutkimukseen!
+            </p>
+          </div>
+        bottom: |
+          <div class='section'>
+            <p class='flow-text'>
+              Voit nyt sulkea tämän sivun.
+            </p>
+          </div>

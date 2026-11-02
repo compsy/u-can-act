@@ -1,0 +1,17 @@
+en:
+  questionnaires:
+    not_logged_in: You are not logged in.
+    no_access: You do not have access to this questionnaire.
+    answer_too_long: The answer is too long and therefore cannot be saved
+    blank_response: Cannot store blank questionnaire responses
+    unopened_response: Cannot accept answers for an unopened response
+    unsubscribed: You have unsubscribed from the %{application_name} study. Thank you for your participation!
+    mentor_guidance_stopped: 'Success: the guidance for %{first_name} has been stopped.'
+    thanks_for_filling_out: Thank you for completing the questionnaire!
+    reward_page_unavailable: You can only view this page after completing a questionnaire.
+    hours: Hours
+    minutes: Minutes
+    invitation_mail:
+      fill_out: Fill out the questionnaires
+      thanks_in_advance: Thank you in advance!
+      team: The %{project_name} team

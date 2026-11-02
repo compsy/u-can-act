@@ -1,0 +1,17 @@
+fi:
+  questionnaires:
+    not_logged_in: Et ole kirjautunut sisään.
+    no_access: Sinulla ei ole pääsyä tähän kyselyyn.
+    answer_too_long: Vastaus on liian pitkä, joten sitä ei voi tallentaa
+    blank_response: Tyhjää kyselyvastausta ei voi tallentaa
+    unopened_response: Vastauksia ei voi hyväksyä kyselyyn, jota ei ole avattu
+    unsubscribed: Olet lopettanut osallistumisesi %{application_name} -tutkimukseen. Kiitos panoksestasi!
+    mentor_guidance_stopped: 'Onnistui: henkilön %{first_name} ohjaus on lopetettu.'
+    thanks_for_filling_out: Kiitos kyselyyn vastaamisesta!
+    reward_page_unavailable: Voit katsoa tätä sivua vasta, kun olet vastannut kyselyyn.
+    hours: Tunnit
+    minutes: Minuutit
+    invitation_mail:
+      fill_out: Vastaa kyselyihin
+      thanks_in_advance: Kiitos jo etukäteen!
+      team: "%{project_name} -tiimi"

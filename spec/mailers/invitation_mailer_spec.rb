@@ -33,6 +33,22 @@ describe InvitationMailer do
     end
   end
 
+  describe 'invitation_mail body' do
+    it 'is written in the language of the person' do
+      mail = described_class.invitation_mail('email@email.com', 'Hei', 'test.com', 'invitation_mailer/invitation_mail',
+                                             'fi', Time.zone.now)
+      body = mail.body.encoded
+      expect(body).to include('Vastaa kyselyihin')
+      expect(body).to include('Kiitos jo etukäteen!')
+    end
+
+    it 'keeps the Dutch texts for nl' do
+      mail = described_class.invitation_mail('email@email.com', 'Hoi', 'test.com', 'invitation_mailer/invitation_mail',
+                                             'nl', Time.zone.now)
+      expect(mail.body.encoded).to include('Vul de vragenlijsten in')
+    end
+  end
+
   describe 'registration_mail' do
     let(:email_address) { 'email@email.com' }
     let(:registration_url) { 'test.com' }

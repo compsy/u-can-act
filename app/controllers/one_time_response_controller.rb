@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class OneTimeResponseController < ApplicationController
+  include ::UsesParticipantLocale
+
   before_action :load_one_time_response, only: :show
   before_action :create_person, only: :show
   before_action :subscribe_person, only: :show
@@ -27,7 +29,7 @@ class OneTimeResponseController < ApplicationController
     @one_time_response = OneTimeResponse.find_by(token: token, restricted: false)
     return @one_time_response if @one_time_response.present?
 
-    render(status: :not_found, html: 'De vragenlijst kon niet gevonden worden.', layout: 'application')
+    render(status: :not_found, html: I18n.t('questionnaires.not_found_questionnaire'), layout: 'application')
   end
 
   def one_time_response_params

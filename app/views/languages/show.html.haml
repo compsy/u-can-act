@@ -8,7 +8,7 @@
           %p
             %label
               %input{name: 'locale', type: 'radio', value: locale, checked: @locale == locale}
-              %span=locale
+              %span= LanguagesController::LANGUAGE_NAMES.fetch(locale, locale)
     .row
       .col.s12
         = button_tag(I18n.t('questionnaires.save', locale: @locale), type: 'submit', class: 'btn waves-effect waves-light')

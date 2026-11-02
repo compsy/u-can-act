@@ -1,0 +1,12 @@
+es:
+  pages:
+    person:
+      header: Editar datos de la cuenta
+      body: '<p class="flow-text">Edite aquí sus datos personales</p>'
+      submit: Guardar
+      errors_intro: 'en los datos, hay que cambiar lo siguiente:'
+      bank_details: Datos bancarios
+      iban_needed: Para transferir la recompensa todavía necesitamos su IBAN.
+      iban_stored_separately: Esto se guarda por separado de los cuestionarios, de modo que las preguntas que acaba de responder siguen siendo completamente anónimas.
+      iban_title: Introduzca el número de cuenta en formato IBAN.
+      mobile_phone_title: Introduzca los diez dígitos sin guion.

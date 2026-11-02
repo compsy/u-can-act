@@ -362,6 +362,13 @@ RSpec.describe QuestionnaireController, type: :controller do
           expect(response.body).to include('Bedankt voor je inzet!')
         end
 
+        it 'thanks the person in their own language' do
+          student.update!(locale: 'fi')
+          delete :destroy, params: { uuid: responseobj.uuid }
+          expect(response.body).to include('Kiitos panoksestasi!')
+          expect(response.body).to include('Kiitos osallistumisestasi!')
+        end
+
         it 'redirects to the correct stop measurement if one is available' do
           protocol_subscription = responseobj.protocol_subscription
           protocol = protocol_subscription.protocol

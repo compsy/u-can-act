@@ -1,0 +1,8 @@
+es:
+  misc:
+    error:
+      one: error
+      other: errores
+    gender:
+      male: hombre
+      female: mujer

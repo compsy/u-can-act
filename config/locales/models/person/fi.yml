@@ -1,0 +1,14 @@
+fi:
+  activerecord:
+    attributes:
+      person:
+        first_name: Etunimi
+        last_name: Sukunimi
+        gender: Sukupuoli
+        email: Sähköpostiosoite
+        mobile_phone: Matkapuhelinnumero
+        iban: Tilinumero (IBAN)
+    models:
+      person:
+        one: Henkilö
+        other: Henkilöt

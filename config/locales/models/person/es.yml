@@ -1,0 +1,14 @@
+es:
+  activerecord:
+    attributes:
+      person:
+        first_name: Nombre
+        last_name: Apellido
+        gender: Sexo
+        email: Correo electrónico
+        mobile_phone: Número de móvil
+        iban: Número de cuenta bancaria (IBAN)
+    models:
+      person:
+        one: Persona
+        other: Personas

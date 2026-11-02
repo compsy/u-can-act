@@ -1,0 +1,10 @@
+nl:
+  pages:
+    reward:
+      total_earned: In totaal heb je %{amount} verdiend.
+      earned_now: Je hebt hiermee %{earned} verdiend. Je kunt nog %{awardable} verdienen.
+      you_have_now: Je hebt nu
+      streak_bonus: Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je %{amount} extra verdiend!
+      edit_person: Gegevens aanpassen
+      iban_needed_tooltip: We hebben je bankrekeningnummer nodig om je beloning naar je te kunnen overmaken.
+      disclaimer: Disclaimer

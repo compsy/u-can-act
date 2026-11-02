@@ -1,0 +1,17 @@
+nl:
+  questionnaires:
+    not_logged_in: Je bent niet ingelogd.
+    no_access: Je hebt geen toegang tot deze vragenlijst.
+    answer_too_long: Het antwoord is te lang en kan daardoor niet worden opgeslagen
+    blank_response: Een lege vragenlijst kan niet worden opgeslagen
+    unopened_response: Antwoorden voor een vragenlijst die nog niet geopend is kunnen niet worden geaccepteerd
+    unsubscribed: Je hebt je uitgeschreven voor het %{application_name} onderzoek. Bedankt voor je inzet!
+    mentor_guidance_stopped: 'Succes: De begeleiding voor %{first_name} is gestopt.'
+    thanks_for_filling_out: Bedankt voor het invullen van de vragenlijst!
+    reward_page_unavailable: Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.
+    hours: Uren
+    minutes: Minuten
+    invitation_mail:
+      fill_out: Vul de vragenlijsten in
+      thanks_in_advance: Alvast hartelijk dank!
+      team: Het %{project_name} team

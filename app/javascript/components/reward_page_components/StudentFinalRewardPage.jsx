@@ -26,7 +26,7 @@ export default class StudentFinalRewardPage extends React.Component {
     if (this.props.earnedEuros > noEuros) {
       return (
         <p className='flow-text'>
-          In totaal heb je {printAsMoney(this.props.earnedEuros)} verdiend.
+          {I18n.t('pages.reward.total_earned', { amount: printAsMoney(this.props.earnedEuros) })}
         </p>
       );
     }

@@ -28,6 +28,26 @@ describe GenerateInvitationText do
         expect(result).to eq 'invitation-text-nl'
       end
 
+      it 'writes dates in the language of the invitation text' do
+        travel_to(Time.zone.local(2026, 10, 19, 12)) do
+          protocol = FactoryBot.create(:protocol, :with_invitation_text)
+          %w[nl en fi].each do |locale|
+            person = FactoryBot.create(:person, locale: locale)
+            protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                      protocol: protocol,
+                                                      person: person,
+                                                      invitation_text_nl: 'Vandaag is het {{datum_lang}}',
+                                                      invitation_text_en: 'Today is {{datum_lang}}')
+            response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+            text_locale = locale == 'nl' ? :nl : :en
+            date = I18n.l(Time.zone.today, format: :long, locale: text_locale)
+            expect(described_class.run!(response: response)).to end_with(date)
+          end
+          expect(I18n.l(Time.zone.today, format: :long, locale: :en))
+            .not_to eq I18n.l(Time.zone.today, format: :long, locale: :nl)
+        end
+      end
+
       it 'returns the localized text of a protocol if one is set' do
         person = FactoryBot.create(:person, locale: 'en')
         protocol = FactoryBot.create(:protocol, :with_invitation_text)

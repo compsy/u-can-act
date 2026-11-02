@@ -8,6 +8,30 @@ describe RewardController, type: :controller do
   describe 'GET /klaar' do
     let(:student) { FactoryBot.create(:student) }
 
+    describe 'locale' do
+      it 'renders the page in the language of the person' do
+        student.update!(locale: 'de')
+        cookie_auth(student)
+        get :index
+        expect(response.body).to include('Sie können diese Seite erst nach dem Ausfüllen eines Fragebogens ansehen.')
+        expect(response.body).to include('<meta content="de" name="i18n-locale">')
+        expect(response.body).to include('<html lang="de">')
+      end
+
+      it 'uses the browser language when nobody is logged in' do
+        request.headers['Accept-Language'] = 'sv-SE,fi;q=0.8,en;q=0.5'
+        get :index
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.body).to include('Et ole kirjautunut sisään.')
+      end
+
+      it 'uses nl when nobody is logged in and the browser language is not supported' do
+        request.headers['Accept-Language'] = 'sv-SE'
+        get :index
+        expect(response.body).to include('Je bent niet ingelogd.')
+      end
+    end
+
     describe 'with logged in student' do
       before do
         cookie_auth(student)

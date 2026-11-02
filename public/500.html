@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>We're sorry, but something went wrong (500)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -58,9 +58,31 @@
   <!-- This file lives in public/500.html -->
   <div class="dialog">
     <div>
-      <h1>We're sorry, but something went wrong.</h1>
+      <h1 data-i18n="title">We're sorry, but something went wrong.</h1>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
+    <p data-i18n="owner">If you are the application owner check the logs for more information.</p>
   </div>
+<script>
+  // Static page, so pick the text from the browser languages. Without JavaScript the text above is shown.
+  (function () {
+    var texts = {
+      nl: {"title": "Sorry, er is iets misgegaan.", "owner": "Ben je de beheerder van deze applicatie, bekijk dan de logs voor meer informatie."},
+      en: {"title": "We're sorry, but something went wrong.", "owner": "If you are the application owner check the logs for more information."},
+      fi: {"title": "Valitettavasti jotain meni pieleen.", "owner": "Jos olet sovelluksen ylläpitäjä, katso lisätietoja lokeista."},
+      de: {"title": "Es tut uns leid, aber etwas ist schiefgelaufen.", "owner": "Wenn Sie der Betreiber dieser Anwendung sind, finden Sie weitere Informationen in den Logs."},
+      es: {"title": "Lo sentimos, algo ha salido mal.", "owner": "Si es el responsable de la aplicación, consulte los registros para obtener más información."},
+      pt: {"title": "Lamentamos, mas algo correu mal.", "owner": "Se é o responsável pela aplicação, consulte os registos para obter mais informações."}
+    };
+    var languages = navigator.languages || [navigator.language || ''];
+    for (var i = 0; i < languages.length; i++) {
+      var lang = (languages[i] || '').split('-')[0].toLowerCase();
+      if (!texts[lang]) continue;
+      document.documentElement.lang = lang;
+      var elements = document.querySelectorAll('[data-i18n]');
+      for (var j = 0; j < elements.length; j++) elements[j].textContent = texts[lang][elements[j].getAttribute('data-i18n')];
+      return;
+    }
+  })();
+</script>
 </body>
 </html>

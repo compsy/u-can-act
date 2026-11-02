@@ -1,0 +1,10 @@
+es:
+  pages:
+    reward:
+      total_earned: En total ha ganado %{amount}.
+      earned_now: Con esto ha ganado %{earned}. Todavía puede ganar %{awardable}.
+      you_have_now: Ahora tiene
+      streak_bonus: Como ha completado varios cuestionarios seguidos, ¡ha ganado %{amount} extra!
+      edit_person: Editar datos
+      iban_needed_tooltip: Necesitamos su número de cuenta bancaria para transferirle su recompensa.
+      disclaimer: Aviso legal

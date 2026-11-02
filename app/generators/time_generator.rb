@@ -16,9 +16,10 @@ class TimeGenerator < QuestionTypeGenerator
     from = question[:hours_from] || 0
     to = question[:hours_to] || 6
     step = question[:hours_step] || 1
-    hours_label = question[:hours_label] || 'Uren'
+    hours_label = question[:hours_label] || default_label(question, :hours)
+    # The raw labels define the keys of the stored answers, so they stay Dutch for every locale
     raw_hours_label = question[:raw][:hours_label] || 'Uren'
-    minutes_label = question[:minutes_label] || 'Minuten'
+    minutes_label = question[:minutes_label] || default_label(question, :minutes)
     raw_minutes_label = question[:raw][:minutes_label] || 'Minuten'
     am_pm = question[:am_pm] || false
 
@@ -28,6 +29,10 @@ class TimeGenerator < QuestionTypeGenerator
     safe_join([hours, minutes])
   end
   # rubocop:enable Metrics/PerceivedComplexity
+
+  def default_label(question, unit)
+    I18n.t("questionnaires.#{unit}", locale: question[:locale])
+  end
 
   # rubocop:disable Metrics/ParameterLists
   def time_dropdown(question_id, from_time, to_time, step, label, raw_label, am_pm)

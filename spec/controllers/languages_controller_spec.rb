@@ -35,6 +35,7 @@ RSpec.describe LanguagesController, type: :controller do
 
     it 'also offers the languages of the questionnaire of the response' do
       get :show, params: { r_id: fi_responseobj.id }
+      expect(response.body).to include('Suomi')
       %w[nl en fi].each { |locale| expect(response.body).to include("value=\"#{locale}\"") }
       %w[de es pt].each { |locale| expect(response.body).not_to include("value=\"#{locale}\"") }
     end
@@ -74,7 +75,20 @@ RSpec.describe LanguagesController, type: :controller do
     end
   end
 
+  describe 'GET #show without a logged in person' do
+    it 'asks to log in' do
+      allow(controller).to receive(:current_user).and_return(nil)
+      get :show
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe 'POST #change' do
+    it 'confirms the change in the new language' do
+      post :change, params: { locale: 'fi', r_id: fi_responseobj.id }
+      expect(flash[:notice]).to eq 'Kieliasetus tallennettu'
+    end
+
     it 'sets the locale of the person to a language of the questionnaire' do
       post :change, params: { locale: 'fi', r_id: fi_responseobj.id }
       expect(person.reload.locale).to eq 'fi'

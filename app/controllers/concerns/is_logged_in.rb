@@ -15,6 +15,6 @@ module IsLoggedIn
     return current_user unless current_user.nil?
 
     log_cookie
-    render(status: :unauthorized, html: 'Je bent niet ingelogd.', layout: 'application')
+    render(status: :unauthorized, html: I18n.t('questionnaires.not_logged_in'), layout: 'application')
   end
 end

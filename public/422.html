@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>The change you wanted was rejected (422)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -58,10 +58,32 @@
   <!-- This file lives in public/422.html -->
   <div class="dialog">
     <div>
-      <h1>The change you wanted was rejected.</h1>
-      <p>Maybe you tried to change something you didn't have access to.</p>
+      <h1 data-i18n="title">The change you wanted was rejected.</h1>
+      <p data-i18n="detail">Maybe you tried to change something you didn't have access to.</p>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
+    <p data-i18n="owner">If you are the application owner check the logs for more information.</p>
   </div>
+<script>
+  // Static page, so pick the text from the browser languages. Without JavaScript the text above is shown.
+  (function () {
+    var texts = {
+      nl: {"title": "De wijziging die je wilde doen is geweigerd.", "detail": "Misschien probeerde je iets te wijzigen waar je geen toegang toe hebt.", "owner": "Ben je de beheerder van deze applicatie, bekijk dan de logs voor meer informatie."},
+      en: {"title": "The change you wanted was rejected.", "detail": "Maybe you tried to change something you didn't have access to.", "owner": "If you are the application owner check the logs for more information."},
+      fi: {"title": "Haluamasi muutos hylättiin.", "detail": "Ehkä yritit muuttaa jotain, johon sinulla ei ole pääsyä.", "owner": "Jos olet sovelluksen ylläpitäjä, katso lisätietoja lokeista."},
+      de: {"title": "Die gewünschte Änderung wurde abgelehnt.", "detail": "Möglicherweise haben Sie versucht, etwas zu ändern, worauf Sie keinen Zugriff haben.", "owner": "Wenn Sie der Betreiber dieser Anwendung sind, finden Sie weitere Informationen in den Logs."},
+      es: {"title": "El cambio que quería hacer ha sido rechazado.", "detail": "Quizás intentó cambiar algo a lo que no tiene acceso.", "owner": "Si es el responsable de la aplicación, consulte los registros para obtener más información."},
+      pt: {"title": "A alteração que pretendia foi rejeitada.", "detail": "Talvez tenha tentado alterar algo a que não tem acesso.", "owner": "Se é o responsável pela aplicação, consulte os registos para obter mais informações."}
+    };
+    var languages = navigator.languages || [navigator.language || ''];
+    for (var i = 0; i < languages.length; i++) {
+      var lang = (languages[i] || '').split('-')[0].toLowerCase();
+      if (!texts[lang]) continue;
+      document.documentElement.lang = lang;
+      var elements = document.querySelectorAll('[data-i18n]');
+      for (var j = 0; j < elements.length; j++) elements[j].textContent = texts[lang][elements[j].getAttribute('data-i18n')];
+      return;
+    }
+  })();
+</script>
 </body>
 </html>

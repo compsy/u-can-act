@@ -1,0 +1,12 @@
+fi:
+  pages:
+    person:
+      header: Muokkaa tilin tietoja
+      body: '<p class="flow-text">Muokkaa henkilötietojasi täällä</p>'
+      submit: Tallenna
+      errors_intro: 'tiedoissa, seuraavat on korjattava:'
+      bank_details: Pankkitiedot
+      iban_needed: Tarvitsemme vielä IBAN-tilinumerosi palkkion maksamista varten.
+      iban_stored_separately: Tämä tallennetaan erillään kyselyistä, joten juuri vastaamasi kysymykset pysyvät täysin nimettöminä.
+      iban_title: Syötä tilinumero IBAN-muodossa.
+      mobile_phone_title: Syötä kymmenen numeroa ilman väliviivaa.

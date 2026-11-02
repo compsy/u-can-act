@@ -5,6 +5,7 @@ class QuestionnaireController < ApplicationController
 
   MAX_ANSWER_LENGTH = 2048
   MAX_DRAWING_LENGTH = 65_536
+  include ::UsesParticipantLocale
   include ::IsLoggedIn
 
   protect_from_forgery prepend: true, with: :exception, except: :create
@@ -245,13 +246,12 @@ class QuestionnaireController < ApplicationController
 
   def stop_protocol_subscription_notice
     if @response.protocol_subscription.mentor?
-      "Succes: De begeleiding voor #{@response.protocol_subscription.filling_out_for.first_name} " \
-        'is gestopt.'
+      I18n.t('questionnaires.mentor_guidance_stopped',
+             first_name: @response.protocol_subscription.filling_out_for.first_name)
     elsif @response.protocol_subscription.person.role.group == Person::SOLO
       I18n.t('pages.klaar.header')
     else
-      "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek. " \
-        'Bedankt voor je inzet!'
+      I18n.t('questionnaires.unsubscribed', application_name: Rails.application.config.settings.application_name)
     end
   end
 
@@ -262,8 +262,7 @@ class QuestionnaireController < ApplicationController
 
       next if drawing_within_limits?(key, value, drawing_ids)
 
-      render(status: :bad_request, html: 'Het antwoord is te lang en kan daardoor niet worden opgeslagen',
-             layout: 'application')
+      render(status: :bad_request, html: I18n.t('questionnaires.answer_too_long'), layout: 'application')
       break
     end
   end
@@ -271,7 +270,7 @@ class QuestionnaireController < ApplicationController
   def check_content_empty
     return if content_present?
 
-    render(status: :bad_request, html: 'Cannot store blank questionnaire responses', layout: 'application')
+    render(status: :bad_request, html: I18n.t('questionnaires.blank_response'), layout: 'application')
   end
 
   def content_present?
@@ -282,8 +281,7 @@ class QuestionnaireController < ApplicationController
   def check_opened_at
     return if @response.opened_at.present?
 
-    render(status: :bad_request, html: 'Cannot accept answers for an unopened response',
-           layout: 'application')
+    render(status: :bad_request, html: I18n.t('questionnaires.unopened_response'), layout: 'application')
   end
 
   def check_informed_consent
@@ -293,7 +291,7 @@ class QuestionnaireController < ApplicationController
   def verify_cookie
     return if AuthenticationVerifier.valid? questionnaire_create_params[:response_id], current_user
 
-    render(status: :unauthorized, html: 'Je hebt geen toegang tot deze vragenlijst.', layout: 'application')
+    render(status: :unauthorized, html: I18n.t('questionnaires.no_access'), layout: 'application')
   end
 
   def set_response

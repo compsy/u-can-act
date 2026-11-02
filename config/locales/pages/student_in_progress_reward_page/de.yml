@@ -1,0 +1,11 @@
+de:
+  pages:
+    student_in_progress_reward_page:
+      header: Vielen Dank für das Ausfüllen des Fragebogens!
+      body:
+        bottom: |
+          <div class='section'>
+            <p class='flow-text'>
+              Der Kreis oben zeigt, wie viel Sie verdient haben (der äußere Ring) und wie weit Sie auf dem Weg zur Bonusserie sind (der innere Ring).
+            </p>
+          </div>

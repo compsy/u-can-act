@@ -1,6 +1,7 @@
 import React from 'react';
 import Pyro from './Pyro';
 import { printAsMoney } from '../Helpers';
+import I18n from '../../../../public/javascripts/i18n';
 import RadialProgressChart from 'radial-progress-chart';
 
 export default class ProgressBar extends React.Component {
@@ -89,7 +90,7 @@ export default class ProgressBar extends React.Component {
           color: this.valueEuroColor
         } ],
         center: {
-          content: [ 'Je hebt nu',
+          content: [ I18n.t('pages.reward.you_have_now'),
             (value, _unused, series) => {
               // Only update the label when the euro value is being displayed
               if (series.index === firstElement) {
@@ -111,9 +112,7 @@ export default class ProgressBar extends React.Component {
       let value = this.props.euroDelta / this.props.currentMultiplier;
       let defaultValue = value * this.props.initialMultiplier;
       let currentBonus = this.props.euroDelta - defaultValue;
-      let text = 'Doordat je al een aantal vragenlijsten op rij hebt ingevuld, heb je';
-      text = `${text} ${printAsMoney(currentBonus)}`;
-      text = `${text} extra verdiend!`;
+      const text = I18n.t('pages.reward.streak_bonus', { amount: printAsMoney(currentBonus) });
       return <div className='animated pulse'> {text} </div>;
     }
     return <div />;

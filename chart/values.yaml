@@ -25,7 +25,7 @@ mongoSecretKey: MONGODB_URI
 image: docker.io/researchableuser/sdv-svc-questionnaires
 tag: latest
 appsignalAppEnv: staging
-curlImage: registry.gitlab.com/researchable/general/docker-images/curl:latest
+curlImage: curlimages/curl:8.23.0
 
 imagePullSecrets:
   - gitlab-auth

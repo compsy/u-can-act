@@ -8,7 +8,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
     describe 'locale' do
       it 'does not use a locale left behind by an earlier request on the same thread' do
         I18n.with_locale(:fi) { get :show }
-        expect(response.body).to include('Let op:')
+        # Without a known person the page is in English
+        expect(response.body).to include('Note:')
         expect(response.body).not_to include('Huomio:')
       end
     end
@@ -58,7 +59,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect(response.body).to include('Tämä linkki ei ole enää voimassa.')
       end
 
-      it 'falls back to English for a locale without interface translations (Person with German locale)' do
+      it 'requires a q parameter that is not expired (Person with German locale)' do
         responseobj = FactoryBot.create(:response, :invited)
         invitation_token = FactoryBot.create(:invitation_token, invitation_set: responseobj.invitation_set)
         identifier = "#{responseobj.protocol_subscription.person.external_identifier}#{invitation_token.token_plain}"
@@ -66,7 +67,7 @@ RSpec.describe TokenAuthenticationController, type: :controller do
         expect_any_instance_of(InvitationToken).to receive(:expired?).and_return(true)
         get :show, params: { q: identifier }
         expect(response).to have_http_status(:not_found)
-        expect(response.body).to include('This link is no longer valid.')
+        expect(response.body).to include('Dieser Link ist nicht mehr gültig.')
       end
 
       it 'requires a q parameter that has responses attached (Person with Dutch locale)' do

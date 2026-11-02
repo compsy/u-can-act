@@ -5,8 +5,8 @@
     %p.option-label
       = f.label :gender, value: 'male' do
         = f.radio_button :gender, 'male'
-        %span Man
+        %span= t('misc.gender.male').upcase_first
     %p.option-label
       = f.label :gender, value: 'female' do
         = f.radio_button :gender, 'female'
-        %span Vrouw
+        %span= t('misc.gender.female').upcase_first

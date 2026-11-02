@@ -6,7 +6,7 @@
         %span.card-title
           = @person.errors.count
           = t('misc.error', :count => @person.errors.count)
-          in de gegevens, het volgende moet aangepast worden:
+          = t('pages.person.errors_intro')
         %ul
           - @person.errors.full_messages.each do |msg|
             %li= msg

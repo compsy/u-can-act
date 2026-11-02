@@ -20,6 +20,41 @@ var datepickerI18nFi = {
   done: 'OK'
 };
 
+var datepickerI18nDe = {
+  months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+  monthsShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+  weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+  weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+  weekdaysAbbrev: ['S', 'M', 'D', 'M', 'D', 'F', 'S'],
+  clear: 'Löschen',
+  cancel: 'Abbrechen',
+  done: 'OK'
+};
+
+var datepickerI18nEs = {
+  months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+  monthsShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+  weekdays: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+  weekdaysShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+  weekdaysAbbrev: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+  clear: 'Borrar',
+  cancel: 'Cancelar',
+  done: 'Aceptar'
+};
+
+var datepickerI18nPt = {
+  months: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
+  monthsShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+  weekdays: ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'],
+  weekdaysShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+  weekdaysAbbrev: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+  clear: 'Limpar',
+  cancel: 'Cancelar',
+  done: 'OK'
+};
+
+var datepickerI18n = { fi: datepickerI18nFi, de: datepickerI18nDe, es: datepickerI18nEs, pt: datepickerI18nPt };
+
 $(function() {
   // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
   // var collapsibleElem = document.querySelector('.collapsible');
@@ -60,12 +95,11 @@ $(function() {
     var default_date = null;
     if ($(self).data('default-date'))
       default_date = new Date(Date.parse($(self).data('default-date')));
-    // The Dutch texts are used for nl (and when no locale is given), the Finnish texts for fi. Other locales get the
+    // The Dutch texts are used for nl (and when no locale is given). en and locales without their own texts get the
     // English defaults of materialize.
     var locale = $(self).data('locale');
-    var i18n = {};
+    var i18n = datepickerI18n[locale] || {};
     if (!locale || locale === 'nl') i18n = datepickerI18nNl;
-    if (locale === 'fi') i18n = datepickerI18nFi;
     $(self).datepicker({
       firstDay: 1,
       minDate: new Date(Date.parse($(self).data('min'))),

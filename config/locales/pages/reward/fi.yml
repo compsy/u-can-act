@@ -1,0 +1,10 @@
+fi:
+  pages:
+    reward:
+      total_earned: Olet ansainnut yhteensä %{amount}.
+      earned_now: Ansaitsit tällä %{earned}. Voit vielä ansaita %{awardable}.
+      you_have_now: Sinulla on nyt
+      streak_bonus: Koska olet vastannut useaan kyselyyn peräkkäin, olet ansainnut %{amount} ylimääräistä!
+      edit_person: Muokkaa tietoja
+      iban_needed_tooltip: Tarvitsemme tilinumerosi, jotta voimme maksaa palkkiosi sinulle.
+      disclaimer: Vastuuvapauslauseke

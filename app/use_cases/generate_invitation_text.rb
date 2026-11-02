@@ -10,7 +10,8 @@ class GenerateInvitationText < ActiveInteraction::Base
   def execute
     subs_hash = VariableSubstitutor.substitute_variables(response)
     content = generate_text(response)
-    VariableEvaluator.evaluate_obj(content, subs_hash)
+    # Dates in the text (e.g. {{datum}}) are written in the language of the invitation text
+    I18n.with_locale(text_locale(response)) { VariableEvaluator.evaluate_obj(content, subs_hash) }
   end
 
   private
@@ -24,6 +25,13 @@ class GenerateInvitationText < ActiveInteraction::Base
     return mentor_texts(response) if response.protocol_subscription.person.mentor?
 
     student_texts(response)
+  end
+
+  # Only the en invitation text is English; the other texts (nl, and the protocol and project fallbacks) are Dutch.
+  def text_locale(response)
+    protocol_subscription = response.protocol_subscription
+    english = protocol_subscription.person.locale != 'nl' && protocol_subscription.invitation_text_en.present?
+    english ? 'en' : 'nl'
   end
 
   # There are only nl and en invitation texts, so every locale other than nl gets the en text.

@@ -22,8 +22,14 @@ describe DateGenerator do
     expect(result).to include('data-locale="fi"')
   end
 
+  it 'uses the German, Spanish and Portuguese placeholders for de, es and pt' do
+    expect(described_class.new.generate(question.merge(locale: 'de'))).to include('Datum auswählen')
+    expect(described_class.new.generate(question.merge(locale: 'es'))).to include('Seleccione una fecha')
+    expect(described_class.new.generate(question.merge(locale: 'pt'))).to include('Selecione uma data')
+  end
+
   it 'falls back to the English placeholder for other locales' do
-    result = described_class.new.generate(question.merge(locale: 'de'))
+    result = described_class.new.generate(question.merge(locale: 'sv'))
     expect(result).to include('Fill out a date')
   end
 

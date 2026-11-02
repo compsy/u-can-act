@@ -1,0 +1,12 @@
+en:
+  pages:
+    person:
+      header: Edit account details
+      body: '<p class="flow-text">Edit your personal details here</p>'
+      submit: Save
+      errors_intro: 'in the details, the following must be changed:'
+      bank_details: Bank details
+      iban_needed: We still need your IBAN to transfer the reward.
+      iban_stored_separately: This is stored separately from the questionnaires, so the questions you just answered remain completely anonymous.
+      iban_title: Enter the account number in IBAN format.
+      mobile_phone_title: Enter the ten digits without a hyphen.

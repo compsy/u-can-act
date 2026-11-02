@@ -1,0 +1,35 @@
+es:
+  questionnaires:
+    data_saved: Datos guardados.
+    preview_saved: "¡Listo! Si este fuera un cuestionario real, sus respuestas se habrían guardado."
+    questionnaire_expired: Este cuestionario ya no se puede completar.
+    busy: Espere...
+    save: Guardar
+    next: Siguiente
+    questionnaire: Cuestionario
+    already_completed: Ya ha completado este cuestionario.
+    not_authorized: No tiene autorización para ver este cuestionario.
+    link_not_valid: Este enlace ya no es válido.
+    not_found: Usuario / cuestionario no encontrado.
+    not_found_questionnaire: No se encontró el cuestionario.
+    next_questionnaire_notice: "Haga clic en '%{save}' abajo para enviar sus respuestas"
+    next_questionnaire_notice_with_next: "Haga clic en '%{save}' abajo para enviar sus respuestas y continuar con el siguiente cuestionario"
+    unsubscribe: Dejar de participar
+    thanks_for_participating: "¡Gracias por su participación!"
+    drawing:
+      clear: Borrar
+      lock: Listo (siguiente pregunta)
+      unlock: Editar
+    warnings:
+      attention: "Atención:"
+      cookies: Su navegador no permite cookies en este momento. Por eso esta aplicación no funciona correctamente.
+      javascript: Su navegador tiene JavaScript desactivado. Por eso esta aplicación no funciona correctamente.
+      old_browser: Su navegador es Internet Explorer versión < 10. Esta página web no funciona con él. Utilice un navegador más reciente.
+    placeholders:
+      fill_something_in: Escriba su respuesta
+      otherwise: "Otro (especifique):"
+      enter_a_number: Introduzca un número
+      select_your_answer: Seleccione su respuesta...
+  # The other date and time texts come from the rails-i18n gem.
+  time:
+    time: Hora

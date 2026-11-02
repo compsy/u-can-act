@@ -1,4 +1,5 @@
 import React from 'react';
+import I18n from '../../../../public/javascripts/i18n';
 
 export default class EditPersonLink extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class EditPersonLink extends React.Component {
     return (
       <a href={url} className='tooltipped'
         data-position='bottom'
-        data-tooltip='We hebben je bankrekeningnummer nodig om je beloning naar je te kunnen overmaken.'>
+        data-tooltip={I18n.t('pages.reward.iban_needed_tooltip')}>
         {text}
       </a>
     );
@@ -29,7 +30,7 @@ export default class EditPersonLink extends React.Component {
   }
 
   render() {
-    const linkToRender = this.decorateLink('/person/edit', 'Gegevens aanpassen', this.props.person);
+    const linkToRender = this.decorateLink('/person/edit', I18n.t('pages.reward.edit_person'), this.props.person);
 
     return <div>{linkToRender}</div>;
   }

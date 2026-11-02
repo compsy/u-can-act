@@ -3,11 +3,11 @@ import ReactDatePicker from 'react-datepicker'
 import classNames from 'classnames'
 import moment from 'moment'
 import { dateAndTimePickerDefaultOptions, backendDateFormat, backendHoursFormat, backendMinutesFormat } from './Constants'
-import { nl, enUS, fi } from 'date-fns/locale'
+import { nl, enUS, fi, de, es, pt } from 'date-fns/locale'
 import I18n from '../../../public/javascripts/i18n';
 
 // Locales without their own date-fns locale here fall back to English
-const dateFnsLocales = { nl, en: enUS, fi }
+const dateFnsLocales = { nl, en: enUS, fi, de, es, pt }
 
 const DateAndTimePicker = props => {
   const calculateStartDate = () => {

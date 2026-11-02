@@ -127,6 +127,18 @@ describe QuestionnaireGenerator do
         expect(result).not_to include('v1_muu')
       end
 
+      it 'shows the otherwise option in de, es and pt but stores it with the Dutch key' do
+        { 'de' => 'Sonstiges, und zwar:', 'es' => 'Otro (especifique):', 'pt' => 'Outro (especifique):' }
+          .each do |locale, label|
+          result = generate_with_otherwise(locale)
+          expect(result).to include(label)
+          expect(result).to include('v1_anders_namelijk')
+          expect(result).not_to include('v1_sonstiges')
+          expect(result).not_to include('v1_otro')
+          expect(result).not_to include('v1_outro')
+        end
+      end
+
       it 'keeps the otherwise keys of nl and en unchanged' do
         expect(generate_with_otherwise('nl')).to include('v1_anders_namelijk')
         expect(generate_with_otherwise('en')).to include('v1_otherwise_please_specify')

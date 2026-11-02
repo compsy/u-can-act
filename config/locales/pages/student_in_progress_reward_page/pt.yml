@@ -1,0 +1,11 @@
+pt:
+  pages:
+    student_in_progress_reward_page:
+      header: Obrigado por preencher o questionário!
+      body:
+        bottom: |
+          <div class='section'>
+            <p class='flow-text'>
+              O círculo acima mostra quanto já ganhou (o anel exterior) e quanto falta para a sequência de bónus (o anel interior).
+            </p>
+          </div>

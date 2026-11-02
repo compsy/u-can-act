@@ -1,0 +1,17 @@
+pt:
+  questionnaires:
+    not_logged_in: Não tem sessão iniciada.
+    no_access: Não tem acesso a este questionário.
+    answer_too_long: A resposta é demasiado longa e por isso não pode ser guardada
+    blank_response: Não é possível guardar um questionário vazio
+    unopened_response: Não é possível aceitar respostas para um questionário que não foi aberto
+    unsubscribed: Cancelou a sua participação no estudo %{application_name}. Obrigado pela sua participação!
+    mentor_guidance_stopped: 'Sucesso: o acompanhamento de %{first_name} foi terminado.'
+    thanks_for_filling_out: Obrigado por preencher o questionário!
+    reward_page_unavailable: Só pode ver esta página depois de preencher um questionário.
+    hours: Horas
+    minutes: Minutos
+    invitation_mail:
+      fill_out: Preencher os questionários
+      thanks_in_advance: Muito obrigado desde já!
+      team: A equipa %{project_name}

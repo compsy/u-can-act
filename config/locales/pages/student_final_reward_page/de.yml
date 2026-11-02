@@ -1,0 +1,17 @@
+de:
+  pages:
+    student_final_reward_page:
+      header: Vielen Dank für das Ausfüllen des Fragebogens!
+      body:
+        top: |
+          <div class='section'>
+            <p class='flow-text'>
+              Vielen Dank für Ihren Einsatz für diese Studie!
+            </p>
+          </div>
+        bottom: |
+          <div class='section'>
+            <p class='flow-text'>
+              Sie können diese Seite jetzt schließen.
+            </p>
+          </div>

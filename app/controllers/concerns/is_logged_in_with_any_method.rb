@@ -22,6 +22,6 @@ module IsLoggedInWithAnyMethod
       return result if result.present?
     end
 
-    render(status: :unauthorized, html: 'Je bent niet ingelogd.', layout: 'application')
+    render(status: :unauthorized, html: I18n.t('questionnaires.not_logged_in'), layout: 'application')
   end
 end

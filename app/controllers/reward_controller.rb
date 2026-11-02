@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RewardController < ApplicationController
+  include ::UsesParticipantLocale
   include ::IsLoggedIn
 
   before_action :set_response
@@ -15,9 +16,7 @@ class RewardController < ApplicationController
     @response = current_user&.last_completed_response
     return if @response
 
-    render(status: :not_found,
-           html: 'Je kan deze pagina alleen bekijken na het invullen van een vragenlijst.',
-           layout: 'application')
+    render(status: :not_found, html: I18n.t('questionnaires.reward_page_unavailable'), layout: 'application')
   end
 
   def set_protocol_subscription

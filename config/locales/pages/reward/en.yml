@@ -1,0 +1,10 @@
+en:
+  pages:
+    reward:
+      total_earned: In total you have earned %{amount}.
+      earned_now: You have earned %{earned} with this. You can still earn %{awardable}.
+      you_have_now: You now have
+      streak_bonus: Because you have completed several questionnaires in a row, you have earned %{amount} extra!
+      edit_person: Edit details
+      iban_needed_tooltip: We need your bank account number to transfer your reward to you.
+      disclaimer: Disclaimer

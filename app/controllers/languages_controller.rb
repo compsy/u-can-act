@@ -4,6 +4,13 @@ class LanguagesController < ApplicationController
   # nl and en are always offered, as before. Other locales are only offered when the questionnaire of the response
   # is available in them, so other projects keep offering just nl and en.
   DEFAULT_LOCALES = %w[nl en].freeze
+  # Each language is shown in its own language, so a participant can find it whatever the current language is.
+  LANGUAGE_NAMES = {
+    'nl' => 'Nederlands', 'en' => 'English', 'fi' => 'Suomi', 'de' => 'Deutsch', 'es' => 'Español', 'pt' => 'Português'
+  }.freeze
+
+  include ::UsesParticipantLocale
+  include ::IsLoggedIn
 
   before_action :set_response, only: %i[change]
 
@@ -30,7 +37,8 @@ class LanguagesController < ApplicationController
       return flash.alert = I18n.t('pages.languages.flash_messages.alert.locale_update_error')
     end
 
-    flash.notice = I18n.t('pages.languages.flash_messages.notice.locale_updated')
+    # Confirm the change in the newly chosen language
+    flash.notice = I18n.t('pages.languages.flash_messages.notice.locale_updated', locale: locale)
     return redirect_to change_params[:cb], allow_other_host: true if params[:cb].present?
 
     redirect_to language_path show_params

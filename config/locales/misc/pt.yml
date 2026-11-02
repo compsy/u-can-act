@@ -1,0 +1,8 @@
+pt:
+  misc:
+    error:
+      one: erro
+      other: erros
+    gender:
+      male: masculino
+      female: feminino

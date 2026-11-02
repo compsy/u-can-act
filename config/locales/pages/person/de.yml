@@ -1,0 +1,12 @@
+de:
+  pages:
+    person:
+      header: Kontodaten bearbeiten
+      body: '<p class="flow-text">Bearbeiten Sie hier Ihre persönlichen Daten</p>'
+      submit: Speichern
+      errors_intro: 'in den Daten, Folgendes muss geändert werden:'
+      bank_details: Bankdaten
+      iban_needed: Um die Belohnung zu überweisen, benötigen wir noch Ihre IBAN.
+      iban_stored_separately: Dies wird getrennt von den Fragebögen gespeichert, sodass die Fragen, die Sie gerade beantwortet haben, weiterhin vollständig anonym bleiben.
+      iban_title: Geben Sie die Kontonummer im IBAN-Format ein.
+      mobile_phone_title: Geben Sie die zehn Ziffern ohne Bindestrich ein.

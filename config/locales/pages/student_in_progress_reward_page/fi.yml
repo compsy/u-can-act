@@ -1,0 +1,11 @@
+fi:
+  pages:
+    student_in_progress_reward_page:
+      header: Kiitos kyselyyn vastaamisesta!
+      body:
+        bottom: |
+          <div class='section'>
+            <p class='flow-text'>
+              Yllä oleva ympyrä näyttää, kuinka paljon olet ansainnut (ulompi rengas) ja kuinka lähellä olet bonusputkea (sisempi rengas).
+            </p>
+          </div>

@@ -5,3 +5,9 @@ nl:
       body: >
         <p class="flow-text">Pas hier uw persoonsgegevens aan</p>
       submit: Opslaan
+      errors_intro: 'in de gegevens, het volgende moet aangepast worden:'
+      bank_details: Bankgegevens
+      iban_needed: Om de beloning over te maken hebben we nog je IBAN gegevens nodig.
+      iban_stored_separately: Dit wordt los van de vragenlijsten opgeslagen, zodat de vragen die je net hebt beantwoord alsnog helemaal anoniem zijn.
+      iban_title: Vul het rekeningnummer in IBAN formaat in.
+      mobile_phone_title: Vul de tien getallen in zonder streepje.

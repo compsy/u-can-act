@@ -1,0 +1,17 @@
+es:
+  pages:
+    student_final_reward_page:
+      header: "¡Gracias por completar el cuestionario!"
+      body:
+        top: |
+          <div class='section'>
+            <p class='flow-text'>
+              ¡Muchas gracias por su dedicación a esta investigación!
+            </p>
+          </div>
+        bottom: |
+          <div class='section'>
+            <p class='flow-text'>
+              Ya puede cerrar esta página.
+            </p>
+          </div>

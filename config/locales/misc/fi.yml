@@ -1,0 +1,8 @@
+fi:
+  misc:
+    error:
+      one: virhe
+      other: virhettä
+    gender:
+      male: mies
+      female: nainen

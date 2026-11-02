@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PeopleController < ApplicationController
+  include ::UsesParticipantLocale
   include ::IsLoggedIn
 
   before_action :set_current_person
@@ -76,9 +77,8 @@ class PeopleController < ApplicationController
   end
 
   def unsubscribe_notice
-    return 'Bedankt voor het invullen van de vragenlijst!' if @person.role.group == Person::SOLO
+    return I18n.t('questionnaires.thanks_for_filling_out') if @person.role.group == Person::SOLO
 
-    "Je hebt je uitgeschreven voor het #{Rails.application.config.settings.application_name} onderzoek. " \
-      'Bedankt voor je inzet!'
+    I18n.t('questionnaires.unsubscribed', application_name: Rails.application.config.settings.application_name)
   end
 end

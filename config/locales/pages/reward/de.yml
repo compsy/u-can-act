@@ -1,0 +1,10 @@
+de:
+  pages:
+    reward:
+      total_earned: Insgesamt haben Sie %{amount} verdient.
+      earned_now: Damit haben Sie %{earned} verdient. Sie können noch %{awardable} verdienen.
+      you_have_now: Sie haben jetzt
+      streak_bonus: Weil Sie mehrere Fragebögen hintereinander ausgefüllt haben, haben Sie %{amount} extra verdient!
+      edit_person: Daten bearbeiten
+      iban_needed_tooltip: Wir benötigen Ihre Kontonummer, um Ihnen Ihre Belohnung zu überweisen.
+      disclaimer: Haftungsausschluss

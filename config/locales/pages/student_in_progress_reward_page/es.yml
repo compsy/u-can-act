@@ -1,0 +1,11 @@
+es:
+  pages:
+    student_in_progress_reward_page:
+      header: "¡Gracias por completar el cuestionario!"
+      body:
+        bottom: |
+          <div class='section'>
+            <p class='flow-text'>
+              El círculo de arriba muestra cuánto ha ganado (el anillo exterior) y cuánto le falta para la racha de bonificación (el anillo interior).
+            </p>
+          </div>

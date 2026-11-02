@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html style="height: 100%;">
+<html lang="nl" style="height: 100%;">
 <head>
+  <meta charset="utf-8">
   <title>404 - u-can-act</title>
 </head>
 
@@ -15,12 +16,34 @@
       <br>
       <div style="padding-top:20px;">
         <p>
-          De pagina die je probeert te openen kon niet worden gevonden.<br>
-          <a href="/questionnaire" style="color: #fff !important;">Keer terug naar u-can-act</a>.
+          <span data-i18n="message">De pagina die je probeert te openen kon niet worden gevonden.</span><br>
+          <a href="/questionnaire" style="color: #fff !important;" data-i18n="back">Keer terug naar u-can-act</a>.
         </p>
       </div>
     </div>
   </div>
 </div>
+<script>
+  // Static page, so pick the text from the browser languages. Without JavaScript the text above is shown.
+  (function () {
+    var texts = {
+      nl: {"message": "De pagina die je probeert te openen kon niet worden gevonden.", "back": "Keer terug naar u-can-act"},
+      en: {"message": "The page you are trying to open could not be found.", "back": "Return to u-can-act"},
+      fi: {"message": "Sivua, jota yrität avata, ei löytynyt.", "back": "Palaa u-can-act-sivustolle"},
+      de: {"message": "Die Seite, die Sie öffnen möchten, wurde nicht gefunden.", "back": "Zurück zu u-can-act"},
+      es: {"message": "No se ha encontrado la página que intenta abrir.", "back": "Volver a u-can-act"},
+      pt: {"message": "Não foi possível encontrar a página que está a tentar abrir.", "back": "Voltar ao u-can-act"}
+    };
+    var languages = navigator.languages || [navigator.language || ''];
+    for (var i = 0; i < languages.length; i++) {
+      var lang = (languages[i] || '').split('-')[0].toLowerCase();
+      if (!texts[lang]) continue;
+      document.documentElement.lang = lang;
+      var elements = document.querySelectorAll('[data-i18n]');
+      for (var j = 0; j < elements.length; j++) elements[j].textContent = texts[lang][elements[j].getAttribute('data-i18n')];
+      return;
+    }
+  })();
+</script>
 </body>
 </html>

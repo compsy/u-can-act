@@ -1,0 +1,17 @@
+de:
+  questionnaires:
+    not_logged_in: Sie sind nicht angemeldet.
+    no_access: Sie haben keinen Zugriff auf diesen Fragebogen.
+    answer_too_long: Die Antwort ist zu lang und kann deshalb nicht gespeichert werden
+    blank_response: Ein leerer Fragebogen kann nicht gespeichert werden
+    unopened_response: Antworten für einen nicht geöffneten Fragebogen können nicht angenommen werden
+    unsubscribed: Sie haben sich von der Studie %{application_name} abgemeldet. Vielen Dank für Ihren Einsatz!
+    mentor_guidance_stopped: 'Erfolgreich: Die Begleitung für %{first_name} wurde beendet.'
+    thanks_for_filling_out: Vielen Dank für das Ausfüllen des Fragebogens!
+    reward_page_unavailable: Sie können diese Seite erst nach dem Ausfüllen eines Fragebogens ansehen.
+    hours: Stunden
+    minutes: Minuten
+    invitation_mail:
+      fill_out: Fragebögen ausfüllen
+      thanks_in_advance: Vielen Dank im Voraus!
+      team: Ihr %{project_name}-Team

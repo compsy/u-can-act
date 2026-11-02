@@ -3,6 +3,7 @@ import MentorRewardPage from './reward_page_components/MentorRewardPage'
 import DefaultRewardPage from './reward_page_components/DefaultRewardPage'
 import StudentFinalRewardPage from './reward_page_components/StudentFinalRewardPage'
 import StudentInProgressRewardPage from './reward_page_components/StudentInProgressRewardPage'
+import I18n from '../../../public/javascripts/i18n'
 
 export default class RewardPage extends React.Component {
   constructor (props) {
@@ -105,7 +106,7 @@ export default class RewardPage extends React.Component {
 
   render () {
     if (!this.state.result || !this.state.person) {
-      return <div>Bezig...</div>
+      return <div>{I18n.t('questionnaires.busy')}</div>
     }
 
     return (

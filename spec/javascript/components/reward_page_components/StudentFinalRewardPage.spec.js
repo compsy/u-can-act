@@ -3,9 +3,6 @@ import {
   shallow
 } from 'enzyme';
 
-import {
-  printAsMoney
-} from 'Helpers';
 import StudentFinalRewardPage from 'reward_page_components/StudentFinalRewardPage';
 
 jest.mock('i18n', () => {
@@ -46,7 +43,7 @@ describe('StudentFinalRewardPage', () => {
       expect(result).toEqual(expected);
 
       idx++;
-      expected = `In totaal heb je ${printAsMoney(earnedEuros)} verdiend.`;
+      expected = 'pages.reward.total_earned';
       result = elems.childAt(idx).text();
       expect(result).toEqual(expected);
 

@@ -101,5 +101,7 @@ class TokenAuthenticationController < ApplicationController
     # of the person. Otherwise, fallback to English
     person = Person.find_by(external_identifier: identifier_param)
     @locale = person ? person.locale : :en
+    # Also render the layout (e.g. the browser warnings) in this locale
+    I18n.locale = @locale
   end
 end

@@ -10,6 +10,7 @@ class InvitationMailer < ApplicationMailer
   def invitation_mail(email_address, message, invitation_url, template, locale, open_from_date)
     @invitation_url = invitation_url
     @message = message
+    @locale = locale
     # Use the default template if the given template does not exist.
     template = 'invitation_mailer/invitation_mail' if lookup_context.find_all(template, []).blank?
     mail(subject: default_invitation_subject(locale, open_from_date), to: email_address) do |format|

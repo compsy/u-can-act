@@ -547,7 +547,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                         opened_at: 5.minutes.ago)
         post :create, params: { response_id: responseobj.id, content: {} }
         expect(response).to have_http_status(:bad_request)
-        expect(response.body).to include 'Cannot store blank questionnaire responses'
+        expect(response.body).to include 'Een lege vragenlijst kan niet worden opgeslagen'
         responseobj.reload
         expect(responseobj.completed_at).to be_blank
         expect(responseobj.content).to be_blank
@@ -563,7 +563,7 @@ RSpec.describe QuestionnaireController, type: :controller do
                                         opened_at: 5.minutes.ago)
         post :create, params: { response_id: responseobj.id, content: { 'csrf_failed' => true } }
         expect(response).to have_http_status(:bad_request)
-        expect(response.body).to include 'Cannot store blank questionnaire responses'
+        expect(response.body).to include 'Een lege vragenlijst kan niet worden opgeslagen'
         responseobj.reload
         expect(responseobj.completed_at).to be_blank
         expect(responseobj.content).to be_blank
@@ -576,7 +576,8 @@ RSpec.describe QuestionnaireController, type: :controller do
         responseobj = FactoryBot.create(:response, protocol_subscription: protocol_subscription, open_from: 1.hour.ago)
         post :create, params: { response_id: responseobj.id, content: { 'v1' => 'true' } }
         expect(response).to have_http_status(:bad_request)
-        expect(response.body).to include 'Cannot accept answers for an unopened response'
+        expect(response.body)
+          .to include 'Antwoorden voor een vragenlijst die nog niet geopend is kunnen niet worden geaccepteerd'
         responseobj.reload
         expect(responseobj.completed_at).to be_blank
         expect(responseobj.content).to be_blank
@@ -620,7 +621,7 @@ RSpec.describe QuestionnaireController, type: :controller do
           expect(Rails.logger).to receive(:warn).with(/^\[Attention\]/)
           post :create, params: { response_id: responseobj.id, content: {} }
           expect(response).to have_http_status(:bad_request)
-          expect(response.body).to include 'Cannot store blank questionnaire responses'
+          expect(response.body).to include 'Een lege vragenlijst kan niet worden opgeslagen'
           responseobj.reload
           expect(responseobj.completed_at).to be_blank
           expect(responseobj.content).to be_blank

@@ -29,7 +29,7 @@ describe GenerateInvitationText do
       end
 
       it 'writes dates in the language of the invitation text' do
-        travel_to(Time.zone.local(2026, 10, 19, 12)) do
+        Timecop.freeze(Time.zone.local(2026, 10, 19, 12)) do
           protocol = FactoryBot.create(:protocol, :with_invitation_text)
           %w[nl en fi].each do |locale|
             person = FactoryBot.create(:person, locale: locale)

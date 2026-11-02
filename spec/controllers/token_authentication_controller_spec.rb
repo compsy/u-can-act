@@ -8,7 +8,8 @@ RSpec.describe TokenAuthenticationController, type: :controller do
     describe 'locale' do
       it 'does not use a locale left behind by an earlier request on the same thread' do
         I18n.with_locale(:fi) { get :show }
-        expect(response.body).to include('Let op:')
+        # Without a known person the page is in English
+        expect(response.body).to include('Note:')
         expect(response.body).not_to include('Huomio:')
       end
     end

@@ -192,6 +192,16 @@ describe QuestionnaireGenerator do
         expect(result).to include("<p>#{name}</p>")
       end
 
+      it 'keeps names inside the javascript string of a tooltip' do
+        responseobj.protocol_subscription.person.update!(first_name: 'x\\', last_name: "');alert(1);//")
+        result = render([{ id: :v1, type: :textfield, title: 'a',
+                           tooltip: "{{deze_student}}'s {{achternaam_student}}" }])
+        onclick = Nokogiri::HTML.fragment(result).at_css('a[onclick]')['onclick']
+        js_string = /'(?:[^'\\]|\\.)*'/
+        toast = /\Anew window\.M\.Toast\(\{html: #{js_string}, /
+        expect(onclick).to match(/#{toast}displayLength: \d+\}\);autoResizeImages\(\);\z/)
+      end
+
       it 'signs the stop subscription token with the submitted radio value' do
         result = render([{ id: :v1, type: :radio, title: 'Stoppen?',
                            options: [{ title: "Stop {{achternaam_student}} & co's", stop_subscription: true }] }])

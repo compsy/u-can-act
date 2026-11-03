@@ -14,6 +14,13 @@ class JwtAuthenticator
       auth_with_token(token, cookies_signed)
     end
 
+    def engine_cookie_person(cookies_signed)
+      token = CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+      return unless token.is_a?(Array) && token.first.is_a?(Hash)
+
+      AuthUser.find_by(auth0_id_string: token.first['sub'])&.person
+    end
+
     def auth_from_platform_cookie(cookies_signed, platform_cookie)
       token = decode_token(platform_cookie.to_s.sub(/\ABearer[+\s]+/, ''))
       auth_with_token(token, cookies_signed, create_auth_user: true)

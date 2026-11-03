@@ -49,6 +49,25 @@ class ApplicationController < ActionController::Base
     request.headers['Sec-Fetch-Site'] == 'cross-site'
   end
 
+  def sdv_session_lost?
+    return false if params[:relaunched].present? || request.xhr? || !request.format.html?
+    return false if ENV.fetch('BASE_PLATFORM_URL', nil).blank?
+
+    CookieJar.read_entry(cookies.signed, TokenAuthenticationController::JWT_TOKEN_COOKIE).present? ||
+      cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE].present?
+  end
+
+  def sdv_relaunch_path
+    sdv_launch_path(return_to: relaunch_return_to, relaunch: 1)
+  end
+
+  def relaunch_return_to
+    return questionnaire_index_path unless request.get?
+
+    query = request.query_parameters.except('relaunched', 'token', 'auth')
+    query.empty? ? request.path : "#{request.path}?#{query.to_query}"
+  end
+
   def use_default_locale(&block)
     I18n.with_locale(I18n.default_locale, &block)
   end

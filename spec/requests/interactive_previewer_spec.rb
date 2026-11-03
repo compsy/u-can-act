@@ -79,6 +79,14 @@ describe 'Interactive questionnaire previewer', type: :request do
       post '/questionnaire/from_json', env: admin_env
       expect(response).to redirect_to('/questionnaire/interactive')
     end
+
+    it 'escapes the posted content in the previewer text area' do
+      posted = '</textarea><script>marker</script>'
+      post '/questionnaire/interactive_post', params: { content: Base64.strict_encode64(posted) }, env: admin_env
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(posted)
+      expect(response.body).to include('&lt;/textarea&gt;&lt;script&gt;marker&lt;/script&gt;')
+    end
   end
 
   describe 'with forgery protection' do
@@ -97,6 +105,12 @@ describe 'Interactive questionnaire previewer', type: :request do
     it 'rejects an admin render without a CSRF token' do
       expect do
         post '/questionnaire/interactive_render', params: { content: content }, env: admin_env
+      end.to raise_error(ActionController::InvalidAuthenticityToken)
+    end
+
+    it 'rejects an admin post to the previewer without a CSRF token' do
+      expect do
+        post '/questionnaire/interactive_post', params: { content: Base64.strict_encode64(content) }, env: admin_env
       end.to raise_error(ActionController::InvalidAuthenticityToken)
     end
 

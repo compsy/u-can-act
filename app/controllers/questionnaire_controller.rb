@@ -7,11 +7,10 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include ::UsesParticipantLocale
   include ::IsLoggedIn
+  include ::IsAdminAuthenticated
 
   protect_from_forgery prepend: true, with: :exception, except: :create
-  skip_before_action :verify_authenticity_token, only: %i[interactive_post]
-  http_basic_authenticate_with name: ENV.fetch('ADMIN_USERNAME', nil), password: ENV.fetch('ADMIN_PASSWORD', nil),
-                               only: %i[interactive interactive_post interactive_render from_json]
+  before_action :authenticate_admin, only: %i[interactive interactive_post interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
   before_action :set_locale, only: %i[show]
   before_action :set_response, only: %i[show preference destroy]

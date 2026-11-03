@@ -4,6 +4,8 @@ module Api
   module V1
     module JwtApi
       class OneTimeResponseController < JwtApiController
+        skip_before_action :authenticate_auth_user, only: :show
+        prepend_before_action :authenticate_with_header_or_launch_cookie, only: :show
         before_action :load_one_time_response, only: :show
         before_action :subscribe_person, only: :show
         before_action :set_redirect_url, only: :show
@@ -18,6 +20,33 @@ module Api
 
         private
 
+        def authenticate_with_header_or_launch_cookie
+          @launched_from_platform = launched_from_platform?
+          return if @launched_from_platform
+
+          authenticate_auth_user
+        end
+
+        def launched_from_platform?
+          request.headers['Authorization'].blank? && params[:token].blank? && same_site_request? &&
+            JwtAuthenticator.auth_from_cookies(cookies.signed).present?
+        end
+
+        def same_site_request?
+          case request.headers['Sec-Fetch-Site']
+          when 'same-origin', 'none' then true
+          when 'same-site' then from_platform?
+          else false
+          end
+        end
+
+        def from_platform?
+          platform_host = URI.parse(ENV.fetch('BASE_PLATFORM_URL', nil).to_s).host
+          platform_host.present? && URI.parse((request.origin || request.referer).to_s).host == platform_host
+        rescue URI::InvalidURIError
+          false
+        end
+
         def subscribe_person
           @one_time_response.subscribe_person(current_user, mentor)
         end
@@ -31,7 +60,7 @@ module Api
         end
 
         def mentor
-          return nil if one_time_response_params[:mentor_id].blank?
+          return nil if @launched_from_platform || one_time_response_params[:mentor_id].blank?
 
           @mentor = Person.find_by(id: one_time_response_params[:mentor_id])
         end

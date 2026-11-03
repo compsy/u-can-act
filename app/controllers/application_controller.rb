@@ -45,6 +45,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def cross_site_request?
+    request.headers['Sec-Fetch-Site'] == 'cross-site'
+  end
+
   def use_default_locale(&block)
     I18n.with_locale(I18n.default_locale, &block)
   end

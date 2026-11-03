@@ -30,6 +30,100 @@ describe Api::V1::JwtApi::OneTimeResponseController, type: :controller do
 
   it_behaves_like 'a jwt authenticated route', 'get', :index
 
+  describe 'GET /:token with the launch cookie' do
+    let(:thetoken) { 'theotrtoken' }
+    let!(:otr) { FactoryBot.create(:one_time_response, token: thetoken, protocol: protocol) }
+
+    it 'returns a 401 without a header or launch cookie' do
+      get :show, params: { otr: thetoken }
+      expect(response.status).to eq 401
+    end
+
+    describe 'when the launch cookie is set' do
+      before do
+        payload = the_payload.merge('iat' => Time.now.to_i, 'exp' => 1.hour.from_now.to_i)
+        cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => [payload] }
+        CookieJar.set_or_update_cookie(cookies.signed, cookie)
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('BASE_PLATFORM_URL', nil).and_return('https://app.example.nl')
+        request.headers['Sec-Fetch-Site'] = 'same-site'
+        request.headers['Referer'] = 'https://app.example.nl/'
+      end
+
+      it 'redirects the user to the correct page' do
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 302
+        expect(response.location).to start_with 'http://test.host?q='
+      end
+
+      %w[same-origin none].each do |fetch_site|
+        it "redirects the user for Sec-Fetch-Site #{fetch_site}" do
+          request.headers['Sec-Fetch-Site'] = fetch_site
+          get :show, params: { otr: thetoken }
+          expect(response.status).to eq 302
+        end
+      end
+
+      it 'returns a 401 and does not subscribe without a Sec-Fetch-Site header' do
+        request.headers['Sec-Fetch-Site'] = nil
+        expect(SubscribeToProtocol).not_to receive(:run!)
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'ignores the mentor_id parameter' do
+        mentor = FactoryBot.create(:mentor)
+        expect(SubscribeToProtocol).to receive(:run!).with(hash_including(mentor: nil)).and_call_original
+        get :show, params: { otr: thetoken, mentor_id: mentor.id }
+      end
+
+      it 'prefers an invalid Authorization header over the cookie' do
+        request.headers['Authorization'] = 'Bearer invalid'
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns a 401 when the stored token has expired' do
+        cookie = { TokenAuthenticationController::JWT_TOKEN_COOKIE => [the_payload.merge('exp' => 1.minute.ago.to_i)] }
+        CookieJar.set_or_update_cookie(cookies.signed, cookie)
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns a 401 and does not subscribe for a same-site request from another subdomain' do
+        request.headers['Referer'] = 'https://jupyterhub.app.example.nl/'
+        expect(SubscribeToProtocol).not_to receive(:run!)
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns a 401 for a same-site request without a Referer or Origin' do
+        request.headers['Referer'] = nil
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'redirects the user for a same-site request with the platform Origin' do
+        request.headers['Referer'] = nil
+        request.headers['Origin'] = 'https://app.example.nl'
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 302
+      end
+
+      it 'returns a 401 for a same-site request with an Origin of another subdomain' do
+        request.headers['Origin'] = 'https://jupyterhub.app.example.nl'
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns a 401 for a cross-site request' do
+        request.headers['Sec-Fetch-Site'] = 'cross-site'
+        get :show, params: { otr: thetoken }
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
   describe 'with authentication' do
     before do
       jwt_auth the_payload

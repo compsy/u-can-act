@@ -40,10 +40,9 @@ class LanguagesController < ApplicationController
 
     # Confirm the change in the newly chosen language
     flash.notice = I18n.t('pages.languages.flash_messages.notice.locale_updated', locale: locale)
-    callback = relative_path(change_params[:cb])
-    return redirect_to callback if callback
+    return redirect_to language_path show_params if params[:cb].blank?
 
-    redirect_to language_path show_params.except(:cb)
+    redirect_to relative_path(change_params[:cb]) || questionnaire_path(uuid: @response.uuid)
   end
   # rubocop:enable Metrics/AbcSize
 

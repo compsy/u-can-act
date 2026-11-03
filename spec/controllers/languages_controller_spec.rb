@@ -124,11 +124,16 @@ RSpec.describe LanguagesController, type: :controller do
     end
 
     ['https://evil.example/', '//evil.example/', '/\\evil.example/', 'javascript:alert(1)',
-     'https:/evil.example/', "/\t/evil.example/", '%2F%2Fevil.example/', 'evil.example'].each do |cb|
-      it "redirects to the language page for cb #{cb.inspect}" do
+     'https:/evil.example/', "/\t/evil.example/", 'evil.example'].each do |cb|
+      it "redirects to the questionnaire for cb #{cb.inspect}" do
         post :change, params: { locale: 'en', r_id: responseobj.id, cb: cb }
-        expect(response).to redirect_to(language_path(r_id: responseobj.id))
+        expect(response).to redirect_to(questionnaire_path(uuid: responseobj.uuid))
       end
+    end
+
+    it 'keeps an encoded cb on the own host' do
+      post :change, params: { locale: 'en', r_id: responseobj.id, cb: '/%2F%2Fevil.example/' }
+      expect(response.location).to eq('http://test.host/%2F%2Fevil.example/')
     end
   end
 end

@@ -150,6 +150,8 @@ module ApplicationHelper
     # actually defined.
     # @note We need to call this function first, and then fail. We cannot just
     #   check if it is defined, as it is generated automatically.
+    return if token.blank?
+
     current_auth_user&.person
   rescue NameError => _e
     # We don't need to let Appsignal know because this will happen every time we call current_user

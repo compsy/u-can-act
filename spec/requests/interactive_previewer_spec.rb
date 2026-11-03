@@ -91,10 +91,13 @@ describe 'Interactive questionnaire previewer', type: :request do
 
   describe 'with forgery protection' do
     around do |example|
+      show_exceptions = Rails.application.env_config['action_dispatch.show_exceptions']
+      Rails.application.env_config['action_dispatch.show_exceptions'] = :all
       ActionController::Base.allow_forgery_protection = true
       example.run
     ensure
       ActionController::Base.allow_forgery_protection = false
+      Rails.application.env_config['action_dispatch.show_exceptions'] = show_exceptions
     end
 
     def csrf_token_from_previewer
@@ -103,21 +106,19 @@ describe 'Interactive questionnaire previewer', type: :request do
     end
 
     it 'rejects an admin render without a CSRF token' do
-      expect do
-        post '/questionnaire/interactive_render', params: { content: content }, env: admin_env
-      end.to raise_error(ActionController::InvalidAuthenticityToken)
+      post '/questionnaire/interactive_render', params: { content: content }, env: admin_env
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.body).not_to include(markup)
     end
 
     it 'rejects an admin post to the previewer without a CSRF token' do
-      expect do
-        post '/questionnaire/interactive_post', params: { content: Base64.strict_encode64(content) }, env: admin_env
-      end.to raise_error(ActionController::InvalidAuthenticityToken)
+      post '/questionnaire/interactive_post', params: { content: Base64.strict_encode64(content) }, env: admin_env
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'rejects an admin submit without a CSRF token' do
-      expect do
-        post '/questionnaire/from_json', env: admin_env
-      end.to raise_error(ActionController::InvalidAuthenticityToken)
+      post '/questionnaire/from_json', env: admin_env
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'renders for an admin with the CSRF token of the previewer page' do

@@ -43,6 +43,10 @@ spec:
         - name: {{ . | quote }}
 {{- end }}
 {{- end }}
+{{- with .Values.extraVolumes }}
+      volumes:
+{{ toYaml . | indent 8 }}
+{{- end }}
       containers:
         - name: {{ .Release.Name }}
           imagePullPolicy: Always
@@ -53,6 +57,10 @@ spec:
             requests:
               memory: {{ .Values.memory.web.request }}
           {{- include "container.env" . | indent 10 }}
+{{- with .Values.extraVolumeMounts }}
+          volumeMounts:
+{{ toYaml . | indent 12 }}
+{{- end }}
           ports:
           - containerPort: 3000
             protocol: TCP

@@ -22,6 +22,8 @@ mongoSecretKey: MONGODB_URI
 # authSignatureAlgorithmKey:
 # authSigningSecretKey:
 # authDecodingSecretKey:
+extraVolumes: []
+extraVolumeMounts: []
 image: docker.io/researchableuser/sdv-svc-questionnaires
 tag: latest
 appsignalAppEnv: staging

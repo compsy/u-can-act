@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class JwtAuthenticator
+  MAX_TOKEN_LIFETIME = 24.hours.to_i
+
   class << self
     def auth_from_cookies(cookies_signed)
       token = token_from_cookies(cookies_signed)
@@ -20,7 +22,7 @@ class JwtAuthenticator
     private
 
     def auth_with_token(token, cookies_signed, create_auth_user: false)
-      return if token.blank?
+      return if token.blank? || expired?(token.first)
 
       # TODO: token opslaan in session ipv cookies
       auth_user = find_auth_user(token.first, create_auth_user)
@@ -28,6 +30,11 @@ class JwtAuthenticator
 
       store_token_in_cookie(token, cookies_signed)
       auth_user.person
+    end
+
+    def expired?(payload)
+      lifetime = payload['exp'].to_i - payload['iat'].to_i
+      payload['exp'].to_i <= Time.now.to_i || !lifetime.between?(1, MAX_TOKEN_LIFETIME)
     end
 
     def find_auth_user(payload, create_auth_user)
@@ -59,15 +66,7 @@ class JwtAuthenticator
     end
 
     def token_from_cookies(cookies_signed)
-      token = CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
-      return if expired_cookie_token?(token)
-
-      token
-    end
-
-    def expired_cookie_token?(token)
-      expires_at = token.is_a?(Array) && token.first.is_a?(Hash) ? token.first['exp'] : nil
-      expires_at.present? && Time.zone.at(expires_at.to_i).past?
+      CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
     end
 
     def token_from_params(params)

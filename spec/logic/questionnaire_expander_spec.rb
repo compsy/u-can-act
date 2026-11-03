@@ -222,7 +222,7 @@ describe QuestionnaireExpander do
           .and_return(result)
 
         expect(VariableEvaluator).to receive(:evaluate_obj)
-          .with(content, result.merge('previous_v2' => ERB::Util.html_escape(other_response.to_s).to_str))
+          .with(content, result)
           .and_return(expected)
 
         result = described_class.expand_content(content, response)
@@ -251,27 +251,21 @@ describe QuestionnaireExpander do
           .and_return(result)
 
         expect(VariableEvaluator).to receive(:evaluate_obj)
-          .with(content, result.merge('previous_v2' => default))
+          .with(content, result)
           .and_return(expected)
 
         result = described_class.expand_content(content, response)
         expect(result).to eq([expected])
       end
 
-      it 'escapes html in the previous answer' do
-        content = { id: :v2, type: :raw, uses: { previous: :v1 }, content: 'Eerder: {{previous_v1}}' }
-        expect(PreviousResponseFinder).to receive(:find_value).with(response, :v1).and_return('<b>x</b>')
+      it 'escapes the previous answer in html keys when html is true' do
+        content = { id: :v2, type: :textfield, uses: { previous: :v1 },
+                    title: 'Eerder: {{previous_v1}}', default_value: '{{previous_v1}}' }
+        expect(PreviousResponseFinder).to receive(:find_value).with(response, :v1).and_return("<b>O'Neil</b>")
 
-        result = described_class.expand_content(content, response)
-        expect(result.first[:content]).to eq 'Eerder: &lt;b&gt;x&lt;/b&gt;'
-      end
-
-      it 'does not escape the default value' do
-        content = { id: :v2, type: :raw, uses: { previous: :v1, default: '<i>niets</i>' }, content: '{{previous_v1}}' }
-        expect(PreviousResponseFinder).to receive(:find_value).with(response, :v1).and_return(nil)
-
-        result = described_class.expand_content(content, response)
-        expect(result.first[:content]).to eq '<i>niets</i>'
+        result = described_class.expand_content(content, response, html: true)
+        expect(result.first[:title]).to eq 'Eerder: &lt;b&gt;O&#39;Neil&lt;/b&gt;'
+        expect(result.first[:default_value]).to eq "<b>O'Neil</b>"
       end
     end
 
@@ -279,35 +273,43 @@ describe QuestionnaireExpander do
       let(:team) { FactoryBot.create(:team) }
       let(:student_role) { FactoryBot.create(:role, team: team, group: Person::STUDENT, title: Person::STUDENT) }
       let(:mentor_role) { FactoryBot.create(:role, team: team, group: Person::MENTOR, title: 'MentorTitle') }
-      let(:student) { FactoryBot.create(:student, role: student_role, first_name: '<b>x</b>', last_name: 'A&B') }
-      let(:mentor) { FactoryBot.create(:mentor, role: mentor_role, first_name: '<img src=x>', last_name: "O'Neil") }
-
-      it 'escapes the names of the person but keeps the questionnaire markup' do
-        response = FactoryBot.create(:response, protocol_subscription: FactoryBot.create(:protocol_subscription,
-                                                                                         person: student))
-        content = { id: :v1, type: :raw, content: '<p>{{deze_student}} {{achternaam_student}}</p>' }
-
-        result = described_class.expand_content(content, response)
-        expect(result.first[:content]).to eq '<p>&lt;b&gt;x&lt;/b&gt; A&amp;B</p>'
+      let(:student) { FactoryBot.create(:student, role: student_role, first_name: '<b>x</b>', last_name: "O'Neil") }
+      let(:mentor) { FactoryBot.create(:mentor, role: mentor_role, first_name: '<i>m</i>') }
+      let(:student_response) do
+        FactoryBot.create(:response, protocol_subscription: FactoryBot.create(:protocol_subscription, person: student))
+      end
+      let(:content) do
+        { id: :v1, type: :textfield, title: '<i>{{deze_student}} {{achternaam_student}}</i>',
+          placeholder: '{{deze_student}}', hint: '{{achternaam_student}}' }
       end
 
-      it 'escapes the names in a title string' do
-        response = FactoryBot.create(:response, protocol_subscription: FactoryBot.create(:protocol_subscription,
-                                                                                         person: student))
-
-        result = described_class.expand_content('<i>Hoi {{Deze_student}}</i>', response)
-        expect(result).to eq ['<i>Hoi &lt;b&gt;x&lt;/b&gt;</i>']
+      it 'escapes names in html keys when html is true' do
+        result = described_class.expand_content(content, student_response, html: true)
+        expect(result.first).to include(title: '<i>&lt;b&gt;x&lt;/b&gt; O&#39;Neil</i>',
+                                        placeholder: '<b>x</b>', hint: "O'Neil")
       end
 
-      it 'escapes the names in a foreach question' do
+      it 'does not escape names when html is false' do
+        result = described_class.expand_content(content, student_response)
+        expect(result.first).to include(title: "<i><b>x</b> O'Neil</i>", placeholder: '<b>x</b>')
+      end
+
+      it 'escapes names in a first and last question when html is true' do
+        content = { id: :v1, type: :raw,
+                    content: { normal: '<p>{{deze_student}}</p>', first: '<p>{{deze_student}}</p>' } }
+
+        result = described_class.expand_content(content, student_response, html: true)
+        expect(result.first[:content]).to eq '<p>&lt;b&gt;x&lt;/b&gt;</p>'
+      end
+
+      it 'escapes names in a foreach question when html is true' do
         response = FactoryBot.create(:response, protocol_subscription: FactoryBot.create(:protocol_subscription,
                                                                                          person: mentor,
                                                                                          filling_out_for: student))
-        content = { id: :v1, type: :raw, foreach: :student,
-                    content: '{{deze_student}} {{naam_begeleider}} {{achternaam_begeleider}}' }
+        content = { id: :v1, type: :raw, foreach: :student, content: '{{deze_student}} {{naam_begeleider}}' }
 
-        result = described_class.expand_content(content, response)
-        expect(result.first[:content]).to eq '&lt;b&gt;x&lt;/b&gt; &lt;img src=x&gt; O&#39;Neil'
+        result = described_class.expand_content(content, response, html: true)
+        expect(result.first[:content]).to eq '&lt;b&gt;x&lt;/b&gt; &lt;i&gt;m&lt;/i&gt;'
       end
     end
   end

@@ -3,7 +3,7 @@
 module QuestionnaireExpanders
   class FirstAndLastExpander
     class << self
-      def expand!(content, response)
+      def expand!(content, response, html: false)
         %i[title content].each do |key|
           # Just quit searching if we do not have any more tags to replace.
           break unless needs_expansion? content
@@ -13,7 +13,7 @@ module QuestionnaireExpanders
           next if process_first_value(key, content, response)
           next if process_normal_value(key, content, response)
         end
-        QuestionnaireExpander.expand_content(content, response)
+        QuestionnaireExpander.expand_content(content, response, html: html)
       end
 
       def needs_expansion?(content)

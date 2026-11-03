@@ -2,25 +2,36 @@
 
 class VariableEvaluator
   class << self
-    def evaluate_obj(obj, subs_hash)
-      return evaluate(obj, subs_hash) if obj.is_a?(String)
+    def evaluate_obj(obj, subs_hash, html_keys: [], html_list_keys: [], html: false)
+      return evaluate(obj, html ? html_escape_values(subs_hash) : subs_hash) if obj.is_a?(String)
 
+      options = { html_keys: html_keys, html_list_keys: html_list_keys }
       if obj.is_a?(Hash)
         obj.each do |k, v|
-          obj[k] = evaluate_obj(v, subs_hash)
+          obj[k] = evaluate_obj(v, subs_hash, **options, html: html_for_key(k, html, html_keys, html_list_keys))
         end
         return obj
       end
 
       if obj.is_a?(Array)
         obj.each_with_index do |v, i|
-          obj[i] = evaluate_obj(v, subs_hash)
+          obj[i] = evaluate_obj(v, subs_hash, **options, html: html == :list ? v.is_a?(String) : html)
         end
       end
       obj
     end
 
     private
+
+    def html_for_key(key, html, html_keys, html_list_keys)
+      return true if html == true || html_keys.include?(key.to_s.to_sym)
+
+      html_list_keys.include?(key.to_s.to_sym) && :list
+    end
+
+    def html_escape_values(subs_hash)
+      subs_hash.transform_values { |value| value.is_a?(String) ? ERB::Util.html_escape(value).to_str : value }
+    end
 
     def evaluate(text, subs_hash)
       full_subs_hash = merge(default_subs_hash, subs_hash)

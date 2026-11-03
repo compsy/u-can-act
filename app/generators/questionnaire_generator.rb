@@ -66,7 +66,7 @@ class QuestionnaireGenerator
   def questionnaire_header(title)
     return ''.html_safe if title.blank?
 
-    header_body = tag.h4(title, class: 'header')
+    header_body = tag.h4(title.html_safe, class: 'header')
     header_body = tag.div(header_body, class: 'col s12')
     tag.div(header_body, class: 'row')
   end

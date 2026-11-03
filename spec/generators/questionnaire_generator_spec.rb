@@ -151,6 +151,24 @@ describe QuestionnaireGenerator do
       end
     end
 
+    it 'renders html in person names as text' do
+      responseobj.protocol_subscription.person.update!(first_name: '<b>x</b>')
+      content = { questions: [{ id: :v1, type: :textarea, title: 'Hoe gaat het met <i>{{deze_student}}</i>?' },
+                              { id: :v2, type: :raw, content: '<p>Dag {{deze_student}}</p>' }],
+                  scores: [] }
+      result = subject.generate_questionnaire(response_id: responseobj.id,
+                                              content: content,
+                                              title: 'Titel <i>{{deze_student}}</i>',
+                                              submit_text: 'Opslaan',
+                                              action: '/',
+                                              unsubscribe_url: nil,
+                                              locale: 'nl')
+      expect(result).not_to include('<b>x</b>')
+      expect(result).to include('Titel <i>&lt;b&gt;x&lt;/b&gt;</i>')
+      expect(result).to include('Hoe gaat het met <i>&lt;b&gt;x&lt;/b&gt;</i>?')
+      expect(result).to include('<p>Dag &lt;b&gt;x&lt;/b&gt;</p>')
+    end
+
     it 'raises an error when given a question of unknown type' do
       questionnaire_content = [{
         section_start: 'Algemeen',

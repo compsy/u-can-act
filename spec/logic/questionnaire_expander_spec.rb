@@ -222,7 +222,7 @@ describe QuestionnaireExpander do
           .and_return(result)
 
         expect(VariableEvaluator).to receive(:evaluate_obj)
-          .with(content, result)
+          .with(content, result.merge('previous_v2' => ERB::Util.html_escape(other_response.to_s).to_str))
           .and_return(expected)
 
         result = described_class.expand_content(content, response)
@@ -251,11 +251,63 @@ describe QuestionnaireExpander do
           .and_return(result)
 
         expect(VariableEvaluator).to receive(:evaluate_obj)
-          .with(content, result)
+          .with(content, result.merge('previous_v2' => default))
           .and_return(expected)
 
         result = described_class.expand_content(content, response)
         expect(result).to eq([expected])
+      end
+
+      it 'escapes html in the previous answer' do
+        content = { id: :v2, type: :raw, uses: { previous: :v1 }, content: 'Eerder: {{previous_v1}}' }
+        expect(PreviousResponseFinder).to receive(:find_value).with(response, :v1).and_return('<b>x</b>')
+
+        result = described_class.expand_content(content, response)
+        expect(result.first[:content]).to eq 'Eerder: &lt;b&gt;x&lt;/b&gt;'
+      end
+
+      it 'does not escape the default value' do
+        content = { id: :v2, type: :raw, uses: { previous: :v1, default: '<i>niets</i>' }, content: '{{previous_v1}}' }
+        expect(PreviousResponseFinder).to receive(:find_value).with(response, :v1).and_return(nil)
+
+        result = described_class.expand_content(content, response)
+        expect(result.first[:content]).to eq '<i>niets</i>'
+      end
+    end
+
+    describe 'html in person names' do
+      let(:team) { FactoryBot.create(:team) }
+      let(:student_role) { FactoryBot.create(:role, team: team, group: Person::STUDENT, title: Person::STUDENT) }
+      let(:mentor_role) { FactoryBot.create(:role, team: team, group: Person::MENTOR, title: 'MentorTitle') }
+      let(:student) { FactoryBot.create(:student, role: student_role, first_name: '<b>x</b>', last_name: 'A&B') }
+      let(:mentor) { FactoryBot.create(:mentor, role: mentor_role, first_name: '<img src=x>', last_name: "O'Neil") }
+
+      it 'escapes the names of the person but keeps the questionnaire markup' do
+        response = FactoryBot.create(:response, protocol_subscription: FactoryBot.create(:protocol_subscription,
+                                                                                         person: student))
+        content = { id: :v1, type: :raw, content: '<p>{{deze_student}} {{achternaam_student}}</p>' }
+
+        result = described_class.expand_content(content, response)
+        expect(result.first[:content]).to eq '<p>&lt;b&gt;x&lt;/b&gt; A&amp;B</p>'
+      end
+
+      it 'escapes the names in a title string' do
+        response = FactoryBot.create(:response, protocol_subscription: FactoryBot.create(:protocol_subscription,
+                                                                                         person: student))
+
+        result = described_class.expand_content('<i>Hoi {{Deze_student}}</i>', response)
+        expect(result).to eq ['<i>Hoi &lt;b&gt;x&lt;/b&gt;</i>']
+      end
+
+      it 'escapes the names in a foreach question' do
+        response = FactoryBot.create(:response, protocol_subscription: FactoryBot.create(:protocol_subscription,
+                                                                                         person: mentor,
+                                                                                         filling_out_for: student))
+        content = { id: :v1, type: :raw, foreach: :student,
+                    content: '{{deze_student}} {{naam_begeleider}} {{achternaam_begeleider}}' }
+
+        result = described_class.expand_content(content, response)
+        expect(result.first[:content]).to eq '&lt;b&gt;x&lt;/b&gt; &lt;img src=x&gt; O&#39;Neil'
       end
     end
   end

@@ -25,7 +25,7 @@ class QuestionnaireExpander
     end
 
     def process_normal(content, response)
-      subs_hash = VariableSubstitutor.substitute_variables(response)
+      subs_hash = html_escaped_substitutions(response)
       result = VariableEvaluator.evaluate_obj(content, subs_hash)
       [result]
     end
@@ -46,8 +46,8 @@ class QuestionnaireExpander
       default_value = content[:uses][:default] || ''
       previous_value = PreviousResponseFinder.find_value(response, question_id)
 
-      subs_hash = VariableSubstitutor.substitute_variables(response)
-      subs_hash["previous_#{question_id}"] = previous_value || default_value
+      subs_hash = html_escaped_substitutions(response)
+      subs_hash["previous_#{question_id}"] = previous_value.nil? ? default_value : html_escape(previous_value)
       [VariableEvaluator.evaluate_obj(content, subs_hash)]
     end
 
@@ -57,13 +57,25 @@ class QuestionnaireExpander
         mentor = response.person
         mentor.my_students.map do |student|
           content_dup = content.deep_dup
-          subs_hash = VariableSubstitutor.create_substitution_hash(mentor, student)
+          subs_hash = html_escape_values(VariableSubstitutor.create_substitution_hash(mentor, student))
           content_dup[:id] = "#{content_dup[:id]}_#{student.external_identifier}"
           VariableEvaluator.evaluate_obj(content_dup, subs_hash)
         end
       else
         raise "Only :student foreach type is allowed, not #{content[:foreach]}"
       end
+    end
+
+    def html_escaped_substitutions(response)
+      html_escape_values(VariableSubstitutor.substitute_variables(response))
+    end
+
+    def html_escape_values(subs_hash)
+      subs_hash.transform_values { |value| value.nil? ? value : html_escape(value) }
+    end
+
+    def html_escape(value)
+      ERB::Util.html_escape(value).to_str
     end
   end
 end

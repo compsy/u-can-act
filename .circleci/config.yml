@@ -80,6 +80,45 @@ jobs:
           paths:
             - ~/.cache/yarn
 
+  sca:
+    <<: *build_defaults
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: install scanners
+          command: |
+            gem install bundler-audit --no-document
+            curl -sSfLo /tmp/trivy.tar.gz https://github.com/aquasecurity/trivy/releases/download/v0.76.1/trivy_0.76.1_Linux-64bit.tar.gz
+            echo "c7cbe3137fb8a48a17574bede3dd6beb16742d1e9772929940fc90082c39d9c0  /tmp/trivy.tar.gz" | sha256sum -c -
+            sudo tar -xzf /tmp/trivy.tar.gz -C /usr/local/bin trivy
+      - run:
+          name: bundler-audit
+          command: |
+            mkdir -p /tmp/sca
+            bundle-audit update
+            bundle-audit check --no-update --format json --output /tmp/sca/bundler-audit.json || true
+            bundle-audit check --no-update | tee /tmp/sca/bundler-audit.txt || true
+      - run:
+          name: trivy fs
+          command: |
+            trivy fs --scanners vuln --ignorefile .trivyignore.yaml --format json --output /tmp/sca/trivy-fs.json .
+            trivy fs --scanners vuln --ignorefile .trivyignore.yaml --skip-db-update --format table --output /tmp/sca/trivy-fs.txt .
+      - store_artifacts:
+          path: /tmp/sca
+          destination: sca
+      - run:
+          name: fail on HIGH or CRITICAL when SCA_ENFORCE is true
+          command: |
+            status=0
+            ruby -rjson -e '
+              results = JSON.parse(File.read("/tmp/sca/bundler-audit.json")).fetch("results")
+              blocking = results.select { |r| %w[high critical].include?(r.dig("advisory", "criticality").to_s) }
+              blocking.each { |r| puts "#{r.dig("gem", "name")} #{r.dig("gem", "version")} #{r.dig("advisory", "id")} #{r.dig("advisory", "criticality")}" }
+              exit(blocking.empty? ? 0 : 1)' || status=1
+            trivy fs --scanners vuln --ignorefile .trivyignore.yaml --skip-db-update --severity HIGH,CRITICAL --exit-code 1 . || status=1
+            if [ "$SCA_ENFORCE" = "true" ]; then exit $status; fi
+
   test_rspec:
     <<: *defaults
     environment:
@@ -194,6 +233,9 @@ workflows:
   commit:
     jobs:
       - checkout_code
+      - sca:
+          requires:
+            - checkout_code
       - build_gems:
           requires:
             - checkout_code

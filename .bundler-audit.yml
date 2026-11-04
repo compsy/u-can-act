@@ -1,0 +1,3 @@
+# Accepted bundler-audit findings (CASA 6.1.1). Put the justification class and the reason in a comment above
+# each id. See .trivyignore.yaml for the classes.
+ignore: []

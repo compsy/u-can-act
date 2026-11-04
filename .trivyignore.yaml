@@ -1,0 +1,12 @@
+# Accepted trivy findings (CASA 6.1.1). Every entry needs a statement with the justification class and the reason:
+#   1. Build and lint tooling: only runs at build time or on a developer machine. No request reaches it.
+#   2. Function not called: the vulnerable function is not used by this service.
+#   3. Second order: needs a compromised third party first. Weak; prefer a fix.
+# Do not use class 2 for code that parses requests (rack, qs, body-parser, path-to-regexp, omniauth).
+# Example:
+#   - id: CVE-0000-00000
+#     purls:
+#       - pkg:gem/example@1.0.0
+#     statement: "Class 2. The service does not call Example#parse. Assessed by <name>, <date>."
+#     expired_at: 2027-05-01
+vulnerabilities: []

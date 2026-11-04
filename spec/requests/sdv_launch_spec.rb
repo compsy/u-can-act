@@ -17,6 +17,12 @@ describe 'SDV launch', type: :request do
     JSON.parse(jar.signed[CookieJar::COOKIE_LOCATION] || '{}')
   end
 
+  def engine_set_cookie
+    Array(response.headers['Set-Cookie']).join("\n").lines.find do |line|
+      line.start_with?("#{CookieJar::COOKIE_LOCATION}=")
+    end
+  end
+
   describe 'with a valid platform session cookie' do
     before { cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = platform_cookie }
 
@@ -27,6 +33,22 @@ describe 'SDV launch', type: :request do
       expect(engine_cookie[TokenAuthenticationController::JWT_TOKEN_COOKIE.to_s].first['sub'])
         .to eq the_auth_user.auth0_id_string
       expect(engine_cookie).not_to have_key(TokenAuthenticationController::PERSON_ID_COOKIE.to_s)
+    end
+
+    it 'sets the engine cookie HttpOnly but not Secure in a local environment' do
+      get '/sdv/launch', params: { return_to: '/questionnaire' }
+      expect(engine_set_cookie).to match(/;\s*httponly/i)
+      expect(engine_set_cookie).not_to match(/;\s*secure/i)
+    end
+
+    %w[production staging].each do |env|
+      it "sets the engine cookie HttpOnly and Secure in #{env}" do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::EnvironmentInquirer.new(env))
+        https!
+        get '/sdv/launch', params: { return_to: '/questionnaire' }
+        expect(engine_set_cookie).to match(/;\s*httponly/i)
+        expect(engine_set_cookie).to match(/;\s*secure/i)
+      end
     end
 
     it 'accepts the form encoded Bearer prefix' do

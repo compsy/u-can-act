@@ -39,7 +39,7 @@ class CookieJar
         current_cookie = current_cookie.with_indifferent_access
         cookie_hash = current_cookie.merge(cookie_hash)
       end
-      jar[COOKIE_LOCATION] = cookie_hash.to_json
+      write_cookie(jar, cookie_hash)
     end
 
     def delete_cookie(jar, key)
@@ -52,7 +52,17 @@ class CookieJar
       return unless current_cookie.key?(key)
 
       current_cookie.delete(key)
-      jar[COOKIE_LOCATION] = current_cookie.to_json
+      write_cookie(jar, current_cookie)
+    end
+
+    private
+
+    def write_cookie(jar, cookie_hash)
+      jar[COOKIE_LOCATION] = {
+        value: cookie_hash.to_json,
+        httponly: true,
+        secure: !Rails.env.local?
+      }
     end
   end
 end

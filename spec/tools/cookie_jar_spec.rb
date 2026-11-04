@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe CookieJar do
-  let(:jar) { {} }
+  let(:jar) { ActionDispatch::Cookies::CookieJar.build(ActionDispatch::TestRequest.create, {}) }
 
   describe 'set_or_update_cookie' do
     it 'returns true if all provided params are valid' do
@@ -68,7 +68,7 @@ describe CookieJar do
       cookie_hash = { response_id: '123', token: 'othertoken' }
       described_class.set_or_update_cookie(jar, cookie_hash)
       expect(jar).not_to be_blank
-      expect(jar.keys).to include(described_class::COOKIE_LOCATION)
+      expect(jar).to be_key(described_class::COOKIE_LOCATION)
       expect(jar[described_class::COOKIE_LOCATION]).to eq cookie_hash.to_json
     end
 
@@ -82,7 +82,7 @@ describe CookieJar do
 
       cookie_hash = { response_id: 'this should change', token: 'this-should-stay-the-same' }
       described_class.set_or_update_cookie(jar, cookie_hash)
-      expect(jar.keys).to include(described_class::COOKIE_LOCATION)
+      expect(jar).to be_key(described_class::COOKIE_LOCATION)
       cookie = JSON.parse(jar[described_class::COOKIE_LOCATION])
       expect(cookie.length).to eq 3
       expect(cookie['response_id']).to eq 'this should change'

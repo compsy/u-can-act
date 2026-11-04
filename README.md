@@ -62,7 +62,7 @@ Clone the codebase and step into the directory.
   cd u-can-act
 ```
 
-Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
+Then copy `.env.example` to `.env`, fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 
 ```
   docker-compose up
@@ -137,7 +137,7 @@ Below is a list of all required ENV variables for production servers.
 
 ### (Local) development settings
 
-For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development.
+For developers, many of the above settings have default values specified in the `.env.example` file which is included in the repository. Copy it to `.env`; `.env` is not tracked and not loaded in production and should work for development.
 However, a `.env.local` file is **not** included in the repository, and should be created by the developer.
 Since this file determines which project will run, it should at minimum have the following settings:
 

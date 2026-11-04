@@ -60,6 +60,11 @@ env:
       secretKeyRef:
         name: {{ .Values.secretName }}
         key: ADMIN_PASSWORD
+  - name: SHARED_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.secretName }}
+        key: SHARED_SECRET
   - name: MAILGUN_API_KEY
     valueFrom:
       secretKeyRef:

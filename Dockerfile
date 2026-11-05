@@ -36,7 +36,7 @@ COPY bin/chromedriver_install_docker bin/chromedriver_install_docker
 RUN bin/chromedriver_install_docker
 
 COPY . /app
-RUN bundle exec rake i18n:js:export && ls /app/public/javascripts/translations.js
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rake i18n:js:export && ls /app/public/javascripts/translations.js
 
 RUN bin/potential_asset_precompile.sh $precompileassets
 

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class SdvLaunchController < ApplicationController
+  include ::RelativePathRedirect
+
   PLATFORM_SESSION_COOKIE = 'sessionToken'
-  RELATIVE_PATH = %r{\A/(?![/\\])[^\\[:space:][:cntrl:]]*\z}
 
   before_action :check_return_to
 
@@ -41,7 +42,7 @@ class SdvLaunchController < ApplicationController
   end
 
   def check_return_to
-    return if return_to.is_a?(String) && RELATIVE_PATH.match?(return_to)
+    return if relative_path(return_to)
 
     render(status: :bad_request, plain: 'Invalid return_to')
   end

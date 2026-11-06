@@ -119,6 +119,16 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       expect(ProtocolSubscription.last.invitation_text_nl).to eq 'invitation-text-nl'
     end
 
+    it 'ignores invitation_texts if it is an array of hashes' do
+      post :create, params: { protocol_name: prot_name,
+                              invitation_text_nl: 'invitation-text-nl',
+                              invitation_texts: [{ nl: 'invitation-text-nl' }],
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.invitation_texts).to eq({})
+      expect(ProtocolSubscription.last.invitation_text_nl).to eq 'invitation-text-nl'
+    end
+
     it 'sets the open_from_day_uses_start_date_offset if passed as boolean' do
       post :create, params: { protocol_name: prot_name,
                               start_date: time.to_s,

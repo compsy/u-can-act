@@ -27,7 +27,7 @@ module Api
             external_identifier: external_identifier,
             invitation_text_nl: protocol_subscription_create_params[:invitation_text_nl],
             invitation_text_en: protocol_subscription_create_params[:invitation_text_en],
-            invitation_texts: protocol_subscription_create_params[:invitation_texts].to_h,
+            invitation_texts: invitation_texts,
             open_from_day_uses_start_date_offset:
               protocol_subscription_create_params[:open_from_day_uses_start_date_offset],
             needs_language_input: protocol_subscription_create_params[:needs_language_input]
@@ -88,6 +88,11 @@ module Api
           return nil if protocol_subscription_create_params[:external_identifier].blank?
 
           protocol_subscription_create_params[:external_identifier]
+        end
+
+        def invitation_texts
+          texts = protocol_subscription_create_params[:invitation_texts]
+          texts.is_a?(ActionController::Parameters) ? texts.to_h : {}
         end
 
         def set_external_identifier

@@ -695,6 +695,8 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'from_json' do
+    before { basic_auth 'admin', 'admin' }
+
     it 'should redirect to interactive' do
       post :from_json, params: {}
       expect(response.status).to eq 302
@@ -703,6 +705,8 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'interactive' do
+    before { basic_auth 'admin', 'admin' }
+
     it 'uses the busy text of the current locale' do
       get :interactive
       expect(response.body).to include("text('Bezig...')")
@@ -716,6 +720,8 @@ RSpec.describe QuestionnaireController, type: :controller do
   end
 
   describe 'interactive_render' do
+    before { basic_auth 'admin', 'admin' }
+
     context 'correct request' do
       let(:content) do
         { questions: [

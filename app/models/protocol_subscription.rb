@@ -57,6 +57,25 @@ class ProtocolSubscription < ApplicationRecord
   #                         if: ->(sub) { sub.person_id != sub.filling_out_for_id } }
   scope :active, -> { where(state: ACTIVE_STATE).where('end_date > :now', now: Time.zone.now) }
 
+  # Locales to try, in order, when the participant's locale has no invitation text.
+  FALLBACK_INVITATION_TEXT_LOCALES = %w[en nl].freeze
+
+  # The invitation texts per locale. The nl and en texts are also kept in the old invitation_text_nl/en columns, which
+  # old code and clients that do not send invitation_texts still use; invitation_texts wins when both have a text.
+  def all_invitation_texts
+    { 'nl' => invitation_text_nl, 'en' => invitation_text_en }.compact_blank.merge(invitation_texts)
+  end
+
+  # Returns the locale and the invitation text for the given locale, falling back to en and then nl. Returns nil when
+  # none of these has a text.
+  def localized_invitation_text(locale)
+    texts = all_invitation_texts
+    [locale.to_s, *FALLBACK_INVITATION_TEXT_LOCALES].each do |candidate|
+      return [candidate, texts[candidate]] if texts[candidate].present?
+    end
+    nil
+  end
+
   def transfer!(transfer_to)
     raise('The person you transfer to should not be the same as the original person!') if transfer_to == person
 

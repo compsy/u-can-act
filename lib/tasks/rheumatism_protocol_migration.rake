@@ -129,6 +129,7 @@ namespace :rheumatism do
       external_identifier: legacy_subscription.external_identifier,
       invitation_text_nl: legacy_subscription.invitation_text_nl,
       invitation_text_en: legacy_subscription.invitation_text_en,
+      invitation_texts: legacy_subscription.invitation_texts,
       open_from_day_uses_start_date_offset: legacy_subscription.open_from_day_uses_start_date_offset,
       needs_language_input: legacy_subscription.needs_language_input,
       has_language_input: legacy_subscription.has_language_input

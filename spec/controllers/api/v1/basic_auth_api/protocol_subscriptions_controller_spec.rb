@@ -26,6 +26,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         mentor: mentor,
         invitation_text_en: nil,
         invitation_text_nl: nil,
+        invitation_texts: {},
         open_from_day_uses_start_date_offset: nil,
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
@@ -48,6 +49,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         mentor: nil,
         invitation_text_en: nil,
         invitation_text_nl: nil,
+        invitation_texts: {},
         open_from_day_uses_start_date_offset: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),
         end_date: instance_of(ActiveSupport::TimeWithZone),
@@ -81,6 +83,50 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
       expect(ProtocolSubscription.last.start_date).to be_within(5.seconds).of(time)
       expect(ProtocolSubscription.last.invitation_text_nl).to eq 'invitation-text-nl'
       expect(ProtocolSubscription.last.invitation_text_en).to eq 'invitation-text-en'
+    end
+
+    it 'sets the invitation texts per locale if passed' do
+      post :create, params: { protocol_name: prot_name,
+                              invitation_text_nl: 'invitation-text-nl',
+                              invitation_text_en: 'invitation-text-en',
+                              invitation_texts: { nl: 'invitation-text-nl', en: 'invitation-text-en',
+                                                  fi: 'invitation-text-fi' },
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.invitation_texts).to eq('nl' => 'invitation-text-nl',
+                                                               'en' => 'invitation-text-en',
+                                                               'fi' => 'invitation-text-fi')
+      expect(ProtocolSubscription.last.invitation_text_nl).to eq 'invitation-text-nl'
+      expect(ProtocolSubscription.last.invitation_text_en).to eq 'invitation-text-en'
+    end
+
+    it 'ignores invitation texts for unknown locales and non-string texts' do
+      post :create, params: { protocol_name: prot_name,
+                              invitation_texts: { fi: 'invitation-text-fi', xx: 'invitation-text-xx',
+                                                  de: { text: 'invitation-text-de' }, es: ['invitation-text-es'] },
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.invitation_texts).to eq('fi' => 'invitation-text-fi')
+    end
+
+    it 'ignores invitation_texts if it is not a hash' do
+      post :create, params: { protocol_name: prot_name,
+                              invitation_text_nl: 'invitation-text-nl',
+                              invitation_texts: 'invitation-text',
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.invitation_texts).to eq({})
+      expect(ProtocolSubscription.last.invitation_text_nl).to eq 'invitation-text-nl'
+    end
+
+    it 'ignores invitation_texts if it is an array of hashes' do
+      post :create, params: { protocol_name: prot_name,
+                              invitation_text_nl: 'invitation-text-nl',
+                              invitation_texts: [{ nl: 'invitation-text-nl' }],
+                              auth0_id_string: auth_user.auth0_id_string }
+      expect(response.status).to eq 201
+      expect(ProtocolSubscription.last.invitation_texts).to eq({})
+      expect(ProtocolSubscription.last.invitation_text_nl).to eq 'invitation-text-nl'
     end
 
     it 'sets the open_from_day_uses_start_date_offset if passed as boolean' do
@@ -131,6 +177,7 @@ describe Api::V1::BasicAuthApi::ProtocolSubscriptionsController, type: :controll
         mentor: mentor,
         invitation_text_en: nil,
         invitation_text_nl: 'inv-text-nl',
+        invitation_texts: {},
         open_from_day_uses_start_date_offset: 'true',
         end_date: nil,
         start_date: instance_of(ActiveSupport::TimeWithZone),

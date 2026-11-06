@@ -43,7 +43,8 @@ class RadioGenerator < QuestionTypeGenerator
     safe_join(
       [
         option_body,
-        stop_subscription_token(option, idify(question[:id]), option[:title], question[:response_id])
+        stop_subscription_token(option, idify(question[:id]), option[:raw][:value].presence || option[:raw][:title],
+                                question[:response_id])
       ]
     )
   end

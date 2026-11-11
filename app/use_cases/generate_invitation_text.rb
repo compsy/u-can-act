@@ -3,46 +3,37 @@
 class GenerateInvitationText < ActiveInteraction::Base
   object :response
 
+  # The protocol and project fallback texts are Dutch.
+  DEFAULT_TEXT_LOCALE = 'nl'
+
   # Generates an invitation text based on the protocol and the completion therof
   #
   # Params:
   # - response: the response to create the text for
   def execute
     subs_hash = VariableSubstitutor.substitute_variables(response)
-    content = generate_text(response)
+    text_locale, content = localized_text(response) || [DEFAULT_TEXT_LOCALE, default_text(response)]
     # Dates in the text (e.g. {{datum}}) are written in the language of the invitation text
-    I18n.with_locale(text_locale(response)) { VariableEvaluator.evaluate_obj(content, subs_hash) }
+    I18n.with_locale(text_locale) { VariableEvaluator.evaluate_obj(content, subs_hash) }
   end
 
   private
 
-  def generate_text(response)
-    invitation_text = generate_localized_text(response)
-    return invitation_text if invitation_text.present?
+  # The invitation text of the protocol subscription in the participant's locale, falling back to en and then nl.
+  def localized_text(response)
+    protocol_subscription = response.protocol_subscription
+    protocol_subscription.localized_invitation_text(protocol_subscription.person.locale)
+  end
+
+  def default_text(response)
+    protocol_text = response.protocol_subscription.protocol.invitation_text
+    return protocol_text if protocol_text.present?
 
     return UcfMessages.message(response) if ENV['PROJECT_NAME'] == 'u-can-feel'
 
     return mentor_texts(response) if response.protocol_subscription.person.mentor?
 
     student_texts(response)
-  end
-
-  # Only the en invitation text is English; the other texts (nl, and the protocol and project fallbacks) are Dutch.
-  def text_locale(response)
-    protocol_subscription = response.protocol_subscription
-    english = protocol_subscription.person.locale != 'nl' && protocol_subscription.invitation_text_en.present?
-    english ? 'en' : 'nl'
-  end
-
-  # There are only nl and en invitation texts, so every locale other than nl gets the en text.
-  def generate_localized_text(response)
-    protocol_subscription = response.protocol_subscription
-    localized_text = if protocol_subscription.person.locale == 'nl'
-                       protocol_subscription.invitation_text_nl
-                     else
-                       protocol_subscription.invitation_text_en
-                     end
-    localized_text.presence || protocol_subscription.protocol.invitation_text
   end
 
   def student_texts(response)

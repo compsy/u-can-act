@@ -42,6 +42,10 @@ spec:
         - name: {{ . | quote }}
 {{- end }}
 {{- end }}
+{{- with .Values.extraVolumes }}
+      volumes:
+{{ toYaml . | indent 8 }}
+{{- end }}
       containers:
         - name: {{ .Release.Name }}
           imagePullPolicy: Always
@@ -53,3 +57,7 @@ spec:
               memory: {{ .Values.memory.worker.request }}
           command: ['bundle', 'exec', 'rake', 'jobs:work']
           {{- include "container.env" . | indent 10 }}
+{{- with .Values.extraVolumeMounts }}
+          volumeMounts:
+{{ toYaml . | indent 12 }}
+{{- end }}

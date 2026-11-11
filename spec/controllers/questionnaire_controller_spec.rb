@@ -497,7 +497,7 @@ RSpec.describe QuestionnaireController, type: :controller do
         expect(responseobj.values).to eq('v1' => 'true')
       end
 
-      it 'redirects to an external callback_url when one is supplied' do
+      it 'redirects to a relative callback_url when one is supplied' do
         expect_any_instance_of(described_class).to receive(:verify_cookie)
         protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
         responseobj = FactoryBot.create(:response,
@@ -507,12 +507,47 @@ RSpec.describe QuestionnaireController, type: :controller do
 
         post :create, params: {
           response_id: responseobj.id,
-          callback_url: 'https://example.com/completed',
+          callback_url: '/person/unsubscribe',
           content: { 'v1' => 'true' }
         }
 
         expect(response).to have_http_status(:found)
-        expect(response.location).to eq('https://example.com/completed')
+        expect(response.location).to eq('http://test.host/person/unsubscribe')
+      end
+
+      ['https://example.com/completed', '//example.com/completed', '/\\example.com/completed',
+       'javascript:alert(1)', "/\t/example.com/"].each do |callback_url|
+        it "ignores the callback_url #{callback_url.inspect}" do
+          expect_any_instance_of(described_class).to receive(:verify_cookie)
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    start_date: 1.week.ago.at_beginning_of_day)
+          responseobj = FactoryBot.create(:response,
+                                          protocol_subscription: protocol_subscription,
+                                          open_from: 1.hour.ago,
+                                          opened_at: 5.minutes.ago)
+
+          post :create, params: { response_id: responseobj.id, callback_url: callback_url, content: { 'v1' => 'true' } }
+
+          expect(response).to have_http_status(:found)
+          expect(response.location).to eq("http://test.host#{klaar_path}")
+        end
+      end
+
+      it 'keeps an encoded callback_url on the own host' do
+        expect_any_instance_of(described_class).to receive(:verify_cookie)
+        protocol_subscription = FactoryBot.create(:protocol_subscription, start_date: 1.week.ago.at_beginning_of_day)
+        responseobj = FactoryBot.create(:response,
+                                        protocol_subscription: protocol_subscription,
+                                        open_from: 1.hour.ago,
+                                        opened_at: 5.minutes.ago)
+
+        post :create, params: {
+          response_id: responseobj.id,
+          callback_url: '/%2F%2Fexample.com/completed',
+          content: { 'v1' => 'true' }
+        }
+
+        expect(response.location).to eq('http://test.host/%2F%2Fexample.com/completed')
       end
 
       it 'redirects to an external measurement redirect_url after completion' do

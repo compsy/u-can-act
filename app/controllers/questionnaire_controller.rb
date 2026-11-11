@@ -8,6 +8,7 @@ class QuestionnaireController < ApplicationController
   include ::UsesParticipantLocale
   include ::IsLoggedIn
   include ::IsAdminAuthenticated
+  include ::RelativePathRedirect
 
   protect_from_forgery prepend: true, with: :exception, except: :create
   before_action :authenticate_admin, only: %i[interactive interactive_post interactive_render from_json]
@@ -107,7 +108,7 @@ class QuestionnaireController < ApplicationController
       end
       @response = orig_response
     end
-    redirect_to questionnaire_create_params[:callback_url] ||
+    redirect_to relative_path(questionnaire_create_params[:callback_url]) ||
                 NextPageFinder.get_next_page(current_user: current_user, previous_response: @response),
                 allow_other_host: true
   end

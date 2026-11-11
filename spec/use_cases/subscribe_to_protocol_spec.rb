@@ -80,6 +80,37 @@ describe SubscribeToProtocol do
     expect(person.protocol_subscriptions.first.external_identifier).to eq 'external_identifier'
   end
 
+  context 'invitation texts' do
+    it 'stores the invitation texts per locale' do
+      described_class.run!(protocol_name: protocol.name, person: person,
+                           invitation_texts: { 'nl' => 'Hallo', 'fi' => 'Hei' })
+      expect(person.protocol_subscriptions.first.invitation_texts).to eq('nl' => 'Hallo', 'fi' => 'Hei')
+    end
+
+    it 'stores the nl and en texts of clients that do not send invitation_texts' do
+      described_class.run!(protocol_name: protocol.name, person: person,
+                           invitation_text_nl: 'Hallo', invitation_text_en: 'Hello')
+      protocol_subscription = person.protocol_subscriptions.first
+      expect(protocol_subscription.invitation_text_nl).to eq 'Hallo'
+      expect(protocol_subscription.invitation_text_en).to eq 'Hello'
+      expect(protocol_subscription.all_invitation_texts).to eq('nl' => 'Hallo', 'en' => 'Hello')
+    end
+
+    it 'ignores blank texts, non-string texts and texts for unknown locales' do
+      described_class.run!(protocol_name: protocol.name, person: person,
+                           invitation_texts: { fi: 'Hei', de: '', es: 12, pt: ['Olá'], xx: 'unknown' })
+      expect(person.protocol_subscriptions.first.invitation_texts).to eq('fi' => 'Hei')
+    end
+
+    it 'prefers invitation_texts over the nl and en texts' do
+      described_class.run!(protocol_name: protocol.name, person: person,
+                           invitation_text_nl: 'Hallo', invitation_text_en: 'Hello',
+                           invitation_texts: { nl: 'Goedendag', en: '', fi: 'Hei', xx: 'unknown' })
+      expect(person.protocol_subscriptions.first.all_invitation_texts)
+        .to eq('nl' => 'Goedendag', 'en' => 'Hello', 'fi' => 'Hei')
+    end
+  end
+
   context 'open_from_day_uses_start_date_offset' do
     it 'passes a true value' do
       described_class.run!(protocol_name: protocol.name, person: person, open_from_day_uses_start_date_offset: true)

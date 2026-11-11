@@ -499,6 +499,63 @@ describe ProtocolSubscription do
     end
   end
 
+  describe 'invitation_texts' do
+    it 'is empty by default' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription)
+      expect(protocol_subscription.reload.invitation_texts).to eq({})
+    end
+
+    it 'stores the texts per locale' do
+      texts = { 'nl' => 'Hallo', 'en' => 'Hello', 'fi' => 'Hei' }
+      protocol_subscription = FactoryBot.create(:protocol_subscription, invitation_texts: texts)
+      expect(protocol_subscription.reload.invitation_texts).to eq texts
+    end
+  end
+
+  describe 'all_invitation_texts' do
+    it 'includes the texts of the old nl and en columns' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, invitation_text_nl: 'Hallo',
+                                                                        invitation_text_en: '',
+                                                                        invitation_texts: { 'fi' => 'Hei' })
+      expect(protocol_subscription.all_invitation_texts).to eq('nl' => 'Hallo', 'fi' => 'Hei')
+    end
+
+    it 'prefers invitation_texts over the old columns' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, invitation_text_nl: 'Hallo',
+                                                                        invitation_texts: { 'nl' => 'Goedendag' })
+      expect(protocol_subscription.all_invitation_texts).to eq('nl' => 'Goedendag')
+    end
+  end
+
+  describe 'localized_invitation_text' do
+    let(:texts) { { 'nl' => 'Hallo', 'en' => 'Hello', 'fi' => 'Hei' } }
+    let(:protocol_subscription) { FactoryBot.create(:protocol_subscription, invitation_texts: texts) }
+
+    it 'returns the text in the given locale' do
+      expect(protocol_subscription.localized_invitation_text('fi')).to eq %w[fi Hei]
+      expect(protocol_subscription.localized_invitation_text(:nl)).to eq %w[nl Hallo]
+    end
+
+    it 'falls back to en for a locale without text' do
+      expect(protocol_subscription.localized_invitation_text('de')).to eq %w[en Hello]
+    end
+
+    it 'falls back to nl when there is no en text' do
+      texts.delete('en')
+      expect(protocol_subscription.localized_invitation_text('de')).to eq %w[nl Hallo]
+    end
+
+    it 'falls back to the old columns' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, invitation_text_nl: 'Hallo')
+      expect(protocol_subscription.localized_invitation_text('fi')).to eq %w[nl Hallo]
+    end
+
+    it 'returns nil when there is no text to fall back to' do
+      protocol_subscription = FactoryBot.create(:protocol_subscription, invitation_texts: { 'fi' => 'Hei' })
+      expect(protocol_subscription.localized_invitation_text('de')).to be_nil
+    end
+  end
+
   describe 'informed_consent_given_at' do
     it 'is nil by default' do
       protocol_subscription = FactoryBot.create(:protocol_subscription)

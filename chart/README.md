@@ -15,6 +15,8 @@ A Helm chart for SVC Questionnaires
 | redisSecretKey | string | REDIS_URL | The name of the connection string in the `redisSecretName` secret. |
 | mongoSecretName | string | reference to `secretName`| The secret for storing the mongodb credentials. Defaults to the same secret as stored in `secretName`. Must have a key defined in `mongoSecretKey` that contains a connection string. |
 | mongoSecretKey | string | MONGODB_URI | The name of the connection string in the `mongoSecretName` secret. |
+| extraVolumes | list | `[]` | Extra pod volumes for the web and worker deployments, for example a ConfigMap with the database CA. |
+| extraVolumeMounts | list | `[]` | Extra volume mounts for the web and worker containers. |
 | tag | string | `"latest"` | The tag of the questionnaire engine image to deploy. |
 | appsignalAppEnv | string | `"staging"` | The environment of the AppSignal application. |
 | curlImage | string | `"curlimages/curl:8.23.0"` | The Docker image for the curl command used in the init container. |

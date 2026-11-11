@@ -21,7 +21,6 @@ module Api
             first_name: @first_name,
             role_title: @role_title
           )
-          SendRegistrationEmailJob.perform_later(@person)
           render json: { status: 'Person created' }, status: :ok
         end
 

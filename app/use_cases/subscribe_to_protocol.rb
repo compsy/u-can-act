@@ -16,6 +16,7 @@ class SubscribeToProtocol < AsyncActiveInteraction
   string :external_identifier, default: nil
   string :invitation_text_nl, default: nil
   string :invitation_text_en, default: nil
+  hash :invitation_texts, default: {}, strip: false # locale => text, see ProtocolSubscription#all_invitation_texts
   boolean :open_from_day_uses_start_date_offset, default: false
   boolean :needs_language_input, default: false
 
@@ -57,9 +58,18 @@ class SubscribeToProtocol < AsyncActiveInteraction
       external_identifier: external_identifier,
       invitation_text_nl: invitation_text_nl,
       invitation_text_en: invitation_text_en,
+      invitation_texts: supported_invitation_texts,
       open_from_day_uses_start_date_offset: open_from_day_uses_start_date_offset,
       needs_language_input: needs_language_input
     )
+  end
+
+  # Keeps only non-blank string texts for the available locales.
+  def supported_invitation_texts
+    available = I18n.available_locales.map(&:to_s)
+    invitation_texts.to_h.transform_keys(&:to_s).select do |locale, text|
+      available.include?(locale) && text.is_a?(String) && text.present?
+    end
   end
 
   def find_start_date

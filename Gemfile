@@ -58,8 +58,6 @@ gem 'rack-cors'
 
 gem 'pry-rails'
 
-gem 'dotenv-rails'
-
 gem 'coveralls_reborn', require: false
 
 # Delayed job for delayed calculation
@@ -102,6 +100,7 @@ gem 'rswag-ui'
 gem 'ucf_messages'
 
 group :development, :test do
+  gem 'dotenv-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 

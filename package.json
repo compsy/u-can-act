@@ -69,7 +69,8 @@
     "yarn": "1.x"
   },
   "resolutions": {
-    "webpack-dev-server/express/path-to-regexp": "0.1.12"
+    "webpack-dev-server/express/path-to-regexp": "0.1.12",
+    "**/serialize-javascript": "^7.0.5"
   },
   "scripts": {
     "test": "jest"

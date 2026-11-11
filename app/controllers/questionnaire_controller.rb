@@ -7,10 +7,11 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include ::UsesParticipantLocale
   include ::IsLoggedIn
+  include ::IsAdminAuthenticated
   include ::RelativePathRedirect
 
   protect_from_forgery prepend: true, with: :exception, except: :create
-  skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json interactive_post]
+  before_action :authenticate_admin, only: %i[interactive interactive_post interactive_render from_json]
   before_action :log_csrf_error, only: %i[create]
   before_action :set_locale, only: %i[show]
   before_action :set_response, only: %i[show preference destroy]
@@ -59,7 +60,9 @@ class QuestionnaireController < ApplicationController
       submit_text: I18n.t('questionnaires.save', locale: Rails.application.config.i18n.default_locale),
       action: '/questionnaire/from_json',
       unsubscribe_url: nil,
-      locale: Rails.application.config.i18n.default_locale.to_s
+      locale: Rails.application.config.i18n.default_locale.to_s,
+      params: { authenticity_token: form_authenticity_token(form_options: { action: '/questionnaire/from_json',
+                                                                            method: 'post' }) }
     )
 
     render 'questionnaire/show', layout: nil

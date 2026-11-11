@@ -119,7 +119,7 @@ describe 'SDV launch', type: :request do
 
   it 'redirects to the platform login for a token with another audience' do
     payload = { 'sub' => the_auth_user.auth0_id_string }
-    allow(Knock).to receive(:token_audience).and_return(-> { 'another-audience' })
+    allow(JwtAuth).to receive(:token_audience).and_return(-> { 'another-audience' })
     cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE] = "Bearer #{jwt_auth(payload, false)}"
     get '/sdv/launch', params: { return_to: '/questionnaire' }
     expect(response.location).to start_with "#{platform_url}/login?redirect_uri="

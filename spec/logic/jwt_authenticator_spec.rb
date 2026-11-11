@@ -114,7 +114,7 @@ describe JwtAuthenticator do
         Base64.strict_decode64(ENV.fetch('PRIVATE_KEY', nil)),
         ENV.fetch('PRIVATE_KEY_PASSPHRASE', nil)
       )
-      JWT.encode(payload.merge('sub' => person.auth_user.auth0_id_string, 'aud' => Knock.token_audience.call),
+      JWT.encode(payload.merge('sub' => person.auth_user.auth0_id_string, 'aud' => JwtAuth.token_audience.call),
                  private_key, 'RS256')
     end
 

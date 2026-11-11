@@ -146,7 +146,7 @@ module ApplicationHelper
 
   def current_user_from_header
     # current_auth_user is not defined if the including class does not
-    # include Knock::Authenticable. Hence we need to check if it is
+    # include JwtAuthenticatable. Hence we need to check if it is
     # actually defined.
     # @note We need to call this function first, and then fail. We cannot just
     #   check if it is defined, as it is generated automatically.

@@ -15,7 +15,7 @@ module IsLoggedInWithAnyMethod
     result = current_user
     return result if result.present?
 
-    # Prevent Knock from rendering an auth error if we didn't specify an authorization header.
+    # Prevent JwtAuthenticatable from rendering an auth error if we didn't specify an authorization header.
     # Instead, we throw our own error.
     if request.headers['Authorization'].present?
       result = authenticate_auth_user

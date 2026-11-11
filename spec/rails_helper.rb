@@ -32,7 +32,6 @@ require 'database_cleaner/mongoid'
 require 'dotenv'
 require 'capybara/rspec'
 require 'selenium/webdriver'
-require 'webdrivers/chromedriver'
 require 'capybara-screenshot/rspec'
 Rails.root.glob('spec/generators/concerns/**/*.rb').each { |f| require f }
 

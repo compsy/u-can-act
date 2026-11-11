@@ -31,20 +31,19 @@ describe GenerateInvitationText do
       it 'writes dates in the language of the invitation text' do
         Timecop.freeze(Time.zone.local(2026, 10, 19, 12)) do
           protocol = FactoryBot.create(:protocol, :with_invitation_text)
-          %w[nl en fi].each do |locale|
+          texts = { 'nl' => 'Vandaag is het {{datum_lang}}', 'en' => 'Today is {{datum_lang}}',
+                    'fi' => 'Tänään on {{datum_lang}}' }
+          { 'nl' => :nl, 'en' => :en, 'fi' => :fi, 'de' => :en }.each do |locale, text_locale|
             person = FactoryBot.create(:person, locale: locale)
             protocol_subscription = FactoryBot.create(:protocol_subscription,
                                                       protocol: protocol,
                                                       person: person,
-                                                      invitation_text_nl: 'Vandaag is het {{datum_lang}}',
-                                                      invitation_text_en: 'Today is {{datum_lang}}')
+                                                      invitation_texts: texts)
             response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
-            text_locale = locale == 'nl' ? :nl : :en
             date = I18n.l(Time.zone.today, format: :long, locale: text_locale)
             expect(described_class.run!(response: response)).to end_with(date)
           end
-          expect(I18n.l(Time.zone.today, format: :long, locale: :en))
-            .not_to eq I18n.l(Time.zone.today, format: :long, locale: :nl)
+          expect(%i[nl en fi].map { |locale| I18n.l(Time.zone.today, format: :long, locale: locale) }.uniq.size).to eq 3
         end
       end
 
@@ -76,7 +75,33 @@ describe GenerateInvitationText do
         expect(described_class.run!(response: response)).to eq 'invitation-text-en'
       end
 
-      it 'returns the text of the protocol when there is no text for the locale' do
+      it 'returns the text of a protocol subscription in the locale of the person' do
+        person = FactoryBot.create(:person, locale: 'fi')
+        protocol = FactoryBot.create(:protocol, :with_invitation_text)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  protocol: protocol,
+                                                  person: person,
+                                                  invitation_texts: { 'nl' => 'invitation-text-nl',
+                                                                      'en' => 'invitation-text-en',
+                                                                      'fi' => 'invitation-text-fi' })
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+
+        expect(described_class.run!(response: response)).to eq 'invitation-text-fi'
+      end
+
+      it 'returns the en text of a protocol subscription when the nl locale has no text' do
+        person = FactoryBot.create(:person, locale: 'nl')
+        protocol = FactoryBot.create(:protocol, :with_invitation_text)
+        protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                  protocol: protocol,
+                                                  person: person,
+                                                  invitation_texts: { 'en' => 'invitation-text-en' })
+        response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+
+        expect(described_class.run!(response: response)).to eq 'invitation-text-en'
+      end
+
+      it 'returns the nl text of a protocol subscription when there is no text for the locale nor en' do
         person = FactoryBot.create(:person, locale: 'fi')
         protocol = FactoryBot.create(:protocol, :with_invitation_text)
         protocol_subscription = FactoryBot.create(:protocol_subscription,
@@ -85,7 +110,22 @@ describe GenerateInvitationText do
                                                   invitation_text_nl: 'invitation-text-nl')
         response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
 
-        expect(described_class.run!(response: response)).to eq protocol.invitation_text
+        expect(described_class.run!(response: response)).to eq 'invitation-text-nl'
+      end
+
+      it 'returns the text of the protocol in Dutch when the protocol subscription has no text to fall back to' do
+        Timecop.freeze(Time.zone.local(2026, 10, 19, 12)) do
+          person = FactoryBot.create(:person, locale: 'fi')
+          protocol = FactoryBot.create(:protocol, invitation_text: 'Vandaag is het {{datum_lang}}')
+          protocol_subscription = FactoryBot.create(:protocol_subscription,
+                                                    protocol: protocol,
+                                                    person: person,
+                                                    invitation_texts: { 'de' => 'invitation-text-de' })
+          response = FactoryBot.create(:response, protocol_subscription: protocol_subscription)
+
+          date = I18n.l(Time.zone.today, format: :long, locale: :nl)
+          expect(described_class.run!(response: response)).to eq "Vandaag is het #{date}"
+        end
       end
 
       it 'evaluates the values in the the text of a protocol' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_25_160650) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_04_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -137,6 +137,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_25_160650) do
     t.datetime "informed_consent_given_at", precision: nil
     t.string "invitation_text_en"
     t.string "invitation_text_nl"
+    t.jsonb "invitation_texts", default: {}, null: false
     t.boolean "needs_language_input", default: false, null: false
     t.boolean "open_from_day_uses_start_date_offset", default: false, null: false
     t.integer "person_id", null: false

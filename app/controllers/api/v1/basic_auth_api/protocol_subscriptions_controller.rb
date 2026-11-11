@@ -27,6 +27,7 @@ module Api
             external_identifier: external_identifier,
             invitation_text_nl: protocol_subscription_create_params[:invitation_text_nl],
             invitation_text_en: protocol_subscription_create_params[:invitation_text_en],
+            invitation_texts: invitation_texts,
             open_from_day_uses_start_date_offset:
               protocol_subscription_create_params[:open_from_day_uses_start_date_offset],
             needs_language_input: protocol_subscription_create_params[:needs_language_input]
@@ -89,6 +90,11 @@ module Api
           protocol_subscription_create_params[:external_identifier]
         end
 
+        def invitation_texts
+          texts = protocol_subscription_create_params[:invitation_texts]
+          texts.is_a?(ActionController::Parameters) ? texts.to_h : {}
+        end
+
         def set_external_identifier
           @external_identifier = params[:external_identifier]
           return if @external_identifier.present?
@@ -108,7 +114,7 @@ module Api
         def protocol_subscription_create_params
           params.permit(:protocol_name, :auth0_id_string, :start_date, :end_date, :mentor_id, :external_identifier,
                         :invitation_text_nl, :invitation_text_en, :open_from_day_uses_start_date_offset,
-                        :needs_language_input)
+                        :needs_language_input, invitation_texts: I18n.available_locales)
         end
 
         def protocol_subscription_update_params

@@ -62,7 +62,7 @@ Clone the codebase and step into the directory.
   cd u-can-act
 ```
 
-Then fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
+Then copy `.env.example` to `.env`, fill in the `.env` or `.env.local` files (see [Configuration](#configuration)) and run the back end with
 
 ```
   docker-compose up
@@ -126,9 +126,6 @@ Below is a list of all required ENV variables for production servers.
   PUSH_SUBSCRIPTION_URL: <for pushing results back to the base platform, e.g., 'http://web:3000/api/v1/data/create_raw'>
   BASE_PLATFORM_URL: <the external url of the base platform for redirecting the user, e.g., 'http://localhost:3000'>
 
-  SHARED_SECRET: <shared secret for generating hmac for generating invite params for invite token link>
-  REGISTRATION_URL: <url for sending invites to for person email registration>
-
   ELASTIC_APM_ENABLED: <set to 'true' if you want to report APM metrics to the elastic cluster>
   ELASTIC_APM_URL: <the url to push APM metrics to>
   ELASTIC_APM_SECRET_TOKEN: <the agent token as obtained from /app/apm/settings/agent-keys when creating a new token>
@@ -137,7 +134,7 @@ Below is a list of all required ENV variables for production servers.
 
 ### (Local) development settings
 
-For developers, many of the above settings have default values specified in the `.env` file which is included in the repository and should work for development.
+For developers, many of the above settings have default values specified in the `.env.example` file which is included in the repository. Copy it to `.env`; `.env` is not tracked and not loaded in production and should work for development.
 However, a `.env.local` file is **not** included in the repository, and should be created by the developer.
 Since this file determines which project will run, it should at minimum have the following settings:
 

@@ -41,6 +41,7 @@ jobs:
     <<: *build_defaults
     steps:
       - checkout
+      - run: cp .env.example .env
       - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:

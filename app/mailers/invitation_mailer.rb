@@ -24,13 +24,6 @@ class InvitationMailer < ApplicationMailer
     mail(subject: subject, to: email_address)
   end
 
-  # TODO: Only used for the IKIA project for parents to invite children. Remove when removing the ikia project.
-  def registration_mail(email_address, message, registration_url)
-    @registration_url = registration_url
-    @message = message
-    mail(subject: Rails.application.config.settings.registration.subject_line, to: email_address)
-  end
-
   private
 
   def default_invitation_subject(locale, open_from_date)

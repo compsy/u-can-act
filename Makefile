@@ -7,4 +7,4 @@ swagger:
 
 build-swagger:
 	rm -rf vsv-ruby-api
-	java -jar bin/swagger-codegen.jar generate -i swagger/v1/swagger.json -l ruby -c swagger-config.json -o vsv-ruby-api
+	docker run --rm -u $$(id -u):$$(id -g) -v $(PWD):/local swaggerapi/swagger-codegen-cli:2.4.43 generate -i /local/swagger/v1/swagger.json -l ruby -c /local/swagger-config.json -o /local/vsv-ruby-api

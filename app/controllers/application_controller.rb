@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
     return false if ENV.fetch('BASE_PLATFORM_URL', nil).blank?
 
     CookieJar.read_entry(cookies.signed, TokenAuthenticationController::JWT_TOKEN_COOKIE).present? ||
-      cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE].present?
+      !cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE].nil?
   end
 
   def sdv_relaunch_path

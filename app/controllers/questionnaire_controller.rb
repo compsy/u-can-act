@@ -296,8 +296,8 @@ class QuestionnaireController < ApplicationController
     return super if request.get?
 
     submitted_response = Response.find_by(id: questionnaire_create_params[:response_id])
-    return super unless submitted_response.present? &&
-                        submitted_response.person == JwtAuthenticator.engine_cookie_person(cookies.signed)
+    engine_person = JwtAuthenticator.engine_cookie_person(cookies.signed, platform_session_cookie)
+    return super unless submitted_response.present? && submitted_response.person == engine_person
 
     questionnaire_path(uuid: submitted_response.uuid)
   end

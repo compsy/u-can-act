@@ -15,7 +15,7 @@ module ApplicationHelper
     @current_user ||= current_user_from_header
     @current_user ||= JwtAuthenticator.auth_from_params(cookies.signed, params)
     @current_user ||= TokenAuthenticator.auth(cookies.signed, params)
-    @current_user ||= JwtAuthenticator.auth_from_cookies(cookies.signed)
+    @current_user ||= JwtAuthenticator.auth_from_cookies(cookies.signed, platform_session_cookie)
     @current_user
   end
 
@@ -143,6 +143,10 @@ module ApplicationHelper
   end
 
   private
+
+  def platform_session_cookie
+    cookies[SdvLaunchController::PLATFORM_SESSION_COOKIE]
+  end
 
   def current_user_from_header
     # current_auth_user is not defined if the including class does not

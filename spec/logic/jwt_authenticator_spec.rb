@@ -19,7 +19,7 @@ describe JwtAuthenticator do
       expect(described_class).to receive(:store_token_in_cookie)
         .and_return(true)
 
-      result = described_class.auth_from_cookies(cookies)
+      result = described_class.auth_from_cookies(cookies, nil)
       expect(result).to eql person
     end
 
@@ -37,7 +37,7 @@ describe JwtAuthenticator do
       expect(CookieJar).to receive(:delete_cookie)
         .with(cookies, TokenAuthenticationController::PERSON_ID_COOKIE)
 
-      result = described_class.auth_from_cookies(cookies)
+      result = described_class.auth_from_cookies(cookies, nil)
       expect(result).to eql person
     end
 
@@ -48,7 +48,7 @@ describe JwtAuthenticator do
         .and_return([{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat - 86_400, 'exp' => iat - 1 }])
       expect(CookieJar).not_to receive(:set_or_update_cookie)
 
-      result = described_class.auth_from_cookies(cookies)
+      result = described_class.auth_from_cookies(cookies, nil)
       expect(result).to be_nil
     end
 
@@ -59,7 +59,7 @@ describe JwtAuthenticator do
         .and_return([{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat }])
       expect(CookieJar).not_to receive(:set_or_update_cookie)
 
-      result = described_class.auth_from_cookies(cookies)
+      result = described_class.auth_from_cookies(cookies, nil)
       expect(result).to be_nil
     end
 
@@ -70,7 +70,7 @@ describe JwtAuthenticator do
         .and_return([{ 'sub' => person.auth_user.auth0_id_string, 'iat' => iat, 'exp' => iat + 30.days.to_i }])
       expect(CookieJar).not_to receive(:set_or_update_cookie)
 
-      result = described_class.auth_from_cookies(cookies)
+      result = described_class.auth_from_cookies(cookies, nil)
       expect(result).to be_nil
     end
   end

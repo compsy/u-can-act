@@ -4,8 +4,10 @@ class JwtAuthenticator
   MAX_TOKEN_LIFETIME = 24.hours.to_i
 
   class << self
-    def auth_from_cookies(cookies_signed)
+    def auth_from_cookies(cookies_signed, platform_cookie)
       token = token_from_cookies(cookies_signed)
+      return end_session(cookies_signed) if platform_session_ended?(token, platform_cookie)
+
       auth_with_token(token, cookies_signed)
     end
 
@@ -14,19 +16,36 @@ class JwtAuthenticator
       auth_with_token(token, cookies_signed)
     end
 
-    def engine_cookie_person(cookies_signed)
+    def engine_cookie_person(cookies_signed, platform_cookie)
       token = CookieJar.read_entry(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
       return unless token.is_a?(Array) && token.first.is_a?(Hash)
+      return end_session(cookies_signed) if platform_session_ended?(token, platform_cookie)
 
       AuthUser.find_by(auth0_id_string: token.first['sub'])&.person
     end
 
     def auth_from_platform_cookie(cookies_signed, platform_cookie)
-      token = decode_token(platform_cookie.to_s.sub(/\ABearer[+\s]+/, ''))
+      token = decode_platform_cookie(platform_cookie)
       auth_with_token(token, cookies_signed, create_auth_user: true)
     end
 
     private
+
+    def decode_platform_cookie(platform_cookie, verify_expiration: true)
+      decode_token(platform_cookie.to_s.sub(/\ABearer[+\s]+/, ''), verify_expiration: verify_expiration)
+    end
+
+    def platform_session_ended?(token, platform_cookie)
+      return false if platform_cookie.nil? || !token.is_a?(Array) || !token.first.is_a?(Hash)
+
+      platform_token = decode_platform_cookie(platform_cookie, verify_expiration: false)
+      platform_token.blank? || platform_token.first['sub'] != token.first['sub']
+    end
+
+    def end_session(cookies_signed)
+      CookieJar.delete_cookie(cookies_signed, TokenAuthenticationController::JWT_TOKEN_COOKIE)
+      nil
+    end
 
     def auth_with_token(token, cookies_signed, create_auth_user: false)
       return if token.blank? || expired?(token.first)
@@ -55,10 +74,10 @@ class JwtAuthenticator
       decode_token(token_from_params(params))
     end
 
-    def decode_token(raw_token)
+    def decode_token(raw_token, verify_expiration: true)
       return if raw_token.blank?
 
-      JWT.decode(raw_token, JwtAuth.token_public_key, true, decode_options)
+      JWT.decode(raw_token, JwtAuth.token_public_key, true, decode_options.merge(verify_expiration: verify_expiration))
     rescue JWT::DecodeError => e # if the argument passed is not a JWT token
       Rails.logger.info "Decoding failed: #{e.message}"
       nil

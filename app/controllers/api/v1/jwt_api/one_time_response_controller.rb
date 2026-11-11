@@ -29,7 +29,7 @@ module Api
 
         def launched_from_platform?
           request.headers['Authorization'].blank? && params[:token].blank? && same_site_request? &&
-            JwtAuthenticator.auth_from_cookies(cookies.signed).present?
+            JwtAuthenticator.auth_from_cookies(cookies.signed, platform_session_cookie).present?
         end
 
         def same_site_request?

@@ -11,6 +11,7 @@ class LanguagesController < ApplicationController
 
   include ::UsesParticipantLocale
   include ::IsLoggedIn
+  include ::RelativePathRedirect
 
   before_action :set_response, only: %i[change]
 
@@ -39,9 +40,9 @@ class LanguagesController < ApplicationController
 
     # Confirm the change in the newly chosen language
     flash.notice = I18n.t('pages.languages.flash_messages.notice.locale_updated', locale: locale)
-    return redirect_to change_params[:cb], allow_other_host: true if params[:cb].present?
+    return redirect_to language_path show_params if params[:cb].blank?
 
-    redirect_to language_path show_params
+    redirect_to relative_path(change_params[:cb]) || questionnaire_path(uuid: @response.uuid)
   end
   # rubocop:enable Metrics/AbcSize
 

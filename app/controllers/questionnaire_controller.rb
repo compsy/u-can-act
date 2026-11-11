@@ -7,6 +7,7 @@ class QuestionnaireController < ApplicationController
   MAX_DRAWING_LENGTH = 65_536
   include ::UsesParticipantLocale
   include ::IsLoggedIn
+  include ::RelativePathRedirect
 
   protect_from_forgery prepend: true, with: :exception, except: :create
   skip_before_action :verify_authenticity_token, only: %i[interactive_render from_json interactive_post]
@@ -104,7 +105,7 @@ class QuestionnaireController < ApplicationController
       end
       @response = orig_response
     end
-    redirect_to questionnaire_create_params[:callback_url] ||
+    redirect_to relative_path(questionnaire_create_params[:callback_url]) ||
                 NextPageFinder.get_next_page(current_user: current_user, previous_response: @response),
                 allow_other_host: true
   end

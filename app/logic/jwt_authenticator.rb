@@ -58,7 +58,7 @@ class JwtAuthenticator
     def decode_token(raw_token)
       return if raw_token.blank?
 
-      JWT.decode(raw_token, Knock.token_public_key, true, decode_options)
+      JWT.decode(raw_token, JwtAuth.token_public_key, true, decode_options)
     rescue JWT::DecodeError => e # if the argument passed is not a JWT token
       Rails.logger.info "Decoding failed: #{e.message}"
       nil
@@ -78,7 +78,7 @@ class JwtAuthenticator
 
     def token_from_params(params)
       # frbl: If possible, ditch the :auth params. I believe it does not actually
-      # work, as the Knock gem checks for the params[:token]
+      # work, as JwtAuthenticatable checks for the params[:token]
       # see http://localhost:3002/api/v1/person/me?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNTcyMjYzMDM4LCJleHAiOjE1NzQ4NTUwMzgsImp0aSI6ImUzMmRiMzkzLWVlNmUtNDlhOC1iNTBlLTViM2IzMjY5YmJhMCJ9.PC9uszCHTcvBQVOrM_1x14CP3AqHEn17AgIqf-pVi9w
       params[:auth] || params[:token]
     end

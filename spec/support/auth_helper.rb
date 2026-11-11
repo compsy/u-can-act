@@ -24,7 +24,7 @@ module AuthHelper
       ENV.fetch('PRIVATE_KEY_PASSPHRASE', nil)
     )
 
-    payload['aud'] = Knock.token_audience.call
+    payload['aud'] = JwtAuth.token_audience.call
     payload['iat'] ||= Time.now.to_i
     payload['exp'] ||= 1.hour.from_now.to_i
     id_token = JWT.encode payload, private_key, 'RS256'

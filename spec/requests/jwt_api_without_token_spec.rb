@@ -13,7 +13,7 @@ describe 'JWT API routes without a token', type: :request do
 
   before do
     key = signing_key
-    allow(Knock).to receive(:token_secret_signature_key).and_return(-> { key })
+    allow(JwtAuth).to receive(:token_secret_signature_key).and_return(-> { key })
   end
 
   def bearer_header

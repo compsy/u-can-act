@@ -11,10 +11,6 @@ module Api
         private
 
         def set_person
-          # Debugging
-          # token = request.headers['Authorization'].split.last
-          # Rails.logger.warn Knock::AuthToken.new(token: token)
-          # Rails.logger.warn current_auth_user.person.inspect
           return if current_user.present?
 
           result = { result: current_auth_user.to_json }

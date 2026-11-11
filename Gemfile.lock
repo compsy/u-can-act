@@ -12,16 +12,6 @@ GIT
     animate-rails (1.0.11)
       rails
 
-GIT
-  remote: https://github.com/nsarno/knock.git
-  revision: 37e403a7c6d44f585b56a086245e41566a8d6fe1
-  ref: 37e403a7c6d44f585b56a086245e41566a8d6fe1
-  specs:
-    knock (2.2.0)
-      bcrypt (~> 3.1)
-      jwt (~> 2.2.1)
-      rails (>= 5)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -267,7 +257,8 @@ GEM
       regexp_parser (~> 2.0)
       simpleidn (~> 0.2)
     jsonapi-renderer (0.2.2)
-    jwt (2.2.3)
+    jwt (2.10.3)
+      base64
     language_server-protocol (3.17.0.5)
     launchy (3.1.1)
       addressable (~> 2.8)
@@ -663,7 +654,6 @@ DEPENDENCIES
   iban-tools
   jbuilder
   jwt
-  knock!
   listen
   logger
   lograge

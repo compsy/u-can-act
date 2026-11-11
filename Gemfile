@@ -79,9 +79,6 @@ gem 'active_model_serializers'
 # Gem for JWT / Authentication
 gem 'jwt'
 
-# current master, using this because the version on rubygems hasn't been updated
-gem 'knock', github: 'nsarno/knock', ref: '37e403a7c6d44f585b56a086245e41566a8d6fe1'
-
 # Gem for authorization
 # Using the 3.0 version because of this: https://github.com/CanCanCommunity/cancancan/pull/474
 gem 'cancancan', github: 'CanCanCommunity/cancancan', ref: '6e782102f5dfef4bd3cc3feadc49802ea942c234'

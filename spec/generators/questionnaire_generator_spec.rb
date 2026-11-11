@@ -151,6 +151,67 @@ describe QuestionnaireGenerator do
       end
     end
 
+    context 'with html in person names' do
+      let(:name) { '&lt;b&gt;x&lt;/b&gt; O&#39;Neil' }
+
+      before do
+        responseobj.protocol_subscription.person.update!(first_name: '<b>x</b>', last_name: "O'Neil")
+      end
+
+      def render(questions)
+        subject.generate_questionnaire(response_id: responseobj.id,
+                                       content: { questions: questions, scores: [] },
+                                       title: 'Titel {{deze_student}} {{achternaam_student}}',
+                                       submit_text: 'Opslaan',
+                                       action: '/',
+                                       unsubscribe_url: nil,
+                                       locale: 'nl')
+      end
+
+      it 'escapes the names exactly once in every field' do
+        names = '{{deze_student}} {{achternaam_student}}'
+        result = render([
+                          { id: :v1, type: :textfield, title: "<i>#{names}</i>", hint: names,
+                            default_value: names },
+                          { id: :v2, type: :textarea, title: 'b', placeholder: names },
+                          { id: :v3, type: :dropdown, title: 'c', label: names, options: [names] },
+                          { id: :v4, type: :range, title: 'd', labels: [names, 'goed'] },
+                          { id: :v5, type: :raw, content: "<p>#{names}</p>" }
+                        ])
+        expect(result).not_to include('<b>x</b>')
+        expect(result).not_to include('&amp;lt;')
+        expect(result).not_to include('&amp;#39;')
+        expect(result).to include("Titel #{name}</h4>")
+        expect(result).to include("<i>#{name}</i>")
+        expect(result).to include("title=\"#{name}\"")
+        expect(result).to include("value=\"#{name}\"")
+        expect(result).to include("<label for=\"v2\" class=\"flow-text\">#{name}</label>")
+        expect(result).to include("<label>#{name}</label>")
+        expect(result).to include(">#{name}</option>")
+        expect(result).to include(">#{name}</div>")
+        expect(result).to include("<p>#{name}</p>")
+      end
+
+      it 'keeps names inside the javascript string of a tooltip' do
+        responseobj.protocol_subscription.person.update!(first_name: 'x\\', last_name: "');alert(1);//")
+        result = render([{ id: :v1, type: :textfield, title: 'a',
+                           tooltip: "{{deze_student}}'s {{achternaam_student}}" }])
+        onclick = Nokogiri::HTML.fragment(result).at_css('a[onclick]')['onclick']
+        js_string = /'(?:[^'\\]|\\.)*'/
+        toast = /\Anew window\.M\.Toast\(\{html: #{js_string}, /
+        expect(onclick).to match(/#{toast}displayLength: \d+\}\);autoResizeImages\(\);\z/)
+      end
+
+      it 'signs the stop subscription token with the submitted radio value' do
+        result = render([{ id: :v1, type: :radio, title: 'Stoppen?',
+                           options: [{ title: "Stop {{achternaam_student}} & co's", stop_subscription: true }] }])
+        value = "Stop {{achternaam_student}} & co's"
+        token = Response.stop_subscription_token('v1', value, responseobj.id)
+        expect(result).to include("value=\"#{ERB::Util.html_escape(value)}\"")
+        expect(result).to include("name=\"stop_subscription[v1]\" type=\"hidden\" value=\"#{token}\"")
+      end
+    end
+
     it 'raises an error when given a question of unknown type' do
       questionnaire_content = [{
         section_start: 'Algemeen',
@@ -210,6 +271,14 @@ describe QuestionnaireGenerator do
     it 'replaces names in the title' do
       expect(@result[:title]).to include('Jane')
       expect(@result[:title]).not_to include('deze_student')
+    end
+
+    it 'does not escape names' do
+      responseobj.protocol_subscription.person.update!(first_name: "<b>O'Neil</b>")
+      content = { questions: [{ id: :v1, type: :raw, content: '{{deze_student}}' }] }
+      result = subject.generate_hash_questionnaire(responseobj.id, content, 'Titel {{deze_student}}')
+      expect(result[:title]).to eq "Titel <b>O'Neil</b>"
+      expect(result[:content].first[:content]).to eq "<b>O'Neil</b>"
     end
   end
 end

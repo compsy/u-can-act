@@ -28,10 +28,10 @@ module QuestionnaireHelper
   def get_registration_hash(hsh)
     {
       email_address: hsh['v6'],
-      first_name: hsh['v1'],
-      name: "#{hsh['v1']} #{hsh['v2']} #{hsh['v3']}",
-      function: hsh['v4'],
-      affiliation: hsh['v5'],
+      first_name: ERB::Util.html_escape(hsh['v1']),
+      name: ERB::Util.html_escape("#{hsh['v1']} #{hsh['v2']} #{hsh['v3']}"),
+      function: ERB::Util.html_escape(hsh['v4']),
+      affiliation: ERB::Util.html_escape(hsh['v5']),
       diet: get_diet(hsh)
     }
   end
@@ -41,7 +41,7 @@ module QuestionnaireHelper
     msg += 'Vegetarisch: ✓<br>' if hsh['v8_vegetarisch'] == 'true'
     msg += 'Veganist: ✓<br>' if hsh['v8_veganist'] == 'true'
     msg += 'Glutenvrij: ✓<br>' if hsh['v8_glutenvrij'] == 'true'
-    msg += "Anders: #{hsh['v8_anders_namelijk_text']}<br>" if hsh['v8_anders_namelijk'] == 'true'
+    msg += "Anders: #{ERB::Util.html_escape(hsh['v8_anders_namelijk_text'])}<br>" if hsh['v8_anders_namelijk'] == 'true'
     return '' if msg.blank?
 
     "<p><strong>Dieetwensen:</strong><br>#{msg}</p>"

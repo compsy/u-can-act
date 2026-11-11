@@ -57,10 +57,10 @@ class QuestionnaireGenerator
 
   private
 
-  def substitute_variables(response, obj_to_substitute)
+  def substitute_variables(response, obj_to_substitute, html: false)
     return obj_to_substitute if obj_to_substitute.blank?
 
-    QuestionnaireExpander.expand_content(obj_to_substitute, response)
+    QuestionnaireExpander.expand_content(obj_to_substitute, response, html: html)
   end
 
   def questionnaire_header(title)
@@ -82,7 +82,7 @@ class QuestionnaireGenerator
 
   def questionnaire_questions_html(content, response, raw_content, unsubscribe_url, locale)
     prev_content = previous_response_content(response)
-    body = questionnaire_questions(content, response) do |quest, idx|
+    body = questionnaire_questions(content, response, html: true) do |quest, idx|
       quest[:response_id] = response&.id
       quest[:raw] = raw_content[idx]
       quest[:unsubscribe_url] = unsubscribe_url
@@ -93,11 +93,11 @@ class QuestionnaireGenerator
     safe_join(body)
   end
 
-  def questionnaire_questions(content, response)
+  def questionnaire_questions(content, response, html: false)
     body = []
     content.each_with_index do |question, idx|
       new_question = question.deep_dup
-      new_question = substitute_variables(response, new_question)
+      new_question = substitute_variables(response, new_question, html: html)
       new_question.each do |quest|
         (body << yield(quest, idx)) if GeneratorLogic::ShowHideQuestion.should_show?(quest, response&.id)
       end

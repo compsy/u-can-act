@@ -24,6 +24,12 @@ describe Api::PersonalizedQuestionnaireSerializer do
     expect(json['questionnaire_content'].as_json).to eq content
   end
 
+  it 'returns person names without html escaping' do
+    response.protocol_subscription.person.update!(first_name: "<b>O'Neil</b>")
+    response.measurement.questionnaire.update!(title: 'Hoi {{deze_student}}')
+    expect(json['questionnaire_title']).to eq "Hoi <b>O'Neil</b>"
+  end
+
   it 'caches the questionnaire after calling it' do
     expect_any_instance_of(QuestionnaireGenerator)
       .to receive(:generate_hash_questionnaire)

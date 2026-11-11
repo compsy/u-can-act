@@ -25,6 +25,37 @@ describe VariableEvaluator do
   end
 
   describe 'evaluate_obj' do
+    context 'with html_keys' do
+      let(:student_name) { '<b>x</b>' }
+      let(:student_last_name) { "O'Neil & Co" }
+
+      it 'escapes the values in the html keys only' do
+        given = { title: '<i>{{deze_student}}</i>', placeholder: '{{deze_student}}',
+                  options: [{ title: '{{achternaam_student}}', value: '{{achternaam_student}}' }] }
+        expected = { title: '<i>&lt;b&gt;x&lt;/b&gt;</i>', placeholder: '<b>x</b>',
+                     options: [{ title: 'O&#39;Neil &amp; Co', value: "O'Neil & Co" }] }
+        expect(described_class.evaluate_obj(given, subs_hash, html_keys: %i[title])).to eq expected
+      end
+
+      it 'escapes the values in nested data under an html key' do
+        given = { content: ['{{deze_student}}', { nl: '{{deze_student}}' }] }
+        expected = { content: ['&lt;b&gt;x&lt;/b&gt;', { nl: '&lt;b&gt;x&lt;/b&gt;' }] }
+        expect(described_class.evaluate_obj(given, subs_hash, html_keys: %i[content])).to eq expected
+      end
+
+      it 'escapes only the strings in an html list key' do
+        given = { options: ['{{deze_student}}', { title: '{{deze_student}}', value: '{{deze_student}}' }] }
+        expected = { options: ['&lt;b&gt;x&lt;/b&gt;', { title: '&lt;b&gt;x&lt;/b&gt;', value: '<b>x</b>' }] }
+        expect(described_class.evaluate_obj(given, subs_hash, html_keys: %i[title], html_list_keys: %i[options]))
+          .to eq expected
+      end
+
+      it 'does not escape without html_keys' do
+        given = { title: '{{deze_student}}' }
+        expect(described_class.evaluate_obj(given, subs_hash)).to eq(title: '<b>x</b>')
+      end
+    end
+
     it 'works with a string' do
       given = '{{begeleider}}'
       expected = mentor_title

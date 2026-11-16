@@ -9,4 +9,4 @@ fi:
       iban_needed: Tarvitsemme vielä IBAN-tilinumerosi palkkion maksamista varten.
       iban_stored_separately: Tämä tallennetaan erillään kyselyistä, joten juuri vastaamasi kysymykset pysyvät täysin nimettöminä.
       iban_title: Syötä tilinumero IBAN-muodossa.
-      mobile_phone_title: Syötä kymmenen numeroa ilman väliviivaa.
+      mobile_phone_title: Syötä hollantilainen (06 tai +316) tai belgialainen (+324) matkapuhelinnumero ilman välilyöntejä tai väliviivoja.

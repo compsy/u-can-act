@@ -2,5 +2,5 @@
   .row
     .col.s12.m6
       .input-field
-        = f.telephone_field :mobile_phone, autofocus: true, maxlength: 10, required: true, pattern: '[0-9]{10}', title: t('pages.person.mobile_phone_title')
+        = f.telephone_field :mobile_phone, autofocus: true, maxlength: 12, required: true, pattern: '06[0-9]{8}|\+?316[0-9]{8}|\+?324[0-9]{8}', title: t('pages.person.mobile_phone_title')
         = f.label :mobile_phone

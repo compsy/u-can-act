@@ -104,3 +104,31 @@ describe 'rake maintenance:scramble', type: :task do
     end
   end
 end
+
+describe 'rake maintenance:audit_mobile_phones', type: :task do
+  it 'preloads the Rails environment' do
+    expect(task.prerequisites).to include 'environment'
+  end
+
+  it 'reports when all numbers are allowed' do
+    FactoryBot.create(:person, mobile_phone: '0612345678')
+    FactoryBot.create(:person, mobile_phone: nil)
+    expect { task.execute }.to output("People with a mobile phone number: 1\n" \
+                                      "People with a mobile phone number that is no longer allowed: 0\n").to_stdout
+  end
+
+  it 'counts the numbers that are no longer allowed, grouped by prefix, without changing them' do
+    FactoryBot.create(:person, mobile_phone: '0612345678')
+    FactoryBot.create(:person, mobile_phone: '+32470123456')
+    old_numbers = ['+49 170 1234567', '+491701234568', '0470123456']
+    old_numbers.each do |number|
+      FactoryBot.build(:person, mobile_phone: number).save!(validate: false)
+    end
+    expect { task.execute }.to output("People with a mobile phone number: 5\n" \
+                                      "People with a mobile phone number that is no longer allowed: 3\n" \
+                                      "By first three characters (spaces and hyphens removed):\n  " \
+                                      "+49: 2\n  " \
+                                      "047: 1\n").to_stdout
+    expect(Person.where(mobile_phone: old_numbers).count).to eq 3
+  end
+end

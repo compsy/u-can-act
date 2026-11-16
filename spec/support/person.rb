@@ -97,12 +97,11 @@ shared_examples_for 'a person object' do
   describe 'mobile_phone' do
     let(:person) { FactoryBot.create(:person) }
 
-    # The MobilePhoneValidator is not being used anymore because we need to validate US phone numbers as well
-    # it 'calls the mobile phone validator' do
-    #   expect_any_instance_of(MobilePhoneValidator).to receive(:validate).with(person).and_call_original
-    #   person.mobile_phone = '123'
-    #   expect(person).not_to be_valid
-    # end
+    it 'calls the mobile phone validator' do
+      expect_any_instance_of(MobilePhoneValidator).to receive(:validate).with(person).and_call_original
+      person.mobile_phone = '123'
+      expect(person).not_to be_valid
+    end
 
     it 'accepts an empty number' do
       person.mobile_phone = ''
@@ -114,25 +113,50 @@ shared_examples_for 'a person object' do
       expect(person).to be_valid
     end
 
-    # All phone numbers should be accepted, not just Dutch ones
-    # it 'does not accept numbers that are not length 10' do
-    #   person.mobile_phone = '061234567'
-    #   expect(person).not_to be_valid
-    #   expect(person.errors.messages).to have_key :mobile_phone
-    #   expect(person.errors.messages[:mobile_phone]).to include('is te kort (minimaal 10 tekens)')
-    #   person.mobile_phone = '06123456789'
-    #   expect(person).not_to be_valid
-    #   expect(person.errors.messages).to have_key :mobile_phone
-    #   expect(person.errors.messages[:mobile_phone]).to include('is te lang (maximaal 10 tekens)')
-    # end
+    it 'accepts Dutch and Belgian mobile numbers' do
+      %w[0612345678 +31612345678 +32470123456].each do |number|
+        person.mobile_phone = number
+        expect(person).to be_valid
+      end
+    end
 
-    # All phone numbers should be accepted, not just Dutch ones
-    # it 'does not accept numbers that do not start with 06' do
-    #   person.mobile_phone = '0112345678'
-    #   expect(person).not_to be_valid
-    #   expect(person.errors.messages).to have_key :mobile_phone
-    #   expect(person.errors.messages[:mobile_phone]).to include('mag alleen een Nederlands nummer zijn')
-    # end
+    it 'does not accept other numbers' do
+      %w[0112345678 +491701234567 0470123456].each do |number|
+        person.mobile_phone = number
+        expect(person).not_to be_valid
+        expect(person.errors.messages[:mobile_phone])
+          .to include('mag alleen een Nederlands (06 of +316) of Belgisch (+324) mobiel nummer zijn')
+      end
+    end
+
+    it 'does not create a person with another number' do
+      expect { FactoryBot.create(:person, mobile_phone: '+491701234567') }
+        .to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    context 'with an existing number that is no longer allowed' do
+      before do
+        person.mobile_phone = '+491701234567'
+        person.save!(validate: false)
+      end
+
+      it 'still saves the person when the number does not change' do
+        person.first_name = 'Changed'
+        expect(person).to be_valid
+        expect(person.save).to be true
+      end
+
+      it 'does not accept a change to another number that is not allowed' do
+        person.mobile_phone = '+491701234568'
+        expect(person).not_to be_valid
+        expect(person.errors.messages).to have_key :mobile_phone
+      end
+
+      it 'accepts a change to an allowed number' do
+        person.mobile_phone = '+32470123456'
+        expect(person).to be_valid
+      end
+    end
 
     it 'has a uniqueness constraint on phone numbers' do
       student = FactoryBot.create(:student, mobile_phone: '0611111111')

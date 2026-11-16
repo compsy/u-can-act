@@ -1,4 +1,4 @@
 nl:
   validators:
-    only_dutch_number: mag alleen een Nederlands nummer zijn
+    only_dutch_or_belgian_mobile_number: mag alleen een Nederlands (06 of +316) of Belgisch (+324) mobiel nummer zijn
     only_start_of_day: mag alleen middernacht zijn

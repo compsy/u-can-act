@@ -1,4 +1,4 @@
 fi:
   validators:
-    only_dutch_number: voi olla vain hollantilainen numero
+    only_dutch_or_belgian_mobile_number: voi olla vain hollantilainen (06 tai +316) tai belgialainen (+324) matkapuhelinnumero
     only_start_of_day: voi olla vain keskiyö

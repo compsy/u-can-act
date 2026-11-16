@@ -9,4 +9,4 @@ pt:
       iban_needed: Para transferir a recompensa ainda precisamos do seu IBAN.
       iban_stored_separately: Isto é guardado separadamente dos questionários, para que as perguntas a que acabou de responder continuem completamente anónimas.
       iban_title: Introduza o número de conta em formato IBAN.
-      mobile_phone_title: Introduza os dez dígitos sem hífen.
+      mobile_phone_title: Introduza um número de telemóvel neerlandês (06 ou +316) ou belga (+324), sem espaços nem hífenes.

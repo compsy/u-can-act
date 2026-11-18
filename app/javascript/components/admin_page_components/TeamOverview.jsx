@@ -2,6 +2,7 @@ import React from 'react';
 import WeekDropdownMenu from './WeekDropdownMenu';
 import TeamOverviewEntry from './TeamOverviewEntry';
 import YearDropdownMenu from './YearDropdownMenu';
+import Auth from '../Auth';
 
 export default class TeamOverview extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class TeamOverview extends React.Component {
   }
 
   setHeader(xhr) {
-    xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
+    xhr.setRequestHeader('Authorization', `Bearer ${Auth.idToken()}`);
   }
 
   loadTeamData(group) {

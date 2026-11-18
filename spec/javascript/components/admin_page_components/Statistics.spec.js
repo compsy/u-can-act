@@ -1,5 +1,6 @@
 import React from 'react'
 import {shallow, mount} from 'enzyme'
+import Auth from 'Auth'
 import Statistics from 'admin_page_components/Statistics';
 
 describe('Statistics', () => {
@@ -22,7 +23,7 @@ describe('Statistics', () => {
     it("it should set the correct header on the xhr request", () => {
       const xhr = {setRequestHeader: jest.fn()};
       const id_token = '1234abc';
-      localStorage.setItem('id_token', id_token);
+      Auth.prototype.setSession({ accessToken: 'access', idToken: id_token, expiresIn: 60 });
       wrapper.instance().setHeader(xhr);
       expect(xhr.setRequestHeader).toHaveBeenCalled();
       expect(xhr.setRequestHeader).toHaveBeenCalledWith("Authorization", `Bearer ${id_token}`);

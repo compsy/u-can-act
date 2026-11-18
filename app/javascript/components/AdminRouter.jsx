@@ -18,7 +18,7 @@ export default class AdminRouter extends React.Component {
 
   handleAuthentication(nextState) {
     if ((/access_token|id_token|error/).test(nextState.location.hash)) {
-      this.auth.handleAuthentication();
+      this.auth.handleAuthentication(nextState.history);
     }
   }
 

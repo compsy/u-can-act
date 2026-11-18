@@ -1,5 +1,6 @@
 import React from 'react';
 import StatisticsEntry from './StatisticsEntry';
+import Auth from '../Auth';
 
 export default class Statistics extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class Statistics extends React.Component {
   }
 
   setHeader(xhr) {
-    xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
+    xhr.setRequestHeader('Authorization', `Bearer ${Auth.idToken()}`);
   }
 
   updateStatistics() {

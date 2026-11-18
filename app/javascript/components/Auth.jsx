@@ -1,3 +1,5 @@
+let session = null;
+
 export default class Auth {
   constructor() {
     this.login = this.login.bind(this);
@@ -19,10 +21,10 @@ export default class Auth {
 
 
   login() {
-    this.auth0.authorize();
+    this.auth0.authorize({ appState: { returnTo: window.location.pathname } });
   }
 
-  handleAuthentication() {
+  handleAuthentication(history) {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
@@ -30,25 +32,25 @@ export default class Auth {
         console.log(err);
       }
 
-      // navigate back to the admin route
-      this.history.replace('/admin');
-      location.reload();
+      const returnTo = authResult && authResult.appState && authResult.appState.returnTo;
+      history.replace(returnTo && returnTo.startsWith('/admin') ? returnTo : '/admin');
     });
   }
 
   setSession(authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+    session = {
+      accessToken: authResult.accessToken,
+      idToken: authResult.idToken,
+      expiresAt: (authResult.expiresIn * 1000) + new Date().getTime()
+    };
+  }
+
+  static idToken() {
+    return session && session.idToken;
   }
 
   logout() {
-    // Clear access token and ID token from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
+    session = null;
 
     // navigate back to the admin route
     this.history.replace('/admin');
@@ -56,14 +58,6 @@ export default class Auth {
   }
 
   isAuthenticated() {
-    // Check whether the current time is past the
-    // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-
-    let dateValid = new Date().getTime() < expiresAt;
-    let idTokenValid = (localStorage.getItem('id_token') !== null);
-    let accessTokenValid = (localStorage.getItem('access_token') !== null);
-
-    return dateValid && idTokenValid && accessTokenValid;
+    return session !== null && new Date().getTime() < session.expiresAt;
   }
 }

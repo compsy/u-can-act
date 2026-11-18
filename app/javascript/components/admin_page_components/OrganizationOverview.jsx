@@ -1,5 +1,6 @@
 import React from 'react';
 import TeamOverview from './TeamOverview';
+import Login from './Login';
 
 export default class OrganizationOverview extends React.Component {
   render() {
@@ -7,6 +8,7 @@ export default class OrganizationOverview extends React.Component {
       return (
         <div>
           <p>You need to authenticate first.</p>
+          <Login auth={this.props.auth} />
         </div>
       );
     }

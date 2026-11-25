@@ -9,4 +9,4 @@ de:
       iban_needed: Um die Belohnung zu überweisen, benötigen wir noch Ihre IBAN.
       iban_stored_separately: Dies wird getrennt von den Fragebögen gespeichert, sodass die Fragen, die Sie gerade beantwortet haben, weiterhin vollständig anonym bleiben.
       iban_title: Geben Sie die Kontonummer im IBAN-Format ein.
-      mobile_phone_title: Geben Sie die zehn Ziffern ohne Bindestrich ein.
+      mobile_phone_title: Geben Sie eine niederländische (06 oder +316) oder belgische (+324) Mobilnummer ohne Leerzeichen oder Bindestriche ein.

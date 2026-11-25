@@ -17,9 +17,13 @@ class Person < ApplicationRecord
 
   validates :mobile_phone,
             format: /\A[ \d+-]+\z/,
-            # mobile_phone: true,
             allow_blank: true,
             uniqueness: true
+  # Only on create or when the number changes, so people with an older, now invalid
+  # number can still be saved (see rake maintenance:audit_mobile_phones).
+  validates :mobile_phone,
+            mobile_phone: true,
+            if: -> { new_record? || will_save_change_to_mobile_phone? }
 
   validates :email,
             format: /\A([\w+-]\.?)+@[a-z\d-]+(\.[a-z\d-]+)*\.[a-z]+\z/i,

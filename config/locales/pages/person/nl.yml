@@ -10,4 +10,4 @@ nl:
       iban_needed: Om de beloning over te maken hebben we nog je IBAN gegevens nodig.
       iban_stored_separately: Dit wordt los van de vragenlijsten opgeslagen, zodat de vragen die je net hebt beantwoord alsnog helemaal anoniem zijn.
       iban_title: Vul het rekeningnummer in IBAN formaat in.
-      mobile_phone_title: Vul de tien getallen in zonder streepje.
+      mobile_phone_title: Vul een Nederlands (06 of +316) of Belgisch (+324) mobiel nummer in, zonder spaties of streepjes.

@@ -37,4 +37,21 @@ namespace :maintenance do
     end
     puts 'Scrambling people - done'
   end
+
+  # Read-only. Run with
+  # be rake maintenance:audit_mobile_phones
+  desc 'Count people whose mobile phone number is not allowed by MobilePhoneValidator'
+  task audit_mobile_phones: :environment do
+    numbers = Person.where.not(mobile_phone: [nil, '']).pluck(:mobile_phone)
+    invalid = numbers.reject { |number| MobilePhoneValidator.allowed?(number) }
+    puts "People with a mobile phone number: #{numbers.size}"
+    puts "People with a mobile phone number that is no longer allowed: #{invalid.size}"
+    next if invalid.empty?
+
+    puts 'By first three characters (spaces and hyphens removed):'
+    prefixes = invalid.map { |number| number.gsub(MobilePhoneValidator::SEPARATORS, '')[0, 3] }
+    prefixes.tally.sort_by { |prefix, count| [-count, prefix] }.each do |prefix, count|
+      puts "  #{prefix}: #{count}"
+    end
+  end
 end

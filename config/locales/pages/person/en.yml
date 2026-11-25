@@ -9,4 +9,4 @@ en:
       iban_needed: We still need your IBAN to transfer the reward.
       iban_stored_separately: This is stored separately from the questionnaires, so the questions you just answered remain completely anonymous.
       iban_title: Enter the account number in IBAN format.
-      mobile_phone_title: Enter the ten digits without a hyphen.
+      mobile_phone_title: Enter a Dutch (06 or +316) or Belgian (+324) mobile number, without spaces or hyphens.

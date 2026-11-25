@@ -23,6 +23,7 @@ module Api
         def authenticate_with_header_or_launch_cookie
           @launched_from_platform = launched_from_platform?
           return if @launched_from_platform
+          return unauthorized_entity('auth_user') if platform_cookie_only?
 
           authenticate_auth_user
         end

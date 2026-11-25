@@ -29,6 +29,8 @@ class ExpandableGenerator < QuestionTypeGenerator
   def add_expandable_question(question, sub_question, idx, id)
     current = sub_question.deep_dup
     current[:raw] = question[:raw][:content][idx]
+    # Without the locale, the sub question falls back to I18n.locale, e.g. for the key of its otherwise option.
+    current[:locale] = question[:locale]
     current = update_current_question(current, id)
     questionnaire_question_qenerator = QuestionnaireQuestionGenerator.new
     questionnaire_question_qenerator.generate(current)

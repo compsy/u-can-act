@@ -6,11 +6,6 @@ slider_start = (slider_min + slider_max) / 2
 
 db_title = ''
 
-db_name1 = 'affective_slider'
-questionnaire = Questionnaire.find_by(name: db_name1)
-questionnaire ||= Questionnaire.new(name: db_name1)
-questionnaire.key = File.basename(__FILE__)[0...-3]
-
 dagboek_content = [
   {
     id: :v1,
@@ -53,6 +48,12 @@ dagboek_content = [
   }
 ]
 
-questionnaire.content = { questions: dagboek_content, scores: [] }
-questionnaire.title = db_title
-questionnaire.save!
+# The start (affective_slider) and end versions share their content; only the name differs.
+%w[affective_slider affective_slider_end].each do |db_name|
+  questionnaire = Questionnaire.find_by(name: db_name)
+  questionnaire ||= Questionnaire.new(name: db_name)
+  questionnaire.key = db_name
+  questionnaire.content = { questions: dagboek_content, scores: [] }
+  questionnaire.title = db_title
+  questionnaire.save!
+end

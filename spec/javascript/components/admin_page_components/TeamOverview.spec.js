@@ -1,5 +1,6 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
+import Auth from 'Auth'
 import TeamOverview from 'admin_page_components/TeamOverview'
 
 describe('TeamOverview', () => {
@@ -95,7 +96,6 @@ describe('TeamOverview', () => {
 
   describe('setHeader', () => {
     it('it should dest the xhr request header for authorization', () => {
-      localStorage.removeItem('id_token')
       const xhr = { setRequestHeader: jest.fn() }
       wrapper.instance().setHeader(xhr)
       expect(xhr.setRequestHeader).toHaveBeenCalledWith('Authorization', 'Bearer null')
@@ -103,7 +103,7 @@ describe('TeamOverview', () => {
 
     it('it should use the authorization token from the  ', () => {
       const id_token = '1234abc'
-      localStorage.setItem('id_token', id_token)
+      Auth.prototype.setSession({ accessToken: 'access', idToken: id_token, expiresIn: 60 })
       const xhr = { setRequestHeader: jest.fn() }
       wrapper.instance().setHeader(xhr)
       expect(xhr.setRequestHeader).toHaveBeenCalledWith('Authorization', `Bearer ${id_token}`)
